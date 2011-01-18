@@ -193,6 +193,16 @@
     	<version>${jargon.version}</version>
       </dependency>
       <dependency>
+    	<groupId>org.irods.jargon</groupId>
+    	<artifactId>jargon-user-tagging</artifactId>
+    	<version>${jargon.version}</version>
+      </dependency>
+       <dependency>
+    	<groupId>org.irods.jargon</groupId>
+    	<artifactId>jargon-transfer-engine</artifactId>
+    	<version>${jargon.version}</version>
+      </dependency>
+      <dependency>
     	<groupId>javax.transaction</groupId>
     	<artifactId>jta</artifactId>
     	<version>1.1</version>
@@ -266,6 +276,7 @@
       <dependency>
             <groupId>org.irods</groupId>
             <artifactId>jargon-core</artifactId>
+            <version>${jargon.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
