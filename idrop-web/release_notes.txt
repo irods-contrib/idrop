@@ -1,0 +1,59 @@
+myDrop - web counterpart to iDrop
+
+
+
+
+
+
+
+
+
+
+
+
+TODO:
+
+*resources.xml should be up w/groovy, how to get app context to find it?  fix and move back
+*login with missing fields, errors and redisplay
+*login replay of fields when redisplay
+*add logout to header/footer
+*use roles to remove right sidebar from login page
+*login with explicit login link does not advance to 'home'
+
+
+
+[{"class":"org.irods.jargon.core.query.CollectionAndDataObjectListingEntry","count":2,
+"createdAt":"2010-10-06T12:51:28Z","dataSize":0,"formattedAbsolutePath":"/test1","id":10000,
+"lastPathComponentForCollectionName":"test1","lastResult":true,"modifiedAt":"2010-10-06T12:51:28Z",
+"objectType":{"enumType":"org.irods.jargon.core.query.CollectionAndDataObjectListingEntry$ObjectType",
+"name":"COLLECTION"},"parentPath":"/","pathOrName":"/test1"}]
+
+
+
+
+
+
+<script>
+	$(function() {
+		
+			$("#dataTree")
+					.jstree(
+							{
+								"core" : {
+									"initially_open" : [ "/" ]
+								},
+								"html_data" : {
+									"data" : "<li class='jstree-closed' id='/'><a href='#'>/</a></li>",
+									}
+								},
+								"themes" : {
+									"theme" : "default",
+									"url" : context + "/css/style.css",
+									"dots" : false,
+									"icons" : true
+								},
+								"plugins" : [ "html_data", "ui", "themes" ]
+							});
+		
+	});
+</script>
