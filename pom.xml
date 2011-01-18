@@ -276,7 +276,6 @@
       <dependency>
             <groupId>org.irods</groupId>
             <artifactId>jargon-core</artifactId>
-            <version>${jargon.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -357,5 +356,6 @@
   </profiles>
   <modules>
     <module>idrop-swing</module>
+    <module>idrop-web</module>
   </modules>
 </project>
