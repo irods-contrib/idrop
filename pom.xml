@@ -346,6 +346,5 @@
   </profiles>
   <modules>
     <module>idrop-swing</module>
-    <module>idrop-web</module>
   </modules>
 </project>
