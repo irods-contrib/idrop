@@ -1,0 +1,62 @@
+TODO
+
+X*refresh tags button
+X*sorted tag list
+X*collections and data objects in list?
+x*search 1 term -> result panels
+x*result panels -> info panel
+x*click tag -> result panels
+X*sort and organize tag cloud
+X*refactor info panel
+X*search multiple terms
+X*drag to result panel
+X*drag from result panel to local
+??*add well-known comment tag
+??*search auto-complete???
+
+2010-12-01 08:56:17,559 197609 [AWT-EventQueue-0] INFO  org.irods.jargon.core.pub.io.IRODSFileImpl  - setting file name, given path = /renci/home/rods/Proposal.pdf
+2010-12-01 08:56:17,559 197609 [AWT-EventQueue-0] INFO  org.irods.jargon.core.pub.io.IRODSFileImpl  - detected local separator = /
+2010-12-01 08:56:17,559 197609 [AWT-EventQueue-0] INFO  org.irods.jargon.core.pub.io.IRODSFileImpl  - file name was set as: Proposal.pdf
+2010-12-01 08:56:17,559 197609 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - closing connection
+2010-12-01 08:56:17,559 197609 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - sending disconnect message
+2010-12-01 08:56:17,559 197609 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSConnection  - shutting down connection: true
+2010-12-01 08:56:17,559 197609 [AWT-EventQueue-0] DEBUG org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferable  - getting data flavors from idrop series (will be a list with one iros file for file or collection
+2010-12-01 08:56:17,562 197612 [AWT-EventQueue-0] INFO  org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferable  - getting files from transfser data:[irods://rods@iren.renci.org:1247/renci/home/rods/Proposal.pdf]
+2010-12-01 08:56:37,596 217646 [AWT-EventQueue-0] DEBUG org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferHandler  - creating a transferrable from the irods tree view
+2010-12-01 08:56:37,614 217664 [AWT-EventQueue-0] INFO  org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferHandler  - transferrable path:[/, renci, home, rods, Proposal.pdf]
+2010-12-01 08:56:37,614 217664 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSConnection  - opening irods socket
+2010-12-01 08:56:37,614 217664 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSConnection  - connecting socket...
+2010-12-01 08:56:37,960 218010 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSConnection  - socket opened successfully
+2010-12-01 08:56:37,961 218011 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSConnection  - connection identified as:irodsSimpleConnection/AWT-EventQueue-0/1291211797961
+2010-12-01 08:56:37,961 218011 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - reading message from irods
+2010-12-01 08:56:39,715 219765 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - sending standard irods password
+2010-12-01 08:56:39,715 219765 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - reading message from irods
+2010-12-01 08:56:40,399 220449 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - calling irods function with streams
+2010-12-01 08:56:40,399 220449 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - reading message from irods
+2010-12-01 08:56:40,798 220848 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.EnvironmentalInfoAccessor  - getting irods server properties
+2010-12-01 08:56:40,798 220848 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - calling irods function with streams
+2010-12-01 08:56:40,798 220848 [AWT-EventQueue-0] WARN  org.irods.jargon.core.connection.IRODSConnection  - nothing to send, ignoring...
+2010-12-01 08:56:40,798 220848 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - reading message from irods
+2010-12-01 08:56:42,221 222271 [AWT-EventQueue-0] INFO  org.irods.jargon.core.connection.IRODSCommands  - IRODS server properties
+    icat enabled?:ICAT_ENABLED
+    Server boot time:1288904970
+    Rel version:rods2.4
+    API version:d
+    zone:renci
+
+2010-12-01 08:56:42,222 222272 [AWT-EventQueue
+
+
+
+Exception in thread "AWT-EventQueue-0" java.lang.IndexOutOfBoundsException: Invalid index
+        at javax.swing.DefaultRowSorter.convertRowIndexToView(DefaultRowSorter.java:482)
+        at javax.swing.JTable.convertRowIndexToView(JTable.java:2589)
+        at org.irods.jargon.idrop.desktop.systraygui.QueueManagerDialog$15.run(QueueManagerDialog.java:1039)
+        at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:209)
+        at java.awt.EventQueue.dispatchEvent(EventQueue.java:633)
+        at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:296)
+        at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:211)
+        at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:201)
+        at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:196)
+        at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:188)
+        at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
