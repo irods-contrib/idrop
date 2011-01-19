@@ -83,6 +83,22 @@
 	<checksumPolicy>fail</checksumPolicy>
       </snapshots>
     </repository>
+     <repository>
+      <id>renci.snapshot.repository</id>
+      <name>renci.snapshot.repository</name>
+      <url>https://ci-dev.renci.org/nexus/content/repositories/snapshots</url>
+      <releases>
+	<enabled>true</enabled>
+	<updatePolicy>always</updatePolicy>
+	<checksumPolicy>warn</checksumPolicy>
+      </releases>
+      <snapshots>
+	<enabled>true</enabled>
+	<updatePolicy>never</updatePolicy>
+	<checksumPolicy>fail</checksumPolicy>
+      </snapshots>
+    </repository>
+
   </repositories>
   <distributionManagement>
     <repository>
