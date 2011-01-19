@@ -192,6 +192,11 @@
     	<artifactId>jargon-test</artifactId>
     	<version>${jargon.version}</version>
       </dependency>
+       <dependency>
+    	<groupId>org.irods</groupId>
+    	<artifactId>jargon-security</artifactId>
+    	<version>${jargon.version}</version>
+      </dependency>
       <dependency>
     	<groupId>org.irods.jargon</groupId>
     	<artifactId>jargon-user-tagging</artifactId>
