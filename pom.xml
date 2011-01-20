@@ -7,11 +7,12 @@
   <packaging>pom</packaging>
   <version>0.9.0-SNAPSHOT</version>
   <name>Jargon</name>
-  <description>iRODS :: iDrop</description>
+  <description>iRODS iDrop - personal web and desktop grid access clients</description>
   <url>https://code.renci.org/gf/project/irodsidrop/</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jargon.version>2.4.1-SNAPSHOT</jargon.version>
+    <spring.core.version>3.0.5.RELEASE</spring.core.version>
   </properties>
   <issueManagement>
     <system>gForge</system>
@@ -98,7 +99,6 @@
 	<checksumPolicy>fail</checksumPolicy>
       </snapshots>
     </repository>
-
   </repositories>
   <distributionManagement>
     <repository>
@@ -163,9 +163,31 @@
   </reporting>
   <dependencyManagement>
     <dependencies>
-      <dependency>
+    
+    
+     <dependency>
     	<groupId>org.irods</groupId>
     	<artifactId>jargon-core</artifactId>
+    	<version>${jargon.version}</version>
+      </dependency>
+       <dependency>
+    	<groupId>org.irods</groupId>
+    	<artifactId>jargon-test</artifactId>
+    	<version>${jargon.version}</version>
+      </dependency>
+      <dependency>
+    	<groupId>org.irods</groupId>
+    	<artifactId>jargon-transfer-engine</artifactId>
+    	<version>${jargon.version}</version>
+      </dependency>
+       <dependency>
+    	<groupId>org.irods</groupId>
+    	<artifactId>jargon-user-tagging</artifactId>
+    	<version>${jargon.version}</version>
+      </dependency>
+       <dependency>
+    	<groupId>org.irods</groupId>
+    	<artifactId>jargon-security</artifactId>
     	<version>${jargon.version}</version>
       </dependency>
       <dependency>
@@ -204,26 +226,6 @@
     	<version>1.8.1</version>
       </dependency>
       <dependency>
-    	<groupId>org.irods.jargon</groupId>
-    	<artifactId>jargon-test</artifactId>
-    	<version>${jargon.version}</version>
-      </dependency>
-       <dependency>
-    	<groupId>org.irods</groupId>
-    	<artifactId>jargon-security</artifactId>
-    	<version>${jargon.version}</version>
-      </dependency>
-      <dependency>
-    	<groupId>org.irods.jargon</groupId>
-    	<artifactId>jargon-user-tagging</artifactId>
-    	<version>${jargon.version}</version>
-      </dependency>
-       <dependency>
-    	<groupId>org.irods.jargon</groupId>
-    	<artifactId>jargon-transfer-engine</artifactId>
-    	<version>${jargon.version}</version>
-      </dependency>
-      <dependency>
     	<groupId>javax.transaction</groupId>
     	<artifactId>jta</artifactId>
     	<version>1.1</version>
@@ -241,7 +243,24 @@
       <dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-core</artifactId>
-    	<version>3.0.1.RELEASE</version>
+    	<version>${spring.core.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring.core.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring.core.version}</version>
+        <type>jar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${spring.core.version}</version>
+        <type>pom</type>
       </dependency>
       <dependency>
     	<groupId>hibernate</groupId>
@@ -294,25 +313,25 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-      <dependency>
-            <groupId>org.irods</groupId>
-            <artifactId>jargon-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.irods.jargon</groupId>
-            <artifactId>jargon-test</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.irods.jargon</groupId>
-            <artifactId>jargon-user-tagging</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.irods.jargon</groupId>
-            <artifactId>jargon-transfer-engine</artifactId>
-        </dependency>
+    <dependency>
+        <groupId>org.irods</groupId>
+        <artifactId>jargon-core</artifactId>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.irods</groupId>
+        <artifactId>jargon-test</artifactId>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.irods</groupId>
+        <artifactId>jargon-user-tagging</artifactId>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.irods</groupId>
+       <artifactId>jargon-transfer-engine</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
