@@ -799,7 +799,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 }
 
 
-                //if (irodsTree == null) {
                 log.info("building new iRODS tree");
                 try {
                     irodsTree = new IRODSTree(gui);
@@ -1915,7 +1914,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
             throw new UnsupportedOperationException("not yet implemented");
         }
     }
-    
+
     /**
      * Process a selection in the tag cloud list
      * @param evt
@@ -1933,8 +1932,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         }
 
         TagCloudListModel tagCloudListModel = (TagCloudListModel) listTagCloudList.getModel();
-
-
 
         TagCloudEntry entry = tagCloudListModel.getTagCloudEntry(listTagCloudList.getMinSelectionIndex());
 

@@ -785,7 +785,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             iDropParent.getTransferManager().purgeAllTransfers();
             refreshTableView(viewType);
             resetDisplayFieldsAndStatus();
-        } catch (JargonException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             iDropParent.showIdropException(ex);
         }
@@ -797,7 +797,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             refreshTableView(viewType);
             resetDisplayFieldsAndStatus();
 
-        } catch (JargonException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             iDropParent.showIdropException(ex);
         }
@@ -839,7 +839,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         if (dialogReturn == JOptionPane.YES_OPTION) {
             try {
                 transferManager.restartTransfer(selectedTransfer);
-            } catch (JargonException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                 iDropParent.showIdropException(ex);
             }
@@ -865,7 +865,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         if (dialogReturn == JOptionPane.YES_OPTION) {
             try {
                 transferManager.resubmitTransfer(selectedTransfer);
-            } catch (JargonException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                 iDropParent.showIdropException(ex);
             }
@@ -894,7 +894,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             try {
                 transferManager.cancelTransfer(selectedTransfer);
                 refreshTableView(this.getViewType());
-            } catch (JargonException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                 iDropParent.showIdropException(ex);
             }
@@ -980,7 +980,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                         transferQueue = transferManager.getCurrentQueue();
                         queueManagerDialog.getLblHeader().setText("Current transfer queue");
 
-                    } catch (JargonException ex) {
+                    } catch (Exception ex) {
                         Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                         throw new IdropRuntimeException(ex);
                     }
@@ -989,7 +989,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                         transferQueue = transferManager.getRecentQueue();
                         queueManagerDialog.getLblHeader().setText("Recent transfer activity");
 
-                    } catch (JargonException ex) {
+                    } catch (Exception ex) {
                         Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                         throw new IdropRuntimeException(ex);
                     }
@@ -998,7 +998,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                         transferQueue = transferManager.getErrorQueue();
                         queueManagerDialog.getLblHeader().setText("Transfer activities with errors");
 
-                    } catch (JargonException ex) {
+                    } catch (Exception ex) {
                         Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                         throw new IdropRuntimeException(ex);
                     }
@@ -1007,7 +1007,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                         transferQueue = transferManager.getWarningQueue();
                         queueManagerDialog.getLblHeader().setText("Transfer activities with warnings");
 
-                    } catch (JargonException ex) {
+                    } catch (Exception ex) {
                         Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                         throw new IdropRuntimeException(ex);
                     }
@@ -1203,7 +1203,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                         jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager.getErrorTransferItemsForTransfer(localIRODSTransfer.getId())));
                     }
 
-                } catch (JargonException ex) {
+                } catch (Exception ex) {
                     Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                     iDropParent.showIdropException(ex);
                     return;
@@ -1276,7 +1276,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     private void resetDisplayFieldsAndStatus() {
         try {
             iDropParent.getTransferManager().resetStatus();
-        } catch (JargonException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             // log and continue...not useful to user
         }
