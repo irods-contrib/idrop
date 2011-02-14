@@ -10,7 +10,7 @@ $(function() {
 <div id="browser" style="height:800px; display:inline-block;">
 <div id="dataTreeView"
 	style="float: left; height:800px; width=600px; display:inline-block"><!--  no empty divs -->
-<div id="dataTreeDiv">
+<div id="dataTreeDiv" class="scroll">
 
 </div>
 </div>

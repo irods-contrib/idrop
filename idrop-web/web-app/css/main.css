@@ -58,6 +58,13 @@ div.box label span {
 	text-align: right;
 }
 
+div.scroll {
+height: 800px;
+width: 300px;
+overflow: auto;
+padding: 8px;
+}
+
 .body {
 	float: left;
 	margin: 0 15px 10px 15px;
