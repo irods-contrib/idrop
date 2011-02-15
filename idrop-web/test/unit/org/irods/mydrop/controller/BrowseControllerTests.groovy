@@ -64,7 +64,9 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 	}
 	
 	void testFileInfo() {
-		assertTrue(true)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+		controller.fileInfo
 	}
 	
 	

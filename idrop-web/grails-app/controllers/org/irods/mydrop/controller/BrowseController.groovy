@@ -91,6 +91,14 @@ class BrowseController {
 	}
 	
 	def fileInfo = {
+		def absPath = params['absPath']
+		if (absPath == null) {
+			throw new JargonException("no absolute path passed to the method")
+			
+		}
+		
+		
+		
 		
 	}
 	
