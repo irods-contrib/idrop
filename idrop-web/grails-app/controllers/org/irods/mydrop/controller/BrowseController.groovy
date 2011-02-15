@@ -88,25 +88,12 @@ class BrowseController {
 		}
 		
 		render jsonBuff as JSON
-		
-		/*
-		 render(contentType:"text/json") {
-		 children = array {
-		 for (entry in collectionAndDataObjectList) {
-		 data = entry.nodeValueForDisplay
-		 attr = {id=entry.formattedAbsolutePath}
-		 state="closed"
-		 children=[]
-		 if (entry.getObjectType == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
-		 icon="folder"
-		 } else {
-		 icon="/"
-		 }
-		 }
-		 }
-		 }
-		 */
+	}
+	
+	def fileInfo = {
 		
 	}
+	
+	
 	
 }

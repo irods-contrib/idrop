@@ -48,12 +48,7 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		def controllerResponse = controller.response.contentAsString
 		def jsonResult = JSON.parse(controllerResponse)
 		assertNotNull("missing json result", jsonResult)
-		/*def mav = controller.modelAndView
-		def name = mav.viewName
-		assertNotNull("null mav", mav)
-		assertEquals("view name should be loadTree", "loadTree", name)
-		def parent = mav.model.linkedHashMap.parent
-		assertEquals("parent dir not found", "/", parent)*/
+		
   
     }
 	
@@ -65,12 +60,14 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		def controllerResponse = controller.response.contentAsString
 		def jsonResult = JSON.parse(controllerResponse)
 		assertNotNull("missing json result", jsonResult)
-		/*def mav = controller.modelAndView
-		def name = mav.viewName
-		assertNotNull("null mav", mav)
-		assertEquals("view name should be loadTree", "loadTree", name)
-		def parent = mav.model.linkedHashMap.parent
-		assertEquals("parent dir not found", "/", parent)*/
-  
+		
 	}
+	
+	void testFileInfo() {
+		assertTrue(true)
+	}
+	
+	
+	
+	
 }

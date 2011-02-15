@@ -7,11 +7,11 @@ $(function() {
 });
 </script>
 
-<div id="browser" style="height:800px; display:inline-block;">
+<div id="browser" class="wrapper">
 <div id="dataTreeView"
-	style="float: left; height:800px; width=600px; display:inline-block"><!--  no empty divs -->
-<div id="dataTreeDiv" class="scroll">
+	style="float: left; position: relative; width: auto;"><!--  no empty divs -->
+<div id="dataTreeDiv" class="colLeft"></div>
+<div id="infoDiv" class="colRight roundedContainer">info here</div>
 
-</div>
 </div>
 </div>

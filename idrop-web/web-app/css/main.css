@@ -59,11 +59,51 @@ div.box label span {
 }
 
 div.scroll {
-height: 800px;
-width: 300px;
-overflow: auto;
-padding: 8px;
+	overflow: auto;
+	padding: 8px;
 }
+
+.wrapper {
+	text-align: left;
+	margin: 0px auto;
+	padding: 0px;
+	border: 0;
+	width: 800px;
+	display: inline-block;
+}
+
+.colRight {
+	position: relative;
+	float: right;
+	width: 250px;
+	display: block;
+	overflow: auto;
+}
+
+.colLeft {
+	position: relative;
+	float: left;
+	width: 500px;
+	display: block;
+	overflow: auto;
+}
+
+.roundedContainer {
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	-moz-border-radius-bottomleft: 8pt;
+	-moz-border-radius-bottomright: 8pt;
+	-moz-border-radius-topleft: 8pt;
+	-moz-border-radius-topright: 8pt;
+	background: #FFFFFF none repeat scroll 0 0;
+	border: 3px solid #000000;
+	cursor: default;
+	padding: 3px;
+	margin: 3px;
+	display: block;
+}
+
 
 .body {
 	float: left;
@@ -263,9 +303,8 @@ th.desc a {
 
 .objectContainerDetails {
 	float: right;
-	text-align: left;	
+	text-align: left;
 }
-
 
 .objectHeader {
 	color: #210021;
@@ -273,7 +312,6 @@ th.desc a {
 	font-size: 16px;
 	margin: .8em 0 .3em 0;
 }
-
 
 .objectDescription {
 	color: #210021;
@@ -284,13 +322,6 @@ th.desc a {
 
 .objectContainerActions {
 	display: block;
-	float: left;	
+	float: left;
 	padding: 10px;
 }
-
-
-
-
-
-
-
