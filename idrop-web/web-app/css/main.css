@@ -63,19 +63,27 @@ div.scroll {
 	padding: 8px;
 }
 
+div#tabs {
+	overflow: auto;
+	width: 100%;
+	display: inline-block;
+	}
+
 .wrapper {
 	text-align: left;
 	margin: 0px auto;
 	padding: 0px;
 	border: 0;
-	width: 800px;
+	width: 850px;
 	display: inline-block;
+	overflow: auto;
+	
 }
 
 .colRight {
 	position: relative;
 	float: right;
-	width: 250px;
+	width: 350px;
 	display: block;
 	overflow: auto;
 }
@@ -83,7 +91,7 @@ div.scroll {
 .colLeft {
 	position: relative;
 	float: left;
-	width: 500px;
+	width: 450px;
 	display: block;
 	overflow: auto;
 }
@@ -500,7 +508,7 @@ th.desc a {
 
 #verticalForm input {
 	display: block;
-	width: 15em;
+	width: 20em;
 }
 
 #verticalForm label {

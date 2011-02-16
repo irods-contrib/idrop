@@ -83,7 +83,7 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		controller.irodsAccount = irodsAccount
 		controller.params.absPath = testPath
 		controller.fileInfo()
-		
+		// FIXME: add factory for free tagging service, inject into controller to allow mocking of free tagging service
 		def mav = controller.modelAndView
 		def name = mav.viewName
 		
@@ -92,7 +92,6 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		def dataObj = mav.model.dataObject
 		assertNotNull("null data object", dataObj)
 		assertEquals("did not find expected path", testPath, dataObj.dataName)
-		
 		
 	}
 	

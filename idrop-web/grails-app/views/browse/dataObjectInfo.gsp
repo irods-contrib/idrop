@@ -16,6 +16,9 @@ Collection:</label> <g:textField name="collectionName"
 <label for="checksum">Checksum:</label> <g:textField name="checksum"
 	value="${dataObject.checksum}" readonly="true" /> <br />
 
+<label for="tags">Tags:</label> <g:textField name="tags"
+	value="${tags.spaceDelimitedTagsForDomain}" /> <br />
+
 
 
 </fieldset>
