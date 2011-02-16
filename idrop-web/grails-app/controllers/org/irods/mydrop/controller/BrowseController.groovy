@@ -7,7 +7,7 @@ import org.irods.jargon.core.exception.*
 import org.irods.jargon.core.pub.*
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.usertagging.FreeTaggingService
-import org.irods.jargon.usertagging.FreeTaggingServiceImpl
+import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.springframework.security.core.context.SecurityContextHolder
 
 
@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 class BrowseController {
 	
 	IRODSAccessObjectFactory irodsAccessObjectFactory
+	TaggingServiceFactory taggingServiceFactory
 	IRODSAccount irodsAccount
 	
 	/**
@@ -110,7 +111,7 @@ class BrowseController {
 		
 		log.info "is this a data object? ${isDataObject}"
 		
-		FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(irodsAccessObjectFactory, irodsAccount)
+		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		if (isDataObject) {
 			log.info("getting free tags for data object")
 			def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)

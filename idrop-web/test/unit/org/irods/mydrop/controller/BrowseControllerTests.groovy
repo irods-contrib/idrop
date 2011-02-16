@@ -1,25 +1,25 @@
 
 package org.irods.mydrop.controller
 
+import grails.converters.*
 import grails.test.*
-import org.irods.jargon.core.exception.JargonException
+
 import java.util.Properties
+
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.JargonException
+import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
-import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
-import org.irods.jargon.core.pub.io.IRODSFile
-import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
-import org.irods.jargon.testutils.TestingPropertiesHelper
-import org.irods.jargon.testutils.filemanip.FileGenerator
-import org.irods.jargon.testutils.TestingPropertiesHelper
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.core.pub.domain.DataObject
+import org.irods.jargon.core.query.MetaDataAndDomainData
+import org.irods.jargon.spring.security.IRODSAuthenticationToken
+import org.irods.jargon.testutils.TestingPropertiesHelper
+import org.irods.jargon.usertagging.FreeTaggingService
+import org.irods.jargon.usertagging.TaggingServiceFactory
+import org.irods.jargon.usertagging.domain.IRODSTagGrouping
 import org.mockito.Mockito
 import org.springframework.security.core.context.SecurityContextHolder
-import grails.converters.*
-
-
 
 class BrowseControllerTests extends ControllerUnitTestCase {
 
@@ -80,10 +80,15 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		FreeTaggingService freeTaggingService = Mockito.mock(FreeTaggingService.class)
+		TaggingServiceFactory taggingServiceFactory = Mockito.mock(TaggingServiceFactory.class)
+		IRODSTagGrouping grouping = new IRODSTagGrouping(MetaDataAndDomainData.MetadataDomain.DATA, "name", "tags", "user")
+		Mockito.when(freeTaggingService.getTagsForDataObjectInFreeTagForm(testPath)).thenReturn(grouping)
+		Mockito.when(taggingServiceFactory.instanceFreeTaggingService(irodsAccount)).thenReturn(freeTaggingService)
 		controller.irodsAccount = irodsAccount
+		controller.taggingServiceFactory = taggingServiceFactory
 		controller.params.absPath = testPath
 		controller.fileInfo()
-		// FIXME: add factory for free tagging service, inject into controller to allow mocking of free tagging service
 		def mav = controller.modelAndView
 		def name = mav.viewName
 		
@@ -92,6 +97,8 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		def dataObj = mav.model.dataObject
 		assertNotNull("null data object", dataObj)
 		assertEquals("did not find expected path", testPath, dataObj.dataName)
+		def tags = mav.model.tags
+		assertNotNull("null tag in model", tags)
 		
 	}
 	

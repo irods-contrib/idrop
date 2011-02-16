@@ -20,6 +20,11 @@
 		class="org.irods.jargon.core.pub.IRODSAccessObjectFactoryImpl">
 		<beans:constructor-arg ref="irodsSession"></beans:constructor-arg>
 	</beans:bean>
+	
+	<beans:bean id="taggingServiceFactory"
+		class="org.irods.jargon.usertagging.TaggingServiceFactoryImpl">
+		<beans:constructor-arg ref="irodsAccessObjectFactory"></beans:constructor-arg>
+	</beans:bean>
 
 	<beans:bean id="authenticationManager"
 		class="org.irods.jargon.spring.security.IRODSAccountAuthenticationManager">
