@@ -1,11 +1,12 @@
 package org.irods.mydrop.controller
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.irods.jargon.core.pub.*;
-import org.irods.jargon.core.connection.*;
-import org.irods.jargon.core.exception.*;
-import grails.converters.*;
-import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
+import grails.converters.*
+
+import org.irods.jargon.core.connection.*
+import org.irods.jargon.core.exception.*
+import org.irods.jargon.core.pub.*
+import org.irods.jargon.core.pub.domain.DataObject
+import org.springframework.security.core.context.SecurityContextHolder
 
 
 /**
@@ -97,8 +98,20 @@ class BrowseController {
 			
 		}
 		
+		log.info "fileInfo for absPath: ${absPath}"
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 		
+		// TODO: some sort of catch and display of no data available in info?
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 		
+		def isDataObject = retObj instanceof DataObject
+		
+		log.info "is this a data object? ${isDataObject}"
+		
+		if (isDataObject) {
+			log.info("rendering as data object: ${retObj}")
+			render(view:"dataObjectInfo", model:[dataObject:retObj])
+		}
 		
 	}
 	

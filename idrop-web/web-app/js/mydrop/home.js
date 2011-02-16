@@ -181,14 +181,10 @@ function nodeLoadedCallback() {
  */
 function nodeSelected(event, data) {
 	// given the path, put in the node data
-	
-	alert("node selected");
-	 //obj = $.jstree._reference(event.target)._get_node(event.target);
-	 /* 
-	 * $.jstree._reference("#root").toggle_node(event.target, false, false);
-	 * synchronizeDetailView(event.target, path); } else {
-	 * //useAjaxToRetrieveATreeNode(obj, path); }
-	 */
+		
+	var id = data[0].id;
+	lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath=" + id, "#infoDiv",
+			"#infoDiv", null);
 
 }
 

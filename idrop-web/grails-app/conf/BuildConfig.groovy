@@ -27,6 +27,7 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		test 'org.irods.jargon:jargon-test:2.4.1-SNAPSHOT'
+		test 'org.mockito:mockito-all:1.8.1'
 		compile 'org.irods.jargon:jargon-core:2.4.1-SNAPSHOT'
 		compile 'org.irods.jargon:jargon-security:2.4.1-SNAPSHOT'
 		compile 'org.springframework.security:spring-security-core:3.0.5.RELEASE'

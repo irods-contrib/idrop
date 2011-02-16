@@ -1,4 +1,1 @@
-<g:each in="${collectionAndDataObjectList}" var="entry">
-<li><a href="${entry.formattedAbsolutePath}">${entry}</a> 
-</li>
-</g:each>
+<h1>Data Object info will be here</h1>
