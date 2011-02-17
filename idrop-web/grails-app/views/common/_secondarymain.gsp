@@ -1,6 +1,8 @@
 <script>
 	$(function() {
 		$("#secondaryTabs").tabs();
+		lcSendValueAndCallbackHtmlAfterErrorCheck("/tags/tagCloud", "#tagCloudDiv",
+				"#tagCloudDiv", null);
 	});
 </script>
 <div id="secondaryTabs">
@@ -10,11 +12,11 @@
 	
 </ul>
 <div id="tabs-1">
-<ul>
-	<li>tag1</li>
-	<li>tag2</li>
-	<li>tag3</li>
-</ul>
+<div id="tagCloudDiv" class="scroll">
+
+<!--  tag cloud div is ajax loaded -->
+
+</div>
 </div>
 <div id="tabs-2">
 <ul>

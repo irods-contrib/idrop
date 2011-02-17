@@ -12,6 +12,7 @@ import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.core.pub.domain.DataObject
+import org.irods.jargon.core.pub.domain.Collection
 import org.irods.jargon.core.query.MetaDataAndDomainData
 import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
@@ -97,6 +98,37 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		def dataObj = mav.model.dataObject
 		assertNotNull("null data object", dataObj)
 		assertEquals("did not find expected path", testPath, dataObj.dataName)
+		def tags = mav.model.tags
+		assertNotNull("null tag in model", tags)
+		
+	}
+	
+	void testFileInfoWithPathWhenCollection() {
+		def testPath = "/testpath"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		Collection retObject = new Collection()
+		retObject.setCollectionName(testPath)
+		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
+		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		FreeTaggingService freeTaggingService = Mockito.mock(FreeTaggingService.class)
+		TaggingServiceFactory taggingServiceFactory = Mockito.mock(TaggingServiceFactory.class)
+		IRODSTagGrouping grouping = new IRODSTagGrouping(MetaDataAndDomainData.MetadataDomain.COLLECTION, "name", "tags", "user")
+		Mockito.when(freeTaggingService.getTagsForCollectionInFreeTagForm(testPath)).thenReturn(grouping)
+		Mockito.when(taggingServiceFactory.instanceFreeTaggingService(irodsAccount)).thenReturn(freeTaggingService)
+		controller.irodsAccount = irodsAccount
+		controller.taggingServiceFactory = taggingServiceFactory
+		controller.params.absPath = testPath
+		controller.fileInfo()
+		def mav = controller.modelAndView
+		def name = mav.viewName
+		
+		assertNotNull("null mav", mav)
+		assertEquals("view name should be collectionInfo", "collectionInfo", name)
+		def collection = mav.model.collection
+		assertNotNull("null collection object", collection)
+		assertEquals("did not find expected path", testPath, collection.collectionName)
 		def tags = mav.model.tags
 		assertNotNull("null tag in model", tags)
 		

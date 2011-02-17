@@ -6,4 +6,9 @@ beans = {
 		taggingServiceFactory = ref("taggingServiceFactory")
 	}
 	
+	tagsController(org.irods.mydrop.controller.TagsController) {
+		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+		taggingServiceFactory = ref("taggingServiceFactory")
+	}
+	
 }

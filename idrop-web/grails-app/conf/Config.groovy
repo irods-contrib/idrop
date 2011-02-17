@@ -67,7 +67,7 @@ environments {
 log4j = {
 	
 	root {
-		warn()
+		info()
 		additivity = true
 	}
 	
