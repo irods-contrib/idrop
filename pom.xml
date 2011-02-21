@@ -3,7 +3,7 @@
 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.irods</groupId>
-  <artifactId>irods-idrop</artifactId>
+  <artifactId>iDrop</artifactId>
   <packaging>pom</packaging>
   <version>0.9.1-SNAPSHOT</version>
   <name>iRODS iDrop</name>
@@ -19,9 +19,8 @@
     <url>https://code.renci.org/gf/project/irodsidrop/tracker/</url>
   </issueManagement>
   <scm>
-    <connection>scm:git:ssh://anonymous@code.renci.org/gitroot/irodsidrop</connection>
-    <developerConnection>scm:git:ssh://developername@code.renci.org/gitroot/irodsidrop</developerConnection>
-    <url>scm:git:ssh://developername@code.renci.org/gitroot/irodsidrop</url>
+    <connection>scm:git:ssh://developername@code.renci.org/gitroot/irodsidrop</connection>
+    <developerConnection>scm:git:ssh://${user.name}@code.renci.org/gitroot/irodsidrop</developerConnection>
   </scm>
   <organization>
     <name>DICE</name>
@@ -84,7 +83,7 @@
 	<checksumPolicy>fail</checksumPolicy>
       </snapshots>
     </repository>
-     <repository>
+    <repository>
       <id>renci.snapshot.repository</id>
       <name>renci.snapshot.repository</name>
       <url>http://ci-dev.renci.org/nexus/content/repositories/snapshots</url>
@@ -163,18 +162,18 @@
   </reporting>
   <dependencyManagement>
     <dependencies>
-     <dependency>
+      <dependency>
     	<groupId>org.irods.jargon</groupId>
     	<artifactId>jargon-core</artifactId>
     	<version>${jargon.version}</version>
       </dependency>
-       <dependency>
+      <dependency>
     	<groupId>org.irods.jargon</groupId>
     	<artifactId>jargon-test</artifactId>
     	<version>${jargon.version}</version>
       </dependency>
       <dependency>
-    	<groupId>org.irods</groupId>
+    	<groupId>org.irods.jargon</groupId>
     	<artifactId>jargon-transfer-engine</artifactId>
     	<version>${jargon.version}</version>
       </dependency>
@@ -183,12 +182,12 @@
         <artifactId>jargon-data-utils</artifactId>
         <version>${jargon.version}</version>
       </dependency>
-       <dependency>
+      <dependency>
     	<groupId>org.irods.jargon</groupId>
     	<artifactId>jargon-user-tagging</artifactId>
     	<version>${jargon.version}</version>
       </dependency>
-       <dependency>
+      <dependency>
     	<groupId>org.irods.jargon</groupId>
     	<artifactId>jargon-security</artifactId>
     	<version>${jargon.version}</version>
@@ -317,23 +316,23 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-        <groupId>org.irods.jargon</groupId>
-        <artifactId>jargon-core</artifactId>
-        <scope>compile</scope>
+      <groupId>org.irods.jargon</groupId>
+      <artifactId>jargon-core</artifactId>
+      <scope>compile</scope>
     </dependency>
     <dependency>
-        <groupId>org.irods.jargon</groupId>
-        <artifactId>jargon-test</artifactId>
-        <scope>compile</scope>
+      <groupId>org.irods.jargon</groupId>
+      <artifactId>jargon-test</artifactId>
+      <scope>compile</scope>
     </dependency>
     <dependency>
-        <groupId>org.irods.jargon</groupId>
-        <artifactId>jargon-user-tagging</artifactId>
-        <scope>compile</scope>
+      <groupId>org.irods.jargon</groupId>
+      <artifactId>jargon-user-tagging</artifactId>
+      <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>org.irods</groupId>
-       <artifactId>jargon-transfer-engine</artifactId>
+      <groupId>org.irods.jargon</groupId>
+      <artifactId>jargon-transfer-engine</artifactId>
     </dependency>
   </dependencies>
   <build>
