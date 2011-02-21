@@ -3,6 +3,7 @@ package org.irods.jargon.idrop.desktop.systraygui.services;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -15,16 +16,18 @@ import org.slf4j.LoggerFactory;
 public class QueueSchedulerTimerTask extends TimerTask {
 
     private final TransferManager transferManager;
+
     private final iDrop idropGui;
+
     public final static long EVERY_10_MINUTES = 1000 * 60 * 10;
+
     public final static long EVERY_30_SECONDS = 1000 * 30;
-    public static org.slf4j.Logger log = LoggerFactory.getLogger(QueueSchedulerTimerTask.class);
 
-    public static final QueueSchedulerTimerTask instance(final TransferManager transferManager, final iDrop idropGui) throws IdropException {
-        return new QueueSchedulerTimerTask(transferManager, idropGui);
-    }
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(QueueSchedulerTimerTask.class);
 
-    private QueueSchedulerTimerTask(final TransferManager transferManager, final iDrop idropGui) throws IdropException {
+    public QueueSchedulerTimerTask(TransferManager transferManager, iDrop idropGui) throws IdropException {
+        super();
+
         if (transferManager == null) {
             throw new IdropException("null transfer manager");
         }
@@ -56,6 +59,5 @@ public class QueueSchedulerTimerTask extends TimerTask {
             return;
         }
 
-  
     }
 }
