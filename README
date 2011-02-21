@@ -1,0 +1,8 @@
+
+
+
+To run iDrop from the command line & after a Maven build, run the following
+
+cd idrop-swing
+mvn clean install
+mvn exec:java -Dexec.mainClass=org.irods.jargon.idrop.desktop.systraygui.iDrop
