@@ -1134,7 +1134,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             return;
         }
 
-        if (e.getFirstIndex() == -1 || e.getLastIndex() == -1) {
+        if (e.getFirstIndex() == -1 || e.getLastIndex() == -1 || jTableMaster.getSelectedRow() == -1) {
             return;
         }
 
