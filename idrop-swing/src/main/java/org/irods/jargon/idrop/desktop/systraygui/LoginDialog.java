@@ -19,7 +19,6 @@ import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.core.pub.domain.User;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
-import org.irods.jargon.idrop.exceptions.IdropException;
 import org.slf4j.LoggerFactory;
 
 /**
