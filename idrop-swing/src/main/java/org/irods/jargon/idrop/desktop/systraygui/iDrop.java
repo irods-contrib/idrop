@@ -75,7 +75,6 @@ import org.irods.jargon.transferengine.TransferManager;
 import org.irods.jargon.transferengine.TransferManager.ErrorStatus;
 import org.irods.jargon.transferengine.TransferManager.RunningStatus;
 import org.irods.jargon.transferengine.TransferManagerCallbackListener;
-import org.irods.jargon.transferengine.TransferManagerImpl;
 import org.irods.jargon.usertagging.FreeTaggingService;
 import org.irods.jargon.usertagging.FreeTaggingServiceImpl;
 import org.irods.jargon.usertagging.UserTagCloudService;
