@@ -78,6 +78,7 @@ import org.irods.jargon.transferengine.TransferManager;
 import org.irods.jargon.transferengine.TransferManager.ErrorStatus;
 import org.irods.jargon.transferengine.TransferManager.RunningStatus;
 import org.irods.jargon.transferengine.TransferManagerCallbackListener;
+import org.irods.jargon.transferengine.TransferManagerImpl;
 import org.irods.jargon.usertagging.FreeTaggingService;
 import org.irods.jargon.usertagging.FreeTaggingServiceImpl;
 import org.irods.jargon.usertagging.UserTagCloudService;
@@ -219,7 +220,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         try {
             irodsFileSystem = IRODSFileSystem.instance();
-            transferManager = TransferManager.instanceWithCallbackListenerAndUserLevelDatabase(this, idropConfig.isLogSuccessfulTransfers(), idropConfig.getTransferDatabaseName());
+            transferManager = TransferManagerImpl.instanceWithCallbackListenerAndUserLevelDatabase(this, idropConfig.isLogSuccessfulTransfers(), idropConfig.getTransferDatabaseName());
 
             // see if the queue has any pending transfers
 

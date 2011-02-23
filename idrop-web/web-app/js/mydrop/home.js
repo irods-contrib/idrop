@@ -21,6 +21,7 @@ function retrieveBrowserFirstView() {
 			browserFirstViewRetrieved);
 }
 
+// get rid of
 function useAjaxToRetrieveATreeNode(node, path) {
 	var url = "/browse/loadTree";
 	strPath = "";
@@ -45,6 +46,7 @@ function useAjaxToRetrieveATreeNode(node, path) {
 
 }
 
+// get rid of
 function nodeTreeRetrievedViaAjax(targetNode, jsonData) {
 
 	var directoryList = jsonData.directoryList;
@@ -84,6 +86,7 @@ function nodeTreeRetrievedViaAjax(targetNode, jsonData) {
  * @param n
  * @return
  */
+// get rid of
 
 function buildDataForNodeRequest(n) {
 	var nodeData = {
@@ -137,6 +140,7 @@ function browserFirstViewRetrieved(data) {
 
 	        },
 
+	  
 		"themes" : {
 			"theme" : "default",
 			"url" : context + "/css/style.css",
@@ -145,10 +149,17 @@ function browserFirstViewRetrieved(data) {
 		},
 		"plugins" : [ "json_data", "types", "ui", "crmm", "themes" ]
 	});
+	
+	$("#dataTreeDiv").bind("select_node.jstree", function (e, data) {
+		 // alert(data.rslt.obj); // this is the object that was clicked
+		nodeSelected(e, data.rslt.obj);
+		});
 
-	dataTree.bind("click", function(event) {
-		nodeSelected(event)
-	});
+
+
+	/*dataTree.live("click", function(event, data) {
+		nodeSelected(event, data)
+	});*/
 
 }
 
@@ -168,17 +179,12 @@ function nodeLoadedCallback() {
  *            javascript event containing a reference to the selected node
  * @return
  */
-function nodeSelected(event) {
+function nodeSelected(event, data) {
 	// given the path, put in the node data
-	/*
-	 * var path = $.jstree._reference("#root").get_path(event.target, false);
-	 * obj = $.jstree._reference(event.target)._get_node(event.target);
-	 * 
-	 * if (isThisNodeLoaded(obj)) { // already loaded, just toggle
-	 * $.jstree._reference("#root").toggle_node(event.target, false, false);
-	 * synchronizeDetailView(event.target, path); } else {
-	 * //useAjaxToRetrieveATreeNode(obj, path); }
-	 */
+		
+	var id = data[0].id;
+	lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath=" + id, "#infoDiv",
+			"#infoDiv", null);
 
 }
 

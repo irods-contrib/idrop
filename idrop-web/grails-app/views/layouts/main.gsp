@@ -37,7 +37,9 @@
  <g:layoutBody />
 </div>
 <div class="yui-u"><!-- PUT MAIN COLUMN 2 CODE HERE -->
+<g:ifAuthenticated>
 <g:render template="/common/secondarymain"/>
+</g:ifAuthenticated>
 
 </div>
 </div>

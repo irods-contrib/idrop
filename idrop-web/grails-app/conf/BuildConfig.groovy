@@ -5,7 +5,7 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
-        // uncomment to disable ehcache
+        // uncomment to disable ehcace
        excludes 'ehcache'
     }
     log "warn" // LOG level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
@@ -27,8 +27,13 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		test 'org.irods.jargon:jargon-test:2.4.1-SNAPSHOT'
+		test 'org.mockito:mockito-all:1.8.1'
+		provided 'junit:junit:4.8.1'
 		compile 'org.irods.jargon:jargon-core:2.4.1-SNAPSHOT'
 		compile 'org.irods.jargon:jargon-security:2.4.1-SNAPSHOT'
+		compile ('org.irods.jargon:jargon-user-tagging:2.4.1-SNAPSHOT') {
+			exclude 'junit'
+		}
 		compile 'org.springframework.security:spring-security-core:3.0.5.RELEASE'
 		compile 'org.springframework.security:spring-security-web:3.0.5.RELEASE'
 		compile 'org.springframework.security:spring-security-config:3.0.5.RELEASE'
@@ -36,7 +41,6 @@ grails.project.dependency.resolution = {
 		compile 'javax.servlet:servlet-api:2.5'
 		
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
-		//compile 'log4j:log4j:1.2.16'
-        // runtime 'mysql:mysql-connector-java:5.1.5'
+		
     }
 }

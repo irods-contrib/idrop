@@ -21,7 +21,6 @@ function prepareForCall() {
 	$(javascriptMessageArea).html();
 }
 
-
 /*
  * check HTML coming back from an AJAX call for an indication of an error, and
  * if an error is found, then set the message in the div using the given id.
@@ -57,7 +56,7 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
 				"Unable to access, due to expired login or no authorization");
 		throw ("dataAccessError");
 	}
-	
+
 	if (resultHtml.indexOf(appExceptionVal) > -1) {
 
 		exceptionStart = resultHtml.indexOf("_exception") + 12;
@@ -116,7 +115,7 @@ function checkAjaxResultForError(resultHtml) {
 		setMessage("Unable to access, due to expired login or no authorization");
 		throw ("dataAccessError");
 	}
-	
+
 	if (resultHtml.indexOf(appExceptionVal) > -1) {
 
 		exceptionStart = resultHtml.indexOf("_exception") + 12;
@@ -127,18 +126,19 @@ function checkAjaxResultForError(resultHtml) {
 	}
 }
 
-
 /*
  * Send a query via ajax that results in an HTML table to be displayed as a
- * JQuery data table 
+ * JQuery data table
  * 
- * @param getUrl - url for ajax call as GET 
+ * @param getUrl - url for ajax call as GET
  * 
- * @param tableDiv - selector for the div where the table HTML response will be placed 
+ * @param tableDiv - selector for the div where the table HTML response will be
+ * placed
  * 
  * @param newTableId - id for the new table
  * 
- * @param detailsFunction - function pointer for click event handler to be attached to each table node
+ * @param detailsFunction - function pointer for click event handler to be
+ * attached to each table node
  */
 function lcSendValue(getUrl, tableDiv, newTableId, detailsFunction) {
 
@@ -158,7 +158,7 @@ function lcSendValue(getUrl, tableDiv, newTableId, detailsFunction) {
 			checkAjaxResultForError(data);
 			lcBuildTable(data, tableDiv, newTableId, detailsFunction);
 		}, "html");
-		
+
 		$(tableDiv).ajaxError(function(e, xhr, settings, exception) {
 			$(tableDiv).html("");
 			checkAjaxResultForError(xhr.responseText);
@@ -195,8 +195,7 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction) {
 }
 
 /*
- * Close table nodes when using +/- details icon 
- * @param dataTable - reference to
+ * Close table nodes when using +/- details icon @param dataTable - reference to
  * jquery dataTable (not a selector, the table)
  */
 function lcCloseTableNodes(dataTable) {
@@ -222,11 +221,11 @@ function lcCloseDetails(minMaxIcon, rowActionIsOn, dataTable) {
 	dataTable.fnClose(rowActionIsOn);
 }
 
-
 /*
  * Send a query via ajax that results in html plugged into the correct div
  */
-function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context, postLoadFunction) {
+function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
+		postLoadFunction) {
 
 	prepareForCall();
 	if (getUrl.length == 0) {
@@ -234,7 +233,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context, postLoadFunctio
 	}
 
 	var img = document.createElement('IMG');
-	img.setAttribute("src", + context + "/images/ajax-loader.gif");
+	img.setAttribute("src", +context + "/images/ajax-loader.gif");
 
 	$(resultDiv).html(img);
 
@@ -244,7 +243,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context, postLoadFunctio
 			checkAjaxResultForError(data);
 			lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 		}, "html");
-		
+
 		$(resultDiv).ajaxError(function(e, xhr, settings, exception) {
 			$(resultDiv).html("");
 			checkAjaxResultForError(xhr.responseText);
@@ -260,11 +259,11 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context, postLoadFunctio
 
 }
 
-
 /*
  * Send a query via ajax that results in html plugged into the correct div
  */
-function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl,divForAjaxError, divForLoadingGif, callbackFunction) {
+function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
+		divForLoadingGif, callbackFunction) {
 
 	prepareForCall();
 	if (getUrl.length == 0) {
@@ -281,10 +280,14 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl,divForAjaxError, divFo
 		$.get(context + getUrl, function(data) {
 			checkAjaxResultForError(data);
 			$(divForLoadingGif).html("");
-			var myHtml = data;
-			callbackFunction(myHtml);
+			if (callbackFunction != null) {
+				var myHtml = data;
+				callbackFunction(myHtml);
+			} else {
+				$(divForLoadingGif).html(data);
+			}
 		}, "html");
-		
+
 		$(divForAjaxError).ajaxError(function(e, xhr, settings, exception) {
 			$(divForLoadingGif).html("");
 			checkAjaxResultForError(xhr.responseText);
@@ -298,11 +301,12 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl,divForAjaxError, divFo
 
 }
 
-
 /*
- * Send a query via ajax that results in json that will be returned to a callback function
+ * Send a query via ajax that results in json that will be returned to a
+ * callback function
  */
-function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl,  parms, divForAjaxError, callbackFunction) {
+function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
+		divForAjaxError, callbackFunction) {
 
 	prepareForCall();
 	if (getUrl.length == 0) {
@@ -314,7 +318,7 @@ function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl,  parms, divForAja
 		$.get(context + getUrl, parms, function(data) {
 			callbackFunction(data);
 		}, "json");
-		
+
 		$(divForAjaxError).ajaxError(function(e, xhr, settings, exception) {
 			checkAjaxResultForError(xhr.responseText);
 		});
@@ -331,5 +335,5 @@ function lcFillInDivWithHtml(data, resultDiv, postLoadFunction) {
 	if (postLoadFunction != null) {
 		postLoadFunction(data);
 	}
-	
+
 }

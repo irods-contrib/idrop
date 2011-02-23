@@ -58,6 +58,61 @@ div.box label span {
 	text-align: right;
 }
 
+div.scroll {
+	overflow: auto;
+	padding: 8px;
+}
+
+div#tabs {
+	overflow: auto;
+	width: 100%;
+	display: inline-block;
+	}
+
+.wrapper {
+	text-align: left;
+	margin: 0px auto;
+	padding: 0px;
+	border: 0;
+	width: 850px;
+	display: inline-block;
+	overflow: auto;
+	
+}
+
+.colRight {
+	position: relative;
+	float: right;
+	width: 350px;
+	display: block;
+	overflow: auto;
+}
+
+.colLeft {
+	position: relative;
+	float: left;
+	width: 450px;
+	display: block;
+	overflow: auto;
+}
+
+.roundedContainer {
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	-moz-border-radius-bottomleft: 8pt;
+	-moz-border-radius-bottomright: 8pt;
+	-moz-border-radius-topleft: 8pt;
+	-moz-border-radius-topright: 8pt;
+	background: #FFFFFF none repeat scroll 0 0;
+	border: 3px solid #000000;
+	cursor: default;
+	padding: 3px;
+	margin: 3px;
+	display: block;
+}
+
+
 .body {
 	float: left;
 	margin: 0 15px 10px 15px;
@@ -256,9 +311,8 @@ th.desc a {
 
 .objectContainerDetails {
 	float: right;
-	text-align: left;	
+	text-align: left;
 }
-
 
 .objectHeader {
 	color: #210021;
@@ -266,7 +320,6 @@ th.desc a {
 	font-size: 16px;
 	margin: .8em 0 .3em 0;
 }
-
 
 .objectDescription {
 	color: #210021;
@@ -277,13 +330,197 @@ th.desc a {
 
 .objectContainerActions {
 	display: block;
-	float: left;	
+	float: left;
 	padding: 10px;
 }
 
 
+/* standard form layouts */
+#columnarForm fieldset {
+	float: left;
+	display: block;
+	width: 17em;
+	margin: 0 1em 1em 0;
+	padding: 0 1em 1em 1em;
+}
 
+#columnarForm fieldset.radio {
+	width: 15em;
+	margin: 1em 0 2em 0;
+}
 
+#columnarForm fieldset.radio input {
+	clear: both;
+	float: left;
+	width: auto;
+}
 
+#columnarForm fieldset.radio label {
+	font-weight: normal;
+}
 
+#columnarForm input {
+	display: block;
+	width: 15em;
+}
 
+#columnarForm label {
+	display: block;
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+#columnarForm label.first {
+	padding-top: 1em;
+}
+
+#columnarForm select {
+	display: block;
+}
+
+#horizontalForm fieldset {
+	display: block;
+	margin: 0 0 3em 0;
+	padding: 0 1em 1em 1em;
+}
+
+#horizontalForm fieldset.radio {
+	margin: 1em 0 2em 0;
+}
+
+#horizontalForm fieldset.radio input {
+	clear: both;
+	float: left;
+	width: auto;
+}
+
+#horizontalForm fieldset.radio label {
+	font-weight: normal;
+}
+
+#horizontalForm input {
+	display: block;
+	width: 15em;
+}
+
+#horizontalForm input.submit {
+	clear: both;
+}
+
+#horizontalForm label {
+	float: left;
+	display: block;
+	margin: 1em 1em 0 0;
+	font-weight: bold;
+}
+
+#horizontalForm select {
+	display: block;
+}
+
+#marginForm fieldset {
+	display: block;
+	margin: 0 0 1em 0;
+	border: 0 solid #FFFFFF;
+	border-top: 1px solid #000000;
+	padding: 0 1em 1em 1em;
+}
+
+#marginForm fieldset.radio {
+	margin: 0 0 0 -1em;
+	border: 0 solid #FFFFFF;
+}
+
+#marginForm fieldset.radio input {
+	position: static;
+	clear: both;
+	float: left;
+}
+
+#marginForm fieldset.radio label {
+	position: relative;
+	top: -1.25em;
+	display: inline;
+	width: auto;
+	margin: 0 0 0 8em;
+	font-weight: bold;
+	font-weight: normal;
+}
+
+#marginForm fieldset.radio legend {
+	float: left;
+	font-weight: bold;
+}
+
+#marginForm input {
+	position: relative;
+	top: -1.4em;
+	left: 8em;
+	display: block;
+}
+
+#marginForm input.submit {
+	clear: both;
+	top: 0;
+}
+
+#marginForm label {
+	clear: both;
+	float: left;
+	display: block;
+	width: 8em;
+	margin-top: -1em;
+	font-weight: bold;
+}
+
+#marginForm label.first {
+	margin-top: 1em;
+}
+
+#marginForm select {
+	position: relative;
+	top: -1.4em;
+	left: 8em;
+	display: block;
+}
+
+#verticalForm fieldset {
+	display: block;
+	width: 17em;
+	margin: 0 0 3em 0;
+	padding: 0 1em 1em 1em;
+}
+
+#verticalForm fieldset.radio {
+	width: 15em;
+	margin: 1em 0 2em 0;
+}
+
+#verticalForm fieldset.radio input {
+	clear: both;
+	float: left;
+	width: auto;
+}
+
+#verticalForm fieldset.radio label {
+	font-weight: normal;
+}
+
+#verticalForm input {
+	display: block;
+	width: 20em;
+}
+
+#verticalForm label {
+	display: block;
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+#verticalForm label.first {
+	padding-top: 1em;
+}
+
+#verticalForm select {
+	display: block;
+}
