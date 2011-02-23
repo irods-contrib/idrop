@@ -1,16 +1,23 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
+
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+
 import org.slf4j.LoggerFactory;
 
 /**
  * (New) tree node for local file tree
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class LocalFileNode extends DefaultMutableTreeNode {
 
     private boolean cached = false;
+
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalFileNode.class);
 
     public LocalFileNode(final File file) {
@@ -44,6 +51,22 @@ public class LocalFileNode extends DefaultMutableTreeNode {
 
     }
 
+    @Override
+    public void insert(MutableTreeNode arg0, int arg1) {
+        super.insert(arg0, arg1);
+        Collections.sort(this.children, nodeComparator);
+    }
+
+    protected static Comparator nodeComparator = new Comparator() {
+        public int compare(Object o1, Object o2) {
+            return o1.toString().compareToIgnoreCase(o2.toString());
+        }
+
+        public boolean equals(Object obj) {
+            return false;
+        }
+    };
+
     public void forceReloadOfChildrenOfThisNode() {
         cached = false;
         this.removeAllChildren();
@@ -74,12 +97,10 @@ public class LocalFileNode extends DefaultMutableTreeNode {
             return false;
         }
 
-
         LocalFileNode comparableAsNode = (LocalFileNode) obj;
 
         File thisFile = (File) getUserObject();
         File thatFile = (File) comparableAsNode.getUserObject();
-
 
         return thisFile.getAbsolutePath().equals(thatFile.getAbsolutePath());
     }

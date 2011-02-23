@@ -9,6 +9,7 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 
 /**
  * Access data about the configuration of Idrop
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IdropConfig {
@@ -19,17 +20,14 @@ public class IdropConfig {
         return idropProperties;
     }
 
-    public static IdropConfig instance() throws IdropException {
-        return new IdropConfig();
-    }
-
-    private IdropConfig() throws IdropException {
+    public IdropConfig() throws IdropException {
         IdropPropertiesHelper idropPropertiesHelper = new IdropPropertiesHelper();
         this.idropProperties = idropPropertiesHelper.loadIdropProperties();
     }
 
     /**
      * Does iDrop need to display policy-aware features?
+     * 
      * @return <code>boolean</code> that will be <code>true</code> if policy features are displayed.
      */
     public boolean isPolicyAware() {
@@ -45,7 +43,8 @@ public class IdropConfig {
     }
 
     /**
-     * Does iDrop need to display advanced options?  Otherwise, a simpler client is presented
+     * Does iDrop need to display advanced options? Otherwise, a simpler client is presented
+     * 
      * @return <code>boolean</code> that will be <code>true</code> if policy features are displayed.
      */
     public boolean isAdvancedView() {
@@ -72,6 +71,7 @@ public class IdropConfig {
 
     /**
      * Should iDrop display a preset login limited to a user's home directory?
+     * 
      * @return
      */
     public boolean isLoginPreset() {
@@ -87,11 +87,13 @@ public class IdropConfig {
 
     /**
      * Should successful transfers be logged to the internal database?
+     * 
      * @return
      */
     public boolean isLogSuccessfulTransfers() {
         boolean logSuccessful = false;
-        String logSuccessfulTransfers = idropProperties.getProperty(IdropPropertiesHelper.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES);
+        String logSuccessfulTransfers = idropProperties
+                .getProperty(IdropPropertiesHelper.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES);
 
         if (logSuccessfulTransfers != null && logSuccessfulTransfers.equals("true")) {
             logSuccessful = true;
@@ -101,7 +103,9 @@ public class IdropConfig {
     }
 
     /**
-     * Should I have a rolling log in the user dir?  Will return null of no logging desired, otherwise, will return a log level
+     * Should I have a rolling log in the user dir? Will return null of no logging desired, otherwise, will return a log
+     * level
+     * 
      * @return
      */
     public String getLogLevelForRollingLog() {
@@ -142,7 +146,7 @@ public class IdropConfig {
             rfa.setMaximumFileSize(1000000);
             rootLogger.addAppender(rfa);
         } catch (IOException e) {
-            //  e.printStackTrace();
+            // e.printStackTrace();
         }
 
     }
