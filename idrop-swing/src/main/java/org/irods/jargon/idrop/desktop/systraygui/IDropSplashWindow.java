@@ -93,7 +93,6 @@ public class IDropSplashWindow extends JWindow implements Runnable {
      *            An integer value from 0 to 100
      */
     public void setStatus(String msg, int value) {
-        System.out.println(value);
         jProgressBar1.setString(msg);
         jProgressBar1.setValue(value);
     }
@@ -179,8 +178,12 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             }
 
             setStatus("Starting Queue...", ++count);
-            QueueThread queueThread = new QueueThread(iDrop);
-            queueThread.start();
+            try {
+                QueueThread queueThread = new QueueThread(iDrop);
+                queueThread.start();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
 
             try {
                 Thread.sleep(500);
