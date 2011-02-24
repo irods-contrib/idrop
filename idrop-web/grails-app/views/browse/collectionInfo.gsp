@@ -12,7 +12,7 @@ Collection:</label> <g:textField name="collectionParentName"
 	
 <label for="tags">Tags:</label> <g:textField name="tags"
 	value="${tags.spaceDelimitedTagsForDomain}" /> <br />
-
-
-
+	
+<button type="button" id="updateTags" value="updateTags" onclick="updateTags()")>Update Tags</button>
+	
 </fieldset>

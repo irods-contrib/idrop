@@ -55,7 +55,6 @@ class BrowseController {
 		def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 		def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
 		log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
-		//render(view:"loadTree",model:[collectionAndDataObjectList:collectionAndDataObjectList, parent:parent])
 		render collectionAndDataObjectList as JSON
 	}
 

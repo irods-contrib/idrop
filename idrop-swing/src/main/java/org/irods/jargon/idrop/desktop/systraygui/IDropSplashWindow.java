@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
-import javax.swing.JWindow;
+import javax.swing.JWindow; 
 import javax.swing.SwingWorker;
 
 import org.irods.jargon.core.exception.JargonException;
@@ -17,6 +17,7 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transferengine.TransferManager;
+import org.irods.jargon.transferengine.TransferManagerImpl;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -26,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class IDropSplashWindow extends JWindow implements Runnable {
 
     /**
-     * 
+     *  
      */
     private static final long serialVersionUID = 1L;
 
@@ -168,8 +169,8 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                  * the status of the queue. This app listens to the TransferManager to receive updates about what the
                  * queue is doing.
                  */
-
-                TransferManager transferManager = TransferManager.instanceWithCallbackListenerAndUserLevelDatabase(
+ 
+                TransferManager transferManager = TransferManagerImpl.instanceWithCallbackListenerAndUserLevelDatabase(
                         iDrop, iDrop.getiDropCore().getIdropConfig().isLogSuccessfulTransfers(), iDrop.getiDropCore()
                                 .getIdropConfig().getTransferDatabaseName());
                 iDrop.getiDropCore().setTransferManager(transferManager);

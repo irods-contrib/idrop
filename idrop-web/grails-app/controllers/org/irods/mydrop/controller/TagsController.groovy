@@ -5,8 +5,11 @@ import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.jargon.usertagging.UserTagCloudService
+import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.domain.UserTagCloudView
 import org.springframework.security.core.context.SecurityContextHolder
+import org.irods.jargon.core.exception.*
+
 
 class TagsController {
 	
@@ -31,6 +34,9 @@ class TagsController {
 
     def index = { }
 	
+	/**
+	 * Retrieve a tag cloud for the user
+	 */
 	def tagCloud = {
 		
 		log.info("getting tag cloud for user: ${irodsAccount}")
@@ -39,6 +45,30 @@ class TagsController {
 		def entries = userTagCloudView.getTagCloudEntries().values()
 		render(view:"tagCloud", model:[tagCloud:entries])
 
+	}
+	
+	/**
+	 * update the tag for the collection or data object based on a free tag string 
+	 */
+	def updateTags = {
+		def absPath = params['absPath']
+		def tagString = params['tags']
+		
+		
+		if (absPath == null || absPath.length == 0) {
+			throw new JargonException("no absPath passed to method")
+		}
+		
+		if (tagString == null) {
+			throw new JargonRuntimeException("null tags passed to method")
+		}
+		
+		log.info("updating tags for file: ${absPath} for user: ${irodsAccount.userName}")
+		
+		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
+		freeTaggingService.updateTagsForUserForADataObjectOrCollection(absPath, irodsAccount.userName, tags)
+		log.info("tags updated")
+		
 	}
 	
 }

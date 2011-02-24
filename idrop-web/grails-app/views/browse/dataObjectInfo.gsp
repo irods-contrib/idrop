@@ -18,7 +18,7 @@ Collection:</label> <g:textField name="collectionName"
 
 <label for="tags">Tags:</label> <g:textField name="tags"
 	value="${tags.spaceDelimitedTagsForDomain}" /> <br />
-
-
+	
+<button type="button" id="updateTags" value="updateTags" onclick="updateTags()")>Update Tags</button>
 
 </fieldset>

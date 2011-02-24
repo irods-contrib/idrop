@@ -87,7 +87,6 @@ function nodeTreeRetrievedViaAjax(targetNode, jsonData) {
  * @return
  */
 // get rid of
-
 function buildDataForNodeRequest(n) {
 	var nodeData = {
 		"dir" : "/"
@@ -122,25 +121,24 @@ function browserFirstViewRetrieved(data) {
 				}
 			}
 		},
-		 "types" : {
-	           "types": {
-	                "file" : {
-	                    "valid_children" : "none",
-	                    "icon" : {
-	                        "image" : context + "/images/file.png"
-	                    }
-	                },
-	                "folder" : {
-	                    "valid_children" : [ "default", "folder", "file" ],
-	                    "icon" : {
-	                        "image" : context + "/images/folder.png"
-	                    }
-	                }
-		 }
+		"types" : {
+			"types" : {
+				"file" : {
+					"valid_children" : "none",
+					"icon" : {
+						"image" : context + "/images/file.png"
+					}
+				},
+				"folder" : {
+					"valid_children" : [ "default", "folder", "file" ],
+					"icon" : {
+						"image" : context + "/images/folder.png"
+					}
+				}
+			}
 
-	        },
+		},
 
-	  
 		"themes" : {
 			"theme" : "default",
 			"url" : context + "/css/style.css",
@@ -149,17 +147,16 @@ function browserFirstViewRetrieved(data) {
 		},
 		"plugins" : [ "json_data", "types", "ui", "crmm", "themes" ]
 	});
-	
-	$("#dataTreeDiv").bind("select_node.jstree", function (e, data) {
-		 // alert(data.rslt.obj); // this is the object that was clicked
+
+	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
+		// alert(data.rslt.obj); // this is the object that was clicked
 		nodeSelected(e, data.rslt.obj);
-		});
+	});
 
-
-
-	/*dataTree.live("click", function(event, data) {
-		nodeSelected(event, data)
-	});*/
+	/*
+	 * dataTree.live("click", function(event, data) { nodeSelected(event, data)
+	 * });
+	 */
 
 }
 
@@ -181,10 +178,10 @@ function nodeLoadedCallback() {
  */
 function nodeSelected(event, data) {
 	// given the path, put in the node data
-		
+
 	var id = data[0].id;
-	lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath=" + id, "#infoDiv",
-			"#infoDiv", null);
+	lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath=" + id,
+			"#infoDiv", "#infoDiv", null);
 
 }
 
@@ -216,4 +213,8 @@ function isThisNodeLoaded(node) {
 	return obj == -1 || !obj || obj.is(".jstree-open, .jstree-leaf")
 			|| obj.children("ul").children("li").size() > 0;
 
+}
+
+function updateTags() {
+	alert("updating tags");
 }
