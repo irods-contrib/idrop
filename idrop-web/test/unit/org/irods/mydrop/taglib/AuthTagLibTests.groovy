@@ -1,5 +1,4 @@
 package org.irods.mydrop.taglib
-
 import grails.test.*
 
 class AuthTagLibTests extends TagLibUnitTestCase {
@@ -12,6 +11,6 @@ class AuthTagLibTests extends TagLibUnitTestCase {
     }
 
     void testSomething() {
-
+		
     }
 }

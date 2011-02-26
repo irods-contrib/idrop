@@ -11,6 +11,7 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.testutils.TestingPropertiesHelper
+import org.irods.jargon.usertagging.FreeTaggingService;
 import org.irods.jargon.usertagging.UserTagCloudService
 import org.irods.jargon.usertagging.domain.UserTagCloudView
 import org.irods.jargon.usertagging.domain.IRODSTagValue
@@ -61,4 +62,29 @@ class TagsControllerTests extends ControllerUnitTestCase {
 		assertNotNull("null tagView in model", tagView)
 		
 	}
+	
+	void testUpdateTags() {
+		testingPropertiesHelper = new TestingPropertiesHelper()
+		testingProperties = testingPropertiesHelper.getTestProperties()
+		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
+		FreeTaggingService freeTaggingService = Mockito.mock(FreeTaggingService.class)
+		TaggingServiceFactory taggingServiceFactory = Mockito.mock(TaggingServiceFactory.class)
+		//Mockito.when(freeTaggingService.updateTagsForUserForADataObjectOrCollection(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+		Mockito.when(taggingServiceFactory.instanceFreeTaggingService(irodsAccount)).thenReturn(freeTaggingService)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.taggingServiceFactory = taggingServiceFactory
+		controller.irodsAccount = irodsAccount
+		def tags = "tag1 tag2 tag3"
+		def user = irodsAccount.getUserName()
+		def absPath = "abspath"
+		controller.params.absPath = absPath
+		controller.params.tags = tags
+		controller.updateTags()
+		Mockito.verify(freeTaggingService).updateTagsForUserForADataObjectOrCollection(absPath, user, tags)
+
+		
+	}
+	
+	
+	
 }

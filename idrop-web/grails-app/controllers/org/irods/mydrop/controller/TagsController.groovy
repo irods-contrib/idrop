@@ -51,11 +51,11 @@ class TagsController {
 	 * update the tag for the collection or data object based on a free tag string 
 	 */
 	def updateTags = {
-		def absPath = params['absPath']
+		String absPath = params['absPath']
 		def tagString = params['tags']
 		
 		
-		if (absPath == null || absPath.length == 0) {
+		if (absPath == null || absPath.isEmpty()) {
 			throw new JargonException("no absPath passed to method")
 		}
 		
@@ -66,7 +66,7 @@ class TagsController {
 		log.info("updating tags for file: ${absPath} for user: ${irodsAccount.userName}")
 		
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
-		freeTaggingService.updateTagsForUserForADataObjectOrCollection(absPath, irodsAccount.userName, tags)
+		freeTaggingService.updateTagsForUserForADataObjectOrCollection(absPath, irodsAccount.userName, tagString)
 		log.info("tags updated")
 		
 	}
