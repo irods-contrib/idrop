@@ -21,79 +21,6 @@ function retrieveBrowserFirstView() {
 			browserFirstViewRetrieved);
 }
 
-// get rid of
-function useAjaxToRetrieveATreeNode(node, path) {
-	var url = "/browse/loadTree";
-	strPath = "";
-	// make path into a parameter for 'dir'
-	for (i = 0; i < path.length; i++) {
-		if (path[i] == "/") {
-			// skip
-		} else {
-			strPath += "/";
-			strPath += path[i];
-		}
-	}
-
-	parms = {
-		"dir" : strPath
-	};
-
-	lcSendValueAndCallbackWithJsonAfterErrorCheck(url, parms, "#dataTreeDiv",
-			function(data) {
-				nodeTreeRetrievedViaAjax(node, data);
-			});
-
-}
-
-// get rid of
-function nodeTreeRetrievedViaAjax(targetNode, jsonData) {
-
-	var directoryList = jsonData.directoryList;
-
-	if (directoryList == null) {
-		synchronizeDetailView(targetNode, path);
-		return;
-	}
-
-	for (i = 0; i < directoryList.length; i++) {
-		var entry = directoryList[i];
-		var nodeData = {}
-		if (entry.file == true) {
-			nodeData = {
-
-				"data" : entry.data.substring(entry.data.lastIndexOf("/") + 1)
-			};
-		} else {
-			nodeData = {
-				"state" : "closed",
-				"data" : entry.data.substring(entry.data.lastIndexOf("/") + 1)
-			};
-		}
-
-		$.jstree._reference(targetNode).create_node(targetNode, "last",
-				nodeData, nodeLoadedCallback);
-	}
-
-	synchronizeDetailView(targetNode, path);
-	$.jstree._reference(targetNode).toggle_node(targetNode, false, false);
-
-}
-
-/**
- * handy method to build the parms for an ajax request for the given path
- * 
- * @param n
- * @return
- */
-// get rid of
-function buildDataForNodeRequest(n) {
-	var nodeData = {
-		"dir" : "/"
-	};
-	return nodeData;
-}
-
 /**
  * Callback to initialize a browser tree for the first time, set to the root
  * node as indicated in the data
@@ -149,15 +76,10 @@ function browserFirstViewRetrieved(data) {
 	});
 
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
-		// alert(data.rslt.obj); // this is the object that was clicked
 		nodeSelected(e, data.rslt.obj);
 	});
 
-	/*
-	 * dataTree.live("click", function(event, data) { nodeSelected(event, data)
-	 * });
-	 */
-
+	
 }
 
 /**
@@ -185,36 +107,12 @@ function nodeSelected(event, data) {
 
 }
 
-/**
- * Event callback to synchronize a detail view with the selected node as the
- * parent
- * 
- * @param node
- *            tree node that should be synchronized to
- * @param path
- *            path array of the given node
- * @return
+/***
+ * Linked to update tags button on info view, update the tags in iRODS
  */
-function synchronizeDetailView(node, path) {
-	// alert("synch");
-	// put build of data tree table view
-}
-
-/**
- * Determine if this node has been loaded (that the dir contents are retrieved
- * via ajax call)
- * 
- * @param node
- *            tree node in question
- * @return true if node is loaded already
- */
-function isThisNodeLoaded(node) {
-
-	return obj == -1 || !obj || obj.is(".jstree-open, .jstree-leaf")
-			|| obj.children("ul").children("li").size() > 0;
-
-}
-
 function updateTags() {
-	alert("updating tags");
+	var infoTagsVal = $("#infoTags").val();
+	var absPathVal = $("#infoAbsPath").val();
+	var params = {absPath:absPathVal, tags:infoTagsVal}
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags", params,"#infoUpdateArea","#infoUpdateArea", function() {$("#infoUpdateArea").html("Tags updated");});
 }

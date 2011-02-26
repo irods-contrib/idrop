@@ -15,6 +15,8 @@
 <g:javascript library="jquery-1.4.4.min" />
 <g:javascript library="jquery-ui-1.8.7.custom.min" />
 <g:javascript library="mydrop/lingo_common" />
+<g:javascript library="mydrop/main" />
+
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">
 	context = "${request.contextPath}";

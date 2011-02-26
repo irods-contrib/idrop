@@ -35,6 +35,11 @@ class BrowseController {
 		irodsAccount = irodsAuthentication.irodsAccount
 		log.debug("retrieved account for request: ${irodsAccount}")
 	}
+	
+	def afterInterceptor = {
+		log.debug("closing the session")
+		irodsAccessObjectFactory.closeSession()
+	}
 
 
 	/**
