@@ -1,4 +1,4 @@
-/*
+/**
 Common functions for iRODS web applications
 
 Author: Mike Conway
@@ -12,7 +12,7 @@ var dataAccessFailure = "dataAccessFailure";
 var javascriptMessageArea = "#javascript_message_area";
 var context = "";
 
-/*
+/**
  * Prepare for a call (usually an ajax call) doing things like clearing the
  * message area
  */
@@ -21,7 +21,7 @@ function prepareForCall() {
 	$(javascriptMessageArea).html();
 }
 
-/*
+/**
  * check HTML coming back from an AJAX call for an indication of an error, and
  * if an error is found, then set the message in the div using the given id.
  * Then the appropriate exception will be thrown.
@@ -68,7 +68,7 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
 
 }
 
-/*
+/**
  * Set the specified (by jquery selector) message area message to a given
  * string.
  * 
@@ -77,7 +77,7 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
 function setMessageInArea(messageAreaId, message) {
 	$(messageAreaId).html(message);
 }
-/*
+/**
  * Set the default message area message to a given string. The target will be a
  * message area denoted on the web page by the javascriptMessageArea div id.
  * 
@@ -87,7 +87,7 @@ function setMessage(message) {
 	$(javascriptMessageArea).html(message);
 }
 
-/*
+/**
  * Given the result of an AJAX call, inspect the returned data for various types
  * of errors, set the message, and throw an appropriate exception.
  */
@@ -126,11 +126,13 @@ function checkAjaxResultForError(resultHtml) {
 	}
 }
 
-/*
+/**
  * Send a query via ajax that results in an HTML table to be displayed as a
  * JQuery data table
  * 
- * @param getUrl - url for ajax call as GET
+ * @param getUrl - url for ajax call as GET, context will be pre-pended, supply the leading '/'
+ * 
+ * @param params - map of parameters to add to the get
  * 
  * @param tableDiv - selector for the div where the table HTML response will be
  * placed
@@ -140,7 +142,7 @@ function checkAjaxResultForError(resultHtml) {
  * @param detailsFunction - function pointer for click event handler to be
  * attached to each table node
  */
-function lcSendValue(getUrl, tableDiv, newTableId, detailsFunction) {
+function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId, detailsFunction) {
 
 	prepareForCall();
 	if (getUrl.length == 0) {
@@ -154,7 +156,7 @@ function lcSendValue(getUrl, tableDiv, newTableId, detailsFunction) {
 
 	try {
 
-		$.get(getUrl, function(data) {
+		$.get(context + getUrl, params, function(data) {
 			checkAjaxResultForError(data);
 			lcBuildTable(data, tableDiv, newTableId, detailsFunction);
 		}, "html");
@@ -174,7 +176,7 @@ function lcSendValue(getUrl, tableDiv, newTableId, detailsFunction) {
 
 }
 
-/*
+/**
  * Function called by ajax action as response handler. Builds the data table
  * 
  * @param data - results from ajax call in | delimited format for parsing @param
@@ -186,7 +188,9 @@ function lcSendValue(getUrl, tableDiv, newTableId, detailsFunction) {
  */
 function lcBuildTable(data, tableDiv, newTableId, detailsFunction) {
 	$(tableDiv).html(data);
-	var dataTableCreated = $(newTableId).dataTable();
+	var dataTableCreated = $(newTableId).dataTable({
+			"bJQueryUI": true
+});
 
 	if (detailsFunction != null) {
 		$('.detail_icon', dataTableCreated.fnGetNodes()).each(detailsFunction);
@@ -194,9 +198,9 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction) {
 
 }
 
-/*
- * Close table nodes when using +/- details icon @param dataTable - reference to
- * jquery dataTable (not a selector, the table)
+/**
+ * Close table nodes when using +/- details icon 
+ * @param dataTable - reference to jquery dataTable (not a selector, the table)
  */
 function lcCloseTableNodes(dataTable) {
 	$(dataTable.fnGetNodes()).each(function() {
@@ -210,10 +214,11 @@ function lcCloseTableNodes(dataTable) {
 	});
 }
 
-/*
- * close an individual details node on a data table @param - minMaxIcon - icon
- * as styled by the jquery ui css class @param - rowActionIsOn - selected node
- * to close @dataTable - reference to JQuery dataTable
+/**
+ * close an individual details node on a data table 
+ *  @param - minMaxIcon - icon as styled by the jquery ui css class
+ *  @param - rowActionIsOn - selected node to close 
+ *  @dataTable - reference to JQuery dataTable
  */
 function lcCloseDetails(minMaxIcon, rowActionIsOn, dataTable) {
 	/* This row is already open - close it */
@@ -221,7 +226,7 @@ function lcCloseDetails(minMaxIcon, rowActionIsOn, dataTable) {
 	dataTable.fnClose(rowActionIsOn);
 }
 
-/*
+/**
  * Send a query via ajax that results in html plugged into the correct div
  */
 function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
@@ -259,7 +264,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 
 }
 
-/*
+/**
  * Send a query via ajax GET request that results in html plugged into the correct div
  */
 function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
@@ -349,7 +354,7 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params, divFo
 
 }
 
-/*
+/**
  * Send a query via ajax that results in json that will be returned to a
  * callback function
  */

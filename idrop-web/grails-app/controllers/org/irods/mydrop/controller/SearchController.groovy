@@ -1,11 +1,13 @@
-package idrop.web
+package org.irods.mydrop.controller
 
-import org.irods.jargon.core.connection.IRODSAccount;
-import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
-import org.irods.jargon.usertagging.TaggingServiceFactory;
+import org.irods.jargon.core.connection.*
+import org.irods.jargon.core.exception.*
+import org.irods.jargon.core.pub.*
+import org.irods.jargon.usertagging.TaggingServiceFactory
+import org.springframework.security.core.context.SecurityContextHolder
 
 class SearchController {
-	
+
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TaggingServiceFactory taggingServiceFactory
 	IRODSAccount irodsAccount
@@ -23,11 +25,35 @@ class SearchController {
 		irodsAccount = irodsAuthentication.irodsAccount
 		log.debug("retrieved account for request: ${irodsAccount}")
 	}
-	
+
 	def afterInterceptor = {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
 	}
 
-    def index = { }
+	/**
+	 * Search iRODS files and collections
+	 */
+	def search = {
+
+		String searchTerm = params['searchTerm']
+		String searchType = params['searchType']
+
+		if (searchTerm == null || searchTerm.isEmpty()) {
+			throw new JargonException("no searchTerm passed to the method")
+		}
+
+		if (searchType == null || searchType.isEmpty()) {
+			throw new JargonException("no searchType passed to the method")
+		}
+
+		log.info "search for term: ${searchTerm}"
+		
+		if (searchType=="file") {
+			log.info "search for file name"
+			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+			def results = collectionAndDataObjectListAndSearchAO.searchCollectionsAndDataObjectsBasedOnName(searchTerm);
+			render(view:"searchResult", model:[results:results])
+		}
+	}
 }
