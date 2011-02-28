@@ -173,7 +173,7 @@
     	<version>${jargon.version}</version>
       </dependency>
       <dependency>
-    	<groupId>org.irods.jargon</groupId>
+    	<groupId>org.irods.jargon.transfer</groupId>
     	<artifactId>jargon-transfer-engine</artifactId>
     	<version>${jargon.version}</version>
       </dependency>
@@ -336,7 +336,7 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>org.irods.jargon</groupId>
+      <groupId>org.irods.jargon.transfer</groupId>
       <artifactId>jargon-transfer-engine</artifactId>
     </dependency>
   </dependencies>
