@@ -3,8 +3,12 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
 import org.irods.jargon.core.pub.*
+import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
+import org.irods.jargon.usertagging.domain.TagQuerySearchResult
 import org.springframework.security.core.context.SecurityContextHolder
+import org.irods.jargon.usertagging.TaggingServiceFactory
+
 
 class SearchController {
 
@@ -54,6 +58,11 @@ class SearchController {
 			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 			def results = collectionAndDataObjectListAndSearchAO.searchCollectionsAndDataObjectsBasedOnName(searchTerm);
 			render(view:"searchResult", model:[results:results])
+		} else if (searchType=="tag") {
+			log.info "search based on tag"
+			FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
+			TagQuerySearchResult searchResult = freeTaggingService.searchUsingFreeTagString(searchTerm)
+			render(view:"searchResult", model:[results:searchResult.queryResultEntries])
 		}
 	}
 }

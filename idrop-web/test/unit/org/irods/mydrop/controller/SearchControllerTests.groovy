@@ -11,14 +11,16 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
+import org.irods.jargon.usertagging.FreeTaggingService;
 import org.irods.jargon.usertagging.domain.IRODSTagGrouping
+import org.irods.jargon.usertagging.domain.TagQuerySearchResult;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.mockito.Mockito
 import org.springframework.security.core.context.SecurityContextHolder
 
 class SearchControllerTests extends ControllerUnitTestCase {
 	
-  IRODSAccessObjectFactory irodsAccessObjectFactory
+	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 	Properties testingProperties
 	TestingPropertiesHelper testingPropertiesHelper
@@ -99,6 +101,39 @@ class SearchControllerTests extends ControllerUnitTestCase {
 		controller.params.searchType = searchType
 		shouldFail(JargonException) { controller.search() }
 	}
+	
+	void testSearchTag() {
+		def searchTerm = "searchTerm"
+		def searchType = "tag"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		
+		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
+		
+		FreeTaggingService freeTaggingService = Mockito.mock(FreeTaggingService.class)
+		def entries = new ArrayList<CollectionAndDataObjectListingEntry>()
+		tagQuerySearchResult = TagQuerySearchResult.instance("tags", entries)
+		Mockito.when(freeTaggingService.searchUsingFreeTagString(searchTerm)).thenReturn(tagQuerySearchResult)
+		
+		TaggingServiceFactory taggingServiceFactory = Mockito.mock(TaggingServiceFactory.class)
+		Mockito.when(taggingServiceFactory.instanceFreeTaggingService(irodsAccount)).thenReturn(freeTaggingService)
+		
+		
+		controller.irodsAccount = irodsAccount
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.params.searchTerm = searchTerm
+		controller.params.searchType = searchType
+		controller.search()
+		def mav = controller.modelAndView
+		def name = mav.viewName
+		
+		assertNotNull("null mav", mav)
+		assertEquals("view name should be searchResult", "searchResult", name)
+		def resultObj = mav.model.results
+		assertNotNull("null results", resultObj)
+
+	}
+	
 	
 	
 }

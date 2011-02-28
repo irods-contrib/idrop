@@ -6,7 +6,9 @@
 
 function search() {
 		var searchTerm = $("#searchTerm").val();
+		var searchType = $("#searchType").val();
+
 		$('#tabs').tabs({ selected: 1 }); // activate search results tab
-		prosecuteSearch(searchTerm, "file");
+		prosecuteSearch(searchTerm, searchType);
 }
 
