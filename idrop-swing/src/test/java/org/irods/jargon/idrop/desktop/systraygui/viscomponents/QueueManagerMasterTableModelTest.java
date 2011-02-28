@@ -1,16 +1,17 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
-import java.lang.Class;
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.irods.jargon.transferengine.domain.LocalIRODSTransfer;
+
+import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *

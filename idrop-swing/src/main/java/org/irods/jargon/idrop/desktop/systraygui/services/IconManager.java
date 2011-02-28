@@ -1,7 +1,7 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
-import org.irods.jargon.transferengine.TransferManager;
+import org.irods.jargon.transfer.engine.TransferManager;
 
 /**
  * Manager of icons for the system gui based on the status.

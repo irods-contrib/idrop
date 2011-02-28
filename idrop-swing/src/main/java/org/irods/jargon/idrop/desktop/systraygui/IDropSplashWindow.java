@@ -2,22 +2,18 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
-import javax.swing.JWindow; 
+import javax.swing.JWindow;
 import javax.swing.SwingWorker;
 
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropException;
-import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transferengine.TransferManager;
-import org.irods.jargon.transferengine.TransferManagerImpl;
+import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -94,7 +90,6 @@ public class IDropSplashWindow extends JWindow implements Runnable {
      *            An integer value from 0 to 100
      */
     public void setStatus(String msg, int value) {
-        System.out.println(value);
         jProgressBar1.setString(msg);
         jProgressBar1.setValue(value);
     }
@@ -136,8 +131,9 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 iDrop.getiDropCore().setIdropConfig(config);
                 iDrop.getiDropCore().setIconManager(new IconManager(iDrop));
             } catch (IdropException ex) {
-                Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-                throw new IdropRuntimeException("unable to load iDrop configuration", ex);
+                logger.error(ex.getMessage());
+                MessageManager.showError(IDropSplashWindow.this, ex.getMessage(), "Failed to load iDrop configuration");
+                System.exit(1);
             }
 
             try {
@@ -169,17 +165,17 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                  * the status of the queue. This app listens to the TransferManager to receive updates about what the
                  * queue is doing.
                  */
- 
-                TransferManager transferManager = TransferManagerImpl.instanceWithCallbackListenerAndUserLevelDatabase(
-                        iDrop, iDrop.getiDropCore().getIdropConfig().isLogSuccessfulTransfers(), iDrop.getiDropCore()
-                                .getIdropConfig().getTransferDatabaseName());
+                TransferManager transferManager = new TransferManager(iDrop, iDrop.getiDropCore().getIdropConfig()
+                        .isLogSuccessfulTransfers());
                 iDrop.getiDropCore().setTransferManager(transferManager);
             } catch (JargonException e1) {
                 logger.error(e1.getMessage());
+                MessageManager.showError(IDropSplashWindow.this, e1.getMessage(), "Failed to start Transfer Engine");
                 System.exit(1);
             }
 
             setStatus("Starting Queue...", ++count);
+
             QueueThread queueThread = new QueueThread(iDrop);
             queueThread.start();
 
@@ -188,6 +184,8 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            iDrop.getiDropCore().getTransferManager().getCurrentQueue();
             dispose();
             return null;
         }

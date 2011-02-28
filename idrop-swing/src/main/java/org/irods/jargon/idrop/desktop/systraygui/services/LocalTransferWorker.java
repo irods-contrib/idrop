@@ -1,12 +1,10 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import javax.swing.SwingWorker;
+
 import org.irods.jargon.core.connection.IRODSAccount;
-import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.transfer.TransferStatus;
-import org.irods.jargon.core.transfer.TransferStatusCallbackListener;
 import org.irods.jargon.idrop.exceptions.IdropException;
-import org.irods.jargon.transferengine.TransferManager;
+import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
 
 /**
