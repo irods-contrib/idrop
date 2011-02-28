@@ -5,16 +5,19 @@
 
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Date;
-import org.irods.jargon.transferengine.domain.LocalIRODSTransfer;
-import org.irods.jargon.transferengine.domain.LocalIRODSTransferItem;
+
+import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
+import org.irods.jargon.transfer.dao.domain.LocalIRODSTransferItem;
+import org.irods.jargon.transfer.dao.domain.TransferStatus;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -38,7 +41,7 @@ public class QueueManagerDetailTableModelTest {
         localIRODSTransfer.setId(new Long(1));
         localIRODSTransfer.setIrodsAbsolutePath("/hello/there");
         localIRODSTransfer.setTransferEnd(new Date());
-        localIRODSTransfer.setTransferErrorStatus("OK");
+        localIRODSTransfer.setTransferStatus(TransferStatus.OK);
         localIRODSTransfer.setTransferHost("host");
         localIRODSTransfer.setTransferPort(1247);
 

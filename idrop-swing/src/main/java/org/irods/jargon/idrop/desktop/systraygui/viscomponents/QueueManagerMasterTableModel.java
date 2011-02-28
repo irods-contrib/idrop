@@ -2,13 +2,16 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.Date;
 import java.util.List;
-import javax.swing.table.AbstractTableModel;
+
 import javax.swing.table.DefaultTableModel;
+
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transferengine.domain.LocalIRODSTransfer;
+import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.slf4j.LoggerFactory;
 
-/** * Model for a table viewing queue master data
+/**
+ * * Model for a table viewing queue master data
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class QueueManagerMasterTableModel extends DefaultTableModel {
@@ -21,7 +24,6 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
-
 
         // translate indexes to object values
 
@@ -49,7 +51,6 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
             return String.class;
         }
 
-
         // source
 
         if (columnIndex == 4) {
@@ -62,8 +63,6 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
             return String.class;
         }
 
-
-
         throw new IdropRuntimeException("unknown column");
     }
 
@@ -72,7 +71,6 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
-
 
         // translate indexes to object values
 
@@ -112,9 +110,9 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
             return "Destination";
         }
 
-
         throw new IdropRuntimeException("unknown column");
     }
+
     private List<LocalIRODSTransfer> localIRODSTransfers = null;
 
     public QueueManagerMasterTableModel(final List<LocalIRODSTransfer> localIRODSTransfers) {
@@ -169,7 +167,7 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
         // 2 = state
 
         if (columnIndex == 2) {
-            return localIRODSTransfer.getTransferErrorStatus();
+            return localIRODSTransfer.getTransferStatus();
         }
 
         // 3 =operation
@@ -180,34 +178,44 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
 
         // 4 = source path
 
+        String path = null;
         if (columnIndex == 4) {
-            if (localIRODSTransfer.getTransferType().equals(LocalIRODSTransfer.TRANSFER_TYPE_GET)) {
-                return localIRODSTransfer.getIrodsAbsolutePath();
-
-            } else if (localIRODSTransfer.getTransferType().equals(LocalIRODSTransfer.TRANSFER_TYPE_PUT)) {
-                return localIRODSTransfer.getLocalAbsolutePath();
-
-            } else if (localIRODSTransfer.getTransferType().equals(LocalIRODSTransfer.TRANSFER_TYPE_REPLICATE)) {
-                return localIRODSTransfer.getIrodsAbsolutePath();
-            } else {
-                log.error("unable to build details for transfer with transfer type of:{}", localIRODSTransfer.getTransferType());
-                return "";
+            switch (localIRODSTransfer.getTransferType()) {
+                case GET:
+                    path = localIRODSTransfer.getIrodsAbsolutePath();
+                    break;
+                case PUT:
+                case REPLICATE:
+                    path = localIRODSTransfer.getLocalAbsolutePath();
+                    break;
+                default:
+                    log.error("unable to build details for transfer with transfer type of:{}",
+                            localIRODSTransfer.getTransferType());
+                    path = "";
+                    break;
             }
+            return path;
         }
 
         // 5 = target path
-
         if (columnIndex == 5) {
-             if (localIRODSTransfer.getTransferType().equals(LocalIRODSTransfer.TRANSFER_TYPE_GET)) {
-                return localIRODSTransfer.getLocalAbsolutePath();
-            } else if (localIRODSTransfer.getTransferType().equals(LocalIRODSTransfer.TRANSFER_TYPE_PUT)) {
-                return localIRODSTransfer.getIrodsAbsolutePath();
-            } else if (localIRODSTransfer.getTransferType().equals(LocalIRODSTransfer.TRANSFER_TYPE_REPLICATE)) {
-                return "";
-            } else {
-                log.error("unable to build details for transfer with transfer type of:{}", localIRODSTransfer.getTransferType());
-                return "";
+            switch (localIRODSTransfer.getTransferType()) {
+                case GET:
+                    path = localIRODSTransfer.getLocalAbsolutePath();
+                    break;
+                case PUT:
+                    path = localIRODSTransfer.getIrodsAbsolutePath();
+                    break;
+                case REPLICATE:
+                    path = "";
+                    break;
+                default:
+                    log.error("unable to build details for transfer with transfer type of:{}",
+                            localIRODSTransfer.getTransferType());
+                    path = "";
+                    break;
             }
+            return path;
         }
 
         throw new IdropRuntimeException("unknown column");

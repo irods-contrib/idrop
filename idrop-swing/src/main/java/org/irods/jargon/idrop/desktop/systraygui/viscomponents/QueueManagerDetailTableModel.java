@@ -2,10 +2,11 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
+
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transferengine.domain.LocalIRODSTransfer;
-import org.irods.jargon.transferengine.domain.LocalIRODSTransferItem;
+import org.irods.jargon.transfer.dao.domain.LocalIRODSTransferItem;
 
 /**
  * Model for a table viewing queue detail data

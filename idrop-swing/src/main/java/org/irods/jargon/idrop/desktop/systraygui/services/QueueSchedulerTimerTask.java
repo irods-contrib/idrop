@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
-import org.irods.jargon.transferengine.TransferManager;
+import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
 
 /**

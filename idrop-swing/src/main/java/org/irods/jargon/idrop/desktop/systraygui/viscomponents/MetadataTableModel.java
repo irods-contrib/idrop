@@ -1,11 +1,11 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
-import java.util.Date;
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
+
 import org.irods.jargon.core.query.MetaDataAndDomainData;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transferengine.domain.LocalIRODSTransfer;
 import org.slf4j.LoggerFactory;
 
 /**
