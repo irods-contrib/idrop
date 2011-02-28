@@ -1,7 +1,8 @@
-package org.irods.mydrop.taglib
+package idrop.web
+
 import grails.test.*
 
-class AuthTagLibTests extends TagLibUnitTestCase {
+class SearchControllerTests extends ControllerUnitTestCase {
     protected void setUp() {
         super.setUp()
     }
@@ -11,6 +12,6 @@ class AuthTagLibTests extends TagLibUnitTestCase {
     }
 
     void testSomething() {
-		
+
     }
 }

@@ -1,18 +1,26 @@
 package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.jargon.usertagging.UserTagCloudService
 import org.irods.jargon.usertagging.domain.UserTagCloudView
+import org.jsoup.Jsoup
+import org.jsoup.safety.Whitelist
 import org.springframework.security.core.context.SecurityContextHolder
+
 
 class TagsController {
 	
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TaggingServiceFactory taggingServiceFactory
 	IRODSAccount irodsAccount
+	
+	def allowedMethods = [
+		updateTags:['POST']]
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -28,9 +36,17 @@ class TagsController {
 		log.debug("retrieved account for request: ${irodsAccount}")
 	}
 
+	
+	def afterInterceptor = { 
+		log.debug("closing any open sessions")
+		irodsAccessObjectFactory.closeSession()
+	}
 
     def index = { }
 	
+	/**
+	 * Retrieve a tag cloud for the user
+	 */
 	def tagCloud = {
 		
 		log.info("getting tag cloud for user: ${irodsAccount}")
@@ -39,6 +55,30 @@ class TagsController {
 		def entries = userTagCloudView.getTagCloudEntries().values()
 		render(view:"tagCloud", model:[tagCloud:entries])
 
+	}
+	
+	/**
+	 * update the tag for the collection or data object based on a free tag string 
+	 */
+	def updateTags = {
+		String absPath = params['absPath']
+		def tagString = Jsoup.clean(params['tags'], Whitelist.basic())
+
+		if (absPath == null || absPath.isEmpty()) {
+			throw new JargonException("no absPath passed to method")
+		}
+		
+		if (tagString == null) {
+			throw new JargonException("null tags passed to method")
+		}
+		
+		log.info("updating tags for file: ${absPath} for user: ${irodsAccount.userName}")
+		
+		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
+		freeTaggingService.updateTagsForUserForADataObjectOrCollection(absPath, irodsAccount.userName, tagString)
+		log.info("tags updated")
+		render "success"
+		
 	}
 	
 }

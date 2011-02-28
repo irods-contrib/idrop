@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 public class IDropSplashWindow extends JWindow implements Runnable {
 
     /**
-     * 
+     *  
      */
     private static final long serialVersionUID = 1L;
 

@@ -35,6 +35,11 @@ class BrowseController {
 		irodsAccount = irodsAuthentication.irodsAccount
 		log.debug("retrieved account for request: ${irodsAccount}")
 	}
+	
+	def afterInterceptor = {
+		log.debug("closing the session")
+		irodsAccessObjectFactory.closeSession()
+	}
 
 
 	/**
@@ -55,7 +60,6 @@ class BrowseController {
 		def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 		def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
 		log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
-		//render(view:"loadTree",model:[collectionAndDataObjectList:collectionAndDataObjectList, parent:parent])
 		render collectionAndDataObjectList as JSON
 	}
 

@@ -39,6 +39,7 @@ grails.project.dependency.resolution = {
 		compile 'org.springframework.security:spring-security-config:3.0.5.RELEASE'
 		compile 'org.springframework:spring-web:3.0.5.RELEASE'
 		compile 'javax.servlet:servlet-api:2.5'
+		compile 'org.jsoup:jsoup:0.2.2'
 		
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 		

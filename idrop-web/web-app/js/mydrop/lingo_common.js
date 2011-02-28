@@ -260,7 +260,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 }
 
 /*
- * Send a query via ajax that results in html plugged into the correct div
+ * Send a query via ajax GET request that results in html plugged into the correct div
  */
 function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 		divForLoadingGif, callbackFunction) {
@@ -278,6 +278,54 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 	try {
 
 		$.get(context + getUrl, function(data) {
+			checkAjaxResultForError(data);
+			$(divForLoadingGif).html("");
+			if (callbackFunction != null) {
+				var myHtml = data;
+				callbackFunction(myHtml);
+			} else {
+				$(divForLoadingGif).html(data);
+			}
+		}, "html");
+
+		$(divForAjaxError).ajaxError(function(e, xhr, settings, exception) {
+			$(divForLoadingGif).html("");
+			checkAjaxResultForError(xhr.responseText);
+		});
+
+	} catch (err) {
+		$(divForLoadingGif).html(""); // FIXME: some sort of error icon?
+		setMessage(err);
+		console.log("javascript error:" + err);
+	}
+
+}
+
+
+/**
+ * Send a query via ajax POST request that results in html plugged into the correct div
+ * @param postURL url String (sans web context, which is automatically appended) for the POST action
+ * @param params map with name/value params for the post data
+ * @param divForAjaxError JQuery selector for a DIV to display any Ajax error
+ * @param divForLoadingGif JQuery selector for a DIV in which to display a loading GIF, and then any response data
+ * @param callbackFunction optional function reference that will receive a callback
+ */
+function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params, divForAjaxError,
+		divForLoadingGif, callbackFunction) {
+
+	prepareForCall();
+	if (postUrl.length == 0) {
+		throw ("no post url for call");
+	}
+
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
+
+	$(divForLoadingGif).html(img);
+
+	try {
+
+		$.post(context + postUrl, params, function(data) {
 			checkAjaxResultForError(data);
 			$(divForLoadingGif).html("");
 			if (callbackFunction != null) {

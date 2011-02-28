@@ -1,5 +1,4 @@
-
-import org.springframework.security.core.context.SecurityContextHolder 
+package org.irods.mydrop.taglib
 
 class AuthTagLib {
 	
