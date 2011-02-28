@@ -5,7 +5,7 @@ import java.util.Timer;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
-import org.irods.jargon.transferengine.TransferManager;
+import org.irods.jargon.transfer.engine.TransferManager;
 
 public class IDROPCore {
 
