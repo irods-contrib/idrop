@@ -32,6 +32,9 @@ import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import javax.swing.TransferHandler;
@@ -85,6 +88,8 @@ import org.irods.jargon.usertagging.domain.TagQuerySearchResult;
 import org.irods.jargon.usertagging.domain.UserTagCloudView;
 import org.slf4j.LoggerFactory;
 
+import cookxml.cookswing.CookSwing;
+
 /**
  * Main system tray and GUI. Create system tray menu, start timer process for queue.
  * 
@@ -120,7 +125,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     private UserTagCloudView userTagCloudView = null;
 
-    private PreferencesDialog preferencesDialog = null;
+    private ChangePasswordDialog changePasswordDialog = null;
+
+    public static JDialog newPreferencesDialog;
+
+    public JCheckBox showGUICheckBox;
+
+    public JButton preferencesDialogOKButton;
 
     /**
      * Get the IRODSFileSystem that will be the source for all connections and references to access object and file
@@ -176,15 +187,28 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         tableSearchResults.addMouseListener(popupListener);
         tableSearchResults.getTableHeader().addMouseListener(popupListener);
 
+        if (trayIcon == null) {
+            trayIcon = new TrayIcon(createImage("images/dialog-ok-2.png", "tray icon"));
+        }
+        trayIcon.setImageAutoSize(true);
+
+        Toolkit t = getToolkit();
+        int width = t.getScreenSize().width;
+        int height = t.getScreenSize().height;
+
+        int showX = (width / 2) - (this.getWidth() / 2);
+        int showY = (height / 2) - (this.getHeight() / 2);
+        this.setLocation(showX, showY);
+
     }
 
     @Override
-    public void transferManagerErrorStatusUpdate(ErrorStatus es) {
+    public synchronized void transferManagerErrorStatusUpdate(ErrorStatus es) {
         iDropCore.getIconManager().setErrorStatus(es);
     }
 
     @Override
-    public void transferManagerRunningStatusUpdate(RunningStatus rs) {
+    public synchronized void transferManagerRunningStatusUpdate(RunningStatus rs) {
         iDropCore.getIconManager().setRunningStatus(rs);
     }
 
@@ -229,16 +253,20 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
      */
     public static void main(String args[]) {
 
-
         final iDrop iDropGui = new iDrop();
 
-        //splash work has to be done in different thread
+        // splash work has to be done in different thread
         final IDropSplashWindow splash = new IDropSplashWindow(iDropGui);
         new Thread(splash).run();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
+
+                CookSwing cookSwing = new CookSwing(iDropGui);
+                newPreferencesDialog = (JDialog) cookSwing.render("org/irods/jargon/idrop/preferencesDialog.xml");
+                boolean showGUI = iDropGui.getiDropCore().getPreferences().getBoolean("showGUI", true);
+                iDropGui.showGUICheckBox.setSelected(showGUI);
 
                 if (!iDropGui.getiDropCore().getIdropConfig().isAdvancedView()) {
                     iDropGui.toolBarInfo.setVisible(false);
@@ -252,6 +280,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 iDropGui.createAndShowSystemTray();
                 iDropGui.processQueueStartup();
                 // new IDrop().setVisible(true);
+
+                if (showGUI) {
+                    iDropGui.setUpLocalFileSelectTree();
+                    iDropGui.buildTargetTree();
+                    iDropGui.setVisible(true);
+                } else {
+                    MessageManager.showMessage(iDropGui,
+                            "iDrop has started.\nCheck your system tray to access the iDrop user interface.",
+                            "iDrop has started");
+                }
             }
         });
     }
@@ -266,6 +304,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
             public void run() {
                 Image newIcon = createImage(iconFile, "icon");
+
                 trayIcon.setImage(newIcon);
             }
         });
@@ -283,9 +322,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         final PopupMenu popup = new PopupMenu();
 
-        trayIcon = new TrayIcon(createImage("images/dialog-ok-2.png", "tray icon"));
-        trayIcon.setImageAutoSize(true);
-
         final SystemTray tray = SystemTray.getSystemTray();
 
         // iconManager = IconManager.instance(this);
@@ -294,6 +330,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         MenuItem aboutItem = new MenuItem("About");
         MenuItem iDropItem = new MenuItem("iDrop");
         MenuItem preferencesItem = new MenuItem("Preferences");
+        MenuItem changePasswordItem = new MenuItem("Change Password");
 
         iDropItem.addActionListener(this);
 
@@ -314,6 +351,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         errorItem.addActionListener(this);
         warningItem.addActionListener(this);
         preferencesItem.addActionListener(this);
+        changePasswordItem.addActionListener(this);
 
         logoutItem.addActionListener(this);
         pausedItem.addItemListener(this);
@@ -323,6 +361,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         popup.add(aboutItem);
         popup.add(iDropItem);
         popup.add(preferencesItem);
+        popup.add(changePasswordItem);
         popup.addSeparator();
         popup.add(displayMenu);
         displayMenu.add(currentItem);
@@ -409,7 +448,19 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
             aboutDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Preferences")) {
-            showPreferencesDialog();
+            showGUICheckBox.setSelected(getiDropCore().getPreferences().getBoolean("showGUI", true));
+            newPreferencesDialog.setVisible(true);
+        } else if (e.getActionCommand().equals("Change Password")) {
+
+            if (changePasswordDialog == null) {
+                changePasswordDialog = new ChangePasswordDialog(this, true);
+                Toolkit t = getToolkit();
+                int x = (t.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
+                int y = (t.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
+                changePasswordDialog.setLocation(x, y);
+            }
+            changePasswordDialog.setVisible(true);
+
         } else if (e.getActionCommand().equals("Recent")) {
 
             log.info("showing recent items in queue");
@@ -491,16 +542,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
             if (!this.formShown) {
 
-                Toolkit t = Toolkit.getDefaultToolkit();
-                int width = t.getScreenSize().width;
-                int height = t.getScreenSize().height;
-
-                int showX = (width / 2) - (this.getWidth() / 2);
-                int showY = (height / 2) - (this.getHeight() / 2);
                 this.setUpLocalFileSelectTree();
                 this.buildTargetTree();
                 this.formShown = true;
-                this.setLocation(showX, showY);
                 this.setVisible(true);
 
             } else {
@@ -1684,11 +1728,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         jMenuItemPreferences.setMnemonic('p');
         jMenuItemPreferences.setText("Preferences");
         jMenuItemPreferences.setToolTipText("Show the preferences panel");
-        jMenuItemPreferences.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPreferencesActionPerformed(evt);
-            }
-        });
+        jMenuItemPreferences.addActionListener(showPreferencesDialogActionListener);
         jMenuView.add(jMenuItemPreferences);
 
         jMenuBar1.add(jMenuView);
@@ -1697,6 +1737,27 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public ActionListener showPreferencesDialogActionListener = new ActionListener() {
+
+        private static final long serialVersionUID = 1L;
+
+        public void actionPerformed(ActionEvent e) {
+            newPreferencesDialog.setVisible(true);
+        }
+
+    };
+
+    public ActionListener okButtonPreferencesDialogActionListener = new ActionListener() {
+
+        private static final long serialVersionUID = 1L;
+
+        public void actionPerformed(ActionEvent e) {
+            getiDropCore().getPreferences().putBoolean("showGUI", showGUICheckBox.isSelected() ? true : false);
+            newPreferencesDialog.setVisible(false);
+        }
+
+    };
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {// GEN-FIRST:event_formWindowClosed
         this.setVisible(false);
@@ -1931,15 +1992,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     }// GEN-LAST:event_txtTagsKeyPressed
 
     /**
-     * The view menu of iDrop indicates that the user wants to show the preferences dialog
-     * 
-     * @param evt
-     */
-    private void jMenuItemPreferencesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItemPreferencesActionPerformed
-        showPreferencesDialog();
-    }// GEN-LAST:event_jMenuItemPreferencesActionPerformed
-
-    /**
      * Display the data replication dialog for the collection or data object depicted in the info panel
      * 
      * @param evt
@@ -2094,21 +2146,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         irodsTree.scrollPathToVisible(selPath);
         tabIrodsViews.setSelectedComponent(pnlTabHierarchicalView);
     }// GEN-LAST:event_menuItemShowInHierarchyActionPerformed
-
-    /**
-     * Common code to show the preferences dialog
-     */
-    private void showPreferencesDialog() {
-        if (preferencesDialog == null) {
-            preferencesDialog = new PreferencesDialog(this, true);
-            preferencesDialog.setLocation(
-                    (int) (preferencesDialog.getLocation().getX() + preferencesDialog.getWidth() / 2),
-                    (int) (preferencesDialog.getLocation().getY() + preferencesDialog.getHeight() / 2));
-            preferencesDialog.setVisible(true);
-        } else {
-            preferencesDialog.setVisible(true);
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMoveToTrash;
