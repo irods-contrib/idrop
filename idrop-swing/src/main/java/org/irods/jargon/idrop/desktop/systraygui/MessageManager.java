@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 /**
  * 
  * @author jdr0887
- *
+ * 
  */
 public class MessageManager {
 
@@ -17,6 +17,10 @@ public class MessageManager {
 
     public static void showWarning(Component rootComponent, String message, String title) {
         JOptionPane.showMessageDialog(rootComponent, message, title, JOptionPane.WARNING_MESSAGE);
+    }
+
+    public static void showMessage(Component rootComponent, String message, String title) {
+        JOptionPane.showMessageDialog(rootComponent, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
 }
