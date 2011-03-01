@@ -1,6 +1,7 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.util.Timer;
+import java.util.prefs.Preferences;
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
@@ -18,6 +19,8 @@ public class IDROPCore {
     private IconManager iconManager = null;
 
     private Timer queueTimer = new Timer();
+
+    private Preferences preferences = Preferences.userRoot();
 
     public IDROPCore() {
         super();
@@ -61,6 +64,14 @@ public class IDROPCore {
 
     public void setQueueTimer(Timer queueTimer) {
         this.queueTimer = queueTimer;
+    }
+
+    public Preferences getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(Preferences preferences) {
+        this.preferences = preferences;
     }
 
 }
