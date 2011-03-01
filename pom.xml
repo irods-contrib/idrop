@@ -299,6 +299,16 @@
 	<artifactId>swing-layout</artifactId>
 	<version>1.0.3</version>
       </dependency>
+      <dependency>
+	<groupId>cookxml</groupId>
+	<artifactId>cookswing</artifactId>
+	<version>1.5</version>
+      </dependency>
+      <dependency>
+	<groupId>cookxml</groupId>
+	<artifactId>cookxml</artifactId>
+	<version>3.0.1</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>    
   <dependencies>

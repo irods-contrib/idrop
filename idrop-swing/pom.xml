@@ -101,6 +101,14 @@
       <artifactId>swing-layout</artifactId>
     </dependency>
     <dependency>
+      <groupId>cookxml</groupId>
+      <artifactId>cookswing</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>cookxml</groupId>
+      <artifactId>cookxml</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.irods.jargon</groupId>
       <artifactId>jargon-security</artifactId>
     </dependency>
