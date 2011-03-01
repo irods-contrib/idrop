@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -44,30 +43,28 @@ public class LoginDialog extends JDialog {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LoginDialog.class);
 
-    private Preferences preferences = Preferences.userRoot();
-
     public LoginDialog(iDrop iDrop) {
         super(iDrop, true);
         this.iDrop = iDrop;
         initComponents();
 
         // predispose based on preferences
-        String host = this.preferences.get(PREF_LOGIN_HOST, null);
+        String host = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_HOST, null);
         if (StringUtils.isNotEmpty(host)) {
             txtHost.setText(host);
         }
 
-        String zone = this.preferences.get(PREF_LOGIN_ZONE, null);
+        String zone = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_ZONE, null);
         if (StringUtils.isNotEmpty(zone)) {
             txtZone.setText(zone);
         }
 
-        String resource = this.preferences.get(PREF_LOGIN_RESOURCE, null);
+        String resource = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_RESOURCE, null);
         if (StringUtils.isNotEmpty(resource)) {
             txtResource.setText(resource);
         }
 
-        String username = this.preferences.get(PREF_LOGIN_USERNAME, null);
+        String username = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_USERNAME, null);
         if (StringUtils.isNotEmpty(username)) {
             txtUserName.setText(username);
         }
@@ -168,10 +165,10 @@ public class LoginDialog extends JDialog {
         }
 
         // I figure at this point, it's safe to set the preferences...note that we are not caching password
-        preferences.put(PREF_LOGIN_HOST, txtHost.getText());
-        preferences.put(PREF_LOGIN_ZONE, txtZone.getText());
-        preferences.put(PREF_LOGIN_RESOURCE, txtResource.getText());
-        preferences.put(PREF_LOGIN_USERNAME, txtUserName.getText());
+        iDrop.getiDropCore().getPreferences().put(PREF_LOGIN_HOST, txtHost.getText());
+        iDrop.getiDropCore().getPreferences().put(PREF_LOGIN_ZONE, txtZone.getText());
+        iDrop.getiDropCore().getPreferences().put(PREF_LOGIN_RESOURCE, txtResource.getText());
+        iDrop.getiDropCore().getPreferences().put(PREF_LOGIN_USERNAME, txtUserName.getText());
 
         IRODSFileSystem irodsFileSystem = null;
         try {
