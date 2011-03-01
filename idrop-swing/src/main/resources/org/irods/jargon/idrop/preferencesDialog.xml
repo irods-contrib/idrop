@@ -1,0 +1,48 @@
+<dialog ctor="var:iDrop" var="preferencesDialog" title="Preferences" defaultcloseoperation="DISPOSE_ON_CLOSE"
+  modal="true" locationrelativeto="iDrop" size="400,200" resizable="false">
+  <panel>
+    <gridbaglayout>
+      <gridbagconstraints id="gbc" gridx="0" gridy="0" weightx="0.1" weighty="0.1" fill="BOTH">
+        <panel>
+          <titledborder title="Preferences" titlejustification="LEFT" titleposition="CENTER" titlefont="SansSerif,bold,14">
+            <etchedborder type="LOWERED" />
+          </titledborder>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc_props" gridx="0" gridy="0" weightx="0.1" weighty="0.0"
+              anchor="WEST">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc_props_form" gridx="0" gridy="0" weightx="0.1" weighty="0.0"
+                    insets="0,2,2,2" anchor="WEST">
+                    <panel>
+                      <checkbox var="showGUICheckBox" />
+                      <label text="Show iDrop User Interface on startup" font="SansSerif,bold,12" />
+                    </panel>
+                  </gridbagconstraints>
+                </gridbaglayout>
+              </panel>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+      </gridbagconstraints>
+      <idref ctor="gbc" gridy="1" weighty="0.05">
+        <panel>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc_button" gridx="0" gridy="0" weightx="0.0" weighty="0.1"
+              insets="2,2,2,2">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc_button_form" gridx="0" gridy="0" weightx="0.1" weighty="0.1"
+                    insets="2,2,2,2">
+                    <button text="OK" var="preferencesDialogOKButton" actionlistener="okButtonPreferencesDialogActionListener"
+                      font="SansSerif,bold,14" />
+                  </gridbagconstraints>
+                </gridbaglayout>
+              </panel>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+      </idref>
+    </gridbaglayout>
+  </panel>
+</dialog>
