@@ -16,9 +16,13 @@ var dataTree;
  * @return
  */
 function retrieveBrowserFirstView() {
-	var url = "/browse/ajaxDirectoryListingUnderParent";
-	lcSendValueAndCallbackWithJsonAfterErrorCheck(url, "dir=/", "#dataTreeDiv",
-			browserFirstViewRetrieved);
+	if (dataTree == null) {
+		var url = "/browse/ajaxDirectoryListingUnderParent";
+		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, "dir=/",
+				"#dataTreeDiv", browserFirstViewRetrieved);
+	} else {
+		
+	}
 }
 
 /**
@@ -79,7 +83,6 @@ function browserFirstViewRetrieved(data) {
 		nodeSelected(e, data.rslt.obj);
 	});
 
-	
 }
 
 /**
@@ -107,12 +110,18 @@ function nodeSelected(event, data) {
 
 }
 
-/***
+/**
  * Linked to update tags button on info view, update the tags in iRODS
  */
 function updateTags() {
 	var infoTagsVal = $("#infoTags").val();
 	var absPathVal = $("#infoAbsPath").val();
-	var params = {absPath:absPathVal, tags:infoTagsVal}
-	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags", params,"#infoUpdateArea","#infoUpdateArea", function() {$("#infoUpdateArea").html("Tags updated");});
+	var params = {
+		absPath : absPathVal,
+		tags : infoTagsVal
+	}
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
+			params, "#infoUpdateArea", "#infoUpdateArea", function() {
+				$("#infoUpdateArea").html("Tags updated");
+			});
 }

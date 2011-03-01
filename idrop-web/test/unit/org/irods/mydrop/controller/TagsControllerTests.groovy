@@ -135,6 +135,6 @@ class TagsControllerTests extends ControllerUnitTestCase {
 		def absPath = "abspath"
 		controller.params.absPath = "path"
 		controller.params.tags = null
-		shouldFail(JargonException) { controller.updateTags() }
+		shouldFail(IllegalArgumentException) { controller.updateTags() }
 	}
 }

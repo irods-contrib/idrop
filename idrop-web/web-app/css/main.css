@@ -121,12 +121,24 @@ div#tabs {
 /*  banner and top bar */
 #bannercontainer {
 	width: 800px;
-	height: 100px;
+	height: 50px;
 	padding: 0;
 	margin-left: auto;
 	margin-right: auto;
 	background: #fff url(../images/iDropLogo.png) left center no-repeat;
-	display: block;
+	display: inline-block;
+	position: relative;
+}
+
+#headerSearchBox {
+	width: 800px;
+	height: 40px;
+	padding: 0;
+	margin-left: auto;
+	margin-right: auto;
+	display: inline-block;
+	position:relative;
+	float:right;
 }
 
 /* NAVIGATION MENU */
@@ -256,11 +268,11 @@ th.desc a {
 }
 
 .odd {
-	background: #488098;
+	background: #B0BDC2;
 }
 
 .even {
-	background: #96A54A;
+	background: #E1E6C7;
 }
 
 /* ACTION BUTTONS */

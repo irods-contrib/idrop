@@ -43,12 +43,6 @@ class BrowseController {
 
 
 	/**
-	 * Display initial browser
-	 */
-	def index = { }
-
-
-	/**
 	 * Render the tree node data for the given parent.  This will use the HTML style AJAX response to depict the children using unordered lists.
 	 * <p/>
 	 *  Requires param 'dir' from request to derive parent
