@@ -425,6 +425,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        Toolkit toolkit = getToolkit();
+
         if (e.getActionCommand().equals("Exit")) {
             getiDropCore().getQueueTimer().cancel();
             System.exit(0);
@@ -443,9 +445,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         } else if (e.getActionCommand().equals("About")) {
             AboutDialog aboutDialog = new AboutDialog(this, true);
-            aboutDialog.setLocation((int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation()
-                    .getY() + this.getHeight() / 2));
-
+            int x = (toolkit.getScreenSize().width - aboutDialog.getWidth()) / 2;
+            int y = (toolkit.getScreenSize().height - aboutDialog.getHeight()) / 2;
+            aboutDialog.setLocation(x, y);
             aboutDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Preferences")) {
             showGUICheckBox.setSelected(getiDropCore().getPreferences().getBoolean("showGUI", true));
@@ -454,9 +456,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
             if (changePasswordDialog == null) {
                 changePasswordDialog = new ChangePasswordDialog(this, true);
-                Toolkit t = getToolkit();
-                int x = (t.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
-                int y = (t.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
+                int x = (toolkit.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
+                int y = (toolkit.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
                 changePasswordDialog.setLocation(x, y);
             }
             changePasswordDialog.setVisible(true);
