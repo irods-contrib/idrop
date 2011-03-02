@@ -71,22 +71,7 @@
     <repository>
       <id>renci.repository</id>
       <name>renci.repository</name>
-      <url>http://ci-dev.renci.org/nexus/content/repositories/release</url>
-      <releases>
-	<enabled>true</enabled>
-	<updatePolicy>always</updatePolicy>
-	<checksumPolicy>warn</checksumPolicy>
-      </releases>
-      <snapshots>
-	<enabled>true</enabled>
-	<updatePolicy>never</updatePolicy>
-	<checksumPolicy>fail</checksumPolicy>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>renci.snapshot.repository</id>
-      <name>renci.snapshot.repository</name>
-      <url>http://ci-dev.renci.org/nexus/content/repositories/snapshots</url>
+      <url>http://ci-dev.renci.org/nexus/content/repositories/public</url>
       <releases>
 	<enabled>true</enabled>
 	<updatePolicy>always</updatePolicy>
