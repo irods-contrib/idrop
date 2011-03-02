@@ -14,6 +14,7 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.transfer.engine.TransferManager;
+import org.irods.jargon.transfer.engine.TransferManagerImpl;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -165,7 +166,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                  * the status of the queue. This app listens to the TransferManager to receive updates about what the
                  * queue is doing.
                  */
-                TransferManager transferManager = new TransferManager(iDrop, iDrop.getiDropCore().getIdropConfig()
+                TransferManager transferManager = new TransferManagerImpl(iDrop, iDrop.getiDropCore().getIdropConfig()
                         .isLogSuccessfulTransfers());
                 iDrop.getiDropCore().setTransferManager(transferManager);
             } catch (JargonException e1) {
