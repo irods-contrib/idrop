@@ -1364,7 +1364,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         sb.append(localIRODSTransfer.toString());
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Delete Confirmaiton", JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Delete Confirmation", JOptionPane.YES_NO_OPTION);
 
         return n;
     }
@@ -1376,7 +1376,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         sb.append(localIRODSTransfer.toString());
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Restart Confirmaiton", JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Restart Confirmation", JOptionPane.YES_NO_OPTION);
 
         return n;
     }
