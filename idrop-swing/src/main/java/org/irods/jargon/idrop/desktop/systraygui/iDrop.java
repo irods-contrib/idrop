@@ -25,6 +25,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,7 +37,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JToggleButton;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
@@ -133,6 +138,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     public JButton preferencesDialogOKButton;
 
+    public JLabel currentUserNameLabel, queuedTransfersLabel, currentDateLabel;
+
+    public JProgressBar queuedTransfersProgressBar;
+
+    private static SimpleDateFormat SDF = new SimpleDateFormat("MM-dd-yyyy");
+
     /**
      * Get the IRODSFileSystem that will be the source for all connections and references to access object and file
      * factories. NOTE: there is some legacy code that needs to be converted to use this reference.
@@ -214,6 +225,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     @Override
     public void transferStatusCallback(TransferStatus ts) {
+        this.queuedTransfersLabel.setText("Queued Transfers: " + ts.getTotalFilesTransferredSoFar() + "/"
+                + ts.getTotalFilesToTransfer());
+        this.queuedTransfersProgressBar.setMaximum(ts.getTotalFilesToTransfer());
+        this.queuedTransfersProgressBar.setValue(ts.getTotalFilesTransferredSoFar());
         log.info("transfer status callback to iDROP:{}", ts);
     }
 
@@ -276,6 +291,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     log.warn("no account, exiting");
                     System.exit(0);
                 }
+
+                iDropGui.currentUserNameLabel.setText("User: "
+                        + iDropGui.getiDropCore().getIrodsAccount().getUserName());
+                iDropGui.currentDateLabel.setText("Date : " + SDF.format(new Date()));
 
                 iDropGui.createAndShowSystemTray();
                 iDropGui.processQueueStartup();
@@ -1676,10 +1695,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         getContentPane().add(pnlIdropMain, java.awt.BorderLayout.CENTER);
 
-        pnlIdropBottom.setToolTipText("Display area for status and messages");
-        pnlIdropBottom.setLayout(new java.awt.BorderLayout());
-        pnlIdropBottom.add(lblIdropMessage, java.awt.BorderLayout.CENTER);
-
+        // pnlIdropBottom.setToolTipText("Display area for status and messages");
+        // pnlIdropBottom.setLayout(new java.awt.BorderLayout());
+        // pnlIdropBottom.add(lblIdropMessage, java.awt.BorderLayout.CENTER);
+        try {
+            CookSwing cookSwing = new CookSwing(this);
+            pnlIdropBottom = (JPanel) cookSwing.render("org/irods/jargon/idrop/statusBarPanel.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         getContentPane().add(pnlIdropBottom, java.awt.BorderLayout.SOUTH);
 
         jMenuFile.setMnemonic('f');
