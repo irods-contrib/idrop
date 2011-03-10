@@ -18,6 +18,8 @@
 <g:javascript library="jquery.dataTables.min" />
 <g:javascript library="mydrop/lingo_common" />
 <g:javascript library="mydrop/main" />
+<g:javascript library="splitter" />
+
 
 
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->

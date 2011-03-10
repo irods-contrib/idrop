@@ -72,7 +72,7 @@ extra information</div>
 
 <div id="browse">
 <div id="browser" class="wrapper">
-<div id="dataTreeView"
+<div id="dataTreeView" class=""
 	style="float: left; position: relative; width: auto; display: inline-block; overflow: auto;"><!--  no empty divs -->
 <div id="dataTreeDiv" class="colLeft"><!--  no empty divs --></div>
 <div id="infoDiv" class="colRight roundedContainer">
