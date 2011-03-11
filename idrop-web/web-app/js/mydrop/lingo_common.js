@@ -9,6 +9,7 @@ var expiredSessionVal = "You have tried to access a protected area of this appli
 var resourceNotFound = "resourceNotFound";
 var uncaughtException = "uncaughtException";
 var dataAccessFailure = "dataAccessFailure";
+var timeoutHeaderValue = "apptimeout";
 var javascriptMessageArea = "#javascript_message_area";
 var context = "";
 
@@ -21,7 +22,16 @@ function prepareForCall() {
 	$(javascriptMessageArea).html();
 }
 
+function checkForSessionTimeout(data, xhr) {
+	var headers = xhr.getAllResponseHeaders();
+	if (headers.indexOf(timeoutHeaderValue) > -1) {
+		window.location = context;
+	}
+	
+}
+
 /**
+ * FIXME: remove..this is dumb
  * check HTML coming back from an AJAX call for an indication of an error, and
  * if an error is found, then set the message in the div using the given id.
  * Then the appropriate exception will be thrown.
@@ -156,8 +166,8 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId, detailsF
 
 	try {
 
-		$.get(context + getUrl, params, function(data) {
-			checkAjaxResultForError(data);
+		$.get(context + getUrl, params, function(data, status, xhr) {
+			checkForSessionTimeout(data, xhr);
 			lcBuildTable(data, tableDiv, newTableId, detailsFunction);
 		}, "html");
 
@@ -244,8 +254,46 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 
 	try {
 
-		$.get(getUrl, function(data) {
-			checkAjaxResultForError(data);
+		$.get(getUrl, function(data, status, xhr) {
+			checkForSessionTimeout(data, xhr);
+			lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
+		}, "html");
+
+		$(resultDiv).ajaxError(function(e, xhr, settings, exception) {
+			$(resultDiv).html("");
+			checkAjaxResultForError(xhr.responseText);
+		});
+
+	} catch (err) {
+		// FIXME: console traces are not good for IE - mcc
+		// console.trace();
+		$(resultDiv).html(""); // FIXME: some sort of error icon?
+		setMessage(err);
+		console.log("javascript error:" + err);
+	}
+
+}
+
+/**
+ * Send a query via ajax that results in html plugged into the correct div
+ */
+function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv, context,
+		postLoadFunction) {
+
+	prepareForCall();
+	if (getUrl.length == 0) {
+		throw ("no get url for call");
+	}
+
+	var img = document.createElement('IMG');
+	img.setAttribute("src", +context + "/images/ajax-loader.gif");
+
+	$(resultDiv).html(img);
+
+	try {
+
+		$.get(getUrl, params, function(data, status, xhr) {
+			checkForSessionTimeout(data, xhr);
 			lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 		}, "html");
 
@@ -282,8 +330,8 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 
 	try {
 
-		$.get(context + getUrl, function(data) {
-			checkAjaxResultForError(data);
+		$.get(context + getUrl, function(data, status, xhr) {
+			checkForSessionTimeout(data, xhr);
 			$(divForLoadingGif).html("");
 			if (callbackFunction != null) {
 				var myHtml = data;
@@ -330,8 +378,8 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params, divFo
 
 	try {
 
-		$.post(context + postUrl, params, function(data) {
-			checkAjaxResultForError(data);
+		$.post(context + postUrl, params, function(data, status, xhr) {
+			checkForSessionTimeout(data, xhr);
 			$(divForLoadingGif).html("");
 			if (callbackFunction != null) {
 				var myHtml = data;
@@ -368,7 +416,8 @@ function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
 
 	try {
 
-		$.get(context + getUrl, parms, function(data) {
+		$.get(context + getUrl, parms, function(data, status, xhr) {
+			checkForSessionTimeout(data, xhr);
 			callbackFunction(data);
 		}, "json");
 

@@ -26,6 +26,7 @@ function retrieveBrowserFirstView() {
 }
 
 /**
+ * FIXME: intercept timeouts here?
  * Callback to initialize a browser tree for the first time, set to the root
  * node as indicated in the data
  * 
