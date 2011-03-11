@@ -18,8 +18,7 @@
 <g:javascript library="jquery.dataTables.min" />
 <g:javascript library="mydrop/lingo_common" />
 <g:javascript library="mydrop/main" />
-<g:javascript library="splitter" />
-
+<g:javascript library="jquery-ui-13" />
 
 
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
@@ -31,19 +30,19 @@
 <div id="hd"><!-- PUT MASTHEAD CODE HERE -->
 <g:render template="/common/topbar"/>
 <g:render template="/common/messages"/>
-
+</div>
 <div id="bd">
 <div id="yui-main">
 <div class="yui-b">
-<div class="yui-ge">
-<div class="yui-u first"><!-- PUT MAIN COLUMN 1 CODE HERE -->
+<div id="mainDiv" class="yui-ge">
+<div id="mainDivCol1" class="yui-u first"><!-- PUT MAIN COLUMN 1 CODE HERE -->
 <div id="spinner" class="spinner" style="display: none;"><img
 	src="${resource(dir:'images',file:'spinner.gif')}"
 	alt="${message(code:'spinner.alt',default:'Loading...')}" />
 </div>
  <g:layoutBody />
 </div>
-<div class="yui-u"><!-- PUT MAIN COLUMN 2 CODE HERE -->
+<div id="secondaryDiv" class="yui-u"><!-- PUT MAIN COLUMN 2 CODE HERE -->
 <g:ifAuthenticated>
 <g:render template="/common/secondarymain"/>
 </g:ifAuthenticated>
