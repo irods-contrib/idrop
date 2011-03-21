@@ -150,6 +150,9 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
             int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;
             loginDialog.setLocation(x, y);
+            IDropSplashWindow.this.toBack();
+            loginDialog.setAlwaysOnTop(true);
+            loginDialog.toFront();
             loginDialog.setVisible(true);
 
             try {
