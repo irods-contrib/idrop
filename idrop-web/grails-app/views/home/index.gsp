@@ -16,7 +16,7 @@
 	</ul>
 	<div id="quickView">
 		<div class="objectContainer">
-			<div class="objectContainerGrouping"></div>
+			
 			<div class="objectContainerDetails">
 				<span class="objectHeader">A data object</span>
 				<div class="objectDescription">This is a really nice data
@@ -39,7 +39,7 @@
 
 
 		<div class="objectContainer">
-			<div class="objectContainerGrouping"></div>
+			
 			<div class="objectContainerDetails">
 				<span class="objectHeader">A data object</span>
 				<div class="objectDescription">This is a really nice data
@@ -81,9 +81,11 @@
 				<div id="dataTreeDiv" class="ui-layout-west">
 					<!--  no empty divs -->
 				</div>
+				<div id="browseToolbar" class="ui-layout-north">
+				Display Option:<g:select name="browseDisplayOption" id="browseDisplayOption" from="${['info', 'details', 'sharing', 'metadata']}" onChange="setBrowseMode()" /></div>
 				
 				<div id="infoDiv" class="ui-layout-center">
-					<h2>Select a directory or file to see info and tags</h2>
+					<h2>Select a directory or file to see info and tags based on the view option</h2>
 				</div>
 			</div>
 
@@ -104,6 +106,7 @@ $(document).ready(function() {
 		});
 	$( "#tabs" ).tabs();
 	retrieveBrowserFirstView();
+	
 });
 
 </script>

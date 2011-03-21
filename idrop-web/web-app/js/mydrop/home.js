@@ -8,6 +8,7 @@
  * Global var holds jquery ref to the dataTree
  */
 var dataTree;
+var browseOptionVal = "info";
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
@@ -21,14 +22,13 @@ function retrieveBrowserFirstView() {
 		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, "dir=/",
 				"#dataTreeDiv", browserFirstViewRetrieved);
 	} else {
-		
+
 	}
 }
 
 /**
- * FIXME: intercept timeouts here?
- * Callback to initialize a browser tree for the first time, set to the root
- * node as indicated in the data
+ * FIXME: intercept timeouts here? Callback to initialize a browser tree for the
+ * first time, set to the root node as indicated in the data
  * 
  * @param data
  *            ajax response from browse controller containing the JSON
@@ -70,6 +70,10 @@ function browserFirstViewRetrieved(data) {
 			}
 
 		},
+		"ui" : {
+			"select_limit" : 1,
+			"initially_select" : [ "phtml_2" ]
+		},
 
 		"themes" : {
 			"theme" : "default",
@@ -106,10 +110,11 @@ function nodeSelected(event, data) {
 	// given the path, put in the node data
 
 	var id = data[0].id;
-	lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath=" + id,
-			"#infoDiv", "#infoDiv", null);
+	updateBrowseDetailsForPathBasedOnCurrentModel(id);
 
 }
+
+
 
 /**
  * Linked to update tags button on info view, update the tags in iRODS
@@ -117,12 +122,51 @@ function nodeSelected(event, data) {
 function updateTags() {
 	var infoTagsVal = $("#infoTags").val();
 	var absPathVal = $("#infoAbsPath").val();
+
 	var params = {
 		absPath : absPathVal,
 		tags : infoTagsVal
 	}
+
 	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
 			params, "#infoUpdateArea", "#infoUpdateArea", function() {
 				$("#infoUpdateArea").html("Tags updated");
 			});
 }
+
+/**
+ * On selection of a browser mode (from the top bar of the browse view), set the option such that selected directories in the
+ * tree result in the given view in the right hand pane
+ */
+function setBrowseMode() {
+	browseOptionVal = $("#browseDisplayOption").val();
+}
+
+/**
+ * Upon selection of a collection or data object from the tree, display the content on the right-hand side.  The type of 
+ * detail shown is contingent on the 'browseOption' that is set in the drop-down above the browse area.
+ */
+function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
+	
+	
+	if (browseOptionVal === null) { 
+		browseOptionVal = "info";
+	}
+	
+	if (browseOptionVal == "details") {
+	
+	lcSendValueAndCallbackHtmlAfterErrorCheck(
+				"/browse/displayBrowseGridDetails?absPath=" + absPath, "#infoDiv",
+					"#infoDiv", null);
+	} else if (browseOptionVal == "info") {
+		lcSendValueAndCallbackHtmlAfterErrorCheck(
+				"/browse/fileInfo?absPath=" + absPath, "#infoDiv",
+					"#infoDiv", null);
+	}  else if (browseOptionVal == "metadata") {
+		lcSendValueAndCallbackHtmlAfterErrorCheck(
+				"/metadata/listMetadata?absPath=" + absPath, "#infoDiv",
+					"#infoDiv", null);
+	}
+}
+
+

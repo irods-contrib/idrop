@@ -6,7 +6,7 @@
 
 <button type="button" id="search" value="search" onclick="search()")>Search</button> as a 
 
-<g:select name="searchType" id="searchType" from="${['file', 'tag']}" noSelection="['file':'']" />
+<g:select name="searchType" id="searchType" from="${['file', 'tag']}"  />
 
 </fieldset>
 
@@ -31,14 +31,24 @@ function showMenu() {
 		menuShown = false;
 		$("#mainDiv").width="100%";
 		$("#mainDivCol1").width="100%";
+		$("#mainDivCol1").removeClass()
 	} else {
 		$("#secondaryDiv").show('slow');
 		$("#mainDiv").width="80%";
 		$("#mainDivCol1").width="80%";
 		$("#secondaryDiv").width="20%";
+		$("#mainDivCol1").addClass("yui-u first");
+		
 		menuShown = true;
 	}
 }
+
+
+
+function search() {
+	prosecuteSearch($("#searchTerm").val(), $("#searchType").val());
+}
+
 //-->
 </script>
 

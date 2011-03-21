@@ -196,17 +196,43 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId, detailsF
  * the table if detail icons are to be setup @return - DataTable that was
  * created
  */
-function lcBuildTable(data, tableDiv, newTableId, detailsFunction) {
+function lcBuildTable(data, tableDiv, newTableId, detailsFunction, dataIconSelector) {
 	$(tableDiv).html(data);
 	var dataTableCreated = $(newTableId).dataTable({
 			"bJQueryUI": true
 });
 
 	if (detailsFunction != null) {
-		$('.detail_icon', dataTableCreated.fnGetNodes()).each(detailsFunction);
+		$(dataIconSelector, dataTableCreated.fnGetNodes()).each(detailsFunction);
 	}
 
 }
+
+
+/**
+ * Given a table structure in an existing DOM, build a table based on a JQuery selector,
+ * assigning it a function that can be called when a given selector is clicked.  This is
+ * useful for cases where tables are expanded based on click
+ * @param newTableId
+ * @param detailsFunction
+ * @param dataIconSelector
+ */
+function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector) {
+	var dataTableCreated = $(newTableId).dataTable({"bJQueryUI": true});
+
+	if (detailsFunction != null) {
+		$(dataIconSelector, dataTableCreated.fnGetNodes()).each(function() {
+			$(this).click(function() {
+				detailsFunction(this);
+			});
+		});
+		
+	}
+	
+	return dataTableCreated;
+
+}
+
 
 /**
  * Close table nodes when using +/- details icon 
@@ -277,7 +303,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 /**
  * Send a query via ajax that results in html plugged into the correct div
  */
-function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv, context,
+function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 		postLoadFunction) {
 
 	prepareForCall();
@@ -286,13 +312,13 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv, contex
 	}
 
 	var img = document.createElement('IMG');
-	img.setAttribute("src", +context + "/images/ajax-loader.gif");
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
 
 	$(resultDiv).html(img);
 
 	try {
 
-		$.get(getUrl, params, function(data, status, xhr) {
+		$.get(context + getUrl, params, function(data, status, xhr) {
 			checkForSessionTimeout(data, xhr);
 			lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 		}, "html");

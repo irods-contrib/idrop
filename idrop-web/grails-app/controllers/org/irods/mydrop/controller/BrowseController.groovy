@@ -90,6 +90,32 @@ class BrowseController {
 
 		render jsonBuff as JSON
 	}
+	
+	def displayBrowseGridDetails = {
+		def absPath = params['absPath']
+		if (absPath == null) {
+			throw new JargonException("no absolute path passed to the method")
+		}
+		
+		log.info "displayBrowseGridDetails for absPath: ${absPath}"
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
+		log.debug("retrieved collectionAndDataObjectList: ${entries}")
+		render(view:"browseDetails", model:[collection:entries])
+		
+	}
+	
+	def displayPulldownDataDetails = {
+		def absPath = params['absPath']
+		if (absPath == null) {
+			throw new JargonException("no absolute path passed to the method")
+		}
+		
+		log.info "displayPulldownDataDetails for absPath: ${absPath}"
+		render(view:"pulldownDataDetails")
+		
+	}
+
 
 	def fileInfo = {
 		def absPath = params['absPath']

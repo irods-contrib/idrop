@@ -11,8 +11,9 @@ import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
-import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.domain.Collection
+import org.irods.jargon.core.pub.domain.DataObject
+import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.core.query.MetaDataAndDomainData
 import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
@@ -131,6 +132,26 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		assertEquals("did not find expected path", testPath, collection.collectionName)
 		def tags = mav.model.tags
 		assertNotNull("null tag in model", tags)
+		
+	}
+	
+	void testBrowseDetailsWithCollection() {
+		def testPath = "/testpath"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		def retObject = new ArrayList<CollectionAndDataObjectListingEntry>()
+		Mockito.when(collectionListAndSearchAO.listDataObjectsAndCollectionsUnderPath(testPath)).thenReturn(retObject)
+		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory		
+		controller.irodsAccount = irodsAccount
+		controller.params.absPath = testPath
+		controller.displayBrowseGridDetails()
+		def mav = controller.modelAndView
+		def name = mav.viewName
+		assertNotNull("null mav", mav)
+		assertEquals("view name should be browseDetails", "browseDetails", name)
+		def collection = mav.model.collection
+		assertNotNull("null collection object", collection)
 		
 	}
 	
