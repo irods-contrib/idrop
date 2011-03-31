@@ -1,3 +1,7 @@
+.metadata
 .project
 .settings
 target
+*.log
+*.war
+Servers

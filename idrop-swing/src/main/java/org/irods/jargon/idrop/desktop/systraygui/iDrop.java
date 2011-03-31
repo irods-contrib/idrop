@@ -132,6 +132,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     private ChangePasswordDialog changePasswordDialog = null;
 
+    private SynchSetupDialog synchSetupDialog = null;
+
     public static JDialog newPreferencesDialog;
 
     public JCheckBox showGUICheckBox;
@@ -350,6 +352,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         MenuItem iDropItem = new MenuItem("iDrop");
         MenuItem preferencesItem = new MenuItem("Preferences");
         MenuItem changePasswordItem = new MenuItem("Change Password");
+         MenuItem synchItem = new MenuItem("Synch");
 
         iDropItem.addActionListener(this);
 
@@ -370,6 +373,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         errorItem.addActionListener(this);
         warningItem.addActionListener(this);
         preferencesItem.addActionListener(this);
+        synchItem.addActionListener(this);
         changePasswordItem.addActionListener(this);
 
         logoutItem.addActionListener(this);
@@ -381,6 +385,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         popup.add(iDropItem);
         popup.add(preferencesItem);
         popup.add(changePasswordItem);
+        popup.add(synchItem);
         popup.addSeparator();
         popup.add(displayMenu);
         displayMenu.add(currentItem);
@@ -471,6 +476,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         } else if (e.getActionCommand().equals("Preferences")) {
             showGUICheckBox.setSelected(getiDropCore().getPreferences().getBoolean("showGUI", true));
             newPreferencesDialog.setVisible(true);
+             } else if (e.getActionCommand().equals("Synch")) {
+                 synchSetupDialog = new SynchSetupDialog(this, getiDropCore(), getIrodsFileSystem());
+                 synchSetupDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Change Password")) {
 
             if (changePasswordDialog == null) {
@@ -515,7 +523,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
                 this.showIdropException(ex);
                 return;
-            }
+            } 
             queueManagerDialog.setModal(false);
             queueManagerDialog.setVisible(true);
             queueManagerDialog.toFront();
