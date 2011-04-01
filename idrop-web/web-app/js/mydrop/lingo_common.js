@@ -465,3 +465,15 @@ function lcFillInDivWithHtml(data, resultDiv, postLoadFunction) {
 	}
 
 }
+
+
+/**
+ * Handy method to show a loading icon in the div specified by the given JQuery selector
+ * @param divSelector
+ */
+function lcShowBusyIconInDiv(divSelector) {
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
+
+	$(divSelector).html(img);
+}

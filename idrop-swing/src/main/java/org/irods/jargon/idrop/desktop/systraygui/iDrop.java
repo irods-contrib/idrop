@@ -523,7 +523,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
                 this.showIdropException(ex);
                 return;
-            } 
+            }    
             queueManagerDialog.setModal(false);
             queueManagerDialog.setVisible(true);
             queueManagerDialog.toFront();

@@ -67,7 +67,7 @@ div#tabs {
 	overflow: auto;
 	width: 100%;
 	display: inline-block;
-	}
+}
 
 .wrapper {
 	text-align: left;
@@ -76,7 +76,6 @@ div#tabs {
 	border: 0;
 	display: inline-block;
 	overflow: auto;
-	
 }
 
 .colRight {
@@ -111,7 +110,6 @@ div#tabs {
 	display: block;
 }
 
-
 .body {
 	float: left;
 	margin: 0 15px 10px 15px;
@@ -130,23 +128,35 @@ div#tabs {
 }
 
 #headerSearchBox {
-	width: 800px;
-	height: 40px;
-	padding: 0;
-	margin-left: auto;
-	margin-right: auto;
-	display: inline-block;
-	position:relative;
-	float:right;
+	width: 100%;
+	height: auto;
+	margin: 5px;
+	display: block;
+	position: relative;
+	float: left;
 }
 
 /* NAVIGATION MENU */
 .nav {
-	background: #244857  bottom repeat-x;
+	background: #aabbc2 bottom repeat-x;
 	border: 1px solid #ccc;
 	border-style: solid none solid none;
 	margin-top: 5px;
 	padding: 7px 12px;
+}
+
+.fg-toolbar {
+	padding: .5em;
+	margin: 0;
+}
+
+.fg-toolbar .fg-buttonset {
+	margin-right: 1.5em;
+	padding-left: 1px;
+}
+
+.fg-toolbar .fg-button {
+	font-size: 1em;
 }
 
 .menuButton {
@@ -226,7 +236,7 @@ table {
 
 tr {
 	border: 0;
-	padding:8px;
+	padding: 8px;
 }
 
 td,th {
@@ -312,12 +322,9 @@ th.desc a {
 }
 /* object container */
 .objectContainer {
-	
 	color: #333333;
-	
 	dislay: inline-block;
 	clear: both;
-	
 	-moz-background-clip: border;
 	-moz-background-inline-policy: continuous;
 	-moz-background-origin: padding;
@@ -331,9 +338,6 @@ th.desc a {
 	padding: 3px;
 	margin: 3px;
 	display: inline-block;
-	
-	
-	
 }
 
 .objectContainerGrouping {
@@ -350,7 +354,7 @@ th.desc a {
 .objectContainerDetails {
 	float: right;
 	text-align: left;
-	display:inline-block;
+	display: inline-block;
 }
 
 .objectHeader {
@@ -359,7 +363,6 @@ th.desc a {
 	margin-bottom: 10px;
 	color: #555555;
 	margin-bottom: 10px;
-	
 }
 
 .objectDescription {
@@ -380,7 +383,6 @@ th.desc a {
 	float: right;
 	padding: 10px;
 }
-
 
 /* standard form layouts */
 #columnarForm fieldset {
@@ -585,42 +587,43 @@ th.desc a {
 }
 
 #browse {
-height:95%;width:100%;margin:0;padding:0;
+	height: 95%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 #secondaryDiv {
-	height:400px;
-	display:inline-block;
-	//overflow:auto;
+	height: 400px;
+	display: inline-block; //
+	overflow: auto;
 }
-
 
 #tagCloudDiv {
-	height:400px;
-	display:inline-block;
-	width:100%;
-	overflow:auto;
+	height: 400px;
+	display: inline-block;
+	width: 100%;
+	overflow: auto;
 }
 
-
-#dataTreeDiv{
-float:left;
-height:auto;
-width:auto;
-border-top:solid 1px #9cbdff;
-background:#ffffff;
-overflow: auto;
+#dataTreeDiv {
+	float: left;
+	height: auto;
+	width: auto;
+	border-top: solid 1px #9cbdff;
+	background: #ffffff;
+	overflow: auto;
 }
 
-
-#dataTreeView{
-height:100%;
-width:100%;
-background:#ffffff;
-overflow: auto;
+#dataTreeView {
+	height: 100%;
+	width: 100%;
+	background: #ffffff;
+	overflow: auto;
 }
 
-#infoDiv{	
-float:right;height:100%;
-background:#f4f4f4;
+#infoDiv {
+	float: right;
+	height: 100%;
+	background: #f4f4f4;
 }

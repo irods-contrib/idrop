@@ -9,6 +9,7 @@
  */
 var dataTree;
 var browseOptionVal = "info";
+var selectedPath = null;
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
@@ -110,29 +111,11 @@ function nodeSelected(event, data) {
 	// given the path, put in the node data
 
 	var id = data[0].id;
+	selectedPath = id;
 	updateBrowseDetailsForPathBasedOnCurrentModel(id);
 
 }
 
-
-
-/**
- * Linked to update tags button on info view, update the tags in iRODS
- */
-function updateTags() {
-	var infoTagsVal = $("#infoTags").val();
-	var absPathVal = $("#infoAbsPath").val();
-
-	var params = {
-		absPath : absPathVal,
-		tags : infoTagsVal
-	}
-
-	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
-			params, "#infoUpdateArea", "#infoUpdateArea", function() {
-				$("#infoUpdateArea").html("Tags updated");
-			});
-}
 
 /**
  * On selection of a browser mode (from the top bar of the browse view), set the option such that selected directories in the
@@ -140,6 +123,7 @@ function updateTags() {
  */
 function setBrowseMode() {
 	browseOptionVal = $("#browseDisplayOption").val();
+	updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 }
 
 /**
@@ -148,6 +132,9 @@ function setBrowseMode() {
  */
 function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	
+	if (absPath == null) {
+		return;
+	}
 	
 	if (browseOptionVal === null) { 
 		browseOptionVal = "info";

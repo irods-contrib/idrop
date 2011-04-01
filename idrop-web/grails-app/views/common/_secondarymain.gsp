@@ -1,19 +1,9 @@
 <script>
 	$(function() {
 		$("#secondaryTabs").tabs();
-		//lcSendValueAndCallbackHtmlAfterErrorCheck("/tags/tagCloud", "#tagCloudDiv",
-			//	"#tagCloudDiv", null);
-
-		lcSendValueAndCallbackWithJsonAfterErrorCheck("/tags/tagCloudFormatted", null,
-				"#tagCloudDiv",  function(data){haveTagCloudData(data);});//function(data){haveTagCloudData(data);});
-
-		
+		refreshTagCloud();
 	});
 
-	function haveTagCloudData(data) {
-		$("#tagCloudDiv").jQCloud(data, new function(){});
-	}
-	
 </script>
 <div id="secondaryTabs">
 <ul>

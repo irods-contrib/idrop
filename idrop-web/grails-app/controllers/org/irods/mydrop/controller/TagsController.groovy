@@ -71,8 +71,6 @@ class TagsController {
 
 		entries.each {
 
-
-
 			jsonBuff.add(
 					["text": it.irodsTagValue.tagData,"weight":2 + it.countOfFiles])
 					

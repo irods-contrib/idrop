@@ -9,5 +9,5 @@ class LoginController {
 
 	def index ={ redirect(action: "login") }
 
-	def logout = {}
+	def logout = {redirect(action: "login")}
 }

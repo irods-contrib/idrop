@@ -16,7 +16,7 @@
 <g:javascript library="jquery-ui-1.8.7.custom.min" />
 <g:javascript library="jquery.jstree.min" />
 <g:javascript library="jquery.dataTables.min" />
-<g:javascript library="jqcloud-0.1.5.min" />
+<g:javascript library="jqcloud-0.1.6" />
 <g:javascript library="mydrop/lingo_common" />
 <g:javascript library="mydrop/main" />
 <g:javascript library="jquery-ui-13" />
