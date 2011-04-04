@@ -16,7 +16,13 @@
 					<tr id="${entry.formattedAbsolutePath}">
 						<td><span class="ui-icon-circle-plus browse_detail_icon ui-icon"></span></td>
 						<td>
+							<g:if test="${entry.objectType.toString() == 'COLLECTION'}">
 							${entry.nodeLabelDisplayValue}
+							</g:if>
+							<g:else>
+							
+							<g:link url="${'file/download' + entry.formattedAbsolutePath}">${entry.nodeLabelDisplayValue}</g:link>
+							</g:else>
 						</td>
 
 						<td>

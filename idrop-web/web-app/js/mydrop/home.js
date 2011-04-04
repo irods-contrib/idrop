@@ -8,7 +8,7 @@
  * Global var holds jquery ref to the dataTree
  */
 var dataTree;
-var browseOptionVal = "info";
+var browseOptionVal = "details";
 var selectedPath = null;
 
 /**
@@ -154,6 +154,38 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 				"/metadata/listMetadata?absPath=" + absPath, "#infoDiv",
 					"#infoDiv", null);
 	}
+}
+
+/**
+ * Show the dialog to allow upload of data
+ */
+function showUploadDialog() {
+	
+	if (selectedPath == null) {
+		return;
+	}
+	
+	var $dialog = $('<div id="uploadDialog"></div>')
+	.html('Upload to iRODS')
+	.dialog({
+		autoOpen: true,
+		modal: true,
+		title: 'Upload to iRODS'
+	});
+	
+	fillInUploadDialog(selectedPath);
+
+	
+}
+
+
+function fillInUploadDialog(absolutePath) {
+	
+	if (absolutePath == null) {
+		return;
+	}
+	
+	
 }
 
 

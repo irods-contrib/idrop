@@ -7,16 +7,13 @@
 
 <div id="tabs">
 	<ul>
-		<li><a href="#quickView">Quick View</a>
-		</li>
-		<li><a href="#search">Search</a>
-		</li>
-		<li><a href="#browse">Browse</a>
-		</li>
+		<li><a href="#quickView">Quick View</a></li>
+		<li><a href="#search">Search</a></li>
+		<li><a href="#browse">Browse</a></li>
 	</ul>
 	<div id="quickView">
 		<div class="objectContainer">
-			
+
 			<div class="objectContainerDetails">
 				<span class="objectHeader">A data object</span>
 				<div class="objectDescription">This is a really nice data
@@ -30,16 +27,15 @@
 				<span class="objectContainerActions"><a href="edit"
 					class="objectAction">EDIT</a> - <a href="viewInTree"
 					class="objectAction">VIEW</a> - <a href="share"
-					class="objectAction">SHARE</a>
-				</span> <span class="objectContainerTags">tag1 tag2:detail tag3
-					hello</span>
+					class="objectAction">SHARE</a> </span> <span class="objectContainerTags">tag1
+					tag2:detail tag3 hello</span>
 			</div>
 
 		</div>
 
 
 		<div class="objectContainer">
-			
+
 			<div class="objectContainerDetails">
 				<span class="objectHeader">A data object</span>
 				<div class="objectDescription">This is a really nice data
@@ -53,9 +49,8 @@
 				<span class="objectContainerActions"><a href="edit"
 					class="objectAction">EDIT</a> - <a href="viewInTree"
 					class="objectAction">VIEW</a> - <a href="share"
-					class="objectAction">SHARE</a>
-				</span> <span class="objectContainerTags">tag1 tag2:detail tag3
-					hello</span>
+					class="objectAction">SHARE</a> </span> <span class="objectContainerTags">tag1
+					tag2:detail tag3 hello</span>
 			</div>
 
 		</div>
@@ -82,10 +77,29 @@
 					<!--  no empty divs -->
 				</div>
 				<div id="browseToolbar" class="ui-layout-north">
-				Display Option:<g:select name="browseDisplayOption" id="browseDisplayOption" from="${['info', 'details', 'sharing', 'metadata']}" onChange="setBrowseMode()" /></div>
-				
+					<div id="headerSearchBox" class="ui-widget-header fg-toolbar">
+
+						<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
+							style="float: left">
+
+							Display Option:
+							<g:select name="browseDisplayOption" id="browseDisplayOption"
+								from="${['info', 'sharing', 'metadata']}"
+								noSelection="${['details':'details']}"
+								onChange="setBrowseMode()" />
+						</div>
+
+						<button type="button" id="upload"
+							class="ui-state-default ui-corner-all" value="upload"
+							onclick="showUploadDialog()")>Upload</button>
+					</div>
+
+
+				</div>
+
 				<div id="infoDiv" class="ui-layout-center">
-					<h2>Select a directory or file to see info and tags based on the view option</h2>
+					<h2>Select a directory or file to see info and tags based on
+						the view option</h2>
 				</div>
 			</div>
 

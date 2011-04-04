@@ -11,14 +11,31 @@
 		</tr>
 	</thead>
 	<tbody>
-		<g:each  in="${results}" var="entry">
+		<g:each in="${results}" var="entry">
 			<tr id="${entry.formattedAbsolutePath}">
-				<td><div class="ui-icon-circle-plus user_detail_icon ui-icon "/></td>
-				<td>${entry.nodeLabelDisplayValue}</td>
-				<td>${entry.formattedAbsolutePath}</td>
-				<td>${entry.objectType}</td>
-				<td>${entry.modifiedAt}</td>
-				<td>${entry.dataSize}</td>
+				<td><div class="ui-icon-circle-plus user_detail_icon ui-icon " />
+				</td>
+				<td><g:if test="${entry.objectType.toString() == 'COLLECTION'}">
+						${entry.nodeLabelDisplayValue}
+					</g:if> <g:else>
+
+						<g:link url="${'file/download' + entry.formattedAbsolutePath}">
+							${entry.nodeLabelDisplayValue}
+						</g:link>
+					</g:else></td>
+
+				<td>
+					${entry.formattedAbsolutePath}
+				</td>
+				<td>
+					${entry.objectType}
+				</td>
+				<td>
+					${entry.modifiedAt}
+				</td>
+				<td>
+					${entry.dataSize}
+				</td>
 			</tr>
 		</g:each>
 
