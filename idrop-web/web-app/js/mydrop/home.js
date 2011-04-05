@@ -162,30 +162,40 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 function showUploadDialog() {
 	
 	if (selectedPath == null) {
+		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
+		return;
+	}
+	
+	var url = "/file/prepareUploadDialog";
+	var params = {
+			irodsTargetCollection:selectedPath
+		}
+		
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "",
+			function(data) { fillInUploadDialog(data);});
+	
+}
+
+function fillInUploadDialog(data) {
+	
+	if (data == null) {
 		return;
 	}
 	
 	var $dialog = $('<div id="uploadDialog"></div>')
-	.html('Upload to iRODS')
+	.html(data)
 	.dialog({
 		autoOpen: true,
 		modal: true,
+		width: 400,
 		title: 'Upload to iRODS'
 	});
 	
-	fillInUploadDialog(selectedPath);
-
-	
 }
 
-
-function fillInUploadDialog(absolutePath) {
-	
-	if (absolutePath == null) {
-		return;
-	}
-	
-	
+function doUploadFromDialog() {
+	alert("I'm doing the upload now");
+	$("#uploadForm").submit();
 }
 
 

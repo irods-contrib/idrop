@@ -92,7 +92,7 @@ log4j = {
 
     warn   'org.mortbay.log'
 	debug 'org.irods.idrop'
-	info 'org.irods.jargon'
+	warn 'org.irods.jargon'
 	info 'grails.app.controller'
 	warn 'org.springframework.security'
 }
