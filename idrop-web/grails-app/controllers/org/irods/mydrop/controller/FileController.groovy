@@ -15,6 +15,8 @@ import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileOutputStream
 import org.springframework.security.core.context.SecurityContextHolder
 import org.irods.jargon.core.pub.io.IRODSFileImpl
+import grails.converters.*
+
 
 class FileController {
 
@@ -77,7 +79,6 @@ class FileController {
 
 		response.outputStream << irodsFileInputStream // Performing a binary stream copy
 		
-
 	}
 
 	/**
@@ -122,6 +123,8 @@ class FileController {
 		def f = request.getFile('file')
 		def name = f.getOriginalFilename()
 		
+		log.info("f is ${f}");
+		
 		log.info("name is : ${name}")
 		def irodsCollectionPath = params.collectionParentName
 
@@ -145,6 +148,15 @@ class FileController {
 		irodsFileOutputStream << fis
 		irodsFileOutputStream.flush()
 		irodsFileOutputStream.close()
+		
+		def jsonBuff = []
+		
+		jsonBuff.add(
+			["name": name, "type":"blah", "size":100]
+			)
+		
+		//render jsonBuff as JSON
+		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
 		
 	}
 }

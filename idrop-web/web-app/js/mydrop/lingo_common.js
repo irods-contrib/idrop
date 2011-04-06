@@ -477,3 +477,14 @@ function lcShowBusyIconInDiv(divSelector) {
 
 	$(divSelector).html(img);
 }
+
+/**
+ * Handy method to show a loading icon in the div specified by the given JQuery selector
+ * @param divSelector
+ */
+function lcShowLoaderBarIconInDiv(divSelector) {
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader-bar.gif");
+
+	$(divSelector).html(img);
+}

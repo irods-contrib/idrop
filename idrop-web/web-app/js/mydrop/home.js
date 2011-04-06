@@ -10,6 +10,7 @@
 var dataTree;
 var browseOptionVal = "details";
 var selectedPath = null;
+var fileUploadUI = null;
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
@@ -116,10 +117,10 @@ function nodeSelected(event, data) {
 
 }
 
-
 /**
- * On selection of a browser mode (from the top bar of the browse view), set the option such that selected directories in the
- * tree result in the given view in the right hand pane
+ * On selection of a browser mode (from the top bar of the browse view), set the
+ * option such that selected directories in the tree result in the given view in
+ * the right hand pane
  */
 function setBrowseMode() {
 	browseOptionVal = $("#browseDisplayOption").val();
@@ -127,32 +128,32 @@ function setBrowseMode() {
 }
 
 /**
- * Upon selection of a collection or data object from the tree, display the content on the right-hand side.  The type of 
- * detail shown is contingent on the 'browseOption' that is set in the drop-down above the browse area.
+ * Upon selection of a collection or data object from the tree, display the
+ * content on the right-hand side. The type of detail shown is contingent on the
+ * 'browseOption' that is set in the drop-down above the browse area.
  */
 function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
-	
+
 	if (absPath == null) {
 		return;
 	}
-	
-	if (browseOptionVal === null) { 
+
+	if (browseOptionVal === null) {
 		browseOptionVal = "info";
 	}
-	
+
 	if (browseOptionVal == "details") {
-	
-	lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/browse/displayBrowseGridDetails?absPath=" + absPath, "#infoDiv",
-					"#infoDiv", null);
-	} else if (browseOptionVal == "info") {
+
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/browse/fileInfo?absPath=" + absPath, "#infoDiv",
-					"#infoDiv", null);
-	}  else if (browseOptionVal == "metadata") {
+				"/browse/displayBrowseGridDetails?absPath=" + absPath,
+				"#infoDiv", "#infoDiv", null);
+	} else if (browseOptionVal == "info") {
+		lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath="
+				+ absPath, "#infoDiv", "#infoDiv", null);
+	} else if (browseOptionVal == "metadata") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
 				"/metadata/listMetadata?absPath=" + absPath, "#infoDiv",
-					"#infoDiv", null);
+				"#infoDiv", null);
 	}
 }
 
@@ -160,42 +161,75 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
  * Show the dialog to allow upload of data
  */
 function showUploadDialog() {
-	
+
 	if (selectedPath == null) {
 		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
 		return;
 	}
-	
+
 	var url = "/file/prepareUploadDialog";
 	var params = {
-			irodsTargetCollection:selectedPath
-		}
-		
-	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "",
-			function(data) { fillInUploadDialog(data);});
-	
+		irodsTargetCollection : selectedPath
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+		fillInUploadDialog(data);
+	});
+
 }
 
+/**
+ * On load of upload dialog, this will be called when the pre-set data is
+ * available
+ * 
+ * @param data
+ */
 function fillInUploadDialog(data) {
-	
+
 	if (data == null) {
 		return;
 	}
+
+	$('#uploadDialog').remove();
 	
-	var $dialog = $('<div id="uploadDialog"></div>')
-	.html(data)
-	.dialog({
-		autoOpen: true,
-		modal: true,
-		width: 400,
-		title: 'Upload to iRODS'
+	var $dialog = $('<div id="uploadDialog"></div>').html(data).dialog({
+		autoOpen : false,
+		modal : true,
+		width : 400,
+		title : 'Upload to iRODS',
+		create : function(event, ui) {
+			initializeUploadDialogAjaxLoader();
+		}
 	});
 	
+	
+	$dialog.dialog('open');
 }
 
-function doUploadFromDialog() {
-	alert("I'm doing the upload now");
-	$("#uploadForm").submit();
+function initializeUploadDialogAjaxLoader() {
+	if (fileUploadUI != null) {
+	$("#fileUploadForm").remove;
+	}
+	//} else {
+		fileUploadUI = $('#uploadForm')
+				.fileUploadUI(
+						{
+							uploadTable : $('#files'),
+							downloadTable : $('#files'),
+							buildUploadRow : function(files, index) {
+								return $('<tr><td>'
+										+ files[index].name
+										+ '<\/td>'
+										+ '<td class="file_upload_progress"><div><\/div><\/td>'
+										+ '<td class="file_upload_cancel">'
+										+ '<button class="ui-state-default ui-corner-all" title="Cancel">'
+										+ '<span class="ui-icon ui-icon-cancel">Cancel<\/span>'
+										+ '<\/button><\/td><\/tr>');
+							},
+							buildDownloadRow : function(file) {
+								return $('<tr><td>' + file.name
+										+ '<\/td><\/tr>');
+							}
+						});
+	//} 
 }
-
-

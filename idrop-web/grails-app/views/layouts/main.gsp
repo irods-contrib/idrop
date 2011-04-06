@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="${resource(dir:'css',file:'base.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'style.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'jqcloud.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />
 <link rel="stylesheet"
 	href="${resource(dir:'css',file:'reset-fonts-grids.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'overcast/jquery-ui-1.8.7.custom.css')}" />
@@ -17,10 +18,11 @@
 <g:javascript library="jquery.jstree.min" />
 <g:javascript library="jquery.dataTables.min" />
 <g:javascript library="jqcloud-0.1.6" />
+<g:javascript library="jquery.fileupload-ui" />
+<g:javascript library="jquery.fileupload" />
 <g:javascript library="mydrop/lingo_common" />
 <g:javascript library="mydrop/main" />
 <g:javascript library="jquery-ui-13" />
-
 
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">
