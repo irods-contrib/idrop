@@ -154,6 +154,10 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
 				"/metadata/listMetadata?absPath=" + absPath, "#infoDiv",
 				"#infoDiv", null);
+	} else if (browseOptionVal == "sharing") {
+		lcSendValueAndCallbackHtmlAfterErrorCheck(
+				"/sharing/listAcl?absPath=" + absPath, "#infoDiv",
+				"#infoDiv", null);
 	}
 }
 
@@ -191,7 +195,7 @@ function fillInUploadDialog(data) {
 	}
 
 	$('#uploadDialog').remove();
-	
+
 	var $dialog = $('<div id="uploadDialog"></div>').html(data).dialog({
 		autoOpen : false,
 		modal : true,
@@ -201,35 +205,39 @@ function fillInUploadDialog(data) {
 			initializeUploadDialogAjaxLoader();
 		}
 	});
-	
-	
+
 	$dialog.dialog('open');
 }
 
 function initializeUploadDialogAjaxLoader() {
 	if (fileUploadUI != null) {
-	$("#fileUploadForm").remove;
+		$("#fileUploadForm").remove;
 	}
-	//} else {
-		fileUploadUI = $('#uploadForm')
-				.fileUploadUI(
-						{
-							uploadTable : $('#files'),
-							downloadTable : $('#files'),
-							buildUploadRow : function(files, index) {
-								return $('<tr><td>'
-										+ files[index].name
-										+ '<\/td>'
-										+ '<td class="file_upload_progress"><div><\/div><\/td>'
-										+ '<td class="file_upload_cancel">'
-										+ '<button class="ui-state-default ui-corner-all" title="Cancel">'
-										+ '<span class="ui-icon ui-icon-cancel">Cancel<\/span>'
-										+ '<\/button><\/td><\/tr>');
-							},
-							buildDownloadRow : function(file) {
-								return $('<tr><td>' + file.name
-										+ '<\/td><\/tr>');
-							}
-						});
-	//} 
+
+	fileUploadUI = $('#uploadForm')
+			.fileUploadUI(
+					{
+						uploadTable : $('#files'),
+						downloadTable : $('#files'),
+						buildUploadRow : function(files, index) {
+							$("#upload_message_area").html("");
+							$("#upload_message_area").removeClass();
+							return $('<tr><td>'
+									+ files[index].name
+									+ '<\/td>'
+									+ '<td class="file_upload_progress"><div><\/div><\/td>'
+									+ '<td class="file_upload_cancel">'
+									+ '<button class="ui-state-default ui-corner-all" title="Cancel">'
+									+ '<span class="ui-icon ui-icon-cancel">Cancel<\/span>'
+									+ '<\/button><\/td><\/tr>');
+						},
+						buildDownloadRow : function(file) {
+							return $('<tr><td>' + file.name + '<\/td><\/tr>');
+						},
+						onError : function(event, files, index, xhr, handler) {
+							$("#upload_message_area").html("an error occurred in the upload");
+							$("#upload_message_area").addClass("message");
+						}
+					});
+
 }

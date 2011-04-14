@@ -194,7 +194,9 @@ div#tabs {
 	border: 1px solid #b2d1ff;
 	color: #fff;
 	margin: 10px 0 5px 0;
-	padding: 5px 5px 5px 30px
+	padding: 5px 5px 5px 30px;
+	display:block;
+	overflow:auto;
 }
 
 div.errors {
@@ -413,6 +415,12 @@ th.desc a {
 	width: 15em;
 }
 
+
+#columnarForm textarea {
+	display: block;
+	width: 15em;
+}
+
 #columnarForm label {
 	display: block;
 	margin-bottom: 1em;
@@ -448,6 +456,12 @@ th.desc a {
 }
 
 #horizontalForm input {
+	display: block;
+	width: 15em;
+}
+
+
+#horizontalForm textarea {
 	display: block;
 	width: 15em;
 }
@@ -508,6 +522,14 @@ th.desc a {
 	display: block;
 }
 
+
+#marginForm textarea {
+	position: relative;
+	top: -1.4em;
+	left: 8em;
+	display: block;
+}
+
 #marginForm input.submit {
 	clear: both;
 	top: 0;
@@ -556,6 +578,12 @@ th.desc a {
 }
 
 #verticalForm input {
+	display: block;
+	width: 20em;
+}
+
+
+#verticalForm textarea {
 	display: block;
 	width: 20em;
 }
@@ -626,4 +654,21 @@ th.desc a {
 	float: right;
 	height: 100%;
 	background: #f4f4f4;
+}
+
+#detailsToolbar {
+	text-align: left;
+	height:25px;
+	margin: 0px auto;
+	padding: 0px;
+	border: 0;
+	display: inline-block;
+	overflow: auto;
+	width:100%;
+}
+
+
+/* file upload dialog */
+#file_upload_container {
+	margin: 5px;
 }

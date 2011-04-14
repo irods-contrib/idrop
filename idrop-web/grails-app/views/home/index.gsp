@@ -81,7 +81,6 @@
 
 						<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
 							style="float: left">
-
 							Display Option:
 							<g:select name="browseDisplayOption" id="browseDisplayOption"
 								from="${['info', 'sharing', 'metadata']}"
@@ -96,7 +95,8 @@
 
 
 				</div>
-
+				<g:render template="/common/panelmessages"/>
+				
 				<div id="infoDiv" class="ui-layout-center">
 					<h2>Select a directory or file to see info and tags based on
 						the view option</h2>

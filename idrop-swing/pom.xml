@@ -96,6 +96,16 @@
     </plugins>
   </build>   
   <dependencies>
+       <!--
+      Sun's JnlpDownladServlet takes the template JNLP file and inserts
+      relevant values for $$codebase and other parameters
+    -->
+    <dependency>
+      <groupId>com.sun.java.jnlp</groupId>
+      <artifactId>jnlp-servlet</artifactId>
+      <version>5.0</version>
+      <scope>runtime</scope>
+    </dependency>
     <dependency>
       <groupId>org.swinglabs</groupId>
       <artifactId>swing-layout</artifactId>

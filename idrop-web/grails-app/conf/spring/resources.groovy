@@ -20,4 +20,8 @@ beans = {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 	}
 	
+	sharingController(org.irods.mydrop.controller.MetadataController) {
+		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+	}
+	
 }

@@ -1,12 +1,14 @@
 <div id="detailsTopSection" class="box">
+<div id="detailsToolbar" class="fg-toolbar ui-widget-header">
+<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
+							style="float: left">
+<button type="button" id="addMetadataButton" class="ui-state-default ui-corner-all"  value="addMetadata" onclick="addMetadata()")>Add Metadata</button>
+<button type="button" id="updateMetadataButton" class="ui-state-default ui-corner-all"  value="updateMetadata" onclick="updateMetadata()")>Update Metadata</button>
+<button type="button" id="deleteMetadataButton" class="ui-state-default ui-corner-all" value="deleteMetadata" onclick="deleteMetadata()")>Delete Metadata</button>
+</div>
+</div>
+<g:render template="/common/panelmessages"/>
 
-<div id="detailsToolbar" class="nav">
-<button type="button" id="addMetadataButton" class="menuButton" value="addMetadata" onclick="addMetadata()")>Add Metadata</button>
-<button type="button" id="updateMetadataButton" class="menuButton" value="updateMetadata" onclick="updateMetadata()")>Update Metadata</button>
-<button type="button" id="deleteMetadataButton" class="menuButton" value="deleteMetadata" onclick="deleteMetadata()")>Delete Metadata</button>
-</div>
-</div>
-<div>
 	<table cellspacing="0" cellpadding="0" border="0"
 		id="metaDataDetailsTable" style="width: 100%;">
 		<thead>

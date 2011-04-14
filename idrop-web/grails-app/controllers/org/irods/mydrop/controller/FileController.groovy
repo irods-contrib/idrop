@@ -117,7 +117,9 @@ class FileController {
 		render(view:"uploadDialog", model:[irodsTargetCollection:irodsTargetCollection])
 	}
 
-	//FIXME: move to flash for these errors?
+	/**
+	 * Process an actual call to upload data to iRODS as a multi-part file
+	 */
 	def upload = {
 		log.info("upload action in file controller")
 		def f = request.getFile('file')
@@ -149,13 +151,6 @@ class FileController {
 		irodsFileOutputStream.flush()
 		irodsFileOutputStream.close()
 		
-		def jsonBuff = []
-		
-		jsonBuff.add(
-			["name": name, "type":"blah", "size":100]
-			)
-		
-		//render jsonBuff as JSON
 		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
 		
 	}

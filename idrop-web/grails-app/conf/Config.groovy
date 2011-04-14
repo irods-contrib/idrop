@@ -60,7 +60,7 @@ grails.validateable.packages = ['org.irods']
 
 // set per-environment serverURL stem for creating absolute links
 environments {
-	production { grails.serverURL = "http://irendb.renci.org:8080/${appName}" }
+	production { grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test { grails.serverURL = "http://localhost:8080/${appName}" }
 }
@@ -94,7 +94,7 @@ log4j = {
 
 	warn   'org.mortbay.log'
 	debug 'org.irods.mydrop'
-	info 'org.irods.jargon'
+	debug 'org.irods.jargon'
 	warn 'grails.app.controller'
 	warn 'org.springframework.security'
 }
