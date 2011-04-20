@@ -70,9 +70,16 @@ class SharingController {
 			flash.message = "Unable to find ACL data"
 		}
 
-		//flash.message = "there ya go"
-
 		render(view:"aclDetails", model:[acls:acls])
 
 	}
+	
+	/**
+	 * Update the ACL by responding to an AJAX editable update on a node. This uses the editable feature of the
+	 * ACL JQuery table
+	 */
+	def updateAcl = {
+		log.info("updating ACL")
+	}
+	
 }

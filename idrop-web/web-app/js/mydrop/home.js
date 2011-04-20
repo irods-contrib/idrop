@@ -46,12 +46,17 @@ function browserFirstViewRetrieved(data) {
 		},
 		"json_data" : {
 			"data" : [ data ],
+			"progressive_render" : true,
 			"ajax" : {
 				"url" : context + "/browse/ajaxDirectoryListingUnderParent",
 				"data" : function(n) {
+					setMessage();
 					return {
 						dir : n.attr ? n.attr("id") : 0
 					};
+				},
+				"error" : function(n) {
+					setMessage("Error loading tree");
 				}
 			}
 		},

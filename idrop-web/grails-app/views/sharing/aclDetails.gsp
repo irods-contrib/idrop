@@ -1,17 +1,25 @@
-
+<g:render template="/common/panelmessages" />
 <div id="detailsToolbar" class="fg-toolbar ui-widget-header">
-<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
-							style="float: left">
-<button type="button" id="addAclButton" class="ui-state-default ui-corner-all"  value="addAcl" onclick="addAcl()")>Add Share</button>
-<button type="button" id="updateAclButton" class="ui-state-default ui-corner-all"  value="updateAcl" onclick="updateAcl()")>Update Share</button>
-<button type="button" id="deleteAclButton" class="ui-state-default ui-corner-all" value="deleteAcl" onclick="deleteAcl()")>Delete Share</button>
+	<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
+		style="float: left">
+		<button type="button" id="addAclButton"
+			class="ui-state-default ui-corner-all" value="addAcl"
+			onclick="addAcl()")>Add Share</button>
+		<button type="button" id="updateAclButton"
+			class="ui-state-default ui-corner-all" value="updateAcl"
+			onclick="updateAcl()")>Update Share</button>
+		<button type="button" id="deleteAclButton"
+			class="ui-state-default ui-corner-all" value="deleteAcl"
+			onclick="deleteAcl()")>Delete Share</button>
+	</div>
 </div>
+<div id="aclMessageArea">
+	<!--  -->
 </div>
-<g:render template="/common/panelmessages"/>
 
 <div>
-	<table cellspacing="0" cellpadding="0" border="0"
-		id="aclDetailsTable" style="width: 100%;">
+	<table cellspacing="0" cellpadding="0" border="0" id="aclDetailsTable"
+		style="width: 100%;">
 		<thead>
 			<tr>
 				<th></th>
@@ -27,10 +35,10 @@
 					<td>
 						${acl.userName}
 					</td>
-					<td>
+					<td class="forSharePermission" id="${acl.userName}">
 						${acl.filePermissionEnum}
 					</td>
-					
+
 				</tr>
 			</g:each>
 
@@ -50,6 +58,35 @@
 
 	$(function() {
 		dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null);	
+
+		$('.forSharePermission', dataTable.fnGetNodes()).editable(function(value, settings) {
+			var userName = this.parentNode.parentNode.parentNode.getAttribute('id');
+			return aclUpdate(value,settings, userName);}, {
+			//"callback": function( sValue, y ) {
+			//	var aPos = dataTable.fnGetPosition( this );
+			//	dataTable.fnUpdate( sValue, aPos[0], aPos[1] );
+			//},
+			'data': "{'OWN':'OWN','READ':'READ','WRITE':'WRITE'}",
+			'type': 'select',
+			'submit': 'OK',
+			'cancel': 'Cancel',
+			'indicator': 'Saving'
+		} );
+		
 	});
+
+	/**
+	* Called by data table upon submit of an acl change 
+	*/
+	function aclUpdate(value, settings, userName) {
+		lcShowBusyIconInDiv("#aclMessageArea");
+		var url = context + 'sharing/updateAcl';
+		if (selectedPath == null) {
+			throw "no collection or data object selected";
+		}
+		
+		lcSetMessageWithMessageClass("#aclMessageArea", "Sharing setting updated");
+		return value;
+		}
 
 	</script>

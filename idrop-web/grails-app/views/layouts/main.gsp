@@ -16,6 +16,8 @@
 <g:javascript library="jquery-1.4.4.min" />
 <g:javascript library="jquery-ui-1.8.7.custom.min" />
 <g:javascript library="jquery.jstree.min" />
+<g:javascript library="jquery.jeditable.mini" />
+
 <g:javascript library="jquery.dataTables.min" />
 <g:javascript library="jqcloud-0.1.6" />
 <g:javascript library="jquery.fileupload-ui" />
