@@ -7,9 +7,12 @@
 
 <div id="tabs">
 	<ul>
-		<li><a href="#quickView">Quick View</a></li>
-		<li><a href="#search">Search</a></li>
-		<li><a href="#browse">Browse</a></li>
+		<li><a href="#quickView">Quick View</a>
+		</li>
+		<li><a href="#search">Search</a>
+		</li>
+		<li><a href="#browse">Browse</a>
+		</li>
 	</ul>
 	<div id="quickView">
 		<div class="objectContainer">
@@ -95,8 +98,8 @@
 
 
 				</div>
-				<g:render template="/common/panelmessages"/>
-				
+				<g:render template="/common/panelmessages" />
+
 				<div id="infoDiv" class="ui-layout-center">
 					<h2>Select a directory or file to see info and tags based on
 						the view option</h2>
@@ -111,14 +114,18 @@
 
 <script type="text/javascript">
 var dataLayout;
+var globalMessageArea = "#javascript_message_area";
 $(document).ready(function() {
+
+	
 	dataLayout = $("#dataTreeView").layout({ 
 		applyDefaultStyles: true,
 		west__minSize: 100,
 		west__resizable: true,
 		
 		});
-	$( "#tabs" ).tabs();
+	
+	tabs = $( "#tabs" ).tabs();
 	retrieveBrowserFirstView();
 	
 });

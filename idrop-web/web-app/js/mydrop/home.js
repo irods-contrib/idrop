@@ -50,13 +50,13 @@ function browserFirstViewRetrieved(data) {
 			"ajax" : {
 				"url" : context + "/browse/ajaxDirectoryListingUnderParent",
 				"data" : function(n) {
-					setMessage();
+					lcClearMessage();
 					return {
 						dir : n.attr ? n.attr("id") : 0
 					};
 				},
 				"error" : function(n) {
-					setMessage("Error loading tree");
+					setMessage("error loading tree");
 				}
 			}
 		},

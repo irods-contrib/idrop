@@ -14,5 +14,10 @@ class UrlMappings {
 
 		"/"(controller:"home", action:"index")
 		"500"(view:'/error')
+		"/$controller/$action?"{
+			constraints {
+				// apply constraints here
+			}
+		}
 	}
 }

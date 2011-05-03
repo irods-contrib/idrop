@@ -10,7 +10,7 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
-grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
+grails.project.groupId = org.irods.mydrop // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
 grails.mime.types = [ html: [
@@ -70,7 +70,7 @@ log4j = {
 
 	root {
 		info()
-		additivity = true
+		//additivity = true
 	}
 
 	// Example of changing the log pattern for the default console
@@ -92,9 +92,11 @@ log4j = {
 			'org.hibernate',
 			'net.sf.ehcache.hibernate'
 
-	warn   'org.mortbay.log'
-	debug 'org.irods.mydrop'
-	debug 'org.irods.jargon'
-	warn 'grails.app.controller'
-	warn 'org.springframework.security'
+	info 'org.irods.mydrop'
+	info 'org.irods.jargon'
+	info 'grails.app'
+		 
+	warn 'org.mortbay.log',
+		//'grails.app.controller',
+		'org.springframework.security'
 }

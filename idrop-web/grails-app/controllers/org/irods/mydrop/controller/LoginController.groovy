@@ -3,6 +3,7 @@ package org.irods.mydrop.controller
 class LoginController {
 
 	def login = { 
+		log.info "in login"
 		response.setHeader("apptimeout","apptimeout")
 		render(view:"login") 
 	}

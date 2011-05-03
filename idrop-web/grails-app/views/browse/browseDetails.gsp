@@ -55,10 +55,7 @@
 	var dataTable;
 
 	$(function() {
-	
-	
 		dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon");
-		
 	});
 
 	function browseDetailsClick(minMaxIcon) {
@@ -76,9 +73,14 @@
 		}
 	}
 
+	function clickFileToDownload(element) {
+		//window.open(element,'Download');
+		//alert("clicked on link for element:" + element);
+	}
+
 	function browseDataDetailsFunction(clickedIcon, rowActionIsOn) {
 		/* Open this row */
-		prepareForCall();
+		lcPrepareForCall();
 		lcCloseTableNodes(dataTable);
 		// nTr points to row and has absPath in id
 		var absPath = $(rowActionIsOn).attr('id');

@@ -42,10 +42,12 @@ class FileController {
 		irodsAccessObjectFactory.closeSession()
 	}
 
-
+	
+	/**
+	 * This is the download action
+	 */
 	def index = {
 
-		// TODO: file not found?
 		log.info("index action")
 		String parseString = "/file/download"
 		def parseStringLength = parseString.length()
@@ -66,6 +68,7 @@ class FileController {
 		fullPath = fullPath.substring(idx + parseStringLength)
 		log.info("iRODS path for file is: ${fullPath}")
 
+		
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 		IRODSFileInputStream irodsFileInputStream = irodsFileFactory.instanceIRODSFileInputStream(fullPath)
 		IRODSFile irodsFile = irodsFileFactory.instanceIRODSFile(fullPath)

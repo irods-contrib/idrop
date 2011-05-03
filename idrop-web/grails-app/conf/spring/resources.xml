@@ -87,7 +87,7 @@
 		<beans:property name="authenticationManager" ref="authenticationManager" />
 		<beans:property name="filterProcessesUrl" value="/j_spring_security_check" />
 		<beans:property name="authenticationFailureHandler"
-			ref="authenticationFailureHandler" />
+			ref="authenticationFailureHandler" /> 
 	</beans:bean>
 
 	<beans:bean id="accessDecisionManager"

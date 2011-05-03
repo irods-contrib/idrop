@@ -25,7 +25,7 @@ function updateTags() {
 	}
 
 	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
-			params, "#infoUpdateArea", "#infoUpdateArea", function() {
+			params, null, "#infoUpdateArea", function() {
 				$("#infoUpdateArea").html("Tags updated");
 				refreshTagCloud();
 			});
