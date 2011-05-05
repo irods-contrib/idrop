@@ -148,6 +148,9 @@ div#tabs {
 .fg-toolbar {
 	padding: .5em;
 	margin: 0;
+	display: block;
+	clear: both;
+	
 }
 
 .fg-toolbar .fg-buttonset {

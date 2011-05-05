@@ -369,7 +369,7 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 			}
 		}, "html").error(function() {
-			setMessage("Error creating upload dialog");
+			setMessage("Error in request");
 		});
 
 	} catch (err) {

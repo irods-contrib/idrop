@@ -7,12 +7,9 @@
 
 <div id="tabs">
 	<ul>
-		<li><a href="#quickView">Quick View</a>
-		</li>
-		<li><a href="#search">Search</a>
-		</li>
-		<li><a href="#browse">Browse</a>
-		</li>
+		<li><a href="#quickView">Quick View</a></li>
+		<li><a href="#search">Search</a></li>
+		<li><a href="#browse">Browse</a></li>
 	</ul>
 	<div id="quickView">
 		<div class="objectContainer">
@@ -74,31 +71,33 @@
 
 	<div id="browse">
 		<div id="browser" class="wrapper" style="width: 100%">
+			<div id="browseToolbar" class="xui-layout-north"
+				style="height: 30px; position: relative; display: block;">
+				<div id="headerSearchBox" class="ui-widget-header fg-toolbar">
+
+					<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
+						style="float: left">
+						Display Option:
+						<g:select name="browseDisplayOption" id="browseDisplayOption"
+							from="${['info', 'sharing', 'metadata']}"
+							noSelection="${['details':'details']}" onChange="setBrowseMode()" />
+					</div>
+
+					<button type="button" id="upload"
+						class="ui-state-default ui-corner-all" value="upload"
+						onclick="showUploadDialog()")>Upload</button>
+				</div>
+
+
+			</div>
+			<g:render template="/common/panelmessages" />
+
 			<div id="dataTreeView" class="">
+
 				<!--  no empty divs -->
 				<div id="dataTreeDiv" class="ui-layout-west">
 					<!--  no empty divs -->
 				</div>
-				<div id="browseToolbar" class="ui-layout-north">
-					<div id="headerSearchBox" class="ui-widget-header fg-toolbar">
-
-						<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
-							style="float: left">
-							Display Option:
-							<g:select name="browseDisplayOption" id="browseDisplayOption"
-								from="${['info', 'sharing', 'metadata']}"
-								noSelection="${['details':'details']}"
-								onChange="setBrowseMode()" />
-						</div>
-
-						<button type="button" id="upload"
-							class="ui-state-default ui-corner-all" value="upload"
-							onclick="showUploadDialog()")>Upload</button>
-					</div>
-
-
-				</div>
-				<g:render template="/common/panelmessages" />
 
 				<div id="infoDiv" class="ui-layout-center">
 					<h2>Select a directory or file to see info and tags based on

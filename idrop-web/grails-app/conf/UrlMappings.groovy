@@ -7,17 +7,19 @@ class UrlMappings {
 			}	
 		}
 		
-		//"/file/**" (controller:"file", action:"index")
 		"/file/**" (controller:"file", action:"index"){
 			name = {request.requestURI}
 		}
-
-		"/"(controller:"home", action:"index")
-		"500"(view:'/error')
+		
 		"/$controller/$action?"{
 			constraints {
 				// apply constraints here
 			}
 		}
+
+		"/"(controller:"home", action:"index")
+		"500"(view:'/error')
+		
 	}
 }
+  

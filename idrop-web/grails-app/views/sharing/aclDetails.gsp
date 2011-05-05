@@ -1,10 +1,10 @@
 <g:render template="/common/panelmessages" />
 <div id="detailsToolbar" class="fg-toolbar ui-widget-header">
 	<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
-		style="float: left">
+		style="float: left, clear: both;">
 		<button type="button" id="addAclButton"
 			class="ui-state-default ui-corner-all" value="addAcl"
-			onclick="addAcl()")>Add Share</button>
+			onclick="prepareAclDialog()")>Add Share</button>
 		<button type="button" id="updateAclButton"
 			class="ui-state-default ui-corner-all" value="updateAcl"
 			onclick="updateAcl()")>Update Share</button>
@@ -16,6 +16,9 @@
 <div id="aclMessageArea">
 	<!--  -->
 </div>
+
+<div id="aclDialogArea">
+<!--  area for generating dialogs --></div>
 
 <div>
 	<table cellspacing="0" cellpadding="0" border="0" id="aclDetailsTable"
@@ -79,40 +82,5 @@
 		} );
 		
 	});
-
-
-// FIXME: diff div for loading gif
-	
-	/**
-	* Called by data table upon submit of an acl change 
-	*/
-	function aclUpdate(value, settings, userName) {
-		//lcShowBusyIconInDiv("#aclMessageArea");
-		var url = '/sharing/updateAcl';
-		//var aPos = dataTable.fnGetPosition( this );
-		//alert("apos =" + aPos);
-		if (selectedPath == null) {
-			throw "no collection or data object selected";
-		}
-
-		lcShowBusyIconInDiv(messageAreaSelector);
-		
-		var params = {
-			absPath : selectedPath,
-			acl : value,
-			userName: userName
-		}
-
-		 var jqxhr =  $.post(context + url, params, function(data, status, xhr) {
-			 lcClearDivAndDivClass(messageAreaSelector);
-		
-			}, "html").error(function() {
-			setMessageInArea(messageAreaSelector, "Error sharing file");
-			//alert("in error, this is :" + this.html());
-		});
-	
-		return value;
-		
-	}
 
 	</script>

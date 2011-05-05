@@ -4,12 +4,12 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.exception.JargonRuntimeException
+import org.irods.jargon.core.protovalues.FilePermissionEnum
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.DataObject
-import org.irods.jargon.core.query.UserFilePermission
 import org.springframework.security.core.context.SecurityContextHolder
 
 
@@ -73,7 +73,27 @@ class SharingController {
 
 		render(view:"aclDetails", model:[acls:acls])
 	}
-
+	
+	/**
+	 * Display an Acl dialog for an add or edit
+	 */
+	def prepareAclDialog = {
+		log.info "prepareAclDialog"
+		log.info "params: ${params}"
+			
+		// if a user is provided, this will be an edit, otherwise, it's a create
+		def userName = params['userName'];
+		def absPath = params['absPath']
+		
+		if (!absPath) {
+			log.error "no absPath in request for prepareAclDialog()"
+			throw new JargonException("a path was not supplied")
+		}
+		
+		render(view:"aclDialog", model:[absPath:absPath, userName:userName, userPermissionEnum:FilePermissionEnum.listAllValues()])
+		
+	}
+	
 	/**
 	 * Update the ACL by responding to an AJAX editable update on a node. This uses the editable feature of the
 	 * ACL JQuery table
@@ -86,19 +106,17 @@ class SharingController {
 		def absPath = params['absPath']
 
 
-		if (userName == false) {
+		if (!userName) {
 			throw new JargonException("userName not supplied")
 		}
 
-		if (acl == false) {
+		if (!acl) {
 			throw new JargonException("acl not supplied")
 		}
 
-		if (absPath == false) {
+		if (!absPath) {
 			throw new JargonException("absPath not supplied")
 		}
-
-
 
 		log.info("updateACL userName: ${userName} acl: ${acl} absPath: ${absPath}")
 
