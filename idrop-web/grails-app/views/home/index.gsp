@@ -71,9 +71,9 @@
 
 	<div id="browse">
 		<div id="browser" class="wrapper" style="width: 100%">
-			<div id="browseToolbar" class="xui-layout-north"
-				style="height: 30px; position: relative; display: block;">
-				<div id="headerSearchBox" class="ui-widget-header fg-toolbar">
+			<div id="browseToolbar" class=""
+				style="height: 30px; position: relative; display: block; width: auto;">
+				<div id="browseToolbarSubBox" class="ui-widget-header fg-toolbar">
 
 					<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
 						style="float: left">
@@ -119,9 +119,9 @@ $(document).ready(function() {
 	
 	dataLayout = $("#dataTreeView").layout({ 
 		applyDefaultStyles: true,
+		size: "auto",
 		west__minSize: 100,
-		west__resizable: true,
-		
+		west__resizable: true		
 		});
 	
 	tabs = $( "#tabs" ).tabs();

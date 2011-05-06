@@ -59,18 +59,16 @@
 </div>
 <script type="text/javascript">
 
-
 	var messageAreaSelector="#aclMessageArea";
 	
 	$(function() {
+		lcPrepareForCall();
 		dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null);	
 
 		$('.forSharePermission', dataTable.fnGetNodes()).editable(function(value, settings) {
 			var userName = this.parentNode.getAttribute('id');
 			return aclUpdate(value,settings, userName);}, {
 			"callback": function( sValue, y ) {
-				setMessageInArea(messageAreaSelector, "File sharing update successful");
-
 				var aPos = dataTable.fnGetPosition( this );
 				dataTable.fnUpdate( sValue, aPos[0], aPos[1] );
 			},

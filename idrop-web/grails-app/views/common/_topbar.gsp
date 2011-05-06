@@ -28,7 +28,8 @@
 	</div>
 </g:ifAuthenticated>
 
-<script type="text/javascript">var menuShown = true;
+<script type="text/javascript">
+var menuShown = true;
 function showMenu() {
 	
 	if (menuShown) {
@@ -37,14 +38,21 @@ function showMenu() {
 		menuShown = false;
 		$("#mainDiv").width="100%";
 		$("#mainDivCol1").width="100%";
-		$("#mainDivCol1").removeClass()
+		$("#mainDivCol1").removeClass();
+		dataLayout.resizeAll();
+		//$("#dataTreeView").layout.resizeContent("center");
+		//$("#infoDiv").width="100%";
 	} else {
 		$("#secondaryDiv").show('slow');
 		$("#mainDiv").width="80%";
 		$("#mainDivCol1").width="80%";
 		$("#secondaryDiv").width="20%";
 		$("#mainDivCol1").addClass("yui-u first");
+		dataLayout.resizeAll();
 		
+		//$("#dataTreeView").layout.resizeContent("center");
+		
+		//$("#infoDiv").width="100%";
 		menuShown = true;
 	}
 }

@@ -13,7 +13,6 @@ var selectedPath = null;
 var fileUploadUI = null;
 var aclDialogMessageSelector = "#aclDialogMessageArea";
 
-
 /**
  * presets for url's
  */
@@ -123,7 +122,7 @@ function nodeLoadedCallback() {
  */
 function nodeSelected(event, data) {
 	// given the path, put in the node data
-
+	lcPrepareForCall();
 	var id = data[0].id;
 	selectedPath = id;
 	updateBrowseDetailsForPathBasedOnCurrentModel(id);
@@ -136,6 +135,7 @@ function nodeSelected(event, data) {
  * the right hand pane
  */
 function setBrowseMode() {
+	lcPrepareForCall();
 	browseOptionVal = $("#browseDisplayOption").val();
 	updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 }
@@ -146,6 +146,8 @@ function setBrowseMode() {
  * 'browseOption' that is set in the drop-down above the browse area.
  */
 function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
+
+	lcPrepareForCall();
 
 	if (absPath == null) {
 		return;
@@ -168,9 +170,8 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 				"/metadata/listMetadata?absPath=" + absPath, "#infoDiv",
 				"#infoDiv", null);
 	} else if (browseOptionVal == "sharing") {
-		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/sharing/listAcl?absPath=" + absPath, "#infoDiv",
-				"#infoDiv", null);
+		lcSendValueAndCallbackHtmlAfterErrorCheck("/sharing/listAcl?absPath="
+				+ absPath, "#infoDiv", "#infoDiv", null);
 	}
 }
 
@@ -203,6 +204,8 @@ function showUploadDialog() {
  */
 function fillInUploadDialog(data) {
 
+	lcPrepareForCall();
+
 	if (data == null) {
 		return;
 	}
@@ -223,6 +226,8 @@ function fillInUploadDialog(data) {
 }
 
 function initializeUploadDialogAjaxLoader() {
+	lcPrepareForCall();
+
 	if (fileUploadUI != null) {
 		$("#fileUploadForm").remove;
 	}
@@ -248,7 +253,8 @@ function initializeUploadDialogAjaxLoader() {
 							return $('<tr><td>' + file.name + '<\/td><\/tr>');
 						},
 						onError : function(event, files, index, xhr, handler) {
-							$("#upload_message_area").html("an error occurred:" + xhr);
+							$("#upload_message_area").html(
+									"an error occurred:" + xhr);
 							$("#upload_message_area").addClass("message");
 						}
 					});
@@ -260,30 +266,36 @@ function initializeUploadDialogAjaxLoader() {
  */
 function aclUpdate(value, settings, userName) {
 	// lcShowBusyIconInDiv("#aclMessageArea");
-	
+
 	// var aPos = dataTable.fnGetPosition( this );
 	// alert("apos =" + aPos);
+	lcPrepareForCall();
+
 	if (selectedPath == null) {
 		throw "no collection or data object selected";
 	}
 
 	lcShowBusyIconInDiv(messageAreaSelector);
-	
+
 	var params = {
 		absPath : selectedPath,
 		acl : value,
-		userName: userName
+		userName : userName
 	}
 
-	 var jqxhr =  $.post(context + aclUpdateUrl, params, function(data, status, xhr) {
-		 lcClearDivAndDivClass(messageAreaSelector);
-	
-		}, "html").error(function() {
+	var jqxhr = $.post(context + aclUpdateUrl, params,
+			function(data, status, xhr) {
+				lcClearDivAndDivClass(messageAreaSelector);
+			}, "html").error(function() {
 		setMessageInArea(messageAreaSelector, "Error sharing file");
-	});
+	}).complete(
+			function() {
+				setMessageInArea(messageAreaSelector,
+						"File sharing update successful");
+			});
 
 	return value;
-	
+
 }
 
 /**
@@ -314,46 +326,70 @@ function prepareAclDialog() {
  * @param data
  */
 function showAclDialog(data) {
+	lcPrepareForCall();
+
 	$("#aclDialogArea").html(data);
-	 $("#aclDialogArea").dialog({
-		 "width" : 400, 
-		 "modal" : true,
-		 "buttons" : { "Ok": function() { submitAclDialog();  }, "Cancel": function() { $(this).dialog("close"); } },
-		 "title" : "Edit Share Permission"
-	 });
-	 
+	$("#aclDialogArea").dialog({
+		"width" : 400,
+		"modal" : true,
+		"buttons" : {
+			"Ok" : function() {
+				submitAclDialog();
+			},
+			"Cancel" : function() {
+				$(this).dialog("close");
+			}
+		},
+		"title" : "Edit Share Permission"
+	});
+
 }
 
 function submitAclDialog() {
-	
-	var userName =  $('[name=userName]').val();
+
+	lcPrepareForCall();
+
+	var userName = $('[name=userName]').val();
 	if (userName == null || userName == "") {
-		setMessageInArea(aclDialogMessageSelector, "Please select a user to share data with");
+		setMessageInArea(aclDialogMessageSelector,
+				"Please select a user to share data with");
 		return false;
 	}
-	var permissionVal =  $('[name=acl]').val();
-	if (permissionVal == null || permissionVal == "" || permissionVal== "NONE") {
-		setMessageInArea(aclDialogMessageSelector, "Please select a permission value in the drop-down");
+	var permissionVal = $('[name=acl]').val();
+	if (permissionVal == null || permissionVal == "" || permissionVal == "NONE") {
+		setMessageInArea(aclDialogMessageSelector,
+				"Please select a permission value in the drop-down");
 		return false;
 	}
-	
+
 	if (selectedPath == null) {
 		throw "no collection or data object selected";
 	}
-	
+
 	lcShowBusyIconInDiv(aclDialogMessageSelector);
-	
+
 	var params = {
 		absPath : selectedPath,
 		acl : permissionVal,
-		userName: userName
+		userName : userName
 	}
 
-	 var jqxhr =  $.post(context + aclUpdateUrl, params, function(data, status, xhr) {
-		 lcClearDivAndDivClass(aclDialogMessageSelector);
-	
-		}, "html").error(function() {
-		setMessageInArea(aclDialogMessageSelector, "Error saving sharing permissions");
-	}).success(function() {$("#aclDialogArea").dialog("close"); setMessage("Sharing permission saved successfully") });
-	
+	var jqxhr = $.post(context + aclUpdateUrl, params,
+			function(data, status, xhr) {
+				lcClearDivAndDivClass(aclDialogMessageSelector);
+
+			}, "html").error(
+			function() {
+				setMessageInArea(aclDialogMessageSelector,
+						"Error saving sharing permissions");
+			}).success(function() {
+		$("#aclDialogArea").dialog("close");
+
+		// FIXME: add new row in table
+
+		// updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		setMessage("Sharing permission saved successfully")
+
+	});
+
 }

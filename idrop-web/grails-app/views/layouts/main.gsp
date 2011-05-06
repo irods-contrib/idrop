@@ -41,10 +41,6 @@
 <div class="yui-b">
 <div id="mainDiv" class="yui-ge">
 <div id="mainDivCol1" class="yui-u first"><!-- PUT MAIN COLUMN 1 CODE HERE -->
-<div id="spinner" class="spinner" style="display: none;"><img
-	src="${resource(dir:'images',file:'spinner.gif')}"
-	alt="${message(code:'spinner.alt',default:'Loading...')}" />
-</div>
  <g:layoutBody />
 </div>
 <div id="secondaryDiv" class="yui-u"><!-- PUT MAIN COLUMN 2 CODE HERE -->
@@ -56,7 +52,7 @@
 </div>
 </div>
 </div>
-<div class="yui-b"><!-- PUT SECONDARY COLUMN CODE HERE --></div>
+
 </div>
 <div id="ft"><!-- PUT FOOTER CODE HERE -->
 <g:render template="/common/footer" />
