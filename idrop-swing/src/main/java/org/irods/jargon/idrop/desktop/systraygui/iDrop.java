@@ -344,11 +344,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         iDropItem.addActionListener(this);
 
-        Menu displayMenu = new Menu("Display");
-        MenuItem currentItem = new MenuItem("Current");
-        MenuItem recentItem = new MenuItem("Recent");
-        MenuItem errorItem = new MenuItem("Error");
-        MenuItem warningItem = new MenuItem("Warning");
+        MenuItem currentItem = new MenuItem("Show Current and Past Activity");
+        
         MenuItem logoutItem = new MenuItem("Logout");
 
         pausedItem = new CheckboxMenuItem("Pause");
@@ -356,10 +353,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         MenuItem exitItem = new MenuItem("Exit");
 
         exitItem.addActionListener(this);
-        recentItem.addActionListener(this);
         currentItem.addActionListener(this);
-        errorItem.addActionListener(this);
-        warningItem.addActionListener(this);
         preferencesItem.addActionListener(this);
         synchItem.addActionListener(this);
         changePasswordItem.addActionListener(this);
@@ -375,11 +369,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         popup.add(changePasswordItem);
         popup.add(synchItem);
         popup.addSeparator();
-        popup.add(displayMenu);
-        displayMenu.add(currentItem);
-        displayMenu.add(recentItem);
-        displayMenu.add(errorItem);
-        displayMenu.add(warningItem);
+        popup.add(currentItem);
         popup.addSeparator();
         popup.add(pausedItem);
         popup.addSeparator();
@@ -477,7 +467,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
             }
             changePasswordDialog.setVisible(true);
 
-        } else if (e.getActionCommand().equals("Recent")) {
+        } else if (e.getActionCommand().equals("Show Current and Past Activity")) {
 
             log.info("showing recent items in queue");
             try {
@@ -493,63 +483,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 return;
             }
 
-            queueManagerDialog.setModal(false);
-            queueManagerDialog.setVisible(true);
-            queueManagerDialog.toFront();
-
-        } else if (e.getActionCommand().equals("Current")) {
-
-            log.info("showing current items in queue");
-            try {
-                if (queueManagerDialog == null) {
-                    queueManagerDialog = new QueueManagerDialog(this, iDropCore.getTransferManager(),
-                            QueueManagerDialog.ViewType.CURRENT);
-                } else {
-                    queueManagerDialog.refreshTableView(QueueManagerDialog.ViewType.CURRENT);
-                }
-            } catch (IdropException ex) {
-                Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-                this.showIdropException(ex);
-                return;
-            }    
-            queueManagerDialog.setModal(false);
-            queueManagerDialog.setVisible(true);
-            queueManagerDialog.toFront();
-
-        } else if (e.getActionCommand().equals("Error")) {
-
-            log.info("showing error items in queue");
-            try {
-                if (queueManagerDialog == null) {
-                    queueManagerDialog = new QueueManagerDialog(this, iDropCore.getTransferManager(),
-                            QueueManagerDialog.ViewType.ERROR);
-                } else {
-                    queueManagerDialog.refreshTableView(QueueManagerDialog.ViewType.ERROR);
-                }
-            } catch (IdropException ex) {
-                Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-                this.showIdropException(ex);
-                return;
-            }
-            queueManagerDialog.setModal(false);
-            queueManagerDialog.setVisible(true);
-            queueManagerDialog.toFront();
-
-        } else if (e.getActionCommand().equals("Warning")) {
-
-            log.info("showing warning items in queue");
-            try {
-                if (queueManagerDialog == null) {
-                    queueManagerDialog = new QueueManagerDialog(this, iDropCore.getTransferManager(),
-                            QueueManagerDialog.ViewType.WARNING);
-                } else {
-                    queueManagerDialog.refreshTableView(QueueManagerDialog.ViewType.WARNING);
-                }
-            } catch (IdropException ex) {
-                Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-                this.showIdropException(ex);
-                return;
-            }
             queueManagerDialog.setModal(false);
             queueManagerDialog.setVisible(true);
             queueManagerDialog.toFront();

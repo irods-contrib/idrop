@@ -1,10 +1,13 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Toolkit;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.SwingWorker;
@@ -13,6 +16,7 @@ import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.irods.jargon.transfer.engine.TransferManagerImpl;
 import org.slf4j.LoggerFactory;
@@ -27,16 +31,11 @@ public class IDropSplashWindow extends JWindow implements Runnable {
      *  
      */
     private static final long serialVersionUID = 1L;
-
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(IDropSplashWindow.class);
-
     private ImageIcon splashImage = new ImageIcon(IDropSplashWindow.class.getClassLoader().getResource(
             "org/irods/jargon/idrop/desktop/images/iDrop.png"));
-
     private JLabel jlblImage = new JLabel();
-
     private JProgressBar jProgressBar1 = new JProgressBar();
-
     private iDrop iDrop;
 
     public IDropSplashWindow(iDrop iDrop) {
@@ -169,13 +168,25 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                  * the status of the queue. This app listens to the TransferManager to receive updates about what the
                  * queue is doing.
                  */
-                TransferManager transferManager = new TransferManagerImpl(iDrop, iDrop.getiDropCore().getIdropConfig()
-                        .isLogSuccessfulTransfers());
+                TransferManager transferManager = new TransferManagerImpl(iDrop, iDrop.getiDropCore().getIdropConfig().isLogSuccessfulTransfers());
                 iDrop.getiDropCore().setTransferManager(transferManager);
             } catch (JargonException e1) {
                 logger.error(e1.getMessage());
                 MessageManager.showError(IDropSplashWindow.this, e1.getMessage(), "Failed to start Transfer Engine");
                 System.exit(1);
+            }
+
+            /*
+             * Look for in progress transfers, and pause queue based on user input
+             */
+            List<LocalIRODSTransfer> currentQueue = iDrop.getiDropCore().getTransferManager().getCurrentQueue();
+
+            if (!currentQueue.isEmpty()) {
+                int result = JOptionPane.showConfirmDialog((Component) null, "Transfers are waiting to process, restart transfer?",
+                        "iDrop Transfers in Progress", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.CANCEL_OPTION) {
+                    iDrop.getiDropCore().getTransferManager().pause();
+                }
             }
 
             setStatus("Starting Queue...", ++count);
@@ -189,10 +200,9 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 e.printStackTrace();
             }
 
-            iDrop.getiDropCore().getTransferManager().getCurrentQueue();
+
             dispose();
             return null;
         }
     }
-
 }
