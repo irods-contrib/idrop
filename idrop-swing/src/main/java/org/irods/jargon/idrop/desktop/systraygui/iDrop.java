@@ -122,8 +122,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     private TrayIcon trayIcon = null;
 
-    private IRODSFileSystem irodsFileSystem = null;
-
     private Object lastCachedInfoItem = null;
 
     public DateFormat df = DateFormat.getDateInstance(DateFormat.LONG);
@@ -145,16 +143,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     public JProgressBar queuedTransfersProgressBar;
 
     private static SimpleDateFormat SDF = new SimpleDateFormat("MM-dd-yyyy");
-
-    /**
-     * Get the IRODSFileSystem that will be the source for all connections and references to access object and file
-     * factories. NOTE: there is some legacy code that needs to be converted to use this reference.
-     * 
-     * @return
-     */
-    public IRODSFileSystem getIrodsFileSystem() {
-        return irodsFileSystem;
-    }
 
     /** Creates new form IDrop */
     public iDrop() {
@@ -188,7 +176,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         }
 
         try {
-            irodsFileSystem = IRODSFileSystem.instance();
+           iDropCore.setIrodsFileSystem(IRODSFileSystem.instance());
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(1);
@@ -477,7 +465,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
             showGUICheckBox.setSelected(getiDropCore().getPreferences().getBoolean("showGUI", true));
             newPreferencesDialog.setVisible(true);
              } else if (e.getActionCommand().equals("Synch")) {
-                 synchSetupDialog = new SynchSetupDialog(this, getiDropCore(), getIrodsFileSystem());
+                 synchSetupDialog = new SynchSetupDialog(this, getiDropCore(), getiDropCore().getIrodsFileSystem());
                  synchSetupDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Change Password")) {
 
@@ -845,7 +833,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 log.info("building new iRODS tree");
                 try {
                     irodsTree = new IRODSTree(gui);
-                    IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(), getIrodsFileSystem(), irodsTree);
+                    IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
                     irodsTree.setModel(new IRODSFileSystemModel(rootNode, getIrodsAccount()));
                     irodsTree.setRefreshingTree(true);
                     irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
@@ -871,7 +859,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     }
                 }
                 irodsTree.setRefreshingTree(false);
-                irodsFileSystem.closeAndEatExceptions(iDropCore.getIrodsAccount());
+                getiDropCore().getIrodsFileSystem().closeAndEatExceptions(iDropCore.getIrodsAccount());
             }
         });
     }
@@ -906,14 +894,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 try {
                     if (collectionAndDataObjectListingEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
                         log.info("looking up collection to build info panel");
-                        CollectionAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAO(
+                        CollectionAO collectionAO = getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getCollectionAO(
                                 getIrodsAccount());
                         Collection collection = collectionAO.findByAbsolutePath(collectionAndDataObjectListingEntry
                                 .getPathOrName());
                         initializeInfoPanel(collection);
                     } else {
                         log.info("looking up data object to build info panel");
-                        DataObjectAO dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory().getDataObjectAO(
+                        DataObjectAO dataObjectAO = getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getDataObjectAO(
                                 getIrodsAccount());
                         DataObject dataObject = dataObjectAO.findByAbsolutePath(collectionAndDataObjectListingEntry
                                 .getParentPath() + "/" + collectionAndDataObjectListingEntry.getPathOrName());
@@ -925,7 +913,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                             collectionAndDataObjectListingEntry, e);
                     throw new IdropRuntimeException(e);
                 } finally {
-                    irodsFileSystem.closeAndEatExceptions(getIrodsAccount());
+                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(getIrodsAccount());
                     idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
                 }
@@ -968,7 +956,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
                 try {
                     FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(
-                            irodsFileSystem.getIRODSAccessObjectFactory(), getIrodsAccount());
+                          getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(), getiDropCore().getIrodsAccount());
                     IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForDataObjectInFreeTagForm(dataObject
                             .getCollectionName() + "/" + dataObject.getDataName());
                     txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
@@ -984,7 +972,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
                     throw new IdropRuntimeException(ex);
                 } finally {
-                    irodsFileSystem.closeAndEatExceptions(getIrodsAccount());
+                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(getIrodsAccount());
                     idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
             }
@@ -1028,7 +1016,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
                 try {
                     FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(
-                            irodsFileSystem.getIRODSAccessObjectFactory(), getIrodsAccount());
+                            getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(), getIrodsAccount());
                     IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForCollectionInFreeTagForm(collection
                             .getCollectionName());
                     txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
@@ -1043,7 +1031,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
                     throw new IdropRuntimeException(ex);
                 } finally {
-                    irodsFileSystem.closeAndEatExceptions(getIrodsAccount());
+                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(getIrodsAccount());
                     idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
             }
@@ -1939,13 +1927,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         try {
             // FIXME: depict data objects/collections? munge together? wha...
             UserTagCloudService userTagCloudService = UserTagCloudServiceImpl.instance(
-                    irodsFileSystem.getIRODSAccessObjectFactory(), getIrodsAccount());
+                    getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(), getIrodsAccount());
             userTagCloudView = userTagCloudService
                     .searchForTagsForDataObjectsAndCollectionsUsingSearchTermForTheLoggedInUser(tagSearchText);
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            irodsFileSystem.closeAndEatExceptions(getIrodsAccount());
+            getiDropCore().getIrodsFileSystem().closeAndEatExceptions(getIrodsAccount());
 
         }
         try {
@@ -2102,7 +2090,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 FreeTaggingService freeTaggingService;
 
                 try {
-                    freeTaggingService = FreeTaggingServiceImpl.instance(irodsFileSystem.getIRODSAccessObjectFactory(),
+                    freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
                             getIrodsAccount());
 
                     if (lastCachedInfoItem instanceof Collection) {
@@ -2132,7 +2120,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     throw new IdropRuntimeException(ex);
                 } finally {
                     try {
-                        irodsFileSystem.close(getIrodsAccount());
+                        getiDropCore().getIrodsFileSystem().close(getIrodsAccount());
                     } catch (JargonException ex) {
                         Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
                         // logged and ignored
@@ -2403,7 +2391,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 try {
                     idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(
-                            irodsFileSystem.getIRODSAccessObjectFactory(), getIrodsAccount());
+                            getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(), getIrodsAccount());
                     TagQuerySearchResult result = freeTaggingService.searchUsingFreeTagString(searchTerms);
                     pnlTagResultsInner.removeAll();
                     pnlTagResultsInner.validate();
@@ -2447,7 +2435,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     idropGui.showIdropException(e);
                     return;
                 } finally {
-                    irodsFileSystem.closeAndEatExceptions(getIrodsAccount());
+                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(getIrodsAccount());
                     idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
             }
@@ -2474,8 +2462,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
                 try {
                     idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsFileSystem
-                            .getIRODSAccessObjectFactory().getCollectionAndDataObjectListAndSearchAO(
+                    CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO =   iDropCore.getIRODSAccessObjectFactory().getCollectionAndDataObjectListAndSearchAO(
                                     iDropCore.getIrodsAccount());
                     IRODSSearchTableModel irodsSearchTableModel = new IRODSSearchTableModel(
                             collectionAndDataObjectListAndSearchAO
@@ -2486,7 +2473,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     idropGui.showIdropException(e);
                     return;
                 } finally {
-                    irodsFileSystem.closeAndEatExceptions(getIrodsAccount());
+                    iDropCore.closeAllIRODSConnections();
                     idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
             }
@@ -2510,7 +2497,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 try {
                     idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(
-                            irodsFileSystem.getIRODSAccessObjectFactory(), getIrodsAccount());
+                            iDropCore.getIRODSAccessObjectFactory(), getIrodsAccount());
                     TagQuerySearchResult result = freeTaggingService.searchUsingFreeTagString(searchTerms);
                     IRODSSearchTableModel irodsSearchTableModel = new IRODSSearchTableModel(result
                             .getQueryResultEntries());
@@ -2520,7 +2507,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     idropGui.showIdropException(e);
                     return;
                 } finally {
-                    irodsFileSystem.closeAndEatExceptions(getIrodsAccount());
+                   iDropCore.closeIRODSConnectionForLoggedInAccount();
                     idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
             }
@@ -2529,10 +2516,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     class PopupListener extends MouseAdapter {
 
+        @Override
         public void mousePressed(MouseEvent e) {
             showPopup(e);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             showPopup(e);
         }

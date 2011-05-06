@@ -267,9 +267,9 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
 
                     DataTransferOperations dataTransferOperations;
                     try {
-                        dataTransferOperations = idrop.getIrodsFileSystem().getIRODSAccessObjectFactory().getDataTransferOperations(idrop.getIrodsAccount());
+                        dataTransferOperations = idrop.getiDropCore().getIRODSAccessObjectFactory().getDataTransferOperations(idrop.getIrodsAccount());
                     } catch (Exception e) {
-                        idrop.getIrodsFileSystem().closeAndEatExceptions(idrop.getIrodsAccount());
+                        idrop.getiDropCore().closeIRODSConnection(idrop.getIrodsAccount());
                         thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         throw new IdropRuntimeException(e);
                     }
@@ -326,7 +326,7 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
                     return;
                 } finally {
                     thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    idrop.getIrodsFileSystem().closeAndEatExceptions(idrop.getIrodsAccount());
+                    idrop.getiDropCore().closeIRODSConnection(idrop.getIrodsAccount());
                 }
             }
         });

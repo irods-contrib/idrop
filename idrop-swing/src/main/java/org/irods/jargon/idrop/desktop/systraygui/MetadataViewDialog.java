@@ -155,7 +155,7 @@ public class MetadataViewDialog extends javax.swing.JDialog {
 
             public void run() {
                 try {
-                    IRODSFileService irodsFileService = new IRODSFileService(irodsAccount, idropGui.getIrodsFileSystem());
+                    IRODSFileService irodsFileService = new IRODSFileService(irodsAccount, idropGui.getiDropCore().getIrodsFileSystem());
                     MetadataTableModel metadataTableModel;
 
                     if (collection) {

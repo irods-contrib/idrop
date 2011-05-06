@@ -221,7 +221,7 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
 
                 try {
 
-                    IRODSFileFactory irodsFileFactory = idrop.getIrodsFileSystem().getIRODSFileFactory(idrop.getIrodsAccount());
+                    IRODSFileFactory irodsFileFactory = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
                     if (deletedNode != null) {
                         log.info("deleting a single node");
                         deleteASingleFile(irodsFileFactory, deletedNode);
@@ -231,15 +231,11 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
                             deleteASingleFile(irodsFileFactory, deletedNodeEntry);
                         }
                     }
-
-                } catch (JargonException ex) {
-                    Logger.getLogger(IRODSFileService.class.getName()).log(Level.SEVERE, null, ex);
-                    idrop.showIdropException(ex);
                 } catch (IdropException ex) {
                     Logger.getLogger(NewIRODSDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);
                     idrop.showIdropException(ex);
                 } finally {
-                    idrop.getIrodsFileSystem().closeAndEatExceptions(idrop.getIrodsAccount());
+                    idrop.getiDropCore().closeAllIRODSConnections();
                     thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
 

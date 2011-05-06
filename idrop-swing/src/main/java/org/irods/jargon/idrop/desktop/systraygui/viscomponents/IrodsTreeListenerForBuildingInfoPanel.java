@@ -107,7 +107,7 @@ public class IrodsTreeListenerForBuildingInfoPanel implements TreeSelectionListe
         try {
             CollectionAndDataObjectListingEntry collectionAndDataObjectListingEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
             log.info("will be getting a data object based on entry in IRODSNode:{}", irodsNode);
-            DataObjectAO dataObjectAO = idrop.getIrodsFileSystem().getIRODSAccessObjectFactory().getDataObjectAO(idrop.getIrodsAccount());
+            DataObjectAO dataObjectAO = idrop.getiDropCore().getIRODSAccessObjectFactory().getDataObjectAO(idrop.getIrodsAccount());
             DataObject dataObject = dataObjectAO.findByCollectionNameAndDataName(collectionAndDataObjectListingEntry.getParentPath(), collectionAndDataObjectListingEntry.getPathOrName());
             idrop.initializeInfoPanel(dataObject);
         } catch (Exception e) {
@@ -124,7 +124,7 @@ public class IrodsTreeListenerForBuildingInfoPanel implements TreeSelectionListe
          try {
             CollectionAndDataObjectListingEntry collectionAndDataObjectListingEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
             log.info("will be getting a collection based on entry in IRODSNode:{}", irodsNode);
-            CollectionAO collectionAO = idrop.getIrodsFileSystem().getIRODSAccessObjectFactory().getCollectionAO(idrop.getIrodsAccount());
+            CollectionAO collectionAO = idrop.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idrop.getIrodsAccount());
             Collection collection = collectionAO.findByAbsolutePath(collectionAndDataObjectListingEntry.getPathOrName());
             idrop.initializeInfoPanel(collection);
         } catch (Exception e) {

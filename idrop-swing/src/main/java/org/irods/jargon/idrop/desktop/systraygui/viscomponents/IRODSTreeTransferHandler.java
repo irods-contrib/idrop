@@ -69,7 +69,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
         IRODSFileService irodsFileService;
         try {
-            irodsFileService = new IRODSFileService(idropGui.getIrodsAccount(), idropGui.getIrodsFileSystem());
+            irodsFileService = new IRODSFileService(idropGui.getIrodsAccount(), idropGui.getiDropCore().getIrodsFileSystem());
         } catch (IdropException ex) {
             Logger.getLogger(IRODSTreeTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);

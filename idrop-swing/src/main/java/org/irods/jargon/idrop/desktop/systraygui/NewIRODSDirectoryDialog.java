@@ -201,7 +201,7 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
                 log.info("adding new folder named:{}", txtNewFolder.getText());
                 thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 try {
-                    IRODSFileService irodsFileService = new IRODSFileService(idrop.getIrodsAccount(), idrop.getIrodsFileSystem());
+                    IRODSFileService irodsFileService = new IRODSFileService(idrop.getIrodsAccount(),idrop.getiDropCore().getIrodsFileSystem());
 
                     StringBuilder sb = new StringBuilder();
                     sb.append(parentDirectory);
@@ -226,7 +226,7 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
                     entry.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                     entry.setParentPath(parentDirectory);
                     entry.setPathOrName(newDirPath);
-                    IRODSNode newNode = new IRODSNode(entry, idrop.getIrodsAccount(), idrop.getIrodsFileSystem(), idrop.getIrodsTree());
+                    IRODSNode newNode = new IRODSNode(entry, idrop.getIrodsAccount(),idrop.getiDropCore().getIrodsFileSystem()  , idrop.getIrodsTree());
                     //newNode.setParent(parentNode);
                     log.info("inserting node at 0");
                     //parentNode.insertChildAt(0, newNode);

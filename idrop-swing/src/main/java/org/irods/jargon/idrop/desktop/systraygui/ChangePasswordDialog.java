@@ -181,7 +181,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                     // }
                 }
             }
-            UserAO userAO = idrop.getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(idrop.getIrodsAccount());
+            UserAO userAO = idrop.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(idrop.getIrodsAccount());
             userAO.changeAUserPasswordByThatUser(irodsAccount.getUserName(), irodsAccount.getPassword(), newPassword);
             log.info("password changed, resetting iRODS Account");
             IRODSAccount newAccount = new IRODSAccount(
@@ -201,7 +201,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         } catch (JargonException ex) {
             Logger.getLogger(ChangePasswordDialog.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            idrop.getIrodsFileSystem().closeAndEatExceptions(idrop.getIrodsAccount());
+            idrop.getiDropCore().closeIRODSConnection(idrop.getiDropCore().getIrodsAccount());
         }
     }//GEN-LAST:event_btnUpdatePasswordActionPerformed
 

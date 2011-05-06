@@ -61,7 +61,7 @@ public class ReplicationDialog extends javax.swing.JDialog {
         if (isFile) {
             IRODSFileService irodsFileService;
             try {
-                irodsFileService = new IRODSFileService(idropParentGui.getIrodsAccount(), idropParentGui.getIrodsFileSystem());
+                irodsFileService = new IRODSFileService(idropParentGui.getIrodsAccount(), idropParentGui.getiDropCore().getIrodsFileSystem());
                 currentResources = irodsFileService.getResourcesForDataObject(seriesAbsolutePath, fileName);
             }
             catch (IdropException ex) {
@@ -233,7 +233,7 @@ public class ReplicationDialog extends javax.swing.JDialog {
 
             public void run() {
                 try {
-                    IRODSFileService irodsFileService = new IRODSFileService(idropParentGui.getIrodsAccount(), idropParentGui.getIrodsFileSystem());
+                    IRODSFileService irodsFileService = new IRODSFileService(idropParentGui.getIrodsAccount(), idropParentGui.getiDropCore().getIrodsFileSystem());
                     List<Resource> resources = irodsFileService.getResources();
                     boxes = new ArrayList<JCheckBox>();
 
