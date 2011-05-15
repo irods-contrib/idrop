@@ -301,16 +301,21 @@ function aclUpdate(value, settings, userName) {
 /**
  * Prepare the dialog to allow create of ACL data
  */
-function prepareAclDialog() {
+function prepareAclDialog(isNew) {
 
 	if (selectedPath == null) {
 		alert("No path is selected, Share cannot be set");
 		return;
 	}
 
+	if (isNew == null) {
+		isNew = true;
+	}
+
 	var url = "/sharing/prepareAclDialog";
 	var params = {
-		absPath : selectedPath
+		absPath : selectedPath,
+		create : true
 	}
 
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
@@ -327,21 +332,19 @@ function prepareAclDialog() {
  */
 function showAclDialog(data) {
 	lcPrepareForCall();
-
-	$("#aclDialogArea").html(data);
-	$("#aclDialogArea").dialog({
-		"width" : 400,
-		"modal" : true,
-		"buttons" : {
-			"Ok" : function() {
-				submitAclDialog();
-			},
-			"Cancel" : function() {
-				$(this).dialog("close");
-			}
-		},
-		"title" : "Edit Share Permission"
+	$("#aclDialogArea").html(data).fadeIn('slow');
+	var mySource = context + "/sharing/listUsersForAutocomplete";
+	$("#userName").autocomplete({
+		minLength : 3,
+		source : mySource
 	});
+
+	/**
+	 * $("#aclDialogArea").html(data); $("#aclDialogArea").dialog({ "width" :
+	 * 400, "modal" : true, "buttons" : { "Ok" : function() { submitAclDialog(); },
+	 * "Cancel" : function() { $(this).dialog("close"); } }, "title" : "Edit
+	 * Share Permission" });
+	 */
 
 }
 
@@ -366,6 +369,8 @@ function submitAclDialog() {
 		throw "no collection or data object selected";
 	}
 
+	var isCreate = $('[name=isCreate]').val();
+
 	lcShowBusyIconInDiv(aclDialogMessageSelector);
 
 	var params = {
@@ -377,19 +382,52 @@ function submitAclDialog() {
 	var jqxhr = $.post(context + aclUpdateUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(aclDialogMessageSelector);
-
 			}, "html").error(
-			function() {
+					 function(xhr, status, error) {
 				setMessageInArea(aclDialogMessageSelector,
-						"Error saving sharing permissions");
-			}).success(function() {
-		$("#aclDialogArea").dialog("close");
+						xhr.responseText);
+			}).success(
+			function() {
+				if (isCreate) {
+					addRowToAclDetailsTable(userName, acl);
+					alert("adding row to table");
+				}
+				closeAclAddDialog();
+				setMessageInArea("#aclMessageArea",
+						"Sharing permission saved successfully");
 
-		// FIXME: add new row in table
+				
+			});
 
-		// updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-		setMessage("Sharing permission saved successfully")
+}
 
+function closeAclAddDialog() {
+	$("#aclDialogArea").hide().fadeOut('slow', new function() {
+		$("#aclDialogArea").html("")
 	});
 
+}
+
+function addRowToAclDetailsTable(userName, permission) {
+	// var nNodes = aclDetailsTable.fnGetNodes( );
+	alert("adding row");
+	var idxs = $("#aclDetailsTable")
+			.dataTable()
+			.fnAddData(
+					[
+							"<input id=\"selectedAcl\" type=\"checkbox\" name=\"selectedAcl\">",
+							userName, permission ], true);
+	var newNode = $("#aclDetailsTable").dataTable().fnGetNodes()[idxs[0]];
+	$(newNode).attr("id", userName);
+	alert("new node=" + newNode);
+}
+
+
+
+function deleteAcl() {
+	var aclSelectors = $('[name=selectedAcl]').filter(':checked').each(function() {
+		var val = this;
+		alert(val);
+	});
+	
 }

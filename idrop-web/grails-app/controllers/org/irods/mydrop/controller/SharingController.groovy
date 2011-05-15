@@ -1,6 +1,8 @@
 package org.irods.mydrop.controller
 
 
+import grails.converters.JSON
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.exception.JargonRuntimeException
@@ -9,6 +11,7 @@ import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.core.pub.domain.DataObject
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -82,15 +85,18 @@ class SharingController {
 		log.info "params: ${params}"
 			
 		// if a user is provided, this will be an edit, otherwise, it's a create
-		def userName = params['userName'];
+		def userName = params['userName']
 		def absPath = params['absPath']
+		def isCreate = params['create']
+		
 		
 		if (!absPath) {
 			log.error "no absPath in request for prepareAclDialog()"
 			throw new JargonException("a path was not supplied")
 		}
 		
-		render(view:"aclDialog", model:[absPath:absPath, userName:userName, userPermissionEnum:FilePermissionEnum.listAllValues()])
+		
+		render(view:"aclDialog", model:[absPath:absPath, userName:userName, userPermissionEnum:FilePermissionEnum.listAllValues(), isCreate:isCreate])
 		
 	}
 	
@@ -101,9 +107,10 @@ class SharingController {
 	def updateAcl = {
 		log.info "updating ACL"
 		log.info "params: ${params}"
-		def userName = params['userName'];
+		def userName = params['userName']
 		def acl = params['acl']
 		def absPath = params['absPath']
+		def isCreate = params['create']
 
 
 		if (!userName) {
@@ -117,13 +124,17 @@ class SharingController {
 		if (!absPath) {
 			throw new JargonException("absPath not supplied")
 		}
+		
+		if (!isCreate) {
+			isCreate = true
+		}
 
 		log.info("updateACL userName: ${userName} acl: ${acl} absPath: ${absPath}")
 
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-
+		
 		def isDataObject = retObj instanceof DataObject
 
 		// FIXME: add this into the file object superclass in jargon-core
@@ -131,6 +142,16 @@ class SharingController {
 		if (isDataObject) {
 			log.debug("setting ACLs for a data object")
 			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+			
+			// if creating a new ACL, an ACL cannot already exist
+			
+			if (isCreate) {
+				def existingPermission = dataObjectAO.getPermissionForDataObjectForUserName(absPath, userName)
+				if (existingPermission) {
+					response.sendError(500,"The given user already has a sharing permission")
+					return
+				}
+			}
 
 			if (acl == "READ") {
 				dataObjectAO.setAccessPermissionRead(irodsAccount.getZone(), absPath, userName)
@@ -144,6 +165,15 @@ class SharingController {
 		} else {
 			log.debug("setting ACLs for collection")
 			CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+			
+			if (isCreate) {
+				def existingPermission = collectionAO.getPermissionForUserName(absPath, userName)
+				if (existingPermission) {
+					response.sendError(500,"The given user already has a sharing permission")
+					return
+				}
+			}
+			  
 			if (acl == "READ") {
 				collectionAO.setAccessPermissionRead(irodsAccount.getZone(), absPath, userName, true)
 			} else if (acl == "WRITE") {
@@ -158,5 +188,34 @@ class SharingController {
 		log.info("acl set successfully")
 
 		render "OK"
+	}
+	
+	/**
+	 * List the users in iRODS based on user name.  A 'term' parameter may be supplied, in which case, a LIKE% query will be used to find
+	 * matching user names.  This method returns JSON as expected for the JQuery UI autocomplete text box
+	 */
+	def listUsersForAutocomplete = {
+		
+		log.info("listUsersForAutocomplete")
+		def term = params['term']
+		if (!term) {
+			term = ""
+		}		
+		log.info("term:${term}")
+		
+		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
+		
+		def userList = userAO.findUserNameLike(term);
+		def jsonBuff = []
+		
+		
+		userList.each {
+			jsonBuff.add(
+				["label": it]
+				)
+		}
+		
+		render jsonBuff as JSON
+	
 	}
 }

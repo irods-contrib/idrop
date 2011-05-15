@@ -1,5 +1,6 @@
 package org.irods.mydrop.controller
 
+import grails.converters.*
 import grails.test.ControllerUnitTestCase
 
 import java.util.Properties
@@ -11,6 +12,7 @@ import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
+import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.core.pub.domain.Collection
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.domain.UserFilePermission
@@ -154,5 +156,24 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		controller.params.userName = "userName"
 
 		shouldFail(JargonException) { controller.prepareAclDialog() }
+	}
+	
+	void listUsersForAutocomplete() {
+		def testUser = "t"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		UserAO userAO = Mockito.mock(UserAO.class)
+		List<String> retUsers = new ArrayList<String>();
+		retUsers.add("test1");
+		retUsers.add('test2');
+		Mockito.when(userAO.findUserNameLike(testUser)).thenReturn(retUsers);
+		Mockito.when(irodsAccessObjectFactory.getUserAO(irodsAccount)).thenReturn(userAO)
+
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+		controller.params.term = testUser
+		controller.listUsersForAutocomplete()
+
+		def jsonResult = JSON.parse(controllerResponse)
+		assertNotNull("missing json result", jsonResult)
 	}
 }

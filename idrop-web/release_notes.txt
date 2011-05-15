@@ -5,7 +5,9 @@ TODO:
 
 global
 
-	*revise error handling - global error strategy (simple text message coming back? wrapped in flash?)
+	*revise error handling - global error strategy (simple text message coming back? wrapped in flash?) - see home.js for acl errors, update ajax error
+	*redo prepare for call .message selector to clear all messages
+	*css 90% for message and toolbar defaults
 	*sizing of main panel
 		*wierd init sizing
 		*no expand when hide rhs bar
@@ -26,8 +28,14 @@ global
 	*upload success?
 	
 *Acl
-	*acl update success/error
 	*crud
+		* add
+			* add when no perms
+			xxx* add when exists
+			* add when user not exists
+		*edit - none = delete
+		*delete
+			*delete when not there
 	*user dnd
 	*table sizing
 	
@@ -38,15 +46,14 @@ global
 	
 *users
 	*list users on system in rhs as table w/search?
+	*dnd file to user
 	
 *metadata
 	*crud
-	
 	
 *home
 	*remove 'last activity' for now
 	*quota
 	*quick load
 	
-*lc revisions for jq 1.5s
 	
