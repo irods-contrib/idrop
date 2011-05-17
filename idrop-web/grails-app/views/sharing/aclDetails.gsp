@@ -21,6 +21,7 @@
 <!--  area for generating dialogs --></div>
 
 <div>
+	<g:form name="aclDetailsForm" action="" id="aclDetailsForm">
 	<table cellspacing="0" cellpadding="0" border="0" id="aclDetailsTable"
 		style="width: 100%;">
 		<thead>
@@ -33,7 +34,7 @@
 		<tbody>
 			<g:each in="${acls}" var="acl">
 				<tr id="${acl.userName}">
-					<td><g:checkBox name="selectedAcl" />
+					<td><g:checkBox name="selectedAcl" value="${acl.userName}" checked="false"/>
 					</td>
 					<td>
 						${acl.userName}
@@ -56,6 +57,7 @@
 			</tr>
 		</tfoot>
 	</table>
+	</g:form>
 </div>
 <script type="text/javascript">
 

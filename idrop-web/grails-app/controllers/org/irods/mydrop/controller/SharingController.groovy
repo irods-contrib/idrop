@@ -218,4 +218,11 @@ class SharingController {
 		render jsonBuff as JSON
 	
 	}
+	
+	def deleteAcl = {
+		log.info("deleteAcl")
+		log.info(params)
+		render "hello"
+		
+	}
 }

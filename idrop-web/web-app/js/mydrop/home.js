@@ -423,11 +423,33 @@ function addRowToAclDetailsTable(userName, permission) {
 }
 
 
-
+/**
+ * Delete share selected in details dialog toolbar, send the data to delete the selected elements 
+ */
 function deleteAcl() {
-	var aclSelectors = $('[name=selectedAcl]').filter(':checked').each(function() {
-		var val = this;
-		alert(val);
-	});
+	//var aclSelectors = $('[name=selectedAcl]').filter(':checked').each(function() {
+		/*var tr = $(this).parent().parent();
+		var trChildren = $(tr).children();
+		var td1 = trChildren[0];
+		var td2 = trChildren[1];
+		var td3 = trChildren[2];
+		var permission = td3.html();
+		
+		
+		var bob = true;*/
+		//alert(tr.html());
+	//});
+	 
 	
+	        $.post(  
+	            context + "/sharing/deleteAcl",  
+	            $("#aclDetailsForm").serialize(),  
+	            function(data){  
+	                alert(data);  
+	            }  
+	        ).error( function(xhr, status, error) {
+				setMessageInArea(aclDialogMessageSelector,
+						xhr.responseText);
+			});
+	      
 }
