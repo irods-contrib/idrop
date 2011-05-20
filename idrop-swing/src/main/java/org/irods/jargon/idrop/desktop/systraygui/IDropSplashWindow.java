@@ -168,7 +168,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                  * the status of the queue. This app listens to the TransferManager to receive updates about what the
                  * queue is doing.
                  */
-                TransferManager transferManager = new TransferManagerImpl(iDrop, iDrop.getiDropCore().getIdropConfig().isLogSuccessfulTransfers());
+                TransferManager transferManager = new TransferManagerImpl(iDrop.getiDropCore().getIrodsFileSystem(), iDrop, iDrop.getiDropCore().getIdropConfig().isLogSuccessfulTransfers());
                 iDrop.getiDropCore().setTransferManager(transferManager);
             } catch (JargonException e1) {
                 logger.error(e1.getMessage());
