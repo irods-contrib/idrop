@@ -222,6 +222,19 @@ class SharingController {
 	def deleteAcl = {
 		log.info("deleteAcl")
 		log.info(params)
+		def absPath = params['absPath']
+		
+		if (!absPath) {
+			throw new JargonException("The absPath is missing, no path specified")
+		}
+		
+		def aclsToDelete = params['selectedAcl']
+		
+		log.info("aclsToDelete: ${aclsToDelete}")
+		
+		aclsToDelete.each(log.info("selectedAcl: ${it}"))
+		
+		
 		render "hello"
 		
 	}

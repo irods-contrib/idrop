@@ -2,6 +2,7 @@
 	$(function() {
 		$("#secondaryTabs").tabs();
 		refreshTagCloud();
+		showUserPanel();
 	});
 
 </script>

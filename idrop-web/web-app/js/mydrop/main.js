@@ -57,5 +57,16 @@ function logout() {
 	window.location = context + "/j_spring_security_logout"; 
 }
 
+/**
+ * On main panel, show the user panel
+ */
+function showUserPanel() {
+	
+	
+	
+	
+	
+}
+
 
 

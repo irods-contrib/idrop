@@ -382,11 +382,9 @@ function submitAclDialog() {
 	var jqxhr = $.post(context + aclUpdateUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(aclDialogMessageSelector);
-			}, "html").error(
-					 function(xhr, status, error) {
-				setMessageInArea(aclDialogMessageSelector,
-						xhr.responseText);
-			}).success(
+			}, "html").error(function(xhr, status, error) {
+		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
+	}).success(
 			function() {
 				if (isCreate) {
 					addRowToAclDetailsTable(userName, acl);
@@ -396,7 +394,6 @@ function submitAclDialog() {
 				setMessageInArea("#aclMessageArea",
 						"Sharing permission saved successfully");
 
-				
 			});
 
 }
@@ -422,34 +419,36 @@ function addRowToAclDetailsTable(userName, permission) {
 	alert("new node=" + newNode);
 }
 
-
 /**
- * Delete share selected in details dialog toolbar, send the data to delete the selected elements 
+ * Delete share selected in details dialog toolbar, send the data to delete the
+ * selected elements
  */
 function deleteAcl() {
-	//var aclSelectors = $('[name=selectedAcl]').filter(':checked').each(function() {
-		/*var tr = $(this).parent().parent();
-		var trChildren = $(tr).children();
-		var td1 = trChildren[0];
-		var td2 = trChildren[1];
-		var td3 = trChildren[2];
-		var permission = td3.html();
-		
-		
-		var bob = true;*/
-		//alert(tr.html());
-	//});
-	 
-	
-	        $.post(  
-	            context + "/sharing/deleteAcl",  
-	            $("#aclDetailsForm").serialize(),  
-	            function(data){  
-	                alert(data);  
-	            }  
-	        ).error( function(xhr, status, error) {
-				setMessageInArea(aclDialogMessageSelector,
-						xhr.responseText);
-			});
-	      
+	// var aclSelectors =
+	// $('[name=selectedAcl]').filter(':checked').each(function() {
+	/*
+	 * var tr = $(this).parent().parent(); var trChildren = $(tr).children();
+	 * var td1 = trChildren[0]; var td2 = trChildren[1]; var td3 =
+	 * trChildren[2]; var permission = td3.html();
+	 * 
+	 * 
+	 * var bob = true;
+	 */
+	// alert(tr.html());
+	// });
+
+	$.post(context + "/sharing/deleteAcl", buildFormFromACLDetailsTable(),
+
+	function(data) {
+		alert(data);
+	}).error(function(xhr, status, error) {
+		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
+	});
+
+}
+
+function buildFormFromACLDetailsTable() {
+	var formData = $("#aclDetailsForm").serializeArray();
+	formData.push({name:'absPath',value:selectedPath});
+	return formData;
 }
