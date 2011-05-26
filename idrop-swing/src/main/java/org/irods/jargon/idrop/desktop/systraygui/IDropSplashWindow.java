@@ -16,6 +16,7 @@ import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.irods.jargon.transfer.engine.TransferManagerImpl;
@@ -44,7 +45,8 @@ public class IDropSplashWindow extends JWindow implements Runnable {
         try {
             init();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("error initializing iDrop splash window", e);
+            throw new IdropRuntimeException(e);
         }
     }
 
@@ -103,7 +105,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
          */
         @Override
         protected void done() {
-            super.done();
+            iDrop.signalIdropCoreReadyAndSplashComplete();
         }
 
         /*
@@ -114,6 +116,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
         @Override
         protected Void doInBackground() throws Exception {
 
+            logger.info("starting splash background thread");
             int count = 0;
 
             try {
@@ -125,23 +128,12 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             setStatus("Initializing...", ++count);
 
             try {
-                // load the properties
-                IdropConfig config = new IdropConfig();
-                config.setUpLogging();
-                iDrop.getiDropCore().setIdropConfig(config);
-                iDrop.getiDropCore().setIconManager(new IconManager(iDrop));
-            } catch (IdropException ex) {
-                logger.error(ex.getMessage());
-                MessageManager.showError(IDropSplashWindow.this, ex.getMessage(), "Failed to load iDrop configuration");
-                System.exit(1);
-            }
-
-            try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
+            logger.info("logging in in splash background thread");
             setStatus("Logging in...", ++count);
 
             final LoginDialog loginDialog = new LoginDialog(iDrop);
@@ -160,21 +152,8 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 e.printStackTrace();
             }
 
+            logger.info("starting db in splash background thread");
             setStatus("Starting DB...", ++count);
-
-            try {
-                /*
-                 * the transfer manager is the central control for the data transfer queue, as well as the maintainer of
-                 * the status of the queue. This app listens to the TransferManager to receive updates about what the
-                 * queue is doing.
-                 */
-                TransferManager transferManager = new TransferManagerImpl(iDrop.getiDropCore().getIrodsFileSystem(), iDrop, iDrop.getiDropCore().getIdropConfig().isLogSuccessfulTransfers());
-                iDrop.getiDropCore().setTransferManager(transferManager);
-            } catch (JargonException e1) {
-                logger.error(e1.getMessage());
-                MessageManager.showError(IDropSplashWindow.this, e1.getMessage(), "Failed to start Transfer Engine");
-                System.exit(1);
-            }
 
             /*
              * Look for in progress transfers, and pause queue based on user input
@@ -187,8 +166,9 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 if (result == JOptionPane.CANCEL_OPTION) {
                     iDrop.getiDropCore().getTransferManager().pause();
                 }
-            }
+            }  
 
+            logger.info("starting transfer mgr queue");
             setStatus("Starting Queue...", ++count);
 
             QueueThread queueThread = new QueueThread(iDrop);
@@ -200,7 +180,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 e.printStackTrace();
             }
 
-
+            iDrop.buildIdropGuiComponents();
             dispose();
             return null;
         }
