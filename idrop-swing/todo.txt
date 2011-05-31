@@ -11,4 +11,10 @@ in iDrop startup
 
 in Splash thread
 
+4) add idropConfig to iDrop core
 
+5) show login dialog
+
+6) start db
+
+7) get current queue and indicate whether pause/run if enqueued

@@ -45,7 +45,8 @@ public class IDropSplashWindow extends JWindow implements Runnable {
         try {
             init();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("error initializing iDrop splash window", e);
+            throw new IdropRuntimeException(e);
         }
     }
 
@@ -104,7 +105,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
          */
         @Override
         protected void done() {
-            super.done();
+            iDrop.signalIdropCoreReadyAndSplashComplete();
         }
 
         /*
@@ -115,6 +116,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
         @Override
         protected Void doInBackground() throws Exception {
 
+            log.info("starting splash background thread");
             int count = 0;
 
             try {
@@ -140,9 +142,11 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("interrupted exception on startup", e);
+                throw new IdropRuntimeException(e);
             }
 
+            log.info("logging in in splash background thread");
             setStatus("Logging in...", ++count);
 
             final LoginDialog loginDialog = new LoginDialog(iDrop);
@@ -155,12 +159,16 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             loginDialog.toFront();
             loginDialog.setVisible(true);
 
+            IDropSplashWindow.this.toFront();
+
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("interrupted exception on startup", e);
+                throw new IdropRuntimeException(e);
             }
 
+            log.info("starting db in splash background thread");
             setStatus("Starting DB...", ++count);
 
             try {
@@ -171,10 +179,9 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                  */
                 TransferManager transferManager = new TransferManagerImpl(iDrop.getiDropCore().getIrodsFileSystem(), iDrop, iDrop.getiDropCore().getIdropConfig().isLogSuccessfulTransfers());
                 iDrop.getiDropCore().setTransferManager(transferManager);
-            } catch (JargonException e1) {
-                log.error(e1.getMessage());
-                MessageManager.showError(IDropSplashWindow.this, e1.getMessage(), "Failed to start Transfer Engine");
-                System.exit(1);
+            } catch (JargonException e) {
+                log.error("jargon exception on startup", e);
+                throw new IdropRuntimeException(e);
             }
 
             /*
@@ -190,6 +197,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 }
             }
 
+            log.info("starting transfer mgr queue");
             setStatus("Starting Queue...", ++count);
 
             QueueThread queueThread = new QueueThread(iDrop);
@@ -198,9 +206,9 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("interrupted exception on startup", e);
+                throw new IdropRuntimeException(e);
             }
-
 
             dispose();
             return null;
