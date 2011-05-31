@@ -16,6 +16,7 @@ import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.irods.jargon.transfer.engine.TransferManagerImpl;
@@ -31,7 +32,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
      *  
      */
     private static final long serialVersionUID = 1L;
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(IDropSplashWindow.class);
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(IDropSplashWindow.class);
     private ImageIcon splashImage = new ImageIcon(IDropSplashWindow.class.getClassLoader().getResource(
             "org/irods/jargon/idrop/desktop/images/iDrop.png"));
     private JLabel jlblImage = new JLabel();
@@ -119,7 +120,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new IdropRuntimeException(e);
             }
 
             setStatus("Initializing...", ++count);
@@ -131,9 +132,9 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 iDrop.getiDropCore().setIdropConfig(config);
                 iDrop.getiDropCore().setIconManager(new IconManager(iDrop));
             } catch (IdropException ex) {
-                logger.error(ex.getMessage());
+                log.error(ex.getMessage());
                 MessageManager.showError(IDropSplashWindow.this, ex.getMessage(), "Failed to load iDrop configuration");
-                System.exit(1);
+                throw new IdropRuntimeException("ex");
             }
 
             try {
@@ -171,7 +172,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 TransferManager transferManager = new TransferManagerImpl(iDrop.getiDropCore().getIrodsFileSystem(), iDrop, iDrop.getiDropCore().getIdropConfig().isLogSuccessfulTransfers());
                 iDrop.getiDropCore().setTransferManager(transferManager);
             } catch (JargonException e1) {
-                logger.error(e1.getMessage());
+                log.error(e1.getMessage());
                 MessageManager.showError(IDropSplashWindow.this, e1.getMessage(), "Failed to start Transfer Engine");
                 System.exit(1);
             }

@@ -179,7 +179,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
            iDropCore.setIrodsFileSystem(IRODSFileSystem.instance());
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-            System.exit(1);
+             throw new IdropRuntimeException("error initializing irodsFileSystem", ex);
         }
 
         tableSearchResults.setModel(new IRODSSearchTableModel());
@@ -262,10 +262,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         // splash work has to be done in different thread
         final IDropSplashWindow splash = new IDropSplashWindow(iDropGui);
-        new Thread(splash).run();
+        new Thread(splash).start();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
 
                 CookSwing cookSwing = new CookSwing(iDropGui);
