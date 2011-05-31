@@ -105,6 +105,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
          */
         @Override
         protected void done() {
+
             iDrop.signalIdropCoreReadyAndSplashComplete();
         }
 
@@ -180,7 +181,6 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 e.printStackTrace();
             }
 
-            iDrop.buildIdropGuiComponents();
             dispose();
             return null;
         }

@@ -212,6 +212,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     }
 
     protected void signalIdropCoreReadyAndSplashComplete() {
+          buildIdropGuiComponents();
           iDropCore.getIconManager().setRunningStatus(iDropCore.getTransferManager().getRunningStatus());
          boolean showGUI = getiDropCore().getPreferences().getBoolean("showGUI", true);
          if (showGUI) {
@@ -308,13 +309,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 Thread splashThread = new Thread(splash);
                 log.info("starting splash thread");
                 splashThread.start();
-                /*    try {
-                splashThread.join();
-                } catch (InterruptedException ex) {
-                Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-                throw new IdropRuntimeException("error starting splash window, interrrupted thread", ex);
-                }*/
-
+              
                 log.info("building iDrop components in startup thread spawned in main() method ");
 
 
@@ -344,6 +339,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
+                
+                /* listener events may occur at startup before the GUI is fully prepared, ignore these */
+                if (trayIcon == null) {
+                    return;
+                }
                 Image newIcon = createImage(iconFile, "icon");
 
                 trayIcon.setImage(newIcon);
