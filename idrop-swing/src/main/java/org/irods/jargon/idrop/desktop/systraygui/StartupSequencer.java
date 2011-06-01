@@ -24,6 +24,7 @@ import org.irods.jargon.transfer.engine.TransferManagerImpl;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Bootstrapping class for iDrop, load config, create necessary services, and start the appropriate GUI components
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class StartupSequencer {

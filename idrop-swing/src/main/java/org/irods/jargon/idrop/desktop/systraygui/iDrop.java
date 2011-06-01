@@ -310,9 +310,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         }
         trayIcon.setImageAutoSize(true);
 
-
-        // iconManager = IconManager.instance(this);
-
         // Create a pop-up menu components
         MenuItem aboutItem = new MenuItem("About");
         MenuItem iDropItem = new MenuItem("iDrop");
