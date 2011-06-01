@@ -43,7 +43,7 @@
 
             <!-- used to automatically identify the jar containing the main class. -->
             <!-- this is perhaps going to change -->
-	    <mainClass>org.irods.jargon.idrop.desktop.systraygui.iDrop</mainClass>
+	    <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
 	  </jnlp>
 
           <!-- SIGNING -->
