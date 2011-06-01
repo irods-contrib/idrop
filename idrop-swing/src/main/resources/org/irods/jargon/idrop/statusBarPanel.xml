@@ -16,7 +16,7 @@
             </label>
           </idref>
           <idref ctor="gbc1" gridx="5" weightx="0.08">
-            <progressbar var="queuedTransfersProgressBar" minimum="0" stringpainted="true">
+            <progressbar var="queuedTransfersProgressBar" minimum="0" maximum="7" stringpainted="true">
               <bevelborder type="LOWERED" />
             </progressbar>
           </idref>

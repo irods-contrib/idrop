@@ -57,7 +57,7 @@ public class IDropSplashWindow extends JWindow {
         // jlblImage.setText("jLabel1");
         jlblImage.setIcon(splashImage);
         jProgressBar1.setMinimum(1);
-        jProgressBar1.setMaximum(4);
+        jProgressBar1.setMaximum(7);
         jProgressBar1.setStringPainted(true);
         this.getContentPane().add(jlblImage, BorderLayout.CENTER);
         this.getContentPane().add(jProgressBar1, BorderLayout.SOUTH);
