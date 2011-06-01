@@ -1,4 +1,4 @@
-/*
+  /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -78,7 +78,7 @@ public class StartupSequencer {
         sb.append(userHomeDirectory);
         sb.append("/.idrop");
         String derivedConfigHomeDirectory = sb.toString();
-        log.info("set config home directory as:{}", derivedConfigHomeDirectory);
+        log.info("set config home directory as: {}", derivedConfigHomeDirectory);
         
         /*
          * Here is where I first try and start the database to get the configuration.  
