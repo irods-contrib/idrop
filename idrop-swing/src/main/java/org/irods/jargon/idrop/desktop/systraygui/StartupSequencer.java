@@ -117,15 +117,13 @@ public class StartupSequencer {
                         "iDrop Transfers in Progress", JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.CANCEL_OPTION) {
                     idropCore.getTransferManager().pause();
-                } else {
-                }
+                } 
             }
         } catch (JargonException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropRuntimeException("error evaluating current queue", ex);
         }
-
-
+        
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
