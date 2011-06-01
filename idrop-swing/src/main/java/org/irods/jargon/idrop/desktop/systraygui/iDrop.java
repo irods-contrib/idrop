@@ -129,8 +129,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     public JProgressBar queuedTransfersProgressBar;
     private static SimpleDateFormat SDF = new SimpleDateFormat("MM-dd-yyyy");
 
-    /** Creates new form IDrop */
-    public iDrop() {
+    public iDrop(final IDROPCore idropCore) {
+
+        if (idropCore == null) {
+            throw new IllegalArgumentException("null idropCore");
+        }
 
         try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -139,24 +142,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     break;
                 }
             }
-        } catch (UnsupportedLookAndFeelException e) {
-            // handle exception
-        } catch (ClassNotFoundException e) {
-            // handle exception
-        } catch (InstantiationException e) {
-            // handle exception
-        } catch (IllegalAccessException e) {
-            // handle exception
+        } catch (Exception e) {
+            throw new IdropRuntimeException(e);
         }
 
-        try {
-            log.info("initializing iDrop core");
-            initializeiDropCore();
-        } catch (Exception ex) {
-            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("error setting up iDropCore", ex);
-        }
+        this.iDropCore = idropCore;
+    }
 
+    /** Creates new form IDrop */
+    public iDrop() {
     }
 
     protected void buildIdropGuiComponents() throws IdropRuntimeException, HeadlessException {
@@ -171,27 +165,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
             throw new IdropRuntimeException("error setting up infoPanelTransferHandler", ex);
         }
 
-        try {
-           iDropCore.setIrodsFileSystem(IRODSFileSystem.instance());
-        } catch (JargonException ex) {
-            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-             throw new IdropRuntimeException("error initializing irodsFileSystem", ex);
-        }
-
         tableSearchResults.setModel(new IRODSSearchTableModel());
         MouseListener popupListener = new PopupListener();
         // add the listener specifically to the header
         tableSearchResults.addMouseListener(popupListener);
         tableSearchResults.getTableHeader().addMouseListener(popupListener);
 
-        if (trayIcon == null) {
-            trayIcon = new TrayIcon(createImage("images/dialog-ok-2.png", "tray icon"));
-        }
-        trayIcon.setImageAutoSize(true);
 
         Toolkit t = getToolkit();
         int width = t.getScreenSize().width;
         int height = t.getScreenSize().height;
+
+        // FIXME: don't build prefs panel here
 
         int showX = (width / 2) - (this.getWidth() / 2);
         int showY = (height / 2) - (this.getHeight() / 2);
@@ -207,46 +192,36 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         if (getiDropCore().getIrodsAccount() == null) {
             log.warn("no account, exiting");
-            System.exit(0); 
+            System.exit(0);
         }
 
         currentUserNameLabel.setText("User: "
                 + getiDropCore().getIrodsAccount().getUserName());
         currentDateLabel.setText("Date : " + SDF.format(new Date()));
 
-        createAndShowSystemTray();
+    }
+
+    protected void showIdropGui() {
+        buildIdropGuiComponents();
+        setUpLocalFileSelectTree();
+        buildTargetTree();
+        setVisible(true);
+
     }
 
     protected void signalIdropCoreReadyAndSplashComplete() {
-          buildIdropGuiComponents();
-          iDropCore.getIconManager().setRunningStatus(iDropCore.getTransferManager().getRunningStatus());
-         boolean showGUI = getiDropCore().getPreferences().getBoolean("showGUI", true);
-         if (showGUI) {
-                 setUpLocalFileSelectTree();
-                 buildTargetTree();
-                 setVisible(true);
-                } else {
-                    MessageManager.showMessage(this,
-                            "iDrop has started.\nCheck your system tray to access the iDrop user interface.",
-                            "iDrop has started");
-                }
-    }
-   
-    private void initializeiDropCore() throws JargonException, IdropException {
+        createAndShowSystemTray();
 
-        log.info("initialize iDrop core");
-        iDropCore = new IDROPCore();
-        iDropCore.setIrodsFileSystem(IRODSFileSystem.instance());
-        IdropConfig config = new IdropConfig();
-        config.setUpLogging();
-        iDropCore.setIdropConfig(config);
-
-        log.info("building transfer manager instance");
-
-        getiDropCore().setTransferManager(new TransferManagerImpl(getiDropCore().getIrodsFileSystem(), this, getiDropCore().getIdropConfig().isLogSuccessfulTransfers()));
-
-        log.info("transfer manager was set");
-        iDropCore.setIconManager(new IconManager(this));
+        // FIXME: set up panel and options
+        iDropCore.getIconManager().setRunningStatus(iDropCore.getTransferManager().getRunningStatus());
+        boolean showGUI = getiDropCore().getPreferences().getBoolean("showGUI", true);
+        if (showGUI) {
+            showIdropGui();
+        } else {
+            MessageManager.showMessage(this,
+                    "iDrop has started.\nCheck your system tray to access the iDrop user interface.",
+                    "iDrop has started");
+        }
     }
 
     @Override
@@ -296,39 +271,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     }
 
     /**
-     * Start up iDrop as a system tray application. This is the main entry point for iDrop
-     * 
-     * @param args
-     *            the command line arguments
-     */
-    public static void main(String args[]) throws InterruptedException {
-
-        final iDrop iDropGui = new iDrop();
-
-        // splash work has to be done in different thread
-        final IDropSplashWindow splash = new IDropSplashWindow(iDropGui);
-        new Thread(splash).start();
-
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-
-                log.info("processing queue startup in startup thread of iDrop main method");
-                iDropGui.processQueueStartup();
-
-            }
-        });
-    }
-
-    private void processQueueStartup() {
-        if (iDropCore.getTransferManager().getRunningStatus() == TransferManager.RunningStatus.PAUSED) {
-            pausedItem.setState(true);
-        }
-    }
-
-    /**
      * Update the system tray icon based on the current status.
      * 
      * @param iconFile
@@ -337,7 +279,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                
+
                 /* listener events may occur at startup before the GUI is fully prepared, ignore these */
                 if (trayIcon == null) {
                     return;
@@ -362,6 +304,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         final PopupMenu popup = new PopupMenu();
 
         final SystemTray tray = SystemTray.getSystemTray();
+
+        if (trayIcon == null) {
+            trayIcon = new TrayIcon(createImage("images/dialog-ok-2.png", "tray icon"));
+        }
+        trayIcon.setImageAutoSize(true);
+
 
         // iconManager = IconManager.instance(this);
 
@@ -521,10 +469,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
             if (!this.formShown) {
 
-                this.setUpLocalFileSelectTree();
-                this.buildTargetTree();
-                this.formShown = true;
-                this.setVisible(true);
+                showIdropGui();
 
             } else {
                 // refresh the tree when setting visible again, the account may have changed.

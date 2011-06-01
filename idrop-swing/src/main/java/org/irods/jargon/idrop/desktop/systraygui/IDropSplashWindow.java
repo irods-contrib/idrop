@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author jdr0887
  */
-public class IDropSplashWindow extends JWindow implements Runnable {
+public class IDropSplashWindow extends JWindow {
 
     /**
      *  
@@ -74,14 +74,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
         this.pack();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Runnable#run()
-     */
-    public void run() {
-        new LauncherTask().run();
-    }
+   
 
     /**
      * Sets the text of the progress bar and its value
@@ -91,41 +84,34 @@ public class IDropSplashWindow extends JWindow implements Runnable {
      * @param theVal
      *            An integer value from 0 to 100
      */
-    public void setStatus(String msg, int value) {
-        jProgressBar1.setString(msg);
+    public void setStatus(final String msg, final int value) {
+        
+         java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                jProgressBar1.setString(msg);
         jProgressBar1.setValue(value);
+        
+            }
+        });
+       
     }
 
-    class LauncherTask extends SwingWorker<Void, Void> {
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see javax.swing.SwingWorker#done()
-         */
-        @Override
-        protected void done() {
-            iDrop.signalIdropCoreReadyAndSplashComplete();
-        }
-
+  
         /*
          * (non-Javadoc)
          * 
          * @see javax.swing.SwingWorker#doInBackground()
          */
+    /*
         @Override
         protected Void doInBackground() throws Exception {
 
-            log.info("starting splash background thread");
+           
             int count = 0;
 
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                throw new IdropRuntimeException(e);
-            }
-
-            setStatus("Initializing...", ++count);
+           
 
             try {
                 // load the properties
@@ -172,11 +158,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             setStatus("Starting DB...", ++count);
 
             try {
-                /*
-                 * the transfer manager is the central control for the data transfer queue, as well as the maintainer of
-                 * the status of the queue. This app listens to the TransferManager to receive updates about what the
-                 * queue is doing.
-                 */
+               
                 TransferManager transferManager = new TransferManagerImpl(iDrop.getiDropCore().getIrodsFileSystem(), iDrop, iDrop.getiDropCore().getIdropConfig().isLogSuccessfulTransfers());
                 iDrop.getiDropCore().setTransferManager(transferManager);
             } catch (JargonException e) {
@@ -184,9 +166,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
                 throw new IdropRuntimeException(e);
             }
 
-            /*
-             * Look for in progress transfers, and pause queue based on user input
-             */
+           
             List<LocalIRODSTransfer> currentQueue = iDrop.getiDropCore().getTransferManager().getCurrentQueue();
 
             if (!currentQueue.isEmpty()) {
@@ -214,4 +194,5 @@ public class IDropSplashWindow extends JWindow implements Runnable {
             return null;
         }
     }
+*/
 }
