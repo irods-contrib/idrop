@@ -826,7 +826,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
     private void btnPurgeAllActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPurgeAllActionPerformed
         try {
-            iDropParent.getTransferManager().purgeAllTransfers();
+            iDropParent.getiDropCore().getTransferManager().purgeAllTransfers();
             refreshTableView(viewType);
             resetDisplayFieldsAndStatus();
         } catch (Exception ex) {
@@ -837,7 +837,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
     private void btnPurgeSuccessfulActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPurgeSuccessfulActionPerformed
         try {
-            iDropParent.getTransferManager().purgeSuccessfulTransfers();
+            iDropParent.getiDropCore().getTransferManager().purgeSuccessfulTransfers();
             refreshTableView(viewType);
             resetDisplayFieldsAndStatus();
 
@@ -1383,7 +1383,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
     private void resetDisplayFieldsAndStatus() {
         try {
-            iDropParent.getTransferManager().resetStatus();
+            iDropParent.getiDropCore().getTransferManager().resetStatus();
         } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             // log and continue...not useful to user

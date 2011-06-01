@@ -221,7 +221,7 @@ public class InfoPanelTransferHandler extends TransferHandler {
 
         try {
             log.info("enqueue a put operation");
-            idropGui.getTransferManager().enqueueAPut(sourcePath, dataObject.getCollectionName(), idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
+            idropGui.getiDropCore().getTransferManager().enqueueAPut(sourcePath, dataObject.getCollectionName(), idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
         } catch (JargonException ex) {
             Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("error enqueing put operation", ex);
@@ -242,7 +242,7 @@ public class InfoPanelTransferHandler extends TransferHandler {
 
         try {
             log.info("enqueue a put operation");
-            idropGui.getTransferManager().enqueueAPut(sourcePath, collection.getCollectionName(), idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
+            idropGui.getiDropCore().getTransferManager().enqueueAPut(sourcePath, collection.getCollectionName(), idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
         } catch (JargonException ex) {
             Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("error enqueing put operation", ex);

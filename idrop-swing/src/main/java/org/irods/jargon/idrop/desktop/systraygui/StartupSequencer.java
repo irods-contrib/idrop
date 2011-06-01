@@ -116,9 +116,8 @@ public class StartupSequencer {
                 int result = JOptionPane.showConfirmDialog((Component) null, "Transfers are waiting to process, restart transfer?",
                         "iDrop Transfers in Progress", JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.CANCEL_OPTION) {
-
                     idropCore.getTransferManager().pause();
-
+                } else {
                 }
             }
         } catch (JargonException ex) {

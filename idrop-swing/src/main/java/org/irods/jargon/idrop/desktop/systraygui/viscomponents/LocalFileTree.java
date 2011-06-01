@@ -186,7 +186,7 @@ public class LocalFileTree extends JTree implements DropTargetListener, TreeWill
                             if (transferFile instanceof IRODSFile) {
                                 log.info("initiating a transfer of iRODS file:{}", transferFile.getAbsolutePath());
                                 log.info("transfer to local file:{}", tempTargetLocalFileAbsolutePath);
-                                idropGui.getTransferManager().enqueueAGet(transferFile.getAbsolutePath(), tempTargetLocalFileAbsolutePath, "", idropGui.getIrodsAccount());
+                                idropGui.getiDropCore().getTransferManager().enqueueAGet(transferFile.getAbsolutePath(), tempTargetLocalFileAbsolutePath, "", idropGui.getIrodsAccount());
                             } else {
                                 log.info("process a local to local move with source...not yet implemented : {}", transferFile.getAbsolutePath());
                             }
@@ -544,7 +544,7 @@ public class LocalFileTree extends JTree implements DropTargetListener, TreeWill
 
                     log.info("initiating get transfer");
                     try {
-                        idropGui.getTransferManager().enqueueAGet(sourceAbsolutePath, targetLocalFileAbsolutePath, "", idropGui.getIrodsAccount());
+                         idropGui.getiDropCore().getTransferManager().enqueueAGet(sourceAbsolutePath, targetLocalFileAbsolutePath, "", idropGui.getIrodsAccount());
                     } catch (JargonException ex) {
                         java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                         idropGui.showIdropException(ex);

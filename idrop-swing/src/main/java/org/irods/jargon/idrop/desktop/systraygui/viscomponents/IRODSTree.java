@@ -344,7 +344,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
                     for (File transferFile : sourceFiles) {
                         log.info("initiating put transfer for source file:{}", transferFile.getAbsolutePath());
                         try {
-                            idropGui.getTransferManager().enqueueAPut(transferFile.getAbsolutePath(), targetIrodsFileAbsolutePath, sourceResource, idropGui.getIrodsAccount());
+                            idropGui.getiDropCore().getTransferManager().enqueueAPut(transferFile.getAbsolutePath(), targetIrodsFileAbsolutePath, sourceResource, idropGui.getIrodsAccount());
                         } catch (JargonException ex) {
                             java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                             idropGui.showIdropException(ex);
@@ -478,7 +478,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
                         String sourceResource = idropParentGui.getIrodsAccount().getDefaultStorageResource();
                         log.info("initiating put transfer");
                         try {
-                            idropGui.getTransferManager().enqueueAPut(localSourceAbsolutePath, targetIrodsFileAbsolutePath, sourceResource, idropGui.getIrodsAccount());
+                            idropGui.getiDropCore().getTransferManager().enqueueAPut(localSourceAbsolutePath, targetIrodsFileAbsolutePath, sourceResource, idropGui.getIrodsAccount());
                         } catch (JargonException ex) {
                             java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                             idropGui.showIdropException(ex);

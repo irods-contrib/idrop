@@ -511,7 +511,7 @@ class DragAndDropTransferHandler extends TransferHandler implements DragSourceMo
         for (String sourcePath : sourcePaths) {
             try {
                 log.info("enqueue a put operation");
-                idropGui.getTransferManager().enqueueAPut(sourcePath, derivedTargetAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
+                idropGui.getiDropCore().getTransferManager().enqueueAPut(sourcePath, derivedTargetAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
             } catch (JargonException ex) {
                 log.error("error enqueueing a put operation", ex);
                 throw new IdropException("error enqueing put operation", ex);
@@ -585,7 +585,7 @@ class DragAndDropTransferHandler extends TransferHandler implements DragSourceMo
         
             try {
                 log.info("enqueue a put operation");
-                idropGui.getTransferManager().enqueueAPut(transferFile.getAbsolutePath(), derivedTargetAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
+               idropGui.getiDropCore().getTransferManager().enqueueAPut(transferFile.getAbsolutePath(), derivedTargetAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
             } catch (JargonException ex) {
                 log.error("error enqueueing a put operation", ex);
                 throw new IdropException("error enqueing put operation", ex);

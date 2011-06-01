@@ -231,7 +231,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     @Override
     public synchronized void transferManagerRunningStatusUpdate(RunningStatus rs) {
-        iDropCore.getIconManager().setRunningStatus(rs);
+        iDropCore.getIconManager().setRunningStatus(rs);        
     }
 
     @Override
@@ -335,6 +335,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         preferencesItem.addActionListener(this);
         synchItem.addActionListener(this);
         changePasswordItem.addActionListener(this);
+        
+        /*
+         * See if I am in a paused state
+         */
+        
+        if (this.getiDropCore().getTransferManager().getRunningStatus() == RunningStatus.PAUSED) {
+            this.setTransferStatePaused();
+        }
 
         logoutItem.addActionListener(this);
         pausedItem.addItemListener(this);
@@ -538,6 +546,23 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         return irodsTree;
     }
 
+    /**
+     * Indicate that the GUI should reflect a paused state
+     * 
+     */
+    public void setTransferStatePaused() {
+        pausedItem.setState(true);
+        
+    }
+    
+    /**
+     * Indicate that the gui should show an unpaused state.
+     */
+    public void setTransferStateUnpaused() {
+                pausedItem.setState(false);
+
+    }
+    
     @Override
     public void itemStateChanged(ItemEvent e) {
 
@@ -556,15 +581,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
             }
 
         }
-    }
-
-    /**
-     * Get the transferManager that controls the transfer queue
-     * 
-     * @return <code>TransferManager</code> that controls all transfers via the transfer queue
-     */
-    public TransferManager getTransferManager() {
-        return iDropCore.getTransferManager();
     }
 
     /**
