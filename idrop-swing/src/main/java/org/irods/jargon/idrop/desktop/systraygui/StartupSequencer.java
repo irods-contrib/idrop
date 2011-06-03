@@ -35,7 +35,7 @@ public class StartupSequencer {
     private iDrop idrop;
     private IDROPCore idropCore;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(StartupSequencer.class);
-    public static final int STARTUP_SEQUENCE_PAUSE_INTERVAL = 4000;
+    public static final int STARTUP_SEQUENCE_PAUSE_INTERVAL = 2000;
 
     public void doStartupSequence() {
 
