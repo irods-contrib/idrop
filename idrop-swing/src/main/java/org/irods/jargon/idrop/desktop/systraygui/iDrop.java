@@ -251,7 +251,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
             @Override
             public void run() {
-                JOptionPane.showInternalMessageDialog(thisIdropGui, messageFromOperation, "iDROP Message",
+                JOptionPane.showMessageDialog(thisIdropGui, messageFromOperation, "iDROP Message",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -265,6 +265,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     public void updateIcon(final String iconFile) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
 
                 /* listener events may occur at startup before the GUI is fully prepared, ignore these */
@@ -1937,6 +1938,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
             @Override
             public void run() {
 
+                idropGui.setBusyCursor();
                 FreeTaggingService freeTaggingService;
 
                 try {
@@ -1964,6 +1966,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     idropGui.showMessageFromOperation("update of info successful");
 
                 } catch (JargonException ex) {
+                    idropGui.showIdropException(ex);
                     Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
                     throw new IdropRuntimeException(ex);
                 } finally {
@@ -1973,6 +1976,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                         Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
                         // logged and ignored
                     }
+                    idropGui.setNormalCursor();
                 }
             }
         });
@@ -2202,5 +2206,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     public void setiDropCore(IDROPCore iDropCore) {
         this.iDropCore = iDropCore;
+    }
+    
+    public void setBusyCursor() {
+         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+    }
+    
+    public void setNormalCursor() {
+         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 }
