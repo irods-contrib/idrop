@@ -110,14 +110,6 @@ public class LocalFileTree extends JTree implements DropTargetListener, TreeWill
                 dtde.acceptDrop(dtde.getDropAction());
                 processDropFromSerializedObjectType(transferable, nodeThatWasDropTargetAsFile);
                 break;
-            } else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=org.irods.jargon.idrop.desktop.systraygui.viscomponents.DefaultFileRepresentationPanel")) {
-                dtde.acceptDrop(dtde.getDropAction());
-                try {
-                    processDropFromFileRepresentationPanel(transferable, nodeThatWasDropTargetAsFile, flavor);
-                } catch (IdropException ex) {
-                    Logger.getLogger(LocalFileTree.class.getName()).log(Level.SEVERE, null, ex);
-                    throw new IdropRuntimeException(ex);
-                }
             } else {
                 log.debug("flavor not processed: {}", flavor);
             }
@@ -472,88 +464,6 @@ public class LocalFileTree extends JTree implements DropTargetListener, TreeWill
 
     @Override
     public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
-    }
-
-    private void processDropFromFileRepresentationPanel(Transferable transferable, File nodeThatWasDropTargetAsFile, DataFlavor dataFlavor) throws IdropException {
-
-        DefaultFileRepresentationPanel fileRepresentationPanel;
-        try {
-            Object transferObject = transferable.getTransferData(dataFlavor);
-            if (!(transferObject instanceof DefaultFileRepresentationPanel)) {
-                log.error("unable to cast transferable as a DefaultFileRepresentationPanel");
-                throw new IdropRuntimeException("unable to cast transferable as a DefaultFileRepresentationPanel");
-            }
-
-            fileRepresentationPanel = (DefaultFileRepresentationPanel) transferObject;
-
-        } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(LocalFileTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropException(ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LocalFileTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropException(ex);
-
-        }
-
-        CollectionAndDataObjectListingEntry collectionAndDataObjectListingEntry = fileRepresentationPanel.getCollectionAndDataObjectListingEntry();
-        log.info("drag of filePanel for:{}", collectionAndDataObjectListingEntry);
-
-
-        final String sourceAbsolutePath;
-        if (collectionAndDataObjectListingEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
-            log.info("get of collection");
-            sourceAbsolutePath = collectionAndDataObjectListingEntry.getPathOrName();
-        } else {
-            log.info("get of data object");
-            sourceAbsolutePath = collectionAndDataObjectListingEntry.getParentPath() + "/" + collectionAndDataObjectListingEntry.getPathOrName();
-        }
-
-        String tempTargetLocalFileAbsolutePath;
-
-        if (nodeThatWasDropTargetAsFile.isDirectory()) {
-            tempTargetLocalFileAbsolutePath = nodeThatWasDropTargetAsFile.getAbsolutePath();
-        } else {
-            log.info("drop target was a file, use the parent collection name for the transfer");
-            tempTargetLocalFileAbsolutePath = nodeThatWasDropTargetAsFile.getParent();
-        }
-
-        final String targetLocalFileAbsolutePath = tempTargetLocalFileAbsolutePath;
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("Would you like to copy the remote file ");
-        sb.append(sourceAbsolutePath);
-        sb.append(" to ");
-        sb.append(targetLocalFileAbsolutePath);
-        final iDrop idropGui = idropParentGui;
-
-        //default icon, custom title
-        int n = JOptionPane.showConfirmDialog(
-                this,
-                sb.toString(),
-                "Confirm a Get ",
-                JOptionPane.YES_NO_OPTION);
-
-        if (n == JOptionPane.YES_OPTION) {
-
-            // process the drop as a get
-
-            java.awt.EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-
-                    log.info("initiating get transfer");
-                    try {
-                         idropGui.getiDropCore().getTransferManager().enqueueAGet(sourceAbsolutePath, targetLocalFileAbsolutePath, "", idropGui.getIrodsAccount());
-                    } catch (JargonException ex) {
-                        java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                        idropGui.showIdropException(ex);
-                    }
-                }
-            });
-
-        }
-
     }
 
     class PopupTrigger extends MouseAdapter {
