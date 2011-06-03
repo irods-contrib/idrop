@@ -147,7 +147,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         }
 
         if (passwdNewPassword.getPassword().length == 0 || passwdConfirmPassword.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(idrop, "New or confirm password is missing");
+            JOptionPane.showInternalMessageDialog(idrop, "New or confirm password is missing");
             return;
         }
 
@@ -159,7 +159,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         } else {
             passwdNewPassword.setBackground(Color.red);
             passwdConfirmPassword.setBackground(Color.red);
-            JOptionPane.showMessageDialog(idrop, "New and confirm password do not match");
+            JOptionPane.showInternalMessageDialog(idrop, "New and confirm password do not match");
             return;
         }
 
@@ -176,7 +176,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                     // if (localIRODSTransfer.getTransferState().equals(localIRODSTransfer.TRANSFER_STATE_COMPLETE)) {
                     //      log.info("matched transfer was complete, ignored");
                     //  } else {
-                    JOptionPane.showMessageDialog(this, "Transfers for this account are pending, this account can not be changed until completed and purged");
+                    JOptionPane.showInternalMessageDialog(this, "Transfers for this account are pending, this account can not be changed until completed and purged");
                     return;
                     // }
                 }
@@ -194,7 +194,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                     irodsAccount.getDefaultStorageResource()
                     );
             idrop.setIrodsAccount(newAccount);
-            JOptionPane.showMessageDialog(this, "Password was changed");
+            JOptionPane.showInternalMessageDialog(this, "Password was changed");
             passwdNewPassword.setText("");
             passwdConfirmPassword.setText("");
        

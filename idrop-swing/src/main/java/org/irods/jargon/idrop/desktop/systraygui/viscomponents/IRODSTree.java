@@ -141,7 +141,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
                 log.info("parent of new node is: {}", parent);
                 CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) parent.getUserObject();
                 if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
-                    JOptionPane.showMessageDialog(thisTree,
+                    JOptionPane.showInternalMessageDialog(thisTree,
                             "The selected item is not a folder, cannot create a new directory",
                             "Info", JOptionPane.INFORMATION_MESSAGE);
                     log.info("new folder not created, the selected parent is not a collection");
@@ -229,18 +229,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
         TreePath targetPath = tree.getClosestPathForLocation(pt.x, pt.y);
         IRODSNode targetNode = (IRODSNode) targetPath.getLastPathComponent();
         log.info("drop node is: {}", targetNode);
-        IRODSFileSystemModel irodsFileSystemModel = (IRODSFileSystemModel) this.getModel();
-        // irods file system model beneath the tree may not have cached the children of this targetNode, trigger the cache operation
-
-        /*
-        if (irodsFileSystemModel.isLeaf(targetNode)) {
-        log.debug("drop rejected");
-        dtde.rejectDrop();
-        return;
-        }
-
-         */
-
+        
         Transferable transferable = dtde.getTransferable();
 
         DataFlavor[] transferrableFlavors = transferable.getTransferDataFlavors();
@@ -311,7 +300,6 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
             throw new IdropRuntimeException("no source files in transfer");
         }
 
-
         StringBuilder sb = new StringBuilder();
 
         if (sourceFiles.size() > 1) {
@@ -326,7 +314,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
         }
 
         //default icon, custom title
-        int n = JOptionPane.showConfirmDialog(
+        int n = JOptionPane.showInternalConfirmDialog(
                 this,
                 sb.toString(),
                 "Confirm a Put to iRODS ",
@@ -456,7 +444,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
         }
 
         //default icon, custom title
-        int n = JOptionPane.showConfirmDialog(
+        int n = JOptionPane.showInternalConfirmDialog(
                 this,
                 sb.toString(),
                 "Confirm a Put to iRODS ",

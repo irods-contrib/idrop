@@ -236,7 +236,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
      * @param idropException
      */
     public void showIdropException(Exception idropException) {
-        JOptionPane.showMessageDialog(this, idropException.getMessage(), "iDROP Exception", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showInternalMessageDialog(this, idropException.getMessage(), "iDROP Exception", JOptionPane.WARNING_MESSAGE);
     }
 
     /**
@@ -251,7 +251,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
             @Override
             public void run() {
-                JOptionPane.showMessageDialog(thisIdropGui, messageFromOperation, "iDROP Message",
+                JOptionPane.showInternalMessageDialog(thisIdropGui, messageFromOperation, "iDROP Message",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -506,7 +506,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         sb.append(targetPath);
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Transfer Confirmaiton", JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showInternalConfirmDialog(this, sb.toString(), "Transfer Confirmaiton", JOptionPane.YES_NO_OPTION);
 
         return n;
     }
@@ -517,7 +517,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     public int showTransferStartupConfirm() {
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(
+        int n = JOptionPane.showInternalConfirmDialog(
                 this,
                 "There are transfers ready to process, should the transfer queue be started?  Click NO to pause the transfersf",
                 "Begin Transfer Confirmation", JOptionPane.YES_NO_OPTION);

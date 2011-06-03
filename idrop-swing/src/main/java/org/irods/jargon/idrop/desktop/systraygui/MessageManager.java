@@ -12,15 +12,15 @@ import javax.swing.JOptionPane;
 public class MessageManager {
 
     public static void showError(Component rootComponent, String message, String title) {
-        JOptionPane.showMessageDialog(rootComponent, message, title, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showInternalMessageDialog(rootComponent, message, title, JOptionPane.ERROR_MESSAGE);
     }
 
     public static void showWarning(Component rootComponent, String message, String title) {
-        JOptionPane.showMessageDialog(rootComponent, message, title, JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showInternalMessageDialog(rootComponent, message, title, JOptionPane.WARNING_MESSAGE);
     }
 
     public static void showMessage(Component rootComponent, String message, String title) {
-        JOptionPane.showMessageDialog(rootComponent, message, title, JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showInternalMessageDialog(rootComponent, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
 }
