@@ -217,7 +217,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         if (rs == RunningStatus.PAUSED) {
             this.setTransferStatePaused();
         } else {
-             this.setTransferStateUnpaused();
+            this.setTransferStateUnpaused();
         }
     }
 
@@ -236,7 +236,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
      * @param idropException
      */
     public void showIdropException(Exception idropException) {
-        JOptionPane.showInternalMessageDialog(this, idropException.getMessage(), "iDROP Exception", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, idropException.getMessage(), "iDROP Exception", JOptionPane.WARNING_MESSAGE);
     }
 
     /**
@@ -507,7 +507,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         sb.append(targetPath);
 
         // default icon, custom title
-        int n = JOptionPane.showInternalConfirmDialog(this, sb.toString(), "Transfer Confirmaiton", JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Transfer Confirmaiton", JOptionPane.YES_NO_OPTION);
 
         return n;
     }
@@ -518,7 +518,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     public int showTransferStartupConfirm() {
 
         // default icon, custom title
-        int n = JOptionPane.showInternalConfirmDialog(
+        int n = JOptionPane.showConfirmDialog(
                 this,
                 "There are transfers ready to process, should the transfer queue be started?  Click NO to pause the transfersf",
                 "Begin Transfer Confirmation", JOptionPane.YES_NO_OPTION);
@@ -540,16 +540,26 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
      * 
      */
     public void setTransferStatePaused() {
-        pausedItem.setState(true);
-        this.togglePauseTransfer.setSelected(true);
+        if (pausedItem != null) {
+            pausedItem.setState(true);
+        }
+
+        if (togglePauseTransfer != null) {
+            this.togglePauseTransfer.setSelected(true);
+        }
     }
 
     /**
      * Indicate that the gui should show an unpaused state.
      */
     public void setTransferStateUnpaused() {
-        pausedItem.setState(false);
-        this.togglePauseTransfer.setSelected(false);
+           if (pausedItem != null) {
+            pausedItem.setState(false);
+        }
+
+        if (togglePauseTransfer != null) {
+            this.togglePauseTransfer.setSelected(false);
+        }
     }
 
     @Override
@@ -1012,7 +1022,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         txtParentPath = new javax.swing.JTextArea();
         pnlInfoComment = new javax.swing.JPanel();
         lblComment = new javax.swing.JLabel();
-        pnlInfoCommentScrollSizer = new javax.swing.JPanel();
         scrollComment = new javax.swing.JScrollPane();
         txtComment = new javax.swing.JTextArea();
         pnlInfoTags = new javax.swing.JPanel();
@@ -1331,6 +1340,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlIrodsInfoInner.add(pnlFileNameAndIcon, gridBagConstraints);
 
         pnlInfoCollectionParent.setLayout(new java.awt.BorderLayout());
@@ -1354,6 +1364,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlIrodsInfoInner.add(pnlInfoCollectionParent, gridBagConstraints);
 
         pnlInfoComment.setLayout(new java.awt.BorderLayout());
@@ -1363,9 +1374,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         pnlInfoComment.add(lblComment, java.awt.BorderLayout.NORTH);
         lblComment.getAccessibleContext().setAccessibleDescription("lable for comment area");
 
-        pnlInfoCommentScrollSizer.setPreferredSize(new java.awt.Dimension(388, 84));
-        pnlInfoCommentScrollSizer.setLayout(new java.awt.BorderLayout());
-
         scrollComment.setMinimumSize(null);
         scrollComment.setPreferredSize(new java.awt.Dimension(388, 84));
 
@@ -1374,9 +1382,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         txtComment.setPreferredSize(null);
         scrollComment.setViewportView(txtComment);
 
-        pnlInfoCommentScrollSizer.add(scrollComment, java.awt.BorderLayout.WEST);
-
-        pnlInfoComment.add(pnlInfoCommentScrollSizer, java.awt.BorderLayout.CENTER);
+        pnlInfoComment.add(scrollComment, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1436,6 +1442,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         gridBagConstraints.weightx = 0.1;
         pnlIrodsInfoInner.add(pnlInfoButton, gridBagConstraints);
 
+        pnlInfoDetails.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlInfoDetails.setMinimumSize(null);
         pnlInfoDetails.setLayout(new java.awt.GridBagLayout());
 
         lblInfoCreatedAt.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -1491,6 +1499,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         pnlIrodsInfoInner.add(pnlInfoDetails, gridBagConstraints);
 
         pnlToolbarInfo.setMinimumSize(new java.awt.Dimension(300, 200));
@@ -1666,18 +1675,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
      * @param evt 
      */
     private void togglePauseTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togglePauseTransferActionPerformed
-        
-          try {
-                if (togglePauseTransfer.isSelected()) {
-                    log.info("pausing....");
-                    iDropCore.getTransferManager().pause();
-                } else {
-                    log.info("resuming queue");
-                    iDropCore.getTransferManager().resume();
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+
+        try {
+            if (togglePauseTransfer.isSelected()) {
+                log.info("pausing....");
+                iDropCore.getTransferManager().pause();
+            } else {
+                log.info("resuming queue");
+                iDropCore.getTransferManager().resume();
             }
+        } catch (Exception ex) {
+            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_togglePauseTransferActionPerformed
     public ActionListener showPreferencesDialogActionListener = new ActionListener() {
 
@@ -2061,7 +2070,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     private javax.swing.JPanel pnlInfoButton;
     private javax.swing.JPanel pnlInfoCollectionParent;
     private javax.swing.JPanel pnlInfoComment;
-    private javax.swing.JPanel pnlInfoCommentScrollSizer;
     private javax.swing.JPanel pnlInfoDetails;
     private javax.swing.JPanel pnlInfoIcon;
     private javax.swing.JPanel pnlInfoTags;
@@ -2207,12 +2215,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     public void setiDropCore(IDROPCore iDropCore) {
         this.iDropCore = iDropCore;
     }
-    
+
     public void setBusyCursor() {
-         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     }
-    
+
     public void setNormalCursor() {
-         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 }

@@ -158,7 +158,7 @@ public class LocalFileTree extends JTree implements DropTargetListener, TreeWill
         }
 
         //default icon, custom title
-        int n = JOptionPane.showInternalConfirmDialog(
+        int n = JOptionPane.showConfirmDialog(
                 this,
                 sb.toString(),
                 "Confirm a Get ",

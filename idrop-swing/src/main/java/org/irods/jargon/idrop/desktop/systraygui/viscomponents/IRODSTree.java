@@ -141,7 +141,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
                 log.info("parent of new node is: {}", parent);
                 CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) parent.getUserObject();
                 if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
-                    JOptionPane.showInternalMessageDialog(thisTree,
+                    JOptionPane.showMessageDialog(thisTree,
                             "The selected item is not a folder, cannot create a new directory",
                             "Info", JOptionPane.INFORMATION_MESSAGE);
                     log.info("new folder not created, the selected parent is not a collection");
@@ -314,7 +314,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
         }
 
         //default icon, custom title
-        int n = JOptionPane.showInternalConfirmDialog(
+        int n = JOptionPane.showConfirmDialog(
                 this,
                 sb.toString(),
                 "Confirm a Put to iRODS ",
@@ -444,7 +444,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
         }
 
         //default icon, custom title
-        int n = JOptionPane.showInternalConfirmDialog(
+        int n = JOptionPane.showConfirmDialog(
                 this,
                 sb.toString(),
                 "Confirm a Put to iRODS ",

@@ -162,7 +162,7 @@ public class StartupSequencer {
             List<LocalIRODSTransfer> currentQueue = idropCore.getTransferManager().getCurrentQueue();
 
             if (!currentQueue.isEmpty()) {
-                int result = JOptionPane.showInternalConfirmDialog((Component) null, "Transfers are waiting to process, restart transfer?",
+                int result = JOptionPane.showConfirmDialog((Component) null, "Transfers are waiting to process, restart transfer?",
                         "iDrop Transfers in Progress", JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.CANCEL_OPTION) {
                     idropCore.getTransferManager().pause();
