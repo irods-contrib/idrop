@@ -85,7 +85,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
 
             cached = true;
 
-        } catch (JargonException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(IRODSNode.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("error occurred accessing collection data", ex);
         } finally {

@@ -587,10 +587,10 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
             expandingNode.lazyLoadOfChildrenOfThisNode(!isRefreshingTree());
         } catch (IdropException ex) {
             Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
+            idropParentGui.showIdropException(ex);
             throw new IdropRuntimeException("error expanding irodsNode");
         } finally {
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
         }
     }
 }
