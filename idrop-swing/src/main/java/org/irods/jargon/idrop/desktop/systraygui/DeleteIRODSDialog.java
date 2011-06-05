@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.SwingWorker;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
@@ -212,36 +213,13 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
     private void processDelete() throws IdropException {
         log.info("delete folder named:{}", txtAreaFileToDelete.getText());
         final DeleteIRODSDialog thisDialog = this;
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-
-                thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-                try {
-
-                    IRODSFileFactory irodsFileFactory = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
-                    if (deletedNode != null) {
-                        log.info("deleting a single node");
-                        deleteASingleFile(irodsFileFactory, deletedNode);
-                    } else if (deletedNodes != null) {
-                        log.info("deleting multiple nodes");
-                        for (IRODSNode deletedNodeEntry : deletedNodes) {
-                            deleteASingleFile(irodsFileFactory, deletedNodeEntry);
-                        }
-                    }
-                } catch (IdropException ex) {
-                    Logger.getLogger(NewIRODSDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);
-                    idrop.showIdropException(ex);
-                } finally {
-                    idrop.getiDropCore().closeAllIRODSConnections();
-                    thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-
-                idrop.showMessageFromOperation("delete successful");
-                thisDialog.dispose();
-                
+                thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));        
+                (new DeleteWorker(thisDialog)).execute();
             }
         });
     }
@@ -273,4 +251,57 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
         }
 
     }
+    
+    class DeleteWorker extends SwingWorker<String, Object> {
+        
+        public static final String  DELETE_SUCCESSFUL = "Deletion complete";
+        public static final String DELETE_ERRORS = "The deletion was not successful";
+        private DeleteIRODSDialog dialog;
+        private String message = "";
+        
+        DeleteWorker(DeleteIRODSDialog dialog) {
+            if (dialog == null) {
+                throw new IllegalArgumentException("null dialog");
+            }
+          
+            this.dialog=dialog;
+            
+        }
+        
+       @Override
+       public String doInBackground() {
+          
+                try {
+
+                    IRODSFileFactory irodsFileFactory = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
+                    if (deletedNode != null) {
+                        log.info("deleting a single node");
+                        deleteASingleFile(irodsFileFactory, deletedNode);
+                    } else if (deletedNodes != null) {
+                        log.info("deleting multiple nodes");
+                        for (IRODSNode deletedNodeEntry : deletedNodes) {
+                            deleteASingleFile(irodsFileFactory, deletedNodeEntry);
+                        }
+                    }
+                    message = DELETE_SUCCESSFUL;
+                } catch (Exception ex) {
+                    Logger.getLogger(NewIRODSDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    idrop.showIdropException(ex);
+                    message = DELETE_ERRORS;
+                } finally {
+                    idrop.getiDropCore().closeAllIRODSConnections();
+                }
+                
+                return null;
+       }
+
+       @Override
+       protected void done() {
+                dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));     
+                dialog.dispose();
+                idrop.showMessageFromOperation(message);
+            }       
+   }
+    
+    
 }
