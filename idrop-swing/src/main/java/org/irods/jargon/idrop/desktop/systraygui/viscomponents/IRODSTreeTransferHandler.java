@@ -3,9 +3,11 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +36,16 @@ import org.slf4j.LoggerFactory;
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSTreeTransferHandler extends TransferHandler {
+
+    @Override
+    public void exportAsDrag(JComponent jc, InputEvent ie, int i) {
+        super.exportAsDrag(jc, ie, i);
+    }
+
+    @Override
+    public void exportToClipboard(JComponent jc, Clipboard clpbrd, int i) throws IllegalStateException {
+        super.exportToClipboard(jc, clpbrd, i);
+    }
     
      public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferHandler.class);
     public final iDrop idropGui;
@@ -117,7 +129,6 @@ public class IRODSTreeTransferHandler extends TransferHandler {
   
     @Override
     public boolean canImport(TransferSupport support) {
-       // return super.canImport(support);
         Point location = support.getDropLocation().getDropPoint();
         IRODSTree tree = (IRODSTree) support.getComponent();
        

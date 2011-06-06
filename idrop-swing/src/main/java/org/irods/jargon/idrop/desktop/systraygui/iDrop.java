@@ -97,7 +97,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(iDrop.class);
     private boolean formShown = false;
     private LocalFileTree fileTree = null;
-
     private IRODSTree irodsTree = null;
     private QueueManagerDialog queueManagerDialog = null;
     private IDROPCore iDropCore = new IDROPCore();
@@ -185,7 +184,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     }
 
     protected void showIdropGui() {
-        buildIdropGuiComponents();
+
+        if (fileTree == null) {
+            buildIdropGuiComponents();
+        }
+
         setUpLocalFileSelectTree();
         buildTargetTree();
         setVisible(true);
@@ -273,9 +276,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 if (trayIcon == null) {
                     return;
                 }
+
                 Image newIcon = createImage(iconFile, "icon");
 
                 trayIcon.setImage(newIcon);
+
+                if (pnlIdropProgressIcon != null) {
+                    pnlIdropProgressIcon.removeAll();
+                    JLabel picLabel = new JLabel(new ImageIcon(newIcon));
+
+                    pnlIdropProgressIcon.add(picLabel);
+                    pnlIdropProgressIcon.validate();
+                }
             }
         });
     }
@@ -554,7 +566,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
      * Indicate that the gui should show an unpaused state.
      */
     public void setTransferStateUnpaused() {
-           if (pausedItem != null) {
+        if (pausedItem != null) {
             pausedItem.setState(false);
         }
 
@@ -646,10 +658,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
                 initializeLocalFileTreeModel(null);
                 fileTree = new LocalFileTree(localFileModel, gui);
-                fileTree.setDragEnabled(true);
-                fileTree.setDropMode(javax.swing.DropMode.ON);
-                fileTree.setTransferHandler(new TransferHandler("selectionModel"));
-                fileTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
                 listLocalDrives.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
                     @Override
@@ -2224,8 +2232,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     public void setNormalCursor() {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
-     
-    
+
     public LocalFileTree getFileTree() {
         return fileTree;
     }

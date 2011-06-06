@@ -92,15 +92,15 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     public LocalFileTree(TreeModel newModel, iDrop idropParentGui) {
         super(newModel);
         this.idropParentGui = idropParentGui;
+                setDragEnabled(true);
+
         this.setTransferHandler(new LocalTreeTransferHandler(idropParentGui));
         this.setCellRenderer(new DefaultTreeCellRenderer());
         setUpTreeMenu();
-        setDragEnabled(true);
         setDropMode(javax.swing.DropMode.ON);
 
     }
 
- 
     /**
      * Utility method takes an <code>Enumeration</code> of tree paths, such as would be returned
      * by calling <code>getExpandedDescendants()</code> on the local file tree.  This method will
