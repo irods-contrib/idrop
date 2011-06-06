@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * Dialog to confirm and process the move of a file to a new iRODS location (phymove gesture)
  * @author mikeconway
  */
-public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
+public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
     private final iDrop idrop;
     private final IRODSTree stagingViewTree;
@@ -42,9 +42,10 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
     private final String targetAbsolutePath;
     private final IRODSFile sourceFile;
     private final List<IRODSFile> sourceFiles;
-    public static org.slf4j.Logger log = LoggerFactory.getLogger(MoveIRODSFileToNewIRODSLocationDialog.class);
+    public static org.slf4j.Logger log = LoggerFactory.getLogger(MoveOrCopyiRODSDialog.class);
+    private final boolean isCopy;
 
-    public MoveIRODSFileToNewIRODSLocationDialog(final iDrop parent, final boolean modal, final IRODSNode targetNode, final IRODSTree stagingViewTree, final IRODSFile sourceFile, final String targetAbsolutePath) {
+    public MoveOrCopyiRODSDialog(final iDrop parent, final boolean modal, final IRODSNode targetNode, final IRODSTree stagingViewTree, final IRODSFile sourceFile, final String targetAbsolutePath, final boolean isCopy) {
         super(parent, modal);
         this.idrop = parent;
         this.targetNode = targetNode;
@@ -52,10 +53,11 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
         this.targetAbsolutePath = targetAbsolutePath;
         this.sourceFile = sourceFile;
         this.sourceFiles = null;
+        this.isCopy = isCopy;
         initializeDialog();
     }
 
-    public MoveIRODSFileToNewIRODSLocationDialog(final iDrop parent, final boolean modal, final IRODSNode targetNode, final IRODSTree stagingViewTree, final List<IRODSFile> sourceFiles, final String targetAbsolutePath) {
+    public MoveOrCopyiRODSDialog(final iDrop parent, final boolean modal, final IRODSNode targetNode, final IRODSTree stagingViewTree, final List<IRODSFile> sourceFiles, final String targetAbsolutePath, final boolean isCopy) {
         super(parent, modal);
         this.idrop = parent;
         this.targetNode = targetNode;
@@ -63,11 +65,17 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
         this.targetAbsolutePath = targetAbsolutePath;
         this.sourceFile = null;
         this.sourceFiles = sourceFiles;
+        this.isCopy = isCopy;
         initializeDialog();
     }
 
     private void initializeDialog() {
         initComponents();
+        if (isCopy) {
+            lblTitle.setText("Do you wish to copy the iRODS file to the new iRODS location?");
+        } else {
+            lblTitle.setText("Do you wish to move the iRODS file to the new iRODS location?");
+        }
         txtNewLocation.setText(targetAbsolutePath);
 
         if (sourceFile != null) {
@@ -202,13 +210,13 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
                 .addContainerGap(61, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlFolderDataLayout.createSequentialGroup()
                 .addContainerGap(134, Short.MAX_VALUE)
-                .add(pnlBottom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 622, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(pnlBottom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         pnlFolderDataLayout.setVerticalGroup(
             pnlFolderDataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(pnlFolderDataLayout.createSequentialGroup()
-                .add(pnlCurrentParent, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 250, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(pnlCurrentParent, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(pnlBottom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -236,7 +244,7 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
 }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        processMove();
+        processMoveOrCopy();
     }//GEN-LAST:event_btnOKActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -253,10 +261,10 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea txtNewLocation;
     // End of variables declaration//GEN-END:variables
 
-    private void processMove() {
+    private void processMoveOrCopy() {
         // add the new folder to irods, add to the tree, and scroll the tree into view
-        final MoveIRODSFileToNewIRODSLocationDialog thisDialog = this;
-        log.info("processing move");
+        final MoveOrCopyiRODSDialog thisDialog = this;
+        log.info("processing move or copy");
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
@@ -277,11 +285,15 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
                     List<IRODSFile> filesThatHadOverwriteError = new ArrayList<IRODSFile>();
 
                     if (sourceFile != null) {
-                        log.info("processing the move for one file:{}", sourceFile);
+                        log.info("processing the move/copy for one file:{}", sourceFile);
                         try {
-                            processAMoveOfAnIndividualFile(dataTransferOperations, sourceFile, targetAbsolutePath);
+                            if (isCopy) {
+                                processACopyOfAnIndividualFile(dataTransferOperations, sourceFile, targetAbsolutePath);
+                            } else {
+                                processAMoveOfAnIndividualFile(dataTransferOperations, sourceFile, targetAbsolutePath);
+                            }
                         } catch (JargonFileOrCollAlreadyExistsException ex) {
-                            Logger.getLogger(MoveIRODSFileToNewIRODSLocationDialog.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(MoveOrCopyiRODSDialog.class.getName()).log(Level.SEVERE, null, ex);
                             filesThatHadOverwriteError.add(sourceFile);
                         } catch (JargonException je) {
                             if (je.getMessage().indexOf("-834000") > -1 || je.getMessage().indexOf("-833000") > -1) {
@@ -291,13 +303,17 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
                             }
                         }
                     } else if (sourceFiles != null) {
-                        log.info("processing move of multiple files");
+                        log.info("processing move/copy of multiple files");
                         for (IRODSFile sourceFileEntry : sourceFiles) {
                             try {
-                                processAMoveOfAnIndividualFile(dataTransferOperations, sourceFileEntry, targetAbsolutePath);
+                                if (isCopy) {
+                                    processACopyOfAnIndividualFile(dataTransferOperations, sourceFile, targetAbsolutePath);
+                                } else {
+                                    processAMoveOfAnIndividualFile(dataTransferOperations, sourceFile, targetAbsolutePath);
+                                }
                             } catch (JargonFileOrCollAlreadyExistsException ex) {
                                 // FIXME: fix in jargon core to differentiate!
-                                Logger.getLogger(MoveIRODSFileToNewIRODSLocationDialog.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(MoveOrCopyiRODSDialog.class.getName()).log(Level.SEVERE, null, ex);
                                 filesThatHadOverwriteError.add(sourceFile);
                             } catch (JargonException je) {
                                 if (je.getMessage().indexOf("-834000") > -1 || je.getMessage().indexOf("-833000") > -1) {
@@ -314,9 +330,9 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
                     targetNode.forceReloadOfChildrenOfThisNode();
                     irodsFileSystemModel.reload(targetNode);
                     if (filesThatHadOverwriteError.isEmpty()) {
-                        idrop.showMessageFromOperation("irods move processed");
+                        idrop.showMessageFromOperation("irods move/copy processed");
                     } else {
-                        idrop.showMessageFromOperation("irods move processed, some files were not moved as files of the same name already existed");
+                        idrop.showMessageFromOperation("irods move/copy processed, some files were not moved as files of the same name already existed");
                     }
                     thisDialog.dispose();
 
@@ -355,6 +371,15 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
 
     }
 
+    private void processACopyOfAnIndividualFile(DataTransferOperations dataTransferOperations, IRODSFile sourceFile, String targetAbsolutePath) throws IdropException {
+        try {
+            idrop.getiDropCore().getTransferManager().enqueueACopy(sourceFile.getAbsolutePath(), sourceFile.getResource(), targetAbsolutePath, idrop.getiDropCore().getIrodsAccount());
+        } catch (JargonException ex) {
+            Logger.getLogger(MoveOrCopyiRODSDialog.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IdropException("unable to copy file due to JargonException", ex);
+        }
+    }
+
     /**
      * Register a listener for the enter event, so login can occur.
      */
@@ -365,7 +390,7 @@ public class MoveIRODSFileToNewIRODSLocationDialog extends javax.swing.JDialog {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                processMove();
+                processMoveOrCopy();
             }
         };
         btnOK.registerKeyboardAction(enterAction, enter,

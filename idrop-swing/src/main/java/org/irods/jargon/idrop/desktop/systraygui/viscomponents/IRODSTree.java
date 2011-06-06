@@ -39,7 +39,7 @@ import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.DeleteIRODSDialog;
-import org.irods.jargon.idrop.desktop.systraygui.MoveIRODSFileToNewIRODSLocationDialog;
+import org.irods.jargon.idrop.desktop.systraygui.MoveOrCopyiRODSDialog;
 import org.irods.jargon.idrop.desktop.systraygui.NewIRODSDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.RenameIRODSDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
