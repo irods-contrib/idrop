@@ -207,6 +207,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
     }
        
     public LocalTreeTransferHandler(final iDrop idropGui) {
+        super("selectionModel");
         if (idropGui == null) {
             throw new IllegalArgumentException("null idropGui");
         }

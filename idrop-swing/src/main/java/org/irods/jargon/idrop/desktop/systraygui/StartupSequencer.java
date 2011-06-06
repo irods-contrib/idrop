@@ -40,6 +40,10 @@ public class StartupSequencer {
     public void doStartupSequence() {
 
         log.info("initiating startup sequence...");
+
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iDrop Client for iRODS");
+
         int count = 0;
         log.info("creating idropCore...");
         idropCore = new IDROPCore();
@@ -79,7 +83,7 @@ public class StartupSequencer {
         sb.append("/.idrop");
         String derivedConfigHomeDirectory = sb.toString();
         log.info("set config home directory as: {}", derivedConfigHomeDirectory);
-        
+
         /*
          * Here is where I first try and start the database to get the configuration.  
          * TODO: add trap for double start and here is where I could do a version check
@@ -106,8 +110,8 @@ public class StartupSequencer {
         log.info("config properties derived...");
         idropCore.setIdropConfig(new IdropConfig(derivedProperties));
         idropCore.getIdropConfig().setUpLogging();
-        
-         log.info("logging in in splash background thread");
+
+        log.info("logging in in splash background thread");
         idropSplashWindow.setStatus("Logging in...", ++count);
 
         final LoginDialog loginDialog = new LoginDialog(idrop);
@@ -119,26 +123,26 @@ public class StartupSequencer {
         loginDialog.setAlwaysOnTop(true);
         loginDialog.toFront();
         loginDialog.setVisible(true);
-        
+
         idropSplashWindow.toFront();
         log.info("logged in, now checking for first run...");
-        
-          try {
+
+        try {
             Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL);
         } catch (InterruptedException e) {
             throw new IdropRuntimeException(e);
         }
 
         idropSplashWindow.setStatus("Checking if this is the first time run to set up synch...", ++count);
-        
+
         String synchDeviceName = idropCore.getIdropConfig().getSynchDeviceName();
-        
+
         if (synchDeviceName == null) {
             log.info("first time running idrop, starting configuration wizard");
             doFirstTimeConfigurationWizard();
         }
-        
-   
+
+
         try {
             Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL);
         } catch (InterruptedException e) {
@@ -156,7 +160,7 @@ public class StartupSequencer {
             throw new IdropRuntimeException("error creating transferManager", ex);
         }
 
-       
+
 
         try {
             List<LocalIRODSTransfer> currentQueue = idropCore.getTransferManager().getCurrentQueue();

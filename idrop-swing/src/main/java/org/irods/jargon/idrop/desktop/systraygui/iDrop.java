@@ -737,6 +737,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 TreePath rootPath = null;
 
                 if (getTreeStagingResource() != null) {
+                    TreePath[] expandedPaths = TreeUtils.getPaths(getTreeStagingResource(), true);
+                    //FIXME: get this code out of idrop and put into iRODS tree
+                    log.info("expaned paths:{}", expandedPaths);
                     rootPath = getTreeStagingResource().getPathForRow(0);
                     currentPaths = getTreeStagingResource().getExpandedDescendants(rootPath);
                     log.debug("selected tree node, paths are:{}", currentPaths);
@@ -1720,6 +1723,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         this.formShown = false;
     }// GEN-LAST:event_formWindowClosed
 
+    /**
+     * refresh the iRODS file system tree view
+     * @param evt 
+     */
     private void btnRefreshTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshTargetTreeActionPerformed
         buildTargetTree();
     }// GEN-LAST:event_btnRefreshTargetTreeActionPerformed

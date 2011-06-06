@@ -104,7 +104,6 @@ public class IRODSTree extends JTree implements  TreeWillExpandListener, TreeExp
         super(newModel);
         this.idropParentGui = idropParentGui;
         initializeMenusAndListeners();
-
         //this.setEditable(true);
     }
 
@@ -301,5 +300,14 @@ public class IRODSTree extends JTree implements  TreeWillExpandListener, TreeExp
         } finally {
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
+    }
+    
+    public void refreshTreeAndExpandVisibleNodes() throws IdropException {
+        
+        // collect all of the visible tree nodes
+        
+        
+        
+        
     }
 }
