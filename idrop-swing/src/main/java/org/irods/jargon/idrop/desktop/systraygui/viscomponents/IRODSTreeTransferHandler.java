@@ -439,6 +439,15 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         try {
             // get the list of files
             sourceFiles = (List<IRODSFile>) transferable.getTransferData(IRODSTreeTransferable.irodsTreeDataFlavor);
+            
+            /* for the source files, default to the resource that was specified at login,this might need to be reconsidered
+             * but can cause a -321000 no resc error if no default set in irods.
+             */
+            
+            for (IRODSFile sourceFile : sourceFiles) {
+                sourceFile.setResource(idropGui.getiDropCore().getIrodsAccount().getDefaultStorageResource());
+            }
+            
         } catch (UnsupportedFlavorException ex) {
             Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropRuntimeException("unsupported flavor getting data from transfer");

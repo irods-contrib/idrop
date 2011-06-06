@@ -1215,6 +1215,10 @@
             <Container class="javax.swing.JPanel" name="pnlIdropProgressIcon">
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="progressIconImageLabel">
+                </Component>
+              </SubComponents>
             </Container>
           </SubComponents>
         </Container>

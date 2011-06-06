@@ -282,11 +282,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 trayIcon.setImage(newIcon);
 
                 if (pnlIdropProgressIcon != null) {
-                    pnlIdropProgressIcon.removeAll();
-                    JLabel picLabel = new JLabel(new ImageIcon(newIcon));
-
-                    pnlIdropProgressIcon.add(picLabel);
-                    pnlIdropProgressIcon.validate();
+                    progressIconImageLabel.setIcon(new ImageIcon(newIcon));
+                    
                 }
             }
         });
@@ -1060,6 +1057,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         btnShowTransferManager = new javax.swing.JButton();
         togglePauseTransfer = new javax.swing.JToggleButton();
         pnlIdropProgressIcon = new javax.swing.JPanel();
+        progressIconImageLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemExit = new javax.swing.JMenuItem();
@@ -1452,7 +1450,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         pnlIrodsInfoInner.add(pnlInfoButton, gridBagConstraints);
 
         pnlInfoDetails.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlInfoDetails.setMinimumSize(null);
         pnlInfoDetails.setLayout(new java.awt.GridBagLayout());
 
         lblInfoCreatedAt.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -1619,6 +1616,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         idropProgressPanelToolbar.add(togglePauseTransfer);
 
         transferQueueToolbarPanel.add(idropProgressPanelToolbar);
+
+        pnlIdropProgressIcon.add(progressIconImageLabel);
+
         transferQueueToolbarPanel.add(pnlIdropProgressIcon);
 
         pnlIdropBottom.add(transferQueueToolbarPanel, new java.awt.GridBagConstraints());
@@ -2101,6 +2101,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     private javax.swing.JPanel pnlToolbarInfo;
     private javax.swing.JPanel pnlToolbarSizer;
     private javax.swing.JPanel pnlTopToolbarSearchArea;
+    private javax.swing.JLabel progressIconImageLabel;
     private javax.swing.JScrollPane scrollComment;
     private javax.swing.JScrollPane scrollIrodsTree;
     private javax.swing.JScrollPane scrollLocalDrives;
