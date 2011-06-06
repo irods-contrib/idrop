@@ -235,76 +235,6 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
 
     }
 
-    @Override
-    public void drop(DropTargetDropEvent dtde) {
-
-        // drop from explorer - human presentable name = application/x-java-url; class=java.net.URL
-        // process a drop onto this tree
-
-        /*
-         * User drop action depends on the drop actions supported by the drag source and the drop action selected by the user. 
-         * The user can select a drop action by pressing modifier keys during the drag operation:
-        Ctrl + Shift -> ACTION_LINK
-        Ctrl         -> ACTION_COPY (1)
-        Shift        -> ACTION_MOVE (2)
-         * 
-         * default = 2
-         */
-
-/*
-        log.info("drop event:{}", dtde);
-        Point pt = dtde.getLocation();
-        DropTargetContext dtc = dtde.getDropTargetContext();
-        JTree tree = (JTree) dtc.getComponent();
-        TreePath targetPath = tree.getClosestPathForLocation(pt.x, pt.y);
-        IRODSNode targetNode = (IRODSNode) targetPath.getLastPathComponent();
-        log.info("drop node is: {}", targetNode);
-
-        Transferable transferable = dtde.getTransferable();
-
-        DataFlavor[] transferrableFlavors = transferable.getTransferDataFlavors();
-
-        // see if this is a phymove gesture
-        if (transferable.isDataFlavorSupported(IRODSTreeTransferable.localPhymoveFlavor)) {
-            log.info("drop accepted, process as a move");
-            dtde.acceptDrop(dtde.getDropAction());
-            processPhymoveGesture(transferable, targetNode);
-            return;
-        }
-
-        // not a phymove
-
-        boolean accepted = false;
-
-        for (DataFlavor flavor : transferrableFlavors) {
-            log.debug("flavor mime type:{}", flavor.getMimeType());
-            log.debug("flavor human presentable name:{}", flavor.getHumanPresentableName());
-            if (flavor.isFlavorJavaFileListType()) {
-                log.info("drop accepted...process drop as file list from desktop");
-                dtde.acceptDrop(dtde.getDropAction());
-                processDropOfFileList(transferable, targetNode);
-                accepted = true;
-                break;
-            } else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
-                log.info("drop accepted: process drop as serialized object");
-                dtde.acceptDrop(dtde.getDropAction());
-                processDropOfTreeSelectionModel(transferable, targetNode, flavor);
-                accepted = true;
-                break;
-            } else {
-                log.debug("flavor not processed: {}", flavor);
-            }
-        }
-
-        if (!accepted) {
-            log.info("drop rejected");
-            dtde.rejectDrop();
-        }
- * 
- */
-
-    }
-
    
     @Override
     public void dragEnter(DropTargetDragEvent dtde) {
@@ -314,33 +244,7 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
     @Override
     public void dragOver(DropTargetDragEvent dtde) {
 
-        Point location = dtde.getLocation();
-        int closestRow = this.getClosestRowForLocation((int) location.getX(), (int) location.getY());
-        boolean highlighted = false;
-
-        Graphics g = getGraphics();
-
-        // row changed
-
-        if (highlightedRow != closestRow) {
-            if (null != dirtyRegion) {
-                paintImmediately(dirtyRegion);
-            }
-
-            for (int j = 0; j < getRowCount(); j++) {
-                if (closestRow == j) {
-
-                    Rectangle firstRowRect = getRowBounds(closestRow);
-                    this.dirtyRegion = firstRowRect;
-                    g.setColor(highlightColor);
-
-                    g.fillRect((int) dirtyRegion.getX(), (int) dirtyRegion.getY(), (int) dirtyRegion.getWidth(), (int) dirtyRegion.getHeight());
-                    highlightedRow = closestRow;
-                }
-            }
-
-        }
-
+ 
     }
 
     @Override
@@ -355,25 +259,17 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
     }
     // processes drop from local file tree
 
-   
-
-    private void setUpDropListener() throws IdropRuntimeException {
-        try {
-            DropTarget dt = new DropTarget(this, this);
-        } catch (Exception ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("too many event listeners");
-        }
-    }
-
-   
-
     @Override
     public void treeExpanded(TreeExpansionEvent event) {
     }
 
     @Override
     public void treeCollapsed(TreeExpansionEvent event) {
+    }
+
+    @Override
+    public void drop(DropTargetDropEvent dtde) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     class PopupTrigger extends MouseAdapter {

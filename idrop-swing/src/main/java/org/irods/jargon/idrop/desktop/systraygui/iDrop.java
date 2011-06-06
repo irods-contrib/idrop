@@ -97,6 +97,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(iDrop.class);
     private boolean formShown = false;
     private LocalFileTree fileTree = null;
+
     private IRODSTree irodsTree = null;
     private QueueManagerDialog queueManagerDialog = null;
     private IDROPCore iDropCore = new IDROPCore();
@@ -2222,5 +2223,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     public void setNormalCursor() {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+     
+    
+    public LocalFileTree getFileTree() {
+        return fileTree;
+    }
+
+    public void setFileTree(LocalFileTree fileTree) {
+        this.fileTree = fileTree;
     }
 }

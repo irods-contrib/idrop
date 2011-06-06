@@ -107,7 +107,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     @Override
     public boolean canImport(TransferSupport support) {
        // return super.canImport(support);
-          Point location = support.getDropLocation().getDropPoint();
+        Point location = support.getDropLocation().getDropPoint();
         IRODSTree tree = (IRODSTree) support.getComponent();
        
         int closestRow = idropGui.getIrodsTree().getClosestRowForLocation((int) location.getX(), (int) location.getY());
@@ -141,15 +141,15 @@ public class IRODSTreeTransferHandler extends TransferHandler {
        // if (support.getComponent() instanceof IRODSTree) {
             for (DataFlavor flavor :  support.getDataFlavors()) {
                 if (flavor.equals(DataFlavor.javaFileListFlavor)) {
-                    log.warn("found file list flavor, will import");
+                    log.debug("found file list flavor, will import");
                     return true;
                 }  else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
-                     log.warn("found file list flavor, will import");
+                     log.debug("found file list flavor, will import");
                     return true;
                 }
             }
         //}
-        log.warn("cannot import");
+        log.debug("cannot import");
         return false;
 
     }
