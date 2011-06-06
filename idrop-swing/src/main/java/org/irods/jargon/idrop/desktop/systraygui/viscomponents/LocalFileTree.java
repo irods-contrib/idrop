@@ -335,6 +335,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
             }
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             if (e.isPopupTrigger()) {
                 int x = e.getX();

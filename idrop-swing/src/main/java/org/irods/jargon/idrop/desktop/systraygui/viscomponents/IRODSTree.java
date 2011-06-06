@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
  * Swing JTree component for viewing iRODS server file system
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpandListener, TreeExpansionListener {
+public class IRODSTree extends JTree implements  TreeWillExpandListener, TreeExpansionListener {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTree.class);
     protected iDrop idropParentGui = null;
@@ -235,41 +235,12 @@ public class IRODSTree extends JTree implements DropTargetListener, TreeWillExpa
 
     }
 
-   
-    @Override
-    public void dragEnter(DropTargetDragEvent dtde) {
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void dragOver(DropTargetDragEvent dtde) {
-
- 
-    }
-
-    @Override
-    public void dropActionChanged(DropTargetDragEvent dtde) {
-    }
-
-    @Override
-    public void dragExit(DropTargetEvent dte) {
-        if (null != dirtyRegion) {
-            paintImmediately(dirtyRegion);
-        }
-    }
-    // processes drop from local file tree
-
     @Override
     public void treeExpanded(TreeExpansionEvent event) {
     }
 
     @Override
     public void treeCollapsed(TreeExpansionEvent event) {
-    }
-
-    @Override
-    public void drop(DropTargetDropEvent dtde) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     class PopupTrigger extends MouseAdapter {
