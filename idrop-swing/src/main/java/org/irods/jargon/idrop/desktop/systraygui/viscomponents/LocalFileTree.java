@@ -66,18 +66,19 @@ public class LocalFileTree extends JTree implements DropTargetListener, TreeWill
 
     public LocalFileTree(TreeModel newModel, iDrop idropParentGui) {
         super(newModel);
+        this.idropParentGui = idropParentGui;
         this.setCellRenderer(new DefaultTreeCellRenderer());
         setUpDropListener();
-        this.idropParentGui = idropParentGui;
         setUpTreeMenu();
 
     }
 
     public LocalFileTree() {
-        super();
+   
         setUpDropListener();
         this.thisTree = this;
         setUpTreeMenu();
+        
     }
 
     @Override
@@ -356,6 +357,7 @@ public class LocalFileTree extends JTree implements DropTargetListener, TreeWill
     }
 
     private void setUpDropListener() throws IdropRuntimeException {
+       this.setTransferHandler(new LocalTreeTransferHandler(idropParentGui));
         try {
             DropTarget dt = new DropTarget(this, this);
         } catch (Exception ex) {
