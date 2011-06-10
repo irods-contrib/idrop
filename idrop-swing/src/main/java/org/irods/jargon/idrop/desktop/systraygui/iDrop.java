@@ -84,6 +84,10 @@ import org.irods.jargon.usertagging.domain.UserTagCloudView;
 import org.slf4j.LoggerFactory;
 
 import cookxml.cookswing.CookSwing;
+import java.awt.Rectangle;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
+import org.irods.jargon.core.transfer.TransferStatus.TransferState;
 
 /**
  * Main system tray and GUI. Create system tray menu, start timer process for queue.
@@ -232,6 +236,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         this.transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
         this.transferStatusProgressBar.setValue(ts.getTotalFilesTransferredSoFar());
         log.info("transfer status callback to iDROP:{}", ts);
+        /*
+       if (this.irodsTree != null && ts.getTransferState() == TransferState.SUCCESS) {
+            try {
+                ((IRODSFileSystemModel) irodsTree.getModel()).notifyCompletionOfOperation(irodsTree,ts);
+            } catch (IdropException ex) {
+                Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+                this.showIdropException(ex);
+            }
+       }*/
     }
 
     /**
@@ -734,15 +747,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
             public void run() {
                 log.debug("refreshing series panel");
                 Enumeration<TreePath> currentPaths = null;
+                TreePath firstVisibleRow = null;
                 TreePath rootPath = null;
 
                 if (getTreeStagingResource() != null) {
                     TreePath[] expandedPaths = TreeUtils.getPaths(getTreeStagingResource(), true);
                     //FIXME: get this code out of idrop and put into iRODS tree
-                    log.info("expaned paths:{}", expandedPaths);
-                    rootPath = getTreeStagingResource().getPathForRow(0);
+                    log.info("expanded paths:{}", expandedPaths);
+                   rootPath = getTreeStagingResource().getPathForRow(0);
+                   // Rectangle nodeRectangle = scrollIrodsTree.getViewport().getViewRect();
+                   // TreeModel treeModel = getTreeStagingResource().getModel();
+                   // TreeNode root = (TreeNode) treeModel.getRoot();
                     currentPaths = getTreeStagingResource().getExpandedDescendants(rootPath);
+                    //firstVisibleRow = getTreeStagingResource().getClosestPathForLocation(0, 0);
                     log.debug("selected tree node, paths are:{}", currentPaths);
+                    log.debug("first visible row is:{}", firstVisibleRow);
                 }
 
                 CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
@@ -790,6 +809,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     }
                 }
                 irodsTree.setRefreshingTree(false);
+                
                 getiDropCore().getIrodsFileSystem().closeAndEatExceptions(iDropCore.getIrodsAccount());
             }
         });
@@ -1013,7 +1033,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         btnRefreshTargetTree = new javax.swing.JButton();
         pnlIrodsTreeMaster = new javax.swing.JPanel();
         scrollIrodsTree = new javax.swing.JScrollPane();
-        pnlTargetTree = new javax.swing.JPanel();
         pnlTabSearch = new javax.swing.JPanel();
         pnlTabSearchTop = new javax.swing.JPanel();
         pnlTabSearchResults = new javax.swing.JPanel();
@@ -1279,10 +1298,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         scrollIrodsTree.setMinimumSize(null);
         scrollIrodsTree.setPreferredSize(null);
-
-        pnlTargetTree.setLayout(new java.awt.BorderLayout());
-        scrollIrodsTree.setViewportView(pnlTargetTree);
-
         pnlIrodsTreeMaster.add(scrollIrodsTree, java.awt.BorderLayout.CENTER);
 
         pnlTabHierarchicalView.add(pnlIrodsTreeMaster, java.awt.BorderLayout.CENTER);
@@ -2104,7 +2119,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     private javax.swing.JPanel pnlTabSearch;
     private javax.swing.JPanel pnlTabSearchResults;
     private javax.swing.JPanel pnlTabSearchTop;
-    private javax.swing.JPanel pnlTargetTree;
     private javax.swing.JPanel pnlToolbarInfo;
     private javax.swing.JPanel pnlToolbarSizer;
     private javax.swing.JPanel pnlTopToolbarSearchArea;

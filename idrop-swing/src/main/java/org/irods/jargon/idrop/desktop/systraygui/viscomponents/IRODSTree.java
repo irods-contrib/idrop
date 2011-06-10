@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
  * Swing JTree component for viewing iRODS server file system
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class IRODSTree extends JTree implements  TreeWillExpandListener, TreeExpansionListener {
+public class IRODSTree extends JTree implements TreeWillExpandListener, TreeExpansionListener {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTree.class);
     protected iDrop idropParentGui = null;
@@ -300,14 +300,5 @@ public class IRODSTree extends JTree implements  TreeWillExpandListener, TreeExp
         } finally {
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
-    }
-    
-    public void refreshTreeAndExpandVisibleNodes() throws IdropException {
-        
-        // collect all of the visible tree nodes
-        
-        
-        
-        
     }
 }
