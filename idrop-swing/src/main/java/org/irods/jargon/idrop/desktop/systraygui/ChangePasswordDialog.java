@@ -167,7 +167,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         try {
             log.info("check queue for any jobs for the account, these have the old password.");
             IRODSAccount irodsAccount = idrop.getIrodsAccount();
-            List<LocalIRODSTransfer> recentQueue = idrop.getTransferManager().getRecentQueue();
+            List<LocalIRODSTransfer> recentQueue = idrop.getiDropCore().getTransferManager().getRecentQueue();
             for (LocalIRODSTransfer localIRODSTransfer : recentQueue) {
                 if (localIRODSTransfer.getTransferHost().equals(irodsAccount.getHost())
                         && localIRODSTransfer.getTransferZone().equals(irodsAccount.getZone())

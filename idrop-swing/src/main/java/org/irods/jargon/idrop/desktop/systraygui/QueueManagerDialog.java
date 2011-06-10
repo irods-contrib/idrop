@@ -36,21 +36,15 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     private static final long serialVersionUID = 1L;
 
     public enum ViewType {
+
         RECENT, ERROR, WARNING, CURRENT
     }
-
     private final TransferManager transferManager;
-
     private ViewType viewType = null;
-
     private iDrop iDropParent = null;
-
     private RefreshQueueManagerTimerTask refreshQueueManagerTimerTask = null;
-
     private Timer refreshQueueTimer = null;
-
     private LocalIRODSTransfer selectedMasterTableObject = null;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(QueueManagerDialog.class);
 
     private int showResubmitConfirm(LocalIRODSTransfer selectedTransfer) {
@@ -174,6 +168,8 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         lblTransferredOutOf = new javax.swing.JLabel();
         lblCountOutOf = new javax.swing.JLabel();
         progressBarQueueDetails = new javax.swing.JProgressBar();
+        lblResourceLabel = new javax.swing.JLabel();
+        lblResource = new javax.swing.JLabel();
         pnlTrnasferDetailsTable = new javax.swing.JPanel();
         jScrollPaneDetails = new javax.swing.JScrollPane();
         jTableDetails = new javax.swing.JTable();
@@ -298,19 +294,17 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         org.jdesktop.layout.GroupLayout pnlTopLayout = new org.jdesktop.layout.GroupLayout(pnlTop);
         pnlTop.setLayout(pnlTopLayout);
-        pnlTopLayout.setHorizontalGroup(pnlTopLayout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(lblHeader, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115,
-                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(toolbarQueueManagement, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115,
-                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE));
-        pnlTopLayout.setVerticalGroup(pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTopLayout
-                        .createSequentialGroup()
-                        .add(lblHeader)
-                        .add(toolbarQueueManagement, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
+        pnlTopLayout.setHorizontalGroup(
+            pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lblHeader, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(toolbarQueueManagement, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        );
+        pnlTopLayout.setVerticalGroup(
+            pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlTopLayout.createSequentialGroup()
+                .add(lblHeader)
+                .add(toolbarQueueManagement, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
 
         pnlCenter.setMinimumSize(new java.awt.Dimension(800, 200));
 
@@ -322,9 +316,17 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         jScrollPaneMaster.setPreferredSize(new java.awt.Dimension(454, 300));
         jScrollPaneMaster.setRequestFocusEnabled(false);
 
-        jTableMaster.setModel(new javax.swing.table.DefaultTableModel(new Object[][] { { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null } }, new String[] {
-                "Title 1", "Title 2", "Title 3", "Title 4" }));
+        jTableMaster.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
         jTableMaster.setAutoCreateRowSorter(true);
         jTableMaster.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPaneMaster.setViewportView(jTableMaster);
@@ -400,31 +402,27 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         org.jdesktop.layout.GroupLayout pnlErrorMessageLayout = new org.jdesktop.layout.GroupLayout(pnlErrorMessage);
         pnlErrorMessage.setLayout(pnlErrorMessageLayout);
-        pnlErrorMessageLayout.setHorizontalGroup(pnlErrorMessageLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlErrorMessageLayout
-                        .createSequentialGroup()
-                        .add(69, 69, 69)
+        pnlErrorMessageLayout.setHorizontalGroup(
+            pnlErrorMessageLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlErrorMessageLayout.createSequentialGroup()
+                .add(69, 69, 69)
+                .add(jLabel1)
+                .add(42, 42, 42)
+                .add(scrollErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 667, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(126, Short.MAX_VALUE))
+        );
+        pnlErrorMessageLayout.setVerticalGroup(
+            pnlErrorMessageLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlErrorMessageLayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .add(pnlErrorMessageLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlErrorMessageLayout.createSequentialGroup()
+                        .add(scrollErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlErrorMessageLayout.createSequentialGroup()
                         .add(jLabel1)
-                        .add(42, 42, 42)
-                        .add(scrollErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 667,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(126, Short.MAX_VALUE)));
-        pnlErrorMessageLayout.setVerticalGroup(pnlErrorMessageLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlErrorMessageLayout
-                        .createSequentialGroup()
-                        .addContainerGap(24, Short.MAX_VALUE)
-                        .add(pnlErrorMessageLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                                        pnlErrorMessageLayout
-                                                .createSequentialGroup()
-                                                .add(scrollErrorMessage,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap())
-                                .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                                        pnlErrorMessageLayout.createSequentialGroup().add(jLabel1).add(29, 29, 29)))));
+                        .add(29, 29, 29))))
+        );
 
         pnlProgress.setBackground(javax.swing.UIManager.getDefaults().getColor("TabbedPane.shadow"));
 
@@ -438,200 +436,164 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         org.jdesktop.layout.GroupLayout pnlProgressLayout = new org.jdesktop.layout.GroupLayout(pnlProgress);
         pnlProgress.setLayout(pnlProgressLayout);
-        pnlProgressLayout.setHorizontalGroup(pnlProgressLayout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlProgressLayout
-                        .createSequentialGroup()
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(lblTransferred)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(lblCountSoFar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(27, 27, 27)
-                        .add(lblTransferredOutOf)
-                        .add(18, 18, 18)
-                        .add(lblCountOutOf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(648, 648, 648))
-                .add(pnlProgressLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 901,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap()));
-        pnlProgressLayout.setVerticalGroup(pnlProgressLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlProgressLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(lblTransferred).add(lblTransferredOutOf).add(lblCountOutOf).add(lblCountSoFar))
-                        .add(18, 18, 18)
-                        .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        pnlProgressLayout.setHorizontalGroup(
+            pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlProgressLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(lblTransferred)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lblCountSoFar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(27, 27, 27)
+                .add(lblTransferredOutOf)
+                .add(18, 18, 18)
+                .add(lblCountOutOf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(648, 648, 648))
+            .add(pnlProgressLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 901, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnlProgressLayout.setVerticalGroup(
+            pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlProgressLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblTransferred)
+                    .add(lblTransferredOutOf)
+                    .add(lblCountOutOf)
+                    .add(lblCountSoFar))
+                .add(18, 18, 18)
+                .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        lblResourceLabel.setText("Resource:");
+
+        lblResource.setText("jLabel1");
 
         org.jdesktop.layout.GroupLayout pnlTransferInfoLayout = new org.jdesktop.layout.GroupLayout(pnlTransferInfo);
         pnlTransferInfo.setLayout(pnlTransferInfoLayout);
-        pnlTransferInfoLayout.setHorizontalGroup(pnlTransferInfoLayout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlTransferInfoLayout
-                        .createSequentialGroup()
-                        .add(pnlTransferInfoLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(pnlTransferInfoLayout
-                                        .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                        .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                                                pnlTransferInfoLayout
-                                                        .createSequentialGroup()
-                                                        .add(88, 88, 88)
-                                                        .add(lblTransferStatusLabel,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                        .add(lblTransferStatus,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 177,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                        .add(88, 88, 88)
-                                                        .add(lblErrorStatusLabel)
-                                                        .add(18, 18, 18)
-                                                        .add(lblErrorStatus,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 181,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                        .add(31, 31, 31)
-                                                        .add(lblTransferDateLabel)
-                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                        .add(lblTransferDate,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                        .add(pnlTransferInfoLayout
-                                                .createSequentialGroup()
-                                                .add(99, 99, 99)
-                                                .add(lblTransferTypeLabel)
-                                                .add(18, 18, 18)
-                                                .add(lblTransferType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                                        119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                                .add(pnlTransferInfoLayout
-                                        .createSequentialGroup()
-                                        .add(58, 58, 58)
-                                        .add(pnlTransferInfoLayout
-                                                .createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                                                .add(lblLastGoodPathLabel,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 164,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .add(lblTargetPathLabel,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 142,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .add(lblSourcePathLabel,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 99,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(pnlTransferInfoLayout
-                                                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                                .add(jScrollPane1)
-                                                .add(jScrollPaneTargetPath, 0, 0, Short.MAX_VALUE)
-                                                .add(jScrollPaneSourcePath,
-                                                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 669,
-                                                        Short.MAX_VALUE))))
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                        pnlTransferInfoLayout
-                                .createSequentialGroup()
-                                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(pnlErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(112, 112, 112))
-                .add(pnlTransferInfoLayout
-                        .createSequentialGroup()
-                        .add(9, 9, 9)
-                        .add(pnlProgress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1016,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-        pnlTransferInfoLayout.setVerticalGroup(pnlTransferInfoLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTransferInfoLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(pnlTransferInfoLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(lblTransferStatusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblTransferStatus, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblErrorStatusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblErrorStatus)
-                                .add(lblTransferDateLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblTransferDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 26,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        pnlTransferInfoLayout.setHorizontalGroup(
+            pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlTransferInfoLayout.createSequentialGroup()
+                .add(pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(pnlTransferInfoLayout.createSequentialGroup()
+                        .add(pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlTransferInfoLayout.createSequentialGroup()
+                                .add(88, 88, 88)
+                                .add(lblTransferStatusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(lblTransferStatus, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 177, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(88, 88, 88)
+                                .add(lblErrorStatusLabel))
+                            .add(pnlTransferInfoLayout.createSequentialGroup()
+                                .add(99, 99, 99)
+                                .add(lblTransferTypeLabel)
+                                .add(18, 18, 18)
+                                .add(lblTransferType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(lblResourceLabel)))
+                        .add(18, 18, 18)
+                        .add(pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(pnlTransferInfoLayout.createSequentialGroup()
+                                .add(lblErrorStatus, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 181, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(31, 31, 31)
+                                .add(lblTransferDateLabel)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(lblTransferDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(lblResource, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 181, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(pnlTransferInfoLayout.createSequentialGroup()
+                        .add(58, 58, 58)
+                        .add(pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(lblLastGoodPathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 164, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(lblTargetPathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 142, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(lblSourcePathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 99, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(pnlTransferInfoLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(lblTransferTypeLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblTransferType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(pnlTransferInfoLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                                .add(org.jdesktop.layout.GroupLayout.LEADING,
-                                        pnlTransferInfoLayout
-                                                .createSequentialGroup()
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(jScrollPaneSourcePath,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 48,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(jScrollPaneTargetPath,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .add(pnlTransferInfoLayout
-                                        .createSequentialGroup()
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(lblSourcePathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 42,
-                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(lblTargetPathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40,
-                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                        .add(lblLastGoodPathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35,
-                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .add(32, 32, 32)
-                        .add(pnlProgress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jScrollPane1)
+                            .add(jScrollPaneTargetPath, 0, 0, Short.MAX_VALUE)
+                            .add(jScrollPaneSourcePath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE))))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlTransferInfoLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(pnlErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(112, 112, 112))
+            .add(pnlTransferInfoLayout.createSequentialGroup()
+                .add(9, 9, 9)
+                .add(pnlProgress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1016, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlTransferInfoLayout.setVerticalGroup(
+            pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlTransferInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblTransferStatusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblTransferStatus, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblErrorStatusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblErrorStatus)
+                    .add(lblTransferDateLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblTransferDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 26, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblTransferTypeLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblTransferType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblResourceLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblResource))
+                .add(pnlTransferInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, pnlTransferInfoLayout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jScrollPaneSourcePath, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 48, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jScrollPaneTargetPath, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(pnlTransferInfoLayout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(lblSourcePathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 42, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(lblTargetPathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(pnlErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+                        .add(lblLastGoodPathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(32, 32, 32)
+                .add(pnlProgress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(pnlErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        org.jdesktop.layout.GroupLayout pnlTransferDetailsSummaryLayout = new org.jdesktop.layout.GroupLayout(
-                pnlTransferDetailsSummary);
+        org.jdesktop.layout.GroupLayout pnlTransferDetailsSummaryLayout = new org.jdesktop.layout.GroupLayout(pnlTransferDetailsSummary);
         pnlTransferDetailsSummary.setLayout(pnlTransferDetailsSummaryLayout);
-        pnlTransferDetailsSummaryLayout.setHorizontalGroup(pnlTransferDetailsSummaryLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTransferDetailsSummaryLayout.createSequentialGroup().add(36, 36, 36)
-                        .add(pnlTransferInfo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1034, Short.MAX_VALUE)
-                        .addContainerGap()));
-        pnlTransferDetailsSummaryLayout.setVerticalGroup(pnlTransferDetailsSummaryLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTransferDetailsSummaryLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(pnlTransferInfo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 481,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        pnlTransferDetailsSummaryLayout.setHorizontalGroup(
+            pnlTransferDetailsSummaryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlTransferDetailsSummaryLayout.createSequentialGroup()
+                .add(36, 36, 36)
+                .add(pnlTransferInfo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1034, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlTransferDetailsSummaryLayout.setVerticalGroup(
+            pnlTransferDetailsSummaryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlTransferDetailsSummaryLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(pnlTransferInfo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 481, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        tabDetails.addTab("TransferSummary", null, pnlTransferDetailsSummary,
-                "Summary information about the selected transfer");
+        tabDetails.addTab("TransferSummary", null, pnlTransferDetailsSummary, "Summary information about the selected transfer");
 
         jScrollPaneDetails.setPreferredSize(new java.awt.Dimension(454, 200));
 
-        jTableDetails.setModel(new javax.swing.table.DefaultTableModel(new Object[][] { { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null } }, new String[] {
-                "Title 1", "Title 2", "Title 3", "Title 4" }));
+        jTableDetails.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
         jTableDetails.setAutoCreateRowSorter(true);
         jTableDetails.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPaneDetails.setViewportView(jTableDetails);
@@ -657,44 +619,45 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         org.jdesktop.layout.GroupLayout pnlViewRadioLayout = new org.jdesktop.layout.GroupLayout(pnlViewRadio);
         pnlViewRadio.setLayout(pnlViewRadioLayout);
-        pnlViewRadioLayout.setHorizontalGroup(pnlViewRadioLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlViewRadioLayout.createSequentialGroup().add(9, 9, 9).add(radioShowAll).add(5, 5, 5)
-                        .add(radioShowError)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-        pnlViewRadioLayout.setVerticalGroup(pnlViewRadioLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlViewRadioLayout
-                        .createSequentialGroup()
-                        .add(5, 5, 5)
-                        .add(pnlViewRadioLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(radioShowAll).add(radioShowError))));
+        pnlViewRadioLayout.setHorizontalGroup(
+            pnlViewRadioLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlViewRadioLayout.createSequentialGroup()
+                .add(9, 9, 9)
+                .add(radioShowAll)
+                .add(5, 5, 5)
+                .add(radioShowError)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlViewRadioLayout.setVerticalGroup(
+            pnlViewRadioLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlViewRadioLayout.createSequentialGroup()
+                .add(5, 5, 5)
+                .add(pnlViewRadioLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(radioShowAll)
+                    .add(radioShowError)))
+        );
 
-        org.jdesktop.layout.GroupLayout pnlTrnasferDetailsTableLayout = new org.jdesktop.layout.GroupLayout(
-                pnlTrnasferDetailsTable);
+        org.jdesktop.layout.GroupLayout pnlTrnasferDetailsTableLayout = new org.jdesktop.layout.GroupLayout(pnlTrnasferDetailsTable);
         pnlTrnasferDetailsTable.setLayout(pnlTrnasferDetailsTableLayout);
-        pnlTrnasferDetailsTableLayout.setHorizontalGroup(pnlTrnasferDetailsTableLayout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                        pnlTrnasferDetailsTableLayout
-                                .createSequentialGroup()
-                                .addContainerGap(401, Short.MAX_VALUE)
-                                .add(pnlViewRadio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(367, 367, 367))
-                .add(pnlTrnasferDetailsTableLayout.createSequentialGroup().add(20, 20, 20)
-                        .add(jScrollPaneDetails, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1070, Short.MAX_VALUE)));
-        pnlTrnasferDetailsTableLayout.setVerticalGroup(pnlTrnasferDetailsTableLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTrnasferDetailsTableLayout
-                        .createSequentialGroup()
-                        .add(22, 22, 22)
-                        .add(pnlViewRadio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 43,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(jScrollPaneDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 451,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        pnlTrnasferDetailsTableLayout.setHorizontalGroup(
+            pnlTrnasferDetailsTableLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlTrnasferDetailsTableLayout.createSequentialGroup()
+                .addContainerGap(401, Short.MAX_VALUE)
+                .add(pnlViewRadio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(367, 367, 367))
+            .add(pnlTrnasferDetailsTableLayout.createSequentialGroup()
+                .add(20, 20, 20)
+                .add(jScrollPaneDetails, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1070, Short.MAX_VALUE))
+        );
+        pnlTrnasferDetailsTableLayout.setVerticalGroup(
+            pnlTrnasferDetailsTableLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlTrnasferDetailsTableLayout.createSequentialGroup()
+                .add(22, 22, 22)
+                .add(pnlViewRadio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 43, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(18, 18, 18)
+                .add(jScrollPaneDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 451, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         tabDetails.addTab("Transfer Details", pnlTrnasferDetailsTable);
 
@@ -702,19 +665,20 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         org.jdesktop.layout.GroupLayout pnlCenterLayout = new org.jdesktop.layout.GroupLayout(pnlCenter);
         pnlCenter.setLayout(pnlCenterLayout);
-        pnlCenterLayout.setHorizontalGroup(pnlCenterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlCenterLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(splitQueueTableMasterAndDetail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(33, Short.MAX_VALUE)));
-        pnlCenterLayout.setVerticalGroup(pnlCenterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlCenterLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(splitQueueTableMasterAndDetail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 766,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        pnlCenterLayout.setHorizontalGroup(
+            pnlCenterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlCenterLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(splitQueueTableMasterAndDetail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+        pnlCenterLayout.setVerticalGroup(
+            pnlCenterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlCenterLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(splitQueueTableMasterAndDetail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 766, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -770,25 +734,21 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(layout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlTop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(layout
-                        .createSequentialGroup()
-                        .add(20, 20, 20)
-                        .add(pnlCenter, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
-        layout.setVerticalGroup(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                layout.createSequentialGroup()
-                        .add(pnlTop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(pnlCenter, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap()));
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlTop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(layout.createSequentialGroup()
+                .add(20, 20, 20)
+                .add(pnlCenter, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(pnlTop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(pnlCenter, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -826,7 +786,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
     private void btnPurgeAllActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPurgeAllActionPerformed
         try {
-            iDropParent.getTransferManager().purgeAllTransfers();
+            iDropParent.getiDropCore().getTransferManager().purgeAllTransfers();
             refreshTableView(viewType);
             resetDisplayFieldsAndStatus();
         } catch (Exception ex) {
@@ -837,7 +797,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
     private void btnPurgeSuccessfulActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPurgeSuccessfulActionPerformed
         try {
-            iDropParent.getTransferManager().purgeSuccessfulTransfers();
+            iDropParent.getiDropCore().getTransferManager().purgeSuccessfulTransfers();
             refreshTableView(viewType);
             resetDisplayFieldsAndStatus();
 
@@ -1091,134 +1051,72 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         });
 
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelSelected;
-
     private javax.swing.JButton btnDeleteSelected;
-
     private javax.swing.ButtonGroup btnGroupDetailsDisplay;
-
     private javax.swing.JButton btnPurgeAll;
-
     private javax.swing.JButton btnPurgeSuccessful;
-
     private javax.swing.JButton btnRefreshView;
-
     private javax.swing.JButton btnRestartSelected;
-
     private javax.swing.JButton btnResubmitSelected;
-
     private javax.swing.JLabel jLabel1;
-
     private javax.swing.JMenu jMenu1;
-
     private javax.swing.JMenu jMenu2;
-
     private javax.swing.JMenuBar jMenuBar1;
-
     private javax.swing.JMenuItem jMenuCurrent;
-
     private javax.swing.JMenuItem jMenuError;
-
     private javax.swing.JMenuItem jMenuRecent;
-
     private javax.swing.JMenu jMenuView;
-
     private javax.swing.JMenuItem jMenuWarning;
-
     private javax.swing.JScrollPane jScrollPane1;
-
     private javax.swing.JScrollPane jScrollPaneDetails;
-
     private javax.swing.JScrollPane jScrollPaneMaster;
-
     private javax.swing.JScrollPane jScrollPaneSourcePath;
-
     private javax.swing.JScrollPane jScrollPaneTargetPath;
-
     private javax.swing.JToolBar.Separator jSeparator1;
-
     private javax.swing.JToolBar.Separator jSeparator2;
-
     private javax.swing.JToolBar.Separator jSeparator3;
-
     private javax.swing.JTable jTableDetails;
-
     private javax.swing.JTable jTableMaster;
-
     private javax.swing.JLabel lblCountOutOf;
-
     private javax.swing.JLabel lblCountSoFar;
-
     private javax.swing.JLabel lblErrorStatus;
-
     private javax.swing.JLabel lblErrorStatusLabel;
-
     private javax.swing.JLabel lblHeader;
-
     private javax.swing.JLabel lblLastGoodPathLabel;
-
+    private javax.swing.JLabel lblResource;
+    private javax.swing.JLabel lblResourceLabel;
     private javax.swing.JLabel lblSourcePathLabel;
-
     private javax.swing.JLabel lblTargetPathLabel;
-
     private javax.swing.JLabel lblTransferDate;
-
     private javax.swing.JLabel lblTransferDateLabel;
-
     private javax.swing.JLabel lblTransferStatus;
-
     private javax.swing.JLabel lblTransferStatusLabel;
-
     private javax.swing.JLabel lblTransferType;
-
     private javax.swing.JLabel lblTransferTypeLabel;
-
     private javax.swing.JLabel lblTransferred;
-
     private javax.swing.JLabel lblTransferredOutOf;
-
     private javax.swing.JPanel pnlCenter;
-
     private javax.swing.JPanel pnlErrorMessage;
-
     private javax.swing.JPanel pnlProgress;
-
     private javax.swing.JPanel pnlTop;
-
     private javax.swing.JPanel pnlTransferDetailsSummary;
-
     private javax.swing.JPanel pnlTransferInfo;
-
     private javax.swing.JPanel pnlTrnasferDetailsTable;
-
     private javax.swing.JPanel pnlViewRadio;
-
     private javax.swing.JProgressBar progressBarQueueDetails;
-
     private javax.swing.JRadioButton radioShowAll;
-
     private javax.swing.JRadioButton radioShowError;
-
     private javax.swing.JScrollPane scrollErrorMessage;
-
     private javax.swing.JSplitPane splitQueueTableMasterAndDetail;
-
     private javax.swing.JTabbedPane tabDetails;
-
     private javax.swing.JToggleButton toggleAutoRefresh;
-
     private javax.swing.JToolBar toolbarQueueManagement;
-
     private javax.swing.JTextArea txtAreaErrorMessage;
-
     private javax.swing.JTextArea txtLastGoodPath;
-
     private javax.swing.JTextArea txtSourcePath;
-
     private javax.swing.JTextArea txtTargetPath;
-
     // End of variables declaration//GEN-END:variables
 
     public JLabel getLblHeader() {
@@ -1246,8 +1144,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     }
 
     private void adjustDetails() {
-        final LocalIRODSTransfer localIRODSTransfer = ((QueueManagerMasterTableModel) jTableMaster.getModel())
-                .getTransferAtRow(jTableMaster.getSelectedRow());
+        final LocalIRODSTransfer localIRODSTransfer = ((QueueManagerMasterTableModel) jTableMaster.getModel()).getTransferAtRow(jTableMaster.getSelectedRow());
         log.info("selected transfer:{}", localIRODSTransfer);
         final boolean showAll = radioShowAll.isSelected();
 
@@ -1260,6 +1157,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 lblTransferDate.setText(localIRODSTransfer.getTransferStart().toString());
                 lblTransferStatus.setText(localIRODSTransfer.getTransferState().toString());
                 lblErrorStatus.setText(localIRODSTransfer.getTransferStatus().toString());
+                lblResource.setText(localIRODSTransfer.getTransferResource());
 
                 // set source and target properly based on activity (put, get, etc)
                 switch (localIRODSTransfer.getTransferType()) {
@@ -1274,6 +1172,10 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                     case REPLICATE:
                         txtSourcePath.setText(localIRODSTransfer.getIrodsAbsolutePath());
                         txtTargetPath.setText("");
+                        break;
+                    case COPY:
+                        txtSourcePath.setText(localIRODSTransfer.getIrodsAbsolutePath());
+                        txtTargetPath.setText(localIRODSTransfer.getIrodsAbsolutePath());
                         break;
                     default:
                         log.error("unable to build details for transfer with transfer type of:{}",
@@ -1306,11 +1208,9 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                     if (showAll) {
                         log.info("showing all transfers based on radio selection");
 
-                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager
-                                .getAllTransferItemsForTransfer(localIRODSTransfer.getId())));
+                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager.getAllTransferItemsForTransfer(localIRODSTransfer.getId())));
                     } else {
-                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager
-                                .getErrorTransferItemsForTransfer(localIRODSTransfer.getId())));
+                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager.getErrorTransferItemsForTransfer(localIRODSTransfer.getId())));
                     }
 
                 } catch (Exception ex) {
@@ -1383,7 +1283,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
     private void resetDisplayFieldsAndStatus() {
         try {
-            iDropParent.getTransferManager().resetStatus();
+            iDropParent.getiDropCore().getTransferManager().resetStatus();
         } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             // log and continue...not useful to user

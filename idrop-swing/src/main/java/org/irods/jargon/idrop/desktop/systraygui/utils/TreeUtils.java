@@ -1,7 +1,9 @@
 package org.irods.jargon.idrop.desktop.systraygui.utils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTree;
@@ -152,4 +154,45 @@ public class TreeUtils {
             tree.collapsePath(parent);
         }
     }
+
+  /**
+     * Given a tree node, get the nodes that are in the given expansion state as a list of TreePath
+     * @param tree <code>JTree</code> that will be inspected
+     * @param expanded <code>boolean</code> that indicates the desired state that will be preserved in the tree paths
+     * @return  <code>TreePath[]</code> with the list of paths in the given state
+     */
+public static TreePath[] getPaths(JTree tree, boolean expanded) {
+    TreeNode root = (TreeNode)tree.getModel().getRoot();
+
+    // Create array to hold the treepaths
+    List list = new ArrayList();
+
+    // Traverse tree from root adding treepaths for all nodes to list
+    getPaths(tree, new TreePath(root), expanded, list);
+
+    // Convert list to array
+    return (TreePath[])list.toArray(new TreePath[list.size()]); 
+}
+
+private static void getPaths(JTree tree, TreePath parent, boolean expanded, List list) {
+    // Return if node is not expanded
+    if (expanded && !tree.isVisible(parent)) {
+        return;
+    }
+
+    // Add node to list
+    list.add(parent);
+
+    // Create paths for all children
+    TreeNode node = (TreeNode)parent.getLastPathComponent();
+    if (node.getChildCount() >= 0) {
+        for (Enumeration e=node.children(); e.hasMoreElements(); ) {
+            TreeNode n = (TreeNode)e.nextElement();
+            TreePath path = parent.pathByAddingChild(n);
+            getPaths(tree, path, expanded, list);
+        }
+    }
+}
+
+
 }

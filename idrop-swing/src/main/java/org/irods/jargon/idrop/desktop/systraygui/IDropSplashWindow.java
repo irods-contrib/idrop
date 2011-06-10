@@ -26,13 +26,13 @@ import org.slf4j.LoggerFactory;
  * 
  * @author jdr0887
  */
-public class IDropSplashWindow extends JWindow implements Runnable {
+public class IDropSplashWindow extends JWindow {
 
     /**
      *  
      */
     private static final long serialVersionUID = 1L;
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(IDropSplashWindow.class);
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(IDropSplashWindow.class);
     private ImageIcon splashImage = new ImageIcon(IDropSplashWindow.class.getClassLoader().getResource(
             "org/irods/jargon/idrop/desktop/images/iDrop.png"));
     private JLabel jlblImage = new JLabel();
@@ -45,7 +45,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
         try {
             init();
         } catch (Exception e) {
-            logger.error("error initializing iDrop splash window", e);
+            log.error("error initializing iDrop splash window", e);
             throw new IdropRuntimeException(e);
         }
     }
@@ -57,7 +57,7 @@ public class IDropSplashWindow extends JWindow implements Runnable {
         // jlblImage.setText("jLabel1");
         jlblImage.setIcon(splashImage);
         jProgressBar1.setMinimum(1);
-        jProgressBar1.setMaximum(4);
+        jProgressBar1.setMaximum(7);
         jProgressBar1.setStringPainted(true);
         this.getContentPane().add(jlblImage, BorderLayout.CENTER);
         this.getContentPane().add(jProgressBar1, BorderLayout.SOUTH);
@@ -74,15 +74,6 @@ public class IDropSplashWindow extends JWindow implements Runnable {
         this.pack();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Runnable#run()
-     */
-    public void run() {
-        new LauncherTask().run();
-    }
-
     /**
      * Sets the text of the progress bar and its value
      * 
@@ -91,98 +82,17 @@ public class IDropSplashWindow extends JWindow implements Runnable {
      * @param theVal
      *            An integer value from 0 to 100
      */
-    public void setStatus(String msg, int value) {
-        jProgressBar1.setString(msg);
-        jProgressBar1.setValue(value);
-    }
+    public void setStatus(final String msg, final int value) {
 
-    class LauncherTask extends SwingWorker<Void, Void> {
+        java.awt.EventQueue.invokeLater(new Runnable() {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see javax.swing.SwingWorker#done()
-         */
-        @Override
-        protected void done() {
+            @Override
+            public void run() {
+                jProgressBar1.setString(msg);
+                jProgressBar1.setValue(value);
 
-            iDrop.signalIdropCoreReadyAndSplashComplete();
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see javax.swing.SwingWorker#doInBackground()
-         */
-        @Override
-        protected Void doInBackground() throws Exception {
-
-            logger.info("starting splash background thread");
-            int count = 0;
-
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+        });
 
-            setStatus("Initializing...", ++count);
-
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            logger.info("logging in in splash background thread");
-            setStatus("Logging in...", ++count);
-
-            final LoginDialog loginDialog = new LoginDialog(iDrop);
-            Toolkit tk = getToolkit();
-            int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
-            int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;
-            loginDialog.setLocation(x, y);
-            IDropSplashWindow.this.toBack();
-            loginDialog.setAlwaysOnTop(true);
-            loginDialog.toFront();
-            loginDialog.setVisible(true);
-
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            logger.info("starting db in splash background thread");
-            setStatus("Starting DB...", ++count);
-
-            /*
-             * Look for in progress transfers, and pause queue based on user input
-             */
-            List<LocalIRODSTransfer> currentQueue = iDrop.getiDropCore().getTransferManager().getCurrentQueue();
-
-            if (!currentQueue.isEmpty()) {
-                int result = JOptionPane.showConfirmDialog((Component) null, "Transfers are waiting to process, restart transfer?",
-                        "iDrop Transfers in Progress", JOptionPane.OK_CANCEL_OPTION);
-                if (result == JOptionPane.CANCEL_OPTION) {
-                    iDrop.getiDropCore().getTransferManager().pause();
-                }
-            }  
-
-            logger.info("starting transfer mgr queue");
-            setStatus("Starting Queue...", ++count);
-
-            QueueThread queueThread = new QueueThread(iDrop);
-            queueThread.start();
-
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            dispose();
-            return null;
-        }
     }
 }

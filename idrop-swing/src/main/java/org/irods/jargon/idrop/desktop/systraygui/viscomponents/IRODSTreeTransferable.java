@@ -21,12 +21,12 @@ public class IRODSTreeTransferable implements Transferable {
     private List<File> files;
     private IRODSTree stagingViewTree;
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferable.class);
-    public static DataFlavor localPhymoveFlavor = null;
+    public static DataFlavor irodsTreeDataFlavor = null;
 
     static {
         try {
 
-            localPhymoveFlavor = new DataFlavor(org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferable.class,
+            irodsTreeDataFlavor = new DataFlavor(org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferable.class,
                     "Local phymove");
         } catch (Exception e) {
             log.error("error creating transferrable", e);
@@ -66,12 +66,12 @@ public class IRODSTreeTransferable implements Transferable {
     @Override
     public DataFlavor[] getTransferDataFlavors() {
         log.debug("getting data flavors from idrop series (will be a list with one iros file for file or collection");
-        return new DataFlavor[]{DataFlavor.javaFileListFlavor, localPhymoveFlavor};
+        return new DataFlavor[]{DataFlavor.javaFileListFlavor, irodsTreeDataFlavor};
     }
 
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return (flavor.equals(DataFlavor.javaFileListFlavor) || flavor.equals(localPhymoveFlavor));
+        return (flavor.equals(DataFlavor.javaFileListFlavor) || flavor.equals(irodsTreeDataFlavor));
     }
 
     @Override

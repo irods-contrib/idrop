@@ -6,3 +6,4 @@ target
 *.war
 Servers
 .DS_Store
+nbactions.xml

@@ -4,13 +4,13 @@ import org.irods.jargon.idrop.desktop.systraygui.services.QueueSchedulerTimerTas
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.slf4j.LoggerFactory;
 
-public class QueueThread extends Thread {
+public class QueueTimerTaskThread extends Thread {
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(iDrop.class);
 
     private iDrop iDrop;
 
-    public QueueThread(iDrop iDrop) {
+    public QueueTimerTaskThread(iDrop iDrop) {
         super();
         this.iDrop = iDrop;
     }

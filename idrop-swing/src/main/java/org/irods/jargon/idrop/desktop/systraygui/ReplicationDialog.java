@@ -191,11 +191,11 @@ public class ReplicationDialog extends javax.swing.JDialog {
                         sb.append("/");
                         sb.append(fileName);
                         replicatedCount++;
-                        idropParentGui.getTransferManager().enqueueAReplicate(sb.toString(), checkBox.getText(), idropParentGui.getIrodsAccount());
+                        idropParentGui.getiDropCore().getTransferManager().enqueueAReplicate(sb.toString(), checkBox.getText(), idropParentGui.getIrodsAccount());
                     } else if (!isFile) {
                         log.info("this is a collection, do the replication");
                         replicatedCount++;
-                        idropParentGui.getTransferManager().enqueueAReplicate(seriesAbsolutePath, checkBox.getText(), idropParentGui.getIrodsAccount());
+                        idropParentGui.getiDropCore().getTransferManager().enqueueAReplicate(seriesAbsolutePath, checkBox.getText(), idropParentGui.getIrodsAccount());
 
                     }
                 }

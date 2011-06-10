@@ -36,7 +36,7 @@
         // using JavaScript to get location of JNLP file relative to HTML page
         //var url = "http://irendb.renci.org:8080/idrop/launchIDrop.html";
         //deployJava.createWebStartLaunchButton(url, '1.6.0');
-    </script><a onmouseover="window.status=''; return true;" href="javascript:if (!deployJava.isWebStartInstalled(&quot;1.6.0&quot;)) {if (deployJava.installLatestJRE()) {if (deployJava.launch(&quot;http://ruby.ils.unc.edu/ll/idrop/idrop.jnlp&quot;)) {}}} else {if (deployJava.launch(&quot;http://ruby.ils.unc.edu/ll/idrop/idrop.jnlp&quot;)) {}}"><img border="0" src="http://java.sun.com/products/jfc/tsc/articles/swing2d/webstart.png"></a>
+    </script><a onmouseover="window.status=''; return true;" href="javascript:if (!deployJava.isWebStartInstalled(&quot;1.6.0&quot;)) {if (deployJava.installLatestJRE()) {if (deployJava.launch(&quot;http://iren-web.renci.org:8080/idrop/idrop.jnlp&quot;)) {}}} else {if (deployJava.launch(&quot;http://iren-web.renci.org:8080/idrop/idrop.jnlp&quot;)) {}}"><img border="0" src="http://java.sun.com/products/jfc/tsc/articles/swing2d/webstart.png"></a>
 
 </div>
 

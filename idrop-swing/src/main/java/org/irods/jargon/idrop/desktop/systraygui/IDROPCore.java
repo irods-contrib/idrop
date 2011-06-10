@@ -83,10 +83,12 @@ public class IDROPCore {
         this.queueTimer = queueTimer;
     }
 
+    @Deprecated
     public Preferences getPreferences() {
         return preferences;
     }
 
+     @Deprecated
     public void setPreferences(Preferences preferences) {
         this.preferences = preferences;
     }
