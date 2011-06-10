@@ -7,8 +7,10 @@
     <groupId>org.irods</groupId>
     <version>0.9.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.irods</groupId>
+  <groupId>org.irods.idrop</groupId>
   <artifactId>idrop-lite</artifactId>
+  <packaging>jar</packaging>
+  <name>idrop-lite</name>
   <version>1.0-SNAPSHOT</version>
   <mailingLists>
     <mailingList>
@@ -24,6 +26,11 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.swinglabs</groupId>
+      <artifactId>swing-layout</artifactId>
+      <version>1.0.3</version>
     </dependency>
   </dependencies>
 </project>
