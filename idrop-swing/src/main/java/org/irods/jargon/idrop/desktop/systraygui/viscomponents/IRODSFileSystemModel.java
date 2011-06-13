@@ -8,6 +8,7 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.core.transfer.TransferStatus.TransferState;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
@@ -92,17 +93,30 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
         if (transferStatus.getTransferState() != TransferState.OVERALL_COMPLETION) {
             return;
         }
-
-        if (transferStatus.getTransferType() == TransferStatus.TransferType.PUT) {
+        
+        // for put or copy operation, highlight the new node
+        if (transferStatus.getTransferType() == TransferStatus.TransferType.PUT
+                || transferStatus.getTransferType() == TransferStatus.TransferType.COPY) {
             log.info("successful put transfer, find the parent tree node, and clear the children");
-            final TreePath parentNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, transferStatus.getTargetFileAbsolutePath());
+            TreePath parentNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, transferStatus.getTargetFileAbsolutePath());
             log.debug("tree path for put: {}", parentNodePath);
             IRODSNode targetNode = (IRODSNode) parentNodePath.getLastPathComponent();
+            CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) targetNode.getUserObject();
+            if (entry.isDataObject()) {
+                log.info("substitute parent as target, as given node was a leaf");
+                targetNode = (IRODSNode) targetNode.getParent();
+            }
             targetNode.forceReloadOfChildrenOfThisNode();
             targetNode.lazyLoadOfChildrenOfThisNode();
             this.reload(targetNode);
-            irodsTree.highlightPath(parentNodePath);
-     
+            if (entry.isDataObject()) {
+                parentNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, entry.getParentPath());
+                irodsTree.highlightPath(parentNodePath);
+            } else {
+                irodsTree.highlightPath(parentNodePath);
+
+            }
+
         }
     }
 }
