@@ -50,7 +50,12 @@ public class IRODSNode extends DefaultMutableTreeNode {
      * @throws IdropException
      */
     public void lazyLoadOfChildrenOfThisNode() throws IdropException {
-        lazyLoadOfChildrenOfThisNode(!irodsTree.isRefreshingTree());
+        boolean refreshing = false;
+        
+        if (irodsTree != null) { 
+            refreshing = irodsTree.isRefreshingTree();
+        }
+        lazyLoadOfChildrenOfThisNode(!refreshing);
     }
 
     /**
