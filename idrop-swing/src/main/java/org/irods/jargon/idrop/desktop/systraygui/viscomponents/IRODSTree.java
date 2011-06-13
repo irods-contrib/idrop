@@ -122,7 +122,7 @@ public class IRODSTree extends JTree implements TreeWillExpandListener, TreeExpa
         setDropMode(javax.swing.DropMode.ON);
         setTransferHandler(new IRODSTreeTransferHandler(idropParentGui, "selectionModel"));
         setUpTreeMenu();
-       // setUpDropListener();
+        // setUpDropListener();
         addTreeExpansionListener(this);
         addTreeWillExpandListener(this);
     }
@@ -300,5 +300,17 @@ public class IRODSTree extends JTree implements TreeWillExpandListener, TreeExpa
         } finally {
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
+    }
+
+    public void highlightPath(final TreePath pathToHighlight) {
+        final IRODSTree highlightTree = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                highlightTree.expandPath(pathToHighlight);
+                highlightTree.scrollPathToVisible(pathToHighlight);
+            }
+        });
     }
 }
