@@ -7,6 +7,8 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.junit.After;
@@ -49,7 +51,7 @@ public class IRODSSearchTableModelTest {
         List<CollectionAndDataObjectListingEntry> entries = new ArrayList<CollectionAndDataObjectListingEntry>();
         IRODSSearchTableModel model = new IRODSSearchTableModel(entries);
         int actual = model.getColumnCount();
-        TestCase.assertEquals(5, actual);
+        Assert.assertEquals(5, actual);
     }
 
     /**
@@ -64,11 +66,11 @@ public class IRODSSearchTableModelTest {
         List<CollectionAndDataObjectListingEntry> entries = new ArrayList<CollectionAndDataObjectListingEntry>();
         IRODSSearchTableModel model = new IRODSSearchTableModel(entries);
 
-        TestCase.assertEquals(CollectionAndDataObjectListingEntry.ObjectType.class, model.getColumnClass(0));
-        TestCase.assertEquals(String.class, model.getColumnClass(1));
-        TestCase.assertEquals(String.class, model.getColumnClass(2));
-        TestCase.assertEquals(Date.class, model.getColumnClass(3));
-        TestCase.assertEquals(Date.class, model.getColumnClass(4));
+        Assert.assertEquals(CollectionAndDataObjectListingEntry.ObjectType.class, model.getColumnClass(0));
+        Assert.assertEquals(String.class, model.getColumnClass(1));
+        Assert.assertEquals(String.class, model.getColumnClass(2));
+        Assert.assertEquals(Date.class, model.getColumnClass(3));
+        Assert.assertEquals(Date.class, model.getColumnClass(4));
     }
 
     /**
@@ -79,7 +81,7 @@ public class IRODSSearchTableModelTest {
          List<CollectionAndDataObjectListingEntry> entries = new ArrayList<CollectionAndDataObjectListingEntry>();
          entries.add(Mockito.mock(CollectionAndDataObjectListingEntry.class));
         IRODSSearchTableModel model = new IRODSSearchTableModel(entries);
-        TestCase.assertEquals(1, model.getRowCount());
+        Assert.assertEquals(1, model.getRowCount());
     }
 
     /**
@@ -96,6 +98,6 @@ public class IRODSSearchTableModelTest {
         entry.setPathOrName("/a/path/child");
         entries.add(entry);
         IRODSSearchTableModel model = new IRODSSearchTableModel(entries);
-        TestCase.assertEquals(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION, model.getValueAt(0, 0));
+        Assert.assertEquals(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION, model.getValueAt(0, 0));
     }
 }

@@ -47,7 +47,8 @@ public class AboutDialog extends javax.swing.JDialog {
         btnOK.setMnemonic('O');
         btnOK.setText("OK");
         btnOK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKPressed(evt);
             }
         });

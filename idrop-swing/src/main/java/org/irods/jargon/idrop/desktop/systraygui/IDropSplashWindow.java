@@ -1,25 +1,12 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Toolkit;
-import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
-import javax.swing.SwingWorker;
-
-import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
-import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
-import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
-import org.irods.jargon.transfer.engine.TransferManager;
-import org.irods.jargon.transfer.engine.TransferManagerImpl;
 import org.slf4j.LoggerFactory;
 
 /**

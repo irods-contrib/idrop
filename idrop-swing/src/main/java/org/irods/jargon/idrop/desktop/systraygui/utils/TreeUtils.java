@@ -1,6 +1,5 @@
 package org.irods.jargon.idrop.desktop.systraygui.utils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;

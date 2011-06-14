@@ -60,7 +60,8 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         setMinimumSize(new java.awt.Dimension(551, 400));
 
         tabPreferences.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            @Override
+			public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 tabPreferencesStateChanged(evt);
             }
         });
@@ -109,7 +110,8 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         btnUpdatePassword.setText("Update Password");
         btnUpdatePassword.setToolTipText("Change the current password to the new values");
         btnUpdatePassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdatePasswordActionPerformed(evt);
             }
         });

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import org.irods.jargon.idrop.exceptions.IdropException;
-import org.irods.jargon.testutils.TestingUtilsException;
 
 /**
  * Help accessing iDrop configuration properties

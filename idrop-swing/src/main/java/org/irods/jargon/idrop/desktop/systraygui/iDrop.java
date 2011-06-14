@@ -26,7 +26,6 @@ import java.io.File;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,11 +36,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
 import javax.swing.JToggleButton;
-import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.ListSelectionEvent;
@@ -80,14 +76,10 @@ import org.irods.jargon.usertagging.FreeTaggingService;
 import org.irods.jargon.usertagging.FreeTaggingServiceImpl;
 import org.irods.jargon.usertagging.domain.IRODSTagGrouping;
 import org.irods.jargon.usertagging.domain.TagQuerySearchResult;
-import org.irods.jargon.usertagging.domain.UserTagCloudView;
 import org.slf4j.LoggerFactory;
 
 import cookxml.cookswing.CookSwing;
-import java.awt.Rectangle;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
-import org.irods.jargon.core.transfer.TransferStatus.TransferState;
+import org.irods.jargon.idrop.desktop.systraygui.utils.iDropUtils;
 
 /**
  * Main system tray and GUI. Create system tray menu, start timer process for queue.
@@ -202,8 +194,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     protected void signalIdropCoreReadyAndSplashComplete() {
         createAndShowSystemTray();
 
-        // FIXME: set up panel and options
-        iDropCore.getIconManager().setRunningStatus(iDropCore.getTransferManager().getRunningStatus());
         boolean showGUI = getiDropCore().getPreferences().getBoolean("showGUI", true);
         if (showGUI) {
             showIdropGui();
@@ -212,6 +202,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     "iDrop has started.\nCheck your system tray to access the iDrop user interface.",
                     "iDrop has started");
         }
+        iDropCore.getIconManager().setRunningStatus(iDropCore.getTransferManager().getRunningStatus());
+        iDropCore.getIconManager().setErrorStatus(iDropCore.getTransferManager().getErrorStatus());
+        togglePauseTransfer.setSelected(pausedItem.getState());
     }
 
     @Override
@@ -230,24 +223,49 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     }
 
     @Override
-    public void statusCallback(TransferStatus ts) {
+    public void statusCallback(final TransferStatus ts) {
         // this.queuedTransfersLabel.setText("Queued Transfers: " + ts.getTotalFilesTransferredSoFar() + "/"
         //       + ts.getTotalFilesToTransfer());
         this.transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
         this.transferStatusProgressBar.setValue(ts.getTotalFilesTransferredSoFar());
         log.info("transfer status callback to iDROP:{}", ts);
 
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                // on initiation, clear and reset the status bar info
+                lblTransferFilesCounts.setText("Files: " + ts.getTotalFilesTransferredSoFar() + " / " + ts.getTotalFilesToTransfer());
+                lblTransferByteCounts.setText("Current File (kb):" + (ts.getBytesTransfered() / 1024) + " / " + (ts.getTotalSize() / 1024));
+                lblCurrentFile.setText(iDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
+            }
+        });
+
     }
-    
-       @Override
-    public void overallStatusCallback(TransferStatus ts) {
-           IRODSFileSystemModel irodsTreeModel = (IRODSFileSystemModel) irodsTree.getModel();
+
+    @Override
+    public void overallStatusCallback(final TransferStatus ts) {
+        IRODSFileSystemModel irodsTreeModel = (IRODSFileSystemModel) irodsTree.getModel();
         try {
             irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
         } catch (IdropException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-            
+            this.showIdropException(ex);
         }
+
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                // on initiation, clear and reset the status bar info
+                lblTransferType.setText(ts.getTransferType().name());
+                lblTransferFilesCounts.setText("Files: " + ts.getTotalFilesTransferredSoFar() + " / " + ts.getTotalFilesToTransfer());
+                lblTransferByteCounts.setText("Bytes (kb):" + (ts.getBytesTransfered() / 1024) + " / " + (ts.getTotalSize() / 1024));
+                lblCurrentFile.setText(iDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
+            }
+        });
+
     }
 
     /**
@@ -1074,6 +1092,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         separator2 = new javax.swing.JToolBar.Separator();
         pnlIdropBottom = new javax.swing.JPanel();
         userNameLabel = new javax.swing.JLabel();
+        pnlTransferOverview = new javax.swing.JPanel();
+        pnlTransferStatus = new javax.swing.JPanel();
+        pnlTransferType = new javax.swing.JPanel();
+        lblTransferTypeLabel = new javax.swing.JLabel();
+        lblTransferType = new javax.swing.JLabel();
+        pnlTransferFileCounts = new javax.swing.JPanel();
+        lblTransferFilesCounts = new javax.swing.JLabel();
+        pnlTransferByteCounts = new javax.swing.JPanel();
+        lblTransferByteCounts = new javax.swing.JLabel();
+        pnlTransferFileInfo = new javax.swing.JPanel();
+        lblCurrentFileLabel = new javax.swing.JLabel();
+        lblCurrentFile = new javax.swing.JLabel();
         transferStatusProgressBar = new javax.swing.JProgressBar();
         transferQueueToolbarPanel = new javax.swing.JPanel();
         idropProgressPanelToolbar = new javax.swing.JToolBar();
@@ -1590,17 +1620,57 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         pnlIdropBottom.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         pnlIdropBottom.setToolTipText("Display area for status and messages");
         pnlIdropBottom.setLayout(new java.awt.GridBagLayout());
+
+        userNameLabel.setText("usernamelabel");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 0.0050;
         pnlIdropBottom.add(userNameLabel, gridBagConstraints);
+
+        pnlTransferOverview.setLayout(new java.awt.BorderLayout());
+
+        lblTransferTypeLabel.setText("Transfer Type:");
+        pnlTransferType.add(lblTransferTypeLabel);
+
+        lblTransferType.setText(" ");
+        pnlTransferType.add(lblTransferType);
+
+        pnlTransferStatus.add(pnlTransferType);
+
+        lblTransferFilesCounts.setText("Files: xxxxx / xxxxxxx");
+        pnlTransferFileCounts.add(lblTransferFilesCounts);
+
+        pnlTransferStatus.add(pnlTransferFileCounts);
+
+        lblTransferByteCounts.setText("Bytes (total): xxxxxx / xxxxxx");
+        pnlTransferByteCounts.add(lblTransferByteCounts);
+
+        pnlTransferStatus.add(pnlTransferByteCounts);
+
+        pnlTransferOverview.add(pnlTransferStatus, java.awt.BorderLayout.NORTH);
+
+        pnlTransferFileInfo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        lblCurrentFileLabel.setText("Current File:");
+        pnlTransferFileInfo.add(lblCurrentFileLabel);
+        pnlTransferFileInfo.add(lblCurrentFile);
+
+        pnlTransferOverview.add(pnlTransferFileInfo, java.awt.BorderLayout.PAGE_END);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 35;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlIdropBottom.add(pnlTransferOverview, gridBagConstraints);
 
         transferStatusProgressBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         transferStatusProgressBar.setStringPainted(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 17;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 8.0;
@@ -1640,7 +1710,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         transferQueueToolbarPanel.add(pnlIdropProgressIcon);
 
-        pnlIdropBottom.add(transferQueueToolbarPanel, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 34;
+        gridBagConstraints.gridy = 1;
+        pnlIdropBottom.add(transferQueueToolbarPanel, gridBagConstraints);
 
         getContentPane().add(pnlIdropBottom, java.awt.BorderLayout.SOUTH);
 
@@ -2081,6 +2154,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     private javax.swing.JMenu jMenuView;
     private javax.swing.JSplitPane jSplitPanelLocalRemote;
     private javax.swing.JLabel lblComment;
+    private javax.swing.JLabel lblCurrentFile;
+    private javax.swing.JLabel lblCurrentFileLabel;
     private javax.swing.JLabel lblFileOrCollectionName;
     private javax.swing.JLabel lblFileParent;
     private javax.swing.JLabel lblInfoCreatedAt;
@@ -2091,6 +2166,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     private javax.swing.JLabel lblInfoUpdatedAtValue;
     private javax.swing.JLabel lblMainSearch;
     private javax.swing.JLabel lblTags;
+    private javax.swing.JLabel lblTransferByteCounts;
+    private javax.swing.JLabel lblTransferFilesCounts;
+    private javax.swing.JLabel lblTransferType;
+    private javax.swing.JLabel lblTransferTypeLabel;
     private javax.swing.JList listLocalDrives;
     private javax.swing.JMenuItem menuItemShowInHierarchy;
     private javax.swing.JPanel pnlDrivesFiller;
@@ -2123,6 +2202,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
     private javax.swing.JPanel pnlToolbarInfo;
     private javax.swing.JPanel pnlToolbarSizer;
     private javax.swing.JPanel pnlTopToolbarSearchArea;
+    private javax.swing.JPanel pnlTransferByteCounts;
+    private javax.swing.JPanel pnlTransferFileCounts;
+    private javax.swing.JPanel pnlTransferFileInfo;
+    private javax.swing.JPanel pnlTransferOverview;
+    private javax.swing.JPanel pnlTransferStatus;
+    private javax.swing.JPanel pnlTransferType;
     private javax.swing.JLabel progressIconImageLabel;
     private javax.swing.JScrollPane scrollComment;
     private javax.swing.JScrollPane scrollIrodsTree;

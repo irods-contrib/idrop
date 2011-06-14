@@ -5,8 +5,9 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import java.util.Properties;
+
+import junit.framework.Assert;
 import junit.framework.TestCase;
-import org.irods.jargon.testutils.IRODSTestSetupUtilities;
 import org.irods.jargon.testutils.TestingPropertiesHelper;
 import org.irods.jargon.testutils.filemanip.ScratchFileUtils;
 import org.irods.jargon.transfer.TransferServiceFactoryImpl;
@@ -67,9 +68,9 @@ public class IdropConfigurationServiceImplTest {
         testProps.put(testPropKey, testPropVal);
         configurationService.importProperties(testProps);
         Properties myProps = idropConfigurationService.bootstrapConfiguration();
-        TestCase.assertNotNull("null props returned", myProps);
-        TestCase.assertEquals(1, myProps.size());
-        TestCase.assertEquals(testPropVal, myProps.get(testPropKey));
+        Assert.assertNotNull("null props returned", myProps);
+        Assert.assertEquals(1, myProps.size());
+        Assert.assertEquals(testPropVal, myProps.get(testPropKey));
     }
     
     @Test
@@ -77,9 +78,9 @@ public class IdropConfigurationServiceImplTest {
         Properties testProps = new Properties();
         configurationService.importProperties(testProps);
         Properties myProps = idropConfigurationService.bootstrapConfiguration();
-        TestCase.assertNotNull("null props returned", myProps);
-        TestCase.assertFalse("props shold not be empty will be loaded from classpath", myProps.isEmpty());
-         TestCase.assertNotNull("should have loaded props from classpath", myProps.get("login.preset"));
+        Assert.assertNotNull("null props returned", myProps);
+        Assert.assertFalse("props shold not be empty will be loaded from classpath", myProps.isEmpty());
+         Assert.assertNotNull("should have loaded props from classpath", myProps.get("login.preset"));
     }
 
 }

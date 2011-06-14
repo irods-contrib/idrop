@@ -2,23 +2,10 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetContext;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,12 +21,8 @@ import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.DeleteIRODSDialog;
-import org.irods.jargon.idrop.desktop.systraygui.MoveOrCopyiRODSDialog;
 import org.irods.jargon.idrop.desktop.systraygui.NewIRODSDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.RenameIRODSDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
@@ -135,7 +118,8 @@ public class IRODSTree extends JTree implements TreeWillExpandListener, TreeExpa
         m_popup = new JPopupMenu();
         m_action = new AbstractAction() {
 
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(ActionEvent e) {
                 if (m_clickedPath == null) {
                     return;
                 }
@@ -152,7 +136,8 @@ public class IRODSTree extends JTree implements TreeWillExpandListener, TreeExpa
 
         Action newAction = new AbstractAction("New Folder") {
 
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(ActionEvent e) {
 
                 log.info("adding new node");
 
@@ -205,7 +190,8 @@ public class IRODSTree extends JTree implements TreeWillExpandListener, TreeExpa
         m_popup.add(a1);
         Action a2 = new AbstractAction("Rename") {
 
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(ActionEvent e) {
                 log.info("renaming node");
 
                 IRODSNode toRename = (IRODSNode) m_clickedPath.getLastPathComponent();
