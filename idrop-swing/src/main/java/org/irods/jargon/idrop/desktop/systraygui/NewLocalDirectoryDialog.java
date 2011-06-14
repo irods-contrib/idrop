@@ -1,4 +1,3 @@
-
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Color;
@@ -158,7 +157,7 @@ public class NewLocalDirectoryDialog extends javax.swing.JDialog {
 }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-       processNew();
+        processNew();
     }//GEN-LAST:event_btnOKActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -174,8 +173,8 @@ public class NewLocalDirectoryDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtNewFolder;
     // End of variables declaration//GEN-END:variables
 
-private void processNew() {
-     // add the new folder to irods, add to the tree, and scroll the tree into view
+    private void processNew() {
+        // add the new folder to irods, add to the tree, and scroll the tree into view
 
         if (txtNewFolder.getText().isEmpty()) {
             txtNewFolder.setBackground(Color.red);
@@ -213,20 +212,22 @@ private void processNew() {
                     }
 
                     log.info("new file was created, adding as a node in the local tree");
-
-                    LocalFileNode newLocalNode = new LocalFileNode(newDir);
-                    LocalFileSystemModel localFileSystemModel = (LocalFileSystemModel) localFileTree.getModel();
-                    localFileSystemModel.insertNodeInto(newLocalNode, parentNode, 0);
-
-
+                     LocalFileNode newLocalNode = new LocalFileNode(newDir);
+                      LocalFileSystemModel localFileSystemModel = (LocalFileSystemModel) localFileTree.getModel();
+                    if (parentNode.isCached()) {
+                        localFileSystemModel.insertNodeInto(newLocalNode, parentNode, parentNode.getChildCount());
+                    } else {
+                        parentNode.lazyLoadOfChildrenOfThisNode();
+                    }
+                    
                     TreePath scrollToPath = new TreePath(newLocalNode.getPath());
+                    localFileTree.expandPath(scrollToPath);
 
-                    localFileTree.scrollPathToVisible(scrollToPath);
+                   localFileTree.scrollPathToVisible(scrollToPath);
                     thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     idrop.showMessageFromOperation("new local folder created");
 
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Logger.getLogger(NewLocalDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);
                     idrop.showIdropException(ex);
                 }
@@ -234,9 +235,9 @@ private void processNew() {
                 thisDialog.dispose();
             }
         });
-}
+    }
 
-/**
+    /**
      * Register a listener for the enter event, so login can occur.
      */
     private void registerKeystrokeListener() {

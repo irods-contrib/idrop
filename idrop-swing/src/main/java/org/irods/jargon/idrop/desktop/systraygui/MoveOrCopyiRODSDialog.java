@@ -37,6 +37,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
     private final iDrop idrop;
     private final IRODSTree stagingViewTree;
+    private final IRODSFileSystemModel irodsFileSystemModel;
     private final IRODSNode targetNode;
     private final String targetAbsolutePath;
     private final IRODSFile sourceFile;
@@ -49,6 +50,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         this.idrop = parent;
         this.targetNode = targetNode;
         this.stagingViewTree = stagingViewTree;
+        this.irodsFileSystemModel = (IRODSFileSystemModel) stagingViewTree.getModel();
         this.targetAbsolutePath = targetAbsolutePath;
         this.sourceFile = sourceFile;
         this.sourceFiles = null;
@@ -61,6 +63,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         this.idrop = parent;
         this.targetNode = targetNode;
         this.stagingViewTree = stagingViewTree;
+        this.irodsFileSystemModel = (IRODSFileSystemModel) stagingViewTree.getModel();
         this.targetAbsolutePath = targetAbsolutePath;
         this.sourceFile = null;
         this.sourceFiles = sourceFiles;
@@ -355,6 +358,11 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
             if (sourceFile.isFile()) {
                 log.debug("source file is a file, do a move");
                 dataTransferOperations.move(sourceFile.getAbsolutePath(), targetAbsolutePath);
+                
+                // remove from the tree
+                
+                
+                
             } else {
                 log.debug("source file is a collection, reparent it");
                 dataTransferOperations.moveTheSourceCollectionUnderneathTheTargetCollectionUsingSourceParentCollectionName(sourceFile.getAbsolutePath(), targetAbsolutePath);

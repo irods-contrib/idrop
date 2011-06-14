@@ -18,6 +18,10 @@ public class LocalFileNode extends DefaultMutableTreeNode {
 
     private boolean cached = false;
 
+    public boolean isCached() {
+        return cached;
+    }
+
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalFileNode.class);
 
     public LocalFileNode(final File file) {
@@ -54,7 +58,7 @@ public class LocalFileNode extends DefaultMutableTreeNode {
     @Override
     public void insert(MutableTreeNode arg0, int arg1) {
         super.insert(arg0, arg1);
-        Collections.sort(this.children, nodeComparator);
+        //Collections.sort(this.children, nodeComparator);
     }
 
     protected static Comparator nodeComparator = new Comparator() {
@@ -84,6 +88,7 @@ public class LocalFileNode extends DefaultMutableTreeNode {
         } else {
             returnedString = localFile.getName();
         }
+       // log.debug("name for node is: {}", returnedString);
         return returnedString;
     }
 

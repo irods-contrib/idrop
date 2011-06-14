@@ -84,6 +84,10 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
 
     }
 
+    public void notifyFileShouldBeRemoved(final IRODSTree irodsTree, final String nodeAbsolutePath) throws IdropException {
+        
+    }
+    
     public void notifyCompletionOfOperation(final IRODSTree irodsTree, final TransferStatus transferStatus) throws IdropException {
         log.info("tree model notified of status:{}", transferStatus);
 

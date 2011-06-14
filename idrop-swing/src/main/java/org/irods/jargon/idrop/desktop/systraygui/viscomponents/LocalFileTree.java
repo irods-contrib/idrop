@@ -218,7 +218,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
                     @Override
                     public void run() {
 
-                        log.info("adding new node");
+                            log.info("adding new node");
                         LocalFileNode parentNode = (LocalFileNode) m_clickedPath.getLastPathComponent();
                         File parentFile = (File) parentNode.getUserObject();
 
