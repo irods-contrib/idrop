@@ -98,6 +98,7 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
         if (transferStatus.getTransferType() == TransferStatus.TransferType.PUT
                 || transferStatus.getTransferType() == TransferStatus.TransferType.COPY) {
             log.info("successful put transfer, find the parent tree node, and clear the children");
+             
             TreePath parentNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, transferStatus.getTargetFileAbsolutePath());
             log.debug("tree path for put: {}", parentNodePath);
             IRODSNode targetNode = (IRODSNode) parentNodePath.getLastPathComponent();
