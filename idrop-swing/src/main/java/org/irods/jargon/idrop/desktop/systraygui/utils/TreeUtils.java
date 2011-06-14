@@ -1,6 +1,5 @@
 package org.irods.jargon.idrop.desktop.systraygui.utils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -122,7 +121,8 @@ public class TreeUtils {
             }
 
             if (currentNode == null) {
-                throw new IdropException("cannot find node for path:" + searchRoot.toString());
+               log.warn("cannot find node for path, will attempt to return parent {}:", searchRoot.toString());
+               break;
             } else {
                 // root node is already part of the calculcated tree path
                 if (currentNode.getUserObject().toString().equals("/")) {
@@ -132,7 +132,9 @@ public class TreeUtils {
                 }
             }
         }
-
+        if (calculatedTreePath == null) {
+            throw new IdropException("cannot find path to node:" + irodsAbsolutePath);
+        }
         return calculatedTreePath;
     }
 

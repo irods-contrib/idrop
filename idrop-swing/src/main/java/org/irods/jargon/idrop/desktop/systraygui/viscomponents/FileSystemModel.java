@@ -111,7 +111,8 @@ public class FileSystemModel implements TreeModel {
             super(parent, child);
         }
 
-        public String toString() {
+        @Override
+		public String toString() {
             return getName();
         }
     }

@@ -5,30 +5,14 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetContext;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.event.TreeExpansionEvent;
@@ -37,13 +21,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.pub.io.IRODSFile;
-import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.DeleteLocalFileDialog;
 import org.irods.jargon.idrop.desktop.systraygui.NewLocalDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.RenameLocalDirectoryDialog;
-import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -212,7 +192,8 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         m_popup = new JPopupMenu();
         m_action = new AbstractAction() {
 
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(ActionEvent e) {
                 if (m_clickedPath == null) {
                     return;
                 }
@@ -237,7 +218,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
                     @Override
                     public void run() {
 
-                        log.info("adding new node");
+                            log.info("adding new node");
                         LocalFileNode parentNode = (LocalFileNode) m_clickedPath.getLastPathComponent();
                         File parentFile = (File) parentNode.getUserObject();
 

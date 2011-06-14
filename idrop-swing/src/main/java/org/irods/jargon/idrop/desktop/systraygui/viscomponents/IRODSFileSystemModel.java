@@ -1,7 +1,5 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.TreeModelEvent;
@@ -14,7 +12,6 @@ import org.irods.jargon.core.transfer.TransferStatus.TransferState;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -87,6 +84,10 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
 
     }
 
+    public void notifyFileShouldBeRemoved(final IRODSTree irodsTree, final String nodeAbsolutePath) throws IdropException {
+        
+    }
+    
     public void notifyCompletionOfOperation(final IRODSTree irodsTree, final TransferStatus transferStatus) throws IdropException {
         log.info("tree model notified of status:{}", transferStatus);
 
@@ -98,6 +99,7 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
         if (transferStatus.getTransferType() == TransferStatus.TransferType.PUT
                 || transferStatus.getTransferType() == TransferStatus.TransferType.COPY) {
             log.info("successful put transfer, find the parent tree node, and clear the children");
+             
             TreePath parentNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, transferStatus.getTargetFileAbsolutePath());
             log.debug("tree path for put: {}", parentNodePath);
             IRODSNode targetNode = (IRODSNode) parentNodePath.getLastPathComponent();

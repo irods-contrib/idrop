@@ -3,10 +3,12 @@ package org.irods.jargon.idrop.desktop.systraygui.services;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
+import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.transfer.TransferEngineException;
 import org.irods.jargon.transfer.TransferServiceFactoryImpl;
@@ -23,18 +25,27 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     private final ConfigurationService configurationService;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(IdropConfigurationServiceImpl.class);
 
-    public IdropConfigurationServiceImpl(final String idropConfigRootDirectoryAbsolutePath) {
+    public IdropConfigurationServiceImpl(final String idropConfigRootDirectoryAbsolutePath) throws IdropAlreadyRunningException, IdropException {
 
         if (idropConfigRootDirectoryAbsolutePath == null) {
             throw new IllegalArgumentException("idropConfigRootDirectoryAbsolutePath is null");
         }
 
         log.info("getting config service via factory");
-        TransferServiceFactoryImpl transferServiceFactory = new TransferServiceFactoryImpl();
+        try {
+            TransferServiceFactoryImpl transferServiceFactory = new TransferServiceFactoryImpl();
+            this.idropConfigRootDirectoryAbsolutePath = idropConfigRootDirectoryAbsolutePath;
+            this.configurationService = transferServiceFactory.instanceConfigurationService();
 
-        this.idropConfigRootDirectoryAbsolutePath = idropConfigRootDirectoryAbsolutePath;
-        this.configurationService = transferServiceFactory.instanceConfigurationService();
+        } catch (Exception ex) {
+            Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
 
+            if (ex.getMessage().indexOf("Failed to start database") != -1) {
+                throw new IdropAlreadyRunningException("iDrop is already running");
+            } else {
+                throw new IdropException(ex);
+            }
+        }
     }
 
     @Override
@@ -43,9 +54,15 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         Properties databaseProperties;
         try {
             databaseProperties = configurationService.exportProperties();
-        } catch (TransferEngineException ex) {
+
+        } catch (Exception ex) {
             Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropException(ex);
+   if (ex.getMessage().indexOf("Could not open Hibernate Session") != -1) {
+                throw new IdropAlreadyRunningException("iDrop is already running, or the iDrop database is in use");
+            } else {
+                throw new IdropException(ex);
+            }
+
         }
         log.debug("properties from database:{}", databaseProperties);
 
