@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
@@ -19,6 +20,11 @@ import org.slf4j.LoggerFactory;
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSFileSystemModel extends DefaultTreeModel {
+
+    @Override
+    public void removeNodeFromParent(MutableTreeNode mtn) {
+        super.removeNodeFromParent(mtn);
+    }
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSFileSystemModel.class);
 

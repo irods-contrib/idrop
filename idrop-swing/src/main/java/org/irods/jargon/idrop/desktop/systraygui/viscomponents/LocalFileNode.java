@@ -58,21 +58,8 @@ public class LocalFileNode extends DefaultMutableTreeNode {
     @Override
     public void insert(MutableTreeNode arg0, int arg1) {
         super.insert(arg0, arg1);
-        //Collections.sort(this.children, nodeComparator);
     }
-
-    protected static Comparator nodeComparator = new Comparator() {
-        @Override
-		public int compare(Object o1, Object o2) {
-            return o1.toString().compareToIgnoreCase(o2.toString());
-        }
-
-        @Override
-		public boolean equals(Object obj) {
-            return false;
-        }
-    };
-
+    
     public void forceReloadOfChildrenOfThisNode() {
         cached = false;
         this.removeAllChildren();

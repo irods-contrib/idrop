@@ -149,6 +149,18 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         return currentTreeNode;
 
     }
+    
+      public void highlightPath(final TreePath pathToHighlight) {
+        final LocalFileTree highlightTree = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                highlightTree.expandPath(pathToHighlight);
+                highlightTree.scrollPathToVisible(pathToHighlight);
+            }
+        });
+    }
 
     /**
      * Given a nodeThatWasDropTargetAsFile node in the tree, search the children for the given path

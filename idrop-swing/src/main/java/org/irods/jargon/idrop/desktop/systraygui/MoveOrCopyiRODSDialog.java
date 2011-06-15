@@ -360,9 +360,14 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
                 dataTransferOperations.move(sourceFile.getAbsolutePath(), targetAbsolutePath);
                 
                 // remove from the tree
-                
-                
-                
+                TreePath sourceTreePath = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree, sourceFile.getAbsolutePath());
+                if (sourceTreePath == null) {
+                    log.warn("no tree path found for:{}, will not delete node ", sourceFile.getAbsolutePath());
+                } else {
+                    log.debug("removing node since I moved the file:{}", sourceTreePath.getLastPathComponent());
+                    irodsFileSystemModel.removeNodeFromParent((IRODSNode)sourceTreePath.getLastPathComponent());
+                }
+        
             } else {
                 log.debug("source file is a collection, reparent it");
                 dataTransferOperations.moveTheSourceCollectionUnderneathTheTargetCollectionUsingSourceParentCollectionName(sourceFile.getAbsolutePath(), targetAbsolutePath);
