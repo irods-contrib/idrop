@@ -166,8 +166,6 @@ public class StartupSequencer {
             throw new IdropRuntimeException("error creating transferManager", ex);
         }
 
-
-
         try {
             List<LocalIRODSTransfer> currentQueue = idropCore.getTransferManager().getCurrentQueue();
 

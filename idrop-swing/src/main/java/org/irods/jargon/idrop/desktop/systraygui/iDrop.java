@@ -222,6 +222,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         }
     }
 
+    /**
+     * Status callback per file, or intra-file, from the transfer manager
+     * @param ts 
+     */
     @Override
     public void statusCallback(final TransferStatus ts) {
         // this.queuedTransfersLabel.setText("Queued Transfers: " + ts.getTotalFilesTransferredSoFar() + "/"
@@ -243,11 +247,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
     }
 
+    /**
+     * Implementation of transfer manager callback.  The overall status callback represents the start and
+     * completion of a transfer operation
+     * @param ts 
+     */
     @Override
     public void overallStatusCallback(final TransferStatus ts) {
+        
         IRODSFileSystemModel irodsTreeModel = (IRODSFileSystemModel) irodsTree.getModel();
         try {
             irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
+            // if a get callback on completion, notify the local tree model
+            if (ts.getTransferType() == TransferStatus.TransferType.GET && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                ((LocalFileSystemModel)getFileTree().getModel()).notifyCompletionOfOperation(getFileTree(), ts);
+            }
         } catch (IdropException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
             this.showIdropException(ex);
