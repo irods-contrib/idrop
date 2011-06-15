@@ -202,7 +202,8 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         btnPurgeAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnPurgeAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPurgeAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPurgeAllActionPerformed(evt);
             }
         });

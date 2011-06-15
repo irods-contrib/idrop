@@ -73,21 +73,24 @@ public class SynchSetupDialog extends javax.swing.JDialog {
 
         btnAdd.setText("Add Device");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
 
         btnSynch.setText("Synch");
         btnSynch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSynchActionPerformed(evt);
             }
         });
 
         btnUpdateTimestamps.setText("Update Timestamps");
         btnUpdateTimestamps.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateTimestampsActionPerformed(evt);
             }
         });

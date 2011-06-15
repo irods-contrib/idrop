@@ -5,7 +5,6 @@ import java.util.Properties;
 import org.apache.log4j.Level;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
-import org.irods.jargon.idrop.exceptions.IdropException;
 
 /**
  * Access data about the configuration of Idrop

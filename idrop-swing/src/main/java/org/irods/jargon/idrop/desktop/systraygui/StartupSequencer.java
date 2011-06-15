@@ -6,6 +6,7 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Component;
 import java.awt.Toolkit;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
@@ -19,10 +20,10 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServiceImpl;
 import org.irods.jargon.idrop.desktop.systraygui.services.QueueSchedulerTimerTask;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
+import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
-import org.irods.jargon.transfer.engine.TransferManager;
 import org.irods.jargon.transfer.engine.TransferManagerImpl;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +68,6 @@ public class StartupSequencer {
 
         idropSplashWindow.setStatus("Initializing...", ++count);
 
-
         idropCore.setIconManager(new IconManager(idrop));
 
         try {
@@ -85,15 +85,21 @@ public class StartupSequencer {
         log.info("set config home directory as: {}", derivedConfigHomeDirectory);
 
         /*
-         * Here is where I first try and start the database to get the configuration.  
-         * TODO: add trap for double start and here is where I could do a version check
+         * Here is where I first try and start the database to get the configuration.  A database error
+         * indicates that iDrop is already running
          */
 
         idropSplashWindow.setStatus("Looking for configuration information...", ++count);
-        IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(derivedConfigHomeDirectory);
-        Properties derivedProperties;
+        
+        Properties derivedProperties = null;
         try {
+            IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(derivedConfigHomeDirectory);
             derivedProperties = idropConfigurationService.bootstrapConfiguration();
+        } catch (IdropAlreadyRunningException are) {
+            log.error("idrop is already running, shutting down");
+             JOptionPane.showMessageDialog((Component) null, "iDrop is already running, cannot start",
+                        "iDrop Error", JOptionPane.OK_OPTION);
+             System.exit(1);
         } catch (IdropException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
@@ -159,8 +165,6 @@ public class StartupSequencer {
             Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropRuntimeException("error creating transferManager", ex);
         }
-
-
 
         try {
             List<LocalIRODSTransfer> currentQueue = idropCore.getTransferManager().getCurrentQueue();

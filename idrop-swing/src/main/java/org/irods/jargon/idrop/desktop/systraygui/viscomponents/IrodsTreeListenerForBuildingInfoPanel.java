@@ -9,8 +9,6 @@ import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.TreePath;
-import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.domain.Collection;
