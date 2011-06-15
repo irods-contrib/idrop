@@ -32,5 +32,14 @@
       <artifactId>swing-layout</artifactId>
       <version>1.0.3</version>
     </dependency>
+    <dependency>
+      <groupId>org.irods.jargon</groupId>
+      <artifactId>jargon-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.irods.idrop</groupId>
+      <artifactId>idrop-commons</artifactId>
+      <version>0.9.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
