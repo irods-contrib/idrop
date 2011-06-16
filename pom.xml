@@ -384,6 +384,8 @@
   </profiles>
   <modules>
     <module>idrop-swing</module>
+    <module>idrop-lite</module>
+    <module>idrop-commons</module>
     <module>idrop-web</module>
   </modules>
 </project>
