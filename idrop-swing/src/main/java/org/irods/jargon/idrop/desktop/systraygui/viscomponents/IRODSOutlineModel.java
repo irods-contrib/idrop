@@ -91,9 +91,11 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                         targetNode = (IRODSNode) targetNode.getParent();
                     }
 
+                    if (targetNode.isCached()) {
                     IRODSNode newNode = new IRODSNode(entry, idrop.getiDropCore().getIrodsAccount(),
                             idrop.getiDropCore().getIrodsFileSystem(), irodsTree);
                     targetNode.add(newNode);
+                    }
                     //targetNode.forceReloadOfChildrenOfThisNode();
                     //targetNode.lazyLoadOfChildrenOfThisNode();
 

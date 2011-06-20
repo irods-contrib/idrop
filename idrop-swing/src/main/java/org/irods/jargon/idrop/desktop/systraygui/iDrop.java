@@ -664,28 +664,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 // if info is being opened, initialize to the first selected item, or the root of the iRODS tree if none
                 // selected
                 IRODSNode node;
-                /*  FIXME: implement
-                if (!(irodsTree.getLastSelectedPathComponent() instanceof IRODSNode)) {
-                log.info("last selected is not a Node, using root node");
-                node = (IRODSNode) irodsTree.getModel().getRoot();
-                } else {
-                log.info("initializing with last selected node");
-                node = (IRODSNode) irodsTree.getLastSelectedPathComponent();
-                }
-                try {
-                IrodsTreeListenerForBuildingInfoPanel treeBuilder = new IrodsTreeListenerForBuildingInfoPanel(
-                idropGuiReference);
-                treeBuilder.identifyNodeTypeAndInitializeInfoPanel(node);
-                } catch (Exception ex) {
-                Logger.getLogger(IrodsTreeListenerForBuildingInfoPanel.class.getName()).log(Level.SEVERE, null, ex);
-                throw new IdropRuntimeException("exception processing valueChanged() event for IRODSNode selection");
-                }
+           
                 if (pnlIrodsInfo.isVisible()) {
                 splitTargetCollections.setDividerLocation(0.5d);
                 }
                 
-                 * 
-                 */
+              
             }
         });
     }
@@ -1335,12 +1319,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
         jSplitPanelLocalRemote.setLeftComponent(pnlLocalTreeArea);
 
+        pnlIrodsArea.setMinimumSize(new java.awt.Dimension(500, 300));
         pnlIrodsArea.setPreferredSize(new java.awt.Dimension(600, 304));
         pnlIrodsArea.setLayout(new java.awt.BorderLayout());
 
         splitTargetCollections.setDividerLocation(400);
         splitTargetCollections.setMinimumSize(new java.awt.Dimension(0, 0));
 
+        tabIrodsViews.setMinimumSize(new java.awt.Dimension(200, 129));
         tabIrodsViews.setPreferredSize(new java.awt.Dimension(350, 300));
         tabIrodsViews.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1403,6 +1389,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         splitTargetCollections.setLeftComponent(tabIrodsViews);
 
         pnlIrodsInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        pnlIrodsInfo.setMinimumSize(new java.awt.Dimension(300, 708));
         pnlIrodsInfo.setLayout(new java.awt.BorderLayout());
 
         pnlIrodsInfoInner.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
