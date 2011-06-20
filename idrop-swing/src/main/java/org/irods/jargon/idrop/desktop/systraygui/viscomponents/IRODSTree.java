@@ -46,7 +46,6 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
     protected Action m_action;
     protected TreePath m_clickedPath;
     protected IRODSTree thisTree;
-
     private boolean refreshingTree = false;
     TreePathSupport tps;
 
@@ -90,15 +89,15 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
         setDropMode(javax.swing.DropMode.ON);
         setTransferHandler(new IRODSTreeTransferHandler(idropParentGui, "selectionModel"));
         setUpTreeMenu();
-         IrodsSelectionListenerForBuildingInfoPanel treeListener;
+        IrodsSelectionListenerForBuildingInfoPanel treeListener;
         try {
             treeListener = new IrodsSelectionListenerForBuildingInfoPanel(idropParentGui);
         } catch (IdropException ex) {
             Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropRuntimeException("error initializing selection listener", ex);
         }
-         this.getSelectionModel().addListSelectionListener(treeListener);
-                  
+        this.getSelectionModel().addListSelectionListener(treeListener);
+
     }
 
     /**
@@ -290,6 +289,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
 
             @Override
             public void run() {
+                highlightTree.collapsePath(pathToHighlight);
                 highlightTree.expandPath(pathToHighlight);
                 // highlightTree.sc
                 // highlightTree.scrollPathToVisible(pathToHighlight);

@@ -8,7 +8,7 @@
  *
  * Created on Sep 3, 2010, 9:52:12 AM
  */
-package org.irods.jargon.idrop.desktop.systraygui; 
+package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -19,13 +19,16 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.tree.TreePath;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -169,7 +172,7 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
 }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-       processNew();
+        processNew();
     }//GEN-LAST:event_btnOKActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -185,7 +188,7 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtNewFolder;
     // End of variables declaration//GEN-END:variables
 
-   private void processNew() {
+    private void processNew() {
         // add the new folder to irods, add to the tree, and scroll the tree into view
 
         if (txtNewFolder.getText().isEmpty()) {
@@ -200,10 +203,20 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
 
             @Override
             public void run() {
-                log.info("adding new folder named:{}", txtNewFolder.getText());
-                thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 try {
-                    IRODSFileService irodsFileService = new IRODSFileService(idrop.getIrodsAccount(),idrop.getiDropCore().getIrodsFileSystem());
+                    log.info("adding new folder named:{}", txtNewFolder.getText());
+                    thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+                    IRODSFileService irodsFileService;
+                    try {
+                        irodsFileService = new IRODSFileService(idrop.getIrodsAccount(), idrop.getiDropCore().getIrodsFileSystem());
+                    } catch (IdropException ex) {
+                        Logger.getLogger(NewIRODSDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        throw new IdropRuntimeException(ex);
+                    } finally {
+                        thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+                    }
 
                     StringBuilder sb = new StringBuilder();
                     sb.append(parentDirectory);
@@ -213,13 +226,12 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
 
                     boolean created = irodsFileService.createNewFolder(newDirPath);
 
-                    IRODSFileSystemModel irodsFileSystemModel = (IRODSFileSystemModel) stagingViewTree.getModel();
+                    IRODSOutlineModel irodsOutlineModel = (IRODSOutlineModel) stagingViewTree.getModel();
 
                     if (!created) {
                         log.info("could not create new folder in:{}", newDirPath);
                         idrop.showMessageFromOperation("directory could not be created");
                         thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
                         return;
                     }
 
@@ -228,34 +240,37 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
                     entry.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                     entry.setParentPath(parentDirectory);
                     entry.setPathOrName(newDirPath);
-                    IRODSNode newNode = new IRODSNode(entry, idrop.getIrodsAccount(),idrop.getiDropCore().getIrodsFileSystem()  , idrop.getIrodsTree());
-                    //newNode.setParent(parentNode);
+                    IRODSNode newNode = new IRODSNode(entry, idrop.getIrodsAccount(), idrop.getiDropCore().getIrodsFileSystem(), idrop.getIrodsTree());
                     log.info("inserting node at 0");
-                    //parentNode.insertChildAt(0, newNode);
                     if (parentNode.isCached()) {
-                        irodsFileSystemModel.insertNodeInto(newNode, parentNode, 0);
+                        parentNode.insert(newNode, parentNode.getChildCount());
                     } else {
                         parentNode.forceReloadOfChildrenOfThisNode();
-                        irodsFileSystemModel.reload(parentNode);
-                        stagingViewTree.expandPath(TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree, entry.getParentPath()));
                     }
 
-                    thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    try {
+                        TreePath path = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree, entry.getParentPath());
+                        stagingViewTree.collapsePath(path);
+                        stagingViewTree.expandPath(path);
+                    } catch (IdropException ex) {
+                        Logger.getLogger(NewIRODSDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        idrop.showIdropException(ex);
+                    } finally {
+                        thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    }
+
                     idrop.showMessageFromOperation("new folder created");
 
-                }
-                catch (IdropException ex) {
+                    thisDialog.dispose();
+                } catch (IdropException ex) {
                     Logger.getLogger(NewIRODSDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);
-                    idrop.showIdropException(ex);
+                    throw new IdropRuntimeException(ex);
                 }
-
-                thisDialog.dispose();
             }
         });
-   }
+    }
 
-
- /**
+    /**
      * Register a listener for the enter event, so login can occur.
      */
     private void registerKeystrokeListener() {

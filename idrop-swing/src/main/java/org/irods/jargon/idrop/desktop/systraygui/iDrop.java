@@ -668,8 +668,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 if (pnlIrodsInfo.isVisible()) {
                 splitTargetCollections.setDividerLocation(0.5d);
                 }
-                
-              
             }
         });
     }
