@@ -39,6 +39,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
     @Override
     public void exportAsDrag(JComponent jc, InputEvent ie, int i) {
+        log.info("export as drag");
         super.exportAsDrag(jc, ie, i);
     }
 
@@ -65,7 +66,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         log.info("importData in irods:{}", ts);
         // mac opt = 1 w/o = 2  (no plus icon for a 2 so it's a move) / for drag from local is 1 (copy)
         Point pt = ts.getDropLocation().getDropPoint();
-        JTree tree = (JTree) ts.getComponent();
+        IRODSTree tree = (IRODSTree) ts.getComponent();
         TreePath targetPath = tree.getClosestPathForLocation(pt.x, pt.y);
         IRODSNode targetNode = (IRODSNode) targetPath.getLastPathComponent();
         log.info("drop node is: {}", targetNode);
@@ -131,32 +132,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     public boolean canImport(TransferSupport support) {
         Point location = support.getDropLocation().getDropPoint();
         IRODSTree tree = (IRODSTree) support.getComponent();
-       
-        int closestRow = idropGui.getIrodsTree().getClosestRowForLocation((int) location.getX(), (int) location.getY());
-        boolean highlighted = false;
-
-        Graphics g = tree.getGraphics();
-
-        // row changed
-
-        if (tree.getHighlightedRow() != closestRow) {
-            if (null != tree.getDirtyRegion()) {
-                tree.paintImmediately(tree.getDirtyRegion());
-            }
-
-            for (int j = 0; j < tree.getRowCount(); j++) {
-                if (closestRow == j) {
-
-                    Rectangle firstRowRect = tree.getRowBounds(closestRow);
-                    tree.setDirtyRegion(firstRowRect);
-                    g.setColor(tree.getHighlightColor());
-
-                    g.fillRect((int) tree.getDirtyRegion().getX(), (int) tree.getDirtyRegion().getY(), (int) tree.getDirtyRegion().getWidth(), (int) tree.getDirtyRegion().getHeight());
-                   tree.setHighlightedRow(closestRow);
-                }
-            }
-
-        }
+            
         
         log.warn("transferFlavors:{}", support.getDataFlavors());
                     
@@ -193,14 +169,18 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(JComponent c) {
         log.debug("creating a transferrable from the irods tree view");
-
+       
         List<File> transferFiles = new ArrayList<File>();
         IRODSTree stagingViewTree = (IRODSTree) c;
         // get the selected node (one for now)
-
-        TreePath[] selectionPaths = stagingViewTree.getSelectionModel().getSelectionPaths();
-        log.info("transferrable path:{}", selectionPaths);
-
+         int[] rows = idropGui.getIrodsTree().getSelectedRows();
+                log.debug("selected rows for delete:{}", rows);
+                
+                   List<IRODSNode> nodesToTransfer = new ArrayList<IRODSNode>();
+                    for (int row : rows) {
+                        nodesToTransfer.add((IRODSNode) idropGui.getIrodsTree().getValueAt(row, 0));
+                    }
+              
         IRODSFileService irodsFileService;
         try {
             irodsFileService = new IRODSFileService(idropGui.getIrodsAccount(), idropGui.getiDropCore().getIrodsFileSystem());
@@ -209,11 +189,9 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             throw new IdropRuntimeException(ex);
         }
 
-        IRODSNode listingEntryNode;
         String objectPath;
-        for (TreePath selectionPath : selectionPaths) {
-            listingEntryNode = (IRODSNode) selectionPath.getLastPathComponent();
-            CollectionAndDataObjectListingEntry listingEntry = (CollectionAndDataObjectListingEntry) listingEntryNode.getUserObject();
+        for (IRODSNode nodeToTransfer : nodesToTransfer) {
+            CollectionAndDataObjectListingEntry listingEntry = (CollectionAndDataObjectListingEntry) nodeToTransfer.getUserObject();
             if (listingEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
                 objectPath = listingEntry.getPathOrName();
             } else {
@@ -229,6 +207,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         }
 
         return new IRODSTreeTransferable(transferFiles, stagingViewTree);
+  
     }
     
      private void processDropOfTreeSelectionModel(final Transferable transferable, final IRODSNode parent, final DataFlavor dataFlavor) {
@@ -241,7 +220,6 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         } else {
             targetIrodsFileAbsolutePath = putTarget.getParentPath();
         }
-
 
         try {
             // get the list of files

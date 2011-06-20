@@ -58,7 +58,7 @@
       <name>jboss.repository</name>
       <url>http://repository.jboss.com/maven2/</url>
       <releases>
-	<enabled>true</enabled>
+	<enabled>false</enabled>
 	<updatePolicy>always</updatePolicy>
 	<checksumPolicy>warn</checksumPolicy>
       </releases>

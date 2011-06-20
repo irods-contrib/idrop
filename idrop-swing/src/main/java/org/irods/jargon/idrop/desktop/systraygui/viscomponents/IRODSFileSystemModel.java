@@ -89,42 +89,20 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
         });
 
     }
-
-    public void notifyFileShouldBeRemoved(final IRODSTree irodsTree, final String nodeAbsolutePath) throws IdropException {
-        
-    }
     
-    public void notifyCompletionOfOperation(final IRODSTree irodsTree, final TransferStatus transferStatus) throws IdropException {
-        log.info("tree model notified of status:{}", transferStatus);
-
-        if (transferStatus.getTransferState() != TransferState.OVERALL_COMPLETION) {
-            return;
+     public IRODSFileSystemModel(final IRODSAccount irodsAccount) throws IdropException {
+        super(null);
+        if (irodsAccount == null) {
+            throw new IdropRuntimeException("null irodsAccount");
         }
-        
-        // for put or copy operation, highlight the new node
-        if (transferStatus.getTransferType() == TransferStatus.TransferType.PUT
-                || transferStatus.getTransferType() == TransferStatus.TransferType.COPY) {
-            log.info("successful put transfer, find the parent tree node, and clear the children");
-             
-            TreePath parentNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, transferStatus.getTargetFileAbsolutePath());
-            log.debug("tree path for put: {}", parentNodePath);
-            IRODSNode targetNode = (IRODSNode) parentNodePath.getLastPathComponent();
-            CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) targetNode.getUserObject();
-            if (entry.isDataObject()) {
-                log.info("substitute parent as target, as given node was a leaf");
-                targetNode = (IRODSNode) targetNode.getParent();
-            }
-            targetNode.forceReloadOfChildrenOfThisNode();
-            targetNode.lazyLoadOfChildrenOfThisNode();
-            this.reload(targetNode);
-            if (entry.isDataObject()) {
-                parentNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, entry.getParentPath());
-                irodsTree.highlightPath(parentNodePath);
-            } else {
-                irodsTree.highlightPath(parentNodePath);
+        this.irodsAccount = irodsAccount;
 
-            }
+        this.addTreeModelListener(new TreeModelListener() {
+        });
 
-        }
     }
+
+   
+     
+     
 }

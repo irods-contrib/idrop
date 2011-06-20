@@ -24,6 +24,7 @@ import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
@@ -37,7 +38,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
     private final iDrop idrop;
     private final IRODSTree stagingViewTree;
-    private final IRODSFileSystemModel irodsFileSystemModel;
+    private final IRODSOutlineModel irodsFileSystemModel;
     private final IRODSNode targetNode;
     private final String targetAbsolutePath;
     private final IRODSFile sourceFile;
@@ -50,7 +51,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         this.idrop = parent;
         this.targetNode = targetNode;
         this.stagingViewTree = stagingViewTree;
-        this.irodsFileSystemModel = (IRODSFileSystemModel) stagingViewTree.getModel();
+        this.irodsFileSystemModel = (IRODSOutlineModel) stagingViewTree.getOutlineModel();
         this.targetAbsolutePath = targetAbsolutePath;
         this.sourceFile = sourceFile;
         this.sourceFiles = null;
@@ -63,7 +64,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         this.idrop = parent;
         this.targetNode = targetNode;
         this.stagingViewTree = stagingViewTree;
-        this.irodsFileSystemModel = (IRODSFileSystemModel) stagingViewTree.getModel();
+        this.irodsFileSystemModel = (IRODSOutlineModel) stagingViewTree.getModel();
         this.targetAbsolutePath = targetAbsolutePath;
         this.sourceFile = null;
         this.sourceFiles = sourceFiles;
@@ -330,9 +331,6 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
                     }
 
                     log.debug("move done");
-                    IRODSFileSystemModel irodsFileSystemModel = (IRODSFileSystemModel) stagingViewTree.getModel();
-                    targetNode.forceReloadOfChildrenOfThisNode();
-                    irodsFileSystemModel.reload(targetNode);
                     if (filesThatHadOverwriteError.isEmpty()) {
                         idrop.showMessageFromOperation("irods move/copy processed");
                     } else {
@@ -358,19 +356,21 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
             if (sourceFile.isFile()) {
                 log.debug("source file is a file, do a move");
                 dataTransferOperations.move(sourceFile.getAbsolutePath(), targetAbsolutePath);
-                
-                // remove from the tree
-                TreePath sourceTreePath = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree, sourceFile.getAbsolutePath());
-                if (sourceTreePath == null) {
-                    log.warn("no tree path found for:{}, will not delete node ", sourceFile.getAbsolutePath());
+                         
+                IRODSFile targetFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount().instanceIRODSFile(targetAbsolutePath);
+                String targetPathForNotify = null;
+                if (targetFile.isDirectory()) {
+                    targetPathForNotify = targetFile.getAbsolutePath() + "/" + sourceFile.getName();
                 } else {
-                    log.debug("removing node since I moved the file:{}", sourceTreePath.getLastPathComponent());
-                    irodsFileSystemModel.removeNodeFromParent((IRODSNode)sourceTreePath.getLastPathComponent());
+                    targetPathForNotify = targetFile.getAbsolutePath();
                 }
-        
+                
+                irodsFileSystemModel.notifyFileShouldBeAdded(stagingViewTree, targetPathForNotify);
+
             } else {
                 log.debug("source file is a collection, reparent it");
                 dataTransferOperations.moveTheSourceCollectionUnderneathTheTargetCollectionUsingSourceParentCollectionName(sourceFile.getAbsolutePath(), targetAbsolutePath);
+                irodsFileSystemModel.notifyFileShouldBeAdded(stagingViewTree, targetAbsolutePath);
             }
         } catch (JargonFileOrCollAlreadyExistsException fcae) {
             throw fcae;
@@ -379,10 +379,12 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         }
 
         TreePath sourceNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree, sourceFile.getAbsolutePath());
+        if (sourceNodePath == null) {
+            log.info("could not find tree path for source node, ignore");
+            return;
+        }
         IRODSNode sourceNode = (IRODSNode) sourceNodePath.getLastPathComponent();
-        IRODSFileSystemModel irodsFileSystemModel = (IRODSFileSystemModel) stagingViewTree.getModel();
-        irodsFileSystemModel.removeNodeFromParent(sourceNode);
-
+        irodsFileSystemModel.notifyFileShouldBeRemoved(sourceNode);        
     }
 
     private void processACopyOfAnIndividualFile(DataTransferOperations dataTransferOperations, IRODSFile sourceFile, String targetAbsolutePath) throws IdropException {
@@ -392,6 +394,8 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
             Logger.getLogger(MoveOrCopyiRODSDialog.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("unable to copy file due to JargonException", ex);
         }
+        
+        // notifications are done at completion of transfer using status callbacks
     }
 
     /**

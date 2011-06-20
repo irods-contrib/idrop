@@ -78,8 +78,12 @@ import org.irods.jargon.usertagging.domain.IRODSTagGrouping;
 import org.irods.jargon.usertagging.domain.TagQuerySearchResult;
 import org.slf4j.LoggerFactory;
 
-import cookxml.cookswing.CookSwing;
 import org.irods.jargon.idrop.desktop.systraygui.utils.iDropUtils;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSRowModel;
+import org.netbeans.swing.outline.DefaultOutlineModel;
+import org.netbeans.swing.outline.Outline;
+import org.netbeans.swing.outline.OutlineModel;
 
 /**
  * Main system tray and GUI. Create system tray menu, start timer process for queue.
@@ -159,11 +163,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
         int showX = (width / 2) - (this.getWidth() / 2);
         int showY = (height / 2) - (this.getHeight() / 2);
         this.setLocation(showX, showY);
+        /*
+         * FIXME: remove cookswing deps for issues
+        
         CookSwing cookSwing = new CookSwing(this);
         newPreferencesDialog = (JDialog) cookSwing.render("org/irods/jargon/idrop/preferencesDialog.xml");
         boolean showGUI = getiDropCore().getPreferences().getBoolean("showGUI", true);
         showGUICheckBox.setSelected(showGUI);
 
+         * 
+         */
         if (!getiDropCore().getIdropConfig().isAdvancedView()) {
             toolBarInfo.setVisible(false);
         }
@@ -254,13 +263,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
      */
     @Override
     public void overallStatusCallback(final TransferStatus ts) {
-        
-        IRODSFileSystemModel irodsTreeModel = (IRODSFileSystemModel) irodsTree.getModel();
+
+        IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree.getModel();
         try {
             irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
             // if a get callback on completion, notify the local tree model
             if (ts.getTransferType() == TransferStatus.TransferType.GET && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
-                ((LocalFileSystemModel)getFileTree().getModel()).notifyCompletionOfOperation(getFileTree(), ts);
+                ((LocalFileSystemModel) getFileTree().getModel()).notifyCompletionOfOperation(getFileTree(), ts);
             }
         } catch (IdropException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
@@ -589,7 +598,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
      * 
      * @return <code>JTree</code> visual representation of the remote iRODS resource
      */
-    public javax.swing.JTree getTreeStagingResource() {
+    public Outline getTreeStagingResource() {
         return irodsTree;
     }
 
@@ -655,24 +664,28 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                 // if info is being opened, initialize to the first selected item, or the root of the iRODS tree if none
                 // selected
                 IRODSNode node;
+                /*  FIXME: implement
                 if (!(irodsTree.getLastSelectedPathComponent() instanceof IRODSNode)) {
-                    log.info("last selected is not a Node, using root node");
-                    node = (IRODSNode) irodsTree.getModel().getRoot();
+                log.info("last selected is not a Node, using root node");
+                node = (IRODSNode) irodsTree.getModel().getRoot();
                 } else {
-                    log.info("initializing with last selected node");
-                    node = (IRODSNode) irodsTree.getLastSelectedPathComponent();
+                log.info("initializing with last selected node");
+                node = (IRODSNode) irodsTree.getLastSelectedPathComponent();
                 }
                 try {
-                    IrodsTreeListenerForBuildingInfoPanel treeBuilder = new IrodsTreeListenerForBuildingInfoPanel(
-                            idropGuiReference);
-                    treeBuilder.identifyNodeTypeAndInitializeInfoPanel(node);
+                IrodsTreeListenerForBuildingInfoPanel treeBuilder = new IrodsTreeListenerForBuildingInfoPanel(
+                idropGuiReference);
+                treeBuilder.identifyNodeTypeAndInitializeInfoPanel(node);
                 } catch (Exception ex) {
-                    Logger.getLogger(IrodsTreeListenerForBuildingInfoPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    throw new IdropRuntimeException("exception processing valueChanged() event for IRODSNode selection");
+                Logger.getLogger(IrodsTreeListenerForBuildingInfoPanel.class.getName()).log(Level.SEVERE, null, ex);
+                throw new IdropRuntimeException("exception processing valueChanged() event for IRODSNode selection");
                 }
                 if (pnlIrodsInfo.isVisible()) {
-                    splitTargetCollections.setDividerLocation(0.5d);
+                splitTargetCollections.setDividerLocation(0.5d);
                 }
+                
+                 * 
+                 */
             }
         });
     }
@@ -780,25 +793,27 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
             @Override
             public void run() {
+
+                /*
                 log.debug("refreshing series panel");
                 Enumeration<TreePath> currentPaths = null;
                 TreePath firstVisibleRow = null;
                 TreePath rootPath = null;
-
+                
                 if (getTreeStagingResource() != null) {
-                    TreePath[] expandedPaths = TreeUtils.getPaths(getTreeStagingResource(), true);
-                    //FIXME: get this code out of idrop and put into iRODS tree
-                    log.info("expanded paths:{}", expandedPaths);
-                    rootPath = getTreeStagingResource().getPathForRow(0);
-                    // Rectangle nodeRectangle = scrollIrodsTree.getViewport().getViewRect();
-                    // TreeModel treeModel = getTreeStagingResource().getModel();
-                    // TreeNode root = (TreeNode) treeModel.getRoot();
-                    currentPaths = getTreeStagingResource().getExpandedDescendants(rootPath);
-                    //firstVisibleRow = getTreeStagingResource().getClosestPathForLocation(0, 0);
-                    log.debug("selected tree node, paths are:{}", currentPaths);
-                    log.debug("first visible row is:{}", firstVisibleRow);
+                TreePath[] expandedPaths = TreeUtils.getPaths(getTreeStagingResource(), true);
+                //FIXME: get this code out of idrop and put into iRODS tree
+                log.info("expanded paths:{}", expandedPaths);
+                rootPath = getTreeStagingResource().get   getPathForRow(0);
+                // Rectangle nodeRectangle = scrollIrodsTree.getViewport().getViewRect();
+                // TreeModel treeModel = getTreeStagingResource().getModel();
+                // TreeNode root = (TreeNode) treeModel.getRoot();
+                currentPaths = getTreeStagingResource().getExpandedDescendants(rootPath);
+                //firstVisibleRow = getTreeStagingResource().getClosestPathForLocation(0, 0);
+                log.debug("selected tree node, paths are:{}", currentPaths);
+                log.debug("first visible row is:{}", firstVisibleRow);
                 }
-
+                 */
                 CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
 
                 if (iDropCore.getIdropConfig().isLoginPreset()) {
@@ -814,33 +829,44 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
                     log.info("using root path, no login preset");
                     root.setPathOrName("/");
                 }
-
+  
                 log.info("building new iRODS tree");
                 try {
+                    if (irodsTree == null) {
+                        irodsTree = new IRODSTree(gui);
+                        IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
+                        irodsTree.setRefreshingTree(true);
+                      //  irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+                    }
                     IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
-                    irodsTree = new IRODSTree(new IRODSFileSystemModel(rootNode, getIrodsAccount()), gui);
-                    irodsTree.setRefreshingTree(true);
-                    irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-                    IrodsTreeListenerForBuildingInfoPanel treeListener = new IrodsTreeListenerForBuildingInfoPanel(gui);
+
+                    IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(rootNode, getIrodsAccount());
+                    IRODSOutlineModel mdl = new IRODSOutlineModel(gui,
+                            irodsFileSystemModel, new IRODSRowModel(), true, "File System");
+                    irodsTree.setModel(mdl);
+
+                    /* IrodsTreeListenerForBuildingInfoPanel treeListener = new IrodsTreeListenerForBuildingInfoPanel(gui);
                     irodsTree.addTreeExpansionListener(treeListener);
                     irodsTree.addTreeSelectionListener(treeListener);
                     // preset to display root tree node
                     irodsTree.setSelectionRow(0);
+                     * 
+                     */
                 } catch (Exception ex) {
                     Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
                     throw new IdropRuntimeException(ex);
                 }
 
                 scrollIrodsTree.setViewportView(getTreeStagingResource());
-                TreePath currentPath;
-
+                /*     TreePath currentPath;
+                
                 if (currentPaths != null) {
-                    while (currentPaths.hasMoreElements()) {
-                        currentPath = (TreePath) currentPaths.nextElement();
-                        log.debug("expanding tree path:{}", currentPath);
-                        irodsTree.expandPath(currentPath);
-                    }
+                while (currentPaths.hasMoreElements()) {
+                currentPath = (TreePath) currentPaths.nextElement();
+                log.debug("expanding tree path:{}", currentPath);
+                irodsTree.expandPath(currentPath);
                 }
+                }*/
                 irodsTree.setRefreshingTree(false);
 
                 getiDropCore().getIrodsFileSystem().closeAndEatExceptions(iDropCore.getIrodsAccount());
@@ -2142,9 +2168,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
             return;
         }
 
+        //FIXME: reimplement
         // select the path in the tree and show the hierarchy tab
-        TreeUtils.expandAll(irodsTree, selPath, true);
-        irodsTree.scrollPathToVisible(selPath);
+       // TreeUtils.expandAll(irodsTree, selPath, true);
+       // irodsTree.scrollPathToVisible(selPath);
         tabIrodsViews.setSelectedComponent(pnlTabHierarchicalView);
     }// GEN-LAST:event_menuItemShowInHierarchyActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
