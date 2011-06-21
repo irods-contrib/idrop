@@ -7,3 +7,4 @@ target
 Servers
 .DS_Store
 nbactions.xml
+idrop-web/web-app/WEB-INF/classes/

@@ -86,6 +86,9 @@
 					<button type="button" id="upload"
 						class="ui-state-default ui-corner-all" value="upload"
 						onclick="showUploadDialog()")>Upload</button>
+					<button type="button" id="idroplite"
+						class="ui-state-default ui-corner-all" value="uploadWithIdropLite"
+						onclick="showIdropLite()")>iDrop Lite</button>
 				</div>
 
 
