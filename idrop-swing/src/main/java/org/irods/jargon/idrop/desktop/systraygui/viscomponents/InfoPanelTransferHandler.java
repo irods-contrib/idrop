@@ -8,28 +8,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import javax.swing.TransferHandler;
-import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
+import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
+import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
- *Handle drop events for the info panel.  Local and iRODS files/collections can be dropped on the info panel to signal transfers.
- *
+ * Handle drop events for the info panel. Local and iRODS files/collections can be dropped on the info panel to signal
+ * transfers.
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class InfoPanelTransferHandler extends TransferHandler {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(InfoPanelTransferHandler.class);
+
     public DataFlavor treeDataFlavor;
+
     private final iDrop idropGui;
 
     public InfoPanelTransferHandler(final iDrop idropGui) throws IdropException {
@@ -42,7 +47,8 @@ public class InfoPanelTransferHandler extends TransferHandler {
         this.idropGui = idropGui;
 
         try {
-            treeDataFlavor = new DataFlavor(javax.swing.tree.TreeSelectionModel.class, "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel");
+            treeDataFlavor = new DataFlavor(javax.swing.tree.TreeSelectionModel.class,
+                    "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel");
         } catch (Exception ex) {
             Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
@@ -61,7 +67,8 @@ public class InfoPanelTransferHandler extends TransferHandler {
             log.info("data flavor:{}", dataFlavor);
             log.debug("rep class:{}", dataFlavor.getDefaultRepresentationClassAsString());
             log.debug("mime type:{}", dataFlavor.getMimeType());
-            if (dataFlavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
+            if (dataFlavor.getMimeType().equals(
+                    "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
                 log.info("can import as a tree selection model");
                 return true;
             } else if (dataFlavor.equals(DataFlavor.javaFileListFlavor)) {
@@ -85,7 +92,8 @@ public class InfoPanelTransferHandler extends TransferHandler {
 
         for (DataFlavor dataFlavor : dataFlavors) {
 
-            if (dataFlavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
+            if (dataFlavor.getMimeType().equals(
+                    "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
                 log.info("processing from drop of java tree");
                 try {
                     processDropFromTree(transferable, dataFlavors, support);
@@ -110,14 +118,15 @@ public class InfoPanelTransferHandler extends TransferHandler {
     }
 
     /**
-     * This transfer has been marked as able to import, and has been classified by data flavor as
-     * coming from a JTree.
+     * This transfer has been marked as able to import, and has been classified by data flavor as coming from a JTree.
+     * 
      * @param transferable
      * @param dataFlavors
      * @param support
      * @throws IdropRuntimeException
      */
-    private void processDropFromTree(final Transferable transferable, final DataFlavor[] dataFlavors, final TransferSupport support) throws IdropException {
+    private void processDropFromTree(final Transferable transferable, final DataFlavor[] dataFlavors,
+            final TransferSupport support) throws IdropException {
         log.debug("processDropFromTree()");
 
         TreeSelectionModel fileTree;
@@ -155,7 +164,7 @@ public class InfoPanelTransferHandler extends TransferHandler {
             String sourcePath = pathBuilder.toString();
             log.info("source path added: {}", sourcePath.toString());
             sourcePaths.add(sourcePath);
-            
+
         }
 
         Object lastCachedItem = idropGui.getLastCachedInfoItem();
@@ -215,11 +224,15 @@ public class InfoPanelTransferHandler extends TransferHandler {
             throw new IdropException("dropped file does not exist");
         }
 
-        log.info("drop of a local file  onto an iRODS data object, will process as a drop on parent collection:{}", dataObject.getCollectionName());
+        log.info("drop of a local file  onto an iRODS data object, will process as a drop on parent collection:{}",
+                dataObject.getCollectionName());
 
         try {
             log.info("enqueue a put operation");
-            idropGui.getiDropCore().getTransferManager().enqueueAPut(sourcePath, dataObject.getCollectionName(), idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
+            idropGui.getiDropCore()
+                    .getTransferManager()
+                    .enqueueAPut(sourcePath, dataObject.getCollectionName(),
+                            idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
         } catch (JargonException ex) {
             Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("error enqueing put operation", ex);
@@ -236,11 +249,15 @@ public class InfoPanelTransferHandler extends TransferHandler {
             throw new IdropException("dropped file does not exist");
         }
 
-        log.info("drop of a local file  onto an iRODS collection, will process as a drop on parent collection:{}", collection.getCollectionName());
+        log.info("drop of a local file  onto an iRODS collection, will process as a drop on parent collection:{}",
+                collection.getCollectionName());
 
         try {
             log.info("enqueue a put operation");
-            idropGui.getiDropCore().getTransferManager().enqueueAPut(sourcePath, collection.getCollectionName(), idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
+            idropGui.getiDropCore()
+                    .getTransferManager()
+                    .enqueueAPut(sourcePath, collection.getCollectionName(),
+                            idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui.getIrodsAccount());
         } catch (JargonException ex) {
             Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("error enqueing put operation", ex);
@@ -250,21 +267,20 @@ public class InfoPanelTransferHandler extends TransferHandler {
 
     /**
      * Process a drop on the center panels coming from the desktop or OS explorer
+     * 
      * @param support
      * @throws IdropRuntimeException
      */
-    private void processDesktopDrop(final Transferable transferable, final DataFlavor[] dataFlavors, final TransferSupport support) throws IdropException {
-
+    private void processDesktopDrop(final Transferable transferable, final DataFlavor[] dataFlavors,
+            final TransferSupport support) throws IdropException {
 
         log.debug("desktop drop event on collection");
 
         Object lastCachedItem = idropGui.getLastCachedInfoItem();
 
-
         List<File> list;
         try {
-            list = (List<File>) transferable.getTransferData(
-                    DataFlavor.javaFileListFlavor);
+            list = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
         } catch (UnsupportedFlavorException ex) {
             Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException(ex);
@@ -284,7 +300,8 @@ public class InfoPanelTransferHandler extends TransferHandler {
 
                 int ret;
                 if (list.size() == 1) {
-                    ret = idropGui.showTransferConfirm(transferFile.getAbsolutePath(), droppedCollection.getCollectionName());
+                    ret = idropGui.showTransferConfirm(transferFile.getAbsolutePath(),
+                            droppedCollection.getCollectionName());
                 } else {
                     ret = idropGui.showTransferConfirm("multiple files", droppedCollection.getCollectionName());
                 }
@@ -300,7 +317,8 @@ public class InfoPanelTransferHandler extends TransferHandler {
 
                 int ret;
                 if (list.size() == 1) {
-                    ret = idropGui.showTransferConfirm(transferFile.getAbsolutePath(), droppedDataObject.getCollectionName());
+                    ret = idropGui.showTransferConfirm(transferFile.getAbsolutePath(),
+                            droppedDataObject.getCollectionName());
                 } else {
                     ret = idropGui.showTransferConfirm("multiple files", droppedDataObject.getCollectionName());
                 }
