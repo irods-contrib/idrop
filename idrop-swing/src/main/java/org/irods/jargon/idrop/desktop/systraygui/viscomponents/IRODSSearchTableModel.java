@@ -5,21 +5,26 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.table.AbstractTableModel;
+
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
- * Model for a JTable that represents iRODS files and collections using the <code>CollectionAndDataObjectListingEntry</code> domain object.
+ * Model for a JTable that represents iRODS files and collections using the
+ * <code>CollectionAndDataObjectListingEntry</code> domain object.
  * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSSearchTableModel extends AbstractTableModel {
 
     private List<CollectionAndDataObjectListingEntry> listingEntries = new ArrayList<CollectionAndDataObjectListingEntry>();
+
     private static final List<String> columnNames = new ArrayList<String>();
+
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSSearchTableModel.class);
 
     static {
@@ -72,11 +77,6 @@ public class IRODSSearchTableModel extends AbstractTableModel {
     public void setEntries(List<CollectionAndDataObjectListingEntry> entries) {
         this.listingEntries = entries;
 
-
-
-
-
-
     }
 
     @Override
@@ -106,12 +106,7 @@ public class IRODSSearchTableModel extends AbstractTableModel {
         }
 
         /*
-         * cols
-         * 0: type
-         * 1: parent
-         * 2: name
-         * 3: created
-         * 4: modified
+         * cols 0: type 1: parent 2: name 3: created 4: modified
          */
         Object returnedVal = null;
 
