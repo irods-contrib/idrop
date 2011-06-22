@@ -7,9 +7,11 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.table.TableModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
@@ -30,6 +32,7 @@ import org.slf4j.LoggerFactory;
 public class IRODSOutlineModel extends DefaultOutlineModel {
 
     public static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSOutlineModel.class);
+
     private iDrop idrop;
 
     public IRODSOutlineModel(iDrop idrop, TreeModel tm, TableModel tm1, boolean bln, String string) {
@@ -42,14 +45,13 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
         this.idrop = idrop;
     }
 
-    public void notifyFileShouldBeRemoved(final IRODSTree irodsTree, final String nodeAbsolutePath) throws IdropException {
+    public void notifyFileShouldBeRemoved(final IRODSTree irodsTree, final String nodeAbsolutePath)
+            throws IdropException {
     }
 
     public void notifyFileShouldBeRemoved(final IRODSNode deletedNode) throws IdropException {
         log.info("deleting node from parent:{}", deletedNode);
         final IRODSNode parent = (IRODSNode) deletedNode.getParent();
-        
-        
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -58,8 +60,10 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                 parent.remove(deletedNode);
                 try {
                     IRODSTree stagingViewTree = idrop.getIrodsTree();
-                    CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) ((IRODSNode) parent).getUserObject();
-                    TreePath path = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree, entry.getFormattedAbsolutePath());
+                    CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) ((IRODSNode) parent)
+                            .getUserObject();
+                    TreePath path = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree,
+                            entry.getFormattedAbsolutePath());
                     stagingViewTree.collapsePath(path);
                     stagingViewTree.expandPath(path);
                 } catch (IdropException ex) {
@@ -70,7 +74,8 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
         });
     }
 
-    public void notifyCompletionOfOperation(final IRODSTree irodsTree, final TransferStatus transferStatus) throws IdropException {
+    public void notifyCompletionOfOperation(final IRODSTree irodsTree, final TransferStatus transferStatus)
+            throws IdropException {
         log.info("tree model notified of status:{}", transferStatus);
 
         if (transferStatus.getTransferState() != TransferState.OVERALL_COMPLETION) {
@@ -89,24 +94,29 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                 public void run() {
                     TreePath containingNodePath;
                     try {
-                        containingNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, transferStatus.getTargetFileAbsolutePath());
+                        containingNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree,
+                                transferStatus.getTargetFileAbsolutePath());
                     } catch (IdropException ex) {
                         Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
                         throw new IdropRuntimeException("error building tree path", ex);
                     }
                     log.debug("tree path for put: {}", containingNodePath);
                     IRODSNode targetNode = (IRODSNode) containingNodePath.getLastPathComponent();
-                    CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) targetNode.getUserObject();
+                    CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) targetNode
+                            .getUserObject();
                     if (entry.isDataObject()) {
                         log.info("substitute parent as target, as given node was a leaf");
                         targetNode = (IRODSNode) targetNode.getParent();
                     }
 
-                    /* if the node was cached, children were loaded, so add a new one, otherwise,
-                    the expand path in irodsTree.highlightPath() will cause the loading of the children */
+                    /*
+                     * if the node was cached, children were loaded, so add a new one, otherwise, the expand path in
+                     * irodsTree.highlightPath() will cause the loading of the children
+                     */
                     if (targetNode.isCached()) {
                         try {
-                            IRODSFile addedFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount().instanceIRODSFile(transferStatus.getTargetFileAbsolutePath());
+                            IRODSFile addedFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount()
+                                    .instanceIRODSFile(transferStatus.getTargetFileAbsolutePath());
                             CollectionAndDataObjectListingEntry newEntry = new CollectionAndDataObjectListingEntry();
                             newEntry.setCreatedAt(new Date(addedFile.lastModified()));
                             newEntry.setDataSize(addedFile.length());
@@ -122,7 +132,8 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                                 newEntry.setPathOrName(addedFile.getName());
                             }
 
-                            IRODSNode newNode = new IRODSNode(newEntry, idrop.getiDropCore().getIrodsAccount(), idrop.getiDropCore().getIrodsFileSystem(), irodsTree);
+                            IRODSNode newNode = new IRODSNode(newEntry, idrop.getiDropCore().getIrodsAccount(), idrop
+                                    .getiDropCore().getIrodsFileSystem(), irodsTree);
                             targetNode.add(newNode);
 
                         } catch (JargonException ex) {
@@ -134,7 +145,8 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
 
                     if (entry.isDataObject()) {
                         try {
-                            containingNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, entry.getParentPath());
+                            containingNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree,
+                                    entry.getParentPath());
                         } catch (IdropException ex) {
                             Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
                             throw new IdropRuntimeException("error building tree path", ex);
@@ -161,7 +173,8 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                 try {
                     IRODSFile addedFile = irodsFileFactory.instanceIRODSFile(irodsFileAbsolutePath);
                     if (!addedFile.exists()) {
-                        log.info("looking for file that was added, I don't find it, so just move on: {}", irodsFileAbsolutePath);
+                        log.info("looking for file that was added, I don't find it, so just move on: {}",
+                                irodsFileAbsolutePath);
                         return;
                     }
                     TreePath parentPath;
@@ -192,7 +205,8 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                         newEntry.setPathOrName(addedFile.getName());
                     }
 
-                    IRODSNode newNode = new IRODSNode(newEntry, idrop.getiDropCore().getIrodsAccount(), idrop.getiDropCore().getIrodsFileSystem(), irodsTree);
+                    IRODSNode newNode = new IRODSNode(newEntry, idrop.getiDropCore().getIrodsAccount(), idrop
+                            .getiDropCore().getIrodsFileSystem(), irodsTree);
                     ((IRODSNode) parentPath.getLastPathComponent()).add(newNode);
                     irodsTree.highlightPath(parentPath);
                 } catch (JargonException ex) {
