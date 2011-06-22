@@ -69,9 +69,7 @@
       <name>renci.repository</name>
       <url>http://ci-dev.renci.org/nexus/content/repositories/public</url>
       <releases>
-	<enabled>false</enabled>
-	<updatePolicy>always</updatePolicy>
-	<checksumPolicy>warn</checksumPolicy>
+	<enabled>true</enabled>
       </releases>
       <snapshots>
 	<enabled>true</enabled>
@@ -80,16 +78,27 @@
       </snapshots>
     </repository>
     <repository>
+      <id>netbeans.repository</id>
+      <name>netbeans.repository</name>
+      <url>http://bits.netbeans.org/maven2</url>
+      <releases>
+	<enabled>true</enabled>
+      </releases>
+      <snapshots>
+	<enabled>true</enabled>
+	<updatePolicy>never</updatePolicy>
+	<checksumPolicy>fail</checksumPolicy>
+      </snapshots>
+    </repository>
+    <repository>
       <id>jboss</id>
       <name>jboss.repository</name>
       <url>http://repository.jboss.com/maven2/</url>
       <releases>
 	<enabled>true</enabled>
-	<updatePolicy>always</updatePolicy>
-	<checksumPolicy>warn</checksumPolicy>
       </releases>
       <snapshots>
-	<enabled>false</enabled>
+	<enabled>true</enabled>
 	<updatePolicy>never</updatePolicy>
 	<checksumPolicy>fail</checksumPolicy>
       </snapshots>
