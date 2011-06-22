@@ -1,8 +1,6 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,17 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JTree;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.DeleteIRODSDialog;
 import org.irods.jargon.idrop.desktop.systraygui.NewIRODSDirectoryDialog;
@@ -36,17 +35,25 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Swing JTree component for viewing iRODS server file system
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSTree extends Outline implements TreeWillExpandListener, TreeExpansionListener {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTree.class);
+
     protected iDrop idropParentGui = null;
+
     protected JPopupMenu m_popup = null;
+
     protected Action m_action;
+
     protected TreePath m_clickedPath;
+
     protected IRODSTree thisTree;
+
     private boolean refreshingTree = false;
+
     TreePathSupport tps;
 
     public boolean isRefreshingTree() {
@@ -64,8 +71,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
     public IRODSTree(TreeModel newModel, iDrop idropParentGui) {
         super();
 
-        OutlineModel mdl = DefaultOutlineModel.createOutlineModel(
-                newModel, new IRODSRowModel(), true, "File System");
+        OutlineModel mdl = DefaultOutlineModel.createOutlineModel(newModel, new IRODSRowModel(), true, "File System");
         this.idropParentGui = idropParentGui;
         tps = new TreePathSupport(mdl, this.getLayoutCache());
 
@@ -133,17 +139,21 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
 
                 IRODSNode parent = (IRODSNode) m_clickedPath.getLastPathComponent();
                 log.info("parent of new node is: {}", parent);
-                CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) parent.getUserObject();
+                CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) parent
+                        .getUserObject();
                 if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
                     JOptionPane.showMessageDialog(thisTree,
-                            "The selected item is not a folder, cannot create a new directory",
-                            "Info", JOptionPane.INFORMATION_MESSAGE);
+                            "The selected item is not a folder, cannot create a new directory", "Info",
+                            JOptionPane.INFORMATION_MESSAGE);
                     log.info("new folder not created, the selected parent is not a collection");
                     return;
                 }
                 // show a dialog asking for the new directory name...
-                NewIRODSDirectoryDialog newDirectoryDialog = new NewIRODSDirectoryDialog(idropParentGui, true, dataEntry.getPathOrName(), thisTree, parent);
-                newDirectoryDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                NewIRODSDirectoryDialog newDirectoryDialog = new NewIRODSDirectoryDialog(idropParentGui, true,
+                        dataEntry.getPathOrName(), thisTree, parent);
+                newDirectoryDialog.setLocation(
+                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
                 newDirectoryDialog.setVisible(true);
             }
         };
@@ -176,7 +186,8 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
                     deleteDialog = new DeleteIRODSDialog(idropParentGui, true, thisTree, nodesToDelete);
                 }
 
-                deleteDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                deleteDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
                 deleteDialog.setVisible(true);
             }
         };
@@ -190,9 +201,10 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
 
                 IRODSNode toRename = (IRODSNode) m_clickedPath.getLastPathComponent();
                 log.info("node to rename  is: {}", toRename);
-                CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) toRename.getUserObject();
+                CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) toRename
+                        .getUserObject();
 
-                //dialog uses absolute path, so munge it for files
+                // dialog uses absolute path, so munge it for files
                 StringBuilder sb = new StringBuilder();
                 if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
                     sb.append(dataEntry.getPathOrName());
@@ -203,8 +215,10 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
                 }
 
                 // show a dialog asking for the new directory name...
-                RenameIRODSDirectoryDialog renameDialog = new RenameIRODSDirectoryDialog(idropParentGui, true, sb.toString(), thisTree, toRename);
-                renameDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                RenameIRODSDirectoryDialog renameDialog = new RenameIRODSDirectoryDialog(idropParentGui, true,
+                        sb.toString(), thisTree, toRename);
+                renameDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
                 renameDialog.setVisible(true);
             }
         };
@@ -271,7 +285,8 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         log.debug("tree expansion event:{}", event);
         IRODSNode expandingNode = (IRODSNode) event.getPath().getLastPathComponent();
-        // If I am refreshing the tree, then do not close the connection after each load.  It will be closed in the thing doing the refreshing
+        // If I am refreshing the tree, then do not close the connection after each load. It will be closed in the thing
+        // doing the refreshing
         try {
             expandingNode.lazyLoadOfChildrenOfThisNode(!isRefreshingTree());
         } catch (IdropException ex) {
