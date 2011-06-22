@@ -2,21 +2,19 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.event.TreeModelEvent;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreePath;
+
 import org.irods.jargon.core.connection.IRODSAccount;
-import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
-import org.irods.jargon.core.transfer.TransferStatus;
-import org.irods.jargon.core.transfer.TransferStatus.TransferState;
-import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
  * Model of an underlying file system for browsing in a tree view
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSFileSystemModel extends DefaultTreeModel {
@@ -72,6 +70,7 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
             throw new IdropRuntimeException(ex);
         }
     }
+
     private final IRODSAccount irodsAccount;
 
     public IRODSFileSystemModel(final IRODSNode rootNode, final IRODSAccount irodsAccount) throws IdropException {
@@ -89,8 +88,8 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
         });
 
     }
-    
-     public IRODSFileSystemModel(final IRODSAccount irodsAccount) throws IdropException {
+
+    public IRODSFileSystemModel(final IRODSAccount irodsAccount) throws IdropException {
         super(null);
         if (irodsAccount == null) {
             throw new IdropRuntimeException("null irodsAccount");
@@ -102,7 +101,4 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
 
     }
 
-   
-     
-     
 }
