@@ -330,7 +330,8 @@ public class LoginDialog extends JDialog {
         btnOK.setMnemonic('o');
         btnOK.setText("OK");
         btnOK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);
             }
         });
@@ -339,7 +340,8 @@ public class LoginDialog extends JDialog {
         btnCancel.setMnemonic('c');
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });

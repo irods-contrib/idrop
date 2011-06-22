@@ -69,7 +69,7 @@
       <name>renci.repository</name>
       <url>http://ci-dev.renci.org/nexus/content/repositories/public</url>
       <releases>
-	<enabled>true</enabled>
+	<enabled>false</enabled>
 	<updatePolicy>always</updatePolicy>
 	<checksumPolicy>warn</checksumPolicy>
       </releases>
@@ -168,15 +168,15 @@
     	<artifactId>jargon-test</artifactId>
     	<version>${jargon.version}</version>
       </dependency>
+       <dependency>
+    	<groupId>org.irods.jargon</groupId>
+    	<artifactId>jargon-data-utils</artifactId>
+    	<version>${jargon.version}</version>
+      </dependency>
       <dependency>
     	<groupId>org.irods.jargon.transfer</groupId>
     	<artifactId>jargon-transfer-engine</artifactId>
     	<version>${jargon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.irods.jargon</groupId>
-        <artifactId>jargon-data-utils</artifactId>
-        <version>${jargon.version}</version>
       </dependency>
       <dependency>
     	<groupId>org.irods.jargon</groupId>
@@ -331,20 +331,7 @@
       <artifactId>jargon-core</artifactId>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>org.irods.jargon</groupId>
-      <artifactId>jargon-test</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.irods.jargon</groupId>
-      <artifactId>jargon-user-tagging</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.irods.jargon.transfer</groupId>
-      <artifactId>jargon-transfer-engine</artifactId>
-    </dependency>
+   
   </dependencies>
   <build>
     <plugins>

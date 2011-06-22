@@ -6,8 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.irods.jargon.core.connection.IRODSAccount;
-import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
@@ -50,7 +48,12 @@ public class IRODSNode extends DefaultMutableTreeNode {
      * @throws IdropException
      */
     public void lazyLoadOfChildrenOfThisNode() throws IdropException {
-        lazyLoadOfChildrenOfThisNode(!irodsTree.isRefreshingTree());
+        boolean refreshing = false;
+        
+        if (irodsTree != null) { 
+            refreshing = irodsTree.isRefreshingTree();
+        }
+        lazyLoadOfChildrenOfThisNode(!refreshing);
     }
 
     /**
@@ -85,7 +88,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
 
             cached = true;
 
-        } catch (JargonException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(IRODSNode.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("error occurred accessing collection data", ex);
         } finally {

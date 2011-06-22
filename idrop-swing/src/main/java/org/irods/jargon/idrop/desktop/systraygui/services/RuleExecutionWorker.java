@@ -50,7 +50,7 @@ public final class RuleExecutionWorker extends SwingWorker  {
     @Override
     protected Object doInBackground() throws Exception {
         log.info("initiating rule execution");
-        IRODSFileService irodsFileService = new IRODSFileService(irodsAccount, idropGui.getIrodsFileSystem());
+        IRODSFileService irodsFileService = new IRODSFileService(irodsAccount, idropGui.getiDropCore().getIrodsFileSystem());
         execResult = irodsFileService.runIRODSRule(RuleLibrary.collectionRule(irodsTargetAbsolutePath));
         return execResult;
     }

@@ -6,6 +6,8 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.io.File;
 import java.util.Properties;
+
+import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.irods.jargon.testutils.IRODSTestSetupUtilities;
 import org.irods.jargon.testutils.TestingPropertiesHelper;
@@ -61,6 +63,6 @@ public class LocalFileSystemModelTest {
         File testFile = new File(testFileName);
         LocalFileNode localFileNode = new LocalFileNode(testFile);
         LocalFileSystemModel localFileSystemModel = new LocalFileSystemModel(localFileNode);
-        TestCase.assertNotNull("null local file system model, could not create", localFileSystemModel);
+        Assert.assertNotNull("null local file system model, could not create", localFileSystemModel);
     }
 }

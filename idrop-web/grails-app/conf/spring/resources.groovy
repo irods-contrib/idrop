@@ -16,4 +16,16 @@ beans = {
 		taggingServiceFactory = ref("taggingServiceFactory")
 	}
 	
+	metadataController(org.irods.mydrop.controller.MetadataController) {
+		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+	}
+	
+	sharingController(org.irods.mydrop.controller.MetadataController) {
+		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+	}
+	
+	idropLiteController(org.irods.mydrop.controller.MetadataController) {
+		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+	}
+	
 }

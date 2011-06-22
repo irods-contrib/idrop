@@ -107,14 +107,16 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
 
         btnOK.setText("OK");
         btnOK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);
             }
         });
@@ -251,7 +253,7 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
                 thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 try {
 
-                    IRODSFileService irodsFileService = new IRODSFileService(idrop.getIrodsAccount(), idrop.getIrodsFileSystem());
+                    IRODSFileService irodsFileService = new IRODSFileService(idrop.getIrodsAccount(), idrop.getiDropCore().getIrodsFileSystem());
                     String newPath = irodsFileService.renameIRODSFileOrDirectory(currentAbsolutePath, txtNewFolder.getText());
                     log.debug("New path:{}", newPath);
                     IRODSFileSystemModel irodsFileSystemModel = (IRODSFileSystemModel) stagingViewTree.getModel();

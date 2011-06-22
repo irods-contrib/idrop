@@ -122,7 +122,8 @@ public class MetadataViewDialog extends javax.swing.JDialog {
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
@@ -130,7 +131,8 @@ public class MetadataViewDialog extends javax.swing.JDialog {
 
         btnOK.setText("OK");
         btnOK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);
             }
         });
@@ -153,9 +155,10 @@ public class MetadataViewDialog extends javax.swing.JDialog {
     private void initializeMetadata() {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
-            public void run() {
+            @Override
+			public void run() {
                 try {
-                    IRODSFileService irodsFileService = new IRODSFileService(irodsAccount, idropGui.getIrodsFileSystem());
+                    IRODSFileService irodsFileService = new IRODSFileService(irodsAccount, idropGui.getiDropCore().getIrodsFileSystem());
                     MetadataTableModel metadataTableModel;
 
                     if (collection) {

@@ -1,8 +1,7 @@
 <head>
 <meta name="layout" content="main" />
 </head>
-<g:renderErrors as="list"></g:renderErrors>
-
+ 
 <div class="box" style="width:300px; margin:0px auto;"><g:form controller="j_spring_security_check"
 	absolute="true" method="post">
 

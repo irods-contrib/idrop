@@ -1,8 +1,8 @@
 /**
-Common functions for iRODS web applications
-
-Author: Mike Conway
-
+ * Common functions for iRODS web applications
+ * 
+ * Author: Mike Conway
+ * 
  */
 var appExceptionVal = "_exception";
 var expiredSessionVal = "You have tried to access a protected area of this application";
@@ -12,59 +12,67 @@ var dataAccessFailure = "dataAccessFailure";
 var timeoutHeaderValue = "apptimeout";
 var javascriptMessageArea = "#javascript_message_area";
 var context = "";
+var messageClass = "message";
 
 /**
  * Prepare for a call (usually an ajax call) doing things like clearing the
  * message area
  */
-function prepareForCall() {
-	// clear the default javascript message area
-	$(javascriptMessageArea).html();
+function lcPrepareForCall() {
+	lcClearMessage();
 }
 
 function checkForSessionTimeout(data, xhr) {
 	var headers = xhr.getAllResponseHeaders();
 	if (headers.indexOf(timeoutHeaderValue) > -1) {
 		window.location = context;
+		return false;
+	} else {
+		return true;
 	}
-	
+
 }
 
 /**
- * FIXME: remove..this is dumb
- * check HTML coming back from an AJAX call for an indication of an error, and
- * if an error is found, then set the message in the div using the given id.
- * Then the appropriate exception will be thrown.
+ * FIXME: remove..this is dumb check HTML coming back from an AJAX call for an
+ * indication of an error, and if an error is found, then set the message in the
+ * div using the given id. Then the appropriate exception will be thrown.
  * 
- * @param messageAreaId is a jquery selector that will give the div where the
- * message should be displayed
+ * @param messageAreaId
+ *            is a jquery selector that will give the div where the message
+ *            should be displayed
  */
 function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId) {
+
+	// if no message area specified, then do an exception throw
+	if (messageAreaId == null) {
+		checkAjaxREsultForError(resultHtml);
+	}
 
 	if (resultHtml.indexOf(resourceNotFound) > -1) {
 		setMessageInArea(messageAreaId,
 				"Session expired or resource was not found");
-		throw ("resourceNotFound");
+		return false;
 	}
 
 	if (resultHtml.indexOf(uncaughtException) > -1) {
 
 		setMessageInArea(messageAreaId, "An exception has occurred");
-		throw ("uncaughtException");
+		return false;
 	}
 
 	if (resultHtml.indexOf(dataAccessFailure) > -1) {
 
 		setMessageInArea(messageAreaId,
 				"Unable to access, due to expired login or no authorization");
-		throw ("dataAccessError");
+		return false;
 	}
 
 	if (resultHtml.indexOf(expiredSessionVal) > -1) {
 
 		setMessageInArea(messageAreaId,
 				"Unable to access, due to expired login or no authorization");
-		throw ("dataAccessError");
+		return false;
 	}
 
 	if (resultHtml.indexOf(appExceptionVal) > -1) {
@@ -72,8 +80,8 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
 		exceptionStart = resultHtml.indexOf("_exception") + 12;
 		exceptionEnd = resultHtml.indexOf("<", exceptionStart);
 		errorFromApp = resultHtml.substring(exceptionStart, exceptionEnd);
-		setMessage(errorFromApp);
-		throw ("appException");
+		setMessageInArea(messageId, errorFromApp);
+		return false;
 	}
 
 }
@@ -86,6 +94,8 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
  */
 function setMessageInArea(messageAreaId, message) {
 	$(messageAreaId).html(message);
+	$(messageAreaId).addClass(messageClass);
+
 }
 /**
  * Set the default message area message to a given string. The target will be a
@@ -94,7 +104,20 @@ function setMessageInArea(messageAreaId, message) {
  * message: the text message to display
  */
 function setMessage(message) {
-	$(javascriptMessageArea).html(message);
+	if (message == null || message.length == 0) {
+		$(javascriptMessageArea).html("");
+		$(javascriptMessageArea).removeClass();
+	} else {
+		$(javascriptMessageArea).html(message);
+		$(javascriptMessageArea).addClass(messageClass);
+	}
+}
+
+/**
+ * Clear global javascript message area
+ */
+function lcClearMessage() {
+	setMessage();
 }
 
 /**
@@ -102,6 +125,8 @@ function setMessage(message) {
  * of errors, set the message, and throw an appropriate exception.
  */
 function checkAjaxResultForError(resultHtml) {
+
+	setMessage("");
 
 	if (resultHtml.indexOf(resourceNotFound) > -1) {
 		setMessage("Session expired or resource was not found");
@@ -134,27 +159,35 @@ function checkAjaxResultForError(resultHtml) {
 		setMessage(errorFromApp);
 		throw ("appException");
 	}
+
+	setMessage("An error occurred processing your request");
 }
 
 /**
  * Send a query via ajax that results in an HTML table to be displayed as a
  * JQuery data table
  * 
- * @param getUrl - url for ajax call as GET, context will be pre-pended, supply the leading '/'
+ * @param getUrl -
+ *            url for ajax call as GET, context will be pre-pended, supply the
+ *            leading '/'
  * 
- * @param params - map of parameters to add to the get
+ * @param params -
+ *            map of parameters to add to the get
  * 
- * @param tableDiv - selector for the div where the table HTML response will be
- * placed
+ * @param tableDiv -
+ *            selector for the div where the table HTML response will be placed
  * 
- * @param newTableId - id for the new table
+ * @param newTableId -
+ *            id for the new table
  * 
- * @param detailsFunction - function pointer for click event handler to be
- * attached to each table node
+ * @param detailsFunction -
+ *            function pointer for click event handler to be attached to each
+ *            table node
  */
-function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId, detailsFunction) {
+function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
+		detailsFunction) {
 
-	prepareForCall();
+	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 	}
@@ -167,21 +200,18 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId, detailsF
 	try {
 
 		$.get(context + getUrl, params, function(data, status, xhr) {
-			checkForSessionTimeout(data, xhr);
-			lcBuildTable(data, tableDiv, newTableId, detailsFunction);
+			var continueReq = checkForSessionTimeout(data, xhr);
+			if (continueReq) {
+				lcBuildTable(data, tableDiv, newTableId, detailsFunction);
+			}
 		}, "html");
-
-		$(tableDiv).ajaxError(function(e, xhr, settings, exception) {
-			$(tableDiv).html("");
-			checkAjaxResultForError(xhr.responseText);
-		});
 
 	} catch (err) {
 		// FIXME: console traces are not good for IE - mcc
 		// console.trace();
 		$(tableDiv).html(""); // FIXME: some sort of error icon?
 		setMessage(err);
-		console.log("javascript error:" + err);
+		// console.log("javascript error:" + err);
 	}
 
 }
@@ -189,28 +219,63 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId, detailsF
 /**
  * Function called by ajax action as response handler. Builds the data table
  * 
- * @param data - results from ajax call in | delimited format for parsing @param
- * tableDiv - id for div that will hold the table results after the ajax call
- * @param newTableId - id to be given to the table, used to set it to a data
- * table @param detailsFunction - function to be processed against each node of
- * the table if detail icons are to be setup @return - DataTable that was
- * created
+ * @param data -
+ *            results from ajax call in | delimited format for parsing
+ * @param tableDiv -
+ *            id for div that will hold the table results after the ajax call
+ * @param newTableId -
+ *            id to be given to the table, used to set it to a data table
+ * @param detailsFunction -
+ *            function to be processed against each node of the table if detail
+ *            icons are to be setup
+ * @return - DataTable that was created
  */
-function lcBuildTable(data, tableDiv, newTableId, detailsFunction) {
+function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
+		dataIconSelector) {
 	$(tableDiv).html(data);
 	var dataTableCreated = $(newTableId).dataTable({
-			"bJQueryUI": true
-});
+		"bJQueryUI" : true
+	});
 
 	if (detailsFunction != null) {
-		$('.detail_icon', dataTableCreated.fnGetNodes()).each(detailsFunction);
+		$(dataIconSelector, dataTableCreated.fnGetNodes())
+				.each(detailsFunction);
 	}
 
 }
 
 /**
- * Close table nodes when using +/- details icon 
- * @param dataTable - reference to jquery dataTable (not a selector, the table)
+ * Given a table structure in an existing DOM, build a table based on a JQuery
+ * selector, assigning it a function that can be called when a given selector is
+ * clicked. This is useful for cases where tables are expanded based on click
+ * 
+ * @param newTableId
+ * @param detailsFunction
+ * @param dataIconSelector
+ */
+function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector) {
+	var dataTableCreated = $(newTableId).dataTable({
+		"bJQueryUI" : true
+	});
+
+	if (detailsFunction != null) {
+		$(dataIconSelector, dataTableCreated.fnGetNodes()).each(function() {
+			$(this).click(function() {
+				detailsFunction(this);
+			});
+		});
+
+	}
+
+	return dataTableCreated;
+
+}
+
+/**
+ * Close table nodes when using +/- details icon
+ * 
+ * @param dataTable -
+ *            reference to jquery dataTable (not a selector, the table)
  */
 function lcCloseTableNodes(dataTable) {
 	$(dataTable.fnGetNodes()).each(function() {
@@ -225,10 +290,13 @@ function lcCloseTableNodes(dataTable) {
 }
 
 /**
- * close an individual details node on a data table 
- *  @param - minMaxIcon - icon as styled by the jquery ui css class
- *  @param - rowActionIsOn - selected node to close 
- *  @dataTable - reference to JQuery dataTable
+ * close an individual details node on a data table
+ * 
+ * @param -
+ *            minMaxIcon - icon as styled by the jquery ui css class
+ * @param -
+ *            rowActionIsOn - selected node to close
+ * @dataTable - reference to JQuery dataTable
  */
 function lcCloseDetails(minMaxIcon, rowActionIsOn, dataTable) {
 	/* This row is already open - close it */
@@ -242,7 +310,7 @@ function lcCloseDetails(minMaxIcon, rowActionIsOn, dataTable) {
 function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 		postLoadFunction) {
 
-	prepareForCall();
+	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 	}
@@ -255,13 +323,16 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 	try {
 
 		$.get(getUrl, function(data, status, xhr) {
-			checkForSessionTimeout(data, xhr);
-			lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
-		}, "html");
+			var continueReq = checkForSessionTimeout(data, xhr);
+			if (continueReq) {
+				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
+			}
 
-		$(resultDiv).ajaxError(function(e, xhr, settings, exception) {
-			$(resultDiv).html("");
-			checkAjaxResultForError(xhr.responseText);
+		}, "html").error(function() {
+			// TODO: default message put into area
+			resultDiv.html("");
+			setMessage("unable to load data");
+			// alert("error loading");
 		});
 
 	} catch (err) {
@@ -269,7 +340,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 		// console.trace();
 		$(resultDiv).html(""); // FIXME: some sort of error icon?
 		setMessage(err);
-		console.log("javascript error:" + err);
+		// console.log("javascript error:" + err);
 	}
 
 }
@@ -277,29 +348,28 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 /**
  * Send a query via ajax that results in html plugged into the correct div
  */
-function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv, context,
+function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 		postLoadFunction) {
 
-	prepareForCall();
+	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 	}
 
 	var img = document.createElement('IMG');
-	img.setAttribute("src", +context + "/images/ajax-loader.gif");
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
 
 	$(resultDiv).html(img);
 
 	try {
 
-		$.get(getUrl, params, function(data, status, xhr) {
-			checkForSessionTimeout(data, xhr);
-			lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
-		}, "html");
-
-		$(resultDiv).ajaxError(function(e, xhr, settings, exception) {
-			$(resultDiv).html("");
-			checkAjaxResultForError(xhr.responseText);
+		$.get(context + getUrl, params, function(data, status, xhr) {
+			var continueReq = checkForSessionTimeout(data, xhr);
+			if (continueReq) {
+				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
+			}
+		}, "html").error(function() {
+			setMessage("Error in request");
 		});
 
 	} catch (err) {
@@ -307,20 +377,22 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv, contex
 		// console.trace();
 		$(resultDiv).html(""); // FIXME: some sort of error icon?
 		setMessage(err);
-		console.log("javascript error:" + err);
+		// console.log("javascript error:" + err);
 	}
 
 }
 
 /**
- * Send a query via ajax GET request that results in html plugged into the correct div
+ * Send a query via ajax GET request that results in html plugged into the
+ * correct div
  */
 function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 		divForLoadingGif, callbackFunction) {
 
-	prepareForCall();
+	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
+		return;
 	}
 
 	var img = document.createElement('IMG');
@@ -331,42 +403,52 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 	try {
 
 		$.get(context + getUrl, function(data, status, xhr) {
-			checkForSessionTimeout(data, xhr);
-			$(divForLoadingGif).html("");
-			if (callbackFunction != null) {
-				var myHtml = data;
-				callbackFunction(myHtml);
-			} else {
-				$(divForLoadingGif).html(data);
+			var continueReq = checkForSessionTimeout(data, xhr);
+			if (continueReq) {
+				$(divForLoadingGif).html("");
+				if (callbackFunction != null) {
+					var myHtml = data;
+					callbackFunction(myHtml);
+				} else {
+					$(divForLoadingGif).html(data);
+				}
 			}
-		}, "html");
-
-		$(divForAjaxError).ajaxError(function(e, xhr, settings, exception) {
+		}, "html").error(function() {
+			
 			$(divForLoadingGif).html("");
-			checkAjaxResultForError(xhr.responseText);
+			setMessage("unable to load data");
+			// alert("error loading");
 		});
 
 	} catch (err) {
 		$(divForLoadingGif).html(""); // FIXME: some sort of error icon?
 		setMessage(err);
-		console.log("javascript error:" + err);
+		// console.log("javascript error:" + err);
 	}
 
 }
 
-
 /**
- * Send a query via ajax POST request that results in html plugged into the correct div
- * @param postURL url String (sans web context, which is automatically appended) for the POST action
- * @param params map with name/value params for the post data
- * @param divForAjaxError JQuery selector for a DIV to display any Ajax error
- * @param divForLoadingGif JQuery selector for a DIV in which to display a loading GIF, and then any response data
- * @param callbackFunction optional function reference that will receive a callback
+ * Send a query via ajax POST request that results in html plugged into the
+ * correct div
+ * 
+ * @param postURL
+ *            url String (sans web context, which is automatically appended) for
+ *            the POST action
+ * @param params
+ *            map with name/value params for the post data
+ * @param divForAjaxError
+ *            JQuery selector for a DIV to display any Ajax error
+ * @param divForLoadingGif
+ *            JQuery selector for a DIV in which to display a loading GIF, and
+ *            then any response data
+ * @param callbackFunction
+ *            optional function reference that will receive a callback
  */
-function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params, divForAjaxError,
-		divForLoadingGif, callbackFunction) {
+function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
+		divForAjaxError, divForLoadingGif, callbackFunction) {
 
-	prepareForCall();
+	lcPrepareForCall();
 	if (postUrl.length == 0) {
 		throw ("no post url for call");
 	}
@@ -379,25 +461,36 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params, divFo
 	try {
 
 		$.post(context + postUrl, params, function(data, status, xhr) {
-			checkForSessionTimeout(data, xhr);
-			$(divForLoadingGif).html("");
-			if (callbackFunction != null) {
-				var myHtml = data;
-				callbackFunction(myHtml);
-			} else {
-				$(divForLoadingGif).html(data);
+			var continueReq = checkForSessionTimeout(data, xhr);
+			if (continueReq) {
+				$(divForLoadingGif).html("");
+				if (callbackFunction != null) {
+					var myHtml = data;
+					callbackFunction(myHtml);
+				} else {
+					$(divForLoadingGif).html(data);
+				}
 			}
-		}, "html");
+		}, "html").error(function() {
+			if (divForLoadingGif != null) {
+				$(divForLoadingGif).html("");
+			}
+			if (divForAjaxError != null) {
+				//alert("error in callback sending back for divForAjaxError");
+				setMessageInArea(divForAjaxError, "An error occurred");
+			} else {
+				setMessage("An error occurred");
+			}
 
-		$(divForAjaxError).ajaxError(function(e, xhr, settings, exception) {
-			$(divForLoadingGif).html("");
-			checkAjaxResultForError(xhr.responseText);
+			
+
 		});
 
 	} catch (err) {
+		alert("error caught:" + err);
 		$(divForLoadingGif).html(""); // FIXME: some sort of error icon?
 		setMessage(err);
-		console.log("javascript error:" + err);
+		// console.log("javascript error:" + err);
 	}
 
 }
@@ -409,7 +502,7 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params, divFo
 function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
 		divForAjaxError, callbackFunction) {
 
-	prepareForCall();
+	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 	}
@@ -417,17 +510,25 @@ function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
 	try {
 
 		$.get(context + getUrl, parms, function(data, status, xhr) {
-			checkForSessionTimeout(data, xhr);
-			callbackFunction(data);
-		}, "json");
+			var continueReq = checkForSessionTimeout(data, xhr);
+			if (continueReq) {
+				callbackFunction(data);
+			}
+		}, "json").error(function() {
+			if (divForAjaxError != null) {
+				setMessageInArea(divForAjaxError, "An error occurred");
+			} else {
+				setMessage("An error occurred");
+			}
 
-		$(divForAjaxError).ajaxError(function(e, xhr, settings, exception) {
-			checkAjaxResultForError(xhr.responseText);
+			if (divForLoadingGif != null) {
+				$(divForLoadingGif).html("");
+			}
+
 		});
-
 	} catch (err) {
 		setMessage(err);
-		console.log("javascript error:" + err);
+		// console.log("javascript error:" + err);
 	}
 
 }
@@ -438,4 +539,54 @@ function lcFillInDivWithHtml(data, resultDiv, postLoadFunction) {
 		postLoadFunction(data);
 	}
 
+}
+
+/**
+ * Handy method to show a loading icon in the div specified by the given JQuery
+ * selector
+ * 
+ * @param divSelector
+ */
+function lcShowBusyIconInDiv(divSelector) {
+	lcClearDivAndDivClass(divSelector);
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
+
+	$(divSelector).html(img);
+}
+
+/**
+ * Handy method to clear a div specified by the given JQuery selector, including
+ * removing any class set
+ * 
+ * @param divSelector
+ */
+function lcClearDivAndDivClass(divSelector) {
+	$(divSelector).removeClass();
+	$(divSelector).html("");
+}
+
+/**
+ * Handy method to set a message of a message class in the div specified by the
+ * given JQuery selector
+ * 
+ * @param divSelector
+ */
+function lcSetMessageWithMessageClass(divSelector, message) {
+	lcClearDivAndDivClass(divSelector);
+	$(divSelector).html(message);
+	$(divSelector).addClass(messageClass);
+}
+
+/**
+ * Handy method to show a loading icon in the div specified by the given JQuery
+ * selector
+ * 
+ * @param divSelector
+ */
+function lcShowLoaderBarIconInDiv(divSelector) {
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader-bar.gif");
+
+	$(divSelector).html(img);
 }

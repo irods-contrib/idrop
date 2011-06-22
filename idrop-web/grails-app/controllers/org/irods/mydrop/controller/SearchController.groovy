@@ -9,7 +9,6 @@ import org.irods.jargon.usertagging.domain.TagQuerySearchResult
 import org.springframework.security.core.context.SecurityContextHolder
 import org.irods.jargon.usertagging.TaggingServiceFactory
 
-
 class SearchController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory

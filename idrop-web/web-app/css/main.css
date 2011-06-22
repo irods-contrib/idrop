@@ -29,7 +29,7 @@ ul {
 
 /* form styling */
 div.box {
-	background: none repeat scroll 0 0 #AABBC2;
+	background: none repeat scroll 0 0 #DDDDDD;
 	border: 1px solid #C6CFE1;
 	color: #333333;
 	margin-bottom: 20px;
@@ -64,21 +64,27 @@ div.scroll {
 }
 
 div#tabs {
-	overflow: auto;
-	width: 100%;
+	/*width: 100%;
+	height: 100%;
 	display: inline-block;
-	}
+	clear: both;*/
+	clear: both;
+	overflow; auto;
+	display: block;
+	position: relative;
+}
 
+/*
 .wrapper {
 	text-align: left;
 	margin: 0px auto;
 	padding: 0px;
 	border: 0;
-	width: 850px;
 	display: inline-block;
-	overflow: auto;
-	
-}
+	position: relative;
+	width: auto;
+	height: auto;
+}*/
 
 .colRight {
 	position: relative;
@@ -112,7 +118,6 @@ div#tabs {
 	display: block;
 }
 
-
 .body {
 	float: left;
 	margin: 0 15px 10px 15px;
@@ -131,23 +136,45 @@ div#tabs {
 }
 
 #headerSearchBox {
-	width: 800px;
-	height: 40px;
-	padding: 0;
-	margin-left: auto;
-	margin-right: auto;
-	display: inline-block;
-	position:relative;
-	float:right;
+	width: 100%;
+	height: auto;
+	margin: 5px;
+	display: block;
+	position: relative;
+	float: left;
+}
+
+#mainDivColl {
+	clear:both;
+	width: auto;
+	height: auto;
+	position: relative;
 }
 
 /* NAVIGATION MENU */
 .nav {
-	background: #A16A51 url(../images/skin/shadow.jpg) bottom repeat-x;
+	background: #aabbc2 bottom repeat-x;
 	border: 1px solid #ccc;
 	border-style: solid none solid none;
 	margin-top: 5px;
 	padding: 7px 12px;
+}
+
+.fg-toolbar {
+	padding: .5em;
+	margin: 0;
+	display: block;
+	clear: both;
+	
+}
+
+.fg-toolbar .fg-buttonset {
+	margin-right: 1.5em;
+	padding-left: 1px;
+}
+
+.fg-toolbar .fg-button {
+	font-size: 1em;
 }
 
 .menuButton {
@@ -185,7 +212,12 @@ div#tabs {
 	border: 1px solid #b2d1ff;
 	color: #fff;
 	margin: 10px 0 5px 0;
-	padding: 5px 5px 5px 30px
+	padding: 5px 5px 5px 30px;
+	display:block;
+	overflow:auto;
+	width:100%;
+	height:55px;
+	position:relative;
 }
 
 div.errors {
@@ -227,12 +259,13 @@ table {
 
 tr {
 	border: 0;
+	padding: 8px;
 }
 
 td,th {
-	font: 11px verdana, arial, helvetica, sans-serif;
-	line-height: 12px;
-	padding: 5px 6px;
+	font: 14px verdana, arial, helvetica, sans-serif;
+	line-height: 14px;
+	padding: 8px;
 	text-align: left;
 	vertical-align: top;
 }
@@ -300,22 +333,42 @@ th.desc a {
 	padding: 2px 6px;
 }
 
+#quickView {
+	background: none repeat scroll 0 0 #FFFFFF;
+	color: #333333;
+	margin-bottom: 3px;
+	padding: 3px;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: auto;
+}
 /* object container */
 .objectContainer {
-	background: none repeat scroll 0 0 #B0BDC2;
-	border-top: 1px solid #685A68;
 	color: #333333;
-	margin-bottom: 20px;
-	padding: 10px;
+	dislay: inline-block;
+	clear: both;
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	-moz-border-radius-bottomleft: 8pt;
+	-moz-border-radius-bottomright: 8pt;
+	-moz-border-radius-topleft: 8pt;
+	-moz-border-radius-topright: 8pt;
+	background: #FFFFFF none repeat scroll 0 0;
+	border: 3px solid #000000;
+	cursor: default;
+	padding: 3px;
+	margin: 3px;
+	display: inline-block;
 }
 
 .objectContainerGrouping {
-	border-top: 1px solid #E9E9E9;
 	color: #999999;
 	font-weight: normal;
 	left: -5em;
 	padding-top: 9px;
-	position: absolute;
+	position: relative;
 	text-align: left;
 	top: -1px;
 	width: 5em;
@@ -324,13 +377,15 @@ th.desc a {
 .objectContainerDetails {
 	float: right;
 	text-align: left;
+	display: inline-block;
 }
 
 .objectHeader {
-	color: #210021;
-	font-weight: normal;
-	font-size: 16px;
-	margin: .8em 0 .3em 0;
+	display: block;
+	fload: left;
+	margin-bottom: 10px;
+	color: #555555;
+	margin-bottom: 10px;
 }
 
 .objectDescription {
@@ -346,6 +401,11 @@ th.desc a {
 	padding: 10px;
 }
 
+.objectContainerTags {
+	display: block;
+	float: right;
+	padding: 10px;
+}
 
 /* standard form layouts */
 #columnarForm fieldset {
@@ -372,6 +432,12 @@ th.desc a {
 }
 
 #columnarForm input {
+	display: block;
+	width: 15em;
+}
+
+
+#columnarForm textarea {
 	display: block;
 	width: 15em;
 }
@@ -411,6 +477,12 @@ th.desc a {
 }
 
 #horizontalForm input {
+	display: block;
+	width: 15em;
+}
+
+
+#horizontalForm textarea {
 	display: block;
 	width: 15em;
 }
@@ -471,6 +543,14 @@ th.desc a {
 	display: block;
 }
 
+
+#marginForm textarea {
+	position: relative;
+	top: -1.4em;
+	left: 8em;
+	display: block;
+}
+
 #marginForm input.submit {
 	clear: both;
 	top: 0;
@@ -523,6 +603,12 @@ th.desc a {
 	width: 20em;
 }
 
+
+#verticalForm textarea {
+	display: block;
+	width: 20em;
+}
+
 #verticalForm label {
 	display: block;
 	margin-bottom: 1em;
@@ -535,4 +621,78 @@ th.desc a {
 
 #verticalForm select {
 	display: block;
+}
+
+/* details section */
+#detailsTopSection {
+	display: block;
+	clear: both;
+}
+
+/*  browser */
+/*
+#browse {
+	background: #ffffff;
+	padding: 0;
+	height: 95%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+} */
+
+#secondaryDiv {
+	height: 400px;
+	display: inline-block; //
+	overflow: auto;
+}
+
+#tagCloudDiv {
+	height: 400px;
+	display: inline-block;
+	width: 100%;
+	overflow: auto;
+}
+
+#dataTreeDiv {
+	float: left;
+	height: auto;
+	width: auto;
+	border-top: solid 1px #9cbdff;
+	background: #ffffff;
+	overflow: auto;
+}
+
+
+#dataTreeView {
+	height: 90%;
+	width: 100%;
+	clear: both;
+	/*background: #ffffff;
+	overflow: auto;*/
+}
+
+
+
+#infoDiv {
+	float: right;
+	width: auto;
+	/*height: 100%;*/
+	/*background: #f4f4f4;*/
+}
+
+#detailsToolbar {
+	text-align: left;
+	height:25px;
+	margin: 0px auto;
+	padding: 0px;
+	border: 0;
+	display: inline-block;
+	overflow: auto;
+	width:100%;
+}
+
+
+/* file upload dialog */
+#file_upload_container {
+	margin: 5px;
 }

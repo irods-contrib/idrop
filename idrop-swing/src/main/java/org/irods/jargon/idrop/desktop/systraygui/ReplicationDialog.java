@@ -61,7 +61,7 @@ public class ReplicationDialog extends javax.swing.JDialog {
         if (isFile) {
             IRODSFileService irodsFileService;
             try {
-                irodsFileService = new IRODSFileService(idropParentGui.getIrodsAccount(), idropParentGui.getIrodsFileSystem());
+                irodsFileService = new IRODSFileService(idropParentGui.getIrodsAccount(), idropParentGui.getiDropCore().getIrodsFileSystem());
                 currentResources = irodsFileService.getResourcesForDataObject(seriesAbsolutePath, fileName);
             }
             catch (IdropException ex) {
@@ -106,7 +106,8 @@ public class ReplicationDialog extends javax.swing.JDialog {
 
         btnOK.setText("OK");
         btnOK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);
             }
         });
@@ -114,7 +115,8 @@ public class ReplicationDialog extends javax.swing.JDialog {
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
@@ -135,7 +137,8 @@ public class ReplicationDialog extends javax.swing.JDialog {
         btnReplicate.setText("Replicate");
         btnReplicate.setToolTipText("Replicate the given file to selected resources");
         btnReplicate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReplicateActionPerformed(evt);
             }
         });
@@ -191,11 +194,11 @@ public class ReplicationDialog extends javax.swing.JDialog {
                         sb.append("/");
                         sb.append(fileName);
                         replicatedCount++;
-                        idropParentGui.getTransferManager().enqueueAReplicate(sb.toString(), checkBox.getText(), idropParentGui.getIrodsAccount());
+                        idropParentGui.getiDropCore().getTransferManager().enqueueAReplicate(sb.toString(), checkBox.getText(), idropParentGui.getIrodsAccount());
                     } else if (!isFile) {
                         log.info("this is a collection, do the replication");
                         replicatedCount++;
-                        idropParentGui.getTransferManager().enqueueAReplicate(seriesAbsolutePath, checkBox.getText(), idropParentGui.getIrodsAccount());
+                        idropParentGui.getiDropCore().getTransferManager().enqueueAReplicate(seriesAbsolutePath, checkBox.getText(), idropParentGui.getIrodsAccount());
 
                     }
                 }
@@ -212,7 +215,8 @@ public class ReplicationDialog extends javax.swing.JDialog {
         // now dispose
         java.awt.EventQueue.invokeLater(new Runnable() {
 
-            public void run() {
+            @Override
+			public void run() {
                 if (replicationsDone > 0) {
                     idropParentGui.showMessageFromOperation("Replication has been placed into the queue for processing");
                 } else {
@@ -231,9 +235,10 @@ public class ReplicationDialog extends javax.swing.JDialog {
     private void setUpDialog() {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
-            public void run() {
+            @Override
+			public void run() {
                 try {
-                    IRODSFileService irodsFileService = new IRODSFileService(idropParentGui.getIrodsAccount(), idropParentGui.getIrodsFileSystem());
+                    IRODSFileService irodsFileService = new IRODSFileService(idropParentGui.getIrodsAccount(), idropParentGui.getiDropCore().getIrodsFileSystem());
                     List<Resource> resources = irodsFileService.getResources();
                     boxes = new ArrayList<JCheckBox>();
 

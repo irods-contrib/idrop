@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import org.irods.jargon.idrop.exceptions.IdropException;
-import org.irods.jargon.testutils.TestingUtilsException;
 
 /**
  * Help accessing iDrop configuration properties
@@ -22,6 +21,7 @@ public class IdropPropertiesHelper {
     public static final String ADVANCED_VIEW_PROPERTY = "advanced.view";
     public static final String TRANSFER_DATABASE_NAME = "transfer.database";
     public static final String ROLLING_LOG_LEVEL = "rolling.log.level";
+    public static final String SYNCH_DEVICE_NAME = "synch.device.name";
 
     /**
      * Load the default iDrop poperties file

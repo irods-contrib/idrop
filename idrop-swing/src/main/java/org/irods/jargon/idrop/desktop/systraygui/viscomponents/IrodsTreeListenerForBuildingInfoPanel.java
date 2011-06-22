@@ -9,8 +9,6 @@ import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.TreePath;
-import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.domain.Collection;
@@ -45,12 +43,14 @@ public class IrodsTreeListenerForBuildingInfoPanel implements TreeSelectionListe
 
     @Override
     public void valueChanged(TreeSelectionEvent e) {
+//FIXME: reimplement
 
-
+        /*
         if (!(idrop.getIrodsTree().getLastSelectedPathComponent() instanceof IRODSNode)) {
             log.info("last selected is not a Node");
             return;
         }
+        
 
         final IRODSNode node = (IRODSNode) idrop.getIrodsTree().getLastSelectedPathComponent();
         try {
@@ -60,6 +60,9 @@ public class IrodsTreeListenerForBuildingInfoPanel implements TreeSelectionListe
             throw new IdropRuntimeException("exception processing valueChanged() event for IRODSNode selection");
         }
 
+         *  * 
+         */
+         
     }
 
     @Override
@@ -107,7 +110,7 @@ public class IrodsTreeListenerForBuildingInfoPanel implements TreeSelectionListe
         try {
             CollectionAndDataObjectListingEntry collectionAndDataObjectListingEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
             log.info("will be getting a data object based on entry in IRODSNode:{}", irodsNode);
-            DataObjectAO dataObjectAO = idrop.getIrodsFileSystem().getIRODSAccessObjectFactory().getDataObjectAO(idrop.getIrodsAccount());
+            DataObjectAO dataObjectAO = idrop.getiDropCore().getIRODSAccessObjectFactory().getDataObjectAO(idrop.getIrodsAccount());
             DataObject dataObject = dataObjectAO.findByCollectionNameAndDataName(collectionAndDataObjectListingEntry.getParentPath(), collectionAndDataObjectListingEntry.getPathOrName());
             idrop.initializeInfoPanel(dataObject);
         } catch (Exception e) {
@@ -124,7 +127,7 @@ public class IrodsTreeListenerForBuildingInfoPanel implements TreeSelectionListe
          try {
             CollectionAndDataObjectListingEntry collectionAndDataObjectListingEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
             log.info("will be getting a collection based on entry in IRODSNode:{}", irodsNode);
-            CollectionAO collectionAO = idrop.getIrodsFileSystem().getIRODSAccessObjectFactory().getCollectionAO(idrop.getIrodsAccount());
+            CollectionAO collectionAO = idrop.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idrop.getIrodsAccount());
             Collection collection = collectionAO.findByAbsolutePath(collectionAndDataObjectListingEntry.getPathOrName());
             idrop.initializeInfoPanel(collection);
         } catch (Exception e) {

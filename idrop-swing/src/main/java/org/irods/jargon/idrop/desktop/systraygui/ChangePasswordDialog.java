@@ -60,7 +60,8 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         setMinimumSize(new java.awt.Dimension(551, 400));
 
         tabPreferences.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            @Override
+			public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 tabPreferencesStateChanged(evt);
             }
         });
@@ -109,7 +110,8 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         btnUpdatePassword.setText("Update Password");
         btnUpdatePassword.setToolTipText("Change the current password to the new values");
         btnUpdatePassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdatePasswordActionPerformed(evt);
             }
         });
@@ -167,7 +169,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         try {
             log.info("check queue for any jobs for the account, these have the old password.");
             IRODSAccount irodsAccount = idrop.getIrodsAccount();
-            List<LocalIRODSTransfer> recentQueue = idrop.getTransferManager().getRecentQueue();
+            List<LocalIRODSTransfer> recentQueue = idrop.getiDropCore().getTransferManager().getRecentQueue();
             for (LocalIRODSTransfer localIRODSTransfer : recentQueue) {
                 if (localIRODSTransfer.getTransferHost().equals(irodsAccount.getHost())
                         && localIRODSTransfer.getTransferZone().equals(irodsAccount.getZone())
@@ -181,7 +183,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                     // }
                 }
             }
-            UserAO userAO = idrop.getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(idrop.getIrodsAccount());
+            UserAO userAO = idrop.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(idrop.getIrodsAccount());
             userAO.changeAUserPasswordByThatUser(irodsAccount.getUserName(), irodsAccount.getPassword(), newPassword);
             log.info("password changed, resetting iRODS Account");
             IRODSAccount newAccount = new IRODSAccount(
@@ -201,7 +203,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         } catch (JargonException ex) {
             Logger.getLogger(ChangePasswordDialog.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            idrop.getIrodsFileSystem().closeAndEatExceptions(idrop.getIrodsAccount());
+            idrop.getiDropCore().closeIRODSConnection(idrop.getiDropCore().getIrodsAccount());
         }
     }//GEN-LAST:event_btnUpdatePasswordActionPerformed
 
