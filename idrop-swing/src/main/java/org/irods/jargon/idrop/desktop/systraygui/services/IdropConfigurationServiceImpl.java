@@ -3,10 +3,10 @@ package org.irods.jargon.idrop.desktop.systraygui.services;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -16,16 +16,20 @@ import org.irods.jargon.transfer.engine.ConfigurationService;
 import org.slf4j.LoggerFactory;
 
 /**
- * Manage configuration information.  This service will initialize and manage configuration information from iDrop
+ * Manage configuration information. This service will initialize and manage configuration information from iDrop
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IdropConfigurationServiceImpl implements IdropConfigurationService {
 
     private final String idropConfigRootDirectoryAbsolutePath;
+
     private final ConfigurationService configurationService;
+
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(IdropConfigurationServiceImpl.class);
 
-    public IdropConfigurationServiceImpl(final String idropConfigRootDirectoryAbsolutePath) throws IdropAlreadyRunningException, IdropException {
+    public IdropConfigurationServiceImpl(final String idropConfigRootDirectoryAbsolutePath)
+            throws IdropAlreadyRunningException, IdropException {
 
         if (idropConfigRootDirectoryAbsolutePath == null) {
             throw new IllegalArgumentException("idropConfigRootDirectoryAbsolutePath is null");
@@ -57,7 +61,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 
         } catch (Exception ex) {
             Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-   if (ex.getMessage().indexOf("Could not open Hibernate Session") != -1) {
+            if (ex.getMessage().indexOf("Could not open Hibernate Session") != -1) {
                 throw new IdropAlreadyRunningException("iDrop is already running, or the iDrop database is in use");
             } else {
                 throw new IdropException(ex);
@@ -84,7 +88,8 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 
     /**
      * Save the database configuration information to a properties file
-     * @throws IdropException 
+     * 
+     * @throws IdropException
      */
     @Override
     public void saveConfigurationToPropertiesFile() throws IdropException {
@@ -107,8 +112,9 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 
     /**
      * In cases where there are no database properties, attempt to import them from a file in the .idrop directory
+     * 
      * @return
-     * @throws IdropException 
+     * @throws IdropException
      */
     private Properties importPropertiesFromPropertiesFile() throws IdropException {
         log.info("importPropertiesFromPropertiesFile()");
