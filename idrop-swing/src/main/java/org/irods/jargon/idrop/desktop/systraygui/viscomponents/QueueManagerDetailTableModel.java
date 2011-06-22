@@ -10,12 +10,12 @@ import org.irods.jargon.transfer.dao.domain.LocalIRODSTransferItem;
 
 /**
  * Model for a table viewing queue detail data
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class QueueManagerDetailTableModel extends AbstractTableModel {
 
-        private final List<LocalIRODSTransferItem>  localIRODSTransferItems;
-
+    private final List<LocalIRODSTransferItem> localIRODSTransferItems;
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
@@ -23,7 +23,6 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
-
 
         // translate indexes to object values
 
@@ -45,7 +44,7 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
             return Boolean.class;
         }
 
-       // 3 = source
+        // 3 = source
 
         if (columnIndex == 3) {
             return String.class;
@@ -57,14 +56,12 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
             return String.class;
         }
 
-
         // 5 = date
 
         if (columnIndex == 5) {
             return Date.class;
         }
 
-   
         throw new IdropRuntimeException("unknown column");
     }
 
@@ -74,7 +71,7 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
 
-    // 0 = isError
+        // 0 = isError
 
         if (columnIndex == 0) {
             return "Error";
@@ -92,7 +89,7 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
             return "File";
         }
 
-       // 3 = source
+        // 3 = source
 
         if (columnIndex == 3) {
             return "Source";
@@ -104,13 +101,11 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
             return "Destination";
         }
 
-
         // 5 = date
 
         if (columnIndex == 5) {
             return "Transfer Date";
         }
-
 
         throw new IdropRuntimeException("unknown column");
     }
@@ -149,7 +144,7 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
 
         // translate indexes to object values
 
-       // 0 = isError
+        // 0 = isError
 
         if (columnIndex == 0) {
             return localIRODSTransferItem.isError();
@@ -167,7 +162,7 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
             return localIRODSTransferItem.isFile();
         }
 
-       // 3 = source
+        // 3 = source
 
         if (columnIndex == 3) {
             return localIRODSTransferItem.getSourceFileAbsolutePath();
@@ -178,7 +173,6 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
         if (columnIndex == 4) {
             return localIRODSTransferItem.getTargetFileAbsolutePath();
         }
-
 
         // 5 = date
 
