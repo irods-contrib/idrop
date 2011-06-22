@@ -38,6 +38,17 @@
 	<role>developer</role>
       </roles>
     </developer>
+    <developer>
+      <id>jdr0887</id>
+      <name>Jason Reilly</name>
+      <email>jdr0887@renci.org</email>
+      <url>http://www.renci.org</url>
+      <organization>RENCI</organization>
+      <organizationUrl>http://www.renci.org</organizationUrl>
+      <roles>
+	<role>developer</role>
+      </roles>
+    </developer>
   </developers>
   <repositories>
     <repository>
@@ -49,21 +60,6 @@
       </releases>
       <snapshots>
 	<enabled>true</enabled>
-	<updatePolicy>never</updatePolicy>
-	<checksumPolicy>fail</checksumPolicy>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>jboss</id>
-      <name>jboss.repository</name>
-      <url>http://repository.jboss.com/maven2/</url>
-      <releases>
-	<enabled>true</enabled>
-	<updatePolicy>always</updatePolicy>
-	<checksumPolicy>warn</checksumPolicy>
-      </releases>
-      <snapshots>
-	<enabled>false</enabled>
 	<updatePolicy>never</updatePolicy>
 	<checksumPolicy>fail</checksumPolicy>
       </snapshots>
@@ -81,6 +77,21 @@
 	<enabled>true</enabled>
 	<updatePolicy>always</updatePolicy>
 	<checksumPolicy>warn</checksumPolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>jboss</id>
+      <name>jboss.repository</name>
+      <url>http://repository.jboss.com/maven2/</url>
+      <releases>
+	<enabled>true</enabled>
+	<updatePolicy>always</updatePolicy>
+	<checksumPolicy>warn</checksumPolicy>
+      </releases>
+      <snapshots>
+	<enabled>false</enabled>
+	<updatePolicy>never</updatePolicy>
+	<checksumPolicy>fail</checksumPolicy>
       </snapshots>
     </repository>
   </repositories>
