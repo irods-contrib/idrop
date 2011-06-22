@@ -1,8 +1,6 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
@@ -59,7 +57,7 @@ public class LocalFileNode extends DefaultMutableTreeNode {
     public void insert(MutableTreeNode arg0, int arg1) {
         super.insert(arg0, arg1);
     }
-    
+
     public void forceReloadOfChildrenOfThisNode() {
         cached = false;
         this.removeAllChildren();
@@ -75,7 +73,7 @@ public class LocalFileNode extends DefaultMutableTreeNode {
         } else {
             returnedString = localFile.getName();
         }
-       // log.debug("name for node is: {}", returnedString);
+        // log.debug("name for node is: {}", returnedString);
         return returnedString;
     }
 
