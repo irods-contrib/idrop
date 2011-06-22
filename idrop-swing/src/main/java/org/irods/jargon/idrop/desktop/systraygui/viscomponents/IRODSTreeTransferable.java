@@ -10,23 +10,29 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 import org.slf4j.LoggerFactory;
 
 /**
  * Transferrale coming from the swing tree depicting a remote iRODS file system
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSTreeTransferable implements Transferable {
 
     private List<File> files;
+
     private IRODSTree stagingViewTree;
+
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferable.class);
+
     public static DataFlavor irodsTreeDataFlavor = null;
 
     static {
         try {
 
-            irodsTreeDataFlavor = new DataFlavor(org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferable.class,
+            irodsTreeDataFlavor = new DataFlavor(
+                    org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferable.class,
                     "Local phymove");
         } catch (Exception e) {
             log.error("error creating transferrable", e);
@@ -34,7 +40,7 @@ public class IRODSTreeTransferable implements Transferable {
     }
 
     @Override
-	public String toString() {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("staging view tree transferrable:");
         if (files == null) {
@@ -67,7 +73,7 @@ public class IRODSTreeTransferable implements Transferable {
     @Override
     public DataFlavor[] getTransferDataFlavors() {
         log.debug("getting data flavors from idrop series (will be a list with one iros file for file or collection");
-        return new DataFlavor[]{DataFlavor.javaFileListFlavor, irodsTreeDataFlavor};
+        return new DataFlavor[] { DataFlavor.javaFileListFlavor, irodsTreeDataFlavor };
     }
 
     @Override
@@ -81,7 +87,7 @@ public class IRODSTreeTransferable implements Transferable {
         if (!isDataFlavorSupported(flavor)) {
             throw new UnsupportedFlavorException(flavor);
         }
-        
+
         return files;
     }
 }
