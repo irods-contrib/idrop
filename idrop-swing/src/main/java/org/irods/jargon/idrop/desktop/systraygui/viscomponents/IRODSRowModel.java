@@ -5,6 +5,7 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.Date;
+
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.netbeans.swing.outline.RowModel;
 
@@ -23,7 +24,7 @@ public class IRODSRowModel implements RowModel {
         IRODSNode f = (IRODSNode) node;
         CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) f.getUserObject();
         switch (column) {
-           
+
             case 0:
                 return entry.getDataSize();
             case 1:
@@ -37,7 +38,7 @@ public class IRODSRowModel implements RowModel {
     @Override
     public Class getColumnClass(int i) {
         switch (i) {
-           
+
             case 0:
                 return Long.class;
             case 1:
