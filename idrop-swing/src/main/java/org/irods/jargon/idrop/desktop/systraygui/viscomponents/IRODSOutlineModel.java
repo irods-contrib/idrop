@@ -24,6 +24,7 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.netbeans.swing.outline.DefaultOutlineModel;
 import org.netbeans.swing.outline.RowModel;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -86,12 +87,14 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
         if (transferStatus.getTransferType() == TransferStatus.TransferType.PUT
                 || transferStatus.getTransferType() == TransferStatus.TransferType.COPY) {
             log.info("successful put transfer, find the parent tree node, and clear the children");
-            final IRODSOutlineModel thisOutlineModel = this;
-
+            notifyFileShouldBeAdded(irodsTree, transferStatus.getTargetFileAbsolutePath());
+           // final IRODSOutlineModel thisOutlineModel = this;
+ /*
             java.awt.EventQueue.invokeLater(new Runnable() {
 
                 @Override
                 public void run() {
+                   
                     TreePath containingNodePath;
                     try {
                         containingNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree,
@@ -109,10 +112,7 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                         targetNode = (IRODSNode) targetNode.getParent();
                     }
 
-                    /*
-                     * if the node was cached, children were loaded, so add a new one, otherwise, the expand path in
-                     * irodsTree.highlightPath() will cause the loading of the children
-                     */
+                   
                     if (targetNode.isCached()) {
                         try {
                             IRODSFile addedFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount()
@@ -153,11 +153,15 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
 
                         }
                     }
-
+                   
                     irodsTree.highlightPath(containingNodePath);
+                    
+                  
                 }
             });
 
+        }
+  * */
         }
     }
 
@@ -171,6 +175,27 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
 
                 IRODSFileFactory irodsFileFactory = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
                 try {
+                    try {
+                        // if the node already exists (e.g. an overwrite, don' add it
+                        
+                        TreePath currentPath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, irodsFileAbsolutePath);
+                        // build treePath will return parent if child not found
+                        if (currentPath == null) {
+                            log.warn("null tree path found for:{} logged and ignored as a warning", irodsFileAbsolutePath);
+                            return;
+                        }
+                        IRODSNode irodsNode = (IRODSNode) currentPath.getLastPathComponent();
+                       CollectionAndDataObjectListingEntry lastPathNodeEntry =  (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
+                        if (irodsFileAbsolutePath.equals(lastPathNodeEntry.getFormattedAbsolutePath())) {
+                            log.info("path already exists, do not double-add");
+                            return;
+                        }
+                        
+                    } catch (IdropException ex) {
+                        Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
+                        throw new IdropRuntimeException(ex);
+                    }
+                    
                     IRODSFile addedFile = irodsFileFactory.instanceIRODSFile(irodsFileAbsolutePath);
                     if (!addedFile.exists()) {
                         log.info("looking for file that was added, I don't find it, so just move on: {}",

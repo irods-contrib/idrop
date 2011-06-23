@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Component;
@@ -45,7 +41,8 @@ public class StartupSequencer {
 
     public void doStartupSequence() {
 
-        log.info("initiating startup sequence...");
+
+       log.info("initiating startup sequence...");
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iDrop Client for iRODS");
@@ -176,12 +173,15 @@ public class StartupSequencer {
             List<LocalIRODSTransfer> currentQueue = idropCore.getTransferManager().getCurrentQueue();
 
             if (!currentQueue.isEmpty()) {
+                
+                idropSplashWindow.toBack();
                 int result = JOptionPane.showConfirmDialog((Component) null,
                         "Transfers are waiting to process, restart transfer?", "iDrop Transfers in Progress",
                         JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.CANCEL_OPTION) {
                     idropCore.getTransferManager().pause();
                 }
+                  idropSplashWindow.toFront();
             }
         } catch (JargonException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
