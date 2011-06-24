@@ -26,6 +26,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -35,13 +36,9 @@ import org.slf4j.LoggerFactory;
 public class DeleteIRODSDialog extends javax.swing.JDialog {
 
     private final iDrop idrop;
-
     private final IRODSTree irodsTree;
-
     private final IRODSNode deletedNode;
-
     private final List<IRODSNode> deletedNodes;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(DeleteIRODSDialog.class);
 
     /** Creates new form NewIRODSDirectoryDialog */
@@ -236,7 +233,6 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea txtAreaFileToDelete;
 
     // End of variables declaration//GEN-END:variables
-
     private void processDelete() throws IdropException {
         log.info("delete folder named:{}", txtAreaFileToDelete.getText());
         final DeleteIRODSDialog thisDialog = this;
@@ -255,8 +251,7 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
             throws IdropException {
 
         log.info("node to delete  is: {}", deletedNode);
-        CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) deletedNode
-                .getUserObject();
+        CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) deletedNode.getUserObject();
 
         // dialog uses absolute path, so munge it for files
         StringBuilder sb = new StringBuilder();
@@ -272,9 +267,7 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
         try {
             fileToDelete = irodsFileFactory.instanceIRODSFile(sb.toString());
             fileToDelete.delete();
-            final IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree.getModel();
 
-            irodsFileSystemModel.notifyFileShouldBeRemoved(deletedNode);
         } catch (JargonException ex) {
             Logger.getLogger(DeleteIRODSDialog.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException(ex);
@@ -287,11 +280,8 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
     class DeleteWorker extends SwingWorker<String, Object> {
 
         public static final String DELETE_SUCCESSFUL = "Deletion complete";
-
         public static final String DELETE_ERRORS = "The deletion was not successful";
-
         private DeleteIRODSDialog dialog;
-
         private String message = "";
 
         DeleteWorker(DeleteIRODSDialog dialog) {
@@ -333,6 +323,19 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
         @Override
         protected void done() {
             dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            final IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree.getModel();
+            try {
+                if (deletedNode != null) {
+                    irodsFileSystemModel.notifyFileShouldBeRemoved(deletedNode);
+                } else if (deletedNodes != null) {
+                    for (IRODSNode deletedNode : deletedNodes) {
+                        irodsFileSystemModel.notifyFileShouldBeRemoved(deletedNode);
+                    }
+                }
+            } catch (IdropException ex) {
+                Logger.getLogger(DeleteIRODSDialog.class.getName()).log(Level.SEVERE, null, ex);
+                throw new IdropRuntimeException(ex);
+            }
             dialog.dispose();
             idrop.showMessageFromOperation(message);
         }

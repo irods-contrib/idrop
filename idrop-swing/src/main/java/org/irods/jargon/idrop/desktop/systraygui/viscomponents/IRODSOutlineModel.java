@@ -24,6 +24,7 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.netbeans.swing.outline.DefaultOutlineModel;
 import org.netbeans.swing.outline.RowModel;
+import org.netbeans.swing.outline.TreePathSupport;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -33,41 +34,65 @@ import org.slf4j.LoggerFactory;
 public class IRODSOutlineModel extends DefaultOutlineModel {
 
     public static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSOutlineModel.class);
+    private final IRODSFileSystemModel treeModel;
 
     private iDrop idrop;
-
+    
     public IRODSOutlineModel(iDrop idrop, TreeModel tm, TableModel tm1, boolean bln, String string) {
         super(tm, tm1, bln, string);
+        this.treeModel = (IRODSFileSystemModel) tm;
         this.idrop = idrop;
     }
 
     public IRODSOutlineModel(iDrop idrop, TreeModel tm, RowModel rm, boolean bln, String string) {
         super(tm, rm, bln, string);
+                this.treeModel = (IRODSFileSystemModel) tm;
+
         this.idrop = idrop;
     }
 
     public void notifyFileShouldBeRemoved(final IRODSNode deletedNode) throws IdropException {
+        if (deletedNode == null) {
+            return;
+        }
         log.info("deleting node from parent:{}", deletedNode);
         final IRODSNode parent = (IRODSNode) deletedNode.getParent();
+        
+        if (parent == null) {
+            return;
+        }
+        
         final IRODSOutlineModel thisModel = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                parent.remove(deletedNode);
-                try {
-                    IRODSTree stagingViewTree = idrop.getIrodsTree();
-                    CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) ((IRODSNode) parent)
+                 CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) ((IRODSNode) parent)
                             .getUserObject();
-                    TreePath path = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree,
-                            entry.getFormattedAbsolutePath());
-                   stagingViewTree.highlightPath(path);
-                    
+                 IRODSTree stagingViewTree = idrop.getIrodsTree();
+               TreePath path;
+                try {
+                    path = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree,
+                        entry.getFormattedAbsolutePath());
                 } catch (IdropException ex) {
-                    Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
-                    idrop.showIdropException(ex);
+                     Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
+                     throw new IdropRuntimeException(ex);
                 }
+                
+               // thisModel.getTreePathSupport().removePath(path);
+               parent.remove(deletedNode);
+              
+               
+                //parent.forceReloadOfChildrenOfThisNode();
+                treeModel.nodeChanged(deletedNode); 
+
+                //treeModel.nodeChanged(parent); 
+               
+               stagingViewTree.highlightPath(path);
+                    
+          
+          
             }
         });
     }
