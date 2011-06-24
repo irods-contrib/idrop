@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,13 +37,10 @@ import org.slf4j.LoggerFactory;
 public class DeleteLocalFileDialog extends javax.swing.JDialog {
 
     private final iDrop idrop;
-
     private String directoryToDelete = "";
-
     private final LocalFileTree localFileTree;
-
     private final LocalFileNode deletedNode;
-
+    private final List<LocalFileNode> deletedNodes;
     public static org.slf4j.Logger log = LoggerFactory.getLogger(DeleteLocalFileDialog.class);
 
     /** Creates new form to delete a local file */
@@ -53,8 +51,24 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
         this.directoryToDelete = directoryToDelete;
         this.localFileTree = localFileTree;
         this.deletedNode = deletedNode;
+        this.deletedNodes = null;
         initComponents();
         txtAreaFileToDelete.setText(this.directoryToDelete);
+        registerKeystrokeListener();
+
+    }
+
+    /** Creates new form to delete a local file */
+    public DeleteLocalFileDialog(final iDrop parent, final boolean modal,
+            final LocalFileTree localFileTree, final List<LocalFileNode> deletedNodes) {
+        super(parent, modal);
+        this.idrop = parent;
+        this.directoryToDelete = null;
+        this.localFileTree = localFileTree;
+        this.deletedNode = null;
+        this.deletedNodes = deletedNodes;
+        initComponents();
+        txtAreaFileToDelete.setText("Multiple selections");
         registerKeystrokeListener();
 
     }
@@ -196,7 +210,6 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea txtAreaFileToDelete;
 
     // End of variables declaration//GEN-END:variables
-
     private void processDelete() {
 
         log.info("delete folder named:{}", txtAreaFileToDelete.getText());
@@ -208,30 +221,20 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
             public void run() {
                 try {
                     thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    TreePath deletedNodePath = new TreePath(deletedNode);
-                    LocalFileNode parentNode = (LocalFileNode) deletedNode.getParent();
-                    File fileToDelete = (File) deletedNode.getUserObject();
-                    log.debug("deleting local file:{}", fileToDelete.getAbsolutePath());
 
-                    recursiveDelete(fileToDelete);
-                    LocalFileSystemModel localFileTreeModel = (LocalFileSystemModel) localFileTree.getModel();
-                    localFileTreeModel.removeNodeFromParent(deletedNode);
+                    if (deletedNode != null) {
+                        log.info("delete single node:{}", deletedNode);
+                        deleteSingleNodeOperation(deletedNode);
+
+                    } else if (deletedNodes != null) {
+                        log.info("deleting multiple nodes");
+                        for (LocalFileNode theLocalNode : deletedNodes) {
+                            deleteSingleNodeOperation(theLocalNode);
+
+                        }
+                    }
 
                     idrop.showMessageFromOperation("delete successful");
-                    /*
-                     * boolean deleted = fileToDelete.delete();
-                     * 
-                     * if (deleted == false) { log.warn("delete unsuccessful for:{}", fileToDelete.getAbsolutePath());
-                     * idrop.showIdropException(new IdropException("unable to delete file:" +
-                     * fileToDelete.getAbsolutePath()));
-                     * 
-                     * } else {
-                     * 
-                     * LocalFileSystemModel localFileTreeModel = (LocalFileSystemModel) localFileTree.getModel();
-                     * localFileTreeModel.removeNodeFromParent(deletedNode);
-                     * 
-                     * idrop.showMessageFromOperation("delete successful"); }
-                     */
 
                 } catch (Exception ex) {
                     Logger.getLogger(NewIRODSDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);
@@ -241,6 +244,17 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
                 }
 
                 thisDialog.dispose();
+            }
+
+            private void deleteSingleNodeOperation(final LocalFileNode localNode) throws IOException {
+                TreePath deletedNodePath = new TreePath(localNode);
+                LocalFileNode parentNode = (LocalFileNode) localNode.getParent();
+                File fileToDelete = (File) localNode.getUserObject();
+                log.debug("deleting local file:{}", fileToDelete.getAbsolutePath());
+
+                recursiveDelete(fileToDelete);
+                LocalFileSystemModel localFileTreeModel = (LocalFileSystemModel) localFileTree.getModel();
+                localFileTreeModel.removeNodeFromParent(localNode);
             }
         });
     }
@@ -261,5 +275,4 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
         btnOK.registerKeyboardAction(enterAction, enter, JComponent.WHEN_IN_FOCUSED_WINDOW);
 
     }
-
 }

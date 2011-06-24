@@ -2,7 +2,8 @@ iDrop Desktop Client
 
 ********  Note that this is software in development, and is not yet intended for general use *************
 
-work in progress -- Milestone 1.0.0
+work in progress -- Milestone 0.9.8
 
 *[#308] irods tree does not refresh when deleting a directory
+* [#61] delete local file multi-select
 

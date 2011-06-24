@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -38,21 +40,13 @@ import org.slf4j.LoggerFactory;
 public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalFileTree.class);
-
     private iDrop idropParentGui = null;
-
     protected JPopupMenu m_popup = null;
-
     protected Action m_action;
-
     protected TreePath m_clickedPath;
-
     protected LocalFileTree thisTree;
-
     private int highlightedRow = -1;
-
     private Rectangle dirtyRegion = null;
-
     private Color highlightColor = new Color(Color.BLUE.getRed(), Color.BLUE.getGreen(), Color.BLUE.getBlue(), 100);
 
     public Rectangle getDirtyRegion() {
@@ -273,16 +267,32 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                log.info("deleting local node node");
-                LocalFileNode parentNode = (LocalFileNode) m_clickedPath.getLastPathComponent();
-                File parentFile = (File) parentNode.getUserObject();
 
-                DeleteLocalFileDialog deleteLocalFileDialog = new DeleteLocalFileDialog(idropParentGui, true,
-                        parentFile.getAbsolutePath(), thisTree, parentNode);
-                deleteLocalFileDialog.setLocation(
-                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                log.info("deleting a node");
+                int[] rows = thisTree.getSelectionRows();
+                log.debug("selected rows for delete:{}", rows);
+
+                DeleteLocalFileDialog deleteDialog;
+
+                if (rows.length == 1) {
+                    // single selection
+                    LocalFileNode toDelete = (LocalFileNode) thisTree.getSelectionModel().getSelectionPaths()[0].getLastPathComponent();
+                    File fileToDelete = (File) toDelete.getUserObject();
+
+                    log.info("deleting a single node: {}", toDelete);
+                    deleteDialog = new DeleteLocalFileDialog(idropParentGui, true, fileToDelete.getAbsolutePath(), thisTree, toDelete);
+                } else {
+                    List<LocalFileNode> nodesToDelete = new ArrayList<LocalFileNode>();
+                    for (int row : rows) {
+                        nodesToDelete.add((LocalFileNode) (LocalFileNode) thisTree.getSelectionModel().getSelectionPaths()[row].getLastPathComponent());
+                    }
+
+                    deleteDialog = new DeleteLocalFileDialog(idropParentGui, true, thisTree, nodesToDelete);
+                }
+
+                deleteDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
                         (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
-                deleteLocalFileDialog.setVisible(true);
+                deleteDialog.setVisible(true);
 
             }
         };
