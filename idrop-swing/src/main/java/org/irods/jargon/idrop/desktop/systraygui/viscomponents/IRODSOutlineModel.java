@@ -46,13 +46,10 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
         this.idrop = idrop;
     }
 
-    public void notifyFileShouldBeRemoved(final IRODSTree irodsTree, final String nodeAbsolutePath)
-            throws IdropException {
-    }
-
     public void notifyFileShouldBeRemoved(final IRODSNode deletedNode) throws IdropException {
         log.info("deleting node from parent:{}", deletedNode);
         final IRODSNode parent = (IRODSNode) deletedNode.getParent();
+        final IRODSOutlineModel thisModel = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -65,8 +62,8 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                             .getUserObject();
                     TreePath path = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree,
                             entry.getFormattedAbsolutePath());
-                    stagingViewTree.collapsePath(path);
-                    stagingViewTree.expandPath(path);
+                   stagingViewTree.highlightPath(path);
+                    
                 } catch (IdropException ex) {
                     Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
                     idrop.showIdropException(ex);
@@ -88,80 +85,7 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                 || transferStatus.getTransferType() == TransferStatus.TransferType.COPY) {
             log.info("successful put transfer, find the parent tree node, and clear the children");
             notifyFileShouldBeAdded(irodsTree, transferStatus.getTargetFileAbsolutePath());
-           // final IRODSOutlineModel thisOutlineModel = this;
- /*
-            java.awt.EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                   
-                    TreePath containingNodePath;
-                    try {
-                        containingNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree,
-                                transferStatus.getTargetFileAbsolutePath());
-                    } catch (IdropException ex) {
-                        Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException("error building tree path", ex);
-                    }
-                    log.debug("tree path for put: {}", containingNodePath);
-                    IRODSNode targetNode = (IRODSNode) containingNodePath.getLastPathComponent();
-                    CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) targetNode
-                            .getUserObject();
-                    if (entry.isDataObject()) {
-                        log.info("substitute parent as target, as given node was a leaf");
-                        targetNode = (IRODSNode) targetNode.getParent();
-                    }
-
-                   
-                    if (targetNode.isCached()) {
-                        try {
-                            IRODSFile addedFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount()
-                                    .instanceIRODSFile(transferStatus.getTargetFileAbsolutePath());
-                            CollectionAndDataObjectListingEntry newEntry = new CollectionAndDataObjectListingEntry();
-                            newEntry.setCreatedAt(new Date(addedFile.lastModified()));
-                            newEntry.setDataSize(addedFile.length());
-                            newEntry.setModifiedAt(new Date(addedFile.lastModified()));
-
-                            if (addedFile.isDirectory()) {
-                                newEntry.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
-                                newEntry.setParentPath(addedFile.getParent());
-                                newEntry.setPathOrName(addedFile.getAbsolutePath());
-                            } else {
-                                newEntry.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT);
-                                newEntry.setParentPath(addedFile.getParent());
-                                newEntry.setPathOrName(addedFile.getName());
-                            }
-
-                            IRODSNode newNode = new IRODSNode(newEntry, idrop.getiDropCore().getIrodsAccount(), idrop
-                                    .getiDropCore().getIrodsFileSystem(), irodsTree);
-                            targetNode.add(newNode);
-
-                        } catch (JargonException ex) {
-                            Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
-                            throw new IdropRuntimeException(ex);
-                        }
-
-                    }
-
-                    if (entry.isDataObject()) {
-                        try {
-                            containingNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree,
-                                    entry.getParentPath());
-                        } catch (IdropException ex) {
-                            Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
-                            throw new IdropRuntimeException("error building tree path", ex);
-
-                        }
-                    }
-                   
-                    irodsTree.highlightPath(containingNodePath);
-                    
-                  
-                }
-            });
-
-        }
-  * */
+         
         }
     }
 
