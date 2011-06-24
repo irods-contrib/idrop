@@ -342,13 +342,20 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     }
 
     // handle a drop from the local file system
-    private void processDropOfFileList(Transferable transferable, IRODSNode parent) throws IdropRuntimeException {
+    private void processDropOfFileList(Transferable transferable, IRODSNode dropTargetNode) throws IdropRuntimeException {
 
         log.info("process as drop of file list");
-
+        
+        IRODSNode effectiveTargetNode;
+        if (dropTargetNode.isLeaf()) {
+            effectiveTargetNode = (IRODSNode) dropTargetNode.getParent();
+        } else {
+            effectiveTargetNode = dropTargetNode;
+        }
+            
         final String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
         final List<File> sourceFiles;
-        CollectionAndDataObjectListingEntry putTarget = (CollectionAndDataObjectListingEntry) parent.getUserObject();
+        CollectionAndDataObjectListingEntry putTarget = (CollectionAndDataObjectListingEntry) effectiveTargetNode.getUserObject();
         final String targetIrodsFileAbsolutePath = putTarget.getPathOrName();
 
         try {
