@@ -18,6 +18,8 @@ var aclDialogMessageSelector = "#aclDialogMessageArea";
  */
 
 var aclUpdateUrl = '/sharing/updateAcl';
+var idropLiteUrl = '/idropLite/appletLoader';
+
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
@@ -451,4 +453,40 @@ function buildFormFromACLDetailsTable() {
 	var formData = $("#aclDetailsForm").serializeArray();
 	formData.push({name:'absPath',value:selectedPath});
 	return formData;
+}
+
+
+/**
+ * Display the iDrop lite gui, passing in the given irods base collection name
+ */
+function showIdropLite() {
+	alert("showing idrop lite");
+	var idropLiteSelector = "#idropLiteArea";
+	var myPath = selectedPath;
+	if (selectedPath == null) {
+		myPath = "/";
+	}
+	
+	lcShowBusyIconInDiv(idropLiteSelector);
+
+	var params = {
+		absPath : myPath
+	}
+
+	var jqxhr = $.post(context + idropLiteUrl, params,
+			function(data, status, xhr) {
+				lcClearDivAndDivClass(idropLiteSelector);
+				$(idropLiteSelector).html(data);
+			}, "html").error(function(xhr, status, error) {
+		setMessageInArea(idropLiteSelector, xhr.responseText);
+	}).success(
+			function() {
+				
+			}).error(function(xhr, status, error) {
+				setMessageInArea(idropLiteSelector, xhr.responseText);
+			});
+
+	
+	
+	
 }

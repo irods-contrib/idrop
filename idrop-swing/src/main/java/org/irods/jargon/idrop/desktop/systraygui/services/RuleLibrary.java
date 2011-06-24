@@ -1,10 +1,10 @@
-
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import org.irods.jargon.idrop.exceptions.IdropException;
 
 /**
  * Library of rules to use from iDrop
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class RuleLibrary {
@@ -29,9 +29,8 @@ public class RuleLibrary {
         return sb.toString();
     }
 
-
     public static String collectionRule(final String targetCollectionAbsolutePath) throws IdropException {
-          if (targetCollectionAbsolutePath == null || targetCollectionAbsolutePath.isEmpty()) {
+        if (targetCollectionAbsolutePath == null || targetCollectionAbsolutePath.isEmpty()) {
             throw new IdropException("null or empty targetCollectionAbsolutePath");
         }
 

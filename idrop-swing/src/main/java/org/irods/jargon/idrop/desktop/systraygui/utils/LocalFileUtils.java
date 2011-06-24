@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Utilities for working with local file systems
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class LocalFileUtils {
@@ -14,7 +15,7 @@ public class LocalFileUtils {
         List<String> fileRoots = new ArrayList<String>();
         File[] roots = File.listRoots();
         for (int i = 0; i < roots.length; i++) {
-           fileRoots.add(roots[i].getPath());
+            fileRoots.add(roots[i].getPath());
         }
 
         return fileRoots;

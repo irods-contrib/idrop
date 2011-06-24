@@ -2,10 +2,12 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
+
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
@@ -19,11 +21,16 @@ public class IDropSplashWindow extends JWindow {
      *  
      */
     private static final long serialVersionUID = 1L;
+
     private final org.slf4j.Logger log = LoggerFactory.getLogger(IDropSplashWindow.class);
+
     private ImageIcon splashImage = new ImageIcon(IDropSplashWindow.class.getClassLoader().getResource(
             "org/irods/jargon/idrop/desktop/images/iDrop.png"));
+
     private JLabel jlblImage = new JLabel();
+
     private JProgressBar jProgressBar1 = new JProgressBar();
+
     private iDrop iDrop;
 
     public IDropSplashWindow(iDrop iDrop) {

@@ -4,19 +4,23 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 
 /**
  * Model of an underlying file system for browsing in a tree view
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class FileSystemModel implements TreeModel {
 
     private File root;
+
     private List listeners = new ArrayList();
 
     public FileSystemModel(File rootDirectory) {
@@ -79,8 +83,8 @@ public class FileSystemModel implements TreeModel {
         File targetFile = new File(fileParentPath, newFileName);
         oldFile.renameTo(targetFile);
         File parent = new File(fileParentPath);
-        int[] changedChildrenIndices = {getIndexOfChild(parent, targetFile)};
-        Object[] changedChildren = {targetFile};
+        int[] changedChildrenIndices = { getIndexOfChild(parent, targetFile) };
+        Object[] changedChildren = { targetFile };
         fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices, changedChildren);
 
     }
@@ -112,7 +116,7 @@ public class FileSystemModel implements TreeModel {
         }
 
         @Override
-		public String toString() {
+        public String toString() {
             return getName();
         }
     }

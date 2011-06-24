@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
@@ -14,20 +16,28 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
- *  tree node for iRODS file tree
+ * tree node for iRODS file tree
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSNode extends DefaultMutableTreeNode {
 
     private boolean cached = false;
+
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSNode.class);
+
     public final IRODSAccount irodsAccount;
+
     public final IRODSFileSystem irodsFileSystem;
+
     public boolean hasMore = true;
+
     public boolean continuation = false;
+
     private final IRODSTree irodsTree;
 
-    public IRODSNode(final CollectionAndDataObjectListingEntry entry, final IRODSAccount irodsAccount, final IRODSFileSystem irodsFileSystem, final IRODSTree irodsTree) {
+    public IRODSNode(final CollectionAndDataObjectListingEntry entry, final IRODSAccount irodsAccount,
+            final IRODSFileSystem irodsFileSystem, final IRODSTree irodsTree) {
         super(entry);
         if (irodsAccount == null) {
             throw new IdropRuntimeException("null irodsAccount");
@@ -45,22 +55,26 @@ public class IRODSNode extends DefaultMutableTreeNode {
 
     /**
      * Load children of this node, and then close the connection (appropriate for the user expanding a node).
+     * 
      * @throws IdropException
      */
     public void lazyLoadOfChildrenOfThisNode() throws IdropException {
         boolean refreshing = false;
-        
-        if (irodsTree != null) { 
+
+        if (irodsTree != null) {
             refreshing = irodsTree.isRefreshingTree();
         }
         lazyLoadOfChildrenOfThisNode(!refreshing);
     }
 
     /**
-     * Load children of this node by accessing iRODS.  Note that in a refresh situation, you do not want to continuously
+     * Load children of this node by accessing iRODS. Note that in a refresh situation, you do not want to continuously
      * open and close the connection, so there is an option to defer closing the connection to the caller.
-     * @param closeTheConnectionAfterLoad <code>boolean</code> that indicates that the connection will be closed by this method.  If <code>true</code> is
-     * passed, then this method will close the connection.  If <code>false</code> is passed, then the caller must close the connection.
+     * 
+     * @param closeTheConnectionAfterLoad
+     *            <code>boolean</code> that indicates that the connection will be closed by this method. If
+     *            <code>true</code> is passed, then this method will close the connection. If <code>false</code> is
+     *            passed, then the caller must close the connection.
      * @throws IdropException
      */
     public void lazyLoadOfChildrenOfThisNode(final boolean closeTheConnectionAfterLoad) throws IdropException {
@@ -75,8 +89,10 @@ public class IRODSNode extends DefaultMutableTreeNode {
         CollectionAndDataObjectListingEntry parentObject = (CollectionAndDataObjectListingEntry) this.getUserObject();
         try {
 
-            CollectionAndDataObjectListAndSearchAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAndDataObjectListAndSearchAO(irodsAccount);
-            List<CollectionAndDataObjectListingEntry> childCache = collectionAO.listDataObjectsAndCollectionsUnderPath(parentObject.getPathOrName());
+            CollectionAndDataObjectListAndSearchAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory()
+                    .getCollectionAndDataObjectListAndSearchAO(irodsAccount);
+            List<CollectionAndDataObjectListingEntry> childCache = collectionAO
+                    .listDataObjectsAndCollectionsUnderPath(parentObject.getPathOrName());
 
             for (CollectionAndDataObjectListingEntry childEntry : childCache) {
                 insert(new IRODSNode(childEntry, irodsAccount, irodsFileSystem, irodsTree), getChildCount());
@@ -128,11 +144,11 @@ public class IRODSNode extends DefaultMutableTreeNode {
             return false;
         }
 
-
         IRODSNode comparableAsNode = (IRODSNode) obj;
 
         CollectionAndDataObjectListingEntry thisFile = (CollectionAndDataObjectListingEntry) getUserObject();
-        CollectionAndDataObjectListingEntry thatFile = (CollectionAndDataObjectListingEntry) comparableAsNode.getUserObject();
+        CollectionAndDataObjectListingEntry thatFile = (CollectionAndDataObjectListingEntry) comparableAsNode
+                .getUserObject();
         return thisFile.equals(thatFile);
     }
 
@@ -143,6 +159,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
 
     /**
      * Have the children nodes been cached?
+     * 
      * @return <code>boolean</code> if children nodes have been cached.
      */
     public boolean isCached() {
@@ -151,6 +168,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
 
     /**
      * Is this node a continuation of a previous query
+     * 
      * @return <code>boolean<code>
      */
     public boolean isContinuation() {
@@ -159,6 +177,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
 
     /**
      * Are there more records (children) to be retrieved from iRODS?
+     * 
      * @return <code>boolean</code> if more records are available.
      */
     public boolean isHasMore() {

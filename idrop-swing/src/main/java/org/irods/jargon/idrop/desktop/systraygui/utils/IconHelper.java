@@ -2,26 +2,39 @@ package org.irods.jargon.idrop.desktop.systraygui.utils;
 
 import java.awt.Image;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 
 /**
  * Helper class to manage icons
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IconHelper {
 
     private static Image virusErrorIcon = null;
+
     private static Image virusSuccessIcon = null;
+
     private static Image virusUnknownIcon = null;
+
     private static Image checksumValidIcon = null;
+
     private static Image checksumErrorIcon = null;
+
     private static Image folderIcon = null;
+
     private static Image folderOpenIcon = null;
+
     private static Image fileIcon = null;
+
     private static Image metadataIcon = null;
+
     private static Image policyIcon = null;
+
     private static Image replicationIcon = null;
 
     public static JLabel getFolderIcon() {

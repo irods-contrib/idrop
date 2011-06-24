@@ -5,10 +5,11 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import java.util.Properties;
+
 import org.irods.jargon.idrop.exceptions.IdropException;
 
 /**
- *
+ * 
  * @author mikeconway
  */
 public interface IdropConfigurationService {
@@ -18,8 +19,9 @@ public interface IdropConfigurationService {
 
     /**
      * Save the database configuration information to a properties file
+     * 
      * @throws IdropException
      */
     void saveConfigurationToPropertiesFile() throws IdropException;
-    
+
 }

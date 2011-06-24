@@ -2,21 +2,19 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.event.TreeModelEvent;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreePath;
+
 import org.irods.jargon.core.connection.IRODSAccount;
-import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
-import org.irods.jargon.core.transfer.TransferStatus;
-import org.irods.jargon.core.transfer.TransferStatus.TransferState;
-import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
  * Model of an underlying file system for browsing in a tree view
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSFileSystemModel extends DefaultTreeModel {
@@ -72,6 +70,7 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
             throw new IdropRuntimeException(ex);
         }
     }
+
     private final IRODSAccount irodsAccount;
 
     public IRODSFileSystemModel(final IRODSNode rootNode, final IRODSAccount irodsAccount) throws IdropException {
@@ -90,41 +89,16 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
 
     }
 
-    public void notifyFileShouldBeRemoved(final IRODSTree irodsTree, final String nodeAbsolutePath) throws IdropException {
-        
-    }
-    
-    public void notifyCompletionOfOperation(final IRODSTree irodsTree, final TransferStatus transferStatus) throws IdropException {
-        log.info("tree model notified of status:{}", transferStatus);
-
-        if (transferStatus.getTransferState() != TransferState.OVERALL_COMPLETION) {
-            return;
+    public IRODSFileSystemModel(final IRODSAccount irodsAccount) throws IdropException {
+        super(null);
+        if (irodsAccount == null) {
+            throw new IdropRuntimeException("null irodsAccount");
         }
-        
-        // for put or copy operation, highlight the new node
-        if (transferStatus.getTransferType() == TransferStatus.TransferType.PUT
-                || transferStatus.getTransferType() == TransferStatus.TransferType.COPY) {
-            log.info("successful put transfer, find the parent tree node, and clear the children");
-             
-            TreePath parentNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, transferStatus.getTargetFileAbsolutePath());
-            log.debug("tree path for put: {}", parentNodePath);
-            IRODSNode targetNode = (IRODSNode) parentNodePath.getLastPathComponent();
-            CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) targetNode.getUserObject();
-            if (entry.isDataObject()) {
-                log.info("substitute parent as target, as given node was a leaf");
-                targetNode = (IRODSNode) targetNode.getParent();
-            }
-            targetNode.forceReloadOfChildrenOfThisNode();
-            targetNode.lazyLoadOfChildrenOfThisNode();
-            this.reload(targetNode);
-            if (entry.isDataObject()) {
-                parentNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, entry.getParentPath());
-                irodsTree.highlightPath(parentNodePath);
-            } else {
-                irodsTree.highlightPath(parentNodePath);
+        this.irodsAccount = irodsAccount;
 
-            }
+        this.addTreeModelListener(new TreeModelListener() {
+        });
 
-        }
     }
+
 }
