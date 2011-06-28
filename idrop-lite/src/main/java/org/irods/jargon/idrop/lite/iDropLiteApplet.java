@@ -66,11 +66,11 @@ public class iDropLiteApplet extends javax.swing.JApplet {
         this.defaultStorageResource = getParameter("defaultStorageResource");
         this.tempPswd = getParameter("password");
         this.absPath = getParameter("absPath");
-
+                
     }
 
 
-    private boolean processLogin() throws NumberFormatException {
+    private boolean processLogin()  {
 
         try {
             log.debug("creating account with applet params");
@@ -81,9 +81,9 @@ public class iDropLiteApplet extends javax.swing.JApplet {
             log.info("resource:{}", defaultStorageResource);
             log.info("absPath:{}", absPath);
         } catch (Exception ex) {
-            //Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
             showIdropException(ex);
-            return true;
+            return false;
         }
 
         this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
@@ -115,7 +115,7 @@ public class iDropLiteApplet extends javax.swing.JApplet {
             } else {
                 Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
                 showMessageFromOperation("login error - unable to log in, or invalid user id");
-                return true;
+                return false;
             }
         } finally {
             if (irodsFileSystem != null) {
@@ -126,7 +126,7 @@ public class iDropLiteApplet extends javax.swing.JApplet {
                 }
             }
         }
-        return false;
+        return true;
     }
 
 
@@ -142,7 +142,9 @@ public class iDropLiteApplet extends javax.swing.JApplet {
             Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        processLogin();
+        if(processLogin()) {
+        	JOptionPane.showMessageDialog(this, "Login Successful", "Login Status", JOptionPane.PLAIN_MESSAGE);
+        }
     }
 
     public void showIdropException(Exception idropException) {
