@@ -1,18 +1,15 @@
-  /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Component;
 import java.awt.Toolkit;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
+
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
@@ -29,18 +26,23 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Bootstrapping class for iDrop, load config, create necessary services, and start the appropriate GUI components
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class StartupSequencer {
 
     private iDrop idrop;
+
     private IDROPCore idropCore;
+
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(StartupSequencer.class);
+
     public static final int STARTUP_SEQUENCE_PAUSE_INTERVAL = 2000;
 
     public void doStartupSequence() {
 
-        log.info("initiating startup sequence...");
+
+       log.info("initiating startup sequence...");
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iDrop Client for iRODS");
@@ -85,21 +87,22 @@ public class StartupSequencer {
         log.info("set config home directory as: {}", derivedConfigHomeDirectory);
 
         /*
-         * Here is where I first try and start the database to get the configuration.  A database error
-         * indicates that iDrop is already running
+         * Here is where I first try and start the database to get the configuration. A database error indicates that
+         * iDrop is already running
          */
 
         idropSplashWindow.setStatus("Looking for configuration information...", ++count);
-        
+
         Properties derivedProperties = null;
         try {
-            IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(derivedConfigHomeDirectory);
+            IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(
+                    derivedConfigHomeDirectory);
             derivedProperties = idropConfigurationService.bootstrapConfiguration();
         } catch (IdropAlreadyRunningException are) {
             log.error("idrop is already running, shutting down");
-             JOptionPane.showMessageDialog((Component) null, "iDrop is already running, cannot start",
-                        "iDrop Error", JOptionPane.OK_OPTION);
-             System.exit(1);
+            JOptionPane.showMessageDialog((Component) null, "iDrop is already running, cannot start", "iDrop Error",
+                    JOptionPane.OK_OPTION);
+            System.exit(1);
         } catch (IdropException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
@@ -148,7 +151,6 @@ public class StartupSequencer {
             doFirstTimeConfigurationWizard();
         }
 
-
         try {
             Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL);
         } catch (InterruptedException e) {
@@ -160,7 +162,8 @@ public class StartupSequencer {
         log.info("building transfer manager...");
 
         try {
-            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop, idropCore.getIdropConfig().isLogSuccessfulTransfers()));
+            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop, idropCore
+                    .getIdropConfig().isLogSuccessfulTransfers()));
         } catch (JargonException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropRuntimeException("error creating transferManager", ex);
@@ -170,11 +173,15 @@ public class StartupSequencer {
             List<LocalIRODSTransfer> currentQueue = idropCore.getTransferManager().getCurrentQueue();
 
             if (!currentQueue.isEmpty()) {
-                int result = JOptionPane.showConfirmDialog((Component) null, "Transfers are waiting to process, restart transfer?",
-                        "iDrop Transfers in Progress", JOptionPane.OK_CANCEL_OPTION);
+                
+                idropSplashWindow.toBack();
+                int result = JOptionPane.showConfirmDialog((Component) null,
+                        "Transfers are waiting to process, restart transfer?", "iDrop Transfers in Progress",
+                        JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.CANCEL_OPTION) {
                     idropCore.getTransferManager().pause();
                 }
+                  idropSplashWindow.toFront();
             }
         } catch (JargonException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
@@ -189,7 +196,8 @@ public class StartupSequencer {
 
         idropSplashWindow.setStatus("Starting work queue...", ++count);
         try {
-            QueueSchedulerTimerTask queueSchedulerTimerTask = new QueueSchedulerTimerTask(idropCore.getTransferManager(), idrop);
+            QueueSchedulerTimerTask queueSchedulerTimerTask = new QueueSchedulerTimerTask(
+                    idropCore.getTransferManager(), idrop);
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
             idropCore.setQueueTimer(timer);

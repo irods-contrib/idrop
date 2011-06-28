@@ -2,8 +2,8 @@ iDrop Desktop Client
 
 ********  Note that this is software in development, and is not yet intended for general use *************
 
-Milestone 0.9.0
-*#71 (searching from tree view does nothing)
-Added search capability
-#62 (tray icon scales incorrectly)
+work in progress -- Milestone 0.9.8
 
+*[#308] irods tree does not refresh when deleting a directory
+* [#61] delete local file multi-select
+*[#254] drag and drop, desktop to irods file should use irods parent as target

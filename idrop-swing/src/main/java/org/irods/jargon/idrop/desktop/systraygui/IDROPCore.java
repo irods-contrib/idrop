@@ -88,14 +88,15 @@ public class IDROPCore {
         return preferences;
     }
 
-     @Deprecated
+    @Deprecated
     public void setPreferences(Preferences preferences) {
         this.preferences = preferences;
     }
 
     /**
      * Handy method that delegates the process of getting an <code>IRODSAccessObjectFactory</code>.
-     * @return {@link IRODSAccessObjectFactory} 
+     * 
+     * @return {@link IRODSAccessObjectFactory}
      */
     public IRODSAccessObjectFactory getIRODSAccessObjectFactory() {
         if (irodsFileSystem == null) {
@@ -110,43 +111,46 @@ public class IDROPCore {
     }
 
     /**
-     * Method to close any iRODS connections in the current thread.   This delegates to the <code>IRODSFileSystem</code>.
+     * Method to close any iRODS connections in the current thread. This delegates to the <code>IRODSFileSystem</code>.
      */
     public void closeAllIRODSConnections() {
-          if (irodsFileSystem == null) {
+        if (irodsFileSystem == null) {
             throw new IdropRuntimeException("No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
         }
-       irodsFileSystem.closeAndEatExceptions();
+        irodsFileSystem.closeAndEatExceptions();
     }
 
     /**
-     * Method to close  iRODS connection denoted by the logged in <code>IRODSAccount</code>.
+     * Method to close iRODS connection denoted by the logged in <code>IRODSAccount</code>.
      */
     public void closeIRODSConnectionForLoggedInAccount() {
-          if (irodsFileSystem == null) {
+        if (irodsFileSystem == null) {
             throw new IdropRuntimeException("No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
         }
-       irodsFileSystem.closeAndEatExceptions(irodsAccount);
+        irodsFileSystem.closeAndEatExceptions(irodsAccount);
     }
 
     /**
-     * Method to close  iRODS connection denoted by the given <code>IRODSAccount</code> in the current thread.   This delegates to the <code>IRODSFileSystem</code>.
+     * Method to close iRODS connection denoted by the given <code>IRODSAccount</code> in the current thread. This
+     * delegates to the <code>IRODSFileSystem</code>.
      */
     public void closeIRODSConnection(final IRODSAccount irodsAccount) {
-          if (irodsFileSystem == null) {
+        if (irodsFileSystem == null) {
             throw new IdropRuntimeException("No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
         }
-       irodsFileSystem.closeAndEatExceptions(irodsAccount);
+        irodsFileSystem.closeAndEatExceptions(irodsAccount);
     }
+
     /**
      * Get the <code>IRODSFileFactory</code> for the given account
+     * 
      * @return {@link IRODSFileFactory} associated with the account currently logged in
      */
     public IRODSFileFactory getIRODSFileFactory(final IRODSAccount irodsAccount) {
-          if (irodsFileSystem == null) {
+        if (irodsFileSystem == null) {
             throw new IdropRuntimeException("No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
         }
-           if (irodsAccount == null) {
+        if (irodsAccount == null) {
             throw new IdropRuntimeException("No IRODSAccount set, cannot obtain the IRODSAccessObjectFactory");
         }
         try {
@@ -158,15 +162,16 @@ public class IDROPCore {
 
     }
 
-     /**
+    /**
      * Get the <code>IRODSFileFactory</code> for the current logged-in account.
+     * 
      * @return {@link IRODSFileFactory} associated with the account currently logged in
      */
     public IRODSFileFactory getIRODSFileFactoryForLoggedInAccount() {
-          if (irodsFileSystem == null) {
+        if (irodsFileSystem == null) {
             throw new IdropRuntimeException("No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
         }
-           if (irodsAccount == null) {
+        if (irodsAccount == null) {
             throw new IdropRuntimeException("No IRODSAccount set, cannot obtain the IRODSAccessObjectFactory");
         }
         try {

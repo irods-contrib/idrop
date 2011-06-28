@@ -2,6 +2,7 @@ package org.irods.jargon.idrop.desktop.systraygui.utils;
 
 import java.io.IOException;
 import java.util.Properties;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
@@ -20,10 +21,12 @@ public class IdropConfig {
     }
 
     /**
-     * Initialize this wrapper around properties with the <code>Properties</code> that represent the idrop configuration.
-     * @param properties 
+     * Initialize this wrapper around properties with the <code>Properties</code> that represent the idrop
+     * configuration.
+     * 
+     * @param properties
      */
-    public IdropConfig(final Properties properties)  {
+    public IdropConfig(final Properties properties) {
         if (properties == null) {
             throw new IllegalArgumentException("null properties");
         }
@@ -106,14 +109,14 @@ public class IdropConfig {
 
         return logSuccessful;
     }
-    
+
     /**
-     * Get the configured synch device name.  If not set, this will return a <code>null</code>
-     * @return 
+     * Get the configured synch device name. If not set, this will return a <code>null</code>
+     * 
+     * @return
      */
     public String getSynchDeviceName() {
-        return  idropProperties
-                .getProperty(IdropPropertiesHelper.SYNCH_DEVICE_NAME);
+        return idropProperties.getProperty(IdropPropertiesHelper.SYNCH_DEVICE_NAME);
     }
 
     /**

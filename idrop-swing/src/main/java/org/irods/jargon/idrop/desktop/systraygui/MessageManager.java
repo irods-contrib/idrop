@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
  * 
  */
 public class MessageManager {
-    
+
     public static final String TITLE_MESSAGE = "iDrop Message";
 
     public static void showError(Component rootComponent, String message, String title) {

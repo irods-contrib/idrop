@@ -10,7 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JPopupMenu;
@@ -21,15 +24,17 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
 import org.irods.jargon.idrop.desktop.systraygui.DeleteLocalFileDialog;
 import org.irods.jargon.idrop.desktop.systraygui.NewLocalDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.RenameLocalDirectoryDialog;
-import org.slf4j.LoggerFactory;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.slf4j.LoggerFactory;
 
 /**
  * JTree for viewing local file system, includes DnD support from StagingViewTree.
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class LocalFileTree extends JTree implements TreeWillExpandListener {
@@ -41,7 +46,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     protected TreePath m_clickedPath;
     protected LocalFileTree thisTree;
     private int highlightedRow = -1;
-     private Rectangle dirtyRegion = null;
+    private Rectangle dirtyRegion = null;
     private Color highlightColor = new Color(Color.BLUE.getRed(), Color.BLUE.getGreen(), Color.BLUE.getBlue(), 100);
 
     public Rectangle getDirtyRegion() {
@@ -67,7 +72,6 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     public void setHighlightedRow(int highlightedRow) {
         this.highlightedRow = highlightedRow;
     }
-   
 
     public LocalFileTree(TreeModel newModel, iDrop idropParentGui) {
         super(newModel);
@@ -81,14 +85,16 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     }
 
     /**
-     * Utility method takes an <code>Enumeration</code> of tree paths, such as would be returned
-     * by calling <code>getExpandedDescendants()</code> on the local file tree.  This method will
-     * go through the tree paths and expand the nodes.  Note that the nodes are lazily computed, so
-     * this method triggers that lazy access.
-     * @param currentPaths <code>Enumeration<TreePath></code> with the previously expanded nodes
+     * Utility method takes an <code>Enumeration</code> of tree paths, such as would be returned by calling
+     * <code>getExpandedDescendants()</code> on the local file tree. This method will go through the tree paths and
+     * expand the nodes. Note that the nodes are lazily computed, so this method triggers that lazy access.
+     * 
+     * @param currentPaths
+     *            <code>Enumeration<TreePath></code> with the previously expanded nodes
      * @throws IdropException
      */
-    public void expandTreeNodesBasedOnListOfPreviouslyExpandedNodes(final Enumeration<TreePath> currentPaths) throws IdropException {
+    public void expandTreeNodesBasedOnListOfPreviouslyExpandedNodes(final Enumeration<TreePath> currentPaths)
+            throws IdropException {
 
         log.info("expandTreeNodes()");
 
@@ -106,9 +112,11 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     }
 
     /**
-     * Given a treePath, find that path in the tree model.  In searching, the lazy loading
-     * behavior of the child nodes is triggered and the tree is expanded to the node.
-     * @param treePath <code>TreePath</code> that should be looked up in the tree.
+     * Given a treePath, find that path in the tree model. In searching, the lazy loading behavior of the child nodes is
+     * triggered and the tree is expanded to the node.
+     * 
+     * @param treePath
+     *            <code>TreePath</code> that should be looked up in the tree.
      * @return {@link LocalFileNode} that is the treeNode at the given path.
      * @throws IdropException
      */
@@ -149,8 +157,8 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         return currentTreeNode;
 
     }
-    
-      public void highlightPath(final TreePath pathToHighlight) {
+
+    public void highlightPath(final TreePath pathToHighlight) {
         final LocalFileTree highlightTree = this;
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -164,14 +172,18 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
     /**
      * Given a nodeThatWasDropTargetAsFile node in the tree, search the children for the given path
-     * @param localFileNode {@link LocalFileNode} that is the nodeThatWasDropTargetAsFile node that should contain a child node
-     * with the given path
-     * @param pathElementIAmSearchingFor <code>Object</code> that is the <code>TreePath</code> of the child I am
-     * searching for within the given nodeThatWasDropTargetAsFile.
+     * 
+     * @param localFileNode
+     *            {@link LocalFileNode} that is the nodeThatWasDropTargetAsFile node that should contain a child node
+     *            with the given path
+     * @param pathElementIAmSearchingFor
+     *            <code>Object</code> that is the <code>TreePath</code> of the child I am searching for within the given
+     *            nodeThatWasDropTargetAsFile.
      * @return {@link LocalFileNode} that is the matching child node, or null if no matching child node was discovered.
      * @throws IdropException
      */
-    private LocalFileNode matchTreePathToANodeAndExpandLazyChildren(final LocalFileNode localFileNode, final Object pathElementIAmSearchingFor) throws IdropException {
+    private LocalFileNode matchTreePathToANodeAndExpandLazyChildren(final LocalFileNode localFileNode,
+            final Object pathElementIAmSearchingFor) throws IdropException {
 
         if (localFileNode == null) {
             throw new IdropException("localFileNode is null");
@@ -205,7 +217,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         m_action = new AbstractAction() {
 
             @Override
-			public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 if (m_clickedPath == null) {
                     return;
                 }
@@ -230,17 +242,20 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
                     @Override
                     public void run() {
 
-                            log.info("adding new node");
+                        log.info("adding new node");
                         LocalFileNode parentNode = (LocalFileNode) m_clickedPath.getLastPathComponent();
                         File parentFile = (File) parentNode.getUserObject();
 
-                        NewLocalDirectoryDialog newLocalDirectoryDialog = new NewLocalDirectoryDialog(idropParentGui, true, parentFile.getAbsolutePath(), thisTree, parentNode);
-                        newLocalDirectoryDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                        NewLocalDirectoryDialog newLocalDirectoryDialog = new NewLocalDirectoryDialog(idropParentGui,
+                                true, parentFile.getAbsolutePath(), thisTree, parentNode);
+                        newLocalDirectoryDialog.setLocation(
+                                (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                                (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
                         newLocalDirectoryDialog.setVisible(true);
 
                     }
                 });
-                //  thisTree.repaint();
+                // thisTree.repaint();
             }
         };
 
@@ -252,18 +267,36 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                log.info("deleting local node node");
-                LocalFileNode parentNode = (LocalFileNode) m_clickedPath.getLastPathComponent();
-                File parentFile = (File) parentNode.getUserObject();
 
-                DeleteLocalFileDialog deleteLocalFileDialog = new DeleteLocalFileDialog(idropParentGui, true, parentFile.getAbsolutePath(), thisTree, parentNode);
-                deleteLocalFileDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
-                deleteLocalFileDialog.setVisible(true);
+                log.info("deleting a node");
+                int[] rows = thisTree.getSelectionRows();
+                log.debug("selected rows for delete:{}", rows);
+
+                DeleteLocalFileDialog deleteDialog;
+
+                if (rows.length == 1) {
+                    // single selection
+                    LocalFileNode toDelete = (LocalFileNode) thisTree.getSelectionModel().getSelectionPaths()[0].getLastPathComponent();
+                    File fileToDelete = (File) toDelete.getUserObject();
+
+                    log.info("deleting a single node: {}", toDelete);
+                    deleteDialog = new DeleteLocalFileDialog(idropParentGui, true, fileToDelete.getAbsolutePath(), thisTree, toDelete);
+                } else {
+                    List<LocalFileNode> nodesToDelete = new ArrayList<LocalFileNode>();
+                    for (int row : rows) {
+                        nodesToDelete.add((LocalFileNode) (LocalFileNode) thisTree.getSelectionModel().getSelectionPaths()[row].getLastPathComponent());
+                    }
+
+                    deleteDialog = new DeleteLocalFileDialog(idropParentGui, true, thisTree, nodesToDelete);
+                }
+
+                deleteDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                deleteDialog.setVisible(true);
 
             }
         };
         m_popup.add(a1);
-
 
         Action a2 = new AbstractAction("Rename") {
 
@@ -274,8 +307,11 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
                 LocalFileNode parentNode = (LocalFileNode) m_clickedPath.getLastPathComponent();
                 File parentFile = (File) parentNode.getUserObject();
 
-                RenameLocalDirectoryDialog renameLocalDirectoryDialog = new RenameLocalDirectoryDialog(idropParentGui, true, parentFile.getAbsolutePath(), thisTree, parentNode);
-                renameLocalDirectoryDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                RenameLocalDirectoryDialog renameLocalDirectoryDialog = new RenameLocalDirectoryDialog(idropParentGui,
+                        true, parentFile.getAbsolutePath(), thisTree, parentNode);
+                renameLocalDirectoryDialog.setLocation(
+                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
                 renameLocalDirectoryDialog.setVisible(true);
 
             }
@@ -289,6 +325,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
     /**
      * Tree expansion is used to lazily load children of the selected nodeThatWasDropTargetAsFile
+     * 
      * @param event
      * @throws ExpandVetoException
      */

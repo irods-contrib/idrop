@@ -11,11 +11,13 @@ import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
+
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
@@ -24,11 +26,13 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A transfer handler for the local file tree
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class LocalTreeTransferHandler extends TransferHandler {
-    
-     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalTreeTransferHandler.class);
+
+    public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalTreeTransferHandler.class);
+
     public final iDrop idropGui;
 
     @Override
@@ -55,7 +59,8 @@ public class LocalTreeTransferHandler extends TransferHandler {
                     tree.setDirtyRegion(firstRowRect);
                     g.setColor(tree.getHighlightColor());
 
-                    g.fillRect((int) tree.getDirtyRegion().getX(), (int) tree.getDirtyRegion().getY(), (int) tree.getDirtyRegion().getWidth(), (int) tree.getDirtyRegion().getHeight());
+                    g.fillRect((int) tree.getDirtyRegion().getX(), (int) tree.getDirtyRegion().getY(), (int) tree
+                            .getDirtyRegion().getWidth(), (int) tree.getDirtyRegion().getHeight());
                     tree.setHighlightedRow(closestRow);
                 }
             }
@@ -68,7 +73,8 @@ public class LocalTreeTransferHandler extends TransferHandler {
             if (flavor.equals(DataFlavor.javaFileListFlavor)) {
                 log.debug("found file list flavor, will import");
                 return true;
-            } else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
+            } else if (flavor.getMimeType().equals(
+                    "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
                 log.debug("found file list flavor, will import");
                 return true;
             }
@@ -90,7 +96,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
     @Override
     public boolean importData(TransferSupport ts) {
-          log.info("importData event:{}", ts);
+        log.info("importData event:{}", ts);
         Point pt = ts.getDropLocation().getDropPoint();
         JTree tree = (JTree) ts.getComponent();
         TreePath parentpath = tree.getClosestPathForLocation(pt.x, pt.y);
@@ -102,18 +108,19 @@ public class LocalTreeTransferHandler extends TransferHandler {
         Transferable transferable = ts.getTransferable();
 
         DataFlavor[] transferrableFlavors = transferable.getTransferDataFlavors();
-        
-       boolean  imported = false;
+
+        boolean imported = false;
 
         for (DataFlavor flavor : transferrableFlavors) {
             log.debug("flavor mime type:{}", flavor.getMimeType());
             if (flavor.isFlavorJavaFileListType()) {
                 log.info("process drop as file list");
-              
+
                 processDropAfterAcceptingDataFlavor(transferable, nodeThatWasDropTargetAsFile);
                 imported = true;
                 break;
-            } else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
+            } else if (flavor.getMimeType().equals(
+                    "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
                 log.info("process drop as serialized object");
                 processDropFromSerializedObjectType(transferable, nodeThatWasDropTargetAsFile);
                 imported = true;
@@ -124,8 +131,9 @@ public class LocalTreeTransferHandler extends TransferHandler {
         }
         return imported;
     }
-    
-      private void processDropAfterAcceptingDataFlavor(Transferable transferable, File nodeThatWasDropTargetAsFile) throws IdropRuntimeException {
+
+    private void processDropAfterAcceptingDataFlavor(Transferable transferable, File nodeThatWasDropTargetAsFile)
+            throws IdropRuntimeException {
 
         final List<File> sourceFiles;
 
@@ -165,12 +173,8 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
         }
 
-        //default icon, custom title
-        int n = JOptionPane.showConfirmDialog(
-                idropGui,
-                sb.toString(),
-                "Confirm a Get ",
-                JOptionPane.YES_NO_OPTION);
+        // default icon, custom title
+        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Get ", JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
 
@@ -186,13 +190,18 @@ public class LocalTreeTransferHandler extends TransferHandler {
                             if (transferFile instanceof IRODSFile) {
                                 log.info("initiating a transfer of iRODS file:{}", transferFile.getAbsolutePath());
                                 log.info("transfer to local file:{}", tempTargetLocalFileAbsolutePath);
-                                idropGui.getiDropCore().getTransferManager().enqueueAGet(transferFile.getAbsolutePath(), tempTargetLocalFileAbsolutePath, "", idropGui.getIrodsAccount());
+                                idropGui.getiDropCore()
+                                        .getTransferManager()
+                                        .enqueueAGet(transferFile.getAbsolutePath(), tempTargetLocalFileAbsolutePath,
+                                                "", idropGui.getIrodsAccount());
                             } else {
-                                log.info("process a local to local move with source...not yet implemented : {}", transferFile.getAbsolutePath());
+                                log.info("process a local to local move with source...not yet implemented : {}",
+                                        transferFile.getAbsolutePath());
                             }
                         }
                     } catch (JargonException ex) {
-                        java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                        java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+                                java.util.logging.Level.SEVERE, null, ex);
                         idropGui.showIdropException(ex);
                         throw new IdropRuntimeException(ex);
                     }
@@ -201,11 +210,11 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
         }
     }
-      
-       private void processDropFromSerializedObjectType(Transferable transferable, File parent) {
+
+    private void processDropFromSerializedObjectType(Transferable transferable, File parent) {
         log.debug("processing as a drop of a serialized object");
     }
-       
+
     public LocalTreeTransferHandler(final iDrop idropGui) {
         super("selectionModel");
         if (idropGui == null) {
@@ -226,8 +235,5 @@ public class LocalTreeTransferHandler extends TransferHandler {
     protected void exportDone(JComponent jc, Transferable t, int i) {
         super.exportDone(jc, t, i);
     }
-
-
-
 
 }

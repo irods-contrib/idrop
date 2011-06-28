@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Model for a table viewing metadata
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class MetadataTableModel extends AbstractTableModel {
@@ -63,7 +64,6 @@ public class MetadataTableModel extends AbstractTableModel {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
 
-
         // translate indexes to object values
 
         // 0 = id
@@ -98,6 +98,7 @@ public class MetadataTableModel extends AbstractTableModel {
 
         throw new IdropRuntimeException("unknown column");
     }
+
     private List<MetaDataAndDomainData> metadataAndDomainData = null;
 
     public MetadataTableModel(final List<MetaDataAndDomainData> metadataAndDomainData) {
@@ -162,7 +163,6 @@ public class MetadataTableModel extends AbstractTableModel {
         if (columnIndex == 4) {
             return metadataEntry.getAvuUnit();
         }
-
 
         throw new IdropRuntimeException("unknown column");
 

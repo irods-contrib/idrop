@@ -1,5 +1,6 @@
 
 	<div>
+		<div id="idropLiteArea"><!--  area to show idrop lite applet --></div>
 		<table cellspacing="0" cellpadding="0" border="0"
 			id="browseDataDetailsTable"  style="width: 100%;">
 			<thead>

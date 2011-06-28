@@ -331,7 +331,7 @@ public class LoginDialog extends JDialog {
         btnOK.setText("OK");
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             @Override
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);
             }
         });
@@ -341,7 +341,7 @@ public class LoginDialog extends JDialog {
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             @Override
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
