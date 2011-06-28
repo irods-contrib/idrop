@@ -4,6 +4,8 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -18,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class IRODSTreeTransferable implements Transferable {
+public class IRODSTreeTransferable implements Transferable, ClipboardOwner {
 
     private List<File> files;
 
@@ -72,7 +74,7 @@ public class IRODSTreeTransferable implements Transferable {
 
     @Override
     public DataFlavor[] getTransferDataFlavors() {
-        log.debug("getting data flavors from idrop series (will be a list with one iros file for file or collection");
+        log.debug("getting data flavors from idrop series (will be a list with one irods file for file or collection");
         return new DataFlavor[] { DataFlavor.javaFileListFlavor, irodsTreeDataFlavor };
     }
 
@@ -89,5 +91,10 @@ public class IRODSTreeTransferable implements Transferable {
         }
 
         return files;
+    }
+
+    @Override
+    public void lostOwnership(Clipboard clpbrd, Transferable t) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

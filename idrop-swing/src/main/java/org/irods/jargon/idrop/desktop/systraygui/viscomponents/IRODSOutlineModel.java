@@ -24,8 +24,6 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.netbeans.swing.outline.DefaultOutlineModel;
 import org.netbeans.swing.outline.RowModel;
-import org.netbeans.swing.outline.TreePathSupport;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**

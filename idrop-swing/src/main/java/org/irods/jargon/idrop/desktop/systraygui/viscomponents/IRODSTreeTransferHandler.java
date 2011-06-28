@@ -1,10 +1,13 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.FlavorMap;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DropTarget;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.IOException;
@@ -63,6 +66,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     @Override
     public boolean importData(TransferSupport ts) {
 
+        // FIXME: handle 'paste' drop
         log.info("importData in irods:{}", ts);
         // mac opt = 1 w/o = 2 (no plus icon for a 2 so it's a move) / for drag from local is 1 (copy)
         Point pt = ts.getDropLocation().getDropPoint();
@@ -153,9 +157,17 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
     @Override
     public void exportDone(JComponent comp, Transferable trans, int action) {
+        /* test code for drag to native, please leave in place MC
+        DropTarget dt = comp.getDropTarget();
+        log.debug("dt is:{}", dt);
+        FlavorMap dtFlavorMap = dt.getFlavorMap();
+        log.debug("flavormap:{}", dtFlavorMap);
+        Component dropTargetComponent = dt.getComponent();
+        log.debug("dt component:{}", dropTargetComponent);
         if (action != MOVE) {
-            return;
+         //   return;
         }
+         */
     }
 
     /**
