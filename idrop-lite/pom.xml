@@ -42,4 +42,50 @@
       <version>0.9.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
+  <build>
+  <plugins>
+    <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+        <archive>
+          <index>true</index>
+          <manifest>
+            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+          </manifest>
+        </archive>
+      </configuration>
+      <executions>
+        <execution>
+          <id>make-my-applet-jar</id>
+          <phase>package</phase>
+          <goals>
+            <goal>single</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jarsigner-plugin</artifactId>
+      <executions>
+        <execution>
+          <id>sign</id>
+          <goals>
+            <goal>sign</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <jarPath>${project.build.directory}/${project.build.FinalName}-${project.packaging}-with-dependencies.${project.packaging}</jarPath>
+        <keystore>src/main/resources/signing-jar.keystore</keystore>
+        <alias>applet</alias>
+        <storepass>applet</storepass>
+        <verify>true</verify>
+      </configuration>
+    </plugin>
+    </plugins>
+  </build>
 </project>
