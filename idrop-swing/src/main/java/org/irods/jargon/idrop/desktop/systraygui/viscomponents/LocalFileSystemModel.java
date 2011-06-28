@@ -28,6 +28,29 @@ public class LocalFileSystemModel extends DefaultTreeModel {
         localFileNode.lazyLoadOfChildrenOfThisNode();
     }
 
+    public void notifyFileShouldBeAdded(final LocalFileTree fileTree, final String newFileAbsolutePath) throws IdropException {
+         TreePath parentNodePath = TreeUtils.buildTreePathForLocalAbsolutePath(fileTree,
+                   newFileAbsolutePath);
+            log.debug("tree path for put: {}", parentNodePath);
+            LocalFileNode targetNode = (LocalFileNode) parentNodePath.getLastPathComponent();
+            File entry = (File) targetNode.getUserObject();
+            if (entry.isFile()) {
+                log.info("substitute parent as target, as given node was a leaf");
+                targetNode = (LocalFileNode) targetNode.getParent();
+            }
+            targetNode.forceReloadOfChildrenOfThisNode();
+            targetNode.lazyLoadOfChildrenOfThisNode();
+            this.reload(targetNode);
+            if (entry.isFile()) {
+                parentNodePath = TreeUtils.buildTreePathForLocalAbsolutePath(fileTree, entry.getParent());
+                fileTree.highlightPath(parentNodePath);
+            } else {
+                fileTree.highlightPath(parentNodePath);
+
+            }
+
+    }
+    
     public void notifyCompletionOfOperation(final LocalFileTree fileTree, final TransferStatus transferStatus)
             throws IdropException {
         log.info("tree model notified of status:{}", transferStatus);
