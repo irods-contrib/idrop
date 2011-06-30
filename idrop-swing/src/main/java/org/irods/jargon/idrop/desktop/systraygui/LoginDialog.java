@@ -47,7 +47,19 @@ public class LoginDialog extends JDialog {
         super(iDrop, true);
         this.iDrop = iDrop;
         initComponents();
+        
 
+        if (iDrop.getiDropCore().getIdropConfig().isLoginPreset()) {
+            loginUsingPreset();
+        } else {
+            loginNormally(iDrop);
+        }
+
+        registerKeystrokeListener();
+
+    }
+
+    private void loginNormally(org.irods.jargon.idrop.desktop.systraygui.iDrop iDrop) {
         // predispose based on preferences
         String host = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_HOST, null);
         if (StringUtils.isNotEmpty(host)) {
@@ -68,21 +80,18 @@ public class LoginDialog extends JDialog {
         if (StringUtils.isNotEmpty(username)) {
             txtUserName.setText(username);
         }
+    }
 
-        if (iDrop.getiDropCore().getIdropConfig().isLoginPreset()) {
-            log.debug("login will use presets");
-            lblHost.setVisible(false);
-            txtHost.setVisible(false);
-            lblPort.setVisible(false);
-            txtPort.setVisible(false);
-            lblZone.setVisible(false);
-            txtZone.setVisible(false);
-            lblResource.setVisible(false);
-            txtResource.setVisible(false);
-        }
-
-        registerKeystrokeListener();
-
+    private void loginUsingPreset() {
+        log.debug("login will use presets");
+        lblHost.setVisible(false);
+        txtHost.setVisible(false);
+        lblPort.setVisible(false);
+        txtPort.setVisible(false);
+        lblZone.setVisible(false);
+        txtZone.setVisible(false);
+        lblResource.setVisible(false);
+        txtResource.setVisible(false);
     }
 
     /**
