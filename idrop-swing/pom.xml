@@ -107,7 +107,22 @@
       <scope>runtime</scope>
     </dependency>
     -->
-    
+   <dependency>
+     <groupId>com.jgoodies</groupId>
+     <artifactId>validation</artifactId>
+   </dependency>
+   <dependency>
+     <groupId>cookxml</groupId>
+     <artifactId>cookswing</artifactId>
+   </dependency>
+   <dependency>
+     <groupId>cookxml</groupId>
+     <artifactId>cookxml</artifactId>
+   </dependency> 
+   <dependency>
+     <groupId>cookxml</groupId>
+     <artifactId>cookswing</artifactId>
+   </dependency>   
     <dependency>
       <groupId>org.irods.jargon</groupId>
       <artifactId>jargon-data-utils</artifactId>
