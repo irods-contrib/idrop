@@ -50,6 +50,7 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
     }
 
     public void notifyFileShouldBeRemoved(final IRODSNode deletedNode) throws IdropException {
+        
         if (deletedNode == null) {
             return;
         }
@@ -83,8 +84,8 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
               
                
                 //parent.forceReloadOfChildrenOfThisNode();
-                treeModel.nodeChanged(deletedNode); 
-                 treeModel.nodeChanged(parent); 
+                //treeModel.nodeChanged(deletedNode); 
+                 //treeModel.nodeChanged(parent); 
 
                 //treeModel.nodeChanged(parent); 
                

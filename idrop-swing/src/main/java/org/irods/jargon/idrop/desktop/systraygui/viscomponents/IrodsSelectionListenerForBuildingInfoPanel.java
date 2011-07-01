@@ -89,6 +89,10 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements ListSelection
         if (!idrop.getToggleIrodsDetails().isSelected()) {
             return;
         }
+        
+        if (irodsNode == null) {
+            return;
+        }
 
         if (irodsNode.isLeaf()) {
             log.info("selected node is a leaf, get a data object");
@@ -157,6 +161,7 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements ListSelection
         }
         ListSelectionModel selectionModel = idrop.getIrodsTree().getSelectionModel();
         int idx = selectionModel.getAnchorSelectionIndex();
+        idx = idrop.getIrodsTree().convertRowIndexToModel(idx);     
 
         // use first selection for info
        // int idx = lse.getLastIndex();
