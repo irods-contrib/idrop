@@ -25,13 +25,13 @@ import org.slf4j.LoggerFactory;
  */
 public class ChangePasswordDialog extends javax.swing.JDialog {
 
-    private final iDrop idrop;
+    private final IDROPDesktop idrop;
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(ChangePasswordDialog.class);
 
     /** Creates new form PreferencesDialog */
-    public ChangePasswordDialog(final iDrop idrop, boolean modal) {
-        super(idrop, modal);
+    public ChangePasswordDialog(final IDROPDesktop idrop, boolean modal) {
+        super(idrop.mainFrame, modal);
         this.idrop = idrop;
         initComponents();
     }
@@ -150,7 +150,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         }
 
         if (passwdNewPassword.getPassword().length == 0 || passwdConfirmPassword.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(idrop, "New or confirm password is missing");
+            JOptionPane.showMessageDialog(idrop.mainFrame, "New or confirm password is missing");
             return;
         }
 
@@ -162,7 +162,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         } else {
             passwdNewPassword.setBackground(Color.red);
             passwdConfirmPassword.setBackground(Color.red);
-            JOptionPane.showMessageDialog(idrop, "New and confirm password do not match");
+            JOptionPane.showMessageDialog(idrop.mainFrame, "New and confirm password do not match");
             return;
         }
 
