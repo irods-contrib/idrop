@@ -23,7 +23,7 @@ import org.irods.jargon.idrop.exceptions.IdropException;
  */
 public class MetadataViewDialog extends javax.swing.JDialog {
 
-    private final iDrop idropGui;
+    private final IDROPDesktop idropGui;
 
     private final IRODSAccount irodsAccount;
 
@@ -34,8 +34,8 @@ public class MetadataViewDialog extends javax.swing.JDialog {
     private final boolean collection;
 
     /** Creates new form MetadataViewDialog */
-    public MetadataViewDialog(final iDrop idropGui, final IRODSAccount irodsAccount, final String absolutePath) {
-        super(idropGui, true);
+    public MetadataViewDialog(final IDROPDesktop idropGui, final IRODSAccount irodsAccount, final String absolutePath) {
+        super(idropGui.mainFrame, true);
         this.idropGui = idropGui;
         this.irodsAccount = irodsAccount;
         this.irodsAbsolutePath = absolutePath;
@@ -46,9 +46,9 @@ public class MetadataViewDialog extends javax.swing.JDialog {
     }
 
     /** Creates new form MetadataViewDialog */
-    public MetadataViewDialog(final iDrop idropGui, final IRODSAccount irodsAccount, final String absolutePath,
+    public MetadataViewDialog(final IDROPDesktop idropGui, final IRODSAccount irodsAccount, final String absolutePath,
             final String fileName) {
-        super(idropGui, true);
+        super(idropGui.mainFrame, true);
         this.idropGui = idropGui;
         this.irodsAccount = irodsAccount;
         this.irodsAbsolutePath = absolutePath;
