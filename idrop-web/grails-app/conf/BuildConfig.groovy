@@ -31,6 +31,7 @@ grails.project.dependency.resolution = {
 		provided 'junit:junit:4.8.1'
 		compile 'org.irods.jargon:jargon-core:2.4.1-SNAPSHOT'
 		compile 'org.irods.jargon:jargon-security:2.4.1-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-data-utils:2.4.1-SNAPSHOT'
 		compile ('org.irods.jargon:jargon-user-tagging:2.4.1-SNAPSHOT') {
 			exclude 'junit'
 		}
