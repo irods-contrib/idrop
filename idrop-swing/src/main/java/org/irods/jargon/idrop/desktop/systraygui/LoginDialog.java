@@ -39,12 +39,12 @@ public class LoginDialog extends JDialog {
 
     private static final String PREF_LOGIN_USERNAME = "login.username";
 
-    private iDrop iDrop = null;
+    private IDROPDesktop iDrop = null;
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LoginDialog.class);
 
-    public LoginDialog(iDrop iDrop) {
-        super(iDrop, true);
+    public LoginDialog(IDROPDesktop iDrop) {
+        super(iDrop.mainFrame, true);
         this.iDrop = iDrop;
         initComponents();
 
