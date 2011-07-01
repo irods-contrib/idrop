@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
 
-    private final iDrop idrop;
+    private final IDROPDesktop idrop;
 
     private final String currentAbsolutePath;
 
@@ -49,9 +49,9 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
     public static org.slf4j.Logger log = LoggerFactory.getLogger(RenameIRODSDirectoryDialog.class);
 
     /** Creates new form NewIRODSDirectoryDialog */
-    public RenameIRODSDirectoryDialog(final iDrop parent, final boolean modal, final String currentAbsolutePath,
+    public RenameIRODSDirectoryDialog(final IDROPDesktop parent, final boolean modal, final String currentAbsolutePath,
             final IRODSTree stagingViewTree, final IRODSNode currentNode) {
-        super(parent, modal);
+        super(parent.mainFrame, modal);
         this.idrop = parent;
         this.currentAbsolutePath = currentAbsolutePath;
         this.stagingViewTree = stagingViewTree;
