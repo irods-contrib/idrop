@@ -1,0 +1,85 @@
+<dialog var="editSynchronizationDialog" title="Synchronization" size="520,270" defaultcloseoperation="HIDE_ON_CLOSE"
+  locationrelativeto="mainFrame" modal="true" resizable="false">
+  <panel>
+    <borderlayout>
+      <constraint location="Center">
+        <panel>
+          <titledborder title="Synchronization" titlejustification="LEFT" titleposition="CENTER" titlefont="SansSerif,bold,14">
+            <etchedborder type="LOWERED" />
+          </titledborder>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc1" gridx="0" gridy="0" weightx="0.1" weighty="0.001" fill="BOTH" insets="4,4,4,4">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc2" gridx="0" gridy="0" weightx="0.03" weighty="0.1" anchor="EAST">
+                    <label text="Name:" font="SansSerif,bold,12" />
+                  </gridbagconstraints>
+                  <idref ctor="gbc2" gridx="1" gridy="0" weightx="0.07" weighty="0.1" anchor="WEST">
+                    <textfield var="editSynchronizationDialogNameTextField" columns="15" font="SansSerif,plain,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="0" gridy="1" weightx="0.03" anchor="EAST">
+                    <label text="Device Name:" font="SansSerif,bold,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="1" gridy="1" weightx="0.05" anchor="WEST">
+                    <textfield var="editSynchronizationDialogDeviceNameTextField" columns="25" font="SansSerif,plain,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="0" gridy="2" weightx="0.03" anchor="EAST">
+                    <label text="Local Path:" font="SansSerif,bold,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="1" gridy="2" weightx="0.05" anchor="WEST">
+                    <textfield var="editSynchronizationDialogLocalPathTextField" columns="25" font="SansSerif,plain,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="2" gridy="2" weightx="0.02" anchor="WEST">
+                    <button var="editSynchronizationDialogLocalPathBrowseButton" text="Browse"
+                      actionlistener="editSynchronizationDialogLocalPathBrowseActionListener" font="SansSerif,plain,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="0" gridy="3" weightx="0.03" anchor="EAST">
+                    <label text="Remote Path:" font="SansSerif,bold,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="1" gridy="3" weightx="0.05" anchor="WEST">
+                    <textfield var="editSynchronizationDialogRemotePathTextField" columns="25" font="SansSerif,plain,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="2" gridy="3" weightx="0.02" anchor="WEST">
+                    <button var="editSynchronizationDialogRemotePathBrowseButton" text="Browse"
+                      actionlistener="editSynchronizationDialogRemotePathBrowseActionListener" font="SansSerif,plain,12" />
+                  </idref>
+                  <!-- <idref ctor="gbc2" gridx="0" gridy="4" weightx="0.03" anchor="EAST"> -->
+                  <!-- <label text="Frequency:" font="SansSerif,bold,12" /> -->
+                  <!-- </idref> -->
+                  <!-- <idref ctor="gbc2" gridx="1" gridy="5" weightx="0.07" anchor="WEST"> -->
+                  <!-- <combobox var="editSynchronizationDialogFrequencyComboBox" font="SansSerif,plain,12"> -->
+                  <!-- <string text="Select" /> -->
+                  <!-- </combobox> -->
+                  <!-- </idref> -->
+                </gridbaglayout>
+              </panel>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+      </constraint>
+      <constraint location="South">
+        <panel>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc_button" gridx="0" gridy="0" weightx="0.0" weighty="0.1" insets="2,2,2,2">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc_button_form" gridx="0" gridy="0" weightx="0.1" weighty="0.1" insets="2,2,2,2">
+                    <button text="Save" var="editSynchronizationDialogSaveButton" actionlistener="editSynchronizationDialogSaveActionListener"
+                      font="SansSerif,bold,14" />
+                  </gridbagconstraints>
+                  <idref ctor="gbc_button_form" gridx="1" gridy="0">
+                    <button text="Cancel" var="editSynchronizationDialogCancelButton" actionlistener="editSynchronizationDialogCancelActionListener"
+                      font="SansSerif,bold,14" />
+                  </idref>
+                </gridbaglayout>
+              </panel>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+      </constraint>
+    </borderlayout>
+  </panel>
+  <noadd>
+    <filechooser var="editSynchronizationDialogLocalPathFileChooser" />
+  </noadd>
+</dialog>

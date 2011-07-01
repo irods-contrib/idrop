@@ -1,0 +1,18 @@
+<window size="420,315" alwaysontop="false">
+  <borderlayout>
+    <constraint location="Center">
+      <label>
+        <imageicon src="org/irods/jargon/idrop/desktop/images/iDrop.png" setas="icon" />
+      </label>
+    </constraint>
+    <constraint location="South">
+      <progressbar var="startupProgressBar" stringpainted="true" minimum="0" maximum="6" value="0"/>
+    </constraint>
+  </borderlayout>
+  <noadd>
+    <include ctor="org/irods/jargon/idrop/loginDialog.xml" />
+    <include ctor="org/irods/jargon/idrop/editSynchronizationDialog.xml" />
+    <include ctor="org/irods/jargon/idrop/remoteFileChooserDialog.xml" />
+    <include ctor="org/irods/jargon/idrop/preferencesDialog.xml" />
+  </noadd>
+</window>

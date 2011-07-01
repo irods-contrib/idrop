@@ -1,0 +1,102 @@
+<dialog var="remoteFileChooserDialog" title="Remote File Chooser" defaultcloseoperation="DISPOSE_ON_CLOSE" modal="true" size="500,350"
+  resizable="false">
+  <panel>
+    <gridbaglayout>
+      <gridbagconstraints id="gbc1" gridx="0" gridy="0" weightx="0.1" weighty="0.005" insets="8,8,8,8" fill="BOTH">
+        <panel>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc2" gridx="0" gridy="0" weightx="0.02" weighty="0.1">
+              <label text="Look In:" />
+            </gridbagconstraints>
+            <idref ctor="gbc2" gridx="1" gridy="0" weightx="0.47" fill="HORIZONTAL">
+              <combobox var="remoteFileChooserDialogLookInComboBox" font="SansSerif,plain,12" itemlistener="remoteFileChooserDialogLookInItemListener" />
+            </idref>
+            <idref ctor="gbc2" gridx="2" gridy="0" weightx="0.01" fill="NONE">
+              <button var="remoteFileChooserDialogUpFolderButton" preferredsize="25,25" actionlistener="remoteFileChooserDialogUpFolderActionListener" />
+            </idref>
+            <idref ctor="gbc2" gridx="3" gridy="0" weightx="0.01">
+              <button var="remoteFileChooserDialogHomeFolderButton" preferredsize="25,25" actionlistener="remoteFileChooserDialogHomeFolderActionListener"
+                enabled="false" />
+            </idref>
+            <idref ctor="gbc2" gridx="4" gridy="0" weightx="0.01">
+              <button var="remoteFileChooserDialogNewFolderButton" preferredsize="25,25" actionlistener="remoteFileChooserDialogNewFolderActionListener" />
+            </idref>
+            <idref ctor="gbc2" gridx="5" gridy="0" weightx="0.00001">
+              <button var="remoteFileChooserDialogListViewButton" preferredsize="25,25" actionlistener="remoteFileChooserDialogListViewActionListener" />
+            </idref>
+            <idref ctor="gbc2" gridx="6" gridy="0" weightx="0.00001">
+              <button var="remoteFileChooserDialogDetailsViewButton" preferredsize="25,25" actionlistener="remoteFileChooserDialogDetailsViewActionListener" />
+            </idref>
+          </gridbaglayout>
+        </panel>
+      </gridbagconstraints>
+      <idref ctor="gbc1" gridx="0" gridy="1" weighty="0.089" insets="0,8,0,8">
+        <panel>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc2" gridx="0" gridy="0" weightx="0.1" weighty="0.1" fill="BOTH">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc3" gridx="0" gridy="0" weightx="0.1" weighty="0.1" fill="BOTH">
+                    <scrollpane>
+                      <list var="remoteFileChooserDialogList" selectionmode="SINGLE_SELECTION" layoutorientation="VERTICAL_WRAP"
+                        visiblerowcount="7" mouselistener="remoteFileChooserDialogListMouseListener" listselectionlistener="remoteFileChooserDialogListSelectionListener">
+                        <defaultlistmodel var="remoteFileChooserDialogListModel" setas="model" />
+                      </list>
+                    </scrollpane>
+                  </gridbagconstraints>
+                </gridbaglayout>
+              </panel>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+      </idref>
+      <idref ctor="gbc1" gridx="0" gridy="2" weighty="0.005" insets="8,8,8,8">
+        <panel>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc2" gridx="0" gridy="0" weightx="0.1" weighty="0.1" fill="BOTH">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc3" gridx="0" gridy="0" weightx="0.015" weighty="0.1" fill="BOTH">
+                    <label text="File Name:" />
+                  </gridbagconstraints>
+                  <idref ctor="gbc3" gridx="1" gridy="0" weightx="0.085">
+                    <textfield var="remoteFileChooserDialogFileNameTextField" columns="30" />
+                  </idref>
+                  <idref ctor="gbc3" gridx="0" gridy="1" weightx="0.015">
+                    <label text="Files of Type:" />
+                  </idref>
+                  <idref ctor="gbc3" gridx="1" gridy="1" weightx="0.085">
+                    <combobox var="remoteFileChooserDialogFileTypeComboBox" font="SansSerif,plain,12" itemlistener="remoteFileChooserDialogFileTypeItemListener">
+                      <string text="" />
+                      <string text="All Files" />
+                    </combobox>
+                  </idref>
+                </gridbaglayout>
+              </panel>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+      </idref>
+      <idref ctor="gbc1" gridx="0" gridy="3" weighty="0.0001">
+        <panel>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc2" gridx="0" gridy="0" weightx="0.1" weighty="0.1" fill="BOTH">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc3" gridx="0" gridy="0" weightx="0.0985" weighty="0.1" anchor="EAST">
+                    <button text="Open" var="remoteFileChooserDialogOpenButton" actionlistener="remoteFileChooserDialogOpenActionListener"
+                      font="SansSerif,bold,14" />
+                  </gridbagconstraints>
+                  <idref ctor="gbc3" gridx="1" weightx="0.0015">
+                    <button text="Cancel" var="remoteFileChooserDialogCancelButton" actionlistener="remoteFileChooserDialogCancelActionListener"
+                      font="SansSerif,bold,14" />
+                  </idref>
+                </gridbaglayout>
+              </panel>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+      </idref>
+    </gridbaglayout>
+  </panel>
+</dialog>
