@@ -98,6 +98,9 @@ public class StartupSequencer {
             IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(
                     derivedConfigHomeDirectory);
             derivedProperties = idropConfigurationService.bootstrapConfiguration();
+            
+            
+            
         } catch (IdropAlreadyRunningException are) {
             log.error("idrop is already running, shutting down");
             JOptionPane.showMessageDialog((Component) null, "iDrop is already running, cannot start", "iDrop Error",

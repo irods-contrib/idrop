@@ -56,8 +56,10 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     public Properties bootstrapConfiguration() throws IdropException {
         log.info("bootstrapConfiguratiion()\nlooking for properties in database");
         Properties databaseProperties;
+        Properties configFileProperties;
         try {
             databaseProperties = configurationService.exportProperties();
+            configFileProperties = this.importPropertiesFromDefaultFile();
 
         } catch (Exception ex) {
             Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,6 +83,23 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         }
 
         log.info("now storing derived properties in idrop configuration");
+        
+        /*
+         * This is something of a shim right now until config things settle down.  For lifetime library, force into login preset mode
+         */
+        
+        String forceMode = (String) configFileProperties.getProperty(FORCE_MODE);
+        if (forceMode != null) {
+            boolean isForce = Boolean.valueOf(forceMode);
+            log.info("force mode is:{}", isForce);
+            if (isForce) {
+                log.warn("forcing into login preset mode");
+                databaseProperties.setProperty(LOGIN_PRESET, "true");
+            }
+        }
+        
+        log.info("checking for force mode, which forces certain properties to be loaded from the idrop.properties file");
+        
         saveConfigurationToPropertiesFile();
         return databaseProperties;
 

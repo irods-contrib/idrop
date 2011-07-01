@@ -14,6 +14,8 @@ import org.irods.jargon.idrop.exceptions.IdropException;
  */
 public interface IdropConfigurationService {
     String IDROP_PROPS_FILE_NAME = "idrop.properties";
+    String FORCE_MODE = "force.mode";
+    String LOGIN_PRESET = "login.preset";
 
     Properties bootstrapConfiguration() throws IdropException;
 
