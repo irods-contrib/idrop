@@ -1,24 +1,7 @@
-Startup sequence
-
-
-1) init components to build gui, create base iDrop core
-
-in iDrop startup
-
-2) add irodsFileSystem to iDrop Core
-
-3) start splash thread while building other iDrop UI
-
-in Splash thread
-
-4) add idropConfig to iDrop core
-
-5) show login dialog
-
-6) start db
-
-7) get current queue and indicate whether pause/run if enqueued
-
-
+ deleting:/lifelibZone/home/mconway/temp/IRODSFileTest/roger/george/enqueueAPutWhenPaused/testSubdirlvl1nbr0
+2011-07-01 08:48:27,935 89647 [SwingWorker-pool-1-thread-2] INFO  org.irods.jargon.core.pub.io.IRODSFileImpl  - cached path says dir
+2011-07-01 08:48:27,936 89648 [SwingWorker-pool-1-thread-2] INFO  org.irods.jargon.core.connection.IRODSCommands  - calling irods function with streams
+2011-07-01 08:48:27,936 89648 [SwingWorker-pool-1-thread-2] INFO  org.irods.jargon.core.connection.IRODSCommands  - reading message from irods
+2011-07-01 08:48:29,129 90841 [SwingWorker-pool-1-thread-2] INFO  org.irods.jargon.core.pub.IRODSFileSystemAOImpl  - deletion successful
 
 

@@ -882,9 +882,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener, ItemLis
 
             @Override
             public void run() {
-                idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+             
 
                 try {
+                       idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     if (collectionAndDataObjectListingEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
                         log.info("looking up collection to build info panel");
                         CollectionAO collectionAO = getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory()

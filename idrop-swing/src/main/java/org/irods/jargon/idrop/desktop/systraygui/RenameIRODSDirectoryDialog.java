@@ -317,7 +317,7 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
                     irodsFileSystemModel.reload(targetParentNode);
                     stagingViewTree.expandPath(pathForNew);
 
-                    idrop.showMessageFromOperation("The rename was successful");
+                   // idrop.showMessageFromOperation("The rename was successful");
 
                 } catch (IdropException ex) {
                     Logger.getLogger(RenameIRODSDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);

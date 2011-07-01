@@ -1,5 +1,6 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
+import java.awt.Cursor;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -88,6 +89,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
 
         CollectionAndDataObjectListingEntry parentObject = (CollectionAndDataObjectListingEntry) this.getUserObject();
         try {
+            irodsTree.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
             CollectionAndDataObjectListAndSearchAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory()
                     .getCollectionAndDataObjectListAndSearchAO(irodsAccount);
@@ -111,6 +113,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
             if (closeTheConnectionAfterLoad) {
                 irodsFileSystem.closeAndEatExceptions(irodsAccount);
             }
+            irodsTree.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
