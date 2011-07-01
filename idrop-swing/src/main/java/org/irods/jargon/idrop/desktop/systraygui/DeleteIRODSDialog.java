@@ -337,7 +337,7 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
                 throw new IdropRuntimeException(ex);
             }
             dialog.dispose();
-            idrop.showMessageFromOperation(message);
+          
         }
     }
 }

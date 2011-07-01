@@ -84,10 +84,11 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                
                 //parent.forceReloadOfChildrenOfThisNode();
                 treeModel.nodeChanged(deletedNode); 
+                 treeModel.nodeChanged(parent); 
 
                 //treeModel.nodeChanged(parent); 
                
-               stagingViewTree.highlightPath(path);
+               //stagingViewTree.highlightPath(path);
                     
           
           
