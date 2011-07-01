@@ -11,13 +11,21 @@
 
 package org.irods.jargon.idrop.lite;
 
+import java.awt.Rectangle;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import java.util.logging.Logger;
+import javax.swing.JToggleButton;
+import javax.swing.tree.TreePath;
+import org.irods.jargon.core.pub.domain.DataObject;
+import org.irods.jargon.core.pub.domain.Collection;
+import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.UserAO;
+//import org.irods.jargon.datautils.accountcache.AccountCacheServiceImpl;
+import org.netbeans.swing.outline.Outline;
 
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +38,8 @@ public class iDropLiteApplet extends javax.swing.JApplet {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(iDropLiteApplet.class);
     private iDropLiteCore iDropCore = null;
     private IRODSAccount irodsAccount = null;
-    //private IRODSTree irodsTree = null;
+    private LocalFileTree fileTree = null;
+    private IRODSTree irodsTree = null;
     protected String host;
     protected Integer port;
     protected String zone;
@@ -47,6 +56,7 @@ public class iDropLiteApplet extends javax.swing.JApplet {
                 public void run() {
                     getAppletParams();
                     initComponents();
+                    bntRefreshIrodsTree.hide();
                     doStartup();
                 }
             });
@@ -131,10 +141,13 @@ public class iDropLiteApplet extends javax.swing.JApplet {
 
 
     protected void doStartup() {
+
         log.info("initiating startup sequence...");
 
         log.info("creating idropCore...");
         iDropCore = new iDropLiteCore();
+        //iDropCore.setIrodsAccount(irodsAccount);
+        //iDropCore.setIdropConfig();
 
         try {
             iDropCore.setIrodsFileSystem(IRODSFileSystem.instance());
@@ -145,6 +158,98 @@ public class iDropLiteApplet extends javax.swing.JApplet {
         if(processLogin()) {
         	JOptionPane.showMessageDialog(this, "Login Successful", "Login Status", JOptionPane.PLAIN_MESSAGE);
         }
+        iDropCore.setIrodsAccount(irodsAccount);
+
+        buildTargetTree();
+    }
+
+    public void buildTargetTree() {
+        log.info("building tree to look at staging resource");
+        final iDropLiteApplet gui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+                CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
+
+                /*if (iDropCore.getIdropConfig().isLoginPreset()) {
+                    log.info("using policy preset home directory");
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("/");
+                    sb.append(getIrodsAccount().getZone());
+                    sb.append("/");
+                    sb.append("home");
+                    root.setParentPath(sb.toString());
+                    root.setPathOrName(getIrodsAccount().getHomeDirectory());
+                } else {*/
+                    log.info("using root path, no login preset");
+                    root.setPathOrName("/");
+                //}
+
+                log.info("building new iRODS tree");
+                try {
+                    if (irodsTree == null) {
+                        irodsTree = new IRODSTree(gui);
+                        IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
+                                getiDropCore().getIrodsFileSystem(), irodsTree);
+                        irodsTree.setRefreshingTree(true);
+                        // irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+                    }
+                    IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(), getiDropCore().getIrodsFileSystem(),
+                            irodsTree);
+
+                    IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(rootNode, getIrodsAccount());
+                    IRODSOutlineModel mdl = new IRODSOutlineModel(gui, irodsFileSystemModel, new IRODSRowModel(), true,
+                            "File System");
+                    irodsTree.setModel(mdl);
+
+                    /*
+                     * IrodsTreeListenerForBuildingInfoPanel treeListener = new
+                     * IrodsTreeListenerForBuildingInfoPanel(gui); irodsTree.addTreeExpansionListener(treeListener);
+                     * irodsTree.addTreeSelectionListener(treeListener); // preset to display root tree node
+                     * irodsTree.setSelectionRow(0);
+                     */
+                } catch (Exception ex) {
+                    Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new IdropRuntimeException(ex);
+                }
+
+                scrollIrodsTree.setViewportView(getTreeStagingResource());
+                try {
+                    TreePath selectedPath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, absPath);
+                    irodsTree.expandPath(selectedPath);
+                    //irodsTree.getSelectionModel().setSelectionInterval(10, 12);
+                    Rectangle rect = irodsTree.getPathBounds(selectedPath);
+                    scrollIrodsTree.getViewport().scrollRectToVisible(rect);
+                }
+                catch(IdropException ex) {
+                    Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                /*
+                 * TreePath currentPath;
+                 *
+                 * if (currentPaths != null) { while (currentPaths.hasMoreElements()) { currentPath = (TreePath)
+                 * currentPaths.nextElement(); log.debug("expanding tree path:{}", currentPath);
+                 * irodsTree.expandPath(currentPath); } }
+                 */
+                irodsTree.setRefreshingTree(false);
+
+                getiDropCore().getIrodsFileSystem().closeAndEatExceptions(iDropCore.getIrodsAccount());
+            }
+        });
+    }
+
+    public IRODSAccount getIrodsAccount() {
+        synchronized (this) {
+            return this.iDropCore.getIrodsAccount();
+        }
+    }
+
+    public JToggleButton getToggleIrodsDetails() {
+        // FIX ME: NEED TO IMPLEMENT
+        return new JToggleButton();
     }
 
     public void showIdropException(Exception idropException) {
@@ -162,6 +267,126 @@ public class iDropLiteApplet extends javax.swing.JApplet {
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
+    }
+
+    /**
+     * Initialize the info panel with data from iRODS. In this case, the data is an iRODS data object (file)
+     *
+     * @param dataObject
+     *            <code>DataObject</code> iRODS domain object for a file.
+     * @throws IdropException
+     */
+    public void initializeInfoPanel(final DataObject dataObject) throws IdropException {
+/*
+        if (!toggleIrodsDetails.isSelected()) {
+            log.info("info display not selected, don't bother");
+            return;
+        }
+
+        if (dataObject == null) {
+            throw new IdropException("Null dataObject");
+        }
+
+        this.lastCachedInfoItem = dataObject;
+        final iDrop idropGui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+                lblFileOrCollectionName.setText(dataObject.getDataName());
+                txtParentPath.setText(dataObject.getCollectionName());
+                txtComment.setText(dataObject.getComments());
+
+                log.debug("getting available tags for data object");
+
+                try {
+                    FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore()
+                            .getIrodsFileSystem().getIRODSAccessObjectFactory(), getiDropCore().getIrodsAccount());
+                    IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForDataObjectInFreeTagForm(dataObject
+                            .getCollectionName() + "/" + dataObject.getDataName());
+                    txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
+                    pnlInfoIcon.removeAll();
+                    pnlInfoIcon.add(IconHelper.getFileIcon());
+                    pnlInfoIcon.validate();
+                    lblInfoCreatedAtValue.setText(df.format(dataObject.getCreatedAt()));
+                    lblInfoUpdatedAtValue.setText(df.format(dataObject.getUpdatedAt()));
+                    lblInfoLengthValue.setText(String.valueOf(dataObject.getDataSize()));
+                    lblInfoLengthValue.setVisible(true);
+                    lblInfoLength.setVisible(true);
+                } catch (JargonException ex) {
+                    Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new IdropRuntimeException(ex);
+                } finally {
+                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(getIrodsAccount());
+                    idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
+        });
+ */
+
+    }
+
+     /**
+     * Initialize the info panel with data from iRODS. In this case, the data is an iRODS collection (directory).
+     *
+     * @param collection
+     * @throws IdropException
+     */
+    public void initializeInfoPanel(final Collection collection) throws IdropException {
+        if (collection == null) {
+            throw new IdropException("Null collection");
+        }
+
+        log.info("initialize info panel with collection:{}", collection);
+        /*
+
+        if (!toggleIrodsDetails.isSelected()) {
+            log.info("info display not selected, don't bother");
+            return;
+        }
+
+        this.lastCachedInfoItem = collection;
+        final iDrop idropGui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+                idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+                lblFileOrCollectionName.setText(collection.getCollectionLastPathComponent());
+                txtParentPath.setText(collection.getCollectionParentName());
+                txtComment.setText(collection.getComments());
+
+                log.debug("getting available tags for data object");
+
+                try {
+                    FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore()
+                            .getIrodsFileSystem().getIRODSAccessObjectFactory(), getIrodsAccount());
+                    IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForCollectionInFreeTagForm(collection
+                            .getCollectionName());
+                    txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
+                    pnlInfoIcon.removeAll();
+                    pnlInfoIcon.add(IconHelper.getFolderIcon());
+                    pnlInfoIcon.validate();
+                    lblInfoCreatedAtValue.setText(df.format(collection.getCreatedAt()));
+                    lblInfoUpdatedAtValue.setText(df.format(collection.getModifiedAt()));
+                    lblInfoLengthValue.setVisible(false);
+                    lblInfoLength.setVisible(false);
+                } catch (JargonException ex) {
+                    Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new IdropRuntimeException(ex);
+                } finally {
+                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(getIrodsAccount());
+                    idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
+        });
+        */
     }
 
     /** This method is called from within the init() method to
@@ -232,5 +457,21 @@ public class iDropLiteApplet extends javax.swing.JApplet {
     private javax.swing.JScrollPane scrollIrodsTree;
     private javax.swing.JTabbedPane tabIrodsViews;
     // End of variables declaration//GEN-END:variables
+
+    public IRODSTree getIrodsTree() {
+        return irodsTree;
+    }
+
+    public iDropLiteCore getiDropCore() {
+        return iDropCore;
+    }
+
+    public LocalFileTree getFileTree() {
+        return fileTree;
+    }
+
+    public Outline getTreeStagingResource() {
+        return irodsTree;
+    }
 
 }
