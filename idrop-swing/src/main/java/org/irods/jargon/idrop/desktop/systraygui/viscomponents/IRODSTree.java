@@ -24,7 +24,7 @@ import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.DeleteIRODSDialog;
 import org.irods.jargon.idrop.desktop.systraygui.NewIRODSDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.RenameIRODSDirectoryDialog;
-import org.irods.jargon.idrop.desktop.systraygui.iDrop;
+import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.netbeans.swing.outline.DefaultOutlineModel;
@@ -42,7 +42,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTree.class);
 
-    protected iDrop idropParentGui = null;
+    protected IDROPDesktop idropParentGui = null;
 
     protected JPopupMenu m_popup = null;
 
@@ -68,7 +68,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
         }
     }
 
-    public IRODSTree(TreeModel newModel, iDrop idropParentGui) {
+    public IRODSTree(TreeModel newModel, IDROPDesktop idropParentGui) {
         super();
 
         OutlineModel mdl = DefaultOutlineModel.createOutlineModel(newModel, new IRODSRowModel(), true, "File System");
@@ -84,7 +84,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
         super();
     }
 
-    public IRODSTree(iDrop idropParentGui) {
+    public IRODSTree(IDROPDesktop idropParentGui) {
         super();
         this.idropParentGui = idropParentGui;
         initializeMenusAndListeners();
@@ -152,8 +152,8 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
                 NewIRODSDirectoryDialog newDirectoryDialog = new NewIRODSDirectoryDialog(idropParentGui, true,
                         dataEntry.getPathOrName(), thisTree, parent);
                 newDirectoryDialog.setLocation(
-                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
-                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                        (int) (idropParentGui.mainFrame.getLocation().getX() + idropParentGui.mainFrame.getWidth() / 2),
+                        (int) (idropParentGui.mainFrame.getLocation().getY() + idropParentGui.mainFrame.getHeight() / 2));
                 newDirectoryDialog.setVisible(true);
             }
         };
@@ -186,8 +186,8 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
                     deleteDialog = new DeleteIRODSDialog(idropParentGui, true, thisTree, nodesToDelete);
                 }
 
-                deleteDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
-                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                deleteDialog.setLocation((int) (idropParentGui.mainFrame.getLocation().getX() + idropParentGui.mainFrame.getWidth() / 2),
+                        (int) (idropParentGui.mainFrame.getLocation().getY() + idropParentGui.mainFrame.getHeight() / 2));
                 deleteDialog.setVisible(true);
             }
         };
@@ -217,8 +217,8 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
                 // show a dialog asking for the new directory name...
                 RenameIRODSDirectoryDialog renameDialog = new RenameIRODSDirectoryDialog(idropParentGui, true,
                         sb.toString(), thisTree, toRename);
-                renameDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
-                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                renameDialog.setLocation((int) (idropParentGui.mainFrame.getLocation().getX() + idropParentGui.mainFrame.getWidth() / 2),
+                        (int) (idropParentGui.mainFrame.getLocation().getY() + idropParentGui.mainFrame.getHeight() / 2));
                 renameDialog.setVisible(true);
             }
         };
