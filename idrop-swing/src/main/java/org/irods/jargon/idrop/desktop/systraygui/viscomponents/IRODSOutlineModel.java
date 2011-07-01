@@ -18,7 +18,7 @@ import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.core.transfer.TransferStatus.TransferState;
-import org.irods.jargon.idrop.desktop.systraygui.iDrop;
+import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
@@ -33,14 +33,14 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
 
     public static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSOutlineModel.class);
 
-    private iDrop idrop;
+    private IDROPDesktop idrop;
 
-    public IRODSOutlineModel(iDrop idrop, TreeModel tm, TableModel tm1, boolean bln, String string) {
+    public IRODSOutlineModel(IDROPDesktop idrop, TreeModel tm, TableModel tm1, boolean bln, String string) {
         super(tm, tm1, bln, string);
         this.idrop = idrop;
     }
 
-    public IRODSOutlineModel(iDrop idrop, TreeModel tm, RowModel rm, boolean bln, String string) {
+    public IRODSOutlineModel(IDROPDesktop idrop, TreeModel tm, RowModel rm, boolean bln, String string) {
         super(tm, rm, bln, string);
         this.idrop = idrop;
     }
