@@ -20,7 +20,7 @@ import javax.swing.tree.TreePath;
 
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
-import org.irods.jargon.idrop.desktop.systraygui.iDrop;
+import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalTreeTransferHandler.class);
 
-    public final iDrop idropGui;
+    public final IDROPDesktop idropGui;
 
     @Override
     public boolean canImport(TransferSupport support) {
@@ -174,7 +174,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
         }
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Get ", JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(idropGui.mainFrame, sb.toString(), "Confirm a Get ", JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
 
@@ -215,7 +215,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
         log.debug("processing as a drop of a serialized object");
     }
 
-    public LocalTreeTransferHandler(final iDrop idropGui) {
+    public LocalTreeTransferHandler(final IDROPDesktop idropGui) {
         super("selectionModel");
         if (idropGui == null) {
             throw new IllegalArgumentException("null idropGui");
