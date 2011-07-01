@@ -8,6 +8,8 @@ import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.UserAO
 import org.springframework.security.core.context.SecurityContextHolder
+import org.irods.jargon.datautils.datacache.DataCacheService
+import org.irods.jargon.datautils.datacache.DataCacheServiceImpl
 
 
 
@@ -43,6 +45,11 @@ class IdropLiteController {
 		
 		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
 		def password = userAO.getTemporaryPasswordForConnectedUser()
+		DataCacheService dataCacheService = new DataCacheServiceImpl();
+		dataCacheService.irodsAccessObjectFactory = irodsAccessObjectFactory
+		dataCacheService.irodsAccount = irodsAccount
+		dataCacheService.putStringValueIntoCache(irodsAccount.password, password)
+		
 		log.info "temporary user password is: ${password}"
 		render(view:"appletLoader", model:[password:password, account:irodsAccount, absPath:absPath])
 		
