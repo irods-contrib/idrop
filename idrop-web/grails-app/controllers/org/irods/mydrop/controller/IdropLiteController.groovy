@@ -50,8 +50,11 @@ class IdropLiteController {
 		dataCacheService.irodsAccount = irodsAccount
 		dataCacheService.putStringValueIntoCache(irodsAccount.password, password)
 		
+		/* set applet operation mode to indicate temporary password is being sent */
+		def mode = "1";
+		
 		log.info "temporary user password is: ${password}"
-		render(view:"appletLoader", model:[password:password, account:irodsAccount, absPath:absPath])
+		render(view:"appletLoader", model:[mode:mode, password:password, account:irodsAccount, absPath:absPath])
 		
 	}
 }
