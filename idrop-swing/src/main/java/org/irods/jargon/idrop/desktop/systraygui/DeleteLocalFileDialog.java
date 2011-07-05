@@ -64,9 +64,9 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
     }
 
     /** Creates new form to delete a local file */
-    public DeleteLocalFileDialog(final iDrop parent, final boolean modal, final LocalFileTree localFileTree,
+    public DeleteLocalFileDialog(final IDROPDesktop parent, final boolean modal, final LocalFileTree localFileTree,
             final List<LocalFileNode> deletedNodes) {
-        super(parent, modal);
+        super(parent.mainFrame, modal);
         this.idrop = parent;
         this.directoryToDelete = null;
         this.localFileTree = localFileTree;
