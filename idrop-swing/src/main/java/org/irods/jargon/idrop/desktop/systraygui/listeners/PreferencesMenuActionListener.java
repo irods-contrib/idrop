@@ -45,7 +45,7 @@ public class PreferencesMenuActionListener implements ActionListener {
         desktop.preferencesDialogShowPreferencesCheckBox.setSelected(showPreferences ? true : false);
 
         boolean showSplash = prefs.getBoolean(PREFERENCE_KEY_SHOW_SPLASH, true);
-        desktop.preferencesDialogShowPreferencesCheckBox.setSelected(showSplash ? true : false);
+        desktop.preferencesDialogShowSplashScreenCheckBox.setSelected(showSplash ? true : false);
 
         boolean showGUI = prefs.getBoolean(PREFERENCE_KEY_SHOW_UI, true);
         desktop.preferencesDialogShowUICheckBox.setSelected(showGUI);
