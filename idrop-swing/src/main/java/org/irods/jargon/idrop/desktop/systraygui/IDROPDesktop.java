@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -42,6 +43,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
@@ -62,6 +64,10 @@ import org.irods.jargon.core.query.MetaDataAndDomainData.MetadataDomain;
 import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.idrop.desktop.systraygui.components.RemoteFSChooserListCellRenderer;
 import org.irods.jargon.idrop.desktop.systraygui.components.RemoteFileChooserDialogLookInComboBoxRender;
+import org.irods.jargon.idrop.desktop.systraygui.listeners.ChangePasswordCancelActionListener;
+import org.irods.jargon.idrop.desktop.systraygui.listeners.ChangePasswordDialogEnterKeyListener;
+import org.irods.jargon.idrop.desktop.systraygui.listeners.ChangePasswordMenuActionListener;
+import org.irods.jargon.idrop.desktop.systraygui.listeners.ChangePasswordSaveActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationDialogCancelActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationDialogLocalPathBrowseActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationDialogRemotePathBrowseActionListener;
@@ -69,6 +75,7 @@ import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationDi
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsDialogDeleteActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsDialogEditActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsDialogNewActionListener;
+import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsDialogRunNowActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsMenuActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.PreferencesDialogCancelActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.PreferencesDialogSaveActionListener;
@@ -142,19 +149,20 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
 
     private Object lastCachedInfoItem = null;
 
-    private ChangePasswordDialog changePasswordDialog = null;
-
     public JList editSynchronizationsDialogList, remoteFileChooserDialogList;
+
+    public JPasswordField changePasswordDialogPasswordPasswordField, changePasswordDialogPasswordConfirmPasswordField;
 
     public JTextField editSynchronizationDialogLocalPathTextField, editSynchronizationDialogNameTextField,
             editSynchronizationDialogRemotePathTextField, remoteFileChooserDialogFileNameTextField,
             preferencesDialogDefaultLocalDirectoryTextField, editSynchronizationDialogDeviceNameTextField,
-            preferencesDialogDeviceNameTextField;
+            preferencesDialogDeviceNameTextField, changePasswordDialogCurrentAccountTextField;
 
-    public JDialog editSynchronizationsDialog, editSynchronizationDialog, remoteFileChooserDialog, preferencesDialog;
+    public JDialog editSynchronizationsDialog, editSynchronizationDialog, remoteFileChooserDialog, preferencesDialog,
+            changePasswordDialog;
 
     public JCheckBox preferencesDialogShowUICheckBox, preferencesDialogShowHiddenFilesCheckBox,
-            preferencesDialogShowPreferencesCheckBox;
+            preferencesDialogShowPreferencesCheckBox, preferencesDialogShowSplashScreenCheckBox;
 
     public DefaultListModel editSynchronizationsDialogListModel, remoteFileChooserDialogListModel;
 
@@ -165,7 +173,8 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
             editSynchronizationDialogLocalPathBrowseButton, remoteFileChooserDialogNewFolderButton,
             remoteFileChooserDialogUpFolderButton, remoteFileChooserDialogHomeFolderButton,
             remoteFileChooserDialogListViewButton, remoteFileChooserDialogDetailsViewButton,
-            remoteFileChooserDialogOpenButton, remoteFileChooserDialogCancelButton;
+            remoteFileChooserDialogOpenButton, remoteFileChooserDialogCancelButton, changePasswordDialogSaveButton,
+            changePasswordDialogCancelButton;
 
     public JFileChooser editSynchronizationDialogLocalPathFileChooser, editSynchronizationDialogRemotePathFileChooser,
             preferencesDialogDefaultLocalDirectoryFileChooser;
@@ -193,6 +202,9 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
             this);
 
     public final ActionListener editSynchronizationsDialogDeleteActionListener = new EditSynchronizationsDialogDeleteActionListener(
+            this);
+
+    public final ActionListener editSynchronizationsDialogRunNowActionListener = new EditSynchronizationsDialogRunNowActionListener(
             this);
 
     public final ActionListener editSynchronizationDialogLocalPathBrowseActionListener = new EditSynchronizationDialogLocalPathBrowseActionListener(
@@ -245,6 +257,14 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
     public final ActionListener preferencesDialogCancelActionListener = new PreferencesDialogCancelActionListener(this);
 
     public final ActionListener preferencesDialogSaveActionListener = new PreferencesDialogSaveActionListener(this);
+
+    public final ActionListener changePasswordDialogSaveActionListener = new ChangePasswordSaveActionListener(this);
+
+    public final ActionListener changePasswordDialogCancelActionListener = new ChangePasswordCancelActionListener(this);
+
+    public final ActionListener changePasswordMenuActionListener = new ChangePasswordMenuActionListener(this);
+
+    public final KeyListener changePasswordDialogEnterKeyListener = new ChangePasswordDialogEnterKeyListener(this);
 
     protected void buildIdropGuiComponents() throws IdropRuntimeException, HeadlessException {
         initComponents();
@@ -303,6 +323,7 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
 
         if (cookSwing == null) {
             cookSwing = new CookSwing(this);
+            changePasswordDialog = (JDialog) cookSwing.render("org/irods/jargon/idrop/changePasswordDialog.xml");
             editSynchronizationDialog = (JDialog) cookSwing
                     .render("org/irods/jargon/idrop/editSynchronizationDialog.xml");
             editSynchronizationsDialog = (JDialog) cookSwing
@@ -605,15 +626,8 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
             ActionEvent ae = new ActionEvent(mainFrame, ActionEvent.ACTION_PERFORMED, "");
             editSynchronizationsMenuActionListener.actionPerformed(ae);
         } else if (e.getActionCommand().equals("Change Password")) {
-
-            if (changePasswordDialog == null) {
-                changePasswordDialog = new ChangePasswordDialog(this, true);
-                int x = (toolkit.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
-                int y = (toolkit.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
-                changePasswordDialog.setLocation(x, y);
-            }
-            changePasswordDialog.setVisible(true);
-
+            ActionEvent ae = new ActionEvent(mainFrame, ActionEvent.ACTION_PERFORMED, "");
+            changePasswordMenuActionListener.actionPerformed(ae);
         } else if (e.getActionCommand().equals("Show Current and Past Activity")) {
 
             log.info("showing recent items in queue");
@@ -1241,6 +1255,10 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         jMenuItemEditSynchronizations.setText("Synchronizations");
         jMenuItemEditSynchronizations.addActionListener(editSynchronizationsMenuActionListener);
 
+        jMenuItemChangePassword = new javax.swing.JMenuItem();
+        jMenuItemChangePassword.setText("Change Password");
+        jMenuItemChangePassword.addActionListener(changePasswordMenuActionListener);
+
         jMenuItemPreferences = new javax.swing.JMenuItem();
         jMenuItemPreferences.setText("Preferences");
         jMenuItemPreferences.addActionListener(preferencesMenuActionListener);
@@ -1288,7 +1306,8 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         lblMainSearch.setPreferredSize(new java.awt.Dimension(45, 40));
         pnlSearchSizer.add(lblMainSearch);
 
-        comboSearchType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "by name", "by tag", "by name and tag" }));
+        comboSearchType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "by name", "by tag",
+                "by name and tag" }));
         comboSearchType.setToolTipText("Select the type of search to be carried out using the supplied search string");
         pnlSearchSizer.add(comboSearchType);
 
@@ -1472,24 +1491,17 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
 
         pnlTabSearchResults.setLayout(new java.awt.GridLayout(1, 0));
 
-        tableSearchResults.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableSearchResults.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
+                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+                { null, null, null, null } }, new String[] { "Title 1", "Title 2", "Title 3", "Title 4" }));
         scrollPaneSearchResults.setViewportView(tableSearchResults);
 
         pnlTabSearchResults.add(scrollPaneSearchResults);
 
         pnlTabSearch.add(pnlTabSearchResults, java.awt.BorderLayout.CENTER);
 
-        tabIrodsViews.addTab("Search", null, pnlTabSearch, "Search for files and collections in iRODS and display search results");
+        tabIrodsViews.addTab("Search", null, pnlTabSearch,
+                "Search for files and collections in iRODS and display search results");
 
         splitTargetCollections.setLeftComponent(tabIrodsViews);
 
@@ -1535,7 +1547,8 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
 
         lblFileParent.setText("Parent path of file:");
         pnlInfoCollectionParent.add(lblFileParent, java.awt.BorderLayout.NORTH);
-        lblFileParent.getAccessibleContext().setAccessibleDescription("The path of the parent of the file or collection");
+        lblFileParent.getAccessibleContext().setAccessibleDescription(
+                "The path of the parent of the file or collection");
 
         scrollParentPath.setMinimumSize(new java.awt.Dimension(100, 100));
 
@@ -1798,7 +1811,8 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlIdropBottom.add(pnlTransferOverview, gridBagConstraints);
 
-        transferStatusProgressBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        transferStatusProgressBar.setBorder(javax.swing.BorderFactory
+                .createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         transferStatusProgressBar.setStringPainted(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1869,13 +1883,15 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
 
         jMenuEdit.add(jMenuItemEditSynchronizations);
         jMenuEdit.add(jMenuItemPreferences);
+        jMenuEdit.add(jMenuItemChangePassword);
 
         jMenuBar1.add(jMenuEdit);
 
         jMenuView.setMnemonic('V');
         jMenuView.setText("View");
 
-        jCheckBoxMenuItemShowSourceTree.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK));
+        jCheckBoxMenuItemShowSourceTree.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L,
+                java.awt.event.InputEvent.SHIFT_MASK));
         jCheckBoxMenuItemShowSourceTree.setMnemonic('L');
         jCheckBoxMenuItemShowSourceTree.setText("Show Local");
         jCheckBoxMenuItemShowSourceTree.addActionListener(new java.awt.event.ActionListener() {
@@ -1885,7 +1901,8 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         });
         jMenuView.add(jCheckBoxMenuItemShowSourceTree);
 
-        jCheckBoxMenuItemShowIrodsInfo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK));
+        jCheckBoxMenuItemShowIrodsInfo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L,
+                java.awt.event.InputEvent.SHIFT_MASK));
         jCheckBoxMenuItemShowIrodsInfo.setMnemonic('I');
         jCheckBoxMenuItemShowIrodsInfo.setText("Show iRODS Info");
         jCheckBoxMenuItemShowIrodsInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -2283,107 +2300,210 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         // irodsTree.scrollPathToVisible(selPath);
         tabIrodsViews.setSelectedComponent(pnlTabHierarchicalView);
     }// GEN-LAST:event_menuItemShowInHierarchyActionPerformed
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+     // Variables declaration - do not modify//GEN-BEGIN:variables
+
     private javax.swing.JButton btnMoveToTrash;
+
     private javax.swing.JButton btnRefreshLocalDrives;
+
     private javax.swing.JButton btnRefreshTargetTree;
+
     private javax.swing.JButton btnReplication;
+
     private javax.swing.JButton btnShowTransferManager;
+
     private javax.swing.JButton btnUpdateInfo;
+
     private javax.swing.JButton btnViewMetadata;
+
     private javax.swing.JButton btnearch;
+
     private javax.swing.JComboBox comboSearchType;
+
     private javax.swing.JPanel iDropToolbar;
+
     private javax.swing.JToolBar idropProgressPanelToolbar;
+
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowIrodsInfo;
+
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowSourceTree;
+
     private javax.swing.JMenuBar jMenuBar1;
+
     private javax.swing.JMenu jMenuEdit;
+
     private javax.swing.JMenuItem jMenuItemEditSynchronizations;
+
     private javax.swing.JMenuItem jMenuItemPreferences;
+
+    private javax.swing.JMenuItem jMenuItemChangePassword;
+
     private javax.swing.JMenu jMenuFile;
+
     private javax.swing.JMenuItem jMenuItemExit;
+
     private javax.swing.JMenu jMenuView;
+
     private javax.swing.JSplitPane jSplitPanelLocalRemote;
+
     private javax.swing.JLabel lblComment;
+
     private javax.swing.JLabel lblCurrentFile;
+
     private javax.swing.JLabel lblCurrentFileLabel;
+
     private javax.swing.JLabel lblFileOrCollectionName;
+
     private javax.swing.JLabel lblFileParent;
+
     private javax.swing.JLabel lblInfoCreatedAt;
+
     private javax.swing.JLabel lblInfoCreatedAtValue;
+
     private javax.swing.JLabel lblInfoLength;
+
     private javax.swing.JLabel lblInfoLengthValue;
+
     private javax.swing.JLabel lblInfoUpdatedAt;
+
     private javax.swing.JLabel lblInfoUpdatedAtValue;
+
     private javax.swing.JLabel lblMainSearch;
+
     private javax.swing.JLabel lblTags;
+
     private javax.swing.JLabel lblTransferByteCounts;
+
     private javax.swing.JLabel lblTransferFilesCounts;
+
     private javax.swing.JLabel lblTransferType;
+
     private javax.swing.JLabel lblTransferTypeLabel;
+
     private javax.swing.JList listLocalDrives;
+
     private javax.swing.JMenuItem menuItemShowInHierarchy;
+
     private javax.swing.JPanel pnlDrivesFiller;
+
     private javax.swing.JPanel pnlFileIconSizer;
+
     private javax.swing.JPanel pnlFileNameAndIcon;
+
     private javax.swing.JPanel pnlIdropBottom;
+
     private javax.swing.JPanel pnlIdropMain;
+
     private javax.swing.JPanel pnlIdropProgressIcon;
+
     private javax.swing.JPanel pnlInfoButton;
+
     private javax.swing.JPanel pnlInfoCollectionParent;
+
     private javax.swing.JPanel pnlInfoComment;
+
     private javax.swing.JPanel pnlInfoDetails;
+
     private javax.swing.JPanel pnlInfoIcon;
+
     private javax.swing.JPanel pnlInfoTags;
+
     private javax.swing.JPanel pnlIrodsArea;
+
     private javax.swing.JPanel pnlIrodsDetailsToggleSizer;
+
     private javax.swing.JPanel pnlIrodsInfo;
+
     private javax.swing.JPanel pnlIrodsInfoInner;
+
     private javax.swing.JPanel pnlIrodsTreeMaster;
+
     private javax.swing.JPanel pnlIrodsTreeToolbar;
+
     private javax.swing.JPanel pnlLocalRoots;
+
     private javax.swing.JPanel pnlLocalToggleSizer;
+
     private javax.swing.JPanel pnlLocalTreeArea;
+
     private javax.swing.JPanel pnlRefreshButton;
+
     private javax.swing.JPanel pnlSearchSizer;
+
     private javax.swing.JPanel pnlTabHierarchicalView;
+
     private javax.swing.JPanel pnlTabSearch;
+
     private javax.swing.JPanel pnlTabSearchResults;
+
     private javax.swing.JPanel pnlTabSearchTop;
+
     private javax.swing.JPanel pnlToolbarInfo;
+
     private javax.swing.JPanel pnlToolbarSizer;
+
     private javax.swing.JPanel pnlTopToolbarSearchArea;
+
     private javax.swing.JPanel pnlTransferByteCounts;
+
     private javax.swing.JPanel pnlTransferFileCounts;
+
     private javax.swing.JPanel pnlTransferFileInfo;
+
     private javax.swing.JPanel pnlTransferOverview;
+
     private javax.swing.JPanel pnlTransferStatus;
+
     private javax.swing.JPanel pnlTransferType;
+
     private javax.swing.JLabel progressIconImageLabel;
+
     private javax.swing.JScrollPane scrollComment;
+
     private javax.swing.JScrollPane scrollIrodsTree;
+
     private javax.swing.JScrollPane scrollLocalDrives;
+
     private javax.swing.JScrollPane scrollLocalFileTree;
+
     private javax.swing.JScrollPane scrollPaneSearchResults;
+
     private javax.swing.JScrollPane scrollParentPath;
+
     protected javax.swing.JPopupMenu searchTablePopupMenu;
+
     private javax.swing.JToolBar.Separator separator1;
+
     private javax.swing.JToolBar.Separator separator2;
+
     private javax.swing.JSplitPane splitTargetCollections;
+
     private javax.swing.JTabbedPane tabIrodsViews;
+
     private javax.swing.JTable tableSearchResults;
+
     private javax.swing.JToggleButton toggleIrodsDetails;
+
     private javax.swing.JToggleButton toggleLocalFiles;
+
     public javax.swing.JToggleButton togglePauseTransfer;
+
     private javax.swing.JToolBar toolBarInfo;
+
     private javax.swing.JPanel transferQueueToolbarPanel;
+
     private javax.swing.JProgressBar transferStatusProgressBar;
+
     private javax.swing.JTextArea txtComment;
+
     private javax.swing.JTextField txtMainSearch;
+
     private javax.swing.JTextArea txtParentPath;
+
     private javax.swing.JTextField txtTags;
+
     private javax.swing.JLabel userNameLabel;
+
     // End of variables declaration//GEN-END:variables
 
     public Object getLastCachedInfoItem() {
