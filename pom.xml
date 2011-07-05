@@ -254,10 +254,10 @@
     	<version>${spring.core.version}</version>
       </dependency>
       <dependency>
-   <groupId>commons-io</groupId>
-   <artifactId>commons-io</artifactId>
-   <version>${commons.io.version}</version>
-</dependency>
+	<groupId>commons-io</groupId>
+	<artifactId>commons-io</artifactId>
+	<version>${commons.io.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-core</artifactId>
@@ -350,8 +350,7 @@
       <groupId>org.irods.jargon</groupId>
       <artifactId>jargon-core</artifactId>
       <scope>compile</scope>
-    </dependency>
-   
+    </dependency>   
   </dependencies>
   <build>
     <plugins>
