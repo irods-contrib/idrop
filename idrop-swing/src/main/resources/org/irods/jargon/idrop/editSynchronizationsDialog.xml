@@ -49,7 +49,7 @@
               <panel>
                 <gridbaglayout>
                   <gridbagconstraints id="gbc_button_form" gridx="0" gridy="0" weightx="0.1" weighty="0.1" insets="2,2,2,2">
-                    <button text="Run Now" var="editSynchronizationsRunNowButton" actionlistener="editSynchronizationsRunNowActionListener"
+                    <button text="Run Now" var="editSynchronizationsRunNowButton" actionlistener="editSynchronizationsDialogRunNowActionListener"
                       font="SansSerif,bold,14" />
                   </gridbagconstraints>
                 </gridbaglayout>
