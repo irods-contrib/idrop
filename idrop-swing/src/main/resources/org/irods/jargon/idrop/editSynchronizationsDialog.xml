@@ -1,0 +1,63 @@
+<dialog var="editSynchronizationsDialog" title="Synchronizations" defaultcloseoperation="HIDE_ON_CLOSE" modal="true" size="400,320"
+  resizable="false" locationrelativeto="mainFrame">
+  <panel>
+    <borderlayout>
+      <constraint location="Center">
+        <panel>
+          <titledborder title="Synchronizations" titlejustification="LEFT" titleposition="CENTER" titlefont="SansSerif,bold,14">
+            <etchedborder type="LOWERED" />
+          </titledborder>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc1" gridx="0" gridy="0" weightx="0.1" weighty="0.1" fill="BOTH" insets="4,4,4,4">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc2" gridx="0" gridy="0" weightx="0.1" weighty="0.1" fill="BOTH">
+                    <scrollpane>
+                      <list var="editSynchronizationsDialogList" selectionmode="MULTIPLE_INTERVAL_SELECTION">
+                        <defaultlistmodel var="editSynchronizationsDialogListModel" setas="model" />
+                      </list>
+                    </scrollpane>
+                  </gridbagconstraints>
+                </gridbaglayout>
+              </panel>
+            </gridbagconstraints>
+            <idref ctor="gbc1" gridx="1" gridy="0" weightx="0.01" weighty="0.1">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc3" gridx="0" gridy="0" weightx="0.1" weighty="0.1">
+                    <button text="New" var="editSynchronizationsNewButton" actionlistener="editSynchronizationsDialogNewActionListener"
+                      font="SansSerif,bold,14" />
+                  </gridbagconstraints>
+                  <idref ctor="gbc3" gridy="1" weighty="0.1">
+                    <button text="Edit" var="editSynchronizationsEditButton" actionlistener="editSynchronizationsDialogEditActionListener"
+                      font="SansSerif,bold,14" />
+                  </idref>
+                  <idref ctor="gbc3" gridy="2" weighty="0.1">
+                    <button text="Delete" var="editSynchronizationsDeleteButton" actionlistener="editSynchronizationsDialogDeleteActionListener"
+                      font="SansSerif,bold,14" />
+                  </idref>
+                </gridbaglayout>
+              </panel>
+            </idref>
+          </gridbaglayout>
+        </panel>
+      </constraint>
+      <constraint location="South">
+        <panel>
+          <gridbaglayout>
+            <gridbagconstraints id="gbc_button" gridx="0" gridy="0" weightx="0.0" weighty="0.1" insets="2,2,2,2">
+              <panel>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc_button_form" gridx="0" gridy="0" weightx="0.1" weighty="0.1" insets="2,2,2,2">
+                    <button text="Run Now" var="editSynchronizationsRunNowButton" actionlistener="editSynchronizationsRunNowActionListener"
+                      font="SansSerif,bold,14" />
+                  </gridbagconstraints>
+                </gridbaglayout>
+              </panel>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+      </constraint>
+    </borderlayout>
+  </panel>
+</dialog>

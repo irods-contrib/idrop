@@ -4,7 +4,7 @@ import javax.swing.SwingWorker;
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.rule.IRODSRuleExecResult;
-import org.irods.jargon.idrop.desktop.systraygui.iDrop;
+import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.slf4j.LoggerFactory;
 
@@ -23,11 +23,11 @@ public final class RuleExecutionWorker extends SwingWorker {
 
     private final IRODSAccount irodsAccount;
 
-    private final iDrop idropGui;
+    private final IDROPDesktop idropGui;
 
     private IRODSRuleExecResult execResult = null;
 
-    public RuleExecutionWorker(final iDrop idropGui, final String irodsTargetAbsolutePath, final String targetResource,
+    public RuleExecutionWorker(final IDROPDesktop idropGui, final String irodsTargetAbsolutePath, final String targetResource,
             final IRODSAccount irodsAccount) throws IdropException {
 
         if (idropGui == null) {
