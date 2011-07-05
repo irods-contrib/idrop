@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ReplicationDialog extends javax.swing.JDialog {
 
-    private final iDrop idropParentGui;
+    private final IDROPDesktop idropParentGui;
 
     private final String seriesAbsolutePath;
 
@@ -39,8 +39,8 @@ public class ReplicationDialog extends javax.swing.JDialog {
     public static org.slf4j.Logger log = LoggerFactory.getLogger(ReplicationDialog.class);
 
     /** Creates new form ReplicationDialog for a collection */
-    public ReplicationDialog(iDrop idropParentGui, boolean modal, String seriesAbsolutePath) {
-        super(idropParentGui, modal);
+    public ReplicationDialog(IDROPDesktop idropParentGui, boolean modal, String seriesAbsolutePath) {
+        super(idropParentGui.mainFrame, modal);
         initComponents();
         this.idropParentGui = idropParentGui;
         this.seriesAbsolutePath = seriesAbsolutePath;
@@ -51,8 +51,8 @@ public class ReplicationDialog extends javax.swing.JDialog {
     }
 
     /** Creates new form ReplicationDialog for a file */
-    public ReplicationDialog(iDrop idropParentGui, boolean modal, String fileAbsolutePath, String fileName) {
-        super(idropParentGui, modal);
+    public ReplicationDialog(IDROPDesktop idropParentGui, boolean modal, String fileAbsolutePath, String fileName) {
+        super(idropParentGui.mainFrame, modal);
         initComponents();
         this.idropParentGui = idropParentGui;
         this.seriesAbsolutePath = fileAbsolutePath;

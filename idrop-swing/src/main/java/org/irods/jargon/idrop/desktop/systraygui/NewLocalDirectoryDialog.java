@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NewLocalDirectoryDialog extends javax.swing.JDialog {
 
-    private final iDrop idrop;
+    private final IDROPDesktop idrop;
 
     private String parentDirectory = "";
 
@@ -44,9 +44,9 @@ public class NewLocalDirectoryDialog extends javax.swing.JDialog {
     }
 
     /** Creates new form NewIRODSDirectoryDialog */
-    public NewLocalDirectoryDialog(final iDrop parent, final boolean modal, final String parentDirectory,
+    public NewLocalDirectoryDialog(final IDROPDesktop parent, final boolean modal, final String parentDirectory,
             final LocalFileTree localFileTree, final LocalFileNode parentNode) {
-        super(parent, modal);
+        super(parent.mainFrame, modal);
         this.idrop = parent;
         this.parentDirectory = parentDirectory;
         this.localFileTree = localFileTree;

@@ -35,16 +35,20 @@ import org.slf4j.LoggerFactory;
  */
 public class DeleteIRODSDialog extends javax.swing.JDialog {
 
-    private final iDrop idrop;
+    private final IDROPDesktop idrop;
+
     private final IRODSTree irodsTree;
+
     private final IRODSNode deletedNode;
+
     private final List<IRODSNode> deletedNodes;
+
     public static org.slf4j.Logger log = LoggerFactory.getLogger(DeleteIRODSDialog.class);
 
     /** Creates new form NewIRODSDirectoryDialog */
-    public DeleteIRODSDialog(final iDrop parent, final boolean modal, final IRODSTree irodsTree,
+    public DeleteIRODSDialog(final IDROPDesktop parent, final boolean modal, final IRODSTree irodsTree,
             final IRODSNode deletedNode) {
-        super(parent, modal);
+        super(parent.mainFrame, modal);
         this.idrop = parent;
         this.irodsTree = irodsTree;
         this.deletedNode = deletedNode;
@@ -64,9 +68,9 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
     }
 
     /** Creates new form NewIRODSDirectoryDialog */
-    public DeleteIRODSDialog(final iDrop parent, final boolean modal, final IRODSTree irodsTree,
+    public DeleteIRODSDialog(final IDROPDesktop parent, final boolean modal, final IRODSTree irodsTree,
             final List<IRODSNode> deletedNodes) {
-        super(parent, modal);
+        super(parent.mainFrame, modal);
         this.idrop = parent;
         this.irodsTree = irodsTree;
         this.deletedNodes = deletedNodes;
@@ -251,7 +255,8 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
             throws IdropException {
 
         log.info("node to delete  is: {}", deletedNode);
-        CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) deletedNode.getUserObject();
+        CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) deletedNode
+                .getUserObject();
 
         // dialog uses absolute path, so munge it for files
         StringBuilder sb = new StringBuilder();
@@ -280,8 +285,11 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
     class DeleteWorker extends SwingWorker<String, Object> {
 
         public static final String DELETE_SUCCESSFUL = "Deletion complete";
+
         public static final String DELETE_ERRORS = "The deletion was not successful";
+
         private DeleteIRODSDialog dialog;
+
         private String message = "";
 
         DeleteWorker(DeleteIRODSDialog dialog) {
@@ -337,7 +345,7 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
                 throw new IdropRuntimeException(ex);
             }
             dialog.dispose();
-          
+
         }
     }
 }

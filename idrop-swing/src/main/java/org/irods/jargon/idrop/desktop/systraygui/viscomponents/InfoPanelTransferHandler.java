@@ -18,7 +18,7 @@ import javax.swing.tree.TreeSelectionModel;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
-import org.irods.jargon.idrop.desktop.systraygui.iDrop;
+import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
@@ -35,9 +35,9 @@ public class InfoPanelTransferHandler extends TransferHandler {
 
     public DataFlavor treeDataFlavor;
 
-    private final iDrop idropGui;
+    private final IDROPDesktop idropGui;
 
-    public InfoPanelTransferHandler(final iDrop idropGui) throws IdropException {
+    public InfoPanelTransferHandler(final IDROPDesktop idropGui) throws IdropException {
         super();
 
         if (idropGui == null) {

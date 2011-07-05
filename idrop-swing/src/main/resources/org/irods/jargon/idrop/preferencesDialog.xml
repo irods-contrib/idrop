@@ -1,42 +1,83 @@
-<dialog ctor="var:iDrop" var="preferencesDialog" title="Preferences" defaultcloseoperation="DISPOSE_ON_CLOSE"
-  modal="true" locationrelativeto="iDrop" size="400,200" resizable="false">
+<dialog var="preferencesDialog" title="Preferences" defaultcloseoperation="DISPOSE_ON_CLOSE" modal="true" size="540,340" resizable="false">
   <panel>
     <gridbaglayout>
-      <gridbagconstraints id="gbc" gridx="0" gridy="0" weightx="0.1" weighty="0.1" fill="BOTH">
+      <gridbagconstraints id="gbc" gridx="0" gridy="0" weightx="1.0" weighty="0.9" fill="BOTH">
         <panel>
-          <titledborder title="Preferences" titlejustification="LEFT" titleposition="CENTER" titlefont="SansSerif,bold,14">
-            <etchedborder type="LOWERED" />
-          </titledborder>
           <gridbaglayout>
-            <gridbagconstraints id="gbc_props" gridx="0" gridy="0" weightx="0.1" weighty="0.0"
-              anchor="WEST">
+            <gridbagconstraints id="gbc1" gridx="0" gridy="0" weightx="1.0" weighty="1.0" fill="BOTH">
               <panel>
+                <titledborder title="General Preferences" titlejustification="LEFT" titleposition="CENTER" titlefont="SansSerif,bold,14">
+                  <etchedborder type="LOWERED" />
+                </titledborder>
                 <gridbaglayout>
-                  <gridbagconstraints id="gbc_props_form" gridx="0" gridy="0" weightx="0.1" weighty="0.0"
-                    insets="0,2,2,2" anchor="WEST">
-                    <panel>
-                      <checkbox var="showGUICheckBox" />
-                      <label text="Show iDrop User Interface on startup" font="SansSerif,bold,12" />
-                    </panel>
+                  <gridbagconstraints id="gbc2" gridx="0" gridy="0" weightx="0.05" weighty="0.1" anchor="EAST" insets="2,2,2,2">
+                    <label text="Device Name:" font="SansSerif,bold,12" />
                   </gridbagconstraints>
+                  <idref ctor="gbc2" gridx="1" gridy="0" anchor="WEST">
+                    <textfield var="preferencesDialogDeviceNameTextField" columns="25" font="SansSerif,plain,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="0" gridy="1" anchor="EAST">
+                    <label text="Show Hidden Files:" font="SansSerif,bold,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="1" gridy="1" anchor="WEST">
+                    <checkbox var="preferencesDialogShowHiddenFilesCheckBox" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="0" gridy="2" weightx="0.04" anchor="EAST">
+                    <label text="Default Local Directory:" font="SansSerif,bold,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="1" gridy="2" anchor="WEST">
+                    <textfield var="preferencesDialogDefaultLocalDirectoryTextField" columns="25" font="SansSerif,plain,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="2" gridy="2" weightx="0.02" anchor="WEST">
+                    <button var="preferencesDialogDefaultLocalDirectoryButton" text="Browse"
+                      actionlistener="preferencesDialogDefaultLocalDirectoryActionListener" font="SansSerif,plain,12" />
+                  </idref>
                 </gridbaglayout>
               </panel>
             </gridbagconstraints>
+            <idref ctor="gbc1" gridy="1" weighty="1.0">
+              <panel>
+                <titledborder title="Startup Preferences" titlejustification="LEFT" titleposition="CENTER" titlefont="SansSerif,bold,14">
+                  <etchedborder type="LOWERED" />
+                </titledborder>
+                <gridbaglayout>
+                  <gridbagconstraints id="gbc2" gridx="0" gridy="0" weightx="0.0275" weighty="1.0" anchor="EAST" insets="2,2,2,2">
+                    <label text="Show iDrop:" font="SansSerif,bold,12" />
+                  </gridbagconstraints>
+                  <idref ctor="gbc2" gridx="1" gridy="0" weightx="0.29" anchor="WEST">
+                    <checkbox var="preferencesDialogShowUICheckBox" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="0" gridy="1" weightx="0.0275" anchor="EAST">
+                    <label text="Show splash screen:" font="SansSerif,bold,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="1" gridy="1" weightx="0.29" anchor="WEST">
+                    <checkbox var="preferencesDialogShowSplashScreenCheckBox" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="0" gridy="2" weightx="0.0275" anchor="EAST">
+                    <label text="Show preferences:" font="SansSerif,bold,12" />
+                  </idref>
+                  <idref ctor="gbc2" gridx="1" gridy="2" weightx="0.29" anchor="WEST">
+                    <checkbox var="preferencesDialogShowPreferencesCheckBox" />
+                  </idref>
+                </gridbaglayout>
+              </panel>
+            </idref>
           </gridbaglayout>
         </panel>
       </gridbagconstraints>
-      <idref ctor="gbc" gridy="1" weighty="0.05">
+      <idref ctor="gbc" gridy="1" weighty="0.1">
         <panel>
           <gridbaglayout>
-            <gridbagconstraints id="gbc_button" gridx="0" gridy="0" weightx="0.0" weighty="0.1"
-              insets="2,2,2,2">
+            <gridbagconstraints id="gbc_button" gridx="0" gridy="0" weightx="0.0" weighty="0.1" insets="2,2,2,2">
               <panel>
                 <gridbaglayout>
-                  <gridbagconstraints id="gbc_button_form" gridx="0" gridy="0" weightx="0.1" weighty="0.1"
-                    insets="2,2,2,2">
-                    <button text="OK" var="preferencesDialogOKButton" actionlistener="okButtonPreferencesDialogActionListener"
-                      font="SansSerif,bold,14" />
+                  <gridbagconstraints id="gbc_button" gridx="0" gridy="0" weightx="0.1" weighty="0.1" insets="2,2,2,2">
+                    <button text="Save" var="preferencesDialogSaveButton" actionlistener="preferencesDialogSaveActionListener" font="SansSerif,bold,14" />
                   </gridbagconstraints>
+                  <idref ctor="gbc_button" gridx="1">
+                    <button text="Cancel" var="preferencesDialogCancelButton" actionlistener="preferencesDialogCancelActionListener"
+                      font="SansSerif,bold,14" />
+                  </idref>
                 </gridbaglayout>
               </panel>
             </gridbagconstraints>
@@ -45,4 +86,7 @@
       </idref>
     </gridbaglayout>
   </panel>
+  <noadd>
+    <filechooser var="preferencesDialogDefaultLocalDirectoryFileChooser" />
+  </noadd>
 </dialog>

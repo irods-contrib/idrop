@@ -17,7 +17,7 @@ import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
-import org.irods.jargon.idrop.desktop.systraygui.iDrop;
+import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
@@ -34,11 +34,11 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements ListSelection
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IrodsSelectionListenerForBuildingInfoPanel.class);
 
-    private final iDrop idrop;
+    private final IDROPDesktop idrop;
 
     private IRODSOutlineModel irodsOutlineModel = null;
 
-    public IrodsSelectionListenerForBuildingInfoPanel(final iDrop idrop) throws IdropException {
+    public IrodsSelectionListenerForBuildingInfoPanel(final IDROPDesktop idrop) throws IdropException {
         if (idrop == null) {
             throw new IdropException("null iDrop");
         }

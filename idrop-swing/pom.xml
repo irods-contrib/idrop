@@ -107,7 +107,22 @@
       <scope>runtime</scope>
     </dependency>
     -->
-    
+   <dependency>
+     <groupId>com.jgoodies</groupId>
+     <artifactId>validation</artifactId>
+   </dependency>
+   <dependency>
+     <groupId>cookxml</groupId>
+     <artifactId>cookswing</artifactId>
+   </dependency>
+   <dependency>
+     <groupId>cookxml</groupId>
+     <artifactId>cookxml</artifactId>
+   </dependency> 
+   <dependency>
+     <groupId>cookxml</groupId>
+     <artifactId>cookswing</artifactId>
+   </dependency>   
     <dependency>
       <groupId>org.irods.jargon</groupId>
       <artifactId>jargon-data-utils</artifactId>
@@ -119,10 +134,10 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-   <groupId>commons-io</groupId>
-   <artifactId>commons-io</artifactId>
-    <scope>compile</scope>
-</dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>org.irods.jargon</groupId>
       <artifactId>jargon-user-tagging</artifactId>

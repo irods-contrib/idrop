@@ -5,7 +5,7 @@ package org.irods.jargon.idrop.desktop.systraygui.utils;
  * 
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class iDropUtils {
+public class IDropUtils {
 
     /**
      * Given a file name, return the name up to 100 chars, otherwise, redact and abbreviate
