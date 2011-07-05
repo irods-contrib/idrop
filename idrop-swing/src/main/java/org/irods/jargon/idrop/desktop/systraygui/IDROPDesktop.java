@@ -75,6 +75,7 @@ import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationDi
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsDialogDeleteActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsDialogEditActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsDialogNewActionListener;
+import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsDialogRunNowActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.EditSynchronizationsMenuActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.PreferencesDialogCancelActionListener;
 import org.irods.jargon.idrop.desktop.systraygui.listeners.PreferencesDialogSaveActionListener;
@@ -161,7 +162,7 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
             changePasswordDialog;
 
     public JCheckBox preferencesDialogShowUICheckBox, preferencesDialogShowHiddenFilesCheckBox,
-            preferencesDialogShowPreferencesCheckBox;
+            preferencesDialogShowPreferencesCheckBox, preferencesDialogShowSplashScreenCheckBox;
 
     public DefaultListModel editSynchronizationsDialogListModel, remoteFileChooserDialogListModel;
 
@@ -201,6 +202,9 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
             this);
 
     public final ActionListener editSynchronizationsDialogDeleteActionListener = new EditSynchronizationsDialogDeleteActionListener(
+            this);
+
+    public final ActionListener editSynchronizationsDialogRunNowActionListener = new EditSynchronizationsDialogRunNowActionListener(
             this);
 
     public final ActionListener editSynchronizationDialogLocalPathBrowseActionListener = new EditSynchronizationDialogLocalPathBrowseActionListener(
