@@ -24,7 +24,7 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.UserAO;
-//import org.irods.jargon.datautils.accountcache.AccountCacheServiceImpl;
+import org.irods.jargon.datautils.datacache.DataCacheServiceImpl;
 import org.netbeans.swing.outline.Outline;
 
 import org.slf4j.LoggerFactory;
@@ -36,28 +36,34 @@ import org.slf4j.LoggerFactory;
 public class iDropLiteApplet extends javax.swing.JApplet {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(iDropLiteApplet.class);
+    private final Integer defaultLoginMode = -1;
     private iDropLiteCore iDropCore = null;
     private IRODSAccount irodsAccount = null;
     private LocalFileTree fileTree = null;
     private IRODSTree irodsTree = null;
-    protected String host;
-    protected Integer port;
-    protected String zone;
-    protected String user;
-    protected String defaultStorageResource;
-    protected String tempPswd;
-    protected String absPath;
-    //protected String sessionID;
+    private Integer mode;
+    private String host;
+    private Integer port;
+    private String zone;
+    private String user;
+    private String defaultStorageResource;
+    private String tempPswd;
+    private String absPath;
+    private String permPswd;
+    IRODSFileSystem irodsFileSystem = null;
 
     /** Initializes the applet iDropLiteApplet */
     public void init() {
         try {
+   
             java.awt.EventQueue.invokeAndWait(new Runnable() {
                 public void run() {
-                    getAppletParams();
-                    initComponents();
-                    bntRefreshIrodsTree.hide();
-                    doStartup();
+               	
+                    getAppletParams();         
+                    if(doStartup()) {
+                    	initComponents();
+                    	bntRefreshIrodsTree.hide();
+                    }
                 }
             });
         } catch (Exception ex) {
@@ -68,22 +74,23 @@ public class iDropLiteApplet extends javax.swing.JApplet {
 
     protected void getAppletParams() {
 
-        // FIX THIS - what to do if parameters do not exist (cannot login message??)
-        this.host = getParameter("host");
-        this.port = Integer.parseInt(getParameter("port"));
-        this.user = getParameter("user");
-        this.zone = getParameter("zone");
-        this.defaultStorageResource = getParameter("defaultStorageResource");
-        this.tempPswd = getParameter("password");
-        this.absPath = getParameter("absPath");
-                
-    }
+    	try {
+    		this.mode = Integer.parseInt(getParameter("mode"));
+    	} catch (Exception ex) {
+            this.mode = defaultLoginMode;
+        }
+    		
+    	try {
+    		this.host = getParameter("host");
+    		this.port = Integer.parseInt(getParameter("port"));
+    		this.user = getParameter("user");
+    		this.zone = getParameter("zone");
+    		this.defaultStorageResource = getParameter("defaultStorageResource");
+    		this.tempPswd = getParameter("password");
+    		this.absPath = getParameter("absPath");
 
-
-    private boolean processLogin()  {
-
-        try {
             log.debug("creating account with applet params");
+            log.info("mode:{}", mode);
             log.info("host:{}", host);
             log.info("port:{}", port);
             log.info("user:{}", user);
@@ -93,35 +100,89 @@ public class iDropLiteApplet extends javax.swing.JApplet {
         } catch (Exception ex) {
             Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
             showIdropException(ex);
-            return false;
         }
+                
+    }
+    
+    private boolean retrievePermAccount()
+    {
+    	String pswd = null;
+    	
+    	DataCacheServiceImpl dataCache = new DataCacheServiceImpl();
+    	try {
+			dataCache.setIrodsAccessObjectFactory(irodsFileSystem.getIRODSAccessObjectFactory());
+		} catch (JargonException e1) {
+			Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, e1);
+		}
+    	dataCache.setIrodsAccount(irodsAccount);
+    	
+    	try {
+			pswd = dataCache.retrieveStringValueFromCache(tempPswd, user);
+			irodsFileSystem.closeAndEatExceptions();
+			this.irodsAccount = new IRODSAccount(host, port, user, pswd, absPath, zone, defaultStorageResource);
+		} catch (JargonException e2) {
+			Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, e2);
+			return false;
+		}
+		
+		return true;
+    }
+    
+    private boolean createPermAccount()
+    {
+    	this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
+    	
+    	return true;
+    }
 
-        this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
-        // I figure at this point, it's safe to set the preferences...note that we are not caching password
-        //iDropCore.getPreferences().put(PREF_LOGIN_HOST, txtHost.getText());
-        //iDropCore.getPreferences().put(PREF_LOGIN_ZONE, txtZone.getText());
-        //iDropCore.getPreferences().put(PREF_LOGIN_RESOURCE, txtResource.getText());
-        //iDropCore.getPreferences().put(PREF_LOGIN_USERNAME, txtUserName.getText());
 
-        IRODSFileSystem irodsFileSystem = null;
+    private boolean processLogin()  {
+
+    	// do different logins depending on which mode is used
+    	// 0 - Hard-coded permanent password - just use this password to create and IRODS Account
+    	// 1 - Temporary password supplied - use this password to retrieve permanent password from cache file in cacheServiceTempDir
+    	
+    	switch(this.mode) {
+    	
+    	case 1:
+    		log.info("processLogin: retrieving permanent password...");
+    		if(!retrievePermAccount()) {
+    			showMessageFromOperation("Temporary Password Mode: login error - unable to log in, or invalid user id");
+    			return false;
+    		}
+    		break;
+    	case 0:
+    		log.info("processLogin: creating account with provided permanent password...");
+    		if(!createPermAccount()) {
+    			showMessageFromOperation("Permanent Password Mode: login error - unable to log in, or invalid user id");
+    			return false;
+    		}
+    		break;
+    	default:
+    		showMessageFromOperation("Unsupported Login Mode");
+    		return false;
+    	
+    	}
+    	
+        
         try {
-            irodsFileSystem = IRODSFileSystem.instance();
+
             final UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
-            //final User loggedInUser = userAO.findByName(txtUserName.getText());
             iDropCore.setIrodsAccount(irodsAccount);
+            iDropCore.setIrodsFileSystem(irodsFileSystem);
         } catch (JargonException ex) {
             if (ex.getMessage().indexOf("Connection refused") > -1) {
                 Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
                 showMessageFromOperation("Cannot connect to the server, is it down?");
-                return true;
+                return false;
             } else if (ex.getMessage().indexOf("Connection reset") > -1) {
                 Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
                 showMessageFromOperation("Cannot connect to the server, is it down?");
-                return true;
+                return false;
             } else if (ex.getMessage().indexOf("io exception opening socket") > -1) {
                 Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
                 showMessageFromOperation("Cannot connect to the server, is it down?");
-                return true;
+                return false;
             } else {
                 Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
                 showMessageFromOperation("login error - unable to log in, or invalid user id");
@@ -140,27 +201,30 @@ public class iDropLiteApplet extends javax.swing.JApplet {
     }
 
 
-    protected void doStartup() {
+    protected boolean doStartup() {
 
         log.info("initiating startup sequence...");
-
+        
+        log.info("creating irods file system instance...");
+        try {
+			irodsFileSystem = IRODSFileSystem.instance();
+		} catch (JargonException ex) {
+			Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+		}
+        
+        log.info("creating temporary irods account...");
+        this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
+        
         log.info("creating idropCore...");
         iDropCore = new iDropLiteCore();
-        //iDropCore.setIrodsAccount(irodsAccount);
-        //iDropCore.setIdropConfig();
 
-        try {
-            iDropCore.setIrodsFileSystem(IRODSFileSystem.instance());
-        } catch (JargonException ex) {
-            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+        if(!processLogin()) {
+        	return false;
         }
-
-        if(processLogin()) {
-        	JOptionPane.showMessageDialog(this, "Login Successful", "Login Status", JOptionPane.PLAIN_MESSAGE);
-        }
-        iDropCore.setIrodsAccount(irodsAccount);
 
         buildTargetTree();
+        
+        return true;
     }
 
     public void buildTargetTree() {
