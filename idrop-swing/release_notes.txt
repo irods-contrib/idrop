@@ -11,4 +11,5 @@ work in progress -- Milestone 0.9.8
 * [#316] feedback on tree node expansion
 *[#313] info not synchronizing on tree select
 *[#315] delete nodes in ll, refresh issue?
+*[#321] progress bar not clearing at begin of txfr
 
