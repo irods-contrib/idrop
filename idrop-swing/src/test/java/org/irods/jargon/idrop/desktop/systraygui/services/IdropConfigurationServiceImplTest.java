@@ -4,10 +4,11 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
+import java.io.File;
 import java.util.Properties;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
+
 import org.irods.jargon.testutils.TestingPropertiesHelper;
 import org.irods.jargon.testutils.filemanip.ScratchFileUtils;
 import org.irods.jargon.transfer.TransferServiceFactoryImpl;
@@ -40,7 +41,8 @@ public class IdropConfigurationServiceImplTest {
         testingProperties = testingPropertiesLoader.getTestProperties();
         scratchFileUtils = new ScratchFileUtils(testingProperties);
         scratchFileUtils.clearAndReinitializeScratchDirectory(TESTING_SUBDIR);
-        idropConfigurationService = new IdropConfigurationServiceImpl(scratchFileUtils.createAndReturnAbsoluteScratchPath(TESTING_SUBDIR));
+        File f = new File(scratchFileUtils.createAndReturnAbsoluteScratchPath(TESTING_SUBDIR), "idrop.properties");
+        idropConfigurationService = new IdropConfigurationServiceImpl(f);
         TransferServiceFactoryImpl transferServiceFactory = new TransferServiceFactoryImpl();
         configurationService = transferServiceFactory.instanceConfigurationService();
     }
