@@ -5,11 +5,13 @@ iDrop Desktop Client
 work in progress -- Milestone 0.9.8
 
 *[#308] irods tree does not refresh when deleting a directory
-* [#61] delete local file multi-select
+*       [#61] delete local file multi-select
 *[#254] drag and drop, desktop to irods file should use irods parent as target
 *[#153] local file dir copy/move
 * [#316] feedback on tree node expansion
 *[#313] info not synchronizing on tree select
 *[#315] delete nodes in ll, refresh issue?
 *[#321] progress bar not clearing at begin of txfr
+* [#317] rename irods file (in windows xp) completes but throws up an 'exception moving file' dialog
+
 

@@ -33,6 +33,10 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
 
     public static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSOutlineModel.class);
     private final IRODSFileSystemModel treeModel;
+
+    public IRODSFileSystemModel getTreeModel() {
+        return treeModel;
+    }
     private IDROPDesktop idrop;
 
     public IRODSOutlineModel(IDROPDesktop idrop, TreeModel tm, TableModel tm1, boolean bln, String string) {
