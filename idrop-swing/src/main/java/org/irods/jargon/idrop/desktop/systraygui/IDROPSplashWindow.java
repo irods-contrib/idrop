@@ -1,15 +1,18 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_DEVICE_NAME;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_SHOW_PREFERENCES;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_FIRST_TIME_RUN;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_HOST;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_PORT;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_RESOURCE;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_USERNAME;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_ZONE;
 import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_SHOW_SPLASH;
 import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_SHOW_UI;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_FIRST_TIME_RUN;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_HOST;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_PORT;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_RESOURCE;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_USERNAME;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_ZONE;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PROPERTY_KEY_LOGIN_PRESET_HOST;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PROPERTY_KEY_LOGIN_PRESET_PORT;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PROPERTY_KEY_LOGIN_PRESET_RESOURCE;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PROPERTY_KEY_LOGIN_PRESET_ZONE;
 import static org.irods.jargon.idrop.desktop.systraygui.Constants.STARTUP_SEQUENCE_PAUSE_INTERVAL;
 
 import java.awt.Component;
@@ -19,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
@@ -32,6 +36,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -72,6 +77,7 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServiceImpl;
 import org.irods.jargon.idrop.desktop.systraygui.services.QueueSchedulerTimerTask;
+import org.irods.jargon.idrop.desktop.systraygui.util.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -101,6 +107,9 @@ public class IDROPSplashWindow implements Runnable {
     public JWindow window;
 
     public JProgressBar startupProgressBar;
+
+    public JLabel loginDialogUsernameLabel, loginDialogPasswordLabel, loginDialogHostLabel, loginDialogPortLabel,
+            loginDialogZoneLabel, loginDialogResourceLabel;
 
     public JCheckBox preferencesDialogShowHiddenFilesCheckBox, preferencesDialogShowUICheckBox,
             preferencesDialogShowPreferencesCheckBox, preferencesDialogShowSplashScreenCheckBox;
@@ -288,22 +297,17 @@ public class IDROPSplashWindow implements Runnable {
             log.info("determine config root directory");
             String userHomeDirectory = System.getProperty("user.home");
             StringBuilder sb = new StringBuilder();
-            sb.append(userHomeDirectory);
-            sb.append("/.idrop");
+            sb.append(userHomeDirectory).append(File.separator).append(".idrop");
             String derivedConfigHomeDirectory = sb.toString();
             log.info("set config home directory as: {}", derivedConfigHomeDirectory);
 
-            /*
-             * Here is where I first try and start the database to get the configuration. A database error indicates
-             * that iDrop is already running
-             */
-
             setStatus("Checking preferences...", ++count);
+
+            File propFile = new File(derivedConfigHomeDirectory, "idrop.properties");
 
             Properties derivedProperties = null;
             try {
-                IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(
-                        derivedConfigHomeDirectory);
+                IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(propFile);
                 derivedProperties = idropConfigurationService.bootstrapConfiguration();
             } catch (IdropAlreadyRunningException are) {
                 log.error("idrop is already running, shutting down");
@@ -316,37 +320,75 @@ public class IDROPSplashWindow implements Runnable {
             }
 
             log.info("config properties derived...");
-            idropCore.setIdropConfig(new IdropConfig(derivedProperties));
+            IdropConfig config = new IdropConfig(derivedProperties);
+            idropCore.setIdropConfig(config);
             idropCore.getIdropConfig().setUpLogging();
 
             log.info("logging in in splash background thread");
             setStatus("Logging in...", ++count);
 
-
-            String host = idropCore.getPreferences().get(PREF_LOGIN_HOST, null);
+            // predispose login info to preference values
+            String host = idropCore.getPreferences().get(PREFERENCE_KEY_LOGIN_HOST, null);
             if (StringUtils.isNotEmpty(host)) {
                 loginDialogHostTextField.setText(host);
             }
 
-            String zone = idropCore.getPreferences().get(PREF_LOGIN_ZONE, null);
+            String zone = idropCore.getPreferences().get(PREFERENCE_KEY_LOGIN_ZONE, null);
             if (StringUtils.isNotEmpty(zone)) {
                 loginDialogZoneTextField.setText(zone);
             }
 
-            String resource = idropCore.getPreferences().get(PREF_LOGIN_RESOURCE, null);
+            String resource = idropCore.getPreferences().get(PREFERENCE_KEY_LOGIN_RESOURCE, null);
             if (StringUtils.isNotEmpty(resource)) {
                 loginDialogResourceTextField.setText(resource);
             }
 
-            String username = idropCore.getPreferences().get(PREF_LOGIN_USERNAME, null);
+            String username = idropCore.getPreferences().get(PREFERENCE_KEY_LOGIN_USERNAME, null);
             if (StringUtils.isNotEmpty(username)) {
                 loginDialogUsernameTextField.setText(username);
             }
 
-            String port = idropCore.getPreferences().get(PREF_LOGIN_PORT, null);
+            String port = idropCore.getPreferences().get(PREFERENCE_KEY_LOGIN_PORT, null);
             if (StringUtils.isNotEmpty(port)) {
                 loginDialogPortTextField.setText(port);
             }
+
+            Properties props = config.getIdropProperties();
+
+            // overload login info with properties from config
+            if (config.isLoginPreset()) {
+
+                host = props.getProperty(PROPERTY_KEY_LOGIN_PRESET_HOST);
+                if (StringUtils.isNotEmpty(host)) {
+                    loginDialogHostTextField.setText(host);
+                    loginDialogHostLabel.setVisible(false);
+                    loginDialogHostTextField.setVisible(false);
+                }
+
+                resource = props.getProperty(PROPERTY_KEY_LOGIN_PRESET_RESOURCE, null);
+                if (StringUtils.isNotEmpty(resource)) {
+                    loginDialogResourceTextField.setText(resource);
+                    loginDialogResourceLabel.setVisible(false);
+                    loginDialogResourceTextField.setVisible(false);
+                }
+
+                port = props.getProperty(PROPERTY_KEY_LOGIN_PRESET_PORT, null);
+                if (StringUtils.isNotEmpty(port)) {
+                    loginDialogPortTextField.setText(port);
+                    loginDialogPortLabel.setVisible(false);
+                    loginDialogPortTextField.setVisible(false);
+                }
+
+                zone = props.getProperty(PROPERTY_KEY_LOGIN_PRESET_ZONE, null);
+                if (StringUtils.isNotEmpty(zone)) {
+                    loginDialogZoneTextField.setText(zone);
+                    loginDialogZoneLabel.setVisible(false);
+                    loginDialogZoneTextField.setVisible(false);
+                }
+
+            }
+
+            loginDialog.pack();
 
             Toolkit tk = Toolkit.getDefaultToolkit();
             int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
@@ -359,7 +401,7 @@ public class IDROPSplashWindow implements Runnable {
             log.info("logged in, now checking for first run...");
 
             setStatus("Initial Synchronization setup...", ++count);
-            
+
             TransferDAOManager transferMgr = TransferDAOManager.getInstance();
             SynchronizationDAO synchDAO = transferMgr.getTransferDAOBean().getSynchronizationDAO();
             Synchronization synch = synchDAO.findByName("Backup");
@@ -384,7 +426,7 @@ public class IDROPSplashWindow implements Runnable {
                 editSynchronizationDialog.toFront();
                 remoteFileChooserDialog.setLocationRelativeTo(editSynchronizationDialog);
             }
-             
+
             setStatus("Building transfer engine...", ++count);
 
             log.info("building transfer manager...");
@@ -436,6 +478,14 @@ public class IDROPSplashWindow implements Runnable {
 
             Preferences prefs = idropCore.getPreferences();
 
+            boolean firstTimeRun = prefs.getBoolean(PREFERENCE_KEY_FIRST_TIME_RUN, true);
+            if (firstTimeRun) {
+                MessageUtil.showMessage(window,
+                        "Startup has finished.  Please check system tray for status and access to iDROP.",
+                        "Startup Finished");
+            }
+            prefs.putBoolean(PREFERENCE_KEY_FIRST_TIME_RUN, false);
+
             // set some preferences
             boolean showUI = prefs.getBoolean(PREFERENCE_KEY_SHOW_UI, true);
             log.debug("showIU: {}", showUI);
@@ -451,8 +501,6 @@ public class IDROPSplashWindow implements Runnable {
             idropCore.getIconManager().setRunningStatus(idropCore.getTransferManager().getRunningStatus());
             idropCore.getIconManager().setErrorStatus(idropCore.getTransferManager().getErrorStatus());
             desktop.togglePauseTransfer.setSelected(desktop.pausedItem.getState());
-
-            prefs.putBoolean(PREFERENCE_KEY_FIRST_TIME_RUN, false);
 
             super.done();
 
