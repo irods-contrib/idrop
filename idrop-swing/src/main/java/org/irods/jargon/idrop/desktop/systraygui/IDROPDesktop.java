@@ -41,6 +41,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -127,28 +128,49 @@ import javax.swing.JProgressBar;
 public class IDROPDesktop implements ActionListener, ItemListener, TransferManagerCallbackListener {
 
     public JFrame mainFrame;
+
     private LocalFileSystemModel localFileModel = null;
+
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(IDROPDesktop.class);
+
     private boolean formShown = false;
+
     private CookSwing cookSwing = null;
+
     private LocalFileTree fileTree = null;
+
     private IRODSTree irodsTree = null;
+
     private QueueManagerDialog queueManagerDialog = null;
+
     private IDROPCore iDropCore;
+
     public CheckboxMenuItem pausedItem = null;
+
     private TrayIcon trayIcon = null;
+
     private Object lastCachedInfoItem = null;
+
     public JList editSynchronizationsDialogList, remoteFileChooserDialogList;
+
+    public JLabel loginDialogUsernameLabel, loginDialogPasswordLabel, loginDialogHostLabel, loginDialogPortLabel,
+            loginDialogZoneLabel, loginDialogResourceLabel;
+
     public JPasswordField changePasswordDialogPasswordPasswordField, changePasswordDialogPasswordConfirmPasswordField;
+
     public JTextField editSynchronizationDialogLocalPathTextField, editSynchronizationDialogNameTextField,
             editSynchronizationDialogRemotePathTextField, remoteFileChooserDialogFileNameTextField,
             preferencesDialogDefaultLocalDirectoryTextField, editSynchronizationDialogDeviceNameTextField,
             preferencesDialogDeviceNameTextField, changePasswordDialogCurrentAccountTextField;
+
     public JDialog editSynchronizationsDialog, editSynchronizationDialog, remoteFileChooserDialog, preferencesDialog,
             changePasswordDialog;
+
     public JCheckBox preferencesDialogShowUICheckBox, preferencesDialogShowHiddenFilesCheckBox,
             preferencesDialogShowPreferencesCheckBox, preferencesDialogShowSplashScreenCheckBox;
+
     public DefaultListModel editSynchronizationsDialogListModel, remoteFileChooserDialogListModel;
+
     public JButton preferencesDialogOKButton, editSynchronizationsDialogNewButton,
             editSynchronizationsDialogEditButton, editSynchronizationsDialogDeleteButton,
             editSynchronizationsDialogRunNowButton, editSynchronizationDialogSaveButton,
@@ -158,8 +180,10 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
             remoteFileChooserDialogListViewButton, remoteFileChooserDialogDetailsViewButton,
             remoteFileChooserDialogOpenButton, remoteFileChooserDialogCancelButton, changePasswordDialogSaveButton,
             changePasswordDialogCancelButton;
+
     public JFileChooser editSynchronizationDialogLocalPathFileChooser, editSynchronizationDialogRemotePathFileChooser,
             preferencesDialogDefaultLocalDirectoryFileChooser;
+
     public JComboBox editSynchronizationDialogFrequencyComboBox, remoteFileChooserDialogFileTypeComboBox,
             remoteFileChooserDialogLookInComboBox;
 
@@ -175,50 +199,76 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
     /** Creates new form IDrop */
     public IDROPDesktop() {
     }
+
     public final ActionListener editSynchronizationsDialogNewActionListener = new EditSynchronizationsDialogNewActionListener(
             this);
+
     public final ActionListener editSynchronizationsDialogEditActionListener = new EditSynchronizationsDialogEditActionListener(
             this);
+
     public final ActionListener editSynchronizationsDialogDeleteActionListener = new EditSynchronizationsDialogDeleteActionListener(
             this);
+
     public final ActionListener editSynchronizationsDialogRunNowActionListener = new EditSynchronizationsDialogRunNowActionListener(
             this);
+
     public final ActionListener editSynchronizationDialogLocalPathBrowseActionListener = new EditSynchronizationDialogLocalPathBrowseActionListener(
             this);
+
     public final ActionListener editSynchronizationDialogRemotePathBrowseActionListener = new EditSynchronizationDialogRemotePathBrowseActionListener(
             this);
+
     public final ActionListener editSynchronizationDialogSaveActionListener = new EditSynchronizationDialogSaveActionListener(
             this);
+
     public final ActionListener editSynchronizationDialogCancelActionListener = new EditSynchronizationDialogCancelActionListener(
             this);
+
     public final ActionListener editSynchronizationsMenuActionListener = new EditSynchronizationsMenuActionListener(
             this);
+
     public final ActionListener remoteFileChooserDialogUpFolderActionListener = new RemoteFileChooserDialogUpFolderActionListener(
             this);
+
     public final ActionListener remoteFileChooserDialogHomeFolderActionListener = new RemoteFileChooserDialogHomeFolderActionListener(
             this);
+
     public final ActionListener remoteFileChooserDialogNewFolderActionListener = new RemoteFileChooserDialogNewFolderActionListener(
             this);
+
     public final ActionListener remoteFileChooserDialogListViewActionListener = new RemoteFileChooserDialogListViewActionListener(
             this);
+
     public final ActionListener remoteFileChooserDialogDetailsViewActionListener = new RemoteFileChooserDialogDetailsViewActionListener(
             this);
+
     public final ActionListener remoteFileChooserDialogLookInActionListener = new RemoteFileChooserDialogLookInActionListener(
             this);
+
     public final ActionListener remoteFileChooserDialogFileTypeActionListener = new RemoteFileChooserDialogFileTypeActionListener(
             this);
+
     public final ActionListener remoteFileChooserDialogOpenActionListener = new RemoteFileChooserDialogOpenActionListener(
             this);
+
     public final ActionListener remoteFileChooserDialogCancelActionListener = new RemoteFileChooserDialogCancelActionListener(
             this);
+
     public final MouseListener remoteFileChooserDialogListMouseListener = new RemoteFileChooserDialogListMouseListener(
             this);
+
     public final ActionListener preferencesMenuActionListener = new PreferencesMenuActionListener(this);
+
     public final ActionListener preferencesDialogCancelActionListener = new PreferencesDialogCancelActionListener(this);
+
     public final ActionListener preferencesDialogSaveActionListener = new PreferencesDialogSaveActionListener(this);
+
     public final ActionListener changePasswordDialogSaveActionListener = new ChangePasswordSaveActionListener(this);
+
     public final ActionListener changePasswordDialogCancelActionListener = new ChangePasswordCancelActionListener(this);
+
     public final ActionListener changePasswordMenuActionListener = new ChangePasswordMenuActionListener(this);
+
     public final KeyListener changePasswordDialogEnterKeyListener = new ChangePasswordDialogEnterKeyListener(this);
 
     protected void buildIdropGuiComponents() throws IdropRuntimeException, HeadlessException {
@@ -279,8 +329,10 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         if (cookSwing == null) {
             cookSwing = new CookSwing(this);
             changePasswordDialog = (JDialog) cookSwing.render("org/irods/jargon/idrop/changePasswordDialog.xml");
-            editSynchronizationDialog = (JDialog) cookSwing.render("org/irods/jargon/idrop/editSynchronizationDialog.xml");
-            editSynchronizationsDialog = (JDialog) cookSwing.render("org/irods/jargon/idrop/editSynchronizationsDialog.xml");
+            editSynchronizationDialog = (JDialog) cookSwing
+                    .render("org/irods/jargon/idrop/editSynchronizationDialog.xml");
+            editSynchronizationsDialog = (JDialog) cookSwing
+                    .render("org/irods/jargon/idrop/editSynchronizationsDialog.xml");
             preferencesDialog = (JDialog) cookSwing.render("org/irods/jargon/idrop/preferencesDialog.xml");
             remoteFileChooserDialog = (JDialog) cookSwing.render("org/irods/jargon/idrop/remoteFileChooserDialog.xml");
         }
@@ -347,7 +399,6 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         final JProgressBar thisProgressBar = transferStatusProgressBar;
         if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
 
-
             java.awt.EventQueue.invokeLater(new Runnable() {
 
                 @Override
@@ -378,10 +429,6 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
                 this.showIdropException(ex);
             }
         }
-
-
-
-
 
     }
 
@@ -671,10 +718,11 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
     public int showTransferStartupConfirm() {
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(
-                mainFrame,
-                "There are transfers ready to process, should the transfer queue be started?  Click NO to pause the transfersf",
-                "Begin Transfer Confirmation", JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane
+                .showConfirmDialog(
+                        mainFrame,
+                        "There are transfers ready to process, should the transfer queue be started?  Click NO to pause the transfersf",
+                        "Begin Transfer Confirmation", JOptionPane.YES_NO_OPTION);
 
         return n;
     }
@@ -955,13 +1003,17 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
                     mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     if (collectionAndDataObjectListingEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
                         log.info("looking up collection to build info panel");
-                        CollectionAO collectionAO = getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getCollectionAO(getIrodsAccount());
-                        Collection collection = collectionAO.findByAbsolutePath(collectionAndDataObjectListingEntry.getPathOrName());
+                        CollectionAO collectionAO = getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory()
+                                .getCollectionAO(getIrodsAccount());
+                        Collection collection = collectionAO.findByAbsolutePath(collectionAndDataObjectListingEntry
+                                .getPathOrName());
                         initializeInfoPanel(collection);
                     } else {
                         log.info("looking up data object to build info panel");
-                        DataObjectAO dataObjectAO = getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getDataObjectAO(getIrodsAccount());
-                        DataObject dataObject = dataObjectAO.findByAbsolutePath(collectionAndDataObjectListingEntry.getParentPath() + "/" + collectionAndDataObjectListingEntry.getPathOrName());
+                        DataObjectAO dataObjectAO = getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory()
+                                .getDataObjectAO(getIrodsAccount());
+                        DataObject dataObject = dataObjectAO.findByAbsolutePath(collectionAndDataObjectListingEntry
+                                .getParentPath() + "/" + collectionAndDataObjectListingEntry.getPathOrName());
                         initializeInfoPanel(dataObject);
                     }
 
@@ -1011,8 +1063,10 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
                 log.debug("getting available tags for data object");
 
                 try {
-                    FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(), getiDropCore().getIrodsAccount());
-                    IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForDataObjectInFreeTagForm(dataObject.getCollectionName() + "/" + dataObject.getDataName());
+                    FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore()
+                            .getIrodsFileSystem().getIRODSAccessObjectFactory(), getiDropCore().getIrodsAccount());
+                    IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForDataObjectInFreeTagForm(dataObject
+                            .getCollectionName() + "/" + dataObject.getDataName());
                     txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
                     pnlInfoIcon.removeAll();
                     pnlInfoIcon.add(IconHelper.getFileIcon());
@@ -1068,8 +1122,10 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
                 log.debug("getting available tags for data object");
 
                 try {
-                    FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(), getIrodsAccount());
-                    IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForCollectionInFreeTagForm(collection.getCollectionName());
+                    FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore()
+                            .getIrodsFileSystem().getIRODSAccessObjectFactory(), getIrodsAccount());
+                    IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForCollectionInFreeTagForm(collection
+                            .getCollectionName());
                     txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
                     pnlInfoIcon.removeAll();
                     pnlInfoIcon.add(IconHelper.getFolderIcon());
@@ -1264,8 +1320,8 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         lblMainSearch.setPreferredSize(new java.awt.Dimension(45, 40));
         pnlSearchSizer.add(lblMainSearch);
 
-        comboSearchType.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"by name", "by tag",
-                    "by name and tag"}));
+        comboSearchType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "by name", "by tag",
+                "by name and tag" }));
         comboSearchType.setToolTipText("Select the type of search to be carried out using the supplied search string");
         pnlSearchSizer.add(comboSearchType);
 
@@ -1458,9 +1514,9 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
 
         pnlTabSearchResults.setLayout(new java.awt.GridLayout(1, 0));
 
-        tableSearchResults.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{
-                    {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                    {null, null, null, null}}, new String[]{"Title 1", "Title 2", "Title 3", "Title 4"}));
+        tableSearchResults.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
+                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+                { null, null, null, null } }, new String[] { "Title 1", "Title 2", "Title 3", "Title 4" }));
         scrollPaneSearchResults.setViewportView(tableSearchResults);
 
         pnlTabSearchResults.add(scrollPaneSearchResults);
@@ -1783,7 +1839,8 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlIdropBottom.add(pnlTransferOverview, gridBagConstraints);
 
-        transferStatusProgressBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        transferStatusProgressBar.setBorder(javax.swing.BorderFactory
+                .createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         transferStatusProgressBar.setStringPainted(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -2196,18 +2253,21 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
                 FreeTaggingService freeTaggingService;
 
                 try {
-                    freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(), getIrodsAccount());
+                    freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem()
+                            .getIRODSAccessObjectFactory(), getIrodsAccount());
 
                     if (lastCachedInfoItem instanceof Collection) {
                         log.info("processing tags for collection");
                         Collection collection = (Collection) lastCachedItemToProcessTagsFor;
-                        IRODSTagGrouping irodsTagGrouping = new IRODSTagGrouping(MetadataDomain.COLLECTION, collection.getCollectionName(), txtTags.getText(), getIrodsAccount().getUserName());
+                        IRODSTagGrouping irodsTagGrouping = new IRODSTagGrouping(MetadataDomain.COLLECTION, collection
+                                .getCollectionName(), txtTags.getText(), getIrodsAccount().getUserName());
                         log.debug("new tag set is:{}", txtTags.getText());
                         freeTaggingService.updateTags(irodsTagGrouping);
                     } else if (lastCachedInfoItem instanceof DataObject) {
                         log.info("processing tags for data object");
                         DataObject dataObject = (DataObject) lastCachedItemToProcessTagsFor;
-                        IRODSTagGrouping irodsTagGrouping = new IRODSTagGrouping(MetadataDomain.DATA, dataObject.getCollectionName() + "/" + dataObject.getDataName(), txtTags.getText(),
+                        IRODSTagGrouping irodsTagGrouping = new IRODSTagGrouping(MetadataDomain.DATA, dataObject
+                                .getCollectionName() + "/" + dataObject.getDataName(), txtTags.getText(),
                                 getIrodsAccount().getUserName());
                         log.debug("new tag set is:{}", txtTags.getText());
                         freeTaggingService.updateTags(irodsTagGrouping);
@@ -2273,107 +2333,208 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
         // irodsTree.scrollPathToVisible(selPath);
         tabIrodsViews.setSelectedComponent(pnlTabHierarchicalView);
     }// GEN-LAST:event_menuItemShowInHierarchyActionPerformed
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+     // Variables declaration - do not modify//GEN-BEGIN:variables
+
     private javax.swing.JButton btnMoveToTrash;
+
     private javax.swing.JButton btnRefreshLocalDrives;
+
     private javax.swing.JButton btnRefreshTargetTree;
+
     private javax.swing.JButton btnReplication;
+
     private javax.swing.JButton btnShowTransferManager;
+
     private javax.swing.JButton btnUpdateInfo;
+
     private javax.swing.JButton btnViewMetadata;
+
     private javax.swing.JButton btnearch;
+
     private javax.swing.JComboBox comboSearchType;
+
     private javax.swing.JPanel iDropToolbar;
+
     private javax.swing.JToolBar idropProgressPanelToolbar;
+
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowIrodsInfo;
+
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowSourceTree;
+
     private javax.swing.JMenuBar jMenuBar1;
+
     private javax.swing.JMenu jMenuEdit;
+
     private javax.swing.JMenuItem jMenuItemEditSynchronizations;
+
     private javax.swing.JMenuItem jMenuItemPreferences;
+
     private javax.swing.JMenuItem jMenuItemChangePassword;
+
     private javax.swing.JMenu jMenuFile;
+
     private javax.swing.JMenuItem jMenuItemExit;
+
     private javax.swing.JMenu jMenuView;
+
     private javax.swing.JSplitPane jSplitPanelLocalRemote;
+
     private javax.swing.JLabel lblComment;
+
     private javax.swing.JLabel lblCurrentFile;
+
     private javax.swing.JLabel lblCurrentFileLabel;
+
     private javax.swing.JLabel lblFileOrCollectionName;
+
     private javax.swing.JLabel lblFileParent;
+
     private javax.swing.JLabel lblInfoCreatedAt;
+
     private javax.swing.JLabel lblInfoCreatedAtValue;
+
     private javax.swing.JLabel lblInfoLength;
+
     private javax.swing.JLabel lblInfoLengthValue;
+
     private javax.swing.JLabel lblInfoUpdatedAt;
+
     private javax.swing.JLabel lblInfoUpdatedAtValue;
+
     private javax.swing.JLabel lblMainSearch;
+
     private javax.swing.JLabel lblTags;
+
     private javax.swing.JLabel lblTransferByteCounts;
+
     private javax.swing.JLabel lblTransferFilesCounts;
+
     private javax.swing.JLabel lblTransferType;
+
     private javax.swing.JLabel lblTransferTypeLabel;
+
     private javax.swing.JList listLocalDrives;
+
     private javax.swing.JMenuItem menuItemShowInHierarchy;
+
     private javax.swing.JPanel pnlDrivesFiller;
+
     private javax.swing.JPanel pnlFileIconSizer;
+
     private javax.swing.JPanel pnlFileNameAndIcon;
+
     private javax.swing.JPanel pnlIdropBottom;
+
     private javax.swing.JPanel pnlIdropMain;
+
     private javax.swing.JPanel pnlIdropProgressIcon;
+
     private javax.swing.JPanel pnlInfoButton;
+
     private javax.swing.JPanel pnlInfoCollectionParent;
+
     private javax.swing.JPanel pnlInfoComment;
+
     private javax.swing.JPanel pnlInfoDetails;
+
     private javax.swing.JPanel pnlInfoIcon;
+
     private javax.swing.JPanel pnlInfoTags;
+
     private javax.swing.JPanel pnlIrodsArea;
+
     private javax.swing.JPanel pnlIrodsDetailsToggleSizer;
+
     private javax.swing.JPanel pnlIrodsInfo;
+
     private javax.swing.JPanel pnlIrodsInfoInner;
+
     private javax.swing.JPanel pnlIrodsTreeMaster;
+
     private javax.swing.JPanel pnlIrodsTreeToolbar;
+
     private javax.swing.JPanel pnlLocalRoots;
+
     private javax.swing.JPanel pnlLocalToggleSizer;
+
     private javax.swing.JPanel pnlLocalTreeArea;
+
     private javax.swing.JPanel pnlRefreshButton;
+
     private javax.swing.JPanel pnlSearchSizer;
+
     private javax.swing.JPanel pnlTabHierarchicalView;
+
     private javax.swing.JPanel pnlTabSearch;
+
     private javax.swing.JPanel pnlTabSearchResults;
+
     private javax.swing.JPanel pnlTabSearchTop;
+
     private javax.swing.JPanel pnlToolbarInfo;
+
     private javax.swing.JPanel pnlToolbarSizer;
+
     private javax.swing.JPanel pnlTopToolbarSearchArea;
+
     private javax.swing.JPanel pnlTransferByteCounts;
+
     private javax.swing.JPanel pnlTransferFileCounts;
+
     private javax.swing.JPanel pnlTransferFileInfo;
+
     private javax.swing.JPanel pnlTransferOverview;
+
     private javax.swing.JPanel pnlTransferStatus;
+
     private javax.swing.JPanel pnlTransferType;
+
     private javax.swing.JLabel progressIconImageLabel;
+
     private javax.swing.JScrollPane scrollComment;
+
     private javax.swing.JScrollPane scrollIrodsTree;
+
     private javax.swing.JScrollPane scrollLocalDrives;
+
     private javax.swing.JScrollPane scrollLocalFileTree;
+
     private javax.swing.JScrollPane scrollPaneSearchResults;
+
     private javax.swing.JScrollPane scrollParentPath;
+
     protected javax.swing.JPopupMenu searchTablePopupMenu;
+
     private javax.swing.JToolBar.Separator separator1;
+
     private javax.swing.JToolBar.Separator separator2;
+
     private javax.swing.JSplitPane splitTargetCollections;
+
     private javax.swing.JTabbedPane tabIrodsViews;
+
     private javax.swing.JTable tableSearchResults;
+
     private javax.swing.JToggleButton toggleIrodsDetails;
+
     private javax.swing.JToggleButton toggleLocalFiles;
+
     public javax.swing.JToggleButton togglePauseTransfer;
+
     private javax.swing.JToolBar toolBarInfo;
+
     private javax.swing.JPanel transferQueueToolbarPanel;
+
     private javax.swing.JProgressBar transferStatusProgressBar;
+
     private javax.swing.JTextArea txtComment;
+
     private javax.swing.JTextField txtMainSearch;
+
     private javax.swing.JTextArea txtParentPath;
+
     private javax.swing.JTextField txtTags;
+
     private javax.swing.JLabel userNameLabel;
 
     // End of variables declaration//GEN-END:variables
@@ -2396,10 +2557,12 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
 
                 try {
                     mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = iDropCore.getIRODSAccessObjectFactory().getCollectionAndDataObjectListAndSearchAO(
-                            iDropCore.getIrodsAccount());
+                    CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = iDropCore
+                            .getIRODSAccessObjectFactory().getCollectionAndDataObjectListAndSearchAO(
+                                    iDropCore.getIrodsAccount());
                     IRODSSearchTableModel irodsSearchTableModel = new IRODSSearchTableModel(
-                            collectionAndDataObjectListAndSearchAO.searchCollectionsAndDataObjectsBasedOnName(searchTerms));
+                            collectionAndDataObjectListAndSearchAO
+                                    .searchCollectionsAndDataObjectsBasedOnName(searchTerms));
                     tableSearchResults.setModel(irodsSearchTableModel);
                     tabIrodsViews.setSelectedComponent(pnlTabSearch);
                 } catch (Exception e) {
@@ -2431,7 +2594,8 @@ public class IDROPDesktop implements ActionListener, ItemListener, TransferManag
                     FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(
                             iDropCore.getIRODSAccessObjectFactory(), getIrodsAccount());
                     TagQuerySearchResult result = freeTaggingService.searchUsingFreeTagString(searchTerms);
-                    IRODSSearchTableModel irodsSearchTableModel = new IRODSSearchTableModel(result.getQueryResultEntries());
+                    IRODSSearchTableModel irodsSearchTableModel = new IRODSSearchTableModel(result
+                            .getQueryResultEntries());
                     tableSearchResults.setModel(irodsSearchTableModel);
                     tabIrodsViews.setSelectedComponent(pnlTabSearch);
                 } catch (Exception e) {
