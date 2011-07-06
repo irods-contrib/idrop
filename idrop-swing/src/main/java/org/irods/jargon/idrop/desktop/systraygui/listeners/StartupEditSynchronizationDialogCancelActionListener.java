@@ -17,7 +17,7 @@ public class StartupEditSynchronizationDialogCancelActionListener implements Act
     @Override
     public void actionPerformed(ActionEvent e) {
         desktop.editSynchronizationDialog.setVisible(false);
-        System.exit(0);
+        //don't want to exit here...just close and move along
     }
 
 }
