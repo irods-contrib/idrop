@@ -359,9 +359,7 @@ public class IDROPSplashWindow implements Runnable {
             log.info("logged in, now checking for first run...");
 
             setStatus("Initial Synchronization setup...", ++count);
-/*
-             * FIXME: need to revert back to working code
-             * 
+            
             TransferDAOManager transferMgr = TransferDAOManager.getInstance();
             SynchronizationDAO synchDAO = transferMgr.getTransferDAOBean().getSynchronizationDAO();
             Synchronization synch = synchDAO.findByName("Backup");
@@ -387,8 +385,6 @@ public class IDROPSplashWindow implements Runnable {
                 remoteFileChooserDialog.setLocationRelativeTo(editSynchronizationDialog);
             }
              
-             */
-
             setStatus("Building transfer engine...", ++count);
 
             log.info("building transfer manager...");
