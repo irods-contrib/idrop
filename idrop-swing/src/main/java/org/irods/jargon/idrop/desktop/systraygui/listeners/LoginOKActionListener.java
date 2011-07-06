@@ -1,10 +1,10 @@
 package org.irods.jargon.idrop.desktop.systraygui.listeners;
 
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_HOST;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_PORT;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_RESOURCE;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_USERNAME;
-import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREF_LOGIN_ZONE;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_HOST;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_PORT;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_RESOURCE;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_USERNAME;
+import static org.irods.jargon.idrop.desktop.systraygui.Constants.PREFERENCE_KEY_LOGIN_ZONE;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,11 +60,11 @@ public class LoginOKActionListener implements ActionListener {
         String resource = splash.loginDialogResourceTextField.getText();
         String zone = splash.loginDialogZoneTextField.getText();
 
-        splash.getDesktop().getiDropCore().getPreferences().put(PREF_LOGIN_HOST, host);
-        splash.getDesktop().getiDropCore().getPreferences().put(PREF_LOGIN_ZONE, zone);
-        splash.getDesktop().getiDropCore().getPreferences().put(PREF_LOGIN_RESOURCE, resource);
-        splash.getDesktop().getiDropCore().getPreferences().put(PREF_LOGIN_USERNAME, username);
-        splash.getDesktop().getiDropCore().getPreferences().put(PREF_LOGIN_PORT, port);
+        splash.getDesktop().getiDropCore().getPreferences().put(PREFERENCE_KEY_LOGIN_HOST, host);
+        splash.getDesktop().getiDropCore().getPreferences().put(PREFERENCE_KEY_LOGIN_ZONE, zone);
+        splash.getDesktop().getiDropCore().getPreferences().put(PREFERENCE_KEY_LOGIN_RESOURCE, resource);
+        splash.getDesktop().getiDropCore().getPreferences().put(PREFERENCE_KEY_LOGIN_USERNAME, username);
+        splash.getDesktop().getiDropCore().getPreferences().put(PREFERENCE_KEY_LOGIN_PORT, port);
 
         StringBuilder sb = new StringBuilder();
         sb.append('/').append(zone).append("/home/").append(username);
