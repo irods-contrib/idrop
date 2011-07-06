@@ -1,5 +1,6 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -22,23 +24,22 @@ import org.slf4j.LoggerFactory;
  */
 public class IdropConfigurationServiceImpl implements IdropConfigurationService {
 
-    private final String idropConfigRootDirectoryAbsolutePath;
+    private final File propertyFile;
 
     private final ConfigurationService configurationService;
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(IdropConfigurationServiceImpl.class);
 
-    public IdropConfigurationServiceImpl(final String idropConfigRootDirectoryAbsolutePath)
-            throws IdropAlreadyRunningException, IdropException {
+    public IdropConfigurationServiceImpl(final File propertyFile) throws IdropAlreadyRunningException, IdropException {
 
-        if (idropConfigRootDirectoryAbsolutePath == null) {
-            throw new IllegalArgumentException("idropConfigRootDirectoryAbsolutePath is null");
+        if (propertyFile == null) {
+            throw new IllegalArgumentException("propertyFile is null");
         }
 
         log.info("getting config service via factory");
         try {
             TransferServiceFactoryImpl transferServiceFactory = new TransferServiceFactoryImpl();
-            this.idropConfigRootDirectoryAbsolutePath = idropConfigRootDirectoryAbsolutePath;
+            this.propertyFile = propertyFile;
             this.configurationService = transferServiceFactory.instanceConfigurationService();
 
         } catch (Exception ex) {
@@ -60,7 +61,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         try {
             databaseProperties = configurationService.exportProperties();
             configFileProperties = this.importPropertiesFromDefaultFile();
-
+            configFileProperties.putAll(getProperties());
         } catch (Exception ex) {
             Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             if (ex.getMessage().indexOf("Could not open Hibernate Session") != -1) {
@@ -83,12 +84,15 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         }
 
         log.info("now storing derived properties in idrop configuration");
-        
+
+        databaseProperties.putAll(configFileProperties);
+
         /*
-         * This is something of a shim right now until config things settle down.  For lifetime library, force into login preset mode
+         * This is something of a shim right now until config things settle down. For lifetime library, force into login
+         * preset mode
          */
-        
-        String forceMode = (String) configFileProperties.getProperty(FORCE_MODE);
+
+        String forceMode = databaseProperties.getProperty(FORCE_MODE);
         if (forceMode != null) {
             boolean isForce = Boolean.valueOf(forceMode);
             log.info("force mode is:{}", isForce);
@@ -97,9 +101,10 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
                 databaseProperties.setProperty(LOGIN_PRESET, "true");
             }
         }
-        
+
         log.info("checking for force mode, which forces certain properties to be loaded from the idrop.properties file");
-        
+
+        importGivenPropertiesIntoDatabase(databaseProperties);
         saveConfigurationToPropertiesFile();
         return databaseProperties;
 
@@ -113,13 +118,9 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     @Override
     public void saveConfigurationToPropertiesFile() throws IdropException {
         log.info("saveConfigurationToPropertiesFile()");
-        StringBuilder sb = new StringBuilder(idropConfigRootDirectoryAbsolutePath);
-        sb.append("/");
-        sb.append(IDROP_PROPS_FILE_NAME);
-
         try {
             Properties databaseProperties = configurationService.exportProperties();
-            databaseProperties.store(new FileOutputStream(sb.toString()), null);
+            databaseProperties.store(new FileOutputStream(propertyFile), null);
         } catch (TransferEngineException ex) {
             Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("exception exporting final properties", ex);
@@ -137,19 +138,25 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
      */
     private Properties importPropertiesFromPropertiesFile() throws IdropException {
         log.info("importPropertiesFromPropertiesFile()");
-        StringBuilder sb = new StringBuilder(idropConfigRootDirectoryAbsolutePath);
-        sb.append("/");
-        sb.append(IDROP_PROPS_FILE_NAME);
+        Properties properties = getProperties();
+        importGivenPropertiesIntoDatabase(properties);
+        return properties;
+    }
+
+    private Properties getProperties() throws IdropException {
+        log.debug("getProperties()");
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(sb.toString()));
-            importGivenPropertiesIntoDatabase(properties);
+            if (!this.propertyFile.exists()) {
+                FileUtils.touch(this.propertyFile);
+            }
+            FileInputStream fis = new FileInputStream(this.propertyFile);
+            properties.load(fis);
+            fis.close();
         } catch (IOException ex) {
             log.warn("idrop properties not found");
         }
-
         return properties;
-
     }
 
     private void importGivenPropertiesIntoDatabase(Properties properties) throws IdropException {
@@ -172,4 +179,14 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         importGivenPropertiesIntoDatabase(properties);
         return properties;
     }
+
+    private Properties importPropertiesFromDefaultFile(Properties props) throws IdropException {
+        log.info("importPropertiesFromDefaultFile()");
+        IdropPropertiesHelper idropPropertiesHelper = new IdropPropertiesHelper();
+        Properties properties = idropPropertiesHelper.loadIdropProperties();
+
+        importGivenPropertiesIntoDatabase(properties);
+        return properties;
+    }
+
 }
