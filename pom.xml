@@ -14,6 +14,7 @@
     <jargon.version>2.4.1-SNAPSHOT</jargon.version>
     <spring.core.version>3.0.5.RELEASE</spring.core.version>
     <commons.io.version>2.0.1</commons.io.version>
+    <netbeans.version>RELEASE70</netbeans.version>
   </properties>
   <issueManagement>
     <system>gForge</system>
@@ -169,6 +170,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+	<groupId>org.netbeans.api</groupId>
+	<artifactId>org-netbeans-swing-outline</artifactId>
+	<version>${netbeans.version}</version>
+      </dependency>
+      <dependency>
     	<groupId>org.irods.jargon</groupId>
     	<artifactId>jargon-core</artifactId>
     	<version>${jargon.version}</version>
@@ -201,7 +207,7 @@
       <dependency>
     	<groupId>junit</groupId>
     	<artifactId>junit</artifactId>
-    	<version>4.8</version>
+    	<version>4.8.2</version>
       </dependency>
       <dependency>
     	<groupId>commons-logging</groupId>

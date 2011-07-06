@@ -12,3 +12,8 @@ To skip tests when building:
  mvn clean install -Dmaven.test.skip=true
  mvn exec:java -Dexec.mainClass=org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop
 
+
+To generate a single distributable jar of the iDROP swing binaries:
+
+ cd idrop-swing
+ mvn assembly:assembly -Dmaven.test.skip=true
