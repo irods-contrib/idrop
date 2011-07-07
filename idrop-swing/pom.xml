@@ -161,12 +161,26 @@
 	</configuration>
       </plugin>
       <plugin>
-	<artifactId>maven-assembly-plugin</artifactId>
+	<artifactId>maven-jar-plugin</artifactId>
 	<configuration>
-	  <descriptorRefs>
-	    <descriptorRef>jar-with-dependencies</descriptorRef>
-	  </descriptorRefs>
+	  <archive>
+	    <manifest>
+	      <mainClass>org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop</mainClass>
+	    </manifest>
+	  </archive>
 	</configuration>
+      </plugin>
+      <plugin>
+      	<groupId>org.dstovall</groupId>
+      	<artifactId>onejar-maven-plugin</artifactId>
+      	<version>1.4.4</version>
+      	<executions>
+      	  <execution>
+      	    <goals>
+      	      <goal>one-jar</goal>
+      	    </goals>
+      	  </execution>
+      	</executions>
       </plugin>
     </plugins>
   </build>   
