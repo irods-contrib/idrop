@@ -293,10 +293,14 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                         String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
                         log.info("initiating put transfer");
                         try {
+                        	/*
                             idropGui.getiDropCore()
                                     .getTransferManager()
                                     .enqueueAPut(localSourceAbsolutePath, targetIrodsFileAbsolutePath, sourceResource,
                                             idropGui.getIrodsAccount());
+                            */
+                        	idropGui.getiDropCore().getTransferManager().putOperation(localSourceAbsolutePath,
+                        			targetIrodsFileAbsolutePath, sourceResource, idropGui, new TreeTransferControlBlock());
                         } catch (JargonException ex) {
                             java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                                     java.util.logging.Level.SEVERE, null, ex);
@@ -415,10 +419,14 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                     for (File transferFile : sourceFiles) {
                         log.info("initiating put transfer for source file:{}", transferFile.getAbsolutePath());
                         try {
+                        	idropGui.getiDropCore().getTransferManager().putOperation(transferFile.getAbsolutePath(),
+                        			targetIrodsFileAbsolutePath, sourceResource, idropGui, new TreeTransferControlBlock());
+                            /*
                             idropGui.getiDropCore()
                                     .getTransferManager()
                                     .enqueueAPut(transferFile.getAbsolutePath(), targetIrodsFileAbsolutePath,
                                             sourceResource, idropGui.getIrodsAccount());
+                            */
                         } catch (JargonException ex) {
                             java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                                     java.util.logging.Level.SEVERE, null, ex);
