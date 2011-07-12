@@ -41,9 +41,8 @@
       <artifactId>jargon-data-utils</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.irods.idrop</groupId>
-      <artifactId>idrop-commons</artifactId>
-      <version>0.9.1-SNAPSHOT</version>
+      <groupId>org.irods.jargon.transfer</groupId>
+      <artifactId>jargon-transfer-engine</artifactId>
     </dependency>
     <dependency>
       <groupId>org.netbeans.api</groupId>
