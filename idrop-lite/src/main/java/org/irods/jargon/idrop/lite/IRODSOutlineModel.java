@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.irods.jargon.idrop.lite;
 
 import java.util.Date;
@@ -29,6 +28,7 @@ import org.slf4j.LoggerFactory;
 public class IRODSOutlineModel extends DefaultOutlineModel {
 
     public static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSOutlineModel.class);
+
     private final IRODSFileSystemModel treeModel;
 
     private iDropLiteApplet idrop;
@@ -41,12 +41,13 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
 
     public IRODSOutlineModel(iDropLiteApplet idrop, TreeModel tm, RowModel rm, boolean bln, String string) {
         super(tm, rm, bln, string);
-                this.treeModel = (IRODSFileSystemModel) tm;
+        this.treeModel = (IRODSFileSystemModel) tm;
 
         this.idrop = idrop;
     }
 
     public void notifyFileShouldBeRemoved(final IRODSNode deletedNode) throws IdropException {
+
         if (deletedNode == null) {
             return;
         }
@@ -63,30 +64,28 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
 
             @Override
             public void run() {
-                 CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) ((IRODSNode) parent)
-                            .getUserObject();
-                 IRODSTree stagingViewTree = idrop.getIrodsTree();
-               TreePath path;
+                CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) ((IRODSNode) parent)
+                        .getUserObject();
+                IRODSTree stagingViewTree = idrop.getIrodsTree();
+                TreePath path;
                 try {
                     path = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree,
-                        entry.getFormattedAbsolutePath());
+                            entry.getFormattedAbsolutePath());
                 } catch (IdropException ex) {
-                     Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
-                     throw new IdropRuntimeException(ex);
+                    Logger.getLogger(IRODSOutlineModel.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new IdropRuntimeException(ex);
                 }
 
-               // thisModel.getTreePathSupport().removePath(path);
-               parent.remove(deletedNode);
+                // thisModel.getTreePathSupport().removePath(path);
+                parent.remove(deletedNode);
 
+                // parent.forceReloadOfChildrenOfThisNode();
+                // treeModel.nodeChanged(deletedNode);
+                // treeModel.nodeChanged(parent);
 
-                //parent.forceReloadOfChildrenOfThisNode();
-                treeModel.nodeChanged(deletedNode);
+                // treeModel.nodeChanged(parent);
 
-                //treeModel.nodeChanged(parent);
-
-               stagingViewTree.highlightPath(path);
-
-
+                // stagingViewTree.highlightPath(path);
 
             }
         });
@@ -122,14 +121,17 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                     try {
                         // if the node already exists (e.g. an overwrite, don' add it
 
-                        TreePath currentPath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, irodsFileAbsolutePath);
+                        TreePath currentPath = TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree,
+                                irodsFileAbsolutePath);
                         // build treePath will return parent if child not found
                         if (currentPath == null) {
-                            log.warn("null tree path found for:{} logged and ignored as a warning", irodsFileAbsolutePath);
+                            log.warn("null tree path found for:{} logged and ignored as a warning",
+                                    irodsFileAbsolutePath);
                             return;
                         }
                         IRODSNode irodsNode = (IRODSNode) currentPath.getLastPathComponent();
-                       CollectionAndDataObjectListingEntry lastPathNodeEntry =  (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
+                        CollectionAndDataObjectListingEntry lastPathNodeEntry = (CollectionAndDataObjectListingEntry) irodsNode
+                                .getUserObject();
                         if (irodsFileAbsolutePath.equals(lastPathNodeEntry.getFormattedAbsolutePath())) {
                             log.info("path already exists, do not double-add");
                             return;
