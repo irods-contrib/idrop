@@ -12,19 +12,28 @@
 package org.irods.jargon.idrop.lite;
 
 import java.awt.Rectangle;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import java.util.logging.Logger;
 import javax.swing.JToggleButton;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+
 import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
+import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.pub.DataTransferOperations;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.datautils.datacache.DataCacheServiceImpl;
+import org.irods.jargon.core.transfer.TransferStatusCallbackListener;
 import org.netbeans.swing.outline.Outline;
 
 import org.slf4j.LoggerFactory;
@@ -33,7 +42,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author lisa
  */
-public class iDropLiteApplet extends javax.swing.JApplet {
+public class iDropLiteApplet extends javax.swing.JApplet implements TransferStatusCallbackListener {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(iDropLiteApplet.class);
     private final Integer defaultLoginMode = -1;
@@ -49,7 +58,6 @@ public class iDropLiteApplet extends javax.swing.JApplet {
     private String defaultStorageResource;
     private String tempPswd;
     private String absPath;
-    private String permPswd;
     IRODSFileSystem irodsFileSystem = null;
 
     /** Initializes the applet iDropLiteApplet */
@@ -62,7 +70,6 @@ public class iDropLiteApplet extends javax.swing.JApplet {
                     getAppletParams();         
                     if(doStartup()) {
                     	initComponents();
-                    	bntRefreshIrodsTree.hide();
                     }
                 }
             });
@@ -117,7 +124,8 @@ public class iDropLiteApplet extends javax.swing.JApplet {
     	dataCache.setIrodsAccount(irodsAccount);
     	
     	try {
-			pswd = dataCache.retrieveStringValueFromCache(tempPswd, user);
+    		log.info("sending user name and key user:{}", user);
+			pswd = dataCache.retrieveStringValueFromCache(user, tempPswd);
 			irodsFileSystem.closeAndEatExceptions();
 			this.irodsAccount = new IRODSAccount(host, port, user, pswd, absPath, zone, defaultStorageResource);
 		} catch (JargonException e2) {
@@ -224,6 +232,16 @@ public class iDropLiteApplet extends javax.swing.JApplet {
 
         buildTargetTree();
         
+        try {
+
+        	DataTransferOperations dataTransferOperations = irodsFileSystem.getIRODSAccessObjectFactory()
+        	.getDataTransferOperations(irodsAccount);
+        	iDropCore.setTransferManager(dataTransferOperations);
+        }
+        catch(JargonException ex) {
+        	Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return true;
     }
 
@@ -238,19 +256,8 @@ public class iDropLiteApplet extends javax.swing.JApplet {
 
                 CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
 
-                /*if (iDropCore.getIdropConfig().isLoginPreset()) {
-                    log.info("using policy preset home directory");
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("/");
-                    sb.append(getIrodsAccount().getZone());
-                    sb.append("/");
-                    sb.append("home");
-                    root.setParentPath(sb.toString());
-                    root.setPathOrName(getIrodsAccount().getHomeDirectory());
-                } else {*/
-                    log.info("using root path, no login preset");
-                    root.setPathOrName("/");
-                //}
+                log.info("using root path, no login preset");
+                root.setPathOrName("/");
 
                 log.info("building new iRODS tree");
                 try {
@@ -259,7 +266,7 @@ public class iDropLiteApplet extends javax.swing.JApplet {
                         IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
                                 getiDropCore().getIrodsFileSystem(), irodsTree);
                         irodsTree.setRefreshingTree(true);
-                        // irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+                        //irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
                     }
                     IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(), getiDropCore().getIrodsFileSystem(),
                             irodsTree);
@@ -333,125 +340,87 @@ public class iDropLiteApplet extends javax.swing.JApplet {
         });
     }
 
-    /**
-     * Initialize the info panel with data from iRODS. In this case, the data is an iRODS data object (file)
-     *
-     * @param dataObject
-     *            <code>DataObject</code> iRODS domain object for a file.
-     * @throws IdropException
-     */
-    public void initializeInfoPanel(final DataObject dataObject) throws IdropException {
-/*
-        if (!toggleIrodsDetails.isSelected()) {
-            log.info("info display not selected, don't bother");
-            return;
-        }
+    
+    @Override
+	public void statusCallback(final TransferStatus ts) {
+    	
+    	this.pbTransferStatus.setMaximum((int) ts.getTotalSize());
+    	this.pbTransferStatus.setValue((int) ts.getBytesTransfered());
+    	//this.pbTransferStatus.setMaximum((int) ts.getTotalFilesToTransfer());
+    	//this.pbTransferStatus.setValue((int) ts.getTotalFilesTransferredSoFar());
+    	log.info("transfer status callback to iDropLiteApplet:{}", ts);
 
-        if (dataObject == null) {
-            throw new IdropException("Null dataObject");
-        }
+    	java.awt.EventQueue.invokeLater(new Runnable() {
+    		@Override
+    		public void run() {
+    			// on initiation, clear and reset the status bar info
+    			/*
+            	lblTransferFilesCounts.setText("Files: " + ts.getTotalFilesTransferredSoFar() + " / "
+                    + ts.getTotalFilesToTransfer());
+            	lblTransferByteCounts.setText("Current File (kb):" + (ts.getBytesTransfered() / 1024) + " / "
+                    + (ts.getTotalSize() / 1024));
+    			 */
+    			lblTransferFileName.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
+    		}
+    	});
+		
+	}
 
-        this.lastCachedInfoItem = dataObject;
-        final iDrop idropGui = this;
+
+	@Override
+	public void overallStatusCallback(final TransferStatus ts) {
+		
+		IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree.getModel();
+        try {
+            irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
+            // if a get callback on completion, notify the local tree model
+            if (ts.getTransferType() == TransferStatus.TransferType.GET
+                    && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                ((LocalFileSystemModel) getFileTree().getModel()).notifyCompletionOfOperation(getFileTree(), ts);
+            }
+        } catch (IdropException ex) {
+            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+            this.showIdropException(ex);
+        }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
-                idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-                lblFileOrCollectionName.setText(dataObject.getDataName());
-                txtParentPath.setText(dataObject.getCollectionName());
-                txtComment.setText(dataObject.getComments());
-
-                log.debug("getting available tags for data object");
-
-                try {
-                    FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore()
-                            .getIrodsFileSystem().getIRODSAccessObjectFactory(), getiDropCore().getIrodsAccount());
-                    IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForDataObjectInFreeTagForm(dataObject
-                            .getCollectionName() + "/" + dataObject.getDataName());
-                    txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
-                    pnlInfoIcon.removeAll();
-                    pnlInfoIcon.add(IconHelper.getFileIcon());
-                    pnlInfoIcon.validate();
-                    lblInfoCreatedAtValue.setText(df.format(dataObject.getCreatedAt()));
-                    lblInfoUpdatedAtValue.setText(df.format(dataObject.getUpdatedAt()));
-                    lblInfoLengthValue.setText(String.valueOf(dataObject.getDataSize()));
-                    lblInfoLengthValue.setVisible(true);
-                    lblInfoLength.setVisible(true);
-                } catch (JargonException ex) {
-                    Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-                    throw new IdropRuntimeException(ex);
-                } finally {
-                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(getIrodsAccount());
-                    idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
+                // on initiation, clear and reset the status bar info
+            	/*
+                lblTransferType.setText(ts.getTransferType().name());
+                lblTransferFilesCounts.setText("Files: " + ts.getTotalFilesTransferredSoFar() + " / "
+                        + ts.getTotalFilesToTransfer());
+                lblTransferByteCounts.setText("Bytes (kb):" + (ts.getBytesTransfered() / 1024) + " / "
+                        + (ts.getTotalSize() / 1024));
+                */
+            	lblTransferFileName.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
             }
         });
- */
+		
+	}
+
+	
+	private final String abbreviateFileName(final String fileName) {
+
+        if (fileName == null) {
+            throw new IllegalArgumentException("null fileName");
+        }
+
+        StringBuilder sb = new StringBuilder();
+        if (fileName.length() < 100) {
+            sb.append(fileName);
+        } else {
+            // gt 100 bytes, redact
+            sb.append(fileName.substring(0, 50));
+            sb.append(" ... ");
+            sb.append(fileName.substring(fileName.length() - 50));
+        }
+
+        return sb.toString();
 
     }
 
-     /**
-     * Initialize the info panel with data from iRODS. In this case, the data is an iRODS collection (directory).
-     *
-     * @param collection
-     * @throws IdropException
-     */
-    public void initializeInfoPanel(final Collection collection) throws IdropException {
-        if (collection == null) {
-            throw new IdropException("Null collection");
-        }
-
-        log.info("initialize info panel with collection:{}", collection);
-        /*
-
-        if (!toggleIrodsDetails.isSelected()) {
-            log.info("info display not selected, don't bother");
-            return;
-        }
-
-        this.lastCachedInfoItem = collection;
-        final iDrop idropGui = this;
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-
-                idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-                lblFileOrCollectionName.setText(collection.getCollectionLastPathComponent());
-                txtParentPath.setText(collection.getCollectionParentName());
-                txtComment.setText(collection.getComments());
-
-                log.debug("getting available tags for data object");
-
-                try {
-                    FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore()
-                            .getIrodsFileSystem().getIRODSAccessObjectFactory(), getIrodsAccount());
-                    IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForCollectionInFreeTagForm(collection
-                            .getCollectionName());
-                    txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
-                    pnlInfoIcon.removeAll();
-                    pnlInfoIcon.add(IconHelper.getFolderIcon());
-                    pnlInfoIcon.validate();
-                    lblInfoCreatedAtValue.setText(df.format(collection.getCreatedAt()));
-                    lblInfoUpdatedAtValue.setText(df.format(collection.getModifiedAt()));
-                    lblInfoLengthValue.setVisible(false);
-                    lblInfoLength.setVisible(false);
-                } catch (JargonException ex) {
-                    Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-                    throw new IdropRuntimeException(ex);
-                } finally {
-                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(getIrodsAccount());
-                    idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-            }
-        });
-        */
-    }
 
     /** This method is called from within the init() method to
      * initialize the form.
@@ -459,24 +428,61 @@ public class iDropLiteApplet extends javax.swing.JApplet {
      * always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlMain = new javax.swing.JPanel();
+        pnlTools = new javax.swing.JPanel();
         tabIrodsViews = new javax.swing.JTabbedPane();
         pnlIrodsTreeView = new javax.swing.JPanel();
         pnlIrodsTreeToolbar = new javax.swing.JPanel();
         bntRefreshIrodsTree = new javax.swing.JButton();
         pnlTreeMaster = new javax.swing.JPanel();
         scrollIrodsTree = new javax.swing.JScrollPane();
+        pnlSearch = new javax.swing.JPanel();
+        pnlTransferStatus = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblTransferFileName = new javax.swing.JLabel();
+        pbTransferStatus = new javax.swing.JProgressBar();
+
+        setPreferredSize(new java.awt.Dimension(600, 400));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlMain.setMinimumSize(new java.awt.Dimension(200, 200));
+        pnlMain.setPreferredSize(new java.awt.Dimension(600, 400));
+        pnlMain.setRequestFocusEnabled(false);
+        pnlMain.setLayout(new java.awt.BorderLayout());
+
+        pnlTools.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        org.jdesktop.layout.GroupLayout pnlToolsLayout = new org.jdesktop.layout.GroupLayout(pnlTools);
+        pnlTools.setLayout(pnlToolsLayout);
+        pnlToolsLayout.setHorizontalGroup(
+            pnlToolsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 592, Short.MAX_VALUE)
+        );
+        pnlToolsLayout.setVerticalGroup(
+            pnlToolsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 0, Short.MAX_VALUE)
+        );
+
+        pnlMain.add(pnlTools, java.awt.BorderLayout.NORTH);
+
+        tabIrodsViews.setMinimumSize(new java.awt.Dimension(300, 300));
+        tabIrodsViews.setPreferredSize(new java.awt.Dimension(600, 400));
+        tabIrodsViews.setRequestFocusEnabled(false);
 
         pnlIrodsTreeView.setLayout(new java.awt.BorderLayout());
 
         bntRefreshIrodsTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         bntRefreshIrodsTree.setLabel("Refresh");
         pnlIrodsTreeToolbar.add(bntRefreshIrodsTree);
+        bntRefreshIrodsTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	bntRefreshIrodsTreeActionPerformed(evt);
+            }
+        });
 
         pnlIrodsTreeView.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
 
@@ -486,18 +492,64 @@ public class iDropLiteApplet extends javax.swing.JApplet {
 
         tabIrodsViews.addTab("iRODS Tree View", pnlIrodsTreeView);
 
-        org.jdesktop.layout.GroupLayout pnlMainLayout = new org.jdesktop.layout.GroupLayout(pnlMain);
-        pnlMain.setLayout(pnlMainLayout);
-        pnlMainLayout.setHorizontalGroup(
-            pnlMainLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(tabIrodsViews, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
+        pnlSearch.setName("pnlSearch"); // NOI18N
+
+        org.jdesktop.layout.GroupLayout pnlSearchLayout = new org.jdesktop.layout.GroupLayout(pnlSearch);
+        pnlSearch.setLayout(pnlSearchLayout);
+        pnlSearchLayout.setHorizontalGroup(
+            pnlSearchLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 575, Short.MAX_VALUE)
         );
-        pnlMainLayout.setVerticalGroup(
-            pnlMainLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlMainLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(tabIrodsViews, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
+        pnlSearchLayout.setVerticalGroup(
+            pnlSearchLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 271, Short.MAX_VALUE)
         );
+
+        tabIrodsViews.addTab("Search", pnlSearch);
+
+        pnlMain.add(tabIrodsViews, java.awt.BorderLayout.CENTER);
+
+        pnlTransferStatus.setPreferredSize(new java.awt.Dimension(600, 75));
+        pnlTransferStatus.setRequestFocusEnabled(false);
+        pnlTransferStatus.setLayout(new java.awt.GridBagLayout());
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        jLabel1.setText("Current File:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
+        pnlTransferStatus.add(jLabel1, gridBagConstraints);
+
+        lblTransferFileName.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
+        lblTransferFileName.setMaximumSize(new java.awt.Dimension(200, 22));
+        lblTransferFileName.setMinimumSize(new java.awt.Dimension(100, 22));
+        lblTransferFileName.setPreferredSize(new java.awt.Dimension(200, 22));
+        lblTransferFileName.setRequestFocusEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 15, 0, 0);
+        pnlTransferStatus.add(lblTransferFileName, gridBagConstraints);
+
+        pbTransferStatus.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        pbTransferStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        pbTransferStatus.setMinimumSize(new java.awt.Dimension(100, 24));
+        pbTransferStatus.setPreferredSize(new java.awt.Dimension(300, 24));
+        pbTransferStatus.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 40.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 15);
+        pnlTransferStatus.add(pbTransferStatus, gridBagConstraints);
+
+        pnlMain.add(pnlTransferStatus, java.awt.BorderLayout.PAGE_END);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -509,14 +561,20 @@ public class iDropLiteApplet extends javax.swing.JApplet {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(pnlMain, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntRefreshIrodsTree;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblTransferFileName;
+    private javax.swing.JProgressBar pbTransferStatus;
     private javax.swing.JPanel pnlIrodsTreeToolbar;
     private javax.swing.JPanel pnlIrodsTreeView;
     private javax.swing.JPanel pnlMain;
+    private javax.swing.JPanel pnlSearch;
+    private javax.swing.JPanel pnlTools;
+    private javax.swing.JPanel pnlTransferStatus;
     private javax.swing.JPanel pnlTreeMaster;
     private javax.swing.JScrollPane scrollIrodsTree;
     private javax.swing.JTabbedPane tabIrodsViews;
@@ -536,6 +594,11 @@ public class iDropLiteApplet extends javax.swing.JApplet {
 
     public Outline getTreeStagingResource() {
         return irodsTree;
+    }
+
+    private void bntRefreshIrodsTreeActionPerformed(java.awt.event.ActionEvent evt) {
+    	// FIX ME: get current view of irods tree and pass to buildTargetTree
+        buildTargetTree();
     }
 
 }
