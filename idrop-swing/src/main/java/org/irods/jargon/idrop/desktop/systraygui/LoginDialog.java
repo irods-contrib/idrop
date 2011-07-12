@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.KeyStroke;
 
-import org.apache.commons.lang.StringUtils;
+//import org.apache.commons.lang.StringUtils;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
@@ -62,22 +62,22 @@ public class LoginDialog extends JDialog {
     private void loginNormally(org.irods.jargon.idrop.desktop.systraygui.iDrop iDrop) {
         // predispose based on preferences
         String host = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_HOST, null);
-        if (StringUtils.isNotEmpty(host)) {
+        if (host == null || host.isEmpty()) {
             txtHost.setText(host);
         }
 
         String zone = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_ZONE, null);
-        if (StringUtils.isNotEmpty(zone)) {
+        if (zone == null || zone.isEmpty()) {
             txtZone.setText(zone);
         }
 
         String resource = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_RESOURCE, null);
-        if (StringUtils.isNotEmpty(resource)) {
+        if (resource == null || resource.isEmpty()) {
             txtResource.setText(resource);
         }
 
         String username = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_USERNAME, null);
-        if (StringUtils.isNotEmpty(username)) {
+        if (username == null || username.isEmpty()) {
             txtUserName.setText(username);
         }
     }

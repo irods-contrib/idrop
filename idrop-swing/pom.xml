@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.irods</groupId>
     <artifactId>idrop</artifactId>
-    <version>0.9.1-SNAPSHOT</version>
+    <version>0.9.8-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.irods.idrop</groupId>
@@ -22,10 +22,10 @@
       <scope>runtime</scope>
     </dependency>
     -->
-   <dependency>
+  <!-- <dependency>
      <groupId>com.jgoodies</groupId>
      <artifactId>validation</artifactId>
-   </dependency>
+   </dependency> -->
    <dependency>
      <groupId>cookxml</groupId>
      <artifactId>cookswing</artifactId>
@@ -110,7 +110,7 @@
 
             <!-- used to automatically identify the jar containing the main class. -->
             <!-- this is perhaps going to change -->
-	    <mainClass>org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop</mainClass>
+	    <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
 	  </jnlp>
 
           <!-- SIGNING -->
@@ -165,7 +165,7 @@
 	<configuration>
 	  <archive>
 	    <manifest>
-	      <mainClass>org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop</mainClass>
+	      <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
 	    </manifest>
 	  </archive>
 	</configuration>
