@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
 
-    private final IDROPDesktop idrop;
+    private final iDrop idrop;
 
     private String parentDirectory = "";
 
@@ -58,9 +58,9 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
     }
 
     /** Creates new form NewIRODSDirectoryDialog */
-    public NewIRODSDirectoryDialog(final IDROPDesktop parent, final boolean modal, final String parentDirectory,
+    public NewIRODSDirectoryDialog(final iDrop parent, final boolean modal, final String parentDirectory,
             final IRODSTree stagingViewTree, final IRODSNode parentNode) {
-        super(parent.mainFrame, modal);
+        super(parent, modal);
         this.idrop = parent;
         this.parentDirectory = parentDirectory;
         this.stagingViewTree = stagingViewTree;

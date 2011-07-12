@@ -6,11 +6,11 @@ import org.slf4j.LoggerFactory;
 
 public class QueueTimerTaskThread extends Thread {
 
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(IDROPDesktop.class);
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(iDrop.class);
 
-    private IDROPDesktop iDrop;
+    private iDrop iDrop;
 
-    public QueueTimerTaskThread(IDROPDesktop iDrop) {
+    public QueueTimerTaskThread(iDrop iDrop) {
         super();
         this.iDrop = iDrop;
     }
@@ -23,7 +23,7 @@ public class QueueTimerTaskThread extends Thread {
 
         try {
             QueueSchedulerTimerTask queueTimerTask = new QueueSchedulerTimerTask(iDrop.getiDropCore()
-                    .getTransferManager(), iDrop.mainFrame);
+                    .getTransferManager(), iDrop);
             iDrop.getiDropCore().getQueueTimer()
                     .scheduleAtFixedRate(queueTimerTask, 1000, QueueSchedulerTimerTask.EVERY_10_MINUTES);
         } catch (IdropException ex) {

@@ -26,7 +26,7 @@ import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.MoveOrCopyiRODSDialog;
-import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
+import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
@@ -53,9 +53,9 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferHandler.class);
 
-    public final IDROPDesktop idropGui;
+    public final iDrop idropGui;
 
-    public IRODSTreeTransferHandler(final IDROPDesktop idropGui, final String string) {
+    public IRODSTreeTransferHandler(final iDrop idropGui, final String string) {
         super(string);
         if (idropGui == null) {
             throw new IdropRuntimeException("null idrop gui");
@@ -274,7 +274,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         }
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui.mainFrame, sb.toString(), "Confirm a Put to iRODS ",
+        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Put to iRODS ",
                 JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
@@ -347,8 +347,8 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                     idropGui.getIrodsTree(), sourceFiles, targetFileAbsolutePath, false);
         }
 
-        moveIRODSFileOrDirectoryDialog.setLocation((int) (idropGui.mainFrame.getLocation().getX() + idropGui.mainFrame.getWidth() / 2),
-                (int) (idropGui.mainFrame.getLocation().getY() + idropGui.mainFrame.getHeight() / 2));
+        moveIRODSFileOrDirectoryDialog.setLocation((int) (idropGui.getLocation().getX() + idropGui.getWidth() / 2),
+                (int) (idropGui.getLocation().getY() + idropGui.getHeight() / 2));
         moveIRODSFileOrDirectoryDialog.setVisible(true);
 
     }
@@ -400,7 +400,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         }
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui.mainFrame, sb.toString(), "Confirm a Put to iRODS ",
+        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Put to iRODS ",
                 JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
@@ -480,8 +480,8 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                     idropGui.getIrodsTree(), sourceFiles, targetFileAbsolutePath, true);
         }
 
-        moveIRODSFileOrDirectoryDialog.setLocation((int) (idropGui.mainFrame.getLocation().getX() + idropGui.mainFrame.getWidth() / 2),
-                (int) (idropGui.mainFrame.getLocation().getY() + idropGui.mainFrame.getHeight() / 2));
+        moveIRODSFileOrDirectoryDialog.setLocation((int) (idropGui.getLocation().getX() + idropGui.getWidth() / 2),
+                (int) (idropGui.getLocation().getY() + idropGui.getHeight() / 2));
         moveIRODSFileOrDirectoryDialog.setVisible(true);
     }
 

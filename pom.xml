@@ -4,7 +4,7 @@
   <groupId>org.irods</groupId>
   <artifactId>idrop</artifactId>
   <packaging>pom</packaging>
-  <version>0.9.1-SNAPSHOT</version>
+  <version>0.9.8-SNAPSHOT</version>
   <name>iRODS iDrop</name>
   <description>iRODS iDrop - personal web and desktop grid access clients</description>
   <url>https://code.renci.org/gf/project/irodsidrop/</url>
@@ -13,6 +13,7 @@
     <jargon.version>2.4.1-SNAPSHOT</jargon.version>
     <spring.core.version>3.0.5.RELEASE</spring.core.version>
     <commons.io.version>2.0.1</commons.io.version>
+    <netbeans.version>RELEASE70</netbeans.version>
   </properties>
   <issueManagement>
     <system>gForge</system>
@@ -104,6 +105,12 @@
       </snapshots>
     </repository>
   </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>onejar-maven-plugin.googlecode.com</id>
+      <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+    </pluginRepository>
+  </pluginRepositories>
   <distributionManagement>
     <repository>
       <id>renci.repository</id>
@@ -168,6 +175,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+	<groupId>org.netbeans.api</groupId>
+	<artifactId>org-netbeans-swing-outline</artifactId>
+	<version>${netbeans.version}</version>
+      </dependency>
+      <dependency>
     	<groupId>org.irods.jargon</groupId>
     	<artifactId>jargon-core</artifactId>
     	<version>${jargon.version}</version>
@@ -176,6 +188,7 @@
     	<groupId>org.irods.jargon</groupId>
     	<artifactId>jargon-test</artifactId>
     	<version>${jargon.version}</version>
+                    <scope>test</scope>
       </dependency>
        <dependency>
     	<groupId>org.irods.jargon</groupId>
@@ -200,7 +213,8 @@
       <dependency>
     	<groupId>junit</groupId>
     	<artifactId>junit</artifactId>
-    	<version>4.8</version>
+    	<version>4.8.2</version>
+                    <scope>test</scope>
       </dependency>
       <dependency>
     	<groupId>commons-logging</groupId>
@@ -231,6 +245,7 @@
     	<groupId>org.mockito</groupId>
     	<artifactId>mockito-all</artifactId>
     	<version>1.8.1</version>
+                    <scope>test</scope>
       </dependency>
       <dependency>
     	<groupId>javax.transaction</groupId>
@@ -241,6 +256,7 @@
     	<groupId>org.dbunit</groupId>
     	<artifactId>dbunit</artifactId>
     	<version>2.2</version>
+                    <scope>test</scope>
       </dependency>
       <dependency>
     	<groupId>org.apache.derby</groupId>
@@ -319,11 +335,12 @@
 	<artifactId>cookxml</artifactId>
 	<version>3.0.1</version>
       </dependency>
+      <!--
       <dependency>
 	<groupId>com.jgoodies</groupId>
 	<artifactId>validation</artifactId>
 	<version>2.0.0</version>
-      </dependency>      
+      </dependency>   -->   
     </dependencies>
   </dependencyManagement>    
   <dependencies>

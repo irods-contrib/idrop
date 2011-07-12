@@ -1,4 +1,3 @@
-<div>
 <div id="appletMenu" class="fg-buttonset fg-buttonset-single" style="float:right">
 			<button type="button" id="toggleMenuButton"
 				class="ui-state-default ui-corner-all" value="closeIdropApplet"

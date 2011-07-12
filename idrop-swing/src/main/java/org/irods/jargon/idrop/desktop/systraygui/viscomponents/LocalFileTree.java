@@ -28,7 +28,7 @@ import javax.swing.tree.TreePath;
 import org.irods.jargon.idrop.desktop.systraygui.DeleteLocalFileDialog;
 import org.irods.jargon.idrop.desktop.systraygui.NewLocalDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.RenameLocalDirectoryDialog;
-import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
+import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.slf4j.LoggerFactory;
 
@@ -40,21 +40,13 @@ import org.slf4j.LoggerFactory;
 public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalFileTree.class);
-
-    private IDROPDesktop idropParentGui = null;
-
+    private iDrop idropParentGui = null;
     protected JPopupMenu m_popup = null;
-
     protected Action m_action;
-
     protected TreePath m_clickedPath;
-
     protected LocalFileTree thisTree;
-
     private int highlightedRow = -1;
-
     private Rectangle dirtyRegion = null;
-
     private Color highlightColor = new Color(Color.BLUE.getRed(), Color.BLUE.getGreen(), Color.BLUE.getBlue(), 100);
 
     public Rectangle getDirtyRegion() {
@@ -81,7 +73,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         this.highlightedRow = highlightedRow;
     }
 
-    public LocalFileTree(TreeModel newModel, IDROPDesktop idropParentGui) {
+    public LocalFileTree(TreeModel newModel, iDrop idropParentGui) {
         super(newModel);
         this.idropParentGui = idropParentGui;
         setDragEnabled(true);
@@ -257,10 +249,8 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
                         NewLocalDirectoryDialog newLocalDirectoryDialog = new NewLocalDirectoryDialog(idropParentGui,
                                 true, parentFile.getAbsolutePath(), thisTree, parentNode);
                         newLocalDirectoryDialog.setLocation(
-                                (int) (idropParentGui.mainFrame.getLocation().getX() + idropParentGui.mainFrame
-                                        .getWidth() / 2),
-                                (int) (idropParentGui.mainFrame.getLocation().getY() + idropParentGui.mainFrame
-                                        .getHeight() / 2));
+                                (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                                (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
                         newLocalDirectoryDialog.setVisible(true);
 
                     }
@@ -286,29 +276,22 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
                 if (rows.length == 1) {
                     // single selection
-                    LocalFileNode toDelete = (LocalFileNode) thisTree.getSelectionModel().getSelectionPaths()[0]
-                            .getLastPathComponent();
+                    LocalFileNode toDelete = (LocalFileNode) thisTree.getSelectionModel().getSelectionPaths()[0].getLastPathComponent();
                     File fileToDelete = (File) toDelete.getUserObject();
 
                     log.info("deleting a single node: {}", toDelete);
-                    deleteDialog = new DeleteLocalFileDialog(idropParentGui, true, fileToDelete.getAbsolutePath(),
-                            thisTree, toDelete);
+                    deleteDialog = new DeleteLocalFileDialog(idropParentGui, true, fileToDelete.getAbsolutePath(), thisTree, toDelete);
                 } else {
                     List<LocalFileNode> nodesToDelete = new ArrayList<LocalFileNode>();
                     for (int row : rows) {
-                        nodesToDelete.add((LocalFileNode) (LocalFileNode) thisTree.getSelectionModel()
-                                .getSelectionPaths()[row].getLastPathComponent());
+                        nodesToDelete.add((LocalFileNode) (LocalFileNode) thisTree.getSelectionModel().getSelectionPaths()[row].getLastPathComponent());
                     }
 
                     deleteDialog = new DeleteLocalFileDialog(idropParentGui, true, thisTree, nodesToDelete);
                 }
 
-                double xLocation = idropParentGui.mainFrame.getLocation().getX();
-                double yLocation = idropParentGui.mainFrame.getLocation().getY();
-                int width = idropParentGui.mainFrame.getWidth();
-                int height = idropParentGui.mainFrame.getHeight();
-
-                deleteDialog.setLocation((int) (xLocation + width / 2), (int) (yLocation + height / 2));
+                deleteDialog.setLocation((int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
                 deleteDialog.setVisible(true);
 
             }
@@ -326,11 +309,9 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
                 RenameLocalDirectoryDialog renameLocalDirectoryDialog = new RenameLocalDirectoryDialog(idropParentGui,
                         true, parentFile.getAbsolutePath(), thisTree, parentNode);
-                renameLocalDirectoryDialog
-                        .setLocation((int) (idropParentGui.mainFrame.getLocation().getX() + idropParentGui.mainFrame
-                                .getWidth() / 2),
-                                (int) (idropParentGui.mainFrame.getLocation().getY() + idropParentGui.mainFrame
-                                        .getHeight() / 2));
+                renameLocalDirectoryDialog.setLocation(
+                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2),
+                        (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
                 renameLocalDirectoryDialog.setVisible(true);
 
             }

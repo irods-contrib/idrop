@@ -36,22 +36,17 @@ import org.slf4j.LoggerFactory;
  */
 public class DeleteLocalFileDialog extends javax.swing.JDialog {
 
-    private final IDROPDesktop idrop;
-
+    private final iDrop idrop;
     private String directoryToDelete = "";
-
     private final LocalFileTree localFileTree;
-
     private final LocalFileNode deletedNode;
-
     private final List<LocalFileNode> deletedNodes;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(DeleteLocalFileDialog.class);
 
     /** Creates new form to delete a local file */
-    public DeleteLocalFileDialog(final IDROPDesktop parent, final boolean modal, final String directoryToDelete,
+    public DeleteLocalFileDialog(final iDrop parent, final boolean modal, final String directoryToDelete,
             final LocalFileTree localFileTree, final LocalFileNode deletedNode) {
-        super(parent.mainFrame, modal);
+        super(parent, modal);
         this.idrop = parent;
         this.directoryToDelete = directoryToDelete;
         this.localFileTree = localFileTree;
@@ -64,9 +59,9 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
     }
 
     /** Creates new form to delete a local file */
-    public DeleteLocalFileDialog(final IDROPDesktop parent, final boolean modal, final LocalFileTree localFileTree,
-            final List<LocalFileNode> deletedNodes) {
-        super(parent.mainFrame, modal);
+    public DeleteLocalFileDialog(final iDrop parent, final boolean modal,
+            final LocalFileTree localFileTree, final List<LocalFileNode> deletedNodes) {
+        super(parent, modal);
         this.idrop = parent;
         this.directoryToDelete = null;
         this.localFileTree = localFileTree;

@@ -21,6 +21,14 @@ public class IDROPCore {
 
     private IRODSFileSystem irodsFileSystem = null;
 
+    public IRODSFileSystem getIrodsFileSystem() {
+        return irodsFileSystem;
+    }
+
+    public void setIrodsFileSystem(IRODSFileSystem irodsFileSystem) {
+        this.irodsFileSystem = irodsFileSystem;
+    }
+
     private IdropConfig idropConfig = null;
 
     private TransferManager transferManager = null;
@@ -30,14 +38,6 @@ public class IDROPCore {
     private Timer queueTimer = new Timer();
 
     private Preferences preferences = Preferences.userRoot();
-
-    public IRODSFileSystem getIrodsFileSystem() {
-        return irodsFileSystem;
-    }
-
-    public void setIrodsFileSystem(IRODSFileSystem irodsFileSystem) {
-        this.irodsFileSystem = irodsFileSystem;
-    }
 
     public IDROPCore() {
         super();
@@ -83,10 +83,12 @@ public class IDROPCore {
         this.queueTimer = queueTimer;
     }
 
+    @Deprecated
     public Preferences getPreferences() {
         return preferences;
     }
 
+    @Deprecated
     public void setPreferences(Preferences preferences) {
         this.preferences = preferences;
     }

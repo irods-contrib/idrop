@@ -3,12 +3,17 @@ To run iDrop from the command line & after a Maven build, run the following
 
  cd idrop-swing
  mvn clean install
- mvn exec:java -Dexec.mainClass=org.irods.jargon.idrop.desktop.systraygui.StartupSequencer
+ mvn exec:java -Dexec.mainClass=org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop
 
 
 To skip tests when building:
 
  cd idrop-swing
  mvn clean install -Dmaven.test.skip=true
- mvn exec:java -Dexec.mainClass=org.irods.jargon.idrop.desktop.systraygui.StartupSequencer
+ mvn exec:java -Dexec.mainClass=org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop
 
+
+To generate a single distributable jar of the iDROP swing binaries:
+
+ cd idrop-swing
+ mvn assembly:assembly -Dmaven.test.skip=true

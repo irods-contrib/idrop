@@ -9,37 +9,37 @@
           <gridbaglayout>
             <gridbagconstraints id="gbc" gridx="0" gridy="0" weightx="0.1" weighty="0.0" anchor="EAST" insets="2,2,2,2"
               ipadx="5" ipady="5">
-              <label text="Username:" font="SansSerif,bold,12" />
+              <label var="loginDialogUsernameLabel" text="Username:" font="SansSerif,bold,12" />
             </gridbagconstraints>
             <idref ctor="gbc" gridx="1" gridy="0" anchor="WEST">
               <textfield var="loginDialogUsernameTextField" columns="15" font="SansSerif,plain,12" keylistener="loginDialogEnterKeyListener" />
             </idref>
             <idref ctor="gbc" gridx="0" gridy="1" anchor="EAST">
-              <label text="Password:" font="SansSerif,bold,12" />
+              <label var="loginDialogPasswordLabel" text="Password:" font="SansSerif,bold,12" />
             </idref>
             <idref ctor="gbc" gridx="1" gridy="1" anchor="WEST">
               <passwordfield var="loginDialogPasswordPasswordField" columns="15" font="SansSerif,plain,12" keylistener="loginDialogEnterKeyListener" />
             </idref>
             <idref ctor="gbc" gridx="0" gridy="2" anchor="EAST">
-              <label text="Host:" font="SansSerif,bold,12" />
+              <label var="loginDialogHostLabel" text="Host:" font="SansSerif,bold,12" />
             </idref>
             <idref ctor="gbc" gridx="1" gridy="2" anchor="WEST">
               <textfield var="loginDialogHostTextField" columns="15" font="SansSerif,plain,12" keylistener="loginDialogEnterKeyListener" />
             </idref>
             <idref ctor="gbc" gridx="0" gridy="3" anchor="EAST">
-              <label text="Port:" font="SansSerif,bold,12" />
+              <label var="loginDialogPortLabel" text="Port:" font="SansSerif,bold,12" />
             </idref>
             <idref ctor="gbc" gridx="1" gridy="3" anchor="WEST">
               <textfield var="loginDialogPortTextField" columns="15" font="SansSerif,plain,12" keylistener="loginDialogEnterKeyListener" />
             </idref>
             <idref ctor="gbc" gridx="0" gridy="4" anchor="EAST">
-              <label text="Zone:" font="SansSerif,bold,12" />
+              <label var="loginDialogZoneLabel" text="Zone:" font="SansSerif,bold,12" />
             </idref>
             <idref ctor="gbc" gridx="1" gridy="4" anchor="WEST">
               <textfield var="loginDialogZoneTextField" columns="15" font="SansSerif,plain,12" keylistener="loginDialogEnterKeyListener" />
             </idref>
             <idref ctor="gbc" gridx="0" gridy="5" anchor="EAST">
-              <label text="Resource:" font="SansSerif,bold,12" />
+              <label var="loginDialogResourceLabel" text="Resource:" font="SansSerif,bold,12" />
             </idref>
             <idref ctor="gbc" gridx="1" gridy="5" anchor="WEST">
               <textfield var="loginDialogResourceTextField" columns="15" font="SansSerif,plain,12" keylistener="loginDialogEnterKeyListener" />

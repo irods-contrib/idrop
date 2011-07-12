@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
-    private final IDROPDesktop idrop;
+    private final iDrop idrop;
 
     private final IRODSTree stagingViewTree;
 
@@ -55,10 +55,10 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
     private final boolean isCopy;
 
-    public MoveOrCopyiRODSDialog(final IDROPDesktop parent, final boolean modal, final IRODSNode targetNode,
+    public MoveOrCopyiRODSDialog(final iDrop parent, final boolean modal, final IRODSNode targetNode,
             final IRODSTree stagingViewTree, final IRODSFile sourceFile, final String targetAbsolutePath,
             final boolean isCopy) {
-        super(parent.mainFrame, modal);
+        super(parent, modal);
         this.idrop = parent;
         this.targetNode = targetNode;
         this.stagingViewTree = stagingViewTree;
@@ -70,10 +70,10 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         initializeDialog();
     }
 
-    public MoveOrCopyiRODSDialog(final IDROPDesktop parent, final boolean modal, final IRODSNode targetNode,
+    public MoveOrCopyiRODSDialog(final iDrop parent, final boolean modal, final IRODSNode targetNode,
             final IRODSTree stagingViewTree, final List<IRODSFile> sourceFiles, final String targetAbsolutePath,
             final boolean isCopy) {
-        super(parent.mainFrame, modal);
+        super(parent, modal);
         this.idrop = parent;
         this.targetNode = targetNode;
         this.stagingViewTree = stagingViewTree;
