@@ -94,6 +94,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
         setDropMode(javax.swing.DropMode.ON);
         setTransferHandler(new IRODSTreeTransferHandler(idropParentGui, "selectionModel"));
         setUpTreeMenu();
+        /*
         IrodsSelectionListenerForBuildingInfoPanel treeListener;
         try {
             treeListener = new IrodsSelectionListenerForBuildingInfoPanel(idropParentGui);
@@ -102,6 +103,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener, TreeEx
             throw new IdropRuntimeException("error initializing selection listener", ex);
         }
         this.getSelectionModel().addListSelectionListener(treeListener);
+        */
 
     }
 
