@@ -1,16 +1,17 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <parent>
-    <groupId>org.irods</groupId>
-    <artifactId>idrop</artifactId>
-    <version>0.9.8-SNAPSHOT</version>
-  </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.irods.idrop</groupId>
-  <artifactId>idrop-swing</artifactId>
-  <packaging>jar</packaging>
-  <name>idrop-swing</name>  
-  <dependencies>
+    <parent>
+        <groupId>org.irods</groupId>
+        <artifactId>idrop</artifactId>
+        <version>0.9.8-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.irods.idrop</groupId>
+    <artifactId>idrop-swing</artifactId>
+    <packaging>jar</packaging>
+    <name>idrop-swing</name>  
+    <dependencies>
        <!--
       Sun's JnlpDownladServlet takes the template JNLP file and inserts
       relevant values for $$codebase and other parameters
@@ -26,130 +27,130 @@
      <groupId>com.jgoodies</groupId>
      <artifactId>validation</artifactId>
    </dependency> -->
-   <dependency>
-     <groupId>cookxml</groupId>
-     <artifactId>cookswing</artifactId>
-   </dependency>
-   <dependency>
-     <groupId>cookxml</groupId>
-     <artifactId>cookxml</artifactId>
-   </dependency> 
-   <dependency>
-     <groupId>cookxml</groupId>
-     <artifactId>cookswing</artifactId>
-   </dependency>   
-    <dependency>
-      <groupId>org.irods.jargon</groupId>
-      <artifactId>jargon-data-utils</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.irods.jargon</groupId>
-      <artifactId>jargon-test</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.irods.jargon</groupId>
-      <artifactId>jargon-user-tagging</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.irods.jargon.transfer</groupId>
-      <artifactId>jargon-transfer-engine</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.netbeans.api</groupId>
-      <artifactId>org-netbeans-swing-outline</artifactId>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.swinglabs</groupId>
-      <artifactId>swing-layout</artifactId>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-	<groupId>org.codehaus.mojo.webstart</groupId>
-	<artifactId>webstart-maven-plugin</artifactId>
-	<executions>
-	  <execution>
-	    <goals>
-	      <goal>jnlp</goal> 
+        <dependency>
+            <groupId>cookxml</groupId>
+            <artifactId>cookswing</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cookxml</groupId>
+            <artifactId>cookxml</artifactId>
+        </dependency> 
+        <dependency>
+            <groupId>cookxml</groupId>
+            <artifactId>cookswing</artifactId>
+        </dependency>   
+        <dependency>
+            <groupId>org.irods.jargon</groupId>
+            <artifactId>jargon-data-utils</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.irods.jargon</groupId>
+            <artifactId>jargon-test</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.irods.jargon</groupId>
+            <artifactId>jargon-user-tagging</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.irods.jargon.transfer</groupId>
+            <artifactId>jargon-transfer-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-swing-outline</artifactId>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swing-layout</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo.webstart</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jnlp</goal> 
 	      <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
-	    </goals>
-	  </execution>
-	</executions>
-	<configuration>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
           <!--
 	      Set to true to exclude all transitive dependencies. Default is false.
           -->
-	  <excludeTransitive>false</excludeTransitive>
+                    <excludeTransitive>false</excludeTransitive>
 
           <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
-	  <libPath>lib</libPath>
+                    <libPath>lib</libPath>
           
           <!-- JNLP generation -->
-	  <jnlp>
+                    <jnlp>
             <!-- default values -->
             <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
             <!--inputTemplate>src/main/jnlp/template.vm</inputTemplate--> 
 	    <!-- relative to inputTemplateResourcePath -->
-	    <outputFile>idrop.jnlp</outputFile> 
+                        <outputFile>idrop.jnlp</outputFile> 
 	    <!-- defaults to launch.jnlp -->
 
             <!-- used to automatically identify the jar containing the main class. -->
             <!-- this is perhaps going to change -->
-	    <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
-	  </jnlp>
+                        <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
+                    </jnlp>
 
           <!-- SIGNING -->
           <!-- defining this will automatically sign the jar and its dependencies, if necessary -->
-	  <sign>
-	    <keystore>idrop</keystore>
-	    <keypass>123xxx</keypass>  
+                    <sign>
+                        <keystore>idrop</keystore>
+                        <keypass>123xxx</keypass>  
 	    <!-- we need to override passwords easily from the command line. ${keypass} -->
-	    <storepass>123xxx</storepass> 
+                        <storepass>123xxx</storepass> 
 	    <!-- ${storepass} -->
             <!--storetype>fillme</storetype-->
-	    <alias>idrop</alias>
+                        <alias>idrop</alias>
 
             <!--validity>fillme</validity-->
 
             <!-- only required for generating the keystore -->
-	    <dnameCn>irods</dnameCn>
-	    <dnameOu>dice</dnameOu>
-	    <dnameO>uncch</dnameO>
-	    <dnameL>Chapel Hill</dnameL>
-	    <dnameSt>NC</dnameSt>
-	    <dnameC>US</dnameC>
+                        <dnameCn>irods</dnameCn>
+                        <dnameOu>dice</dnameOu>
+                        <dnameO>uncch</dnameO>
+                        <dnameL>Chapel Hill</dnameL>
+                        <dnameSt>NC</dnameSt>
+                        <dnameC>US</dnameC>
 
-	    <verify>true</verify> 
+                        <verify>true</verify> 
 	    <!-- verify that the signing operation succeeded -->
 
             <!-- KEYSTORE MANAGEMENT -->
-	    <keystoreConfig>
-	      <delete>false</delete> 
+                        <keystoreConfig>
+                            <delete>false</delete> 
 	      <!-- delete the keystore -->
-	      <gen>true</gen>       
+                            <gen>true</gen>       
 	      <!-- optional shortcut to generate the store. -->
-	    </keystoreConfig>
-	  </sign>
+                        </keystoreConfig>
+                    </sign>
 
           <!-- BUILDING PROCESS -->
 
-	  <pack200>true</pack200>
-	  <gzip>true</gzip> 
+                    <pack200>true</pack200>
+                    <gzip>true</gzip> 
 	  <!-- default force when pack200 false, true when pack200 selected ?? -->
 
           <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
@@ -157,41 +158,55 @@
 
           <!--install>false</install--> 
 	  <!-- not yet supported -->
-	  <verbose>true</verbose>
-	</configuration>
-      </plugin>
-      <plugin>
-	<artifactId>maven-jar-plugin</artifactId>
-	<configuration>
-	  <archive>
-	    <manifest>
-	      <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
-	    </manifest>
-	  </archive>
-	</configuration>
-      </plugin>
-      <plugin>
-      	<groupId>org.dstovall</groupId>
-      	<artifactId>onejar-maven-plugin</artifactId>
-      	<version>1.4.4</version>
-      	<executions>
-      	  <execution>
-      	    <goals>
-      	      <goal>one-jar</goal>
-      	    </goals>
-      	  </execution>
-      	</executions>
-      </plugin>
-      <plugin>
-      	<artifactId>maven-assembly-plugin</artifactId>
-      	<configuration>
-      	  <descriptorRefs>
-      	    <descriptorRef>jar-with-dependencies</descriptorRef>
-      	  </descriptorRefs>
-      	</configuration>
-      </plugin>
-    </plugins>
-  </build>   
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+           <!-- <plugin>
+                <groupId>org.dstovall</groupId>
+                <artifactId>onejar-maven-plugin</artifactId>
+                <version>1.4.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>one-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>   
 </project>
 
 
