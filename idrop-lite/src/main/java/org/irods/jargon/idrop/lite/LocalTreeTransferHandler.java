@@ -189,6 +189,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
                 @Override
                 public void run() {
+                	/*
                     try {
                         for (File transferFile : sourceFiles) {
 
@@ -208,6 +209,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
                         idropGui.showIdropException(ex);
                         throw new IdropRuntimeException(ex);
                     }
+                    */
                 }
             });
 
