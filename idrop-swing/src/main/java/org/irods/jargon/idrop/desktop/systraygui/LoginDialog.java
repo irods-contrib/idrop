@@ -39,12 +39,12 @@ public class LoginDialog extends JDialog {
 
     private static final String PREF_LOGIN_USERNAME = "login.username";
 
-    private IDROPDesktop iDrop = null;
+    private iDrop iDrop = null;
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LoginDialog.class);
 
-    public LoginDialog(IDROPDesktop iDrop) {
-        super(iDrop.mainFrame, true);
+    public LoginDialog(iDrop iDrop) {
+        super(iDrop, true);
         this.iDrop = iDrop;
         initComponents();
         
@@ -59,7 +59,7 @@ public class LoginDialog extends JDialog {
 
     }
 
-    private void loginNormally(org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop iDrop) {
+    private void loginNormally(org.irods.jargon.idrop.desktop.systraygui.iDrop iDrop) {
         // predispose based on preferences
         String host = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_HOST, null);
         if (StringUtils.isNotEmpty(host)) {

@@ -6,7 +6,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
+import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 
 /**
  * Helper class to manage icons
@@ -150,7 +150,7 @@ public class IconHelper {
 
     /** Returns an ImageIcon, or null if the path was invalid. */
     protected static Image createImage(String path, String description) {
-        URL imageURL = IDROPDesktop.class.getResource(path);
+        URL imageURL = iDrop.class.getResource(path);
 
         if (imageURL == null) {
             System.err.println("Resource not found: " + path);

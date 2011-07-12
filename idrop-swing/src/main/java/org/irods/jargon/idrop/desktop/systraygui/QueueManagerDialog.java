@@ -44,7 +44,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
     private ViewType viewType = null;
 
-    private IDROPDesktop iDropParent = null;
+    private iDrop iDropParent = null;
 
     private RefreshQueueManagerTimerTask refreshQueueManagerTimerTask = null;
 
@@ -88,7 +88,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     }
 
     /** Creates new form QueueManagerDialog */
-    public QueueManagerDialog(final IDROPDesktop iDropParent, final TransferManager transferManager, final ViewType viewType)
+    public QueueManagerDialog(final iDrop iDropParent, final TransferManager transferManager, final ViewType viewType)
             throws IdropException {
         super((JFrame) null, true);
 
@@ -985,7 +985,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 refreshQueueManagerTimerTask = RefreshQueueManagerTimerTask.instance(this);
                 refreshQueueTimer.scheduleAtFixedRate(refreshQueueManagerTimerTask, 0, 10000);
             } catch (IdropException ex) {
-                Logger.getLogger(IDROPDesktop.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
                 iDropParent.showIdropException(ex);
                 return;
             }

@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
 
-    private final IDROPDesktop idrop;
+    private final iDrop idrop;
 
     private String currentAbsolutePath = "";
 
@@ -42,9 +42,9 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
     public static org.slf4j.Logger log = LoggerFactory.getLogger(RenameLocalDirectoryDialog.class);
 
     /** Creates new form RenameLocalDirectoryDialog */
-    public RenameLocalDirectoryDialog(final IDROPDesktop parent, final boolean modal, final String currentAbsolutePath,
+    public RenameLocalDirectoryDialog(final iDrop parent, final boolean modal, final String currentAbsolutePath,
             final LocalFileTree localFileTree, final LocalFileNode currentNode) {
-        super(parent.mainFrame, modal);
+        super(parent, modal);
         this.idrop = parent;
         this.currentAbsolutePath = currentAbsolutePath;
         this.localFileTree = localFileTree;

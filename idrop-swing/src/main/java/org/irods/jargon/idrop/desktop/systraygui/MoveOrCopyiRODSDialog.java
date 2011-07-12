@@ -37,28 +37,20 @@ import org.slf4j.LoggerFactory;
  */
 public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
-    private final IDROPDesktop idrop;
-
+    private final iDrop idrop;
     private final IRODSTree stagingViewTree;
-
     private final IRODSOutlineModel irodsFileSystemModel;
-
     private final IRODSNode targetNode;
-
     private final String targetAbsolutePath;
-
     private final IRODSFile sourceFile;
-
     private final List<IRODSFile> sourceFiles;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(MoveOrCopyiRODSDialog.class);
-
     private final boolean isCopy;
 
-    public MoveOrCopyiRODSDialog(final IDROPDesktop parent, final boolean modal, final IRODSNode targetNode,
+    public MoveOrCopyiRODSDialog(final iDrop parent, final boolean modal, final IRODSNode targetNode,
             final IRODSTree stagingViewTree, final IRODSFile sourceFile, final String targetAbsolutePath,
             final boolean isCopy) {
-        super(parent.mainFrame, modal);
+        super(parent, modal);
         this.idrop = parent;
         this.targetNode = targetNode;
         this.stagingViewTree = stagingViewTree;
@@ -70,10 +62,10 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         initializeDialog();
     }
 
-    public MoveOrCopyiRODSDialog(final IDROPDesktop parent, final boolean modal, final IRODSNode targetNode,
+    public MoveOrCopyiRODSDialog(final iDrop parent, final boolean modal, final IRODSNode targetNode,
             final IRODSTree stagingViewTree, final List<IRODSFile> sourceFiles, final String targetAbsolutePath,
             final boolean isCopy) {
-        super(parent.mainFrame, modal);
+        super(parent, modal);
         this.idrop = parent;
         this.targetNode = targetNode;
         this.stagingViewTree = stagingViewTree;
@@ -322,8 +314,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
                     DataTransferOperations dataTransferOperations;
                     try {
-                        dataTransferOperations = idrop.getiDropCore().getIRODSAccessObjectFactory()
-                                .getDataTransferOperations(idrop.getIrodsAccount());
+                        dataTransferOperations = idrop.getiDropCore().getIRODSAccessObjectFactory().getDataTransferOperations(idrop.getIrodsAccount());
                     } catch (Exception e) {
                         idrop.getiDropCore().closeIRODSConnection(idrop.getIrodsAccount());
                         thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -408,8 +399,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
                 log.debug("source file is a file, do a move");
                 dataTransferOperations.move(sourceFile.getAbsolutePath(), targetAbsolutePath);
 
-                IRODSFile targetFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount()
-                        .instanceIRODSFile(targetAbsolutePath);
+                IRODSFile targetFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount().instanceIRODSFile(targetAbsolutePath);
                 String targetPathForNotify = null;
                 if (targetFile.isDirectory()) {
                     targetPathForNotify = targetFile.getAbsolutePath() + "/" + sourceFile.getName();
@@ -421,9 +411,8 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
             } else {
                 log.debug("source file is a collection, reparent it");
-                dataTransferOperations
-                        .moveTheSourceCollectionUnderneathTheTargetCollectionUsingSourceParentCollectionName(
-                                sourceFile.getAbsolutePath(), targetAbsolutePath);
+                dataTransferOperations.moveTheSourceCollectionUnderneathTheTargetCollectionUsingSourceParentCollectionName(
+                        sourceFile.getAbsolutePath(), targetAbsolutePath);
                 irodsFileSystemModel.notifyFileShouldBeAdded(stagingViewTree, targetAbsolutePath);
             }
         } catch (JargonFileOrCollAlreadyExistsException fcae) {
@@ -445,10 +434,8 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
     private void processACopyOfAnIndividualFile(DataTransferOperations dataTransferOperations, IRODSFile sourceFile,
             String targetAbsolutePath) throws IdropException {
         try {
-            idrop.getiDropCore()
-                    .getTransferManager()
-                    .enqueueACopy(sourceFile.getAbsolutePath(), sourceFile.getResource(), targetAbsolutePath,
-                            idrop.getiDropCore().getIrodsAccount());
+            idrop.getiDropCore().getTransferManager().enqueueACopy(sourceFile.getAbsolutePath(), sourceFile.getResource(), targetAbsolutePath,
+                    idrop.getiDropCore().getIrodsAccount());
 
         } catch (JargonException ex) {
             Logger.getLogger(MoveOrCopyiRODSDialog.class.getName()).log(Level.SEVERE, null, ex);

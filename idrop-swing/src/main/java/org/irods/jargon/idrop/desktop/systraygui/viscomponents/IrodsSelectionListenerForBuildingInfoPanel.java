@@ -5,7 +5,6 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -17,7 +16,7 @@ import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
-import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
+import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
@@ -34,11 +33,11 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements ListSelection
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IrodsSelectionListenerForBuildingInfoPanel.class);
 
-    private final IDROPDesktop idrop;
+    private final iDrop idrop;
 
-    private IRODSOutlineModel irodsOutlineModel = null;
+    private IRODSOutlineModel irodsFileSystemModel = null;
 
-    public IrodsSelectionListenerForBuildingInfoPanel(final IDROPDesktop idrop) throws IdropException {
+    public IrodsSelectionListenerForBuildingInfoPanel(final iDrop idrop) throws IdropException {
         if (idrop == null) {
             throw new IdropException("null iDrop");
         }
@@ -87,10 +86,6 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements ListSelection
     public void identifyNodeTypeAndInitializeInfoPanel(final IRODSNode irodsNode) throws IdropException {
 
         if (!idrop.getToggleIrodsDetails().isSelected()) {
-            return;
-        }
-        
-        if (irodsNode == null) {
             return;
         }
 
@@ -156,18 +151,13 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements ListSelection
         }
         log.info("lse: {}", lse);
 
-        if (irodsOutlineModel == null) {
-            irodsOutlineModel = (IRODSOutlineModel) idrop.getIrodsTree().getModel();
+        if (irodsFileSystemModel == null) {
+            irodsFileSystemModel = (IRODSOutlineModel) idrop.getIrodsTree().getModel();
         }
-        ListSelectionModel selectionModel = idrop.getIrodsTree().getSelectionModel();
-        int idx = selectionModel.getAnchorSelectionIndex();
-        idx = idrop.getIrodsTree().convertRowIndexToModel(idx);     
 
         // use first selection for info
-       // int idx = lse.getLastIndex();
-        //int idx = lse.getFirstIndex();
-       
-        IRODSNode selectedNode = (IRODSNode) irodsOutlineModel.getValueAt(idx, 0);
+        int idx = lse.getLastIndex();
+        IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
         log.info("selected node to initialize info panel:{}", selectedNode);
         try {
             identifyNodeTypeAndInitializeInfoPanel(selectedNode);

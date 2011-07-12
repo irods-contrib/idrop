@@ -1,6 +1,6 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
-import org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop;
+import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.transfer.engine.TransferManager;
 
 /**
@@ -14,9 +14,9 @@ public class IconManager {
 
     private TransferManager.RunningStatus runningStatus = null;
 
-    private final IDROPDesktop idropGui;
+    private final iDrop idropGui;
 
-    public IconManager(final IDROPDesktop idropClient) {
+    public IconManager(final iDrop idropClient) {
         this.idropGui = idropClient;
     }
 
