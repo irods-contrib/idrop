@@ -12,10 +12,11 @@ import java.util.prefs.Preferences;
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.pub.DataTransferOperations;
+import org.irods.jargon.core.pub.DataTransferOperationsImpl;
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
-//import org.irods.jargon.transfer.engine.TransferManager;
 //import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 //import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.transfer.engine.TransferManager;
@@ -25,6 +26,8 @@ public class iDropLiteCore {
     private IRODSAccount irodsAccount = null;
 
     private IRODSFileSystem irodsFileSystem = null;
+    
+    private DataTransferOperations dataTransferOps = null;
 
     public IRODSFileSystem getIrodsFileSystem() {
         return irodsFileSystem;
@@ -64,12 +67,12 @@ public class iDropLiteCore {
         this.idropConfig = idropConfig;
     }
 
-    public TransferManager getTransferManager() {
-        return transferManager;
+    public DataTransferOperations getTransferManager() {
+        return dataTransferOps;
     }
 
-    public void setTransferManager(TransferManager transferManager) {
-        this.transferManager = transferManager;
+    public void setTransferManager(DataTransferOperations transferOps) {
+        this.dataTransferOps = transferOps;
     }
 
 //    public IconManager getIconManager() {
