@@ -367,12 +367,14 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
     }
 
     private void processACopyOfAnIndividualFile(DataTransferOperations dataTransferOperations, IRODSFile sourceFile, String targetAbsolutePath) throws IdropException {
+       /*
         try {
             idrop.getiDropCore().getTransferManager().enqueueACopy(sourceFile.getAbsolutePath(), sourceFile.getResource(), targetAbsolutePath, idrop.getiDropCore().getIrodsAccount());
         } catch (JargonException ex) {
             Logger.getLogger(MoveOrCopyiRODSDialog.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("unable to copy file due to JargonException", ex);
         }
+        */
     }
 
     /**
