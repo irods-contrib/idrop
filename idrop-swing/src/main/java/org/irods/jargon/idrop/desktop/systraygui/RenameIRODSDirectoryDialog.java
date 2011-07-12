@@ -21,14 +21,19 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.tree.TreePath;
+import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.pub.io.IRODSFile;
+import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -37,15 +42,11 @@ import org.slf4j.LoggerFactory;
  * @author mikeconway
  */
 public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
-
+    
     private final iDrop idrop;
-
     private final String currentAbsolutePath;
-
     private final IRODSTree stagingViewTree;
-
     private final IRODSNode currentNode;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(RenameIRODSDirectoryDialog.class);
 
     /** Creates new form NewIRODSDirectoryDialog */
@@ -64,13 +65,13 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
             idrop.showIdropException(new IdropException(msg));
             return;
         }
-
+        
         String parentAbsPath = currentAbsolutePath.substring(0, lastPathPartIdx);
         String currentCollectionOrFileName = currentAbsolutePath.substring(lastPathPartIdx + 1);
-
+        
         log.debug("computed parent abs path as:{}", parentAbsPath);
         log.debug("computed current file or collection name as:{}", currentCollectionOrFileName);
-
+        
         txtCurrentFolder.setText(currentCollectionOrFileName);
         registerKeystrokeListener();
     }
@@ -267,7 +268,6 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtNewFolder;
 
     // End of variables declaration//GEN-END:variables
-
     private void doRename() {
         // add the new folder to irods, add to the tree, and scroll the tree into view
 
@@ -276,29 +276,29 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
             idrop.showMessageFromOperation("please enter a new file or collection name");
             return;
         }
-
+        
         final RenameIRODSDirectoryDialog thisDialog = this;
-
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             @Override
             public void run() {
                 log.info("renaming a file named:{}", txtCurrentFolder.getText());
                 thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 try {
-
-                    IRODSFileService irodsFileService = new IRODSFileService(idrop.getIrodsAccount(), idrop
-                            .getiDropCore().getIrodsFileSystem());
+                    
+                    IRODSFileService irodsFileService = new IRODSFileService(idrop.getIrodsAccount(), idrop.getiDropCore().getIrodsFileSystem());
                     String newPath = irodsFileService.renameIRODSFileOrDirectory(currentAbsolutePath,
                             txtNewFolder.getText());
+                    
                     log.debug("New path:{}", newPath);
-                    IRODSFileSystemModel irodsFileSystemModel = (IRODSFileSystemModel) stagingViewTree.getModel();
+                    IRODSOutlineModel irodsOutlineModel = (IRODSOutlineModel) stagingViewTree.getModel();
                     // get the parent of the new directory, and force a reload of that parent
                     String[] dirs = newPath.split("/");
                     if (dirs.length == 0) {
                         throw new IdropRuntimeException("unable to find dir components");
                     }
-
+                    
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < dirs.length - 1; i++) {
                         if (i > 0) {
@@ -306,26 +306,50 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
                         }
                         sb.append(dirs[i]);
                     }
-
+                    
                     String parentOfNewDir = sb.toString();
                     log.info("parent of new dir:{}", parentOfNewDir);
-
-                    TreePath pathForNew = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree, parentOfNewDir);
-                    log.debug("computed new path:{}", pathForNew);
-                    IRODSNode targetParentNode = (IRODSNode) pathForNew.getParentPath().getLastPathComponent();
+                    
+                    TreePath pathForOld = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree, currentAbsolutePath);
+                    
+                        if (pathForOld == null) {
+                            log.warn("could not find old path for node:{}, ignoring", currentAbsolutePath);
+                        } else {
+                            IRODSFileSystemModel irodsFileSystemModel = irodsOutlineModel.getTreeModel();
+                            IRODSNode oldNode = (IRODSNode) pathForOld.getLastPathComponent();
+                            CollectionAndDataObjectListingEntry nodesEntry = (CollectionAndDataObjectListingEntry) oldNode.getUserObject();
+                            IRODSFile newEntryAsFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount().instanceIRODSFile(newPath);
+                            if (newEntryAsFile.isDirectory()) {
+                                nodesEntry.setParentPath(newEntryAsFile.getParent());
+                                nodesEntry.setPathOrName(newEntryAsFile.getAbsolutePath());
+                            } else {
+                                nodesEntry.setParentPath(newEntryAsFile.getParent());
+                                nodesEntry.setPathOrName(newEntryAsFile.getName());
+                            }
+                            
+                            oldNode.setUserObject(nodesEntry);
+                            irodsFileSystemModel.nodeChanged(oldNode);
+                            
+                        }
+                 
+                  //  TreePath pathForNew = TreeUtils.buildTreePathForIrodsAbsolutePath(stagingViewTree, parentOfNewDir);
+                   // log.debug("computed new path:{}", pathForNew);
+                    /*IRODSNode targetParentNode = (IRODSNode) pathForNew.getParentPath().getLastPathComponent();
                     targetParentNode.forceReloadOfChildrenOfThisNode();
-                    irodsFileSystemModel.reload(targetParentNode);
+                    irodsOutlineModel.reload(targetParentNode);
                     stagingViewTree.expandPath(pathForNew);
+                     * */
 
-                   // idrop.showMessageFromOperation("The rename was successful");
 
-                } catch (IdropException ex) {
+                    idrop.showMessageFromOperation("The rename was successful");
+
+                } catch (Exception ex) {
                     Logger.getLogger(RenameIRODSDirectoryDialog.class.getName()).log(Level.SEVERE, null, ex);
                     idrop.showIdropException(ex);
                 } finally {
                     thisDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
-
+                
                 thisDialog.dispose();
             }
         });
@@ -335,16 +359,16 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
      * Register a listener for the enter event, so login can occur.
      */
     private void registerKeystrokeListener() {
-
+        
         KeyStroke enter = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ENTER, 0);
         Action enterAction = new AbstractAction() {
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 doRename();
             }
         };
         btnOK.registerKeyboardAction(enterAction, enter, JComponent.WHEN_IN_FOCUSED_WINDOW);
-
+        
     }
 }
