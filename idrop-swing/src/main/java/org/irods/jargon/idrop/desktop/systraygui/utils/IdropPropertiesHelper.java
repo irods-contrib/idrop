@@ -34,6 +34,8 @@ public class IdropPropertiesHelper {
     public static final String ROLLING_LOG_LEVEL = "rolling.log.level";
 
     public static final String SYNCH_DEVICE_NAME = "synch.device.name";
+    
+    public static final String SHOW_STARTUP = "show.startup";
 
     /**
      * Load the default iDrop poperties file

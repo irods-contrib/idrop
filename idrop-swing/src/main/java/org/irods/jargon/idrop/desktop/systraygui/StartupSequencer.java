@@ -17,6 +17,7 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServiceImpl;
 import org.irods.jargon.idrop.desktop.systraygui.services.QueueSchedulerTimerTask;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.SetupWizard;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
@@ -137,22 +138,7 @@ public class StartupSequencer {
         loginDialog.setVisible(true);
 
         idropSplashWindow.toFront();
-        log.info("logged in, now checking for first run...");
-
-        try {
-            Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL);
-        } catch (InterruptedException e) {
-            throw new IdropRuntimeException(e);
-        }
-
-        idropSplashWindow.setStatus("Checking if this is the first time run to set up synch...", ++count);
-
-        String synchDeviceName = idropCore.getIdropConfig().getSynchDeviceName();
-
-        if (synchDeviceName == null) {
-            log.info("first time running idrop, starting configuration wizard");
-            doFirstTimeConfigurationWizard();
-        }
+       
 
         try {
             Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL);
@@ -204,13 +190,32 @@ public class StartupSequencer {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
             idropCore.setQueueTimer(timer);
+              idrop.signalIdropCoreReadyAndSplashComplete();
         } catch (IdropException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+            log.info("logged in, now checking for first run...");
+
+        try {
+            Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL);
+        } catch (InterruptedException e) {
+            throw new IdropRuntimeException(e);
+        }
+
+        idropSplashWindow.setStatus("Checking if this is the first time run to set up synch...", ++count);
+
+        String synchDeviceName = idropCore.getIdropConfig().getSynchDeviceName();
+
+        if (synchDeviceName == null) {
+            log.info("first time running idrop, starting configuration wizard");
+            doFirstTimeConfigurationWizard();
+        }
+
 
         log.info("signal that the startup sequence is complete");
         try {
-            idrop.signalIdropCoreReadyAndSplashComplete();
+          
             idropSplashWindow.setVisible(false);
             idropSplashWindow = null;
         } catch (Exception e) {
@@ -218,7 +223,8 @@ public class StartupSequencer {
 
             throw new IdropRuntimeException("error starting idrop gui", e);
         }
-
+        
+     
     }
 
     /**
@@ -238,6 +244,14 @@ public class StartupSequencer {
     }
 
     private void doFirstTimeConfigurationWizard() {
-        log.info("doFirstTimeConfigurationWizard()");
+        log.info("doFirstTimeConfigurationWizard()..do I show");
+        // there is a force.no.synch property in idrop.properties that prevents synch from coming up if in the build that way
+        
+        
+        if (idropCore.getIdropConfig().isShowStartupWizard()) {
+            log.info("doing setup wizard");
+            SetupWizard setupWizard = new SetupWizard(idrop, true);
+            setupWizard.setVisible(true);
+        }
     }
 }

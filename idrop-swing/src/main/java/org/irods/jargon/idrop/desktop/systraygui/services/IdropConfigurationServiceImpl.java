@@ -83,7 +83,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         }
 
         log.info("now storing derived properties in idrop configuration");
-        
+        log.info("checking for force mode, which forces certain properties to be loaded from the idrop.properties file");
         /*
          * This is something of a shim right now until config things settle down.  For lifetime library, force into login preset mode
          */
@@ -98,7 +98,20 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             }
         }
         
-        log.info("checking for force mode, which forces certain properties to be loaded from the idrop.properties file");
+        /*
+         * If the distro has the idrop.properties to force.no.synch=true, then override the force option in effect
+         */
+         forceMode = (String) configFileProperties.getProperty(FORCE_NO_SYNCH);
+        if (forceMode != null) {
+            boolean isForce = Boolean.valueOf(forceMode);
+            log.info("force no synch mode  mode is:{}", isForce);
+            if (isForce) {
+                log.warn("forcing into no synch mode");
+                databaseProperties.setProperty(SHOW_STARTUP, "false");
+            }
+        }
+        
+  
         
         saveConfigurationToPropertiesFile();
         return databaseProperties;

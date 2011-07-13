@@ -119,6 +119,19 @@ public class IdropConfig {
         return idropProperties.getProperty(IdropPropertiesHelper.SYNCH_DEVICE_NAME);
     }
 
+    
+    public boolean isShowStartupWizard() {
+          boolean showWizard = false;
+        String showStartup = idropProperties
+                .getProperty(IdropPropertiesHelper.SHOW_STARTUP);
+
+        if (showStartup != null && showStartup.equals("true")) {
+            showWizard = true;
+        }
+
+        return showWizard;
+        
+    }
     /**
      * Should I have a rolling log in the user dir? Will return null of no logging desired, otherwise, will return a log
      * level
