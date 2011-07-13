@@ -61,7 +61,7 @@ public class StartupSequencer {
         log.info("creating idrop GUI app...");
         idrop = new iDrop(idropCore);
 
-        IDropSplashWindow idropSplashWindow = new IDropSplashWindow(idrop);
+        IDROPSplashWindow idropSplashWindow = new IDROPSplashWindow(idrop);
 
         try {
             Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL);

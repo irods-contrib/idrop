@@ -15,16 +15,16 @@ import org.slf4j.LoggerFactory;
  * 
  * @author jdr0887
  */
-public class IDropSplashWindow extends JWindow {
+public class IDROPSplashWindow extends JWindow {
 
     /**
      *  
      */
     private static final long serialVersionUID = 1L;
 
-    private final org.slf4j.Logger log = LoggerFactory.getLogger(IDropSplashWindow.class);
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(IDROPSplashWindow.class);
 
-    private ImageIcon splashImage = new ImageIcon(IDropSplashWindow.class.getClassLoader().getResource(
+    private ImageIcon splashImage = new ImageIcon(IDROPSplashWindow.class.getClassLoader().getResource(
             "org/irods/jargon/idrop/desktop/images/iDrop.png"));
 
     private JLabel jlblImage = new JLabel();
@@ -33,7 +33,7 @@ public class IDropSplashWindow extends JWindow {
 
     private iDrop iDrop;
 
-    public IDropSplashWindow(iDrop iDrop) {
+    public IDROPSplashWindow(iDrop iDrop) {
         super(iDrop);
         this.iDrop = iDrop;
         try {
