@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import java.util.TimerTask;
@@ -19,15 +18,15 @@ import org.slf4j.LoggerFactory;
 public class RefreshQueueManagerTimerTask extends TimerTask {
 
     final QueueManagerDialog queueManagerDialog;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(RefreshQueueManagerTimerTask.class);
 
-    public static final RefreshQueueManagerTimerTask instance(final QueueManagerDialog queueManagerDialog)
-            throws IdropException {
+    public static final RefreshQueueManagerTimerTask instance(
+            final QueueManagerDialog queueManagerDialog) throws IdropException {
         return new RefreshQueueManagerTimerTask(queueManagerDialog);
     }
 
-    private RefreshQueueManagerTimerTask(final QueueManagerDialog queueManagerDialog) throws IdropException {
+    private RefreshQueueManagerTimerTask(
+            final QueueManagerDialog queueManagerDialog) throws IdropException {
         if (queueManagerDialog == null) {
             throw new IdropException("null queueManagerDialog");
         }
@@ -38,5 +37,4 @@ public class RefreshQueueManagerTimerTask extends TimerTask {
     public void run() {
         queueManagerDialog.refreshTableView(queueManagerDialog.getViewType());
     }
-
 }

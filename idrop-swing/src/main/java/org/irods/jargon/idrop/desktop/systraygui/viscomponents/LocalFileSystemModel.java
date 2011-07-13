@@ -21,38 +21,40 @@ public class LocalFileSystemModel extends DefaultTreeModel {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalFileSystemModel.class);
 
-    public LocalFileSystemModel(DefaultMutableTreeNode node) {
+    public LocalFileSystemModel(final DefaultMutableTreeNode node) {
         super(node);
         // pre-expand the child nodes of the root
         LocalFileNode localFileNode = (LocalFileNode) node;
         localFileNode.lazyLoadOfChildrenOfThisNode();
     }
 
-    public void notifyFileShouldBeAdded(final LocalFileTree fileTree, final String newFileAbsolutePath) throws IdropException {
-         TreePath parentNodePath = TreeUtils.buildTreePathForLocalAbsolutePath(fileTree,
-                   newFileAbsolutePath);
-            log.debug("tree path for put: {}", parentNodePath);
-            LocalFileNode targetNode = (LocalFileNode) parentNodePath.getLastPathComponent();
-            File entry = (File) targetNode.getUserObject();
-            if (entry.isFile()) {
-                log.info("substitute parent as target, as given node was a leaf");
-                targetNode = (LocalFileNode) targetNode.getParent();
-            }
-            targetNode.forceReloadOfChildrenOfThisNode();
-            targetNode.lazyLoadOfChildrenOfThisNode();
-            this.reload(targetNode);
-            if (entry.isFile()) {
-                parentNodePath = TreeUtils.buildTreePathForLocalAbsolutePath(fileTree, entry.getParent());
-                fileTree.highlightPath(parentNodePath);
-            } else {
-                fileTree.highlightPath(parentNodePath);
+    public void notifyFileShouldBeAdded(final LocalFileTree fileTree,
+            final String newFileAbsolutePath) throws IdropException {
+        TreePath parentNodePath = TreeUtils.buildTreePathForLocalAbsolutePath(
+                fileTree, newFileAbsolutePath);
+        log.debug("tree path for put: {}", parentNodePath);
+        LocalFileNode targetNode = (LocalFileNode) parentNodePath.getLastPathComponent();
+        File entry = (File) targetNode.getUserObject();
+        if (entry.isFile()) {
+            log.info("substitute parent as target, as given node was a leaf");
+            targetNode = (LocalFileNode) targetNode.getParent();
+        }
+        targetNode.forceReloadOfChildrenOfThisNode();
+        targetNode.lazyLoadOfChildrenOfThisNode();
+        this.reload(targetNode);
+        if (entry.isFile()) {
+            parentNodePath = TreeUtils.buildTreePathForLocalAbsolutePath(
+                    fileTree, entry.getParent());
+            fileTree.highlightPath(parentNodePath);
+        } else {
+            fileTree.highlightPath(parentNodePath);
 
-            }
+        }
 
     }
-    
-    public void notifyCompletionOfOperation(final LocalFileTree fileTree, final TransferStatus transferStatus)
-            throws IdropException {
+
+    public void notifyCompletionOfOperation(final LocalFileTree fileTree,
+            final TransferStatus transferStatus) throws IdropException {
         log.info("tree model notified of status:{}", transferStatus);
 
         if (transferStatus.getTransferState() != TransferState.OVERALL_COMPLETION) {
@@ -76,7 +78,8 @@ public class LocalFileSystemModel extends DefaultTreeModel {
             targetNode.lazyLoadOfChildrenOfThisNode();
             this.reload(targetNode);
             if (entry.isFile()) {
-                parentNodePath = TreeUtils.buildTreePathForLocalAbsolutePath(fileTree, entry.getParent());
+                parentNodePath = TreeUtils.buildTreePathForLocalAbsolutePath(
+                        fileTree, entry.getParent());
                 fileTree.highlightPath(parentNodePath);
             } else {
                 fileTree.highlightPath(parentNodePath);
@@ -85,5 +88,4 @@ public class LocalFileSystemModel extends DefaultTreeModel {
 
         }
     }
-
 }

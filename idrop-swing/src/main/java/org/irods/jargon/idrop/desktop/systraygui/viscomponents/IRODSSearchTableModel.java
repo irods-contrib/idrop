@@ -22,9 +22,7 @@ import org.slf4j.LoggerFactory;
 public class IRODSSearchTableModel extends AbstractTableModel {
 
     private List<CollectionAndDataObjectListingEntry> listingEntries = new ArrayList<CollectionAndDataObjectListingEntry>();
-
     private static final List<String> columnNames = new ArrayList<String>();
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSSearchTableModel.class);
 
     static {
@@ -39,14 +37,15 @@ public class IRODSSearchTableModel extends AbstractTableModel {
         this(new ArrayList<CollectionAndDataObjectListingEntry>());
     }
 
-    public IRODSSearchTableModel(List<CollectionAndDataObjectListingEntry> entries) {
+    public IRODSSearchTableModel(
+            final List<CollectionAndDataObjectListingEntry> entries) {
         log.info("in default constructor with table model:{}", entries);
         this.listingEntries = entries;
     }
 
     // type, parent, name, created, modified
     @Override
-    public Class<?> getColumnClass(int i) {
+    public Class<?> getColumnClass(final int i) {
         Class clazz = null;
         switch (i) {
             case 0:
@@ -65,7 +64,8 @@ public class IRODSSearchTableModel extends AbstractTableModel {
                 clazz = Date.class;
                 break;
             default:
-                throw new IdropRuntimeException("unknown column, cannot determine class");
+                throw new IdropRuntimeException(
+                        "unknown column, cannot determine class");
         }
         return clazz;
     }
@@ -74,7 +74,8 @@ public class IRODSSearchTableModel extends AbstractTableModel {
         return listingEntries;
     }
 
-    public void setEntries(List<CollectionAndDataObjectListingEntry> entries) {
+    public void setEntries(
+            final List<CollectionAndDataObjectListingEntry> entries) {
         this.listingEntries = entries;
 
     }
@@ -85,7 +86,7 @@ public class IRODSSearchTableModel extends AbstractTableModel {
     }
 
     @Override
-    public String getColumnName(int i) {
+    public String getColumnName(final int i) {
         return columnNames.get(i);
     }
 
@@ -95,14 +96,15 @@ public class IRODSSearchTableModel extends AbstractTableModel {
     }
 
     @Override
-    public Object getValueAt(int row, int column) {
+    public Object getValueAt(final int row, final int column) {
         CollectionAndDataObjectListingEntry entry = listingEntries.get(row);
         if (entry == null) {
             throw new IdropRuntimeException("null entry for row number:" + row);
         }
 
         if (column < 0 || column > 5) {
-            throw new IllegalArgumentException("invalid column number:" + column);
+            throw new IllegalArgumentException("invalid column number:"
+                    + column);
         }
 
         /*
@@ -123,7 +125,8 @@ public class IRODSSearchTableModel extends AbstractTableModel {
                         returnedVal = entry.getLastPathComponentForCollectionName();
                     } catch (JargonException ex) {
                         Logger.getLogger(IRODSSearchTableModel.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException("error getting collection last path");
+                        throw new IdropRuntimeException(
+                                "error getting collection last path");
                     }
                 } else {
                     returnedVal = entry.getPathOrName();

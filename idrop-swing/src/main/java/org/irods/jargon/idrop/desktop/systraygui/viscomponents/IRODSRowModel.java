@@ -20,7 +20,7 @@ public class IRODSRowModel implements RowModel {
     }
 
     @Override
-    public Object getValueFor(Object node, int column) {
+    public Object getValueFor(final Object node, final int column) {
         IRODSNode f = (IRODSNode) node;
         CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) f.getUserObject();
         switch (column) {
@@ -36,7 +36,7 @@ public class IRODSRowModel implements RowModel {
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass(final int i) {
         switch (i) {
 
             case 0:
@@ -50,16 +50,16 @@ public class IRODSRowModel implements RowModel {
     }
 
     @Override
-    public boolean isCellEditable(Object o, int i) {
+    public boolean isCellEditable(final Object o, final int i) {
         return false;
     }
 
     @Override
-    public void setValueFor(Object o, int i, Object o1) {
+    public void setValueFor(final Object o, final int i, final Object o1) {
     }
 
     @Override
-    public String getColumnName(int i) {
+    public String getColumnName(final int i) {
         switch (i) {
             case 0:
                 return "size";

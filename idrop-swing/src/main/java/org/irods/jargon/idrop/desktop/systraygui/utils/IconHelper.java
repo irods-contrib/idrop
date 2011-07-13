@@ -16,25 +16,15 @@ import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 public class IconHelper {
 
     private static Image virusErrorIcon = null;
-
     private static Image virusSuccessIcon = null;
-
     private static Image virusUnknownIcon = null;
-
     private static Image checksumValidIcon = null;
-
     private static Image checksumErrorIcon = null;
-
     private static Image folderIcon = null;
-
     private static Image folderOpenIcon = null;
-
     private static Image fileIcon = null;
-
     private static Image metadataIcon = null;
-
     private static Image policyIcon = null;
-
     private static Image replicationIcon = null;
 
     public static JLabel getFolderIcon() {
@@ -49,7 +39,8 @@ public class IconHelper {
     public static JLabel getFolderOpenIcon() {
 
         if (folderOpenIcon == null) {
-            folderOpenIcon = createImage("images/folder-open.png", "folder open");
+            folderOpenIcon = createImage("images/folder-open.png",
+                    "folder open");
         }
 
         return new JLabel(new ImageIcon(folderOpenIcon));
@@ -66,7 +57,8 @@ public class IconHelper {
     public static JLabel getVirusErrorIcon() {
 
         if (virusErrorIcon == null) {
-            virusErrorIcon = createImage("images/virus-detected.png", "virus scan fail");
+            virusErrorIcon = createImage("images/virus-detected.png",
+                    "virus scan fail");
         }
 
         JLabel virusErrorLabel = new JLabel(new ImageIcon(virusErrorIcon));
@@ -77,7 +69,8 @@ public class IconHelper {
 
     public static JLabel getVirusSuccessIcon() {
         if (virusSuccessIcon == null) {
-            virusSuccessIcon = createImage("images/security-high-2.png", "virus scan success");
+            virusSuccessIcon = createImage("images/security-high-2.png",
+                    "virus scan success");
         }
         JLabel virusLabel = new JLabel(new ImageIcon(virusSuccessIcon));
         virusLabel.setToolTipText("virus scan success");
@@ -88,7 +81,8 @@ public class IconHelper {
     public static JLabel getVirusUnknownIcon() {
 
         if (virusUnknownIcon == null) {
-            virusUnknownIcon = createImage("images/dialog-question.png", "virus scan unknown");
+            virusUnknownIcon = createImage("images/dialog-question.png",
+                    "virus scan unknown");
         }
         JLabel virusLabel = new JLabel(new ImageIcon(virusUnknownIcon));
         virusLabel.setToolTipText("virus scan status unknown");
@@ -99,7 +93,8 @@ public class IconHelper {
     public static JLabel getFixityErrorIcon() {
 
         if (checksumErrorIcon == null) {
-            checksumErrorIcon = createImage("images/checksum-error.png", "fixity check fail");
+            checksumErrorIcon = createImage("images/checksum-error.png",
+                    "fixity check fail");
         }
         JLabel virusLabel = new JLabel(new ImageIcon(checksumErrorIcon));
         virusLabel.setToolTipText("fixity check error - missing checksum");
@@ -110,7 +105,8 @@ public class IconHelper {
     public static JLabel getFixityOkIcon() {
 
         if (checksumValidIcon == null) {
-            checksumValidIcon = createImage("images/checksum-valid.png", "fixity check ok");
+            checksumValidIcon = createImage("images/checksum-valid.png",
+                    "fixity check ok");
         }
         JLabel virusLabel = new JLabel(new ImageIcon(checksumValidIcon));
         virusLabel.setToolTipText("fixity check success");
@@ -127,7 +123,8 @@ public class IconHelper {
             policyIcon = createImage("images/policy.png", "policy");
         }
         JLabel policyLabel = new JLabel(new ImageIcon(policyIcon));
-        policyLabel.setToolTipText("This collection has a bound policy - " + policyDescription);
+        policyLabel.setToolTipText("This collection has a bound policy - "
+                + policyDescription);
 
         return policyLabel;
     }
@@ -143,13 +140,15 @@ public class IconHelper {
     public static Image getReplicationImage() {
 
         if (replicationIcon == null) {
-            replicationIcon = createImage("images/replication-status.png", "replicationicon");
+            replicationIcon = createImage("images/replication-status.png",
+                    "replicationicon");
         }
         return replicationIcon;
     }
 
     /** Returns an ImageIcon, or null if the path was invalid. */
-    protected static Image createImage(String path, String description) {
+    protected static Image createImage(final String path,
+            final String description) {
         URL imageURL = iDrop.class.getResource(path);
 
         if (imageURL == null) {

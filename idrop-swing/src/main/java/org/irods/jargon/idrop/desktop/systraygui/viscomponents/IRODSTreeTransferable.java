@@ -23,11 +23,8 @@ import org.slf4j.LoggerFactory;
 public class IRODSTreeTransferable implements Transferable, ClipboardOwner {
 
     private List<File> files;
-
     private IRODSTree stagingViewTree;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferable.class);
-
     public static DataFlavor irodsTreeDataFlavor = null;
 
     static {
@@ -58,7 +55,8 @@ public class IRODSTreeTransferable implements Transferable, ClipboardOwner {
 
     }
 
-    IRODSTreeTransferable(final List<File> transferFiles, final IRODSTree stagingViewTree) {
+    IRODSTreeTransferable(final List<File> transferFiles,
+            final IRODSTree stagingViewTree) {
 
         if (transferFiles == null) {
             throw new IllegalArgumentException("null files");
@@ -75,16 +73,18 @@ public class IRODSTreeTransferable implements Transferable, ClipboardOwner {
     @Override
     public DataFlavor[] getTransferDataFlavors() {
         log.debug("getting data flavors from idrop series (will be a list with one irods file for file or collection");
-        return new DataFlavor[] { DataFlavor.javaFileListFlavor, irodsTreeDataFlavor };
+        return new DataFlavor[]{DataFlavor.javaFileListFlavor,
+                    irodsTreeDataFlavor};
     }
 
     @Override
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
+    public boolean isDataFlavorSupported(final DataFlavor flavor) {
         return (flavor.equals(DataFlavor.javaFileListFlavor) || flavor.equals(irodsTreeDataFlavor));
     }
 
     @Override
-    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+    public Object getTransferData(final DataFlavor flavor)
+            throws UnsupportedFlavorException, IOException {
         log.info("getting files from transfer data:{}", files);
         if (!isDataFlavorSupported(flavor)) {
             throw new UnsupportedFlavorException(flavor);
@@ -94,7 +94,7 @@ public class IRODSTreeTransferable implements Transferable, ClipboardOwner {
     }
 
     @Override
-    public void lostOwnership(Clipboard clpbrd, Transferable t) {
+    public void lostOwnership(final Clipboard clpbrd, final Transferable t) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

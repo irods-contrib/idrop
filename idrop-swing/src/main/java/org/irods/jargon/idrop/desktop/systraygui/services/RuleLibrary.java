@@ -10,13 +10,15 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 public class RuleLibrary {
 
     private RuleLibrary() {
-
     }
 
-    public static String virusScanOnCollectionRule(final String targetCollectionAbsolutePath) throws IdropException {
+    public static String virusScanOnCollectionRule(
+            final String targetCollectionAbsolutePath) throws IdropException {
 
-        if (targetCollectionAbsolutePath == null || targetCollectionAbsolutePath.isEmpty()) {
-            throw new IdropException("null or empty targetCollectionAbsolutePath");
+        if (targetCollectionAbsolutePath == null
+                || targetCollectionAbsolutePath.isEmpty()) {
+            throw new IdropException(
+                    "null or empty targetCollectionAbsolutePath");
         }
 
         // FIXME: currently a dummy rule
@@ -29,9 +31,12 @@ public class RuleLibrary {
         return sb.toString();
     }
 
-    public static String collectionRule(final String targetCollectionAbsolutePath) throws IdropException {
-        if (targetCollectionAbsolutePath == null || targetCollectionAbsolutePath.isEmpty()) {
-            throw new IdropException("null or empty targetCollectionAbsolutePath");
+    public static String collectionRule(
+            final String targetCollectionAbsolutePath) throws IdropException {
+        if (targetCollectionAbsolutePath == null
+                || targetCollectionAbsolutePath.isEmpty()) {
+            throw new IdropException(
+                    "null or empty targetCollectionAbsolutePath");
         }
 
         // FIXME: currently a dummy rule

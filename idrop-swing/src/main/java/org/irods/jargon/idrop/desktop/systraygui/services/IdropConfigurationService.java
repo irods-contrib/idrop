@@ -13,11 +13,13 @@ import org.irods.jargon.idrop.exceptions.IdropException;
  * @author mikeconway
  */
 public interface IdropConfigurationService {
+
     String IDROP_PROPS_FILE_NAME = "idrop.properties";
     String FORCE_MODE = "force.mode";
     String FORCE_NO_SYNCH = "force.no.synch";
     String LOGIN_PRESET = "login.preset";
     String SHOW_STARTUP = "show.startup";
+    String SHOW_GUI = "idrop.show.gui";
 
     Properties bootstrapConfiguration() throws IdropException;
 
@@ -27,5 +29,4 @@ public interface IdropConfigurationService {
      * @throws IdropException
      */
     void saveConfigurationToPropertiesFile() throws IdropException;
-
 }

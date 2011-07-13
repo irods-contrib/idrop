@@ -15,7 +15,7 @@ import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 /**
  * 
  * @author jdr0887
- *
+ * 
  */
 public class RemoteFSChooserListCellRenderer extends DefaultListCellRenderer {
 
@@ -27,14 +27,17 @@ public class RemoteFSChooserListCellRenderer extends DefaultListCellRenderer {
     /*
      * (non-Javadoc)
      * 
-     * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int,
-     * boolean, boolean)
+     * @see
+     * javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax
+     * .swing.JList, java.lang.Object, int, boolean, boolean)
      */
     @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-            boolean hasFocus) {
+    public Component getListCellRendererComponent(final JList list,
+            final Object value, final int index, final boolean isSelected,
+            final boolean hasFocus) {
 
-        JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
+        JLabel label = (JLabel) super.getListCellRendererComponent(list, value,
+                index, isSelected, hasFocus);
         if (value instanceof CollectionAndDataObjectListingEntry) {
             CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) value;
 
@@ -51,5 +54,4 @@ public class RemoteFSChooserListCellRenderer extends DefaultListCellRenderer {
         }
         return (label);
     }
-
 }

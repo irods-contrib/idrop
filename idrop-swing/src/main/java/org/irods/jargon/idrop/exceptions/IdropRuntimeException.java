@@ -5,19 +5,18 @@ package org.irods.jargon.idrop.exceptions;
  */
 public class IdropRuntimeException extends RuntimeException {
 
-    public IdropRuntimeException(Throwable cause) {
+    public IdropRuntimeException(final Throwable cause) {
         super(cause);
     }
 
-    public IdropRuntimeException(String message, Throwable cause) {
+    public IdropRuntimeException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public IdropRuntimeException(String message) {
+    public IdropRuntimeException(final String message) {
         super(message);
     }
 
     public IdropRuntimeException() {
     }
-
 }

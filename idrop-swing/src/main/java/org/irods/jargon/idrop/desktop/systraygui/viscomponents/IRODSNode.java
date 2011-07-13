@@ -24,20 +24,15 @@ import org.slf4j.LoggerFactory;
 public class IRODSNode extends DefaultMutableTreeNode {
 
     private boolean cached = false;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSNode.class);
-
     public final IRODSAccount irodsAccount;
-
     public final IRODSFileSystem irodsFileSystem;
-
     public boolean hasMore = true;
-
     public boolean continuation = false;
-
     private final IRODSTree irodsTree;
 
-    public IRODSNode(final CollectionAndDataObjectListingEntry entry, final IRODSAccount irodsAccount,
+    public IRODSNode(final CollectionAndDataObjectListingEntry entry,
+            final IRODSAccount irodsAccount,
             final IRODSFileSystem irodsFileSystem, final IRODSTree irodsTree) {
         super(entry);
         if (irodsAccount == null) {
@@ -55,7 +50,8 @@ public class IRODSNode extends DefaultMutableTreeNode {
     }
 
     /**
-     * Load children of this node, and then close the connection (appropriate for the user expanding a node).
+     * Load children of this node, and then close the connection (appropriate
+     * for the user expanding a node).
      * 
      * @throws IdropException
      */
@@ -69,35 +65,38 @@ public class IRODSNode extends DefaultMutableTreeNode {
     }
 
     /**
-     * Load children of this node by accessing iRODS. Note that in a refresh situation, you do not want to continuously
-     * open and close the connection, so there is an option to defer closing the connection to the caller.
+     * Load children of this node by accessing iRODS. Note that in a refresh
+     * situation, you do not want to continuously open and close the connection,
+     * so there is an option to defer closing the connection to the caller.
      * 
      * @param closeTheConnectionAfterLoad
-     *            <code>boolean</code> that indicates that the connection will be closed by this method. If
-     *            <code>true</code> is passed, then this method will close the connection. If <code>false</code> is
-     *            passed, then the caller must close the connection.
+     *            <code>boolean</code> that indicates that the connection will
+     *            be closed by this method. If <code>true</code> is passed, then
+     *            this method will close the connection. If <code>false</code>
+     *            is passed, then the caller must close the connection.
      * @throws IdropException
      */
-    public void lazyLoadOfChildrenOfThisNode(final boolean closeTheConnectionAfterLoad) throws IdropException {
+    public void lazyLoadOfChildrenOfThisNode(
+            final boolean closeTheConnectionAfterLoad) throws IdropException {
 
         if (cached) {
             return;
         }
 
         log.debug("lazily loading children of:{}", this);
-        log.debug("will I close this connection:{}", closeTheConnectionAfterLoad);
+        log.debug("will I close this connection:{}",
+                closeTheConnectionAfterLoad);
 
         CollectionAndDataObjectListingEntry parentObject = (CollectionAndDataObjectListingEntry) this.getUserObject();
         try {
             irodsTree.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-            CollectionAndDataObjectListAndSearchAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory()
-                    .getCollectionAndDataObjectListAndSearchAO(irodsAccount);
-            List<CollectionAndDataObjectListingEntry> childCache = collectionAO
-                    .listDataObjectsAndCollectionsUnderPath(parentObject.getPathOrName());
+            CollectionAndDataObjectListAndSearchAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAndDataObjectListAndSearchAO(irodsAccount);
+            List<CollectionAndDataObjectListingEntry> childCache = collectionAO.listDataObjectsAndCollectionsUnderPath(parentObject.getPathOrName());
 
             for (CollectionAndDataObjectListingEntry childEntry : childCache) {
-                insert(new IRODSNode(childEntry, irodsAccount, irodsFileSystem, irodsTree), getChildCount());
+                insert(new IRODSNode(childEntry, irodsAccount, irodsFileSystem,
+                        irodsTree), getChildCount());
             }
 
             if (children == null) {
@@ -107,8 +106,10 @@ public class IRODSNode extends DefaultMutableTreeNode {
             cached = true;
 
         } catch (Exception ex) {
-            Logger.getLogger(IRODSNode.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropException("error occurred accessing collection data", ex);
+            Logger.getLogger(IRODSNode.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropException(
+                    "error occurred accessing collection data", ex);
         } finally {
             if (closeTheConnectionAfterLoad) {
                 irodsFileSystem.closeAndEatExceptions(irodsAccount);
@@ -141,7 +142,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
 
         if (!(obj instanceof IRODSNode)) {
             return false;
@@ -150,8 +151,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
         IRODSNode comparableAsNode = (IRODSNode) obj;
 
         CollectionAndDataObjectListingEntry thisFile = (CollectionAndDataObjectListingEntry) getUserObject();
-        CollectionAndDataObjectListingEntry thatFile = (CollectionAndDataObjectListingEntry) comparableAsNode
-                .getUserObject();
+        CollectionAndDataObjectListingEntry thatFile = (CollectionAndDataObjectListingEntry) comparableAsNode.getUserObject();
         return thisFile.equals(thatFile);
     }
 

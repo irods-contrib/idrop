@@ -19,7 +19,7 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
     public static org.slf4j.Logger log = LoggerFactory.getLogger(QueueManagerMasterTableModel.class);
 
     @Override
-    public Class<?> getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(final int columnIndex) {
 
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
@@ -67,7 +67,7 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
     }
 
     @Override
-    public String getColumnName(int columnIndex) {
+    public String getColumnName(final int columnIndex) {
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
@@ -112,10 +112,10 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
 
         throw new IdropRuntimeException("unknown column");
     }
-
     private List<LocalIRODSTransfer> localIRODSTransfers = null;
 
-    public QueueManagerMasterTableModel(final List<LocalIRODSTransfer> localIRODSTransfers) {
+    public QueueManagerMasterTableModel(
+            final List<LocalIRODSTransfer> localIRODSTransfers) {
         if (localIRODSTransfers == null) {
             throw new IdropRuntimeException("null localIRODSTransfers");
         }
@@ -138,7 +138,8 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
     }
 
     @Override
-    public synchronized Object getValueAt(int rowIndex, int columnIndex) {
+    public synchronized Object getValueAt(final int rowIndex,
+            final int columnIndex) {
 
         if (rowIndex >= getRowCount()) {
             throw new IdropRuntimeException("row unavailable, out of bounds");
@@ -189,7 +190,8 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
                     path = localIRODSTransfer.getLocalAbsolutePath();
                     break;
                 default:
-                    log.error("unable to build details for transfer with transfer type of:{}",
+                    log.error(
+                            "unable to build details for transfer with transfer type of:{}",
                             localIRODSTransfer.getTransferType());
                     path = "";
                     break;
@@ -210,7 +212,8 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
                     path = "";
                     break;
                 default:
-                    log.error("unable to build details for transfer with transfer type of:{}",
+                    log.error(
+                            "unable to build details for transfer with transfer type of:{}",
                             localIRODSTransfer.getTransferType());
                     path = "";
                     break;

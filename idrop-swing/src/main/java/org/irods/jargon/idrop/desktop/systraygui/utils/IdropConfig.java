@@ -6,6 +6,7 @@ import java.util.Properties;
 import org.apache.log4j.Level;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 
 /**
  * Access data about the configuration of Idrop
@@ -21,8 +22,8 @@ public class IdropConfig {
     }
 
     /**
-     * Initialize this wrapper around properties with the <code>Properties</code> that represent the idrop
-     * configuration.
+     * Initialize this wrapper around properties with the
+     * <code>Properties</code> that represent the idrop configuration.
      * 
      * @param properties
      */
@@ -36,7 +37,8 @@ public class IdropConfig {
     /**
      * Does iDrop need to display policy-aware features?
      * 
-     * @return <code>boolean</code> that will be <code>true</code> if policy features are displayed.
+     * @return <code>boolean</code> that will be <code>true</code> if policy
+     *         features are displayed.
      */
     public boolean isPolicyAware() {
         boolean policyAware = false;
@@ -51,9 +53,11 @@ public class IdropConfig {
     }
 
     /**
-     * Does iDrop need to display advanced options? Otherwise, a simpler client is presented
+     * Does iDrop need to display advanced options? Otherwise, a simpler client
+     * is presented
      * 
-     * @return <code>boolean</code> that will be <code>true</code> if policy features are displayed.
+     * @return <code>boolean</code> that will be <code>true</code> if policy
+     *         features are displayed.
      */
     public boolean isAdvancedView() {
         boolean advancedView = false;
@@ -100,10 +104,10 @@ public class IdropConfig {
      */
     public boolean isLogSuccessfulTransfers() {
         boolean logSuccessful = false;
-        String logSuccessfulTransfers = idropProperties
-                .getProperty(IdropPropertiesHelper.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES);
+        String logSuccessfulTransfers = idropProperties.getProperty(IdropPropertiesHelper.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES);
 
-        if (logSuccessfulTransfers != null && logSuccessfulTransfers.equals("true")) {
+        if (logSuccessfulTransfers != null
+                && logSuccessfulTransfers.equals("true")) {
             logSuccessful = true;
         }
 
@@ -111,7 +115,8 @@ public class IdropConfig {
     }
 
     /**
-     * Get the configured synch device name. If not set, this will return a <code>null</code>
+     * Get the configured synch device name. If not set, this will return a
+     * <code>null</code>
      * 
      * @return
      */
@@ -119,22 +124,21 @@ public class IdropConfig {
         return idropProperties.getProperty(IdropPropertiesHelper.SYNCH_DEVICE_NAME);
     }
 
-    
     public boolean isShowStartupWizard() {
-          boolean showWizard = false;
-        String showStartup = idropProperties
-                .getProperty(IdropPropertiesHelper.SHOW_STARTUP);
+        boolean showWizard = false;
+        String showStartup = idropProperties.getProperty(IdropPropertiesHelper.SHOW_STARTUP);
 
         if (showStartup != null && showStartup.equals("true")) {
             showWizard = true;
         }
 
         return showWizard;
-        
+
     }
+
     /**
-     * Should I have a rolling log in the user dir? Will return null of no logging desired, otherwise, will return a log
-     * level
+     * Should I have a rolling log in the user dir? Will return null of no
+     * logging desired, otherwise, will return a log level
      * 
      * @return
      */
@@ -169,15 +173,28 @@ public class IdropConfig {
             rootLogger.setLevel(Level.ERROR);
         }
 
-        PatternLayout layout = new PatternLayout("%d %-4r [%t] %-5p %c %x - %m%n");
+        PatternLayout layout = new PatternLayout(
+                "%d %-4r [%t] %-5p %c %x - %m%n");
 
         try {
-            RollingFileAppender rfa = new RollingFileAppender(layout, sb.toString());
+            RollingFileAppender rfa = new RollingFileAppender(layout,
+                    sb.toString());
             rfa.setMaximumFileSize(1000000);
             rootLogger.addAppender(rfa);
         } catch (IOException e) {
             // e.printStackTrace();
         }
 
+    }
+
+    public boolean isShowGuiAtStartup() {
+        boolean propBoolean = false;
+        String propString = idropProperties.getProperty(IdropConfigurationService.SHOW_GUI);
+
+        if (propString != null && propString.equals("true")) {
+            propBoolean = true;
+        }
+
+        return propBoolean;
     }
 }

@@ -26,27 +26,27 @@ import org.irods.jargon.transfer.engine.TransferManagerImpl;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bootstrapping class for iDrop, load config, create necessary services, and start the appropriate GUI components
+ * Bootstrapping class for iDrop, load config, create necessary services, and
+ * start the appropriate GUI components
  * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class StartupSequencer {
 
     private iDrop idrop;
-
     private IDROPCore idropCore;
-
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(StartupSequencer.class);
-
     public static final int STARTUP_SEQUENCE_PAUSE_INTERVAL = 2000;
 
     public void doStartupSequence() {
 
+        boolean guiShown = false;
 
-       log.info("initiating startup sequence...");
+        log.info("initiating startup sequence...");
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iDrop Client for iRODS");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+                "iDrop Client for iRODS");
 
         int count = 0;
         log.info("creating idropCore...");
@@ -55,7 +55,8 @@ public class StartupSequencer {
         try {
             idropCore.setIrodsFileSystem(IRODSFileSystem.instance());
         } catch (JargonException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartupSequencer.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
         log.info("creating idrop GUI app...");
@@ -88,27 +89,29 @@ public class StartupSequencer {
         log.info("set config home directory as: {}", derivedConfigHomeDirectory);
 
         /*
-         * Here is where I first try and start the database to get the configuration. A database error indicates that
-         * iDrop is already running
+         * Here is where I first try and start the database to get the
+         * configuration. A database error indicates that iDrop is already
+         * running
          */
 
-        idropSplashWindow.setStatus("Looking for configuration information...", ++count);
+        idropSplashWindow.setStatus("Looking for configuration information...",
+                ++count);
 
         Properties derivedProperties = null;
         try {
             IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(
-                    derivedConfigHomeDirectory);
+                    derivedConfigHomeDirectory, idropCore);
             derivedProperties = idropConfigurationService.bootstrapConfiguration();
-            
-            
-            
+
         } catch (IdropAlreadyRunningException are) {
             log.error("idrop is already running, shutting down");
-            JOptionPane.showMessageDialog((Component) null, "iDrop is already running, cannot start", "iDrop Error",
+            JOptionPane.showMessageDialog((Component) null,
+                    "iDrop is already running, cannot start", "iDrop Error",
                     JOptionPane.OK_OPTION);
             System.exit(1);
         } catch (IdropException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartupSequencer.class.getName()).log(
+                    Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
 
@@ -118,7 +121,8 @@ public class StartupSequencer {
             throw new IdropRuntimeException(e);
         }
 
-        idropSplashWindow.setStatus("Configuration information gathered, logging in...", ++count);
+        idropSplashWindow.setStatus(
+                "Configuration information gathered, logging in...", ++count);
 
         log.info("config properties derived...");
         idropCore.setIdropConfig(new IdropConfig(derivedProperties));
@@ -137,8 +141,12 @@ public class StartupSequencer {
         loginDialog.toFront();
         loginDialog.setVisible(true);
 
+        if (idropCore.getIrodsAccount() == null) {
+            log.warn("no login account, exiting");
+            System.exit(0);
+        }
+
         idropSplashWindow.toFront();
-       
 
         try {
             Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL);
@@ -151,30 +159,34 @@ public class StartupSequencer {
         log.info("building transfer manager...");
 
         try {
-            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop, idropCore
-                    .getIdropConfig().isLogSuccessfulTransfers()));
+            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop, idropCore.getIdropConfig().isLogSuccessfulTransfers()));
         } catch (JargonException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("error creating transferManager", ex);
+            Logger.getLogger(StartupSequencer.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            throw new IdropRuntimeException("error creating transferManager",
+                    ex);
         }
 
         try {
             List<LocalIRODSTransfer> currentQueue = idropCore.getTransferManager().getCurrentQueue();
 
             if (!currentQueue.isEmpty()) {
-                
+
                 idropSplashWindow.toBack();
                 int result = JOptionPane.showConfirmDialog((Component) null,
-                        "Transfers are waiting to process, restart transfer?", "iDrop Transfers in Progress",
+                        "Transfers are waiting to process, restart transfer?",
+                        "iDrop Transfers in Progress",
                         JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.CANCEL_OPTION) {
                     idropCore.getTransferManager().pause();
                 }
-                  idropSplashWindow.toFront();
+                idropSplashWindow.toFront();
             }
         } catch (JargonException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("error evaluating current queue", ex);
+            Logger.getLogger(StartupSequencer.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            throw new IdropRuntimeException("error evaluating current queue",
+                    ex);
         }
 
         try {
@@ -190,12 +202,15 @@ public class StartupSequencer {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
             idropCore.setQueueTimer(timer);
-              idrop.signalIdropCoreReadyAndSplashComplete();
+            idrop.signalIdropCoreReadyAndSplashComplete();
+           
+
         } catch (IdropException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartupSequencer.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
-        
-            log.info("logged in, now checking for first run...");
+
+        log.info("logged in, now checking for first run...");
 
         try {
             Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL);
@@ -203,37 +218,54 @@ public class StartupSequencer {
             throw new IdropRuntimeException(e);
         }
 
-        idropSplashWindow.setStatus("Checking if this is the first time run to set up synch...", ++count);
+        idropSplashWindow.setStatus(
+                "Checking if this is the first time run to set up synch...",
+                ++count);
 
         String synchDeviceName = idropCore.getIdropConfig().getSynchDeviceName();
 
-        if (synchDeviceName == null) {
+        if (synchDeviceName == null && idropCore.getIdropConfig().isShowStartupWizard()) {
             log.info("first time running idrop, starting configuration wizard");
-            doFirstTimeConfigurationWizard();
-        }
+            // show idrop gui
 
+            log.info("showing gui first time run");
+            idrop.showIdropGui();
+
+            doFirstTimeConfigurationWizard();
+        } else {
+            // see if I show the gui at startup or show a message
+            if (idropCore.getIdropConfig().isShowGuiAtStartup()) {
+                     idrop.showIdropGui();
+            } else {
+                 MessageManager.showMessage(
+                    idrop,
+                    "iDrop has started.\nCheck your system tray to access the iDrop user interface.",
+                    "iDrop has started");
+            }
+        }
 
         log.info("signal that the startup sequence is complete");
         try {
-          
+
             idropSplashWindow.setVisible(false);
             idropSplashWindow = null;
         } catch (Exception e) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(StartupSequencer.class.getName()).log(
+                    Level.SEVERE, null, e);
 
             throw new IdropRuntimeException("error starting idrop gui", e);
         }
-        
-     
+
     }
 
     /**
-     * Start up iDrop as a system tray application. This is the main entry point for iDrop
+     * Start up iDrop as a system tray application. This is the main entry point
+     * for iDrop
      * 
      * @param args
      *            the command line arguments
      */
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(final String args[]) throws InterruptedException {
         StartupSequencer startupSequencer = new StartupSequencer();
         try {
             startupSequencer.doStartupSequence();
@@ -245,9 +277,9 @@ public class StartupSequencer {
 
     private void doFirstTimeConfigurationWizard() {
         log.info("doFirstTimeConfigurationWizard()..do I show");
-        // there is a force.no.synch property in idrop.properties that prevents synch from coming up if in the build that way
-        
-        
+        // there is a force.no.synch property in idrop.properties that prevents
+        // synch from coming up if in the build that way
+
         if (idropCore.getIdropConfig().isShowStartupWizard()) {
             log.info("doing setup wizard");
             SetupWizard setupWizard = new SetupWizard(idrop, true);

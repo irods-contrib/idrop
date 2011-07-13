@@ -11,21 +11,21 @@ import org.irods.jargon.transfer.engine.TransferManager;
 public class IconManager {
 
     private TransferManager.ErrorStatus errorStatus = null;
-
     private TransferManager.RunningStatus runningStatus = null;
-
     private final iDrop idropGui;
 
     public IconManager(final iDrop idropClient) {
         this.idropGui = idropClient;
     }
 
-    public synchronized void setErrorStatus(final TransferManager.ErrorStatus errorStatus) {
+    public synchronized void setErrorStatus(
+            final TransferManager.ErrorStatus errorStatus) {
         this.errorStatus = errorStatus;
         updateIcon();
     }
 
-    public synchronized void setRunningStatus(final TransferManager.RunningStatus runningStatus) {
+    public synchronized void setRunningStatus(
+            final TransferManager.RunningStatus runningStatus) {
         this.runningStatus = runningStatus;
         updateIcon();
     }
@@ -47,5 +47,4 @@ public class IconManager {
         }
         idropGui.updateIcon(iconFile);
     }
-
 }

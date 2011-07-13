@@ -14,8 +14,8 @@ public class LocalFileUtils {
     public static List<String> listFileRootsForSystem() {
         List<String> fileRoots = new ArrayList<String>();
         File[] roots = File.listRoots();
-        for (int i = 0; i < roots.length; i++) {
-            fileRoots.add(roots[i].getPath());
+        for (File root : roots) {
+            fileRoots.add(root.getPath());
         }
 
         return fileRoots;

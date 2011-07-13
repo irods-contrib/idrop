@@ -16,17 +16,15 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreePath;
-import org.apache.commons.io.FileUtils;
 
+import org.apache.commons.io.FileUtils;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -40,13 +38,12 @@ public class LocalTreeTransferHandler extends TransferHandler {
     public final iDrop idropGui;
 
     @Override
-    public boolean canImport(TransferSupport support) {
+    public boolean canImport(final TransferSupport support) {
         Point location = support.getDropLocation().getDropPoint();
         LocalFileTree tree = (LocalFileTree) support.getComponent();
 
-        int closestRow = idropGui.getFileTree().getClosestRowForLocation((int) location.getX(), (int) location.getY());
-        boolean highlighted = false;
-
+        int closestRow = idropGui.getFileTree().getClosestRowForLocation(
+                (int) location.getX(), (int) location.getY());
         Graphics g = tree.getGraphics();
 
         // row changed
@@ -76,8 +73,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
             if (flavor.equals(DataFlavor.javaFileListFlavor)) {
                 log.debug("found file list flavor, will import");
                 return true;
-            } else if (flavor.getMimeType().equals(
-                    "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
+            } else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
                 log.debug("found file list flavor, will import");
                 return true;
             }
@@ -88,17 +84,19 @@ public class LocalTreeTransferHandler extends TransferHandler {
     }
 
     @Override
-    public void exportAsDrag(JComponent jc, InputEvent ie, int i) {
+    public void exportAsDrag(final JComponent jc, final InputEvent ie,
+            final int i) {
         super.exportAsDrag(jc, ie, i);
     }
 
     @Override
-    public void exportToClipboard(JComponent jc, Clipboard clpbrd, int i) throws IllegalStateException {
+    public void exportToClipboard(final JComponent jc, final Clipboard clpbrd,
+            final int i) throws IllegalStateException {
         super.exportToClipboard(jc, clpbrd, i);
     }
 
     @Override
-    public boolean importData(TransferSupport ts) {
+    public boolean importData(final TransferSupport ts) {
         log.info("importData event:{}", ts);
         Point pt = ts.getDropLocation().getDropPoint();
         JTree tree = (JTree) ts.getComponent();
@@ -106,7 +104,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
         LocalFileNode nodeThatWasDropTarget = (LocalFileNode) parentpath.getLastPathComponent();
         final File nodeThatWasDropTargetAsFile = (File) nodeThatWasDropTarget.getUserObject();
         log.info("local file node is: {}", nodeThatWasDropTargetAsFile);
-        LocalFileSystemModel fileSystemModel = (LocalFileSystemModel) tree.getModel();
+        tree.getModel();
 
         Transferable transferable = ts.getTransferable();
 
@@ -119,13 +117,15 @@ public class LocalTreeTransferHandler extends TransferHandler {
             if (flavor.isFlavorJavaFileListType()) {
                 log.info("process drop as file list");
 
-                processDropAfterAcceptingDataFlavor(transferable, nodeThatWasDropTargetAsFile);
+                processDropAfterAcceptingDataFlavor(transferable,
+                        nodeThatWasDropTargetAsFile);
                 imported = true;
                 break;
-            } else if (flavor.getMimeType().equals(
-                    "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
+            } else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
                 log.info("process drop as serialized object");
-                processDropFromSerializedObjectType(transferable, nodeThatWasDropTargetAsFile, flavor, ts.getUserDropAction());
+                processDropFromSerializedObjectType(transferable,
+                        nodeThatWasDropTargetAsFile, flavor,
+                        ts.getUserDropAction());
                 imported = true;
                 break;
             } else {
@@ -135,7 +135,9 @@ public class LocalTreeTransferHandler extends TransferHandler {
         return imported;
     }
 
-    private void processDropAfterAcceptingDataFlavor(Transferable transferable, File nodeThatWasDropTargetAsFile)
+    private void processDropAfterAcceptingDataFlavor(
+            final Transferable transferable,
+            final File nodeThatWasDropTargetAsFile)
             throws IdropRuntimeException {
 
         final List<File> sourceFiles;
@@ -144,9 +146,11 @@ public class LocalTreeTransferHandler extends TransferHandler {
             // get the list of files
             sourceFiles = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
         } catch (UnsupportedFlavorException ex) {
-            throw new IdropRuntimeException("unsupported flavor getting data from transfer");
+            throw new IdropRuntimeException(
+                    "unsupported flavor getting data from transfer");
         } catch (IOException ex) {
-            throw new IdropRuntimeException("io exception getting data from transfer");
+            throw new IdropRuntimeException(
+                    "io exception getting data from transfer");
         }
 
         if (sourceFiles.isEmpty()) {
@@ -177,7 +181,8 @@ public class LocalTreeTransferHandler extends TransferHandler {
         }
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Get ", JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(),
+                "Confirm a Get ", JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
 
@@ -191,17 +196,24 @@ public class LocalTreeTransferHandler extends TransferHandler {
                         for (File transferFile : sourceFiles) {
 
                             if (transferFile instanceof IRODSFile) {
-                                log.info("initiating a transfer of iRODS file:{}", transferFile.getAbsolutePath());
-                                log.info("transfer to local file:{}", tempTargetLocalFileAbsolutePath);
-                                idropGui.getiDropCore().getTransferManager().enqueueAGet(transferFile.getAbsolutePath(), tempTargetLocalFileAbsolutePath,
+                                log.info(
+                                        "initiating a transfer of iRODS file:{}",
+                                        transferFile.getAbsolutePath());
+                                log.info("transfer to local file:{}",
+                                        tempTargetLocalFileAbsolutePath);
+                                idropGui.getiDropCore().getTransferManager().enqueueAGet(
+                                        transferFile.getAbsolutePath(),
+                                        tempTargetLocalFileAbsolutePath,
                                         "", idropGui.getIrodsAccount());
                             } else {
-                                log.info("process a local to local move with source...not yet implemented : {}",
+                                log.info(
+                                        "process a local to local move with source...not yet implemented : {}",
                                         transferFile.getAbsolutePath());
                             }
                         }
                     } catch (JargonException ex) {
-                        java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+                        java.util.logging.Logger.getLogger(
+                                LocalFileTree.class.getName()).log(
                                 java.util.logging.Level.SEVERE, null, ex);
                         idropGui.showIdropException(ex);
                         throw new IdropRuntimeException(ex);
@@ -214,12 +226,16 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
     /**
      * Drop from local file tree onto local file tree for copy/move operation
+     * 
      * @param transferable
-     * @param parent 
+     * @param parent
      */
-    private void processDropFromSerializedObjectType(Transferable transferable, File parent, DataFlavor flavor, int userDropAction) {
+    private void processDropFromSerializedObjectType(
+            final Transferable transferable, final File parent,
+            final DataFlavor flavor, final int userDropAction) {
 
-        log.info("process as drop of file list to target:{}", parent.getAbsolutePath());
+        log.info("process as drop of file list to target:{}",
+                parent.getAbsolutePath());
 
         File effectiveTarget;
         if (parent.isDirectory()) {
@@ -254,24 +270,32 @@ public class LocalTreeTransferHandler extends TransferHandler {
                 // target normalized to a directory
                 if (sourceFile.isDirectory()) {
                     if (userDropAction == 1) {
-                        FileUtils.copyDirectoryToDirectory(sourceFile, effectiveTarget);
+                        FileUtils.copyDirectoryToDirectory(sourceFile,
+                                effectiveTarget);
 
                     } else {
                         FileUtils.moveDirectory(sourceFile, effectiveTarget);
                         LocalFileNode parentNode = (LocalFileNode) sourceNode.getParent();
                         parentNode.remove(sourceNode);
                     }
-                    fileSystemModel.notifyFileShouldBeAdded(idropGui.getFileTree(), effectiveTarget.getAbsolutePath());
+                    fileSystemModel.notifyFileShouldBeAdded(
+                            idropGui.getFileTree(),
+                            effectiveTarget.getAbsolutePath());
                 } else {
                     if (userDropAction == 1) {
-                        FileUtils.copyFileToDirectory(sourceFile, effectiveTarget);
+                        FileUtils.copyFileToDirectory(sourceFile,
+                                effectiveTarget);
 
                     } else {
-                        FileUtils.moveToDirectory(sourceFile, effectiveTarget, false);
+                        FileUtils.moveToDirectory(sourceFile, effectiveTarget,
+                                false);
                         LocalFileNode parentNode = (LocalFileNode) sourceNode.getParent();
                         parentNode.remove(sourceNode);
                     }
-                    fileSystemModel.notifyFileShouldBeAdded(idropGui.getFileTree(), effectiveTarget.getAbsolutePath() + "/" + sourceFile.getName());
+                    fileSystemModel.notifyFileShouldBeAdded(
+                            idropGui.getFileTree(),
+                            effectiveTarget.getAbsolutePath() + "/"
+                            + sourceFile.getName());
 
                 }
 
@@ -289,7 +313,6 @@ public class LocalTreeTransferHandler extends TransferHandler {
             throw new IdropRuntimeException(ex);
         }
 
-
     }
 
     public LocalTreeTransferHandler(final iDrop idropGui) {
@@ -304,12 +327,13 @@ public class LocalTreeTransferHandler extends TransferHandler {
      * We support both copy and move actions.
      */
     @Override
-    public int getSourceActions(JComponent c) {
+    public int getSourceActions(final JComponent c) {
         return TransferHandler.COPY_OR_MOVE;
     }
 
     @Override
-    protected void exportDone(JComponent jc, Transferable t, int i) {
+    protected void exportDone(final JComponent jc, final Transferable t,
+            final int i) {
         super.exportDone(jc, t, i);
     }
 }

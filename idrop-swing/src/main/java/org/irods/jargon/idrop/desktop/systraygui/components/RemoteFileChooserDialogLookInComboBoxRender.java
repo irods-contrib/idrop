@@ -12,7 +12,7 @@ import javax.swing.UIManager;
 /**
  * 
  * @author jdr0887
- *
+ * 
  */
 public class RemoteFileChooserDialogLookInComboBoxRender extends DefaultListCellRenderer {
 
@@ -21,9 +21,12 @@ public class RemoteFileChooserDialogLookInComboBoxRender extends DefaultListCell
      */
     private static final long serialVersionUID = 1L;
 
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-            boolean hasFocus) {
-        JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
+    @Override
+    public Component getListCellRendererComponent(final JList list,
+            final Object value, final int index, final boolean isSelected,
+            final boolean hasFocus) {
+        JLabel label = (JLabel) super.getListCellRendererComponent(list, value,
+                index, isSelected, hasFocus);
         if (value != null && value instanceof String) {
             Icon icon = UIManager.getIcon("FileView.directoryIcon");
             label.setIcon(icon);
@@ -31,5 +34,4 @@ public class RemoteFileChooserDialogLookInComboBoxRender extends DefaultListCell
         }
         return (label);
     }
-
 }

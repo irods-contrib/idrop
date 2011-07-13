@@ -12,7 +12,6 @@ import java.util.List;
 public class ColorHelper {
 
     private List<Color> colorWheel = new ArrayList<Color>();
-
     private int colorIndex = 0;
 
     public ColorHelper() {
@@ -30,10 +29,11 @@ public class ColorHelper {
         colorWheel.add(Color.LIGHT_GRAY);
         colorWheel.add(new Color(198, 229, 235));
         /*
-         * colorWheel.add(new Color(198, 229, 235)); colorWheel.add(new Color(198, 235, 217));
+         * colorWheel.add(new Color(198, 229, 235)); colorWheel.add(new
+         * Color(198, 235, 217));
          * 
-         * colorWheel.add(new Color(235, 204, 198)); colorWheel.add(new Color(198, 205, 235)); colorWheel.add(new
-         * Color(212, 206, 204));
+         * colorWheel.add(new Color(235, 204, 198)); colorWheel.add(new
+         * Color(198, 205, 235)); colorWheel.add(new Color(212, 206, 204));
          */
     }
 }
