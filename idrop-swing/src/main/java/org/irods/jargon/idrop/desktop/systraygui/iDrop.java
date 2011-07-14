@@ -78,6 +78,7 @@ import org.irods.jargon.usertagging.FreeTaggingServiceImpl;
 import org.irods.jargon.usertagging.domain.IRODSTagGrouping;
 import org.irods.jargon.usertagging.domain.TagQuerySearchResult;
 import org.netbeans.swing.outline.Outline;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -502,8 +503,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         Toolkit toolkit = getToolkit();
 
         if (e.getActionCommand().equals("Exit")) {
-            getiDropCore().getQueueTimer().cancel();
-            System.exit(0);
+           shutdown();
         } else if (e.getActionCommand().equals("Logout")) {
             this.setIrodsAccount(null);
             this.signalChangeInAccountSoCachedDataCanBeCleared();
@@ -1114,828 +1114,770 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      * 
      */
     // <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
-
-		searchTablePopupMenu = new javax.swing.JPopupMenu();
-		menuItemShowInHierarchy = new javax.swing.JMenuItem();
-		iDropToolbar = new javax.swing.JPanel();
-		pnlToolbarSizer = new javax.swing.JPanel();
-		pnlTopToolbarSearchArea = new javax.swing.JPanel();
-		pnlSearchSizer = new javax.swing.JPanel();
-		lblMainSearch = new javax.swing.JLabel();
-		comboSearchType = new javax.swing.JComboBox();
-		txtMainSearch = new javax.swing.JTextField();
-		btnearch = new javax.swing.JButton();
-		pnlLocalToggleSizer = new javax.swing.JPanel();
-		toggleLocalFiles = new javax.swing.JToggleButton();
-		pnlIrodsDetailsToggleSizer = new javax.swing.JPanel();
-		toggleIrodsDetails = new javax.swing.JToggleButton();
-		pnlIdropMain = new javax.swing.JPanel();
-		jSplitPanelLocalRemote = new javax.swing.JSplitPane();
-		pnlLocalTreeArea = new javax.swing.JPanel();
-		pnlLocalRoots = new javax.swing.JPanel();
-		scrollLocalDrives = new javax.swing.JScrollPane();
-		listLocalDrives = new javax.swing.JList();
-		pnlRefreshButton = new javax.swing.JPanel();
-		btnRefreshLocalDrives = new javax.swing.JButton();
-		pnlDrivesFiller = new javax.swing.JPanel();
-		scrollLocalFileTree = new javax.swing.JScrollPane();
-		pnlIrodsArea = new javax.swing.JPanel();
-		splitTargetCollections = new javax.swing.JSplitPane();
-		tabIrodsViews = new javax.swing.JTabbedPane();
-		pnlTabHierarchicalView = new javax.swing.JPanel();
-		pnlIrodsTreeToolbar = new javax.swing.JPanel();
-		btnRefreshTargetTree = new javax.swing.JButton();
-		pnlIrodsTreeMaster = new javax.swing.JPanel();
-		scrollIrodsTree = new javax.swing.JScrollPane();
-		pnlTabSearch = new javax.swing.JPanel();
-		pnlTabSearchTop = new javax.swing.JPanel();
-		pnlTabSearchResults = new javax.swing.JPanel();
-		scrollPaneSearchResults = new javax.swing.JScrollPane();
-		tableSearchResults = new javax.swing.JTable();
-		pnlIrodsInfo = new javax.swing.JPanel();
-		pnlIrodsInfoInner = new javax.swing.JPanel();
-		pnlFileIconSizer = new javax.swing.JPanel();
-		pnlInfoIcon = new javax.swing.JPanel();
-		pnlFileNameAndIcon = new javax.swing.JPanel();
-		lblFileOrCollectionName = new javax.swing.JLabel();
-		pnlInfoCollectionParent = new javax.swing.JPanel();
-		lblFileParent = new javax.swing.JLabel();
-		scrollParentPath = new javax.swing.JScrollPane();
-		txtParentPath = new javax.swing.JTextArea();
-		pnlInfoComment = new javax.swing.JPanel();
-		lblComment = new javax.swing.JLabel();
-		scrollComment = new javax.swing.JScrollPane();
-		txtComment = new javax.swing.JTextArea();
-		pnlInfoTags = new javax.swing.JPanel();
-		lblTags = new javax.swing.JLabel();
-		txtTags = new javax.swing.JTextField();
-		pnlInfoButton = new javax.swing.JPanel();
-		btnUpdateInfo = new javax.swing.JButton();
-		pnlInfoDetails = new javax.swing.JPanel();
-		lblInfoCreatedAt = new javax.swing.JLabel();
-		lblInfoCreatedAtValue = new javax.swing.JLabel();
-		lblInfoUpdatedAt = new javax.swing.JLabel();
-		lblInfoUpdatedAtValue = new javax.swing.JLabel();
-		lblInfoLength = new javax.swing.JLabel();
-		lblInfoLengthValue = new javax.swing.JLabel();
-		pnlToolbarInfo = new javax.swing.JPanel();
-		toolBarInfo = new javax.swing.JToolBar();
-		btnViewMetadata = new javax.swing.JButton();
-		btnReplication = new javax.swing.JButton();
-		separator1 = new javax.swing.JToolBar.Separator();
-		btnMoveToTrash = new javax.swing.JButton();
-		separator2 = new javax.swing.JToolBar.Separator();
-		pnlIdropBottom = new javax.swing.JPanel();
-		userNameLabel = new javax.swing.JLabel();
-		pnlTransferOverview = new javax.swing.JPanel();
-		pnlTransferStatus = new javax.swing.JPanel();
-		pnlTransferType = new javax.swing.JPanel();
-		lblTransferTypeLabel = new javax.swing.JLabel();
-		lblTransferType = new javax.swing.JLabel();
-		pnlTransferFileCounts = new javax.swing.JPanel();
-		lblTransferFilesCounts = new javax.swing.JLabel();
-		pnlTransferByteCounts = new javax.swing.JPanel();
-		lblTransferByteCounts = new javax.swing.JLabel();
-		pnlTransferFileInfo = new javax.swing.JPanel();
-		lblCurrentFileLabel = new javax.swing.JLabel();
-		lblCurrentFile = new javax.swing.JLabel();
-		transferStatusProgressBar = new javax.swing.JProgressBar();
-		transferQueueToolbarPanel = new javax.swing.JPanel();
-		idropProgressPanelToolbar = new javax.swing.JToolBar();
-		btnShowTransferManager = new javax.swing.JButton();
-		togglePauseTransfer = new javax.swing.JToggleButton();
-		pnlIdropProgressIcon = new javax.swing.JPanel();
-		progressIconImageLabel = new javax.swing.JLabel();
-		jMenuBar1 = new javax.swing.JMenuBar();
-		jMenuFile = new javax.swing.JMenu();
-		jMenuItemExit = new javax.swing.JMenuItem();
-		jMenuEdit = new javax.swing.JMenu();
-		jMenuView = new javax.swing.JMenu();
-		jCheckBoxMenuItemShowSourceTree = new javax.swing.JCheckBoxMenuItem();
-		jCheckBoxMenuItemShowIrodsInfo = new javax.swing.JCheckBoxMenuItem();
-
-		menuItemShowInHierarchy.setText("Show in iRODS");
-		menuItemShowInHierarchy
-				.setToolTipText("Show this file or collection in the iRODS hierarchy");
-		menuItemShowInHierarchy
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						menuItemShowInHierarchyActionPerformed(evt);
-					}
-				});
-		searchTablePopupMenu.add(menuItemShowInHierarchy);
-
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("iDrop - iRODS Cloud Browser");
-		setMinimumSize(new java.awt.Dimension(600, 600));
-		addWindowListener(new java.awt.event.WindowAdapter() {
-			public void windowClosed(final java.awt.event.WindowEvent evt) {
-				formWindowClosed(evt);
-			}
-		});
-
-		iDropToolbar.setMinimumSize(new java.awt.Dimension(800, 400));
-		iDropToolbar.setPreferredSize(new java.awt.Dimension(1077, 40));
-		iDropToolbar.setLayout(new java.awt.BorderLayout());
-
-		pnlToolbarSizer.setLayout(new java.awt.BorderLayout());
-
-		pnlTopToolbarSearchArea.setMinimumSize(new java.awt.Dimension(45, 50));
-		pnlTopToolbarSearchArea.setLayout(new java.awt.BorderLayout());
-
-		pnlSearchSizer.setMinimumSize(new java.awt.Dimension(74, 30));
-		pnlSearchSizer.setPreferredSize(new java.awt.Dimension(254, 50));
-		pnlSearchSizer.setLayout(new java.awt.FlowLayout(
-				java.awt.FlowLayout.RIGHT));
-
-		lblMainSearch.setText("Search:");
-		lblMainSearch.setMaximumSize(null);
-		lblMainSearch.setMinimumSize(null);
-		lblMainSearch.setPreferredSize(new java.awt.Dimension(45, 40));
-		pnlSearchSizer.add(lblMainSearch);
-
-		comboSearchType.setModel(new javax.swing.DefaultComboBoxModel(
-				new String[] { "by name", "by tag", "by name and tag" }));
-		comboSearchType
-				.setToolTipText("Select the type of search to be carried out using the supplied search string");
-		pnlSearchSizer.add(comboSearchType);
-
-		txtMainSearch.setColumns(20);
-		txtMainSearch.setToolTipText("Search for files or tags");
-		txtMainSearch.setMinimumSize(null);
-		txtMainSearch.setPreferredSize(new java.awt.Dimension(100, 30));
-		txtMainSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyPressed(final java.awt.event.KeyEvent evt) {
-				txtMainSearchKeyPressed(evt);
-			}
-		});
-		pnlSearchSizer.add(txtMainSearch);
-
-		btnearch.setMnemonic('s');
-		btnearch.setText("Search");
-		btnearch.setToolTipText("Search iRODS based on the current view selected");
-		btnearch.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnearchActionPerformed(evt);
-			}
-		});
-		pnlSearchSizer.add(btnearch);
-
-		pnlTopToolbarSearchArea
-				.add(pnlSearchSizer, java.awt.BorderLayout.SOUTH);
-
-		pnlToolbarSizer.add(pnlTopToolbarSearchArea,
-				java.awt.BorderLayout.CENTER);
-
-		pnlLocalToggleSizer.setLayout(new java.awt.BorderLayout());
-
-		toggleLocalFiles.setText("<<< Local Files");
-		toggleLocalFiles.setToolTipText("Browse the local file system.");
-		toggleLocalFiles.setMaximumSize(new java.awt.Dimension(144, 10));
-		toggleLocalFiles.setMinimumSize(new java.awt.Dimension(144, 10));
-		toggleLocalFiles.setPreferredSize(new java.awt.Dimension(144, 30));
-		toggleLocalFiles
-				.addChangeListener(new javax.swing.event.ChangeListener() {
-					public void stateChanged(
-							final javax.swing.event.ChangeEvent evt) {
-						toggleLocalFilesStateChanged(evt);
-					}
-				});
-		toggleLocalFiles.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				toggleLocalFilesActionPerformed(evt);
-			}
-		});
-		pnlLocalToggleSizer.add(toggleLocalFiles, java.awt.BorderLayout.NORTH);
-		toggleLocalFiles.getAccessibleContext().setAccessibleName(
-				"<<< Local Files ");
-
-		pnlToolbarSizer.add(pnlLocalToggleSizer, java.awt.BorderLayout.WEST);
-
-		pnlIrodsDetailsToggleSizer.setLayout(new java.awt.BorderLayout());
-
-		toggleIrodsDetails.setToolTipText("Browse the local file system.");
-		toggleIrodsDetails.setLabel("iRODS Info >>>>");
-		toggleIrodsDetails.setMaximumSize(new java.awt.Dimension(144, 10));
-		toggleIrodsDetails.setMinimumSize(new java.awt.Dimension(144, 10));
-		toggleIrodsDetails.setPreferredSize(new java.awt.Dimension(144, 30));
-		toggleIrodsDetails
-				.addChangeListener(new javax.swing.event.ChangeListener() {
-					public void stateChanged(
-							final javax.swing.event.ChangeEvent evt) {
-						toggleIrodsDetailsStateChanged(evt);
-					}
-				});
-		toggleIrodsDetails
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						toggleIrodsDetailsActionPerformed(evt);
-					}
-				});
-		pnlIrodsDetailsToggleSizer.add(toggleIrodsDetails,
-				java.awt.BorderLayout.NORTH);
-		toggleIrodsDetails.getAccessibleContext().setAccessibleName("");
-
-		pnlToolbarSizer.add(pnlIrodsDetailsToggleSizer,
-				java.awt.BorderLayout.EAST);
-
-		iDropToolbar.add(pnlToolbarSizer, java.awt.BorderLayout.NORTH);
-
-		getContentPane().add(iDropToolbar, java.awt.BorderLayout.NORTH);
-
-		pnlIdropMain.setPreferredSize(new java.awt.Dimension(500, 300));
-		pnlIdropMain.setLayout(new javax.swing.BoxLayout(pnlIdropMain,
-				javax.swing.BoxLayout.PAGE_AXIS));
-
-		jSplitPanelLocalRemote.setBorder(null);
-		jSplitPanelLocalRemote.setDividerLocation(250);
-		jSplitPanelLocalRemote.setDividerSize(30);
-		jSplitPanelLocalRemote.setMaximumSize(null);
-		jSplitPanelLocalRemote.setPreferredSize(new java.awt.Dimension(0, 0));
-
-		pnlLocalTreeArea.setBackground(new java.awt.Color(153, 255, 102));
-		pnlLocalTreeArea.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		pnlLocalTreeArea.setMinimumSize(new java.awt.Dimension(0, 0));
-		pnlLocalTreeArea.setOpaque(false);
-		pnlLocalTreeArea.setPreferredSize(new java.awt.Dimension(0, 0));
-		pnlLocalTreeArea.setLayout(new java.awt.BorderLayout());
-
-		pnlLocalRoots.setMinimumSize(new java.awt.Dimension(0, 0));
-		pnlLocalRoots.setLayout(new java.awt.BorderLayout());
-
-		scrollLocalDrives.setMaximumSize(null);
-		scrollLocalDrives.setMinimumSize(new java.awt.Dimension(0, 0));
-		scrollLocalDrives.setPreferredSize(new java.awt.Dimension(300, 100));
-
-		listLocalDrives.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		listLocalDrives
-				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-		listLocalDrives.setMaximumSize(null);
-		listLocalDrives.setPreferredSize(new java.awt.Dimension(150, 200));
-		listLocalDrives.setVisibleRowCount(4);
-		scrollLocalDrives.setViewportView(listLocalDrives);
-
-		pnlLocalRoots.add(scrollLocalDrives, java.awt.BorderLayout.CENTER);
-
-		pnlRefreshButton.setMaximumSize(new java.awt.Dimension(1000, 30));
-		pnlRefreshButton.setMinimumSize(new java.awt.Dimension(0, 0));
-		pnlRefreshButton.setPreferredSize(new java.awt.Dimension(101, 30));
-
-		btnRefreshLocalDrives.setLabel("Refresh");
-		btnRefreshLocalDrives.setMaximumSize(new java.awt.Dimension(200, 50));
-		btnRefreshLocalDrives.setMinimumSize(new java.awt.Dimension(0, 0));
-		btnRefreshLocalDrives
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnRefreshLocalDrivesActionPerformed(evt);
-					}
-				});
-		pnlRefreshButton.add(btnRefreshLocalDrives);
-
-		pnlLocalRoots.add(pnlRefreshButton, java.awt.BorderLayout.NORTH);
-		pnlLocalRoots.add(pnlDrivesFiller, java.awt.BorderLayout.SOUTH);
-
-		pnlLocalTreeArea.add(pnlLocalRoots, java.awt.BorderLayout.NORTH);
-
-		scrollLocalFileTree.setBackground(javax.swing.UIManager.getDefaults()
-				.getColor("Button.background"));
-		scrollLocalFileTree.setBorder(null);
-		scrollLocalFileTree.setToolTipText("scroll panel tooltip");
-		scrollLocalFileTree
-				.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollLocalFileTree.setMaximumSize(null);
-		scrollLocalFileTree.setMinimumSize(new java.awt.Dimension(0, 0));
-		scrollLocalFileTree.setPreferredSize(new java.awt.Dimension(500, 500));
-		pnlLocalTreeArea.add(scrollLocalFileTree, java.awt.BorderLayout.CENTER);
-
-		jSplitPanelLocalRemote.setLeftComponent(pnlLocalTreeArea);
-
-		pnlIrodsArea.setMinimumSize(new java.awt.Dimension(500, 300));
-		pnlIrodsArea.setPreferredSize(new java.awt.Dimension(600, 304));
-		pnlIrodsArea.setLayout(new java.awt.BorderLayout());
-
-		splitTargetCollections.setDividerLocation(400);
-		splitTargetCollections.setMinimumSize(new java.awt.Dimension(0, 0));
-
-		tabIrodsViews.setMinimumSize(new java.awt.Dimension(200, 129));
-		tabIrodsViews.setPreferredSize(new java.awt.Dimension(350, 300));
-		tabIrodsViews.addChangeListener(new javax.swing.event.ChangeListener() {
-			public void stateChanged(final javax.swing.event.ChangeEvent evt) {
-				tabIrodsViewsStateChanged(evt);
-			}
-		});
-
-		pnlTabHierarchicalView.setLayout(new java.awt.BorderLayout());
-
-		btnRefreshTargetTree.setMnemonic('r');
-		btnRefreshTargetTree.setText("Refresh");
-		btnRefreshTargetTree
-				.setToolTipText("Refresh the view of the iRODS server");
-		btnRefreshTargetTree.setFocusable(false);
-		btnRefreshTargetTree
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnRefreshTargetTree
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnRefreshTargetTree
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnRefreshTargetTreeActionPerformed(evt);
-					}
-				});
-		pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
-
-		pnlTabHierarchicalView.add(pnlIrodsTreeToolbar,
-				java.awt.BorderLayout.NORTH);
-
-		pnlIrodsTreeMaster.setLayout(new java.awt.BorderLayout());
-		pnlIrodsTreeMaster.add(scrollIrodsTree, java.awt.BorderLayout.CENTER);
-
-		pnlTabHierarchicalView.add(pnlIrodsTreeMaster,
-				java.awt.BorderLayout.CENTER);
-
-		tabIrodsViews.addTab("iRODS Tree View", pnlTabHierarchicalView);
-
-		pnlTabSearch
-				.setToolTipText("Search for files and collections in iRODS and display search results");
-		pnlTabSearch.setLayout(new java.awt.BorderLayout());
-		pnlTabSearch.add(pnlTabSearchTop, java.awt.BorderLayout.NORTH);
-
-		pnlTabSearchResults.setLayout(new java.awt.GridLayout(1, 0));
-
-		tableSearchResults.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] { { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null } }, new String[] { "Title 1",
-						"Title 2", "Title 3", "Title 4" }));
-		scrollPaneSearchResults.setViewportView(tableSearchResults);
-
-		pnlTabSearchResults.add(scrollPaneSearchResults);
-
-		pnlTabSearch.add(pnlTabSearchResults, java.awt.BorderLayout.CENTER);
-
-		tabIrodsViews
-				.addTab("Search", null, pnlTabSearch,
-						"Search for files and collections in iRODS and display search results");
-
-		splitTargetCollections.setLeftComponent(tabIrodsViews);
-
-		pnlIrodsInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(10,
-				15, 10, 15));
-		pnlIrodsInfo.setMinimumSize(new java.awt.Dimension(300, 708));
-		pnlIrodsInfo.setLayout(new java.awt.BorderLayout());
-
-		pnlIrodsInfoInner.setBorder(javax.swing.BorderFactory
-				.createEmptyBorder(10, 10, 10, 10));
-		pnlIrodsInfoInner
-				.setToolTipText("Information on selected iRODS file or collection");
-		pnlIrodsInfoInner.setLayout(new java.awt.GridBagLayout());
-
-		pnlFileIconSizer.setMinimumSize(new java.awt.Dimension(80, 40));
-		pnlFileIconSizer.setLayout(new java.awt.BorderLayout());
-
-		pnlInfoIcon.setMaximumSize(new java.awt.Dimension(50, 50));
-		pnlInfoIcon.setLayout(new java.awt.GridLayout(1, 0));
-		pnlFileIconSizer.add(pnlInfoIcon, java.awt.BorderLayout.WEST);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.weightx = 0.8;
-		pnlIrodsInfoInner.add(pnlFileIconSizer, gridBagConstraints);
-
-		pnlFileNameAndIcon.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		pnlFileNameAndIcon.setMinimumSize(new java.awt.Dimension(100, 100));
-		pnlFileNameAndIcon.setLayout(new java.awt.FlowLayout(
-				java.awt.FlowLayout.LEFT, 0, 5));
-
-		lblFileOrCollectionName.setMinimumSize(new java.awt.Dimension(80, 16));
-		pnlFileNameAndIcon.add(lblFileOrCollectionName);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		gridBagConstraints.weightx = 0.8;
-		gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-		pnlIrodsInfoInner.add(pnlFileNameAndIcon, gridBagConstraints);
-
-		pnlInfoCollectionParent.setLayout(new java.awt.BorderLayout());
-
-		lblFileParent.setText("Parent path of file:");
-		pnlInfoCollectionParent.add(lblFileParent, java.awt.BorderLayout.NORTH);
-		lblFileParent.getAccessibleContext().setAccessibleDescription(
-				"The path of the parent of the file or collection");
-
-		scrollParentPath.setMinimumSize(new java.awt.Dimension(100, 100));
-
-		txtParentPath.setEditable(false);
-		txtParentPath.setMaximumSize(null);
-		txtParentPath.setMinimumSize(new java.awt.Dimension(600, 100));
-		scrollParentPath.setViewportView(txtParentPath);
-
-		pnlInfoCollectionParent.add(scrollParentPath,
-				java.awt.BorderLayout.CENTER);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		gridBagConstraints.weightx = 0.8;
-		gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-		pnlIrodsInfoInner.add(pnlInfoCollectionParent, gridBagConstraints);
-
-		pnlInfoComment.setLayout(new java.awt.BorderLayout());
-
-		lblComment.setText("Comment:");
-		lblComment.setToolTipText("");
-		pnlInfoComment.add(lblComment, java.awt.BorderLayout.NORTH);
-		lblComment.getAccessibleContext().setAccessibleDescription(
-				"lable for comment area");
-
-		scrollComment.setMinimumSize(null);
-		scrollComment.setPreferredSize(new java.awt.Dimension(388, 84));
-
-		txtComment.setMaximumSize(null);
-		txtComment.setMinimumSize(null);
-		txtComment.setPreferredSize(null);
-		scrollComment.setViewportView(txtComment);
-
-		pnlInfoComment.add(scrollComment, java.awt.BorderLayout.CENTER);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlIrodsInfoInner.add(pnlInfoComment, gridBagConstraints);
-
-		pnlInfoTags.setLayout(new java.awt.BorderLayout());
-
-		lblTags.setText("Tags:");
-		lblTags.setToolTipText("");
-		pnlInfoTags.add(lblTags, java.awt.BorderLayout.NORTH);
-		lblTags.getAccessibleContext().setAccessibleName("Tags");
-		lblTags.getAccessibleContext().setAccessibleDescription(
-				"Label for free tagging area");
-
-		txtTags.setColumns(30);
-		txtTags.setToolTipText("Name of file or collection.  This field allows editing to rename");
-		txtTags.setMinimumSize(null);
-		txtTags.setPreferredSize(null);
-		txtTags.addFocusListener(new java.awt.event.FocusAdapter() {
-			public void focusLost(final java.awt.event.FocusEvent evt) {
-				txtTagsFocusLost(evt);
-			}
-		});
-		txtTags.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyPressed(final java.awt.event.KeyEvent evt) {
-				txtTagsKeyPressed(evt);
-			}
-		});
-		pnlInfoTags.add(txtTags, java.awt.BorderLayout.PAGE_END);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 4;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		gridBagConstraints.weightx = 0.8;
-		pnlIrodsInfoInner.add(pnlInfoTags, gridBagConstraints);
-
-		pnlInfoButton.setLayout(new java.awt.FlowLayout(
-				java.awt.FlowLayout.RIGHT));
-
-		btnUpdateInfo.setMnemonic('I');
-		btnUpdateInfo.setText("Update Info");
-		btnUpdateInfo
-				.setToolTipText("Update information on the info panel such as tags and comment");
-		btnUpdateInfo.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnUpdateInfoActionPerformed(evt);
-			}
-		});
-		pnlInfoButton.add(btnUpdateInfo);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 5;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.weightx = 0.1;
-		pnlIrodsInfoInner.add(pnlInfoButton, gridBagConstraints);
-
-		pnlInfoDetails.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		pnlInfoDetails.setLayout(new java.awt.GridBagLayout());
-
-		lblInfoCreatedAt
-				.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-		lblInfoCreatedAt.setText("Created:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		pnlInfoDetails.add(lblInfoCreatedAt, gridBagConstraints);
-
-		lblInfoCreatedAtValue.setText("XXXXXX");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlInfoDetails.add(lblInfoCreatedAtValue, gridBagConstraints);
-
-		lblInfoUpdatedAt
-				.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-		lblInfoUpdatedAt.setText("Updated:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		pnlInfoDetails.add(lblInfoUpdatedAt, gridBagConstraints);
-
-		lblInfoUpdatedAtValue.setText("XXXXXX");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlInfoDetails.add(lblInfoUpdatedAtValue, gridBagConstraints);
-
-		lblInfoLength
-				.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-		lblInfoLength.setText("Length:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		pnlInfoDetails.add(lblInfoLength, gridBagConstraints);
-
-		lblInfoLengthValue.setText("XXXXXX");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlInfoDetails.add(lblInfoLengthValue, gridBagConstraints);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 6;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		gridBagConstraints.weightx = 0.8;
-		gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-		pnlIrodsInfoInner.add(pnlInfoDetails, gridBagConstraints);
-
-		pnlToolbarInfo.setMinimumSize(new java.awt.Dimension(300, 200));
-		pnlToolbarInfo.setLayout(new java.awt.BorderLayout());
-
-		toolBarInfo.setRollover(true);
-
-		btnViewMetadata.setText("Metadata");
-		btnViewMetadata.setFocusable(false);
-		btnViewMetadata
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnViewMetadata
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnViewMetadata.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnViewMetadataActionPerformed(evt);
-			}
-		});
-		toolBarInfo.add(btnViewMetadata);
-
-		btnReplication.setText("Replication");
-		btnReplication.setFocusable(false);
-		btnReplication
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnReplication
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnReplication.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnReplicationActionPerformed(evt);
-			}
-		});
-		toolBarInfo.add(btnReplication);
-		toolBarInfo.add(separator1);
-
-		btnMoveToTrash.setText("Move to Trash");
-		btnMoveToTrash.setFocusable(false);
-		btnMoveToTrash
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMoveToTrash
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		toolBarInfo.add(btnMoveToTrash);
-
-		separator2.setMinimumSize(new java.awt.Dimension(50, 1));
-		toolBarInfo.add(separator2);
-
-		pnlToolbarInfo.add(toolBarInfo, java.awt.BorderLayout.NORTH);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 7;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		gridBagConstraints.weightx = 0.8;
-		pnlIrodsInfoInner.add(pnlToolbarInfo, gridBagConstraints);
-
-		pnlIrodsInfo.add(pnlIrodsInfoInner, java.awt.BorderLayout.CENTER);
-		pnlIrodsInfoInner.getAccessibleContext()
-				.setAccessibleName("info panel");
-
-		splitTargetCollections.setRightComponent(pnlIrodsInfo);
-
-		pnlIrodsArea.add(splitTargetCollections, java.awt.BorderLayout.CENTER);
-
-		jSplitPanelLocalRemote.setRightComponent(pnlIrodsArea);
-
-		pnlIdropMain.add(jSplitPanelLocalRemote);
-
-		getContentPane().add(pnlIdropMain, java.awt.BorderLayout.CENTER);
-
-		pnlIdropBottom.setBorder(javax.swing.BorderFactory
-				.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		pnlIdropBottom.setToolTipText("Display area for status and messages");
-		pnlIdropBottom.setLayout(new java.awt.GridBagLayout());
-
-		userNameLabel.setText("usernamelabel");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.weightx = 0.005;
-		pnlIdropBottom.add(userNameLabel, gridBagConstraints);
-
-		pnlTransferOverview.setLayout(new java.awt.BorderLayout());
-
-		lblTransferTypeLabel.setText("Transfer Type:");
-		pnlTransferType.add(lblTransferTypeLabel);
-
-		lblTransferType.setText(" ");
-		pnlTransferType.add(lblTransferType);
-
-		pnlTransferStatus.add(pnlTransferType);
-
-		lblTransferFilesCounts.setText("Files: /");
-		pnlTransferFileCounts.add(lblTransferFilesCounts);
-
-		pnlTransferStatus.add(pnlTransferFileCounts);
-
-		lblTransferByteCounts.setText("Bytes (total):  /");
-		pnlTransferByteCounts.add(lblTransferByteCounts);
-
-		pnlTransferStatus.add(pnlTransferByteCounts);
-
-		pnlTransferOverview.add(pnlTransferStatus, java.awt.BorderLayout.NORTH);
-
-		pnlTransferFileInfo.setLayout(new java.awt.FlowLayout(
-				java.awt.FlowLayout.LEFT));
-
-		lblCurrentFileLabel.setText("Current File:");
-		pnlTransferFileInfo.add(lblCurrentFileLabel);
-		pnlTransferFileInfo.add(lblCurrentFile);
-
-		pnlTransferOverview.add(pnlTransferFileInfo,
-				java.awt.BorderLayout.CENTER);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.gridwidth = 35;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlIdropBottom.add(pnlTransferOverview, gridBagConstraints);
-
-		transferStatusProgressBar.setBorder(javax.swing.BorderFactory
-				.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		transferStatusProgressBar.setStringPainted(true);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		gridBagConstraints.weightx = 8.0;
-		pnlIdropBottom.add(transferStatusProgressBar, gridBagConstraints);
-
-		transferQueueToolbarPanel.setBorder(javax.swing.BorderFactory
-				.createEtchedBorder());
-
-		idropProgressPanelToolbar.setRollover(true);
-
-		btnShowTransferManager.setText("Manage");
-		btnShowTransferManager
-				.setToolTipText("Show a panel to manage transfers");
-		btnShowTransferManager.setFocusable(false);
-		btnShowTransferManager
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnShowTransferManager
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnShowTransferManager
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnShowTransferManagerActionPerformed(evt);
-					}
-				});
-		idropProgressPanelToolbar.add(btnShowTransferManager);
-
-		togglePauseTransfer.setText("Pause");
-		togglePauseTransfer.setToolTipText("Pause the current transfer");
-		togglePauseTransfer.setFocusable(false);
-		togglePauseTransfer
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		togglePauseTransfer
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		togglePauseTransfer
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						togglePauseTransferActionPerformed(evt);
-					}
-				});
-		idropProgressPanelToolbar.add(togglePauseTransfer);
-
-		transferQueueToolbarPanel.add(idropProgressPanelToolbar);
-
-		pnlIdropProgressIcon.add(progressIconImageLabel);
-
-		transferQueueToolbarPanel.add(pnlIdropProgressIcon);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 34;
-		gridBagConstraints.gridy = 1;
-		pnlIdropBottom.add(transferQueueToolbarPanel, gridBagConstraints);
-
-		getContentPane().add(pnlIdropBottom, java.awt.BorderLayout.SOUTH);
-
-		jMenuFile.setMnemonic('f');
-		jMenuFile.setText("File");
-
-		jMenuItemExit.setMnemonic('x');
-		jMenuItemExit.setText("Exit");
-		jMenuItemExit.setToolTipText("Close the iDROP console window");
-		jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				jMenuItemExitActionPerformed(evt);
-			}
-		});
-		jMenuFile.add(jMenuItemExit);
-
-		jMenuBar1.add(jMenuFile);
-
-		jMenuEdit.setMnemonic('E');
-		jMenuEdit.setText("Edit");
-		jMenuBar1.add(jMenuEdit);
-
-		jMenuView.setMnemonic('V');
-		jMenuView.setText("View");
-
-		jCheckBoxMenuItemShowSourceTree.setAccelerator(javax.swing.KeyStroke
-				.getKeyStroke(java.awt.event.KeyEvent.VK_L,
-						java.awt.event.InputEvent.SHIFT_MASK));
-		jCheckBoxMenuItemShowSourceTree.setMnemonic('L');
-		jCheckBoxMenuItemShowSourceTree.setText("Show Local");
-		jCheckBoxMenuItemShowSourceTree
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						jCheckBoxMenuItemShowSourceTreeActionPerformed(evt);
-					}
-				});
-		jMenuView.add(jCheckBoxMenuItemShowSourceTree);
-
-		jCheckBoxMenuItemShowIrodsInfo.setAccelerator(javax.swing.KeyStroke
-				.getKeyStroke(java.awt.event.KeyEvent.VK_L,
-						java.awt.event.InputEvent.SHIFT_MASK));
-		jCheckBoxMenuItemShowIrodsInfo.setMnemonic('I');
-		jCheckBoxMenuItemShowIrodsInfo.setText("Show iRODS Info");
-		jCheckBoxMenuItemShowIrodsInfo
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						jCheckBoxMenuItemShowIrodsInfoActionPerformed(evt);
-					}
-				});
-		jMenuView.add(jCheckBoxMenuItemShowIrodsInfo);
-
-		jMenuBar1.add(jMenuView);
-
-		setJMenuBar(jMenuBar1);
-
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        searchTablePopupMenu = new javax.swing.JPopupMenu();
+        menuItemShowInHierarchy = new javax.swing.JMenuItem();
+        iDropToolbar = new javax.swing.JPanel();
+        pnlToolbarSizer = new javax.swing.JPanel();
+        pnlTopToolbarSearchArea = new javax.swing.JPanel();
+        pnlSearchSizer = new javax.swing.JPanel();
+        lblMainSearch = new javax.swing.JLabel();
+        comboSearchType = new javax.swing.JComboBox();
+        txtMainSearch = new javax.swing.JTextField();
+        btnearch = new javax.swing.JButton();
+        pnlLocalToggleSizer = new javax.swing.JPanel();
+        toggleLocalFiles = new javax.swing.JToggleButton();
+        pnlIrodsDetailsToggleSizer = new javax.swing.JPanel();
+        toggleIrodsDetails = new javax.swing.JToggleButton();
+        pnlIdropMain = new javax.swing.JPanel();
+        jSplitPanelLocalRemote = new javax.swing.JSplitPane();
+        pnlLocalTreeArea = new javax.swing.JPanel();
+        pnlLocalRoots = new javax.swing.JPanel();
+        scrollLocalDrives = new javax.swing.JScrollPane();
+        listLocalDrives = new javax.swing.JList();
+        pnlRefreshButton = new javax.swing.JPanel();
+        btnRefreshLocalDrives = new javax.swing.JButton();
+        pnlDrivesFiller = new javax.swing.JPanel();
+        scrollLocalFileTree = new javax.swing.JScrollPane();
+        pnlIrodsArea = new javax.swing.JPanel();
+        splitTargetCollections = new javax.swing.JSplitPane();
+        tabIrodsViews = new javax.swing.JTabbedPane();
+        pnlTabHierarchicalView = new javax.swing.JPanel();
+        pnlIrodsTreeToolbar = new javax.swing.JPanel();
+        btnRefreshTargetTree = new javax.swing.JButton();
+        pnlIrodsTreeMaster = new javax.swing.JPanel();
+        scrollIrodsTree = new javax.swing.JScrollPane();
+        pnlTabSearch = new javax.swing.JPanel();
+        pnlTabSearchTop = new javax.swing.JPanel();
+        pnlTabSearchResults = new javax.swing.JPanel();
+        scrollPaneSearchResults = new javax.swing.JScrollPane();
+        tableSearchResults = new javax.swing.JTable();
+        pnlIrodsInfo = new javax.swing.JPanel();
+        pnlIrodsInfoInner = new javax.swing.JPanel();
+        pnlFileIconSizer = new javax.swing.JPanel();
+        pnlInfoIcon = new javax.swing.JPanel();
+        pnlFileNameAndIcon = new javax.swing.JPanel();
+        lblFileOrCollectionName = new javax.swing.JLabel();
+        pnlInfoCollectionParent = new javax.swing.JPanel();
+        lblFileParent = new javax.swing.JLabel();
+        scrollParentPath = new javax.swing.JScrollPane();
+        txtParentPath = new javax.swing.JTextArea();
+        pnlInfoComment = new javax.swing.JPanel();
+        lblComment = new javax.swing.JLabel();
+        scrollComment = new javax.swing.JScrollPane();
+        txtComment = new javax.swing.JTextArea();
+        pnlInfoTags = new javax.swing.JPanel();
+        lblTags = new javax.swing.JLabel();
+        txtTags = new javax.swing.JTextField();
+        pnlInfoButton = new javax.swing.JPanel();
+        btnUpdateInfo = new javax.swing.JButton();
+        pnlInfoDetails = new javax.swing.JPanel();
+        lblInfoCreatedAt = new javax.swing.JLabel();
+        lblInfoCreatedAtValue = new javax.swing.JLabel();
+        lblInfoUpdatedAt = new javax.swing.JLabel();
+        lblInfoUpdatedAtValue = new javax.swing.JLabel();
+        lblInfoLength = new javax.swing.JLabel();
+        lblInfoLengthValue = new javax.swing.JLabel();
+        pnlToolbarInfo = new javax.swing.JPanel();
+        toolBarInfo = new javax.swing.JToolBar();
+        btnViewMetadata = new javax.swing.JButton();
+        btnReplication = new javax.swing.JButton();
+        separator1 = new javax.swing.JToolBar.Separator();
+        btnMoveToTrash = new javax.swing.JButton();
+        separator2 = new javax.swing.JToolBar.Separator();
+        pnlIdropBottom = new javax.swing.JPanel();
+        userNameLabel = new javax.swing.JLabel();
+        pnlTransferOverview = new javax.swing.JPanel();
+        pnlTransferStatus = new javax.swing.JPanel();
+        pnlTransferType = new javax.swing.JPanel();
+        lblTransferTypeLabel = new javax.swing.JLabel();
+        lblTransferType = new javax.swing.JLabel();
+        pnlTransferFileCounts = new javax.swing.JPanel();
+        lblTransferFilesCounts = new javax.swing.JLabel();
+        pnlTransferByteCounts = new javax.swing.JPanel();
+        lblTransferByteCounts = new javax.swing.JLabel();
+        pnlTransferFileInfo = new javax.swing.JPanel();
+        lblCurrentFileLabel = new javax.swing.JLabel();
+        lblCurrentFile = new javax.swing.JLabel();
+        transferStatusProgressBar = new javax.swing.JProgressBar();
+        transferQueueToolbarPanel = new javax.swing.JPanel();
+        idropProgressPanelToolbar = new javax.swing.JToolBar();
+        btnShowTransferManager = new javax.swing.JButton();
+        togglePauseTransfer = new javax.swing.JToggleButton();
+        pnlIdropProgressIcon = new javax.swing.JPanel();
+        progressIconImageLabel = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenuFile = new javax.swing.JMenu();
+        jMenuItemClose = new javax.swing.JMenuItem();
+        jMenuItemExit = new javax.swing.JMenuItem();
+        jMenuEdit = new javax.swing.JMenu();
+        jMenuView = new javax.swing.JMenu();
+        jCheckBoxMenuItemShowSourceTree = new javax.swing.JCheckBoxMenuItem();
+        jCheckBoxMenuItemShowIrodsInfo = new javax.swing.JCheckBoxMenuItem();
+
+        menuItemShowInHierarchy.setText("Show in iRODS");
+        menuItemShowInHierarchy.setToolTipText("Show this file or collection in the iRODS hierarchy");
+        menuItemShowInHierarchy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemShowInHierarchyActionPerformed(evt);
+            }
+        });
+        searchTablePopupMenu.add(menuItemShowInHierarchy);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("iDrop - iRODS Cloud Browser");
+        setMinimumSize(new java.awt.Dimension(600, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
+
+        iDropToolbar.setMinimumSize(new java.awt.Dimension(800, 400));
+        iDropToolbar.setPreferredSize(new java.awt.Dimension(1077, 40));
+        iDropToolbar.setLayout(new java.awt.BorderLayout());
+
+        pnlToolbarSizer.setLayout(new java.awt.BorderLayout());
+
+        pnlTopToolbarSearchArea.setMinimumSize(new java.awt.Dimension(45, 50));
+        pnlTopToolbarSearchArea.setLayout(new java.awt.BorderLayout());
+
+        pnlSearchSizer.setMinimumSize(new java.awt.Dimension(74, 30));
+        pnlSearchSizer.setPreferredSize(new java.awt.Dimension(254, 50));
+        pnlSearchSizer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        lblMainSearch.setText("Search:");
+        lblMainSearch.setMaximumSize(null);
+        lblMainSearch.setMinimumSize(null);
+        lblMainSearch.setPreferredSize(new java.awt.Dimension(45, 40));
+        pnlSearchSizer.add(lblMainSearch);
+
+        comboSearchType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "by name", "by tag", "by name and tag" }));
+        comboSearchType.setToolTipText("Select the type of search to be carried out using the supplied search string");
+        pnlSearchSizer.add(comboSearchType);
+
+        txtMainSearch.setColumns(20);
+        txtMainSearch.setToolTipText("Search for files or tags");
+        txtMainSearch.setMinimumSize(null);
+        txtMainSearch.setPreferredSize(new java.awt.Dimension(100, 30));
+        txtMainSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMainSearchKeyPressed(evt);
+            }
+        });
+        pnlSearchSizer.add(txtMainSearch);
+
+        btnearch.setMnemonic('s');
+        btnearch.setText("Search");
+        btnearch.setToolTipText("Search iRODS based on the current view selected");
+        btnearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnearchActionPerformed(evt);
+            }
+        });
+        pnlSearchSizer.add(btnearch);
+
+        pnlTopToolbarSearchArea.add(pnlSearchSizer, java.awt.BorderLayout.SOUTH);
+
+        pnlToolbarSizer.add(pnlTopToolbarSearchArea, java.awt.BorderLayout.CENTER);
+
+        pnlLocalToggleSizer.setLayout(new java.awt.BorderLayout());
+
+        toggleLocalFiles.setText("<<< Local Files");
+        toggleLocalFiles.setToolTipText("Browse the local file system.");
+        toggleLocalFiles.setMaximumSize(new java.awt.Dimension(144, 10));
+        toggleLocalFiles.setMinimumSize(new java.awt.Dimension(144, 10));
+        toggleLocalFiles.setPreferredSize(new java.awt.Dimension(144, 30));
+        toggleLocalFiles.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                toggleLocalFilesStateChanged(evt);
+            }
+        });
+        toggleLocalFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleLocalFilesActionPerformed(evt);
+            }
+        });
+        pnlLocalToggleSizer.add(toggleLocalFiles, java.awt.BorderLayout.NORTH);
+        toggleLocalFiles.getAccessibleContext().setAccessibleName("<<< Local Files ");
+
+        pnlToolbarSizer.add(pnlLocalToggleSizer, java.awt.BorderLayout.WEST);
+
+        pnlIrodsDetailsToggleSizer.setLayout(new java.awt.BorderLayout());
+
+        toggleIrodsDetails.setToolTipText("Browse the local file system.");
+        toggleIrodsDetails.setLabel("iRODS Info >>>>");
+        toggleIrodsDetails.setMaximumSize(new java.awt.Dimension(144, 10));
+        toggleIrodsDetails.setMinimumSize(new java.awt.Dimension(144, 10));
+        toggleIrodsDetails.setPreferredSize(new java.awt.Dimension(144, 30));
+        toggleIrodsDetails.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                toggleIrodsDetailsStateChanged(evt);
+            }
+        });
+        toggleIrodsDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleIrodsDetailsActionPerformed(evt);
+            }
+        });
+        pnlIrodsDetailsToggleSizer.add(toggleIrodsDetails, java.awt.BorderLayout.NORTH);
+        toggleIrodsDetails.getAccessibleContext().setAccessibleName("");
+
+        pnlToolbarSizer.add(pnlIrodsDetailsToggleSizer, java.awt.BorderLayout.EAST);
+
+        iDropToolbar.add(pnlToolbarSizer, java.awt.BorderLayout.NORTH);
+
+        getContentPane().add(iDropToolbar, java.awt.BorderLayout.NORTH);
+
+        pnlIdropMain.setPreferredSize(new java.awt.Dimension(500, 300));
+        pnlIdropMain.setLayout(new javax.swing.BoxLayout(pnlIdropMain, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jSplitPanelLocalRemote.setBorder(null);
+        jSplitPanelLocalRemote.setDividerLocation(250);
+        jSplitPanelLocalRemote.setDividerSize(30);
+        jSplitPanelLocalRemote.setMaximumSize(null);
+        jSplitPanelLocalRemote.setPreferredSize(new java.awt.Dimension(0, 0));
+
+        pnlLocalTreeArea.setBackground(new java.awt.Color(153, 255, 102));
+        pnlLocalTreeArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlLocalTreeArea.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlLocalTreeArea.setOpaque(false);
+        pnlLocalTreeArea.setPreferredSize(new java.awt.Dimension(0, 0));
+        pnlLocalTreeArea.setLayout(new java.awt.BorderLayout());
+
+        pnlLocalRoots.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlLocalRoots.setLayout(new java.awt.BorderLayout());
+
+        scrollLocalDrives.setMaximumSize(null);
+        scrollLocalDrives.setMinimumSize(new java.awt.Dimension(0, 0));
+        scrollLocalDrives.setPreferredSize(new java.awt.Dimension(300, 100));
+
+        listLocalDrives.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        listLocalDrives.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listLocalDrives.setMaximumSize(null);
+        listLocalDrives.setPreferredSize(new java.awt.Dimension(150, 200));
+        listLocalDrives.setVisibleRowCount(4);
+        scrollLocalDrives.setViewportView(listLocalDrives);
+
+        pnlLocalRoots.add(scrollLocalDrives, java.awt.BorderLayout.CENTER);
+
+        pnlRefreshButton.setMaximumSize(new java.awt.Dimension(1000, 30));
+        pnlRefreshButton.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlRefreshButton.setPreferredSize(new java.awt.Dimension(101, 30));
+
+        btnRefreshLocalDrives.setLabel("Refresh");
+        btnRefreshLocalDrives.setMaximumSize(new java.awt.Dimension(200, 50));
+        btnRefreshLocalDrives.setMinimumSize(new java.awt.Dimension(0, 0));
+        btnRefreshLocalDrives.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshLocalDrivesActionPerformed(evt);
+            }
+        });
+        pnlRefreshButton.add(btnRefreshLocalDrives);
+
+        pnlLocalRoots.add(pnlRefreshButton, java.awt.BorderLayout.NORTH);
+        pnlLocalRoots.add(pnlDrivesFiller, java.awt.BorderLayout.SOUTH);
+
+        pnlLocalTreeArea.add(pnlLocalRoots, java.awt.BorderLayout.NORTH);
+
+        scrollLocalFileTree.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+        scrollLocalFileTree.setBorder(null);
+        scrollLocalFileTree.setToolTipText("scroll panel tooltip");
+        scrollLocalFileTree.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollLocalFileTree.setMaximumSize(null);
+        scrollLocalFileTree.setMinimumSize(new java.awt.Dimension(0, 0));
+        scrollLocalFileTree.setPreferredSize(new java.awt.Dimension(500, 500));
+        pnlLocalTreeArea.add(scrollLocalFileTree, java.awt.BorderLayout.CENTER);
+
+        jSplitPanelLocalRemote.setLeftComponent(pnlLocalTreeArea);
+
+        pnlIrodsArea.setMinimumSize(new java.awt.Dimension(500, 300));
+        pnlIrodsArea.setPreferredSize(new java.awt.Dimension(600, 304));
+        pnlIrodsArea.setLayout(new java.awt.BorderLayout());
+
+        splitTargetCollections.setDividerLocation(400);
+        splitTargetCollections.setMinimumSize(new java.awt.Dimension(0, 0));
+
+        tabIrodsViews.setMinimumSize(new java.awt.Dimension(200, 129));
+        tabIrodsViews.setPreferredSize(new java.awt.Dimension(350, 300));
+        tabIrodsViews.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabIrodsViewsStateChanged(evt);
+            }
+        });
+
+        pnlTabHierarchicalView.setLayout(new java.awt.BorderLayout());
+
+        btnRefreshTargetTree.setMnemonic('r');
+        btnRefreshTargetTree.setText("Refresh");
+        btnRefreshTargetTree.setToolTipText("Refresh the view of the iRODS server");
+        btnRefreshTargetTree.setFocusable(false);
+        btnRefreshTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRefreshTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRefreshTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshTargetTreeActionPerformed(evt);
+            }
+        });
+        pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
+
+        pnlTabHierarchicalView.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
+
+        pnlIrodsTreeMaster.setLayout(new java.awt.BorderLayout());
+        pnlIrodsTreeMaster.add(scrollIrodsTree, java.awt.BorderLayout.CENTER);
+
+        pnlTabHierarchicalView.add(pnlIrodsTreeMaster, java.awt.BorderLayout.CENTER);
+
+        tabIrodsViews.addTab("iRODS Tree View", pnlTabHierarchicalView);
+
+        pnlTabSearch.setToolTipText("Search for files and collections in iRODS and display search results");
+        pnlTabSearch.setLayout(new java.awt.BorderLayout());
+        pnlTabSearch.add(pnlTabSearchTop, java.awt.BorderLayout.NORTH);
+
+        pnlTabSearchResults.setLayout(new java.awt.GridLayout(1, 0));
+
+        tableSearchResults.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrollPaneSearchResults.setViewportView(tableSearchResults);
+
+        pnlTabSearchResults.add(scrollPaneSearchResults);
+
+        pnlTabSearch.add(pnlTabSearchResults, java.awt.BorderLayout.CENTER);
+
+        tabIrodsViews.addTab("Search", null, pnlTabSearch, "Search for files and collections in iRODS and display search results");
+
+        splitTargetCollections.setLeftComponent(tabIrodsViews);
+
+        pnlIrodsInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        pnlIrodsInfo.setMinimumSize(new java.awt.Dimension(300, 708));
+        pnlIrodsInfo.setLayout(new java.awt.BorderLayout());
+
+        pnlIrodsInfoInner.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        pnlIrodsInfoInner.setToolTipText("Information on selected iRODS file or collection");
+        pnlIrodsInfoInner.setLayout(new java.awt.GridBagLayout());
+
+        pnlFileIconSizer.setMinimumSize(new java.awt.Dimension(80, 40));
+        pnlFileIconSizer.setLayout(new java.awt.BorderLayout());
+
+        pnlInfoIcon.setMaximumSize(new java.awt.Dimension(50, 50));
+        pnlInfoIcon.setLayout(new java.awt.GridLayout(1, 0));
+        pnlFileIconSizer.add(pnlInfoIcon, java.awt.BorderLayout.WEST);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.8;
+        pnlIrodsInfoInner.add(pnlFileIconSizer, gridBagConstraints);
+
+        pnlFileNameAndIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlFileNameAndIcon.setMinimumSize(new java.awt.Dimension(100, 100));
+        pnlFileNameAndIcon.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
+
+        lblFileOrCollectionName.setMinimumSize(new java.awt.Dimension(80, 16));
+        pnlFileNameAndIcon.add(lblFileOrCollectionName);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlIrodsInfoInner.add(pnlFileNameAndIcon, gridBagConstraints);
+
+        pnlInfoCollectionParent.setLayout(new java.awt.BorderLayout());
+
+        lblFileParent.setText("Parent path of file:");
+        pnlInfoCollectionParent.add(lblFileParent, java.awt.BorderLayout.NORTH);
+        lblFileParent.getAccessibleContext().setAccessibleDescription("The path of the parent of the file or collection");
+
+        scrollParentPath.setMinimumSize(new java.awt.Dimension(100, 100));
+
+        txtParentPath.setEditable(false);
+        txtParentPath.setMaximumSize(null);
+        txtParentPath.setMinimumSize(new java.awt.Dimension(600, 100));
+        scrollParentPath.setViewportView(txtParentPath);
+
+        pnlInfoCollectionParent.add(scrollParentPath, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlIrodsInfoInner.add(pnlInfoCollectionParent, gridBagConstraints);
+
+        pnlInfoComment.setLayout(new java.awt.BorderLayout());
+
+        lblComment.setText("Comment:");
+        lblComment.setToolTipText("");
+        pnlInfoComment.add(lblComment, java.awt.BorderLayout.NORTH);
+        lblComment.getAccessibleContext().setAccessibleDescription("lable for comment area");
+
+        scrollComment.setMinimumSize(null);
+        scrollComment.setPreferredSize(new java.awt.Dimension(388, 84));
+
+        txtComment.setMaximumSize(null);
+        txtComment.setMinimumSize(null);
+        txtComment.setPreferredSize(null);
+        scrollComment.setViewportView(txtComment);
+
+        pnlInfoComment.add(scrollComment, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlIrodsInfoInner.add(pnlInfoComment, gridBagConstraints);
+
+        pnlInfoTags.setLayout(new java.awt.BorderLayout());
+
+        lblTags.setText("Tags:");
+        lblTags.setToolTipText("");
+        pnlInfoTags.add(lblTags, java.awt.BorderLayout.NORTH);
+        lblTags.getAccessibleContext().setAccessibleName("Tags");
+        lblTags.getAccessibleContext().setAccessibleDescription("Label for free tagging area");
+
+        txtTags.setColumns(30);
+        txtTags.setToolTipText("Name of file or collection.  This field allows editing to rename");
+        txtTags.setMinimumSize(null);
+        txtTags.setPreferredSize(null);
+        txtTags.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTagsFocusLost(evt);
+            }
+        });
+        txtTags.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTagsKeyPressed(evt);
+            }
+        });
+        pnlInfoTags.add(txtTags, java.awt.BorderLayout.PAGE_END);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.8;
+        pnlIrodsInfoInner.add(pnlInfoTags, gridBagConstraints);
+
+        pnlInfoButton.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnUpdateInfo.setMnemonic('I');
+        btnUpdateInfo.setText("Update Info");
+        btnUpdateInfo.setToolTipText("Update information on the info panel such as tags and comment");
+        btnUpdateInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateInfoActionPerformed(evt);
+            }
+        });
+        pnlInfoButton.add(btnUpdateInfo);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.weightx = 0.1;
+        pnlIrodsInfoInner.add(pnlInfoButton, gridBagConstraints);
+
+        pnlInfoDetails.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlInfoDetails.setLayout(new java.awt.GridBagLayout());
+
+        lblInfoCreatedAt.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblInfoCreatedAt.setText("Created:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlInfoDetails.add(lblInfoCreatedAt, gridBagConstraints);
+
+        lblInfoCreatedAtValue.setText("XXXXXX");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlInfoDetails.add(lblInfoCreatedAtValue, gridBagConstraints);
+
+        lblInfoUpdatedAt.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblInfoUpdatedAt.setText("Updated:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlInfoDetails.add(lblInfoUpdatedAt, gridBagConstraints);
+
+        lblInfoUpdatedAtValue.setText("XXXXXX");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlInfoDetails.add(lblInfoUpdatedAtValue, gridBagConstraints);
+
+        lblInfoLength.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblInfoLength.setText("Length:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlInfoDetails.add(lblInfoLength, gridBagConstraints);
+
+        lblInfoLengthValue.setText("XXXXXX");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlInfoDetails.add(lblInfoLengthValue, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        pnlIrodsInfoInner.add(pnlInfoDetails, gridBagConstraints);
+
+        pnlToolbarInfo.setMinimumSize(new java.awt.Dimension(300, 200));
+        pnlToolbarInfo.setLayout(new java.awt.BorderLayout());
+
+        toolBarInfo.setRollover(true);
+
+        btnViewMetadata.setText("Metadata");
+        btnViewMetadata.setFocusable(false);
+        btnViewMetadata.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnViewMetadata.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnViewMetadata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewMetadataActionPerformed(evt);
+            }
+        });
+        toolBarInfo.add(btnViewMetadata);
+
+        btnReplication.setText("Replication");
+        btnReplication.setFocusable(false);
+        btnReplication.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnReplication.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnReplication.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReplicationActionPerformed(evt);
+            }
+        });
+        toolBarInfo.add(btnReplication);
+        toolBarInfo.add(separator1);
+
+        btnMoveToTrash.setText("Move to Trash");
+        btnMoveToTrash.setFocusable(false);
+        btnMoveToTrash.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMoveToTrash.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBarInfo.add(btnMoveToTrash);
+
+        separator2.setMinimumSize(new java.awt.Dimension(50, 1));
+        toolBarInfo.add(separator2);
+
+        pnlToolbarInfo.add(toolBarInfo, java.awt.BorderLayout.NORTH);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.8;
+        pnlIrodsInfoInner.add(pnlToolbarInfo, gridBagConstraints);
+
+        pnlIrodsInfo.add(pnlIrodsInfoInner, java.awt.BorderLayout.CENTER);
+        pnlIrodsInfoInner.getAccessibleContext().setAccessibleName("info panel");
+
+        splitTargetCollections.setRightComponent(pnlIrodsInfo);
+
+        pnlIrodsArea.add(splitTargetCollections, java.awt.BorderLayout.CENTER);
+
+        jSplitPanelLocalRemote.setRightComponent(pnlIrodsArea);
+
+        pnlIdropMain.add(jSplitPanelLocalRemote);
+
+        getContentPane().add(pnlIdropMain, java.awt.BorderLayout.CENTER);
+
+        pnlIdropBottom.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        pnlIdropBottom.setToolTipText("Display area for status and messages");
+        pnlIdropBottom.setLayout(new java.awt.GridBagLayout());
+
+        userNameLabel.setText("usernamelabel");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.weightx = 0.0050;
+        pnlIdropBottom.add(userNameLabel, gridBagConstraints);
+
+        pnlTransferOverview.setLayout(new java.awt.BorderLayout());
+
+        lblTransferTypeLabel.setText("Transfer Type:");
+        pnlTransferType.add(lblTransferTypeLabel);
+
+        lblTransferType.setText(" ");
+        pnlTransferType.add(lblTransferType);
+
+        pnlTransferStatus.add(pnlTransferType);
+
+        lblTransferFilesCounts.setText("Files: /");
+        pnlTransferFileCounts.add(lblTransferFilesCounts);
+
+        pnlTransferStatus.add(pnlTransferFileCounts);
+
+        lblTransferByteCounts.setText("Bytes (total):  /");
+        pnlTransferByteCounts.add(lblTransferByteCounts);
+
+        pnlTransferStatus.add(pnlTransferByteCounts);
+
+        pnlTransferOverview.add(pnlTransferStatus, java.awt.BorderLayout.NORTH);
+
+        pnlTransferFileInfo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        lblCurrentFileLabel.setText("Current File:");
+        pnlTransferFileInfo.add(lblCurrentFileLabel);
+        pnlTransferFileInfo.add(lblCurrentFile);
+
+        pnlTransferOverview.add(pnlTransferFileInfo, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 35;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlIdropBottom.add(pnlTransferOverview, gridBagConstraints);
+
+        transferStatusProgressBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        transferStatusProgressBar.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 8.0;
+        pnlIdropBottom.add(transferStatusProgressBar, gridBagConstraints);
+
+        transferQueueToolbarPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        idropProgressPanelToolbar.setRollover(true);
+
+        btnShowTransferManager.setText("Manage");
+        btnShowTransferManager.setToolTipText("Show a panel to manage transfers");
+        btnShowTransferManager.setFocusable(false);
+        btnShowTransferManager.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnShowTransferManager.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnShowTransferManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowTransferManagerActionPerformed(evt);
+            }
+        });
+        idropProgressPanelToolbar.add(btnShowTransferManager);
+
+        togglePauseTransfer.setText("Pause");
+        togglePauseTransfer.setToolTipText("Pause the current transfer");
+        togglePauseTransfer.setFocusable(false);
+        togglePauseTransfer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        togglePauseTransfer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        togglePauseTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                togglePauseTransferActionPerformed(evt);
+            }
+        });
+        idropProgressPanelToolbar.add(togglePauseTransfer);
+
+        transferQueueToolbarPanel.add(idropProgressPanelToolbar);
+
+        pnlIdropProgressIcon.add(progressIconImageLabel);
+
+        transferQueueToolbarPanel.add(pnlIdropProgressIcon);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 34;
+        gridBagConstraints.gridy = 1;
+        pnlIdropBottom.add(transferQueueToolbarPanel, gridBagConstraints);
+
+        getContentPane().add(pnlIdropBottom, java.awt.BorderLayout.SOUTH);
+
+        jMenuFile.setMnemonic('f');
+        jMenuFile.setText("File");
+
+        jMenuItemClose.setMnemonic('c');
+        jMenuItemClose.setText("Close iDrop GUI");
+        jMenuItemClose.setToolTipText("Close the iDrop GUI, leaving iDrop running ");
+        jMenuItemClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCloseActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(jMenuItemClose);
+
+        jMenuItemExit.setMnemonic('x');
+        jMenuItemExit.setText("Exit");
+        jMenuItemExit.setToolTipText("Exit iDrop entirely");
+        jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemExitActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(jMenuItemExit);
+
+        jMenuBar1.add(jMenuFile);
+
+        jMenuEdit.setMnemonic('E');
+        jMenuEdit.setText("Edit");
+        jMenuBar1.add(jMenuEdit);
+
+        jMenuView.setMnemonic('V');
+        jMenuView.setText("View");
+
+        jCheckBoxMenuItemShowSourceTree.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK));
+        jCheckBoxMenuItemShowSourceTree.setMnemonic('L');
+        jCheckBoxMenuItemShowSourceTree.setText("Show Local");
+        jCheckBoxMenuItemShowSourceTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItemShowSourceTreeActionPerformed(evt);
+            }
+        });
+        jMenuView.add(jCheckBoxMenuItemShowSourceTree);
+
+        jCheckBoxMenuItemShowIrodsInfo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK));
+        jCheckBoxMenuItemShowIrodsInfo.setMnemonic('I');
+        jCheckBoxMenuItemShowIrodsInfo.setText("Show iRODS Info");
+        jCheckBoxMenuItemShowIrodsInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItemShowIrodsInfoActionPerformed(evt);
+            }
+        });
+        jMenuView.add(jCheckBoxMenuItemShowIrodsInfo);
+
+        jMenuBar1.add(jMenuView);
+
+        setJMenuBar(jMenuBar1);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+        private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
+             this.setVisible(false);
+        }//GEN-LAST:event_jMenuItemCloseActionPerformed
 
     private void btnShowTransferManagerActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnShowTransferManagerActionPerformed
@@ -2035,7 +1977,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void jMenuItemExitActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItemExitActionPerformed
-        this.setVisible(false);
+       shutdown();
     }// GEN-LAST:event_jMenuItemExitActionPerformed
 
     /**
@@ -2357,108 +2299,107 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         // irodsTree.scrollPathToVisible(selPath);
         tabIrodsViews.setSelectedComponent(pnlTabHierarchicalView);
     }// GEN-LAST:event_menuItemShowInHierarchyActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnMoveToTrash;
-	private javax.swing.JButton btnRefreshLocalDrives;
-	private javax.swing.JButton btnRefreshTargetTree;
-	private javax.swing.JButton btnReplication;
-	private javax.swing.JButton btnShowTransferManager;
-	private javax.swing.JButton btnUpdateInfo;
-	private javax.swing.JButton btnViewMetadata;
-	private javax.swing.JButton btnearch;
-	private javax.swing.JComboBox comboSearchType;
-	private javax.swing.JPanel iDropToolbar;
-	private javax.swing.JToolBar idropProgressPanelToolbar;
-	private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowIrodsInfo;
-	private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowSourceTree;
-	private javax.swing.JMenuBar jMenuBar1;
-	private javax.swing.JMenu jMenuEdit;
-	private javax.swing.JMenu jMenuFile;
-	private javax.swing.JMenuItem jMenuItemExit;
-	private javax.swing.JMenu jMenuView;
-	private javax.swing.JSplitPane jSplitPanelLocalRemote;
-	private javax.swing.JLabel lblComment;
-	private javax.swing.JLabel lblCurrentFile;
-	private javax.swing.JLabel lblCurrentFileLabel;
-	private javax.swing.JLabel lblFileOrCollectionName;
-	private javax.swing.JLabel lblFileParent;
-	private javax.swing.JLabel lblInfoCreatedAt;
-	private javax.swing.JLabel lblInfoCreatedAtValue;
-	private javax.swing.JLabel lblInfoLength;
-	private javax.swing.JLabel lblInfoLengthValue;
-	private javax.swing.JLabel lblInfoUpdatedAt;
-	private javax.swing.JLabel lblInfoUpdatedAtValue;
-	private javax.swing.JLabel lblMainSearch;
-	private javax.swing.JLabel lblTags;
-	private javax.swing.JLabel lblTransferByteCounts;
-	private javax.swing.JLabel lblTransferFilesCounts;
-	private javax.swing.JLabel lblTransferType;
-	private javax.swing.JLabel lblTransferTypeLabel;
-	private javax.swing.JList listLocalDrives;
-	private javax.swing.JMenuItem menuItemShowInHierarchy;
-	private javax.swing.JPanel pnlDrivesFiller;
-	private javax.swing.JPanel pnlFileIconSizer;
-	private javax.swing.JPanel pnlFileNameAndIcon;
-	private javax.swing.JPanel pnlIdropBottom;
-	private javax.swing.JPanel pnlIdropMain;
-	private javax.swing.JPanel pnlIdropProgressIcon;
-	private javax.swing.JPanel pnlInfoButton;
-	private javax.swing.JPanel pnlInfoCollectionParent;
-	private javax.swing.JPanel pnlInfoComment;
-	private javax.swing.JPanel pnlInfoDetails;
-	private javax.swing.JPanel pnlInfoIcon;
-	private javax.swing.JPanel pnlInfoTags;
-	private javax.swing.JPanel pnlIrodsArea;
-	private javax.swing.JPanel pnlIrodsDetailsToggleSizer;
-	private javax.swing.JPanel pnlIrodsInfo;
-	private javax.swing.JPanel pnlIrodsInfoInner;
-	private javax.swing.JPanel pnlIrodsTreeMaster;
-	private javax.swing.JPanel pnlIrodsTreeToolbar;
-	private javax.swing.JPanel pnlLocalRoots;
-	private javax.swing.JPanel pnlLocalToggleSizer;
-	private javax.swing.JPanel pnlLocalTreeArea;
-	private javax.swing.JPanel pnlRefreshButton;
-	private javax.swing.JPanel pnlSearchSizer;
-	private javax.swing.JPanel pnlTabHierarchicalView;
-	private javax.swing.JPanel pnlTabSearch;
-	private javax.swing.JPanel pnlTabSearchResults;
-	private javax.swing.JPanel pnlTabSearchTop;
-	private javax.swing.JPanel pnlToolbarInfo;
-	private javax.swing.JPanel pnlToolbarSizer;
-	private javax.swing.JPanel pnlTopToolbarSearchArea;
-	private javax.swing.JPanel pnlTransferByteCounts;
-	private javax.swing.JPanel pnlTransferFileCounts;
-	private javax.swing.JPanel pnlTransferFileInfo;
-	private javax.swing.JPanel pnlTransferOverview;
-	private javax.swing.JPanel pnlTransferStatus;
-	private javax.swing.JPanel pnlTransferType;
-	private javax.swing.JLabel progressIconImageLabel;
-	private javax.swing.JScrollPane scrollComment;
-	private javax.swing.JScrollPane scrollIrodsTree;
-	private javax.swing.JScrollPane scrollLocalDrives;
-	private javax.swing.JScrollPane scrollLocalFileTree;
-	private javax.swing.JScrollPane scrollPaneSearchResults;
-	private javax.swing.JScrollPane scrollParentPath;
-	protected javax.swing.JPopupMenu searchTablePopupMenu;
-	private javax.swing.JToolBar.Separator separator1;
-	private javax.swing.JToolBar.Separator separator2;
-	private javax.swing.JSplitPane splitTargetCollections;
-	private javax.swing.JTabbedPane tabIrodsViews;
-	private javax.swing.JTable tableSearchResults;
-	private javax.swing.JToggleButton toggleIrodsDetails;
-	private javax.swing.JToggleButton toggleLocalFiles;
-	private javax.swing.JToggleButton togglePauseTransfer;
-	private javax.swing.JToolBar toolBarInfo;
-	private javax.swing.JPanel transferQueueToolbarPanel;
-	private javax.swing.JProgressBar transferStatusProgressBar;
-	private javax.swing.JTextArea txtComment;
-	private javax.swing.JTextField txtMainSearch;
-	private javax.swing.JTextArea txtParentPath;
-	private javax.swing.JTextField txtTags;
-	private javax.swing.JLabel userNameLabel;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMoveToTrash;
+    private javax.swing.JButton btnRefreshLocalDrives;
+    private javax.swing.JButton btnRefreshTargetTree;
+    private javax.swing.JButton btnReplication;
+    private javax.swing.JButton btnShowTransferManager;
+    private javax.swing.JButton btnUpdateInfo;
+    private javax.swing.JButton btnViewMetadata;
+    private javax.swing.JButton btnearch;
+    private javax.swing.JComboBox comboSearchType;
+    private javax.swing.JPanel iDropToolbar;
+    private javax.swing.JToolBar idropProgressPanelToolbar;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowIrodsInfo;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowSourceTree;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuEdit;
+    private javax.swing.JMenu jMenuFile;
+    private javax.swing.JMenuItem jMenuItemClose;
+    private javax.swing.JMenuItem jMenuItemExit;
+    private javax.swing.JMenu jMenuView;
+    private javax.swing.JSplitPane jSplitPanelLocalRemote;
+    private javax.swing.JLabel lblComment;
+    private javax.swing.JLabel lblCurrentFile;
+    private javax.swing.JLabel lblCurrentFileLabel;
+    private javax.swing.JLabel lblFileOrCollectionName;
+    private javax.swing.JLabel lblFileParent;
+    private javax.swing.JLabel lblInfoCreatedAt;
+    private javax.swing.JLabel lblInfoCreatedAtValue;
+    private javax.swing.JLabel lblInfoLength;
+    private javax.swing.JLabel lblInfoLengthValue;
+    private javax.swing.JLabel lblInfoUpdatedAt;
+    private javax.swing.JLabel lblInfoUpdatedAtValue;
+    private javax.swing.JLabel lblMainSearch;
+    private javax.swing.JLabel lblTags;
+    private javax.swing.JLabel lblTransferByteCounts;
+    private javax.swing.JLabel lblTransferFilesCounts;
+    private javax.swing.JLabel lblTransferType;
+    private javax.swing.JLabel lblTransferTypeLabel;
+    private javax.swing.JList listLocalDrives;
+    private javax.swing.JMenuItem menuItemShowInHierarchy;
+    private javax.swing.JPanel pnlDrivesFiller;
+    private javax.swing.JPanel pnlFileIconSizer;
+    private javax.swing.JPanel pnlFileNameAndIcon;
+    private javax.swing.JPanel pnlIdropBottom;
+    private javax.swing.JPanel pnlIdropMain;
+    private javax.swing.JPanel pnlIdropProgressIcon;
+    private javax.swing.JPanel pnlInfoButton;
+    private javax.swing.JPanel pnlInfoCollectionParent;
+    private javax.swing.JPanel pnlInfoComment;
+    private javax.swing.JPanel pnlInfoDetails;
+    private javax.swing.JPanel pnlInfoIcon;
+    private javax.swing.JPanel pnlInfoTags;
+    private javax.swing.JPanel pnlIrodsArea;
+    private javax.swing.JPanel pnlIrodsDetailsToggleSizer;
+    private javax.swing.JPanel pnlIrodsInfo;
+    private javax.swing.JPanel pnlIrodsInfoInner;
+    private javax.swing.JPanel pnlIrodsTreeMaster;
+    private javax.swing.JPanel pnlIrodsTreeToolbar;
+    private javax.swing.JPanel pnlLocalRoots;
+    private javax.swing.JPanel pnlLocalToggleSizer;
+    private javax.swing.JPanel pnlLocalTreeArea;
+    private javax.swing.JPanel pnlRefreshButton;
+    private javax.swing.JPanel pnlSearchSizer;
+    private javax.swing.JPanel pnlTabHierarchicalView;
+    private javax.swing.JPanel pnlTabSearch;
+    private javax.swing.JPanel pnlTabSearchResults;
+    private javax.swing.JPanel pnlTabSearchTop;
+    private javax.swing.JPanel pnlToolbarInfo;
+    private javax.swing.JPanel pnlToolbarSizer;
+    private javax.swing.JPanel pnlTopToolbarSearchArea;
+    private javax.swing.JPanel pnlTransferByteCounts;
+    private javax.swing.JPanel pnlTransferFileCounts;
+    private javax.swing.JPanel pnlTransferFileInfo;
+    private javax.swing.JPanel pnlTransferOverview;
+    private javax.swing.JPanel pnlTransferStatus;
+    private javax.swing.JPanel pnlTransferType;
+    private javax.swing.JLabel progressIconImageLabel;
+    private javax.swing.JScrollPane scrollComment;
+    private javax.swing.JScrollPane scrollIrodsTree;
+    private javax.swing.JScrollPane scrollLocalDrives;
+    private javax.swing.JScrollPane scrollLocalFileTree;
+    private javax.swing.JScrollPane scrollPaneSearchResults;
+    private javax.swing.JScrollPane scrollParentPath;
+    protected javax.swing.JPopupMenu searchTablePopupMenu;
+    private javax.swing.JToolBar.Separator separator1;
+    private javax.swing.JToolBar.Separator separator2;
+    private javax.swing.JSplitPane splitTargetCollections;
+    private javax.swing.JTabbedPane tabIrodsViews;
+    private javax.swing.JTable tableSearchResults;
+    private javax.swing.JToggleButton toggleIrodsDetails;
+    private javax.swing.JToggleButton toggleLocalFiles;
+    private javax.swing.JToggleButton togglePauseTransfer;
+    private javax.swing.JToolBar toolBarInfo;
+    private javax.swing.JPanel transferQueueToolbarPanel;
+    private javax.swing.JProgressBar transferStatusProgressBar;
+    private javax.swing.JTextArea txtComment;
+    private javax.swing.JTextField txtMainSearch;
+    private javax.swing.JTextArea txtParentPath;
+    private javax.swing.JTextField txtTags;
+    private javax.swing.JLabel userNameLabel;
+    // End of variables declaration//GEN-END:variables
     public Object getLastCachedInfoItem() {
         return lastCachedInfoItem;
     }
@@ -2528,6 +2469,25 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 }
             }
         });
+    }
+
+    private void shutdown() {
+           int result = JOptionPane.showConfirmDialog(this,
+                        "Shut down iDrop?",
+                        "Do you want to shut down iDrop?",
+                        JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+            try {
+                log.info("shut down queue timer");
+                 getiDropCore().getQueueTimer().cancel();
+                log.info("saving current configuration to idrop.properties");
+                iDropCore.getIdropConfigurationService().saveConfigurationToPropertiesFile();
+                log.info("properties saved");
+            } catch (IdropException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+                    System.exit(0);
+                }
     }
 
     class PopupListener extends MouseAdapter {

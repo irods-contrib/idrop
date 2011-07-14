@@ -10,7 +10,9 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
+import java.awt.Color;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
+import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -27,6 +29,7 @@ public class SetupWizard extends javax.swing.JDialog {
     private final IDROPCore idropCore;
     private final IdropConfigurationService idropConfigurationService;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SetupWizard.class);
+    public final String SETUP_ERROR_TITLE = "iDrop - Setup Error";
 
     /** Creates new form SetupWizard */
     public SetupWizard(final java.awt.Frame parent, final boolean modal) {
@@ -45,148 +48,169 @@ public class SetupWizard extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-		panelTop = new javax.swing.JPanel();
-		lblWelcome = new javax.swing.JLabel();
-		tabWizardTabs = new javax.swing.JTabbedPane();
-		panelTabSeeSysTray = new javax.swing.JPanel();
-		panelTabSeeSysTrayQuestion = new javax.swing.JPanel();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		txtSeeIcon = new javax.swing.JTextArea();
-		panelTabSeeSysTrayAnswer = new javax.swing.JPanel();
-		btnSeeSystemTrayYes = new javax.swing.JButton();
-		btnSeeSystemTrayNo = new javax.swing.JButton();
-		panelTabNameDevice = new javax.swing.JPanel();
-		panelTabNameDeviceQuestion = new javax.swing.JPanel();
-		jScrollPane2 = new javax.swing.JScrollPane();
-		txtSeeIcon1 = new javax.swing.JTextArea();
-		panelTabNameDeviceAnswer = new javax.swing.JPanel();
-		lblDeviceName = new javax.swing.JLabel();
-		txtDeviceName = new javax.swing.JTextField();
-		pnlWizardToolbar = new javax.swing.JPanel();
+        panelTop = new javax.swing.JPanel();
+        lblWelcome = new javax.swing.JLabel();
+        tabWizardTabs = new javax.swing.JTabbedPane();
+        panelTabSeeSysTray = new javax.swing.JPanel();
+        panelTabSeeSysTrayQuestion = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtSeeIcon = new javax.swing.JTextArea();
+        panelTabSeeSysTrayAnswer = new javax.swing.JPanel();
+        btnSeeSystemTrayYes = new javax.swing.JButton();
+        btnSeeSystemTrayNo = new javax.swing.JButton();
+        panelTabNameDevice = new javax.swing.JPanel();
+        panelTabNameDeviceQuestion = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtSeeIcon1 = new javax.swing.JTextArea();
+        panelTabNameDeviceAnswer = new javax.swing.JPanel();
+        lblDeviceName = new javax.swing.JLabel();
+        txtDeviceName = new javax.swing.JTextField();
+        btnSetDeviceName = new javax.swing.JButton();
+        pnlWizardToolbar = new javax.swing.JPanel();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-		panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12));
 
-		lblWelcome.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-		lblWelcome.setText(org.openide.util.NbBundle.getMessage(
-				SetupWizard.class, "SetupWizard.lblWelcome.text")); // NOI18N
-		lblWelcome.setMaximumSize(null);
-		lblWelcome.setMinimumSize(null);
-		lblWelcome.setPreferredSize(null);
-		panelTop.add(lblWelcome);
+        lblWelcome.setFont(new java.awt.Font("Lucida Grande", 0, 18));
+        lblWelcome.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.lblWelcome.text")); // NOI18N
+        lblWelcome.setMaximumSize(null);
+        lblWelcome.setMinimumSize(null);
+        lblWelcome.setPreferredSize(null);
+        panelTop.add(lblWelcome);
 
-		getContentPane().add(panelTop, java.awt.BorderLayout.NORTH);
+        getContentPane().add(panelTop, java.awt.BorderLayout.NORTH);
 
-		panelTabSeeSysTray.setLayout(new java.awt.BorderLayout());
+        panelTabSeeSysTray.setLayout(new java.awt.BorderLayout());
 
-		panelTabSeeSysTrayQuestion.setPreferredSize(null);
+        txtSeeIcon.setColumns(60);
+        txtSeeIcon.setEditable(false);
+        txtSeeIcon.setLineWrap(true);
+        txtSeeIcon.setRows(8);
+        txtSeeIcon.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtSeeIcon.text")); // NOI18N
+        txtSeeIcon.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(txtSeeIcon);
 
-		jScrollPane1.setPreferredSize(null);
+        panelTabSeeSysTrayQuestion.add(jScrollPane1);
 
-		txtSeeIcon.setColumns(60);
-		txtSeeIcon.setEditable(false);
-		txtSeeIcon.setLineWrap(true);
-		txtSeeIcon.setRows(8);
-		txtSeeIcon.setText(org.openide.util.NbBundle.getMessage(
-				SetupWizard.class, "SetupWizard.txtSeeIcon.text")); // NOI18N
-		txtSeeIcon.setWrapStyleWord(true);
-		jScrollPane1.setViewportView(txtSeeIcon);
+        panelTabSeeSysTray.add(panelTabSeeSysTrayQuestion, java.awt.BorderLayout.CENTER);
 
-		panelTabSeeSysTrayQuestion.add(jScrollPane1);
+        btnSeeSystemTrayYes.setMnemonic('y');
+        btnSeeSystemTrayYes.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSeeSystemTrayYes.toolTipText")); // NOI18N
+        btnSeeSystemTrayYes.setLabel(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSeeSystemTrayYes.label")); // NOI18N
+        btnSeeSystemTrayYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeeSystemTrayYesActionPerformed(evt);
+            }
+        });
+        panelTabSeeSysTrayAnswer.add(btnSeeSystemTrayYes);
 
-		panelTabSeeSysTray.add(panelTabSeeSysTrayQuestion,
-				java.awt.BorderLayout.CENTER);
+        btnSeeSystemTrayNo.setMnemonic('n');
+        btnSeeSystemTrayNo.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSeeSystemTrayNo.text")); // NOI18N
+        btnSeeSystemTrayNo.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSeeSystemTrayNo.toolTipText")); // NOI18N
+        btnSeeSystemTrayNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeeSystemTrayNoActionPerformed(evt);
+            }
+        });
+        panelTabSeeSysTrayAnswer.add(btnSeeSystemTrayNo);
 
-		btnSeeSystemTrayYes.setMnemonic('y');
-		btnSeeSystemTrayYes.setToolTipText(org.openide.util.NbBundle
-				.getMessage(SetupWizard.class,
-						"SetupWizard.btnSeeSystemTrayYes.toolTipText")); // NOI18N
-		btnSeeSystemTrayYes.setLabel(org.openide.util.NbBundle.getMessage(
-				SetupWizard.class, "SetupWizard.btnSeeSystemTrayYes.label")); // NOI18N
-		panelTabSeeSysTrayAnswer.add(btnSeeSystemTrayYes);
+        panelTabSeeSysTray.add(panelTabSeeSysTrayAnswer, java.awt.BorderLayout.SOUTH);
 
-		btnSeeSystemTrayNo.setMnemonic('n');
-		btnSeeSystemTrayNo.setText(org.openide.util.NbBundle.getMessage(
-				SetupWizard.class, "SetupWizard.btnSeeSystemTrayNo.text")); // NOI18N
-		btnSeeSystemTrayNo.setToolTipText(org.openide.util.NbBundle
-				.getMessage(SetupWizard.class,
-						"SetupWizard.btnSeeSystemTrayNo.toolTipText")); // NOI18N
-		btnSeeSystemTrayNo
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnSeeSystemTrayNoActionPerformed(evt);
-					}
-				});
-		panelTabSeeSysTrayAnswer.add(btnSeeSystemTrayNo);
+        tabWizardTabs.addTab(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.panelTabSeeSysTray.TabConstraints.tabTitle"), panelTabSeeSysTray); // NOI18N
 
-		panelTabSeeSysTray.add(panelTabSeeSysTrayAnswer,
-				java.awt.BorderLayout.SOUTH);
+        panelTabNameDevice.setLayout(new java.awt.BorderLayout());
 
-		tabWizardTabs.addTab(org.openide.util.NbBundle.getMessage(
-				SetupWizard.class,
-				"SetupWizard.panelTabSeeSysTray.TabConstraints.tabTitle"),
-				panelTabSeeSysTray); // NOI18N
+        jScrollPane2.setPreferredSize(null);
 
-		panelTabNameDevice.setLayout(new java.awt.BorderLayout());
+        txtSeeIcon1.setColumns(60);
+        txtSeeIcon1.setEditable(false);
+        txtSeeIcon1.setLineWrap(true);
+        txtSeeIcon1.setRows(8);
+        txtSeeIcon1.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtSeeIcon1.text")); // NOI18N
+        txtSeeIcon1.setWrapStyleWord(true);
+        txtSeeIcon1.setMinimumSize(null);
+        txtSeeIcon1.setPreferredSize(null);
+        jScrollPane2.setViewportView(txtSeeIcon1);
 
-		panelTabNameDeviceQuestion.setLayout(new java.awt.BorderLayout());
+        panelTabNameDeviceQuestion.add(jScrollPane2);
 
-		jScrollPane2.setPreferredSize(null);
+        panelTabNameDevice.add(panelTabNameDeviceQuestion, java.awt.BorderLayout.CENTER);
 
-		txtSeeIcon1.setColumns(60);
-		txtSeeIcon1.setEditable(false);
-		txtSeeIcon1.setLineWrap(true);
-		txtSeeIcon1.setRows(8);
-		txtSeeIcon1.setText(org.openide.util.NbBundle.getMessage(
-				SetupWizard.class, "SetupWizard.txtSeeIcon1.text")); // NOI18N
-		txtSeeIcon1.setWrapStyleWord(true);
-		jScrollPane2.setViewportView(txtSeeIcon1);
+        lblDeviceName.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.lblDeviceName.text")); // NOI18N
+        panelTabNameDeviceAnswer.add(lblDeviceName);
 
-		panelTabNameDeviceQuestion.add(jScrollPane2,
-				java.awt.BorderLayout.CENTER);
+        txtDeviceName.setColumns(20);
+        txtDeviceName.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtDeviceName.text")); // NOI18N
+        panelTabNameDeviceAnswer.add(txtDeviceName);
 
-		panelTabNameDevice.add(panelTabNameDeviceQuestion,
-				java.awt.BorderLayout.CENTER);
+        btnSetDeviceName.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSetDeviceName.text")); // NOI18N
+        btnSetDeviceName.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSetDeviceName.toolTipText")); // NOI18N
+        btnSetDeviceName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetDeviceNameActionPerformed(evt);
+            }
+        });
+        panelTabNameDeviceAnswer.add(btnSetDeviceName);
 
-		lblDeviceName.setText(org.openide.util.NbBundle.getMessage(
-				SetupWizard.class, "SetupWizard.lblDeviceName.text")); // NOI18N
-		panelTabNameDeviceAnswer.add(lblDeviceName);
+        panelTabNameDevice.add(panelTabNameDeviceAnswer, java.awt.BorderLayout.SOUTH);
 
-		txtDeviceName.setColumns(20);
-		txtDeviceName.setText(org.openide.util.NbBundle.getMessage(
-				SetupWizard.class, "SetupWizard.txtDeviceName.text")); // NOI18N
-		panelTabNameDeviceAnswer.add(txtDeviceName);
+        tabWizardTabs.addTab(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.panelTabNameDevice.TabConstraints.tabTitle"), panelTabNameDevice); // NOI18N
 
-		panelTabNameDevice.add(panelTabNameDeviceAnswer,
-				java.awt.BorderLayout.SOUTH);
+        getContentPane().add(tabWizardTabs, java.awt.BorderLayout.CENTER);
 
-		tabWizardTabs.addTab(org.openide.util.NbBundle.getMessage(
-				SetupWizard.class,
-				"SetupWizard.panelTabNameDevice.TabConstraints.tabTitle"),
-				panelTabNameDevice); // NOI18N
+        org.jdesktop.layout.GroupLayout pnlWizardToolbarLayout = new org.jdesktop.layout.GroupLayout(pnlWizardToolbar);
+        pnlWizardToolbar.setLayout(pnlWizardToolbarLayout);
+        pnlWizardToolbarLayout.setHorizontalGroup(
+            pnlWizardToolbarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 871, Short.MAX_VALUE)
+        );
+        pnlWizardToolbarLayout.setVerticalGroup(
+            pnlWizardToolbarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 100, Short.MAX_VALUE)
+        );
 
-		getContentPane().add(tabWizardTabs, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlWizardToolbar, java.awt.BorderLayout.SOUTH);
 
-		org.jdesktop.layout.GroupLayout pnlWizardToolbarLayout = new org.jdesktop.layout.GroupLayout(
-				pnlWizardToolbar);
-		pnlWizardToolbar.setLayout(pnlWizardToolbarLayout);
-		pnlWizardToolbarLayout.setHorizontalGroup(pnlWizardToolbarLayout
-				.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-				.add(0, 871, Short.MAX_VALUE));
-		pnlWizardToolbarLayout.setVerticalGroup(pnlWizardToolbarLayout
-				.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-				.add(0, 100, Short.MAX_VALUE));
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
-		getContentPane().add(pnlWizardToolbar, java.awt.BorderLayout.SOUTH);
+    /** 
+     * User indicates that he can see the system tray icon, right now should not show GUI at startup
+     * @param evt 
+     */
+    private void btnSeeSystemTrayYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeeSystemTrayYesActionPerformed
+      
+        log.info("indicates system try shown, set to not load gui");
+        try {
+            idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "false");
+            log.info("config is updated");
+        } catch (IdropException ex) {
+            log.error("error updating configuration", ex);
+            throw new IdropRuntimeException("error updating configuration", ex);
+        }
+        advanceTab();
+    }//GEN-LAST:event_btnSeeSystemTrayYesActionPerformed
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+    private void btnSetDeviceNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetDeviceNameActionPerformed
+        if (txtDeviceName.getText().length() == 0) {
+            txtDeviceName.setBackground(Color.red);
+            MessageManager.showError(this, SETUP_ERROR_TITLE, "Device name is not entered");
+            return;
+        }
+        try {
+            idropConfigurationService.updateConfig(IdropConfigurationService.DEVICE_NAME, txtDeviceName.getText());
+            log.info("device name is set to:{}", txtDeviceName.getText());
+            // FIXME: check name in iRODS
+        } catch (IdropException ex) {
+            throw new IdropRuntimeException("error setting device name", ex);
+        }
+        advanceTab();
+        
+    }//GEN-LAST:event_btnSetDeviceNameActionPerformed
 
     private void btnSeeSystemTrayNoActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSeeSystemTrayNoActionPerformed
@@ -198,25 +222,47 @@ public class SetupWizard extends javax.swing.JDialog {
             log.error("error updating configuration", ex);
             throw new IdropRuntimeException("error updating configuration", ex);
         }
+        advanceTab();
     }// GEN-LAST:event_btnSeeSystemTrayNoActionPerformed
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton btnSeeSystemTrayNo;
-	private javax.swing.JButton btnSeeSystemTrayYes;
-	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JScrollPane jScrollPane2;
-	private javax.swing.JLabel lblDeviceName;
-	private javax.swing.JLabel lblWelcome;
-	private javax.swing.JPanel panelTabNameDevice;
-	private javax.swing.JPanel panelTabNameDeviceAnswer;
-	private javax.swing.JPanel panelTabNameDeviceQuestion;
-	private javax.swing.JPanel panelTabSeeSysTray;
-	private javax.swing.JPanel panelTabSeeSysTrayAnswer;
-	private javax.swing.JPanel panelTabSeeSysTrayQuestion;
-	private javax.swing.JPanel panelTop;
-	private javax.swing.JPanel pnlWizardToolbar;
-	private javax.swing.JTabbedPane tabWizardTabs;
-	private javax.swing.JTextField txtDeviceName;
-	private javax.swing.JTextArea txtSeeIcon;
-	private javax.swing.JTextArea txtSeeIcon1;
-	// End of variables declaration//GEN-END:variables
+    
+    private void advanceTab() {
+        int tabLength = tabWizardTabs.getTabCount();
+        int currentTab = tabWizardTabs.getSelectedIndex();
+        
+        if (++currentTab  >= tabLength) {
+            log.info("done with tabs");
+            finishWizard();
+        }
+        
+        tabWizardTabs.setSelectedIndex(currentTab);
+        
+    }
+    
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSeeSystemTrayNo;
+    private javax.swing.JButton btnSeeSystemTrayYes;
+    private javax.swing.JButton btnSetDeviceName;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblDeviceName;
+    private javax.swing.JLabel lblWelcome;
+    private javax.swing.JPanel panelTabNameDevice;
+    private javax.swing.JPanel panelTabNameDeviceAnswer;
+    private javax.swing.JPanel panelTabNameDeviceQuestion;
+    private javax.swing.JPanel panelTabSeeSysTray;
+    private javax.swing.JPanel panelTabSeeSysTrayAnswer;
+    private javax.swing.JPanel panelTabSeeSysTrayQuestion;
+    private javax.swing.JPanel panelTop;
+    private javax.swing.JPanel pnlWizardToolbar;
+    private javax.swing.JTabbedPane tabWizardTabs;
+    private javax.swing.JTextField txtDeviceName;
+    private javax.swing.JTextArea txtSeeIcon;
+    private javax.swing.JTextArea txtSeeIcon1;
+    // End of variables declaration//GEN-END:variables
+
+    private void finishWizard() {
+        log.info("finishing wizard");
+        this.dispose();
+    }
 }

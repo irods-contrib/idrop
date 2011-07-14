@@ -68,7 +68,7 @@ public class IdropConfig {
      */
     public boolean isPolicyAware() {
         boolean policyAware = false;
-        String policyAwareValue = idropProperties.getProperty(IdropPropertiesHelper.POLICY_AWARE_PROPERTY);
+        String policyAwareValue = idropProperties.getProperty(IdropConfigurationService.POLICY_AWARE_PROPERTY);
 
         if (policyAwareValue != null && policyAwareValue.equals("true")) {
             policyAware = true;
@@ -147,12 +147,12 @@ public class IdropConfig {
      * @return
      */
     public String getSynchDeviceName() {
-        return idropProperties.getProperty(IdropPropertiesHelper.SYNCH_DEVICE_NAME);
+        return idropProperties.getProperty(IdropConfigurationService.DEVICE_NAME);
     }
 
     public boolean isShowStartupWizard() {
         boolean showWizard = false;
-        String showStartup = idropProperties.getProperty(IdropPropertiesHelper.SHOW_STARTUP);
+        String showStartup = idropProperties.getProperty(IdropConfigurationService.SHOW_STARTUP);
 
         if (showStartup != null && showStartup.equals("true")) {
             showWizard = true;

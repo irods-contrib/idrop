@@ -15,19 +15,21 @@ import org.irods.jargon.idrop.exceptions.IdropException;
  */
 public interface IdropConfigurationService {
 
-    public final String IDROP_PROPS_FILE_NAME = "idrop.properties";
-    public final String FORCE_MODE = "force.mode";
-    public final String FORCE_NO_SYNCH = "force.no.synch";
-    public final String LOGIN_PRESET = "login.preset";
-    public final String SHOW_STARTUP = "show.startup";
-    public final String SHOW_GUI = "idrop.show.gui";
+    public static final String IDROP_PROPS_FILE_NAME = "idrop.properties";
+    public static final String FORCE_MODE = "force.mode";
+    public static final String FORCE_NO_SYNCH = "force.no.synch";
+    public static final String LOGIN_PRESET = "login.preset";
+    public static final String SHOW_STARTUP = "show.startup";
+    public static final String SHOW_GUI = "idrop.show.gui";
+    public static final String DEVICE_NAME = "idrop.device.name";
     // account info for cache
-    public final String ACCOUNT_CACHE_HOST = "irods.account.host";
-    public final String ACCOUNT_CACHE_PORT = "irods.account.port";
-    public final String ACCOUNT_CACHE_ZONE = "irods.account.zone";
-    public final String ACCOUNT_CACHE_RESOURCE = "irods.account.resource";
-    public final String ACCOUNT_CACHE_USER_NAME = "irods.account.user";
-    public final String ACCOUNT_CACHE_ROOT_DIR = "irods.account.root.dir";
+    public static final String ACCOUNT_CACHE_HOST = "irods.account.host";
+    public static final String ACCOUNT_CACHE_PORT = "irods.account.port";
+    public static final String ACCOUNT_CACHE_ZONE = "irods.account.zone";
+    public static final String ACCOUNT_CACHE_RESOURCE = "irods.account.resource";
+    public static final String ACCOUNT_CACHE_USER_NAME = "irods.account.user";
+    public static final String ACCOUNT_CACHE_ROOT_DIR = "irods.account.root.dir";
+    public static final String POLICY_AWARE_PROPERTY = "policy.aware";
 
     Properties bootstrapConfiguration() throws IdropException;
 

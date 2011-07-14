@@ -23,6 +23,7 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.irods.jargon.transfer.engine.TransferManagerImpl;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -126,7 +127,7 @@ public class StartupSequencer {
                 "Configuration information gathered, logging in...", ++count);
 
         log.info("config properties derived...");
-         idropCore.setIdropConfig(new IdropConfig(derivedProperties));
+        idropCore.setIdropConfig(new IdropConfig(derivedProperties));
         idropCore.getIdropConfig().setUpLogging();
 
         log.info("logging in in splash background thread");
@@ -204,7 +205,7 @@ public class StartupSequencer {
             timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
             idropCore.setQueueTimer(timer);
             idrop.signalIdropCoreReadyAndSplashComplete();
-           
+
 
         } catch (IdropException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(
@@ -236,12 +237,29 @@ public class StartupSequencer {
         } else {
             // see if I show the gui at startup or show a message
             if (idropCore.getIdropConfig().isShowGuiAtStartup()) {
-                     idrop.showIdropGui();
+                idrop.showIdropGui();
             } else {
-                 MessageManager.showMessage(
-                    idrop,
-                    "iDrop has started.\nCheck your system tray to access the iDrop user interface.",
-                    "iDrop has started");
+                Object[] options = {"Do not show GUI at startup",
+                    "Show GUI at startup"};
+
+                int n = JOptionPane.showOptionDialog(idrop,
+                        "iDrop has started.\nCheck your system tray to access the iDrop user interface. ",
+                        "iDrop - Startup Complete",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                log.info("response was:{}", n);
+                if (n == 1) {
+                    log.info("switching to show GUI at startup");
+                    try {
+                        idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.SHOW_GUI, "true");
+                    } catch (IdropException ex) {
+                        log.error("error setting show GUI at startup", ex);
+                        throw new IdropRuntimeException(ex);
+                    }
+                }
             }
         }
 
