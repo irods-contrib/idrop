@@ -11,6 +11,8 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.awt.Color;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
@@ -30,6 +32,8 @@ public class SetupWizard extends javax.swing.JDialog {
     private final IdropConfigurationService idropConfigurationService;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SetupWizard.class);
     public final String SETUP_ERROR_TITLE = "iDrop - Setup Error";
+    private int tabStep = 0;
+    private boolean tabAdvancing = false;
 
     /** Creates new form SetupWizard */
     public SetupWizard(final java.awt.Frame parent, final boolean modal) {
@@ -39,6 +43,19 @@ public class SetupWizard extends javax.swing.JDialog {
         iDrop idrop = (iDrop) parent;
         idropCore = idrop.getiDropCore();
         idropConfigurationService = idropCore.getIdropConfigurationService();
+        tabWizardTabs.addChangeListener(new ChangeListener() {
+
+            /*
+             * Quash a manual tab move, can only be done via the 'wizard' 
+             */
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (!tabAdvancing) {
+                    tabWizardTabs.setSelectedIndex(tabStep);
+                }
+                tabAdvancing = false;
+            }
+        });
     }
 
     /**
@@ -70,10 +87,13 @@ public class SetupWizard extends javax.swing.JDialog {
         txtDeviceName = new javax.swing.JTextField();
         btnSetDeviceName = new javax.swing.JButton();
         pnlWizardToolbar = new javax.swing.JPanel();
+        btnBack = new javax.swing.JButton();
+        btnLater = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
-        panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12));
+        panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
 
         lblWelcome.setFont(new java.awt.Font("Lucida Grande", 0, 18));
         lblWelcome.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.lblWelcome.text")); // NOI18N
@@ -83,6 +103,12 @@ public class SetupWizard extends javax.swing.JDialog {
         panelTop.add(lblWelcome);
 
         getContentPane().add(panelTop, java.awt.BorderLayout.NORTH);
+
+        tabWizardTabs.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tabWizardTabsKeyPressed(evt);
+            }
+        });
 
         panelTabSeeSysTray.setLayout(new java.awt.BorderLayout());
 
@@ -162,16 +188,27 @@ public class SetupWizard extends javax.swing.JDialog {
 
         getContentPane().add(tabWizardTabs, java.awt.BorderLayout.CENTER);
 
-        org.jdesktop.layout.GroupLayout pnlWizardToolbarLayout = new org.jdesktop.layout.GroupLayout(pnlWizardToolbar);
-        pnlWizardToolbar.setLayout(pnlWizardToolbarLayout);
-        pnlWizardToolbarLayout.setHorizontalGroup(
-            pnlWizardToolbarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 871, Short.MAX_VALUE)
-        );
-        pnlWizardToolbarLayout.setVerticalGroup(
-            pnlWizardToolbarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
+        pnlWizardToolbar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        btnBack.setMnemonic('b');
+        btnBack.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnBack.text")); // NOI18N
+        btnBack.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnBack.toolTipText")); // NOI18N
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        pnlWizardToolbar.add(btnBack);
+
+        btnLater.setMnemonic('l');
+        btnLater.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnLater.text")); // NOI18N
+        btnLater.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnLater.toolTipText")); // NOI18N
+        btnLater.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLaterActionPerformed(evt);
+            }
+        });
+        pnlWizardToolbar.add(btnLater);
 
         getContentPane().add(pnlWizardToolbar, java.awt.BorderLayout.SOUTH);
 
@@ -183,7 +220,7 @@ public class SetupWizard extends javax.swing.JDialog {
      * @param evt 
      */
     private void btnSeeSystemTrayYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeeSystemTrayYesActionPerformed
-      
+
         log.info("indicates system try shown, set to not load gui");
         try {
             idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "false");
@@ -209,8 +246,29 @@ public class SetupWizard extends javax.swing.JDialog {
             throw new IdropRuntimeException("error setting device name", ex);
         }
         advanceTab();
-        
+
     }//GEN-LAST:event_btnSetDeviceNameActionPerformed
+
+    private void tabWizardTabsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabWizardTabsKeyPressed
+    }//GEN-LAST:event_tabWizardTabsKeyPressed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        reverseTab();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnLaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaterActionPerformed
+        log.info("indicates system try not shown, set to always load gui");
+        try {
+            idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "true");
+            log.info("clearing device name to force wizard next time");
+            idropConfigurationService.removeConfigProperty(IdropConfigurationService.DEVICE_NAME);
+            log.info("config is updated");
+        } catch (IdropException ex) {
+            log.error("error updating configuration", ex);
+            throw new IdropRuntimeException("error updating configuration", ex);
+        }
+        this.dispose();
+    }//GEN-LAST:event_btnLaterActionPerformed
 
     private void btnSeeSystemTrayNoActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSeeSystemTrayNoActionPerformed
@@ -224,22 +282,37 @@ public class SetupWizard extends javax.swing.JDialog {
         }
         advanceTab();
     }// GEN-LAST:event_btnSeeSystemTrayNoActionPerformed
-    
+
+    private void reverseTab() {
+        int tabLength = tabWizardTabs.getTabCount();
+        int currentTab = tabWizardTabs.getSelectedIndex();
+
+        if (--currentTab < 0) {
+            tabStep = 0;
+        } else {
+            tabAdvancing = true;
+            tabWizardTabs.setSelectedIndex(currentTab);
+            tabStep = currentTab;
+        }
+    }
+
     private void advanceTab() {
         int tabLength = tabWizardTabs.getTabCount();
         int currentTab = tabWizardTabs.getSelectedIndex();
-        
-        if (++currentTab  >= tabLength) {
+
+        if (++currentTab >= tabLength) {
             log.info("done with tabs");
             finishWizard();
         }
-        
+
+        tabAdvancing = true;
         tabWizardTabs.setSelectedIndex(currentTab);
-        
+        tabStep = currentTab;
+
     }
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnLater;
     private javax.swing.JButton btnSeeSystemTrayNo;
     private javax.swing.JButton btnSeeSystemTrayYes;
     private javax.swing.JButton btnSetDeviceName;

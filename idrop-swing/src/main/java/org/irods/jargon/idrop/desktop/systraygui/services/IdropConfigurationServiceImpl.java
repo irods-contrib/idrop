@@ -255,4 +255,26 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             log.error("exception updating config", ex);
         }
     }
+    
+    @Override
+    public void removeConfigProperty(final String key) throws IdropException {
+        log.info("removeConfig()");
+          if (key == null || key.isEmpty()) {
+            throw new IllegalArgumentException("null or empty key");
+        }
+          log.info("key to remove:{}", key);
+        try {
+            ConfigurationProperty configurationProperty = configurationService.findConfigurationServiceByKey(key);
+            if (configurationProperty == null) {
+                log.info("no prop with key, ignore");
+                return;
+            }
+            configurationService.deleteConfigurationProperty(configurationProperty);
+            log.info("configuration property is deleted");
+            idropCore.getIdropConfig().getIdropProperties().remove(key);
+            log.info("property removed");
+        } catch (TransferEngineException ex) {
+            log.error("exception removing config property");
+        }
+    }
 }

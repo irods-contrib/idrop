@@ -54,4 +54,6 @@ public interface IdropConfigurationService {
      * @throws IdropException 
      */
     void saveLogin(final IRODSAccount irodsAccount) throws IdropException;
+
+    void removeConfigProperty(final String key) throws IdropException;
 }
