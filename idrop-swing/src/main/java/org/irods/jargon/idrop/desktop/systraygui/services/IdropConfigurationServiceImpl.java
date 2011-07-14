@@ -3,9 +3,11 @@ package org.irods.jargon.idrop.desktop.systraygui.services;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.irods.jargon.core.connection.IRODSAccount;
 
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
@@ -13,7 +15,9 @@ import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.transfer.TransferEngineException;
 import org.irods.jargon.transfer.TransferServiceFactoryImpl;
+import org.irods.jargon.transfer.dao.domain.ConfigurationProperty;
 import org.irods.jargon.transfer.engine.ConfigurationService;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -203,5 +207,52 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         Properties properties = idropPropertiesHelper.loadIdropProperties();
         importGivenPropertiesIntoDatabase(properties);
         return properties;
+    }
+    
+    @Override
+    public void saveLogin(final IRODSAccount irodsAccount) throws IdropException {
+        log.info("save login");
+        if (irodsAccount == null) {
+            throw new IllegalArgumentException("null irodsAccount");
+        }
+        log.info("saving irodsAccount:{}", irodsAccount);
+        
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_HOST, irodsAccount.getHost());
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_PORT, String.valueOf(irodsAccount.getPort()));
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_RESOURCE, irodsAccount.getDefaultStorageResource());
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_ROOT_DIR, irodsAccount.getHomeDirectory());
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_ZONE, irodsAccount.getZone());
+         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME, irodsAccount.getUserName());
+        log.info("config updated");
+    }
+
+    @Override
+    public void updateConfig(final String key, final String value) throws IdropException {
+        if (key == null || key.isEmpty()) {
+            throw new IllegalArgumentException("null or empty key");
+        }
+        try {
+            ConfigurationProperty configurationProperty = configurationService.findConfigurationServiceByKey(key);
+
+            if (configurationProperty == null) {
+                log.info("not found, this is new configuration");
+                configurationProperty = new ConfigurationProperty();
+                configurationProperty.setPropertyKey(key);
+                configurationProperty.setPropertyValue(value);
+                configurationProperty.setCreatedAt(new Date());
+            } else {
+                log.info("found config property:{}", configurationProperty);
+                configurationProperty.setPropertyValue(value);
+                configurationProperty.setUpdatedAt(new Date());
+            }
+
+            configurationService.updateConfigurationProperty(configurationProperty);
+            log.info("database updated...updating property cache");
+            idropCore.getIdropConfig().setProperty(key, value);
+            log.info("property cache updated");
+
+        } catch (TransferEngineException ex) {
+            log.error("exception updating config", ex);
+        }
     }
 }

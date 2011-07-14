@@ -524,7 +524,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             aboutDialog.setLocation(x, y);
             aboutDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Preferences")) {
-            showGUICheckBox.setSelected(getiDropCore().getPreferences().getBoolean("showGUI", true));
+            showGUICheckBox.setSelected(getiDropCore().getIdropConfig().isShowGuiAtStartup());
             newPreferencesDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Synch")) {
             synchSetupDialog = new SynchSetupDialog(this, getiDropCore(),
@@ -1976,8 +1976,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         private static final long serialVersionUID = 1L;
 
         public void actionPerformed(final ActionEvent e) {
+            /*
             getiDropCore().getPreferences().putBoolean("showGUI",
                     showGUICheckBox.isSelected() ? true : false);
+             * FIXME: recast as database options
+             * 
+             * 
+             */
+             
             newPreferencesDialog.setVisible(false);
         }
     };

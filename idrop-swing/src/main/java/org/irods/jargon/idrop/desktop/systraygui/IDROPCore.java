@@ -11,6 +11,7 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.engine.TransferManager;
@@ -31,7 +32,15 @@ public class IDROPCore {
     private TransferManager transferManager = null;
     private IconManager iconManager = null;
     private Timer queueTimer = new Timer();
-    private Preferences preferences = Preferences.userRoot();
+    private IdropConfigurationService idropConfigurationService = null;
+
+    public IdropConfigurationService getIdropConfigurationService() {
+        return idropConfigurationService;
+    }
+
+    public void setIdropConfigurationService(IdropConfigurationService idropConfigurationService) {
+        this.idropConfigurationService = idropConfigurationService;
+    }
 
     public IDROPCore() {
         super();
@@ -75,16 +84,6 @@ public class IDROPCore {
 
     public void setQueueTimer(final Timer queueTimer) {
         this.queueTimer = queueTimer;
-    }
-
-    @Deprecated
-    public Preferences getPreferences() {
-        return preferences;
-    }
-
-    @Deprecated
-    public void setPreferences(final Preferences preferences) {
-        this.preferences = preferences;
     }
 
     /**

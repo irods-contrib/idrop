@@ -101,6 +101,7 @@ public class StartupSequencer {
         try {
             IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(
                     derivedConfigHomeDirectory, idropCore);
+            idropCore.setIdropConfigurationService(idropConfigurationService);
             derivedProperties = idropConfigurationService.bootstrapConfiguration();
 
         } catch (IdropAlreadyRunningException are) {
@@ -125,7 +126,7 @@ public class StartupSequencer {
                 "Configuration information gathered, logging in...", ++count);
 
         log.info("config properties derived...");
-        idropCore.setIdropConfig(new IdropConfig(derivedProperties));
+         idropCore.setIdropConfig(new IdropConfig(derivedProperties));
         idropCore.getIdropConfig().setUpLogging();
 
         log.info("logging in in splash background thread");

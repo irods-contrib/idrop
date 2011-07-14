@@ -10,17 +10,32 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
+import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
+import org.irods.jargon.idrop.desktop.systraygui.iDrop;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
+import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.openide.util.Exceptions;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * @author mikeconway
  */
 public class SetupWizard extends javax.swing.JDialog {
 
+    private final IDROPCore idropCore;
+    private final IdropConfigurationService idropConfigurationService;
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SetupWizard.class);
+
     /** Creates new form SetupWizard */
     public SetupWizard(final java.awt.Frame parent, final boolean modal) {
         super(parent, modal);
         super.setLocationRelativeTo(parent);
         initComponents();
+        iDrop idrop = (iDrop) parent;
+        idropCore = idrop.getiDropCore();
+        idropConfigurationService = idropCore.getIdropConfigurationService();
     }
 
     /**
@@ -175,31 +190,15 @@ public class SetupWizard extends javax.swing.JDialog {
 
     private void btnSeeSystemTrayNoActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSeeSystemTrayNoActionPerformed
-        // TODO add your handling code here:
+        log.info("indicates system try not shown, set to always load gui");
+        try {
+            idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "true");
+            log.info("config is updated");
+        } catch (IdropException ex) {
+            log.error("error updating configuration", ex);
+            throw new IdropRuntimeException("error updating configuration", ex);
+        }
     }// GEN-LAST:event_btnSeeSystemTrayNoActionPerformed
-
-    /**
-     * @param args
-     *            the command line arguments
-     */
-    public static void main(final String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                SetupWizard dialog = new SetupWizard(new javax.swing.JFrame(),
-                        true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(final java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btnSeeSystemTrayNo;
 	private javax.swing.JButton btnSeeSystemTrayYes;

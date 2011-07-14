@@ -15,7 +15,11 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.UserAO;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
+import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -28,10 +32,6 @@ public class LoginDialog extends JDialog {
      * 
      */
     private static final long serialVersionUID = 1L;
-    private static final String PREF_LOGIN_HOST = "login.host";
-    private static final String PREF_LOGIN_ZONE = "login.zone";
-    private static final String PREF_LOGIN_RESOURCE = "login.resource";
-    private static final String PREF_LOGIN_USERNAME = "login.username";
     private iDrop iDrop = null;
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LoginDialog.class);
 
@@ -53,25 +53,17 @@ public class LoginDialog extends JDialog {
     private void loginNormally(
             final org.irods.jargon.idrop.desktop.systraygui.iDrop iDrop) {
         // predispose based on preferences
-        String host = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_HOST, null);
-        if (host == null || host.isEmpty()) {
-            txtHost.setText(host);
-        }
+        String host = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_HOST);
+        txtHost.setText(host);
+        String port = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_PORT);
+        txtPort.setText(port);
+        String zone = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_ZONE);
+        txtZone.setText(zone);
+        String resource = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_RESOURCE);
+        txtResource.setText(resource);
+        String username = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME);
+        txtUserName.setText(username);
 
-        String zone = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_ZONE, null);
-        if (zone == null || zone.isEmpty()) {
-            txtZone.setText(zone);
-        }
-
-        String resource = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_RESOURCE, null);
-        if (resource == null || resource.isEmpty()) {
-            txtResource.setText(resource);
-        }
-
-        String username = iDrop.getiDropCore().getPreferences().get(PREF_LOGIN_USERNAME, null);
-        if (username == null || username.isEmpty()) {
-            txtUserName.setText(username);
-        }
     }
 
     private void loginUsingPreset() {
@@ -168,13 +160,6 @@ public class LoginDialog extends JDialog {
             return true;
         }
 
-        // I figure at this point, it's safe to set the preferences...note that
-        // we are not caching password
-        iDrop.getiDropCore().getPreferences().put(PREF_LOGIN_HOST, txtHost.getText());
-        iDrop.getiDropCore().getPreferences().put(PREF_LOGIN_ZONE, txtZone.getText());
-        iDrop.getiDropCore().getPreferences().put(PREF_LOGIN_RESOURCE, txtResource.getText());
-        iDrop.getiDropCore().getPreferences().put(PREF_LOGIN_USERNAME, txtUserName.getText());
-
         IRODSFileSystem irodsFileSystem = null;
 
         try {
@@ -182,6 +167,11 @@ public class LoginDialog extends JDialog {
             final UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
             userAO.findByName(txtUserName.getText());
             iDrop.setIrodsAccount(irodsAccount);
+            try {
+                iDrop.getiDropCore().getIdropConfigurationService().saveLogin(irodsAccount);
+            } catch (IdropException ex) {
+                throw new IdropRuntimeException("error saving irodsAccount", ex);
+            }
             this.dispose();
         } catch (JargonException ex) {
             if (ex.getMessage().indexOf("Connection refused") > -1) {

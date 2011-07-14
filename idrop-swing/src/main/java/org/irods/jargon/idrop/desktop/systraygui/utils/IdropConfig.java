@@ -9,13 +9,39 @@ import org.apache.log4j.RollingFileAppender;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 
 /**
- * Access data about the configuration of Idrop
+ * Access data about the configuration of Idrop.  This serves as a view to the loaded cache of properties that iDrop consults.  
+ * The properties are originally 'bootstrapped' at load time and resolved from various sources to come up with the operative set.
+ * This bootstrapping is done by the {@link IdropConfigurationService}.
+ * <p/>
+ * In normal operation, this config class is queried by iDrop to save database accesses.  When any configuration information is updated, this
+ * is through the <code>IdropConfigurationService</code>, which will make necessary database updates, and then update this cache.
  * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IdropConfig {
 
     private final Properties idropProperties;
+    
+    /**
+     * Given a key, get the value in the cached properties (this is not going against the config database)
+     * @param propKey <code>String</code> with the key of the property
+     * @return  <code>String</code> with the resulting value, or <code>null</code> if not found
+     */
+    public String getPropertyForKey(final String propKey) {
+        return idropProperties.getProperty(propKey);
+    }
+    
+    /**
+     * General method to set a property in the cached properties (this does not update the config database)
+     * @param propKey <code>String</code> with the name of the property, cannot be null
+     * @param propValue  <code>String</code> with the value of the property, can be null
+     */
+    public void setProperty(final String propKey, final String propValue) {
+        if (propKey == null) {
+            throw new IllegalArgumentException("null propKey");
+        }
+        idropProperties.put(propKey, propValue);
+    }
 
     public Properties getIdropProperties() {
         return idropProperties;
