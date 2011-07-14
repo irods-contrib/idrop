@@ -9,17 +9,20 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
 import org.irods.jargon.core.pub.IRODSFileSystem;
+import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.engine.TransferManager;
+import org.slf4j.LoggerFactory;
 
 public class IDROPCore {
 
     private IRODSAccount irodsAccount = null;
     private IRODSFileSystem irodsFileSystem = null;
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(IDROPCore.class);
 
     public IRODSFileSystem getIrodsFileSystem() {
         return irodsFileSystem;
@@ -192,6 +195,37 @@ public class IDROPCore {
                     ex);
             throw new IdropRuntimeException(
                     "Exception getting iRODS file factory", ex);
+        }
+
+    }
+
+    /**
+     * Based on the configuration, get the default directory used in iDrop based on the current login
+     * @return 
+     */
+    public IRODSFile getDefaultDirectory() {
+        String root = null;
+        if (getIdropConfig().isLoginPreset()) {
+            log.info("using policy preset home directory");
+            StringBuilder sb = new StringBuilder();
+            sb.append("/");
+            sb.append(getIrodsAccount().getZone());
+            sb.append("/");
+            sb.append("home");
+            root = sb.toString();
+        } else {
+            log.info("using root path, no login preset");
+            root = "/";
+        }
+        IRODSFile newFile;
+        try {
+            newFile = getIRODSFileFactoryForLoggedInAccount().instanceIRODSFile(root);
+            return newFile;
+        } catch (Exception ex) {
+            log.error("error creating file", ex);
+            throw new IdropRuntimeException("error creating file", ex);
+        } finally {
+            this.closeIRODSConnectionForLoggedInAccount();
         }
 
     }
