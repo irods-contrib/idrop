@@ -112,6 +112,7 @@
                       <ComponentRef name="buttonGroupLandF"/>
                     </Property>
                     <Property name="mnemonic" type="int" value="100"/>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Default"/>
                     <Property name="toolTipText" type="java.lang.String" value="Default system look an dfeel"/>
                   </Properties>
@@ -125,7 +126,6 @@
                       <ComponentRef name="buttonGroupLandF"/>
                     </Property>
                     <Property name="mnemonic" type="int" value="110"/>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Nimbus"/>
                     <Property name="toolTipText" type="java.lang.String" value="Nimbus look and feel"/>
                   </Properties>

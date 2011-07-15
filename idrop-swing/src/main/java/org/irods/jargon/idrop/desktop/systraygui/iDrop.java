@@ -55,6 +55,7 @@ import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.query.MetaDataAndDomainData.MetadataDomain;
 import org.irods.jargon.core.transfer.TransferStatus;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IconHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
@@ -118,7 +119,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
         this.iDropCore = idropCore;
-        setLookAndFeel("Nimbus");
+        
     }
 
     /** Creates new form IDrop */
@@ -184,8 +185,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             buildIdropGuiComponents();
         }
 
-        setUpLocalFileSelectTree();
-        buildTargetTree();
+        
+        //buildTargetTree();
+        // setting look and feel will also trigger build of irods tree view
+         setLookAndFeel(iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
+         setUpLocalFileSelectTree();
+         
+         
+         
         togglePauseTransfer.setSelected(pausedItem.getState());
         iDropCore.getIconManager().setRunningStatus(
                 iDropCore.getTransferManager().getRunningStatus());
@@ -203,6 +210,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
         receivedStartupSignal = true;
+   
+       
 
         iDropCore.getIconManager().setRunningStatus(
                 iDropCore.getTransferManager().getRunningStatus());
@@ -1879,6 +1888,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         buttonGroupLandF.add(jRadioButtonLookAndFeelDefault);
         jRadioButtonLookAndFeelDefault.setMnemonic('d');
+        jRadioButtonLookAndFeelDefault.setSelected(true);
         jRadioButtonLookAndFeelDefault.setText("Default");
         jRadioButtonLookAndFeelDefault.setToolTipText("Default system look an dfeel");
         jRadioButtonLookAndFeelDefault.addActionListener(new java.awt.event.ActionListener() {
@@ -1890,7 +1900,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         buttonGroupLandF.add(jRadioButtonLookAndFeelNimbus);
         jRadioButtonLookAndFeelNimbus.setMnemonic('n');
-        jRadioButtonLookAndFeelNimbus.setSelected(true);
         jRadioButtonLookAndFeelNimbus.setText("Nimbus");
         jRadioButtonLookAndFeelNimbus.setToolTipText("Nimbus look and feel");
         jRadioButtonLookAndFeelNimbus.addActionListener(new java.awt.event.ActionListener() {
@@ -2603,20 +2612,35 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void setLookAndFeel(String lookAndFeelChoice) {
         String lookAndFeel = "";
+        if (lookAndFeelChoice == null) {
+            lookAndFeelChoice="System";
+        }
+        
         if (lookAndFeelChoice != null) {
+            try {
+                iDropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.LOOK_AND_FEEL, lookAndFeelChoice);
+            } catch (IdropException ex) {
+               log.error("unable to update configration for look and feel");
+               throw new IdropRuntimeException("unable to set prop for look and feel", ex);
+            }
             if (lookAndFeelChoice.equals("Metal")) {
                 lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+                this.jRadioButtonMenuItemMetal.setSelected(true);
                 //  an alternative way to set the Metal L&F is to replace the 
                 // previous line with:
                 // lookAndFeel = "javax.swing.plaf.metal.MetalLookAndFeel";
 
             } else if (lookAndFeelChoice.equals("System")) {
                 lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+                this.jRadioButtonLookAndFeelDefault.setSelected(true);
             } else if (lookAndFeelChoice.equals("Motif")) {
                 lookAndFeel = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+                 this.jRadioButtonMenuItemMotif.setSelected(true);
             } else if (lookAndFeelChoice.equals("GTK")) {
                 lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+                 this.jRadioButtonMenuItemGTK.setSelected(true);
             } else if (lookAndFeelChoice.equals("Nimbus")) {
+                this.jRadioButtonLookAndFeelNimbus.setSelected(true);
                 for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
                         lookAndFeel = info.getClassName();

@@ -30,6 +30,7 @@ public interface IdropConfigurationService {
     public static final String ACCOUNT_CACHE_USER_NAME = "irods.account.user";
     public static final String ACCOUNT_CACHE_ROOT_DIR = "irods.account.root.dir";
     public static final String POLICY_AWARE_PROPERTY = "policy.aware";
+    public static final String LOOK_AND_FEEL = "idrop.lookandfeel";
 
     Properties bootstrapConfiguration() throws IdropException;
 

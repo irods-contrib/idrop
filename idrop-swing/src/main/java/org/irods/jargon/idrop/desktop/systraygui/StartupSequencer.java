@@ -206,7 +206,7 @@ public class StartupSequencer {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
             idropCore.setQueueTimer(timer);
-            idrop.signalIdropCoreReadyAndSplashComplete();
+            
 
 
         } catch (IdropException ex) {
@@ -227,15 +227,12 @@ public class StartupSequencer {
                 ++count);
 
         String synchDeviceName = idropCore.getIdropConfig().getSynchDeviceName();
-
+        idrop.signalIdropCoreReadyAndSplashComplete();
         if (synchDeviceName == null && idropCore.getIdropConfig().isShowStartupWizard()) {
             log.info("first time running idrop, starting configuration wizard");
-            // show idrop gui
-
             log.info("showing gui first time run");
-            idrop.showIdropGui();
-
             doFirstTimeConfigurationWizard();
+             idrop.showIdropGui();
         } else {
             // see if I show the gui at startup or show a message
             if (idropCore.getIdropConfig().isShowGuiAtStartup()) {
