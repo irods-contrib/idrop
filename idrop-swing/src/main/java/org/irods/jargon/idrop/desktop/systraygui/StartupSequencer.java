@@ -254,6 +254,7 @@ public class StartupSequencer {
                     log.info("switching to show GUI at startup");
                     try {
                         idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.SHOW_GUI, "true");
+                           idrop.showIdropGui();
                     } catch (IdropException ex) {
                         log.error("error setting show GUI at startup", ex);
                         throw new IdropRuntimeException(ex);

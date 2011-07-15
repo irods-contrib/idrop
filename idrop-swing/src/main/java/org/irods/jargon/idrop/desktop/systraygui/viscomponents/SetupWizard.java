@@ -368,6 +368,8 @@ public class SetupWizard extends javax.swing.JDialog {
     private void btnChooseLocalSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseLocalSynchActionPerformed
         // TODO add your handling code here:
         JFileChooser localFileChooser = new JFileChooser();
+           localFileChooser.setMultiSelectionEnabled(false);
+        localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnVal = localFileChooser.showOpenDialog(this);
     }//GEN-LAST:event_btnChooseLocalSynchActionPerformed
 
