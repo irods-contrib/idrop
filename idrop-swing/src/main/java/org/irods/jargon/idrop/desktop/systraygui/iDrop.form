@@ -22,6 +22,8 @@
         </MenuItem>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroupLandF">
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenuFile">
@@ -88,6 +90,90 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxMenuItemShowIrodsInfoActionPerformed"/>
               </Events>
             </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuTools">
+          <Properties>
+            <Property name="mnemonic" type="int" value="84"/>
+            <Property name="text" type="java.lang.String" value="Tools"/>
+            <Property name="toolTipText" type="java.lang.String" value="Tools and options for iDrop"/>
+          </Properties>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="jMenuLookAndFeel">
+              <Properties>
+                <Property name="mnemonic" type="int" value="108"/>
+                <Property name="text" type="java.lang.String" value="Set look and feel"/>
+                <Property name="toolTipText" type="java.lang.String" value="Set the look and feel for the GUI"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JRadioButtonMenuItem" name="jRadioButtonLookAndFeelDefault">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroupLandF"/>
+                    </Property>
+                    <Property name="mnemonic" type="int" value="100"/>
+                    <Property name="text" type="java.lang.String" value="Default"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Default system look an dfeel"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonLookAndFeelDefaultActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JRadioButtonMenuItem" name="jRadioButtonLookAndFeelNimbus">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroupLandF"/>
+                    </Property>
+                    <Property name="mnemonic" type="int" value="110"/>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Nimbus"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Nimbus look and feel"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonLookAndFeelNimbusActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JRadioButtonMenuItem" name="jRadioButtonMenuItemMetal">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroupLandF"/>
+                    </Property>
+                    <Property name="mnemonic" type="int" value="109"/>
+                    <Property name="text" type="java.lang.String" value="Metal"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Metal look and feel"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonMenuItemMetalActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JRadioButtonMenuItem" name="jRadioButtonMenuItemMotif">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroupLandF"/>
+                    </Property>
+                    <Property name="mnemonic" type="int" value="116"/>
+                    <Property name="text" type="java.lang.String" value="Motif"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Motif look and feel"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonMenuItemMotifActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JRadioButtonMenuItem" name="jRadioButtonMenuItemGTK">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroupLandF"/>
+                    </Property>
+                    <Property name="mnemonic" type="int" value="103"/>
+                    <Property name="text" type="java.lang.String" value="GTK"/>
+                    <Property name="toolTipText" type="java.lang.String" value="GTK look and feel"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonMenuItemGTKActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
           </SubComponents>
         </Menu>
       </SubComponents>

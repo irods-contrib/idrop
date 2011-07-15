@@ -177,22 +177,26 @@ public class LoginDialog extends JDialog {
             if (ex.getMessage().indexOf("Connection refused") > -1) {
                 Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
                         null, ex);
-                iDrop.showMessageFromOperation("Cannot connect to the server, is it down?");
+                MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
+
                 return true;
             } else if (ex.getMessage().indexOf("Connection reset") > -1) {
                 Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
                         null, ex);
-                iDrop.showMessageFromOperation("Cannot connect to the server, is it down?");
+                MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
+
                 return true;
             } else if (ex.getMessage().indexOf("io exception opening socket") > -1) {
                 Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
                         null, ex);
-                iDrop.showMessageFromOperation("Cannot connect to the server, is it down?");
+                MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
+
                 return true;
             } else {
                 Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
                         null, ex);
-                iDrop.showMessageFromOperation("login error - unable to log in, or invalid user id");
+                MessageManager.showError(this, "login error - unable to log in, or invalid user id", "Login Error");
+
                 return true;
             }
         } finally {

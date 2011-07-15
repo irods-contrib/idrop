@@ -38,6 +38,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.ListSelectionEvent;
@@ -116,18 +117,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             throw new IllegalArgumentException("null idropCore");
         }
 
-        try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            throw new IdropRuntimeException(e);
-        }
-
         this.iDropCore = idropCore;
+        setLookAndFeel("Nimbus");
     }
 
     /** Creates new form IDrop */
@@ -503,7 +494,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         Toolkit toolkit = getToolkit();
 
         if (e.getActionCommand().equals("Exit")) {
-           shutdown();
+            shutdown();
         } else if (e.getActionCommand().equals("Logout")) {
             this.setIrodsAccount(null);
             this.signalChangeInAccountSoCachedDataCanBeCleared();
@@ -1120,6 +1111,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         searchTablePopupMenu = new javax.swing.JPopupMenu();
         menuItemShowInHierarchy = new javax.swing.JMenuItem();
+        buttonGroupLandF = new javax.swing.ButtonGroup();
         iDropToolbar = new javax.swing.JPanel();
         pnlToolbarSizer = new javax.swing.JPanel();
         pnlTopToolbarSearchArea = new javax.swing.JPanel();
@@ -1217,6 +1209,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jMenuView = new javax.swing.JMenu();
         jCheckBoxMenuItemShowSourceTree = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItemShowIrodsInfo = new javax.swing.JCheckBoxMenuItem();
+        jMenuTools = new javax.swing.JMenu();
+        jMenuLookAndFeel = new javax.swing.JMenu();
+        jRadioButtonLookAndFeelDefault = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonLookAndFeelNimbus = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItemMetal = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItemMotif = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItemGTK = new javax.swing.JRadioButtonMenuItem();
 
         menuItemShowInHierarchy.setText("Show in iRODS");
         menuItemShowInHierarchy.setToolTipText("Show this file or collection in the iRODS hierarchy");
@@ -1870,14 +1869,117 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         jMenuBar1.add(jMenuView);
 
+        jMenuTools.setMnemonic('T');
+        jMenuTools.setText("Tools");
+        jMenuTools.setToolTipText("Tools and options for iDrop");
+
+        jMenuLookAndFeel.setMnemonic('l');
+        jMenuLookAndFeel.setText("Set look and feel");
+        jMenuLookAndFeel.setToolTipText("Set the look and feel for the GUI");
+
+        buttonGroupLandF.add(jRadioButtonLookAndFeelDefault);
+        jRadioButtonLookAndFeelDefault.setMnemonic('d');
+        jRadioButtonLookAndFeelDefault.setText("Default");
+        jRadioButtonLookAndFeelDefault.setToolTipText("Default system look an dfeel");
+        jRadioButtonLookAndFeelDefault.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonLookAndFeelDefaultActionPerformed(evt);
+            }
+        });
+        jMenuLookAndFeel.add(jRadioButtonLookAndFeelDefault);
+
+        buttonGroupLandF.add(jRadioButtonLookAndFeelNimbus);
+        jRadioButtonLookAndFeelNimbus.setMnemonic('n');
+        jRadioButtonLookAndFeelNimbus.setSelected(true);
+        jRadioButtonLookAndFeelNimbus.setText("Nimbus");
+        jRadioButtonLookAndFeelNimbus.setToolTipText("Nimbus look and feel");
+        jRadioButtonLookAndFeelNimbus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonLookAndFeelNimbusActionPerformed(evt);
+            }
+        });
+        jMenuLookAndFeel.add(jRadioButtonLookAndFeelNimbus);
+
+        buttonGroupLandF.add(jRadioButtonMenuItemMetal);
+        jRadioButtonMenuItemMetal.setMnemonic('m');
+        jRadioButtonMenuItemMetal.setText("Metal");
+        jRadioButtonMenuItemMetal.setToolTipText("Metal look and feel");
+        jRadioButtonMenuItemMetal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItemMetalActionPerformed(evt);
+            }
+        });
+        jMenuLookAndFeel.add(jRadioButtonMenuItemMetal);
+
+        buttonGroupLandF.add(jRadioButtonMenuItemMotif);
+        jRadioButtonMenuItemMotif.setMnemonic('t');
+        jRadioButtonMenuItemMotif.setText("Motif");
+        jRadioButtonMenuItemMotif.setToolTipText("Motif look and feel");
+        jRadioButtonMenuItemMotif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItemMotifActionPerformed(evt);
+            }
+        });
+        jMenuLookAndFeel.add(jRadioButtonMenuItemMotif);
+
+        buttonGroupLandF.add(jRadioButtonMenuItemGTK);
+        jRadioButtonMenuItemGTK.setMnemonic('g');
+        jRadioButtonMenuItemGTK.setText("GTK");
+        jRadioButtonMenuItemGTK.setToolTipText("GTK look and feel");
+        jRadioButtonMenuItemGTK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItemGTKActionPerformed(evt);
+            }
+        });
+        jMenuLookAndFeel.add(jRadioButtonMenuItemGTK);
+
+        jMenuTools.add(jMenuLookAndFeel);
+
+        jMenuBar1.add(jMenuTools);
+
         setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
         private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
-             this.setVisible(false);
+            this.setVisible(false);
         }//GEN-LAST:event_jMenuItemCloseActionPerformed
+
+        private void jRadioButtonMenuItemGTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItemGTKActionPerformed
+            if (jRadioButtonMenuItemGTK.isSelected()) {
+                log.info("setting GTK l&f");
+                setLookAndFeel("GTK");
+            }
+        }//GEN-LAST:event_jRadioButtonMenuItemGTKActionPerformed
+
+        private void jRadioButtonLookAndFeelDefaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonLookAndFeelDefaultActionPerformed
+            if (jRadioButtonLookAndFeelDefault.isSelected()) {
+                log.info("setting System l&f");
+                setLookAndFeel("System");
+            }
+        }//GEN-LAST:event_jRadioButtonLookAndFeelDefaultActionPerformed
+
+        private void jRadioButtonLookAndFeelNimbusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonLookAndFeelNimbusActionPerformed
+            if (jRadioButtonLookAndFeelNimbus.isSelected()) {
+                log.info("setting Nimbus l&f");
+                setLookAndFeel("Nimbus");
+            }
+        }//GEN-LAST:event_jRadioButtonLookAndFeelNimbusActionPerformed
+
+        private void jRadioButtonMenuItemMetalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItemMetalActionPerformed
+            if (jRadioButtonMenuItemMetal.isSelected()) {
+                log.info("setting Metal l&f");
+                setLookAndFeel("Metal");
+            }
+        }//GEN-LAST:event_jRadioButtonMenuItemMetalActionPerformed
+
+        private void jRadioButtonMenuItemMotifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItemMotifActionPerformed
+            if (jRadioButtonMenuItemMotif.isSelected()) {
+                log.info("setting Motif l&f");
+                setLookAndFeel("Motif");
+            }
+        }//GEN-LAST:event_jRadioButtonMenuItemMotifActionPerformed
 
     private void btnShowTransferManagerActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnShowTransferManagerActionPerformed
@@ -1920,12 +2022,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         public void actionPerformed(final ActionEvent e) {
             /*
             getiDropCore().getPreferences().putBoolean("showGUI",
-                    showGUICheckBox.isSelected() ? true : false);
+            showGUICheckBox.isSelected() ? true : false);
              * FIXME: recast as database options
              * 
              * 
              */
-             
+
             newPreferencesDialog.setVisible(false);
         }
     };
@@ -1977,7 +2079,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void jMenuItemExitActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItemExitActionPerformed
-       shutdown();
+        shutdown();
     }// GEN-LAST:event_jMenuItemExitActionPerformed
 
     /**
@@ -2308,6 +2410,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JButton btnUpdateInfo;
     private javax.swing.JButton btnViewMetadata;
     private javax.swing.JButton btnearch;
+    private javax.swing.ButtonGroup buttonGroupLandF;
     private javax.swing.JComboBox comboSearchType;
     private javax.swing.JPanel iDropToolbar;
     private javax.swing.JToolBar idropProgressPanelToolbar;
@@ -2318,7 +2421,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItemClose;
     private javax.swing.JMenuItem jMenuItemExit;
+    private javax.swing.JMenu jMenuLookAndFeel;
+    private javax.swing.JMenu jMenuTools;
     private javax.swing.JMenu jMenuView;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonLookAndFeelDefault;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonLookAndFeelNimbus;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemGTK;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemMetal;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemMotif;
     private javax.swing.JSplitPane jSplitPanelLocalRemote;
     private javax.swing.JLabel lblComment;
     private javax.swing.JLabel lblCurrentFile;
@@ -2400,6 +2510,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JTextField txtTags;
     private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
+
     public Object getLastCachedInfoItem() {
         return lastCachedInfoItem;
     }
@@ -2472,22 +2583,82 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     private void shutdown() {
-           int result = JOptionPane.showConfirmDialog(this,
-                        "Shut down iDrop?",
-                        "Do you want to shut down iDrop?",
-                        JOptionPane.OK_CANCEL_OPTION);
-                if (result == JOptionPane.OK_OPTION) {
+        int result = JOptionPane.showConfirmDialog(this,
+                "Shut down iDrop?",
+                "Do you want to shut down iDrop?",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
             try {
                 log.info("shut down queue timer");
-                 getiDropCore().getQueueTimer().cancel();
+                iDropCore.getQueueTimer().cancel();
                 log.info("saving current configuration to idrop.properties");
                 iDropCore.getIdropConfigurationService().saveConfigurationToPropertiesFile();
                 log.info("properties saved");
             } catch (IdropException ex) {
                 Exceptions.printStackTrace(ex);
             }
-                    System.exit(0);
+            System.exit(0);
+        }
+    }
+
+    private void setLookAndFeel(String lookAndFeelChoice) {
+        String lookAndFeel = "";
+        if (lookAndFeelChoice != null) {
+            if (lookAndFeelChoice.equals("Metal")) {
+                lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+                //  an alternative way to set the Metal L&F is to replace the 
+                // previous line with:
+                // lookAndFeel = "javax.swing.plaf.metal.MetalLookAndFeel";
+
+            } else if (lookAndFeelChoice.equals("System")) {
+                lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+            } else if (lookAndFeelChoice.equals("Motif")) {
+                lookAndFeel = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+            } else if (lookAndFeelChoice.equals("GTK")) {
+                lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+            } else if (lookAndFeelChoice.equals("Nimbus")) {
+                for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        lookAndFeel = info.getClassName();
+                        break;
+                    }
                 }
+            } else {
+                lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+            }
+
+            if (lookAndFeel.equals("")) {
+                lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+
+            }
+
+
+            final String finalLookAndFeel = lookAndFeel;
+            final iDrop thisGui = this;
+
+
+
+            java.awt.EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    try {
+                        UIManager.setLookAndFeel(finalLookAndFeel);
+                        //thisGui.getIrodsTree().updateUI();
+                        SwingUtilities.updateComponentTreeUI(thisGui);
+                        thisGui.irodsTree = null;
+                        thisGui.buildTargetTree();
+                        thisGui.pack();
+
+                    } catch (Exception e) {
+                        log.warn("unable to set look and feel to :{}", finalLookAndFeel);
+                    }
+                }
+            });
+
+
+        }
     }
 
     class PopupListener extends MouseAdapter {

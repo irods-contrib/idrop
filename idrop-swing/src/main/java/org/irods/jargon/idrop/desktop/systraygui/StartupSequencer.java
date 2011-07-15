@@ -37,7 +37,7 @@ public class StartupSequencer {
     private iDrop idrop;
     private IDROPCore idropCore;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(StartupSequencer.class);
-    public static final int STARTUP_SEQUENCE_PAUSE_INTERVAL = 2000;
+    public static final int STARTUP_SEQUENCE_PAUSE_INTERVAL = 1000;
 
     public void doStartupSequence() {
 
@@ -138,10 +138,12 @@ public class StartupSequencer {
         int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
         int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;
         loginDialog.setLocation(x, y);
-        idropSplashWindow.toBack();
+        
         loginDialog.setAlwaysOnTop(true);
-        loginDialog.toFront();
+       
         loginDialog.setVisible(true);
+         loginDialog.toFront();
+        idropSplashWindow.toBack();
 
         if (idropCore.getIrodsAccount() == null) {
             log.warn("no login account, exiting");
@@ -301,8 +303,12 @@ public class StartupSequencer {
 
         if (idropCore.getIdropConfig().isShowStartupWizard()) {
             log.info("doing setup wizard");
+            // idrop will be visible, don't z fight and declutter for wizard...s
+            idrop.setVisible(false);
             SetupWizard setupWizard = new SetupWizard(idrop, true);
+            setupWizard.toFront();
             setupWizard.setVisible(true);
+            idrop.setVisible(true);
         }
     }
 }
