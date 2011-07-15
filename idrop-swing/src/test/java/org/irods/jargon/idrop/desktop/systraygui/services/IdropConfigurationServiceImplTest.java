@@ -70,7 +70,6 @@ public class IdropConfigurationServiceImplTest {
         configurationService.importProperties(testProps);
         Properties myProps = idropConfigurationService.bootstrapConfiguration();
         Assert.assertNotNull("null props returned", myProps);
-        Assert.assertEquals(1, myProps.size());
         Assert.assertEquals(testPropVal, myProps.get(testPropKey));
     }
     

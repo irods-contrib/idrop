@@ -17,6 +17,7 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServiceImpl;
 import org.irods.jargon.idrop.desktop.systraygui.services.QueueSchedulerTimerTask;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
+import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.SetupWizard;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -129,6 +130,10 @@ public class StartupSequencer {
         log.info("config properties derived...");
         idropCore.setIdropConfig(new IdropConfig(derivedProperties));
         idropCore.getIdropConfig().setUpLogging();
+        
+        log.info("setting initial look and feel");
+        LookAndFeelManager laf = new LookAndFeelManager(idropCore);
+        laf.setLookAndFeel(idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
 
         log.info("logging in in splash background thread");
         idropSplashWindow.setStatus("Logging in...", ++count);

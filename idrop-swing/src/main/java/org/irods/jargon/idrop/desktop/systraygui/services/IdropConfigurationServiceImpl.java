@@ -73,7 +73,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         Properties databaseProperties;
         Properties configFileProperties;
         try {
-            databaseProperties = configurationService.exportProperties();
+                databaseProperties = configurationService.exportProperties();
             configFileProperties = this.importPropertiesFromDefaultFile();
 
         } catch (Exception ex) {

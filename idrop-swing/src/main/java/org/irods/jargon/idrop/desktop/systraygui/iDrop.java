@@ -59,6 +59,7 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IconHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
+import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
@@ -119,7 +120,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
         this.iDropCore = idropCore;
-        
+
     }
 
     /** Creates new form IDrop */
@@ -181,18 +182,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     protected void showIdropGui() {
 
+
         if (fileTree == null) {
             buildIdropGuiComponents();
         }
+        initializeLookAndFeelSelected();
 
-        
-        //buildTargetTree();
+        if (irodsTree == null) {
+            buildTargetTree();
+        }
         // setting look and feel will also trigger build of irods tree view
-         setLookAndFeel(iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
-         setUpLocalFileSelectTree();
-         
-         
-         
+        //setLookAndFeel(iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
+        setUpLocalFileSelectTree();
         togglePauseTransfer.setSelected(pausedItem.getState());
         iDropCore.getIconManager().setRunningStatus(
                 iDropCore.getTransferManager().getRunningStatus());
@@ -210,8 +211,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
         receivedStartupSignal = true;
-   
-       
+
+
 
         iDropCore.getIconManager().setRunningStatus(
                 iDropCore.getTransferManager().getRunningStatus());
@@ -503,7 +504,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         Toolkit toolkit = getToolkit();
 
         if (e.getActionCommand().equals("Exit")) {
-            shutdown();
+            shutdownWithConfirmation();
         } else if (e.getActionCommand().equals("Logout")) {
             this.setIrodsAccount(null);
             this.signalChangeInAccountSoCachedDataCanBeCleared();
@@ -2088,7 +2089,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void jMenuItemExitActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItemExitActionPerformed
-        shutdown();
+        shutdownWithConfirmation();
     }// GEN-LAST:event_jMenuItemExitActionPerformed
 
     /**
@@ -2591,13 +2592,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         });
     }
 
-    private void shutdown() {
+    private void shutdownWithConfirmation() {
         int result = JOptionPane.showConfirmDialog(this,
                 "Shut down iDrop?",
                 "Do you want to shut down iDrop?",
                 JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-            try {
+          shutdown();
+        }
+    }
+    
+    private void shutdown() {
+          try {
                 log.info("shut down queue timer");
                 iDropCore.getQueueTimer().cancel();
                 log.info("saving current configuration to idrop.properties");
@@ -2607,81 +2613,82 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 Exceptions.printStackTrace(ex);
             }
             System.exit(0);
+    }
+
+    private void initializeLookAndFeelSelected() {
+        String lookAndFeelChoice = iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL);
+        if (lookAndFeelChoice == null || lookAndFeelChoice.isEmpty()) {
+            lookAndFeelChoice = "System";
+        }
+        if (lookAndFeelChoice.equals("Metal")) {
+
+            this.jRadioButtonMenuItemMetal.setSelected(true);
+
+        } else if (lookAndFeelChoice.equals("System")) {
+
+            this.jRadioButtonLookAndFeelDefault.setSelected(true);
+        } else if (lookAndFeelChoice.equals("Motif")) {
+
+            this.jRadioButtonMenuItemMotif.setSelected(true);
+        } else if (lookAndFeelChoice.equals("GTK")) {
+
+            this.jRadioButtonMenuItemGTK.setSelected(true);
+        } else if (lookAndFeelChoice.equals("Nimbus")) {
+            this.jRadioButtonLookAndFeelNimbus.setSelected(true);
+
+        } else {
+            this.jRadioButtonLookAndFeelDefault.setSelected(true);
         }
     }
 
     private void setLookAndFeel(String lookAndFeelChoice) {
-        String lookAndFeel = "";
-        if (lookAndFeelChoice == null) {
-            lookAndFeelChoice="System";
+
+         int result = JOptionPane.showConfirmDialog(this,
+               
+                "Changing the look and feel requires a restart, would you like to change the look and feel?",
+                "iDrop - Confirm change look and feel",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.CANCEL_OPTION) {
+            return;
         }
         
+        String lookAndFeel = "";
+        if (lookAndFeelChoice == null) {
+            lookAndFeelChoice = "System";
+        }
+
         if (lookAndFeelChoice != null) {
-            try {
-                iDropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.LOOK_AND_FEEL, lookAndFeelChoice);
-            } catch (IdropException ex) {
-               log.error("unable to update configration for look and feel");
-               throw new IdropRuntimeException("unable to set prop for look and feel", ex);
-            }
+
             if (lookAndFeelChoice.equals("Metal")) {
-                lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+                lookAndFeel = lookAndFeelChoice;
                 this.jRadioButtonMenuItemMetal.setSelected(true);
                 //  an alternative way to set the Metal L&F is to replace the 
                 // previous line with:
                 // lookAndFeel = "javax.swing.plaf.metal.MetalLookAndFeel";
 
             } else if (lookAndFeelChoice.equals("System")) {
-                lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+                lookAndFeel = lookAndFeelChoice;
                 this.jRadioButtonLookAndFeelDefault.setSelected(true);
             } else if (lookAndFeelChoice.equals("Motif")) {
-                lookAndFeel = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
-                 this.jRadioButtonMenuItemMotif.setSelected(true);
+                lookAndFeel = lookAndFeelChoice;
+                this.jRadioButtonMenuItemMotif.setSelected(true);
             } else if (lookAndFeelChoice.equals("GTK")) {
-                lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
-                 this.jRadioButtonMenuItemGTK.setSelected(true);
+                lookAndFeel = lookAndFeelChoice;
+                this.jRadioButtonMenuItemGTK.setSelected(true);
             } else if (lookAndFeelChoice.equals("Nimbus")) {
                 this.jRadioButtonLookAndFeelNimbus.setSelected(true);
-                for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        lookAndFeel = info.getClassName();
-                        break;
-                    }
-                }
+                lookAndFeel = lookAndFeelChoice;
             } else {
-                lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-            }
-
-            if (lookAndFeel.equals("")) {
-                lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+                lookAndFeel = "System";
 
             }
-
-
-            final String finalLookAndFeel = lookAndFeel;
-            final iDrop thisGui = this;
-
-
-
-            java.awt.EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-
-                    try {
-                        UIManager.setLookAndFeel(finalLookAndFeel);
-                        //thisGui.getIrodsTree().updateUI();
-                        SwingUtilities.updateComponentTreeUI(thisGui);
-                        thisGui.irodsTree = null;
-                        thisGui.buildTargetTree();
-                        thisGui.pack();
-
-                    } catch (Exception e) {
-                        log.warn("unable to set look and feel to :{}", finalLookAndFeel);
-                    }
-                }
-            });
-
-
+                try {
+                LookAndFeelManager laf = new LookAndFeelManager(iDropCore);
+                laf.setLookAndFeel(lookAndFeel);
+                shutdown();
+            } catch (Exception e) {
+                log.warn("unable to set look and feel to :{}", lookAndFeel);
+            }
         }
     }
 
