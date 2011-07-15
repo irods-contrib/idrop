@@ -211,6 +211,21 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>   
 </project>
