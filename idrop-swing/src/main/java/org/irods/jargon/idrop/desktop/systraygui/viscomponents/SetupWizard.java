@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * SetupWizard.java
  *
  * Created on Jul 12, 2011, 5:54:17 PM
@@ -20,6 +15,7 @@ import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -103,9 +99,8 @@ public class SetupWizard extends javax.swing.JDialog {
         btnLater = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
 
-        panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12));
 
         lblWelcome.setFont(new java.awt.Font("Lucida Grande", 0, 18));
         lblWelcome.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.lblWelcome.text")); // NOI18N
@@ -162,15 +157,12 @@ public class SetupWizard extends javax.swing.JDialog {
 
         panelTabNameDevice.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane2.setPreferredSize(null);
-
         txtSeeIcon1.setColumns(60);
         txtSeeIcon1.setEditable(false);
         txtSeeIcon1.setLineWrap(true);
         txtSeeIcon1.setRows(8);
         txtSeeIcon1.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtSeeIcon1.text")); // NOI18N
         txtSeeIcon1.setWrapStyleWord(true);
-        txtSeeIcon1.setMinimumSize(null);
         txtSeeIcon1.setPreferredSize(null);
         jScrollPane2.setViewportView(txtSeeIcon1);
 
@@ -368,15 +360,23 @@ public class SetupWizard extends javax.swing.JDialog {
     private void btnChooseLocalSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseLocalSynchActionPerformed
         // TODO add your handling code here:
         JFileChooser localFileChooser = new JFileChooser();
-           localFileChooser.setMultiSelectionEnabled(false);
+        localFileChooser.setMultiSelectionEnabled(false);
         localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnVal = localFileChooser.showOpenDialog(this);
     }//GEN-LAST:event_btnChooseLocalSynchActionPerformed
 
     private void btnChooseIrodsSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseIrodsSynchActionPerformed
-       IRODSFileSystemChooserView irodsFileSystemChooserView =  new IRODSFileSystemChooserView(idropCore);
-        IRODSFileChooser irodsFileChooser = new IRODSFileChooser(idropCore, idropCore.getDefaultDirectory().getAbsolutePath(), irodsFileSystemChooserView);
-        int returnVal = irodsFileChooser.showOpenDialog(this);
+        try {
+            IRODSFinderDialog irodsFileSystemChooserView = new IRODSFinderDialog(null, true, idropCore);
+            irodsFileSystemChooserView.setVisible(true);
+
+            // int returnVal = irodsFileChooser.showSaveDialog(this);
+        } catch (Exception e) {
+            log.error("exception choosings iRODS file");
+            throw new IdropRuntimeException("exception choosing irods fie", e);
+        } finally {
+            idropCore.getIrodsFileSystem().closeAndEatExceptions();
+        }
     }//GEN-LAST:event_btnChooseIrodsSynchActionPerformed
 
     private void btnSeeSystemTrayNoActionPerformed(

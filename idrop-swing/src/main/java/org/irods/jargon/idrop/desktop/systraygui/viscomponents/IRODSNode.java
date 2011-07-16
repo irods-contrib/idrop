@@ -12,6 +12,7 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
+import org.irods.jargon.idrop.desktop.systraygui.IRODSTreeContainingComponent;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
@@ -29,11 +30,11 @@ public class IRODSNode extends DefaultMutableTreeNode {
     public final IRODSFileSystem irodsFileSystem;
     public boolean hasMore = true;
     public boolean continuation = false;
-    private final IRODSTree irodsTree;
+    private final IRODSTreeContainingComponent irodsTree;
 
     public IRODSNode(final CollectionAndDataObjectListingEntry entry,
             final IRODSAccount irodsAccount,
-            final IRODSFileSystem irodsFileSystem, final IRODSTree irodsTree) {
+            final IRODSFileSystem irodsFileSystem, final IRODSTreeContainingComponent irodsTree) {
         super(entry);
         if (irodsAccount == null) {
             throw new IdropRuntimeException("null irodsAccount");
