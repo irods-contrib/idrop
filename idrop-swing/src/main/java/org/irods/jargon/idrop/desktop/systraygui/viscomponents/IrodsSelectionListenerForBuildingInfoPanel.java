@@ -98,6 +98,11 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements
         if (!idrop.getToggleIrodsDetails().isSelected()) {
             return;
         }
+        
+        /* FIXME: shim */
+        if (irodsNode == null) {
+            return;
+        }
 
         if (irodsNode.isLeaf()) {
             log.info("selected node is a leaf, get a data object");
