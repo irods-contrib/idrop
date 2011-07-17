@@ -11,9 +11,11 @@
 package org.irods.jargon.idrop.finder;
 
 import java.util.logging.Level;
+import javax.swing.ListSelectionModel;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.IRODSTreeContainingComponent;
+import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
@@ -29,6 +31,11 @@ import org.slf4j.LoggerFactory;
 public class IRODSFinderDialog extends javax.swing.JDialog {
     
     private final IDROPCore idropCore;
+    private  String selectedAbsolutePath = null;
+
+    public String getSelectedAbsolutePath() {
+        return selectedAbsolutePath;
+    }
 
     public IDROPCore getIdropCore() {
         return idropCore;
@@ -105,6 +112,9 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
                 } catch (Exception ex) {
                    log.error("exception building finder tree", ex);
                     throw new IdropRuntimeException(ex);
+                } finally {
+                     idropCore.getIrodsFileSystem().closeAndEatExceptions(
+                        idropCore.getIrodsAccount());
                 }
 
                 scrollIrodsTree.setViewportView(irodsTree);
@@ -113,8 +123,6 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
               
                 irodsTree.setRefreshingTree(false);
 
-                idropCore.getIrodsFileSystem().closeAndEatExceptions(
-                        idropCore.getIrodsAccount());
             }
         });
     }
@@ -136,7 +144,6 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
         pnlIrodsTreeMaster = new javax.swing.JPanel();
         scrollIrodsTree = new javax.swing.JScrollPane();
         bottomPanel = new javax.swing.JPanel();
-        btnNewFolder = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnSelectFolder = new javax.swing.JButton();
 
@@ -183,16 +190,22 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
 
         getContentPane().add(treePanel, java.awt.BorderLayout.PAGE_START);
 
-        btnNewFolder.setMnemonic('n');
-        btnNewFolder.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnNewFolder.text")); // NOI18N
-        bottomPanel.add(btnNewFolder);
-
         btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnCancel.text")); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
         bottomPanel.add(btnCancel);
 
         btnSelectFolder.setMnemonic('s');
         btnSelectFolder.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnSelectFolder.text")); // NOI18N
+        btnSelectFolder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectFolderActionPerformed(evt);
+            }
+        });
         bottomPanel.add(btnSelectFolder);
 
         getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
@@ -201,13 +214,46 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefreshTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshTargetTreeActionPerformed
-        // TODO add your handling code here:
+       buildTargetTree();
     }//GEN-LAST:event_btnRefreshTargetTreeActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.selectedAbsolutePath = null;
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnSelectFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectFolderActionPerformed
+        
+        IRODSFinderOutlineModel irodsFileSystemModel = (IRODSFinderOutlineModel) irodsTree.getModel();
+        
+
+        ListSelectionModel selectionModel = irodsTree.getSelectionModel();
+        int idx = selectionModel.getLeadSelectionIndex();
+        
+        if (idx == -1) {
+            MessageManager.showWarning(this, "Please select a directory", MessageManager.TITLE_MESSAGE);
+            return;
+
+}
+
+        // use first selection for info
+        IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(
+                idx, 0);
+        log.info("selected node:{}", selectedNode);
+        CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) selectedNode.getUserObject();
+        if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
+              MessageManager.showWarning(this, "Please select a directory", MessageManager.TITLE_MESSAGE);
+            return;
+        }
+        
+       this.selectedAbsolutePath = entry.getFormattedAbsolutePath();
+       this.setVisible(false);
+        
+    }//GEN-LAST:event_btnSelectFolderActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnNewFolder;
     private javax.swing.JButton btnRefreshTargetTree;
     private javax.swing.JButton btnSelectFolder;
     private javax.swing.JPanel pnlIrodsTreeMaster;

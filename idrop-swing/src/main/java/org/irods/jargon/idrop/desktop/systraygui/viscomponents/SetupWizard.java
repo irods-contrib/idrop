@@ -66,8 +66,8 @@ public class SetupWizard extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
+        bnGroupSynchType = new javax.swing.ButtonGroup();
         panelTop = new javax.swing.JPanel();
         lblWelcome = new javax.swing.JLabel();
         tabWizardTabs = new javax.swing.JTabbedPane();
@@ -91,19 +91,28 @@ public class SetupWizard extends javax.swing.JDialog {
         scrollInitialSynchSetupQuestion = new javax.swing.JScrollPane();
         txtInitialSynchSetupQuestion = new javax.swing.JTextArea();
         pnlInitialSynchSetupAnswer = new javax.swing.JPanel();
+        pnlSynchData = new javax.swing.JPanel();
         pnlLocalSynch = new javax.swing.JPanel();
+        txtLocalPath = new javax.swing.JTextField();
         btnChooseLocalSynch = new javax.swing.JButton();
         pnlSynchMode = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        radioBackup = new javax.swing.JRadioButton();
+        radioFeed = new javax.swing.JRadioButton();
+        radioSynch = new javax.swing.JRadioButton();
         pnlIrodsSynch = new javax.swing.JPanel();
+        txtIrodsPath = new javax.swing.JTextField();
         btnChooseIrodsSynch = new javax.swing.JButton();
         pnlWizardToolbar = new javax.swing.JPanel();
         btnBack = new javax.swing.JButton();
+        btnForward = new javax.swing.JButton();
         btnLater = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.title")); // NOI18N
 
-        panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12));
+        panelTop.setBackground(new java.awt.Color(102, 102, 102));
+        panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
 
         lblWelcome.setFont(new java.awt.Font("Lucida Grande", 0, 18));
         lblWelcome.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.lblWelcome.text")); // NOI18N
@@ -114,6 +123,7 @@ public class SetupWizard extends javax.swing.JDialog {
 
         getContentPane().add(panelTop, java.awt.BorderLayout.NORTH);
 
+        tabWizardTabs.setBackground(new java.awt.Color(102, 102, 102));
         tabWizardTabs.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tabWizardTabsKeyPressed(evt);
@@ -207,7 +217,19 @@ public class SetupWizard extends javax.swing.JDialog {
 
         pnlInitialSynchSetup.add(pnlInitialSynchSetupQuestion, java.awt.BorderLayout.CENTER);
 
-        pnlInitialSynchSetupAnswer.setLayout(new java.awt.GridBagLayout());
+        pnlInitialSynchSetupAnswer.setLayout(new java.awt.BorderLayout());
+
+        pnlSynchData.setLayout(new java.awt.GridLayout(0, 1));
+
+        txtLocalPath.setColumns(80);
+        txtLocalPath.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtLocalPath.text")); // NOI18N
+        txtLocalPath.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtLocalPath.toolTipText")); // NOI18N
+        txtLocalPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLocalPathActionPerformed(evt);
+            }
+        });
+        pnlLocalSynch.add(txtLocalPath);
 
         btnChooseLocalSynch.setMnemonic('c');
         btnChooseLocalSynch.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnChooseLocalSynch.text")); // NOI18N
@@ -219,23 +241,39 @@ public class SetupWizard extends javax.swing.JDialog {
         });
         pnlLocalSynch.add(btnChooseLocalSynch);
 
-        pnlInitialSynchSetupAnswer.add(pnlLocalSynch, new java.awt.GridBagConstraints());
+        pnlSynchData.add(pnlLocalSynch);
 
-        org.jdesktop.layout.GroupLayout pnlSynchModeLayout = new org.jdesktop.layout.GroupLayout(pnlSynchMode);
-        pnlSynchMode.setLayout(pnlSynchModeLayout);
-        pnlSynchModeLayout.setHorizontalGroup(
-            pnlSynchModeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-        pnlSynchModeLayout.setVerticalGroup(
-            pnlSynchModeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
+        pnlSynchMode.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlSynchMode.setLayout(new java.awt.GridLayout(0, 1));
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        pnlInitialSynchSetupAnswer.add(pnlSynchMode, gridBagConstraints);
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.jLabel1.text")); // NOI18N
+        pnlSynchMode.add(jLabel1);
+
+        bnGroupSynchType.add(radioBackup);
+        radioBackup.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.radioBackup.text")); // NOI18N
+        pnlSynchMode.add(radioBackup);
+
+        bnGroupSynchType.add(radioFeed);
+        radioFeed.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.radioFeed.text")); // NOI18N
+        radioFeed.setEnabled(false);
+        pnlSynchMode.add(radioFeed);
+
+        bnGroupSynchType.add(radioSynch);
+        radioSynch.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.radioSynch.text")); // NOI18N
+        radioSynch.setEnabled(false);
+        pnlSynchMode.add(radioSynch);
+
+        pnlSynchData.add(pnlSynchMode);
+
+        txtIrodsPath.setColumns(80);
+        txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtIrodsPath.text")); // NOI18N
+        txtIrodsPath.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtIrodsPath.toolTipText")); // NOI18N
+        txtIrodsPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIrodsPathActionPerformed(evt);
+            }
+        });
+        pnlIrodsSynch.add(txtIrodsPath);
 
         btnChooseIrodsSynch.setMnemonic('i');
         btnChooseIrodsSynch.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnChooseIrodsSynch.text")); // NOI18N
@@ -245,32 +283,11 @@ public class SetupWizard extends javax.swing.JDialog {
                 btnChooseIrodsSynchActionPerformed(evt);
             }
         });
+        pnlIrodsSynch.add(btnChooseIrodsSynch);
 
-        org.jdesktop.layout.GroupLayout pnlIrodsSynchLayout = new org.jdesktop.layout.GroupLayout(pnlIrodsSynch);
-        pnlIrodsSynch.setLayout(pnlIrodsSynchLayout);
-        pnlIrodsSynchLayout.setHorizontalGroup(
-            pnlIrodsSynchLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 180, Short.MAX_VALUE)
-            .add(pnlIrodsSynchLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlIrodsSynchLayout.createSequentialGroup()
-                    .add(0, 1, Short.MAX_VALUE)
-                    .add(btnChooseIrodsSynch)
-                    .add(0, 2, Short.MAX_VALUE)))
-        );
-        pnlIrodsSynchLayout.setVerticalGroup(
-            pnlIrodsSynchLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-            .add(pnlIrodsSynchLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlIrodsSynchLayout.createSequentialGroup()
-                    .add(0, 35, Short.MAX_VALUE)
-                    .add(btnChooseIrodsSynch)
-                    .add(0, 36, Short.MAX_VALUE)))
-        );
+        pnlSynchData.add(pnlIrodsSynch);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        pnlInitialSynchSetupAnswer.add(pnlIrodsSynch, gridBagConstraints);
+        pnlInitialSynchSetupAnswer.add(pnlSynchData, java.awt.BorderLayout.CENTER);
 
         pnlInitialSynchSetup.add(pnlInitialSynchSetupAnswer, java.awt.BorderLayout.SOUTH);
 
@@ -278,6 +295,7 @@ public class SetupWizard extends javax.swing.JDialog {
 
         getContentPane().add(tabWizardTabs, java.awt.BorderLayout.CENTER);
 
+        pnlWizardToolbar.setBackground(new java.awt.Color(102, 102, 102));
         pnlWizardToolbar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnBack.setMnemonic('b');
@@ -289,6 +307,16 @@ public class SetupWizard extends javax.swing.JDialog {
             }
         });
         pnlWizardToolbar.add(btnBack);
+
+        btnForward.setMnemonic('b');
+        btnForward.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnForward.text")); // NOI18N
+        btnForward.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnForward.toolTipText")); // NOI18N
+        btnForward.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnForwardActionPerformed(evt);
+            }
+        });
+        pnlWizardToolbar.add(btnForward);
 
         btnLater.setMnemonic('l');
         btnLater.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnLater.text")); // NOI18N
@@ -366,6 +394,7 @@ public class SetupWizard extends javax.swing.JDialog {
         localFileChooser.setMultiSelectionEnabled(false);
         localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnVal = localFileChooser.showOpenDialog(this);
+        txtLocalPath.setText(localFileChooser.getSelectedFile().getAbsolutePath());
     }//GEN-LAST:event_btnChooseLocalSynchActionPerformed
 
     private void btnChooseIrodsSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseIrodsSynchActionPerformed
@@ -377,6 +406,11 @@ public class SetupWizard extends javax.swing.JDialog {
             final int y = (screenSize.height - irodsFileSystemChooserView.getHeight()) / 2;
             irodsFileSystemChooserView.setLocation(x, y);
             irodsFileSystemChooserView.setVisible(true);
+            String absPath = irodsFileSystemChooserView.getSelectedAbsolutePath();
+            irodsFileSystemChooserView.dispose();
+            if (absPath != null) {
+                txtIrodsPath.setText(irodsFileSystemChooserView.getSelectedAbsolutePath());
+            }
 
             // int returnVal = irodsFileChooser.showSaveDialog(this);
         } catch (Exception e) {
@@ -386,6 +420,18 @@ public class SetupWizard extends javax.swing.JDialog {
             idropCore.getIrodsFileSystem().closeAndEatExceptions();
         }
     }//GEN-LAST:event_btnChooseIrodsSynchActionPerformed
+
+    private void txtIrodsPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIrodsPathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIrodsPathActionPerformed
+
+    private void txtLocalPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLocalPathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLocalPathActionPerformed
+
+    private void btnForwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnForwardActionPerformed
 
     private void btnSeeSystemTrayNoActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSeeSystemTrayNoActionPerformed
@@ -428,13 +474,16 @@ public class SetupWizard extends javax.swing.JDialog {
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup bnGroupSynchType;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnChooseIrodsSynch;
     private javax.swing.JButton btnChooseLocalSynch;
+    private javax.swing.JButton btnForward;
     private javax.swing.JButton btnLater;
     private javax.swing.JButton btnSeeSystemTrayNo;
     private javax.swing.JButton btnSeeSystemTrayYes;
     private javax.swing.JButton btnSetDeviceName;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblDeviceName;
@@ -451,12 +500,18 @@ public class SetupWizard extends javax.swing.JDialog {
     private javax.swing.JPanel pnlInitialSynchSetupQuestion;
     private javax.swing.JPanel pnlIrodsSynch;
     private javax.swing.JPanel pnlLocalSynch;
+    private javax.swing.JPanel pnlSynchData;
     private javax.swing.JPanel pnlSynchMode;
     private javax.swing.JPanel pnlWizardToolbar;
+    private javax.swing.JRadioButton radioBackup;
+    private javax.swing.JRadioButton radioFeed;
+    private javax.swing.JRadioButton radioSynch;
     private javax.swing.JScrollPane scrollInitialSynchSetupQuestion;
     private javax.swing.JTabbedPane tabWizardTabs;
     private javax.swing.JTextField txtDeviceName;
     private javax.swing.JTextArea txtInitialSynchSetupQuestion;
+    private javax.swing.JTextField txtIrodsPath;
+    private javax.swing.JTextField txtLocalPath;
     private javax.swing.JTextArea txtSeeIcon;
     private javax.swing.JTextArea txtSeeIcon1;
     // End of variables declaration//GEN-END:variables
