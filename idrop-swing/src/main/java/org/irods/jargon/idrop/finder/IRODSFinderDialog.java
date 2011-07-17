@@ -29,6 +29,14 @@ import org.slf4j.LoggerFactory;
 public class IRODSFinderDialog extends javax.swing.JDialog {
     
     private final IDROPCore idropCore;
+
+    public IDROPCore getIdropCore() {
+        return idropCore;
+    }
+
+    public IRODSFinderTree getIrodsTree() {
+        return irodsTree;
+    }
      private static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSFinderDialog.class);
      private IRODSFinderTree irodsTree = null;
 
@@ -88,34 +96,21 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
 
                     IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
                             rootNode, idropCore.getIrodsAccount());
-                    IRODSFinderOutlineModel mdl = new IRODSFinderOutlineModel(
+                    IRODSFinderOutlineModel mdl = new IRODSFinderOutlineModel(idropCore, irodsTree,
                             irodsFileSystemModel, new IRODSRowModel(), true,
                             "File System");
                     irodsTree.setModel(mdl);
 
-                    /*
-                     * IrodsTreeListenerForBuildingInfoPanel treeListener = new
-                     * IrodsTreeListenerForBuildingInfoPanel(gui);
-                     * irodsTree.addTreeExpansionListener(treeListener);
-                     * irodsTree.addTreeSelectionListener(treeListener); //
-                     * preset to display root tree node
-                     * irodsTree.setSelectionRow(0);
-                     */
+                   
                 } catch (Exception ex) {
                    log.error("exception building finder tree", ex);
                     throw new IdropRuntimeException(ex);
                 }
 
                 scrollIrodsTree.setViewportView(irodsTree);
-                /*
-                 * TreePath currentPath;
-                 * 
-                 * if (currentPaths != null) { while
-                 * (currentPaths.hasMoreElements()) { currentPath = (TreePath)
-                 * currentPaths.nextElement();
-                 * log.debug("expanding tree path:{}", currentPath);
-                 * irodsTree.expandPath(currentPath); } }
-                 */
+                scrollIrodsTree.validate();
+                gui.validate();
+              
                 irodsTree.setRefreshingTree(false);
 
                 idropCore.getIrodsFileSystem().closeAndEatExceptions(
@@ -146,19 +141,22 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
         btnSelectFolder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setModal(true);
 
         org.jdesktop.layout.GroupLayout topPanelLayout = new org.jdesktop.layout.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
         topPanelLayout.setHorizontalGroup(
             topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 497, Short.MAX_VALUE)
+            .add(0, 593, Short.MAX_VALUE)
         );
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
+            .add(0, 484, Short.MAX_VALUE)
         );
 
         getContentPane().add(topPanel, java.awt.BorderLayout.CENTER);
+
+        treePanel.setLayout(new java.awt.BorderLayout());
 
         btnRefreshTargetTree.setMnemonic('r');
         btnRefreshTargetTree.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnRefreshTargetTree.text")); // NOI18N
@@ -173,32 +171,15 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
         });
         pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
 
+        treePanel.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
+
         pnlIrodsTreeMaster.setLayout(new java.awt.BorderLayout());
+
+        scrollIrodsTree.setMinimumSize(null);
+        scrollIrodsTree.setPreferredSize(null);
         pnlIrodsTreeMaster.add(scrollIrodsTree, java.awt.BorderLayout.CENTER);
 
-        org.jdesktop.layout.GroupLayout treePanelLayout = new org.jdesktop.layout.GroupLayout(treePanel);
-        treePanel.setLayout(treePanelLayout);
-        treePanelLayout.setHorizontalGroup(
-            treePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 497, Short.MAX_VALUE)
-            .add(treePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(treePanelLayout.createSequentialGroup()
-                    .add(0, 60, Short.MAX_VALUE)
-                    .add(treePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(pnlIrodsTreeToolbar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 377, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(pnlIrodsTreeMaster, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 377, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(0, 60, Short.MAX_VALUE)))
-        );
-        treePanelLayout.setVerticalGroup(
-            treePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 527, Short.MAX_VALUE)
-            .add(treePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(treePanelLayout.createSequentialGroup()
-                    .add(0, 0, Short.MAX_VALUE)
-                    .add(pnlIrodsTreeToolbar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(pnlIrodsTreeMaster, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 488, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(0, 0, Short.MAX_VALUE)))
-        );
+        treePanel.add(pnlIrodsTreeMaster, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(treePanel, java.awt.BorderLayout.PAGE_START);
 

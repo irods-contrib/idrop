@@ -6,6 +6,8 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JFileChooser;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -28,7 +30,7 @@ public class SetupWizard extends javax.swing.JDialog {
     private final IDROPCore idropCore;
     private final IdropConfigurationService idropConfigurationService;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SetupWizard.class);
-    public final String SETUP_ERROR_TITLE = "iDrop - Setup Error";
+    public final String SETUP_ERROR_TITLE = "iDrop - Setup";
     private int tabStep = 0;
     private boolean tabAdvancing = false;
 
@@ -98,7 +100,8 @@ public class SetupWizard extends javax.swing.JDialog {
         btnBack = new javax.swing.JButton();
         btnLater = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.title")); // NOI18N
 
         panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12));
 
@@ -368,6 +371,11 @@ public class SetupWizard extends javax.swing.JDialog {
     private void btnChooseIrodsSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseIrodsSynchActionPerformed
         try {
             IRODSFinderDialog irodsFileSystemChooserView = new IRODSFinderDialog(null, true, idropCore);
+             final Toolkit toolkit = Toolkit.getDefaultToolkit();
+            final Dimension screenSize = toolkit.getScreenSize();
+            final int x = (screenSize.width - irodsFileSystemChooserView.getWidth()) / 2;
+            final int y = (screenSize.height - irodsFileSystemChooserView.getHeight()) / 2;
+            irodsFileSystemChooserView.setLocation(x, y);
             irodsFileSystemChooserView.setVisible(true);
 
             // int returnVal = irodsFileChooser.showSaveDialog(this);

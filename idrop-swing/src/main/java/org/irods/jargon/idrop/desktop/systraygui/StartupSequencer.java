@@ -1,6 +1,7 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.List;
 import java.util.Properties;
@@ -130,7 +131,7 @@ public class StartupSequencer {
         log.info("config properties derived...");
         idropCore.setIdropConfig(new IdropConfig(derivedProperties));
         idropCore.getIdropConfig().setUpLogging();
-        
+
         log.info("setting initial look and feel");
         LookAndFeelManager laf = new LookAndFeelManager(idropCore);
         laf.setLookAndFeel(idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
@@ -143,11 +144,11 @@ public class StartupSequencer {
         int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
         int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;
         loginDialog.setLocation(x, y);
-        
+
         loginDialog.setAlwaysOnTop(true);
-       
+
         loginDialog.setVisible(true);
-         loginDialog.toFront();
+        loginDialog.toFront();
         idropSplashWindow.toBack();
 
         if (idropCore.getIrodsAccount() == null) {
@@ -211,7 +212,7 @@ public class StartupSequencer {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
             idropCore.setQueueTimer(timer);
-            
+
 
 
         } catch (IdropException ex) {
@@ -237,7 +238,7 @@ public class StartupSequencer {
             log.info("first time running idrop, starting configuration wizard");
             log.info("showing gui first time run");
             doFirstTimeConfigurationWizard();
-             idrop.showIdropGui();
+            idrop.showIdropGui();
         } else {
             // see if I show the gui at startup or show a message
             if (idropCore.getIdropConfig().isShowGuiAtStartup()) {
@@ -259,7 +260,7 @@ public class StartupSequencer {
                     log.info("switching to show GUI at startup");
                     try {
                         idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.SHOW_GUI, "true");
-                           idrop.showIdropGui();
+                        idrop.showIdropGui();
                     } catch (IdropException ex) {
                         log.error("error setting show GUI at startup", ex);
                         throw new IdropRuntimeException(ex);
@@ -270,7 +271,11 @@ public class StartupSequencer {
 
         log.info("signal that the startup sequence is complete");
         try {
-
+            try {
+                Thread.sleep(STARTUP_SEQUENCE_PAUSE_INTERVAL * 2);
+            } catch (InterruptedException e) {
+                throw new IdropRuntimeException(e);
+            }
             idropSplashWindow.setVisible(false);
             idropSplashWindow = null;
         } catch (Exception e) {
@@ -310,6 +315,12 @@ public class StartupSequencer {
             idrop.setVisible(false);
             SetupWizard setupWizard = new SetupWizard(idrop, true);
             setupWizard.toFront();
+             final Toolkit toolkit = Toolkit.getDefaultToolkit();
+            final Dimension screenSize = toolkit.getScreenSize();
+            final int x = (screenSize.width - setupWizard.getWidth()) / 2;
+            final int y = (screenSize.height - setupWizard.getHeight()) / 2;
+            setupWizard.setLocation(x, y);
+
             setupWizard.setVisible(true);
             idrop.setVisible(true);
         }

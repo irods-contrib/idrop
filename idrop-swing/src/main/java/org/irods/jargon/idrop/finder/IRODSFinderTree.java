@@ -99,6 +99,7 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
      */
     private void setUpTreeMenu() {
         thisTree = this;
+       
         m_popup = new JPopupMenu();
         m_action = new AbstractAction() {
 
@@ -137,15 +138,14 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
                     return;
                 }
                 // show a dialog asking for the new directory name...
-                /*  FIXME: implement
-                NewIRODSDirectoryDialog newDirectoryDialog = new NewIRODSDirectoryDialog(
-                        idropParentGui, true, dataEntry.getPathOrName(),
+              
+                FinderNewIRODSDirectoryDialog newDirectoryDialog = new FinderNewIRODSDirectoryDialog(
+                        irodsFinderDialog, true, dataEntry.getPathOrName(),
                         thisTree, parent);
                 newDirectoryDialog.setLocation(
-                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                        (int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog.getWidth() / 2), (int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog.getHeight() / 2));
                 newDirectoryDialog.setVisible(true);
-                 * 
-                 */
+               
             }
         };
         m_popup.add(newAction);
@@ -160,8 +160,8 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
                 int[] rows = thisTree.getSelectedRows();
                 log.debug("selected rows for delete:{}", rows);
 
-                   /* FIXME: redo
-                DeleteIRODSDialog deleteDialog;
+               
+                FinderDeleteIRODSDialog deleteDialog;
 
                 if (rows.length == 1) {
 
@@ -169,7 +169,7 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
                             rows[0], 0);
                     log.info("deleting a single node: {}", toDelete);
                  
-                    deleteDialog = new DeleteIRODSDialog(idropParentGui, true,
+                    deleteDialog = new FinderDeleteIRODSDialog(irodsFinderDialog, true,
                             thisTree, toDelete);
                 } else {
                     List<IRODSNode> nodesToDelete = new ArrayList<IRODSNode>();
@@ -179,15 +179,14 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
 
                     }
 
-                    deleteDialog = new DeleteIRODSDialog(idropParentGui, true,
+                    deleteDialog = new FinderDeleteIRODSDialog(irodsFinderDialog, true,
                             thisTree, nodesToDelete);
                 }
 
                 deleteDialog.setLocation(
-                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                        (int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog.getWidth() / 2), (int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog.getHeight() / 2));
                 deleteDialog.setVisible(true);
-                    * 
-                    */
+                  
             }
         };
 
@@ -211,15 +210,13 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
                     sb.append('/');
                     sb.append(dataEntry.getPathOrName());
                 }
-/* FIXME redo
+
                 // show a dialog asking for the new directory name...
-                RenameIRODSDirectoryDialog renameDialog = new RenameIRODSDirectoryDialog(
-                        idropParentGui, true, sb.toString(), thisTree, toRename);
+                FinderRenameIRODSDirectoryDialog renameDialog = new FinderRenameIRODSDirectoryDialog(
+                        irodsFinderDialog, true, sb.toString(), thisTree, toRename);
                 renameDialog.setLocation(
-                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                        (int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog.getWidth() / 2), (int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog.getHeight() / 2));
                 renameDialog.setVisible(true);
- * 
- */
             }
         };
         m_popup.add(a2);

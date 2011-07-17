@@ -1,4 +1,4 @@
-package org.irods.jargon.idrop.desktop.systraygui.util;
+package org.irods.jargon.idrop.desktop.systraygui.utils;
 
 import java.awt.Component;
 
