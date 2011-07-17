@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
@@ -66,6 +67,7 @@ public class SetupWizard extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         bnGroupSynchType = new javax.swing.ButtonGroup();
         panelTop = new javax.swing.JPanel();
@@ -73,23 +75,19 @@ public class SetupWizard extends javax.swing.JDialog {
         tabWizardTabs = new javax.swing.JTabbedPane();
         panelTabSeeSysTray = new javax.swing.JPanel();
         panelTabSeeSysTrayQuestion = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtSeeIcon = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
         panelTabSeeSysTrayAnswer = new javax.swing.JPanel();
         btnSeeSystemTrayYes = new javax.swing.JButton();
         btnSeeSystemTrayNo = new javax.swing.JButton();
         panelTabNameDevice = new javax.swing.JPanel();
         panelTabNameDeviceQuestion = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtSeeIcon1 = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
         panelTabNameDeviceAnswer = new javax.swing.JPanel();
         lblDeviceName = new javax.swing.JLabel();
         txtDeviceName = new javax.swing.JTextField();
-        btnSetDeviceName = new javax.swing.JButton();
         pnlInitialSynchSetup = new javax.swing.JPanel();
         pnlInitialSynchSetupQuestion = new javax.swing.JPanel();
-        scrollInitialSynchSetupQuestion = new javax.swing.JScrollPane();
-        txtInitialSynchSetupQuestion = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
         pnlInitialSynchSetupAnswer = new javax.swing.JPanel();
         pnlSynchData = new javax.swing.JPanel();
         pnlLocalSynch = new javax.swing.JPanel();
@@ -132,17 +130,13 @@ public class SetupWizard extends javax.swing.JDialog {
 
         panelTabSeeSysTray.setLayout(new java.awt.BorderLayout());
 
-        txtSeeIcon.setColumns(60);
-        txtSeeIcon.setEditable(false);
-        txtSeeIcon.setLineWrap(true);
-        txtSeeIcon.setRows(8);
-        txtSeeIcon.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtSeeIcon.text")); // NOI18N
-        txtSeeIcon.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(txtSeeIcon);
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.jLabel2.text")); // NOI18N
+        panelTabSeeSysTrayQuestion.add(jLabel2);
 
-        panelTabSeeSysTrayQuestion.add(jScrollPane1);
+        panelTabSeeSysTray.add(panelTabSeeSysTrayQuestion, java.awt.BorderLayout.NORTH);
 
-        panelTabSeeSysTray.add(panelTabSeeSysTrayQuestion, java.awt.BorderLayout.CENTER);
+        panelTabSeeSysTrayAnswer.setMinimumSize(null);
+        panelTabSeeSysTrayAnswer.setPreferredSize(null);
 
         btnSeeSystemTrayYes.setMnemonic('y');
         btnSeeSystemTrayYes.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSeeSystemTrayYes.toolTipText")); // NOI18N
@@ -170,16 +164,8 @@ public class SetupWizard extends javax.swing.JDialog {
 
         panelTabNameDevice.setLayout(new java.awt.BorderLayout());
 
-        txtSeeIcon1.setColumns(60);
-        txtSeeIcon1.setEditable(false);
-        txtSeeIcon1.setLineWrap(true);
-        txtSeeIcon1.setRows(8);
-        txtSeeIcon1.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtSeeIcon1.text")); // NOI18N
-        txtSeeIcon1.setWrapStyleWord(true);
-        txtSeeIcon1.setPreferredSize(null);
-        jScrollPane2.setViewportView(txtSeeIcon1);
-
-        panelTabNameDeviceQuestion.add(jScrollPane2);
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.jLabel3.text")); // NOI18N
+        panelTabNameDeviceQuestion.add(jLabel3);
 
         panelTabNameDevice.add(panelTabNameDeviceQuestion, java.awt.BorderLayout.CENTER);
 
@@ -190,36 +176,23 @@ public class SetupWizard extends javax.swing.JDialog {
         txtDeviceName.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtDeviceName.text")); // NOI18N
         panelTabNameDeviceAnswer.add(txtDeviceName);
 
-        btnSetDeviceName.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSetDeviceName.text")); // NOI18N
-        btnSetDeviceName.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSetDeviceName.toolTipText")); // NOI18N
-        btnSetDeviceName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSetDeviceNameActionPerformed(evt);
-            }
-        });
-        panelTabNameDeviceAnswer.add(btnSetDeviceName);
-
         panelTabNameDevice.add(panelTabNameDeviceAnswer, java.awt.BorderLayout.SOUTH);
 
         tabWizardTabs.addTab(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.panelTabNameDevice.TabConstraints.tabTitle"), panelTabNameDevice); // NOI18N
 
         pnlInitialSynchSetup.setLayout(new java.awt.BorderLayout());
 
-        txtInitialSynchSetupQuestion.setColumns(60);
-        txtInitialSynchSetupQuestion.setEditable(false);
-        txtInitialSynchSetupQuestion.setLineWrap(true);
-        txtInitialSynchSetupQuestion.setRows(8);
-        txtInitialSynchSetupQuestion.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtInitialSynchSetupQuestion.text")); // NOI18N
-        txtInitialSynchSetupQuestion.setWrapStyleWord(true);
-        scrollInitialSynchSetupQuestion.setViewportView(txtInitialSynchSetupQuestion);
-
-        pnlInitialSynchSetupQuestion.add(scrollInitialSynchSetupQuestion);
+        jLabel4.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.jLabel4.text")); // NOI18N
+        pnlInitialSynchSetupQuestion.add(jLabel4);
 
         pnlInitialSynchSetup.add(pnlInitialSynchSetupQuestion, java.awt.BorderLayout.CENTER);
 
         pnlInitialSynchSetupAnswer.setLayout(new java.awt.BorderLayout());
 
-        pnlSynchData.setLayout(new java.awt.GridLayout(0, 1));
+        pnlSynchData.setLayout(new java.awt.GridBagLayout());
+
+        pnlLocalSynch.setMinimumSize(null);
+        pnlLocalSynch.setPreferredSize(null);
 
         txtLocalPath.setColumns(80);
         txtLocalPath.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtLocalPath.text")); // NOI18N
@@ -241,7 +214,14 @@ public class SetupWizard extends javax.swing.JDialog {
         });
         pnlLocalSynch.add(btnChooseLocalSynch);
 
-        pnlSynchData.add(pnlLocalSynch);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        pnlSynchData.add(pnlLocalSynch, gridBagConstraints);
 
         pnlSynchMode.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlSynchMode.setLayout(new java.awt.GridLayout(0, 1));
@@ -250,6 +230,7 @@ public class SetupWizard extends javax.swing.JDialog {
         pnlSynchMode.add(jLabel1);
 
         bnGroupSynchType.add(radioBackup);
+        radioBackup.setSelected(true);
         radioBackup.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.radioBackup.text")); // NOI18N
         pnlSynchMode.add(radioBackup);
 
@@ -263,7 +244,14 @@ public class SetupWizard extends javax.swing.JDialog {
         radioSynch.setEnabled(false);
         pnlSynchMode.add(radioSynch);
 
-        pnlSynchData.add(pnlSynchMode);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        pnlSynchData.add(pnlSynchMode, gridBagConstraints);
 
         txtIrodsPath.setColumns(80);
         txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtIrodsPath.text")); // NOI18N
@@ -285,7 +273,14 @@ public class SetupWizard extends javax.swing.JDialog {
         });
         pnlIrodsSynch.add(btnChooseIrodsSynch);
 
-        pnlSynchData.add(pnlIrodsSynch);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        pnlSynchData.add(pnlIrodsSynch, gridBagConstraints);
 
         pnlInitialSynchSetupAnswer.add(pnlSynchData, java.awt.BorderLayout.CENTER);
 
@@ -338,7 +333,10 @@ public class SetupWizard extends javax.swing.JDialog {
      * @param evt 
      */
     private void btnSeeSystemTrayYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeeSystemTrayYesActionPerformed
+        saveSeeSystemTrayYas();
+    }
 
+    private void saveSeeSystemTrayYas() throws IdropRuntimeException {
         log.info("indicates system try shown, set to not load gui");
         try {
             idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "false");
@@ -350,10 +348,10 @@ public class SetupWizard extends javax.swing.JDialog {
         advanceTab();
     }//GEN-LAST:event_btnSeeSystemTrayYesActionPerformed
 
-    private void btnSetDeviceNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetDeviceNameActionPerformed
+    private void saveDeviceName() {
         if (txtDeviceName.getText().length() == 0) {
             txtDeviceName.setBackground(Color.red);
-            MessageManager.showError(this, SETUP_ERROR_TITLE, "Device name is not entered");
+            MessageManager.showError(this,  "Device name is not entered", SETUP_ERROR_TITLE);
             return;
         }
         try {
@@ -365,7 +363,7 @@ public class SetupWizard extends javax.swing.JDialog {
         }
         advanceTab();
 
-    }//GEN-LAST:event_btnSetDeviceNameActionPerformed
+    }
 
     private void tabWizardTabsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabWizardTabsKeyPressed
     }//GEN-LAST:event_tabWizardTabsKeyPressed
@@ -400,7 +398,7 @@ public class SetupWizard extends javax.swing.JDialog {
     private void btnChooseIrodsSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseIrodsSynchActionPerformed
         try {
             IRODSFinderDialog irodsFileSystemChooserView = new IRODSFinderDialog(null, true, idropCore);
-             final Toolkit toolkit = Toolkit.getDefaultToolkit();
+            final Toolkit toolkit = Toolkit.getDefaultToolkit();
             final Dimension screenSize = toolkit.getScreenSize();
             final int x = (screenSize.width - irodsFileSystemChooserView.getWidth()) / 2;
             final int y = (screenSize.height - irodsFileSystemChooserView.getHeight()) / 2;
@@ -430,7 +428,17 @@ public class SetupWizard extends javax.swing.JDialog {
     }//GEN-LAST:event_txtLocalPathActionPerformed
 
     private void btnForwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardActionPerformed
-        // TODO add your handling code here:
+        // forward acts differently according to the current tab
+        if (tabWizardTabs.getSelectedIndex() == 0) {
+            // advance from 'can you see icon'
+            saveSeeSystemTrayYas();
+        } else if (tabWizardTabs.getSelectedIndex() == 1) {
+            // advance tabs from 'name device;
+            saveDeviceName();
+        } else if (tabWizardTabs.getSelectedIndex() == 2) {
+            // advance from set up synch
+            saveSynch();
+        }
     }//GEN-LAST:event_btnForwardActionPerformed
 
     private void btnSeeSystemTrayNoActionPerformed(
@@ -482,10 +490,10 @@ public class SetupWizard extends javax.swing.JDialog {
     private javax.swing.JButton btnLater;
     private javax.swing.JButton btnSeeSystemTrayNo;
     private javax.swing.JButton btnSeeSystemTrayYes;
-    private javax.swing.JButton btnSetDeviceName;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lblDeviceName;
     private javax.swing.JLabel lblWelcome;
     private javax.swing.JPanel panelTabNameDevice;
@@ -506,18 +514,33 @@ public class SetupWizard extends javax.swing.JDialog {
     private javax.swing.JRadioButton radioBackup;
     private javax.swing.JRadioButton radioFeed;
     private javax.swing.JRadioButton radioSynch;
-    private javax.swing.JScrollPane scrollInitialSynchSetupQuestion;
     private javax.swing.JTabbedPane tabWizardTabs;
     private javax.swing.JTextField txtDeviceName;
-    private javax.swing.JTextArea txtInitialSynchSetupQuestion;
     private javax.swing.JTextField txtIrodsPath;
     private javax.swing.JTextField txtLocalPath;
-    private javax.swing.JTextArea txtSeeIcon;
-    private javax.swing.JTextArea txtSeeIcon1;
     // End of variables declaration//GEN-END:variables
 
     private void finishWizard() {
         log.info("finishing wizard");
         this.dispose();
+    }
+
+    private void saveSynch() {
+        if (txtLocalPath.getText().trim().length() == 0 && txtIrodsPath.getText().trim().length() == 0) {
+            log.info("ignoring synch for now");
+        } else if (txtLocalPath.getText().trim().length() == 0 || txtIrodsPath.getText().trim().length() == 0) {
+            int result = JOptionPane.showConfirmDialog(this,
+                    "Skip sych?",
+                    "Not all synch data entered, do you wish to skip? (This may be configured later)",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                advanceTab();
+            } else {
+                log.info("retry setup of synch");
+            }
+        } else {
+            log.info("saving synch data");
+            advanceTab();
+        }
     }
 }
