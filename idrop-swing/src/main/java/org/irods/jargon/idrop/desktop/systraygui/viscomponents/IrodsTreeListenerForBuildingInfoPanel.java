@@ -146,7 +146,7 @@ public class IrodsTreeListenerForBuildingInfoPanel implements
             Collection collection = collectionAO.findByAbsolutePath(collectionAndDataObjectListingEntry.getPathOrName());
             idrop.initializeInfoPanel(collection);
         } catch (Exception e) {
-            log.error("error building collection objectt for: {}", irodsNode);
+            log.error("error building collection object for: {}", irodsNode);
             throw new IdropException(e);
 
         }
