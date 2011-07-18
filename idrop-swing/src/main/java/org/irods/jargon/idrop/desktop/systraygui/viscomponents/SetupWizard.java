@@ -8,6 +8,7 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
@@ -19,12 +20,18 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
+import org.irods.jargon.transfer.dao.domain.FrequencyType;
+import org.irods.jargon.transfer.dao.domain.Synchronization;
+import org.irods.jargon.transfer.dao.domain.SynchronizationType;
+import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ * Initial setup of iDrop and synchronization as part of first load
  * @author mikeconway
+ * d.setLocationRelativeTo(null);
+
  */
 public class SetupWizard extends javax.swing.JDialog {
 
@@ -98,6 +105,9 @@ public class SetupWizard extends javax.swing.JDialog {
         radioBackup = new javax.swing.JRadioButton();
         radioFeed = new javax.swing.JRadioButton();
         radioSynch = new javax.swing.JRadioButton();
+        pnlSynchFrequency = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jcomboSynchFrequency = new javax.swing.JComboBox();
         pnlIrodsSynch = new javax.swing.JPanel();
         txtIrodsPath = new javax.swing.JTextField();
         btnChooseIrodsSynch = new javax.swing.JButton();
@@ -110,7 +120,7 @@ public class SetupWizard extends javax.swing.JDialog {
         setTitle(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.title")); // NOI18N
 
         panelTop.setBackground(new java.awt.Color(102, 102, 102));
-        panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        panelTop.setFont(new java.awt.Font("Lucida Grande", 0, 12));
 
         lblWelcome.setFont(new java.awt.Font("Lucida Grande", 0, 18));
         lblWelcome.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.lblWelcome.text")); // NOI18N
@@ -134,9 +144,6 @@ public class SetupWizard extends javax.swing.JDialog {
         panelTabSeeSysTrayQuestion.add(jLabel2);
 
         panelTabSeeSysTray.add(panelTabSeeSysTrayQuestion, java.awt.BorderLayout.NORTH);
-
-        panelTabSeeSysTrayAnswer.setMinimumSize(null);
-        panelTabSeeSysTrayAnswer.setPreferredSize(null);
 
         btnSeeSystemTrayYes.setMnemonic('y');
         btnSeeSystemTrayYes.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnSeeSystemTrayYes.toolTipText")); // NOI18N
@@ -191,9 +198,6 @@ public class SetupWizard extends javax.swing.JDialog {
 
         pnlSynchData.setLayout(new java.awt.GridBagLayout());
 
-        pnlLocalSynch.setMinimumSize(null);
-        pnlLocalSynch.setPreferredSize(null);
-
         txtLocalPath.setColumns(80);
         txtLocalPath.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtLocalPath.text")); // NOI18N
         txtLocalPath.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtLocalPath.toolTipText")); // NOI18N
@@ -230,7 +234,6 @@ public class SetupWizard extends javax.swing.JDialog {
         pnlSynchMode.add(jLabel1);
 
         bnGroupSynchType.add(radioBackup);
-        radioBackup.setSelected(true);
         radioBackup.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.radioBackup.text")); // NOI18N
         pnlSynchMode.add(radioBackup);
 
@@ -252,6 +255,25 @@ public class SetupWizard extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         pnlSynchData.add(pnlSynchMode, gridBagConstraints);
+
+        pnlSynchFrequency.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlSynchFrequency.setLayout(new java.awt.GridLayout(0, 1));
+
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.jLabel5.text")); // NOI18N
+        pnlSynchFrequency.add(jLabel5);
+
+        jcomboSynchFrequency.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Hourly", "Weekly", "Daily", "Every 15 Minutes", " " }));
+        jcomboSynchFrequency.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.jcomboSynchFrequency.toolTipText")); // NOI18N
+        pnlSynchFrequency.add(jcomboSynchFrequency);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        pnlSynchData.add(pnlSynchFrequency, gridBagConstraints);
 
         txtIrodsPath.setColumns(80);
         txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtIrodsPath.text")); // NOI18N
@@ -275,7 +297,7 @@ public class SetupWizard extends javax.swing.JDialog {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -494,6 +516,8 @@ public class SetupWizard extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JComboBox jcomboSynchFrequency;
     private javax.swing.JLabel lblDeviceName;
     private javax.swing.JLabel lblWelcome;
     private javax.swing.JPanel panelTabNameDevice;
@@ -509,6 +533,7 @@ public class SetupWizard extends javax.swing.JDialog {
     private javax.swing.JPanel pnlIrodsSynch;
     private javax.swing.JPanel pnlLocalSynch;
     private javax.swing.JPanel pnlSynchData;
+    private javax.swing.JPanel pnlSynchFrequency;
     private javax.swing.JPanel pnlSynchMode;
     private javax.swing.JPanel pnlWizardToolbar;
     private javax.swing.JRadioButton radioBackup;
@@ -540,7 +565,28 @@ public class SetupWizard extends javax.swing.JDialog {
             }
         } else {
             log.info("saving synch data");
-            advanceTab();
+            Synchronization synchronization = new Synchronization();
+            synchronization.setCreatedAt(new Date());
+            synchronization.setDefaultResourceName(idropCore.getIrodsAccount().getDefaultStorageResource());
+            synchronization.setFrequencyType(FrequencyType.EVERY_HOUR); // FIXME: create code to set this viz the combo
+            synchronization.setIrodsHostName(idropCore.getIrodsAccount().getHost());
+            synchronization.setIrodsPassword(idropCore.getIrodsAccount().getPassword()); // FIXME: obfuscate
+            synchronization.setIrodsPort(idropCore.getIrodsAccount().getPort());
+            synchronization.setIrodsSynchDirectory(txtIrodsPath.getText());
+            synchronization.setLocalSynchDirectory(txtLocalPath.getText());
+            synchronization.setIrodsUserName(idropCore.getIrodsAccount().getUserName());
+            synchronization.setIrodsZone(idropCore.getIrodsAccount().getZone());
+            synchronization.setName("Default");
+            synchronization.setSynchronizationMode(SynchronizationType.ONE_WAY_LOCAL_TO_IRODS); // FIXME: set properly from radio
+            try {
+                this.idropConfigurationService.createNewSynchronization(synchronization);
+                advanceTab();
+            } catch (IdropException ex) {
+               MessageManager.showError(this, ex.getMessage(), SETUP_ERROR_TITLE);
+            } catch (ConflictingSynchException ex) {
+               MessageManager.showError(this, ex.getMessage(), SETUP_ERROR_TITLE);
+            }
+            
         }
     }
 }

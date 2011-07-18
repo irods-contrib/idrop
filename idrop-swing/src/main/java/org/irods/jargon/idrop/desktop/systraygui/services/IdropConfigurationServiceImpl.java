@@ -16,7 +16,12 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.transfer.TransferEngineException;
 import org.irods.jargon.transfer.TransferServiceFactoryImpl;
 import org.irods.jargon.transfer.dao.domain.ConfigurationProperty;
+import org.irods.jargon.transfer.dao.domain.SynchConfiguration;
+import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.engine.ConfigurationService;
+import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
+import org.irods.jargon.transfer.engine.synch.SynchException;
+import org.irods.jargon.transfer.engine.synch.SynchManagerService;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -277,5 +282,26 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             log.error("exception removing config property");
         }
     }
-    
+ 
+    @Override
+    public void createNewSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException {
+        log.info("saveSynchronization()");
+        if (synchConfiguration == null) {
+            throw new IllegalArgumentException("null synchConfiguration");
+        }
+        log.info("synchConfiguration:{}", synchConfiguration);
+        SynchManagerService synchManagerService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+        try {
+            synchManagerService.createNewSynchConfiguration(synchConfiguration);
+        } catch (ConflictingSynchException cse) {
+            log.error("synch configuration is conflicting:{}", synchConfiguration, cse);
+            throw cse;
+        } catch (SynchException ex) {
+            log.error("error creating synch", ex);
+            throw new IdropException("error creating synch", ex);
+        }
+        
+        log.info("synch saved");
+
+    }   
 }

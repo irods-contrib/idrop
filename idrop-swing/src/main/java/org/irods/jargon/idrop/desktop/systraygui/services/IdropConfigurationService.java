@@ -8,6 +8,8 @@ import java.util.Properties;
 import org.irods.jargon.core.connection.IRODSAccount;
 
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.transfer.dao.domain.Synchronization;
+import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 
 /**
  * 
@@ -57,4 +59,12 @@ public interface IdropConfigurationService {
     void saveLogin(final IRODSAccount irodsAccount) throws IdropException;
 
     void removeConfigProperty(final String key) throws IdropException;
+
+    /**
+     * Create a new synchronization configuration, checking for conflicts and properly configuring both local and iRODS configuration
+     * @param synchConfiguration {@link Synchronization}
+     * @throws IdropException
+     * @throws ConflictingSynchException 
+     */
+    void createNewSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException;
 }
