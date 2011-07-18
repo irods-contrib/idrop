@@ -12,8 +12,8 @@ import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
-import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
-import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
+import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IDROPConfig;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
@@ -31,17 +31,17 @@ public class IDROPCore {
     public void setIrodsFileSystem(final IRODSFileSystem irodsFileSystem) {
         this.irodsFileSystem = irodsFileSystem;
     }
-    private IdropConfig idropConfig = null;
+    private IDROPConfig idropConfig = null;
     private TransferManager transferManager = null;
     private IconManager iconManager = null;
     private Timer queueTimer = new Timer();
-    private IdropConfigurationService idropConfigurationService = null;
+    private IDROPConfigurationService idropConfigurationService = null;
 
-    public IdropConfigurationService getIdropConfigurationService() {
+    public IDROPConfigurationService getIdropConfigurationService() {
         return idropConfigurationService;
     }
 
-    public void setIdropConfigurationService(IdropConfigurationService idropConfigurationService) {
+    public void setIdropConfigurationService(IDROPConfigurationService idropConfigurationService) {
         this.idropConfigurationService = idropConfigurationService;
     }
 
@@ -57,11 +57,11 @@ public class IDROPCore {
         this.irodsAccount = irodsAccount;
     }
 
-    public IdropConfig getIdropConfig() {
+    public IDROPConfig getIdropConfig() {
         return idropConfig;
     }
 
-    public void setIdropConfig(final IdropConfig idropConfig) {
+    public void setIdropConfig(final IDROPConfig idropConfig) {
         this.idropConfig = idropConfig;
     }
 

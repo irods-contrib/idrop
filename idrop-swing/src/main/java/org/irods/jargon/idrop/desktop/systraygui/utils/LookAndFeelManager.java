@@ -7,7 +7,7 @@ package org.irods.jargon.idrop.desktop.systraygui.utils;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
-import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationService;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class LookAndFeelManager {
 
         if (lookAndFeelChoice != null) {
             try {
-                idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.LOOK_AND_FEEL, lookAndFeelChoice);
+                idropCore.getIdropConfigurationService().updateConfig(IDROPConfigurationService.LOOK_AND_FEEL, lookAndFeelChoice);
             } catch (IdropException ex) {
                 log.error("unable to update configration for look and feel");
                 throw new IdropRuntimeException("unable to set prop for look and feel", ex);

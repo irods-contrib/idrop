@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import java.util.Properties;
-
+ 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.testutils.TestingPropertiesHelper;
 import org.irods.jargon.testutils.filemanip.ScratchFileUtils;
@@ -18,21 +13,22 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+  
 /**
- *
+ *  
  * @author mikeconway
  */
-public class IdropConfigurationServiceImplTest {
+public class IDROPConfigurationServiceImplTest {
 
-    private static IdropConfigurationService idropConfigurationService;
     private static ConfigurationService configurationService;
     private static Properties testingProperties = new Properties();
     private static TestingPropertiesHelper testingPropertiesHelper = new TestingPropertiesHelper();
     private static ScratchFileUtils scratchFileUtils = null;
     private static final String TESTING_SUBDIR = "IdropConfigurationServiceImplTest";
+    private static IDROPConfigurationService idropConfigurationService;
+    
 
-    public IdropConfigurationServiceImplTest() {
+    public IDROPConfigurationServiceImplTest() {
     }
 
     @BeforeClass
@@ -41,11 +37,11 @@ public class IdropConfigurationServiceImplTest {
         testingProperties = testingPropertiesLoader.getTestProperties();
         scratchFileUtils = new ScratchFileUtils(testingProperties);
         scratchFileUtils.clearAndReinitializeScratchDirectory(TESTING_SUBDIR);
-        idropConfigurationService = new IdropConfigurationServiceImpl(scratchFileUtils.createAndReturnAbsoluteScratchPath(TESTING_SUBDIR), new IDROPCore());
+        idropConfigurationService = new IDROPConfigurationServiceImpl(scratchFileUtils.createAndReturnAbsoluteScratchPath(TESTING_SUBDIR), new IDROPCore());
         TransferServiceFactoryImpl transferServiceFactory = new TransferServiceFactoryImpl();
         configurationService = transferServiceFactory.instanceConfigurationService();
     }
-
+  
     @AfterClass
     public static void tearDownClass() throws Exception {
     }

@@ -14,10 +14,10 @@ import javax.swing.JOptionPane;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
-import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
-import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServiceImpl;
+import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationServiceImpl;
 import org.irods.jargon.idrop.desktop.systraygui.services.QueueSchedulerTimerTask;
-import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IDROPConfig;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.SetupWizard;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
@@ -102,7 +102,7 @@ public class StartupSequencer {
 
         Properties derivedProperties = null;
         try {
-            IdropConfigurationService idropConfigurationService = new IdropConfigurationServiceImpl(
+            IDROPConfigurationService idropConfigurationService = new IDROPConfigurationServiceImpl(
                     derivedConfigHomeDirectory, idropCore);
             idropCore.setIdropConfigurationService(idropConfigurationService);
             derivedProperties = idropConfigurationService.bootstrapConfiguration();
@@ -129,12 +129,12 @@ public class StartupSequencer {
                 "Configuration information gathered, logging in...", ++count);
 
         log.info("config properties derived...");
-        idropCore.setIdropConfig(new IdropConfig(derivedProperties));
+        idropCore.setIdropConfig(new IDROPConfig(derivedProperties));
         idropCore.getIdropConfig().setUpLogging();
 
         log.info("setting initial look and feel");
         LookAndFeelManager laf = new LookAndFeelManager(idropCore);
-        laf.setLookAndFeel(idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
+        laf.setLookAndFeel(idropCore.getIdropConfig().getPropertyForKey(IDROPConfigurationService.LOOK_AND_FEEL));
 
         log.info("logging in in splash background thread");
         idropSplashWindow.setStatus("Logging in...", ++count);
@@ -259,7 +259,7 @@ public class StartupSequencer {
                 if (n == 1) {
                     log.info("switching to show GUI at startup");
                     try {
-                        idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.SHOW_GUI, "true");
+                        idropCore.getIdropConfigurationService().updateConfig(IDROPConfigurationService.SHOW_GUI, "true");
                         idrop.showIdropGui();
                     } catch (IdropException ex) {
                         log.error("error setting show GUI at startup", ex);

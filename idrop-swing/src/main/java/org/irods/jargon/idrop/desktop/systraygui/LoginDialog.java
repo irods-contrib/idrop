@@ -15,7 +15,7 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.UserAO;
-import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
@@ -53,15 +53,15 @@ public class LoginDialog extends JDialog {
     private void loginNormally(
             final org.irods.jargon.idrop.desktop.systraygui.iDrop iDrop) {
         // predispose based on preferences
-        String host = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_HOST);
+        String host = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IDROPConfigurationService.ACCOUNT_CACHE_HOST);
         txtHost.setText(host);
-        String port = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_PORT);
+        String port = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IDROPConfigurationService.ACCOUNT_CACHE_PORT);
         txtPort.setText(port);
-        String zone = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_ZONE);
+        String zone = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IDROPConfigurationService.ACCOUNT_CACHE_ZONE);
         txtZone.setText(zone);
-        String resource = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_RESOURCE);
+        String resource = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IDROPConfigurationService.ACCOUNT_CACHE_RESOURCE);
         txtResource.setText(resource);
-        String username = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME);
+        String username = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IDROPConfigurationService.ACCOUNT_CACHE_USER_NAME);
         txtUserName.setText(username);
 
     }

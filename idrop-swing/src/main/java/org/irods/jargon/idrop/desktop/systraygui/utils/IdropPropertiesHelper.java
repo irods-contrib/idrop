@@ -19,7 +19,7 @@ public class IdropPropertiesHelper {
     public static final String LOGIN_PRESET_PORT = "login.preset.port";
     public static final String LOGIN_PRESET_ZONE = "login.preset.zone";
     public static final String LOGIN_PRESET_RESOURCE = "login.preset.resource";
-    public static final String TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES = "transferengine.record.successful.files";
+    
     public static final String ADVANCED_VIEW_PROPERTY = "advanced.view";
     public static final String TRANSFER_DATABASE_NAME = "transfer.database";
     public static final String ROLLING_LOG_LEVEL = "rolling.log.level";

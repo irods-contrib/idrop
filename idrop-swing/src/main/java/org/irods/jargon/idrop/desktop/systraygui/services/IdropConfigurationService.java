@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import java.util.Properties;
@@ -15,7 +11,7 @@ import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
  * 
  * @author mikeconway
  */
-public interface IdropConfigurationService {
+public interface IDROPConfigurationService {
 
     public static final String IDROP_PROPS_FILE_NAME = "idrop.properties";
     public static final String FORCE_MODE = "force.mode";
@@ -33,6 +29,7 @@ public interface IdropConfigurationService {
     public static final String ACCOUNT_CACHE_ROOT_DIR = "irods.account.root.dir";
     public static final String POLICY_AWARE_PROPERTY = "policy.aware";
     public static final String LOOK_AND_FEEL = "idrop.lookandfeel";
+    public static final String TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES = "transferengine.record.successful.files";
 
     Properties bootstrapConfiguration() throws IdropException;
 

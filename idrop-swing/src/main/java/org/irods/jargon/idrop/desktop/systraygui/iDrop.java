@@ -55,7 +55,7 @@ import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.query.MetaDataAndDomainData.MetadataDomain;
 import org.irods.jargon.core.transfer.TransferStatus;
-import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IconHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
@@ -106,7 +106,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private Object lastCachedInfoItem = null;
     public DateFormat df = DateFormat.getDateInstance(DateFormat.LONG);
     private ChangePasswordDialog changePasswordDialog = null;
-    private SynchSetupDialog synchSetupDialog = null;
     public static JDialog newPreferencesDialog;
     public JCheckBox showGUICheckBox;
     public JButton preferencesDialogOKButton;
@@ -192,7 +191,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             buildTargetTree();
         }
         // setting look and feel will also trigger build of irods tree view
-        //setLookAndFeel(iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
+        //setLookAndFeel(iDropCore.getIdropConfig().getPropertyForKey(IDROPConfigurationService.LOOK_AND_FEEL));
         setUpLocalFileSelectTree();
         togglePauseTransfer.setSelected(pausedItem.getState());
         iDropCore.getIconManager().setRunningStatus(
@@ -400,8 +399,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         MenuItem iDropItem = new MenuItem("iDrop");
         MenuItem preferencesItem = new MenuItem("Preferences");
         MenuItem changePasswordItem = new MenuItem("Change Password");
-        MenuItem synchItem = new MenuItem("Synch");
-
+       
         iDropItem.addActionListener(this);
 
         MenuItem currentItem = new MenuItem("Show Current and Past Activity");
@@ -415,7 +413,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         exitItem.addActionListener(this);
         currentItem.addActionListener(this);
         preferencesItem.addActionListener(this);
-        synchItem.addActionListener(this);
         changePasswordItem.addActionListener(this);
 
         /*
@@ -435,7 +432,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         popup.add(iDropItem);
         popup.add(preferencesItem);
         popup.add(changePasswordItem);
-        popup.add(synchItem);
         popup.addSeparator();
         popup.add(currentItem);
         popup.addSeparator();
@@ -525,19 +521,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             aboutDialog.setLocation(x, y);
             aboutDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Preferences")) {
-            showGUICheckBox.setSelected(getiDropCore().getIdropConfig().isShowGuiAtStartup());
-            newPreferencesDialog.setVisible(true);
-        } else if (e.getActionCommand().equals("Synch")) {
-            synchSetupDialog = new SynchSetupDialog(this, getiDropCore(),
-                    getiDropCore().getIrodsFileSystem());
-            synchSetupDialog.setVisible(true);
+           IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(this, true, iDropCore);
+           idropConfigurationPanel.setLocationRelativeTo(null);
+           idropConfigurationPanel.setVisible(true);
         } else if (e.getActionCommand().equals("Change Password")) {
 
             if (changePasswordDialog == null) {
                 changePasswordDialog = new ChangePasswordDialog(this, true);
                 int x = (toolkit.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
                 int y = (toolkit.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
-                changePasswordDialog.setLocation(x, y);
+                changePasswordDialog.setLocation(x, y); 
             }
             changePasswordDialog.setVisible(true);
 
@@ -1226,6 +1219,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jRadioButtonMenuItemMetal = new javax.swing.JRadioButtonMenuItem();
         jRadioButtonMenuItemMotif = new javax.swing.JRadioButtonMenuItem();
         jRadioButtonMenuItemGTK = new javax.swing.JRadioButtonMenuItem();
+        jMenuItemConfig = new javax.swing.JMenuItem();
 
         menuItemShowInHierarchy.setText("Show in iRODS");
         menuItemShowInHierarchy.setToolTipText("Show this file or collection in the iRODS hierarchy");
@@ -1945,6 +1939,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         jMenuTools.add(jMenuLookAndFeel);
 
+        jMenuItemConfig.setMnemonic('p');
+        jMenuItemConfig.setText("Preferences");
+        jMenuItemConfig.setToolTipText("Set preferences");
+        jMenuItemConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemConfigActionPerformed(evt);
+            }
+        });
+        jMenuTools.add(jMenuItemConfig);
+
         jMenuBar1.add(jMenuTools);
 
         setJMenuBar(jMenuBar1);
@@ -1990,6 +1994,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 setLookAndFeel("Motif");
             }
         }//GEN-LAST:event_jRadioButtonMenuItemMotifActionPerformed
+
+        private void jMenuItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigActionPerformed
+            IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(this, true, iDropCore);
+            idropConfigurationPanel.setLocationRelativeTo(null);
+            idropConfigurationPanel.setVisible(true);
+        }//GEN-LAST:event_jMenuItemConfigActionPerformed
 
     private void btnShowTransferManagerActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnShowTransferManagerActionPerformed
@@ -2430,6 +2440,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JMenu jMenuEdit;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItemClose;
+    private javax.swing.JMenuItem jMenuItemConfig;
     private javax.swing.JMenuItem jMenuItemExit;
     private javax.swing.JMenu jMenuLookAndFeel;
     private javax.swing.JMenu jMenuTools;
@@ -2616,7 +2627,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     private void initializeLookAndFeelSelected() {
-        String lookAndFeelChoice = iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL);
+        String lookAndFeelChoice = iDropCore.getIdropConfig().getPropertyForKey(IDROPConfigurationService.LOOK_AND_FEEL);
         if (lookAndFeelChoice == null || lookAndFeelChoice.isEmpty()) {
             lookAndFeelChoice = "System";
         }
