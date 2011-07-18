@@ -2,6 +2,7 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
@@ -10,39 +11,38 @@ import org.irods.jargon.transfer.dao.domain.Synchronization;
  * Model for synchronization table
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class SynchConfigTableModel extends AbstractTableModel {
+public class SynchConfigTableModel extends DefaultTableModel {
 
+    private final IDROPCore idropCore;
+    private  List<Synchronization> synchronizations;
+     private Object[] columnNames = new Object[]{"Name", "Local Path", "iRODS Path"};
+
+    public void setSynchronizations(List<Synchronization> synchronizations) {
+        this.synchronizations = synchronizations;
+    }
+  
     @Override
-    public String getColumnName(int i) {
-        if (i == 0) {
-            return "Name";
-        } else if (i == 1) {
-            return "Local";
-        } else if (i == 2) {
-            return "iRODS";
+    public int getRowCount() {
+        if (synchronizations == null) {
+            return 0;
         } else {
-            throw new IdropRuntimeException("invalid column index, cannot find name");
+            return synchronizations.size();
         }
     }
-    private final IDROPCore idropCore;
-    private final List<Synchronization> synchronizations;
+
+    @Override
+    public void removeRow(int i) {
+        synchronizations.remove(i);
+        this.fireTableRowsDeleted(i, i);
+    }
 
     public SynchConfigTableModel(IDROPCore idropCore, List<Synchronization> synchronizations) {
         this.idropCore = idropCore;
         this.synchronizations = synchronizations;
+        this.setColumnIdentifiers(columnNames);
+
     }
 
-    @Override
-    public int getRowCount() {
-        return synchronizations.size();
-    }
-
-    @Override
-    public int getColumnCount() {
-        return 3;
-    }
-
-    @Override
     public Object getValueAt(int row, int col) {
         Synchronization synchronization = synchronizations.get(row);
 
@@ -55,5 +55,14 @@ public class SynchConfigTableModel extends AbstractTableModel {
         } else {
             throw new IdropRuntimeException("Invalid column requested from model");
         }
+    }
+
+    /**
+     * Return the underlying domain object at the given row in the model
+     * @param row
+     * @return 
+     */
+    public Synchronization getSynchronizationAt(int row) {
+        return synchronizations.get(row);
     }
 }

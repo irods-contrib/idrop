@@ -496,6 +496,7 @@ public class SetupWizard extends javax.swing.JDialog {
         if (++currentTab >= tabLength) {
             log.info("done with tabs");
             finishWizard();
+            return;
         }
 
         tabAdvancing = true;
