@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
-import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class SetupWizard extends javax.swing.JDialog {
 
     private final IDROPCore idropCore;
-    private final IDROPConfigurationService idropConfigurationService;
+    private final IdropConfigurationService idropConfigurationService;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SetupWizard.class);
     public final String SETUP_ERROR_TITLE = "iDrop - Setup";
     private int tabStep = 0;
@@ -361,7 +361,7 @@ public class SetupWizard extends javax.swing.JDialog {
     private void saveSeeSystemTrayYas() throws IdropRuntimeException {
         log.info("indicates system try shown, set to not load gui");
         try {
-            idropConfigurationService.updateConfig(IDROPConfigurationService.SHOW_GUI, "false");
+            idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "false");
             log.info("config is updated");
         } catch (IdropException ex) {
             log.error("error updating configuration", ex);
@@ -377,7 +377,7 @@ public class SetupWizard extends javax.swing.JDialog {
             return;
         }
         try {
-            idropConfigurationService.updateConfig(IDROPConfigurationService.DEVICE_NAME, txtDeviceName.getText());
+            idropConfigurationService.updateConfig(IdropConfigurationService.DEVICE_NAME, txtDeviceName.getText());
             log.info("device name is set to:{}", txtDeviceName.getText());
             // FIXME: check name in iRODS
         } catch (IdropException ex) {
@@ -397,9 +397,9 @@ public class SetupWizard extends javax.swing.JDialog {
     private void btnLaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaterActionPerformed
         log.info("indicates system try not shown, set to always load gui");
         try {
-            idropConfigurationService.updateConfig(IDROPConfigurationService.SHOW_GUI, "true");
+            idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "true");
             log.info("clearing device name to force wizard next time");
-            idropConfigurationService.removeConfigProperty(IDROPConfigurationService.DEVICE_NAME);
+            idropConfigurationService.removeConfigProperty(IdropConfigurationService.DEVICE_NAME);
             log.info("config is updated");
         } catch (IdropException ex) {
             log.error("error updating configuration", ex);
@@ -467,7 +467,7 @@ public class SetupWizard extends javax.swing.JDialog {
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSeeSystemTrayNoActionPerformed
         log.info("indicates system try not shown, set to always load gui");
         try {
-            idropConfigurationService.updateConfig(IDROPConfigurationService.SHOW_GUI, "true");
+            idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "true");
             log.info("config is updated");
         } catch (IdropException ex) {
             log.error("error updating configuration", ex);

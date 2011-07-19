@@ -11,7 +11,7 @@ import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
  * 
  * @author mikeconway
  */
-public interface IDROPConfigurationService {
+public interface IdropConfigurationService  {
 
     public static final String IDROP_PROPS_FILE_NAME = "idrop.properties";
     public static final String FORCE_MODE = "force.mode";

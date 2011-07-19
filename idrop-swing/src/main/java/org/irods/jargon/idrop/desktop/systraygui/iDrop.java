@@ -55,7 +55,7 @@ import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.query.MetaDataAndDomainData.MetadataDomain;
 import org.irods.jargon.core.transfer.TransferStatus;
-import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IconHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
@@ -191,7 +191,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             buildTargetTree();
         }
         // setting look and feel will also trigger build of irods tree view
-        //setLookAndFeel(iDropCore.getIdropConfig().getPropertyForKey(IDROPConfigurationService.LOOK_AND_FEEL));
+        //setLookAndFeel(iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
         setUpLocalFileSelectTree();
         togglePauseTransfer.setSelected(pausedItem.getState());
         iDropCore.getIconManager().setRunningStatus(
@@ -2627,7 +2627,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     private void initializeLookAndFeelSelected() {
-        String lookAndFeelChoice = iDropCore.getIdropConfig().getPropertyForKey(IDROPConfigurationService.LOOK_AND_FEEL);
+        String lookAndFeelChoice = iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL);
         if (lookAndFeelChoice == null || lookAndFeelChoice.isEmpty()) {
             lookAndFeelChoice = "System";
         }

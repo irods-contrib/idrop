@@ -25,7 +25,7 @@ public class IDROPConfigurationServiceImplTest {
     private static TestingPropertiesHelper testingPropertiesHelper = new TestingPropertiesHelper();
     private static ScratchFileUtils scratchFileUtils = null;
     private static final String TESTING_SUBDIR = "IdropConfigurationServiceImplTest";
-    private static IDROPConfigurationService idropConfigurationService;
+    private static IdropConfigurationService idropConfigurationService;
     
 
     public IDROPConfigurationServiceImplTest() {
@@ -37,7 +37,7 @@ public class IDROPConfigurationServiceImplTest {
         testingProperties = testingPropertiesLoader.getTestProperties();
         scratchFileUtils = new ScratchFileUtils(testingProperties);
         scratchFileUtils.clearAndReinitializeScratchDirectory(TESTING_SUBDIR);
-        idropConfigurationService = new IDROPConfigurationServiceImpl(scratchFileUtils.createAndReturnAbsoluteScratchPath(TESTING_SUBDIR), new IDROPCore());
+        idropConfigurationService = new IdropConfigurationServiceImpl(scratchFileUtils.createAndReturnAbsoluteScratchPath(TESTING_SUBDIR), new IDROPCore());
         TransferServiceFactoryImpl transferServiceFactory = new TransferServiceFactoryImpl();
         configurationService = transferServiceFactory.instanceConfigurationService();
     }

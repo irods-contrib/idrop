@@ -6,19 +6,19 @@ import java.util.Properties;
 import org.apache.log4j.Level;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
-import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 
 /**
  * Access data about the configuration of Idrop.  This serves as a view to the loaded cache of properties that iDrop consults.  
  * The properties are originally 'bootstrapped' at load time and resolved from various sources to come up with the operative set.
- * This bootstrapping is done by the {@link IDROPConfigurationService}.
+ * This bootstrapping is done by the {@link IdropConfigurationService}.
  * <p/>
  * In normal operation, this config class is queried by iDrop to save database accesses.  When any configuration information is updated, this
- * is through the <code>IDROPConfigurationService</code>, which will make necessary database updates, and then update this cache.
+ * is through the <code>IdropConfigurationService</code>, which will make necessary database updates, and then update this cache.
  * 
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class IDROPConfig {
+public class IdropConfig {
 
     private final Properties idropProperties;
     
@@ -53,7 +53,7 @@ public class IDROPConfig {
      * 
      * @param properties
      */
-    public IDROPConfig(final Properties properties) {
+    public IdropConfig(final Properties properties) {
         if (properties == null) {
             throw new IllegalArgumentException("null properties");
         }
@@ -68,7 +68,7 @@ public class IDROPConfig {
      */
     public boolean isPolicyAware() {
         boolean policyAware = false;
-        String policyAwareValue = idropProperties.getProperty(IDROPConfigurationService.POLICY_AWARE_PROPERTY);
+        String policyAwareValue = idropProperties.getProperty(IdropConfigurationService.POLICY_AWARE_PROPERTY);
 
         if (policyAwareValue != null && policyAwareValue.equals("true")) {
             policyAware = true;
@@ -130,7 +130,7 @@ public class IDROPConfig {
      */
     public boolean isLogSuccessfulTransfers() {
         boolean logSuccessful = false;
-        String logSuccessfulTransfers = idropProperties.getProperty(IDROPConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES);
+        String logSuccessfulTransfers = idropProperties.getProperty(IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES);
 
         if (logSuccessfulTransfers != null
                 && logSuccessfulTransfers.equals("true")) {
@@ -147,12 +147,12 @@ public class IDROPConfig {
      * @return
      */
     public String getSynchDeviceName() {
-        return idropProperties.getProperty(IDROPConfigurationService.DEVICE_NAME);
+        return idropProperties.getProperty(IdropConfigurationService.DEVICE_NAME);
     }
 
     public boolean isShowStartupWizard() {
         boolean showWizard = false;
-        String showStartup = idropProperties.getProperty(IDROPConfigurationService.SHOW_STARTUP);
+        String showStartup = idropProperties.getProperty(IdropConfigurationService.SHOW_STARTUP);
 
         if (showStartup != null && showStartup.equals("true")) {
             showWizard = true;
@@ -215,7 +215,7 @@ public class IDROPConfig {
 
     public boolean isShowGuiAtStartup() {
         boolean propBoolean = false;
-        String propString = idropProperties.getProperty(IDROPConfigurationService.SHOW_GUI);
+        String propString = idropProperties.getProperty(IdropConfigurationService.SHOW_GUI);
 
         if (propString != null && propString.equals("true")) {
             propBoolean = true;

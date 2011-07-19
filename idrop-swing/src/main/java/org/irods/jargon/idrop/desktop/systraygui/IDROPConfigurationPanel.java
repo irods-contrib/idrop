@@ -15,8 +15,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.irods.jargon.idrop.desktop.systraygui.services.IDROPConfigurationService;
-import org.irods.jargon.idrop.desktop.systraygui.utils.IDROPConfig;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.SynchConfigTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
@@ -350,7 +350,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private void checkShowGUIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkShowGUIActionPerformed
         log.info("updating show gui at startup to:{}", checkShowGUI.isSelected());
         try {
-            idropCore.getIdropConfigurationService().updateConfig(IDROPConfigurationService.SHOW_GUI, Boolean.toString(checkShowGUI.isSelected()));
+            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.SHOW_GUI, Boolean.toString(checkShowGUI.isSelected()));
         } catch (IdropException ex) {
             log.error("error setting show gui property", ex);
             throw new IdropRuntimeException(ex);
@@ -360,7 +360,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private void checkLogSuccessfulTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLogSuccessfulTransferActionPerformed
         log.info("updating log successful transfers to:{}", checkLogSuccessfulTransfer.isSelected());
         try {
-            idropCore.getIdropConfigurationService().updateConfig(IDROPConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES, Boolean.toString(checkShowGUI.isSelected()));
+            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES, Boolean.toString(checkShowGUI.isSelected()));
         } catch (IdropException ex) {
             log.error("error setting log successful property", ex);
             throw new IdropRuntimeException(ex);
@@ -505,7 +505,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void initWithConfigData() {
-        IDROPConfig idropConfig = idropCore.getIdropConfig();
+        IdropConfig idropConfig = idropCore.getIdropConfig();
         checkShowGUI.setSelected(idropConfig.isShowGuiAtStartup());
         checkLogSuccessfulTransfer.setSelected(idropConfig.isLogSuccessfulTransfers());
     }

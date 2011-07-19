@@ -31,14 +31,14 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class IDROPConfigurationServiceImpl implements IDROPConfigurationService {
+public class IdropConfigurationServiceImpl implements IdropConfigurationService {
 
     private final String idropConfigRootDirectoryAbsolutePath;
     private final ConfigurationService configurationService;
     private final IDROPCore idropCore;
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(IDROPConfigurationServiceImpl.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(IdropConfigurationServiceImpl.class);
 
-    public IDROPConfigurationServiceImpl(
+    public IdropConfigurationServiceImpl(
             final String idropConfigRootDirectoryAbsolutePath,
             final IDROPCore idropCore) throws IdropAlreadyRunningException,
             IdropException {
@@ -61,7 +61,7 @@ public class IDROPConfigurationServiceImpl implements IDROPConfigurationService 
             this.configurationService = transferServiceFactory.instanceConfigurationService();
 
         } catch (Exception ex) {
-            Logger.getLogger(IDROPConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
 
             if (ex.getMessage().indexOf("Failed to start database") != -1) {
                 throw new IdropAlreadyRunningException(
@@ -82,7 +82,7 @@ public class IDROPConfigurationServiceImpl implements IDROPConfigurationService 
             configFileProperties = this.importPropertiesFromDefaultFile();
 
         } catch (Exception ex) {
-            Logger.getLogger(IDROPConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             if (ex.getMessage().indexOf("Could not open Hibernate Session") != -1) {
                 throw new IdropAlreadyRunningException(
                         "iDrop is already running, or the iDrop database is in use");
@@ -156,10 +156,10 @@ public class IDROPConfigurationServiceImpl implements IDROPConfigurationService 
             Properties databaseProperties = configurationService.exportProperties();
             databaseProperties.store(new FileOutputStream(sb.toString()), null);
         } catch (TransferEngineException ex) {
-            Logger.getLogger(IDROPConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("exception exporting final properties", ex);
         } catch (IOException ioe) {
-            Logger.getLogger(IDROPConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ioe);
+            Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ioe);
             throw new IdropException(
                     "exception storing final properties in file", ioe);
         }
@@ -199,7 +199,7 @@ public class IDROPConfigurationServiceImpl implements IDROPConfigurationService 
             try {
                 configurationService.importProperties(properties);
             } catch (TransferEngineException ex) {
-                Logger.getLogger(IDROPConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 throw new IdropException(
                         "unable to import properties into database", ex);
             }
@@ -222,12 +222,12 @@ public class IDROPConfigurationServiceImpl implements IDROPConfigurationService 
         }
         log.info("saving irodsAccount:{}", irodsAccount);
         
-        updateConfig(IDROPConfigurationService.ACCOUNT_CACHE_HOST, irodsAccount.getHost());
-        updateConfig(IDROPConfigurationService.ACCOUNT_CACHE_PORT, String.valueOf(irodsAccount.getPort()));
-        updateConfig(IDROPConfigurationService.ACCOUNT_CACHE_RESOURCE, irodsAccount.getDefaultStorageResource());
-        updateConfig(IDROPConfigurationService.ACCOUNT_CACHE_ROOT_DIR, irodsAccount.getHomeDirectory());
-        updateConfig(IDROPConfigurationService.ACCOUNT_CACHE_ZONE, irodsAccount.getZone());
-         updateConfig(IDROPConfigurationService.ACCOUNT_CACHE_USER_NAME, irodsAccount.getUserName());
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_HOST, irodsAccount.getHost());
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_PORT, String.valueOf(irodsAccount.getPort()));
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_RESOURCE, irodsAccount.getDefaultStorageResource());
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_ROOT_DIR, irodsAccount.getHomeDirectory());
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_ZONE, irodsAccount.getZone());
+         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME, irodsAccount.getUserName());
         log.info("config updated");
     }
 
