@@ -24,6 +24,8 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.QueueManagerMaste
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
+import org.irods.jargon.transfer.dao.domain.TransferType;
+
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
 
