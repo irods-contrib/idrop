@@ -18,7 +18,7 @@ import org.junit.Test;
  *  
  * @author mikeconway
  */
-public class IDROPConfigurationServiceImplTest {
+public class IdropConfigurationServiceTest {
 
     private static ConfigurationService configurationService;
     private static Properties testingProperties = new Properties();
@@ -28,7 +28,7 @@ public class IDROPConfigurationServiceImplTest {
     private static IdropConfigurationService idropConfigurationService;
     
 
-    public IDROPConfigurationServiceImplTest() {
+    public IdropConfigurationServiceTest() {
     }
 
     @BeforeClass
