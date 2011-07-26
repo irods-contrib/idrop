@@ -413,6 +413,7 @@ public class SetupWizard extends javax.swing.JDialog {
         JFileChooser localFileChooser = new JFileChooser();
         localFileChooser.setMultiSelectionEnabled(false);
         localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        // FIXME: look at NPE here when cancel
         int returnVal = localFileChooser.showOpenDialog(this);
         txtLocalPath.setText(localFileChooser.getSelectedFile().getAbsolutePath());
     }//GEN-LAST:event_btnChooseLocalSynchActionPerformed

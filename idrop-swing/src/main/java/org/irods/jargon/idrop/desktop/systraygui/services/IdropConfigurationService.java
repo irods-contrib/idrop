@@ -30,6 +30,7 @@ public interface IdropConfigurationService  {
     public static final String POLICY_AWARE_PROPERTY = "policy.aware";
     public static final String LOOK_AND_FEEL = "idrop.lookandfeel";
     public static final String TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES = "transferengine.record.successful.files";
+    public static final String  VERIFY_CHECKSUM_ON_TRANSFER = "idrop.verify.checksum";
 
     Properties bootstrapConfiguration() throws IdropException;
 

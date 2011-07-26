@@ -139,6 +139,23 @@ public class IdropConfig {
 
         return logSuccessful;
     }
+    
+    /**
+     * Should a checksum be created and verifed during get/put transfers?
+     * @return 
+     */
+       public boolean isVerifyChecksum() {
+        boolean verify = false;
+        String verifyChecksumValue = idropProperties.getProperty(IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER);
+
+        if (verifyChecksumValue != null
+                && verifyChecksumValue.equals("true")) {
+            verify = true;
+        }
+
+        return verify;
+    }
+
 
     /**
      * Get the configured synch device name. If not set, this will return a

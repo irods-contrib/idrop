@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.packinstr.TransferOptions;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
@@ -24,6 +25,7 @@ import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
+import org.irods.jargon.transfer.engine.TransferEngineConfigurationProperties;
 import org.irods.jargon.transfer.engine.TransferManagerImpl;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
@@ -167,9 +169,14 @@ public class StartupSequencer {
         idropSplashWindow.setStatus("Building transfer engine...", ++count);
 
         log.info("building transfer manager...");
-
+         // FIXME:rework engine config (into idrop core?) and allow changes while idrop is running
         try {
-            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop, idropCore.getIdropConfig().isLogSuccessfulTransfers()));
+            TransferOptions transferOptions = idropCore.getIrodsFileSystem().getIrodsSession().buildTransferOptionsBasedOnJargonProperties();
+            transferOptions.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
+            TransferEngineConfigurationProperties engineConfig = new TransferEngineConfigurationProperties();
+            engineConfig.setTransferOptions(transferOptions);
+            engineConfig.setLogSuccessfulTransfers(idropCore.getIdropConfig().isLogSuccessfulTransfers());
+            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop, engineConfig));
         } catch (JargonException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(
                     Level.SEVERE, null, ex);

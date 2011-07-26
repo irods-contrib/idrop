@@ -11,10 +11,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.SynchConfigTableModel;
@@ -24,6 +26,7 @@ import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.engine.synch.SynchException;
 import org.irods.jargon.transfer.engine.synch.SynchManagerService;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -35,6 +38,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private final IDROPCore idropCore;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(IDROPConfigurationPanel.class);
     private JTable jTableSynch = null;
+     private Synchronization selectedSynchronization = null;
 
     /** Creates new form IDROPConfigurationPanel */
     public IDROPConfigurationPanel(java.awt.Frame parent, boolean modal, IDROPCore idropCore) {
@@ -62,6 +66,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlConfigGrids = new javax.swing.JPanel();
         pnlConfigTransfers = new javax.swing.JPanel();
         checkLogSuccessfulTransfer = new javax.swing.JCheckBox();
+        checkVerifyChecksumOnTransfer = new javax.swing.JCheckBox();
         pnlConfigSynch = new javax.swing.JPanel();
         pnlConfigSynchListing = new javax.swing.JPanel();
         scrollSynchTable = new javax.swing.JScrollPane();
@@ -96,7 +101,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlTop.setLayout(pnlTopLayout);
         pnlTopLayout.setHorizontalGroup(
             pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 739, Short.MAX_VALUE)
+            .add(0, 1009, Short.MAX_VALUE)
         );
         pnlTopLayout.setVerticalGroup(
             pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -127,11 +132,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlConfigGrids.setLayout(pnlConfigGridsLayout);
         pnlConfigGridsLayout.setHorizontalGroup(
             pnlConfigGridsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 718, Short.MAX_VALUE)
+            .add(0, 988, Short.MAX_VALUE)
         );
         pnlConfigGridsLayout.setVerticalGroup(
             pnlConfigGridsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 494, Short.MAX_VALUE)
+            .add(0, 517, Short.MAX_VALUE)
         );
 
         tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigGrids.TabConstraints.tabTitle"), pnlConfigGrids); // NOI18N
@@ -149,8 +154,18 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(235, 233, 236, 232);
         pnlConfigTransfers.add(checkLogSuccessfulTransfer, gridBagConstraints);
+
+        checkVerifyChecksumOnTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkVerifyChecksumOnTransfer.text")); // NOI18N
+        checkVerifyChecksumOnTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkVerifyChecksumOnTransferActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        pnlConfigTransfers.add(checkVerifyChecksumOnTransfer, gridBagConstraints);
 
         tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigTransfers.TabConstraints.tabTitle"), pnlConfigTransfers); // NOI18N
 
@@ -161,7 +176,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         });
         pnlConfigSynch.setLayout(new java.awt.BorderLayout());
 
-        pnlConfigSynchListing.setLayout(new java.awt.GridLayout());
+        pnlConfigSynchListing.setLayout(new java.awt.GridLayout(1, 0));
         pnlConfigSynchListing.add(scrollSynchTable);
 
         pnlConfigSynch.add(pnlConfigSynchListing, java.awt.BorderLayout.CENTER);
@@ -460,9 +475,44 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateSynchActionPerformed
 
+    /**
+     * Force a synhronization process on the selected synchronization
+     * @param evt 
+     */
     private void btnSynchNowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSynchNowActionPerformed
         // TODO add your handling code here:
+        log.info("synch now button pressed");
+        if (selectedSynchronization == null) {
+            MessageManager.showWarning(this, "Please select a synhronization", MessageManager.TITLE_MESSAGE);
+            return;
+        }
+        
+        log.info("selected synchronization is:{}", selectedSynchronization);
+        
+              int result = JOptionPane.showConfirmDialog(this,
+                "Synchronize?",
+                "Do you want to synchronize now?",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            try {
+                idropCore.getTransferManager().enqueueASynch(selectedSynchronization, selectedSynchronization.buildIRODSAccountFromSynchronizationData());
+            } catch (JargonException ex) {
+                log.error("error starting synch", ex);
+                MessageManager.showError(this, ex.getMessage(), MessageManager.TITLE_MESSAGE);
+                throw new IdropRuntimeException(ex);
+            }
+        }
     }//GEN-LAST:event_btnSynchNowActionPerformed
+
+    private void checkVerifyChecksumOnTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkVerifyChecksumOnTransferActionPerformed
+            log.info("updating verify checksom to:{}", checkVerifyChecksumOnTransfer.isSelected());
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER, Boolean.toString(checkVerifyChecksumOnTransfer.isSelected()));
+        } catch (IdropException ex) {
+            log.error("error setting show gui property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }//GEN-LAST:event_checkVerifyChecksumOnTransferActionPerformed
 
     protected JTable getSynchTable() {
         return jTableSynch;
@@ -477,6 +527,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JButton btnUpdateSynch;
     private javax.swing.JCheckBox checkLogSuccessfulTransfer;
     private javax.swing.JCheckBox checkShowGUI;
+    private javax.swing.JCheckBox checkVerifyChecksumOnTransfer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JComboBox jcomboSynchFrequency;
@@ -508,6 +559,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         IdropConfig idropConfig = idropCore.getIdropConfig();
         checkShowGUI.setSelected(idropConfig.isShowGuiAtStartup());
         checkLogSuccessfulTransfer.setSelected(idropConfig.isLogSuccessfulTransfers());
+        checkVerifyChecksumOnTransfer.setSelected(idropConfig.isVerifyChecksum());
     }
 
     class SynchListSelectionHandler implements ListSelectionListener {
@@ -551,16 +603,16 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
             int modelIdx = idropConfigurationPanel.getSynchTable().convertRowIndexToModel(i);
             SynchConfigTableModel model = (SynchConfigTableModel) idropConfigurationPanel.getSynchTable().getModel();
 
-            Synchronization selected = model.getSynchronizationAt(modelIdx);
+            selectedSynchronization = model.getSynchronizationAt(modelIdx);
 
-            if (selected == null) {
+            if (selectedSynchronization == null) {
                 model.removeRow(modelIdx);
                 return;
             }
 
             // initialize data
-            txtLocalPath.setText(selected.getLocalSynchDirectory());
-            txtIrodsPath.setText(selected.getIrodsSynchDirectory());
+            txtLocalPath.setText(selectedSynchronization.getLocalSynchDirectory());
+            txtIrodsPath.setText(selectedSynchronization.getIrodsSynchDirectory());
             // FIXME: stuff is just defaulting for now
             // FIXME: display name and make changable, with all of the necessary updates (should be in txfr engine synch mgr
 
