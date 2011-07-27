@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
@@ -183,11 +184,17 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
         if (columnIndex == 4) {
             switch (localIRODSTransfer.getTransferType()) {
                 case GET:
-                    path = localIRODSTransfer.getIrodsAbsolutePath();
+                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getIrodsAbsolutePath());
                     break;
                 case PUT:
                 case REPLICATE:
-                    path = localIRODSTransfer.getLocalAbsolutePath();
+                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getLocalAbsolutePath());
+                    break;
+                case COPY:
+                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getLocalAbsolutePath());
+                    break;
+                case SYNCH:
+                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getLocalAbsolutePath());
                     break;
                 default:
                     log.error(
@@ -203,13 +210,19 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
         if (columnIndex == 5) {
             switch (localIRODSTransfer.getTransferType()) {
                 case GET:
-                    path = localIRODSTransfer.getLocalAbsolutePath();
+                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getLocalAbsolutePath());
                     break;
                 case PUT:
-                    path = localIRODSTransfer.getIrodsAbsolutePath();
+                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getIrodsAbsolutePath());
                     break;
                 case REPLICATE:
                     path = "";
+                    break;
+                       case COPY:
+                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getIrodsAbsolutePath());
+                    break;
+                case SYNCH:
+                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getIrodsAbsolutePath()); // FIXME: should really be a get/put at transfer item level
                     break;
                 default:
                     log.error(

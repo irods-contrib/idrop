@@ -5,7 +5,9 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import java.awt.Color;
 import java.awt.Cursor;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -19,16 +21,19 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.irods.jargon.idrop.desktop.systraygui.services.RefreshQueueManagerTimerTask;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.QueueManagerDetailTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.QueueManagerMasterTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
+import org.irods.jargon.transfer.dao.domain.TransferState;
+import org.irods.jargon.transfer.dao.domain.TransferStatus;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ * Manage transfer queue
  * @author mikeconway
  */
 public class QueueManagerDialog extends javax.swing.JDialog implements ListSelectionListener {
@@ -39,20 +44,14 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         RECENT, ERROR, WARNING, CURRENT
     }
-
     private final TransferManager transferManager;
-
     private ViewType viewType = null;
-
     private iDrop iDropParent = null;
-
     private RefreshQueueManagerTimerTask refreshQueueManagerTimerTask = null;
-
     private Timer refreshQueueTimer = null;
-
     private LocalIRODSTransfer selectedMasterTableObject = null;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(QueueManagerDialog.class);
+    private DateFormat dateFormat = DateFormat.getDateTimeInstance();
 
     private int showResubmitConfirm(LocalIRODSTransfer selectedTransfer) {
         StringBuilder sb = new StringBuilder();
@@ -111,9 +110,10 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         btnRestartSelected.setEnabled(false);
         jTableMaster.setModel(new QueueManagerMasterTableModel(new ArrayList<LocalIRODSTransfer>()));
         jTableMaster.getSelectionModel().addListSelectionListener(this);
+        tabDetails.setVisible(false);
         //jTableDetails.setVisible(false);
         //pnlTransferInfo.setVisible(false);
-       // pnlErrorMessage.setVisible(false);
+        // pnlErrorMessage.setVisible(false);
 
         refreshTableView(viewType);
     }
@@ -255,7 +255,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         lblHeader.setText("Most Recent iDrop Transfers");
 
         toolbarQueueManagement.setRollover(true);
-        toolbarQueueManagement.setMinimumSize(null);
         toolbarQueueManagement.add(jSeparator2);
 
         btnPurgeAll.setText("Purge All");
@@ -394,13 +393,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         pnlCenter.add(jScrollPaneMaster, java.awt.BorderLayout.CENTER);
 
         pnlTransferDetailsSummary.setPreferredSize(new java.awt.Dimension(0, 0));
-        pnlTransferDetailsSummary.setLayout(new java.awt.GridLayout(0, 1));
+        pnlTransferDetailsSummary.setLayout(new java.awt.BorderLayout());
 
         pnlTransferInfo.setMinimumSize(null);
+        pnlTransferInfo.setPreferredSize(null);
         pnlTransferInfo.setLayout(new java.awt.BorderLayout());
 
         pnlTransferInfoBasicStats.setFocusable(false);
-        pnlTransferInfoBasicStats.setMinimumSize(null);
         pnlTransferInfoBasicStats.setLayout(new java.awt.GridBagLayout());
 
         lblTransferTypeLabel.setText("Transfer Type:");
@@ -410,8 +409,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlTransferInfoBasicStats.add(lblTransferTypeLabel, gridBagConstraints);
-
-        lblTransferType.setText("transferTypeVal");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -427,8 +424,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferStatusLabel, gridBagConstraints);
-
-        lblTransferStatus.setText("transferStatusValue");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
@@ -442,8 +437,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlTransferInfoBasicStats.add(lblProcessingStateLabel, gridBagConstraints);
-
-        lblProcessingState.setText("processingStateVal");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -451,6 +444,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         pnlTransferInfoBasicStats.add(lblProcessingState, gridBagConstraints);
 
         btnSynchronization.setText("Synchronization");
+        btnSynchronization.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
@@ -461,15 +455,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblHostLabel, gridBagConstraints);
-
-        lblHost.setText("hostValue");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblHost, gridBagConstraints);
 
         lblZoneLabel.setText("Zone:");
@@ -477,15 +469,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
         pnlTransferInfoBasicStats.add(lblZoneLabel, gridBagConstraints);
-
-        lblZone.setText("zoneValue");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblZone, gridBagConstraints);
 
         lblTransferStartLabel.setText("Start:");
@@ -493,15 +483,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferStartLabel, gridBagConstraints);
-
-        lblTransferStart.setText("transferStartVal");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferStart, gridBagConstraints);
 
         lblTransferEndLabel.setText("End:");
@@ -509,15 +497,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferEndLabel, gridBagConstraints);
-
-        lblTransferEnd.setText("transferEndValue");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferEnd, gridBagConstraints);
 
         lblSourceLabel.setText("Source Path:");
@@ -528,15 +514,15 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblSourceLabel, gridBagConstraints);
 
-        lblSource.setText("sourcePathValue");
         lblSource.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblSource.setMaximumSize(null);
         lblSource.setMinimumSize(new java.awt.Dimension(300, 18));
+        lblSource.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblSource, gridBagConstraints);
@@ -549,15 +535,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTargetLabel, gridBagConstraints);
 
-        lblTarget.setText("targetPathValue");
         lblTarget.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        lblTarget.setMaximumSize(null);
         lblTarget.setMinimumSize(new java.awt.Dimension(300, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTarget, gridBagConstraints);
@@ -570,14 +554,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblLastPathLabel, gridBagConstraints);
 
-        lblLastPath.setText("lastPathValue");
         lblLastPath.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblLastPath.setMinimumSize(new java.awt.Dimension(300, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblLastPath, gridBagConstraints);
@@ -586,33 +569,26 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblErrorMessageLabel, gridBagConstraints);
-
-        lblErrorMessage.setText("errorMessageValue");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblErrorMessage, gridBagConstraints);
 
         pnlTransferInfo.add(pnlTransferInfoBasicStats, java.awt.BorderLayout.NORTH);
 
-        pnlTransferDetailsSummary.add(pnlTransferInfo);
+        pnlTransferDetailsSummary.add(pnlTransferInfo, java.awt.BorderLayout.NORTH);
 
         pnlTransferProgress.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlTransferProgress.setPreferredSize(new java.awt.Dimension(200, 100));
         pnlTransferProgress.setRequestFocusEnabled(false);
-
-        pnlTransferOverview.setMinimumSize(null);
-
-        pnlTransferStatus.setMinimumSize(null);
-
-        pnlTransferType.setMinimumSize(null);
 
         lblTransferTypeLabel1.setText("Transfer Type:");
         lblTransferTypeLabel1.setMinimumSize(null);
@@ -624,8 +600,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         pnlTransferType.add(lblTransferType1);
 
         pnlTransferStatus.add(pnlTransferType);
-
-        pnlTransferFileCounts.setMinimumSize(null);
 
         lblTransferFilesCounts.setText("Files: /");
         lblTransferFilesCounts.setMinimumSize(null);
@@ -652,34 +626,33 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         pnlTransferProgress.setLayout(pnlTransferProgressLayout);
         pnlTransferProgressLayout.setHorizontalGroup(
             pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 1090, Short.MAX_VALUE)
+            .add(0, 1495, Short.MAX_VALUE)
             .add(pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(pnlTransferProgressLayout.createSequentialGroup()
-                    .add(0, 1, Short.MAX_VALUE)
+                    .add(0, 203, Short.MAX_VALUE)
                     .add(pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                         .add(pnlTransferOverview, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1088, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(pnlTransferProgressLayout.createSequentialGroup()
                             .add(91, 91, 91)
                             .add(transferStatusProgressBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 854, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                    .add(0, 1, Short.MAX_VALUE)))
+                    .add(0, 204, Short.MAX_VALUE)))
         );
         pnlTransferProgressLayout.setVerticalGroup(
             pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 222, Short.MAX_VALUE)
+            .add(0, 96, Short.MAX_VALUE)
             .add(pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(pnlTransferProgressLayout.createSequentialGroup()
-                    .add(0, 71, Short.MAX_VALUE)
+                    .add(0, 8, Short.MAX_VALUE)
                     .add(pnlTransferOverview, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(11, 11, 11)
                     .add(transferStatusProgressBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(0, 70, Short.MAX_VALUE)))
+                    .add(0, 7, Short.MAX_VALUE)))
         );
 
-        pnlTransferDetailsSummary.add(pnlTransferProgress);
+        pnlTransferDetailsSummary.add(pnlTransferProgress, java.awt.BorderLayout.SOUTH);
 
         tabDetails.addTab("TransferSummary", null, pnlTransferDetailsSummary, "Summary information about the selected transfer");
 
-        pnlTransferDetailsTable.setMinimumSize(null);
         pnlTransferDetailsTable.setLayout(new java.awt.BorderLayout());
 
         btnGroupDetailsDisplay.add(radioShowAll);
@@ -987,7 +960,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 selectedRow = 0;
             }
 
-            selectedMasterTableObject = (LocalIRODSTransfer) masterTableModel.getTransferAtRow(selectedRow);
+            selectedMasterTableObject = (LocalIRODSTransfer) masterTableModel.getTransferAtRow(jTableMaster.convertRowIndexToModel(selectedRow));
 
         }
 
@@ -997,52 +970,39 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             public void run() {
 
                 queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                try {
+                    tabDetails.setVisible(true);
+                    updateDetailsWIthSelectedTable();
+                } catch (Exception e) {
+                    log.error("exceptoin updating table", e);
+                    MessageManager.showError(queueManagerDialog, e.getMessage(), MessageManager.TITLE_MESSAGE);
+                } finally {
+                    queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+
+            }
+
+            private void updateDetailsWIthSelectedTable() throws Exception {
                 log.info("refreshing master table for view type:{}", viewType);
 
                 if (viewType == null) {
-                    queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
                     throw new IdropRuntimeException("null viewType");
                 }
 
                 List<LocalIRODSTransfer> transferQueue = null;
 
                 if (viewType == ViewType.CURRENT) {
-                    try {
-                        transferQueue = transferManager.getCurrentQueue();
-                        queueManagerDialog.getLblHeader().setText("Current transfer queue");
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException(ex);
-                    }
+                    transferQueue = transferManager.getCurrentQueue();
+                    queueManagerDialog.getLblHeader().setText("Current transfer queue");
                 } else if (viewType == ViewType.RECENT) {
-                    try {
-                        transferQueue = transferManager.getRecentQueue();
-                        queueManagerDialog.getLblHeader().setText("Recent transfer activity");
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException(ex);
-                    }
+                    transferQueue = transferManager.getRecentQueue();
+                    queueManagerDialog.getLblHeader().setText("Recent transfer activity");
                 } else if (viewType == ViewType.ERROR) {
-                    try {
-                        transferQueue = transferManager.getErrorQueue();
-                        queueManagerDialog.getLblHeader().setText("Transfer activities with errors");
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException(ex);
-                    }
+                    transferQueue = transferManager.getErrorQueue();
+                    queueManagerDialog.getLblHeader().setText("Transfer activities with errors");
                 } else if (viewType == ViewType.WARNING) {
-                    try {
-                        transferQueue = transferManager.getWarningQueue();
-                        queueManagerDialog.getLblHeader().setText("Transfer activities with warnings");
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException(ex);
-                    }
+                    transferQueue = transferManager.getWarningQueue();
+                    queueManagerDialog.getLblHeader().setText("Transfer activities with warnings");
                 }
 
                 queueManagerDialog.setViewType(viewType);
@@ -1061,7 +1021,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                                 matchingRowForSelected = i;
                                 break;
                             }
-
                         }
 
                         if (matchingRowForSelected != -1) {
@@ -1070,20 +1029,14 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                                 jTableMaster.setRowSelectionInterval(selectedRowIndex, selectedRowIndex);
                             }
                         }
-
                     } else {
                         jTableDetails.setVisible(false);
                     }
-
                 }
-
-                queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
             }
         });
 
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelSelected;
     private javax.swing.JButton btnDeleteSelected;
@@ -1189,8 +1142,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     }
 
     private void adjustDetails() {
-        final LocalIRODSTransfer localIRODSTransfer = ((QueueManagerMasterTableModel) jTableMaster.getModel())
-                .getTransferAtRow(jTableMaster.getSelectedRow());
+        final LocalIRODSTransfer localIRODSTransfer = ((QueueManagerMasterTableModel) jTableMaster.getModel()).getTransferAtRow(jTableMaster.convertRowIndexToModel(jTableMaster.getSelectedRow()));
         log.info("selected transfer:{}", localIRODSTransfer);
         final boolean showAll = radioShowAll.isSelected();
 
@@ -1199,55 +1151,97 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             @Override
             public void run() {
                 // initialize panel info
-                
-//                lblTransferType.setText(localIRODSTransfer.getTransferType().toString());
-//                lblTransferDate.setText(localIRODSTransfer.getTransferStart().toString());
-//                lblTransferStatus.setText(localIRODSTransfer.getTransferState().toString());
-//                lblErrorStatus.setText(localIRODSTransfer.getTransferStatus().toString());
-//                lblResource.setText(localIRODSTransfer.getTransferResource());
-//
-//                // set source and target properly based on activity (put, get, etc)
-//                switch (localIRODSTransfer.getTransferType()) {
-//                    case GET:
-//                        txtSourcePath.setText(localIRODSTransfer.getIrodsAbsolutePath());
-//                        txtTargetPath.setText(localIRODSTransfer.getLocalAbsolutePath());
-//                        break;
-//                    case PUT:
-//                        txtSourcePath.setText(localIRODSTransfer.getLocalAbsolutePath());
-//                        txtTargetPath.setText(localIRODSTransfer.getIrodsAbsolutePath());
-//                        break;
-//                    case REPLICATE:
-//                        txtSourcePath.setText(localIRODSTransfer.getIrodsAbsolutePath());
-//                        txtTargetPath.setText("");
-//                        break;
-//                    case COPY:
-//                        txtSourcePath.setText(localIRODSTransfer.getIrodsAbsolutePath());
-//                        txtTargetPath.setText(localIRODSTransfer.getIrodsAbsolutePath());
-//                        break;
-//                    default:
-//                        log.error("unable to build details for transfer with transfer type of:{}",
-//                                localIRODSTransfer.getTransferType());
-//                        iDropParent.showIdropException(new IdropException(
-//                                "unable to build details for this transfer type"));
-//                        break;
-//                }
-//
-//                txtLastGoodPath.setText(localIRODSTransfer.getLastSuccessfulPath());
-//                log.debug("total files transferred:{}", localIRODSTransfer.getTotalFilesTransferredSoFar());
-//                log.debug("out of: {}", localIRODSTransfer.getTotalFilesCount());
-//                lblCountSoFar.setText(String.valueOf(localIRODSTransfer.getTotalFilesTransferredSoFar()));
-//                lblCountOutOf.setText(String.valueOf(localIRODSTransfer.getTotalFilesCount()));
-//                progressBarQueueDetails.setMinimum(0);
-//                progressBarQueueDetails.setMaximum(localIRODSTransfer.getTotalFilesCount());
-//                progressBarQueueDetails.setValue(localIRODSTransfer.getTotalFilesTransferredSoFar());
-//
-//                if (localIRODSTransfer.getGlobalException() != null) {
-//                    txtAreaErrorMessage.setText(localIRODSTransfer.getGlobalException());
-//                    pnlErrorMessage.setVisible(true);
-//                } else {
-//                    pnlErrorMessage.setVisible(false);
-//                }
+                pnlCenter.setVisible(true);
+                lblTransferType.setText(localIRODSTransfer.getTransferType().toString());
+                lblTransferStatus.setText(localIRODSTransfer.getTransferState().toString());
 
+                // colorize transfer status
+                if (localIRODSTransfer.getTransferStatus() == TransferStatus.ERROR) {
+                    lblTransferStatus.setForeground(Color.RED);
+                } else if (localIRODSTransfer.getTransferStatus() == TransferStatus.WARNING) {
+                    lblTransferStatus.setForeground(Color.CYAN);
+                } else {
+                    lblTransferStatus.setForeground(Color.GREEN);
+                }
+
+                lblProcessingState.setText(localIRODSTransfer.getTransferState().toString());
+                if (localIRODSTransfer.getTransferState() == TransferState.PROCESSING) {
+                    lblProcessingState.setForeground(Color.GREEN);
+                } else if (localIRODSTransfer.getTransferState() == TransferState.PAUSED) {
+                    lblProcessingState.setForeground(Color.cyan);
+                } else if (localIRODSTransfer.getTransferState() == TransferState.ENQUEUED) {
+                    lblProcessingState.setForeground(Color.BLUE);
+                } else if (localIRODSTransfer.getTransferState() == TransferState.CANCELLED) {
+                    lblProcessingState.setForeground(Color.RED);
+                } else {
+                    lblProcessingState.setForeground(Color.BLACK);
+                }
+
+                if (localIRODSTransfer.getSynchronization() != null) {
+                    btnSynchronization.setEnabled(true);
+                } else {
+                    btnSynchronization.setEnabled(false);
+                }
+
+                lblHost.setText(localIRODSTransfer.getTransferHost());
+                lblZone.setText(localIRODSTransfer.getTransferZone());
+
+                if (localIRODSTransfer.getTransferStart() != null) {
+                    lblTransferStart.setText(dateFormat.format(localIRODSTransfer.getTransferStart()));
+                }
+
+                if (localIRODSTransfer.getTransferEnd() != null) {
+                    lblTransferEnd.setText(dateFormat.format(localIRODSTransfer.getTransferEnd()));
+                }
+
+                lblLastPath.setText(IDropUtils.abbreviateFileName(localIRODSTransfer.getLastSuccessfulPath()));
+                lblErrorMessage.setText(localIRODSTransfer.getGlobalException());
+
+                String source = null;
+                String target = null;
+
+
+                // set source and target properly based on activity (put, get, etc)
+                switch (localIRODSTransfer.getTransferType()) {
+                    case GET:
+                        source = localIRODSTransfer.getIrodsAbsolutePath();
+                        target = localIRODSTransfer.getLocalAbsolutePath();
+                        break;
+                    case PUT:
+                        source = localIRODSTransfer.getLocalAbsolutePath();
+                        target = localIRODSTransfer.getIrodsAbsolutePath();
+                        break;
+                    case REPLICATE:
+                        source = localIRODSTransfer.getIrodsAbsolutePath();
+                        target = "";
+                        break;
+                    case COPY:
+                        source = localIRODSTransfer.getIrodsAbsolutePath();
+                        target = localIRODSTransfer.getIrodsAbsolutePath();
+                        break;
+                    case SYNCH:
+                        source = localIRODSTransfer.getIrodsAbsolutePath();
+                        target = localIRODSTransfer.getIrodsAbsolutePath();
+                        break;
+                    default:
+                        log.error("unable to build details for transfer with transfer type of:{}",
+                                localIRODSTransfer.getTransferType());
+                        iDropParent.showIdropException(new IdropException("unable to build details for this transfer type"));
+                        break;
+                }
+
+                lblSource.setText(IDropUtils.abbreviateFileName(source));
+                lblTarget.setText(IDropUtils.abbreviateFileName(target));
+
+                lblTransferType1.setText(localIRODSTransfer.getTransferType().toString());
+
+
+                lblCountSoFar.setText(String.valueOf(localIRODSTransfer.getTotalFilesTransferredSoFar()));
+                lblCountOutOf.setText(String.valueOf(localIRODSTransfer.getTotalFilesCount()));
+                lblTransferFilesCounts.setText("Files: " + localIRODSTransfer.getTotalFilesTransferredSoFar() + " / " + localIRODSTransfer.getTotalFilesCount());
+                transferStatusProgressBar.setMinimum(0);
+                transferStatusProgressBar.setMaximum(localIRODSTransfer.getTotalFilesCount());
+                transferStatusProgressBar.setValue(localIRODSTransfer.getTotalFilesTransferredSoFar());
                 // initialize the detail values via hibernate (they are lazily loaded)
                 log.info("get the details based on the selected option");
 
@@ -1255,11 +1249,9 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                     if (showAll) {
                         log.info("showing all transfers based on radio selection");
 
-                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager
-                                .getAllTransferItemsForTransfer(localIRODSTransfer.getId())));
+                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager.getAllTransferItemsForTransfer(localIRODSTransfer.getId())));
                     } else {
-                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager
-                                .getErrorTransferItemsForTransfer(localIRODSTransfer.getId())));
+                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager.getErrorTransferItemsForTransfer(localIRODSTransfer.getId())));
                     }
 
                 } catch (Exception ex) {
@@ -1299,9 +1291,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 }
 
                 jTableDetails.setVisible(true);
-                //jScrollPaneSourcePath.validate();
-                //jScrollPaneTargetPath.validate();
-
             }
         });
     }
@@ -1351,8 +1340,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 txtAreaErrorMessage.setText("");
                 txtLastGoodPath.setText("");
                  * */
-                 
-
             }
         });
     }
