@@ -30,7 +30,7 @@ import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Tools/Preferences dialog to set preferences
  * @author mikeconway
  */
 public class IDROPConfigurationPanel extends javax.swing.JDialog {
@@ -387,7 +387,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         log.info("lazily loading synch data");
 
         final IDROPConfigurationPanel thisPanel = this;
-
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 

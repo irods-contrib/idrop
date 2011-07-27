@@ -75,6 +75,7 @@
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[900, 800]"/>
     </Property>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
@@ -442,7 +443,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                                   <Component id="pnlProgress" min="-2" pref="1016" max="-2" attributes="1"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="111" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>

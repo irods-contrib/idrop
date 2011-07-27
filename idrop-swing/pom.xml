@@ -26,7 +26,7 @@
   <!-- <dependency>
      <groupId>com.jgoodies</groupId>
      <artifactId>validation</artifactId>
-   </dependency> -->
+   </dependency>
         <dependency>
             <groupId>cookxml</groupId>
             <artifactId>cookswing</artifactId>
@@ -39,6 +39,7 @@
             <groupId>cookxml</groupId>
             <artifactId>cookswing</artifactId>
         </dependency>   
+         -->
         <dependency>
             <groupId>org.irods.jargon</groupId>
             <artifactId>jargon-data-utils</artifactId>
@@ -61,7 +62,13 @@
         </dependency>
         <dependency>
             <groupId>org.irods.jargon.transfer</groupId>
+            <artifactId>jargon-transfer-dao-spring</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.irods.jargon.transfer</groupId>
             <artifactId>jargon-transfer-engine</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -76,12 +83,6 @@
         <dependency>
             <groupId>org.swinglabs</groupId>
             <artifactId>swing-layout</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.irods.jargon.transfer</groupId>
-            <artifactId>jargon-transfer-dao-api</artifactId>
-            <version>2.4.1-SNAPSHOT</version>
-            <type>jar</type>
         </dependency>
     </dependencies>
     <build>

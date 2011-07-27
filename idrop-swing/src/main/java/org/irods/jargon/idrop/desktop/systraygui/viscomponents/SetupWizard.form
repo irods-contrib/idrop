@@ -253,12 +253,19 @@
                 </Constraint>
               </Constraints>
 
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="pnlSynchData">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder/>
+                      </Border>
+                    </Property>
+                  </Properties>
                   <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                      <BorderConstraints direction="Center"/>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                      <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
                     </Constraint>
                   </Constraints>
 
@@ -271,11 +278,11 @@
                         </Constraint>
                       </Constraints>
 
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
                       <SubComponents>
                         <Component class="javax.swing.JTextField" name="txtLocalPath">
                           <Properties>
-                            <Property name="columns" type="int" value="80"/>
+                            <Property name="columns" type="int" value="60"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.txtLocalPath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
@@ -286,6 +293,11 @@
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtLocalPathActionPerformed"/>
                           </Events>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                              <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnChooseLocalSynch">
                           <Properties>
@@ -300,6 +312,60 @@
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChooseLocalSynchActionPerformed"/>
                           </Events>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                              <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                            </Constraint>
+                          </Constraints>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+                    <Container class="javax.swing.JPanel" name="pnlIrodsSynch">
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                          <GridBagConstraints gridX="0" gridY="5" gridWidth="9" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="10" insetsBottom="0" insetsRight="10" anchor="17" weightX="0.0" weightY="0.0"/>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
+                      <SubComponents>
+                        <Component class="javax.swing.JTextField" name="txtIrodsPath">
+                          <Properties>
+                            <Property name="columns" type="int" value="60"/>
+                            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.txtIrodsPath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                            </Property>
+                            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.txtIrodsPath.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                            </Property>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIrodsPathActionPerformed"/>
+                          </Events>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                              <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                            </Constraint>
+                          </Constraints>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="btnChooseIrodsSynch">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="105"/>
+                            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.btnChooseIrodsSynch.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                            </Property>
+                            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.btnChooseIrodsSynch.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                            </Property>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChooseIrodsSynchActionPerformed"/>
+                          </Events>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                              <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -404,45 +470,6 @@
                               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.jcomboSynchFrequency.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                           </Properties>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                    <Container class="javax.swing.JPanel" name="pnlIrodsSynch">
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                          <GridBagConstraints gridX="0" gridY="5" gridWidth="9" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="10" insetsBottom="0" insetsRight="10" anchor="17" weightX="0.0" weightY="0.0"/>
-                        </Constraint>
-                      </Constraints>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JTextField" name="txtIrodsPath">
-                          <Properties>
-                            <Property name="columns" type="int" value="80"/>
-                            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.txtIrodsPath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                            </Property>
-                            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.txtIrodsPath.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                            </Property>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIrodsPathActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="btnChooseIrodsSynch">
-                          <Properties>
-                            <Property name="mnemonic" type="int" value="105"/>
-                            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.btnChooseIrodsSynch.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                            </Property>
-                            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.btnChooseIrodsSynch.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                            </Property>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChooseIrodsSynchActionPerformed"/>
-                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>

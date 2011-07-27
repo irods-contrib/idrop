@@ -16,7 +16,6 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.transfer.TransferEngineException;
 import org.irods.jargon.transfer.TransferServiceFactoryImpl;
 import org.irods.jargon.transfer.dao.domain.ConfigurationProperty;
-import org.irods.jargon.transfer.dao.domain.SynchConfiguration;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.engine.ConfigurationService;
 import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;

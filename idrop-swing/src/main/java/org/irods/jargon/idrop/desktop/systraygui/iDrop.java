@@ -53,6 +53,7 @@ import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
+import org.irods.jargon.core.query.MetaDataAndDomainData;
 import org.irods.jargon.core.query.MetaDataAndDomainData.MetadataDomain;
 import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
@@ -2340,7 +2341,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         log.info("processing tags for collection");
                         Collection collection = (Collection) lastCachedItemToProcessTagsFor;
                         IRODSTagGrouping irodsTagGrouping = new IRODSTagGrouping(
-                                MetadataDomain.COLLECTION, collection.getCollectionName(),
+                                MetaDataAndDomainData.MetadataDomain.COLLECTION, collection.getCollectionName(),
                                 txtTags.getText(), getIrodsAccount().getUserName());
                         log.debug("new tag set is:{}", txtTags.getText());
                         freeTaggingService.updateTags(irodsTagGrouping);

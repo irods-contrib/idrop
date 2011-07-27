@@ -24,6 +24,7 @@ import org.irods.jargon.transfer.dao.domain.FrequencyType;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.dao.domain.SynchronizationType;
 import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
+import org.irods.jargon.transfer.engine.synch.SynchException;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -100,6 +101,9 @@ public class SetupWizard extends javax.swing.JDialog {
         pnlLocalSynch = new javax.swing.JPanel();
         txtLocalPath = new javax.swing.JTextField();
         btnChooseLocalSynch = new javax.swing.JButton();
+        pnlIrodsSynch = new javax.swing.JPanel();
+        txtIrodsPath = new javax.swing.JTextField();
+        btnChooseIrodsSynch = new javax.swing.JButton();
         pnlSynchMode = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         radioBackup = new javax.swing.JRadioButton();
@@ -108,9 +112,6 @@ public class SetupWizard extends javax.swing.JDialog {
         pnlSynchFrequency = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jcomboSynchFrequency = new javax.swing.JComboBox();
-        pnlIrodsSynch = new javax.swing.JPanel();
-        txtIrodsPath = new javax.swing.JTextField();
-        btnChooseIrodsSynch = new javax.swing.JButton();
         pnlWizardToolbar = new javax.swing.JPanel();
         btnBack = new javax.swing.JButton();
         btnForward = new javax.swing.JButton();
@@ -194,11 +195,14 @@ public class SetupWizard extends javax.swing.JDialog {
 
         pnlInitialSynchSetup.add(pnlInitialSynchSetupQuestion, java.awt.BorderLayout.CENTER);
 
-        pnlInitialSynchSetupAnswer.setLayout(new java.awt.BorderLayout());
+        pnlInitialSynchSetupAnswer.setLayout(new java.awt.GridBagLayout());
 
+        pnlSynchData.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlSynchData.setLayout(new java.awt.GridBagLayout());
 
-        txtLocalPath.setColumns(80);
+        pnlLocalSynch.setLayout(new java.awt.GridBagLayout());
+
+        txtLocalPath.setColumns(60);
         txtLocalPath.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtLocalPath.text")); // NOI18N
         txtLocalPath.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtLocalPath.toolTipText")); // NOI18N
         txtLocalPath.addActionListener(new java.awt.event.ActionListener() {
@@ -206,7 +210,7 @@ public class SetupWizard extends javax.swing.JDialog {
                 txtLocalPathActionPerformed(evt);
             }
         });
-        pnlLocalSynch.add(txtLocalPath);
+        pnlLocalSynch.add(txtLocalPath, new java.awt.GridBagConstraints());
 
         btnChooseLocalSynch.setMnemonic('c');
         btnChooseLocalSynch.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnChooseLocalSynch.text")); // NOI18N
@@ -216,7 +220,7 @@ public class SetupWizard extends javax.swing.JDialog {
                 btnChooseLocalSynchActionPerformed(evt);
             }
         });
-        pnlLocalSynch.add(btnChooseLocalSynch);
+        pnlLocalSynch.add(btnChooseLocalSynch, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -226,6 +230,37 @@ public class SetupWizard extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         pnlSynchData.add(pnlLocalSynch, gridBagConstraints);
+
+        pnlIrodsSynch.setLayout(new java.awt.GridBagLayout());
+
+        txtIrodsPath.setColumns(60);
+        txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtIrodsPath.text")); // NOI18N
+        txtIrodsPath.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtIrodsPath.toolTipText")); // NOI18N
+        txtIrodsPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIrodsPathActionPerformed(evt);
+            }
+        });
+        pnlIrodsSynch.add(txtIrodsPath, new java.awt.GridBagConstraints());
+
+        btnChooseIrodsSynch.setMnemonic('i');
+        btnChooseIrodsSynch.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnChooseIrodsSynch.text")); // NOI18N
+        btnChooseIrodsSynch.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnChooseIrodsSynch.toolTipText")); // NOI18N
+        btnChooseIrodsSynch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChooseIrodsSynchActionPerformed(evt);
+            }
+        });
+        pnlIrodsSynch.add(btnChooseIrodsSynch, new java.awt.GridBagConstraints());
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        pnlSynchData.add(pnlIrodsSynch, gridBagConstraints);
 
         pnlSynchMode.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlSynchMode.setLayout(new java.awt.GridLayout(0, 1));
@@ -275,36 +310,7 @@ public class SetupWizard extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         pnlSynchData.add(pnlSynchFrequency, gridBagConstraints);
 
-        txtIrodsPath.setColumns(80);
-        txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtIrodsPath.text")); // NOI18N
-        txtIrodsPath.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.txtIrodsPath.toolTipText")); // NOI18N
-        txtIrodsPath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIrodsPathActionPerformed(evt);
-            }
-        });
-        pnlIrodsSynch.add(txtIrodsPath);
-
-        btnChooseIrodsSynch.setMnemonic('i');
-        btnChooseIrodsSynch.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnChooseIrodsSynch.text")); // NOI18N
-        btnChooseIrodsSynch.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.btnChooseIrodsSynch.toolTipText")); // NOI18N
-        btnChooseIrodsSynch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChooseIrodsSynchActionPerformed(evt);
-            }
-        });
-        pnlIrodsSynch.add(btnChooseIrodsSynch);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 9;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        pnlSynchData.add(pnlIrodsSynch, gridBagConstraints);
-
-        pnlInitialSynchSetupAnswer.add(pnlSynchData, java.awt.BorderLayout.CENTER);
+        pnlInitialSynchSetupAnswer.add(pnlSynchData, new java.awt.GridBagConstraints());
 
         pnlInitialSynchSetup.add(pnlInitialSynchSetupAnswer, java.awt.BorderLayout.SOUTH);
 
@@ -355,10 +361,10 @@ public class SetupWizard extends javax.swing.JDialog {
      * @param evt 
      */
     private void btnSeeSystemTrayYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeeSystemTrayYesActionPerformed
-        saveSeeSystemTrayYas();
+        saveSeeSystemTrayYes();
     }
 
-    private void saveSeeSystemTrayYas() throws IdropRuntimeException {
+    private void saveSeeSystemTrayYes () throws IdropRuntimeException {
         log.info("indicates system try shown, set to not load gui");
         try {
             idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "false");
@@ -454,7 +460,7 @@ public class SetupWizard extends javax.swing.JDialog {
         // forward acts differently according to the current tab
         if (tabWizardTabs.getSelectedIndex() == 0) {
             // advance from 'can you see icon'
-            saveSeeSystemTrayYas();
+            saveSeeSystemTrayYes();
         } else if (tabWizardTabs.getSelectedIndex() == 1) {
             // advance tabs from 'name device;
             saveDeviceName();
@@ -499,9 +505,26 @@ public class SetupWizard extends javax.swing.JDialog {
             finishWizard();
             return;
         }
-
+       
         tabAdvancing = true;
         tabWizardTabs.setSelectedIndex(currentTab);
+        
+        // for synch setup, if a synch exists, do not allow setup
+        if (currentTab == 2) {
+            try {
+                if (idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService().listAllSynchronizations().size() > 0) {
+                    log.info("synch already present, skip");
+                    finishWizard();
+                    return;
+                } else {
+                    log.info("will proceed to synch setup wizard");
+                }
+            } catch (SynchException ex) {
+                log.error("error looking for existing synchs", ex);
+               throw new IdropRuntimeException(ex);
+            }
+        }
+        
         tabStep = currentTab;
 
     }
