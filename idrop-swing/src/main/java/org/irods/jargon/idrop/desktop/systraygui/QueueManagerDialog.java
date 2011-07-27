@@ -111,8 +111,8 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         btnRestartSelected.setEnabled(false);
         jTableMaster.setModel(new QueueManagerMasterTableModel(new ArrayList<LocalIRODSTransfer>()));
         jTableMaster.getSelectionModel().addListSelectionListener(this);
-        jTableDetails.setVisible(false);
-        pnlTransferInfo.setVisible(false);
+        //jTableDetails.setVisible(false);
+        //pnlTransferInfo.setVisible(false);
        // pnlErrorMessage.setVisible(false);
 
         refreshTableView(viewType);
@@ -128,6 +128,12 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         java.awt.GridBagConstraints gridBagConstraints;
 
         btnGroupDetailsDisplay = new javax.swing.ButtonGroup();
+        pnlProgress = new javax.swing.JPanel();
+        lblTransferred = new javax.swing.JLabel();
+        lblCountSoFar = new javax.swing.JLabel();
+        lblTransferredOutOf = new javax.swing.JLabel();
+        lblCountOutOf = new javax.swing.JLabel();
+        progressBarQueueDetails = new javax.swing.JProgressBar();
         pnlTop = new javax.swing.JPanel();
         lblHeader = new javax.swing.JLabel();
         toolbarQueueManagement = new javax.swing.JToolBar();
@@ -143,7 +149,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         btnRefreshView = new javax.swing.JButton();
         toggleAutoRefresh = new javax.swing.JToggleButton();
         pnlCenter = new javax.swing.JPanel();
-        splitQueueTableMasterAndDetail = new javax.swing.JSplitPane();
         jScrollPaneMaster = new javax.swing.JScrollPane();
         jTableMaster = new javax.swing.JTable();
         tabDetails = new javax.swing.JTabbedPane();
@@ -171,14 +176,21 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         lblTarget = new javax.swing.JLabel();
         lblLastPathLabel = new javax.swing.JLabel();
         lblLastPath = new javax.swing.JLabel();
-        pnlTransferErrorInfo = new javax.swing.JPanel();
-        pnlProgress = new javax.swing.JPanel();
-        lblTransferred = new javax.swing.JLabel();
-        lblCountSoFar = new javax.swing.JLabel();
-        lblTransferredOutOf = new javax.swing.JLabel();
-        lblCountOutOf = new javax.swing.JLabel();
-        progressBarQueueDetails = new javax.swing.JProgressBar();
-        pnlTrnasferDetailsTable = new javax.swing.JPanel();
+        lblErrorMessageLabel = new javax.swing.JLabel();
+        lblErrorMessage = new javax.swing.JLabel();
+        pnlTransferProgress = new javax.swing.JPanel();
+        pnlTransferOverview = new javax.swing.JPanel();
+        pnlTransferStatus = new javax.swing.JPanel();
+        pnlTransferType = new javax.swing.JPanel();
+        lblTransferTypeLabel1 = new javax.swing.JLabel();
+        lblTransferType1 = new javax.swing.JLabel();
+        pnlTransferFileCounts = new javax.swing.JPanel();
+        lblTransferFilesCounts = new javax.swing.JLabel();
+        pnlTransferFileInfo = new javax.swing.JPanel();
+        lblCurrentFileLabel = new javax.swing.JLabel();
+        lblCurrentFile = new javax.swing.JLabel();
+        transferStatusProgressBar = new javax.swing.JProgressBar();
+        pnlTransferDetailsTable = new javax.swing.JPanel();
         pnlViewRadio = new javax.swing.JPanel();
         radioShowAll = new javax.swing.JRadioButton();
         radioShowError = new javax.swing.JRadioButton();
@@ -193,14 +205,57 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         jMenuError = new javax.swing.JMenuItem();
         jMenuWarning = new javax.swing.JMenuItem();
 
+        pnlProgress.setBackground(javax.swing.UIManager.getDefaults().getColor("TabbedPane.shadow"));
+
+        lblTransferred.setText("Transferred ");
+
+        lblCountSoFar.setText("0");
+
+        lblTransferredOutOf.setText("out of ");
+
+        lblCountOutOf.setText("0");
+
+        org.jdesktop.layout.GroupLayout pnlProgressLayout = new org.jdesktop.layout.GroupLayout(pnlProgress);
+        pnlProgress.setLayout(pnlProgressLayout);
+        pnlProgressLayout.setHorizontalGroup(
+            pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlProgressLayout.createSequentialGroup()
+                .addContainerGap(79, Short.MAX_VALUE)
+                .add(lblTransferred)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lblCountSoFar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(27, 27, 27)
+                .add(lblTransferredOutOf)
+                .add(18, 18, 18)
+                .add(lblCountOutOf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(648, 648, 648))
+            .add(pnlProgressLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 901, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnlProgressLayout.setVerticalGroup(
+            pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlProgressLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblTransferred)
+                    .add(lblTransferredOutOf)
+                    .add(lblCountOutOf)
+                    .add(lblCountSoFar))
+                .add(18, 18, 18)
+                .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("iDrop Transfer Client");
-        setBounds(new java.awt.Rectangle(0, 22, 900, 1000));
-        setMinimumSize(null);
+        setBounds(new java.awt.Rectangle(0, 22, 0, 0));
 
         lblHeader.setText("Most Recent iDrop Transfers");
 
         toolbarQueueManagement.setRollover(true);
+        toolbarQueueManagement.setMinimumSize(null);
         toolbarQueueManagement.add(jSeparator2);
 
         btnPurgeAll.setText("Purge All");
@@ -315,10 +370,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
 
-        splitQueueTableMasterAndDetail.setDividerLocation(200);
-        splitQueueTableMasterAndDetail.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        splitQueueTableMasterAndDetail.setName("splitQueueMasterAndDetail"); // NOI18N
-        splitQueueTableMasterAndDetail.setOneTouchExpandable(true);
+        pnlCenter.setLayout(new java.awt.BorderLayout());
 
         jScrollPaneMaster.setRequestFocusEnabled(false);
 
@@ -339,14 +391,16 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         jTableMaster.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPaneMaster.setViewportView(jTableMaster);
 
-        splitQueueTableMasterAndDetail.setLeftComponent(jScrollPaneMaster);
+        pnlCenter.add(jScrollPaneMaster, java.awt.BorderLayout.CENTER);
 
         pnlTransferDetailsSummary.setPreferredSize(new java.awt.Dimension(0, 0));
-        pnlTransferDetailsSummary.setLayout(new java.awt.BorderLayout());
+        pnlTransferDetailsSummary.setLayout(new java.awt.GridLayout(0, 1));
 
+        pnlTransferInfo.setMinimumSize(null);
         pnlTransferInfo.setLayout(new java.awt.BorderLayout());
 
         pnlTransferInfoBasicStats.setFocusable(false);
+        pnlTransferInfoBasicStats.setMinimumSize(null);
         pnlTransferInfoBasicStats.setLayout(new java.awt.GridBagLayout());
 
         lblTransferTypeLabel.setText("Transfer Type:");
@@ -528,61 +582,105 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblLastPath, gridBagConstraints);
 
+        lblErrorMessageLabel.setText("Error Message:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblErrorMessageLabel, gridBagConstraints);
+
+        lblErrorMessage.setText("errorMessageValue");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblErrorMessage, gridBagConstraints);
+
         pnlTransferInfo.add(pnlTransferInfoBasicStats, java.awt.BorderLayout.NORTH);
 
-        pnlTransferErrorInfo.setLayout(new java.awt.GridBagLayout());
-        pnlTransferInfo.add(pnlTransferErrorInfo, java.awt.BorderLayout.SOUTH);
+        pnlTransferDetailsSummary.add(pnlTransferInfo);
 
-        pnlTransferDetailsSummary.add(pnlTransferInfo, java.awt.BorderLayout.CENTER);
+        pnlTransferProgress.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlTransferProgress.setPreferredSize(new java.awt.Dimension(200, 100));
+        pnlTransferProgress.setRequestFocusEnabled(false);
 
-        pnlProgress.setBackground(javax.swing.UIManager.getDefaults().getColor("TabbedPane.shadow"));
+        pnlTransferOverview.setMinimumSize(null);
 
-        lblTransferred.setText("Transferred ");
+        pnlTransferStatus.setMinimumSize(null);
 
-        lblCountSoFar.setText("0");
+        pnlTransferType.setMinimumSize(null);
 
-        lblTransferredOutOf.setText("out of ");
+        lblTransferTypeLabel1.setText("Transfer Type:");
+        lblTransferTypeLabel1.setMinimumSize(null);
+        pnlTransferType.add(lblTransferTypeLabel1);
 
-        lblCountOutOf.setText("0");
+        lblTransferType1.setText(" ");
+        lblTransferType1.setMaximumSize(null);
+        lblTransferType1.setMinimumSize(null);
+        pnlTransferType.add(lblTransferType1);
 
-        org.jdesktop.layout.GroupLayout pnlProgressLayout = new org.jdesktop.layout.GroupLayout(pnlProgress);
-        pnlProgress.setLayout(pnlProgressLayout);
-        pnlProgressLayout.setHorizontalGroup(
-            pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlProgressLayout.createSequentialGroup()
-                .addContainerGap(79, Short.MAX_VALUE)
-                .add(lblTransferred)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lblCountSoFar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(27, 27, 27)
-                .add(lblTransferredOutOf)
-                .add(18, 18, 18)
-                .add(lblCountOutOf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(648, 648, 648))
-            .add(pnlProgressLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 901, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        pnlTransferStatus.add(pnlTransferType);
+
+        pnlTransferFileCounts.setMinimumSize(null);
+
+        lblTransferFilesCounts.setText("Files: /");
+        lblTransferFilesCounts.setMinimumSize(null);
+        pnlTransferFileCounts.add(lblTransferFilesCounts);
+
+        pnlTransferStatus.add(pnlTransferFileCounts);
+
+        pnlTransferOverview.add(pnlTransferStatus);
+
+        pnlTransferFileInfo.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlTransferFileInfo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        lblCurrentFileLabel.setText("Current File:");
+        pnlTransferFileInfo.add(lblCurrentFileLabel);
+        pnlTransferFileInfo.add(lblCurrentFile);
+
+        pnlTransferOverview.add(pnlTransferFileInfo);
+
+        transferStatusProgressBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        transferStatusProgressBar.setMinimumSize(null);
+        transferStatusProgressBar.setStringPainted(true);
+
+        org.jdesktop.layout.GroupLayout pnlTransferProgressLayout = new org.jdesktop.layout.GroupLayout(pnlTransferProgress);
+        pnlTransferProgress.setLayout(pnlTransferProgressLayout);
+        pnlTransferProgressLayout.setHorizontalGroup(
+            pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 1090, Short.MAX_VALUE)
+            .add(pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(pnlTransferProgressLayout.createSequentialGroup()
+                    .add(0, 1, Short.MAX_VALUE)
+                    .add(pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(pnlTransferOverview, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1088, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(pnlTransferProgressLayout.createSequentialGroup()
+                            .add(91, 91, 91)
+                            .add(transferStatusProgressBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 854, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(0, 1, Short.MAX_VALUE)))
         );
-        pnlProgressLayout.setVerticalGroup(
-            pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlProgressLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblTransferred)
-                    .add(lblTransferredOutOf)
-                    .add(lblCountOutOf)
-                    .add(lblCountSoFar))
-                .add(18, 18, 18)
-                .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        pnlTransferProgressLayout.setVerticalGroup(
+            pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 222, Short.MAX_VALUE)
+            .add(pnlTransferProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(pnlTransferProgressLayout.createSequentialGroup()
+                    .add(0, 71, Short.MAX_VALUE)
+                    .add(pnlTransferOverview, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(11, 11, 11)
+                    .add(transferStatusProgressBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(0, 70, Short.MAX_VALUE)))
         );
 
-        pnlTransferDetailsSummary.add(pnlProgress, java.awt.BorderLayout.SOUTH);
+        pnlTransferDetailsSummary.add(pnlTransferProgress);
 
         tabDetails.addTab("TransferSummary", null, pnlTransferDetailsSummary, "Summary information about the selected transfer");
 
-        pnlTrnasferDetailsTable.setLayout(new java.awt.BorderLayout());
+        pnlTransferDetailsTable.setMinimumSize(null);
+        pnlTransferDetailsTable.setLayout(new java.awt.BorderLayout());
 
         btnGroupDetailsDisplay.add(radioShowAll);
         radioShowAll.setText("Show all items");
@@ -605,7 +703,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         });
         pnlViewRadio.add(radioShowError);
 
-        pnlTrnasferDetailsTable.add(pnlViewRadio, java.awt.BorderLayout.NORTH);
+        pnlTransferDetailsTable.add(pnlViewRadio, java.awt.BorderLayout.NORTH);
 
         jScrollPaneDetails.setMinimumSize(null);
 
@@ -624,28 +722,11 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         jTableDetails.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPaneDetails.setViewportView(jTableDetails);
 
-        pnlTrnasferDetailsTable.add(jScrollPaneDetails, java.awt.BorderLayout.CENTER);
+        pnlTransferDetailsTable.add(jScrollPaneDetails, java.awt.BorderLayout.CENTER);
 
-        tabDetails.addTab("Transfer Details", pnlTrnasferDetailsTable);
+        tabDetails.addTab("Transfer Details", pnlTransferDetailsTable);
 
-        splitQueueTableMasterAndDetail.setRightComponent(tabDetails);
-
-        org.jdesktop.layout.GroupLayout pnlCenterLayout = new org.jdesktop.layout.GroupLayout(pnlCenter);
-        pnlCenter.setLayout(pnlCenterLayout);
-        pnlCenterLayout.setHorizontalGroup(
-            pnlCenterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlCenterLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(splitQueueTableMasterAndDetail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
-        );
-        pnlCenterLayout.setVerticalGroup(
-            pnlCenterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlCenterLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(splitQueueTableMasterAndDetail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 766, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(105, Short.MAX_VALUE))
-        );
+        pnlCenter.add(tabDetails, java.awt.BorderLayout.SOUTH);
 
         getContentPane().add(pnlCenter, java.awt.BorderLayout.CENTER);
 
@@ -1030,6 +1111,10 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     private javax.swing.JTable jTableMaster;
     private javax.swing.JLabel lblCountOutOf;
     private javax.swing.JLabel lblCountSoFar;
+    private javax.swing.JLabel lblCurrentFile;
+    private javax.swing.JLabel lblCurrentFileLabel;
+    private javax.swing.JLabel lblErrorMessage;
+    private javax.swing.JLabel lblErrorMessageLabel;
     private javax.swing.JLabel lblHeader;
     private javax.swing.JLabel lblHost;
     private javax.swing.JLabel lblHostLabel;
@@ -1043,12 +1128,15 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     private javax.swing.JLabel lblTargetLabel;
     private javax.swing.JLabel lblTransferEnd;
     private javax.swing.JLabel lblTransferEndLabel;
+    private javax.swing.JLabel lblTransferFilesCounts;
     private javax.swing.JLabel lblTransferStart;
     private javax.swing.JLabel lblTransferStartLabel;
     private javax.swing.JLabel lblTransferStatus;
     private javax.swing.JLabel lblTransferStatusLabel;
     private javax.swing.JLabel lblTransferType;
+    private javax.swing.JLabel lblTransferType1;
     private javax.swing.JLabel lblTransferTypeLabel;
+    private javax.swing.JLabel lblTransferTypeLabel1;
     private javax.swing.JLabel lblTransferred;
     private javax.swing.JLabel lblTransferredOutOf;
     private javax.swing.JLabel lblZone;
@@ -1057,18 +1145,23 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     private javax.swing.JPanel pnlProgress;
     private javax.swing.JPanel pnlTop;
     private javax.swing.JPanel pnlTransferDetailsSummary;
-    private javax.swing.JPanel pnlTransferErrorInfo;
+    private javax.swing.JPanel pnlTransferDetailsTable;
+    private javax.swing.JPanel pnlTransferFileCounts;
+    private javax.swing.JPanel pnlTransferFileInfo;
     private javax.swing.JPanel pnlTransferInfo;
     private javax.swing.JPanel pnlTransferInfoBasicStats;
-    private javax.swing.JPanel pnlTrnasferDetailsTable;
+    private javax.swing.JPanel pnlTransferOverview;
+    private javax.swing.JPanel pnlTransferProgress;
+    private javax.swing.JPanel pnlTransferStatus;
+    private javax.swing.JPanel pnlTransferType;
     private javax.swing.JPanel pnlViewRadio;
     private javax.swing.JProgressBar progressBarQueueDetails;
     private javax.swing.JRadioButton radioShowAll;
     private javax.swing.JRadioButton radioShowError;
-    private javax.swing.JSplitPane splitQueueTableMasterAndDetail;
     private javax.swing.JTabbedPane tabDetails;
     private javax.swing.JToggleButton toggleAutoRefresh;
     private javax.swing.JToolBar toolbarQueueManagement;
+    private javax.swing.JProgressBar transferStatusProgressBar;
     // End of variables declaration//GEN-END:variables
 
     public JLabel getLblHeader() {
