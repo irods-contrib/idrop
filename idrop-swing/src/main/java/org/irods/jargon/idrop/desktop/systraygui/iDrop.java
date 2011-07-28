@@ -295,15 +295,20 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
             @Override
             public void run() {
-                // on initiation, clear and reset the status bar info
-                lblTransferType.setText(ts.getTransferType().name());
-                lblTransferFilesCounts.setText("Files: "
-                        + ts.getTotalFilesTransferredSoFar() + " / "
-                        + ts.getTotalFilesToTransfer());
-                lblTransferByteCounts.setText("Bytes (kb):"
-                        + (ts.getBytesTransfered() / 1024) + " / "
-                        + (ts.getTotalSize() / 1024));
-                lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
+                if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
+                    // on initiation, clear and reset the status bar info
+                    lblTransferType.setText(ts.getTransferType().name());
+                    lblTransferFilesCounts.setText("Files: "
+                            + ts.getTotalFilesTransferredSoFar() + " / "
+                            + ts.getTotalFilesToTransfer());
+                    lblTransferByteCounts.setText("Bytes (kb):"
+                            + (ts.getBytesTransfered() / 1024) + " / "
+                            + (ts.getTotalSize() / 1024));
+                    lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
+                    transferStatusProgressBar.setMinimum(0);
+                    transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
+                    transferStatusProgressBar.setValue(0);
+                }
             }
         });
 
@@ -400,7 +405,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         MenuItem iDropItem = new MenuItem("iDrop");
         MenuItem preferencesItem = new MenuItem("Preferences");
         MenuItem changePasswordItem = new MenuItem("Change Password");
-       
+
         iDropItem.addActionListener(this);
 
         MenuItem currentItem = new MenuItem("Show Current and Past Activity");
@@ -522,16 +527,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             aboutDialog.setLocation(x, y);
             aboutDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Preferences")) {
-           IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(this, true, iDropCore);
-           idropConfigurationPanel.setLocationRelativeTo(null);
-           idropConfigurationPanel.setVisible(true);
+            IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(this, true, iDropCore);
+            idropConfigurationPanel.setLocationRelativeTo(null);
+            idropConfigurationPanel.setVisible(true);
         } else if (e.getActionCommand().equals("Change Password")) {
 
             if (changePasswordDialog == null) {
                 changePasswordDialog = new ChangePasswordDialog(this, true);
                 int x = (toolkit.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
                 int y = (toolkit.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
-                changePasswordDialog.setLocation(x, y); 
+                changePasswordDialog.setLocation(x, y);
             }
             changePasswordDialog.setVisible(true);
 
@@ -2610,21 +2615,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 "Do you want to shut down iDrop?",
                 JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-          shutdown();
+            shutdown();
         }
     }
-    
+
     private void shutdown() {
-          try {
-                log.info("shut down queue timer");
-                iDropCore.getQueueTimer().cancel();
-                log.info("saving current configuration to idrop.properties");
-                iDropCore.getIdropConfigurationService().saveConfigurationToPropertiesFile();
-                log.info("properties saved");
-            } catch (IdropException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-            System.exit(0);
+        try {
+            log.info("shut down queue timer");
+            iDropCore.getQueueTimer().cancel();
+            log.info("saving current configuration to idrop.properties");
+            iDropCore.getIdropConfigurationService().saveConfigurationToPropertiesFile();
+            log.info("properties saved");
+        } catch (IdropException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        System.exit(0);
     }
 
     private void initializeLookAndFeelSelected() {
@@ -2655,15 +2660,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void setLookAndFeel(String lookAndFeelChoice) {
 
-         int result = JOptionPane.showConfirmDialog(this,
-               
+        int result = JOptionPane.showConfirmDialog(this,
                 "Changing the look and feel requires a restart, would you like to change the look and feel?",
                 "iDrop - Confirm change look and feel",
                 JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.CANCEL_OPTION) {
             return;
         }
-        
+
         String lookAndFeel = "";
         if (lookAndFeelChoice == null) {
             lookAndFeelChoice = "System";
@@ -2694,7 +2698,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 lookAndFeel = "System";
 
             }
-                try {
+            try {
                 LookAndFeelManager laf = new LookAndFeelManager(iDropCore);
                 laf.setLookAndFeel(lookAndFeel);
                 shutdown();
