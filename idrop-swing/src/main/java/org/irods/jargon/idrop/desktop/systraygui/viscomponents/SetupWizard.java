@@ -269,6 +269,7 @@ public class SetupWizard extends javax.swing.JDialog {
         pnlSynchMode.add(jLabel1);
 
         bnGroupSynchType.add(radioBackup);
+        radioBackup.setSelected(true);
         radioBackup.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.radioBackup.text")); // NOI18N
         pnlSynchMode.add(radioBackup);
 

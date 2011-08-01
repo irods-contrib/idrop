@@ -65,4 +65,6 @@ public interface IdropConfigurationService  {
      * @throws ConflictingSynchException 
      */
     void createNewSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException;
+
+    void updateSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException;
 }

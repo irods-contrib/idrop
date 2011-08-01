@@ -14,13 +14,13 @@ import org.irods.jargon.transfer.dao.domain.Synchronization;
 public class SynchConfigTableModel extends DefaultTableModel {
 
     private final IDROPCore idropCore;
-    private  List<Synchronization> synchronizations;
-     private Object[] columnNames = new Object[]{"Name", "Local Path", "iRODS Path"};
+    private List<Synchronization> synchronizations;
+    private Object[] columnNames = new Object[]{"Name", "Local Path", "iRODS Path"};
 
     public void setSynchronizations(List<Synchronization> synchronizations) {
         this.synchronizations = synchronizations;
     }
-  
+
     @Override
     public int getRowCount() {
         if (synchronizations == null) {
@@ -64,5 +64,9 @@ public class SynchConfigTableModel extends DefaultTableModel {
      */
     public Synchronization getSynchronizationAt(int row) {
         return synchronizations.get(row);
+    }
+
+    public List<Synchronization> getSynchronizations() {
+        return synchronizations;
     }
 }

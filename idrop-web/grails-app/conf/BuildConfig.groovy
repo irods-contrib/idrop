@@ -29,10 +29,10 @@ grails.project.dependency.resolution = {
 		test 'org.irods.jargon:jargon-test:2.4.1-SNAPSHOT'
 		test 'org.mockito:mockito-all:1.8.1'
 		provided 'junit:junit:4.8.1'
-		compile 'org.irods.jargon:jargon-core:2.4.1-SNAPSHOT'
-		compile 'org.irods.jargon:jargon-security:2.4.1-SNAPSHOT'
-		compile 'org.irods.jargon:jargon-data-utils:2.4.1-SNAPSHOT'
-		compile ('org.irods.jargon:jargon-user-tagging:2.4.1-SNAPSHOT') {
+		compile 'org.irods.jargon:jargon-core:2.5.0-beta2-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-security:2.5.0-beta2-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-data-utils:2.5.0-beta2-SNAPSHOT'
+		compile ('org.irods.jargon:jargon-user-tagging:2.5.0-beta2-SNAPSHOT') {
 			exclude 'junit'
 		}
 		compile 'org.springframework.security:spring-security-core:3.0.5.RELEASE'

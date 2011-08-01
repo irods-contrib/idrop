@@ -303,4 +303,26 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         log.info("synch saved");
 
     }   
+    
+     @Override
+    public void updateSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException {
+        log.info("updateSynchronization()");
+        if (synchConfiguration == null) {
+            throw new IllegalArgumentException("null synchConfiguration");
+        }
+        log.info("synchConfiguration:{}", synchConfiguration);
+        SynchManagerService synchManagerService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+        try {
+           synchManagerService.updateSynchConfiguration(synchConfiguration);
+        } catch (ConflictingSynchException cse) {
+            log.error("synch configuration is conflicting:{}", synchConfiguration, cse);
+            throw cse;
+        } catch (SynchException ex) {
+            log.error("error creating synch", ex);
+            throw new IdropException("error creating synch", ex);
+        }
+        
+        log.info("synch saved");
+
+    }   
 }

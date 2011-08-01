@@ -280,12 +280,17 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree.getModel();
         try {
-            irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
-            // if a get callback on completion, notify the local tree model
-            if (ts.getTransferType() == TransferStatus.TransferType.GET
-                    && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
-                ((LocalFileSystemModel) getFileTree().getModel()).notifyCompletionOfOperation(getFileTree(), ts);
+            if (ts.getTransferType() == TransferStatus.TransferType.SYNCH || ts.getTransferType() == TransferStatus.TransferType.REPLICATE) {
+                log.info("no need to notify tree for synch or replicate");
+            } else {
+                irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
+                // if a get callback on completion, notify the local tree model
+                if (ts.getTransferType() == TransferStatus.TransferType.GET
+                        && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                    ((LocalFileSystemModel) getFileTree().getModel()).notifyCompletionOfOperation(getFileTree(), ts);
+                }
             }
+
         } catch (IdropException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
             this.showIdropException(ex);
@@ -308,6 +313,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     transferStatusProgressBar.setMinimum(0);
                     transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
                     transferStatusProgressBar.setValue(0);
+                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
+                    lblTransferStatusMessage.setText("Synchronization Initializing");
+                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_GENERATION) {
+                    lblTransferStatusMessage.setText("Synchronization looking for updates");
+                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_STEP) {
+                    lblTransferStatusMessage.setText("Synchronizing differences");
+                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
+                    lblTransferStatusMessage.setText("");
+                } else if (ts.getTransferEnclosingType() == TransferStatus.TransferType.SYNCH) {
+                    lblTransferStatusMessage.setText("Transfer to synchronize local and iRODS");
                 }
             }
         });
@@ -1193,6 +1208,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         userNameLabel = new javax.swing.JLabel();
         pnlTransferOverview = new javax.swing.JPanel();
         pnlTransferStatus = new javax.swing.JPanel();
+        lblTransferStatusMessage = new javax.swing.JLabel();
         pnlTransferType = new javax.swing.JPanel();
         lblTransferTypeLabel = new javax.swing.JLabel();
         lblTransferType = new javax.swing.JLabel();
@@ -1738,23 +1754,37 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlTransferOverview.setLayout(new java.awt.BorderLayout());
 
+        pnlTransferStatus.setLayout(new java.awt.GridBagLayout());
+
+        lblTransferStatusMessage.setForeground(new java.awt.Color(0, 0, 255));
+        pnlTransferStatus.add(lblTransferStatusMessage, new java.awt.GridBagConstraints());
+
         lblTransferTypeLabel.setText("Transfer Type:");
         pnlTransferType.add(lblTransferTypeLabel);
 
         lblTransferType.setText(" ");
         pnlTransferType.add(lblTransferType);
 
-        pnlTransferStatus.add(pnlTransferType);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        pnlTransferStatus.add(pnlTransferType, gridBagConstraints);
 
         lblTransferFilesCounts.setText("Files: /");
         pnlTransferFileCounts.add(lblTransferFilesCounts);
 
-        pnlTransferStatus.add(pnlTransferFileCounts);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        pnlTransferStatus.add(pnlTransferFileCounts, gridBagConstraints);
 
         lblTransferByteCounts.setText("Bytes (total):  /");
         pnlTransferByteCounts.add(lblTransferByteCounts);
 
-        pnlTransferStatus.add(pnlTransferByteCounts);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        pnlTransferStatus.add(pnlTransferByteCounts, gridBagConstraints);
 
         pnlTransferOverview.add(pnlTransferStatus, java.awt.BorderLayout.NORTH);
 
@@ -2472,6 +2502,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JLabel lblTags;
     private javax.swing.JLabel lblTransferByteCounts;
     private javax.swing.JLabel lblTransferFilesCounts;
+    private javax.swing.JLabel lblTransferStatusMessage;
     private javax.swing.JLabel lblTransferType;
     private javax.swing.JLabel lblTransferTypeLabel;
     private javax.swing.JList listLocalDrives;

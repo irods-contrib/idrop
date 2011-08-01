@@ -400,6 +400,7 @@
                             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                               <ComponentRef name="bnGroupSynchType"/>
                             </Property>
+                            <Property name="selected" type="boolean" value="true"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="SetupWizard.radioBackup.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
