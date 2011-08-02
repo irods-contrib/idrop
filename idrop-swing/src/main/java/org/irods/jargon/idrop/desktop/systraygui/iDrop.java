@@ -301,6 +301,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             @Override
             public void run() {
                 if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
+                    clearProgressBar();
                     // on initiation, clear and reset the status bar info
                     lblTransferType.setText(ts.getTransferType().name());
                     lblTransferFilesCounts.setText("Files: "
@@ -314,13 +315,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
                     transferStatusProgressBar.setValue(0);
                 } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
+                    clearProgressBar();
                     lblTransferStatusMessage.setText("Synchronization Initializing");
                 } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_GENERATION) {
                     lblTransferStatusMessage.setText("Synchronization looking for updates");
                 } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_STEP) {
                     lblTransferStatusMessage.setText("Synchronizing differences");
                 } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
-                    lblTransferStatusMessage.setText("");
+                    lblTransferStatusMessage.setText("Synchronization complete");
                 } else if (ts.getTransferEnclosingType() == TransferStatus.TransferType.SYNCH) {
                     lblTransferStatusMessage.setText("Transfer to synchronize local and iRODS");
                 }
@@ -2783,5 +2785,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     public void setFileTree(final LocalFileTree fileTree) {
         this.fileTree = fileTree;
+    }
+
+    /**
+     * Call from a swing event queue runnable
+     */
+    private void clearProgressBar() {
+        lblTransferType.setText("");
+        lblTransferFilesCounts.setText("Files:   /    ");
+
+        lblTransferByteCounts.setText("Bytes (kb):  /   ");
+
+        lblCurrentFile.setText("");
+        transferStatusProgressBar.setMinimum(0);
+        transferStatusProgressBar.setMaximum(100);
+        transferStatusProgressBar.setValue(0);
+
     }
 }

@@ -13,6 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
@@ -25,6 +26,7 @@ import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.dao.domain.SynchronizationType;
 import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 import org.irods.jargon.transfer.engine.synch.SynchException;
+import org.irods.jargon.transfer.util.HibernateUtil;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -365,7 +367,7 @@ public class SetupWizard extends javax.swing.JDialog {
         saveSeeSystemTrayYes();
     }
 
-    private void saveSeeSystemTrayYes () throws IdropRuntimeException {
+    private void saveSeeSystemTrayYes() throws IdropRuntimeException {
         log.info("indicates system try shown, set to not load gui");
         try {
             idropConfigurationService.updateConfig(IdropConfigurationService.SHOW_GUI, "false");
@@ -380,7 +382,7 @@ public class SetupWizard extends javax.swing.JDialog {
     private void saveDeviceName() {
         if (txtDeviceName.getText().length() == 0) {
             txtDeviceName.setBackground(Color.red);
-            MessageManager.showError(this,  "Device name is not entered", SETUP_ERROR_TITLE);
+            MessageManager.showError(this, "Device name is not entered", SETUP_ERROR_TITLE);
             return;
         }
         try {
@@ -506,10 +508,10 @@ public class SetupWizard extends javax.swing.JDialog {
             finishWizard();
             return;
         }
-       
+
         tabAdvancing = true;
         tabWizardTabs.setSelectedIndex(currentTab);
-        
+
         // for synch setup, if a synch exists, do not allow setup
         if (currentTab == 2) {
             try {
@@ -522,10 +524,10 @@ public class SetupWizard extends javax.swing.JDialog {
                 }
             } catch (SynchException ex) {
                 log.error("error looking for existing synchs", ex);
-               throw new IdropRuntimeException(ex);
+                throw new IdropRuntimeException(ex);
             }
         }
-        
+
         tabStep = currentTab;
 
     }
@@ -590,28 +592,37 @@ public class SetupWizard extends javax.swing.JDialog {
                 log.info("retry setup of synch");
             }
         } else {
-            log.info("saving synch data");
-            Synchronization synchronization = new Synchronization();
-            synchronization.setCreatedAt(new Date());
-            synchronization.setDefaultResourceName(idropCore.getIrodsAccount().getDefaultStorageResource());
-            synchronization.setFrequencyType(FrequencyType.EVERY_HOUR); // FIXME: create code to set this viz the combo
-            synchronization.setIrodsHostName(idropCore.getIrodsAccount().getHost());
-            synchronization.setIrodsPassword(idropCore.getIrodsAccount().getPassword()); // FIXME: obfuscate
-            synchronization.setIrodsPort(idropCore.getIrodsAccount().getPort());
-            synchronization.setIrodsSynchDirectory(txtIrodsPath.getText());
-            synchronization.setLocalSynchDirectory(txtLocalPath.getText());
-            synchronization.setIrodsUserName(idropCore.getIrodsAccount().getUserName());
-            synchronization.setIrodsZone(idropCore.getIrodsAccount().getZone());
-            synchronization.setName("Default");
-            synchronization.setSynchronizationMode(SynchronizationType.ONE_WAY_LOCAL_TO_IRODS); // FIXME: set properly from radio
             try {
+                log.info("saving synch data");
+                Synchronization synchronization = new Synchronization();
+                synchronization.setCreatedAt(new Date());
+                synchronization.setDefaultResourceName(idropCore.getIrodsAccount().getDefaultStorageResource());
+                synchronization.setFrequencyType(FrequencyType.EVERY_HOUR); // FIXME: create code to set this viz the combo
+                synchronization.setIrodsHostName(idropCore.getIrodsAccount().getHost());
+
+                synchronization.setIrodsPassword(HibernateUtil.obfuscate(idropCore.getIrodsAccount().getPassword()));
+
+                synchronization.setIrodsPort(idropCore.getIrodsAccount().getPort());
+                synchronization.setIrodsSynchDirectory(txtIrodsPath.getText());
+                synchronization.setLocalSynchDirectory(txtLocalPath.getText());
+                synchronization.setIrodsUserName(idropCore.getIrodsAccount().getUserName());
+                synchronization.setIrodsZone(idropCore.getIrodsAccount().getZone());
+                synchronization.setName("Default");
+                synchronization.setSynchronizationMode(SynchronizationType.ONE_WAY_LOCAL_TO_IRODS); // FIXME: set properly from radio
+
                 this.idropConfigurationService.createNewSynchronization(synchronization);
                 advanceTab();
+            } catch (JargonException ex) {
+                MessageManager.showError(this, ex.getMessage(), SETUP_ERROR_TITLE);
+                throw new IdropRuntimeException(ex);
             } catch (IdropException ex) {
-               MessageManager.showError(this, ex.getMessage(), SETUP_ERROR_TITLE);
+                MessageManager.showError(this, ex.getMessage(), SETUP_ERROR_TITLE);
+                throw new IdropRuntimeException(ex);
             } catch (ConflictingSynchException ex) {
-               MessageManager.showError(this, ex.getMessage(), SETUP_ERROR_TITLE);
-            }   
+                MessageManager.showError(this, ex.getMessage(), SETUP_ERROR_TITLE);
+                throw new IdropRuntimeException(ex);
+
+            }
         }
     }
 }

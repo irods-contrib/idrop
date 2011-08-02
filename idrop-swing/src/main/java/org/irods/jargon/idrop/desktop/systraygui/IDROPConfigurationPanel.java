@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
@@ -31,6 +32,7 @@ import org.irods.jargon.transfer.dao.domain.SynchronizationType;
 import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 import org.irods.jargon.transfer.engine.synch.SynchException;
 import org.irods.jargon.transfer.engine.synch.SynchManagerService;
+import org.irods.jargon.transfer.util.HibernateUtil;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -490,8 +492,15 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteSelectedActionPerformed
 
+    /**
+     * Called to clear and prepare for adding a new synchronization
+     * @param evt 
+     */
     private void btnNewSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSynchActionPerformed
-        // TODO add your handling code here:
+        clearAndResetSynchPanel();
+        jTableSynch.getSelectionModel().removeIndexInterval(0,jTableSynch.getModel().getRowCount() -1);
+        selectedSynchronization = new Synchronization();
+        MessageManager.showMessage(this, "Enter the data for the new Synchronization and press Update to save", MessageManager.TITLE_MESSAGE);
     }//GEN-LAST:event_btnNewSynchActionPerformed
 
     /**
@@ -531,6 +540,10 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     return;
                 }
 
+                boolean isNew = (selectedSynchronization.getId() == null);
+                if (isNew) {
+                    log.info("adding new synch");
+                }
                 // edits pass, do update
                 log.info("saving synch data");
                 Synchronization synchronization = selectedSynchronization;
@@ -541,6 +554,21 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 synchronization.setSynchronizationMode(SynchronizationType.ONE_WAY_LOCAL_TO_IRODS); // FIXME: set properly from radio
                 synchronization.setLocalSynchDirectory(txtLocalPath.getText().trim());
                 synchronization.setIrodsSynchDirectory(txtIrodsPath.getText().trim());
+                IRODSAccount irodsAccount = idropCore.getIrodsAccount();
+                synchronization.setIrodsHostName(irodsAccount.getHost());
+                try {
+                    synchronization.setIrodsPassword(HibernateUtil.obfuscate(irodsAccount.getPassword()));
+                } catch (JargonException ex) {
+                    log.error("exception obfuscating password", ex);
+                    MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
+                    throw new IdropRuntimeException(ex);
+                }
+                
+                synchronization.setIrodsPort(irodsAccount.getPort());
+                synchronization.setIrodsUserName(irodsAccount.getUserName());
+                synchronization.setIrodsZone(irodsAccount.getZone());
+                synchronization.setDefaultResourceName(irodsAccount.getDefaultStorageResource());
+                synchronization.setCreatedAt(new Date());
                 selectedSynchronization = synchronization;
 
                 try {
@@ -548,27 +576,42 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     idropCore.getIdropConfigurationService().updateSynchronization(synchronization);
 
                     ListSelectionModel lsm = (ListSelectionModel) thisPanel.getSynchTable().getSelectionModel();
+                    SynchConfigTableModel model = (SynchConfigTableModel) thisPanel.getSynchTable().getModel();
 
-                    if (lsm.isSelectionEmpty()) {
-                        return;
+                    if (isNew) {
+                        SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+
+
+                        List<Synchronization> synchronizations = synchConfigurationService.listAllSynchronizations();
+
+                        model.setSynchronizations(synchronizations);
+                        model.fireTableDataChanged();
                     } else {
-                        // Find out which indexes are selected.
-                        int minIndex = lsm.getMinSelectionIndex();
-                        int maxIndex = lsm.getMaxSelectionIndex();
-                        for (int i = minIndex; i <= maxIndex; i++) {
-                            if (lsm.isSelectedIndex(i)) {
-                                int modelIdx = thisPanel.getSynchTable().convertRowIndexToModel(i);
-                                SynchConfigTableModel model = (SynchConfigTableModel) thisPanel.getSynchTable().getModel();
-                                model.getSynchronizations().set(modelIdx, synchronization);
-                                model.fireTableDataChanged();
-                                break;
+                        if (lsm.isSelectionEmpty()) {
+                            return;
+                        } else {
+                            // Find out which indexes are selected.
+                            int minIndex = lsm.getMinSelectionIndex();
+                            int maxIndex = lsm.getMaxSelectionIndex();
+                            for (int i = minIndex; i <= maxIndex; i++) {
+                                if (lsm.isSelectedIndex(i)) {
+                                    int modelIdx = thisPanel.getSynchTable().convertRowIndexToModel(i);
+
+                                    model.getSynchronizations().set(modelIdx, synchronization);
+                                    model.fireTableDataChanged();
+                                    break;
+                                }
                             }
                         }
                     }
 
+
+                    MessageManager.showMessage(thisPanel, "Configuration updated", MessageManager.TITLE_MESSAGE);
+
                 } catch (IdropException ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
-                } catch (ConflictingSynchException ex) {
+
+                } catch (SynchException ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
                 } finally {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -677,6 +720,18 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         txtLocalPath.setBackground(Color.WHITE);
         txtIrodsPath.setBackground(Color.WHITE);
         txtSynchName.setBackground(Color.WHITE);
+    }
+
+    /**
+     * Clear synch panel values and colors
+     */
+    private void clearAndResetSynchPanel() {
+        resetSynchPanel();
+        txtLocalPath.setText("");
+        txtIrodsPath.setText("");
+        txtSynchName.setText("");
+        radioBackup.setSelected(true);
+        jcomboSynchFrequency.setSelectedIndex(0);
     }
 
     class SynchListSelectionHandler implements ListSelectionListener {
