@@ -97,7 +97,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         txtIrodsPath = new javax.swing.JTextField();
         btnChooseIrodsSynch = new javax.swing.JButton();
         panelSynchToolbar = new javax.swing.JPanel();
-        btnDeleteSelected = new javax.swing.JButton();
+        btnDeleteSynch = new javax.swing.JButton();
         btnNewSynch = new javax.swing.JButton();
         btnUpdateSynch = new javax.swing.JButton();
         btnSynchNow = new javax.swing.JButton();
@@ -317,15 +317,16 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         pnlConfigSynchDetails.add(pnlSynchData, java.awt.BorderLayout.CENTER);
 
-        btnDeleteSelected.setMnemonic('d');
-        btnDeleteSelected.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnDeleteSelected.text")); // NOI18N
-        btnDeleteSelected.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnDeleteSelected.toolTipText")); // NOI18N
-        btnDeleteSelected.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteSynch.setMnemonic('d');
+        btnDeleteSynch.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnDeleteSynch.text")); // NOI18N
+        btnDeleteSynch.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnDeleteSynch.toolTipText")); // NOI18N
+        btnDeleteSynch.setEnabled(false);
+        btnDeleteSynch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteSelectedActionPerformed(evt);
+                btnDeleteSynchActionPerformed(evt);
             }
         });
-        panelSynchToolbar.add(btnDeleteSelected);
+        panelSynchToolbar.add(btnDeleteSynch);
 
         btnNewSynch.setMnemonic('n');
         btnNewSynch.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnNewSynch.text")); // NOI18N
@@ -340,6 +341,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         btnUpdateSynch.setMnemonic('u');
         btnUpdateSynch.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnUpdateSynch.text")); // NOI18N
         btnUpdateSynch.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnUpdateSynch.toolTipText")); // NOI18N
+        btnUpdateSynch.setEnabled(false);
         btnUpdateSynch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateSynchActionPerformed(evt);
@@ -350,6 +352,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         btnSynchNow.setMnemonic('s');
         btnSynchNow.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnSynchNow.text")); // NOI18N
         btnSynchNow.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnSynchNow.toolTipText")); // NOI18N
+        btnSynchNow.setEnabled(false);
         btnSynchNow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSynchNowActionPerformed(evt);
@@ -488,9 +491,12 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         }
 }//GEN-LAST:event_btnChooseIrodsSynchActionPerformed
 
-    private void btnDeleteSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSelectedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteSelectedActionPerformed
+    /**
+     * Delete the selected synchronization
+     * @param evt 
+     */
+    private void btnDeleteSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSynchActionPerformed
+    }//GEN-LAST:event_btnDeleteSynchActionPerformed
 
     /**
      * Called to clear and prepare for adding a new synchronization
@@ -498,8 +504,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
      */
     private void btnNewSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSynchActionPerformed
         clearAndResetSynchPanel();
-        jTableSynch.getSelectionModel().removeIndexInterval(0,jTableSynch.getModel().getRowCount() -1);
+        jTableSynch.getSelectionModel().removeIndexInterval(0, jTableSynch.getModel().getRowCount() - 1);
         selectedSynchronization = new Synchronization();
+        btnDeleteSynch.setEnabled(false);
+        btnUpdateSynch.setEnabled(true);
+        btnSynchNow.setEnabled(false);
         MessageManager.showMessage(this, "Enter the data for the new Synchronization and press Update to save", MessageManager.TITLE_MESSAGE);
     }//GEN-LAST:event_btnNewSynchActionPerformed
 
@@ -563,7 +572,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
                     throw new IdropRuntimeException(ex);
                 }
-                
+
                 synchronization.setIrodsPort(irodsAccount.getPort());
                 synchronization.setIrodsUserName(irodsAccount.getUserName());
                 synchronization.setIrodsZone(irodsAccount.getZone());
@@ -605,8 +614,10 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                         }
                     }
 
-
                     MessageManager.showMessage(thisPanel, "Configuration updated", MessageManager.TITLE_MESSAGE);
+                    btnDeleteSynch.setEnabled(true);
+                    btnUpdateSynch.setEnabled(true);
+                    btnSynchNow.setEnabled(true);
 
                 } catch (IdropException ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
@@ -668,7 +679,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChooseIrodsSynch;
     private javax.swing.JButton btnChooseLocalSynch;
-    private javax.swing.JButton btnDeleteSelected;
+    private javax.swing.JButton btnDeleteSynch;
     private javax.swing.JButton btnNewSynch;
     private javax.swing.JButton btnOK;
     private javax.swing.JButton btnSynchNow;
@@ -783,6 +794,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
             txtIrodsPath.setText(selectedSynchronization.getIrodsSynchDirectory());
             txtSynchName.setText(selectedSynchronization.getName());
 
+            btnDeleteSynch.setEnabled(true);
+            btnUpdateSynch.setEnabled(true);
+            btnSynchNow.setEnabled(true);
         }
     }
 }

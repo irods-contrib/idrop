@@ -436,18 +436,19 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JButton" name="btnDeleteSelected">
+                        <Component class="javax.swing.JButton" name="btnDeleteSynch">
                           <Properties>
                             <Property name="mnemonic" type="int" value="100"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnDeleteSelected.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnDeleteSynch.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnDeleteSelected.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnDeleteSynch.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteSelectedActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteSynchActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnNewSynch">
@@ -473,6 +474,7 @@
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnUpdateSynch.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateSynchActionPerformed"/>
@@ -487,6 +489,7 @@
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnSynchNow.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSynchNowActionPerformed"/>
