@@ -47,27 +47,6 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements
 
     }
 
-    public void valueChanged(final TreeSelectionEvent e) {
-        // FIXME: reimplement
-
-        /*
-         * if (!(idrop.getIrodsTree().getLastSelectedPathComponent() instanceof
-         * IRODSNode)) { log.info("last selected is not a Node"); return; }
-         * 
-         * 
-         * final IRODSNode node = (IRODSNode)
-         * idrop.getIrodsTree().getLastSelectedPathComponent(); try {
-         * identifyNodeTypeAndInitializeInfoPanel(node); } catch (IdropException
-         * ex) {
-         * Logger.getLogger(IrodsTreeListenerForBuildingInfoPanel.class.getName
-         * ()).log(Level.SEVERE, null, ex); throw new IdropRuntimeException(
-         * "exception processing valueChanged() event for IRODSNode selection");
-         * }
-         * 
-         * *
-         */
-    }
-
     public void treeExpanded(final TreeExpansionEvent event) {
         /*
          * TreePath expandedTreePath = event.getPath(); IRODSNode expandedNode =
@@ -86,106 +65,13 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements
         // operation not needed, left for interface contract
     }
 
-    /**
-     * Look at the kind of irods node and handle appropriately
-     * 
-     * @param irodsNode
-     * @throws IdropException
-     */
-    public void identifyNodeTypeAndInitializeInfoPanel(final IRODSNode irodsNode)
-            throws IdropException {
-
-        if (!idrop.getToggleIrodsDetails().isSelected()) {
-            return;
-        }
-        
-        /* FIXME: shim */
-        if (irodsNode == null) {
-            return;
-        }
-
-        if (irodsNode.isLeaf()) {
-            log.info("selected node is a leaf, get a data object");
-            buildDataObjectFromSelectedIRODSNodeAndGiveToInfoPanel(irodsNode);
-        } else {
-            log.info("selected node is a collection, get a collection object");
-            buildCollectionFromSelectedIRODSNodeAndGiveToInfoPanel(irodsNode);
-        }
-    }
-
-    /**
-     * When a selected node in the iRODS tree is a data object, put the data
-     * object info in the info panel
-     * 
-     * @param irodsNode
-     */
-    private void buildDataObjectFromSelectedIRODSNodeAndGiveToInfoPanel(
-            final IRODSNode irodsNode) throws IdropException {
-        try {
-            CollectionAndDataObjectListingEntry collectionAndDataObjectListingEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
-            log.info(
-                    "will be getting a data object based on entry in IRODSNode:{}",
-                    irodsNode);
-            DataObjectAO dataObjectAO = idrop.getiDropCore().getIRODSAccessObjectFactory().getDataObjectAO(idrop.getIrodsAccount());
-            DataObject dataObject = dataObjectAO.findByCollectionNameAndDataName(
-                    collectionAndDataObjectListingEntry.getParentPath(),
-                    collectionAndDataObjectListingEntry.getPathOrName());
-            idrop.initializeInfoPanel(dataObject);
-        } catch (Exception e) {
-            log.error("error building data object for: {}", irodsNode);
-            throw new IdropException(e);
-        }
-    }
-
-    /**
-     * When a selected node in the iRODS tree is a collection, put the
-     * collection info into the info panel
-     * 
-     * @param irodsNode
-     */
-    private void buildCollectionFromSelectedIRODSNodeAndGiveToInfoPanel(
-            final IRODSNode irodsNode) throws IdropException {
-        try {
-            CollectionAndDataObjectListingEntry collectionAndDataObjectListingEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
-            log.info(
-                    "will be getting a collection based on entry in IRODSNode:{}",
-                    irodsNode);
-            CollectionAO collectionAO = idrop.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idrop.getIrodsAccount());
-            Collection collection = collectionAO.findByAbsolutePath(collectionAndDataObjectListingEntry.getPathOrName());
-            idrop.initializeInfoPanel(collection);
-        } catch (Exception e) {
-            log.error("error building collection object for: {}", irodsNode);
-            throw new IdropException(e);
-
-        }
-    }
-
+   
     @Override
     public void valueChanged(final ListSelectionEvent lse) {
         if (lse.getValueIsAdjusting()) {
             return;
         }
         log.info("lse: {}", lse);
-
-        if (irodsFileSystemModel == null) {
-            irodsFileSystemModel = (IRODSOutlineModel) idrop.getIrodsTree().getModel();
-        }
-
-        ListSelectionModel selectionModel = idrop.getIrodsTree().getSelectionModel();
-        int idx = selectionModel.getLeadSelectionIndex();
-
-        // use first selection for info
-        IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(
-                idx, 0);
-        log.info("selected node to initialize info panel:{}", selectedNode);
-        try {
-            identifyNodeTypeAndInitializeInfoPanel(selectedNode);
-        } catch (IdropException ex) {
-            Logger.getLogger(
-                    IrodsSelectionListenerForBuildingInfoPanel.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException(
-                    "error initializing info panel for selected irods node");
-        }
-
+        idrop.triggerInfoPanelUpdate();
     }
 }

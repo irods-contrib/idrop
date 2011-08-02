@@ -163,19 +163,19 @@ public class QueueManagerMasterTableModel extends DefaultTableModel {
         // 1 = status
 
         if (columnIndex == 1) {
-            return localIRODSTransfer.getTransferState();
+            return localIRODSTransfer.getTransferState().name();
         }
 
         // 2 = state
 
         if (columnIndex == 2) {
-            return localIRODSTransfer.getTransferStatus();
+            return localIRODSTransfer.getTransferStatus().name();
         }
 
         // 3 =operation
 
         if (columnIndex == 3) {
-            return localIRODSTransfer.getTransferType();
+            return localIRODSTransfer.getTransferType().name();
         }
 
         // 4 = source path

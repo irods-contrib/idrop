@@ -38,6 +38,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -726,6 +727,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 IRODSNode node;
 
                 if (pnlIrodsInfo.isVisible()) {
+                    idropGuiReference.triggerInfoPanelUpdate();
                     splitTargetCollections.setDividerLocation(0.5d);
                 }
             }
@@ -2801,5 +2803,106 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         transferStatusProgressBar.setMaximum(100);
         transferStatusProgressBar.setValue(0);
 
+    }
+
+    public void triggerInfoPanelUpdate() throws IdropRuntimeException {
+
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) getIrodsTree().getModel();
+
+                ListSelectionModel selectionModel = getIrodsTree().getSelectionModel();
+                int idx = selectionModel.getLeadSelectionIndex();
+
+                // use first selection for info
+                IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(
+                        idx, 0);
+                log.info("selected node to initialize info panel:{}", selectedNode);
+                try {
+                    identifyNodeTypeAndInitializeInfoPanel(selectedNode);
+                } catch (IdropException ex) {
+
+                    throw new IdropRuntimeException(
+                            "error initializing info panel for selected irods node");
+                }
+            }
+        });
+
+    }
+
+    /**
+     * Look at the kind of irods node and handle appropriately
+     * 
+     * @param irodsNode
+     * @throws IdropException
+     */
+    public void identifyNodeTypeAndInitializeInfoPanel(final IRODSNode irodsNode)
+            throws IdropException {
+
+        if (!getToggleIrodsDetails().isSelected()) {
+            return;
+        }
+
+        if (irodsNode == null) {
+            return;
+        }
+
+        if (irodsNode.isLeaf()) {
+            log.info("selected node is a leaf, get a data object");
+            buildDataObjectFromSelectedIRODSNodeAndGiveToInfoPanel(irodsNode);
+        } else {
+            log.info("selected node is a collection, get a collection object");
+            buildCollectionFromSelectedIRODSNodeAndGiveToInfoPanel(irodsNode);
+        }
+    }
+
+    /**
+     * When a selected node in the iRODS tree is a data object, put the data
+     * object info in the info panel
+     * 
+     * @param irodsNode
+     */
+    private void buildDataObjectFromSelectedIRODSNodeAndGiveToInfoPanel(
+            final IRODSNode irodsNode) throws IdropException {
+        try {
+            CollectionAndDataObjectListingEntry collectionAndDataObjectListingEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
+            log.info(
+                    "will be getting a data object based on entry in IRODSNode:{}",
+                    irodsNode);
+            DataObjectAO dataObjectAO = getiDropCore().getIRODSAccessObjectFactory().getDataObjectAO(this.getiDropCore().getIrodsAccount());
+            DataObject dataObject = dataObjectAO.findByCollectionNameAndDataName(
+                    collectionAndDataObjectListingEntry.getParentPath(),
+                    collectionAndDataObjectListingEntry.getPathOrName());
+            initializeInfoPanel(dataObject);
+        } catch (Exception e) {
+            log.error("error building data object for: {}", irodsNode);
+            throw new IdropException(e);
+        }
+    }
+
+    /**
+     * When a selected node in the iRODS tree is a collection, put the
+     * collection info into the info panel
+     * 
+     * @param irodsNode
+     */
+    private void buildCollectionFromSelectedIRODSNodeAndGiveToInfoPanel(
+            final IRODSNode irodsNode) throws IdropException {
+        try {
+            CollectionAndDataObjectListingEntry collectionAndDataObjectListingEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
+            log.info(
+                    "will be getting a collection based on entry in IRODSNode:{}",
+                    irodsNode);
+            CollectionAO collectionAO = getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(getIrodsAccount());
+            Collection collection = collectionAO.findByAbsolutePath(collectionAndDataObjectListingEntry.getPathOrName());
+            initializeInfoPanel(collection);
+        } catch (Exception e) {
+            log.error("error building collection object for: {}", irodsNode);
+            throw new IdropException(e);
+
+        }
     }
 }

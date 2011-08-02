@@ -496,6 +496,63 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
      * @param evt 
      */
     private void btnDeleteSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSynchActionPerformed
+
+        final IDROPConfigurationPanel thisPanel = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+                if (selectedSynchronization == null) {
+                    MessageManager.showError(thisPanel, "Please select a synchronization from the table", MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+                Synchronization synchronization = selectedSynchronization;
+
+                int result = JOptionPane.showConfirmDialog(thisPanel,
+                        "Do you wish to delete this synchronization?",
+                        MessageManager.TITLE_MESSAGE,
+                        JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
+
+
+                try {
+                    thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    idropCore.getIdropConfigurationService().updateSynchronization(synchronization);
+
+                    ListSelectionModel lsm = (ListSelectionModel) thisPanel.getSynchTable().getSelectionModel();
+                    SynchConfigTableModel model = (SynchConfigTableModel) thisPanel.getSynchTable().getModel();
+
+                    SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+                    log.info("deleting synchronization:{}", synchronization);
+                    synchConfigurationService.deleteSynchronization(synchronization);
+                    log.info("synch deleted, refreshing model");
+                    List<Synchronization> synchronizations = synchConfigurationService.listAllSynchronizations();
+
+                    model.setSynchronizations(synchronizations);
+                    model.fireTableDataChanged();
+
+                    MessageManager.showMessage(thisPanel, "Configuration deleted", MessageManager.TITLE_MESSAGE);
+                    btnDeleteSynch.setEnabled(false);
+                    btnUpdateSynch.setEnabled(false);
+                    btnSynchNow.setEnabled(false);
+                    clearAndResetSynchPanel();
+
+                } catch (IdropException ex) {
+                    MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
+
+                } catch (SynchException ex) {
+                    MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
+                } finally {
+                    thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    idropCore.closeIRODSConnection(
+                            idropCore.getIrodsAccount());
+                }
+            }
+        });
     }//GEN-LAST:event_btnDeleteSynchActionPerformed
 
     /**
@@ -504,7 +561,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
      */
     private void btnNewSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSynchActionPerformed
         clearAndResetSynchPanel();
-        jTableSynch.getSelectionModel().removeIndexInterval(0, jTableSynch.getModel().getRowCount() - 1);
+        if (jTableSynch.getModel().getRowCount() > 0) {
+            jTableSynch.getSelectionModel().removeIndexInterval(0, jTableSynch.getModel().getRowCount() - 1);
+        }
         selectedSynchronization = new Synchronization();
         btnDeleteSynch.setEnabled(false);
         btnUpdateSynch.setEnabled(true);
