@@ -157,16 +157,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         int showX = (width / 2) - (this.getWidth() / 2);
         int showY = (height / 2) - (this.getHeight() / 2);
         this.setLocation(showX, showY);
-        /*
-         * FIXME: remove cookswing deps for issues
-         * 
-         * CookSwing cookSwing = new CookSwing(this); newPreferencesDialog =
-         * (JDialog)
-         * cookSwing.render("org/irods/jargon/idrop/preferencesDialog.xml");
-         * boolean showGUI =
-         * getiDropCore().getPreferences().getBoolean("showGUI", true);
-         * showGUICheckBox.setSelected(showGUI);
-         */
+
         if (!getiDropCore().getIdropConfig().isAdvancedView()) {
             toolBarInfo.setVisible(false);
         }
@@ -212,8 +203,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
         receivedStartupSignal = true;
-
-
 
         iDropCore.getIconManager().setRunningStatus(
                 iDropCore.getTransferManager().getRunningStatus());
@@ -526,17 +515,29 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         if (e.getActionCommand().equals("Exit")) {
             shutdownWithConfirmation();
         } else if (e.getActionCommand().equals("Logout")) {
-            this.setIrodsAccount(null);
-            this.signalChangeInAccountSoCachedDataCanBeCleared();
-            LoginDialog loginDialog = new LoginDialog(this);
-            loginDialog.setVisible(true);
+            log.info("logging out to log in to a new grid");
 
-            if (getIrodsAccount() == null) {
-                log.warn("no account, exiting");
-                System.exit(0);
-            } else {
-                this.setVisible(false);
+        final iDrop thisPanel = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+                IRODSAccount savedAccount = iDropCore.getIrodsAccount();
+                iDropCore.setIrodsAccount(null);
+                LoginDialog loginDialog = new LoginDialog(null, iDropCore);
+                loginDialog.setLocationRelativeTo(null);
+                loginDialog.setVisible(true);
+
+                if (iDropCore.getIrodsAccount() == null) {
+                    log.warn("no account, reverting");
+                    iDropCore.setIrodsAccount(savedAccount);
+                } else {
+                    thisPanel.reinitializeForChangedIRODSAccount();
+                }
             }
+        });
 
         } else if (e.getActionCommand().equals("About")) {
             AboutDialog aboutDialog = new AboutDialog(this, true);
@@ -890,6 +891,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         IRODSNode rootNode = new IRODSNode(root,
                                 getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
                         irodsTree.setRefreshingTree(true);
+                                        scrollIrodsTree.setViewportView(irodsTree);
+
                         // irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
                     }
                     IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
@@ -916,7 +919,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     throw new IdropRuntimeException(ex);
                 }
 
-                scrollIrodsTree.setViewportView(getTreeStagingResource());
                 /*
                  * TreePath currentPath;
                  * 
@@ -2222,13 +2224,25 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     /**
      * Method to clear any cached values when an account changes. Some data is
-     * cached and lazily loaded
+     * cached and lazily loaded.  Rebuilds gui state for new grid.
      */
-    public void signalChangeInAccountSoCachedDataCanBeCleared() {
+    public void reinitializeForChangedIRODSAccount() {
         log.info("clearing any cached data associated with the account");
+        final iDrop idropGui = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
 
-        irodsTree = null;
-        lastCachedInfoItem = null;
+            @Override
+            public void run() {
+                //scrollIrodsTree.removeAll();
+               // irodsTree=null;
+                //scrollIrodsTree.getViewport().validate();
+                lastCachedInfoItem = null;
+                idropGui.buildTargetTree();
+                idropGui.toggleIrodsDetails.setSelected(false);
+                handleInfoPanelShowOrHide();
+            }
+        });
+
     }
 
     /**

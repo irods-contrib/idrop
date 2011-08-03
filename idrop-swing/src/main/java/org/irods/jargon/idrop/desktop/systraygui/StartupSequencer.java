@@ -141,7 +141,7 @@ public class StartupSequencer {
         log.info("logging in in splash background thread");
         idropSplashWindow.setStatus("Logging in...", ++count);
 
-        final LoginDialog loginDialog = new LoginDialog(idrop);
+        final LoginDialog loginDialog = new LoginDialog(null, idropCore);
         Toolkit tk = idrop.getToolkit();
         int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
         int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;

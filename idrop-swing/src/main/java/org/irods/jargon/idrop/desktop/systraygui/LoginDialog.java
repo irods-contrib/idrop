@@ -28,22 +28,24 @@ import org.slf4j.LoggerFactory;
  */
 public class LoginDialog extends JDialog {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
-    private iDrop iDrop = null;
+    private JDialog parentDialog = null;
+    private IDROPCore idropCore = null;
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LoginDialog.class);
 
-    public LoginDialog(final iDrop iDrop) {
-        super(iDrop, true);
-        this.iDrop = iDrop;
+    public LoginDialog(final JDialog parentDialog, final IDROPCore idropCore) {
+        super(parentDialog, true);
+        if (idropCore == null) {
+            throw new IllegalArgumentException("null idropCore");
+        }
+        this.parentDialog = parentDialog;
+        this.idropCore = idropCore;
         initComponents();
 
-        if (iDrop.getiDropCore().getIdropConfig().isLoginPreset()) {
+        if (idropCore.getIdropConfig().isLoginPreset()) {
             loginUsingPreset();
         } else {
-            loginNormally(iDrop);
+            loginNormally();
         }
 
         registerKeystrokeListener();
@@ -51,17 +53,17 @@ public class LoginDialog extends JDialog {
     }
 
     private void loginNormally(
-            final org.irods.jargon.idrop.desktop.systraygui.iDrop iDrop) {
+           ) {
         // predispose based on preferences
-        String host = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_HOST);
+        String host = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_HOST);
         txtHost.setText(host);
-        String port = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_PORT);
+        String port = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_PORT);
         txtPort.setText(port);
-        String zone = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_ZONE);
+        String zone = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_ZONE);
         txtZone.setText(zone);
-        String resource = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_RESOURCE);
+        String resource = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_RESOURCE);
         txtResource.setText(resource);
-        String username = iDrop.getiDropCore().getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME);
+        String username = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME);
         txtUserName.setText(username);
 
     }
@@ -87,7 +89,7 @@ public class LoginDialog extends JDialog {
     private boolean processLogin() throws NumberFormatException {
         // validate various inputs based on whether a full login, or a uid only
         // login is indicated
-        if (!iDrop.getiDropCore().getIdropConfig().isLoginPreset()) {
+        if (!idropCore.getIdropConfig().isLoginPreset()) {
             txtHost.setBackground(Color.white);
             txtPort.setBackground(Color.white);
             txtZone.setBackground(Color.white);
@@ -123,15 +125,15 @@ public class LoginDialog extends JDialog {
         final IRODSAccount irodsAccount;
         try {
             // validated, now try to log in
-            if (iDrop.getiDropCore().getIdropConfig().isLoginPreset()) {
+            if (idropCore.getIdropConfig().isLoginPreset()) {
                 log.debug("creating account with presets");
-                String presetHost = iDrop.getiDropCore().getIdropConfig().getIdropProperties().getProperty(IdropPropertiesHelper.LOGIN_PRESET_HOST);
+                String presetHost = idropCore.getIdropConfig().getIdropProperties().getProperty(IdropPropertiesHelper.LOGIN_PRESET_HOST);
                 log.info("presetHost:{}", presetHost);
-                int presetPort = Integer.parseInt(iDrop.getiDropCore().getIdropConfig().getIdropProperties().getProperty(IdropPropertiesHelper.LOGIN_PRESET_PORT));
+                int presetPort = Integer.parseInt(idropCore.getIdropConfig().getIdropProperties().getProperty(IdropPropertiesHelper.LOGIN_PRESET_PORT));
                 log.info("presetPort:{}", presetPort);
-                String presetZone = iDrop.getiDropCore().getIdropConfig().getIdropProperties().getProperty(IdropPropertiesHelper.LOGIN_PRESET_ZONE);
+                String presetZone = idropCore.getIdropConfig().getIdropProperties().getProperty(IdropPropertiesHelper.LOGIN_PRESET_ZONE);
                 log.info("presetZone:{}", presetZone);
-                String presetResource = iDrop.getiDropCore().getIdropConfig().getIdropProperties().getProperty(
+                String presetResource = idropCore.getIdropConfig().getIdropProperties().getProperty(
                         IdropPropertiesHelper.LOGIN_PRESET_RESOURCE);
                 log.info("presetResource:{}", presetResource);
                 sb.append('/');
@@ -156,19 +158,19 @@ public class LoginDialog extends JDialog {
         } catch (JargonException ex) {
             Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
                     null, ex);
-            iDrop.showIdropException(ex);
+            MessageManager.showError(this, ex.getMessage(), MessageManager.TITLE_MESSAGE);
             return true;
         }
 
         IRODSFileSystem irodsFileSystem = null;
 
         try {
-            irodsFileSystem = iDrop.getiDropCore().getIrodsFileSystem();
+            irodsFileSystem = idropCore.getIrodsFileSystem();
             final UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
             userAO.findByName(txtUserName.getText());
-            iDrop.setIrodsAccount(irodsAccount);
+            idropCore.setIrodsAccount(irodsAccount);
             try {
-                iDrop.getiDropCore().getIdropConfigurationService().saveLogin(irodsAccount);
+                idropCore.getIdropConfigurationService().saveLogin(irodsAccount);
             } catch (IdropException ex) {
                 throw new IdropRuntimeException("error saving irodsAccount", ex);
             }
