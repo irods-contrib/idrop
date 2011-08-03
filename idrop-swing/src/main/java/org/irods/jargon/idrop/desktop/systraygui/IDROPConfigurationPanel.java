@@ -873,7 +873,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     }
 
     private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {
-        log.info("changing password");
+        ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog((iDrop) this.getParent(), true);
+        changePasswordDialog.setLocationRelativeTo(this);
+        changePasswordDialog.setVisible(true);
     }
 
     protected JTable getSynchTable() {

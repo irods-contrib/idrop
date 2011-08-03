@@ -33,6 +33,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         super(idrop, modal);
         this.idrop = idrop;
         initComponents();
+        setUpPasswordPanel();
     }
 
     /**
@@ -42,107 +43,183 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		tabPreferences = new javax.swing.JTabbedPane();
-		pnlPasswords = new javax.swing.JPanel();
-		lblCurrentAccountLabel = new javax.swing.JLabel();
-		lblCurrentAccount = new javax.swing.JLabel();
-		lblNewPassword = new javax.swing.JLabel();
-		passwdNewPassword = new javax.swing.JPasswordField();
-		lblConfirmPassword = new javax.swing.JLabel();
-		passwdConfirmPassword = new javax.swing.JPasswordField();
-		btnUpdatePassword = new javax.swing.JButton();
+        pnlCurrentGrid = new javax.swing.JPanel();
+        lblHostLabel = new javax.swing.JLabel();
+        lblHost = new javax.swing.JLabel();
+        lblPortLabel = new javax.swing.JLabel();
+        lblPort = new javax.swing.JLabel();
+        lblZoneLabel = new javax.swing.JLabel();
+        lblZone = new javax.swing.JLabel();
+        lblResourceLabel = new javax.swing.JLabel();
+        lblResource = new javax.swing.JLabel();
+        lblUserNameLabel = new javax.swing.JLabel();
+        lblUserName = new javax.swing.JLabel();
+        pnlPasswords = new javax.swing.JPanel();
+        lblNewPassword = new javax.swing.JLabel();
+        passwdNewPassword = new javax.swing.JPasswordField();
+        lblConfirmPassword = new javax.swing.JLabel();
+        passwdConfirmPassword = new javax.swing.JPasswordField();
+        pnlPasswordButtons = new javax.swing.JPanel();
+        btnUpdatePassword = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("iDrop - Preferences");
-		setAlwaysOnTop(true);
-		setMinimumSize(new java.awt.Dimension(551, 400));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("iDrop - Change Password");
+        setAlwaysOnTop(true);
+        setMinimumSize(new java.awt.Dimension(551, 400));
 
-		tabPreferences
-				.addChangeListener(new javax.swing.event.ChangeListener() {
-					@Override
-					public void stateChanged(
-							final javax.swing.event.ChangeEvent evt) {
-						tabPreferencesStateChanged(evt);
-					}
-				});
+        pnlCurrentGrid.setLayout(new java.awt.GridBagLayout());
 
-		pnlPasswords.setLayout(new java.awt.GridBagLayout());
+        lblHostLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblHostLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCurrentGrid.add(lblHostLabel, gridBagConstraints);
 
-		lblCurrentAccountLabel.setText("Current account:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		pnlPasswords.add(lblCurrentAccountLabel, gridBagConstraints);
+        lblHost.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblHost.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCurrentGrid.add(lblHost, gridBagConstraints);
 
-		lblCurrentAccount.setText("XXXX");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlPasswords.add(lblCurrentAccount, gridBagConstraints);
+        lblPortLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblPortLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCurrentGrid.add(lblPortLabel, gridBagConstraints);
 
-		lblNewPassword.setText("New password:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		pnlPasswords.add(lblNewPassword, gridBagConstraints);
+        lblPort.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblPort.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCurrentGrid.add(lblPort, gridBagConstraints);
 
-		passwdNewPassword.setColumns(15);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlPasswords.add(passwdNewPassword, gridBagConstraints);
+        lblZoneLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblZoneLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCurrentGrid.add(lblZoneLabel, gridBagConstraints);
 
-		lblConfirmPassword.setText("Confirm password:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		pnlPasswords.add(lblConfirmPassword, gridBagConstraints);
+        lblZone.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblZone.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCurrentGrid.add(lblZone, gridBagConstraints);
 
-		passwdConfirmPassword.setColumns(15);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlPasswords.add(passwdConfirmPassword, gridBagConstraints);
+        lblResourceLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblResourceLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCurrentGrid.add(lblResourceLabel, gridBagConstraints);
 
-		btnUpdatePassword.setMnemonic('P');
-		btnUpdatePassword.setText("Update Password");
-		btnUpdatePassword
-				.setToolTipText("Change the current password to the new values");
-		btnUpdatePassword
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnUpdatePasswordActionPerformed(evt);
-					}
-				});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 4;
-		pnlPasswords.add(btnUpdatePassword, gridBagConstraints);
+        lblResource.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblResource.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCurrentGrid.add(lblResource, gridBagConstraints);
 
-		tabPreferences.addTab("Passwords", null, pnlPasswords,
-				"Manage passwords");
+        lblUserNameLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblUserNameLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCurrentGrid.add(lblUserNameLabel, gridBagConstraints);
 
-		getContentPane().add(tabPreferences, java.awt.BorderLayout.CENTER);
+        lblUserName.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblUserName.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCurrentGrid.add(lblUserName, gridBagConstraints);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pnlPasswords.setLayout(new java.awt.GridBagLayout());
 
-    private void tabPreferencesStateChanged(
-            final javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_tabPreferencesStateChanged
-        // TODO add your handling code here:
-        log.debug("preferences tab state changed: {}", evt);
-        if (pnlPasswords.isVisible()) {
-            setUpPasswordPanel();
-        }
-    }// GEN-LAST:event_tabPreferencesStateChanged
+        lblNewPassword.setText("New password:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlPasswords.add(lblNewPassword, gridBagConstraints);
+
+        passwdNewPassword.setColumns(15);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlPasswords.add(passwdNewPassword, gridBagConstraints);
+
+        lblConfirmPassword.setText("Confirm password:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlPasswords.add(lblConfirmPassword, gridBagConstraints);
+
+        passwdConfirmPassword.setColumns(15);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlPasswords.add(passwdConfirmPassword, gridBagConstraints);
+
+        btnUpdatePassword.setMnemonic('P');
+        btnUpdatePassword.setText("Update Password");
+        btnUpdatePassword.setToolTipText("Change the current password to the new values");
+        btnUpdatePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdatePasswordActionPerformed(evt);
+            }
+        });
+        pnlPasswordButtons.add(btnUpdatePassword);
+
+        btnCancel.setMnemonic('c');
+        btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("Cancel the password change");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlPasswordButtons.add(btnCancel);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        pnlPasswords.add(pnlPasswordButtons, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlCurrentGrid.add(pnlPasswords, gridBagConstraints);
+
+        getContentPane().add(pnlCurrentGrid, java.awt.BorderLayout.CENTER);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+       this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnUpdatePasswordActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdatePasswordActionPerformed
@@ -214,9 +291,9 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                     irodsAccount.getZone(),
                     irodsAccount.getDefaultStorageResource());
             idrop.setIrodsAccount(newAccount);
+            idrop.reinitializeForChangedIRODSAccount();
             JOptionPane.showMessageDialog(this, "Password was changed");
-            passwdNewPassword.setText("");
-            passwdConfirmPassword.setText("");
+       
 
         } catch (JargonException ex) {
             Logger.getLogger(ChangePasswordDialog.class.getName()).log(
@@ -224,12 +301,17 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         } finally {
             idrop.getiDropCore().closeIRODSConnection(
                     idrop.getiDropCore().getIrodsAccount());
+            this.dispose();
         }
     }// GEN-LAST:event_btnUpdatePasswordActionPerformed
 
     private void setUpPasswordPanel() {
-        String acctUri = idrop.getIrodsAccount().toString();
-        lblCurrentAccount.setText(acctUri);
+       IRODSAccount account  = idrop.getIrodsAccount();
+       lblHost.setText(account.getHost());
+       lblPort.setText(String.valueOf(account.getPort()));
+       lblZone.setText(account.getZone());
+       lblResource.setText(account.getZone());
+       lblUserName.setText(account.getUserName());
         initializePasswordColors();
     }
 
@@ -237,23 +319,25 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         passwdNewPassword.setBackground(Color.white);
         passwdConfirmPassword.setBackground(Color.white);
     }
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton btnUpdatePassword;
-
-	private javax.swing.JLabel lblConfirmPassword;
-
-	private javax.swing.JLabel lblCurrentAccount;
-
-	private javax.swing.JLabel lblCurrentAccountLabel;
-
-	private javax.swing.JLabel lblNewPassword;
-
-	private javax.swing.JPasswordField passwdConfirmPassword;
-
-	private javax.swing.JPasswordField passwdNewPassword;
-
-	private javax.swing.JPanel pnlPasswords;
-
-	private javax.swing.JTabbedPane tabPreferences;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnUpdatePassword;
+    private javax.swing.JLabel lblConfirmPassword;
+    private javax.swing.JLabel lblHost;
+    private javax.swing.JLabel lblHostLabel;
+    private javax.swing.JLabel lblNewPassword;
+    private javax.swing.JLabel lblPort;
+    private javax.swing.JLabel lblPortLabel;
+    private javax.swing.JLabel lblResource;
+    private javax.swing.JLabel lblResourceLabel;
+    private javax.swing.JLabel lblUserName;
+    private javax.swing.JLabel lblUserNameLabel;
+    private javax.swing.JLabel lblZone;
+    private javax.swing.JLabel lblZoneLabel;
+    private javax.swing.JPasswordField passwdConfirmPassword;
+    private javax.swing.JPasswordField passwdNewPassword;
+    private javax.swing.JPanel pnlCurrentGrid;
+    private javax.swing.JPanel pnlPasswordButtons;
+    private javax.swing.JPanel pnlPasswords;
+    // End of variables declaration//GEN-END:variables
 }
