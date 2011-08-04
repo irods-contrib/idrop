@@ -1517,7 +1517,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlFileNameAndIcon.setMinimumSize(new java.awt.Dimension(100, 100));
         pnlFileNameAndIcon.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
 
-        lblFileOrCollectionName.setMinimumSize(new java.awt.Dimension(80, 16));
+        lblFileOrCollectionName.setText("           ");
+        lblFileOrCollectionName.setMinimumSize(new java.awt.Dimension(80, 30));
         pnlFileNameAndIcon.add(lblFileOrCollectionName);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
