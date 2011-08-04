@@ -26,7 +26,12 @@ public class IRODSRowModel implements RowModel {
         switch (column) {
 
             case 0:
-                return entry.getDataSize();
+                if (entry.isCollection()) {
+                    return "";
+                } else {
+                    return String.valueOf(entry.getDataSize());
+                }
+                //return entry.getDataSize();
             case 1:
                 return entry.getModifiedAt();
             default:
