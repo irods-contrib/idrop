@@ -16,6 +16,8 @@ import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 public class IconHelper {
 
     private static Image virusErrorIcon = null;
+    private static Image okIcon = null;
+    private static Image errorIcon = null;
     private static Image virusSuccessIcon = null;
     private static Image virusUnknownIcon = null;
     private static Image checksumValidIcon = null;
@@ -26,6 +28,7 @@ public class IconHelper {
     private static Image metadataIcon = null;
     private static Image policyIcon = null;
     private static Image replicationIcon = null;
+    private static Image runningIcon = null;
 
     public static JLabel getFolderIcon() {
 
@@ -112,6 +115,42 @@ public class IconHelper {
         virusLabel.setToolTipText("fixity check success");
 
         return virusLabel;
+    }
+
+    public static JLabel getOkIcon() {
+
+        if (okIcon == null) {
+            okIcon = createImage("images/dialog-ok-2.png",
+                    "fixity check ok");
+        }
+        JLabel okLabel = new JLabel(new ImageIcon(okIcon));
+        okLabel.setToolTipText("status OK");
+
+        return okLabel;
+    }
+    
+    public static JLabel getRunningIcon() {
+
+        if (runningIcon == null) {
+            runningIcon = createImage("images/system-run-5.png",
+                    "fixity check ok");
+        }
+        JLabel runningLabel = new JLabel(new ImageIcon(runningIcon));
+        runningLabel.setToolTipText("status running");
+
+        return runningLabel;
+    }
+
+    public static JLabel getErrorIcon() {
+
+        if (errorIcon == null) {
+            errorIcon = createImage("images/dialog-error-3.png",
+                    "error");
+        }
+        JLabel errorLabel = new JLabel(new ImageIcon(errorIcon));
+        errorLabel.setToolTipText("status error");
+
+        return errorLabel;
     }
 
     public static JLabel getPolicyIcon(String policyDescription) {

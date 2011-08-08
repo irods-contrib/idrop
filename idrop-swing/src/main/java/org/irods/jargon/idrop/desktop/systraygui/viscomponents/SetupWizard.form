@@ -463,8 +463,8 @@
                                 <StringItem index="0" value="Hourly"/>
                                 <StringItem index="1" value="Weekly"/>
                                 <StringItem index="2" value="Daily"/>
-                                <StringItem index="3" value="Every 15 Minutes"/>
-                                <StringItem index="4" value=" "/>
+                                <StringItem index="3" value="Every 2 Minutes (test mode)"/>
+                                <StringItem index="4" value=""/>
                               </StringArray>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">

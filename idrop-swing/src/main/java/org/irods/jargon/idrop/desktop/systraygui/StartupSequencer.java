@@ -27,6 +27,7 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.irods.jargon.transfer.engine.TransferEngineConfigurationProperties;
 import org.irods.jargon.transfer.engine.TransferManagerImpl;
+import org.irods.jargon.transfer.synch.SynchPeriodicScheduler;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -216,8 +217,11 @@ public class StartupSequencer {
         try {
             QueueSchedulerTimerTask queueSchedulerTimerTask = new QueueSchedulerTimerTask(
                     idropCore.getTransferManager(), idrop);
+            SynchPeriodicScheduler synchPeriodicScheduler = new SynchPeriodicScheduler(idropCore.getTransferManager(), idropCore.getIRODSAccessObjectFactory());
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
+            timer.scheduleAtFixedRate(synchPeriodicScheduler, 10000, 30000);
+
             idropCore.setQueueTimer(timer);
 
 

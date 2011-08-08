@@ -300,7 +300,7 @@ public class SetupWizard extends javax.swing.JDialog {
         jLabel5.setText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.jLabel5.text")); // NOI18N
         pnlSynchFrequency.add(jLabel5);
 
-        jcomboSynchFrequency.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Hourly", "Weekly", "Daily", "Every 15 Minutes", " " }));
+        jcomboSynchFrequency.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Hourly", "Weekly", "Daily", "Every 2 Minutes (test mode)", "" }));
         jcomboSynchFrequency.setToolTipText(org.openide.util.NbBundle.getMessage(SetupWizard.class, "SetupWizard.jcomboSynchFrequency.toolTipText")); // NOI18N
         pnlSynchFrequency.add(jcomboSynchFrequency);
 
@@ -597,7 +597,7 @@ public class SetupWizard extends javax.swing.JDialog {
                 Synchronization synchronization = new Synchronization();
                 synchronization.setCreatedAt(new Date());
                 synchronization.setDefaultResourceName(idropCore.getIrodsAccount().getDefaultStorageResource());
-                synchronization.setFrequencyType(FrequencyType.EVERY_HOUR); // FIXME: create code to set this viz the combo
+
                 synchronization.setIrodsHostName(idropCore.getIrodsAccount().getHost());
 
                 synchronization.setIrodsPassword(HibernateUtil.obfuscate(idropCore.getIrodsAccount().getPassword()));
@@ -608,7 +608,30 @@ public class SetupWizard extends javax.swing.JDialog {
                 synchronization.setIrodsUserName(idropCore.getIrodsAccount().getUserName());
                 synchronization.setIrodsZone(idropCore.getIrodsAccount().getZone());
                 synchronization.setName("Default");
-                synchronization.setSynchronizationMode(SynchronizationType.ONE_WAY_LOCAL_TO_IRODS); // FIXME: set properly from radio
+
+                if (synchronization.getFrequencyType() == FrequencyType.EVERY_HOUR) {
+                    jcomboSynchFrequency.setSelectedIndex(0);
+                } else if (synchronization.getFrequencyType() == FrequencyType.EVERY_WEEK) {
+                    jcomboSynchFrequency.setSelectedIndex(1);
+                } else if (synchronization.getFrequencyType() == FrequencyType.EVERY_DAY) {
+                    jcomboSynchFrequency.setSelectedIndex(2);
+                } else if (synchronization.getFrequencyType() == FrequencyType.EVERY_TWO_MINUTES) {
+                    jcomboSynchFrequency.setSelectedIndex(3);
+                } else {
+                    log.error("unknown frequency type for synch:{}", synchronization.getFrequencyType());
+                    throw new IdropRuntimeException("unknown frequency type for synch");
+                }
+
+                if (synchronization.getSynchronizationMode() == SynchronizationType.BI_DIRECTIONAL) {
+                    radioSynch.setSelected(true);
+                } else if (synchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_IRODS_TO_LOCAL) {
+                    radioFeed.setSelected(true);
+                } else if (synchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_LOCAL_TO_IRODS) {
+                    radioBackup.setSelected(true);
+                } else {
+                    log.error("unknown synchronization mode for synch:{}", synchronization.getSynchronizationMode());
+                    throw new IdropRuntimeException("unknown synchronization mode");
+                }
 
                 this.idropConfigurationService.createNewSynchronization(synchronization);
                 advanceTab();

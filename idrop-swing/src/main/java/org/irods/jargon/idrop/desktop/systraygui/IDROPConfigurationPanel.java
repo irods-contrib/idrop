@@ -9,10 +9,18 @@ package org.irods.jargon.idrop.desktop.systraygui;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -21,14 +29,17 @@ import javax.swing.event.ListSelectionListener;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IconHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.SynchConfigTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import org.irods.jargon.transfer.dao.domain.FrequencyType;
+import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.dao.domain.SynchronizationType;
+import org.irods.jargon.transfer.dao.domain.TransferStatus;
 import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 import org.irods.jargon.transfer.engine.synch.SynchException;
 import org.irods.jargon.transfer.engine.synch.SynchManagerService;
@@ -46,6 +57,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(IDROPConfigurationPanel.class);
     private JTable jTableSynch = null;
     private Synchronization selectedSynchronization = null;
+    private DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance();
 
     /** Creates new form IDROPConfigurationPanel */
     public IDROPConfigurationPanel(java.awt.Frame parent, boolean modal, IDROPCore idropCore) {
@@ -53,6 +65,68 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         this.idropCore = idropCore;
         initComponents();
         initWithConfigData();
+    }
+
+    private boolean checkIfSynchChanged() throws IdropRuntimeException {
+        // compare data and update synch first if necessary
+
+        boolean areEqual = true;
+
+        if (!selectedSynchronization.getLocalSynchDirectory().equals(txtLocalPath.getText())) {
+            areEqual = false;
+        }
+
+        if (!selectedSynchronization.getName().equals(txtSynchName.getText())) {
+            areEqual = false;
+        }
+
+        if (!selectedSynchronization.getIrodsSynchDirectory().equals(txtIrodsPath.getText())) {
+            areEqual = false;
+        }
+
+        SynchronizationType currentSynchronizationType = getSynchTypeFromGUI();
+
+        if (currentSynchronizationType != selectedSynchronization.getSynchronizationMode()) {
+            areEqual = false;
+        }
+
+        FrequencyType currentFrequencyType = null;
+        currentFrequencyType = getSynchFrequencyFromGUI();
+
+        if (selectedSynchronization.getFrequencyType() != currentFrequencyType) {
+            areEqual = false;
+        }
+
+        return areEqual;
+    }
+
+    private FrequencyType getSynchFrequencyFromGUI() {
+        FrequencyType currentFrequencyType = null;
+        if (jcomboSynchFrequency.getSelectedIndex() == 0) {
+            currentFrequencyType = FrequencyType.EVERY_HOUR;
+        } else if (jcomboSynchFrequency.getSelectedIndex() == 1) {
+            currentFrequencyType = FrequencyType.EVERY_WEEK;
+        } else if (jcomboSynchFrequency.getSelectedIndex() == 2) {
+            currentFrequencyType = FrequencyType.EVERY_DAY;
+        } else if (jcomboSynchFrequency.getSelectedIndex() == 3) {
+            currentFrequencyType = FrequencyType.EVERY_TWO_MINUTES;
+        }
+        return currentFrequencyType;
+    }
+
+    private SynchronizationType getSynchTypeFromGUI() throws IdropRuntimeException {
+        SynchronizationType currentSynchronizationType;
+        if (radioBackup.isSelected()) {
+            currentSynchronizationType = SynchronizationType.ONE_WAY_LOCAL_TO_IRODS;
+        } else if (radioFeed.isSelected()) {
+            currentSynchronizationType = SynchronizationType.ONE_WAY_IRODS_TO_LOCAL;
+        } else if (radioSynch.isSelected()) {
+            currentSynchronizationType = SynchronizationType.BI_DIRECTIONAL;
+        } else {
+            log.error("unknown synchronization type in GUI");
+            throw new IdropRuntimeException("unknown synchroization type in GUI");
+        }
+        return currentSynchronizationType;
     }
 
     /** This method is called from within the constructor to
@@ -65,6 +139,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        buttonGroupSynchMode = new javax.swing.ButtonGroup();
         pnlTop = new javax.swing.JPanel();
         pnlCenter = new javax.swing.JPanel();
         tabConfig = new javax.swing.JTabbedPane();
@@ -90,12 +165,19 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         checkVerifyChecksumOnTransfer = new javax.swing.JCheckBox();
         pnlConfigSynch = new javax.swing.JPanel();
         pnlConfigSynchListing = new javax.swing.JPanel();
+        pnlSynchRefresh = new javax.swing.JPanel();
+        btnRefreshSynch = new javax.swing.JButton();
         scrollSynchTable = new javax.swing.JScrollPane();
         pnlConfigSynchDetails = new javax.swing.JPanel();
         pnlSynchData = new javax.swing.JPanel();
         pnlSynchName = new javax.swing.JPanel();
         lblSynchName = new javax.swing.JLabel();
         txtSynchName = new javax.swing.JTextField();
+        btnSynchDetails = new javax.swing.JButton();
+        lblSynchDateLabel = new javax.swing.JLabel();
+        lblSynchDate = new javax.swing.JLabel();
+        pnlSynchIcon = new javax.swing.JPanel();
+        lblSynchStatus = new javax.swing.JLabel();
         pnlLocalSynch = new javax.swing.JPanel();
         txtLocalPath = new javax.swing.JTextField();
         btnChooseLocalSynch = new javax.swing.JButton();
@@ -301,6 +383,18 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlConfigSynchListing.setMinimumSize(new java.awt.Dimension(23, 100));
         pnlConfigSynchListing.setLayout(new java.awt.BorderLayout());
 
+        btnRefreshSynch.setMnemonic('r');
+        btnRefreshSynch.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnRefreshSynch.text")); // NOI18N
+        btnRefreshSynch.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnRefreshSynch.toolTipText")); // NOI18N
+        btnRefreshSynch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshSynchActionPerformed(evt);
+            }
+        });
+        pnlSynchRefresh.add(btnRefreshSynch);
+
+        pnlConfigSynchListing.add(pnlSynchRefresh, java.awt.BorderLayout.NORTH);
+
         scrollSynchTable.setMinimumSize(new java.awt.Dimension(23, 100));
         scrollSynchTable.setPreferredSize(new java.awt.Dimension(100, 100));
         pnlConfigSynchListing.add(scrollSynchTable, java.awt.BorderLayout.CENTER);
@@ -312,12 +406,60 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlSynchData.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlSynchData.setLayout(new java.awt.GridBagLayout());
 
+        pnlSynchName.setLayout(new java.awt.GridBagLayout());
+
         lblSynchName.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblSynchName.text")); // NOI18N
-        pnlSynchName.add(lblSynchName);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlSynchName.add(lblSynchName, gridBagConstraints);
 
         txtSynchName.setColumns(40);
         txtSynchName.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.txtSynchName.text")); // NOI18N
-        pnlSynchName.add(txtSynchName);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlSynchName.add(txtSynchName, gridBagConstraints);
+
+        btnSynchDetails.setMnemonic('H');
+        btnSynchDetails.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnSynchDetails.text")); // NOI18N
+        btnSynchDetails.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnSynchDetails.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        pnlSynchName.add(btnSynchDetails, gridBagConstraints);
+
+        lblSynchDateLabel.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblSynchDateLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlSynchName.add(lblSynchDateLabel, gridBagConstraints);
+
+        lblSynchDate.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblSynchDate.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlSynchName.add(lblSynchDate, gridBagConstraints);
+
+        lblSynchStatus.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblSynchStatus.text")); // NOI18N
+        lblSynchStatus.setMaximumSize(null);
+        lblSynchStatus.setMinimumSize(new java.awt.Dimension(10, 10));
+        lblSynchStatus.setPreferredSize(new java.awt.Dimension(10, 10));
+        pnlSynchIcon.add(lblSynchStatus);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        pnlSynchName.add(pnlSynchIcon, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -362,14 +504,17 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         jLabel1.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.jLabel1.text")); // NOI18N
         pnlSynchMode.add(jLabel1);
 
+        buttonGroupSynchMode.add(radioBackup);
         radioBackup.setSelected(true);
         radioBackup.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.radioBackup.text")); // NOI18N
         pnlSynchMode.add(radioBackup);
 
+        buttonGroupSynchMode.add(radioFeed);
         radioFeed.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.radioFeed.text")); // NOI18N
         radioFeed.setEnabled(false);
         pnlSynchMode.add(radioFeed);
 
+        buttonGroupSynchMode.add(radioSynch);
         radioSynch.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.radioSynch.text")); // NOI18N
         radioSynch.setEnabled(false);
         pnlSynchMode.add(radioSynch);
@@ -389,7 +534,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         jLabel5.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.jLabel5.text")); // NOI18N
         pnlSynchFrequency.add(jLabel5);
 
-        jcomboSynchFrequency.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Hourly", "Weekly", "Daily", "Every 15 Minutes", " " }));
+        jcomboSynchFrequency.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Hourly", "Weekly", "Daily", "Every 2 Minutes (testing)", "", "" }));
         jcomboSynchFrequency.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.jcomboSynchFrequency.toolTipText")); // NOI18N
         pnlSynchFrequency.add(jcomboSynchFrequency);
 
@@ -503,11 +648,19 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {                                      
-        this.dispose();
-    }                                     
+    /**
+     * Refresh the displayed synch
+     * @param evt 
+     */
+    private void btnRefreshSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshSynchActionPerformed
+        refreshSynchConfigPanel();
+    }//GEN-LAST:event_btnRefreshSynchActionPerformed
 
-    private void checkShowGUIActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {
+        this.dispose();
+    }
+
+    private void checkShowGUIActionPerformed(java.awt.event.ActionEvent evt) {
         log.info("updating show gui at startup to:{}", checkShowGUI.isSelected());
         try {
             idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.SHOW_GUI, Boolean.toString(checkShowGUI.isSelected()));
@@ -515,9 +668,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
             log.error("error setting show gui property", ex);
             throw new IdropRuntimeException(ex);
         }
-    }                                            
+    }
 
-    private void checkLogSuccessfulTransferActionPerformed(java.awt.event.ActionEvent evt) {                                                           
+    private void checkLogSuccessfulTransferActionPerformed(java.awt.event.ActionEvent evt) {
         log.info("updating log successful transfers to:{}", checkLogSuccessfulTransfer.isSelected());
         try {
             idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES, Boolean.toString(checkShowGUI.isSelected()));
@@ -526,9 +679,15 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
             throw new IdropRuntimeException(ex);
         }
 
-    }                                                          
+    }
 
-    private void pnlConfigSynchComponentShown(java.awt.event.ComponentEvent evt) {                                              
+    private void pnlConfigSynchComponentShown(java.awt.event.ComponentEvent evt) {
+
+        refreshSynchConfigPanel();
+
+    }
+
+    private void refreshSynchConfigPanel() {
         log.info("lazily loading synch data");
 
         final IDROPConfigurationPanel thisPanel = this;
@@ -544,17 +703,24 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 try {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     List<Synchronization> synchronizations = synchConfigurationService.listAllSynchronizations();
+                    SynchConfigTableModel synchConfigTableModel = null;
                     if (jTableSynch == null) {
-                        SynchConfigTableModel synchConfigTableModel = new SynchConfigTableModel(idropCore, synchronizations);
+                        synchConfigTableModel = new SynchConfigTableModel(idropCore, synchronizations);
                         jTableSynch = new JTable(synchConfigTableModel);
                         jTableSynch.getSelectionModel().addListSelectionListener(new SynchListSelectionHandler(thisPanel));
                         scrollSynchTable.setViewportView(jTableSynch);
                         scrollSynchTable.validate();
                         pnlConfigSynchListing.validate();
                     } else {
-                        SynchConfigTableModel synchConfigTableModel = (SynchConfigTableModel) jTableSynch.getModel();
+                        synchConfigTableModel = (SynchConfigTableModel) jTableSynch.getModel();
                         synchConfigTableModel.setSynchronizations(synchronizations);
                         synchConfigTableModel.fireTableDataChanged();
+                    }
+
+                    if (synchConfigTableModel.getRowCount() > 0) {
+                        jTableSynch.setRowSelectionInterval(0, 0);
+                    } else {
+                        lockSynchPanelForNewOnly();
                     }
                 } catch (SynchException ex) {
                     log.error("error setting up synchs table", ex);
@@ -563,28 +729,32 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
             }
+
+            private void lockSynchPanelForNewOnly() {
+                clearAndResetSynchPanel();
+                setLockStatusSynchPanel(false);
+            }
         });
+    }
 
-    }                                             
-
-    private void txtLocalPathActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void txtLocalPathActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-}                                            
+    }
 
-    private void btnChooseLocalSynchActionPerformed(java.awt.event.ActionEvent evt) {                                                    
+    private void btnChooseLocalSynchActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         JFileChooser localFileChooser = new JFileChooser();
         localFileChooser.setMultiSelectionEnabled(false);
         localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnVal = localFileChooser.showOpenDialog(this);
         txtLocalPath.setText(localFileChooser.getSelectedFile().getAbsolutePath());
-}                                                   
+    }
 
-    private void txtIrodsPathActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void txtIrodsPathActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-}                                            
+    }
 
-    private void btnChooseIrodsSynchActionPerformed(java.awt.event.ActionEvent evt) {                                                    
+    private void btnChooseIrodsSynchActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             IRODSFinderDialog irodsFileSystemChooserView = new IRODSFinderDialog(null, true, idropCore);
             final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -606,13 +776,13 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         } finally {
             idropCore.getIrodsFileSystem().closeAndEatExceptions();
         }
-}                                                   
+    }
 
     /**
      * Delete the selected synchronization
      * @param evt 
      */
-    private void btnDeleteSynchActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    private void btnDeleteSynchActionPerformed(java.awt.event.ActionEvent evt) {
 
         final IDROPConfigurationPanel thisPanel = this;
 
@@ -634,8 +804,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 if (result == JOptionPane.CANCEL_OPTION) {
                     return;
                 }
-
-
                 try {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     idropCore.getIdropConfigurationService().updateSynchronization(synchronization);
@@ -656,11 +824,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     btnDeleteSynch.setEnabled(false);
                     btnUpdateSynch.setEnabled(false);
                     btnSynchNow.setEnabled(false);
-                    clearAndResetSynchPanel();
-
+                    refreshSynchConfigPanel();
                 } catch (IdropException ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
-
                 } catch (SynchException ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
                 } finally {
@@ -670,13 +836,13 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 }
             }
         });
-    }                                              
+    }
 
     /**
      * Called to clear and prepare for adding a new synchronization
      * @param evt 
      */
-    private void btnNewSynchActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void btnNewSynchActionPerformed(java.awt.event.ActionEvent evt) {
         clearAndResetSynchPanel();
         if (jTableSynch.getModel().getRowCount() > 0) {
             jTableSynch.getSelectionModel().removeIndexInterval(0, jTableSynch.getModel().getRowCount() - 1);
@@ -686,14 +852,20 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         btnUpdateSynch.setEnabled(true);
         btnSynchNow.setEnabled(false);
         MessageManager.showMessage(this, "Enter the data for the new Synchronization and press Update to save", MessageManager.TITLE_MESSAGE);
-    }                                           
+        setLockStatusSynchPanel(true);
+        btnSynchNow.setEnabled(false);
+        btnDeleteSynch.setEnabled(false);
+    }
 
     /**
      * User signals that the displayed synchronization should be updated
      * @param evt 
      */
-    private void btnUpdateSynchActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    private void btnUpdateSynchActionPerformed(java.awt.event.ActionEvent evt) {
+        updateSynch();
+    }
 
+    private void updateSynch() {
         final IDROPConfigurationPanel thisPanel = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -733,14 +905,15 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 log.info("saving synch data");
                 Synchronization synchronization = selectedSynchronization;
                 synchronization.setUpdatedAt(new Date());
-                synchronization.setFrequencyType(FrequencyType.EVERY_HOUR); // FIXME: create code to set this viz the combo
+                synchronization.setFrequencyType(getSynchFrequencyFromGUI());
 
                 synchronization.setName(txtSynchName.getText().trim());
-                synchronization.setSynchronizationMode(SynchronizationType.ONE_WAY_LOCAL_TO_IRODS); // FIXME: set properly from radio
+                synchronization.setSynchronizationMode(getSynchTypeFromGUI());
                 synchronization.setLocalSynchDirectory(txtLocalPath.getText().trim());
                 synchronization.setIrodsSynchDirectory(txtIrodsPath.getText().trim());
                 IRODSAccount irodsAccount = idropCore.getIrodsAccount();
                 synchronization.setIrodsHostName(irodsAccount.getHost());
+
                 try {
                     synchronization.setIrodsPassword(HibernateUtil.obfuscate(irodsAccount.getPassword()));
                 } catch (JargonException ex) {
@@ -759,7 +932,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 try {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     idropCore.getIdropConfigurationService().updateSynchronization(synchronization);
-
+                    MessageManager.showMessage(thisPanel, "Configuration updated", MessageManager.TITLE_MESSAGE);
                     ListSelectionModel lsm = (ListSelectionModel) thisPanel.getSynchTable().getSelectionModel();
                     SynchConfigTableModel model = (SynchConfigTableModel) thisPanel.getSynchTable().getModel();
 
@@ -790,7 +963,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                         }
                     }
 
-                    MessageManager.showMessage(thisPanel, "Configuration updated", MessageManager.TITLE_MESSAGE);
+
                     btnDeleteSynch.setEnabled(true);
                     btnUpdateSynch.setEnabled(true);
                     btnSynchNow.setEnabled(true);
@@ -807,15 +980,13 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 }
             }
         });
-
-
-    }                                              
+    }
 
     /**
      * Force a synhronization process on the selected synchronization
      * @param evt 
      */
-    private void btnSynchNowActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void btnSynchNowActionPerformed(java.awt.event.ActionEvent evt) {
         log.info("synch now button pressed");
         if (selectedSynchronization == null) {
             MessageManager.showWarning(this, "Please select a synhronization", MessageManager.TITLE_MESSAGE);
@@ -823,6 +994,12 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         }
 
         log.info("selected synchronization is:{}", selectedSynchronization);
+        boolean synchIsUnchanged = checkIfSynchChanged();
+
+        if (!synchIsUnchanged) {
+            log.info("synch had been changed, update first");
+            updateSynch();
+        }
 
         int result = JOptionPane.showConfirmDialog(this,
                 "Synchronize?",
@@ -837,9 +1014,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 throw new IdropRuntimeException(ex);
             }
         }
-    }                                           
+    }
 
-    private void checkVerifyChecksumOnTransferActionPerformed(java.awt.event.ActionEvent evt) {                                                              
+    private void checkVerifyChecksumOnTransferActionPerformed(java.awt.event.ActionEvent evt) {
         log.info("updating verify checksom to:{}", checkVerifyChecksumOnTransfer.isSelected());
         try {
             idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER, Boolean.toString(checkVerifyChecksumOnTransfer.isSelected()));
@@ -847,7 +1024,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
             log.error("error setting show gui property", ex);
             throw new IdropRuntimeException(ex);
         }
-    }                                                             
+    }
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {
         log.info("logging out to log in to a new grid");
@@ -894,8 +1071,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnNewSynch;
     private javax.swing.JButton btnOK;
+    private javax.swing.JButton btnRefreshSynch;
+    private javax.swing.JButton btnSynchDetails;
     private javax.swing.JButton btnSynchNow;
     private javax.swing.JButton btnUpdateSynch;
+    private javax.swing.ButtonGroup buttonGroupSynchMode;
     private javax.swing.JCheckBox checkLogSuccessfulTransfer;
     private javax.swing.JCheckBox checkShowGUI;
     private javax.swing.JCheckBox checkVerifyChecksumOnTransfer;
@@ -908,7 +1088,10 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JLabel lblPortLabel;
     private javax.swing.JLabel lblResource;
     private javax.swing.JLabel lblResourceLabel;
+    private javax.swing.JLabel lblSynchDate;
+    private javax.swing.JLabel lblSynchDateLabel;
     private javax.swing.JLabel lblSynchName;
+    private javax.swing.JLabel lblSynchStatus;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JLabel lblUserNameLabel;
     private javax.swing.JLabel lblZone;
@@ -928,8 +1111,10 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JPanel pnlLocalSynch;
     private javax.swing.JPanel pnlSynchData;
     private javax.swing.JPanel pnlSynchFrequency;
+    private javax.swing.JPanel pnlSynchIcon;
     private javax.swing.JPanel pnlSynchMode;
     private javax.swing.JPanel pnlSynchName;
+    private javax.swing.JPanel pnlSynchRefresh;
     private javax.swing.JPanel pnlTop;
     private javax.swing.JRadioButton radioBackup;
     private javax.swing.JRadioButton radioFeed;
@@ -967,6 +1152,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         txtIrodsPath.setText("");
         txtSynchName.setText("");
         radioBackup.setSelected(true);
+        lblSynchDate.setText("");
+        pnlSynchIcon.removeAll();
+        pnlSynchIcon.validate();
         jcomboSynchFrequency.setSelectedIndex(0);
     }
 
@@ -987,58 +1175,134 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         }
     }
 
-    class SynchListSelectionHandler implements ListSelectionListener {
+    protected void updateDetailsForSelectedSynch(int i) {
+        // make sure the most up-to-date information is displayed
+        int modelIdx = getSynchTable().convertRowIndexToModel(i);
+        SynchConfigTableModel model = (SynchConfigTableModel) getSynchTable().getModel();
 
-        private final IDROPConfigurationPanel idropConfigurationPanel;
+        selectedSynchronization = model.getSynchronizationAt(modelIdx);
 
-        SynchListSelectionHandler(IDROPConfigurationPanel configurationPanel) {
-            this.idropConfigurationPanel = configurationPanel;
+        if (selectedSynchronization == null) {
+            model.removeRow(modelIdx);
+            return;
         }
 
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
+        // initialize data
+        txtLocalPath.setText(selectedSynchronization.getLocalSynchDirectory());
+        txtIrodsPath.setText(selectedSynchronization.getIrodsSynchDirectory());
+        txtSynchName.setText(selectedSynchronization.getName());
 
-            if (e.getValueIsAdjusting() == true) {
-                return;
-            }
+        if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_HOUR) {
+            jcomboSynchFrequency.setSelectedIndex(0);
+        } else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_WEEK) {
+            jcomboSynchFrequency.setSelectedIndex(1);
+        } else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_DAY) {
+            jcomboSynchFrequency.setSelectedIndex(2);
+        } else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_TWO_MINUTES) {
+            jcomboSynchFrequency.setSelectedIndex(3);
+        } else {
+            log.error("unknown frequency type for synch:{}", selectedSynchronization.getFrequencyType());
+            throw new IdropRuntimeException("unknown frequency type for synch");
+        }
 
-            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+        if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.BI_DIRECTIONAL) {
+            radioSynch.setSelected(true);
+        } else if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_IRODS_TO_LOCAL) {
+            radioFeed.setSelected(true);
+        } else if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_LOCAL_TO_IRODS) {
+            radioBackup.setSelected(true);
+        } else {
+            log.error("unknown synchronization mode for synch:{}", selectedSynchronization.getSynchronizationMode());
+            throw new IdropRuntimeException("unknown synchronization mode");
+        }
 
-            if (lsm.isSelectionEmpty()) {
-                return;
+        btnDeleteSynch.setEnabled(true);
+        btnUpdateSynch.setEnabled(true);
+        btnSynchNow.setEnabled(true);
+
+        setSynchIcon(selectedSynchronization);
+        if (selectedSynchronization.getLastSynchronized() == null) {
+            lblSynchDate.setText("None");
+        } else {
+            lblSynchDate.setText(dateFormat.format(selectedSynchronization.getLastSynchronized()));
+        }
+
+    }
+
+    protected void setLockStatusSynchPanel(boolean lockStatus) {
+        txtSynchName.setEnabled(lockStatus);
+        txtLocalPath.setEnabled(lockStatus);
+        btnChooseLocalSynch.setEnabled(lockStatus);
+        radioBackup.setEnabled(lockStatus);
+        //radioFeed.setEnabled(lockStatus);
+        //radioSynch.setEnabled(lockStatus);
+        jcomboSynchFrequency.setEnabled(lockStatus);
+        txtIrodsPath.setEnabled(lockStatus);
+        btnChooseIrodsSynch.setEnabled(lockStatus);
+        btnDeleteSynch.setEnabled(lockStatus);
+        btnUpdateSynch.setEnabled(lockStatus);
+        btnSynchNow.setEnabled(lockStatus);
+        btnSynchDetails.setEnabled(lockStatus);
+    }
+
+    private void setSynchIcon(Synchronization synchronization) {
+
+        JLabel labelToUse = null;
+
+        SynchManagerService synchManagerService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+        try {
+            boolean isRunning = synchManagerService.isSynchRunning(synchronization);
+            if (isRunning) {
+                labelToUse = IconHelper.getRunningIcon();
+            } else if (synchronization.getLastSynchronizationStatus() == null) {
+                labelToUse = IconHelper.getOkIcon();
+            } else if (synchronization.getLastSynchronizationStatus() == TransferStatus.ERROR) {
+                labelToUse = IconHelper.getErrorIcon();
             } else {
-                // Find out which indexes are selected.
-                int minIndex = lsm.getMinSelectionIndex();
-                int maxIndex = lsm.getMaxSelectionIndex();
-                for (int i = minIndex; i <= maxIndex; i++) {
-                    if (lsm.isSelectedIndex(i)) {
-                        updateDetailsForSelectedSynch(i);
-                    }
+                labelToUse = IconHelper.getOkIcon();
+            }
+        } catch (SynchException ex) {
+            log.error("error checking if synch is already running:{}", synchronization, ex);
+            throw new IdropRuntimeException("exception checking if synch is already running", ex);
+        }
+
+        pnlSynchIcon.removeAll();
+        lblSynchStatus = labelToUse;
+        pnlSynchIcon.add(lblSynchStatus);
+        pnlSynchIcon.validate();
+
+    }
+}
+
+class SynchListSelectionHandler implements ListSelectionListener {
+
+    private final IDROPConfigurationPanel idropConfigurationPanel;
+
+    SynchListSelectionHandler(IDROPConfigurationPanel configurationPanel) {
+        this.idropConfigurationPanel = configurationPanel;
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+
+        if (e.getValueIsAdjusting() == true) {
+            return;
+        }
+
+        ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+
+        if (lsm.isSelectionEmpty()) {
+            return;
+        } else {
+            // Find out which indexes are selected.
+            int minIndex = lsm.getMinSelectionIndex();
+            int maxIndex = lsm.getMaxSelectionIndex();
+            for (int i = minIndex; i <= maxIndex; i++) {
+                if (lsm.isSelectedIndex(i)) {
+                    idropConfigurationPanel.updateDetailsForSelectedSynch(i);
                 }
             }
-
         }
 
-        private void updateDetailsForSelectedSynch(int i) {
-            // make sure the most up-to-date information is displayed
-            int modelIdx = idropConfigurationPanel.getSynchTable().convertRowIndexToModel(i);
-            SynchConfigTableModel model = (SynchConfigTableModel) idropConfigurationPanel.getSynchTable().getModel();
-
-            selectedSynchronization = model.getSynchronizationAt(modelIdx);
-
-            if (selectedSynchronization == null) {
-                model.removeRow(modelIdx);
-                return;
-            }
-
-            // initialize data
-            txtLocalPath.setText(selectedSynchronization.getLocalSynchDirectory());
-            txtIrodsPath.setText(selectedSynchronization.getIrodsSynchDirectory());
-            txtSynchName.setText(selectedSynchronization.getName());
-
-            btnDeleteSynch.setEnabled(true);
-            btnUpdateSynch.setEnabled(true);
-            btnSynchNow.setEnabled(true);
-        }
     }
 }
