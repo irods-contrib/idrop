@@ -75,6 +75,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileSystemMo
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.irods.jargon.transfer.engine.TransferManager.ErrorStatus;
 import org.irods.jargon.transfer.engine.TransferManager.RunningStatus;
 import org.irods.jargon.transfer.engine.TransferManagerCallbackListener;
@@ -268,29 +269,47 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     @Override
     public void overallStatusCallback(final TransferStatus ts) {
 
-        IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree.getModel();
-        try {
-            if (ts.getTransferType() == TransferStatus.TransferType.SYNCH || ts.getTransferType() == TransferStatus.TransferType.REPLICATE) {
-                log.info("no need to notify tree for synch or replicate");
-            } else {
-                irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
-                // if a get callback on completion, notify the local tree model
-                if (ts.getTransferType() == TransferStatus.TransferType.GET
-                        && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
-                    ((LocalFileSystemModel) getFileTree().getModel()).notifyCompletionOfOperation(getFileTree(), ts);
-                }
-            }
+        final IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree.getModel();
+        final iDrop idropGui = this;
 
-        } catch (IdropException ex) {
-            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-            this.showIdropException(ex);
-        }
+
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
+
+                /* 
+                 * Handle appropriate tree notifications, so some filtering to prevent notifications when for a different host/zone
+                 */
+                if (ts.getTransferType() == TransferStatus.TransferType.SYNCH || ts.getTransferType() == TransferStatus.TransferType.REPLICATE) {
+                    log.info("no need to notify tree for synch or replicate");
+                } else if (ts.getTransferType() == TransferStatus.TransferType.GET
+                        && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                    try {
+                        ((LocalFileSystemModel) idropGui.getFileTree().getModel()).notifyCompletionOfOperation(idropGui.getFileTree(), ts);
+                    } catch (IdropException ex) {
+                        log.error("error on tree notify after operation", ex);
+                           throw new IdropRuntimeException("error processing overall status callback", ex);
+                    }
+                } else if (ts.getTransferType() == TransferStatus.TransferType.COPY || ts.getTransferType() == TransferStatus.TransferType.PUT) {
+                    if (ts.getTransferZone().equals(
+                            iDropCore.getIrodsAccount().getZone()) && ts.getTransferHost().equals(iDropCore.getIrodsAccount().getHost())) {
+                        try {
+                            // should leave PUT, and COPY
+                            irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
+                        } catch (IdropException ex) {
+                           log.error("error on tree notify after operation", ex);
+                           throw new IdropRuntimeException("error processing overall status callback", ex);
+                        }
+                    }
+                
+                }
+
+                /*
+                 * Handle progress bar and messages.  These are cleared on overall initiation
+                 */
+                if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION || ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
                     clearProgressBar();
                     // on initiation, clear and reset the status bar info
                     lblTransferType.setText(ts.getTransferType().name());
@@ -304,8 +323,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     transferStatusProgressBar.setMinimum(0);
                     transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
                     transferStatusProgressBar.setValue(0);
-                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
-                    clearProgressBar();
+                }
+
+
+                /*
+                 * Handle any text messages
+                 */
+                if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
                     lblTransferStatusMessage.setText("Synchronization Initializing");
                 } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_GENERATION) {
                     lblTransferStatusMessage.setText("Synchronization looking for updates");
@@ -315,6 +339,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     lblTransferStatusMessage.setText("Synchronization complete");
                 } else if (ts.getTransferEnclosingType() == TransferStatus.TransferType.SYNCH) {
                     lblTransferStatusMessage.setText("Transfer to synchronize local and iRODS");
+                } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
+                    // initiation not within a synch
+                    lblTransferStatusMessage.setText("Processing a " + ts.getTransferType().name() + " operation");
                 }
             }
         });
@@ -517,27 +544,27 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         } else if (e.getActionCommand().equals("Logout")) {
             log.info("logging out to log in to a new grid");
 
-        final iDrop thisPanel = this;
+            final iDrop thisPanel = this;
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
+            java.awt.EventQueue.invokeLater(new Runnable() {
 
-            @Override
-            public void run() {
+                @Override
+                public void run() {
 
-                IRODSAccount savedAccount = iDropCore.getIrodsAccount();
-                iDropCore.setIrodsAccount(null);
-                LoginDialog loginDialog = new LoginDialog(null, iDropCore);
-                loginDialog.setLocationRelativeTo(null);
-                loginDialog.setVisible(true);
+                    IRODSAccount savedAccount = iDropCore.getIrodsAccount();
+                    iDropCore.setIrodsAccount(null);
+                    LoginDialog loginDialog = new LoginDialog(null, iDropCore);
+                    loginDialog.setLocationRelativeTo(null);
+                    loginDialog.setVisible(true);
 
-                if (iDropCore.getIrodsAccount() == null) {
-                    log.warn("no account, reverting");
-                    iDropCore.setIrodsAccount(savedAccount);
-                } else {
-                    thisPanel.reinitializeForChangedIRODSAccount();
+                    if (iDropCore.getIrodsAccount() == null) {
+                        log.warn("no account, reverting");
+                        iDropCore.setIrodsAccount(savedAccount);
+                    } else {
+                        thisPanel.reinitializeForChangedIRODSAccount();
+                    }
                 }
-            }
-        });
+            });
 
         } else if (e.getActionCommand().equals("About")) {
             AboutDialog aboutDialog = new AboutDialog(this, true);
@@ -891,7 +918,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         IRODSNode rootNode = new IRODSNode(root,
                                 getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
                         irodsTree.setRefreshingTree(true);
-                                        scrollIrodsTree.setViewportView(irodsTree);
+                        scrollIrodsTree.setViewportView(irodsTree);
 
                         // irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
                     }
@@ -2235,7 +2262,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             @Override
             public void run() {
                 //scrollIrodsTree.removeAll();
-               // irodsTree=null;
+                // irodsTree=null;
                 //scrollIrodsTree.getViewport().validate();
                 lastCachedInfoItem = null;
                 idropGui.buildTargetTree();

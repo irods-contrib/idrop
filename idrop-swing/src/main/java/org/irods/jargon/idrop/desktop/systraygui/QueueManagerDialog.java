@@ -113,25 +113,25 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         jTableMaster.setModel(new QueueManagerMasterTableModel(new ArrayList<LocalIRODSTransfer>()));
         jTableMaster.getSelectionModel().addListSelectionListener(this);
         tabDetails.setVisible(false);
-       
+
         refreshTableView(viewType);
-         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-            int height = screenSize.height;
-            int width = screenSize.width;
-            screenSize.setSize(width*(0.90), height*(0.80));
-            int newheight = screenSize.height;
-            int newwidth = screenSize.width;
+        int height = screenSize.height;
+        int width = screenSize.width;
+        screenSize.setSize(width * (0.90), height * (0.80));
+        int newheight = screenSize.height;
+        int newwidth = screenSize.width;
 
-             //Then I put some print statements in the code
-            System.out.println("height="+height);
-            System.out.println("width="+width);
-            System.out.println("0.80*height="+(height*0.80));
-            System.out.println("0.90*width="+(width*0.90));
-            System.out.println("newheight="+newheight);
-            System.out.println("newwidth="+newwidth);
+        //Then I put some print statements in the code
+        System.out.println("height=" + height);
+        System.out.println("width=" + width);
+        System.out.println("0.80*height=" + (height * 0.80));
+        System.out.println("0.90*width=" + (width * 0.90));
+        System.out.println("newheight=" + newheight);
+        System.out.println("newwidth=" + newwidth);
 
-            this.setSize(newwidth, newheight);
+        this.setSize(newwidth, newheight);
     }
 
     /**
@@ -975,13 +975,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         int selectedRow = jTableMaster.getSelectedRow();
 
         if (masterTableModel.getRowCount() > 0) {
-            if (selectedRow == -1) {
-                jTableMaster.setRowSelectionInterval(0, 0);
-            }
 
-            selectedMasterTableObject = (LocalIRODSTransfer) masterTableModel.getTransferAtRow(jTableMaster.convertRowIndexToModel(selectedRow));
-
+            jTableMaster.setRowSelectionInterval(0, 0);
         }
+
+        //selectedMasterTableObject = (LocalIRODSTransfer) masterTableModel.getTransferAtRow(jTableMaster.convertRowIndexToModel(selectedRow));
+
+
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 

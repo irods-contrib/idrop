@@ -611,7 +611,6 @@ public class SetupWizard extends javax.swing.JDialog {
     private void saveSynch() {
         if (txtLocalPath.getText().trim().length() == 0 && txtIrodsPath.getText().trim().length() == 0) {
             log.info("ignoring synch for now");
-        } else if (txtLocalPath.getText().trim().length() == 0 || txtIrodsPath.getText().trim().length() == 0) {
             int result = JOptionPane.showConfirmDialog(this,
                     "Skip sych?",
                     "Not all synch data entered, do you wish to skip? (This may be configured later)",
