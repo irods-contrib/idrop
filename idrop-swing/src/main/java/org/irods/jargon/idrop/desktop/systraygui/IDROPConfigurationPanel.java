@@ -806,13 +806,17 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 }
                 try {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    idropCore.getIdropConfigurationService().updateSynchronization(synchronization);
+                    SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+                    log.info("deleting synchronization:{}", synchronization);
+
+                    if (synchConfigurationService.isSynchRunning(synchronization)) {
+                        MessageManager.showMessage(thisPanel, "Cannot delete the synchronization, a synch is currently running", MessageManager.TITLE_MESSAGE);
+                        return;
+                    }
 
                     ListSelectionModel lsm = (ListSelectionModel) thisPanel.getSynchTable().getSelectionModel();
                     SynchConfigTableModel model = (SynchConfigTableModel) thisPanel.getSynchTable().getModel();
 
-                    SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
-                    log.info("deleting synchronization:{}", synchronization);
                     synchConfigurationService.deleteSynchronization(synchronization);
                     log.info("synch deleted, refreshing model");
                     List<Synchronization> synchronizations = synchConfigurationService.listAllSynchronizations();
@@ -825,9 +829,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     btnUpdateSynch.setEnabled(false);
                     btnSynchNow.setEnabled(false);
                     refreshSynchConfigPanel();
-                } catch (IdropException ex) {
-                    MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
-                } catch (SynchException ex) {
+                } catch (Exception ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
                 } finally {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -901,6 +903,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 if (isNew) {
                     log.info("adding new synch");
                 }
+                
+               SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+
                 // edits pass, do update
                 log.info("saving synch data");
                 Synchronization synchronization = selectedSynchronization;
@@ -931,15 +936,18 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
                 try {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                        if (synchConfigurationService.isSynchRunning(selectedSynchronization)) {
+                            MessageManager.showMessage(thisPanel, "Cannot update the synchronization, a synch is currently running", MessageManager.TITLE_MESSAGE);
+                            return;
+                        }
+
                     idropCore.getIdropConfigurationService().updateSynchronization(synchronization);
                     MessageManager.showMessage(thisPanel, "Configuration updated", MessageManager.TITLE_MESSAGE);
                     ListSelectionModel lsm = (ListSelectionModel) thisPanel.getSynchTable().getSelectionModel();
                     SynchConfigTableModel model = (SynchConfigTableModel) thisPanel.getSynchTable().getModel();
 
                     if (isNew) {
-                        SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
-
-
+                    
                         List<Synchronization> synchronizations = synchConfigurationService.listAllSynchronizations();
 
                         model.setSynchronizations(synchronizations);
@@ -963,14 +971,12 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                         }
                     }
 
-
                     btnDeleteSynch.setEnabled(true);
                     btnUpdateSynch.setEnabled(true);
                     btnSynchNow.setEnabled(true);
 
                 } catch (IdropException ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
-
                 } catch (SynchException ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
                 } finally {
@@ -983,7 +989,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     }
 
     /**
-     * Force a synhronization process on the selected synchronization
+     * Force a synchronization process on the selected synchronization
      * @param evt 
      */
     private void btnSynchNowActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1007,8 +1013,14 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             try {
+                SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+
+                if (synchConfigurationService.isSynchRunning(selectedSynchronization)) {
+                    MessageManager.showMessage(this, "Cannot schedule the synchronization, a synch is currently running", MessageManager.TITLE_MESSAGE);
+                    return;
+                }
                 idropCore.getTransferManager().enqueueASynch(selectedSynchronization, selectedSynchronization.buildIRODSAccountFromSynchronizationData());
-            } catch (JargonException ex) {
+            } catch (Exception ex) {
                 log.error("error starting synch", ex);
                 MessageManager.showError(this, ex.getMessage(), MessageManager.TITLE_MESSAGE);
                 throw new IdropRuntimeException(ex);

@@ -578,6 +578,36 @@ public class SetupWizard extends javax.swing.JDialog {
         this.dispose();
     }
 
+    
+    private FrequencyType getSynchFrequencyFromGUI() {
+        FrequencyType currentFrequencyType = null;
+        if (jcomboSynchFrequency.getSelectedIndex() == 0) {
+            currentFrequencyType = FrequencyType.EVERY_HOUR;
+        } else if (jcomboSynchFrequency.getSelectedIndex() == 1) {
+            currentFrequencyType = FrequencyType.EVERY_WEEK;
+        } else if (jcomboSynchFrequency.getSelectedIndex() == 2) {
+            currentFrequencyType = FrequencyType.EVERY_DAY;
+        } else if (jcomboSynchFrequency.getSelectedIndex() == 3) {
+            currentFrequencyType = FrequencyType.EVERY_TWO_MINUTES;
+        }
+        return currentFrequencyType;
+    }
+
+    private SynchronizationType getSynchTypeFromGUI() throws IdropRuntimeException {
+        SynchronizationType currentSynchronizationType;
+        if (radioBackup.isSelected()) {
+            currentSynchronizationType = SynchronizationType.ONE_WAY_LOCAL_TO_IRODS;
+        } else if (radioFeed.isSelected()) {
+            currentSynchronizationType = SynchronizationType.ONE_WAY_IRODS_TO_LOCAL;
+        } else if (radioSynch.isSelected()) {
+            currentSynchronizationType = SynchronizationType.BI_DIRECTIONAL;
+        } else {
+            log.error("unknown synchronization type in GUI");
+            throw new IdropRuntimeException("unknown synchroization type in GUI");
+        }
+        return currentSynchronizationType;
+    }
+
     private void saveSynch() {
         if (txtLocalPath.getText().trim().length() == 0 && txtIrodsPath.getText().trim().length() == 0) {
             log.info("ignoring synch for now");
@@ -608,30 +638,9 @@ public class SetupWizard extends javax.swing.JDialog {
                 synchronization.setIrodsUserName(idropCore.getIrodsAccount().getUserName());
                 synchronization.setIrodsZone(idropCore.getIrodsAccount().getZone());
                 synchronization.setName("Default");
-
-                if (synchronization.getFrequencyType() == FrequencyType.EVERY_HOUR) {
-                    jcomboSynchFrequency.setSelectedIndex(0);
-                } else if (synchronization.getFrequencyType() == FrequencyType.EVERY_WEEK) {
-                    jcomboSynchFrequency.setSelectedIndex(1);
-                } else if (synchronization.getFrequencyType() == FrequencyType.EVERY_DAY) {
-                    jcomboSynchFrequency.setSelectedIndex(2);
-                } else if (synchronization.getFrequencyType() == FrequencyType.EVERY_TWO_MINUTES) {
-                    jcomboSynchFrequency.setSelectedIndex(3);
-                } else {
-                    log.error("unknown frequency type for synch:{}", synchronization.getFrequencyType());
-                    throw new IdropRuntimeException("unknown frequency type for synch");
-                }
-
-                if (synchronization.getSynchronizationMode() == SynchronizationType.BI_DIRECTIONAL) {
-                    radioSynch.setSelected(true);
-                } else if (synchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_IRODS_TO_LOCAL) {
-                    radioFeed.setSelected(true);
-                } else if (synchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_LOCAL_TO_IRODS) {
-                    radioBackup.setSelected(true);
-                } else {
-                    log.error("unknown synchronization mode for synch:{}", synchronization.getSynchronizationMode());
-                    throw new IdropRuntimeException("unknown synchronization mode");
-                }
+                
+                synchronization.setFrequencyType(getSynchFrequencyFromGUI());
+                synchronization.setSynchronizationMode(getSynchTypeFromGUI());
 
                 this.idropConfigurationService.createNewSynchronization(synchronization);
                 advanceTab();
