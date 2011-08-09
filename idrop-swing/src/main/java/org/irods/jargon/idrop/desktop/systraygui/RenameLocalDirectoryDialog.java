@@ -47,10 +47,11 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
         this.localFileTree = localFileTree;
         this.currentNode = currentNode;
         initComponents();
-        int lastPathPartIdx = currentAbsolutePath.lastIndexOf("/");
+        String computedAbsolutePath = currentAbsolutePath.replace('\\', '/');
+        int lastPathPartIdx = computedAbsolutePath.lastIndexOf("/");
         if (lastPathPartIdx == -1) {
             String msg = "could not find last path component of absolute path:"
-                    + currentAbsolutePath;
+                    + computedAbsolutePath;
             log.error(msg);
             idrop.showIdropException(new IdropException(msg));
             return;

@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
+import javax.swing.DropMode;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -920,7 +921,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         irodsTree.setRefreshingTree(true);
                         scrollIrodsTree.setViewportView(irodsTree);
 
-                        // irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
                     }
                     IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
                             getiDropCore().getIrodsFileSystem(), irodsTree);
@@ -930,6 +930,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     IRODSOutlineModel mdl = new IRODSOutlineModel(gui,
                             irodsFileSystemModel, new IRODSRowModel(), true,
                             "File System");
+                    
                     irodsTree.setModel(mdl);
 
                     /*

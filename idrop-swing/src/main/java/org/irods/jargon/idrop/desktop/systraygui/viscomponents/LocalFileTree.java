@@ -272,7 +272,6 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
                     }
                 });
-                // thisTree.repaint();
             }
         };
 

@@ -44,6 +44,7 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
         super(tm, tm1, bln, string);
         this.treeModel = (IRODSFileSystemModel) tm;
         this.idrop = idrop;
+        
     }
 
     public IRODSOutlineModel(final iDrop idrop, final TreeModel tm,

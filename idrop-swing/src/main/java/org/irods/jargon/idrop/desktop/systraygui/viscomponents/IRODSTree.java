@@ -51,6 +51,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
     private boolean refreshingTree = false;
     TreePathSupport tps;
 
+    @Override
     public boolean isRefreshingTree() {
         synchronized (this) {
             return refreshingTree;
@@ -69,10 +70,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
         OutlineModel mdl = DefaultOutlineModel.createOutlineModel(newModel,
                 new IRODSRowModel(), true, "File System");
         this.idropParentGui = idropParentGui;
-        tps = new TreePathSupport(mdl, this.getLayoutCache());
 
-        tps.addTreeExpansionListener(this);
-        tps.addTreeWillExpandListener(this);
         initializeMenusAndListeners();
     }
 
@@ -87,10 +85,14 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
     }
 
     private void initializeMenusAndListeners() {
+        tps = new TreePathSupport(this.getOutlineModel(), this.getLayoutCache());
+        tps.addTreeExpansionListener(this);
+        tps.addTreeWillExpandListener(this);
         setDragEnabled(true);
-        setDropMode(javax.swing.DropMode.ON);
         setTransferHandler(new IRODSTreeTransferHandler(idropParentGui,
                 "selectionModel"));
+        setDropMode(javax.swing.DropMode.ON);
+
         setUpTreeMenu();
         IrodsSelectionListenerForBuildingInfoPanel treeListener;
         try {
@@ -102,6 +104,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
             throw new IdropRuntimeException(
                     "error initializing selection listener", ex);
         }
+       
         this.getSelectionModel().addListSelectionListener(treeListener);
 
     }
