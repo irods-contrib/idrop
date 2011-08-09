@@ -235,133 +235,157 @@ public class LoginDialog extends JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		pnlLoginInfo = new javax.swing.JPanel();
-		lblHost = new javax.swing.JLabel();
-		txtHost = new javax.swing.JTextField();
-		lblPort = new javax.swing.JLabel();
-		txtPort = new javax.swing.JTextField();
-		lblZone = new javax.swing.JLabel();
-		txtZone = new javax.swing.JTextField();
-		lblResource = new javax.swing.JLabel();
-		txtResource = new javax.swing.JTextField();
-		lblUserName = new javax.swing.JLabel();
-		txtUserName = new javax.swing.JTextField();
-		lblPassword = new javax.swing.JLabel();
-		password = new javax.swing.JPasswordField();
-		pnlToolbar = new javax.swing.JPanel();
-		btnOK = new javax.swing.JButton();
-		btnCancel = new javax.swing.JButton();
-		lblLogin = new javax.swing.JLabel();
+        pnlLoginInfo = new javax.swing.JPanel();
+        lblHost = new javax.swing.JLabel();
+        txtHost = new javax.swing.JTextField();
+        lblPort = new javax.swing.JLabel();
+        txtPort = new javax.swing.JTextField();
+        lblZone = new javax.swing.JLabel();
+        txtZone = new javax.swing.JTextField();
+        lblResource = new javax.swing.JLabel();
+        txtResource = new javax.swing.JTextField();
+        lblUserName = new javax.swing.JLabel();
+        txtUserName = new javax.swing.JTextField();
+        lblPassword = new javax.swing.JLabel();
+        password = new javax.swing.JPasswordField();
+        pnlToolbar = new javax.swing.JPanel();
+        btnOK = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        lblLogin = new javax.swing.JLabel();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-		pnlLoginInfo.setLayout(new java.awt.GridBagLayout());
+        pnlLoginInfo.setLayout(new java.awt.GridBagLayout());
 
-		lblHost.setText("Host:");
-		pnlLoginInfo.add(lblHost, new java.awt.GridBagConstraints());
+        lblHost.setText("Host:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlLoginInfo.add(lblHost, gridBagConstraints);
 
-		txtHost.setColumns(30);
-		pnlLoginInfo.add(txtHost, new java.awt.GridBagConstraints());
+        txtHost.setColumns(30);
+        txtHost.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlLoginInfo.add(txtHost, gridBagConstraints);
 
-		lblPort.setText("Port:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		pnlLoginInfo.add(lblPort, gridBagConstraints);
+        lblPort.setText("Port:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlLoginInfo.add(lblPort, gridBagConstraints);
 
-		txtPort.setColumns(8);
-		txtPort.setText("1247");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlLoginInfo.add(txtPort, gridBagConstraints);
+        txtPort.setColumns(8);
+        txtPort.setText("1247");
+        txtPort.setPreferredSize(null);
+        txtPort.setRequestFocusEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlLoginInfo.add(txtPort, gridBagConstraints);
 
-		lblZone.setText("Zone:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		pnlLoginInfo.add(lblZone, gridBagConstraints);
+        lblZone.setText("Zone:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlLoginInfo.add(lblZone, gridBagConstraints);
 
-		txtZone.setColumns(30);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		pnlLoginInfo.add(txtZone, gridBagConstraints);
+        txtZone.setColumns(30);
+        txtZone.setPreferredSize(null);
+        txtZone.setRequestFocusEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlLoginInfo.add(txtZone, gridBagConstraints);
 
-		lblResource.setText("Resource:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 3;
-		pnlLoginInfo.add(lblResource, gridBagConstraints);
+        lblResource.setText("Resource:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlLoginInfo.add(lblResource, gridBagConstraints);
 
-		txtResource.setColumns(30);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 3;
-		pnlLoginInfo.add(txtResource, gridBagConstraints);
+        txtResource.setColumns(30);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlLoginInfo.add(txtResource, gridBagConstraints);
 
-		lblUserName.setText("User Name:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 4;
-		pnlLoginInfo.add(lblUserName, gridBagConstraints);
+        lblUserName.setText("User Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlLoginInfo.add(lblUserName, gridBagConstraints);
 
-		txtUserName.setColumns(30);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 4;
-		pnlLoginInfo.add(txtUserName, gridBagConstraints);
+        txtUserName.setColumns(30);
+        txtUserName.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlLoginInfo.add(txtUserName, gridBagConstraints);
 
-		lblPassword.setText("Password:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 5;
-		pnlLoginInfo.add(lblPassword, gridBagConstraints);
+        lblPassword.setText("Password:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlLoginInfo.add(lblPassword, gridBagConstraints);
 
-		password.setColumns(30);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 5;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlLoginInfo.add(password, gridBagConstraints);
+        password.setColumns(30);
+        password.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlLoginInfo.add(password, gridBagConstraints);
 
-		this.getContentPane().add(pnlLoginInfo, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlLoginInfo, java.awt.BorderLayout.CENTER);
 
-		pnlToolbar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT,
-				2, 5));
+        pnlToolbar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 2, 5));
 
-		btnOK.setMnemonic('o');
-		btnOK.setText("OK");
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKActionPerformed(evt);
-			}
-		});
-		pnlToolbar.add(btnOK);
+        btnOK.setMnemonic('L');
+        btnOK.setText("Login");
+        btnOK.setMaximumSize(new java.awt.Dimension(100, 100));
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        pnlToolbar.add(btnOK);
 
-		btnCancel.setMnemonic('c');
-		btnCancel.setText("Cancel");
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		pnlToolbar.add(btnCancel);
+        btnCancel.setMnemonic('c');
+        btnCancel.setText("Cancel");
+        btnCancel.setMaximumSize(new java.awt.Dimension(100, 100));
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlToolbar.add(btnCancel);
 
-		this.getContentPane().add(pnlToolbar, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlToolbar, java.awt.BorderLayout.SOUTH);
 
-		lblLogin.setText("Please log in to your iDrop data grid");
-		this.getContentPane().add(lblLogin, java.awt.BorderLayout.PAGE_START);
+        lblLogin.setText("Please log in to your iDrop data grid");
+        getContentPane().add(lblLogin, java.awt.BorderLayout.PAGE_START);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
     private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
         processLogin();
@@ -370,40 +394,23 @@ public class LoginDialog extends JDialog {
     private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
         System.exit(0);
     }// GEN-LAST:event_btnCancelActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnCancel;
-
-	private javax.swing.JButton btnOK;
-
-	private javax.swing.JLabel lblHost;
-
-	private javax.swing.JLabel lblLogin;
-
-	private javax.swing.JLabel lblPassword;
-
-	private javax.swing.JLabel lblPort;
-
-	private javax.swing.JLabel lblResource;
-
-	private javax.swing.JLabel lblUserName;
-
-	private javax.swing.JLabel lblZone;
-
-	private javax.swing.JPasswordField password;
-
-	private javax.swing.JPanel pnlLoginInfo;
-
-	private javax.swing.JPanel pnlToolbar;
-
-	private javax.swing.JTextField txtHost;
-
-	private javax.swing.JTextField txtPort;
-
-	private javax.swing.JTextField txtResource;
-
-	private javax.swing.JTextField txtUserName;
-
-	private javax.swing.JTextField txtZone;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
+    private javax.swing.JLabel lblHost;
+    private javax.swing.JLabel lblLogin;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblPort;
+    private javax.swing.JLabel lblResource;
+    private javax.swing.JLabel lblUserName;
+    private javax.swing.JLabel lblZone;
+    private javax.swing.JPasswordField password;
+    private javax.swing.JPanel pnlLoginInfo;
+    private javax.swing.JPanel pnlToolbar;
+    private javax.swing.JTextField txtHost;
+    private javax.swing.JTextField txtPort;
+    private javax.swing.JTextField txtResource;
+    private javax.swing.JTextField txtUserName;
+    private javax.swing.JTextField txtZone;
+    // End of variables declaration//GEN-END:variables
 }

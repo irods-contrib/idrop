@@ -58,14 +58,14 @@ public class InfoPanelTransferHandler extends TransferHandler {
     @Override
     public boolean canImport(final TransferHandler.TransferSupport info) {
 
-        log.info("info for transfer:{}", info);
-        log.info("tree data for comparison:{}", treeDataFlavor);
+        log.debug("info for transfer:{}", info);
+        log.debug("tree data for comparison:{}", treeDataFlavor);
         log.debug("compared to file list flavor:{}",
                 DataFlavor.javaFileListFlavor);
 
         DataFlavor[] dataFlavors = info.getDataFlavors();
         for (DataFlavor dataFlavor : dataFlavors) {
-            log.info("data flavor:{}", dataFlavor);
+            log.debug("data flavor:{}", dataFlavor);
             log.debug("rep class:{}",
                     dataFlavor.getDefaultRepresentationClassAsString());
             log.debug("mime type:{}", dataFlavor.getMimeType());

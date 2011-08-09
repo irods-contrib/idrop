@@ -318,12 +318,14 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             final IRODSNode targetNode) {
         log.info("process as drop of file list");
 
+        IRODSNode computedTarget = null;
+        
         List<IRODSFile> sourceFiles;
         CollectionAndDataObjectListingEntry targetEntry = (CollectionAndDataObjectListingEntry) targetNode.getUserObject();
         if (targetEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
-            log.warn("attempt to move a file to a data object, must be a collection");
-            idropGui.showMessageFromOperation("unable to move file, the target of the move is not a collection");
-            return;
+            computedTarget = (IRODSNode) targetNode.getParent();
+        } else {
+            computedTarget = targetNode;
         }
 
         try {
@@ -350,11 +352,11 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         MoveOrCopyiRODSDialog moveIRODSFileOrDirectoryDialog;
         if (sourceFiles.size() == 1) {
             moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(
-                    idropGui, true, targetNode, idropGui.getIrodsTree(),
+                    idropGui, true, computedTarget, idropGui.getIrodsTree(),
                     sourceFiles.get(0), targetFileAbsolutePath, false);
         } else {
             moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(
-                    idropGui, true, targetNode, idropGui.getIrodsTree(),
+                    idropGui, true, computedTarget, idropGui.getIrodsTree(),
                     sourceFiles, targetFileAbsolutePath, false);
         }
 

@@ -148,11 +148,12 @@ public class StartupSequencer {
         int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;
         loginDialog.setLocation(x, y);
 
-        loginDialog.setAlwaysOnTop(true);
+        //loginDialog.setAlwaysOnTop(true);
 
-        loginDialog.setVisible(true);
-        loginDialog.toFront();
+
         idropSplashWindow.toBack();
+        loginDialog.toFront();
+        loginDialog.setVisible(true);
 
         if (idropCore.getIrodsAccount() == null) {
             log.warn("no login account, exiting");
@@ -170,7 +171,7 @@ public class StartupSequencer {
         idropSplashWindow.setStatus("Building transfer engine...", ++count);
 
         log.info("building transfer manager...");
-         // FIXME:rework engine config (into idrop core?) and allow changes while idrop is running
+        // FIXME:rework engine config (into idrop core?) and allow changes while idrop is running
         try {
             TransferOptions transferOptions = idropCore.getIrodsFileSystem().getIrodsSession().buildTransferOptionsBasedOnJargonProperties();
             transferOptions.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
@@ -326,7 +327,7 @@ public class StartupSequencer {
             idrop.setVisible(false);
             SetupWizard setupWizard = new SetupWizard(idrop, true);
             setupWizard.toFront();
-             final Toolkit toolkit = Toolkit.getDefaultToolkit();
+            final Toolkit toolkit = Toolkit.getDefaultToolkit();
             final Dimension screenSize = toolkit.getScreenSize();
             final int x = (screenSize.width - setupWizard.getWidth()) / 2;
             final int y = (screenSize.height - setupWizard.getHeight()) / 2;
