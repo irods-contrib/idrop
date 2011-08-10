@@ -13,5 +13,5 @@ work in progress -- Milestone 0.9.8
 *[#315] delete nodes in ll, refresh issue?
 *[#321] progress bar not clearing at begin of txfr
 * [#317] rename irods file (in windows xp) completes but throws up an 'exception moving file' dialog
-
+*[#338] allow different look and feel of client interface
 

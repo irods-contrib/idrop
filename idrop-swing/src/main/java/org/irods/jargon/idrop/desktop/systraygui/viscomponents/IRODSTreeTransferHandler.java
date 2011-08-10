@@ -1,13 +1,10 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
-import java.awt.Component;
 import java.awt.Point;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.FlavorMap;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DropTarget;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.IOException;
@@ -33,26 +30,26 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
- * Transfer handler to handle import/export from the IRODSTree that handles the Swing JTree depicting the iRODS file
- * system
+ * Transfer handler to handle import/export from the IRODSTree that handles the
+ * Swing JTree depicting the iRODS file system
  * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSTreeTransferHandler extends TransferHandler {
 
     @Override
-    public void exportAsDrag(JComponent jc, InputEvent ie, int i) {
+    public void exportAsDrag(final JComponent jc, final InputEvent ie,
+            final int i) {
         log.info("export as drag");
         super.exportAsDrag(jc, ie, i);
     }
 
     @Override
-    public void exportToClipboard(JComponent jc, Clipboard clpbrd, int i) throws IllegalStateException {
+    public void exportToClipboard(final JComponent jc, final Clipboard clpbrd,
+            final int i) throws IllegalStateException {
         super.exportToClipboard(jc, clpbrd, i);
     }
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferHandler.class);
-
     public final iDrop idropGui;
 
     public IRODSTreeTransferHandler(final iDrop idropGui, final String string) {
@@ -64,11 +61,12 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     }
 
     @Override
-    public boolean importData(TransferSupport ts) {
+    public boolean importData(final TransferSupport ts) {
 
         // FIXME: handle 'paste' drop
         log.info("importData in irods:{}", ts);
-        // mac opt = 1 w/o = 2 (no plus icon for a 2 so it's a move) / for drag from local is 1 (copy)
+        // mac opt = 1 w/o = 2 (no plus icon for a 2 so it's a move) / for drag
+        // from local is 1 (copy)
         Point pt = ts.getDropLocation().getDropPoint();
         IRODSTree tree = (IRODSTree) ts.getComponent();
         TreePath targetPath = tree.getClosestPathForLocation(pt.x, pt.y);
@@ -102,18 +100,19 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
         for (DataFlavor flavor : transferrableFlavors) {
             log.debug("flavor mime type:{}", flavor.getMimeType());
-            log.debug("flavor human presentable name:{}", flavor.getHumanPresentableName());
+            log.debug("flavor human presentable name:{}",
+                    flavor.getHumanPresentableName());
             if (flavor.isFlavorJavaFileListType()) {
                 log.info("drop accepted...process drop as file list from desktop");
                 // dtde.acceptDrop(dtde.getDropAction());
                 processDropOfFileList(transferable, targetNode);
                 accepted = true;
                 break;
-            } else if (flavor.getMimeType().equals(
-                    "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
+            } else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
                 log.info("drop accepted: process drop as serialized object");
                 // dtde.acceptDrop(dtde.getDropAction());
-                processDropOfTreeSelectionModel(transferable, targetNode, flavor);
+                processDropOfTreeSelectionModel(transferable, targetNode,
+                        flavor);
                 accepted = true;
                 break;
             } else {
@@ -132,9 +131,9 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     }
 
     @Override
-    public boolean canImport(TransferSupport support) {
-        Point location = support.getDropLocation().getDropPoint();
-        IRODSTree tree = (IRODSTree) support.getComponent();
+    public boolean canImport(final TransferSupport support) {
+        support.getDropLocation().getDropPoint();
+        support.getComponent();
 
         log.warn("transferFlavors:{}", support.getDataFlavors());
 
@@ -143,8 +142,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             if (flavor.equals(DataFlavor.javaFileListFlavor)) {
                 log.debug("found file list flavor, will import");
                 return true;
-            } else if (flavor.getMimeType().equals(
-                    "application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
+            } else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
                 log.debug("found file list flavor, will import");
                 return true;
             }
@@ -156,17 +154,15 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     }
 
     @Override
-    public void exportDone(JComponent comp, Transferable trans, int action) {
-        /* test code for drag to native, please leave in place MC
-        DropTarget dt = comp.getDropTarget();
-        log.debug("dt is:{}", dt);
-        FlavorMap dtFlavorMap = dt.getFlavorMap();
-        log.debug("flavormap:{}", dtFlavorMap);
-        Component dropTargetComponent = dt.getComponent();
-        log.debug("dt component:{}", dropTargetComponent);
-        if (action != MOVE) {
-         //   return;
-        }
+    public void exportDone(final JComponent comp, final Transferable trans,
+            final int action) {
+        /*
+         * test code for drag to native, please leave in place MC DropTarget dt
+         * = comp.getDropTarget(); log.debug("dt is:{}", dt); FlavorMap
+         * dtFlavorMap = dt.getFlavorMap(); log.debug("flavormap:{}",
+         * dtFlavorMap); Component dropTargetComponent = dt.getComponent();
+         * log.debug("dt component:{}", dropTargetComponent); if (action !=
+         * MOVE) { // return; }
          */
     }
 
@@ -174,12 +170,12 @@ public class IRODSTreeTransferHandler extends TransferHandler {
      * We support both copy and move actions.
      */
     @Override
-    public int getSourceActions(JComponent c) {
+    public int getSourceActions(final JComponent c) {
         return TransferHandler.COPY_OR_MOVE;
     }
 
     @Override
-    protected Transferable createTransferable(JComponent c) {
+    protected Transferable createTransferable(final JComponent c) {
         log.debug("creating a transferrable from the irods tree view");
 
         List<File> transferFiles = new ArrayList<File>();
@@ -190,32 +186,35 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
         List<IRODSNode> nodesToTransfer = new ArrayList<IRODSNode>();
         for (int row : rows) {
-            nodesToTransfer.add((IRODSNode) idropGui.getIrodsTree().getValueAt(row, 0));
+            nodesToTransfer.add((IRODSNode) idropGui.getIrodsTree().getValueAt(
+                    row, 0));
         }
 
         IRODSFileService irodsFileService;
         try {
-            irodsFileService = new IRODSFileService(idropGui.getIrodsAccount(), idropGui.getiDropCore()
-                    .getIrodsFileSystem());
+            irodsFileService = new IRODSFileService(idropGui.getIrodsAccount(),
+                    idropGui.getiDropCore().getIrodsFileSystem());
         } catch (IdropException ex) {
-            Logger.getLogger(IRODSTreeTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IRODSTreeTransferHandler.class.getName()).log(
+                    Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
 
         String objectPath;
         for (IRODSNode nodeToTransfer : nodesToTransfer) {
-            CollectionAndDataObjectListingEntry listingEntry = (CollectionAndDataObjectListingEntry) nodeToTransfer
-                    .getUserObject();
+            CollectionAndDataObjectListingEntry listingEntry = (CollectionAndDataObjectListingEntry) nodeToTransfer.getUserObject();
             if (listingEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
                 objectPath = listingEntry.getPathOrName();
             } else {
-                objectPath = listingEntry.getParentPath() + "/" + listingEntry.getPathOrName();
+                objectPath = listingEntry.getParentPath() + "/"
+                        + listingEntry.getPathOrName();
             }
 
             try {
                 transferFiles.add((File) irodsFileService.getIRODSFileForPath(objectPath));
             } catch (IdropException ex) {
-                Logger.getLogger(IRODSTreeTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(IRODSTreeTransferHandler.class.getName()).log(
+                        Level.SEVERE, null, ex);
                 throw new IdropRuntimeException(ex);
             }
         }
@@ -224,7 +223,8 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
     }
 
-    private void processDropOfTreeSelectionModel(final Transferable transferable, final IRODSNode parent,
+    private void processDropOfTreeSelectionModel(
+            final Transferable transferable, final IRODSNode parent,
             final DataFlavor dataFlavor) {
         final List<File> sourceFiles = new ArrayList<File>();
         CollectionAndDataObjectListingEntry putTarget = (CollectionAndDataObjectListingEntry) parent.getUserObject();
@@ -238,8 +238,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
         try {
             // get the list of files
-            TreeSelectionModel transferableSelectionModel = (TreeSelectionModel) transferable
-                    .getTransferData(dataFlavor);
+            TreeSelectionModel transferableSelectionModel = (TreeSelectionModel) transferable.getTransferData(dataFlavor);
             TreePath[] treePaths = transferableSelectionModel.getSelectionPaths();
 
             for (TreePath treePath : treePaths) {
@@ -248,11 +247,15 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             }
 
         } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("unsupported flavor getting data from transfer");
+            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropRuntimeException(
+                    "unsupported flavor getting data from transfer");
         } catch (IOException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("io exception getting data from transfer");
+            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropRuntimeException(
+                    "io exception getting data from transfer");
         }
 
         if (sourceFiles.isEmpty()) {
@@ -274,8 +277,8 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         }
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Put to iRODS ",
-                JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(),
+                "Confirm a Put to iRODS ", JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
 
@@ -287,18 +290,20 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                 public void run() {
 
                     for (File transferFile : sourceFiles) {
-                        log.info("process a put from source: {}", transferFile.getAbsolutePath());
+                        log.info("process a put from source: {}",
+                                transferFile.getAbsolutePath());
 
                         String localSourceAbsolutePath = transferFile.getAbsolutePath();
                         String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
                         log.info("initiating put transfer");
                         try {
-                            idropGui.getiDropCore()
-                                    .getTransferManager()
-                                    .enqueueAPut(localSourceAbsolutePath, targetIrodsFileAbsolutePath, sourceResource,
-                                            idropGui.getIrodsAccount());
+                            idropGui.getiDropCore().getTransferManager().enqueueAPut(localSourceAbsolutePath,
+                                    targetIrodsFileAbsolutePath,
+                                    sourceResource,
+                                    idropGui.getIrodsAccount());
                         } catch (JargonException ex) {
-                            java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+                            java.util.logging.Logger.getLogger(
+                                    LocalFileTree.class.getName()).log(
                                     java.util.logging.Level.SEVERE, null, ex);
                             idropGui.showIdropException(ex);
                         }
@@ -309,27 +314,33 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
     }
 
-    private void processPhymoveGesture(Transferable transferable, IRODSNode targetNode) {
+    private void processPhymoveGesture(final Transferable transferable,
+            final IRODSNode targetNode) {
         log.info("process as drop of file list");
 
+        IRODSNode computedTarget = null;
+        
         List<IRODSFile> sourceFiles;
-        CollectionAndDataObjectListingEntry targetEntry = (CollectionAndDataObjectListingEntry) targetNode
-                .getUserObject();
+        CollectionAndDataObjectListingEntry targetEntry = (CollectionAndDataObjectListingEntry) targetNode.getUserObject();
         if (targetEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
-            log.warn("attempt to move a file to a data object, must be a collection");
-            idropGui.showMessageFromOperation("unable to move file, the target of the move is not a collection");
-            return;
+            computedTarget = (IRODSNode) targetNode.getParent();
+        } else {
+            computedTarget = targetNode;
         }
 
         try {
             // get the list of files
             sourceFiles = (List<IRODSFile>) transferable.getTransferData(IRODSTreeTransferable.irodsTreeDataFlavor);
         } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("unsupported flavor getting data from transfer");
+            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropRuntimeException(
+                    "unsupported flavor getting data from transfer");
         } catch (IOException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("io exception getting data from transfer");
+            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropRuntimeException(
+                    "io exception getting data from transfer");
         }
 
         if (sourceFiles.isEmpty()) {
@@ -340,11 +351,13 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         String targetFileAbsolutePath = targetEntry.getPathOrName();
         MoveOrCopyiRODSDialog moveIRODSFileOrDirectoryDialog;
         if (sourceFiles.size() == 1) {
-            moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(idropGui, true, targetNode,
-                    idropGui.getIrodsTree(), sourceFiles.get(0), targetFileAbsolutePath, false);
+            moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(
+                    idropGui, true, computedTarget, idropGui.getIrodsTree(),
+                    sourceFiles.get(0), targetFileAbsolutePath, false);
         } else {
-            moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(idropGui, true, targetNode,
-                    idropGui.getIrodsTree(), sourceFiles, targetFileAbsolutePath, false);
+            moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(
+                    idropGui, true, computedTarget, idropGui.getIrodsTree(),
+                    sourceFiles, targetFileAbsolutePath, false);
         }
 
         moveIRODSFileOrDirectoryDialog.setLocation((int) (idropGui.getLocation().getX() + idropGui.getWidth() / 2),
@@ -354,17 +367,18 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     }
 
     // handle a drop from the local file system
-    private void processDropOfFileList(Transferable transferable, IRODSNode dropTargetNode) throws IdropRuntimeException {
+    private void processDropOfFileList(final Transferable transferable,
+            final IRODSNode dropTargetNode) throws IdropRuntimeException {
 
         log.info("process as drop of file list");
-        
+
         IRODSNode effectiveTargetNode;
         if (dropTargetNode.isLeaf()) {
             effectiveTargetNode = (IRODSNode) dropTargetNode.getParent();
         } else {
             effectiveTargetNode = dropTargetNode;
         }
-            
+
         final String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
         final List<File> sourceFiles;
         CollectionAndDataObjectListingEntry putTarget = (CollectionAndDataObjectListingEntry) effectiveTargetNode.getUserObject();
@@ -374,11 +388,15 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             // get the list of files
             sourceFiles = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
         } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("unsupported flavor getting data from transfer");
+            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropRuntimeException(
+                    "unsupported flavor getting data from transfer");
         } catch (IOException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("io exception getting data from transfer");
+            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropRuntimeException(
+                    "io exception getting data from transfer");
         }
 
         if (sourceFiles.isEmpty()) {
@@ -400,8 +418,8 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         }
 
         // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Put to iRODS ",
-                JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(),
+                "Confirm a Put to iRODS ", JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
 
@@ -413,14 +431,17 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                 public void run() {
 
                     for (File transferFile : sourceFiles) {
-                        log.info("initiating put transfer for source file:{}", transferFile.getAbsolutePath());
+                        log.info("initiating put transfer for source file:{}",
+                                transferFile.getAbsolutePath());
                         try {
-                            idropGui.getiDropCore()
-                                    .getTransferManager()
-                                    .enqueueAPut(transferFile.getAbsolutePath(), targetIrodsFileAbsolutePath,
-                                            sourceResource, idropGui.getIrodsAccount());
+                            idropGui.getiDropCore().getTransferManager().enqueueAPut(
+                                    transferFile.getAbsolutePath(),
+                                    targetIrodsFileAbsolutePath,
+                                    sourceResource,
+                                    idropGui.getIrodsAccount());
                         } catch (JargonException ex) {
-                            java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+                            java.util.logging.Logger.getLogger(
+                                    LocalFileTree.class.getName()).log(
                                     java.util.logging.Level.SEVERE, null, ex);
                             idropGui.showIdropException(ex);
                         }
@@ -432,12 +453,12 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
     }
 
-    private void processCopyGesture(Transferable transferable, IRODSNode targetNode) {
+    private void processCopyGesture(final Transferable transferable,
+            final IRODSNode targetNode) {
         log.info("process as drop of file list");
 
         List<IRODSFile> sourceFiles;
-        CollectionAndDataObjectListingEntry targetEntry = (CollectionAndDataObjectListingEntry) targetNode
-                .getUserObject();
+        CollectionAndDataObjectListingEntry targetEntry = (CollectionAndDataObjectListingEntry) targetNode.getUserObject();
         if (targetEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
             log.warn("attempt to copy a file to a data object, must be a collection");
             idropGui.showMessageFromOperation("unable to copy file, the target of the copy is not a collection");
@@ -449,8 +470,9 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             sourceFiles = (List<IRODSFile>) transferable.getTransferData(IRODSTreeTransferable.irodsTreeDataFlavor);
 
             /*
-             * for the source files, default to the resource that was specified at login,this might need to be
-             * reconsidered but can cause a -321000 no resc error if no default set in irods.
+             * for the source files, default to the resource that was specified
+             * at login,this might need to be reconsidered but can cause a
+             * -321000 no resc error if no default set in irods.
              */
 
             for (IRODSFile sourceFile : sourceFiles) {
@@ -458,11 +480,15 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             }
 
         } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("unsupported flavor getting data from transfer");
+            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropRuntimeException(
+                    "unsupported flavor getting data from transfer");
         } catch (IOException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("io exception getting data from transfer");
+            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropRuntimeException(
+                    "io exception getting data from transfer");
         }
 
         if (sourceFiles.isEmpty()) {
@@ -473,16 +499,17 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         String targetFileAbsolutePath = targetEntry.getPathOrName();
         MoveOrCopyiRODSDialog moveIRODSFileOrDirectoryDialog;
         if (sourceFiles.size() == 1) {
-            moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(idropGui, true, targetNode,
-                    idropGui.getIrodsTree(), sourceFiles.get(0), targetFileAbsolutePath, true);
+            moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(
+                    idropGui, true, targetNode, idropGui.getIrodsTree(),
+                    sourceFiles.get(0), targetFileAbsolutePath, true);
         } else {
-            moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(idropGui, true, targetNode,
-                    idropGui.getIrodsTree(), sourceFiles, targetFileAbsolutePath, true);
+            moveIRODSFileOrDirectoryDialog = new MoveOrCopyiRODSDialog(
+                    idropGui, true, targetNode, idropGui.getIrodsTree(),
+                    sourceFiles, targetFileAbsolutePath, true);
         }
 
         moveIRODSFileOrDirectoryDialog.setLocation((int) (idropGui.getLocation().getX() + idropGui.getWidth() / 2),
                 (int) (idropGui.getLocation().getY() + idropGui.getHeight() / 2));
         moveIRODSFileOrDirectoryDialog.setVisible(true);
     }
-
 }

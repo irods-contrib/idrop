@@ -18,7 +18,7 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
     private final List<LocalIRODSTransferItem> localIRODSTransferItems;
 
     @Override
-    public Class<?> getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(final int columnIndex) {
 
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
@@ -66,7 +66,7 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
     }
 
     @Override
-    public String getColumnName(int columnIndex) {
+    public String getColumnName(final int columnIndex) {
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
@@ -110,7 +110,8 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
         throw new IdropRuntimeException("unknown column");
     }
 
-    public QueueManagerDetailTableModel(final List<LocalIRODSTransferItem> localIRODSTransferItems) {
+    public QueueManagerDetailTableModel(
+            final List<LocalIRODSTransferItem> localIRODSTransferItems) {
         if (localIRODSTransferItems == null) {
             throw new IdropRuntimeException("null localIRODSTransfer");
         }
@@ -130,7 +131,7 @@ public class QueueManagerDetailTableModel extends AbstractTableModel {
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
+    public Object getValueAt(final int rowIndex, final int columnIndex) {
 
         if (rowIndex >= getRowCount()) {
             throw new IdropRuntimeException("row unavailable, out of bounds");

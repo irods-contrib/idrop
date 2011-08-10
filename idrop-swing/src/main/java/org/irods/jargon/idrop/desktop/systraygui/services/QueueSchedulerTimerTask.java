@@ -16,16 +16,13 @@ import org.slf4j.LoggerFactory;
 public class QueueSchedulerTimerTask extends TimerTask {
 
     private final TransferManager transferManager;
-
     private final iDrop idropGui;
-
     public final static long EVERY_10_MINUTES = 1000 * 60 * 10;
-
     public final static long EVERY_30_SECONDS = 1000 * 30;
-
     private final org.slf4j.Logger log = LoggerFactory.getLogger(QueueSchedulerTimerTask.class);
 
-    public QueueSchedulerTimerTask(TransferManager transferManager, iDrop idropGui) throws IdropException {
+    public QueueSchedulerTimerTask(final TransferManager transferManager,
+            final iDrop idropGui) throws IdropException {
         super();
 
         if (transferManager == null) {
@@ -54,7 +51,8 @@ public class QueueSchedulerTimerTask extends TimerTask {
             log.info("***** timer queue asking transfer manager to process next");
             transferManager.processNextInQueueIfIdle();
         } catch (JargonException ex) {
-            Logger.getLogger(QueueSchedulerTimerTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QueueSchedulerTimerTask.class.getName()).log(
+                    Level.SEVERE, null, ex);
             idropGui.showIdropException(ex);
             return;
         }

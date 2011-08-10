@@ -19,7 +19,6 @@ public class LocalFileNode extends DefaultMutableTreeNode {
     public boolean isCached() {
         return cached;
     }
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalFileNode.class);
 
     public LocalFileNode(final File file) {
@@ -54,7 +53,7 @@ public class LocalFileNode extends DefaultMutableTreeNode {
     }
 
     @Override
-    public void insert(MutableTreeNode arg0, int arg1) {
+    public void insert(final MutableTreeNode arg0, final int arg1) {
         super.insert(arg0, arg1);
     }
 
@@ -83,7 +82,7 @@ public class LocalFileNode extends DefaultMutableTreeNode {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
 
         if (!(obj instanceof LocalFileNode)) {
             return false;

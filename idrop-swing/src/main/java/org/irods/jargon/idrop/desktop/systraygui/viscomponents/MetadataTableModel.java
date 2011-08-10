@@ -18,7 +18,7 @@ public class MetadataTableModel extends AbstractTableModel {
     public static org.slf4j.Logger log = LoggerFactory.getLogger(MetadataTableModel.class);
 
     @Override
-    public Class<?> getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(final int columnIndex) {
 
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
@@ -59,7 +59,7 @@ public class MetadataTableModel extends AbstractTableModel {
     }
 
     @Override
-    public String getColumnName(int columnIndex) {
+    public String getColumnName(final int columnIndex) {
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
@@ -98,10 +98,10 @@ public class MetadataTableModel extends AbstractTableModel {
 
         throw new IdropRuntimeException("unknown column");
     }
-
     private List<MetaDataAndDomainData> metadataAndDomainData = null;
 
-    public MetadataTableModel(final List<MetaDataAndDomainData> metadataAndDomainData) {
+    public MetadataTableModel(
+            final List<MetaDataAndDomainData> metadataAndDomainData) {
         if (metadataAndDomainData == null) {
             throw new IdropRuntimeException("null metadataAndDomainData");
         }
@@ -120,7 +120,7 @@ public class MetadataTableModel extends AbstractTableModel {
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
+    public Object getValueAt(final int rowIndex, final int columnIndex) {
 
         if (rowIndex >= getRowCount()) {
             throw new IdropRuntimeException("row unavailable, out of bounds");

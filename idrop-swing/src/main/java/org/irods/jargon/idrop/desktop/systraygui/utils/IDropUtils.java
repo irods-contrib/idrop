@@ -8,7 +8,8 @@ package org.irods.jargon.idrop.desktop.systraygui.utils;
 public class IDropUtils {
 
     /**
-     * Given a file name, return the name up to 100 chars, otherwise, redact and abbreviate
+     * Given a file name, return the name up to 100 chars, otherwise, redact and
+     * abbreviate
      * 
      * @param fileName
      * @return
@@ -32,5 +33,4 @@ public class IDropUtils {
         return sb.toString();
 
     }
-
 }

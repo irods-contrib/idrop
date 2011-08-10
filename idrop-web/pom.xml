@@ -3,7 +3,7 @@
          <parent>
 		<groupId>org.irods</groupId>
 		<artifactId>idrop</artifactId>
-		<version>0.9.1-SNAPSHOT</version>
+		<version>0.9.8-SNAPSHOT</version>
 	</parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.irods</groupId>
@@ -16,18 +16,18 @@
     <dependency>
       <groupId>org.grails</groupId>
       <artifactId>grails-bootstrap</artifactId>
-      <version>1.3.6</version>
+      <version>1.3.7</version>
     </dependency>
 	
     <dependency>
       <groupId>org.grails</groupId>
       <artifactId>grails-crud</artifactId>
-      <version>1.3.6</version>
+      <version>1.3.7</version>
     </dependency>
     <dependency>
       <groupId>org.grails</groupId>
       <artifactId>grails-gorm</artifactId>
-      <version>1.3.6</version>
+      <version>1.3.7</version>
     </dependency>
 
 	<!-- Needed in the case of AOP usage -->
@@ -175,6 +175,13 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+      <plugin>            
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-war-plugin</artifactId>
+  <configuration>
+    <webXml>web-app\WEB-INF\web.xml</webXml>        
+  </configuration>
+</plugin>
     </plugins>
   </build>
   <profiles>

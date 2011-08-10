@@ -23,22 +23,6 @@
       <scope>runtime</scope>
     </dependency>
     -->
-  <!-- <dependency>
-     <groupId>com.jgoodies</groupId>
-     <artifactId>validation</artifactId>
-   </dependency> -->
-        <dependency>
-            <groupId>cookxml</groupId>
-            <artifactId>cookswing</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cookxml</groupId>
-            <artifactId>cookxml</artifactId>
-        </dependency> 
-        <dependency>
-            <groupId>cookxml</groupId>
-            <artifactId>cookswing</artifactId>
-        </dependency>   
         <dependency>
             <groupId>org.irods.jargon</groupId>
             <artifactId>jargon-data-utils</artifactId>
@@ -61,7 +45,13 @@
         </dependency>
         <dependency>
             <groupId>org.irods.jargon.transfer</groupId>
+            <artifactId>jargon-transfer-dao-spring</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.irods.jargon.transfer</groupId>
             <artifactId>jargon-transfer-engine</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -77,6 +67,12 @@
             <groupId>org.swinglabs</groupId>
             <artifactId>swing-layout</artifactId>
         </dependency>
+         <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-core</artifactId>
+   <version>3.3.2.GA</version>
+   <scope>runtime</scope>
+</dependency>
     </dependencies>
     <build>
         <plugins>
@@ -171,18 +167,6 @@
                     </archive>
                 </configuration>
             </plugin>
-           <!-- <plugin>
-                <groupId>org.dstovall</groupId>
-                <artifactId>onejar-maven-plugin</artifactId>
-                <version>1.4.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>one-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -205,8 +189,21 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>   
 </project>
-
-

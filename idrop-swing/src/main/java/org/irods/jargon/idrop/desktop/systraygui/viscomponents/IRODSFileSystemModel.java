@@ -20,60 +20,62 @@ import org.slf4j.LoggerFactory;
 public class IRODSFileSystemModel extends DefaultTreeModel {
 
     @Override
-    public void removeNodeFromParent(MutableTreeNode mtn) {
+    public void removeNodeFromParent(final MutableTreeNode mtn) {
         super.removeNodeFromParent(mtn);
     }
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSFileSystemModel.class);
 
-    private static class TreeModelListener implements javax.swing.event.TreeModelListener {
+    private static class TreeModelListener implements
+            javax.swing.event.TreeModelListener {
 
         public TreeModelListener() {
         }
 
         @Override
-        public void treeNodesChanged(TreeModelEvent tme) {
+        public void treeNodesChanged(final TreeModelEvent tme) {
         }
 
         @Override
-        public void treeNodesInserted(TreeModelEvent tme) {
+        public void treeNodesInserted(final TreeModelEvent tme) {
         }
 
         @Override
-        public void treeNodesRemoved(TreeModelEvent tme) {
+        public void treeNodesRemoved(final TreeModelEvent tme) {
         }
 
         @Override
-        public void treeStructureChanged(TreeModelEvent tme) {
+        public void treeStructureChanged(final TreeModelEvent tme) {
         }
     }
 
     @Override
-    public Object getChild(Object parent, int index) {
+    public Object getChild(final Object parent, final int index) {
         triggerLazyLoading(parent);
         return super.getChild(parent, index);
     }
 
     @Override
-    public int getChildCount(Object parent) {
+    public int getChildCount(final Object parent) {
         triggerLazyLoading(parent);
         return super.getChildCount(parent);
     }
 
-    private void triggerLazyLoading(Object parent) throws IdropRuntimeException {
+    private void triggerLazyLoading(final Object parent)
+            throws IdropRuntimeException {
         // make sure children are loaded before counting
         IRODSNode parentAsNode = (IRODSNode) parent;
         try {
             parentAsNode.lazyLoadOfChildrenOfThisNode();
         } catch (IdropException ex) {
-            Logger.getLogger(IRODSFileSystemModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IRODSFileSystemModel.class.getName()).log(
+                    Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
     }
-
     private final IRODSAccount irodsAccount;
 
-    public IRODSFileSystemModel(final IRODSNode rootNode, final IRODSAccount irodsAccount) throws IdropException {
+    public IRODSFileSystemModel(final IRODSNode rootNode,
+            final IRODSAccount irodsAccount) throws IdropException {
         super(rootNode);
 
         if (irodsAccount == null) {
@@ -89,7 +91,8 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
 
     }
 
-    public IRODSFileSystemModel(final IRODSAccount irodsAccount) throws IdropException {
+    public IRODSFileSystemModel(final IRODSAccount irodsAccount)
+            throws IdropException {
         super(null);
         if (irodsAccount == null) {
             throw new IdropRuntimeException("null irodsAccount");
@@ -100,5 +103,4 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
         });
 
     }
-
 }

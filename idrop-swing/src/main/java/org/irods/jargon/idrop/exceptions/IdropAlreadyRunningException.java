@@ -10,16 +10,17 @@ public class IdropAlreadyRunningException extends IdropException {
     public IdropAlreadyRunningException() {
     }
 
-    public IdropAlreadyRunningException(String message) {
+    
+    public IdropAlreadyRunningException(final String message) {
         super(message);
     }
 
-    public IdropAlreadyRunningException(String message, Throwable cause) {
+    public IdropAlreadyRunningException(final String message,
+            final Throwable cause) {
         super(message, cause);
     }
 
-    public IdropAlreadyRunningException(Throwable cause) {
+    public IdropAlreadyRunningException(final Throwable cause) {
         super(cause);
     }
-
 }

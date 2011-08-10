@@ -5,7 +5,11 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -19,16 +23,19 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.irods.jargon.idrop.desktop.systraygui.services.RefreshQueueManagerTimerTask;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.QueueManagerDetailTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.QueueManagerMasterTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
+import org.irods.jargon.transfer.dao.domain.TransferState;
+import org.irods.jargon.transfer.dao.domain.TransferStatus;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ * Manage transfer queue
  * @author mikeconway
  */
 public class QueueManagerDialog extends javax.swing.JDialog implements ListSelectionListener {
@@ -39,20 +46,14 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         RECENT, ERROR, WARNING, CURRENT
     }
-
     private final TransferManager transferManager;
-
     private ViewType viewType = null;
-
     private iDrop iDropParent = null;
-
     private RefreshQueueManagerTimerTask refreshQueueManagerTimerTask = null;
-
     private Timer refreshQueueTimer = null;
-
     private LocalIRODSTransfer selectedMasterTableObject = null;
-
     public static org.slf4j.Logger log = LoggerFactory.getLogger(QueueManagerDialog.class);
+    private DateFormat dateFormat = DateFormat.getDateTimeInstance();
 
     private int showResubmitConfirm(LocalIRODSTransfer selectedTransfer) {
         StringBuilder sb = new StringBuilder();
@@ -111,11 +112,26 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         btnRestartSelected.setEnabled(false);
         jTableMaster.setModel(new QueueManagerMasterTableModel(new ArrayList<LocalIRODSTransfer>()));
         jTableMaster.getSelectionModel().addListSelectionListener(this);
-        jTableDetails.setVisible(false);
-        pnlTransferInfo.setVisible(false);
-        pnlErrorMessage.setVisible(false);
+        tabDetails.setVisible(false);
 
         refreshTableView(viewType);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        int height = screenSize.height;
+        int width = screenSize.width;
+        screenSize.setSize(width * (0.90), height * (0.80));
+        int newheight = screenSize.height;
+        int newwidth = screenSize.width;
+
+        //Then I put some print statements in the code
+        System.out.println("height=" + height);
+        System.out.println("width=" + width);
+        System.out.println("0.80*height=" + (height * 0.80));
+        System.out.println("0.90*width=" + (width * 0.90));
+        System.out.println("newheight=" + newheight);
+        System.out.println("newwidth=" + newwidth);
+
+        this.setSize(newwidth, newheight);
     }
 
     /**
@@ -125,9 +141,19 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         btnGroupDetailsDisplay = new javax.swing.ButtonGroup();
+        pnlProgress = new javax.swing.JPanel();
+        lblTransferred = new javax.swing.JLabel();
+        lblCountSoFar = new javax.swing.JLabel();
+        lblTransferredOutOf = new javax.swing.JLabel();
+        lblCountOutOf = new javax.swing.JLabel();
+        progressBarQueueDetails = new javax.swing.JProgressBar();
+        pnlCenter = new javax.swing.JPanel();
+        jSplitPane1 = new javax.swing.JSplitPane();
         pnlTop = new javax.swing.JPanel();
+        pnlToolbar = new javax.swing.JPanel();
         lblHeader = new javax.swing.JLabel();
         toolbarQueueManagement = new javax.swing.JToolBar();
         jSeparator2 = new javax.swing.JToolBar.Separator();
@@ -141,48 +167,54 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         jSeparator3 = new javax.swing.JToolBar.Separator();
         btnRefreshView = new javax.swing.JButton();
         toggleAutoRefresh = new javax.swing.JToggleButton();
-        pnlCenter = new javax.swing.JPanel();
-        splitQueueTableMasterAndDetail = new javax.swing.JSplitPane();
         jScrollPaneMaster = new javax.swing.JScrollPane();
         jTableMaster = new javax.swing.JTable();
         tabDetails = new javax.swing.JTabbedPane();
         pnlTransferDetailsSummary = new javax.swing.JPanel();
         pnlTransferInfo = new javax.swing.JPanel();
-        lblTransferStatusLabel = new javax.swing.JLabel();
-        lblTransferStatus = new javax.swing.JLabel();
-        lblErrorStatusLabel = new javax.swing.JLabel();
-        lblErrorStatus = new javax.swing.JLabel();
-        lblTransferDateLabel = new javax.swing.JLabel();
-        lblSourcePathLabel = new javax.swing.JLabel();
-        lblTargetPathLabel = new javax.swing.JLabel();
-        lblLastGoodPathLabel = new javax.swing.JLabel();
-        jScrollPaneSourcePath = new javax.swing.JScrollPane();
-        txtSourcePath = new javax.swing.JTextArea();
-        jScrollPaneTargetPath = new javax.swing.JScrollPane();
-        txtTargetPath = new javax.swing.JTextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtLastGoodPath = new javax.swing.JTextArea();
+        pnlTransferInfoBasicStats = new javax.swing.JPanel();
         lblTransferTypeLabel = new javax.swing.JLabel();
         lblTransferType = new javax.swing.JLabel();
-        lblTransferDate = new javax.swing.JLabel();
-        pnlErrorMessage = new javax.swing.JPanel();
-        scrollErrorMessage = new javax.swing.JScrollPane();
-        txtAreaErrorMessage = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        pnlProgress = new javax.swing.JPanel();
-        lblTransferred = new javax.swing.JLabel();
-        lblCountSoFar = new javax.swing.JLabel();
-        lblTransferredOutOf = new javax.swing.JLabel();
-        lblCountOutOf = new javax.swing.JLabel();
-        progressBarQueueDetails = new javax.swing.JProgressBar();
-        lblResourceLabel = new javax.swing.JLabel();
-        lblResource = new javax.swing.JLabel();
-        pnlTrnasferDetailsTable = new javax.swing.JPanel();
-        jScrollPaneDetails = new javax.swing.JScrollPane();
-        jTableDetails = new javax.swing.JTable();
+        lblTransferStatusLabel = new javax.swing.JLabel();
+        lblTransferStatus = new javax.swing.JLabel();
+        lblProcessingStateLabel = new javax.swing.JLabel();
+        lblProcessingState = new javax.swing.JLabel();
+        btnSynchronization = new javax.swing.JButton();
+        lblHostLabel = new javax.swing.JLabel();
+        lblHost = new javax.swing.JLabel();
+        lblZoneLabel = new javax.swing.JLabel();
+        lblZone = new javax.swing.JLabel();
+        lblTransferStartLabel = new javax.swing.JLabel();
+        lblTransferStart = new javax.swing.JLabel();
+        lblTransferEndLabel = new javax.swing.JLabel();
+        lblTransferEnd = new javax.swing.JLabel();
+        lblSourceLabel = new javax.swing.JLabel();
+        lblSource = new javax.swing.JLabel();
+        lblTargetLabel = new javax.swing.JLabel();
+        lblTarget = new javax.swing.JLabel();
+        lblLastPathLabel = new javax.swing.JLabel();
+        lblLastPath = new javax.swing.JLabel();
+        lblErrorMessageLabel = new javax.swing.JLabel();
+        lblErrorMessage = new javax.swing.JLabel();
+        pnlTransferProgress = new javax.swing.JPanel();
+        pnlTransferOverview = new javax.swing.JPanel();
+        pnlTransferStatus = new javax.swing.JPanel();
+        pnlTransferType = new javax.swing.JPanel();
+        lblTransferTypeLabel1 = new javax.swing.JLabel();
+        lblTransferType1 = new javax.swing.JLabel();
+        pnlTransferFileCounts = new javax.swing.JPanel();
+        lblTransferFilesCounts = new javax.swing.JLabel();
+        pnlTransferFileInfo = new javax.swing.JPanel();
+        lblCurrentFileLabel = new javax.swing.JLabel();
+        lblCurrentFile = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        transferStatusProgressBar = new javax.swing.JProgressBar();
+        pnlTransferDetailsTable = new javax.swing.JPanel();
         pnlViewRadio = new javax.swing.JPanel();
         radioShowAll = new javax.swing.JRadioButton();
         radioShowError = new javax.swing.JRadioButton();
+        jScrollPaneDetails = new javax.swing.JScrollPane();
+        jTableDetails = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -192,15 +224,73 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         jMenuError = new javax.swing.JMenuItem();
         jMenuWarning = new javax.swing.JMenuItem();
 
+        pnlProgress.setBackground(javax.swing.UIManager.getDefaults().getColor("TabbedPane.shadow"));
+
+        lblTransferred.setText("Transferred ");
+
+        lblCountSoFar.setText("0");
+
+        lblTransferredOutOf.setText("out of ");
+
+        lblCountOutOf.setText("0");
+
+        org.jdesktop.layout.GroupLayout pnlProgressLayout = new org.jdesktop.layout.GroupLayout(pnlProgress);
+        pnlProgress.setLayout(pnlProgressLayout);
+        pnlProgressLayout.setHorizontalGroup(
+            pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlProgressLayout.createSequentialGroup()
+                .addContainerGap(79, Short.MAX_VALUE)
+                .add(lblTransferred)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lblCountSoFar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(27, 27, 27)
+                .add(lblTransferredOutOf)
+                .add(18, 18, 18)
+                .add(lblCountOutOf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(648, 648, 648))
+            .add(pnlProgressLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 901, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnlProgressLayout.setVerticalGroup(
+            pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlProgressLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblTransferred)
+                    .add(lblTransferredOutOf)
+                    .add(lblCountOutOf)
+                    .add(lblCountSoFar))
+                .add(18, 18, 18)
+                .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("iDrop Transfer Client");
-        setBounds(new java.awt.Rectangle(0, 22, 900, 1000));
-        setMinimumSize(new java.awt.Dimension(900, 800));
-        setResizable(false);
+        setTitle("iDrop - Transfer Manager");
+        setBounds(new java.awt.Rectangle(0, 22, 0, 0));
+
+        pnlCenter.setLayout(new java.awt.GridLayout(1, 0));
+
+        jSplitPane1.setDividerLocation(200);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        pnlTop.setPreferredSize(new java.awt.Dimension(0, 0));
+        pnlTop.setLayout(new java.awt.BorderLayout());
+
+        pnlToolbar.setLayout(new java.awt.GridBagLayout());
 
         lblHeader.setText("Most Recent iDrop Transfers");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 978;
+        pnlToolbar.add(lblHeader, gridBagConstraints);
 
         toolbarQueueManagement.setRollover(true);
+        toolbarQueueManagement.setRequestFocusEnabled(false);
         toolbarQueueManagement.add(jSeparator2);
 
         btnPurgeAll.setText("Purge All");
@@ -209,7 +299,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         btnPurgeAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnPurgeAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPurgeAll.addActionListener(new java.awt.event.ActionListener() {
-            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPurgeAllActionPerformed(evt);
             }
@@ -300,365 +389,287 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         });
         toolbarQueueManagement.add(toggleAutoRefresh);
 
-        org.jdesktop.layout.GroupLayout pnlTopLayout = new org.jdesktop.layout.GroupLayout(pnlTop);
-        pnlTop.setLayout(pnlTopLayout);
-        pnlTopLayout.setHorizontalGroup(pnlTopLayout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(lblHeader, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115,
-                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(toolbarQueueManagement, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115,
-                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE));
-        pnlTopLayout.setVerticalGroup(pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTopLayout
-                        .createSequentialGroup()
-                        .add(lblHeader)
-                        .add(toolbarQueueManagement, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 11, 0);
+        pnlToolbar.add(toolbarQueueManagement, gridBagConstraints);
 
-        pnlCenter.setMinimumSize(new java.awt.Dimension(800, 200));
+        pnlTop.add(pnlToolbar, java.awt.BorderLayout.NORTH);
 
-        splitQueueTableMasterAndDetail.setDividerLocation(200);
-        splitQueueTableMasterAndDetail.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        splitQueueTableMasterAndDetail.setName("splitQueueMasterAndDetail"); // NOI18N
-        splitQueueTableMasterAndDetail.setOneTouchExpandable(true);
-
-        jScrollPaneMaster.setPreferredSize(new java.awt.Dimension(454, 300));
         jScrollPaneMaster.setRequestFocusEnabled(false);
 
-        jTableMaster.setModel(new javax.swing.table.DefaultTableModel(new Object[][] { { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null } }, new String[] {
-                "Title 1", "Title 2", "Title 3", "Title 4" }));
+        jTableMaster.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
         jTableMaster.setAutoCreateRowSorter(true);
+        jTableMaster.setMaximumSize(null);
+        jTableMaster.setMinimumSize(null);
         jTableMaster.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPaneMaster.setViewportView(jTableMaster);
 
-        splitQueueTableMasterAndDetail.setLeftComponent(jScrollPaneMaster);
+        pnlTop.add(jScrollPaneMaster, java.awt.BorderLayout.CENTER);
 
-        pnlTransferDetailsSummary.setMinimumSize(new java.awt.Dimension(800, 400));
+        jSplitPane1.setTopComponent(pnlTop);
+
         pnlTransferDetailsSummary.setPreferredSize(new java.awt.Dimension(0, 0));
+        pnlTransferDetailsSummary.setLayout(new java.awt.BorderLayout());
 
-        pnlTransferInfo.setMinimumSize(new java.awt.Dimension(800, 600));
-        pnlTransferInfo.setPreferredSize(new java.awt.Dimension(904, 285));
+        pnlTransferInfo.setRequestFocusEnabled(false);
+        pnlTransferInfo.setLayout(new java.awt.GridLayout(1, 0));
 
-        lblTransferStatusLabel.setText("Transfer Status:");
-
-        lblTransferStatus.setText("jLabel1");
-
-        lblErrorStatusLabel.setText("Error Status:");
-
-        lblErrorStatus.setText("jLabel1");
-
-        lblTransferDateLabel.setText("Transfer Date:");
-
-        lblSourcePathLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSourcePathLabel.setText("Source Path:");
-        lblSourcePathLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-
-        lblTargetPathLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTargetPathLabel.setText("Destination Path:");
-
-        lblLastGoodPathLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblLastGoodPathLabel.setText("Last successful transfer:");
-
-        jScrollPaneSourcePath.setMinimumSize(new java.awt.Dimension(100, 20));
-
-        txtSourcePath.setColumns(60);
-        txtSourcePath.setEditable(false);
-        txtSourcePath.setLineWrap(true);
-        txtSourcePath.setRows(2);
-        txtSourcePath.setMinimumSize(new java.awt.Dimension(100, 20));
-        txtSourcePath.setSize(new java.awt.Dimension(100, 20));
-        jScrollPaneSourcePath.setViewportView(txtSourcePath);
-
-        jScrollPaneTargetPath.setMinimumSize(new java.awt.Dimension(100, 20));
-
-        txtTargetPath.setColumns(60);
-        txtTargetPath.setEditable(false);
-        txtTargetPath.setLineWrap(true);
-        txtTargetPath.setRows(2);
-        txtTargetPath.setWrapStyleWord(true);
-        txtTargetPath.setSize(new java.awt.Dimension(100, 20));
-        jScrollPaneTargetPath.setViewportView(txtTargetPath);
-
-        txtLastGoodPath.setColumns(40);
-        txtLastGoodPath.setEditable(false);
-        txtLastGoodPath.setRows(2);
-        jScrollPane1.setViewportView(txtLastGoodPath);
+        pnlTransferInfoBasicStats.setFocusable(false);
+        pnlTransferInfoBasicStats.setLayout(new java.awt.GridBagLayout());
 
         lblTransferTypeLabel.setText("Transfer Type:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTransferInfoBasicStats.add(lblTransferTypeLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferInfoBasicStats.add(lblTransferType, gridBagConstraints);
 
-        lblTransferType.setText("type");
+        lblTransferStatusLabel.setText("Status:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        pnlTransferInfoBasicStats.add(lblTransferStatusLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferInfoBasicStats.add(lblTransferStatus, gridBagConstraints);
 
-        lblTransferDate.setText("jLabel1");
+        lblProcessingStateLabel.setText("Processing State:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTransferInfoBasicStats.add(lblProcessingStateLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferInfoBasicStats.add(lblProcessingState, gridBagConstraints);
 
-        scrollErrorMessage.setMinimumSize(new java.awt.Dimension(400, 40));
+        btnSynchronization.setText("Synchronization");
+        btnSynchronization.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        pnlTransferInfoBasicStats.add(btnSynchronization, gridBagConstraints);
 
-        txtAreaErrorMessage.setColumns(60);
-        txtAreaErrorMessage.setEditable(false);
-        txtAreaErrorMessage.setRows(2);
-        scrollErrorMessage.setViewportView(txtAreaErrorMessage);
+        lblHostLabel.setText("Host:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblHostLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblHost, gridBagConstraints);
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Error messages:");
+        lblZoneLabel.setText("Zone:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
+        pnlTransferInfoBasicStats.add(lblZoneLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblZone, gridBagConstraints);
 
-        org.jdesktop.layout.GroupLayout pnlErrorMessageLayout = new org.jdesktop.layout.GroupLayout(pnlErrorMessage);
-        pnlErrorMessage.setLayout(pnlErrorMessageLayout);
-        pnlErrorMessageLayout.setHorizontalGroup(pnlErrorMessageLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlErrorMessageLayout
-                        .createSequentialGroup()
-                        .add(69, 69, 69)
-                        .add(jLabel1)
-                        .add(42, 42, 42)
-                        .add(scrollErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 667,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(126, Short.MAX_VALUE)));
-        pnlErrorMessageLayout.setVerticalGroup(pnlErrorMessageLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlErrorMessageLayout
-                        .createSequentialGroup()
-                        .addContainerGap(24, Short.MAX_VALUE)
-                        .add(pnlErrorMessageLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                                        pnlErrorMessageLayout
-                                                .createSequentialGroup()
-                                                .add(scrollErrorMessage,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap())
-                                .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                                        pnlErrorMessageLayout.createSequentialGroup().add(jLabel1).add(29, 29, 29)))));
+        lblTransferStartLabel.setText("Start:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblTransferStartLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblTransferStart, gridBagConstraints);
 
-        pnlProgress.setBackground(javax.swing.UIManager.getDefaults().getColor("TabbedPane.shadow"));
+        lblTransferEndLabel.setText("End:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblTransferEndLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblTransferEnd, gridBagConstraints);
 
-        lblTransferred.setText("Transferred ");
+        lblSourceLabel.setText("Source Path:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblSourceLabel, gridBagConstraints);
 
-        lblCountSoFar.setText("0");
+        lblSource.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblSource.setMaximumSize(null);
+        lblSource.setMinimumSize(new java.awt.Dimension(300, 18));
+        lblSource.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblSource, gridBagConstraints);
 
-        lblTransferredOutOf.setText("out of ");
+        lblTargetLabel.setText("Target Path:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblTargetLabel, gridBagConstraints);
 
-        lblCountOutOf.setText("0");
+        lblTarget.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblTarget.setMinimumSize(new java.awt.Dimension(300, 18));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblTarget, gridBagConstraints);
 
-        org.jdesktop.layout.GroupLayout pnlProgressLayout = new org.jdesktop.layout.GroupLayout(pnlProgress);
-        pnlProgress.setLayout(pnlProgressLayout);
-        pnlProgressLayout.setHorizontalGroup(pnlProgressLayout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlProgressLayout
-                        .createSequentialGroup()
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(lblTransferred)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(lblCountSoFar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(27, 27, 27)
-                        .add(lblTransferredOutOf)
-                        .add(18, 18, 18)
-                        .add(lblCountOutOf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(648, 648, 648))
-                .add(pnlProgressLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 901,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap()));
-        pnlProgressLayout.setVerticalGroup(pnlProgressLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlProgressLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(pnlProgressLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(lblTransferred).add(lblTransferredOutOf).add(lblCountOutOf).add(lblCountSoFar))
-                        .add(18, 18, 18)
-                        .add(progressBarQueueDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        lblLastPathLabel.setText("Last Path:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblLastPathLabel, gridBagConstraints);
 
-        lblResourceLabel.setText("Resource:");
+        lblLastPath.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblLastPath.setMinimumSize(new java.awt.Dimension(300, 18));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblLastPath, gridBagConstraints);
 
-        lblResource.setText("jLabel1");
+        lblErrorMessageLabel.setText("Error Message:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblErrorMessageLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferInfoBasicStats.add(lblErrorMessage, gridBagConstraints);
 
-        org.jdesktop.layout.GroupLayout pnlTransferInfoLayout = new org.jdesktop.layout.GroupLayout(pnlTransferInfo);
-        pnlTransferInfo.setLayout(pnlTransferInfoLayout);
-        pnlTransferInfoLayout.setHorizontalGroup(pnlTransferInfoLayout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlTransferInfoLayout
-                        .createSequentialGroup()
-                        .add(pnlTransferInfoLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(pnlTransferInfoLayout
-                                        .createSequentialGroup()
-                                        .add(pnlTransferInfoLayout
-                                                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                                .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                                                        pnlTransferInfoLayout
-                                                                .createSequentialGroup()
-                                                                .add(88, 88, 88)
-                                                                .add(lblTransferStatusLabel,
-                                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                                                        112,
-                                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(
-                                                                        org.jdesktop.layout.LayoutStyle.RELATED)
-                                                                .add(lblTransferStatus,
-                                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                                                        177,
-                                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                                .add(88, 88, 88).add(lblErrorStatusLabel))
-                                                .add(pnlTransferInfoLayout
-                                                        .createSequentialGroup()
-                                                        .add(99, 99, 99)
-                                                        .add(lblTransferTypeLabel)
-                                                        .add(18, 18, 18)
-                                                        .add(lblTransferType,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED,
-                                                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                                                Short.MAX_VALUE).add(lblResourceLabel)))
-                                        .add(18, 18, 18)
-                                        .add(pnlTransferInfoLayout
-                                                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                .add(pnlTransferInfoLayout
-                                                        .createSequentialGroup()
-                                                        .add(lblErrorStatus,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 181,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                        .add(31, 31, 31)
-                                                        .add(lblTransferDateLabel)
-                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                        .add(lblTransferDate,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163,
-                                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                                .add(lblResource, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 181,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                                .add(pnlTransferInfoLayout
-                                        .createSequentialGroup()
-                                        .add(58, 58, 58)
-                                        .add(pnlTransferInfoLayout
-                                                .createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                                                .add(lblLastGoodPathLabel,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 164,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .add(lblTargetPathLabel,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 142,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .add(lblSourcePathLabel,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 99,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(pnlTransferInfoLayout
-                                                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                                .add(jScrollPane1)
-                                                .add(jScrollPaneTargetPath, 0, 0, Short.MAX_VALUE)
-                                                .add(jScrollPaneSourcePath,
-                                                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 669,
-                                                        Short.MAX_VALUE))))
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                        pnlTransferInfoLayout
-                                .createSequentialGroup()
-                                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(pnlErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(112, 112, 112))
-                .add(pnlTransferInfoLayout
-                        .createSequentialGroup()
-                        .add(9, 9, 9)
-                        .add(pnlProgress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1016,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-        pnlTransferInfoLayout.setVerticalGroup(pnlTransferInfoLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTransferInfoLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(pnlTransferInfoLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(lblTransferStatusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblTransferStatus, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblErrorStatusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblErrorStatus)
-                                .add(lblTransferDateLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblTransferDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 26,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(pnlTransferInfoLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(lblTransferTypeLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblTransferType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lblResourceLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(lblResource))
-                        .add(pnlTransferInfoLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                                .add(org.jdesktop.layout.GroupLayout.LEADING,
-                                        pnlTransferInfoLayout
-                                                .createSequentialGroup()
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(jScrollPaneSourcePath,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 48,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(jScrollPaneTargetPath,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46,
-                                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .add(pnlTransferInfoLayout
-                                        .createSequentialGroup()
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(lblSourcePathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 42,
-                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(lblTargetPathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40,
-                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                        .add(lblLastGoodPathLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35,
-                                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .add(32, 32, 32)
-                        .add(pnlProgress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(pnlErrorMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        pnlTransferInfo.add(pnlTransferInfoBasicStats);
 
-        org.jdesktop.layout.GroupLayout pnlTransferDetailsSummaryLayout = new org.jdesktop.layout.GroupLayout(
-                pnlTransferDetailsSummary);
-        pnlTransferDetailsSummary.setLayout(pnlTransferDetailsSummaryLayout);
-        pnlTransferDetailsSummaryLayout.setHorizontalGroup(pnlTransferDetailsSummaryLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTransferDetailsSummaryLayout.createSequentialGroup().add(36, 36, 36)
-                        .add(pnlTransferInfo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1034, Short.MAX_VALUE)
-                        .addContainerGap()));
-        pnlTransferDetailsSummaryLayout.setVerticalGroup(pnlTransferDetailsSummaryLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTransferDetailsSummaryLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(pnlTransferInfo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 481,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        pnlTransferDetailsSummary.add(pnlTransferInfo, java.awt.BorderLayout.CENTER);
 
-        tabDetails.addTab("TransferSummary", null, pnlTransferDetailsSummary,
-                "Summary information about the selected transfer");
+        pnlTransferProgress.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlTransferProgress.setPreferredSize(new java.awt.Dimension(200, 100));
+        pnlTransferProgress.setRequestFocusEnabled(false);
+        pnlTransferProgress.setLayout(new java.awt.BorderLayout());
 
-        jScrollPaneDetails.setPreferredSize(new java.awt.Dimension(454, 200));
+        pnlTransferOverview.setLayout(new java.awt.GridBagLayout());
 
-        jTableDetails.setModel(new javax.swing.table.DefaultTableModel(new Object[][] { { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null } }, new String[] {
-                "Title 1", "Title 2", "Title 3", "Title 4" }));
-        jTableDetails.setAutoCreateRowSorter(true);
-        jTableDetails.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPaneDetails.setViewportView(jTableDetails);
+        lblTransferTypeLabel1.setText("Transfer Type:");
+        lblTransferTypeLabel1.setMinimumSize(null);
+        pnlTransferType.add(lblTransferTypeLabel1);
+
+        lblTransferType1.setText(" ");
+        lblTransferType1.setMaximumSize(null);
+        lblTransferType1.setMinimumSize(null);
+        pnlTransferType.add(lblTransferType1);
+
+        pnlTransferStatus.add(pnlTransferType);
+
+        lblTransferFilesCounts.setText("Files: /");
+        lblTransferFilesCounts.setMinimumSize(null);
+        pnlTransferFileCounts.add(lblTransferFilesCounts);
+
+        pnlTransferStatus.add(pnlTransferFileCounts);
+
+        pnlTransferOverview.add(pnlTransferStatus, new java.awt.GridBagConstraints());
+
+        pnlTransferFileInfo.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlTransferFileInfo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        lblCurrentFileLabel.setText("Current File:");
+        pnlTransferFileInfo.add(lblCurrentFileLabel);
+        pnlTransferFileInfo.add(lblCurrentFile);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        pnlTransferOverview.add(pnlTransferFileInfo, gridBagConstraints);
+
+        pnlTransferProgress.add(pnlTransferOverview, java.awt.BorderLayout.CENTER);
+
+        transferStatusProgressBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        transferStatusProgressBar.setMinimumSize(new java.awt.Dimension(150, 24));
+        transferStatusProgressBar.setPreferredSize(new java.awt.Dimension(600, 24));
+        transferStatusProgressBar.setStringPainted(true);
+        jPanel1.add(transferStatusProgressBar);
+
+        pnlTransferProgress.add(jPanel1, java.awt.BorderLayout.SOUTH);
+
+        pnlTransferDetailsSummary.add(pnlTransferProgress, java.awt.BorderLayout.SOUTH);
+
+        tabDetails.addTab("TransferSummary", null, pnlTransferDetailsSummary, "Summary information about the selected transfer");
+
+        pnlTransferDetailsTable.setRequestFocusEnabled(false);
+        pnlTransferDetailsTable.setLayout(new java.awt.BorderLayout());
 
         btnGroupDetailsDisplay.add(radioShowAll);
         radioShowAll.setText("Show all items");
@@ -668,6 +679,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 radioShowAllActionPerformed(evt);
             }
         });
+        pnlViewRadio.add(radioShowAll);
 
         btnGroupDetailsDisplay.add(radioShowError);
         radioShowError.setSelected(true);
@@ -678,67 +690,37 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 radioShowErrorActionPerformed(evt);
             }
         });
+        pnlViewRadio.add(radioShowError);
 
-        org.jdesktop.layout.GroupLayout pnlViewRadioLayout = new org.jdesktop.layout.GroupLayout(pnlViewRadio);
-        pnlViewRadio.setLayout(pnlViewRadioLayout);
-        pnlViewRadioLayout.setHorizontalGroup(pnlViewRadioLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlViewRadioLayout.createSequentialGroup().add(9, 9, 9).add(radioShowAll).add(5, 5, 5)
-                        .add(radioShowError)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-        pnlViewRadioLayout.setVerticalGroup(pnlViewRadioLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlViewRadioLayout
-                        .createSequentialGroup()
-                        .add(5, 5, 5)
-                        .add(pnlViewRadioLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(radioShowAll).add(radioShowError))));
+        pnlTransferDetailsTable.add(pnlViewRadio, java.awt.BorderLayout.NORTH);
 
-        org.jdesktop.layout.GroupLayout pnlTrnasferDetailsTableLayout = new org.jdesktop.layout.GroupLayout(
-                pnlTrnasferDetailsTable);
-        pnlTrnasferDetailsTable.setLayout(pnlTrnasferDetailsTableLayout);
-        pnlTrnasferDetailsTableLayout.setHorizontalGroup(pnlTrnasferDetailsTableLayout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(org.jdesktop.layout.GroupLayout.TRAILING,
-                        pnlTrnasferDetailsTableLayout
-                                .createSequentialGroup()
-                                .addContainerGap(401, Short.MAX_VALUE)
-                                .add(pnlViewRadio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(367, 367, 367))
-                .add(pnlTrnasferDetailsTableLayout.createSequentialGroup().add(20, 20, 20)
-                        .add(jScrollPaneDetails, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1070, Short.MAX_VALUE)));
-        pnlTrnasferDetailsTableLayout.setVerticalGroup(pnlTrnasferDetailsTableLayout.createParallelGroup(
-                org.jdesktop.layout.GroupLayout.LEADING).add(
-                pnlTrnasferDetailsTableLayout
-                        .createSequentialGroup()
-                        .add(22, 22, 22)
-                        .add(pnlViewRadio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 43,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(jScrollPaneDetails, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 451,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        jScrollPaneDetails.setMinimumSize(null);
+        jScrollPaneDetails.setRequestFocusEnabled(false);
 
-        tabDetails.addTab("Transfer Details", pnlTrnasferDetailsTable);
+        jTableDetails.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableDetails.setAutoCreateRowSorter(true);
+        jTableDetails.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPaneDetails.setViewportView(jTableDetails);
 
-        splitQueueTableMasterAndDetail.setRightComponent(tabDetails);
+        pnlTransferDetailsTable.add(jScrollPaneDetails, java.awt.BorderLayout.CENTER);
 
-        org.jdesktop.layout.GroupLayout pnlCenterLayout = new org.jdesktop.layout.GroupLayout(pnlCenter);
-        pnlCenter.setLayout(pnlCenterLayout);
-        pnlCenterLayout.setHorizontalGroup(pnlCenterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlCenterLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(splitQueueTableMasterAndDetail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1115,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(33, Short.MAX_VALUE)));
-        pnlCenterLayout.setVerticalGroup(pnlCenterLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlCenterLayout
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .add(splitQueueTableMasterAndDetail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 766,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        tabDetails.addTab("Transfer Details", pnlTransferDetailsTable);
+
+        jSplitPane1.setBottomComponent(tabDetails);
+
+        pnlCenter.add(jSplitPane1);
+
+        getContentPane().add(pnlCenter, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -791,28 +773,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         jMenuBar1.add(jMenuView);
 
         setJMenuBar(jMenuBar1);
-
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(layout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(pnlTop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(layout
-                        .createSequentialGroup()
-                        .add(20, 20, 20)
-                        .add(pnlCenter, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
-        layout.setVerticalGroup(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                layout.createSequentialGroup()
-                        .add(pnlTop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(pnlCenter, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap()));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1007,7 +967,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
      * 
      * @param viewType
      */
-    public void refreshTableView(final ViewType viewType) {
+    public final void refreshTableView(final ViewType viewType) {
 
         final QueueManagerDialog queueManagerDialog = this;
 
@@ -1015,13 +975,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         int selectedRow = jTableMaster.getSelectedRow();
 
         if (masterTableModel.getRowCount() > 0) {
-            if (selectedRow == -1) {
-                selectedRow = 0;
-            }
 
-            selectedMasterTableObject = (LocalIRODSTransfer) masterTableModel.getTransferAtRow(selectedRow);
-
+            jTableMaster.setRowSelectionInterval(0, 0);
         }
+
+        //selectedMasterTableObject = (LocalIRODSTransfer) masterTableModel.getTransferAtRow(jTableMaster.convertRowIndexToModel(selectedRow));
+
+
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -1029,52 +989,39 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             public void run() {
 
                 queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                try {
+                    tabDetails.setVisible(true);
+                    updateDetailsWIthSelectedTable();
+                } catch (Exception e) {
+                    log.error("exceptoin updating table", e);
+                    MessageManager.showError(queueManagerDialog, e.getMessage(), MessageManager.TITLE_MESSAGE);
+                } finally {
+                    queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+
+            }
+
+            private void updateDetailsWIthSelectedTable() throws Exception {
                 log.info("refreshing master table for view type:{}", viewType);
 
                 if (viewType == null) {
-                    queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
                     throw new IdropRuntimeException("null viewType");
                 }
 
                 List<LocalIRODSTransfer> transferQueue = null;
 
                 if (viewType == ViewType.CURRENT) {
-                    try {
-                        transferQueue = transferManager.getCurrentQueue();
-                        queueManagerDialog.getLblHeader().setText("Current transfer queue");
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException(ex);
-                    }
+                    transferQueue = transferManager.getCurrentQueue();
+                    queueManagerDialog.getLblHeader().setText("Current transfer queue");
                 } else if (viewType == ViewType.RECENT) {
-                    try {
-                        transferQueue = transferManager.getRecentQueue();
-                        queueManagerDialog.getLblHeader().setText("Recent transfer activity");
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException(ex);
-                    }
+                    transferQueue = transferManager.getRecentQueue();
+                    queueManagerDialog.getLblHeader().setText("Recent transfer activity");
                 } else if (viewType == ViewType.ERROR) {
-                    try {
-                        transferQueue = transferManager.getErrorQueue();
-                        queueManagerDialog.getLblHeader().setText("Transfer activities with errors");
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException(ex);
-                    }
+                    transferQueue = transferManager.getErrorQueue();
+                    queueManagerDialog.getLblHeader().setText("Transfer activities with errors");
                 } else if (viewType == ViewType.WARNING) {
-                    try {
-                        transferQueue = transferManager.getWarningQueue();
-                        queueManagerDialog.getLblHeader().setText("Transfer activities with warnings");
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException(ex);
-                    }
+                    transferQueue = transferManager.getWarningQueue();
+                    queueManagerDialog.getLblHeader().setText("Transfer activities with warnings");
                 }
 
                 queueManagerDialog.setViewType(viewType);
@@ -1093,7 +1040,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                                 matchingRowForSelected = i;
                                 break;
                             }
-
                         }
 
                         if (matchingRowForSelected != -1) {
@@ -1102,151 +1048,95 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                                 jTableMaster.setRowSelectionInterval(selectedRowIndex, selectedRowIndex);
                             }
                         }
-
                     } else {
                         jTableDetails.setVisible(false);
                     }
-
                 }
-
-                queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
             }
         });
 
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelSelected;
-
     private javax.swing.JButton btnDeleteSelected;
-
     private javax.swing.ButtonGroup btnGroupDetailsDisplay;
-
     private javax.swing.JButton btnPurgeAll;
-
     private javax.swing.JButton btnPurgeSuccessful;
-
     private javax.swing.JButton btnRefreshView;
-
     private javax.swing.JButton btnRestartSelected;
-
     private javax.swing.JButton btnResubmitSelected;
-
-    private javax.swing.JLabel jLabel1;
-
+    private javax.swing.JButton btnSynchronization;
     private javax.swing.JMenu jMenu1;
-
     private javax.swing.JMenu jMenu2;
-
     private javax.swing.JMenuBar jMenuBar1;
-
     private javax.swing.JMenuItem jMenuCurrent;
-
     private javax.swing.JMenuItem jMenuError;
-
     private javax.swing.JMenuItem jMenuRecent;
-
     private javax.swing.JMenu jMenuView;
-
     private javax.swing.JMenuItem jMenuWarning;
-
-    private javax.swing.JScrollPane jScrollPane1;
-
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPaneDetails;
-
     private javax.swing.JScrollPane jScrollPaneMaster;
-
-    private javax.swing.JScrollPane jScrollPaneSourcePath;
-
-    private javax.swing.JScrollPane jScrollPaneTargetPath;
-
     private javax.swing.JToolBar.Separator jSeparator1;
-
     private javax.swing.JToolBar.Separator jSeparator2;
-
     private javax.swing.JToolBar.Separator jSeparator3;
-
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTableDetails;
-
     private javax.swing.JTable jTableMaster;
-
     private javax.swing.JLabel lblCountOutOf;
-
     private javax.swing.JLabel lblCountSoFar;
-
-    private javax.swing.JLabel lblErrorStatus;
-
-    private javax.swing.JLabel lblErrorStatusLabel;
-
+    private javax.swing.JLabel lblCurrentFile;
+    private javax.swing.JLabel lblCurrentFileLabel;
+    private javax.swing.JLabel lblErrorMessage;
+    private javax.swing.JLabel lblErrorMessageLabel;
     private javax.swing.JLabel lblHeader;
-
-    private javax.swing.JLabel lblLastGoodPathLabel;
-
-    private javax.swing.JLabel lblResource;
-
-    private javax.swing.JLabel lblResourceLabel;
-
-    private javax.swing.JLabel lblSourcePathLabel;
-
-    private javax.swing.JLabel lblTargetPathLabel;
-
-    private javax.swing.JLabel lblTransferDate;
-
-    private javax.swing.JLabel lblTransferDateLabel;
-
+    private javax.swing.JLabel lblHost;
+    private javax.swing.JLabel lblHostLabel;
+    private javax.swing.JLabel lblLastPath;
+    private javax.swing.JLabel lblLastPathLabel;
+    private javax.swing.JLabel lblProcessingState;
+    private javax.swing.JLabel lblProcessingStateLabel;
+    private javax.swing.JLabel lblSource;
+    private javax.swing.JLabel lblSourceLabel;
+    private javax.swing.JLabel lblTarget;
+    private javax.swing.JLabel lblTargetLabel;
+    private javax.swing.JLabel lblTransferEnd;
+    private javax.swing.JLabel lblTransferEndLabel;
+    private javax.swing.JLabel lblTransferFilesCounts;
+    private javax.swing.JLabel lblTransferStart;
+    private javax.swing.JLabel lblTransferStartLabel;
     private javax.swing.JLabel lblTransferStatus;
-
     private javax.swing.JLabel lblTransferStatusLabel;
-
     private javax.swing.JLabel lblTransferType;
-
+    private javax.swing.JLabel lblTransferType1;
     private javax.swing.JLabel lblTransferTypeLabel;
-
+    private javax.swing.JLabel lblTransferTypeLabel1;
     private javax.swing.JLabel lblTransferred;
-
     private javax.swing.JLabel lblTransferredOutOf;
-
+    private javax.swing.JLabel lblZone;
+    private javax.swing.JLabel lblZoneLabel;
     private javax.swing.JPanel pnlCenter;
-
-    private javax.swing.JPanel pnlErrorMessage;
-
     private javax.swing.JPanel pnlProgress;
-
+    private javax.swing.JPanel pnlToolbar;
     private javax.swing.JPanel pnlTop;
-
     private javax.swing.JPanel pnlTransferDetailsSummary;
-
+    private javax.swing.JPanel pnlTransferDetailsTable;
+    private javax.swing.JPanel pnlTransferFileCounts;
+    private javax.swing.JPanel pnlTransferFileInfo;
     private javax.swing.JPanel pnlTransferInfo;
-
-    private javax.swing.JPanel pnlTrnasferDetailsTable;
-
+    private javax.swing.JPanel pnlTransferInfoBasicStats;
+    private javax.swing.JPanel pnlTransferOverview;
+    private javax.swing.JPanel pnlTransferProgress;
+    private javax.swing.JPanel pnlTransferStatus;
+    private javax.swing.JPanel pnlTransferType;
     private javax.swing.JPanel pnlViewRadio;
-
     private javax.swing.JProgressBar progressBarQueueDetails;
-
     private javax.swing.JRadioButton radioShowAll;
-
     private javax.swing.JRadioButton radioShowError;
-
-    private javax.swing.JScrollPane scrollErrorMessage;
-
-    private javax.swing.JSplitPane splitQueueTableMasterAndDetail;
-
     private javax.swing.JTabbedPane tabDetails;
-
     private javax.swing.JToggleButton toggleAutoRefresh;
-
     private javax.swing.JToolBar toolbarQueueManagement;
-
-    private javax.swing.JTextArea txtAreaErrorMessage;
-
-    private javax.swing.JTextArea txtLastGoodPath;
-
-    private javax.swing.JTextArea txtSourcePath;
-
-    private javax.swing.JTextArea txtTargetPath;
-
+    private javax.swing.JProgressBar transferStatusProgressBar;
     // End of variables declaration//GEN-END:variables
 
     public JLabel getLblHeader() {
@@ -1274,8 +1164,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     }
 
     private void adjustDetails() {
-        final LocalIRODSTransfer localIRODSTransfer = ((QueueManagerMasterTableModel) jTableMaster.getModel())
-                .getTransferAtRow(jTableMaster.getSelectedRow());
+        final LocalIRODSTransfer localIRODSTransfer = ((QueueManagerMasterTableModel) jTableMaster.getModel()).getTransferAtRow(jTableMaster.convertRowIndexToModel(jTableMaster.getSelectedRow()));
         log.info("selected transfer:{}", localIRODSTransfer);
         final boolean showAll = radioShowAll.isSelected();
 
@@ -1284,54 +1173,97 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             @Override
             public void run() {
                 // initialize panel info
+                pnlCenter.setVisible(true);
                 lblTransferType.setText(localIRODSTransfer.getTransferType().toString());
-                lblTransferDate.setText(localIRODSTransfer.getTransferStart().toString());
-                lblTransferStatus.setText(localIRODSTransfer.getTransferState().toString());
-                lblErrorStatus.setText(localIRODSTransfer.getTransferStatus().toString());
-                lblResource.setText(localIRODSTransfer.getTransferResource());
+                lblTransferStatus.setText(localIRODSTransfer.getTransferStatus().toString());
+
+                // colorize transfer status
+                if (localIRODSTransfer.getTransferStatus() == TransferStatus.ERROR) {
+                    lblTransferStatus.setForeground(Color.RED);
+                } else if (localIRODSTransfer.getTransferStatus() == TransferStatus.WARNING) {
+                    lblTransferStatus.setForeground(Color.CYAN);
+                } else {
+                    lblTransferStatus.setForeground(Color.GREEN);
+                }
+
+                lblProcessingState.setText(localIRODSTransfer.getTransferState().toString());
+                if (localIRODSTransfer.getTransferState() == TransferState.PROCESSING) {
+                    lblProcessingState.setForeground(Color.GREEN);
+                } else if (localIRODSTransfer.getTransferState() == TransferState.PAUSED) {
+                    lblProcessingState.setForeground(Color.cyan);
+                } else if (localIRODSTransfer.getTransferState() == TransferState.ENQUEUED) {
+                    lblProcessingState.setForeground(Color.BLUE);
+                } else if (localIRODSTransfer.getTransferState() == TransferState.CANCELLED) {
+                    lblProcessingState.setForeground(Color.RED);
+                } else {
+                    lblProcessingState.setForeground(Color.BLACK);
+                }
+
+                if (localIRODSTransfer.getSynchronization() != null) {
+                    btnSynchronization.setEnabled(true);
+                } else {
+                    btnSynchronization.setEnabled(false);
+                }
+
+                lblHost.setText(localIRODSTransfer.getTransferHost());
+                lblZone.setText(localIRODSTransfer.getTransferZone());
+
+                if (localIRODSTransfer.getTransferStart() != null) {
+                    lblTransferStart.setText(dateFormat.format(localIRODSTransfer.getTransferStart()));
+                }
+
+                if (localIRODSTransfer.getTransferEnd() != null) {
+                    lblTransferEnd.setText(dateFormat.format(localIRODSTransfer.getTransferEnd()));
+                }
+
+                lblLastPath.setText(IDropUtils.abbreviateFileName(localIRODSTransfer.getLastSuccessfulPath()));
+                lblErrorMessage.setText(localIRODSTransfer.getGlobalException());
+
+                String source = null;
+                String target = null;
+
 
                 // set source and target properly based on activity (put, get, etc)
                 switch (localIRODSTransfer.getTransferType()) {
                     case GET:
-                        txtSourcePath.setText(localIRODSTransfer.getIrodsAbsolutePath());
-                        txtTargetPath.setText(localIRODSTransfer.getLocalAbsolutePath());
+                        source = localIRODSTransfer.getIrodsAbsolutePath();
+                        target = localIRODSTransfer.getLocalAbsolutePath();
                         break;
                     case PUT:
-                        txtSourcePath.setText(localIRODSTransfer.getLocalAbsolutePath());
-                        txtTargetPath.setText(localIRODSTransfer.getIrodsAbsolutePath());
+                        source = localIRODSTransfer.getLocalAbsolutePath();
+                        target = localIRODSTransfer.getIrodsAbsolutePath();
                         break;
                     case REPLICATE:
-                        txtSourcePath.setText(localIRODSTransfer.getIrodsAbsolutePath());
-                        txtTargetPath.setText("");
+                        source = localIRODSTransfer.getIrodsAbsolutePath();
+                        target = "";
                         break;
                     case COPY:
-                        txtSourcePath.setText(localIRODSTransfer.getIrodsAbsolutePath());
-                        txtTargetPath.setText(localIRODSTransfer.getIrodsAbsolutePath());
+                        source = localIRODSTransfer.getIrodsAbsolutePath();
+                        target = localIRODSTransfer.getIrodsAbsolutePath();
+                        break;
+                    case SYNCH:
+                        source = localIRODSTransfer.getIrodsAbsolutePath();
+                        target = localIRODSTransfer.getIrodsAbsolutePath();
                         break;
                     default:
                         log.error("unable to build details for transfer with transfer type of:{}",
                                 localIRODSTransfer.getTransferType());
-                        iDropParent.showIdropException(new IdropException(
-                                "unable to build details for this transfer type"));
+                        iDropParent.showIdropException(new IdropException("unable to build details for this transfer type"));
                         break;
                 }
 
-                txtLastGoodPath.setText(localIRODSTransfer.getLastSuccessfulPath());
-                log.debug("total files transferred:{}", localIRODSTransfer.getTotalFilesTransferredSoFar());
-                log.debug("out of: {}", localIRODSTransfer.getTotalFilesCount());
+                lblSource.setText(IDropUtils.abbreviateFileName(source));
+                lblTarget.setText(IDropUtils.abbreviateFileName(target));
+
+                lblTransferType1.setText(localIRODSTransfer.getTransferType().toString());
+
+
                 lblCountSoFar.setText(String.valueOf(localIRODSTransfer.getTotalFilesTransferredSoFar()));
                 lblCountOutOf.setText(String.valueOf(localIRODSTransfer.getTotalFilesCount()));
-                progressBarQueueDetails.setMinimum(0);
-                progressBarQueueDetails.setMaximum(localIRODSTransfer.getTotalFilesCount());
-                progressBarQueueDetails.setValue(localIRODSTransfer.getTotalFilesTransferredSoFar());
-
-                if (localIRODSTransfer.getGlobalException() != null) {
-                    txtAreaErrorMessage.setText(localIRODSTransfer.getGlobalException());
-                    pnlErrorMessage.setVisible(true);
-                } else {
-                    pnlErrorMessage.setVisible(false);
-                }
-
+                lblTransferFilesCounts.setText("Files: " + localIRODSTransfer.getTotalFilesTransferredSoFar() + " / " + localIRODSTransfer.getTotalFilesCount());
+                transferStatusProgressBar.setMinimum(0);
+                transferStatusProgressBar.setMaximum(localIRODSTransfer.getTotalFilesCount());
+                transferStatusProgressBar.setValue(localIRODSTransfer.getTotalFilesTransferredSoFar());
                 // initialize the detail values via hibernate (they are lazily loaded)
                 log.info("get the details based on the selected option");
 
@@ -1339,11 +1271,9 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                     if (showAll) {
                         log.info("showing all transfers based on radio selection");
 
-                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager
-                                .getAllTransferItemsForTransfer(localIRODSTransfer.getId())));
+                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager.getAllTransferItemsForTransfer(localIRODSTransfer.getId())));
                     } else {
-                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager
-                                .getErrorTransferItemsForTransfer(localIRODSTransfer.getId())));
+                        jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager.getErrorTransferItemsForTransfer(localIRODSTransfer.getId())));
                     }
 
                 } catch (Exception ex) {
@@ -1383,9 +1313,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 }
 
                 jTableDetails.setVisible(true);
-                jScrollPaneSourcePath.validate();
-                jScrollPaneTargetPath.validate();
-
             }
         });
     }
@@ -1426,6 +1353,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
             @Override
             public void run() {
+                /*
                 lblTransferType.setText("");
                 lblTransferDate.setText("");
                 lblTransferStatus.setText("");
@@ -1433,7 +1361,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 txtTargetPath.setText("");
                 txtAreaErrorMessage.setText("");
                 txtLastGoodPath.setText("");
-
+                 * */
             }
         });
     }

@@ -20,10 +20,9 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 public class FileSystemModel implements TreeModel {
 
     private File root;
-
     private List listeners = new ArrayList();
 
-    public FileSystemModel(File rootDirectory) {
+    public FileSystemModel(final File rootDirectory) {
         root = rootDirectory;
     }
 
@@ -33,14 +32,14 @@ public class FileSystemModel implements TreeModel {
     }
 
     @Override
-    public Object getChild(Object parent, int index) {
+    public Object getChild(final Object parent, final int index) {
         File directory = (File) parent;
         String[] children = directory.list();
         return new TreeFile(directory, children[index]);
     }
 
     @Override
-    public int getChildCount(Object parent) {
+    public int getChildCount(final Object parent) {
         File file = (File) parent;
         if (file.isDirectory()) {
             String[] fileList = file.list();
@@ -52,7 +51,7 @@ public class FileSystemModel implements TreeModel {
     }
 
     @Override
-    public boolean isLeaf(Object node) {
+    public boolean isLeaf(final Object node) {
         if (node instanceof File) {
             File file = (File) node;
             return file.isFile();
@@ -62,7 +61,7 @@ public class FileSystemModel implements TreeModel {
     }
 
     @Override
-    public int getIndexOfChild(Object parent, Object child) {
+    public int getIndexOfChild(final Object parent, final Object child) {
         File directory = (File) parent;
         File file = (File) child;
         String[] children = directory.list();
@@ -76,21 +75,24 @@ public class FileSystemModel implements TreeModel {
     }
 
     @Override
-    public void valueForPathChanged(TreePath path, Object value) {
+    public void valueForPathChanged(final TreePath path, final Object value) {
         File oldFile = (File) path.getLastPathComponent();
         String fileParentPath = oldFile.getParent();
         String newFileName = (String) value;
         File targetFile = new File(fileParentPath, newFileName);
         oldFile.renameTo(targetFile);
         File parent = new File(fileParentPath);
-        int[] changedChildrenIndices = { getIndexOfChild(parent, targetFile) };
-        Object[] changedChildren = { targetFile };
-        fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices, changedChildren);
+        int[] changedChildrenIndices = {getIndexOfChild(parent, targetFile)};
+        Object[] changedChildren = {targetFile};
+        fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices,
+                changedChildren);
 
     }
 
-    private void fireTreeNodesChanged(TreePath parentPath, int[] indices, Object[] children) {
-        TreeModelEvent event = new TreeModelEvent(this, parentPath, indices, children);
+    private void fireTreeNodesChanged(final TreePath parentPath,
+            final int[] indices, final Object[] children) {
+        TreeModelEvent event = new TreeModelEvent(this, parentPath, indices,
+                children);
         Iterator iterator = listeners.iterator();
         TreeModelListener listener = null;
         while (iterator.hasNext()) {
@@ -100,18 +102,18 @@ public class FileSystemModel implements TreeModel {
     }
 
     @Override
-    public void addTreeModelListener(TreeModelListener listener) {
+    public void addTreeModelListener(final TreeModelListener listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeTreeModelListener(TreeModelListener listener) {
+    public void removeTreeModelListener(final TreeModelListener listener) {
         listeners.remove(listener);
     }
 
     private class TreeFile extends File {
 
-        public TreeFile(File parent, String child) {
+        public TreeFile(final File parent, final String child) {
             super(parent, child);
         }
 
