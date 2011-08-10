@@ -14,6 +14,10 @@ package org.irods.jargon.idrop.lite;
 import java.awt.Rectangle;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -42,7 +46,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author lisa
  */
-public class iDropLiteApplet extends javax.swing.JApplet implements TransferStatusCallbackListener {
+public class iDropLiteApplet extends javax.swing.JApplet implements DropTargetListener, TransferStatusCallbackListener {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(iDropLiteApplet.class);
     private final Integer defaultLoginMode = -1;
@@ -308,6 +312,9 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 irodsTree.setRefreshingTree(false);
 
                 getiDropCore().getIrodsFileSystem().closeAndEatExceptions(iDropCore.getIrodsAccount());
+                DropTarget dt = new DropTarget();
+                dt.setComponent(irodsTree.getEditorComponent());
+                //dt.addDropTargetListener(this);
             }
         });
     }
@@ -600,5 +607,40 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     	// FIX ME: get current view of irods tree and pass to buildTargetTree
         buildTargetTree();
     }
+
+
+	@Override
+	public void dragEnter(DropTargetDragEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void dragExit(DropTargetEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void dragOver(DropTargetDragEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void drop(DropTargetDropEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void dropActionChanged(DropTargetDragEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
