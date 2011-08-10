@@ -15,7 +15,7 @@
         <jargon.version>2.5.0-beta2-SNAPSHOT</jargon.version>
         <spring.core.version>3.0.5.RELEASE</spring.core.version>
         <commons.io.version>2.0.1</commons.io.version>
-        <netbeans.version>RELEASE70</netbeans.version>
+        <netbeans.version>RELEASE701</netbeans.version>
     </properties>
     <issueManagement>
         <system>gForge</system>
@@ -96,12 +96,6 @@
             </snapshots>
         </repository>
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>onejar-maven-plugin.googlecode.com</id>
-            <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
-        </pluginRepository>
-    </pluginRepositories>
     <distributionManagement>
         <repository>
             <id>renci.repository</id>
@@ -321,23 +315,6 @@
                 <artifactId>swing-layout</artifactId>
                 <version>1.0.3</version>
             </dependency>
-      <!--
-      <dependency>
-	<groupId>cookxml</groupId>
-	<artifactId>cookswing</artifactId>
-	<version>1.5</version>
-      </dependency>
-      <dependency>
-	<groupId>cookxml</groupId>
-	<artifactId>cookxml</artifactId>
-	<version>3.0.1</version>
-      </dependency>
-     
-      <dependency>
-	<groupId>com.jgoodies</groupId>
-	<artifactId>validation</artifactId>
-	<version>2.0.0</version>
-      </dependency>   -->   
         </dependencies>
     </dependencyManagement>    
     <dependencies>

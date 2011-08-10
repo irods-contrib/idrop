@@ -19,6 +19,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileSystemModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.netbeans.swing.outline.Outline;
+import org.netbeans.swing.outline.TreePathSupport;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -29,6 +30,25 @@ import org.slf4j.LoggerFactory;
 public class TreeUtils {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(TreeUtils.class);
+
+    /**
+     * Given a <code>TreeNode</code> get the corresponding <code>TreePath</code>
+     * @param treeNode
+     * @return 
+     */
+    public static TreePath getPath(TreeNode treeNode) {
+        List<Object> nodes = new ArrayList<Object>();
+        if (treeNode != null) {
+            nodes.add(treeNode);
+            treeNode = treeNode.getParent();
+            while (treeNode != null) {
+                nodes.add(0, treeNode);
+                treeNode = treeNode.getParent();
+            }
+        }
+
+        return nodes.isEmpty() ? null : new TreePath(nodes.toArray());
+    }
 
     public static IRODSNode findChild(final IRODSNode parent,
             final String userObject) throws IdropException {
@@ -345,7 +365,29 @@ public class TreeUtils {
             tree.collapsePath(parent);
         }
     }
+    
+      public static void expandAll(final Outline tree, final TreePath parent,
+            final boolean expand) {
+        // Traverse children
+        TreeNode node = (TreeNode) parent.getLastPathComponent();
+        if (node.getChildCount() >= 0) {
+            for (Enumeration e = node.children(); e.hasMoreElements();) {
+                TreeNode n = (TreeNode) e.nextElement();
+                TreePath path = parent.pathByAddingChild(n);
+                expandAll(tree, path, expand);
+            }
+        }
 
+        // Expansion or collapse must be done bottom-up
+        if (expand) {
+            tree.expandPath(parent);
+        } else {
+            tree.collapsePath(parent);
+        }
+    }
+
+
+    //FIXME: consider getting rid of defunct code below...
     /**
      * Given a tree node, get the nodes that are in the given expansion state as
      * a list of TreePath
@@ -371,13 +413,18 @@ public class TreeUtils {
     }
 
     public static TreePath[] getPaths(final Outline tree, final boolean expanded) {
+
         TreeNode root = (TreeNode) tree.getOutlineModel().getRoot();
+        log.debug("tree root:{}", root);
+        TreePath rootPath = getPath(root);
+        log.debug("root path:{}", rootPath);
+        TreePathSupport treePathSupport = tree.getOutlineModel().getTreePathSupport();
 
         // Create array to hold the treepaths
         List list = new ArrayList();
 
         // Traverse tree from root adding treepaths for all nodes to list
-        getPaths(tree, new TreePath(root), expanded, list);
+        getPaths(tree, new TreePath(root), expanded, list, treePathSupport);
 
         // Convert list to array
         return (TreePath[]) list.toArray(new TreePath[list.size()]);
@@ -405,22 +452,33 @@ public class TreeUtils {
     }
 
     private static void getPaths(final Outline tree, final TreePath parent,
-            final boolean expanded, final List list) {
+            final boolean expanded, final List list, final TreePathSupport treePathSupport) {
         // Return if node is not expanded
-        if (expanded && !tree.isVisible(parent)) {
-            return;
-        }
+     /*   if (expanded && !tree.isVisible(parent)) {
+        return;
+        }*/
 
-        // Add node to list
-        list.add(parent);
+        log.debug("getPaths for parent:{}", parent);
 
         // Create paths for all children
-        TreeNode node = (TreeNode) parent.getLastPathComponent();
-        if (node.getChildCount() >= 0) {
-            for (Enumeration e = node.children(); e.hasMoreElements();) {
-                TreeNode n = (TreeNode) e.nextElement();
-                TreePath path = parent.pathByAddingChild(n);
-                getPaths(tree, path, expanded, list);
+        IRODSNode node = (IRODSNode) parent.getLastPathComponent();
+        if (treePathSupport.hasBeenExpanded(parent)) {
+            // Add node to list
+            log.info("path is expanded, adding to list and checking children");
+            list.add(parent);
+
+            if (!node.isCached()) {
+                log.debug("node not cached, not expanded");
+                return;
+            }
+
+            log.debug("iterating cached children of this node....");
+            if (node.getChildCount() >= 0) {
+                for (Enumeration e = node.children(); e.hasMoreElements();) {
+                    TreeNode n = (TreeNode) e.nextElement();
+                    TreePath path = parent.pathByAddingChild(n);
+                    getPaths(tree, path, expanded, list, treePathSupport);
+                }
             }
         }
     }
