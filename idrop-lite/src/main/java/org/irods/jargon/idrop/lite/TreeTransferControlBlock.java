@@ -128,4 +128,10 @@ public class TreeTransferControlBlock implements TransferControlBlock {
 		return null;
 	}
 
+	@Override
+	public void resetTransferData() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
