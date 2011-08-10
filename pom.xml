@@ -4,7 +4,7 @@
     <groupId>org.irods</groupId>
     <artifactId>idrop</artifactId>
     <packaging>pom</packaging>
-    <version>0.9.8</version>
+    <version>0.9.9-SNAPSHOT</version>
     <name>iRODS iDrop</name>
     <description>iRODS iDrop - personal web and desktop grid access clients</description>
     <url>https://code.renci.org/gf/project/irodsidrop/</url>
