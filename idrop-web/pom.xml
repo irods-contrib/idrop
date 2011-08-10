@@ -175,6 +175,13 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+      <plugin>            
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-war-plugin</artifactId>
+  <configuration>
+    <webXml>web-app\WEB-INF\web.xml</webXml>        
+  </configuration>
+</plugin>
     </plugins>
   </build>
   <profiles>
