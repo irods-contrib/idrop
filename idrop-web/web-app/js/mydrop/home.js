@@ -460,12 +460,17 @@ function buildFormFromACLDetailsTable() {
  * Display the iDrop lite gui, passing in the given irods base collection name
  */
 function showIdropLite() {
-	alert("showing idrop lite");
+	//alert("showing idrop lite");
 	var idropLiteSelector = "#idropLiteArea";
 	var myPath = selectedPath;
 	if (selectedPath == null) {
 		myPath = "/";
 	}
+	
+	// first hide Browse Data Details table
+	$("#toggleBrowseDataDetailsTable").hide('slow');
+	$("#toggleBrowseDataDetailsTable").width="0%";
+	$("#toggleBrowseDataDetailsTable").height="0%";
 	
 	lcShowBusyIconInDiv(idropLiteSelector);
 
@@ -490,3 +495,4 @@ function showIdropLite() {
 	
 	
 }
+
