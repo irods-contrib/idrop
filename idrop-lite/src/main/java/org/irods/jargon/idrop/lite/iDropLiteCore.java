@@ -19,7 +19,6 @@ import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
 //import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 //import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
-import org.irods.jargon.transfer.engine.TransferManager;
 
 public class iDropLiteCore {
 
@@ -39,8 +38,7 @@ public class iDropLiteCore {
 
     private IdropConfig idropConfig = null;
 
-    private TransferManager transferManager = null;
-
+ 
 //    private IconManager iconManager = null;
 
     private Timer queueTimer = new Timer();
