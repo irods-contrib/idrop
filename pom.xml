@@ -404,5 +404,6 @@
     <modules>
         <module>idrop-swing</module>
         <module>idrop-web</module>
+         <module>idrop-lite</module>
     </modules>
 </project>
