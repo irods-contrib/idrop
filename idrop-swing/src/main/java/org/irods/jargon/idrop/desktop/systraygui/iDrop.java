@@ -755,12 +755,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 // item, or the root of the iRODS tree if none
                 // selected
                 IRODSNode node;
-                
+
                 if (irodsTree.getSelectionModel().getLeadSelectionIndex() < 0) {
-                    if (irodsTree.getRowCount() > 0 ) {
+                    if (irodsTree.getRowCount() > 0) {
                         irodsTree.setRowSelectionInterval(0, 0);
                     }
-                 }
+                }
 
                 if (pnlIrodsInfo.isVisible()) {
                     idropGuiReference.triggerInfoPanelUpdate();
@@ -926,22 +926,36 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         scrollIrodsTree.setViewportView(irodsTree);
 
                     } else {
-                        mdl = (IRODSOutlineModel) irodsTree.getModel();
-                          IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
-                                getiDropCore().getIrodsFileSystem(), irodsTree);
-                        mdl.setValueAt(rootNode, 0, 0);                       
+                        scrollIrodsTree.getViewport().removeAll();
+                        irodsTree = null;
+                        irodsTree = new IRODSTree(gui);
+                        IRODSNode rootNode = new IRODSNode(root,
+                                getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
+                        irodsTree.setRefreshingTree(true);
+                        IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
+                                rootNode, getIrodsAccount());
+                        mdl = new IRODSOutlineModel(gui,
+                                irodsFileSystemModel, new IRODSRowModel(), true,
+                                "File System");
+
+                        irodsTree.setModel(mdl);
+                        scrollIrodsTree.setViewportView(irodsTree);
+
                     }
 
-                    // mdl.getTreePathSupport().clear();
                     if (currentPaths != null) {
                         IRODSNode irodsNode = null;
                         TreePath pathOfExpandingNode = null;
+                        CollectionAndDataObjectListingEntry expandedEntry = null;
                         log.info("looking to re-expand paths...");
                         for (TreePath treePath : currentPaths) {
                             irodsNode = (IRODSNode) treePath.getLastPathComponent();
-                            irodsNode.forceReloadOfChildrenOfThisNode();
-                            irodsTree.collapsePath(treePath);
-                            irodsTree.expandPath(treePath);
+                            expandedEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
+                            irodsNode = (IRODSNode) TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, expandedEntry.getFormattedAbsolutePath()).getLastPathComponent();
+                            irodsNode.getChildCount();
+                            TreePath pathInNew = TreeUtils.getPath(irodsNode);
+                            irodsTree.collapsePath(pathInNew);
+                            irodsTree.expandPath(pathInNew);
                         }
                     }
 
