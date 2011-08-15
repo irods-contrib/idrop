@@ -2,6 +2,7 @@ package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import java.util.Properties;
 import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.exception.JargonException;
 
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
@@ -31,6 +32,12 @@ public interface IdropConfigurationService  {
     public static final String LOOK_AND_FEEL = "idrop.lookandfeel";
     public static final String TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES = "transferengine.record.successful.files";
     public static final String  VERIFY_CHECKSUM_ON_TRANSFER = "idrop.verify.checksum";
+    public static final String  INTRA_FILE_STATUS_CALLBACKS = "idrop.intra.file.status.callbacks";
+    public static final String  IRODS_CONNECTION_TIMEOUT = "idrop.irods.timeout";
+    public static final String  IRODS_PARALLEL_CONNECTION_TIMEOUT = "idrop.irods.parallel.timeout";
+    public static final String  IRODS_PARALLEL_CONNECTION_MAX_THREADS = "idrop.parallel.transfer.max.threads";
+        public static final String  IRODS_PARALLEL_USE_POOL = "idrop.parallel.use.pool";
+
 
     Properties bootstrapConfiguration() throws IdropException;
 
@@ -67,4 +74,10 @@ public interface IdropConfigurationService  {
     void createNewSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException;
 
     void updateSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException;
+
+    /**
+     * Cause the transfer options using in the transfer engine to be updated
+     * @throws JargonException
+     */
+    void updateTransferOptions() throws JargonException;
 }

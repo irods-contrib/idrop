@@ -171,14 +171,10 @@ public class StartupSequencer {
         idropSplashWindow.setStatus("Building transfer engine...", ++count);
 
         log.info("building transfer manager...");
-        // FIXME:rework engine config (into idrop core?) and allow changes while idrop is running
-        try {
-            TransferOptions transferOptions = idropCore.getIrodsFileSystem().getIrodsSession().buildTransferOptionsBasedOnJargonProperties();
-            transferOptions.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
-            TransferEngineConfigurationProperties engineConfig = new TransferEngineConfigurationProperties();
-            engineConfig.setTransferOptions(transferOptions);
-            engineConfig.setLogSuccessfulTransfers(idropCore.getIdropConfig().isLogSuccessfulTransfers());
-            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop, engineConfig));
+       
+        try {    
+            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop));
+            idropCore.getIdropConfigurationService().updateTransferOptions();
         } catch (JargonException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(
                     Level.SEVERE, null, ex);

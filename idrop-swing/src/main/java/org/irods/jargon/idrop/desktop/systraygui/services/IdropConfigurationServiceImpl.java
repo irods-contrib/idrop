@@ -8,16 +8,20 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.packinstr.TransferOptions;
 
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.TransferEngineException;
 import org.irods.jargon.transfer.TransferServiceFactoryImpl;
 import org.irods.jargon.transfer.dao.domain.ConfigurationProperty;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.engine.ConfigurationService;
+import org.irods.jargon.transfer.engine.TransferEngineConfigurationProperties;
 import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 import org.irods.jargon.transfer.engine.synch.SynchException;
 import org.irods.jargon.transfer.engine.synch.SynchManagerService;
@@ -77,7 +81,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         Properties databaseProperties;
         Properties configFileProperties;
         try {
-                databaseProperties = configurationService.exportProperties();
+            databaseProperties = configurationService.exportProperties();
             configFileProperties = this.importPropertiesFromDefaultFile();
 
         } catch (Exception ex) {
@@ -212,7 +216,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         importGivenPropertiesIntoDatabase(properties);
         return properties;
     }
-    
+
     @Override
     public void saveLogin(final IRODSAccount irodsAccount) throws IdropException {
         log.info("save login");
@@ -220,13 +224,13 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             throw new IllegalArgumentException("null irodsAccount");
         }
         log.info("saving irodsAccount:{}", irodsAccount);
-        
+
         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_HOST, irodsAccount.getHost());
         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_PORT, String.valueOf(irodsAccount.getPort()));
         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_RESOURCE, irodsAccount.getDefaultStorageResource());
         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_ROOT_DIR, irodsAccount.getHomeDirectory());
         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_ZONE, irodsAccount.getZone());
-         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME, irodsAccount.getUserName());
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME, irodsAccount.getUserName());
         log.info("config updated");
     }
 
@@ -254,19 +258,39 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             log.info("database updated...updating property cache");
             idropCore.getIdropConfig().setProperty(key, value);
             log.info("property cache updated");
+            this.updateTransferOptions();
 
-        } catch (TransferEngineException ex) {
-            log.error("exception updating config", ex);
+        } catch (Exception ex) {
+            log.error("exception removing config property");
+            throw new IdropRuntimeException("exception updating config", ex);
         }
     }
-    
+
+    /**
+     * Cause the transfer options using in the transfer engine to be updated
+     * @throws JargonException 
+     */
+    @Override
+    public void updateTransferOptions() throws JargonException {
+        /*
+         * The transfer manager may not have been built the first time this is invoked
+         */
+        if (idropCore.getTransferManager() != null) {
+            TransferOptions transferOptions = idropCore.getIrodsFileSystem().getIrodsSession().buildTransferOptionsBasedOnJargonProperties();
+            transferOptions.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
+            transferOptions.setIntraFileStatusCallbacks(idropCore.getIdropConfig().isIntraFileStatusCallbacks());
+            idropCore.getTransferManager().getTransferEngineConfigurationProperties().setLogSuccessfulTransfers(idropCore.getIdropConfig().isLogSuccessfulTransfers());
+            idropCore.getTransferManager().getTransferEngineConfigurationProperties().setTransferOptions(transferOptions);
+        }
+    }
+
     @Override
     public void removeConfigProperty(final String key) throws IdropException {
         log.info("removeConfig()");
-          if (key == null || key.isEmpty()) {
+        if (key == null || key.isEmpty()) {
             throw new IllegalArgumentException("null or empty key");
         }
-          log.info("key to remove:{}", key);
+        log.info("key to remove:{}", key);
         try {
             ConfigurationProperty configurationProperty = configurationService.findConfigurationServiceByKey(key);
             if (configurationProperty == null) {
@@ -277,11 +301,13 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             log.info("configuration property is deleted");
             idropCore.getIdropConfig().getIdropProperties().remove(key);
             log.info("property removed");
-        } catch (TransferEngineException ex) {
+            this.updateTransferOptions();
+        } catch (Exception ex) {
             log.error("exception removing config property");
+            throw new IdropRuntimeException("exception updating config", ex);
         }
     }
- 
+
     @Override
     public void createNewSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException {
         log.info("saveSynchronization()");
@@ -299,12 +325,12 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             log.error("error creating synch", ex);
             throw new IdropException("error creating synch", ex);
         }
-        
+
         log.info("synch saved");
 
-    }   
-    
-     @Override
+    }
+
+    @Override
     public void updateSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException {
         log.info("updateSynchronization()");
         if (synchConfiguration == null) {
@@ -313,7 +339,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         log.info("synchConfiguration:{}", synchConfiguration);
         SynchManagerService synchManagerService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
         try {
-           synchManagerService.updateSynchConfiguration(synchConfiguration);
+            synchManagerService.updateSynchConfiguration(synchConfiguration);
         } catch (ConflictingSynchException cse) {
             log.error("synch configuration is conflicting:{}", synchConfiguration, cse);
             throw cse;
@@ -321,8 +347,8 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             log.error("error creating synch", ex);
             throw new IdropException("error creating synch", ex);
         }
-        
+
         log.info("synch saved");
 
-    }   
+    }
 }

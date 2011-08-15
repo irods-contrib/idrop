@@ -238,6 +238,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     @Override
     public void statusCallback(final TransferStatus ts) {
+        
+        if (ts.isIntraFileStatusReport()) {
+            log.info("intraFile callback:{}", ts);
+            return;
+        }
         // this.queuedTransfersLabel.setText("Queued Transfers: " +
         // ts.getTotalFilesTransferredSoFar() + "/"
         // + ts.getTotalFilesToTransfer());

@@ -145,6 +145,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         tabConfig = new javax.swing.JTabbedPane();
         pnlConfigIdrop = new javax.swing.JPanel();
         checkShowGUI = new javax.swing.JCheckBox();
+        checkShowFileProgress = new javax.swing.JCheckBox();
         pnlConfigGrids = new javax.swing.JPanel();
         pnlCurrentGrid = new javax.swing.JPanel();
         lblHostLabel = new javax.swing.JLabel();
@@ -220,6 +221,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         pnlConfigIdrop.setLayout(new java.awt.GridBagLayout());
 
+        checkShowGUI.setMnemonic('s');
         checkShowGUI.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowGUI.text")); // NOI18N
         checkShowGUI.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowGUI.toolTipText")); // NOI18N
         checkShowGUI.addActionListener(new java.awt.event.ActionListener() {
@@ -230,7 +232,22 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlConfigIdrop.add(checkShowGUI, gridBagConstraints);
+
+        checkShowFileProgress.setMnemonic('w');
+        checkShowFileProgress.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowFileProgress.text")); // NOI18N
+        checkShowFileProgress.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowFileProgress.toolTipText")); // NOI18N
+        checkShowFileProgress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkShowFileProgressActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlConfigIdrop.add(checkShowFileProgress, gridBagConstraints);
 
         tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigIdrop.TabConstraints.tabTitle"), pnlConfigIdrop); // NOI18N
 
@@ -656,6 +673,16 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         refreshSynchConfigPanel();
     }//GEN-LAST:event_btnRefreshSynchActionPerformed
 
+    private void checkShowFileProgressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkShowFileProgressActionPerformed
+         log.info("updating show intra-file progress to:{}", checkShowFileProgress.isSelected());
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.INTRA_FILE_STATUS_CALLBACKS, Boolean.toString(checkShowGUI.isSelected()));
+        } catch (IdropException ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }//GEN-LAST:event_checkShowFileProgressActionPerformed
+
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
     }
@@ -1032,7 +1059,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         log.info("updating verify checksom to:{}", checkVerifyChecksumOnTransfer.isSelected());
         try {
             idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER, Boolean.toString(checkVerifyChecksumOnTransfer.isSelected()));
-        } catch (IdropException ex) {
+        } catch (Exception ex) {
             log.error("error setting show gui property", ex);
             throw new IdropRuntimeException(ex);
         }
@@ -1089,6 +1116,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JButton btnUpdateSynch;
     private javax.swing.ButtonGroup buttonGroupSynchMode;
     private javax.swing.JCheckBox checkLogSuccessfulTransfer;
+    private javax.swing.JCheckBox checkShowFileProgress;
     private javax.swing.JCheckBox checkShowGUI;
     private javax.swing.JCheckBox checkVerifyChecksumOnTransfer;
     private javax.swing.JLabel jLabel1;
@@ -1143,6 +1171,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         checkShowGUI.setSelected(idropConfig.isShowGuiAtStartup());
         checkLogSuccessfulTransfer.setSelected(idropConfig.isLogSuccessfulTransfers());
         checkVerifyChecksumOnTransfer.setSelected(idropConfig.isVerifyChecksum());
+        checkShowFileProgress.setSelected(idropConfig.isIntraFileStatusCallbacks());
         refreshAccountData();
     }
 
