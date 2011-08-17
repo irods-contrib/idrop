@@ -11,6 +11,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -224,6 +225,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         checkShowGUI.setMnemonic('s');
         checkShowGUI.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowGUI.text")); // NOI18N
         checkShowGUI.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowGUI.toolTipText")); // NOI18N
+        checkShowGUI.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkShowGUIItemStateChanged(evt);
+            }
+        });
         checkShowGUI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkShowGUIActionPerformed(evt);
@@ -238,6 +244,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         checkShowFileProgress.setMnemonic('w');
         checkShowFileProgress.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowFileProgress.text")); // NOI18N
         checkShowFileProgress.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowFileProgress.toolTipText")); // NOI18N
+        checkShowFileProgress.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkShowFileProgressItemStateChanged(evt);
+            }
+        });
         checkShowFileProgress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkShowFileProgressActionPerformed(evt);
@@ -674,38 +685,58 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRefreshSynchActionPerformed
 
     private void checkShowFileProgressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkShowFileProgressActionPerformed
-         log.info("updating show intra-file progress to:{}", checkShowFileProgress.isSelected());
+       
+        //
+    }//GEN-LAST:event_checkShowFileProgressActionPerformed
+
+    private void checkShowGUIItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkShowGUIItemStateChanged
+        
+        boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating show gui at startup to:{}", isSelected);
         try {
-            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.INTRA_FILE_STATUS_CALLBACKS, Boolean.toString(checkShowGUI.isSelected()));
+            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.SHOW_GUI, Boolean.toString(isSelected));
         } catch (IdropException ex) {
+            log.error("error setting show gui property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }//GEN-LAST:event_checkShowGUIItemStateChanged
+
+    private void checkShowFileProgressItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkShowFileProgressItemStateChanged
+          boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating show intra-file progress to:{}", isSelected);
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.INTRA_FILE_STATUS_CALLBACKS, Boolean.toString(isSelected));
+            idropCore.getIdropConfigurationService().updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
             log.error("error setting  property", ex);
             throw new IdropRuntimeException(ex);
         }
-    }//GEN-LAST:event_checkShowFileProgressActionPerformed
+    }//GEN-LAST:event_checkShowFileProgressItemStateChanged
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
     }
 
     private void checkShowGUIActionPerformed(java.awt.event.ActionEvent evt) {
-        log.info("updating show gui at startup to:{}", checkShowGUI.isSelected());
-        try {
-            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.SHOW_GUI, Boolean.toString(checkShowGUI.isSelected()));
-        } catch (IdropException ex) {
-            log.error("error setting show gui property", ex);
-            throw new IdropRuntimeException(ex);
-        }
+        //
+       
     }
 
     private void checkLogSuccessfulTransferActionPerformed(java.awt.event.ActionEvent evt) {
         log.info("updating log successful transfers to:{}", checkLogSuccessfulTransfer.isSelected());
         try {
             idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES, Boolean.toString(checkShowGUI.isSelected()));
-        } catch (IdropException ex) {
-            log.error("error setting log successful property", ex);
+            idropCore.getIdropConfigurationService().updateTransferOptions();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
             throw new IdropRuntimeException(ex);
         }
-
     }
 
     private void pnlConfigSynchComponentShown(java.awt.event.ComponentEvent evt) {
@@ -930,8 +961,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 if (isNew) {
                     log.info("adding new synch");
                 }
-                
-               SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+
+                SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
 
                 // edits pass, do update
                 log.info("saving synch data");
@@ -963,10 +994,10 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
                 try {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                        if (synchConfigurationService.isSynchRunning(selectedSynchronization)) {
-                            MessageManager.showMessage(thisPanel, "Cannot update the synchronization, a synch is currently running", MessageManager.TITLE_MESSAGE);
-                            return;
-                        }
+                    if (synchConfigurationService.isSynchRunning(selectedSynchronization)) {
+                        MessageManager.showMessage(thisPanel, "Cannot update the synchronization, a synch is currently running", MessageManager.TITLE_MESSAGE);
+                        return;
+                    }
 
                     idropCore.getIdropConfigurationService().updateSynchronization(synchronization);
                     MessageManager.showMessage(thisPanel, "Configuration updated", MessageManager.TITLE_MESSAGE);
@@ -974,7 +1005,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     SynchConfigTableModel model = (SynchConfigTableModel) thisPanel.getSynchTable().getModel();
 
                     if (isNew) {
-                    
+
                         List<Synchronization> synchronizations = synchConfigurationService.listAllSynchronizations();
 
                         model.setSynchronizations(synchronizations);
@@ -1059,8 +1090,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         log.info("updating verify checksom to:{}", checkVerifyChecksumOnTransfer.isSelected());
         try {
             idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER, Boolean.toString(checkVerifyChecksumOnTransfer.isSelected()));
+            idropCore.getIdropConfigurationService().updateJargonPropertiesBasedOnIDROPConfig();
         } catch (Exception ex) {
-            log.error("error setting show gui property", ex);
+            log.error("error setting  property", ex);
             throw new IdropRuntimeException(ex);
         }
     }

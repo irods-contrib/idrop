@@ -238,30 +238,65 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     @Override
     public void statusCallback(final TransferStatus ts) {
-        
-        if (ts.isIntraFileStatusReport()) {
-            log.info("intraFile callback:{}", ts);
-            return;
-        }
-        // this.queuedTransfersLabel.setText("Queued Transfers: " +
-        // ts.getTotalFilesTransferredSoFar() + "/"
-        // + ts.getTotalFilesToTransfer());
-        this.transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
-        this.transferStatusProgressBar.setValue(ts.getTotalFilesTransferredSoFar());
+
+
         log.info("transfer status callback to iDROP:{}", ts);
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                // on initiation, clear and reset the status bar info
-                lblTransferFilesCounts.setText("Files: "
-                        + ts.getTotalFilesTransferredSoFar() + " / "
-                        + ts.getTotalFilesToTransfer());
-                lblTransferByteCounts.setText("Current File (kb):"
-                        + (ts.getBytesTransfered() / 1024) + " / "
-                        + (ts.getTotalSize() / 1024));
-                lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
+                if (ts.isIntraFileStatusReport()) {
+
+                    // intra file reports update the progress bar
+                    lblTransferByteCounts.setText("Current File (kb):"
+                            + (ts.getBytesTransfered() / 1024) + " / "
+                            + (ts.getTotalSize() / 1024));
+                    progressIntraFile.setMinimum(0);
+                    progressIntraFile.setMaximum((int) ts.getTotalSize());
+                    progressIntraFile.setValue((int) ts.getBytesTransfered());
+
+                } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_START_FILE) {
+
+                    // start of a file operation
+                    progressIntraFile.setMinimum(0);
+                    progressIntraFile.setMaximum((int) ts.getTotalSize());
+                    progressIntraFile.setValue(0);
+                    lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
+
+                } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_COMPLETE_FILE) {
+
+                    progressIntraFile.setMinimum(0);
+                    progressIntraFile.setMaximum(10);
+                    progressIntraFile.setValue(10);
+                    lblTransferByteCounts.setText("Current File (kb):"
+                            + (ts.getTotalSize() / 1024) + " / "
+                            + (ts.getTotalSize() / 1024));
+                    transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
+                    transferStatusProgressBar.setValue(ts.getTotalFilesTransferredSoFar());
+                    lblTransferFilesCounts.setText("Files: "
+                            + ts.getTotalFilesTransferredSoFar() + " / "
+                            + ts.getTotalFilesToTransfer());
+
+                } else {
+
+                    transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
+                    transferStatusProgressBar.setValue(ts.getTotalFilesTransferredSoFar());
+                    lblTransferFilesCounts.setText("Files: "
+                            + ts.getTotalFilesTransferredSoFar() + " / "
+                            + ts.getTotalFilesToTransfer());
+                    lblTransferByteCounts.setText("Current File (kb):"
+                            + (ts.getBytesTransfered() / 1024) + " / "
+                            + (ts.getTotalSize() / 1024));
+
+                    /*
+                    progressIntraFile.setMaximum(10);
+                    progressIntraFile.setMinimum(0);
+                    progressIntraFile.setValue(0);
+                     * 
+                     */
+                    lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
+                }
             }
         });
 
@@ -295,6 +330,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
                     try {
                         ((LocalFileSystemModel) idropGui.getFileTree().getModel()).notifyCompletionOfOperation(idropGui.getFileTree(), ts);
+                        progressIntraFile.setMaximum(10);
+                        progressIntraFile.setMinimum(0);
+                        progressIntraFile.setValue(0);
                     } catch (IdropException ex) {
                         log.error("error on tree notify after operation", ex);
                         throw new IdropRuntimeException("error processing overall status callback", ex);
@@ -352,7 +390,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 }
             }
         });
-
     }
 
     /**
@@ -1244,6 +1281,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblTransferFilesCounts = new javax.swing.JLabel();
         pnlTransferByteCounts = new javax.swing.JPanel();
         lblTransferByteCounts = new javax.swing.JLabel();
+        progressIntraFile = new javax.swing.JProgressBar();
         pnlTransferFileInfo = new javax.swing.JPanel();
         lblCurrentFileLabel = new javax.swing.JLabel();
         lblCurrentFile = new javax.swing.JLabel();
@@ -1705,7 +1743,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         pnlIrodsInfoInner.add(pnlInfoDetails, gridBagConstraints);
 
-        pnlToolbarInfo.setMinimumSize(null);
         pnlToolbarInfo.setLayout(new java.awt.BorderLayout());
 
         toolBarInfo.setRollover(true);
@@ -1773,7 +1810,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 0.005;
+        gridBagConstraints.weightx = 0.0050;
         pnlIdropBottom.add(userNameLabel, gridBagConstraints);
 
         pnlTransferOverview.setLayout(new java.awt.BorderLayout());
@@ -1802,8 +1839,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.gridy = 1;
         pnlTransferStatus.add(pnlTransferFileCounts, gridBagConstraints);
 
+        pnlTransferByteCounts.setLayout(new java.awt.GridBagLayout());
+
         lblTransferByteCounts.setText("Bytes (total):  /");
-        pnlTransferByteCounts.add(lblTransferByteCounts);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        pnlTransferByteCounts.add(lblTransferByteCounts, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        pnlTransferByteCounts.add(progressIntraFile, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -2581,6 +2626,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JPanel pnlTransferStatus;
     private javax.swing.JPanel pnlTransferType;
     private javax.swing.JLabel progressIconImageLabel;
+    private javax.swing.JProgressBar progressIntraFile;
     private javax.swing.JScrollPane scrollComment;
     private javax.swing.JScrollPane scrollIrodsTree;
     private javax.swing.JScrollPane scrollLocalDrives;

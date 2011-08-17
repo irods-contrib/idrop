@@ -80,4 +80,8 @@ public interface IdropConfigurationService  {
      * @throws JargonException
      */
     void updateTransferOptions() throws JargonException;
+
+    void updateJargonPropertiesBasedOnIDROPConfig() throws JargonException;
+
+    void pushIDROPConfigToJargonAndTransfer() throws IdropException;
 }

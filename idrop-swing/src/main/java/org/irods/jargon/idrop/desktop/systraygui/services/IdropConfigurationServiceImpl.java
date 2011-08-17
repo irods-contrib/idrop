@@ -8,6 +8,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.connection.JargonProperties;
+import org.irods.jargon.core.connection.SettableJargonProperties;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.packinstr.TransferOptions;
 
@@ -258,11 +260,10 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             log.info("database updated...updating property cache");
             idropCore.getIdropConfig().setProperty(key, value);
             log.info("property cache updated");
-            this.updateTransferOptions();
 
         } catch (Exception ex) {
             log.error("exception removing config property");
-            throw new IdropRuntimeException("exception updating config", ex);
+            throw new IdropException("exception updating config", ex);
         }
     }
 
@@ -276,12 +277,18 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
          * The transfer manager may not have been built the first time this is invoked
          */
         if (idropCore.getTransferManager() != null) {
-            TransferOptions transferOptions = idropCore.getIrodsFileSystem().getIrodsSession().buildTransferOptionsBasedOnJargonProperties();
-            transferOptions.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
-            transferOptions.setIntraFileStatusCallbacks(idropCore.getIdropConfig().isIntraFileStatusCallbacks());
             idropCore.getTransferManager().getTransferEngineConfigurationProperties().setLogSuccessfulTransfers(idropCore.getIdropConfig().isLogSuccessfulTransfers());
-            idropCore.getTransferManager().getTransferEngineConfigurationProperties().setTransferOptions(transferOptions);
         }
+    }
+
+    @Override
+    public void updateJargonPropertiesBasedOnIDROPConfig() throws JargonException {
+        JargonProperties props = idropCore.getIrodsFileSystem().getIrodsSession().getJargonProperties();
+        SettableJargonProperties newProps = new SettableJargonProperties(props);
+
+        newProps.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
+        newProps.setIntraFileStatusCallbacks(idropCore.getIdropConfig().isIntraFileStatusCallbacks());
+        idropCore.getIrodsFileSystem().getIrodsSession().setJargonProperties(newProps);
     }
 
     @Override
@@ -328,6 +335,17 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 
         log.info("synch saved");
 
+    }
+
+    @Override
+    public void pushIDROPConfigToJargonAndTransfer() throws IdropException {
+        try {
+            this.updateTransferOptions();
+            this.updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("exception removing config property");
+            throw new IdropException("exception updating config", ex);
+        }
     }
 
     @Override
