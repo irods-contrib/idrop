@@ -12,7 +12,9 @@
 package org.irods.jargon.idrop.lite;
 
 import java.awt.Rectangle;
+import java.awt.dnd.DropTarget;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +24,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 
 import org.irods.jargon.core.pub.domain.DataObject;
@@ -34,6 +37,7 @@ import org.irods.jargon.core.pub.DataTransferOperations;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.datautils.datacache.DataCacheServiceImpl;
+import org.irods.jargon.idrop.lite.finder.IRODSFinderDialog;
 import org.irods.jargon.core.transfer.TransferStatusCallbackListener;
 import org.netbeans.swing.outline.Outline;
 
@@ -50,6 +54,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private iDropLiteCore iDropCore = null;
     private IRODSAccount irodsAccount = null;
     private LocalFileTree fileTree = null;
+    private LocalFileTree fileUploadTree = null;
     private IRODSTree irodsTree = null;
     private Integer mode;
     private String host;
@@ -61,7 +66,9 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private String absPath;
     IRODSFileSystem irodsFileSystem = null;
     private LocalFileSystemModel localFileModel = null;
+    private LocalFileSystemModel localUploadFileModel = null;
     private JList listLocalDrives;
+    private JList listUploadLocalDrives;
 
     /** Initializes the applet NewJApplet */
     public void init() {
@@ -232,6 +239,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         buildTargetTree();
         setUpLocalFileSelectTree();
+        setUpUploadLocalFileSelectTree();
 
         try {
 
@@ -313,6 +321,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         });
     }
     
+    
+    // NEED T) REFACTOR ALL OF THE FOLLOWING DUPLICATION!!!!!!!!
     private void setUpLocalFileSelectTree() {
 
         /*
@@ -358,6 +368,56 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 pnlLocalTree.add(scrollLocalFileTree,
                         java.awt.BorderLayout.CENTER);
                 pnlLocalTree.setVisible(false);
+            }
+        });
+
+    }
+    
+    private void setUpUploadLocalFileSelectTree() {
+
+        /*
+         * build a list of the roots (e.g. drives on windows systems). If there
+         * is only one, use it as the basis for the file model, otherwise,
+         * display an additional panel listing the other roots, and build the
+         * tree for the first drive encountered.
+         */
+
+        if (fileUploadTree != null) {
+            log.info("file upload tree already initialized");
+            return;
+        }
+
+        log.info("building upload tree to look at local file system");
+        final iDropLiteApplet gui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+            	listUploadLocalDrives = new JList();
+
+                initializeUploadLocalFileTreeModel(null);
+                fileUploadTree = new LocalFileTree(localUploadFileModel, gui);
+                listUploadLocalDrives.getSelectionModel().addListSelectionListener(
+                        new ListSelectionListener() {
+
+                            @Override
+                            public void valueChanged(final ListSelectionEvent e) {
+                                if (e.getValueIsAdjusting()) {
+                                    return;
+                                }
+
+                                log.debug("new uload local file system model");
+                                log.debug("uload selection event:{}", e);
+                                Object selectedItem = listUploadLocalDrives.getSelectedValue();
+                                initializeUploadLocalFileTreeModelWhenDriveIsSelected(selectedItem);
+
+                            }
+                        });
+                scrollUploadLocalTree.setViewportView(fileUploadTree);
+                pnlUploadLocalTree.add(scrollUploadLocalTree,
+                        java.awt.BorderLayout.CENTER);
+                pnlUploadLocalTree.setVisible(true);
             }
         });
 
@@ -412,6 +472,56 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             scrollLocalDrives.setVisible(true);
         }
     }
+    
+    private void initializeUploadLocalFileTreeModelWhenDriveIsSelected(
+            final Object selectedDrive) {
+        if (selectedDrive == null) {
+            log.debug("selected drive is null, use the first one");
+            listUploadLocalDrives.setSelectedIndex(0);
+
+            localUploadFileModel = new LocalFileSystemModel(new LocalFileNode(
+                    new File((String) listUploadLocalDrives.getSelectedValue())));
+
+            fileUploadTree.setModel(localUploadFileModel);
+        } else {
+            log.debug(
+                    "selected drive is not null, create new root based on selection",
+                    selectedDrive);
+            listUploadLocalDrives.setSelectedValue(selectedDrive, true);
+            localUploadFileModel = new LocalFileSystemModel(new LocalFileNode(
+                    new File((String) selectedDrive)));
+            fileUploadTree.setModel(localUploadFileModel);
+
+        }
+
+        scrollUploadLocalDrives.setVisible(true);
+    }
+
+    private void initializeUploadLocalFileTreeModel(final Object selectedDrive) {
+        List<String> roots = LocalFileUtils.listFileRootsForSystem();
+
+        if (roots.isEmpty()) {
+            IdropException ie = new IdropException(
+                    "unable to find any roots on the local file system");
+            log.error("error building roots on local file system", ie);
+            showIdropException(ie);
+            return;
+        } else if (roots.size() == 1) {
+            scrollUploadLocalDrives.setVisible(false);
+            localUploadFileModel = new LocalFileSystemModel(new LocalFileNode(
+                    new File(roots.get(0))));
+
+        } else {
+            DefaultListModel listModel = new DefaultListModel();
+            for (String root : roots) {
+                listModel.addElement(root);
+            }
+
+            listUploadLocalDrives.setModel(listModel);
+
+            scrollUploadLocalDrives.setVisible(true);
+        }
+    }
 
     public IRODSAccount getIrodsAccount() {
         synchronized (this) {
@@ -443,6 +553,9 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
     	this.pbTransferStatus.setMaximum((int) ts.getTotalSize());
     	this.pbTransferStatus.setValue((int) ts.getBytesTransfered());
+    	
+    	this.pbUploadTransferStatus.setMaximum((int) ts.getTotalSize());
+    	this.pbUploadTransferStatus.setValue((int) ts.getBytesTransfered());
     	//this.pbTransferStatus.setMaximum((int) ts.getTotalFilesToTransfer());
     	//this.pbTransferStatus.setValue((int) ts.getTotalFilesTransferredSoFar());
     	log.info("transfer status callback to iDropLiteApplet:{}", ts);
@@ -458,6 +571,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     + (ts.getTotalSize() / 1024));
     			 */
     			lblTransferFileName.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
+    			
+    			lblUploadTransferFileName.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
     		}
     	});
 
@@ -492,6 +607,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                         + (ts.getTotalSize() / 1024));
                 */
             	lblTransferFileName.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
+            	
+            	lblUploadTransferFileName.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
             }
         });
 
@@ -538,7 +655,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     	// FIX ME: get current view of irods tree and pass to buildTargetTree
         buildTargetTree();
     }
-
     
 
     /** This method is called from within the init() method to
@@ -582,7 +698,12 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlOperationMode2 = new javax.swing.JPanel();
         pnlUploadTrees = new javax.swing.JPanel();
         pnlUploadLocalTree = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        pnlUploadRoots = new javax.swing.JPanel();
+        pnlUploadRefreshButton = new javax.swing.JPanel();
+        btnUploadLocalRefresh = new javax.swing.JButton();
+        scrollUploadLocalDrives = new javax.swing.JScrollPane();
+        pnlUploadLocalDrivesFiller = new javax.swing.JPanel();
+        scrollUploadLocalTree = new javax.swing.JScrollPane();
         pnlUploadCenterTools = new javax.swing.JPanel();
         btnUploadMove = new javax.swing.JButton();
         pnlUploadTable = new javax.swing.JPanel();
@@ -692,6 +813,9 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlLocalTree.setMinimumSize(new java.awt.Dimension(0, 62));
         pnlLocalTree.setLayout(new java.awt.BorderLayout());
 
+        pnlLocalRoots.setMinimumSize(new java.awt.Dimension(101, 44));
+        pnlLocalRoots.setPreferredSize(new java.awt.Dimension(292, 44));
+        pnlLocalRoots.setRequestFocusEnabled(false);
         pnlLocalRoots.setLayout(new java.awt.BorderLayout());
 
         btnLocalRefresh.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnLocalRefresh.text")); // NOI18N
@@ -816,7 +940,37 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadLocalTree.setMinimumSize(new java.awt.Dimension(0, 0));
         pnlUploadLocalTree.setPreferredSize(new java.awt.Dimension(285, 380));
         pnlUploadLocalTree.setLayout(new java.awt.BorderLayout());
-        pnlUploadLocalTree.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        pnlUploadRoots.setMinimumSize(new java.awt.Dimension(100, 44));
+        pnlUploadRoots.setPreferredSize(new java.awt.Dimension(289, 44));
+        pnlUploadRoots.setLayout(new java.awt.BorderLayout());
+
+        btnUploadLocalRefresh.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadLocalRefresh.text")); // NOI18N
+        btnUploadLocalRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUploadLocalRefreshActionPerformed(evt);
+            }
+        });
+        pnlUploadRefreshButton.add(btnUploadLocalRefresh);
+
+        pnlUploadRoots.add(pnlUploadRefreshButton, java.awt.BorderLayout.NORTH);
+        pnlUploadRoots.add(scrollUploadLocalDrives, java.awt.BorderLayout.CENTER);
+
+        org.jdesktop.layout.GroupLayout pnlUploadLocalDrivesFillerLayout = new org.jdesktop.layout.GroupLayout(pnlUploadLocalDrivesFiller);
+        pnlUploadLocalDrivesFiller.setLayout(pnlUploadLocalDrivesFillerLayout);
+        pnlUploadLocalDrivesFillerLayout.setHorizontalGroup(
+            pnlUploadLocalDrivesFillerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 289, Short.MAX_VALUE)
+        );
+        pnlUploadLocalDrivesFillerLayout.setVerticalGroup(
+            pnlUploadLocalDrivesFillerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 100, Short.MAX_VALUE)
+        );
+
+        pnlUploadRoots.add(pnlUploadLocalDrivesFiller, java.awt.BorderLayout.SOUTH);
+
+        pnlUploadLocalTree.add(pnlUploadRoots, java.awt.BorderLayout.NORTH);
+        pnlUploadLocalTree.add(scrollUploadLocalTree, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -857,17 +1011,31 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         tblUploadTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "File Name", "Import?"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblUploadTable.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
+        tblUploadTable.setGridColor(new java.awt.Color(204, 204, 204));
         tblUploadTable.setPreferredSize(new java.awt.Dimension(285, 380));
+        tblUploadTable.setRowMargin(2);
         tblUploadTable.setShowGrid(true);
         jScrollPane3.setViewportView(tblUploadTable);
 
@@ -889,17 +1057,21 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadToolbar.setPreferredSize(new java.awt.Dimension(700, 40));
         pnlUploadToolbar.setLayout(new java.awt.GridBagLayout());
 
-        pnlUploadToolStatus.setPreferredSize(new java.awt.Dimension(300, 20));
+        pnlUploadToolStatus.setPreferredSize(new java.awt.Dimension(500, 34));
+        pnlUploadToolStatus.setRequestFocusEnabled(false);
         pnlUploadToolStatus.setLayout(new java.awt.GridBagLayout());
 
         lblUploadTransferFileName.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.lblUploadTransferFileName.text")); // NOI18N
-        lblUploadTransferFileName.setMaximumSize(new java.awt.Dimension(400, 16));
-        lblUploadTransferFileName.setMinimumSize(new java.awt.Dimension(100, 16));
-        lblUploadTransferFileName.setPreferredSize(new java.awt.Dimension(250, 16));
+        lblUploadTransferFileName.setMaximumSize(new java.awt.Dimension(4000, 18));
+        lblUploadTransferFileName.setMinimumSize(new java.awt.Dimension(100, 18));
+        lblUploadTransferFileName.setPreferredSize(new java.awt.Dimension(250, 18));
+        lblUploadTransferFileName.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 4.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
         pnlUploadToolStatus.add(lblUploadTransferFileName, gridBagConstraints);
 
@@ -910,7 +1082,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 136;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 8.0;
+        gridBagConstraints.weightx = 6.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         pnlUploadToolStatus.add(pbUploadTransferStatus, gridBagConstraints);
 
@@ -919,11 +1091,16 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 40.0;
+        gridBagConstraints.weightx = 140.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
         pnlUploadToolbar.add(pnlUploadToolStatus, gridBagConstraints);
 
         btnUploadBeginImport.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadBeginImport.text")); // NOI18N
+        btnUploadBeginImport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUploadBeginImportActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -932,6 +1109,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadToolbar.add(btnUploadBeginImport, gridBagConstraints);
 
         btnUploadCancel.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadCancel.text")); // NOI18N
+        btnUploadCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUploadCancelActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -977,7 +1159,18 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     }//GEN-LAST:event_btnIrodsTreeRefreshActionPerformed
 
     private void btnUploadMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadMoveActionPerformed
-        // TODO add your handling code here:
+    	//int[] rows = fileUploadTree.getSelectionRows();
+        //log.debug("selected rows for delete:{}", rows);
+        
+        TreePath [] paths = fileUploadTree.getSelectionPaths();
+        for(TreePath path: paths) {
+        	DefaultTableModel tm = (DefaultTableModel)tblUploadTable.getModel();
+        	Object [] rowData = new Object[2];
+        	rowData[0] = LocalFileUtils.makeLocalFilePath(path);
+        	rowData[1] = Boolean.TRUE;
+        	tm.addRow(rowData);
+        }
+
     }//GEN-LAST:event_btnUploadMoveActionPerformed
 
     private void btnToggleLocalViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToggleLocalViewActionPerformed
@@ -993,6 +1186,70 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         });
     }//GEN-LAST:event_btnToggleLocalViewActionPerformed
 
+    private void btnUploadBeginImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadBeginImportActionPerformed
+    	
+    	// first collect target IRODS path
+        try {
+            IRODSFinderDialog finderDialog = new IRODSFinderDialog(true, iDropCore);
+            finderDialog.setVisible(true);
+            String targetPath = finderDialog.getSelectedAbsolutePath();
+            if(targetPath != null) {
+            	//then do stuff
+            	log.info("upload drop target selected:{}", targetPath);
+            }
+            finderDialog.dispose();
+            
+         // now go through and process selected import files from table
+            int rows = tblUploadTable.getRowCount();
+            int [] rowsToRemove;
+            rowsToRemove = new int[rows];
+            int idx = 0;
+            
+            for(int row=0; row<rows; row++) {
+            	if((Boolean)tblUploadTable.getValueAt(row, 1)) {
+            		String fileToImport = (String)tblUploadTable.getValueAt(row, 0);
+            		log.info("uploading local file:{}", fileToImport);
+            		iDropCore.getTransferManager().putOperation(fileToImport,
+                			targetPath, iDropCore.getIrodsAccount().getDefaultStorageResource(),
+                			this, new TreeTransferControlBlock());
+            		rowsToRemove[idx] = row;
+            		idx++;
+            	}
+            	else {
+            		rowsToRemove[idx] = -1;
+            		idx++;
+            	}
+            }
+            
+            // now delete all rows that were imported
+            // must do it backwards because table gets updated as rows get removed
+            DefaultTableModel tm = (DefaultTableModel)tblUploadTable.getModel();
+            int total = rowsToRemove.length;
+            for(int i=(total-1); i>=0; i--) {
+            	if(rowsToRemove[i] >= 0 ) {
+            		tm.removeRow(rowsToRemove[i]);
+            	}
+            }
+            
+        } catch (Exception e) {
+            log.error("exception choosings iRODS file");
+            throw new IdropRuntimeException("exception choosing irods file", e);
+        } finally {
+            iDropCore.getIrodsFileSystem().closeAndEatExceptions();
+        }
+        
+    }//GEN-LAST:event_btnUploadBeginImportActionPerformed
+
+    private void btnUploadCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadCancelActionPerformed
+    	DefaultTableModel tm = (DefaultTableModel)tblUploadTable.getModel();
+    	tm.getDataVector().removeAllElements();
+    	tm.fireTableDataChanged();
+    }//GEN-LAST:event_btnUploadCancelActionPerformed
+
+    private void btnUploadLocalRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadLocalRefreshActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUploadLocalRefreshActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIrodsTreeRefresh;
@@ -1000,9 +1257,9 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JToggleButton btnToggleLocalView;
     private javax.swing.JButton btnUploadBeginImport;
     private javax.swing.JButton btnUploadCancel;
+    private javax.swing.JButton btnUploadLocalRefresh;
     private javax.swing.JButton btnUploadMove;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblTransferFileName;
@@ -1031,7 +1288,10 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JTabbedPane pnlTabbedMain;
     private javax.swing.JPanel pnlToolBarSizer;
     private javax.swing.JPanel pnlUploadCenterTools;
+    private javax.swing.JPanel pnlUploadLocalDrivesFiller;
     private javax.swing.JPanel pnlUploadLocalTree;
+    private javax.swing.JPanel pnlUploadRefreshButton;
+    private javax.swing.JPanel pnlUploadRoots;
     private javax.swing.JPanel pnlUploadTable;
     private javax.swing.JPanel pnlUploadToolStatus;
     private javax.swing.JPanel pnlUploadToolbar;
@@ -1039,6 +1299,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JScrollPane scrIrodsTreeView;
     private javax.swing.JScrollPane scrollLocalDrives;
     private javax.swing.JScrollPane scrollLocalFileTree;
+    private javax.swing.JScrollPane scrollUploadLocalDrives;
+    private javax.swing.JScrollPane scrollUploadLocalTree;
     private javax.swing.JTabbedPane tabIrodsViews;
     private javax.swing.JTable tblProgress;
     private javax.swing.JTable tblUploadTable;
