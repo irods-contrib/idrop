@@ -377,6 +377,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         checkLogSuccessfulTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkLogSuccessfulTransfer.text")); // NOI18N
         checkLogSuccessfulTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkLogSuccessfulTransfer.toolTipText")); // NOI18N
+        checkLogSuccessfulTransfer.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkLogSuccessfulTransferItemStateChanged(evt);
+            }
+        });
         checkLogSuccessfulTransfer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkLogSuccessfulTransferActionPerformed(evt);
@@ -389,6 +394,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlConfigTransfers.add(checkLogSuccessfulTransfer, gridBagConstraints);
 
         checkVerifyChecksumOnTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkVerifyChecksumOnTransfer.text")); // NOI18N
+        checkVerifyChecksumOnTransfer.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkVerifyChecksumOnTransferItemStateChanged(evt);
+            }
+        });
         checkVerifyChecksumOnTransfer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkVerifyChecksumOnTransferActionPerformed(evt);
@@ -685,12 +695,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRefreshSynchActionPerformed
 
     private void checkShowFileProgressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkShowFileProgressActionPerformed
-       
         //
     }//GEN-LAST:event_checkShowFileProgressActionPerformed
 
     private void checkShowGUIItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkShowGUIItemStateChanged
-        
+
         boolean isSelected = false;
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             isSelected = true;
@@ -705,7 +714,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     }//GEN-LAST:event_checkShowGUIItemStateChanged
 
     private void checkShowFileProgressItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkShowFileProgressItemStateChanged
-          boolean isSelected = false;
+        boolean isSelected = false;
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             isSelected = true;
         }
@@ -719,24 +728,47 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_checkShowFileProgressItemStateChanged
 
+    private void checkVerifyChecksumOnTransferItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkVerifyChecksumOnTransferItemStateChanged
+        boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating verify checksum to:{}", isSelected);
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER, Boolean.toString(isSelected));
+            idropCore.getIdropConfigurationService().updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }//GEN-LAST:event_checkVerifyChecksumOnTransferItemStateChanged
+
+    private void checkLogSuccessfulTransferItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkLogSuccessfulTransferItemStateChanged
+        boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating log successful transfers to:{}", isSelected);
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES, Boolean.toString(isSelected));
+            idropCore.getIdropConfigurationService().updateTransferOptions();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+
+    }//GEN-LAST:event_checkLogSuccessfulTransferItemStateChanged
+
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
     }
 
     private void checkShowGUIActionPerformed(java.awt.event.ActionEvent evt) {
         //
-       
     }
 
     private void checkLogSuccessfulTransferActionPerformed(java.awt.event.ActionEvent evt) {
-        log.info("updating log successful transfers to:{}", checkLogSuccessfulTransfer.isSelected());
-        try {
-            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES, Boolean.toString(checkShowGUI.isSelected()));
-            idropCore.getIdropConfigurationService().updateTransferOptions();
-        } catch (Exception ex) {
-            log.error("error setting  property", ex);
-            throw new IdropRuntimeException(ex);
-        }
+        //
     }
 
     private void pnlConfigSynchComponentShown(java.awt.event.ComponentEvent evt) {
@@ -1087,14 +1119,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     }
 
     private void checkVerifyChecksumOnTransferActionPerformed(java.awt.event.ActionEvent evt) {
-        log.info("updating verify checksom to:{}", checkVerifyChecksumOnTransfer.isSelected());
-        try {
-            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER, Boolean.toString(checkVerifyChecksumOnTransfer.isSelected()));
-            idropCore.getIdropConfigurationService().updateJargonPropertiesBasedOnIDROPConfig();
-        } catch (Exception ex) {
-            log.error("error setting  property", ex);
-            throw new IdropRuntimeException(ex);
-        }
+        //
     }
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {
