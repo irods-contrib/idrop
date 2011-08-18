@@ -49,6 +49,7 @@ public class LoginDialog extends JDialog {
         }
 
         registerKeystrokeListener();
+        this.setLocationRelativeTo(parentDialog);
 
     }
 
@@ -392,7 +393,7 @@ public class LoginDialog extends JDialog {
     }// GEN-LAST:event_btnOKActionPerformed
 
     private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
-        System.exit(0);
+        this.dispose();
     }// GEN-LAST:event_btnCancelActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

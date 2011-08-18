@@ -21,7 +21,7 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 public class IdropConfig {
 
     private final Properties idropProperties;
-    
+
     /**
      * Given a key, get the value in the cached properties (this is not going against the config database)
      * @param propKey <code>String</code> with the key of the property
@@ -30,7 +30,7 @@ public class IdropConfig {
     public String getPropertyForKey(final String propKey) {
         return idropProperties.getProperty(propKey);
     }
-    
+
     /**
      * General method to set a property in the cached properties (this does not update the config database)
      * @param propKey <code>String</code> with the name of the property, cannot be null
@@ -139,12 +139,12 @@ public class IdropConfig {
 
         return logSuccessful;
     }
-    
+
     /**
      * Should a checksum be created and verifed during get/put transfers?
      * @return 
      */
-       public boolean isVerifyChecksum() {
+    public boolean isVerifyChecksum() {
         boolean verify = false;
         String verifyChecksumValue = idropProperties.getProperty(IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER);
 
@@ -155,8 +155,43 @@ public class IdropConfig {
 
         return verify;
     }
+    
+    /**
+     * Should transfer progress within a file be shown?
+     * @return  <code>boolean</code> that will be <code>true</code> if intra-file call-backs are desired.
+     */
+     public boolean isIntraFileStatusCallbacks() {
+        return getBooleanForKey(IdropConfigurationService.INTRA_FILE_STATUS_CALLBACKS);
+    }
 
-
+     /**
+      * Time-out (in seconds) for the main iRODS connection.  This can be set to 0 or less to inactivate
+      * @return 
+      */
+     public int irodsConnectionTimeout() {
+         return getIntForKey("idrop.irods.timeout");
+     }
+     
+      /**
+      * Time-out (in seconds) for iRODS connections during parallel transfer.  This can be set to 0 or less to inactivate
+      * @return 
+      */
+      public int irodsParallelConnectionTimeout() {
+         return getIntForKey(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT);
+     }
+      
+      /**
+       * Maximum number of threads in parallel transfers.  This is a trade-off in performance and through-put
+       * @return 
+       */
+       public int irodsParallelTransferMaxThreads() {
+         return getIntForKey(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS);
+     }
+     
+       public boolean isParallelUsePool() {
+        return getBooleanForKey(IdropConfigurationService.IRODS_PARALLEL_USE_POOL);
+    }
+       
     /**
      * Get the configured synch device name. If not set, this will return a
      * <code>null</code>
@@ -240,4 +275,29 @@ public class IdropConfig {
 
         return propBoolean;
     }
+
+   
+
+    private boolean getBooleanForKey(String key) {
+        boolean propBoolean = false;
+        String propString = idropProperties.getProperty(key);
+
+        if (propString != null && propString.equals("true")) {
+            propBoolean = true;
+        }
+        return propBoolean;
+    }
+    
+     private int getIntForKey(String key) {
+        int propInt = -1;
+        String propString = idropProperties.getProperty(key);
+
+        if (propString != null ) {
+            propInt = Integer.parseInt(propString);
+        }
+        return propInt;
+    }
+    
+    
+    
 }

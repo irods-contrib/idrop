@@ -109,7 +109,7 @@ public class StartupSequencer {
                     derivedConfigHomeDirectory, idropCore);
             idropCore.setIdropConfigurationService(idropConfigurationService);
             derivedProperties = idropConfigurationService.bootstrapConfiguration();
-
+            
         } catch (IdropAlreadyRunningException are) {
             log.error("idrop is already running, shutting down");
             JOptionPane.showMessageDialog((Component) null,
@@ -134,6 +134,15 @@ public class StartupSequencer {
         log.info("config properties derived...");
         idropCore.setIdropConfig(new IdropConfig(derivedProperties));
         idropCore.getIdropConfig().setUpLogging();
+        
+        log.info("setting jargon properties based on configurations in iDrop");
+        try {
+            idropCore.getIdropConfigurationService().pushIDROPConfigToJargonAndTransfer();
+        } catch (Exception ex) {
+            Logger.getLogger(StartupSequencer.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            throw new IdropRuntimeException(ex);
+        }
 
         log.info("setting initial look and feel");
         LookAndFeelManager laf = new LookAndFeelManager(idropCore);
@@ -147,10 +156,6 @@ public class StartupSequencer {
         int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
         int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;
         loginDialog.setLocation(x, y);
-
-        //loginDialog.setAlwaysOnTop(true);
-
-
         idropSplashWindow.toBack();
         loginDialog.toFront();
         loginDialog.setVisible(true);
@@ -171,14 +176,10 @@ public class StartupSequencer {
         idropSplashWindow.setStatus("Building transfer engine...", ++count);
 
         log.info("building transfer manager...");
-        // FIXME:rework engine config (into idrop core?) and allow changes while idrop is running
-        try {
-            TransferOptions transferOptions = idropCore.getIrodsFileSystem().getIrodsSession().buildTransferOptionsBasedOnJargonProperties();
-            transferOptions.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
-            TransferEngineConfigurationProperties engineConfig = new TransferEngineConfigurationProperties();
-            engineConfig.setTransferOptions(transferOptions);
-            engineConfig.setLogSuccessfulTransfers(idropCore.getIdropConfig().isLogSuccessfulTransfers());
-            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop, engineConfig));
+       
+        try {    
+            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop));
+            idropCore.getIdropConfigurationService().updateTransferOptions();
         } catch (JargonException ex) {
             Logger.getLogger(StartupSequencer.class.getName()).log(
                     Level.SEVERE, null, ex);
@@ -190,7 +191,6 @@ public class StartupSequencer {
             List<LocalIRODSTransfer> currentQueue = idropCore.getTransferManager().getCurrentQueue();
 
             if (!currentQueue.isEmpty()) {
-
                 idropSplashWindow.toBack();
                 int result = JOptionPane.showConfirmDialog((Component) null,
                         "Transfers are waiting to process, restart transfer?",
@@ -214,24 +214,7 @@ public class StartupSequencer {
             throw new IdropRuntimeException(e);
         }
 
-        idropSplashWindow.setStatus("Starting work queue...", ++count);
-        try {
-            QueueSchedulerTimerTask queueSchedulerTimerTask = new QueueSchedulerTimerTask(
-                    idropCore.getTransferManager(), idrop);
-            SynchPeriodicScheduler synchPeriodicScheduler = new SynchPeriodicScheduler(idropCore.getTransferManager(), idropCore.getIRODSAccessObjectFactory());
-            Timer timer = new Timer();
-            timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
-            timer.scheduleAtFixedRate(synchPeriodicScheduler, 10000, 30000);
-
-            idropCore.setQueueTimer(timer);
-
-
-
-        } catch (IdropException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        }
-
+       
         log.info("logged in, now checking for first run...");
 
         try {
@@ -279,6 +262,22 @@ public class StartupSequencer {
                     }
                 }
             }
+        }
+        
+         idropSplashWindow.setStatus("Starting work queue...", ++count);
+        try {
+            QueueSchedulerTimerTask queueSchedulerTimerTask = new QueueSchedulerTimerTask(
+                    idropCore.getTransferManager(), idrop);
+            SynchPeriodicScheduler synchPeriodicScheduler = new SynchPeriodicScheduler(idropCore.getTransferManager(), idropCore.getIRODSAccessObjectFactory());
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
+            timer.scheduleAtFixedRate(synchPeriodicScheduler, 10000, 30000);
+
+            idropCore.setQueueTimer(timer);
+
+        } catch (IdropException ex) {
+            Logger.getLogger(StartupSequencer.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
         log.info("signal that the startup sequence is complete");
