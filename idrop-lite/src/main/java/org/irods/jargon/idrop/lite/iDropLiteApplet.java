@@ -68,8 +68,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     IRODSFileSystem irodsFileSystem = null;
     private LocalFileSystemModel localFileModel = null;
     private LocalFileSystemModel localUploadFileModel = null;
-    private JList listLocalDrives;
-    private JList listUploadLocalDrives;
 
     /** Initializes the applet NewJApplet */
     public void init() {
@@ -345,11 +343,10 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
             @Override
             public void run() {
-            	listLocalDrives = new JList();
 
                 initializeLocalFileTreeModel(null);
                 fileTree = new LocalFileTree(localFileModel, gui);
-                listLocalDrives.getSelectionModel().addListSelectionListener(
+                lstLocalDrives.getSelectionModel().addListSelectionListener(
                         new ListSelectionListener() {
 
                             @Override
@@ -360,7 +357,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
                                 log.debug("new local file system model");
                                 log.debug("selection event:{}", e);
-                                Object selectedItem = listLocalDrives.getSelectedValue();
+                                Object selectedItem = lstLocalDrives.getSelectedValue();
                                 initializeLocalFileTreeModelWhenDriveIsSelected(selectedItem);
 
                             }
@@ -395,11 +392,10 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
             @Override
             public void run() {
-            	listUploadLocalDrives = new JList();
 
                 initializeUploadLocalFileTreeModel(null);
                 fileUploadTree = new LocalFileTree(localUploadFileModel, gui);
-                listUploadLocalDrives.getSelectionModel().addListSelectionListener(
+                lstUploadLocalDrives.getSelectionModel().addListSelectionListener(
                         new ListSelectionListener() {
 
                             @Override
@@ -410,7 +406,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
                                 log.debug("new uload local file system model");
                                 log.debug("uload selection event:{}", e);
-                                Object selectedItem = listUploadLocalDrives.getSelectedValue();
+                                Object selectedItem = lstUploadLocalDrives.getSelectedValue();
                                 initializeUploadLocalFileTreeModelWhenDriveIsSelected(selectedItem);
 
                             }
@@ -428,17 +424,17 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             final Object selectedDrive) {
         if (selectedDrive == null) {
             log.debug("selected drive is null, use the first one");
-            listLocalDrives.setSelectedIndex(0);
+            lstLocalDrives.setSelectedIndex(0);
 
             localFileModel = new LocalFileSystemModel(new LocalFileNode(
-                    new File((String) listLocalDrives.getSelectedValue())));
+                    new File((String) lstLocalDrives.getSelectedValue())));
 
             fileTree.setModel(localFileModel);
         } else {
             log.debug(
                     "selected drive is not null, create new root based on selection",
                     selectedDrive);
-            listLocalDrives.setSelectedValue(selectedDrive, true);
+            lstLocalDrives.setSelectedValue(selectedDrive, true);
             localFileModel = new LocalFileSystemModel(new LocalFileNode(
                     new File((String) selectedDrive)));
             fileTree.setModel(localFileModel);
@@ -468,7 +464,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 listModel.addElement(root);
             }
 
-            listLocalDrives.setModel(listModel);
+            lstLocalDrives.setModel(listModel);
 
             scrollLocalDrives.setVisible(true);
         }
@@ -478,17 +474,17 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             final Object selectedDrive) {
         if (selectedDrive == null) {
             log.debug("selected drive is null, use the first one");
-            listUploadLocalDrives.setSelectedIndex(0);
+            lstUploadLocalDrives.setSelectedIndex(0);
 
             localUploadFileModel = new LocalFileSystemModel(new LocalFileNode(
-                    new File((String) listUploadLocalDrives.getSelectedValue())));
+                    new File((String) lstUploadLocalDrives.getSelectedValue())));
 
             fileUploadTree.setModel(localUploadFileModel);
         } else {
             log.debug(
                     "selected drive is not null, create new root based on selection",
                     selectedDrive);
-            listUploadLocalDrives.setSelectedValue(selectedDrive, true);
+            lstUploadLocalDrives.setSelectedValue(selectedDrive, true);
             localUploadFileModel = new LocalFileSystemModel(new LocalFileNode(
                     new File((String) selectedDrive)));
             fileUploadTree.setModel(localUploadFileModel);
@@ -518,7 +514,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 listModel.addElement(root);
             }
 
-            listUploadLocalDrives.setModel(listModel);
+            lstUploadLocalDrives.setModel(listModel);
 
             scrollUploadLocalDrives.setVisible(true);
         }
@@ -683,6 +679,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlLocalRefreshButton = new javax.swing.JPanel();
         btnLocalRefresh = new javax.swing.JButton();
         scrollLocalDrives = new javax.swing.JScrollPane();
+        lstLocalDrives = new javax.swing.JList();
         pnlDrivesFiller = new javax.swing.JPanel();
         scrollLocalFileTree = new javax.swing.JScrollPane();
         pnlIrodsTree = new javax.swing.JPanel();
@@ -703,6 +700,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadRefreshButton = new javax.swing.JPanel();
         btnUploadLocalRefresh = new javax.swing.JButton();
         scrollUploadLocalDrives = new javax.swing.JScrollPane();
+        lstUploadLocalDrives = new javax.swing.JList();
         pnlUploadLocalDrivesFiller = new javax.swing.JPanel();
         scrollUploadLocalTree = new javax.swing.JScrollPane();
         pnlUploadCenterTools = new javax.swing.JPanel();
@@ -815,15 +813,27 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlLocalTree.setLayout(new java.awt.BorderLayout());
 
         pnlLocalRoots.setMinimumSize(new java.awt.Dimension(101, 44));
-        pnlLocalRoots.setPreferredSize(new java.awt.Dimension(292, 44));
+        pnlLocalRoots.setPreferredSize(new java.awt.Dimension(295, 110));
         pnlLocalRoots.setRequestFocusEnabled(false);
         pnlLocalRoots.setLayout(new java.awt.BorderLayout());
+
+        pnlLocalRefreshButton.setPreferredSize(new java.awt.Dimension(101, 35));
 
         btnLocalRefresh.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnLocalRefresh.text")); // NOI18N
         pnlLocalRefreshButton.add(btnLocalRefresh);
 
         pnlLocalRoots.add(pnlLocalRefreshButton, java.awt.BorderLayout.NORTH);
+
+        scrollLocalDrives.setPreferredSize(new java.awt.Dimension(285, 140));
+        scrollLocalDrives.setRequestFocusEnabled(false);
+
+        lstLocalDrives.setMinimumSize(new java.awt.Dimension(39, 75));
+        lstLocalDrives.setPreferredSize(new java.awt.Dimension(100, 75));
+        scrollLocalDrives.setViewportView(lstLocalDrives);
+
         pnlLocalRoots.add(scrollLocalDrives, java.awt.BorderLayout.CENTER);
+
+        pnlDrivesFiller.setPreferredSize(new java.awt.Dimension(292, 5));
 
         org.jdesktop.layout.GroupLayout pnlDrivesFillerLayout = new org.jdesktop.layout.GroupLayout(pnlDrivesFiller);
         pnlDrivesFiller.setLayout(pnlDrivesFillerLayout);
@@ -833,7 +843,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         );
         pnlDrivesFillerLayout.setVerticalGroup(
             pnlDrivesFillerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
+            .add(0, 5, Short.MAX_VALUE)
         );
 
         pnlLocalRoots.add(pnlDrivesFiller, java.awt.BorderLayout.SOUTH);
@@ -943,8 +953,10 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadLocalTree.setLayout(new java.awt.BorderLayout());
 
         pnlUploadRoots.setMinimumSize(new java.awt.Dimension(100, 44));
-        pnlUploadRoots.setPreferredSize(new java.awt.Dimension(289, 44));
+        pnlUploadRoots.setPreferredSize(new java.awt.Dimension(285, 120));
         pnlUploadRoots.setLayout(new java.awt.BorderLayout());
+
+        pnlUploadRefreshButton.setPreferredSize(new java.awt.Dimension(101, 35));
 
         btnUploadLocalRefresh.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadLocalRefresh.text")); // NOI18N
         btnUploadLocalRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -955,7 +967,16 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadRefreshButton.add(btnUploadLocalRefresh);
 
         pnlUploadRoots.add(pnlUploadRefreshButton, java.awt.BorderLayout.NORTH);
+
+        scrollUploadLocalDrives.setPreferredSize(new java.awt.Dimension(282, 140));
+
+        lstUploadLocalDrives.setPreferredSize(new java.awt.Dimension(285, 85));
+        lstUploadLocalDrives.setRequestFocusEnabled(false);
+        scrollUploadLocalDrives.setViewportView(lstUploadLocalDrives);
+
         pnlUploadRoots.add(scrollUploadLocalDrives, java.awt.BorderLayout.CENTER);
+
+        pnlUploadLocalDrivesFiller.setPreferredSize(new java.awt.Dimension(289, 10));
 
         org.jdesktop.layout.GroupLayout pnlUploadLocalDrivesFillerLayout = new org.jdesktop.layout.GroupLayout(pnlUploadLocalDrivesFiller);
         pnlUploadLocalDrivesFiller.setLayout(pnlUploadLocalDrivesFillerLayout);
@@ -965,7 +986,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         );
         pnlUploadLocalDrivesFillerLayout.setVerticalGroup(
             pnlUploadLocalDrivesFillerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
+            .add(0, 10, Short.MAX_VALUE)
         );
 
         pnlUploadRoots.add(pnlUploadLocalDrivesFiller, java.awt.BorderLayout.SOUTH);
@@ -1265,6 +1286,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblTransferFileName;
     private javax.swing.JLabel lblUploadTransferFileName;
+    private javax.swing.JList lstLocalDrives;
+    private javax.swing.JList lstUploadLocalDrives;
     private javax.swing.JProgressBar pbTransferStatus;
     private javax.swing.JProgressBar pbUploadTransferStatus;
     private javax.swing.JPanel pnlDrivesFiller;
