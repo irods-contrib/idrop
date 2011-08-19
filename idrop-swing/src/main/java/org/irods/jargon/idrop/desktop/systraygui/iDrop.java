@@ -330,9 +330,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
                     try {
                         ((LocalFileSystemModel) idropGui.getFileTree().getModel()).notifyCompletionOfOperation(idropGui.getFileTree(), ts);
-                        progressIntraFile.setMaximum(10);
-                        progressIntraFile.setMinimum(0);
-                        progressIntraFile.setValue(0);
+                   
                     } catch (IdropException ex) {
                         log.error("error on tree notify after operation", ex);
                         throw new IdropRuntimeException("error processing overall status callback", ex);
