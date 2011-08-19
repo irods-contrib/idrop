@@ -104,12 +104,23 @@ public class TreeUtils {
 
         parent.lazyLoadOfChildrenOfThisNode();
 
+        String normalizedPath = null;
+        
         for (int i = 0; i < parent.getChildCount(); i++) {
             childEntry = (File) ((LocalFileNode) parent.getChildAt(i)).getUserObject();
+            
+            normalizedPath = childEntry.getAbsolutePath().replace('\\', '/');
+            
+            if (normalizedPath.length() >= 2) {
+                if (normalizedPath.charAt(1) == ':') {
+                    normalizedPath = normalizedPath.substring(2);
+                }
+            }
+            
 
             if (childEntry.isDirectory()) {
                 log.debug("child entry is a collection");
-                if (userObject.equals(childEntry.getAbsolutePath())) {
+                if (userObject.equals(normalizedPath)) {
                     foundNode = (LocalFileNode) parent.getChildAt(i);
                     break;
                 }
@@ -119,7 +130,7 @@ public class TreeUtils {
                 log.debug(
                         "looking for match when child entry is a file with abs path:{}",
                         childEntry.getAbsolutePath());
-                if (userObject.equals(childEntry.getAbsolutePath())) {
+                if (userObject.equals(normalizedPath)) {
                     foundNode = (LocalFileNode) parent.getChildAt(i);
                     break;
                 }
@@ -134,7 +145,11 @@ public class TreeUtils {
         LocalFileNode localNode = (LocalFileNode) fileSystemModel.getRoot();
         TreePath calculatedTreePath = new TreePath(localNode);
         localNode.getUserObject();
-        String[] pathComponents = absolutePath.split("/");
+
+        String normalizedPath = absolutePath.replace('\\', '/');
+
+        String[] pathComponents = normalizedPath.split("/");
+
 
         StringBuilder searchRoot = new StringBuilder();
         LocalFileNode currentNode = (LocalFileNode) fileSystemModel.getRoot();
@@ -147,6 +162,19 @@ public class TreeUtils {
         String nextPathComponent;
 
         for (int i = 0; i < pathComponents.length; i++) {
+
+            nextPathComponent = pathComponents[i];
+
+            /*
+             * In windows, the drive letter is the first part of the path, so if the first path
+             * component is length 2 and the second char is ':', then it will be ignored
+             */
+
+            if (i == 0 && nextPathComponent.length() == 2 && nextPathComponent.charAt(1) == ':') {
+                log.debug("skipping drive in path");
+                continue;
+            }
+
             // next element from userObjects is the child of the current node,
             // note that for the first node (typically
             // '/') a delimiting slash is not needed
@@ -154,7 +182,6 @@ public class TreeUtils {
                 searchRoot.append('/');
             }
 
-            nextPathComponent = pathComponents[i];
             searchRoot.append(nextPathComponent);
             if (i > 0) {
                 currentNode = findChild(currentNode, searchRoot.toString());
@@ -175,7 +202,7 @@ public class TreeUtils {
             }
         }
         if (calculatedTreePath == null) {
-            throw new IdropException("cannot find path to node:" + absolutePath);
+            throw new IdropException("cannot find path to node:" + normalizedPath);
         }
         return calculatedTreePath;
 
@@ -365,8 +392,8 @@ public class TreeUtils {
             tree.collapsePath(parent);
         }
     }
-    
-      public static void expandAll(final Outline tree, final TreePath parent,
+
+    public static void expandAll(final Outline tree, final TreePath parent,
             final boolean expand) {
         // Traverse children
         TreeNode node = (TreeNode) parent.getLastPathComponent();
@@ -385,7 +412,6 @@ public class TreeUtils {
             tree.collapsePath(parent);
         }
     }
-
 
     //FIXME: consider getting rid of defunct code below...
     /**

@@ -165,6 +165,8 @@ public class LoginDialog extends JDialog {
 
         IRODSFileSystem irodsFileSystem = null;
 
+        /* getting userAO will attempt the login */
+        
         try {
             irodsFileSystem = idropCore.getIrodsFileSystem();
             final UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);

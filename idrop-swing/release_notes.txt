@@ -1,17 +1,161 @@
-iDrop Desktop Client
 
-********  Note that this is software in development, and is not yet intended for general use *************
+*'''Project''': iDrop-swing- Desktop iRODS transfer manager
+*'''Date''': 08/30/2010
+*'''Release Version''': 1.0.0 Release to conincide with iRODS 3.0
+*'''git tag''':  xxxxx
 
-work in progress -- Milestone 0.9.8
 
-*[#308] irods tree does not refresh when deleting a directory
-*[#61] delete local file multi-select
-*[#254] drag and drop, desktop to irods file should use irods parent as target
-*[#153] local file dir copy/move
-* [#316] feedback on tree node expansion
-*[#313] info not synchronizing on tree select
-*[#315] delete nodes in ll, refresh issue?
-*[#321] progress bar not clearing at begin of txfr
-* [#317] rename irods file (in windows xp) completes but throws up an 'exception moving file' dialog
-*[#338] allow different look and feel of client interface
+==News==
 
+This is the initial release of the iDrop desktop transfer manager client.  iDrop runs in the system tray of your favorite operating system, and can manage transfers between your computer and iRODS, and manage data once in iRODS.
+
+iDrop also automates synchronization between your desktop and iRODS.  There is an initial local -> iRODS backup capability, with automatic version of files within iRODS.  Other modes are in development
+
+
+GForge for iDrop-swing is at:  [[https://code.renci.org/gf/project/irodsidrop/]]
+
+==Requirements==
+
+-iDrop depends on Java 1.6+
+-iDrop is built using Maven
+
+iDrop-swing uses Maven for dependency management.  See the pom.xml file for references to various dependencies.
+
+Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
+
+
+==Bug Fixes==
+
+ 
+iRODS iDrop > add busy and message bar feedback for updates in info panel	2011-02-10 07:03:04
+
+iRODS iDrop > menubar name has not been set	2011-04-06 09:44:45
+
+iRODS iDrop > rename irods file (in windows xp) completes but throws up an 'exception moving file' dialog	2011-07-01 04:33:24
+
+iRODS iDrop > transfer irods folder to local shows exception	2011-07-08 07:44:20
+
+iRODS iDrop > irods move - destination has to be a directory	2011-07-08 07:51:38
+
+iRODS iDrop > clear synch messages on init of process	2011-08-05 11:06:00
+
+iRODS iDrop > queue status not correctly refreshing when alternate sort selected	2011-02-10 06:54:28
+
+iRODS iDrop > repaint probs in idrop gui after logout	2011-06-02 08:07:47
+
+iRODS iDrop > progress bar not clearing at begin of txfr	2011-07-05 03:45:04
+
+iRODS iDrop > enter/return does not submit on password change dialog	2011-02-10 06:49:44
+
+iRODS iDrop > GUI builder broken/disconnected	2011-07-07 03:31:41
+
+iRODS iDrop > get confirm location	2011-01-20 12:28:05
+
+iRODS iDrop > sizing problem file name in info panel	2011-07-21 07:55:53
+
+iRODS iDrop > select on iRODS tree to show info needs hourglass	2011-08-09 04:42:26
+
+iRODS iDrop > windows error txfr long file name w/embedded spaces	2011-02-10 06:53:32
+
+iRODS iDrop > transfer progress not clearing on init of transfer	2011-03-31 12:15:50
+
+iRODS iDrop > result of transfer does not cause refresh of tree	2011-06-05 11:32:26
+
+iRODS iDrop > copy txfr not filling out txfr summary window in queue mgr dialog	2011-06-06 08:38:20
+
+iRODS iDrop > copy to parent dir causes - 511000 irods error	2011-06-06 10:28:52
+
+iRODS iDrop > local tree losing transfer handler	2011-06-06 11:29:57
+
+iRODS iDrop > pause graphic does not appear after not restarting transfer	2011-06-13 13:53:19
+
+iRODS iDrop > fix startup exception when already running	2011-06-14 04:55:42
+
+iRODS iDrop > new local dir causes wierd blank tree entry	2011-06-14 04:56:14
+
+iRODS iDrop > irods tree does not refresh when deleting a directory	2011-06-22 18:34:34
+
+iRODS iDrop > renaming a local folder throws exception	2011-07-08 07:15:27
+
+iRODS iDrop > idrop window stops refreshing - possibly from right clicking	2011-07-08 07:49:39
+
+iRODS iDrop > show filesize of directories as hyphen	2011-07-16 06:04:18
+
+iRODS iDrop > win7 rename folder (from test script)	2011-07-21 07:48:10
+
+iRODS iDrop > start of get transfer does not reset progress bar	2011-07-21 07:51:38
+
+iRODS iDrop > JFileChooser in Win7 Documents vs. My Documents messes up synch	2011-08-04 05:55:12
+
+iRODS iDrop > synch manager cleanups	2011-08-05 11:05:24
+
+iRODS iDrop > callbacks from puts on winxp not finding tree path	2011-08-08 14:14:27
+
+iRODS iDrop > mutli-file irods delete not working	2011-06-02 07:42:24
+
+iRODS iDrop > refresh of irodsFileTree does not scroll down to selected item	2011-06-05 11:33:17
+
+iRODS iDrop > windows error on irods move WinXP	2011-06-06 08:24:34
+
+iRODS iDrop > Unable to build details for transfer type in queue manager dialog when copy	2011-06-06 08:26:14
+
+iRODS iDrop > -321000 error on copy in idrop	2011-06-06 08:35:59
+
+iRODS iDrop > info not synchronizing on tree select	2011-06-30 05:51:56
+
+iRODS iDrop > delete nodes in ll, refresh issue?	2011-06-30 12:41:36
+
+iRODS iDrop > fedora linux error when selecting node for info	2011-08-09 04:41:15
+
+iRODS iDrop > node delete issue seen on mac and win	2011-08-10 12:09:37
+
+iRODS iDrop > hit cancel button on switch grid or change password shouldn't exit	2011-08-15 12:22:54
+
+iRODS iDrop > idrop-swing does not get irods file list	2011-04-18 09:21:37
+
+iRODS iDrop > -511017 on copy
+
+==Features==
+
+iRODS iDrop > refresh remote tree after transfer completes - if queue is small/empty	2011-02-10 07:00:51
+
+iRODS iDrop > fix pause	2011-05-31 09:25:25
+
+iRODS iDrop > feedback on tree node expansion	2011-07-01 04:20:33
+
+iRODS iDrop > allow different look and feel of client interface	2011-07-08 07:19:18
+
+iRODS iDrop > add details to tree views	2011-02-10 06:50:36
+
+iRODS iDrop > add ability to run via maven after build	2011-01-21 09:45:49
+
+iRODS iDrop > startup sequence with graphical progress	2011-02-10 05:38:49
+
+iRODS iDrop > delete local file multi-select	2011-02-01 07:41:51
+
+iRODS iDrop > update tags => update tag cloud	2011-02-26 10:01:16
+
+iRODS iDrop > local file dir copy/move	2011-03-31 12:18:48
+
+iRODS iDrop > get rid of tag view (replace with tag cloud?)	2011-03-31 12:19:45
+
+iRODS iDrop > LL - sync management preferences for single device	2011-05-27 08:32:58
+
+iRODS iDrop > add within-file progress bar	2011-08-15 09:49:50
+
+iRODS iDrop > Add progress bar to bottom of iDrop and links to view queue from idrop menu	2011-02-10 06:55:07
+
+iRODS iDrop > copy irods function	2011-02-10 07:02:02
+
+iRODS iDrop > LL - headless auto-backup	2011-02-10 07:25:14
+
+iRODS iDrop > LL - first-run setup wizard for sync folders	2011-05-27 08:28:32
+
+iRODS iDrop > drag and drop, desktop to irods file should use irods parent as target	2011-06-03 09:44:23
+
+
+==Outstanding Issues==
+
+Please consult [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
+
+for the latest open bugs and Jargon feature requests

@@ -330,9 +330,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
                     try {
                         ((LocalFileSystemModel) idropGui.getFileTree().getModel()).notifyCompletionOfOperation(idropGui.getFileTree(), ts);
-                        progressIntraFile.setMaximum(10);
-                        progressIntraFile.setMinimum(0);
-                        progressIntraFile.setValue(0);
+
                     } catch (IdropException ex) {
                         log.error("error on tree notify after operation", ex);
                         throw new IdropRuntimeException("error processing overall status callback", ex);
@@ -924,7 +922,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
             @Override
             public void run() {
-                log.debug("refreshing series panel");
+                gui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
                 TreePath[] currentPaths = null;
 
                 if (getTreeStagingResource() != null) {
@@ -1008,6 +1007,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } finally {
                     getiDropCore().getIrodsFileSystem().closeAndEatExceptions(
                             iDropCore.getIrodsAccount());
+                    gui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
             }
         });
@@ -1575,9 +1575,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlFileNameAndIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlFileNameAndIcon.setMinimumSize(new java.awt.Dimension(100, 50));
-        pnlFileNameAndIcon.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
+        pnlFileNameAndIcon.setLayout(new java.awt.GridLayout());
 
         lblFileOrCollectionName.setText("           ");
+        lblFileOrCollectionName.setMaximumSize(new java.awt.Dimension(900, 100));
         lblFileOrCollectionName.setMinimumSize(new java.awt.Dimension(80, 30));
         pnlFileNameAndIcon.add(lblFileOrCollectionName);
 
@@ -1810,7 +1811,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 0.0050;
+        gridBagConstraints.weightx = 0.005;
         pnlIdropBottom.add(userNameLabel, gridBagConstraints);
 
         pnlTransferOverview.setLayout(new java.awt.BorderLayout());
@@ -1857,11 +1858,17 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlTransferOverview.add(pnlTransferStatus, java.awt.BorderLayout.NORTH);
 
-        pnlTransferFileInfo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        pnlTransferFileInfo.setLayout(new java.awt.GridBagLayout());
 
         lblCurrentFileLabel.setText("Current File:");
-        pnlTransferFileInfo.add(lblCurrentFileLabel);
-        pnlTransferFileInfo.add(lblCurrentFile);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTransferFileInfo.add(lblCurrentFileLabel, gridBagConstraints);
+
+        lblCurrentFile.setMaximumSize(new java.awt.Dimension(999, 999));
+        lblCurrentFile.setMinimumSize(new java.awt.Dimension(30, 10));
+        lblCurrentFile.setPreferredSize(new java.awt.Dimension(300, 20));
+        pnlTransferFileInfo.add(lblCurrentFile, new java.awt.GridBagConstraints());
 
         pnlTransferOverview.add(pnlTransferFileInfo, java.awt.BorderLayout.CENTER);
 
