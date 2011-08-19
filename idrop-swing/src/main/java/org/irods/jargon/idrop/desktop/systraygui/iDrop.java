@@ -330,7 +330,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
                     try {
                         ((LocalFileSystemModel) idropGui.getFileTree().getModel()).notifyCompletionOfOperation(idropGui.getFileTree(), ts);
-                   
+
                     } catch (IdropException ex) {
                         log.error("error on tree notify after operation", ex);
                         throw new IdropRuntimeException("error processing overall status callback", ex);
@@ -922,7 +922,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
             @Override
             public void run() {
-                log.debug("refreshing series panel");
+                gui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
                 TreePath[] currentPaths = null;
 
                 if (getTreeStagingResource() != null) {
@@ -1006,6 +1007,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } finally {
                     getiDropCore().getIrodsFileSystem().closeAndEatExceptions(
                             iDropCore.getIrodsAccount());
+                    gui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
             }
         });
