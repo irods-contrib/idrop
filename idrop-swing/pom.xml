@@ -81,7 +81,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>jnlp</goal> 
+                            <goal>jnlp-inline</goal> 
 	      <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
                         </goals>
                     </execution>

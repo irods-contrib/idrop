@@ -301,10 +301,12 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
                             toDelete);
                 } else {
                     List<LocalFileNode> nodesToDelete = new ArrayList<LocalFileNode>();
-                    for (int row : rows) {
-                        nodesToDelete.add((LocalFileNode) thisTree.getSelectionModel().getSelectionPaths()[row].getLastPathComponent());
-                    }
-
+                   TreePath[] paths = thisTree.getSelectionPaths();
+                   
+                   for (TreePath treePath : paths) {
+                       nodesToDelete.add((LocalFileNode) treePath.getLastPathComponent());
+                   }
+                   
                     deleteDialog = new DeleteLocalFileDialog(idropParentGui,
                             true, thisTree, nodesToDelete);
                 }
