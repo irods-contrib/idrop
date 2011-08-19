@@ -1,9 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-package org.irods.jargon.idrop.lite;
+package org.irods.jargon.idrop.lite.finder;
 
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
@@ -26,8 +21,14 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
-import org.irods.jargon.idrop.lite.finder.IRODSTreeContainingComponent;
-import org.irods.jargon.idrop.lite.finder.IrodsSelectionListenerForBuildingInfoPanel;
+import org.irods.jargon.idrop.lite.DeleteIRODSDialog;
+import org.irods.jargon.idrop.lite.NewIRODSDirectoryDialog;
+import org.irods.jargon.idrop.lite.RenameIRODSDirectoryDialog;
+import org.irods.jargon.idrop.lite.iDropLiteApplet;
+import org.irods.jargon.idrop.lite.IRODSNode;
+import org.irods.jargon.idrop.lite.IRODSRowModel;
+import org.irods.jargon.idrop.lite.IdropException;
+import org.irods.jargon.idrop.lite.IdropRuntimeException;
 import org.netbeans.swing.outline.DefaultOutlineModel;
 import org.netbeans.swing.outline.Outline;
 import org.netbeans.swing.outline.OutlineModel;
@@ -39,19 +40,18 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class IRODSTree extends Outline implements TreeWillExpandListener,
+public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
         TreeExpansionListener, IRODSTreeContainingComponent {
 
-    public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTree.class);
-    protected iDropLiteApplet idropParentGui = null;
+    public IRODSFinderDialog irodsFinderDialog = null;
+    public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSFinderTree.class);
     protected JPopupMenu m_popup = null;
     protected Action m_action;
     protected TreePath m_clickedPath;
-    protected IRODSTree thisTree;
+    protected IRODSFinderTree thisTree;
     private boolean refreshingTree = false;
     TreePathSupport tps;
 
-    @Override
     public boolean isRefreshingTree() {
         synchronized (this) {
             return refreshingTree;
@@ -64,49 +64,32 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
         }
     }
 
-    public IRODSTree(final TreeModel newModel, final iDropLiteApplet idropParentGui) {
+    public IRODSFinderTree(final TreeModel newModel,final IRODSFinderDialog irodsFinderDialog) {
         super();
 
         OutlineModel mdl = DefaultOutlineModel.createOutlineModel(newModel,
                 new IRODSRowModel(), true, "File System");
-        this.idropParentGui = idropParentGui;
+        this.irodsFinderDialog = irodsFinderDialog;
+        tps = new TreePathSupport(mdl, this.getLayoutCache());
 
+        tps.addTreeExpansionListener(this);
+        tps.addTreeWillExpandListener(this);
         initializeMenusAndListeners();
     }
 
-    public IRODSTree() {
+    public IRODSFinderTree() {
         super();
     }
 
-    public IRODSTree(final iDropLiteApplet idropParentGui) {
+    public IRODSFinderTree(final IRODSFinderDialog irodsFinderDialog) {
         super();
-        this.idropParentGui = idropParentGui;
+        this.irodsFinderDialog = irodsFinderDialog;
         initializeMenusAndListeners();
     }
 
     private void initializeMenusAndListeners() {
-        tps = new TreePathSupport(this.getOutlineModel(), this.getLayoutCache());
-        tps.addTreeExpansionListener(this);
-        tps.addTreeWillExpandListener(this);
-        setDragEnabled(true);
-        setTransferHandler(new IRODSTreeTransferHandler(idropParentGui,
-                "selectionModel"));
-        setDropMode(javax.swing.DropMode.ON);
-
+        setDragEnabled(false);
         setUpTreeMenu();
-        IrodsSelectionListenerForBuildingInfoPanel treeListener;
-        try {
-            treeListener = new IrodsSelectionListenerForBuildingInfoPanel(
-                    idropParentGui);
-        } catch (IdropException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
-                    ex);
-            throw new IdropRuntimeException(
-                    "error initializing selection listener", ex);
-        }
-       
-        this.getSelectionModel().addListSelectionListener(treeListener);
-
     }
 
     /**
@@ -114,6 +97,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
      */
     private void setUpTreeMenu() {
         thisTree = this;
+       
         m_popup = new JPopupMenu();
         m_action = new AbstractAction() {
 
@@ -152,12 +136,14 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
                     return;
                 }
                 // show a dialog asking for the new directory name...
-                NewIRODSDirectoryDialog newDirectoryDialog = new NewIRODSDirectoryDialog(
-                        idropParentGui, true, dataEntry.getPathOrName(),
+              
+                FinderNewIRODSDirectoryDialog newDirectoryDialog = new FinderNewIRODSDirectoryDialog(
+                        irodsFinderDialog, true, dataEntry.getPathOrName(),
                         thisTree, parent);
                 newDirectoryDialog.setLocation(
-                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                        (int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog.getWidth() / 2), (int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog.getHeight() / 2));
                 newDirectoryDialog.setVisible(true);
+               
             }
         };
         m_popup.add(newAction);
@@ -172,14 +158,16 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
                 int[] rows = thisTree.getSelectedRows();
                 log.debug("selected rows for delete:{}", rows);
 
-                DeleteIRODSDialog deleteDialog;
+               
+                FinderDeleteIRODSDialog deleteDialog;
 
                 if (rows.length == 1) {
 
                     IRODSNode toDelete = (IRODSNode) thisTree.getValueAt(
                             rows[0], 0);
                     log.info("deleting a single node: {}", toDelete);
-                    deleteDialog = new DeleteIRODSDialog(idropParentGui, true,
+                 
+                    deleteDialog = new FinderDeleteIRODSDialog(irodsFinderDialog, true,
                             thisTree, toDelete);
                 } else {
                     List<IRODSNode> nodesToDelete = new ArrayList<IRODSNode>();
@@ -189,13 +177,14 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 
                     }
 
-                    deleteDialog = new DeleteIRODSDialog(idropParentGui, true,
+                    deleteDialog = new FinderDeleteIRODSDialog(irodsFinderDialog, true,
                             thisTree, nodesToDelete);
                 }
 
                 deleteDialog.setLocation(
-                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                        (int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog.getWidth() / 2), (int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog.getHeight() / 2));
                 deleteDialog.setVisible(true);
+                  
             }
         };
 
@@ -221,10 +210,10 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
                 }
 
                 // show a dialog asking for the new directory name...
-                RenameIRODSDirectoryDialog renameDialog = new RenameIRODSDirectoryDialog(
-                        idropParentGui, true, sb.toString(), thisTree, toRename);
+                FinderRenameIRODSDirectoryDialog renameDialog = new FinderRenameIRODSDirectoryDialog(
+                        irodsFinderDialog, true, sb.toString(), thisTree, toRename);
                 renameDialog.setLocation(
-                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                        (int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog.getWidth() / 2), (int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog.getHeight() / 2));
                 renameDialog.setVisible(true);
             }
         };
@@ -299,9 +288,8 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
         try {
             expandingNode.lazyLoadOfChildrenOfThisNode(!isRefreshingTree());
         } catch (IdropException ex) {
-            Logger.getLogger(IRODSTree.class.getName()).log(Level.SEVERE, null,
+            Logger.getLogger(IRODSFinderTree.class.getName()).log(Level.SEVERE, null,
                     ex);
-            idropParentGui.showIdropException(ex);
             throw new IdropRuntimeException("error expanding irodsNode");
         } finally {
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -309,7 +297,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
     }
 
     public void highlightPath(final TreePath pathToHighlight) {
-        final IRODSTree highlightTree = this;
+        final IRODSFinderTree highlightTree = this;
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
