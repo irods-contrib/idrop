@@ -24,9 +24,10 @@ import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreePath;
-//import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FileUtils;
 
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.pub.DataTransferOperations;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
@@ -189,15 +190,16 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
                 @Override
                 public void run() {
-                	/*
                     try {
                         for (File transferFile : sourceFiles) {
 
                             if (transferFile instanceof IRODSFile) {
                                 log.info("initiating a transfer of iRODS file:{}", transferFile.getAbsolutePath());
                                 log.info("transfer to local file:{}", tempTargetLocalFileAbsolutePath);
-                                idropGui.getiDropCore().getTransferManager().enqueueAGet(transferFile.getAbsolutePath(), tempTargetLocalFileAbsolutePath,
-                                        "", idropGui.getIrodsAccount());
+                                DataTransferOperations dto = idropGui.getiDropCore().getIRODSAccessObjectFactory().getDataTransferOperations(
+                                		idropGui.getIrodsAccount());
+                                dto.getOperation(transferFile.getAbsolutePath(), tempTargetLocalFileAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui, null);                           
+
                             } else {
                                 log.info("process a local to local move with source...not yet implemented : {}",
                                         transferFile.getAbsolutePath());
@@ -208,8 +210,9 @@ public class LocalTreeTransferHandler extends TransferHandler {
                                 java.util.logging.Level.SEVERE, null, ex);
                         idropGui.showIdropException(ex);
                         throw new IdropRuntimeException(ex);
+                    } finally {
+                    	idropGui.getiDropCore().closeAllIRODSConnections();
                     }
-                    */
                 }
             });
 
@@ -224,7 +227,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
     private void processDropFromSerializedObjectType(Transferable transferable, File parent, DataFlavor flavor, int userDropAction) {
 
         log.info("process as drop of file list to target:{}", parent.getAbsolutePath());
-/*
+///*
         File effectiveTarget;
         if (parent.isDirectory()) {
             effectiveTarget = parent;
@@ -292,7 +295,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
             log.error("error updating local file tree after add", ex);
             throw new IdropRuntimeException(ex);
         }
- */
+ //*/
 
 
     }

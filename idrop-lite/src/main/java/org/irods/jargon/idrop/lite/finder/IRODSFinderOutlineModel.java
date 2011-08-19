@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.irods.jargon.idrop.lite;
+package org.irods.jargon.idrop.lite.finder;
 
 import java.util.Date;
 import java.util.logging.Level;
@@ -18,6 +14,15 @@ import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.core.transfer.TransferStatus.TransferState;
+import org.irods.jargon.idrop.lite.IRODSFileSystemModel;
+import org.irods.jargon.idrop.lite.IRODSNode;
+import org.irods.jargon.idrop.lite.IRODSOutlineModel;
+import org.irods.jargon.idrop.lite.IRODSTree;
+import org.irods.jargon.idrop.lite.iDropLiteCore;
+import org.irods.jargon.idrop.lite.iDropLiteApplet;
+import org.irods.jargon.idrop.lite.TreeUtils;
+import org.irods.jargon.idrop.lite.IdropException;
+import org.irods.jargon.idrop.lite.IdropRuntimeException;
 import org.netbeans.swing.outline.DefaultOutlineModel;
 import org.netbeans.swing.outline.RowModel;
 import org.slf4j.LoggerFactory;
@@ -25,33 +30,34 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class IRODSOutlineModel extends DefaultOutlineModel {
+public class IRODSFinderOutlineModel extends DefaultOutlineModel {
 
-	public static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSOutlineModel.class);
+    public static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSFinderOutlineModel.class);
     private final IRODSFileSystemModel treeModel;
+    private final IRODSFinderTree irodsFinderTree;
+    private final iDropLiteCore idropCore;
 
     public IRODSFileSystemModel getTreeModel() {
         return treeModel;
     }
-    private iDropLiteApplet idrop;
 
-    public IRODSOutlineModel(final iDropLiteApplet idrop, final TreeModel tm,
+    public IRODSFinderOutlineModel(final iDropLiteCore idropCore, final IRODSFinderTree irodsFinderTree, final TreeModel tm,
             final TableModel tm1, final boolean bln, final String string) {
         super(tm, tm1, bln, string);
         this.treeModel = (IRODSFileSystemModel) tm;
-        this.idrop = idrop;
-        
+        this.irodsFinderTree = irodsFinderTree;
+        this.idropCore = idropCore;
     }
 
-    public IRODSOutlineModel(final iDropLiteApplet idrop, final TreeModel tm,
+    public IRODSFinderOutlineModel(final iDropLiteCore idropCore,final IRODSFinderTree irodsFinderTree,final TreeModel tm,
             final RowModel rm, final boolean bln, final String string) {
         super(tm, rm, bln, string);
         this.treeModel = (IRODSFileSystemModel) tm;
-
-        this.idrop = idrop;
+        this.irodsFinderTree = irodsFinderTree;
+        this.idropCore = idropCore;
     }
-
-    public void notifyFileShouldBeRemoved(final IRODSNode deletedNode)
+    
+     public void notifyFileShouldBeRemoved(final IRODSNode deletedNode)
             throws IdropException {
 
         if (deletedNode == null) {
@@ -64,7 +70,7 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
             return;
         }
 
-        final IRODSOutlineModel thisModel = this;
+        final IRODSFinderOutlineModel thisModel = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -72,10 +78,10 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
             public void run() {
                 deletedNode.getUserObject();
                 CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) (parent).getUserObject();
-                IRODSTree stagingViewTree = idrop.getIrodsTree();
+        
                 try {
-                    TreeUtils.buildTreePathForIrodsAbsolutePath(
-                            stagingViewTree, entry.getFormattedAbsolutePath());
+                    FinderUtils.buildTreePathForIrodsAbsolutePath(
+                            irodsFinderTree, entry.getFormattedAbsolutePath());
 
                 } catch (IdropException ex) {
                     Logger.getLogger(IRODSOutlineModel.class.getName()).log(
@@ -83,30 +89,13 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                     throw new IdropRuntimeException(ex);
                 }
 
-                thisModel.treeModel.removeNodeFromParent(deletedNode);
+                treeModel.removeNodeFromParent(deletedNode);
 
             }
         });
     }
 
-    public void notifyCompletionOfOperation(final IRODSTree irodsTree,
-            final TransferStatus transferStatus) throws IdropException {
-        log.info("tree model notified of status:{}", transferStatus);
-
-        if (transferStatus.getTransferState() != TransferState.OVERALL_COMPLETION) {
-            return;
-        }
-
-        // for put or copy operation, highlight the new node
-        if (transferStatus.getTransferType() == TransferStatus.TransferType.PUT
-                || transferStatus.getTransferType() == TransferStatus.TransferType.COPY) {
-            log.info("successful put transfer, find the parent tree node, and clear the children");
-            notifyFileShouldBeAdded(irodsTree,
-                    transferStatus.getTargetFileAbsolutePath());
-
-        }
-    }
-
+ 
     public void notifyFileShouldBeAdded(final IRODSTree irodsTree,
             final String irodsFileAbsolutePath) {
         log.info("notifyFileShouldBeAdded() for node:{}", irodsFileAbsolutePath);
@@ -116,7 +105,7 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
             @Override
             public void run() {
 
-                IRODSFileFactory irodsFileFactory = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
+                IRODSFileFactory irodsFileFactory = idropCore.getIRODSFileFactoryForLoggedInAccount();
                 try {
                     try {
                         // if the node already exists (e.g. an overwrite, don'
@@ -179,16 +168,18 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
                         newEntry.setPathOrName(addedFile.getName());
                     }
 
-                    IRODSNode newNode = new IRODSNode(newEntry, idrop.getiDropCore().getIrodsAccount(), idrop.getiDropCore().getIrodsFileSystem(), irodsTree);
+                    IRODSNode newNode = new IRODSNode(newEntry, idropCore.getIrodsAccount(), idropCore.getIrodsFileSystem(), irodsTree);
                     ((IRODSNode) parentPath.getLastPathComponent()).add(newNode);
                     irodsTree.highlightPath(parentPath);
                 } catch (JargonException ex) {
                     Logger.getLogger(IRODSOutlineModel.class.getName()).log(
                             Level.SEVERE, null, ex);
                 } finally {
-                    idrop.getiDropCore().closeIRODSConnectionForLoggedInAccount();
+                    idropCore.closeIRODSConnectionForLoggedInAccount();
                 }
             }
         });
     }
+
 }
+

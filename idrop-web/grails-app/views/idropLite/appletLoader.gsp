@@ -13,7 +13,6 @@
 <param name="password" value="${password}" />
 <param name="absPath" value="${absPath}" />
 </applet>
-</div>
 
 <script type="text/javascript">
 

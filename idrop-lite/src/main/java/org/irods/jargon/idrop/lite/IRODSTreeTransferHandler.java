@@ -300,7 +300,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                                             idropGui.getIrodsAccount());
                             */
                         	idropGui.getiDropCore().getTransferManager().putOperation(localSourceAbsolutePath,
-                        			targetIrodsFileAbsolutePath, sourceResource, idropGui, new TreeTransferControlBlock());
+                        			targetIrodsFileAbsolutePath, sourceResource, idropGui, null);
                         } catch (JargonException ex) {
                             java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                                     java.util.logging.Level.SEVERE, null, ex);
