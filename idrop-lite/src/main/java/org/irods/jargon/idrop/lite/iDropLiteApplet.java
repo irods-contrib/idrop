@@ -30,6 +30,7 @@ import javax.swing.tree.TreePath;
 import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
+import org.irods.jargon.core.transfer.TransferControlBlock;
 import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
@@ -1211,7 +1212,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             		log.info("uploading local file:{}", fileToImport);
             		iDropCore.getTransferManager().putOperation(fileToImport,
                 			targetPath, iDropCore.getIrodsAccount().getDefaultStorageResource(),
-                			this, new TreeTransferControlBlock());
+                			this, null);
             		rowsToRemove[idx] = row;
             		idx++;
             	}
