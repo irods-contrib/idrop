@@ -1573,9 +1573,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlFileNameAndIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlFileNameAndIcon.setMinimumSize(new java.awt.Dimension(100, 50));
-        pnlFileNameAndIcon.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
+        pnlFileNameAndIcon.setLayout(new java.awt.GridLayout());
 
         lblFileOrCollectionName.setText("           ");
+        lblFileOrCollectionName.setMaximumSize(new java.awt.Dimension(900, 100));
         lblFileOrCollectionName.setMinimumSize(new java.awt.Dimension(80, 30));
         pnlFileNameAndIcon.add(lblFileOrCollectionName);
 
@@ -1808,7 +1809,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 0.0050;
+        gridBagConstraints.weightx = 0.005;
         pnlIdropBottom.add(userNameLabel, gridBagConstraints);
 
         pnlTransferOverview.setLayout(new java.awt.BorderLayout());
