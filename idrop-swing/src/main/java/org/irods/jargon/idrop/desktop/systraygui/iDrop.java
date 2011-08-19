@@ -1856,11 +1856,17 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlTransferOverview.add(pnlTransferStatus, java.awt.BorderLayout.NORTH);
 
-        pnlTransferFileInfo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        pnlTransferFileInfo.setLayout(new java.awt.GridBagLayout());
 
         lblCurrentFileLabel.setText("Current File:");
-        pnlTransferFileInfo.add(lblCurrentFileLabel);
-        pnlTransferFileInfo.add(lblCurrentFile);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTransferFileInfo.add(lblCurrentFileLabel, gridBagConstraints);
+
+        lblCurrentFile.setMaximumSize(new java.awt.Dimension(999, 999));
+        lblCurrentFile.setMinimumSize(new java.awt.Dimension(30, 10));
+        lblCurrentFile.setPreferredSize(new java.awt.Dimension(300, 20));
+        pnlTransferFileInfo.add(lblCurrentFile, new java.awt.GridBagConstraints());
 
         pnlTransferOverview.add(pnlTransferFileInfo, java.awt.BorderLayout.CENTER);
 
