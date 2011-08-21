@@ -83,7 +83,10 @@ import org.irods.jargon.transfer.engine.TransferManager.RunningStatus;
 import org.irods.jargon.transfer.engine.TransferManagerCallbackListener;
 import org.irods.jargon.usertagging.FreeTaggingService;
 import org.irods.jargon.usertagging.FreeTaggingServiceImpl;
+import org.irods.jargon.usertagging.IRODSTaggingService;
+import org.irods.jargon.usertagging.IRODSTaggingServiceImpl;
 import org.irods.jargon.usertagging.domain.IRODSTagGrouping;
+import org.irods.jargon.usertagging.domain.IRODSTagValue;
 import org.irods.jargon.usertagging.domain.TagQuerySearchResult;
 import org.netbeans.swing.outline.Outline;
 import org.openide.util.Exceptions;
@@ -330,7 +333,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
                     try {
                         ((LocalFileSystemModel) idropGui.getFileTree().getModel()).notifyCompletionOfOperation(idropGui.getFileTree(), ts);
-                   
+
                     } catch (IdropException ex) {
                         log.error("error on tree notify after operation", ex);
                         throw new IdropRuntimeException("error processing overall status callback", ex);
@@ -1092,7 +1095,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblFileOrCollectionName.setToolTipText(dataObject.getDataName());
         lblFileParent.setText(IDropUtils.abbreviateFileName(dataObject.getCollectionName()));
         lblFileParent.setToolTipText(dataObject.getCollectionName());
-        txtComment.setText(dataObject.getComments());
 
         log.debug("getting available tags for data object");
 
@@ -1103,6 +1105,19 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     + "/"
                     + dataObject.getDataName());
             txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
+
+            IRODSTaggingService irodsTaggingService = IRODSTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
+                    getIrodsAccount());
+
+            IRODSTagValue tagValue = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(dataObject.getAbsolutePath());
+
+            if (tagValue == null) {
+
+                txtComment.setText("");
+            } else {
+                txtComment.setText(tagValue.getTagData());
+            }
+
             pnlInfoIcon.removeAll();
             pnlInfoIcon.add(IconHelper.getFileIcon());
             pnlInfoIcon.validate();
@@ -1115,6 +1130,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                     null, ex);
             throw new IdropRuntimeException(ex);
+        } finally {
+            this.getiDropCore().closeIRODSConnectionForLoggedInAccount();
         }
 
     }
@@ -1148,13 +1165,24 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblFileOrCollectionName.setToolTipText(collection.getCollectionLastPathComponent());
         lblFileParent.setText(IDropUtils.abbreviateFileName(collection.getCollectionParentName()));
         lblFileParent.setToolTipText(collection.getCollectionParentName());
-        txtComment.setText(collection.getComments());
 
         log.debug("getting available tags for data object");
 
         try {
             FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
                     getIrodsAccount());
+            IRODSTaggingService irodsTaggingService = IRODSTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
+                    getIrodsAccount());
+
+            log.info("looking up description for collection");
+            IRODSTagValue comments = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(collection.getCollectionName());
+
+            if (comments == null) {
+                txtComment.setText("");
+            } else {
+                txtComment.setText(comments.getTagData());
+            }
+
             IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForCollectionInFreeTagForm(collection.getCollectionName());
             txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
             pnlInfoIcon.removeAll();
@@ -1168,6 +1196,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                     null, ex);
             throw new IdropRuntimeException(ex);
+        } finally {
+            this.getiDropCore().closeIRODSConnectionForLoggedInAccount();
         }
     }
 
@@ -2445,10 +2475,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
                 idropGui.setBusyCursor();
                 FreeTaggingService freeTaggingService;
+                IRODSTaggingService userTaggingService;
 
                 try {
                     freeTaggingService = FreeTaggingServiceImpl.instance(
                             getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
+                            getIrodsAccount());
+
+                    userTaggingService = IRODSTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
                             getIrodsAccount());
 
                     if (lastCachedInfoItem instanceof Collection) {
@@ -2459,6 +2493,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                                 txtTags.getText(), getIrodsAccount().getUserName());
                         log.debug("new tag set is:{}", txtTags.getText());
                         freeTaggingService.updateTags(irodsTagGrouping);
+                        IRODSTagValue descriptionValue = new IRODSTagValue(txtComment.getText().trim(), getIrodsAccount().getUserName());
+                        log.info("checking update of description");
+                        userTaggingService.checkAndUpdateDescriptionOnCollection(collection.getCollectionName(), descriptionValue);
                     } else if (lastCachedInfoItem instanceof DataObject) {
                         log.info("processing tags for data object");
                         DataObject dataObject = (DataObject) lastCachedItemToProcessTagsFor;
@@ -2468,6 +2505,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                                 + dataObject.getDataName(), txtTags.getText(), getIrodsAccount().getUserName());
                         log.debug("new tag set is:{}", txtTags.getText());
                         freeTaggingService.updateTags(irodsTagGrouping);
+                        IRODSTagValue descriptionValue = new IRODSTagValue(txtComment.getText().trim(), getIrodsAccount().getUserName());
+                        log.info("checking update of description");
+                        userTaggingService.checkAndUpdateDescriptionOnDataObject(dataObject.getAbsolutePath(), descriptionValue);
                     } else {
                         log.error("unknown item type cached as being displayed in info area");
                         throw new IdropRuntimeException(
@@ -2902,7 +2942,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 try {
                     identifyNodeTypeAndInitializeInfoPanel(selectedNode);
                 } catch (IdropException ex) {
-
+                    log.error("error initializing info panel for selected iRODS node", ex);
                     throw new IdropRuntimeException(
                             "error initializing info panel for selected irods node");
                 } finally {
