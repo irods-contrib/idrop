@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.tree.TreePath;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utilities for working with local file systems
@@ -12,6 +13,7 @@ import javax.swing.tree.TreePath;
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class LocalFileUtils {
+	private static final org.slf4j.Logger log = LoggerFactory.getLogger(iDropLiteApplet.class);
 
     public static List<String> listFileRootsForSystem() {
         List<String> fileRoots = new ArrayList<String>();
