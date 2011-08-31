@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 
 import javax.swing.JOptionPane;
 
@@ -30,8 +31,8 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
     public static org.slf4j.Logger log = LoggerFactory.getLogger(ChangePasswordDialog.class);
 
     /** Creates new form PreferencesDialog */
-    public ChangePasswordDialog(final iDrop idrop, final boolean modal) {
-        super(idrop, modal);
+    public ChangePasswordDialog(final iDrop idrop, final JDialog parent, final boolean modal) {
+        super(parent, modal);
         this.idrop = idrop;
         initComponents();
         setUpPasswordPanel();
@@ -251,7 +252,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         } else {
             passwdNewPassword.setBackground(Color.red);
             passwdConfirmPassword.setBackground(Color.red);
-            JOptionPane.showMessageDialog(idrop,
+            JOptionPane.showMessageDialog(this,
                     "New and confirm password do not match");
             return;
         }

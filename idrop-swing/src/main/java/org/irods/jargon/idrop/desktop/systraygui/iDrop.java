@@ -624,7 +624,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         } else if (e.getActionCommand().equals("Change Password")) {
 
             if (changePasswordDialog == null) {
-                changePasswordDialog = new ChangePasswordDialog(this, true);
+                changePasswordDialog = new ChangePasswordDialog(this, null, true);
                 int x = (toolkit.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
                 int y = (toolkit.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
                 changePasswordDialog.setLocation(x, y);
