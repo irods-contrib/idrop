@@ -286,7 +286,6 @@ public class LoginDialog extends JDialog {
         txtPort.setColumns(8);
         txtPort.setText("1247");
         txtPort.setPreferredSize(null);
-        txtPort.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -303,7 +302,6 @@ public class LoginDialog extends JDialog {
 
         txtZone.setColumns(30);
         txtZone.setPreferredSize(null);
-        txtZone.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;

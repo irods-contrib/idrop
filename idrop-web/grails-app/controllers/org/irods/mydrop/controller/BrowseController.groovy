@@ -40,7 +40,44 @@ class BrowseController {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
 	}
+	
+	/**
+	 * Set the parent dir based on the possibility of 'strict ACL' being set
+	 */
+	def establishParentDir = {
+		
+		log.info("establishParentDir")
+		
+		def parent = params['dir']
+		log.info "loading tree for parent path: ${parent}"
+		
+		if (!parent) {
+			log.error "no parent param set"
+			throw new 
+			JargonException("no parent param set")
+		}
+		
+		if (parent != "/") {
+			log.info "parent not root use as is"
+		} else {
+			log.info "parent set to root, see if strict acl set"
+			def environmentalInfoAO = irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)
+			def isStrict = environmentalInfoAO.isStrictACLs()
+			log.info "is strict?:{isStrict}"
+			if (isStrict) {
+				parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName + "/"
+			}
+			
+		}
 
+		log.info "set root dir as: ${parent}"	
+		def jsonResult = ["parent" : parent]
+			
+		log.info "jsonResult:${jsonResult}"
+		
+		render jsonResult as JSON
+	
+	}
 
 	/**
 	 * Render the tree node data for the given parent.  This will use the HTML style AJAX response to depict the children using unordered lists.
@@ -63,6 +100,8 @@ class BrowseController {
 		def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 		def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
 		log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
+		
+		
 
 		def jsonBuff = []
 

@@ -288,6 +288,11 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 
         newProps.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
         newProps.setIntraFileStatusCallbacks(idropCore.getIdropConfig().isIntraFileStatusCallbacks());
+        newProps.setTransferThreadPoolMaxSimultaneousTransfers(1);
+        newProps.setUseParallelTransfer(true);
+        newProps.setUseTransferThreadsPool(false);
+        newProps.setIrodsSocketTimeout(240);
+        newProps.setIrodsParallelSocketTimeout(240);
         idropCore.getIrodsFileSystem().getIrodsSession().setJargonProperties(newProps);
     }
 

@@ -163,8 +163,18 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         btnLogout = new javax.swing.JButton();
         btnChangePassword = new javax.swing.JButton();
         pnlConfigTransfers = new javax.swing.JPanel();
+        pnlExecutor = new javax.swing.JPanel();
+        checkUseExecutorPool = new javax.swing.JCheckBox();
+        pnlTransferManagement = new javax.swing.JPanel();
         checkLogSuccessfulTransfer = new javax.swing.JCheckBox();
         checkVerifyChecksumOnTransfer = new javax.swing.JCheckBox();
+        plnPipelineConfiguration = new javax.swing.JPanel();
+        lblIrodsSocketTimeout = new javax.swing.JLabel();
+        spinnerIrodsSocketTimeout = new javax.swing.JSpinner();
+        lblIrodsParallelSocketTimeout = new javax.swing.JLabel();
+        spinnerIrodsParallelSocketTimeout = new javax.swing.JSpinner();
+        lblMaximumParallelTransferThreads = new javax.swing.JLabel();
+        spinnerIrodsMaxParallelThreads = new javax.swing.JSpinner();
         pnlConfigSynch = new javax.swing.JPanel();
         pnlConfigSynchListing = new javax.swing.JPanel();
         pnlSynchRefresh = new javax.swing.JPanel();
@@ -375,6 +385,32 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         pnlConfigTransfers.setLayout(new java.awt.GridBagLayout());
 
+        pnlExecutor.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlExecutor.border.title"))); // NOI18N
+        pnlExecutor.setLayout(new java.awt.GridBagLayout());
+
+        checkUseExecutorPool.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkUseExecutorPool.text")); // NOI18N
+        checkUseExecutorPool.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkUseExecutorPoolItemStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(60, 6, 45, 6);
+        pnlExecutor.add(checkUseExecutorPool, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
+        pnlConfigTransfers.add(pnlExecutor, gridBagConstraints);
+
+        pnlTransferManagement.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlTransferManagement.border.title"))); // NOI18N
+        pnlTransferManagement.setLayout(new javax.swing.BoxLayout(pnlTransferManagement, javax.swing.BoxLayout.PAGE_AXIS));
+
         checkLogSuccessfulTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkLogSuccessfulTransfer.text")); // NOI18N
         checkLogSuccessfulTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkLogSuccessfulTransfer.toolTipText")); // NOI18N
         checkLogSuccessfulTransfer.addItemListener(new java.awt.event.ItemListener() {
@@ -387,11 +423,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 checkLogSuccessfulTransferActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pnlConfigTransfers.add(checkLogSuccessfulTransfer, gridBagConstraints);
+        pnlTransferManagement.add(checkLogSuccessfulTransfer);
 
         checkVerifyChecksumOnTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkVerifyChecksumOnTransfer.text")); // NOI18N
         checkVerifyChecksumOnTransfer.addItemListener(new java.awt.event.ItemListener() {
@@ -404,10 +436,66 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 checkVerifyChecksumOnTransferActionPerformed(evt);
             }
         });
+        pnlTransferManagement.add(checkVerifyChecksumOnTransfer);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        pnlConfigTransfers.add(pnlTransferManagement, gridBagConstraints);
+
+        plnPipelineConfiguration.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.plnPipelineConfiguration.border.title"))); // NOI18N
+        plnPipelineConfiguration.setLayout(new java.awt.GridBagLayout());
+
+        lblIrodsSocketTimeout.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblIrodsSocketTimeout.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        plnPipelineConfiguration.add(lblIrodsSocketTimeout, gridBagConstraints);
+
+        spinnerIrodsSocketTimeout.setModel(new javax.swing.SpinnerNumberModel(0, 0, 600, 10));
+        spinnerIrodsSocketTimeout.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.spinnerIrodsSocketTimeout.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        plnPipelineConfiguration.add(spinnerIrodsSocketTimeout, gridBagConstraints);
+
+        lblIrodsParallelSocketTimeout.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblIrodsParallelSocketTimeout.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        pnlConfigTransfers.add(checkVerifyChecksumOnTransfer, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        plnPipelineConfiguration.add(lblIrodsParallelSocketTimeout, gridBagConstraints);
+
+        spinnerIrodsParallelSocketTimeout.setModel(new javax.swing.SpinnerNumberModel(0, 0, 600, 10));
+        spinnerIrodsParallelSocketTimeout.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.spinnerIrodsParallelSocketTimeout.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        plnPipelineConfiguration.add(spinnerIrodsParallelSocketTimeout, gridBagConstraints);
+
+        lblMaximumParallelTransferThreads.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaximumParallelTransferThreads.text")); // NOI18N
+        lblMaximumParallelTransferThreads.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaximumParallelTransferThreads.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        plnPipelineConfiguration.add(lblMaximumParallelTransferThreads, gridBagConstraints);
+
+        spinnerIrodsMaxParallelThreads.setModel(new javax.swing.SpinnerNumberModel(4, 1, 16, 1));
+        spinnerIrodsMaxParallelThreads.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.spinnerIrodsMaxParallelThreads.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        plnPipelineConfiguration.add(spinnerIrodsMaxParallelThreads, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlConfigTransfers.add(plnPipelineConfiguration, gridBagConstraints);
 
         tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigTransfers.TabConstraints.tabTitle"), pnlConfigTransfers); // NOI18N
 
@@ -758,6 +846,10 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_checkLogSuccessfulTransferItemStateChanged
+
+    private void checkUseExecutorPoolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkUseExecutorPoolItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkUseExecutorPoolItemStateChanged
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
@@ -1175,12 +1267,16 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JCheckBox checkLogSuccessfulTransfer;
     private javax.swing.JCheckBox checkShowFileProgress;
     private javax.swing.JCheckBox checkShowGUI;
+    private javax.swing.JCheckBox checkUseExecutorPool;
     private javax.swing.JCheckBox checkVerifyChecksumOnTransfer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JComboBox jcomboSynchFrequency;
     private javax.swing.JLabel lblHost;
     private javax.swing.JLabel lblHostLabel;
+    private javax.swing.JLabel lblIrodsParallelSocketTimeout;
+    private javax.swing.JLabel lblIrodsSocketTimeout;
+    private javax.swing.JLabel lblMaximumParallelTransferThreads;
     private javax.swing.JLabel lblPort;
     private javax.swing.JLabel lblPortLabel;
     private javax.swing.JLabel lblResource;
@@ -1194,6 +1290,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JLabel lblZone;
     private javax.swing.JLabel lblZoneLabel;
     private javax.swing.JPanel panelSynchToolbar;
+    private javax.swing.JPanel plnPipelineConfiguration;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlCenter;
     private javax.swing.JPanel pnlConfigGrids;
@@ -1204,6 +1301,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JPanel pnlConfigTransfers;
     private javax.swing.JPanel pnlCurrentGrid;
     private javax.swing.JPanel pnlCurrentGridToolbar;
+    private javax.swing.JPanel pnlExecutor;
     private javax.swing.JPanel pnlIrodsSynch;
     private javax.swing.JPanel pnlLocalSynch;
     private javax.swing.JPanel pnlSynchData;
@@ -1213,10 +1311,14 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JPanel pnlSynchName;
     private javax.swing.JPanel pnlSynchRefresh;
     private javax.swing.JPanel pnlTop;
+    private javax.swing.JPanel pnlTransferManagement;
     private javax.swing.JRadioButton radioBackup;
     private javax.swing.JRadioButton radioFeed;
     private javax.swing.JRadioButton radioSynch;
     private javax.swing.JScrollPane scrollSynchTable;
+    private javax.swing.JSpinner spinnerIrodsMaxParallelThreads;
+    private javax.swing.JSpinner spinnerIrodsParallelSocketTimeout;
+    private javax.swing.JSpinner spinnerIrodsSocketTimeout;
     private javax.swing.JTabbedPane tabConfig;
     private javax.swing.JTextField txtIrodsPath;
     private javax.swing.JTextField txtLocalPath;

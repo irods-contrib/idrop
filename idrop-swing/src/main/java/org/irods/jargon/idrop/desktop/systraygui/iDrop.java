@@ -255,23 +255,33 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     lblTransferByteCounts.setText("Current File (kb):"
                             + (ts.getBytesTransfered() / 1024) + " / "
                             + (ts.getTotalSize() / 1024));
-                    progressIntraFile.setMinimum(0);
-                    progressIntraFile.setMaximum((int) ts.getTotalSize());
-                    progressIntraFile.setValue((int) ts.getBytesTransfered());
+                    
+                    log.debug("transferred so far:{}", ts.getBytesTransfered());
+                    log.debug("total bytes:{}", ts.getTotalSize());
+                    float rawPct = (float) ts.getBytesTransfered() / ts.getTotalSize();
+                    int percentDone = (int)  (rawPct * 100F);
+                    log.info("pct done:{}", percentDone);
+                   
+                    progressIntraFile.setValue(percentDone);
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_START_FILE) {
 
                     // start of a file operation
+                    lblTransferByteCounts.setText("Current File (kb):"
+                            + 0 + " / "
+                            + (ts.getTotalSize() / 1024));
                     progressIntraFile.setMinimum(0);
-                    progressIntraFile.setMaximum((int) ts.getTotalSize());
+                    progressIntraFile.setMaximum(100);
                     progressIntraFile.setValue(0);
                     lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
+                      lblTransferFilesCounts.setText("Files: "
+                            + ts.getTotalFilesTransferredSoFar() + " / "
+                            + ts.getTotalFilesToTransfer());
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_COMPLETE_FILE) {
 
-                    progressIntraFile.setMinimum(0);
-                    progressIntraFile.setMaximum(10);
-                    progressIntraFile.setValue(10);
+                   
+                    progressIntraFile.setValue(100);
                     lblTransferByteCounts.setText("Current File (kb):"
                             + (ts.getTotalSize() / 1024) + " / "
                             + (ts.getTotalSize() / 1024));
@@ -292,12 +302,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                             + (ts.getBytesTransfered() / 1024) + " / "
                             + (ts.getTotalSize() / 1024));
 
-                    /*
-                    progressIntraFile.setMaximum(10);
-                    progressIntraFile.setMinimum(0);
-                    progressIntraFile.setValue(0);
-                     * 
-                     */
+               
                     lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
                 }
             }
@@ -1605,7 +1610,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlFileNameAndIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlFileNameAndIcon.setMinimumSize(new java.awt.Dimension(100, 50));
-        pnlFileNameAndIcon.setLayout(new java.awt.GridLayout());
+        pnlFileNameAndIcon.setLayout(new java.awt.GridLayout(1, 0));
 
         lblFileOrCollectionName.setText("           ");
         lblFileOrCollectionName.setMaximumSize(new java.awt.Dimension(900, 100));
@@ -1841,7 +1846,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 0.005;
+        gridBagConstraints.weightx = 0.0050;
         pnlIdropBottom.add(userNameLabel, gridBagConstraints);
 
         pnlTransferOverview.setLayout(new java.awt.BorderLayout());
@@ -1897,8 +1902,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         lblCurrentFile.setMaximumSize(new java.awt.Dimension(999, 999));
         lblCurrentFile.setMinimumSize(new java.awt.Dimension(30, 10));
-        lblCurrentFile.setPreferredSize(new java.awt.Dimension(300, 20));
-        pnlTransferFileInfo.add(lblCurrentFile, new java.awt.GridBagConstraints());
+        lblCurrentFile.setPreferredSize(new java.awt.Dimension(500, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        pnlTransferFileInfo.add(lblCurrentFile, gridBagConstraints);
 
         pnlTransferOverview.add(pnlTransferFileInfo, java.awt.BorderLayout.CENTER);
 
