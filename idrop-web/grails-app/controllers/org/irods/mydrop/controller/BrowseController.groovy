@@ -97,13 +97,32 @@ class BrowseController {
 	def ajaxDirectoryListingUnderParent = {
 		def parent = params['dir']
 		log.info "ajaxDirectoryListingUnderParent path: ${parent}"
+		
+		if (!parent) {
+			log.error "no dir param set"
+			throw new
+			JargonException("no dir param set")
+		}
+		
+		if (parent != "/") {
+			log.info "parent not root use as is"
+		} else {
+			log.info "parent set to root, see if strict acl set"
+			def environmentalInfoAO = irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)
+			def isStrict = environmentalInfoAO.isStrictACLs()
+			log.info "is strict?:{isStrict}"
+			if (isStrict) {
+				parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName 
+			}
+			
+		}
+		
 		def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 		def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
 		log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
 		
-		
-
 		def jsonBuff = []
+		//jsonBuff.add(['parent':parent])
 
 		collectionAndDataObjectList.each {
 
@@ -115,7 +134,7 @@ class BrowseController {
 				state = "open"
 				type = "file"
 			} else {
-				icon = "folder"
+				icon = "folder" 
 				state = "closed"
 				type = "folder"
 			}

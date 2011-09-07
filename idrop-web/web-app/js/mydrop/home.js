@@ -38,9 +38,6 @@ function retrieveBrowserFirstView() {
 }
 
 /**
- * FIXME: intercept timeouts here? Callback to initialize a browser tree for the
- * first time, set to the root node as indicated in the data
- * 
  * @param data
  *            ajax response from browse controller containing the JSON
  *            representation of the collections and files underneath the given
@@ -48,10 +45,10 @@ function retrieveBrowserFirstView() {
  * @return
  */
 function browserFirstViewRetrieved(data) {
-
+	var parent = data['parent']
 	dataTree = $("#dataTreeDiv").jstree({
 		"core" : {
-			"initially_open" : [ "/" ]
+			"initially_open" : [ parent ]
 		},
 		"json_data" : {
 			"data" : [ data ],
