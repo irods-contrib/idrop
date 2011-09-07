@@ -45,7 +45,7 @@ class IdropLiteController {
 		
 		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
 		def password = userAO.getTemporaryPasswordForConnectedUser()
-		DataCacheService dataCacheService = new DataCacheServiceImpl();
+		DataCacheService dataCacheService = new DataCacheServiceImpl()
 		dataCacheService.irodsAccessObjectFactory = irodsAccessObjectFactory
 		dataCacheService.irodsAccount = irodsAccount
 		dataCacheService.putStringValueIntoCache(irodsAccount.password, password)
