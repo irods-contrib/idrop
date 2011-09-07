@@ -748,7 +748,9 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         jScrollPane3 = new javax.swing.JScrollPane();
         tblUploadTable = new javax.swing.JTable();
         pnlIRODSUploadDest = new javax.swing.JPanel();
+        pnlIRODSUploadBrowse = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        btnBrowseIRODSUploadDest = new javax.swing.JButton();
         txtIRODSUploadDest = new javax.swing.JTextField();
         pnlUploadToolbar = new javax.swing.JPanel();
         pnlUploadToolStatus = new javax.swing.JPanel();
@@ -1098,7 +1100,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadTable.setPreferredSize(new java.awt.Dimension(310, 380));
         pnlUploadTable.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane3.setPreferredSize(new java.awt.Dimension(275, 380));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(275, 370));
 
         tblUploadTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1133,12 +1135,29 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         pnlUploadTable.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
+        pnlIRODSUploadDest.setPreferredSize(new java.awt.Dimension(163, 54));
         pnlIRODSUploadDest.setLayout(new java.awt.BorderLayout());
 
+        pnlIRODSUploadBrowse.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.jLabel2.text")); // NOI18N
-        pnlIRODSUploadDest.add(jLabel2, java.awt.BorderLayout.PAGE_START);
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jLabel2.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        pnlIRODSUploadBrowse.add(jLabel2, java.awt.BorderLayout.WEST);
+
+        btnBrowseIRODSUploadDest.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnBrowseIRODSUploadDest.text")); // NOI18N
+        btnBrowseIRODSUploadDest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBrowseIRODSUploadDestActionPerformed(evt);
+            }
+        });
+        pnlIRODSUploadBrowse.add(btnBrowseIRODSUploadDest, java.awt.BorderLayout.EAST);
+
+        pnlIRODSUploadDest.add(pnlIRODSUploadBrowse, java.awt.BorderLayout.NORTH);
 
         txtIRODSUploadDest.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.txtIRODSUploadDest.text")); // NOI18N
+        txtIRODSUploadDest.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         txtIRODSUploadDest.setDragEnabled(false);
         txtIRODSUploadDest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1385,8 +1404,22 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         btnUploadBeginImport.setEnabled(txtIRODSUploadDest.getText().length() > 0);
     }//GEN-LAST:event_txtIRODSUploadDestActionPerformed
 
+    private void btnBrowseIRODSUploadDestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseIRODSUploadDestActionPerformed
+    	IRODSFinderDialog finderDialog = new IRODSFinderDialog(true, iDropCore);
+        finderDialog.setVisible(true);
+        String targetPath = finderDialog.getSelectedAbsolutePath();
+        if(targetPath != null) {
+            //then do stuff
+            log.info("upload drop target selected:{}", targetPath);
+            txtIRODSUploadDest.setText(targetPath);
+            btnUploadBeginImport.setEnabled(true);
+        }
+        finderDialog.dispose();
+    }//GEN-LAST:event_btnBrowseIRODSUploadDestActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBrowseIRODSUploadDest;
     private javax.swing.JButton btnIrodsTreeRefresh;
     private javax.swing.JButton btnLocalRefresh;
     private javax.swing.JToggleButton btnToggleLocalView;
@@ -1405,6 +1438,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JProgressBar pbTransferStatus;
     private javax.swing.JProgressBar pbUploadTransferStatus;
     private javax.swing.JPanel pnlDrivesFiller;
+    private javax.swing.JPanel pnlIRODSUploadBrowse;
     private javax.swing.JPanel pnlIRODSUploadDest;
     private javax.swing.JPanel pnlIrodsSearch;
     private javax.swing.JPanel pnlIrodsTree;
