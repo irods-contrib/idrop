@@ -8,8 +8,8 @@ import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.domain.AvuData
 import org.irods.jargon.core.pub.domain.DataObject
-import org.mockito.Mockito
 import org.springframework.security.core.context.SecurityContextHolder
 
 /**
@@ -58,7 +58,7 @@ class MetadataController {
 
 		def isDataObject = retObj instanceof DataObject
 		def metadata;
-		
+
 		if (isDataObject) {
 			log.debug("retrieving meta data for a data object");
 			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
@@ -71,29 +71,111 @@ class MetadataController {
 		render(view:"metadataDetails", model:[metadata:metadata])
 
 	}
-	
+
 	/**
-	* Display an metadata dialog for an add or edit
-	*/
-   def prepareMetadataDialog = {
-	   log.info "prepareMetadataDialog"
-	   log.info "params: ${params}"
-		   
-	   
-	   def absPath = params['absPath']
-	   def isCreate = params['create']
-	   
-	   
-	   if (!absPath) {
-		   log.error "no absPath in request for prepareMetadataialog()"
-		   throw new JargonException("a path was not supplied")
-	   }
-	   
-	   
-	   render(view:"metadataDialog", model:[absPath:absPath, isCreate:isCreate])
-	   
-   }
-   
-	
-	
+	 * Display an metadata dialog for an add or edit
+	 */
+	def prepareMetadataDialog = {
+		log.info "prepareMetadataDialog"
+		log.info "params: ${params}"
+
+
+		def absPath = params['absPath']
+		def isCreate = params['create']
+
+
+		if (!absPath) {
+			log.error "no absPath in request for prepareMetadataialog()"
+			throw new JargonException("a path was not supplied")
+		}
+
+
+		render(view:"metadataDialog", model:[absPath:absPath, isCreate:isCreate])
+
+	}
+
+	/**
+	 * Add metadata 
+	 * FIXME: hacked, fix this up with validation, etc
+	 */
+	def addMetadata = { 
+
+		log.info "addMetadata"
+		log.info "params: ${params}"
+
+		def absPath = params['absPath']
+		def attribute = params['attribute']
+		def value = params['value']
+		def unit = params['unit']
+
+
+
+		if (!absPath) {
+			response.sendError(500,"no path specified")
+			return
+		}
+
+		if (!attribute) {
+			response.sendError(500,"no attribute specified")
+			return
+		}
+
+		if (!value) {
+			response.sendError(500,"no value specified")
+			return
+		}
+
+		/*
+		if (!unit) {
+			response.sendError(500,"no unit specified")
+			return
+		}*/
+
+
+
+		log.info(" attribute: ${attribute} value: ${value} unit: ${unit}")
+
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+
+		def avuData = AvuData.instance(attribute, value, unit)
+
+		def isDataObject = retObj instanceof DataObject
+
+		if (isDataObject) {
+			log.debug("setting AVU for a data object")
+			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+			dataObjectAO.addAVUMetadata(absPath, avuData)
+
+		} else {
+			log.debug("setting AVU for collection")
+			CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+			collectionAO.addAVUMetadata(absPath, avuData)
+
+		}
+
+		log.info("avu set successfully")
+
+		render "OK"
+	}
+
 }
+
+/**
+ * Command for adding metadata from the metadataDialog.gsp form
+ */
+
+/*
+class AddMetadataCommand {
+	String absPath
+	String attribute
+	String value
+	String unit
+	static constraints = {
+		absPath(blank:false),
+		attribute(blank:false),
+		unit(blank:false)
+	}
+}
+*/

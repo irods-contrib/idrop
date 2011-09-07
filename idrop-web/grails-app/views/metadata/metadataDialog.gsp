@@ -1,6 +1,6 @@
 <div id="metadataDialogDiv" class="roundedContainer">
 	<div id="metadataDialogMessageArea" style="width:90%;">
-		<!--  message area for acl dialogs -->
+		<g:renderErrors bean="${cmd}" />
 	</div>
 	<div style="clear: both;">
 		<g:form controller="metadata" action="addMetadata" method="post"
