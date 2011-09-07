@@ -2,6 +2,7 @@
 <meta name="layout" content="main" />
 <g:javascript library="mydrop/home" />
 <g:javascript library="mydrop/search" />
+<g:javascript library="mydrop/metadata" />
 
 </head>
 

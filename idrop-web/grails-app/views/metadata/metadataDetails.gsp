@@ -2,8 +2,7 @@
 <div id="detailsToolbar" class="fg-toolbar ui-widget-header">
 <div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
 							style="float: left">
-<button type="button" id="addMetadataButton" class="ui-state-default ui-corner-all"  value="addMetadata" onclick="addMetadata()")>Add Metadata</button>
-<button type="button" id="updateMetadataButton" class="ui-state-default ui-corner-all"  value="updateMetadata" onclick="updateMetadata()")>Update Metadata</button>
+<button type="button" id="addMetadataButton" class="ui-state-default ui-corner-all"  value="addMetadata" onclick="prepareMetadataDialog()")>Add Metadata</button>
 <button type="button" id="deleteMetadataButton" class="ui-state-default ui-corner-all" value="deleteMetadata" onclick="deleteMetadata()")>Delete Metadata</button>
 </div>
 </div>
@@ -93,6 +92,12 @@
 			
 			console.log("currentAVU:" + avu['attribute'] + "/" +  avu['value'] + "/" + avu['unit']);
 			console.log("newAVU:" +  newAvu['attribute'] + "/" +  newAvu['value'] + "/" + newAvu['unit']);
+
+			if (selectedPath == null) {
+				throw "no collection or data object selected";
+			}
+			
+			metadataUpdate(avu, newAvu, selectedPath);
 
 		     
 		     return(content);

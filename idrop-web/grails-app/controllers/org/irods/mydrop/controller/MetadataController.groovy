@@ -72,5 +72,28 @@ class MetadataController {
 
 	}
 	
+	/**
+	* Display an metadata dialog for an add or edit
+	*/
+   def prepareMetadataDialog = {
+	   log.info "prepareMetadataDialog"
+	   log.info "params: ${params}"
+		   
+	   
+	   def absPath = params['absPath']
+	   def isCreate = params['create']
+	   
+	   
+	   if (!absPath) {
+		   log.error "no absPath in request for prepareMetadataialog()"
+		   throw new JargonException("a path was not supplied")
+	   }
+	   
+	   
+	   render(view:"metadataDialog", model:[absPath:absPath, isCreate:isCreate])
+	   
+   }
+   
+	
 	
 }
