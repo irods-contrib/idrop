@@ -15,9 +15,13 @@ import javax.swing.TransferHandler;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
+import org.apache.commons.io.FileUtils;
 import org.slf4j.LoggerFactory;
 
 public class UploadTableTransferHandler extends TransferHandler {
+	
+	iDropLiteApplet idropApplet;
 	
 	public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalTreeTransferHandler.class);
 
@@ -134,6 +138,9 @@ public class UploadTableTransferHandler extends TransferHandler {
              rowData[0] = localSourceAbsolutePath;
              rowData[1] = Boolean.TRUE;
              tm.addRow(rowData);
+             if(idropApplet != null) {
+            	 idropApplet.updateFileStats(tm);
+             }
           }
 
      }
@@ -170,8 +177,44 @@ public class UploadTableTransferHandler extends TransferHandler {
              rowData[0] = localSourceAbsolutePath;
              rowData[1] = Boolean.TRUE;
              tm.addRow(rowData);
+             if(idropApplet != null) {
+            	 idropApplet.updateFileStats(tm);
+             }
          }
 
+     }
+     
+//     private void updateFileStats(DefaultTableModel tm) {
+//    	 int numRows = tm.getRowCount();
+//    	 long totalSize = 0;
+//    	 int totalFiles = 0;
+//    	 
+//    	 for(int i=0; i<numRows; i++) {
+//    		 // only count if it is currently checked for upload
+//    		 if((Boolean)tm.getValueAt(i, 1)) {
+//    			 String fileName = (String)tm.getValueAt(i, 0);
+//    			 if(fileName != null) {
+//    				 File file = new File(fileName);
+//    				 if(file.exists()) {
+//    					 if(file.isDirectory()) {
+//    						 totalFiles+=FileUtils.listFiles(file, null, true).size();
+//    						 totalSize+=FileUtils.sizeOfDirectory(file);
+//    					 }
+//    					 else {
+//    						 totalFiles++;
+//    						 totalSize+=file.length();
+//    					 }
+//    				 }
+//    			 }
+//    		 }
+//    	 }
+//    	 idropApplet.setTotalFileUpload(totalFiles);
+//    	 idropApplet.setTotalSizeUpload((int)totalSize/1024);
+//     }
+     
+     
+     public void setGUI(iDropLiteApplet gui) {
+    	 idropApplet = gui;
      }
 
 }
