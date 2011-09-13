@@ -751,15 +751,26 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     transferStatusProgressBar.setValue(0);
                     
                     currentUploadFile = ts.getSourceFileAbsolutePath();
+//                    java.awt.EventQueue.invokeLater(new Runnable() {
+//                       	@Override
+//                       	public void run() { 
+                       	    enableUploadButtons(false);
+//                        }
+//                    });
                 }
                 
                 if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
                 	if(tableRow >= 0) {
                 		tblUploadTable.getModel().setValueAt(false, tableRow, 1);
-                		idropGui.enableUploadButtons(true);
                 	}
                 	currentUploadFile = null;
                 	idropGui.setTransferInProgress(false);
+//                	java.awt.EventQueue.invokeLater(new Runnable() {
+//                       	@Override
+//                       	public void run() { 
+                       	    enableUploadButtons(true);
+//                        }
+//                    });
                 }
 
                 /*
@@ -1608,33 +1619,26 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         
         // now go through and process selected import files from table
         if(!isTransferInProgress()) {
-        	java.awt.EventQueue.invokeLater(new Runnable() {
-       	    @Override
-       	    public void run() { 
-       	    	enableUploadButtons(false);
-        	 }
-        	});
-        		
-            int rows = tblUploadTable.getRowCount();
-            
+        	
+        	// collect list of files in the table
+            int rows = tblUploadTable.getRowCount();            
             for(int row=0; row<rows; row++) {
-            	final int final_row = row;
+            	// only select files checked for import
+            	if((Boolean)tblUploadTable.getValueAt(row, 1)) {
+            		sourceFiles.add(new File((String)tblUploadTable.getValueAt(row, 0)));
+            	}
+            }
             	
-                try {
-                			
-                	if((Boolean)tblUploadTable.getValueAt(final_row, 1)) {
-                		sourceFiles.add(new File((String)tblUploadTable.getValueAt(final_row, 0)));
-                		currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles);
-                    	final Thread transferThread = new Thread(currentTransferRunner);
-                    	log.info("launching transfer thread");
-                    	transferThread.start();
-                }
-                } catch (Exception e) {
-                	log.error("exception choosings iRODS file");
-                	throw new IdropRuntimeException("exception choosing irods file", e);
-                } finally {
-                	iDropCore.getIrodsFileSystem().closeAndEatExceptions();
-                }
+            try {
+                currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles);
+                final Thread transferThread = new Thread(currentTransferRunner);
+                log.info("launching transfer thread");
+                transferThread.start();
+            } catch (Exception e) {
+            	log.error("exception choosings iRODS file");
+                throw new IdropRuntimeException("exception choosing irods file", e);
+            } finally {
+            	iDropCore.getIrodsFileSystem().closeAndEatExceptions();
             }
         }
         else {

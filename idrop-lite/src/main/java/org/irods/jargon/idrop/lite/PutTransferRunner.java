@@ -9,42 +9,43 @@ import org.irods.jargon.core.transfer.TransferControlBlock;
 import org.slf4j.LoggerFactory;
 
 public class PutTransferRunner implements Runnable {
-	
+
 	public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferHandler.class);
 	private final List<File> sourceFiles;
 	private final String targetIrodsFileAbsolutePath;
 	private final iDropLiteApplet idropGui;
-//	private final TransferControlBlock transferControlBlock;
-	
+//  private final TransferControlBlock transferControlBlock;
+
 	public PutTransferRunner(final iDropLiteApplet gui,
-			final String targetPath,
-			final List<File> files)
-			//final TransferControlBlock transferControlBlock)
-			throws JargonException {
+                        final String targetPath,
+                        final List<File> files)
+                        //final TransferControlBlock transferControlBlock)
+                        throws JargonException {
 
 		if (files == null) {
 			throw new JargonException("null file list");
-		}
-		
-		if (targetPath == null) {
-			throw new JargonException("null target path");
-		}
+        }
 
-		if (gui == null) {
-			throw new JargonException("null idrop gui");
-		}
+        if (targetPath == null) {
+            throw new JargonException("null target path");
+        }
+
+        if (gui == null) {
+            throw new JargonException("null idrop gui");
+        }
 //
-//		if (transferControlBlock == null) {
-//			throw new JargonException("null transferControlBlock");
-//		}
+//      if (transferControlBlock == null) {
+//      	throw new JargonException("null transferControlBlock");
+//      }
 //
 
-		this.targetIrodsFileAbsolutePath = targetPath;
-		this.sourceFiles = files;
-		this.idropGui = gui;
-//		this.transferControlBlock = transferControlBlock;
+        this.targetIrodsFileAbsolutePath = targetPath;
+        this.sourceFiles = files;
+        this.idropGui = gui;
+//      this.transferControlBlock = transferControlBlock;
 
-	}
+        }
+
 
 	@Override
 	public void run() {
