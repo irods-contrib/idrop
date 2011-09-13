@@ -145,9 +145,6 @@ public class UploadTableTransferHandler extends TransferHandler {
              rowData[0] = localSourceAbsolutePath;
              rowData[1] = Boolean.TRUE;
              tm.addRow(rowData);
-             if(idropApplet != null) {
-            	 idropApplet.updateFileStats(tm);
-             }
           }
          }
      }
@@ -184,9 +181,6 @@ public class UploadTableTransferHandler extends TransferHandler {
              rowData[0] = localSourceAbsolutePath;
              rowData[1] = Boolean.TRUE;
              tm.addRow(rowData);
-             if(idropApplet != null) {
-            	 idropApplet.updateFileStats(tm);
-             }
          }
 
      } 

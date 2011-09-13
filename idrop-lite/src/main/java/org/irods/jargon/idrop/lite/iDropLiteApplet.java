@@ -22,11 +22,14 @@ import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
+import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 
@@ -54,7 +57,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author lisa
  */
-public class iDropLiteApplet extends javax.swing.JApplet implements TransferStatusCallbackListener {
+public class iDropLiteApplet extends javax.swing.JApplet implements TransferStatusCallbackListener, TableModelListener {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(iDropLiteApplet.class);
     private iDropLiteApplet applet;
@@ -564,6 +567,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     	tblUploadTable.setDragEnabled(true);
     	UploadTableTransferHandler tth = new UploadTableTransferHandler();
     	tth.setGUI(this);
+    	tblUploadTable.getModel().addTableModelListener(applet);
     	tblUploadTable.setTransferHandler(tth);
     	
     	// add rendered for progress bars in third column
@@ -898,6 +902,12 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
    	 	setTotalFileUpload(totalFiles);
    	 	setTotalSizeUpload(totalSize);
     }
+	
+	@Override
+	public void tableChanged(TableModelEvent tme) {
+		DefaultTableModel tm = (DefaultTableModel)tblUploadTable.getModel();
+		updateFileStats(tm);	
+	}
 
     public IRODSTree getIrodsTree() {
         return irodsTree;
@@ -1641,7 +1651,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     	DefaultTableModel tm = (DefaultTableModel)tblUploadTable.getModel();
     	tm.getDataVector().removeAllElements();
     	tm.fireTableDataChanged();
-    	updateFileStats(tm);
     }//GEN-LAST:event_btnUploadCancelActionPerformed
 
     private void btnUploadLocalRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadLocalRefreshActionPerformed
@@ -1740,5 +1749,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JProgressBar transferStatusProgressBar;
     private javax.swing.JTextField txtIRODSUploadDest;
     // End of variables declaration//GEN-END:variables
+
 
 }
