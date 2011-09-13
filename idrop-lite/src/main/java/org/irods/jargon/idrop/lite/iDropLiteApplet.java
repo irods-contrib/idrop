@@ -751,12 +751,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     transferStatusProgressBar.setValue(0);
                     
                     currentUploadFile = ts.getSourceFileAbsolutePath();
-//                    java.awt.EventQueue.invokeLater(new Runnable() {
-//                       	@Override
-//                       	public void run() { 
-                       	    enableUploadButtons(false);
-//                        }
-//                    });
+                    enableUploadButtons(false);
                 }
                 
                 if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
@@ -765,12 +760,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 	}
                 	currentUploadFile = null;
                 	idropGui.setTransferInProgress(false);
-//                	java.awt.EventQueue.invokeLater(new Runnable() {
-//                       	@Override
-//                       	public void run() { 
-                       	    enableUploadButtons(true);
-//                        }
-//                    });
+                    enableUploadButtons(true);
                 }
 
                 /*
