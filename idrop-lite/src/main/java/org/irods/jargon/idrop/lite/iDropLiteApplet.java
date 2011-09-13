@@ -11,6 +11,7 @@
 
 package org.irods.jargon.idrop.lite;
 
+import java.awt.Cursor;
 import java.awt.Rectangle;
 import java.awt.dnd.DropTarget;
 import java.io.File;
@@ -75,6 +76,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     IRODSFileSystem irodsFileSystem = null;
     private LocalFileSystemModel localFileModel = null;
     private LocalFileSystemModel localUploadFileModel = null;
+    private Boolean transferInProgress = false;
+    private String currentUploadFile = null;
 
     /** Initializes the applet NewJApplet */
     public void init() {
@@ -346,7 +349,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     }
     
     
-    // NEED T) REFACTOR ALL OF THE FOLLOWING DUPLICATION!!!!!!!!
+    // NEED TO REFACTOR ALL OF THE FOLLOWING DUPLICATION!!!!!!!!
     private void setUpLocalFileSelectTree() {
 
         /*
@@ -602,6 +605,13 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             @Override
             public void run() {
             	log.info("in statusCallback thread");
+            	
+            	//String file = ts.getSourceFileAbsolutePath();
+            	int tableRow = -1;
+            	if(currentUploadFile != null) {
+            		tableRow = getUploadTableProgressRow(currentUploadFile);
+            	}
+        		
                 if (ts.isIntraFileStatusReport()) {
 
                     // intra file reports update the progress bar
@@ -611,6 +621,14 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     progressIntraFile.setMinimum(0);
                     progressIntraFile.setMaximum((int) ts.getTotalSize());
                     progressIntraFile.setValue((int) ts.getBytesTransfered());
+                    
+                 // if uploading from mode 2 table
+                    if((tableRow >= 0) && (ts.getTotalSize() > 0)) {
+                    	float bt = ts.getBytesTransfered() * 100;
+                    	float tot = ts.getTotalSize();
+            			float percentDone = bt/tot;
+            			tblUploadTable.getModel().setValueAt((int)percentDone, tableRow, 2);
+                    }
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_START_FILE) {
 
@@ -619,6 +637,15 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     progressIntraFile.setMaximum((int) ts.getTotalSize());
                     progressIntraFile.setValue(0);
                     lblCurrentFile.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
+                    
+                    //currentUploadFile = ts.getSourceFileAbsolutePath();
+                    if(currentUploadFile != null) {
+                		tableRow = getUploadTableProgressRow(currentUploadFile);
+                	}
+                    if((tableRow >= 0)) {
+            			tblUploadTable.getModel().setValueAt(0, tableRow, 2);
+                    }
+
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_COMPLETE_FILE) {
 
@@ -633,6 +660,14 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     lblTransferFilesCounts.setText("Files: "
                             + ts.getTotalFilesTransferredSoFar() + " / "
                             + ts.getTotalFilesToTransfer());
+                    
+                    // if uploading from mode 2 table
+                    if((tableRow >= 0) && (ts.getTotalSize() > 0)) {
+                    	float bt = ts.getBytesTransfered() * 100;
+                    	float tot = ts.getTotalSize();
+                    	float percentDone = bt/tot;
+                    	tblUploadTable.getModel().setValueAt((int)percentDone, tableRow, 2);
+                    }
 
                 } else {
 
@@ -649,26 +684,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 }
             }
         });
-
-    	
-//    	log.info("transfer status callback to iDropLiteApplet:{}", ts);
-//    	
-//    	
-//    		String file = ts.getSourceFileAbsolutePath();
-//    		int tableRow = getUploadTableProgressRow(file);
-//    	
-//    		log.info("transfer in progress ... {} bytes transferred so far", ts.getBytesTransfered());
-//
-//  			pbTransferStatus.setMinimum(0);
-//  			pbTransferStatus.setMaximum((int) ts.getTotalSize());
-//  			pbTransferStatus.setValue((int) ts.getBytesTransfered());
-//    		
-//    		if((tableRow >= 0) && (ts.getTotalSize() > 0)) {
-//    			int percentDone = (int)(ts.getBytesTransfered()/ts.getTotalSize())*100;
-//    			tblUploadTable.getModel().setValueAt(percentDone, tableRow, 2);
-//    		}
-
-	}
+    }
 
 
 	@Override
@@ -676,14 +692,18 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 		
 		final IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree.getModel();
         final iDropLiteApplet idropGui = this;
-
-
+        idropGui.setTransferInProgress(true);
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-
+            	
+            	int tableRow = -1;
+            	if(currentUploadFile != null) {
+            		tableRow = getUploadTableProgressRow(currentUploadFile);
+            	}
+            	
                 /* 
                  * Handle appropriate tree notifications, so some filtering to prevent notifications when for a different host/zone
                  */
@@ -729,8 +749,18 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     transferStatusProgressBar.setMinimum(0);
                     transferStatusProgressBar.setMaximum(ts.getTotalFilesToTransfer());
                     transferStatusProgressBar.setValue(0);
+                    
+                    currentUploadFile = ts.getSourceFileAbsolutePath();
                 }
-
+                
+                if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                	if(tableRow >= 0) {
+                		tblUploadTable.getModel().setValueAt(false, tableRow, 1);
+                		idropGui.enableUploadButtons(true);
+                	}
+                	currentUploadFile = null;
+                	idropGui.setTransferInProgress(false);
+                }
 
                 /*
                  * Handle any text messages
@@ -752,37 +782,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             }
         });
 
-//		IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree.getModel();
-//        try {
-//            irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
-//            // if a get callback on completion, notify the local tree model
-//            if (ts.getTransferType() == TransferStatus.TransferType.GET
-//                    && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
-//                ((LocalFileSystemModel) getFileTree().getModel()).notifyCompletionOfOperation(getFileTree(), ts);
-//            }
-//        } catch (IdropException ex) {
-//            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
-//            this.showIdropException(ex);
-//        }
-//
-//            	String file = ts.getSourceFileAbsolutePath();
-//            	int tableRow = getUploadTableProgressRow(file);
-//
-//            	// on initiation, clear and reset the status bar info
-//            	if(ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
-//            		pbTransferStatus.setMinimum(0);
-//            		pbTransferStatus.setMaximum((int)ts.getTotalSize());
-//            		pbTransferStatus.setValue(0);
-//            		lblTransferFileName.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
-//            	}
-//            	// on completion change progress bar to done
-//            	else if(ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
-//            		if(tableRow >= 0) {
-//            			tblUploadTable.getModel().setValueAt(100, tableRow, 2);
-//            			tblUploadTable.getModel().setValueAt(false, tableRow, 1);
-//            		}
-//            	}
-
 	}
 	
 	private void clearProgressBar() {
@@ -795,8 +794,15 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         transferStatusProgressBar.setMinimum(0);
         transferStatusProgressBar.setMaximum(100);
         transferStatusProgressBar.setValue(0);
-
     }
+	
+	public void setTransferInProgress(Boolean state) {
+		this.transferInProgress = state;
+	}
+	
+	public Boolean isTransferInProgress() {
+		return this.transferInProgress;
+	}
 
 
 	private final String abbreviateFileName(final String fileName) {
@@ -832,6 +838,13 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 		return row;
 	}
 	
+	private void enableUploadButtons(Boolean state) {
+		btnUploadBeginImport.setEnabled(state);
+	    btnUploadCancel.setEnabled(state);
+	    btnUploadMove.setEnabled(state);
+	    btnBrowseIRODSUploadDest.setEnabled(state);
+	}
+	
 	public void setTotalFileUpload(int total) {
 		String phrase = "Total Files To Upload: ";
 		
@@ -844,11 +857,12 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 		}
 	}
 	
-	public void setTotalSizeUpload(int total) {
+	public void setTotalSizeUpload(long total) {
 		String phrase = "Total File Size: ";
+		String postfix = " (kb)";
 		if(total > 0) {
-			Integer itotal = new Integer(total);
-			lblUploadTotalSize.setText(phrase.concat(itotal.toString()));
+			Long ltotal = new Long(total/1024);
+			lblUploadTotalSize.setText(phrase.concat(ltotal.toString()).concat(postfix));
 		}
 		else {
 			lblUploadTotalSize.setText(phrase);
@@ -856,6 +870,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 	}
 	
 	public void updateFileStats(DefaultTableModel tm) {
+
    	 	int numRows = tm.getRowCount();
    	 	long totalSize = 0;
    	 	int totalFiles = 0;
@@ -880,7 +895,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
    	 		}
    	 	}
    	 	setTotalFileUpload(totalFiles);
-   	 	setTotalSizeUpload((int)totalSize);
+   	 	setTotalSizeUpload(totalSize);
     }
 
     public IRODSTree getIrodsTree() {
@@ -1571,18 +1586,10 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     }//GEN-LAST:event_btnToggleLocalViewActionPerformed
 
     private void btnUploadBeginImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadBeginImportActionPerformed
+    
+    	PutTransferRunner currentTransferRunner = null;
+    	final List<File> sourceFiles = new ArrayList<File>();
     	
-    	// first collect target IRODS path
-      
-// iPlant decided they wanted IRODS destination path sent in as applet parameter instead of using IRODS finder dialog
-//            IRODSFinderDialog finderDialog = new IRODSFinderDialog(true, iDropCore);
-//            finderDialog.setVisible(true);
-//            String targetPath = finderDialog.getSelectedAbsolutePath();
-//            if(targetPath != null) {
-//            	//then do stuff
-//            	log.info("upload drop target selected:{}", targetPath);
-//            }
-//            finderDialog.dispose();
         // make sure IRODS destination is legal
         final String targetPath = txtIRODSUploadDest.getText();
 
@@ -1598,70 +1605,41 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         	JOptionPane.showMessageDialog(this, "Please enter a valid IRODS destination for upload.");
         	return;
         }
-            
-        // clear the status bars and text
-        //this.pbTransferStatus.setValue(0);
-        //this.lblTransferFileName.setText("");
         
-//    	java.awt.EventQueue.invokeLater(new Runnable() {
-//    	@Override
-//    	public void run() {  
         // now go through and process selected import files from table
-        //try {
+        if(!isTransferInProgress()) {
+        	java.awt.EventQueue.invokeLater(new Runnable() {
+       	    @Override
+       	    public void run() { 
+       	    	enableUploadButtons(false);
+        	 }
+        	});
+        		
             int rows = tblUploadTable.getRowCount();
-            //int [] rowsToRemove;
-            //rowsToRemove = new int[rows];
-            //int idx = 0;
             
             for(int row=0; row<rows; row++) {
             	final int final_row = row;
-            	java.awt.EventQueue.invokeLater(new Runnable() {
-                	@Override
-                	public void run() {  
-                		try {
-                		if((Boolean)tblUploadTable.getValueAt(final_row, 1)) {
-                			String fileToImport = (String)tblUploadTable.getValueAt(final_row, 0);
-                			log.info("uploading local file:{}", fileToImport);
-                			iDropCore.getTransferManager().putOperation(fileToImport,
-                					targetPath, iDropCore.getIrodsAccount().getDefaultStorageResource(),
-                					applet, null);
-                			//rowsToRemove[idx] = final_row;
-                			//idx++;
-                		//}
-                		//else {
-                			//rowsToRemove[idx] = -1;
-                			//idx++;
-                		}
-                		} catch (Exception e) {
-                			log.error("exception choosings iRODS file");
-                			throw new IdropRuntimeException("exception choosing irods file", e);
-                		} finally {
-                			iDropCore.getIrodsFileSystem().closeAndEatExceptions();
-                		}
-                	}
-                });
+            	
+                try {
+                			
+                	if((Boolean)tblUploadTable.getValueAt(final_row, 1)) {
+                		sourceFiles.add(new File((String)tblUploadTable.getValueAt(final_row, 0)));
+                		currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles);
+                    	final Thread transferThread = new Thread(currentTransferRunner);
+                    	log.info("launching transfer thread");
+                    	transferThread.start();
+                }
+                } catch (Exception e) {
+                	log.error("exception choosings iRODS file");
+                	throw new IdropRuntimeException("exception choosing irods file", e);
+                } finally {
+                	iDropCore.getIrodsFileSystem().closeAndEatExceptions();
+                }
             }
-            
-            // now delete all rows that were imported
-            // must do it backwards because table gets updated as rows get removed
-            /*
-            DefaultTableModel tm = (DefaultTableModel)tblUploadTable.getModel();
-            int total = rowsToRemove.length;
-            for(int i=(total-1); i>=0; i--) {
-            	if(rowsToRemove[i] >= 0 ) {
-            		tm.removeRow(rowsToRemove[i]);
-            	}
-            }
-            */
-            
-//        } catch (Exception e) {
-//            log.error("exception choosings iRODS file");
-//            throw new IdropRuntimeException("exception choosing irods file", e);
-//        } finally {
-//            iDropCore.getIrodsFileSystem().closeAndEatExceptions();
-//        }
-//    	}
-//    	});
+        }
+        else {
+        	// message??
+        }
         
     }//GEN-LAST:event_btnUploadBeginImportActionPerformed
 
@@ -1673,7 +1651,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     }//GEN-LAST:event_btnUploadCancelActionPerformed
 
     private void btnUploadLocalRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadLocalRefreshActionPerformed
-        // TODO add your handling code here:
+    	setUpUploadLocalFileSelectTree();
     }//GEN-LAST:event_btnUploadLocalRefreshActionPerformed
 
     private void txtIRODSUploadDestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIRODSUploadDestActionPerformed

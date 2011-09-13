@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
 import javax.swing.table.DefaultTableModel;
@@ -103,6 +105,11 @@ public class UploadTableTransferHandler extends TransferHandler {
              final DataFlavor dataFlavor) {
          final List<File> sourceFiles = new ArrayList<File>();
 
+         if(idropApplet.isTransferInProgress()) {
+        	 // do nothing??
+        	 // JOptionPane.showMessageDialog(idropApplet, "Cannot Copy Files for Upload - Transfer Currently in Progress", "Transfer In Progress", JOptionPane.OK_OPTION);
+         }
+         else {
 
          try {
              // get the list of files
@@ -131,7 +138,7 @@ public class UploadTableTransferHandler extends TransferHandler {
          DefaultTableModel tm = (DefaultTableModel)table.getModel();
          
          for (File transferFile : sourceFiles) {
-             log.info("process a put from source: {}", transferFile.getAbsolutePath());
+             log.info("put file in upload table: {}", transferFile.getAbsolutePath());
 
              String localSourceAbsolutePath = transferFile.getAbsolutePath();
              Object [] rowData = new Object[2];
@@ -142,7 +149,7 @@ public class UploadTableTransferHandler extends TransferHandler {
             	 idropApplet.updateFileStats(tm);
              }
           }
-
+         }
      }
      
      private void processDropOfFileList(Transferable transferable, JTable table) throws IdropRuntimeException {
@@ -171,7 +178,7 @@ public class UploadTableTransferHandler extends TransferHandler {
          
          for (File transferFile : sourceFiles) {
         	 String localSourceAbsolutePath = transferFile.getAbsolutePath();
-        	 log.info("initiating put transfer for source file:{}", localSourceAbsolutePath);
+        	 log.info("put file in upload table: {}", localSourceAbsolutePath);
 
              Object [] rowData = new Object[2];
              rowData[0] = localSourceAbsolutePath;
@@ -182,36 +189,7 @@ public class UploadTableTransferHandler extends TransferHandler {
              }
          }
 
-     }
-     
-//     private void updateFileStats(DefaultTableModel tm) {
-//    	 int numRows = tm.getRowCount();
-//    	 long totalSize = 0;
-//    	 int totalFiles = 0;
-//    	 
-//    	 for(int i=0; i<numRows; i++) {
-//    		 // only count if it is currently checked for upload
-//    		 if((Boolean)tm.getValueAt(i, 1)) {
-//    			 String fileName = (String)tm.getValueAt(i, 0);
-//    			 if(fileName != null) {
-//    				 File file = new File(fileName);
-//    				 if(file.exists()) {
-//    					 if(file.isDirectory()) {
-//    						 totalFiles+=FileUtils.listFiles(file, null, true).size();
-//    						 totalSize+=FileUtils.sizeOfDirectory(file);
-//    					 }
-//    					 else {
-//    						 totalFiles++;
-//    						 totalSize+=file.length();
-//    					 }
-//    				 }
-//    			 }
-//    		 }
-//    	 }
-//    	 idropApplet.setTotalFileUpload(totalFiles);
-//    	 idropApplet.setTotalSizeUpload((int)totalSize/1024);
-//     }
-     
+     } 
      
      public void setGUI(iDropLiteApplet gui) {
     	 idropApplet = gui;

@@ -30,6 +30,7 @@ import javax.swing.tree.TreeSelectionModel;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
+import org.irods.jargon.core.transfer.TransferControlBlock;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -39,6 +40,8 @@ import org.slf4j.LoggerFactory;
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSTreeTransferHandler extends TransferHandler {
+	
+	private PutTransferRunner currentTransferRunner = null;
 
     @Override
     public void exportAsDrag(JComponent jc, InputEvent ie, int i) {
@@ -272,43 +275,35 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             sb.append(" to iRODS at ");
             sb.append(targetIrodsFileAbsolutePath);
         }
+        
+      //check to make sure a transfer is not already running
+        if(idropGui.isTransferInProgress()) {
+        	JOptionPane.showMessageDialog(idropGui, "Cannot Put File - Transfer Currently in Progress", "Transfer In Progress", JOptionPane.OK_OPTION);
+        }
+        else {
+        	// default icon, custom title
+        	int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Put to iRODS ",
+        			JOptionPane.YES_NO_OPTION);
 
-        // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Put to iRODS ",
-                JOptionPane.YES_NO_OPTION);
+        	if (n == JOptionPane.YES_OPTION) {
 
-        if (n == JOptionPane.YES_OPTION) {
-
-            // process the drop as a put
-
-            java.awt.EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-
-                    for (File transferFile : sourceFiles) {
-                        log.info("process a put from source: {}", transferFile.getAbsolutePath());
-
-                        String localSourceAbsolutePath = transferFile.getAbsolutePath();
-                        String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
-                        log.info("initiating put transfer");
-                        try {
-                        	/*
-                            idropGui.getiDropCore()
-                                    .getTransferManager()
-                                    .enqueueAPut(localSourceAbsolutePath, targetIrodsFileAbsolutePath, sourceResource,
-                                            idropGui.getIrodsAccount());
-                            */
-                        	idropGui.getiDropCore().getTransferManager().putOperation(localSourceAbsolutePath,
-                        			targetIrodsFileAbsolutePath, sourceResource, idropGui, null);
-                        } catch (JargonException ex) {
-                            java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
-                                    java.util.logging.Level.SEVERE, null, ex);
-                            idropGui.showIdropException(ex);
-                        }
-                    }
-                }
-            });
+        		// process the drop as a put
+        		try { 
+        			currentTransferRunner = new PutTransferRunner(idropGui, targetIrodsFileAbsolutePath,
+        				sourceFiles);
+        			final Thread transferThread = new Thread(currentTransferRunner);
+        			log.info("launching transfer thread");
+        			transferThread.start();
+        		}
+        		catch (JargonException ex) {
+        			java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+        				java.util.logging.Level.SEVERE, null, ex);
+        			idropGui.showIdropException(ex);
+        			throw new IdropRuntimeException(ex);
+        		} finally {
+        			idropGui.getiDropCore().closeAllIRODSConnections();
+        		}
+        	}
         }
 
     }
@@ -403,39 +398,35 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             sb.append(putTarget.getPathOrName());
         }
 
-        // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Put to iRODS ",
+        //check to make sure a transfer is not already running
+        if(idropGui.isTransferInProgress()) {
+        	JOptionPane.showMessageDialog(idropGui, "Cannot Put File - Transfer Currently in Progress", "Transfer In Progress", JOptionPane.OK_OPTION);
+        }
+        else {
+        	// default icon, custom title
+        	int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Put to iRODS ",
                 JOptionPane.YES_NO_OPTION);
 
-        if (n == JOptionPane.YES_OPTION) {
+        	if (n == JOptionPane.YES_OPTION) {
 
-            // process the drop as a put
+        		// process the drop as a put
+        		try {
+        			currentTransferRunner = new PutTransferRunner(idropGui, targetIrodsFileAbsolutePath,
+        					sourceFiles);
+        			final Thread transferThread = new Thread(currentTransferRunner);
+        			log.info("launching transfer thread");
+        			transferThread.start();
+        		}
+        		catch (JargonException ex) {
+        			java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+        				java.util.logging.Level.SEVERE, null, ex);
+        			idropGui.showIdropException(ex);
+        			throw new IdropRuntimeException(ex);
+        		} finally {
+        			idropGui.getiDropCore().closeAllIRODSConnections();
+        		}
 
-            java.awt.EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-
-                    for (File transferFile : sourceFiles) {
-                        log.info("initiating put transfer for source file:{}", transferFile.getAbsolutePath());
-                        try {
-                        	idropGui.getiDropCore().getTransferManager().putOperation(transferFile.getAbsolutePath(),
-                        			targetIrodsFileAbsolutePath, sourceResource, idropGui, new TreeTransferControlBlock());
-                            /*
-                            idropGui.getiDropCore()
-                                    .getTransferManager()
-                                    .enqueueAPut(transferFile.getAbsolutePath(), targetIrodsFileAbsolutePath,
-                                            sourceResource, idropGui.getIrodsAccount());
-                            */
-                        } catch (JargonException ex) {
-                            java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
-                                    java.util.logging.Level.SEVERE, null, ex);
-                            idropGui.showIdropException(ex);
-                        }
-                    }
-                }
-            });
-
+        	}
         }
 
     }
