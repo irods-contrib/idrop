@@ -41,6 +41,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalTreeTransferHandler.class);
     public final iDropLiteApplet idropGui;
+    private GetTransferRunner currentTransferRunner = null;
 
     @Override
     public boolean canImport(TransferSupport support) {
@@ -179,42 +180,31 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
         }
 
-        // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Get ", JOptionPane.YES_NO_OPTION);
+        if(idropGui.isTransferInProgress()) {
+        	JOptionPane.showMessageDialog(idropGui, "Cannot Get File - Transfer Currently in Progress", "Transfer In Progress", JOptionPane.OK_OPTION);
+        }
+        else {
+        	// default icon, custom title
+        	int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Get ", JOptionPane.YES_NO_OPTION);
 
-        if (n == JOptionPane.YES_OPTION) {
+        	if (n == JOptionPane.YES_OPTION) {
 
-            // process the drop as a get
-
-            java.awt.EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    try {
-                        for (File transferFile : sourceFiles) {
-
-                            if (transferFile instanceof IRODSFile) {
-                                log.info("initiating a transfer of iRODS file:{}", transferFile.getAbsolutePath());
-                                log.info("transfer to local file:{}", tempTargetLocalFileAbsolutePath);
-                                DataTransferOperations dto = idropGui.getiDropCore().getIRODSAccessObjectFactory().getDataTransferOperations(
-                                		idropGui.getIrodsAccount());
-                                dto.getOperation(transferFile.getAbsolutePath(), tempTargetLocalFileAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui, null);                           
-
-                            } else {
-                                log.info("process a local to local move with source...not yet implemented : {}",
-                                        transferFile.getAbsolutePath());
-                            }
-                        }
-                    } catch (JargonException ex) {
-                        java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
-                                java.util.logging.Level.SEVERE, null, ex);
-                        idropGui.showIdropException(ex);
-                        throw new IdropRuntimeException(ex);
-                    } finally {
-                    	idropGui.getiDropCore().closeAllIRODSConnections();
-                    }
+        		// process the drop as a get
+        		try {
+        			currentTransferRunner = new GetTransferRunner(idropGui, tempTargetLocalFileAbsolutePath,
+                			sourceFiles);
+                	final Thread transferThread = new Thread(currentTransferRunner);
+                	log.info("launching transfer thread");
+                	transferThread.start();
+                } catch (JargonException ex) {
+                    java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+                            java.util.logging.Level.SEVERE, null, ex);
+                    idropGui.showIdropException(ex);
+                    throw new IdropRuntimeException(ex);
+                } finally {
+                	idropGui.getiDropCore().closeAllIRODSConnections();
                 }
-            });
+            }
 
         }
     }
@@ -227,7 +217,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
     private void processDropFromSerializedObjectType(Transferable transferable, File parent, DataFlavor flavor, int userDropAction) {
 
         log.info("process as drop of file list to target:{}", parent.getAbsolutePath());
-///*
+
         File effectiveTarget;
         if (parent.isDirectory()) {
             effectiveTarget = parent;
@@ -295,8 +285,6 @@ public class LocalTreeTransferHandler extends TransferHandler {
             log.error("error updating local file tree after add", ex);
             throw new IdropRuntimeException(ex);
         }
- //*/
-
 
     }
 
