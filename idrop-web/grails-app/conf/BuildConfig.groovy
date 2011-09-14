@@ -26,13 +26,13 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		test 'org.irods.jargon:jargon-test:3.0.0-beta2-SNAPSHOT'
+		test 'org.irods.jargon:jargon-test:3.0.0-SNAPSHOT'
 		test 'org.mockito:mockito-all:1.8.1'
 		provided 'junit:junit:4.8.1'
-		compile 'org.irods.jargon:jargon-core:3.0.0-beta2-SNAPSHOT'
-		compile 'org.irods.jargon:jargon-security:3.0.0-beta2-SNAPSHOT'
-		compile 'org.irods.jargon:jargon-data-utils:3.0.0-beta2-SNAPSHOT'
-		compile ('org.irods.jargon:jargon-user-tagging:3.0.0-beta2-SNAPSHOT') {
+		compile 'org.irods.jargon:jargon-core:3.0.0-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-security:3.0.0-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-data-utils:3.0.0-SNAPSHOT'
+		compile ('org.irods.jargon:jargon-user-tagging:3.0.0-SNAPSHOT') {
 			exclude 'junit'
 		}
 		compile 'org.springframework.security:spring-security-core:3.0.5.RELEASE'

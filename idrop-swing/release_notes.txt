@@ -155,6 +155,8 @@ iRODS iDrop > LL - first-run setup wizard for sync folders	2011-05-27 08:28:32
 
 iRODS iDrop > drag and drop, desktop to irods file should use irods parent as target	2011-06-03 09:44:23
 
+[#468] add config panel options for time outs, max threads, etc
+
 
 ==Outstanding Issues==
 

@@ -32,11 +32,12 @@ public interface IdropConfigurationService  {
     public static final String LOOK_AND_FEEL = "idrop.lookandfeel";
     public static final String TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES = "transferengine.record.successful.files";
     public static final String  VERIFY_CHECKSUM_ON_TRANSFER = "idrop.verify.checksum";
+    public static final String  ALLOW_CONNECTION_REROUTING = "idrop.allow.connection.rerouting";
     public static final String  INTRA_FILE_STATUS_CALLBACKS = "idrop.intra.file.status.callbacks";
     public static final String  IRODS_CONNECTION_TIMEOUT = "idrop.irods.timeout";
     public static final String  IRODS_PARALLEL_CONNECTION_TIMEOUT = "idrop.irods.parallel.timeout";
     public static final String  IRODS_PARALLEL_CONNECTION_MAX_THREADS = "idrop.parallel.transfer.max.threads";
-        public static final String  IRODS_PARALLEL_USE_POOL = "idrop.parallel.use.pool";
+    public static final String  IRODS_PARALLEL_USE_POOL = "idrop.parallel.use.pool";
 
 
     Properties bootstrapConfiguration() throws IdropException;

@@ -84,7 +84,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         Properties configFileProperties;
         try {
             databaseProperties = configurationService.exportProperties();
-            configFileProperties = this.importPropertiesFromDefaultFile();
+            configFileProperties = this.importPropertiesFromDefaultFile(false);
 
         } catch (Exception ex) {
             Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,7 +105,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 
         if (databaseProperties.isEmpty()) {
             log.info("no properties found in properties file in home directory, attempt to import default idrop.properties from classpath properties");
-            databaseProperties = importPropertiesFromDefaultFile();
+            databaseProperties = importPropertiesFromDefaultFile(true);
         }
 
         log.info("now storing derived properties in idrop configuration");
@@ -211,11 +211,15 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         }
     }
 
-    private Properties importPropertiesFromDefaultFile() throws IdropException {
+    private Properties importPropertiesFromDefaultFile(boolean exportToDatabase) throws IdropException {
         log.info("importPropertiesFromDefaultFile()");
         IdropPropertiesHelper idropPropertiesHelper = new IdropPropertiesHelper();
         Properties properties = idropPropertiesHelper.loadIdropProperties();
-        importGivenPropertiesIntoDatabase(properties);
+
+        if (exportToDatabase) {
+            importGivenPropertiesIntoDatabase(properties);
+        }
+
         return properties;
     }
 
@@ -290,9 +294,11 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         newProps.setIntraFileStatusCallbacks(idropCore.getIdropConfig().isIntraFileStatusCallbacks());
         newProps.setTransferThreadPoolMaxSimultaneousTransfers(1);
         newProps.setUseParallelTransfer(true);
-        newProps.setUseTransferThreadsPool(false);
-        newProps.setIrodsSocketTimeout(240);
-        newProps.setIrodsParallelSocketTimeout(240);
+        newProps.setUseTransferThreadsPool(idropCore.getIdropConfig().isParallelUsePool());
+        newProps.setIrodsSocketTimeout(idropCore.getIdropConfig().getIrodsConnectionTimeout());
+        newProps.setIrodsParallelSocketTimeout(idropCore.getIdropConfig().getIrodsParallelConnectionTimeout());
+        newProps.setAllowPutGetResourceRedirects(idropCore.getIdropConfig().isAllowConnectionRerouting());
+        newProps.setMaxParallelThreads(idropCore.getIdropConfig().getIrodsParallelTransferMaxThreads());
         idropCore.getIrodsFileSystem().getIrodsSession().setJargonProperties(newProps);
     }
 

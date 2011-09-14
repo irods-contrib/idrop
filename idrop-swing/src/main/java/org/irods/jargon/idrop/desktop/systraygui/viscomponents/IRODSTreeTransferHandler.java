@@ -99,9 +99,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         boolean accepted = false;
 
         for (DataFlavor flavor : transferrableFlavors) {
-            log.debug("flavor mime type:{}", flavor.getMimeType());
-            log.debug("flavor human presentable name:{}",
-                    flavor.getHumanPresentableName());
+
             if (flavor.isFlavorJavaFileListType()) {
                 log.info("drop accepted...process drop as file list from desktop");
                 // dtde.acceptDrop(dtde.getDropAction());
@@ -135,20 +133,16 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         support.getDropLocation().getDropPoint();
         support.getComponent();
 
-        log.warn("transferFlavors:{}", support.getDataFlavors());
-
         // if (support.getComponent() instanceof IRODSTree) {
         for (DataFlavor flavor : support.getDataFlavors()) {
             if (flavor.equals(DataFlavor.javaFileListFlavor)) {
-                log.debug("found file list flavor, will import");
                 return true;
             } else if (flavor.getMimeType().equals("application/x-java-jvm-local-objectref; class=javax.swing.tree.TreeSelectionModel")) {
-                log.debug("found file list flavor, will import");
                 return true;
             }
         }
         // }
-        log.debug("cannot import");
+
         return false;
 
     }
@@ -319,7 +313,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         log.info("process as drop of file list");
 
         IRODSNode computedTarget = null;
-        
+
         List<IRODSFile> sourceFiles;
         CollectionAndDataObjectListingEntry targetEntry = (CollectionAndDataObjectListingEntry) targetNode.getUserObject();
         if (targetEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
