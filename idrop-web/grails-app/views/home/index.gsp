@@ -8,9 +8,9 @@
 
 <div id="tabs">
 	<ul>
-		<li><a href="#quickView">Quick View</a></li>
-		<li><a href="#search">Search</a></li>
-		<li><a href="#browse">Browse</a></li>
+		<li><a href="#quickView"><g:message code="text.home" /></a></li>
+		<li><a href="#search"><g:message code="text.search" /></a></li>
+		<li><a href="#browse"><g:message code="text.browse" /></a></li>
 	</ul>
 	<div id="quickView">
 		<div class="objectContainer">
@@ -26,9 +26,9 @@
 			</div>
 			<div class="objectContainerTools">
 				<span class="objectContainerActions"><a href="edit"
-					class="objectAction">EDIT</a> - <a href="viewInTree"
-					class="objectAction">VIEW</a> - <a href="share"
-					class="objectAction">SHARE</a> </span> <span class="objectContainerTags">tag1
+					class="objectAction"><g:message code="text.edit" /></a> - <a href="viewInTree"
+					class="objectAction"><g:message code="text.view" /></a> - <a href="share"
+					class="objectAction"><g:message code="text.share" /></a> </span> <span class="objectContainerTags">tag1
 					tag2:detail tag3 hello</span>
 			</div>
 
@@ -48,9 +48,9 @@
 			</div>
 			<div class="objectContainerTools">
 				<span class="objectContainerActions"><a href="edit"
-					class="objectAction">EDIT</a> - <a href="viewInTree"
-					class="objectAction">VIEW</a> - <a href="share"
-					class="objectAction">SHARE</a> </span> <span class="objectContainerTags">tag1
+						class="objectAction"><g:message code="text.edit" /></a> - <a href="viewInTree"
+					class="objectAction"><g:message code="text.view" /></a> - <a href="share"
+					class="objectAction"><g:message code="text.share" /></a> </span> <span class="objectContainerTags">tag1
 					tag2:detail tag3 hello</span>
 			</div>
 
@@ -78,7 +78,7 @@
 
 					<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
 						style="float: left">
-						Display Option:
+						<g:message code="text.display.option" />:
 						<g:select name="browseDisplayOption" id="browseDisplayOption"
 							from="${['info', 'sharing', 'metadata']}"
 							noSelection="${['details':'details']}" onChange="setBrowseMode()" />
@@ -86,10 +86,10 @@
 
 					<button type="button" id="upload"
 						class="ui-state-default ui-corner-all" value="upload"
-						onclick="showUploadDialog()")>Upload</button>
+						onclick="showUploadDialog()")><g:message code="text.upload" /></button>
 					<button type="button" id="idroplite"
 						class="ui-state-default ui-corner-all" value="uploadWithIdropLite"
-						onclick="showIdropLite()")>iDrop Lite</button>
+						onclick="showIdropLite()")><g:message code="text.idrop.lite" /></button>
 				</div>
 
 
@@ -104,8 +104,7 @@
 				</div>
 
 				<div id="infoDiv" class="ui-layout-center">
-					<h2>Select a directory or file to see info and tags based on
-						the view option</h2>
+					<h2><g:message code="browse.page.prompt" /></h2>
 				</div>
 			</div>
 
