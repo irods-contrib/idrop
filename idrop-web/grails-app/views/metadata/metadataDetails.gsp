@@ -2,8 +2,8 @@
 <div id="detailsToolbar" class="fg-toolbar ui-widget-header">
 <div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
 							style="float: left">
-<button type="button" id="addMetadataButton" class="ui-state-default ui-corner-all"  value="addMetadata" onclick="prepareMetadataDialog()")>Add Metadata</button>
-<button type="button" id="deleteMetadataButton" class="ui-state-default ui-corner-all" value="deleteMetadata" onclick="deleteMetadata()")>Delete Metadata</button>
+<button type="button" id="addMetadataButton" class="ui-state-default ui-corner-all"  value="addMetadata" onclick="prepareMetadataDialog()")><g:message code="text.add.metadata" /></button>
+<button type="button" id="deleteMetadataButton" class="ui-state-default ui-corner-all" value="deleteMetadata" onclick="deleteMetadata()")><g:message code="text.delete.metadata" /></button>
 </div>
 </div>
 <g:render template="/common/panelmessages"/>
@@ -21,9 +21,9 @@
 		<thead>
 			<tr>
 				<th></th>
-				<th>Attribute</th>
-				<th>Value</th>
-				<th>Unit</th>
+				<th><g:message code="text.attribute" /></th>
+				<th><g:message code="text.value" /></th>
+				<th><g:message code="text.unit" /></th>
 			</tr>
 		</thead>
 		<tbody>

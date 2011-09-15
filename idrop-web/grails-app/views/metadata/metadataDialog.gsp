@@ -7,16 +7,16 @@
 			name="metadataUpdateForm">
 			<fieldset id="verticalForm">
 				<g:hiddenField name="isCreate" value="${isCreate}" />
-				<label for="absPath">Path:</label>
+				<label for="absPath"><g:message code="text.path" />:</label>
 				<g:textArea name="absPath" value="${absPath}" readonly="true" />
 				
-				<br /> <label for="attribute">Attribute:</label>
+				<br /> <label for="attribute"><g:message code="text.attribute" />:</label>
 				<g:textField name="attribute" />
 				<br />
-				<label for="value">Value:</label>
+				<label for="value"><g:message code="text.value" />:</label>
 				<g:textField name="value" />
 				<br />
-				<label for="unit">Unit:</label>
+				<label for="unit"><g:message code="text.unit" />:</label>
 				<g:textField name="unit" />
 				<br />
 				<div id="detailsDialogToolbar" class="fg-toolbar ui-widget-header">
@@ -24,10 +24,10 @@
 						style="float: left, clear :   both; width: 90%;">
 						<button type="button" id="updateMetadataDetailButton"
 							class="ui-state-default ui-corner-all" value="addMetadata"
-							onclick="submitMetadataDialog()")>Save</button>
+							onclick="submitMetadataDialog()")><g:message code="default.button.update.label" /></button>
 						<button type="button" id="cancelAddMetadataButton"
 							class="ui-state-default ui-corner-all" value="cancelAdd"
-							onclick="closeMetadataAddDialog()")>Cancel</button>
+							onclick="closeMetadataAddDialog()")><g:message code="text.cancel" /></button>
 					</div>
 				</div>
 			</fieldset>
