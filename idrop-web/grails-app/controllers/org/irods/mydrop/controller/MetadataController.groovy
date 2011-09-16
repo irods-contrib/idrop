@@ -1,7 +1,10 @@
 package org.irods.mydrop.controller
 
 
+import grails.converters.JSON
+
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.CollectionAO
@@ -17,7 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder
  * @author Mike Conway - DICE (www.irods.org) 
  */
 class MetadataController {
-
+ 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 
@@ -52,24 +55,29 @@ class MetadataController {
 		log.info("listMetadataForDataObject for absPath: ${absPath}")
 
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-
-		// TODO: some sort of catch and display of no data available in info?
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-
-		def isDataObject = retObj instanceof DataObject
 		def metadata;
 
-		if (isDataObject) {
-			log.debug("retrieving meta data for a data object");
-			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
-			metadata = dataObjectAO.findMetadataValuesForDataObject(retObj.collectionName, retObj.dataName)
-		} else {
-			CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
-			metadata = collectionAO.findMetadataValuesForCollection(retObj.collectionName, 0) // FIXME: switch to no restart sig
+		/*
+		 * Get the data object or collection at the given path, and access the relevant metadata 
+		 */
+		try {
+			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+			def isDataObject = retObj instanceof DataObject
+
+			if (isDataObject) {
+				log.debug("retrieving meta data for a data object");
+				DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+				metadata = dataObjectAO.findMetadataValuesForDataObject(retObj.collectionName, retObj.dataName)
+			} else {
+				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+				metadata = collectionAO.findMetadataValuesForCollection(retObj.collectionName, 0) // FIXME: switch to no restart sig
+			}
+		} catch (DataNotFoundException dnf) {
+			log.warn "cannot find data for path"
+			flash.message="error.data.not.found"
 		}
 
 		render(view:"metadataDetails", model:[metadata:metadata])
-
 	}
 
 	/**
@@ -83,99 +91,93 @@ class MetadataController {
 		def absPath = params['absPath']
 		def isCreate = params['create']
 
-
 		if (!absPath) {
-			log.error "no absPath in request for prepareMetadataialog()"
+			log.error "no absPath in request for prepareMetadataDialog()"
 			throw new JargonException("a path was not supplied")
 		}
 
 
-		render(view:"metadataDialog", model:[absPath:absPath, isCreate:isCreate])
-
+		render(view:"metadataDialog", model:[absPath:absPath])
 	}
 
 	/**
 	 * Add metadata 
 	 * FIXME: hacked, fix this up with validation, etc
 	 */
-	def addMetadata = { 
+	def addMetadata = { AddMetadataCommand cmd ->
 
 		log.info "addMetadata"
 		log.info "params: ${params}"
-
-		def absPath = params['absPath']
-		def attribute = params['attribute']
-		def value = params['value']
-		def unit = params['unit']
-
-
-
-		if (!absPath) {
-			response.sendError(500,"no path specified")
-			return
-		}
-
-		if (!attribute) {
-			response.sendError(500,"no attribute specified")
-			return
-		}
-
-		if (!value) {
-			response.sendError(500,"no value specified")
-			return
-		}
-
-		/*
-		if (!unit) {
-			response.sendError(500,"no unit specified")
-			return
-		}*/
-
-
-
-		log.info(" attribute: ${attribute} value: ${value} unit: ${unit}")
-
+		
+		log.info "cmd:${cmd}"
+		
+		def responseData = [:]
+		def jsonData = [:]
+		
+		if (cmd.hasErrors()) {
+			log.info "errors occured build error messages"
+			def errorMessage = message(code:"error.data.error")
+			responseData['errorMessage'] = errorMessage
+			def errors = []
+			def i = 0
+			cmd.errors.allErrors.each() {
+				log.info "error identified in validation: ${it}"
+				errors.add(message(error:it))
+			}
+			responseData['errors'] = errors
+			jsonData['response'] =responseData
+		} else {
+		
+		log.info(" attribute: ${cmd.attribute} value: ${cmd.value} unit: ${cmd.unit}")
+		
+		responseData['attribute'] = cmd.attribute
+		responseData['value'] = cmd.value
+		responseData['unit']=cmd.unit
+		responseData['absPath']=cmd.absPath
+		responseData['message']= message(code:"message.update.successful")
+		
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
 
-		def avuData = AvuData.instance(attribute, value, unit)
+		def avuData = AvuData.instance(cmd.attribute, cmd.value, cmd.unit)
 
 		def isDataObject = retObj instanceof DataObject
 
 		if (isDataObject) {
 			log.debug("setting AVU for a data object")
 			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
-			dataObjectAO.addAVUMetadata(absPath, avuData)
-
+			dataObjectAO.addAVUMetadata(cmd.absPath, avuData)
 		} else {
 			log.debug("setting AVU for collection")
 			CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
-			collectionAO.addAVUMetadata(absPath, avuData)
-
+			collectionAO.addAVUMetadata(cmd.absPath, avuData)
 		}
 
 		log.info("avu set successfully")
+		jsonData['response'] =responseData
+		
+		}
 
-		render "OK"
+		render jsonData as JSON
+		
 	}
-
 }
 
 /**
  * Command for adding metadata from the metadataDialog.gsp form
  */
 
-/*
+
 class AddMetadataCommand {
 	String absPath
 	String attribute
 	String value
 	String unit
 	static constraints = {
-		absPath(blank:false),
-		attribute(blank:false),
-		unit(blank:false)
+		attribute(blank:false)
+		value(blank:false)
+		absPath(blank:false)
 	}
 }
-*/
+

@@ -54,63 +54,7 @@
 	var origData = "";
 	
 	$(function() {
-	
-		dataTable = lcBuildTableInPlace("#metaDataDetailsTable", null, null);	
-		$('.editable').editable(function(content, settings) {
-		
-		     var avu = [];
-		     var newAvu = [];
-
-		     var currentNode = $(this);
-
-		     if (currentNode.hasClass("avuAttribute")) {
-			     avu['attribute'] = origData;
-			     newAvu['attribute'] = content;
-			 } else if (currentNode.hasClass("avuValue")) {
-				 avu['value'] = origData;
-			     newAvu['value'] = content;
-			} else if (currentNode.hasClass("avuUnit")) {
-				 avu['unit'] = origData;
-			     newAvu['unit'] = content;
-			}
-
-			//var siblings = $(this).siblings();
-			var siblings = currentNode.siblings();//parent().children();
-			siblings.each(function(index) { 
-				var sib = $(this);
-				if (sib.hasClass("avuAttribute")) {
-				     avu['attribute'] = sib.html();
-				     newAvu['attribute'] =  sib.html();
-				 } else if (sib.hasClass("avuValue")) {
-					  avu['value'] =sib.html();
-					     newAvu['value'] =  sib.html();
-				} else if (sib.hasClass("avuUnit")) {
-					  avu['unit'] = sib.html();
-					     newAvu['unit'] =  sib.html();
-				}
-			});
-			
-			console.log("currentAVU:" + avu['attribute'] + "/" +  avu['value'] + "/" + avu['unit']);
-			console.log("newAVU:" +  newAvu['attribute'] + "/" +  newAvu['value'] + "/" + newAvu['unit']);
-
-			if (selectedPath == null) {
-				throw "no collection or data object selected";
-			}
-			
-			metadataUpdate(avu, newAvu, selectedPath);
-
-		     
-		     return(content);
-		} , {type    : 'textarea',
-		     submit  : 'OK',
-		     cancel    : 'Cancel',
-		     data: function(value, settings) {
-		        origData = value;
-		        return value;
-		       }
-
-
-		     });
+		setupMetadataDetailsTable();
 	});
 
 	

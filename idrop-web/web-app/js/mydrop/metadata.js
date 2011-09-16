@@ -104,7 +104,6 @@ function submitMetadataDialog() {
 	var value = $('[name=value]').val();
 	var unit = $('[name=unit]').val();
 	
-
 	if (selectedPath == null) {
 		throw "no collection or data object selected";
 	}
@@ -126,13 +125,33 @@ function submitMetadataDialog() {
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
 	}).success(
-			function() {
+			function(data) {
+				var dataJSON = jQuery.parseJSON(data);
+				var response = dataJSON.response;
+				if (response.errorMessage != null) {
+					// build a message and set the class of the message area
+					
+					var message = "";
+					message += "<div><span>";
+					message += response.errorMessage;
+					message += "</span><p/><ul>";
+					
+					var detailErrors = response.errors;
+					for (i = 0; i < detailErrors.length; i++) {
+						message += "<li>";
+						message += detailErrors[i];
+						message += "</li>"
+					}
+					
+					message += "</ul></div>";
+					setMessageInArea(metadataMessageAreaSelector,message);
+					return;
+				}
 				
 				closeMetadataDialog();
 				addRowToMetadataDetailsTable(attribute,value,unit);
 				setMessageInArea(metadataMessageAreaSelector,
-						"Metadata saved successfully");
-
+						response.message);
 			});
 }
 
@@ -140,7 +159,6 @@ function closeMetadataDialog() {
 	$("#metadataDialogArea").hide().fadeOut('slow', new function() {
 		$("#metadataDialogArea").html("")
 	});
-
 }
 
 function addRowToMetadataDetailsTable(attribute, value, unit) {
@@ -154,6 +172,67 @@ function addRowToMetadataDetailsTable(attribute, value, unit) {
 	var newNode = $("#metaDataDetailsTable").dataTable().fnGetNodes()[idxs[0]];
 	$(newNode).attr("id", selectedPath);
 	
+}
+
+function setupMetadataDetailsTable() {
+	dataTable = lcBuildTableInPlace("#metaDataDetailsTable", null, null);	
+	$('.editable').editable(function(content, settings) {
+	
+	     var avu = [];
+	     var newAvu = [];
+
+	     var currentNode = $(this);
+
+	     if (currentNode.hasClass("avuAttribute")) {
+		     avu['attribute'] = origData;
+		     newAvu['attribute'] = content;
+		 } else if (currentNode.hasClass("avuValue")) {
+			 avu['value'] = origData;
+		     newAvu['value'] = content;
+		} else if (currentNode.hasClass("avuUnit")) {
+			 avu['unit'] = origData;
+		     newAvu['unit'] = content;
+		}
+
+		//var siblings = $(this).siblings();
+		var siblings = currentNode.siblings();//parent().children();
+		siblings.each(function(index) { 
+			var sib = $(this);
+			if (sib.hasClass("avuAttribute")) {
+			     avu['attribute'] = sib.html();
+			     newAvu['attribute'] =  sib.html();
+			 } else if (sib.hasClass("avuValue")) {
+				  avu['value'] =sib.html();
+				     newAvu['value'] =  sib.html();
+			} else if (sib.hasClass("avuUnit")) {
+				  avu['unit'] = sib.html();
+				     newAvu['unit'] =  sib.html();
+			}
+		});
+		
+		console.log("currentAVU:" + avu['attribute'] + "/" +  avu['value'] + "/" + avu['unit']);
+		console.log("newAVU:" +  newAvu['attribute'] + "/" +  newAvu['value'] + "/" + newAvu['unit']);
+
+		if (selectedPath == null) {
+			throw "no collection or data object selected";
+		}
+		
+		metadataUpdate(avu, newAvu, selectedPath);
+
+	     
+	     return(content);
+	} , {type    : 'textarea',
+	     submit  : 'OK',
+	     cancel    : 'Cancel',
+	     data: function(value, settings) {
+	        origData = value;
+	        return value;
+	       }
+
+
+	     });
+	
+	return dataTable;
 }
 
 
