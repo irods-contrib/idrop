@@ -452,6 +452,14 @@ function buildFormFromACLDetailsTable() {
 	return formData;
 }
 
+function closeApplet() {
+	$("#idropLiteArea").animate({ height: 'hide', opacity: 'hide' }, 'slow');
+	$("#toggleBrowseDataDetailsTable").show('slow');
+	$("#toggleBrowseDataDetailsTable").height="100%";
+	$("#toggleBrowseDataDetailsTable").width="100%";
+	dataLayout.resizeAll();
+}
+
 
 /**
  * Display the iDrop lite gui, passing in the given irods base collection name
@@ -478,11 +486,64 @@ function showIdropLite() {
 	var jqxhr = $.post(context + idropLiteUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(idropLiteSelector);
-				$(idropLiteSelector).html(data);
+				//$(idropLiteSelector).html(data);
 			}, "html").error(function(xhr, status, error) {
+				
+				
+			
 		setMessageInArea(idropLiteSelector, xhr.responseText);
-	}).success(
-			function() {
+	
+			
+			}).success(
+			function(data) {
+				
+					var dataJSON = jQuery.parseJSON(data);
+					var appletDiv =   $("#idropLiteArea");
+					$(appletDiv).append("<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:right'><button type='button' id='toggleMenuButton' class='ui-state-default ui-corner-all' value='closeIdropApplet' onclick='closeApplet()')>Close iDrop Lite</button></div>")
+					 var a=document.createElement('applet');
+					  a.setAttribute('code',dataJSON.appletCode);
+					  a.setAttribute('codebase',dataJSON.appletUrl);
+					  a.setAttribute('archive', dataJSON.archive);
+					  a.setAttribute('width',800);
+					  a.setAttribute('height',600);
+					  var p = document.createElement('param');
+					  p.setAttribute('name','mode');
+					  p.setAttribute('value', dataJSON.mode);
+					  a.appendChild(p);
+					  p = document.createElement('param');
+					  p.setAttribute('name','host');
+					  p.setAttribute('value', dataJSON.host);
+					  a.appendChild(p);
+					  p = document.createElement('param');
+					  p.setAttribute('name','port');
+					  p.setAttribute('value', dataJSON.port);
+					  a.appendChild(p);
+					  p = document.createElement('param');
+					  p.setAttribute('name','zone');
+					  p.setAttribute('value', dataJSON.zone);
+					  a.appendChild(p);
+					  p = document.createElement('param');
+					  p.setAttribute('name','user');
+					  p.setAttribute('value', dataJSON.user);
+					  a.appendChild(p);
+					  p = document.createElement('param');
+					  p.setAttribute('name','password');
+					  p.setAttribute('value', dataJSON.password);
+					  a.appendChild(p);
+					  p = document.createElement('param');
+					  p.setAttribute('name','absPath');
+					  p.setAttribute('value', dataJSON.absolutePath);
+					  a.appendChild(p);
+					  p = document.createElement('param');
+					  p.setAttribute('name','uploadDest');
+					  p.setAttribute('value', dataJSON.absolutePath);
+					  a.appendChild(p);
+					  p = document.createElement('param');
+					  p.setAttribute('name','defaultStorageResource');
+					  p.setAttribute('value', dataJSON.defaultStorageResource);
+					  a.appendChild(p);
+					 $('#appletMenu').append(a);
+					 
 				
 			}).error(function(xhr, status, error) {
 				setMessageInArea(idropLiteSelector, xhr.responseText);

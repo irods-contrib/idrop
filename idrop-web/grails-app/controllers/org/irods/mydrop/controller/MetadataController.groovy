@@ -102,7 +102,6 @@ class MetadataController {
 
 	/**
 	 * Add metadata 
-	 * FIXME: hacked, fix this up with validation, etc
 	 */
 	def addMetadata = { AddMetadataCommand cmd ->
 
@@ -167,8 +166,6 @@ class MetadataController {
 /**
  * Command for adding metadata from the metadataDialog.gsp form
  */
-
-
 class AddMetadataCommand {
 	String absPath
 	String attribute

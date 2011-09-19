@@ -10,9 +10,7 @@ import org.irods.jargon.core.pub.UserAO
 import org.springframework.security.core.context.SecurityContextHolder
 import org.irods.jargon.datautils.datacache.DataCacheService
 import org.irods.jargon.datautils.datacache.DataCacheServiceImpl
-
-
-
+import grails.converters.JSON
 class IdropLiteController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -54,7 +52,34 @@ class IdropLiteController {
 		def mode = "1";
 		
 		log.info "temporary user password is: ${password}"
-		render(view:"appletLoader", model:[mode:mode, password:password, account:irodsAccount, absPath:absPath])
+		IdropLite idropLite = new IdropLite()
+		idropLite.appletUrl = "http://localhost:8080/idrop-web/applet"
+		idropLite.appletCode = "org.irods.jargon.idrop.lite.iDropLiteApplet"
+		idropLite.archive = "idrop-lite-1.0.0-beta2-SNAPSHOT-jar-with-dependencies.jar"
+		idropLite.mode = mode
+		idropLite.host = irodsAccount.host
+		idropLite.port = irodsAccount.port
+		idropLite.zone = irodsAccount.zone
+		idropLite.user = irodsAccount.userName
+		idropLite.password = password
+		idropLite.defaultStorageResource = irodsAccount.defaultStorageResource
+		idropLite.absolutePath = absPath
 		
+		render idropLite as JSON
+				
 	}
+}
+
+class IdropLite {
+	String appletUrl
+	String archive
+	String appletCode
+	String mode
+	String host
+	String port
+	String zone
+	String user
+	String password
+	String defaultStorageResource
+	String absolutePath
 }
