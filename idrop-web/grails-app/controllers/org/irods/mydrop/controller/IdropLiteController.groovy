@@ -7,10 +7,9 @@ import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.UserAO
-import org.springframework.security.core.context.SecurityContextHolder
 import org.irods.jargon.datautils.datacache.DataCacheService
 import org.irods.jargon.datautils.datacache.DataCacheServiceImpl
-import grails.converters.JSON
+import org.springframework.security.core.context.SecurityContextHolder
 class IdropLiteController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -36,6 +35,7 @@ class IdropLiteController {
 	}
 
 	def appletLoader = {
+		
 		def absPath = params['absPath']
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
@@ -65,7 +65,11 @@ class IdropLiteController {
 		idropLite.defaultStorageResource = irodsAccount.defaultStorageResource
 		idropLite.absolutePath = absPath
 		
-		render idropLite as JSON
+		def jsonResult = ["appletUrl" : idropLite.appletUrl, "appletCode": idropLite.appletCode, "archive": idropLite.archive, "mode":idropLite.mode,
+			"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
+			"absolutePath":idropLite.absolutePath]
+		
+		render jsonResult as JSON
 				
 	}
 }

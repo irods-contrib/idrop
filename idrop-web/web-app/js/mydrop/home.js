@@ -453,11 +453,13 @@ function buildFormFromACLDetailsTable() {
 }
 
 function closeApplet() {
-	$("#idropLiteArea").animate({ height: 'hide', opacity: 'hide' }, 'slow');
+	//$("#idropLiteArea").animate({ height: 'hide', opacity: 'hide' }, 'slow');
+	$("#idropLiteArea").animate({ height: 'hide' }, 'slow');
 	$("#toggleBrowseDataDetailsTable").show('slow');
 	$("#toggleBrowseDataDetailsTable").height="100%";
 	$("#toggleBrowseDataDetailsTable").width="100%";
 	dataLayout.resizeAll();
+	$("#idropLiteArea").empty();
 }
 
 
@@ -499,12 +501,15 @@ function showIdropLite() {
 				
 					var dataJSON = jQuery.parseJSON(data);
 					var appletDiv =   $("#idropLiteArea");
-					$(appletDiv).append("<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:right'><button type='button' id='toggleMenuButton' class='ui-state-default ui-corner-all' value='closeIdropApplet' onclick='closeApplet()')>Close iDrop Lite</button></div>")
-					 var a=document.createElement('applet');
+					$(appletDiv).append("<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:none'><button type='button' id='toggleMenuButton' class='ui-state-default ui-corner-all' value='closeIdropApplet' onclick='closeApplet()')>Close iDrop Lite</button></div>")
+					var appletTagDiv = document.createElement('div'); 
+					appletTagDiv.setAttribute('id', 'appletTagDiv');
+					var a=document.createElement('applet');
+					appletTagDiv.appendChild(a);
 					  a.setAttribute('code',dataJSON.appletCode);
 					  a.setAttribute('codebase',dataJSON.appletUrl);
 					  a.setAttribute('archive', dataJSON.archive);
-					  a.setAttribute('width',800);
+					  a.setAttribute('width',600);
 					  a.setAttribute('height',600);
 					  var p = document.createElement('param');
 					  p.setAttribute('name','mode');
@@ -542,7 +547,11 @@ function showIdropLite() {
 					  p.setAttribute('name','defaultStorageResource');
 					  p.setAttribute('value', dataJSON.defaultStorageResource);
 					  a.appendChild(p);
-					 $('#appletMenu').append(a);
+					 appletDiv.append(appletTagDiv);
+					 
+					 $("#idropLiteArea").removeAttr('style');
+					 
+					 //$("#idropLiteArea").animate({ height: '100%', opacity: '100%' }, 'slow');
 					 
 				
 			}).error(function(xhr, status, error) {

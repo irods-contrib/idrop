@@ -696,3 +696,25 @@ th.desc a {
 #file_upload_container {
 	margin: 5px;
 }
+
+
+/* idrop lite area */
+#idropLiteArea {
+	clear: both;
+	display: block;
+	position: relative;
+}
+
+#appletMenu {
+	clear:both;
+	display:block;
+	position: relative;
+	float:none;
+}
+
+#appletTagDiv {
+	clear:both;
+	display:inline-block;
+	position: relative;
+}
+
