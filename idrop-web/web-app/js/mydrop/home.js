@@ -18,9 +18,9 @@ var aclDialogMessageSelector = "#aclDialogMessageArea";
  */
 
 var aclUpdateUrl = '/sharing/updateAcl';
+var aclAddUrl = '/sharing/addAcl';
+var aclTableLoadUrl = '/sharing/renderAclDetailsTable';
 var idropLiteUrl = '/idropLite/appletLoader';
-
-
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
  * browser request for the root directory.
@@ -169,8 +169,9 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 				"/metadata/listMetadata?absPath=" + absPath, "#infoDiv",
 				"#infoDiv", null);
 	} else if (browseOptionVal == "sharing") {
-		lcSendValueAndCallbackHtmlAfterErrorCheck("/sharing/listAcl?absPath="
-				+ absPath, "#infoDiv", "#infoDiv", null);
+		lcSendValueAndCallbackHtmlAfterErrorCheck(
+				"/sharing/showAclDetails?absPath=" + absPath, "#infoDiv",
+				"#infoDiv", null);
 	}
 }
 
@@ -264,10 +265,7 @@ function initializeUploadDialogAjaxLoader() {
  * Called by data table upon submit of an acl change
  */
 function aclUpdate(value, settings, userName) {
-	// lcShowBusyIconInDiv("#aclMessageArea");
-
-	// var aPos = dataTable.fnGetPosition( this );
-	// alert("apos =" + aPos);
+	
 	lcPrepareForCall();
 
 	if (selectedPath == null) {
@@ -378,23 +376,24 @@ function submitAclDialog() {
 		userName : userName
 	}
 
-	var jqxhr = $.post(context + aclUpdateUrl, params,
+	var jqxhr = $.post(context + aclAddUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(aclDialogMessageSelector);
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
 	}).success(
 			function() {
-				if (isCreate) {
-					addRowToAclDetailsTable(userName, acl);
-					alert("adding row to table");
-				}
+				/*
+				 * if (isCreate) { addRowToAclDetailsTable(userName, acl);
+				 * alert("adding row to table"); }
+				 */
+
 				closeAclAddDialog();
 				setMessageInArea("#aclMessageArea",
-						"Sharing permission saved successfully");
-
+				"Sharing permission saved successfully");
+				reloadAclTable(selectedPath);
+				
 			});
-
 }
 
 function closeAclAddDialog() {
@@ -404,6 +403,61 @@ function closeAclAddDialog() {
 
 }
 
+/**
+ * Retrieve the Acl information from iRODS for the given path as an HTML table,
+ * this will subsequently be turned into a JTable
+ * 
+ * @param absPath
+ */
+function reloadAclTable(absPath) {
+	lcPrepareForCall();
+
+	$("#aclTableDiv").empty();
+	lcShowBusyIconInDiv("#aclTableDiv");
+
+	var params = {
+		absPath : selectedPath
+	}
+
+	var jqxhr = $.get(context + aclTableLoadUrl, params,
+			function(data, status, xhr) {
+				$('#aclTableDiv').html(data);
+			}, "html").error(function(xhr, status, error) {
+				setMessageInArea("aclMessageArea", xhr.responseText);
+	}).success(function() {
+		buildAclTableInPlace();
+	});
+
+}
+
+function buildAclTableInPlace() {
+	lcPrepareForCall();
+	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null);
+
+	$('.forSharePermission', dataTable.fnGetNodes()).editable(
+			function(value, settings) {
+				var userName = this.parentNode.getAttribute('id');
+				return aclUpdate(value, settings, userName);
+			}, {
+				"callback" : function(sValue, y) {
+					var aPos = dataTable.fnGetPosition(this);
+					dataTable.fnUpdate(sValue, aPos[0], aPos[1]);
+				},
+				'data' : "{'OWN':'OWN','READ':'READ','WRITE':'WRITE'}",
+				'type' : 'select',
+				'submit' : 'OK',
+				'cancel' : 'Cancel',
+				'indicator' : 'Saving'
+			});
+
+}
+
+/**
+ * Deprecated
+ * 
+ * @param userName
+ * @param permission
+ */
 function addRowToAclDetailsTable(userName, permission) {
 	// var nNodes = aclDetailsTable.fnGetNodes( );
 	alert("adding row");
@@ -435,7 +489,6 @@ function deleteAcl() {
 	 */
 	// alert(tr.html());
 	// });
-
 	$.post(context + "/sharing/deleteAcl", buildFormFromACLDetailsTable(),
 
 	function(data) {
@@ -448,118 +501,121 @@ function deleteAcl() {
 
 function buildFormFromACLDetailsTable() {
 	var formData = $("#aclDetailsForm").serializeArray();
-	formData.push({name:'absPath',value:selectedPath});
+	formData.push({
+		name : 'absPath',
+		value : selectedPath
+	});
 	return formData;
 }
 
 function closeApplet() {
-	//$("#idropLiteArea").animate({ height: 'hide', opacity: 'hide' }, 'slow');
-	$("#idropLiteArea").animate({ height: 'hide' }, 'slow');
+	// $("#idropLiteArea").animate({ height: 'hide', opacity: 'hide' }, 'slow');
+	$("#idropLiteArea").animate({
+		height : 'hide'
+	}, 'slow');
 	$("#toggleBrowseDataDetailsTable").show('slow');
-	$("#toggleBrowseDataDetailsTable").height="100%";
-	$("#toggleBrowseDataDetailsTable").width="100%";
+	$("#toggleBrowseDataDetailsTable").height = "100%";
+	$("#toggleBrowseDataDetailsTable").width = "100%";
 	dataLayout.resizeAll();
 	$("#idropLiteArea").empty();
 }
-
 
 /**
  * Display the iDrop lite gui, passing in the given irods base collection name
  */
 function showIdropLite() {
-	//alert("showing idrop lite");
+	// alert("showing idrop lite");
 	var idropLiteSelector = "#idropLiteArea";
 	var myPath = selectedPath;
 	if (selectedPath == null) {
 		myPath = "/";
 	}
-	
+
 	// first hide Browse Data Details table
 	$("#toggleBrowseDataDetailsTable").hide('slow');
-	$("#toggleBrowseDataDetailsTable").width="0%";
-	$("#toggleBrowseDataDetailsTable").height="0%";
-	
+	$("#toggleBrowseDataDetailsTable").width = "0%";
+	$("#toggleBrowseDataDetailsTable").height = "0%";
+
 	lcShowBusyIconInDiv(idropLiteSelector);
 
 	var params = {
 		absPath : myPath
 	}
 
-	var jqxhr = $.post(context + idropLiteUrl, params,
-			function(data, status, xhr) {
+	var jqxhr = $
+			.post(context + idropLiteUrl, params, function(data, status, xhr) {
 				lcClearDivAndDivClass(idropLiteSelector);
-				//$(idropLiteSelector).html(data);
-			}, "html").error(function(xhr, status, error) {
-				
-				
-			
-		setMessageInArea(idropLiteSelector, xhr.responseText);
-	
-			
-			}).success(
-			function(data) {
-				
-					var dataJSON = jQuery.parseJSON(data);
-					var appletDiv =   $("#idropLiteArea");
-					$(appletDiv).append("<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:none'><button type='button' id='toggleMenuButton' class='ui-state-default ui-corner-all' value='closeIdropApplet' onclick='closeApplet()')>Close iDrop Lite</button></div>")
-					var appletTagDiv = document.createElement('div'); 
-					appletTagDiv.setAttribute('id', 'appletTagDiv');
-					var a=document.createElement('applet');
-					appletTagDiv.appendChild(a);
-					  a.setAttribute('code',dataJSON.appletCode);
-					  a.setAttribute('codebase',dataJSON.appletUrl);
-					  a.setAttribute('archive', dataJSON.archive);
-					  a.setAttribute('width',600);
-					  a.setAttribute('height',600);
-					  var p = document.createElement('param');
-					  p.setAttribute('name','mode');
-					  p.setAttribute('value', dataJSON.mode);
-					  a.appendChild(p);
-					  p = document.createElement('param');
-					  p.setAttribute('name','host');
-					  p.setAttribute('value', dataJSON.host);
-					  a.appendChild(p);
-					  p = document.createElement('param');
-					  p.setAttribute('name','port');
-					  p.setAttribute('value', dataJSON.port);
-					  a.appendChild(p);
-					  p = document.createElement('param');
-					  p.setAttribute('name','zone');
-					  p.setAttribute('value', dataJSON.zone);
-					  a.appendChild(p);
-					  p = document.createElement('param');
-					  p.setAttribute('name','user');
-					  p.setAttribute('value', dataJSON.user);
-					  a.appendChild(p);
-					  p = document.createElement('param');
-					  p.setAttribute('name','password');
-					  p.setAttribute('value', dataJSON.password);
-					  a.appendChild(p);
-					  p = document.createElement('param');
-					  p.setAttribute('name','absPath');
-					  p.setAttribute('value', dataJSON.absolutePath);
-					  a.appendChild(p);
-					  p = document.createElement('param');
-					  p.setAttribute('name','uploadDest');
-					  p.setAttribute('value', dataJSON.absolutePath);
-					  a.appendChild(p);
-					  p = document.createElement('param');
-					  p.setAttribute('name','defaultStorageResource');
-					  p.setAttribute('value', dataJSON.defaultStorageResource);
-					  a.appendChild(p);
-					 appletDiv.append(appletTagDiv);
-					 
-					 $("#idropLiteArea").removeAttr('style');
-					 
-					 //$("#idropLiteArea").animate({ height: '100%', opacity: '100%' }, 'slow');
-					 
-				
-			}).error(function(xhr, status, error) {
+				// $(idropLiteSelector).html(data);
+			}, "html")
+			.error(function(xhr, status, error) {
+
+				setMessageInArea(idropLiteSelector, xhr.responseText);
+
+			})
+			.success(
+					function(data) {
+
+						var dataJSON = jQuery.parseJSON(data);
+						var appletDiv = $("#idropLiteArea");
+						$(appletDiv)
+								.append(
+										"<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:none'><button type='button' id='toggleMenuButton' class='ui-state-default ui-corner-all' value='closeIdropApplet' onclick='closeApplet()')>Close iDrop Lite</button></div>")
+						var appletTagDiv = document.createElement('div');
+						appletTagDiv.setAttribute('id', 'appletTagDiv');
+						var a = document.createElement('applet');
+						appletTagDiv.appendChild(a);
+						a.setAttribute('code', dataJSON.appletCode);
+						a.setAttribute('codebase', dataJSON.appletUrl);
+						a.setAttribute('archive', dataJSON.archive);
+						a.setAttribute('width', 600);
+						a.setAttribute('height', 600);
+						var p = document.createElement('param');
+						p.setAttribute('name', 'mode');
+						p.setAttribute('value', dataJSON.mode);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'host');
+						p.setAttribute('value', dataJSON.host);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'port');
+						p.setAttribute('value', dataJSON.port);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'zone');
+						p.setAttribute('value', dataJSON.zone);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'user');
+						p.setAttribute('value', dataJSON.user);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'password');
+						p.setAttribute('value', dataJSON.password);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'absPath');
+						p.setAttribute('value', dataJSON.absolutePath);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'uploadDest');
+						p.setAttribute('value', dataJSON.absolutePath);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'defaultStorageResource');
+						p
+								.setAttribute('value',
+										dataJSON.defaultStorageResource);
+						a.appendChild(p);
+						appletDiv.append(appletTagDiv);
+
+						$("#idropLiteArea").removeAttr('style');
+
+						// $("#idropLiteArea").animate({ height: '100%',
+						// opacity: '100%' }, 'slow');
+
+					}).error(function(xhr, status, error) {
 				setMessageInArea(idropLiteSelector, xhr.responseText);
 			});
 
-	
-	
-	
 }
-

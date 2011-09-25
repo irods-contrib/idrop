@@ -45,7 +45,7 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		super.tearDown()
 	}
 
-	void testListAclCollection() {
+	void testRenderAclDetailsTableCollection() {
 		def testPath = "/testpath"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
@@ -62,20 +62,34 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
 		controller.params.absPath = testPath
-		controller.listAcl()
+		controller.renderAclDetailsTable()
 		def mav = controller.modelAndView
 		def name = mav.viewName
 
 		assertNotNull("null mav", mav)
-		assertEquals("view name should be aclDetails", "aclDetails", name)
+		assertEquals("view name should be aclTable", "aclTable", name)
 		def metadata = mav.model.acls
 		assertNotNull("null acls object", metadata)
 	}
+	
+	void testShowAclDetailsCollection() {
+		def testPath = "/testpath"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+		controller.params.absPath = testPath
+		controller.showAclDetails()
+		def mav = controller.modelAndView
+
+		assertEquals("view name should be aclDetails", "aclDetails", mav.viewName)
+	}
 
 
-	void testListAclDataObject() {
+	void testRenderAclDetailsTableDataObject() {
 		def testPath = "/testpath"
 		def testFileName = "filename.txt"
+	
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
 		DataObject retObject = new DataObject()
@@ -92,16 +106,51 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
 		controller.params.absPath = testPath
-		controller.listAcl()
+		controller.renderAclDetailsTable()
 		def mav = controller.modelAndView
 		def name = mav.viewName
 
 		assertNotNull("null mav", mav)
-		assertEquals("view name should be aclDetails", "aclDetails", name)
+		assertEquals("view name should be aclTable", "aclTable", name)
 		def metadata = mav.model.acls
 		assertNotNull("null acls object", metadata)
 	}
+	
+	void testAddAclDataObject() {
+		def testPath = "/testpath"
+		def testFileName = "filename.txt"
+		def testUserName = "username"
+		def testACL = "READ"
+		
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		DataObject retObject = new DataObject()
+		retObject.setCollectionName(testPath)
+		retObject.setDataName(testFileName)
+		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
+		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
 
+		DataObjectAO dataObjectAO = Mockito.mock(DataObjectAO.class)
+		
+		Mockito.when(irodsAccessObjectFactory.getDataObjectAO(irodsAccount)).thenReturn(dataObjectAO)
+
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+		
+		mockCommandObject(AclCommand.class)
+		def cmd = new AclCommand()
+		cmd.acl = testACL
+		cmd.absPath = testPath
+		cmd.userName = testUserName
+		
+		cmd.validate()
+		
+		controller.addAcl(cmd)
+		def controllerResponse = controller.response.contentAsString
+		assertEquals("should be OK", "OK", controllerResponse)
+		
+	}
+	
 	void testPrepareAclDialogWhenCreate() {
 		def testPath = "/testpath"
 		def testFileName = "filename.txt"
@@ -154,8 +203,10 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		controller.irodsAccount = irodsAccount
 		controller.params.absPath = testPath
 		controller.params.userName = "userName"
-
-		shouldFail(JargonException) { controller.prepareAclDialog() }
+		controller.metaClass.message = { Map map -> return "error message" }
+		controller.prepareAclDialog()
+		def response = controller.response
+		assertEquals("should have encountered a validation error", 500, response.status)
 	}
 	
 	void listUsersForAutocomplete() {
@@ -171,6 +222,7 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
 		controller.params.term = testUser
+		
 		controller.listUsersForAutocomplete()
 
 		def jsonResult = JSON.parse(controllerResponse)
