@@ -1133,6 +1133,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             lblInfoLengthValue.setText(String.valueOf(dataObject.getDataSize()));
             lblInfoLengthValue.setVisible(true);
             lblInfoLength.setVisible(true);
+            lblInfoChecksum.setVisible(true);
+            lblInfoChecksumValue.setVisible(true);
+            lblInfoChecksumValue.setText(dataObject.getChecksum());
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                     null, ex);
@@ -1199,6 +1202,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             lblInfoUpdatedAtValue.setText(df.format(collection.getModifiedAt()));
             lblInfoLengthValue.setVisible(false);
             lblInfoLength.setVisible(false);
+            lblInfoChecksum.setVisible(false);
+            lblInfoChecksumValue.setVisible(false);
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                     null, ex);
@@ -1297,6 +1302,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblInfoUpdatedAtValue = new javax.swing.JLabel();
         lblInfoLength = new javax.swing.JLabel();
         lblInfoLengthValue = new javax.swing.JLabel();
+        lblInfoChecksum = new javax.swing.JLabel();
+        lblInfoChecksumValue = new javax.swing.JLabel();
         pnlToolbarInfo = new javax.swing.JPanel();
         toolBarInfo = new javax.swing.JToolBar();
         btnViewMetadata = new javax.swing.JButton();
@@ -1757,7 +1764,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblInfoLength.setText("Length:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         pnlInfoDetails.add(lblInfoLength, gridBagConstraints);
@@ -1765,10 +1772,27 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblInfoLengthValue.setText("XXXXXX");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlInfoDetails.add(lblInfoLengthValue, gridBagConstraints);
+
+        lblInfoChecksum.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblInfoChecksum.setText("Checksum:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlInfoDetails.add(lblInfoChecksum, gridBagConstraints);
+
+        lblInfoChecksumValue.setText("XXXXXX");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlInfoDetails.add(lblInfoChecksumValue, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -2629,6 +2653,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JLabel lblFileOrCollectionName;
     private javax.swing.JLabel lblFileParent;
     private javax.swing.JLabel lblFileParentLabel;
+    private javax.swing.JLabel lblInfoChecksum;
+    private javax.swing.JLabel lblInfoChecksumValue;
     private javax.swing.JLabel lblInfoCreatedAt;
     private javax.swing.JLabel lblInfoCreatedAtValue;
     private javax.swing.JLabel lblInfoLength;

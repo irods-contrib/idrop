@@ -11,6 +11,9 @@
 		<button type="button" id="deleteAclButton"
 			class="ui-state-default ui-corner-all" value="deleteAcl"
 			onclick="deleteAcl()")>Delete Share</button>
+			<button type="button" id="reloadAclButton"
+			class="ui-state-default ui-corner-all" value="reloadAcl"
+			onclick="reloadAclTable(selectedPath)")>Reload</button>
 	</div>
 </div>
 <div id="aclMessageArea">

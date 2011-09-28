@@ -53,7 +53,7 @@ class IdropLiteController {
 		
 		log.info "temporary user password is: ${password}"
 		IdropLite idropLite = new IdropLite()
-		idropLite.appletUrl = "http://localhost:8080/idrop-web/applet"
+		idropLite.appletUrl = "/applet"
 		idropLite.appletCode = "org.irods.jargon.idrop.lite.iDropLiteApplet"
 		idropLite.archive = "idrop-lite-1.0.0-beta2-SNAPSHOT-jar-with-dependencies.jar"
 		idropLite.mode = mode

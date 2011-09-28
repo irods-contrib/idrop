@@ -13,15 +13,13 @@ import org.irods.jargon.core.pub.DataObjectAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.core.pub.domain.DataObject
-import org.irods.mydrop.service.I18NMessagingService
 import org.springframework.security.core.context.SecurityContextHolder
-
 
 class SharingController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
-
+	
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
@@ -41,7 +39,6 @@ class SharingController {
 		irodsAccessObjectFactory.closeSession()
 	}
 
-
 	/**
 	 * Load the acl details area, this will show the main form, and subsequently, the table will be loaded via AJAX
 	 */
@@ -60,7 +57,7 @@ class SharingController {
 	def renderAclDetailsTable = {
 
 		def absPath = params['absPath']
-		
+
 		if (absPath == null) {
 			log.error "no absPath in request for renderAclDetailsTable()"
 			def message = message(code:"error.no.path.provided")
@@ -193,86 +190,6 @@ class SharingController {
 	}
 
 	/**
-	 * Update the ACL by responding to an AJAX editable update on a node. This uses the editable feature of the
-	 * ACL JQuery table
-	 */
-	def updateAcl = {
-		log.info "updating ACL"
-		log.info "params: ${params}"
-		def userName = params['userName']
-		def acl = params['acl']
-		def absPath = params['absPath']
-		def isCreate = params['create']
-
-		/*
-		 if (!userName) {
-		 def message = message(code:"error.no.user.name.provided")
-		 throw new JargonException(message)
-		 }
-		 if (!acl) {
-		 def message = message(code:"error.no.acl.provided")
-		 throw new JargonException(message)
-		 }
-		 if (!absPath) {
-		 def message = message(code:"error.no.path.provided")
-		 throw new JargonException(message)
-		 }
-		 if (!isCreate) {
-		 isCreate = true
-		 }
-		 log.info("updateACL userName: ${userName} acl: ${acl} absPath: ${absPath}")
-		 CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		 def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-		 def isDataObject = retObj instanceof DataObject
-		 // FIXME: add this into the file object superclass in jargon-core
-		 if (isDataObject) {
-		 log.debug("setting ACLs for a data object")
-		 DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
-		 // if creating a new ACL, an ACL cannot already exist
-		 if (isCreate) {
-		 def existingPermission = dataObjectAO.getPermissionForDataObjectForUserName(absPath, userName)
-		 if (existingPermission) {
-		 def message = message(code:"error.duplicate.acl")
-		 response.sendError(500,message)
-		 return
-		 }
-		 }
-		 if (cmd.acl == "READ") {
-		 dataObjectAO.setAccessPermissionRead(irodsAccount.getZone(), cmd.absPath, cmd.userName)
-		 } else if (acl == "WRITE") {
-		 dataObjectAO.setAccessPermissionWrite(irodsAccount.getZone(), cmd.absPath, cmd.userName)
-		 } else if (acl == "OWN") {
-		 dataObjectAO.setAccessPermissionOwn(irodsAccount.getZone(), cmd.absPath, cmd.userName)
-		 } else {
-		 throw new JargonException("Unknown acl value ${cmd.acl}")
-		 }
-		 } else {
-		 log.debug("setting ACLs for collection")
-		 CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
-		 if (isCreate) {
-		 def existingPermission = collectionAO.getPermissionForUserName(absPath, userName)
-		 if (existingPermission) {
-		 response.sendError(500,"The given user already has a sharing permission")
-		 return
-		 }
-		 }
-		 if (cmd.acl == "READ") {
-		 collectionAO.setAccessPermissionRead(irodsAccount.getZone(), absPath, userName, true)
-		 } else if (acl == "WRITE") {
-		 collectionAO.setAccessPermissionWrite(irodsAccount.getZone(), absPath, userName, true)
-		 } else if (acl == "OWN") {
-		 collectionAO.setAccessPermissionOwn(irodsAccount.getZone(), absPath, userName, true)
-		 } else {
-		 throw new JargonException("Unknown acl value ${acl}")
-		 }
-		 }
-		 log.info("acl set successfully")
-		 */
-
-		render "OK"
-	}
-
-	/**
 	 * List the users in iRODS based on user name.  A 'term' parameter may be supplied, in which case, a LIKE% query will be used to find
 	 * matching user names.  This method returns JSON as expected for the JQuery UI autocomplete text box
 	 */
@@ -299,28 +216,101 @@ class SharingController {
 
 		render jsonBuff as JSON
 
-	}
+	} 
 
 	def deleteAcl = {
 		log.info("deleteAcl")
 		log.info(params)
 		def absPath = params['absPath']
-
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+		def isDataObject = retObj instanceof DataObject
+		log.info("adding ACLs for a data object")
+		
+		def DataObjectAO dataObjectAO
+		def CollectionAO collectionAO
+		
+		if (isDataObject) {
+			dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+		} else {
+			collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+		}
+		
 		if (!absPath) {
-			throw new JargonException("The absPath is missing, no path specified")
+			log.error "no path provided"
+			def errorMessage = message(code:"error.no.path.provided")
+			response.sendError(500,errorMessage)
+			return
 		}
 
 		def aclsToDelete = params['selectedAcl']
 
 		log.info("aclsToDelete: ${aclsToDelete}")
 
-		aclsToDelete.each(log.info("selectedAcl: ${it}"))
+		if (aclsToDelete instanceof Object[]) {
+			log.debug "is array"
+			aclsToDelete.each{
+				log.info "selectedAcl: ${it}"
+				if (isDataObject) {
+					log.info "delete as data object"
+					deleteAclForDataObject(absPath, it, dataObjectAO)
+				 } else {
+				 	deleteAclForCollection(absPath, it, collectionAO)
+				 }
+			}
+			
+		} else {
+			log.debug "not array"
+			log.info "deleting: ${aclsToDelete}"
+			if (isDataObject) {
+				log.info "delete as data object"
+				deleteAclForDataObject(absPath, aclsToDelete, dataObjectAO)
+			 } else {
+				 deleteAclForCollection(absPath, aclsToDelete, collectionAO)
+			 }
+		}
 
 		render "OK"
 
 	}
-
-
+	
+	private void deleteAclForDataObject(String absPath, String userName, DataObjectAO dataObjectAO) throws JargonException {
+		
+		if (!absPath) {
+			throw new IllegalArgumentException("null absPath")
+		}
+		
+		if (!userName) {
+			throw new IllegalArgumentException("null userName")
+		}
+		
+		if (!dataObjectAO) {
+			throw new IllegalArgumentException("null dataObjectAO")
+		}
+		
+		dataObjectAO.removeAccessPermissionsForUser(irodsAccount.zone, absPath, userName)
+		
+	}
+	
+	private void deleteAclForCollection(String absPath, String userName, CollectionAO collectionAO) throws JargonException {
+		
+		if (!absPath) {
+			throw new IllegalArgumentException("null absPath")
+		}
+		
+		if (!userName) {
+			throw new IllegalArgumentException("null userName")
+		}
+		
+		if (!collectionAO) {
+			throw new IllegalArgumentException("null collectionAO")
+		}
+		
+		
+		collectionAO.removeAccessPermissionForUser(irodsAccount.zone, absPath, userName,true)
+		
+	}
+	
 }
 
 class AclCommand {

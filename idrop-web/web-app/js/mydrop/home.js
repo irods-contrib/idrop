@@ -12,13 +12,14 @@ var browseOptionVal = "details";
 var selectedPath = null;
 var fileUploadUI = null;
 var aclDialogMessageSelector = "#aclDialogMessageArea";
-
+var aclMessageAreaSelector = "#aclMessageArea";
 /**
  * presets for url's
  */
 
 var aclUpdateUrl = '/sharing/updateAcl';
 var aclAddUrl = '/sharing/addAcl';
+var aclDeleteUrl = '/sharing/deleteAcl';
 var aclTableLoadUrl = '/sharing/renderAclDetailsTable';
 var idropLiteUrl = '/idropLite/appletLoader';
 /**
@@ -265,8 +266,9 @@ function initializeUploadDialogAjaxLoader() {
  * Called by data table upon submit of an acl change
  */
 function aclUpdate(value, settings, userName) {
-	
+
 	lcPrepareForCall();
+	lcClearDivAndDivClass(aclMessageAreaSelector);
 
 	if (selectedPath == null) {
 		throw "no collection or data object selected";
@@ -280,11 +282,11 @@ function aclUpdate(value, settings, userName) {
 		userName : userName
 	}
 
-	var jqxhr = $.post(context + aclUpdateUrl, params,
+	var jqxhr = $.post(context + aclAddUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(messageAreaSelector);
-			}, "html").error(function() {
-		setMessageInArea(messageAreaSelector, "Error sharing file");
+			}, "html").error(function(xhr, status, error) {
+		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
 	}).complete(
 			function() {
 				setMessageInArea(messageAreaSelector,
@@ -305,6 +307,10 @@ function prepareAclDialog(isNew) {
 		return;
 	}
 
+
+	lcPrepareForCall();
+	lcClearDivAndDivClass(aclMessageAreaSelector);
+	
 	if (isNew == null) {
 		isNew = true;
 	}
@@ -328,7 +334,9 @@ function prepareAclDialog(isNew) {
  * @param data
  */
 function showAclDialog(data) {
+
 	lcPrepareForCall();
+	lcClearDivAndDivClass(aclMessageAreaSelector);
 	$("#aclDialogArea").html(data).fadeIn('slow');
 	var mySource = context + "/sharing/listUsersForAutocomplete";
 	$("#userName").autocomplete({
@@ -347,7 +355,9 @@ function showAclDialog(data) {
 
 function submitAclDialog() {
 
+
 	lcPrepareForCall();
+	lcClearDivAndDivClass(aclMessageAreaSelector);
 
 	var userName = $('[name=userName]').val();
 	if (userName == null || userName == "") {
@@ -390,9 +400,9 @@ function submitAclDialog() {
 
 				closeAclAddDialog();
 				setMessageInArea("#aclMessageArea",
-				"Sharing permission saved successfully");
+						"Sharing permission saved successfully");
 				reloadAclTable(selectedPath);
-				
+
 			});
 }
 
@@ -423,7 +433,7 @@ function reloadAclTable(absPath) {
 			function(data, status, xhr) {
 				$('#aclTableDiv').html(data);
 			}, "html").error(function(xhr, status, error) {
-				setMessageInArea("aclMessageArea", xhr.responseText);
+		setMessageInArea("aclMessageArea", xhr.responseText);
 	}).success(function() {
 		buildAclTableInPlace();
 	});
@@ -477,26 +487,31 @@ function addRowToAclDetailsTable(userName, permission) {
  * selected elements
  */
 function deleteAcl() {
-	// var aclSelectors =
-	// $('[name=selectedAcl]').filter(':checked').each(function() {
-	/*
-	 * var tr = $(this).parent().parent(); var trChildren = $(tr).children();
-	 * var td1 = trChildren[0]; var td2 = trChildren[1]; var td3 =
-	 * trChildren[2]; var permission = td3.html();
-	 * 
-	 * 
-	 * var bob = true;
-	 */
-	// alert(tr.html());
-	// });
-	$.post(context + "/sharing/deleteAcl", buildFormFromACLDetailsTable(),
 
-	function(data) {
-		alert(data);
-	}).error(function(xhr, status, error) {
-		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
+	lcPrepareForCall();
+	lcClearDivAndDivClass(aclMessageAreaSelector);
+
+	if (!confirm('Are you sure you want to delete?')) {
+		setMessageInArea(aclMessageAreaSelector, "Delete cancelled"); // FIXME:
+																		// i18n
+		return;
+	}
+
+	var formFields = $("#aclDetailsForm").serializeArray();
+	var pathInfo = new Object();
+	pathInfo.name = "absPath";
+	pathInfo.value = selectedPath;
+
+	formFields.push(pathInfo);
+
+	var jqxhr = $.post(context + aclDeleteUrl, formFields,
+			function(data, status, xhr) {
+
+			}, "html").error(function(xhr, status, error) {
+		setMessageInArea(aclMessageAreaSelector, xhr.responseText);
+	}).success(function(data) {
+		reloadAclTable(selectedPath);
 	});
-
 }
 
 function buildFormFromACLDetailsTable() {
@@ -565,7 +580,7 @@ function showIdropLite() {
 						var a = document.createElement('applet');
 						appletTagDiv.appendChild(a);
 						a.setAttribute('code', dataJSON.appletCode);
-						a.setAttribute('codebase', dataJSON.appletUrl);
+						a.setAttribute('codebase', context + dataJSON.appletUrl);
 						a.setAttribute('archive', dataJSON.archive);
 						a.setAttribute('width', 600);
 						a.setAttribute('height', 600);
