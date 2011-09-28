@@ -48,12 +48,20 @@ class IdropLiteController {
 		dataCacheService.irodsAccount = irodsAccount
 		dataCacheService.putStringValueIntoCache(irodsAccount.password, password)
 		
+		String scheme = request.scheme     
+		String serverName = request.serverName   
+		int serverPort = request.serverPort 
+		String contextPath =request.contextPath
+		
+		// Reconstruct original requesting URL
+		String appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
+		
 		/* set applet operation mode=1 to indicate temporary password is being sent */
 		def mode = "1";
 		
 		log.info "temporary user password is: ${password}"
 		IdropLite idropLite = new IdropLite()
-		idropLite.appletUrl = "/applet"
+		idropLite.appletUrl = appletUrl
 		idropLite.appletCode = "org.irods.jargon.idrop.lite.iDropLiteApplet"
 		idropLite.archive = "idrop-lite-1.0.0-beta2-SNAPSHOT-jar-with-dependencies.jar"
 		idropLite.mode = mode

@@ -580,7 +580,8 @@ function showIdropLite() {
 						var a = document.createElement('applet');
 						appletTagDiv.appendChild(a);
 						a.setAttribute('code', dataJSON.appletCode);
-						a.setAttribute('codebase', context + dataJSON.appletUrl);
+						//a.setAttribute('codebase', 'http://iren-web.renci.org/idrop-web/applet');//dataJSON.appletUrl);
+						a.setAttribute('codebase', dataJSON.appletUrl);
 						a.setAttribute('archive', dataJSON.archive);
 						a.setAttribute('width', 600);
 						a.setAttribute('height', 600);
