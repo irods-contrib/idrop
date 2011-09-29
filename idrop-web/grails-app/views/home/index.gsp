@@ -103,8 +103,10 @@
 					<!--  no empty divs -->
 				</div>
 
-				<div id="infoDiv" class="ui-layout-center">
+				<div id="infoDivOuter" style="display:block;width:auto;height:auto; position:relative; overflow:hidden;" class="ui-layout-center">
+					<div id="infoDiv">
 					<h2><g:message code="browse.page.prompt" /></h2>
+				</div>
 				</div>
 			</div>
 
@@ -119,17 +121,21 @@ var dataLayout;
 var globalMessageArea = "#javascript_message_area";
 $(document).ready(function() {
 
-	
+
 	dataLayout = $("#dataTreeView").layout({ 
 		applyDefaultStyles: true,
 		size: "auto",
 		west__minSize: 100,
 		west__resizable: true		
 		});
+		
 	
-	tabs = $( "#tabs" ).tabs();
 	retrieveBrowserFirstView();
-	
+
+	tabs = $( "#tabs" ).tabs({
+			
+	} );
+
 });
 
 </script>

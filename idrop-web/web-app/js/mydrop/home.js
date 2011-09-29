@@ -97,10 +97,15 @@ function browserFirstViewRetrieved(data) {
 		},
 		"plugins" : [ "json_data", "types", "ui", "crmm", "themes" ]
 	});
-
+	
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
 		nodeSelected(e, data.rslt.obj);
 	});
+	
+	tabs.resize();
+	//$("#yui-main").resize();
+	//$("#infoDiv").resize();
+	
 
 }
 
@@ -161,7 +166,10 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
 				"/browse/displayBrowseGridDetails?absPath=" + absPath,
-				"#infoDiv", "#infoDiv", null);
+				"#infoDiv", "#infoDiv", function(data) {
+					$("#infoDiv").html(data);
+					
+				});
 	} else if (browseOptionVal == "info") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath="
 				+ absPath, "#infoDiv", "#infoDiv", null);

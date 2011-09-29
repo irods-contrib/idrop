@@ -59,6 +59,7 @@
 
 	$(function() {
 		dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon");
+		//dataTable.fnAdjustColumnSizing();
 	});
 
 	function browseDetailsClick(minMaxIcon) {

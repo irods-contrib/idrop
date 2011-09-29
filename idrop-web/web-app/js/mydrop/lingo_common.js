@@ -236,7 +236,9 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
 	var dataTableCreated = $(newTableId).dataTable({
 		"bJQueryUI" : true
 	});
-
+	
+	
+	
 	if (detailsFunction != null) {
 		$(dataIconSelector, dataTableCreated.fnGetNodes())
 				.each(detailsFunction);
@@ -255,8 +257,11 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
  */
 function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector) {
 	var dataTableCreated = $(newTableId).dataTable({
-		"bJQueryUI" : true
+		"bJQueryUI" : true,
+		//"sScrollX": "100%",
+		//"sScrollXInner": "110%"
 	});
+	
 
 	if (detailsFunction != null) {
 		$(dataIconSelector, dataTableCreated.fnGetNodes()).each(function() {
