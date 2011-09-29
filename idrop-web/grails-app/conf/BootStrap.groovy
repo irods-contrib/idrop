@@ -4,7 +4,7 @@ class BootStrap {
 		
 		environments {
 			production {
-				ctx.setAttribute("idropLiteUrl", "http://iren-web.renci.org/idrop-web/applet")
+				servletContext.setAttribute("idropLiteUrl", "http://iren-web.renci.org/idrop-web/applet")
 			}
 			development {
 				

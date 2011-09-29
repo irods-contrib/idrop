@@ -27,7 +27,7 @@
 							onclick="submitMetadataDialog()")><g:message code="default.button.update.label" /></button>
 						<button type="button" id="cancelAddMetadataButton"
 							class="ui-state-default ui-corner-all" value="cancelAdd"
-							onclick="closeMetadataAddDialog()")><g:message code="text.cancel" /></button>
+							onclick="closeMetadataDialog()")><g:message code="text.cancel" /></button>
 					</div>
 				</div>
 			</fieldset>

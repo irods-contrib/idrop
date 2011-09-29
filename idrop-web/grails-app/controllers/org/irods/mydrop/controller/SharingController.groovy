@@ -46,7 +46,9 @@ class SharingController {
 
 		def absPath = params['absPath']
 		if (absPath == null) {
-			throw new JargonException("no absolute path passed to the method")
+			log.error "no absPath in request for showAclDetails()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
 		}
 
 		log.info("showAclDetails for absPath: ${absPath}")
@@ -117,6 +119,7 @@ class SharingController {
 
 	/**
 	 * Add an ACL via the ACL dialog, then, in response, reload the ACL table
+	 * TODO: may not be returning errors in a way that jquery editable can interpret
 	 */
 	def addAcl = {  AclCommand cmd ->
 		log.info "addAcl"
@@ -244,6 +247,14 @@ class SharingController {
 		}
 
 		def aclsToDelete = params['selectedAcl']
+		
+		// if nothing selected, just jump out and return a message
+		if (!aclsToDelete) {
+			log.info("no acls to delete")
+			def errorMessage = message(code:"error.nothing.selected")
+			response.sendError(500,errorMessage)
+			return;
+		}
 
 		log.info("aclsToDelete: ${aclsToDelete}")
 
@@ -319,7 +330,7 @@ class AclCommand {
 	String userName
 	String create
 	static constraints = {
-		create(blank:true, inList:["", "true", "false"])
+		create(nullable:false, inList:["", "true", "false"])
 		acl(blank:false, inList:["READ", "WRITE", "OWN"])
 		userName(blank:false)
 		absPath(blank:false)

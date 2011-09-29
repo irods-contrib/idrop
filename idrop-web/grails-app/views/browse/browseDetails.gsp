@@ -1,3 +1,24 @@
+<h2><g:message code="heading.browsing" /></h2>
+<div id="detailsTopSection" class="box">
+<div id="detailsToolbar" class="fg-toolbar ui-widget-header">
+<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
+							style="float: left">
+<button type="button" id="upload"
+						class="ui-state-default ui-corner-all" value="upload"
+						onclick="showUploadDialog()")><g:message code="text.upload" /></button>
+					<button type="button" id="idroplite"
+						class="ui-state-default ui-corner-all" value="uploadWithIdropLite"
+						onclick="showIdropLite()")><g:message code="text.idrop.lite" /></button>
+</div>
+</div>
+<g:render template="/common/panelmessages"/>
+
+<div id="browseDetailsMessageArea">
+	<!--  -->
+</div>
+
+<div id=browseDetailsDialogArea">
+<!--  area for generating dialogs --></div>
 
 	<div>
 		<div id="idropLiteArea"><!--  area to show idrop lite applet --></div>
@@ -53,13 +74,13 @@
 		</table>
 		</div>
 	</div>
+	</div>
 <script>
 
 	var dataTable;
 
 	$(function() {
 		dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon");
-		//dataTable.fnAdjustColumnSizing();
 	});
 
 	function browseDetailsClick(minMaxIcon) {

@@ -54,7 +54,8 @@ class IdropLiteController {
 		String contextPath =request.contextPath
 		
 		// Reconstruct original requesting URL
-		String appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
+		//String appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
+		String appletUrl = "http://iren-web.renci.org/idrop-web/applet"
 		
 		/* set applet operation mode=1 to indicate temporary password is being sent */
 		def mode = "1";

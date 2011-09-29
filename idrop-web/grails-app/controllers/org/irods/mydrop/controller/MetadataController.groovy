@@ -20,7 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder
  * @author Mike Conway - DICE (www.irods.org) 
  */
 class MetadataController {
- 
+
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 
@@ -41,6 +41,22 @@ class MetadataController {
 	def afterInterceptor = {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
+	}
+
+	/**
+	 * Load the metadata details area, this will show the main form, and subsequently, the table will be loaded via AJAX
+	 */
+	def showMetadataDetails = {
+
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request for showAclDetails()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info("showMetadataDetails for absPath: ${absPath}")
+		render(view:"metadataDetails")
 	}
 
 	/**
@@ -77,7 +93,7 @@ class MetadataController {
 			flash.message="error.data.not.found"
 		}
 
-		render(view:"metadataDetails", model:[metadata:metadata])
+		render(view:"metadataTable", model:[metadata:metadata])
 	}
 
 	/**
@@ -107,12 +123,12 @@ class MetadataController {
 
 		log.info "addMetadata"
 		log.info "params: ${params}"
-		
+
 		log.info "cmd:${cmd}"
-		
+
 		def responseData = [:]
 		def jsonData = [:]
-		
+
 		if (cmd.hasErrors()) {
 			log.info "errors occured build error messages"
 			def errorMessage = message(code:"error.data.error")
@@ -125,56 +141,134 @@ class MetadataController {
 			}
 			responseData['errors'] = errors
 			jsonData['response'] =responseData
+			render jsonData as JSON
+			return
 		} else {
-		
-		log.info(" attribute: ${cmd.attribute} value: ${cmd.value} unit: ${cmd.unit}")
-		
-		responseData['attribute'] = cmd.attribute
-		responseData['value'] = cmd.value
-		responseData['unit']=cmd.unit
-		responseData['absPath']=cmd.absPath
-		responseData['message']= message(code:"message.update.successful")
-		
-		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
+			log.info(" attribute: ${cmd.attribute} value: ${cmd.value} unit: ${cmd.unit}")
 
-		def avuData = AvuData.instance(cmd.attribute, cmd.value, cmd.unit)
+			responseData['attribute'] = cmd.attribute
+			responseData['value'] = cmd.value
+			responseData['unit']=cmd.unit
+			responseData['absPath']=cmd.absPath
+			responseData['message']= message(code:"message.update.successful")
 
-		def isDataObject = retObj instanceof DataObject
+			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 
-		if (isDataObject) {
-			log.debug("setting AVU for a data object")
-			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
-			dataObjectAO.addAVUMetadata(cmd.absPath, avuData)
-		} else {
-			log.debug("setting AVU for collection")
-			CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
-			collectionAO.addAVUMetadata(cmd.absPath, avuData)
-		}
+			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
 
-		log.info("avu set successfully")
-		jsonData['response'] =responseData
-		
+			def avuData = AvuData.instance(cmd.attribute, cmd.value, cmd.unit)
+
+			def isDataObject = retObj instanceof DataObject
+
+			if (isDataObject) {
+				log.debug("setting AVU for a data object")
+				DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+				dataObjectAO.addAVUMetadata(cmd.absPath, avuData)
+			} else {
+				log.debug("setting AVU for collection")
+				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+				collectionAO.addAVUMetadata(cmd.absPath, avuData)
+			}
+
+			log.info("avu set successfully")
+			jsonData['response'] =responseData
+
 		}
 
 		render jsonData as JSON
+
+	}
+
+
+	/**
+	 * Update metadata, which requires both the current and the desired AVU triple
+	 */
+	def updateMetadata = { UpdateMetadataCommand cmd ->
+
+		log.info "updateMetadata"
+		log.info "params: ${params}"
+
+		log.info "cmd:${cmd}"
+
+		def responseData = [:]
+		def jsonData = [:]
+
+		if (cmd.hasErrors()) {
+			log.info "errors occured build error messages"
+			def errorMessage = message(code:"error.data.error")
+			response.sendError(500,errorMessage)
+			return
+		} else {
+
+			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+
+			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
+
+			def currentAvuData = AvuData.instance(cmd.currentAttribute, cmd.currentValue, cmd.currentUnit)
+			def newAvuData = AvuData.instance(cmd.newAttribute, cmd.newValue, cmd.newUnit)
+
+			def isDataObject = retObj instanceof DataObject
+
+			if (isDataObject) {
+				log.debug("setting AVU for a data object")
+				DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+				dataObjectAO.modifyAVUMetadata(cmd.absPath, currentAvuData, newAvuData)
+			} else {
+				log.debug("setting AVU for collection")
+				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+				collectionAO.modifyAVUMetadata(cmd.absPath, currentAvuData, newAvuData)
+			}
+
+			log.info("avu set successfully")
+			render "OK"
+
+		}
+
 		
+
 	}
 }
 
 /**
  * Command for adding metadata from the metadataDialog.gsp form
  */
-class AddMetadataCommand {
+public class AddMetadataCommand {
 	String absPath
 	String attribute
 	String value
 	String unit
 	static constraints = {
 		attribute(blank:false)
-		value(blank:false)
+		value(nullable:false)
 		absPath(blank:false)
 	}
 }
+
+/**
+ * Command for updating metadata in place from the metadata details table
+ */
+public class UpdateMetadataCommand {
+	String absPath
+	String currentAttribute
+	String currentValue
+	String currentUnit
+	String newAttribute
+	String newValue
+	String newUnit
+	static constraints = {
+		currentAttribute(blank:false)
+		currentValue( nullable:false)
+		currentUnit(nullable:false)
+		newAttribute(blank:false)
+		newValue(nullable:false)
+		newUnit(nullable:false)
+		absPath(blank:false)
+	}
+}
+
+
+
+
+
 

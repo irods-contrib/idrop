@@ -84,12 +84,7 @@
 							noSelection="${['details':'details']}" onChange="setBrowseMode()" />
 					</div>
 
-					<button type="button" id="upload"
-						class="ui-state-default ui-corner-all" value="upload"
-						onclick="showUploadDialog()")><g:message code="text.upload" /></button>
-					<button type="button" id="idroplite"
-						class="ui-state-default ui-corner-all" value="uploadWithIdropLite"
-						onclick="showIdropLite()")><g:message code="text.idrop.lite" /></button>
+					
 				</div>
 
 

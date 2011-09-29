@@ -8,24 +8,25 @@
  * Global var
  */
 var metadataMessageAreaSelector = "#metadataMessageArea";
-var metadataUpdateUrl = '/metadata/updateMetadata'; 
-var metadataAddUrl = '/metadata/addMetadata'; 
+var metadataAddUrl = '/metadata/addMetadata';
+var metadataUpdateUrl = '/metadata/updateMetadata';
+var metadataLoadUrl = '/metadata/listMetadata';
 
 /**
  * Called by data table upon submit of an acl change
  */
-function  metadataUpdate(avu, newAvu, path) {
-	
+function metadataUpdate(currentAvu, newAvu, path) {
+
 	lcPrepareForCall();
 
 	if (!path) {
 		throw "No collection or data object selected";
 	}
-	
+
 	if (!newAvu) {
 		throw "No newAvu provided";
 	}
-	
+
 	if (!currentAvu) {
 		throw "no currentAvu provided";
 	}
@@ -34,39 +35,40 @@ function  metadataUpdate(avu, newAvu, path) {
 
 	var params = {
 		absPath : selectedPath,
-		currentAclAttribute : currentAcl['attribute'],
-		currentAclValue : currentAcl['value'],
-		currentAclUnit : currentAcl['unit'],
-		newAclAttribute : newAcl['attribute'],
-		newAclValue : newAcl['value'],
-		newAclUnit : newAcl['unit']
+		currentAttribute : currentAvu['attribute'],
+		currentValue : currentAvu['value'],
+		currentUnit : currentAvu['unit'],
+		newAttribute : newAvu['attribute'],
+		newValue : newAvu['value'],
+		newUnit : newAvu['unit']
 	}
 
-	var jqxhr = $.post(context + metadataAddUrl, params,
+	var jqxhr = $.post(context + metadataUpdateUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(metadataMessageAreaSelector);
-			}, "html").error(function() {
-		setMessageInArea(messageAreaSelector, "Error updating metadata");
-	}).complete(
+			}, "html").error(function(xhr, status, error) {
+		setMessageInArea(metadataMessageAreaSelector,  xhr.responseText);
+		return false;
+	}).success(
 			function() {
 				setMessageInArea(metadataMessageAreaSelector,
-						"Metadata update successful");
+						"Metadata update successful"); // FIXME: i18n
+				return true;
 			});
 
 }
 
 /**
- * The metadata dialog is prepared and ready to display as a JQuery dialog box, show
- * it
+ * The metadata dialog is prepared and ready to display as a JQuery dialog box,
+ * show it
  * 
  */
 function prepareMetadataDialog(data) {
-	
+
 	if (selectedPath == null) {
 		alert("No path is selected, metadata cannot be entered");
 		return;
 	}
-
 
 	var url = "/metadata/prepareMetadataDialog";
 	var params = {
@@ -78,34 +80,33 @@ function prepareMetadataDialog(data) {
 		showMetadataDialog(data);
 	});
 
-
 }
 
 /**
-* The metadata dialog is prepared and ready to display as a JQuery dialog box, show
-* it
-* 
-* @param data
-*/
+ * The metadata dialog is prepared and ready to display as a JQuery dialog box,
+ * show it
+ * 
+ * @param data
+ */
 function showMetadataDialog(data) {
 	lcPrepareForCall();
 	$("#metadataDialogArea").html(data).fadeIn('slow');
-	
+
 }
 
 /**
  * Handle form submit to add AVU Metadata
  */
 function submitMetadataDialog() {
-	
+
 	lcPrepareForCall();
 
 	var attribute = $('[name=attribute]').val();
 	var value = $('[name=value]').val();
 	var unit = $('[name=unit]').val();
-	
+
 	if (selectedPath == null) {
-		throw "no collection or data object selected";
+		throw "no collection or data object selected";  //FIXME: alert and i18n
 	}
 
 	var isCreate = $('[name=isCreate]').val();
@@ -126,43 +127,26 @@ function submitMetadataDialog() {
 		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
 	}).success(
 			function(data) {
-				var dataJSON = jQuery.parseJSON(data);
-				var response = dataJSON.response;
-				if (response.errorMessage != null) {
-					// build a message and set the class of the message area
-					
-					var message = "";
-					message += "<div><span>";
-					message += response.errorMessage;
-					message += "</span><p/><ul>";
-					
-					var detailErrors = response.errors;
-					for (i = 0; i < detailErrors.length; i++) {
-						message += "<li>";
-						message += detailErrors[i];
-						message += "</li>"
-					}
-					
-					message += "</ul></div>";
-					setMessageInArea(metadataMessageAreaSelector,message);
-					return;
-				}
-				
 				closeMetadataDialog();
-				addRowToMetadataDetailsTable(attribute,value,unit);
+				console.log("metadata dialog closed");
 				setMessageInArea(metadataMessageAreaSelector,
-						response.message);
+						"AVU saved successfully"); // FIXME: i18n
+				console.log("reloading");
+				reloadMetadataDetailsTable();
+				console.log("done reloading");
+				alert("done");
+				return;
 			});
 }
 
 function closeMetadataDialog() {
-	$("#metadataDialogArea").hide().fadeOut('slow', new function() {
+	$("#metadataDialogArea").fadeOut('slow', new function() {
 		$("#metadataDialogArea").html("")
 	});
 }
 
 function addRowToMetadataDetailsTable(attribute, value, unit) {
-	
+
 	var idxs = $("#metaDataDetailsTable")
 			.dataTable()
 			.fnAddData(
@@ -171,68 +155,105 @@ function addRowToMetadataDetailsTable(attribute, value, unit) {
 							attribute, value, unit ], true);
 	var newNode = $("#metaDataDetailsTable").dataTable().fnGetNodes()[idxs[0]];
 	$(newNode).attr("id", selectedPath);
-	
+
 }
 
-function setupMetadataDetailsTable() {
-	dataTable = lcBuildTableInPlace("#metaDataDetailsTable", null, null);	
+/**
+ * Reload the metadata details as a JQuery data table using an AJAX call to get
+ * the data
+ * 
+ * @returns
+ */
+function reloadMetadataDetailsTable() {
+
+	lcClearDivAndDivClass(metadataMessageAreaSelector);
+	$("#metadataTableDiv").empty();
+	lcShowBusyIconInDiv("#metadataTableDiv");
+
+	var params = {
+		absPath : selectedPath
+	}
+
+	var jqxhr = $.get(context + metadataLoadUrl, params,
+			function(data, status, xhr) {
+				$('#metadataTableDiv').html(data);
+			}, "html").error(function(xhr, status, error) {
+		setMessageInArea("metadataMessageArea", xhr.responseText);
+	}).success(function() {
+		buildMetadataTableInPlace();
+	});
+}
+
+/**
+ * Given that the metadata details table data has been retrieved (as html
+ * table), make it a dataTable, and add necessary code to process in-place
+ * edit/update of metadata
+ * 
+ * @returns
+ */
+function buildMetadataTableInPlace() {
+	lcPrepareForCall();
+
+	var metaDataTable = lcBuildTableInPlace("#metaDataDetailsTable", null, null);
+	$("#infoDiv").resize();
+
 	$('.editable').editable(function(content, settings) {
-	
-	     var avu = [];
-	     var newAvu = [];
 
-	     var currentNode = $(this);
+		var avu = [];
+		var newAvu = [];
 
-	     if (currentNode.hasClass("avuAttribute")) {
-		     avu['attribute'] = origData;
-		     newAvu['attribute'] = content;
-		 } else if (currentNode.hasClass("avuValue")) {
-			 avu['value'] = origData;
-		     newAvu['value'] = content;
+		var currentNode = $(this);
+
+		if (currentNode.hasClass("avuAttribute")) {
+			avu['attribute'] = origData;
+			newAvu['attribute'] = content;
+		} else if (currentNode.hasClass("avuValue")) {
+			avu['value'] = origData;
+			newAvu['value'] = content;
 		} else if (currentNode.hasClass("avuUnit")) {
-			 avu['unit'] = origData;
-		     newAvu['unit'] = content;
+			avu['unit'] = origData;
+			newAvu['unit'] = content;
 		}
 
-		//var siblings = $(this).siblings();
-		var siblings = currentNode.siblings();//parent().children();
-		siblings.each(function(index) { 
+	
+		var siblings = currentNode.siblings();
+		siblings.each(function(index) {
 			var sib = $(this);
 			if (sib.hasClass("avuAttribute")) {
-			     avu['attribute'] = sib.html();
-			     newAvu['attribute'] =  sib.html();
-			 } else if (sib.hasClass("avuValue")) {
-				  avu['value'] =sib.html();
-				     newAvu['value'] =  sib.html();
+				avu['attribute'] = sib.html();
+				newAvu['attribute'] = sib.html();
+			} else if (sib.hasClass("avuValue")) {
+				avu['value'] = sib.html();
+				newAvu['value'] = sib.html();
 			} else if (sib.hasClass("avuUnit")) {
-				  avu['unit'] = sib.html();
-				     newAvu['unit'] =  sib.html();
+				avu['unit'] = sib.html();
+				newAvu['unit'] = sib.html();
 			}
 		});
-		
-		console.log("currentAVU:" + avu['attribute'] + "/" +  avu['value'] + "/" + avu['unit']);
-		console.log("newAVU:" +  newAvu['attribute'] + "/" +  newAvu['value'] + "/" + newAvu['unit']);
 
 		if (selectedPath == null) {
 			throw "no collection or data object selected";
 		}
+
 		
-		metadataUpdate(avu, newAvu, selectedPath);
+		var success = metadataUpdate(avu, newAvu, selectedPath);
+		
+		if (success) {
+			return (content);
+		} else {
+			alert("error in update");
+			return orgData;
+		}
+	}, {
+		type : 'textarea',
+		submit : 'OK',
+		cancel : 'Cancel',
+		data : function(value, settings) {
+			origData = value;
+			return value;
+		}
 
-	     
-	     return(content);
-	} , {type    : 'textarea',
-	     submit  : 'OK',
-	     cancel    : 'Cancel',
-	     data: function(value, settings) {
-	        origData = value;
-	        return value;
-	       }
+	});
 
-
-	     });
-	
-	return dataTable;
+	return metaDataTable;
 }
-
-

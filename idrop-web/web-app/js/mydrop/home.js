@@ -175,7 +175,7 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 				+ absPath, "#infoDiv", "#infoDiv", null);
 	} else if (browseOptionVal == "metadata") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/metadata/listMetadata?absPath=" + absPath, "#infoDiv",
+				"/metadata/showMetadataDetails?absPath=" + absPath, "#infoDiv",
 				"#infoDiv", null);
 	} else if (browseOptionVal == "sharing") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
@@ -408,14 +408,14 @@ function submitAclDialog() {
 
 				closeAclAddDialog();
 				setMessageInArea("#aclMessageArea",
-						"Sharing permission saved successfully");
+						"Sharing permission saved successfully"); // FIXME: i18n
 				reloadAclTable(selectedPath);
 
 			});
 }
 
 function closeAclAddDialog() {
-	$("#aclDialogArea").hide().fadeOut('slow', new function() {
+	$("#aclDialogArea").fadeOut('slow', new function() {
 		$("#aclDialogArea").html("")
 	});
 
@@ -451,6 +451,7 @@ function reloadAclTable(absPath) {
 function buildAclTableInPlace() {
 	lcPrepareForCall();
 	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null);
+	$("#infoDiv").resize();
 
 	$('.forSharePermission', dataTable.fnGetNodes()).editable(
 			function(value, settings) {
@@ -467,7 +468,6 @@ function buildAclTableInPlace() {
 				'cancel' : 'Cancel',
 				'indicator' : 'Saving'
 			});
-
 }
 
 /**

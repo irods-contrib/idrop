@@ -95,8 +95,8 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	info 'org.irods.mydrop'
-	info 'org.irods.jargon'
-	warn 'grails.app'
+	warn 'org.irods.jargon'
+	info 'grails.app'
 		 
 	warn 'org.mortbay.log',
 		//'grails.app.controller',

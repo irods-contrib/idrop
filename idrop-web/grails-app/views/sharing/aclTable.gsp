@@ -1,6 +1,6 @@
 <g:form name="aclDetailsForm" action="" id="aclDetailsForm">
 	<table cellspacing="0" cellpadding="0" border="0" id="aclDetailsTable"
-		style="width: 95%;">
+		style="width: 100%;">
 		<thead>
 			<tr>
 				<th></th>
