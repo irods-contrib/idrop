@@ -3,8 +3,7 @@
 		<g:renderErrors bean="${cmd}" />
 	</div>
 	<div style="clear: both;">
-		<g:form controller="metadata" action="addMetadata" method="post"
-			name="metadataUpdateForm">
+	
 			<fieldset id="verticalForm">
 				<g:hiddenField name="isCreate" value="true" />
 				<label for="absPath"><g:message code="text.path" />:</label>
@@ -31,6 +30,6 @@
 					</div>
 				</div>
 			</fieldset>
-		</g:form>
+	
 	</div>
 </div>

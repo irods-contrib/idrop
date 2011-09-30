@@ -8,6 +8,7 @@
  * Global var
  */
 var metadataMessageAreaSelector = "#metadataMessageArea";
+var metadataDialogMessageAreaSelector = "#metadataDialogMessageArea";
 var metadataAddUrl = '/metadata/addMetadata';
 var metadataUpdateUrl = '/metadata/updateMetadata';
 var metadataLoadUrl = '/metadata/listMetadata';
@@ -47,7 +48,7 @@ function metadataUpdate(currentAvu, newAvu, path) {
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(metadataMessageAreaSelector);
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea(metadataMessageAreaSelector,  xhr.responseText);
+		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
 		return false;
 	}).success(
 			function() {
@@ -106,9 +107,9 @@ function submitMetadataDialog() {
 	var unit = $('[name=unit]').val();
 
 	if (selectedPath == null) {
-		throw "no collection or data object selected";  //FIXME: alert and i18n
+		throw "no collection or data object selected"; // FIXME: alert and i18n
 	}
-1
+	1
 	var isCreate = $('[name=isCreate]').val();
 
 	lcShowBusyIconInDiv(metadataMessageAreaSelector);
@@ -124,18 +125,23 @@ function submitMetadataDialog() {
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(metadataMessageAreaSelector);
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
+		setMessageInArea(metadataDialogMessageAreaSelector, xhr.responseText);
 	}).success(
-			function(data) {
-				closeMetadataDialog();
-				console.log("metadata dialog closed");
-				setMessageInArea(metadataMessageAreaSelector,
-						"AVU saved successfully"); // FIXME: i18n
-				console.log("reloading");
-				reloadMetadataDetailsTable();
-				console.log("done reloading");
-				alert("done");
-				return;
+			function(data, status, xhr) {
+				// on success (no exception), check for valid data or invalid data and update appropriately
+				var dataJSON = jQuery.parseJSON(data);
+				if (dataJSON.response.errorMessage != null) {
+					setMessageInArea(metadataDialogMessageAreaSelector,
+							dataJSON.response.errorMessage);
+				} else {
+					
+					setMessageInArea(metadataMessageAreaSelector,
+							"AVU saved successfully"); // FIXME: i18n
+					closeMetadataDialog();
+					reloadMetadataDetailsTable();
+					setMessageInArea(metadataMessageAreaSelector,
+					"AVU saved successfully"); // FIXME: i18n
+				}
 			});
 }
 
@@ -178,7 +184,7 @@ function reloadMetadataDetailsTable() {
 			function(data, status, xhr) {
 				$('#metadataTableDiv').html(data);
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea("metadataMessageArea", xhr.responseText);
+		setMessageInArea(metadataMessageArea, xhr.responseText);
 	}).success(function() {
 		buildMetadataTableInPlace();
 	});
@@ -192,68 +198,69 @@ function reloadMetadataDetailsTable() {
  * @returns
  */
 function buildMetadataTableInPlace() {
-	lcPrepareForCall();
 
 	var metaDataTable = lcBuildTableInPlace("#metaDataDetailsTable", null, null);
 	$("#infoDiv").resize();
 
-	$('.editable').editable(function(content, settings) {
+	$('.editable').editable(
+			function(content, settings) {
 
-		var avu = [];
-		var newAvu = [];
+				var avu = [];
+				var newAvu = [];
 
-		var currentNode = $(this);
+				var currentNode = $(this);
 
-		if (currentNode.hasClass("avuAttribute")) {
-			avu['attribute'] = origData;
-			newAvu['attribute'] = content;
-		} else if (currentNode.hasClass("avuValue")) {
-			avu['value'] = origData;
-			newAvu['value'] = content;
-		} else if (currentNode.hasClass("avuUnit")) {
-			avu['unit'] = origData;
-			newAvu['unit'] = content;
-		}
+				if (currentNode.hasClass("avuAttribute")) {
+					avu['attribute'] = origData;
+					newAvu['attribute'] = content;
+				} else if (currentNode.hasClass("avuValue")) {
+					avu['value'] = origData;
+					newAvu['value'] = content;
+				} else if (currentNode.hasClass("avuUnit")) {
+					avu['unit'] = origData;
+					newAvu['unit'] = content;
+				}
 
-		var siblings = currentNode.siblings();
-		siblings.each(function(index) {
-			var sib = $(this);
-			if (sib.hasClass("avuAttribute")) {
-				avu['attribute'] = sib.html();
-				newAvu['attribute'] = sib.html();
-			} else if (sib.hasClass("avuValue")) {
-				avu['value'] = sib.html();
-				newAvu['value'] = sib.html();
-			} else if (sib.hasClass("avuUnit")) {
-				avu['unit'] = sib.html();
-				newAvu['unit'] = sib.html();
-			}
-		});
+				var siblings = currentNode.siblings();
+				siblings.each(function(index) {
+					var sib = $(this);
+					if (sib.hasClass("avuAttribute")) {
+						avu['attribute'] = sib.html();
+						newAvu['attribute'] = sib.html();
+					} else if (sib.hasClass("avuValue")) {
+						avu['value'] = sib.html();
+						newAvu['value'] = sib.html();
+					} else if (sib.hasClass("avuUnit")) {
+						avu['unit'] = sib.html();
+						newAvu['unit'] = sib.html();
+					}
+				});
 
-		if (selectedPath == null) {
-			throw "no collection or data object selected";
-		}
+				if (selectedPath == null) {
+					throw "no collection or data object selected";
+				}
 
-		
-		var success = metadataUpdate(avu, newAvu, selectedPath);
-		
-		if (success) {
-			setMessageInArea("metadataMessageArea", "AVU update successful");  // FIXME: i18n
-			return (content);
-		} else {
-			setMessageInArea("metadataMessageArea", "Error ocurred in update of AVU");  // FIXME: i18n
-			return orgData;
-		}
-	}, {
-		type : 'textarea',
-		submit : 'OK',
-		cancel : 'Cancel',
-		data : function(value, settings) {
-			origData = value;
-			return value;
-		}
+				var success = metadataUpdate(avu, newAvu, selectedPath);
 
-	});
+				if (success) {
+					setMessageInArea(metadataMessageArea,
+							"AVU update successful"); // FIXME: i18n
+					return (content);
+				} else {
+					setMessageInArea(metadataMessageArea,
+							"Error ocurred in update of AVU"); // FIXME: i18n
+					return orgData;
+				}
+			}, {
+				type : 'textarea',
+				submit : 'OK',
+				cancel : 'Cancel',
+				data : function(value, settings) {
+					origData = value;
+					return value;
+				}
+
+			});
 
 	return metaDataTable;
 }
