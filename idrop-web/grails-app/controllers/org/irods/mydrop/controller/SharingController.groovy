@@ -151,6 +151,7 @@ class SharingController {
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
 		def isDataObject = retObj instanceof DataObject
 		log.info("adding ACLs for a data object")
+		
 
 		if (isDataObject) {
 			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
@@ -188,7 +189,9 @@ class SharingController {
 		}
 
 		log.info("acl set successfully")
-		render "OK"
+		responseData['message'] = message(code:"message.update.successful")
+		jsonData['response'] = responseData
+		render jsonData as JSON
 
 	}
 
@@ -328,9 +331,7 @@ class AclCommand {
 	String absPath
 	String acl
 	String userName
-	String create
 	static constraints = {
-		create(nullable:false, inList:["", "true", "false"])
 		acl(blank:false, inList:["READ", "WRITE", "OWN"])
 		userName(blank:false)
 		absPath(blank:false)

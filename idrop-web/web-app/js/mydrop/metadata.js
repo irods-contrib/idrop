@@ -108,7 +108,7 @@ function submitMetadataDialog() {
 	if (selectedPath == null) {
 		throw "no collection or data object selected";  //FIXME: alert and i18n
 	}
-
+1
 	var isCreate = $('[name=isCreate]').val();
 
 	lcShowBusyIconInDiv(metadataMessageAreaSelector);
@@ -215,7 +215,6 @@ function buildMetadataTableInPlace() {
 			newAvu['unit'] = content;
 		}
 
-	
 		var siblings = currentNode.siblings();
 		siblings.each(function(index) {
 			var sib = $(this);
@@ -239,9 +238,10 @@ function buildMetadataTableInPlace() {
 		var success = metadataUpdate(avu, newAvu, selectedPath);
 		
 		if (success) {
+			setMessageInArea("metadataMessageArea", "AVU update successful");  // FIXME: i18n
 			return (content);
 		} else {
-			alert("error in update");
+			setMessageInArea("metadataMessageArea", "Error ocurred in update of AVU");  // FIXME: i18n
 			return orgData;
 		}
 	}, {

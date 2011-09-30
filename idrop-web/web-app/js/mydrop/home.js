@@ -97,15 +97,12 @@ function browserFirstViewRetrieved(data) {
 		},
 		"plugins" : [ "json_data", "types", "ui", "crmm", "themes" ]
 	});
-	
+
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
 		nodeSelected(e, data.rslt.obj);
 	});
-	
+
 	tabs.resize();
-	//$("#yui-main").resize();
-	//$("#infoDiv").resize();
-	
 
 }
 
@@ -168,7 +165,7 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 				"/browse/displayBrowseGridDetails?absPath=" + absPath,
 				"#infoDiv", "#infoDiv", function(data) {
 					$("#infoDiv").html(data);
-					
+
 				});
 	} else if (browseOptionVal == "info") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath="
@@ -315,10 +312,9 @@ function prepareAclDialog(isNew) {
 		return;
 	}
 
-
 	lcPrepareForCall();
 	lcClearDivAndDivClass(aclMessageAreaSelector);
-	
+
 	if (isNew == null) {
 		isNew = true;
 	}
@@ -363,7 +359,6 @@ function showAclDialog(data) {
 
 function submitAclDialog() {
 
-
 	lcPrepareForCall();
 	lcClearDivAndDivClass(aclMessageAreaSelector);
 
@@ -400,18 +395,26 @@ function submitAclDialog() {
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
 	}).success(
-			function() {
+			function(data, status, xhr) {
 				/*
 				 * if (isCreate) { addRowToAclDetailsTable(userName, acl);
 				 * alert("adding row to table"); }
 				 */
+				var dataJSON = jQuery.parseJSON(data);
+				if (dataJSON.response.errorMessage != null) {
+					setMessageInArea("#aclMessageArea",
+							dataJSON.response.errorMessage);
+				} else {
+					closeAclAddDialog();
+					setMessageInArea("#aclMessageArea",
+							"Sharing permission saved successfully"); // FIXME:
+																		// i18n
+					reloadAclTable(selectedPath);
+				}
 
-				closeAclAddDialog();
-				setMessageInArea("#aclMessageArea",
-						"Sharing permission saved successfully"); // FIXME: i18n
-				reloadAclTable(selectedPath);
-
-			});
+			}).error(function(xhr, status, error) {
+		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
+	});
 }
 
 function closeAclAddDialog() {
@@ -501,7 +504,7 @@ function deleteAcl() {
 
 	if (!confirm('Are you sure you want to delete?')) {
 		setMessageInArea(aclMessageAreaSelector, "Delete cancelled"); // FIXME:
-																		// i18n
+		// i18n
 		return;
 	}
 
@@ -588,7 +591,8 @@ function showIdropLite() {
 						var a = document.createElement('applet');
 						appletTagDiv.appendChild(a);
 						a.setAttribute('code', dataJSON.appletCode);
-						//a.setAttribute('codebase', 'http://iren-web.renci.org/idrop-web/applet');//dataJSON.appletUrl);
+						// a.setAttribute('codebase',
+						// 'http://iren-web.renci.org/idrop-web/applet');//dataJSON.appletUrl);
 						a.setAttribute('codebase', dataJSON.appletUrl);
 						a.setAttribute('archive', dataJSON.archive);
 						a.setAttribute('width', 600);

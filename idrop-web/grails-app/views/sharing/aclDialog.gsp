@@ -5,7 +5,7 @@
 	<div style="clear: both;">
 	
 			<fieldset id="verticalForm">
-				<g:hiddenField name="isCreate" value="${isCreate}" />
+				<g:hiddenField name="create" value="${create}" />
 				<label for="absPath">Path:</label>
 				<g:textArea name="absPath" value="${absPath}" readonly="true" />
 				<br /> <label for="userName">User Name:</label>
