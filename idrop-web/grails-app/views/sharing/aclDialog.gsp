@@ -3,8 +3,7 @@
 		<!--  message area for acl dialogs -->
 	</div>
 	<div style="clear: both;">
-		<g:form controller="sharing" action="updateAcl" method="post"
-			name="aclUpdateForm">
+	
 			<fieldset id="verticalForm">
 				<g:hiddenField name="isCreate" value="${isCreate}" />
 				<label for="absPath">Path:</label>
@@ -26,7 +25,6 @@
 					</div>
 				</div>
 			</fieldset>
-		</g:form>
+		
 	</div>
 </div>
-s
