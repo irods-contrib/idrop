@@ -178,6 +178,10 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
 				"/sharing/showAclDetails?absPath=" + absPath, "#infoDiv",
 				"#infoDiv", null);
+	} else if (browseOptionVal == "audit") {
+		lcSendValueAndCallbackHtmlAfterErrorCheck(
+				"/audit/auditList?absPath=" + absPath, "#infoDiv",
+				"#infoDiv", null);
 	}
 }
 
@@ -359,7 +363,6 @@ function showAclDialog(data) {
 
 function submitAclDialog() {
 
-	lcPrepareForCall();
 	lcClearDivAndDivClass(aclMessageAreaSelector);
 
 	var userName = $('[name=userName]').val();
@@ -392,9 +395,7 @@ function submitAclDialog() {
 	var jqxhr = $.post(context + aclAddUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(aclDialogMessageSelector);
-			}, "html").error(function(xhr, status, error) {
-		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
-	}).success(
+			}, "html").success(
 			function(data, status, xhr) {
 				/*
 				 * if (isCreate) { addRowToAclDetailsTable(userName, acl);
@@ -402,14 +403,15 @@ function submitAclDialog() {
 				 */
 				var dataJSON = jQuery.parseJSON(data);
 				if (dataJSON.response.errorMessage != null) {
-					setMessageInArea("#aclMessageArea",
+
+					setMessageInArea(aclMessageAreaSelector,
 							dataJSON.response.errorMessage);
 				} else {
+					reloadAclTable();
 					closeAclAddDialog();
-					setMessageInArea("#aclMessageArea",
+					setMessageInArea(aclMessageAreaSelector,
 							"Sharing permission saved successfully"); // FIXME:
-																		// i18n
-					reloadAclTable(selectedPath);
+					// i18n
 				}
 
 			}).error(function(xhr, status, error) {
@@ -417,21 +419,32 @@ function submitAclDialog() {
 	});
 }
 
+/**
+ * Close the dialog for adding ACL's
+ */
 function closeAclAddDialog() {
-	$("#aclDialogArea").fadeOut('slow', new function() {
-		$("#aclDialogArea").html("")
-	});
+	try {
+		$("#aclDialogArea").fadeOut('slow', new function() {
+			$("#aclDialogArea").html("")
+		});
+	} catch (e) {
+
+	}
 
 }
 
 /**
  * Retrieve the Acl information from iRODS for the given path as an HTML table,
- * this will subsequently be turned into a JTable
+ * this will subsequently be turned into a JTable.
+ * 
+ * Note that this clears the acl message area, so it should be called before
+ * setting any message if used in any methods that update the acl area.
  * 
  * @param absPath
  */
 function reloadAclTable(absPath) {
-	lcPrepareForCall();
+
+	lcClearDivAndDivClass(aclMessageAreaSelector);
 
 	$("#aclTableDiv").empty();
 	lcShowBusyIconInDiv("#aclTableDiv");
@@ -442,19 +455,22 @@ function reloadAclTable(absPath) {
 
 	var jqxhr = $.get(context + aclTableLoadUrl, params,
 			function(data, status, xhr) {
-				$('#aclTableDiv').html(data);
+
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea("aclMessageArea", xhr.responseText);
-	}).success(function() {
+		setMessageInArea(aclMessageAreaSelector, xhr.responseText);
+	}).success(function(data, status, xhr) {
+		$('#aclTableDiv').html(data);
 		buildAclTableInPlace();
 	});
 
 }
 
+/**
+ * Given an acl details html table, wrap it in a jquery dataTable
+ */
 function buildAclTableInPlace() {
-	lcPrepareForCall();
 	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null);
-	$("#infoDiv").resize();
+	// $("#infoDiv").resize();
 
 	$('.forSharePermission', dataTable.fnGetNodes()).editable(
 			function(value, settings) {
@@ -499,7 +515,6 @@ function addRowToAclDetailsTable(userName, permission) {
  */
 function deleteAcl() {
 
-	lcPrepareForCall();
 	lcClearDivAndDivClass(aclMessageAreaSelector);
 
 	if (!confirm('Are you sure you want to delete?')) {
@@ -521,7 +536,9 @@ function deleteAcl() {
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(aclMessageAreaSelector, xhr.responseText);
 	}).success(function(data) {
-		reloadAclTable(selectedPath);
+		reloadAclTable();
+		setMessageInArea(aclMessageAreaSelector, "Delete successful"); // FIXME:
+		// i18n
 	});
 }
 

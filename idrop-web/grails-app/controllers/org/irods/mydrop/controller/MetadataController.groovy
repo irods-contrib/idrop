@@ -1,6 +1,5 @@
 package org.irods.mydrop.controller
 
-
 import grails.converters.JSON
 
 import org.irods.jargon.core.connection.IRODSAccount
@@ -86,7 +85,7 @@ class MetadataController {
 				metadata = dataObjectAO.findMetadataValuesForDataObject(retObj.collectionName, retObj.dataName)
 			} else {
 				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
-				metadata = collectionAO.findMetadataValuesForCollection(retObj.collectionName, 0) 
+				metadata = collectionAO.findMetadataValuesForCollection(retObj.collectionName, 0)
 			}
 		} catch (DataNotFoundException dnf) {
 			log.warn "cannot find data for path"
@@ -173,11 +172,9 @@ class MetadataController {
 
 			log.info("avu set successfully")
 			jsonData['response'] =responseData
-
 		}
 
 		render jsonData as JSON
-
 	}
 
 
@@ -195,6 +192,7 @@ class MetadataController {
 		def jsonData = [:]
 
 		if (cmd.hasErrors()) {
+
 			log.info "errors occured build error messages"
 			def errorMessage = message(code:"error.data.error")
 			response.sendError(500,errorMessage)
@@ -210,21 +208,27 @@ class MetadataController {
 
 			def isDataObject = retObj instanceof DataObject
 
-			if (isDataObject) {
-				log.debug("setting AVU for a data object")
-				DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
-				dataObjectAO.modifyAVUMetadata(cmd.absPath, currentAvuData, newAvuData)
-			} else {
-				log.debug("setting AVU for collection")
-				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
-				collectionAO.modifyAVUMetadata(cmd.absPath, currentAvuData, newAvuData)
+			try {
+				if (isDataObject) {
+					log.info("setting AVU for a data object:${newAvuData}")
+					DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+					dataObjectAO.modifyAVUMetadata(cmd.absPath, currentAvuData, newAvuData)
+				} else {
+					log.info("setting AVU for collection:${newAvuData}")
+					CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+					collectionAO.modifyAVUMetadata(cmd.absPath, currentAvuData, newAvuData)
+				}
+			} catch (Exception e) {
+				log.error("exception updating metadata:${e}")
+				response.sendError(500,e.message)
+				return
 			}
 
 			log.info("avu set successfully")
 			render "OK"
 		}
 	}
-	
+
 	/**
 	 * Delete one or more metadata values for a collection or data object
 	 */
@@ -236,16 +240,16 @@ class MetadataController {
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 		def isDataObject = retObj instanceof DataObject
 		log.info("deleting metadata for a data object")
-		
+
 		def DataObjectAO dataObjectAO
 		def CollectionAO collectionAO
-		
+
 		if (isDataObject) {
 			dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
 		} else {
 			collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 		}
-		
+
 		if (!absPath) {
 			log.error "no path provided"
 			def errorMessage = message(code:"error.no.path.provided")
@@ -257,7 +261,7 @@ class MetadataController {
 		def attributesToDelete = params['attribute']
 		def valuesToDelete = params['value']
 		def unitsToDelete = params["unit"]
-		
+
 		// if nothing selected, just jump out and return a message
 		if (!avusToDelete) {
 			log.info("no avu to delete")
@@ -269,26 +273,26 @@ class MetadataController {
 		log.info("avusToDelete: ${avusToDelete}")
 
 		AvuData avuValue
-		
+
 		if (avusToDelete instanceof Object[] || avusToDelete instanceof List) {
 			log.debug "is array"
 			int i = 0;
 			avusToDelete.each{
 				log.info "avusToDelete: ${it} has index ${i}"
-				
+
 				avuValue = new AvuData(attributesToDelete.get(i), valuesToDelete.get(i), unitsToDelete.get(i))
 				log.info("avuValue: ${avuValue}")
-				
+
 				if (isDataObject) {
 					log.info "delete as data object"
 					deleteAvuForDataObject(absPath, avuValue, dataObjectAO)
-				 } else {
-					 deleteAvuForCollection(absPath, avuValue, collectionAO)
-				 }
-				 
-				 i++;
+				} else {
+					deleteAvuForCollection(absPath, avuValue, collectionAO)
+				}
+
+				i++;
 			}
-			
+
 		} else {
 			log.debug "not array"
 			log.info "deleting: ${avusToDelete}"
@@ -296,52 +300,52 @@ class MetadataController {
 			if (isDataObject) {
 				log.info "delete as data object"
 				deleteAvuForDataObject(absPath, avuValue, dataObjectAO)
-			 } else {
-				 deleteAvuForCollection(absPath, avuValue, collectionAO)
-			 }
+			} else {
+				deleteAvuForCollection(absPath, avuValue, collectionAO)
+			}
 		}
 
 		render "OK"
 
 	}
-	
+
 	private void deleteAvuForDataObject(String absPath, AvuData avuData, DataObjectAO dataObjectAO) throws JargonException {
-		
+
 		if (!absPath) {
 			throw new IllegalArgumentException("null absPath")
 		}
-		
+
 		if (!avuData) {
 			throw new IllegalArgumentException("null avuData")
 		}
-		
+
 		if (!dataObjectAO) {
 			throw new IllegalArgumentException("null dataObjectAO")
 		}
-		
+
 		dataObjectAO.deleteAVUMetadata( absPath, avuData)
-		
+
 	}
-	
+
 	private void deleteAvuForCollection(String absPath,  AvuData avuData, CollectionAO collectionAO) throws JargonException {
-		
+
 		if (!absPath) {
 			throw new IllegalArgumentException("null absPath")
 		}
-		
+
 		if (!avuData) {
 			throw new IllegalArgumentException("null avuData")
 		}
-		
+
 		if (!collectionAO) {
 			throw new IllegalArgumentException("null collectionAO")
 		}
-		
+
 		collectionAO.deleteAVUMetadata( absPath, avuData)
-		
+
 	}
-	
-	
+
+
 }
 
 /**
@@ -380,9 +384,3 @@ public class UpdateMetadataCommand {
 		absPath(blank:false)
 	}
 }
-
-
-
-
-
-

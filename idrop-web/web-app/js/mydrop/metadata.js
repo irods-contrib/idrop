@@ -49,14 +49,14 @@ function metadataUpdate(currentAvu, newAvu, path) {
 				lcClearDivAndDivClass(metadataMessageAreaSelector);
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
-		return false;
+		throw(xhr.responseText);
 	}).success(
 			function() {
 				setMessageInArea(metadataMessageAreaSelector,
 						"Metadata update successful"); // FIXME: i18n
-				return true;
 			});
-
+	
+	return currentAvu;
 }
 
 /**
@@ -128,19 +128,20 @@ function submitMetadataDialog() {
 		setMessageInArea(metadataDialogMessageAreaSelector, xhr.responseText);
 	}).success(
 			function(data, status, xhr) {
-				// on success (no exception), check for valid data or invalid data and update appropriately
+				// on success (no exception), check for valid data or invalid
+				// data and update appropriately
 				var dataJSON = jQuery.parseJSON(data);
 				if (dataJSON.response.errorMessage != null) {
 					setMessageInArea(metadataDialogMessageAreaSelector,
 							dataJSON.response.errorMessage);
 				} else {
-					
+
 					setMessageInArea(metadataMessageAreaSelector,
 							"AVU saved successfully"); // FIXME: i18n
 					closeMetadataDialog();
 					reloadMetadataDetailsTable();
 					setMessageInArea(metadataMessageAreaSelector,
-					"AVU saved successfully"); // FIXME: i18n
+							"AVU saved successfully"); // FIXME: i18n
 				}
 			});
 }
@@ -202,65 +203,63 @@ function buildMetadataTableInPlace() {
 	var metaDataTable = lcBuildTableInPlace("#metaDataDetailsTable", null, null);
 	$("#infoDiv").resize();
 
-	$('.editable').editable(
-			function(content, settings) {
+	$('.editable').editable(function(content, settings) {
 
-				var avu = [];
-				var newAvu = [];
+		var avu = [];
+		var newAvu = [];
 
-				var currentNode = $(this);
+		var currentNode = $(this);
 
-				if (currentNode.hasClass("avuAttribute")) {
-					avu['attribute'] = origData;
-					newAvu['attribute'] = content;
-				} else if (currentNode.hasClass("avuValue")) {
-					avu['value'] = origData;
-					newAvu['value'] = content;
-				} else if (currentNode.hasClass("avuUnit")) {
-					avu['unit'] = origData;
-					newAvu['unit'] = content;
-				}
+		if (currentNode.hasClass("avuAttribute")) {
+			avu['attribute'] = origData;
+			newAvu['attribute'] = content;
+		} else if (currentNode.hasClass("avuValue")) {
+			avu['value'] = origData;
+			newAvu['value'] = content;
+		} else if (currentNode.hasClass("avuUnit")) {
+			avu['unit'] = origData;
+			newAvu['unit'] = content;
+		}
 
-				var siblings = currentNode.siblings();
-				siblings.each(function(index) {
-					var sib = $(this);
-					if (sib.hasClass("avuAttribute")) {
-						avu['attribute'] = sib.html();
-						newAvu['attribute'] = sib.html();
-					} else if (sib.hasClass("avuValue")) {
-						avu['value'] = sib.html();
-						newAvu['value'] = sib.html();
-					} else if (sib.hasClass("avuUnit")) {
-						avu['unit'] = sib.html();
-						newAvu['unit'] = sib.html();
-					}
-				});
+		var siblings = currentNode.siblings();
+		siblings.each(function(index) {
+			var sib = $(this);
+			if (sib.hasClass("avuAttribute")) {
+				avu['attribute'] = sib.html();
+				newAvu['attribute'] = sib.html();
+			} else if (sib.hasClass("avuValue")) {
+				avu['value'] = sib.html();
+				newAvu['value'] = sib.html();
+			} else if (sib.hasClass("avuUnit")) {
+				avu['unit'] = sib.html();
+				newAvu['unit'] = sib.html();
+			}
+		});
 
-				if (selectedPath == null) {
-					throw "no collection or data object selected";
-				}
+		if (selectedPath == null) {
+			throw "no collection or data object selected";
+		}
 
-				var success = metadataUpdate(avu, newAvu, selectedPath);
+		try {
+			return metadataUpdate(avu, newAvu, selectedPath);
+		} catch (e) {
+			console.log("error, returning:" + e);
+			return origData;
+		}
+		console.log("success, returning:" + content);
+		return content;
 
-				if (success) {
-					setMessageInArea(metadataMessageArea,
-							"AVU update successful"); // FIXME: i18n
-					return (content);
-				} else {
-					setMessageInArea(metadataMessageArea,
-							"Error ocurred in update of AVU"); // FIXME: i18n
-					return orgData;
-				}
-			}, {
-				type : 'textarea',
-				submit : 'OK',
-				cancel : 'Cancel',
-				data : function(value, settings) {
-					origData = value;
-					return value;
-				}
+	}, {
+		type : 'textarea',
+		submit : 'OK',
+		cancel : 'Cancel',
+		tooltip : '',
+		data : function(value, settings) {
+			origData = value;
+			return value;
+		}
 
-			});
+	});
 
 	return metaDataTable;
 }

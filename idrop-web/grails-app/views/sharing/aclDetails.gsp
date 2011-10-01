@@ -16,7 +16,7 @@
 	</div>
 </div>
 <div id="aclMessageArea">
-	<!--  -->
+	<!--  area for general messages regarding acls-->
 </div>
 
 <div id="aclDialogArea">

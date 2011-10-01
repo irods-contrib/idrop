@@ -93,8 +93,12 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
  * message: the text message to display
  */
 function setMessageInArea(messageAreaId, message) {
+	try {
 	$(messageAreaId).html(message);
 	$(messageAreaId).addClass(messageClass);
+	} catch(e) {
+		
+	}
 
 }
 /**
@@ -104,6 +108,7 @@ function setMessageInArea(messageAreaId, message) {
  * message: the text message to display
  */
 function setMessage(message) {
+	try {
 	if (message == null || message.length == 0) {
 		$(javascriptMessageArea).html("");
 		$(javascriptMessageArea).removeClass();
@@ -111,6 +116,10 @@ function setMessage(message) {
 		$(javascriptMessageArea).html(message);
 		$(javascriptMessageArea).addClass(messageClass);
 	}
+} catch(e) {
+		
+	}
+
 }
 
 /**
@@ -258,8 +267,8 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
 function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector) {
 	var dataTableCreated = $(newTableId).dataTable({
 		"bJQueryUI" : true,
-		//"sScrollX": "100%",
-		//"sScrollXInner": "110%"
+		// "sScrollX": "100%",
+		// "sScrollXInner": "110%"
 	});
 	
 
@@ -481,7 +490,7 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 				$(divForLoadingGif).html("");
 			}
 			if (divForAjaxError != null) {
-				//alert("error in callback sending back for divForAjaxError");
+				// alert("error in callback sending back for divForAjaxError");
 				setMessageInArea(divForAjaxError, "An error occurred");
 			} else {
 				setMessage("An error occurred");
