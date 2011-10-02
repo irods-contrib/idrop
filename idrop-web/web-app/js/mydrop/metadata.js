@@ -18,8 +18,6 @@ var metadataLoadUrl = '/metadata/listMetadata';
  */
 function metadataUpdate(currentAvu, newAvu, path) {
 
-	lcPrepareForCall();
-
 	if (!path) {
 		throw "No collection or data object selected";
 	}
@@ -241,7 +239,7 @@ function buildMetadataTableInPlace() {
 		}
 
 		try {
-			return metadataUpdate(avu, newAvu, selectedPath);
+			metadataUpdate(avu, newAvu, selectedPath);
 		} catch (e) {
 			console.log("error, returning:" + e);
 			return origData;
