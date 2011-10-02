@@ -175,6 +175,9 @@ class BrowseController {
 	}
 
 
+	/**
+	 * Build data for the 'large' file info display
+	 */
 	def fileInfo = {
 		def absPath = params['absPath']
 		if (absPath == null) {
@@ -204,4 +207,36 @@ class BrowseController {
 			render(view:"collectionInfo", model:[collection:retObj,tags:freeTags])
 		}
 	}
+	
+	/**
+	* Build data for the 'large' file info display
+	*/
+   def miniInfo = {
+	   def absPath = params['absPath']
+	   if (absPath == null) {
+		   throw new JargonException("no absolute path passed to the method")
+	   }
+
+	   log.info "mini for absPath: ${absPath}"
+	   CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+
+	   def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+
+	   def isDataObject = retObj instanceof DataObject
+
+	   log.info "is this a data object? ${isDataObject}"
+
+	   FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
+	   if (isDataObject) {
+		   log.info("getting free tags for data object")
+		   def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
+		   log.info("rendering as data object: ${retObj}")
+		   render(view:"miniInfoDataObject", model:[dataObject:retObj,tags:freeTags])
+	   } else {
+		   log.info("getting free tags for collection")
+		   def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
+		   log.info("rendering as collection: ${retObj}")
+		   render(view:"miniInfoCollection", model:[collection:retObj,tags:freeTags])
+	   }
+   }
 }

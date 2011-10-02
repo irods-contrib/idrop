@@ -112,11 +112,12 @@
 		//alert("absPath:" + absPath);
 		var detailsId = "details_" + absPath;
 		var detailsHtmlDiv = "details_html_" + absPath;
-
+		var buildDetailsLayoutVal = buildDetailsLayout(detailsId);
 		clickedIcon.setAttribute("class", "ui-icon ui-icon-circle-minus");
 		newRowNode = dataTable.fnOpen(rowActionIsOn,
-				askForBrowseDetailsPulldown(absPath, detailsId), 'details');
+				buildDetailsLayoutVal, 'details');
 		newRowNode.setAttribute("id", detailsId);
+		askForBrowseDetailsPulldown(absPath, detailsId)
 		
 	}
 
@@ -127,14 +128,16 @@
 		var detailsPulldownDiv = document.createElement("DIV");
 		detailsPulldownDiv.setAttribute("id", detailsId);
 		detailsPulldownDiv.setAttribute("class", "detailsPulldown");
-
+		var img = document.createElement('IMG');
+		img.setAttribute("src", context + "/images/ajax-loader.gif");
+		detailsPulldownDiv.appendChild(img);
 		td.appendChild(detailsPulldownDiv);
-
 		return $(td).html();
 	}
 
 	function askForBrowseDetailsPulldown(absPath, detailsId) {
-		var url = "/browse/displayPulldownDataDetails";
+		
+		var url = "/browse/miniInfo";
 		var params = {
 				absPath:absPath
 			}
