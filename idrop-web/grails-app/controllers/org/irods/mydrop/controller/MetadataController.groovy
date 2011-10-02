@@ -257,30 +257,33 @@ class MetadataController {
 			return
 		}
 
-		def avusToDelete = params['selectedMetadata']
 		def attributesToDelete = params['attribute']
 		def valuesToDelete = params['value']
 		def unitsToDelete = params["unit"]
 
 		// if nothing selected, just jump out and return a message
-		if (!avusToDelete) {
+		if (!attributesToDelete) {
 			log.info("no avu to delete")
 			def errorMessage = message(code:"error.nothing.selected")
 			response.sendError(500,errorMessage)
 			return;
 		}
 
-		log.info("avusToDelete: ${avusToDelete}")
+		log.info("avusToDelete: ${attributesToDelete}")
 
 		AvuData avuValue
 
-		if (avusToDelete instanceof Object[] || avusToDelete instanceof List) {
+		if (attributesToDelete instanceof Object[] || attributesToDelete instanceof List) {
 			log.debug "is array"
 			int i = 0;
-			avusToDelete.each{
+			attributesToDelete.each{
 				log.info "avusToDelete: ${it} has index ${i}"
+				
+				def thisAttr = ((List) attributesToDelete).get(i);
+				def thisVal = ((List) valuesToDelete).get(i);
+				def thisUnit = ((List) unitsToDelete).get(i);
 
-				avuValue = new AvuData(attributesToDelete.get(i), valuesToDelete.get(i), unitsToDelete.get(i))
+				avuValue = new AvuData(thisAttr,thisVal,thisUnit);
 				log.info("avuValue: ${avuValue}")
 
 				if (isDataObject) {
@@ -295,7 +298,7 @@ class MetadataController {
 
 		} else {
 			log.debug "not array"
-			log.info "deleting: ${avusToDelete}"
+			log.info "deleting: ${attributesToDelete}"
 			avuValue = new AvuData(attributesToDelete, valuesToDelete, unitsToDelete)
 			if (isDataObject) {
 				log.info "delete as data object"
@@ -344,7 +347,6 @@ class MetadataController {
 		collectionAO.deleteAVUMetadata( absPath, avuData)
 
 	}
-
 
 }
 

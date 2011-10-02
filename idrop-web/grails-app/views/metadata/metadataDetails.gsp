@@ -13,7 +13,7 @@
 			</button>
 			<button type="button" id="deleteMetadataButton"
 				class="ui-state-default ui-corner-all" value="deleteMetadata"
-				onclick="text.delete.metadata()")>
+				onclick="deleteMetadata()")>
 				<g:message code="default.button.delete.label" />
 			</button>
 			<button type="button" id="reloadAclButton"

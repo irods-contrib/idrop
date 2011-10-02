@@ -11,6 +11,7 @@ var metadataMessageAreaSelector = "#metadataMessageArea";
 var metadataDialogMessageAreaSelector = "#metadataDialogMessageArea";
 var metadataAddUrl = '/metadata/addMetadata';
 var metadataUpdateUrl = '/metadata/updateMetadata';
+var metadataDeleteUrl = '/metadata/deleteMetadata';
 var metadataLoadUrl = '/metadata/listMetadata';
 
 /**
@@ -47,13 +48,13 @@ function metadataUpdate(currentAvu, newAvu, path) {
 				lcClearDivAndDivClass(metadataMessageAreaSelector);
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
-		throw(xhr.responseText);
+		throw (xhr.responseText);
 	}).success(
 			function() {
 				setMessageInArea(metadataMessageAreaSelector,
 						"Metadata update successful"); // FIXME: i18n
 			});
-	
+
 	return currentAvu;
 }
 
@@ -107,7 +108,7 @@ function submitMetadataDialog() {
 	if (selectedPath == null) {
 		throw "no collection or data object selected"; // FIXME: alert and i18n
 	}
-	1
+
 	var isCreate = $('[name=isCreate]').val();
 
 	lcShowBusyIconInDiv(metadataMessageAreaSelector);
@@ -133,7 +134,6 @@ function submitMetadataDialog() {
 					setMessageInArea(metadataDialogMessageAreaSelector,
 							dataJSON.response.errorMessage);
 				} else {
-
 					setMessageInArea(metadataMessageAreaSelector,
 							"AVU saved successfully"); // FIXME: i18n
 					closeMetadataDialog();
@@ -144,10 +144,80 @@ function submitMetadataDialog() {
 			});
 }
 
+/**
+ * Cause the add metadata dialog to be closed
+ */
 function closeMetadataDialog() {
 	$("#metadataDialogArea").fadeOut('slow', new function() {
 		$("#metadataDialogArea").html("")
 	});
+}
+
+/**
+ * Delete selected AVU information
+ */
+function deleteMetadata() {
+	lcClearDivAndDivClass(metadataMessageAreaSelector);
+
+	if (!confirm('Are you sure you want to delete?')) {
+		setMessageInArea(metadataMessageAreaSelector, "Delete cancelled"); // FIXME:i18n
+		return;
+	}
+
+	var selectedRows = $('#metaDataDetailsTable :checked');
+	
+	var formFields = new Array();
+	var pathInfo = new Object();
+	pathInfo.name = "absPath";
+	pathInfo.value = selectedPath;
+
+	formFields.push(pathInfo);
+
+	selectedRows.each(function(index, element) {
+
+		console.log("element:" + element);
+
+		console.log("------  element --------");
+
+		var siblings = $(element).parent().siblings();
+		siblings.each(function(index) {
+			var sib = $(this);
+			console.log("sib:" + sib.html());
+		});
+
+		var attr = siblings.filter(".avuAttribute");
+		var value = siblings.filter(".avuValue");
+		var unit = siblings.filter(".avuUnit");
+		console.log("attribute:" + attr.html() + " value:" + value.html()
+				+ " unit:" + unit.html());
+		
+		var attributeParm = new Object();
+		attributeParm.name = "attribute";
+		attributeParm.value = attr.html();
+		formFields.push(attributeParm);
+
+		var valueParm = new Object();
+		valueParm.name = "value";
+		valueParm.value = value.html();
+		formFields.push(valueParm);
+
+		var unitParm = new Object();
+		unitParm.name = "unit";
+		unitParm.value = unit.html();
+		formFields.push(unitParm);
+
+	});
+	
+	var jqxhr = $.post(context + metadataDeleteUrl, formFields,
+			function(data, status, xhr) {
+			}, "html").error(function(xhr, status, error) {
+		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
+	}).success(function(data) {
+		reloadMetadataDetailsTable();
+		setMessageInArea(metadataMessageAreaSelector, "Delete successful"); // FIXME:
+																			// i18n
+	});
+
 }
 
 function addRowToMetadataDetailsTable(attribute, value, unit) {
@@ -251,7 +321,8 @@ function buildMetadataTableInPlace() {
 		type : 'textarea',
 		submit : 'OK',
 		cancel : 'Cancel',
-		tooltip : '',
+		tooltip : 'Click to edit...',
+		placeholder : '',
 		data : function(value, settings) {
 			origData = value;
 			return value;
