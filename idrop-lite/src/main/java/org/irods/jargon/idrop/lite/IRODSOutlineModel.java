@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public class IRODSOutlineModel extends DefaultOutlineModel {
 
-	public static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSOutlineModel.class);
+   public static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSOutlineModel.class);
     private final IRODSFileSystemModel treeModel;
 
     public IRODSFileSystemModel getTreeModel() {

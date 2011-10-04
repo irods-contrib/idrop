@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 
 import javax.swing.JOptionPane;
 
@@ -16,6 +17,7 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
+import org.irods.jargon.transfer.exception.CannotUpdateTransferInProgressException;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -29,8 +31,8 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
     public static org.slf4j.Logger log = LoggerFactory.getLogger(ChangePasswordDialog.class);
 
     /** Creates new form PreferencesDialog */
-    public ChangePasswordDialog(final iDrop idrop, final boolean modal) {
-        super(idrop, modal);
+    public ChangePasswordDialog(final iDrop idrop, final JDialog parent, final boolean modal) {
+        super(parent, modal);
         this.idrop = idrop;
         initComponents();
         setUpPasswordPanel();
@@ -218,7 +220,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnUpdatePasswordActionPerformed(
@@ -250,7 +252,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         } else {
             passwdNewPassword.setBackground(Color.red);
             passwdConfirmPassword.setBackground(Color.red);
-            JOptionPane.showMessageDialog(idrop,
+            JOptionPane.showMessageDialog(this,
                     "New and confirm password do not match");
             return;
         }
@@ -259,28 +261,8 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         try {
             log.info("check queue for any jobs for the account, these have the old password.");
             IRODSAccount irodsAccount = idrop.getIrodsAccount();
-            List<LocalIRODSTransfer> recentQueue = idrop.getiDropCore().getTransferManager().getRecentQueue();
-            for (LocalIRODSTransfer localIRODSTransfer : recentQueue) {
-                if (localIRODSTransfer.getTransferHost().equals(
-                        irodsAccount.getHost())
-                        && localIRODSTransfer.getTransferZone().equals(
-                        irodsAccount.getZone())
-                        && localIRODSTransfer.getTransferUserName().equals(
-                        irodsAccount.getUserName())) {
-                    // FIXME: right now, do not differentiate transfers that are
-                    // comlete, this is a hack right now
-                    // if
-                    // (localIRODSTransfer.getTransferState().equals(localIRODSTransfer.TRANSFER_STATE_COMPLETE))
-                    // {
-                    // log.info("matched transfer was complete, ignored");
-                    // } else {
-                    JOptionPane.showMessageDialog(
-                            this,
-                            "Transfers for this account are pending, this account can not be changed until completed and purged");
-                    return;
-                    // }
-                }
-            }
+
+            idrop.getiDropCore().getTransferManager().updatePassword(irodsAccount, newPassword);
             UserAO userAO = idrop.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(idrop.getIrodsAccount());
             userAO.changeAUserPasswordByThatUser(irodsAccount.getUserName(),
                     irodsAccount.getPassword(), newPassword);
@@ -293,8 +275,12 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
             idrop.setIrodsAccount(newAccount);
             idrop.reinitializeForChangedIRODSAccount();
             JOptionPane.showMessageDialog(this, "Password was changed");
-       
 
+        } catch (CannotUpdateTransferInProgressException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Transfers for this account are pending, this account can not be changed until completed and purged");
+            return;
         } catch (JargonException ex) {
             Logger.getLogger(ChangePasswordDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
@@ -306,12 +292,12 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
     }// GEN-LAST:event_btnUpdatePasswordActionPerformed
 
     private void setUpPasswordPanel() {
-       IRODSAccount account  = idrop.getIrodsAccount();
-       lblHost.setText(account.getHost());
-       lblPort.setText(String.valueOf(account.getPort()));
-       lblZone.setText(account.getZone());
-       lblResource.setText(account.getZone());
-       lblUserName.setText(account.getUserName());
+        IRODSAccount account = idrop.getIrodsAccount();
+        lblHost.setText(account.getHost());
+        lblPort.setText(String.valueOf(account.getPort()));
+        lblZone.setText(account.getZone());
+        lblResource.setText(account.getZone());
+        lblUserName.setText(account.getUserName());
         initializePasswordColors();
     }
 

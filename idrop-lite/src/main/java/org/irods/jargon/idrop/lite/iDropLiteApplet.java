@@ -297,7 +297,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
                 log.info("using root path, no login preset");
                 root.setPathOrName("/");
-
                 log.info("building new iRODS tree");
                 try {
                     if (irodsTree == null) {

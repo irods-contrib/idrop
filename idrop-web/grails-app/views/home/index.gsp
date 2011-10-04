@@ -2,14 +2,15 @@
 <meta name="layout" content="main" />
 <g:javascript library="mydrop/home" />
 <g:javascript library="mydrop/search" />
+<g:javascript library="mydrop/metadata" />
 
 </head>
 
 <div id="tabs">
 	<ul>
-		<li><a href="#quickView">Quick View</a></li>
-		<li><a href="#search">Search</a></li>
-		<li><a href="#browse">Browse</a></li>
+		<li><a href="#quickView"><g:message code="text.home" /></a></li>
+		<li><a href="#search"><g:message code="text.search" /></a></li>
+		<li><a href="#browse"><g:message code="text.browse" /></a></li>
 	</ul>
 	<div id="quickView">
 		<div class="objectContainer">
@@ -25,9 +26,9 @@
 			</div>
 			<div class="objectContainerTools">
 				<span class="objectContainerActions"><a href="edit"
-					class="objectAction">EDIT</a> - <a href="viewInTree"
-					class="objectAction">VIEW</a> - <a href="share"
-					class="objectAction">SHARE</a> </span> <span class="objectContainerTags">tag1
+					class="objectAction"><g:message code="text.edit" /></a> - <a href="viewInTree"
+					class="objectAction"><g:message code="text.view" /></a> - <a href="share"
+					class="objectAction"><g:message code="text.share" /></a> </span> <span class="objectContainerTags">tag1
 					tag2:detail tag3 hello</span>
 			</div>
 
@@ -47,9 +48,9 @@
 			</div>
 			<div class="objectContainerTools">
 				<span class="objectContainerActions"><a href="edit"
-					class="objectAction">EDIT</a> - <a href="viewInTree"
-					class="objectAction">VIEW</a> - <a href="share"
-					class="objectAction">SHARE</a> </span> <span class="objectContainerTags">tag1
+						class="objectAction"><g:message code="text.edit" /></a> - <a href="viewInTree"
+					class="objectAction"><g:message code="text.view" /></a> - <a href="share"
+					class="objectAction"><g:message code="text.share" /></a> </span> <span class="objectContainerTags">tag1
 					tag2:detail tag3 hello</span>
 			</div>
 
@@ -77,18 +78,13 @@
 
 					<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
 						style="float: left">
-						Display Option:
+						<g:message code="text.display.option" />:
 						<g:select name="browseDisplayOption" id="browseDisplayOption"
 							from="${['info', 'sharing', 'metadata']}"
 							noSelection="${['details':'details']}" onChange="setBrowseMode()" />
 					</div>
 
-					<button type="button" id="upload"
-						class="ui-state-default ui-corner-all" value="upload"
-						onclick="showUploadDialog()")>Upload</button>
-					<button type="button" id="idroplite"
-						class="ui-state-default ui-corner-all" value="uploadWithIdropLite"
-						onclick="showIdropLite()")>iDrop Lite</button>
+					
 				</div>
 
 
@@ -102,9 +98,10 @@
 					<!--  no empty divs -->
 				</div>
 
-				<div id="infoDiv" class="ui-layout-center">
-					<h2>Select a directory or file to see info and tags based on
-						the view option</h2>
+				<div id="infoDivOuter" style="display:block;width:auto;height:auto; position:relative; overflow:hidden;" class="ui-layout-center">
+					<div id="infoDiv">
+					<h2><g:message code="browse.page.prompt" /></h2>
+				</div>
 				</div>
 			</div>
 
@@ -119,17 +116,21 @@ var dataLayout;
 var globalMessageArea = "#javascript_message_area";
 $(document).ready(function() {
 
-	
+
 	dataLayout = $("#dataTreeView").layout({ 
 		applyDefaultStyles: true,
 		size: "auto",
 		west__minSize: 100,
 		west__resizable: true		
 		});
+		
 	
-	tabs = $( "#tabs" ).tabs();
 	retrieveBrowserFirstView();
-	
+
+	tabs = $( "#tabs" ).tabs({
+			
+	} );
+
 });
 
 </script>

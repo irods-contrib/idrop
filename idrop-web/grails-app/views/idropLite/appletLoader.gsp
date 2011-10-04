@@ -3,16 +3,12 @@
 				class="ui-state-default ui-corner-all" value="closeIdropApplet"
 				onclick="closeApplet()")>Close iDrop Lite</button>
 </div>
-<applet archive="http://iren-web.renci.org:8080/idrop-web/applet/idrop-lite-0.9.9-SNAPSHOT-jar-with-dependencies.jar" code="org.irods.jargon.idrop.lite.iDropLiteApplet" width="100%" height="100%">
-<param name="mode" value="${mode}" />
-<param name="host" value="${account.host}" />
-<param name="port" value="${account.port}" />
-<param name="zone" value="${account.zone}" />
-<param name="user" value="${account.userName}" />
-<param name="defaultStorageResource" value="${account.defaultStorageResource}" />
-<param name="password" value="${password}" />
-<param name="absPath" value="${absPath}" />
-</applet>
+<div id="appletLoadDiv">
+
+<!--  area for idrop lite to load -->
+
+
+</div>
 
 <script type="text/javascript">
 

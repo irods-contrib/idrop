@@ -9,6 +9,7 @@ import java.util.Properties
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
+import org.irods.jargon.core.pub.EnvironmentalInfoAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.core.pub.domain.Collection
@@ -71,6 +72,42 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
 		shouldFail(JargonException) { controller.fileInfo() }
+	}
+	
+	void testEstablishParentDirWhenStrictACL() {
+		def testPath = "/"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		def environmentalInfoAO = Mockito.mock(EnvironmentalInfoAO.class)
+		Mockito.when(environmentalInfoAO.isStrictACLs()).thenReturn(true)
+		Mockito.when(irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)).thenReturn(environmentalInfoAO)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+		controller.params.dir = testPath
+		controller.establishParentDir()
+		def controllerResponse = controller.response.contentAsString
+		def jsonResult = JSON.parse(controllerResponse)
+		assertNotNull("missing json result", jsonResult)
+		
+		assert jsonResult.parent == "/" + irodsAccount.zone + "/home/" + irodsAccount.userName + "/"
+		
+	}
+	
+	void testEstablishParentDirWhenNotStrictACL() {
+		def testPath = "/"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		def environmentalInfoAO = Mockito.mock(EnvironmentalInfoAO.class)
+		Mockito.when(environmentalInfoAO.isStrictACLs()).thenReturn(false)
+		Mockito.when(irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)).thenReturn(environmentalInfoAO)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+		controller.params.dir = testPath
+		controller.establishParentDir()
+		def controllerResponse = controller.response.contentAsString
+		def jsonResult = JSON.parse(controllerResponse)
+		assertNotNull("missing json result", jsonResult)
+		
+		assert jsonResult.parent == "/"
+		
 	}
 	
 	void testFileInfoWithPath() {
