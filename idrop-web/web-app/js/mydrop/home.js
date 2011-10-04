@@ -88,14 +88,32 @@ function browserFirstViewRetrieved(data) {
 			"select_limit" : 1,
 			"initially_select" : [ "phtml_2" ]
 		},
+		"contextmenu" : {
+			"rename" : {
+				// The item label
+				"label"				: "Rename",
+				// The function to execute upon a click
+				"action"			: function (obj) { this.rename(obj); },
+				// All below are optional 
+				"_disabled"			: true,		// clicking the item won't do a thing
+				"_class"			: "class",	// class is applied to the item LI node
+				"separator_before"	: false,	// Insert a separator before the item
+				"separator_after"	: true,		// Insert a separator after the item
+				// false or string - if does not contain `/` - used as classname
+				"icon"				: false,
+				"submenu"			: { 
+					/* Collection of objects (the same structure) */
+				}
+			}
 
+		},
 		"themes" : {
 			"theme" : "default",
 			"url" : context + "/css/style.css",
 			"dots" : false,
 			"icons" : true
 		},
-		"plugins" : [ "json_data", "types", "ui", "crmm", "themes" ]
+		"plugins" : [ "json_data", "types", "ui", "crmm", "contextmenu", "themes"  ]
 	});
 
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {

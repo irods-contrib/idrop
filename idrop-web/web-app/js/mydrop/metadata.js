@@ -99,8 +99,6 @@ function showMetadataDialog(data) {
  */
 function submitMetadataDialog() {
 
-	lcPrepareForCall();
-
 	var attribute = $('[name=attribute]').val();
 	var value = $('[name=value]').val();
 	var unit = $('[name=unit]').val();
@@ -134,10 +132,8 @@ function submitMetadataDialog() {
 					setMessageInArea(metadataDialogMessageAreaSelector,
 							dataJSON.response.errorMessage);
 				} else {
-					setMessageInArea(metadataMessageAreaSelector,
-							"AVU saved successfully"); // FIXME: i18n
-					closeMetadataDialog();
 					reloadMetadataDetailsTable();
+					closeMetadataDialog();
 					setMessageInArea(metadataMessageAreaSelector,
 							"AVU saved successfully"); // FIXME: i18n
 				}
