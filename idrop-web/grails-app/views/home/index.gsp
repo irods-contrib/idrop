@@ -91,14 +91,14 @@
 			</div>
 			<g:render template="/common/panelmessages" />
 
-			<div id="dataTreeView" class="">
+			<div id="dataTreeView" style="width:100%; height:100%">
 
 				<!--  no empty divs -->
-				<div id="dataTreeDiv" class="ui-layout-west">
+				<div id="dataTreeDiv" class="ui-layout-west" style="width:25%%;height:100%;overflow:auto;">
 					<!--  no empty divs -->
 				</div>
 
-				<div id="infoDivOuter" style="display:block;width:auto;height:auto; position:relative; overflow:hidden;" class="ui-layout-center">
+				<div id="infoDivOuter" style="display:block;width:75%;height:100%; position:relative; overflow:hidden;" class="ui-layout-center">
 					<div id="infoDiv">
 					<h2><g:message code="browse.page.prompt" /></h2>
 				</div>
@@ -116,7 +116,7 @@ var dataLayout;
 var globalMessageArea = "#javascript_message_area";
 $(document).ready(function() {
 
-
+/*
 	dataLayout = $("#dataTreeView").layout({ 
 		applyDefaultStyles: true,
 		size: "auto",
@@ -124,7 +124,7 @@ $(document).ready(function() {
 		west__resizable: true		
 		});
 		
-	
+	*/
 	retrieveBrowserFirstView();
 
 	tabs = $( "#tabs" ).tabs({
