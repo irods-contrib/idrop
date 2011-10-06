@@ -1,7 +1,3 @@
-<head>
-
-
-</head>
 <script>
 	$(function() {
 		

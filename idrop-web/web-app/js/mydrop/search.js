@@ -49,7 +49,6 @@ function searchDetailsFunction(clickedIcon, rowActionIsOn) {
 	lcCloseTableNodes(searchTable);
 	// nTr points to row and has absPath in id
 	var absPath = $(rowActionIsOn).attr('id');
-	alert("absPath:" + absPath);
 	var detailsId = "details_" + absPath;
 	var detailsHtmlDiv = "details_html_" + absPath;
 	var buildDetailsLayoutVal = buildSearchLayout(detailsId);

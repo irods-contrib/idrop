@@ -59,7 +59,7 @@
 
 	</div>
 	<div id="search">
-		<div class="wrapper">
+		<div class="wrapper" style="width: 100%; overflow:auto;">
 
 			<div id="searchView">
 				<!--  this will be filled in with the search results table -->
