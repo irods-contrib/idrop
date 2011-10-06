@@ -7,7 +7,6 @@
 /**
  * Global var holds jquery ref to the search results table
  */
-var dataTable;
 
 /**
  * Initialize the table by prosecuting a search based on the given parameters
@@ -24,11 +23,67 @@ function prosecuteSearch(searchTerm, searchType) {
 	}
 
 	lcSendValueAndBuildTable(url, params, "#searchTableDiv",
-			"#searchResultTable", null);
+			"#searchResultTable", searchDetailsClick, ".search-detail-icon");
 
 }
 
-function searchTableClickAction() {
+function searchDetailsClick(minMaxIcon) {
+	var searchTable = $("#searchResultTable").dataTable();
+	var nTr = minMaxIcon.parentNode.parentNode;
+	if (minMaxIcon.parentNode.innerHTML.match('circle-minus')) {
+		lcCloseTableNodes(searchTable);
+	} else {
+		try {
+			searchDetailsFunction(minMaxIcon, nTr);
+		} catch (err) {
+			console.log("error in searchDetailsClick():" + err);
+		}
 
+	}
+}
+
+function searchDetailsFunction(clickedIcon, rowActionIsOn) {
+	var searchTable = $("#searchResultTable").dataTable();
+	/* Open this row */
+	lcPrepareForCall();
+	lcCloseTableNodes(searchTable);
+	// nTr points to row and has absPath in id
+	var absPath = $(rowActionIsOn).attr('id');
+	alert("absPath:" + absPath);
+	var detailsId = "details_" + absPath;
+	var detailsHtmlDiv = "details_html_" + absPath;
+	var buildDetailsLayoutVal = buildSearchLayout(detailsId);
+	clickedIcon.setAttribute("class", "ui-icon ui-icon-circle-minus");
+	newRowNode = searchTable.fnOpen(rowActionIsOn,
+			buildDetailsLayoutVal, 'details');
+	newRowNode.setAttribute("id", detailsId);
+	askForSearchDetailsPulldown(absPath, detailsId)
+	
+}
+
+function buildSearchLayout(detailsId) {
+	var td = document.createElement("TD");
+	td.setAttribute("colspan", "4");
+
+	var detailsPulldownDiv = document.createElement("DIV");
+	detailsPulldownDiv.setAttribute("id", detailsId);
+	detailsPulldownDiv.setAttribute("class", "detailsPulldown");
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
+	detailsPulldownDiv.appendChild(img);
+	td.appendChild(detailsPulldownDiv);
+	return $(td).html();
+}
+
+function askForSearchDetailsPulldown(absPath, detailsId) {
+	
+	var url = "/browse/miniInfo";
+	var params = {
+			absPath:absPath
+		}
+		
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, ".details",
+			null);
+	
 }
 

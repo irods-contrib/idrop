@@ -192,9 +192,12 @@ function checkAjaxResultForError(resultHtml) {
  * @param detailsFunction -
  *            function pointer for click event handler to be attached to each
  *            table node
+ *            
+ *  @param detailsIconSelector
+ *  		jquery selector for detail icon, or null
  */
 function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
-		detailsFunction) {
+		detailsFunction, detailsIconSelector) {
 
 	lcPrepareForCall();
 	if (getUrl.length == 0) {
@@ -211,7 +214,7 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
 		$.get(context + getUrl, params, function(data, status, xhr) {
 			var continueReq = checkForSessionTimeout(data, xhr);
 			if (continueReq) {
-				lcBuildTable(data, tableDiv, newTableId, detailsFunction);
+				lcBuildTable(data, tableDiv, newTableId, detailsFunction, detailsIconSelector);
 			}
 		}, "html");
 
@@ -249,8 +252,12 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
 	
 	
 	if (detailsFunction != null) {
-		$(dataIconSelector, dataTableCreated.fnGetNodes())
-				.each(detailsFunction);
+		$(dataIconSelector, dataTableCreated.fnGetNodes()).each(function() {
+			$(this).click(function() {
+				detailsFunction(this);
+			});
+		});
+
 	}
 
 }
@@ -425,6 +432,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 					callbackFunction(myHtml);
 				} else {
 					$(divForLoadingGif).html(data);
+				
 				}
 			}
 		}, "html").error(function() {

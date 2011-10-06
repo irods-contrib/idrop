@@ -22,10 +22,10 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 		</tfoot>
 	</table>

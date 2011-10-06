@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="${resource(dir:'css',file:'base.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'style.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'jqcloud.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'layout-default-latest.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />
 <link rel="stylesheet"
 	href="${resource(dir:'css',file:'reset-fonts-grids.css')}" />
@@ -25,7 +26,7 @@
 <g:javascript library="mydrop/lingo_common" />
 <g:javascript library="mydrop/main" />
 <g:javascript library="jquery-ui-13" />
-<g:javascript library="jquery.layout.min-1.2.0" />
+<g:javascript library="jquery.layout.min-1.3.0" />
 
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">

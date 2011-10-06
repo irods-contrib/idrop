@@ -38,25 +38,11 @@
 				<g:each in="${collection}" var="entry">
 					<tr id="${entry.formattedAbsolutePath}">
 						<td><span class="ui-icon-circle-plus browse_detail_icon ui-icon"></span></td>
-						<td>
-							<g:if test="${entry.objectType.toString() == 'COLLECTION'}">
-							${entry.nodeLabelDisplayValue}
-							</g:if>
-							<g:else>
-							
-							<g:link url="${'file/download' + entry.formattedAbsolutePath}">${entry.nodeLabelDisplayValue}</g:link>
-							</g:else>
-						</td>
-
-						<td>
-							${entry.objectType}
-						</td>
-						<td>
-							${entry.modifiedAt}
-						</td>
-						<td>
-							${entry.dataSize}
-						</td>
+						<td><g:if test="${entry.objectType.toString() == 'COLLECTION'}">${entry.nodeLabelDisplayValue}</g:if>
+							<g:else><g:link url="${'file/download' + entry.formattedAbsolutePath}">${entry.nodeLabelDisplayValue}</g:link></g:else></td>
+						<td>${entry.objectType}</td>
+						<td>${entry.modifiedAt}</td>
+						<td>${entry.dataSize}</td>
 					</tr>
 				</g:each>
 
@@ -64,11 +50,11 @@
 
 			<tfoot>
 				<tr>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
 			</tfoot>
 		</table>
@@ -81,6 +67,14 @@
 
 	$(function() {
 		dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon");
+		$("#infoDiv").resize();
+		/*dataTable.fnAdjustColumnSizing();
+		$(window).bind('resize', function () {
+
+			dataTable.fnAdjustColumnSizing();
+
+			} );
+		*/
 	});
 
 	function browseDetailsClick(minMaxIcon) {

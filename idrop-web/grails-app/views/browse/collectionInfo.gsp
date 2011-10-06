@@ -1,5 +1,5 @@
 <h2><g:message code="heading.info" /></h2>
-<div class="box">
+<div class="roundedContainer">
 	<fieldset id="verticalForm">
 		<label for="">Parent Collection:</label>
 		<g:textField name="collectionParentName"

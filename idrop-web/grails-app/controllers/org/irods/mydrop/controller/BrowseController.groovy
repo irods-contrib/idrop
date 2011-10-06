@@ -157,6 +157,15 @@ class BrowseController {
 		
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath);
+		def isDataObject = retObj instanceof DataObject
+		
+		// if data object, show the info details instead...
+		if (isDataObject) {
+		redirect(action:"fileInfo", params:[absPath:absPath])
+		return
+		}
+		
 		def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
 		log.debug("retrieved collectionAndDataObjectList: ${entries}")
 		render(view:"browseDetails", model:[collection:entries])
