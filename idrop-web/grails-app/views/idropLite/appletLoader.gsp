@@ -13,11 +13,7 @@
 <script type="text/javascript">
 
 function closeApplet() {
-	//$("#idropLiteArea").hide('slow');
 	$("#idropLiteArea").animate({ height: 'hide', opacity: 'hide' }, 'slow');
-	//$("#idropLiteArea").width="0%";
-	//$("#idropLiteArea").height="0%";
-	//$("#idropLiteArea").removeClass();
 	$("#toggleBrowseDataDetailsTable").show('slow');
 	$("#toggleBrowseDataDetailsTable").height="100%";
 	$("#toggleBrowseDataDetailsTable").width="100%";

@@ -929,8 +929,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private boolean tempOnlyAccount() {
         String pswd = null;
 
-
-
         try {
             log.info("creating a shared (cached) temp account connection");
             this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);

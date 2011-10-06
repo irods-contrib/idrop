@@ -13,7 +13,7 @@
 <link rel="shortcut icon"
 	href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
 <g:layoutHead />
-<g:javascript library="jquery-1.5.2.min" />
+<g:javascript library="jquery-1.6.4.min" />
 <g:javascript library="jquery-ui-1.8.7.custom.min" />
 <g:javascript library="jquery.jstree.min" />
 <g:javascript library="jquery.jeditable.mini" />

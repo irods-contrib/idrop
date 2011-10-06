@@ -43,10 +43,6 @@ class IdropLiteController {
 		
 		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
 		def password = userAO.getTemporaryPasswordForConnectedUser()
-		DataCacheService dataCacheService = new DataCacheServiceImpl()
-		dataCacheService.irodsAccessObjectFactory = irodsAccessObjectFactory
-		dataCacheService.irodsAccount = irodsAccount
-		dataCacheService.putStringValueIntoCache(irodsAccount.password, password)
 		
 		String scheme = request.scheme     
 		String serverName = request.serverName   
@@ -57,7 +53,7 @@ class IdropLiteController {
 		String appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
 		//String appletUrl = "http://iren-web.renci.org/idrop-web/applet"
 		
-		/* set applet operation mode=1 to indicate temporary password is being sent */
+		/* set applet operation mode=2 to indicate temporary password is being sent */
 		def mode = "2";
 		
 		log.info "temporary user password is: ${password}"
