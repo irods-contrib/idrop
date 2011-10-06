@@ -149,7 +149,7 @@
       <plugin>
         <groupId>org.grails</groupId>
         <artifactId>grails-maven-plugin</artifactId>
-        <version>1.3.6</version>
+        <version>1.3.7</version>
         <extensions>true</extensions>
         <executions>
           <execution>
