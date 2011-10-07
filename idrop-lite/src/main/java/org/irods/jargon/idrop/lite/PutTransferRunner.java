@@ -14,12 +14,12 @@ public class PutTransferRunner implements Runnable {
 	private final List<File> sourceFiles;
 	private final String targetIrodsFileAbsolutePath;
 	private final iDropLiteApplet idropGui;
-//  private final TransferControlBlock transferControlBlock;
+    private final TransferControlBlock transferControlBlock;
 
 	public PutTransferRunner(final iDropLiteApplet gui,
                         final String targetPath,
-                        final List<File> files)
-                        //final TransferControlBlock transferControlBlock)
+                        final List<File> files,
+                        final TransferControlBlock transferControlBlock)
                         throws JargonException {
 
 		if (files == null) {
@@ -33,16 +33,16 @@ public class PutTransferRunner implements Runnable {
         if (gui == null) {
             throw new JargonException("null idrop gui");
         }
-//
-//      if (transferControlBlock == null) {
-//      	throw new JargonException("null transferControlBlock");
-//      }
-//
+
+      if (transferControlBlock == null) {
+      	throw new JargonException("null transferControlBlock");
+      }
+
 
         this.targetIrodsFileAbsolutePath = targetPath;
         this.sourceFiles = files;
         this.idropGui = gui;
-//      this.transferControlBlock = transferControlBlock;
+        this.transferControlBlock = transferControlBlock;
 
         }
 
@@ -57,7 +57,7 @@ public class PutTransferRunner implements Runnable {
             log.info("initiating put transfer");
             try {
             	idropGui.getiDropCore().getTransferManager().putOperation(localSourceAbsolutePath,
-            			targetIrodsFileAbsolutePath, sourceResource, idropGui, null); 
+            			targetIrodsFileAbsolutePath, sourceResource, idropGui, transferControlBlock); 
             } catch (JargonException ex) {
                 java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                         java.util.logging.Level.SEVERE, null, ex);
