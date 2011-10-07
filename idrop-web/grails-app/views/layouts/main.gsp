@@ -25,6 +25,7 @@
 <g:javascript library="mydrop/lingo_common" />
 <g:javascript library="mydrop/main" />
 <g:javascript library="jquery-ui-13" />
+<g:javascript library="jquery.layout.min-1.2.0" />
 
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">

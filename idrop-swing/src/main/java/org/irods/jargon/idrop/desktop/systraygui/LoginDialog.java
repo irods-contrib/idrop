@@ -150,11 +150,11 @@ public class LoginDialog extends JDialog {
                 sb.append(txtZone.getText());
                 sb.append("/home/");
                 sb.append(txtUserName.getText());
-                irodsAccount = IRODSAccount.instance(txtHost.getText(),
-                        Integer.parseInt(txtPort.getText()),
-                        txtUserName.getText(),
-                        new String(password.getPassword()), sb.toString(),
-                        txtZone.getText(), txtResource.getText());
+                irodsAccount = IRODSAccount.instance(txtHost.getText().trim(),
+                        Integer.parseInt(txtPort.getText().trim()),
+                        txtUserName.getText().trim(),
+                        new String(password.getPassword()).trim(), sb.toString().trim(),
+                        txtZone.getText().trim(), txtResource.getText().trim());
             }
         } catch (JargonException ex) {
             Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
@@ -286,7 +286,6 @@ public class LoginDialog extends JDialog {
         txtPort.setColumns(8);
         txtPort.setText("1247");
         txtPort.setPreferredSize(null);
-        txtPort.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -303,7 +302,6 @@ public class LoginDialog extends JDialog {
 
         txtZone.setColumns(30);
         txtZone.setPreferredSize(null);
-        txtZone.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;

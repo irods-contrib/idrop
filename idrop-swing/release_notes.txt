@@ -1,8 +1,10 @@
 
 *'''Project''': iDrop-swing- Desktop iRODS transfer manager
 *'''Date''': 08/30/2010
-*'''Release Version''': 1.0.0 Release to conincide with iRODS 3.0
-*'''git tag''':  xxxxx
+*'''Release Version''': 1.0.0 beta1 to conincide with iRODS 3.0 beta
+*'''git tag''':  1.0.0-beta1
+*'''download jar with dependencies (run java -jar jarname)''':  https://code.renci.org/gf/project/irodsidrop/frs/?action=FrsReleaseBrowse&frs_package_id=4
+
 
 
 ==News==
@@ -152,6 +154,8 @@ iRODS iDrop > LL - headless auto-backup	2011-02-10 07:25:14
 iRODS iDrop > LL - first-run setup wizard for sync folders	2011-05-27 08:28:32
 
 iRODS iDrop > drag and drop, desktop to irods file should use irods parent as target	2011-06-03 09:44:23
+
+[#468] add config panel options for time outs, max threads, etc
 
 
 ==Outstanding Issues==

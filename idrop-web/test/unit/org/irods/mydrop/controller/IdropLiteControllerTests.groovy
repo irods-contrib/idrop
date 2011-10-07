@@ -8,9 +8,8 @@ import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper;
 import org.springframework.security.core.context.SecurityContextHolder
-
-
 import grails.test.*
+import grails.converters.*
 
 class IdropLiteControllerTests extends ControllerUnitTestCase {
   IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -41,7 +40,8 @@ class IdropLiteControllerTests extends ControllerUnitTestCase {
 		controller.irodsAccount = irodsAccount
 		controller.appletLoader()
 		def controllerResponse = controller.response.contentAsString
-		assertNotNull("missing applet info", controllerResponse)
+		def jsonResult = JSON.parse(controllerResponse)
+		assertNotNull("missing applet info", jsonResult)
 
     }
 }

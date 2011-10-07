@@ -1,4 +1,4 @@
-
+<h2><g:message code="heading.info" /></h2>
 <div class="box">
 	<fieldset id="verticalForm">
 		<label for="">Parent Collection:</label>

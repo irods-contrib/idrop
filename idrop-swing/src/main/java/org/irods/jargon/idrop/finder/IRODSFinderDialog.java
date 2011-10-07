@@ -89,6 +89,8 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
                     root.setPathOrName("/");
                 }
 
+                root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
+                
                 log.info("building new iRODS tree");
                 try {
                     if (irodsTree == null) {

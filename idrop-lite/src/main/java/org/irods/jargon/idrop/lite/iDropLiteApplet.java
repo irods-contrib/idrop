@@ -8,10 +8,11 @@
  *
  * Created on Jul 13, 2011, 11:52:59 AM
  */
-
 package org.irods.jargon.idrop.lite;
 
+import java.awt.Cursor;
 import java.awt.Rectangle;
+import java.awt.dnd.DropTarget;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 
 import org.apache.commons.io.FileUtils;
+import org.irods.jargon.core.pub.domain.DataObject;
+import org.irods.jargon.core.pub.domain.Collection;
+import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.DefaultTransferControlBlock;
 import org.irods.jargon.core.transfer.TransferStatus;
@@ -45,6 +49,7 @@ import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.datautils.datacache.DataCacheServiceImpl;
 import org.irods.jargon.idrop.lite.finder.IRODSFinderDialog;
 import org.irods.jargon.core.transfer.TransferStatusCallbackListener;
+import org.irods.jargon.datautils.connection.TempPasswordCachingProtocolManager;
 import org.netbeans.swing.outline.Outline;
 
 import org.slf4j.LoggerFactory;
@@ -99,30 +104,30 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
     protected void getAppletParams() {
 
-    	try {
-    		this.mode = Integer.parseInt(getParameter("mode"));
-    	} catch (Exception ex) {
+        try {
+            this.mode = Integer.parseInt(getParameter("mode"));
+        } catch (Exception ex) {
             this.mode = defaultLoginMode;
         }
-    	try {
-    		this.defaultStorageResource = getParameter("defaultStorageResource");
-    	} catch (Exception ex) {
-    		this.defaultStorageResource = "";
+        try {
+            this.defaultStorageResource = getParameter("defaultStorageResource");
+        } catch (Exception ex) {
+            this.defaultStorageResource = "";
         }
-    	try {
-    		this.uploadDest = getParameter("uploadDest");
-    	} catch (Exception ex) {
-    		this.uploadDest = "";
+        try {
+            this.uploadDest = getParameter("uploadDest");
+        } catch (Exception ex) {
+            this.uploadDest = "";
         }
 
-    	try {
-    		this.host = getParameter("host");
-    		this.port = Integer.parseInt(getParameter("port"));
-    		this.user = getParameter("user");
-    		this.zone = getParameter("zone");
-    		//this.defaultStorageResource = getParameter("defaultStorageResource");
-    		this.tempPswd = getParameter("password");
-    		this.absPath = getParameter("absPath");
+        try {
+            this.host = getParameter("host");
+            this.port = Integer.parseInt(getParameter("port"));
+            this.user = getParameter("user");
+            this.zone = getParameter("zone");
+            //this.defaultStorageResource = getParameter("defaultStorageResource");
+            this.tempPswd = getParameter("password");
+            this.absPath = getParameter("absPath");
 
             log.debug("creating account with applet params");
             log.info("mode:{}", mode);
@@ -140,64 +145,69 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
     }
 
-    private boolean retrievePermAccount()
-    {
-    	String pswd = null;
+    private boolean retrievePermAccount() {
+        String pswd = null;
 
-    	DataCacheServiceImpl dataCache = new DataCacheServiceImpl();
-    	try {
-			dataCache.setIrodsAccessObjectFactory(irodsFileSystem.getIRODSAccessObjectFactory());
-		} catch (JargonException e1) {
-			Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, e1);
-		}
-    	dataCache.setIrodsAccount(irodsAccount);
+        DataCacheServiceImpl dataCache = new DataCacheServiceImpl();
+        try {
+            dataCache.setIrodsAccessObjectFactory(irodsFileSystem.getIRODSAccessObjectFactory());
+        } catch (JargonException e1) {
+            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, e1);
+        }
+        dataCache.setIrodsAccount(irodsAccount);
 
-    	try {
-    		log.info("sending user name and key user:{}", user);
-			pswd = dataCache.retrieveStringValueFromCache(user, tempPswd);
-			irodsFileSystem.closeAndEatExceptions();
-			this.irodsAccount = new IRODSAccount(host, port, user, pswd, absPath, zone, defaultStorageResource);
-		} catch (JargonException e2) {
-			Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, e2);
-			return false;
-		}
+        try {
+            log.info("sending user name and key user:{}", user);
+            pswd = dataCache.retrieveStringValueFromCache(user, tempPswd);
+            irodsFileSystem.closeAndEatExceptions();
+            this.irodsAccount = new IRODSAccount(host, port, user, pswd, absPath, zone, defaultStorageResource);
+        } catch (JargonException e2) {
+            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, e2);
+            return false;
+        }
 
-		return true;
+        return true;
     }
 
-    private boolean createPermAccount()
-    {
-    	this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
+    private boolean createPermAccount() {
+        this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
 
-    	return true;
+        return true;
     }
 
+    private boolean processLogin() {
 
-    private boolean processLogin()  {
+        // do different logins depending on which mode is used
+        // 0 - Hard-coded permanent password - just use this password to create and IRODS Account
+        // 1 - Temporary password supplied - use this password to retrieve permanent password from cache file in cacheServiceTempDir
 
-    	// do different logins depending on which mode is used
-    	// 0 - Hard-coded permanent password - just use this password to create and IRODS Account
-    	// 1 - Temporary password supplied - use this password to retrieve permanent password from cache file in cacheServiceTempDir
+        switch (this.mode) {
 
-    	switch(this.mode) {
+            case 1:
+                log.info("processLogin: retrieving permanent password...");
+                if (!retrievePermAccount()) {
+                    showMessageFromOperation("Temporary Password Mode: login error - unable to log in, or invalid user id");
+                    return false;
+                }
+                break;
+            case 0:
+                log.info("processLogin: creating account with provided permanent password...");
+                if (!createPermAccount()) {
+                    showMessageFromOperation("Permanent Password Mode: login error - unable to log in, or invalid user id");
+                    return false;
+                }
+                break;
 
-    	case 1:
-    		log.info("processLogin: retrieving permanent password...");
-    		if(!retrievePermAccount()) {
-    			showMessageFromOperation("Temporary Password Mode: login error - unable to log in, or invalid user id");
-    			return false;
-    		}
-    		break;
-    	case 0:
-    		log.info("processLogin: creating account with provided permanent password...");
-    		if(!createPermAccount()) {
-    			showMessageFromOperation("Permanent Password Mode: login error - unable to log in, or invalid user id");
-    			return false;
-    		}
-    		break;
-    	default:
-    		showMessageFromOperation("Unsupported Login Mode");
-    		return false;
+            case 2:
+                log.info("processLogin: using temp-only with cache");
+                if (!tempOnlyAccount()) {
+                    showMessageFromOperation("Permanent Password Mode: login error - unable to log in, or invalid user id");
+                    return false;
+                }
+                break;
+            default:
+                showMessageFromOperation("Unsupported Login Mode");
+                return false;
 
     	}
 
@@ -970,6 +980,27 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 //        buildTargetTree();
 //    }
     
+
+    private boolean tempOnlyAccount() {
+        String pswd = null;
+
+
+
+        try {
+            log.info("creating a shared (cached) temp account connection");
+            this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
+            TempPasswordCachingProtocolManager manager = new TempPasswordCachingProtocolManager(
+                    irodsAccount);
+            irodsFileSystem = new IRODSFileSystem(manager);
+            log.info("irodsFileSystem updated to utilize cache");
+
+        } catch (JargonException e2) {
+            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, e2);
+            return false;
+        }
+
+        return true;
+    }
 
     /** This method is called from within the init() method to
      * initialize the form.
@@ -1821,18 +1852,18 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles, iDropCore.getTransferControlBlock());
                 final Thread transferThread = new Thread(currentTransferRunner);
                 log.info("launching transfer thread");
+                // close so that transfer thread can grab account
+                irodsFileSystem.closeAndEatExceptions();
                 transferThread.start();
+                transferThread.join();
             } catch (Exception e) {
-            	log.error("exception choosings iRODS file");
+                log.error("exception choosings iRODS file");
                 throw new IdropRuntimeException("exception choosing irods file", e);
             } finally {
-            	iDropCore.getIrodsFileSystem().closeAndEatExceptions();
+                iDropCore.getIrodsFileSystem().closeAndEatExceptions();
             }
-        }
-        else {
-        	// message??
-        }
-        
+     //   }
+
     }//GEN-LAST:event_btnUploadBeginImportActionPerformed
 
     private void btnUploadCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadCancelActionPerformed

@@ -32,7 +32,7 @@ public abstract class LocalTreeTransferHandler extends TransferHandler {
     public final IdropClient idropGui;
 
     @Override
-    public boolean canImport(TransferSupport support) {
+    public boolean canImport(final TransferSupport support) {
         Point location = support.getDropLocation().getDropPoint();
         LocalFileTree tree = (LocalFileTree) support.getComponent();
 
@@ -79,17 +79,17 @@ public abstract class LocalTreeTransferHandler extends TransferHandler {
     }
 
     @Override
-    public void exportAsDrag(JComponent jc, InputEvent ie, int i) {
+    public void exportAsDrag(final JComponent jc, final InputEvent ie, final int i) {
         super.exportAsDrag(jc, ie, i);
     }
 
     @Override
-    public void exportToClipboard(JComponent jc, Clipboard clpbrd, int i) throws IllegalStateException {
+    public void exportToClipboard(final JComponent jc, final Clipboard clpbrd, final int i) throws IllegalStateException {
         super.exportToClipboard(jc, clpbrd, i);
     }
 
     @Override
-    public boolean importData(TransferSupport ts) {
+    public boolean importData(final TransferSupport ts) {
           log.info("importData event:{}", ts);
         Point pt = ts.getDropLocation().getDropPoint();
         JTree tree = (JTree) ts.getComponent();
@@ -125,7 +125,7 @@ public abstract class LocalTreeTransferHandler extends TransferHandler {
         return imported;
     }
     
-      private void processDropAfterAcceptingDataFlavor(Transferable transferable, File nodeThatWasDropTargetAsFile) throws IdropRuntimeException {
+      private void processDropAfterAcceptingDataFlavor(final Transferable transferable, final File nodeThatWasDropTargetAsFile) throws IdropRuntimeException {
 
         final List<File> sourceFiles;
 
@@ -177,7 +177,7 @@ public abstract class LocalTreeTransferHandler extends TransferHandler {
         }
     }
       
-       private void processDropFromSerializedObjectType(Transferable transferable, File parent) {
+       private void processDropFromSerializedObjectType(final Transferable transferable, final File parent) {
         log.debug("processing as a drop of a serialized object");
     }
        
@@ -193,12 +193,12 @@ public abstract class LocalTreeTransferHandler extends TransferHandler {
      * We support both copy and move actions.
      */
     @Override
-    public int getSourceActions(JComponent c) {
+    public int getSourceActions(final JComponent c) {
         return TransferHandler.COPY_OR_MOVE;
     }
 
     @Override
-    protected void exportDone(JComponent jc, Transferable t, int i) {
+    protected void exportDone(final JComponent jc, final Transferable t, final int i) {
         super.exportDone(jc, t, i);
     }
 

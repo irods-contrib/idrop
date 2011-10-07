@@ -156,6 +156,21 @@ public class IdropConfig {
         return verify;
     }
     
+     /**
+     * Should connections be re-routed on put/get based on file resource containing files
+     * @return 
+     */
+    public boolean isAllowConnectionRerouting() {
+        boolean bool = false;
+        String val = idropProperties.getProperty(IdropConfigurationService.ALLOW_CONNECTION_REROUTING);
+
+        if (val != null
+                && val.equals("true")) {
+            bool = true;
+        }
+        return bool;
+    }
+   
     /**
      * Should transfer progress within a file be shown?
      * @return  <code>boolean</code> that will be <code>true</code> if intra-file call-backs are desired.
@@ -168,7 +183,7 @@ public class IdropConfig {
       * Time-out (in seconds) for the main iRODS connection.  This can be set to 0 or less to inactivate
       * @return 
       */
-     public int irodsConnectionTimeout() {
+     public int getIrodsConnectionTimeout() {
          return getIntForKey("idrop.irods.timeout");
      }
      
@@ -176,7 +191,7 @@ public class IdropConfig {
       * Time-out (in seconds) for iRODS connections during parallel transfer.  This can be set to 0 or less to inactivate
       * @return 
       */
-      public int irodsParallelConnectionTimeout() {
+      public int getIrodsParallelConnectionTimeout() {
          return getIntForKey(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT);
      }
       
@@ -184,10 +199,14 @@ public class IdropConfig {
        * Maximum number of threads in parallel transfers.  This is a trade-off in performance and through-put
        * @return 
        */
-       public int irodsParallelTransferMaxThreads() {
+       public int getIrodsParallelTransferMaxThreads() {
          return getIntForKey(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS);
      }
      
+       /**
+        * Indicates whether a pool is used to maintain parallel transfer threads
+        * @return 
+        */
        public boolean isParallelUsePool() {
         return getBooleanForKey(IdropConfigurationService.IRODS_PARALLEL_USE_POOL);
     }
@@ -202,6 +221,10 @@ public class IdropConfig {
         return idropProperties.getProperty(IdropConfigurationService.DEVICE_NAME);
     }
 
+    /**
+     * Should the startup wizard be shown
+     * @return 
+     */
     public boolean isShowStartupWizard() {
         boolean showWizard = false;
         String showStartup = idropProperties.getProperty(IdropConfigurationService.SHOW_STARTUP);
@@ -275,8 +298,6 @@ public class IdropConfig {
 
         return propBoolean;
     }
-
-   
 
     private boolean getBooleanForKey(String key) {
         boolean propBoolean = false;

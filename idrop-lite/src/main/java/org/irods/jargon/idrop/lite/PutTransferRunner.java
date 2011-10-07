@@ -62,9 +62,10 @@ public class PutTransferRunner implements Runnable {
                 java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                         java.util.logging.Level.SEVERE, null, ex);
                 idropGui.showIdropException(ex);
+            } finally {
+                idropGui.getiDropCore().getIrodsFileSystem().closeAndEatExceptions();
             }
         }
-		
-	}
 
+    }
 }

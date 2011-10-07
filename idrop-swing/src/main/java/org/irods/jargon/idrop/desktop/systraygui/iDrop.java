@@ -83,7 +83,10 @@ import org.irods.jargon.transfer.engine.TransferManager.RunningStatus;
 import org.irods.jargon.transfer.engine.TransferManagerCallbackListener;
 import org.irods.jargon.usertagging.FreeTaggingService;
 import org.irods.jargon.usertagging.FreeTaggingServiceImpl;
+import org.irods.jargon.usertagging.IRODSTaggingService;
+import org.irods.jargon.usertagging.IRODSTaggingServiceImpl;
 import org.irods.jargon.usertagging.domain.IRODSTagGrouping;
+import org.irods.jargon.usertagging.domain.IRODSTagValue;
 import org.irods.jargon.usertagging.domain.TagQuerySearchResult;
 import org.netbeans.swing.outline.Outline;
 import org.openide.util.Exceptions;
@@ -252,23 +255,33 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     lblTransferByteCounts.setText("Current File (kb):"
                             + (ts.getBytesTransfered() / 1024) + " / "
                             + (ts.getTotalSize() / 1024));
-                    progressIntraFile.setMinimum(0);
-                    progressIntraFile.setMaximum((int) ts.getTotalSize());
-                    progressIntraFile.setValue((int) ts.getBytesTransfered());
+                    
+                    log.debug("transferred so far:{}", ts.getBytesTransfered());
+                    log.debug("total bytes:{}", ts.getTotalSize());
+                    float rawPct = (float) ts.getBytesTransfered() / ts.getTotalSize();
+                    int percentDone = (int)  (rawPct * 100F);
+                    log.info("pct done:{}", percentDone);
+                   
+                    progressIntraFile.setValue(percentDone);
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_START_FILE) {
 
                     // start of a file operation
+                    lblTransferByteCounts.setText("Current File (kb):"
+                            + 0 + " / "
+                            + (ts.getTotalSize() / 1024));
                     progressIntraFile.setMinimum(0);
-                    progressIntraFile.setMaximum((int) ts.getTotalSize());
+                    progressIntraFile.setMaximum(100);
                     progressIntraFile.setValue(0);
                     lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
+                      lblTransferFilesCounts.setText("Files: "
+                            + ts.getTotalFilesTransferredSoFar() + " / "
+                            + ts.getTotalFilesToTransfer());
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_COMPLETE_FILE) {
 
-                    progressIntraFile.setMinimum(0);
-                    progressIntraFile.setMaximum(10);
-                    progressIntraFile.setValue(10);
+                   
+                    progressIntraFile.setValue(100);
                     lblTransferByteCounts.setText("Current File (kb):"
                             + (ts.getTotalSize() / 1024) + " / "
                             + (ts.getTotalSize() / 1024));
@@ -289,12 +302,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                             + (ts.getBytesTransfered() / 1024) + " / "
                             + (ts.getTotalSize() / 1024));
 
-                    /*
-                    progressIntraFile.setMaximum(10);
-                    progressIntraFile.setMinimum(0);
-                    progressIntraFile.setValue(0);
-                     * 
-                     */
+               
                     lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
                 }
             }
@@ -621,7 +629,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         } else if (e.getActionCommand().equals("Change Password")) {
 
             if (changePasswordDialog == null) {
-                changePasswordDialog = new ChangePasswordDialog(this, true);
+                changePasswordDialog = new ChangePasswordDialog(this, null, true);
                 int x = (toolkit.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
                 int y = (toolkit.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
                 changePasswordDialog.setLocation(x, y);
@@ -1094,7 +1102,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblFileOrCollectionName.setToolTipText(dataObject.getDataName());
         lblFileParent.setText(IDropUtils.abbreviateFileName(dataObject.getCollectionName()));
         lblFileParent.setToolTipText(dataObject.getCollectionName());
-        txtComment.setText(dataObject.getComments());
 
         log.debug("getting available tags for data object");
 
@@ -1105,6 +1112,19 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     + "/"
                     + dataObject.getDataName());
             txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
+
+            IRODSTaggingService irodsTaggingService = IRODSTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
+                    getIrodsAccount());
+
+            IRODSTagValue tagValue = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(dataObject.getAbsolutePath());
+
+            if (tagValue == null) {
+
+                txtComment.setText("");
+            } else {
+                txtComment.setText(tagValue.getTagData());
+            }
+
             pnlInfoIcon.removeAll();
             pnlInfoIcon.add(IconHelper.getFileIcon());
             pnlInfoIcon.validate();
@@ -1113,10 +1133,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             lblInfoLengthValue.setText(String.valueOf(dataObject.getDataSize()));
             lblInfoLengthValue.setVisible(true);
             lblInfoLength.setVisible(true);
+            lblInfoChecksum.setVisible(true);
+            lblInfoChecksumValue.setVisible(true);
+            lblInfoChecksumValue.setText(dataObject.getChecksum());
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                     null, ex);
             throw new IdropRuntimeException(ex);
+        } finally {
+            this.getiDropCore().closeIRODSConnectionForLoggedInAccount();
         }
 
     }
@@ -1150,13 +1175,24 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblFileOrCollectionName.setToolTipText(collection.getCollectionLastPathComponent());
         lblFileParent.setText(IDropUtils.abbreviateFileName(collection.getCollectionParentName()));
         lblFileParent.setToolTipText(collection.getCollectionParentName());
-        txtComment.setText(collection.getComments());
 
         log.debug("getting available tags for data object");
 
         try {
             FreeTaggingService freeTaggingService = FreeTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
                     getIrodsAccount());
+            IRODSTaggingService irodsTaggingService = IRODSTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
+                    getIrodsAccount());
+
+            log.info("looking up description for collection");
+            IRODSTagValue comments = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(collection.getCollectionName());
+
+            if (comments == null) {
+                txtComment.setText("");
+            } else {
+                txtComment.setText(comments.getTagData());
+            }
+
             IRODSTagGrouping irodsTagGrouping = freeTaggingService.getTagsForCollectionInFreeTagForm(collection.getCollectionName());
             txtTags.setText(irodsTagGrouping.getSpaceDelimitedTagsForDomain());
             pnlInfoIcon.removeAll();
@@ -1166,10 +1202,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             lblInfoUpdatedAtValue.setText(df.format(collection.getModifiedAt()));
             lblInfoLengthValue.setVisible(false);
             lblInfoLength.setVisible(false);
+            lblInfoChecksum.setVisible(false);
+            lblInfoChecksumValue.setVisible(false);
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                     null, ex);
             throw new IdropRuntimeException(ex);
+        } finally {
+            this.getiDropCore().closeIRODSConnectionForLoggedInAccount();
         }
     }
 
@@ -1262,6 +1302,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblInfoUpdatedAtValue = new javax.swing.JLabel();
         lblInfoLength = new javax.swing.JLabel();
         lblInfoLengthValue = new javax.swing.JLabel();
+        lblInfoChecksum = new javax.swing.JLabel();
+        lblInfoChecksumValue = new javax.swing.JLabel();
         pnlToolbarInfo = new javax.swing.JPanel();
         toolBarInfo = new javax.swing.JToolBar();
         btnViewMetadata = new javax.swing.JButton();
@@ -1575,7 +1617,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlFileNameAndIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlFileNameAndIcon.setMinimumSize(new java.awt.Dimension(100, 50));
-        pnlFileNameAndIcon.setLayout(new java.awt.GridLayout());
+        pnlFileNameAndIcon.setLayout(new java.awt.GridLayout(1, 0));
 
         lblFileOrCollectionName.setText("           ");
         lblFileOrCollectionName.setMaximumSize(new java.awt.Dimension(900, 100));
@@ -1722,7 +1764,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblInfoLength.setText("Length:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         pnlInfoDetails.add(lblInfoLength, gridBagConstraints);
@@ -1730,10 +1772,27 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblInfoLengthValue.setText("XXXXXX");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlInfoDetails.add(lblInfoLengthValue, gridBagConstraints);
+
+        lblInfoChecksum.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblInfoChecksum.setText("Checksum:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlInfoDetails.add(lblInfoChecksum, gridBagConstraints);
+
+        lblInfoChecksumValue.setText("XXXXXX");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlInfoDetails.add(lblInfoChecksumValue, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1811,7 +1870,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 0.005;
+        gridBagConstraints.weightx = 0.0050;
         pnlIdropBottom.add(userNameLabel, gridBagConstraints);
 
         pnlTransferOverview.setLayout(new java.awt.BorderLayout());
@@ -1867,8 +1926,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         lblCurrentFile.setMaximumSize(new java.awt.Dimension(999, 999));
         lblCurrentFile.setMinimumSize(new java.awt.Dimension(30, 10));
-        lblCurrentFile.setPreferredSize(new java.awt.Dimension(300, 20));
-        pnlTransferFileInfo.add(lblCurrentFile, new java.awt.GridBagConstraints());
+        lblCurrentFile.setPreferredSize(new java.awt.Dimension(500, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        pnlTransferFileInfo.add(lblCurrentFile, gridBagConstraints);
 
         pnlTransferOverview.add(pnlTransferFileInfo, java.awt.BorderLayout.CENTER);
 
@@ -2454,10 +2516,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
                 idropGui.setBusyCursor();
                 FreeTaggingService freeTaggingService;
+                IRODSTaggingService userTaggingService;
 
                 try {
                     freeTaggingService = FreeTaggingServiceImpl.instance(
                             getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
+                            getIrodsAccount());
+
+                    userTaggingService = IRODSTaggingServiceImpl.instance(getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
                             getIrodsAccount());
 
                     if (lastCachedInfoItem instanceof Collection) {
@@ -2468,6 +2534,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                                 txtTags.getText(), getIrodsAccount().getUserName());
                         log.debug("new tag set is:{}", txtTags.getText());
                         freeTaggingService.updateTags(irodsTagGrouping);
+                        IRODSTagValue descriptionValue = new IRODSTagValue(txtComment.getText().trim(), getIrodsAccount().getUserName());
+                        log.info("checking update of description");
+                        userTaggingService.checkAndUpdateDescriptionOnCollection(collection.getCollectionName(), descriptionValue);
                     } else if (lastCachedInfoItem instanceof DataObject) {
                         log.info("processing tags for data object");
                         DataObject dataObject = (DataObject) lastCachedItemToProcessTagsFor;
@@ -2477,6 +2546,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                                 + dataObject.getDataName(), txtTags.getText(), getIrodsAccount().getUserName());
                         log.debug("new tag set is:{}", txtTags.getText());
                         freeTaggingService.updateTags(irodsTagGrouping);
+                        IRODSTagValue descriptionValue = new IRODSTagValue(txtComment.getText().trim(), getIrodsAccount().getUserName());
+                        log.info("checking update of description");
+                        userTaggingService.checkAndUpdateDescriptionOnDataObject(dataObject.getAbsolutePath(), descriptionValue);
                     } else {
                         log.error("unknown item type cached as being displayed in info area");
                         throw new IdropRuntimeException(
@@ -2581,6 +2653,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JLabel lblFileOrCollectionName;
     private javax.swing.JLabel lblFileParent;
     private javax.swing.JLabel lblFileParentLabel;
+    private javax.swing.JLabel lblInfoChecksum;
+    private javax.swing.JLabel lblInfoChecksumValue;
     private javax.swing.JLabel lblInfoCreatedAt;
     private javax.swing.JLabel lblInfoCreatedAtValue;
     private javax.swing.JLabel lblInfoLength;
@@ -2911,7 +2985,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 try {
                     identifyNodeTypeAndInitializeInfoPanel(selectedNode);
                 } catch (IdropException ex) {
-
+                    log.error("error initializing info panel for selected iRODS node", ex);
                     throw new IdropRuntimeException(
                             "error initializing info panel for selected irods node");
                 } finally {
