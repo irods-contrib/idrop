@@ -1853,16 +1853,16 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 final Thread transferThread = new Thread(currentTransferRunner);
                 log.info("launching transfer thread");
                 // close so that transfer thread can grab account
-                irodsFileSystem.closeAndEatExceptions();
+                irodsFileSystem.closeAndEatExceptions(); // ask Mike about this
                 transferThread.start();
-                transferThread.join();
+                transferThread.join();  // ask Mike about this
             } catch (Exception e) {
                 log.error("exception choosings iRODS file");
                 throw new IdropRuntimeException("exception choosing irods file", e);
             } finally {
                 iDropCore.getIrodsFileSystem().closeAndEatExceptions();
             }
-     //   }
+        }
 
     }//GEN-LAST:event_btnUploadBeginImportActionPerformed
 
