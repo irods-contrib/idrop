@@ -157,6 +157,8 @@ iRODS iDrop > drag and drop, desktop to irods file should use irods parent as ta
 
 [#468] add config panel options for time outs, max threads, etc
 
+[#318] drag/select feedback missing on some platforms
+
 
 ==Outstanding Issues==
 
