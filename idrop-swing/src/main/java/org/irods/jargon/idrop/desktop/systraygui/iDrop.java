@@ -953,9 +953,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     sb.append("home");
                     root.setParentPath(sb.toString());
                     root.setPathOrName(getIrodsAccount().getHomeDirectory());
+                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                 } else {
                     log.info("using root path, no login preset");
                     root.setPathOrName("/");
+                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);                    
                 }
                 IRODSOutlineModel mdl = null;
                 log.info("building new iRODS tree");

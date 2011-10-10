@@ -117,6 +117,8 @@ iRODS iDrop > idrop-swing does not get irods file list	2011-04-18 09:21:37
 
 iRODS iDrop > -511017 on copy
 
+ [#314] in login preset mode, drag of top level folder for get oper results in no data found warning
+
 ==Features==
 
 iRODS iDrop > refresh remote tree after transfer completes - if queue is small/empty	2011-02-10 07:00:51

@@ -90,6 +90,7 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
     private void initializeMenusAndListeners() {
         setDragEnabled(false);
         setUpTreeMenu();
+         setDropMode(javax.swing.DropMode.USE_SELECTION);
     }
 
     /**
