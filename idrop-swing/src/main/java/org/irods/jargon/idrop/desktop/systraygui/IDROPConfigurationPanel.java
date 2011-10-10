@@ -1459,8 +1459,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         } else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_TWO_MINUTES) {
             jcomboSynchFrequency.setSelectedIndex(3);
         } else {
+            // default to hourly to avoid errors
             log.error("unknown frequency type for synch:{}", selectedSynchronization.getFrequencyType());
-            throw new IdropRuntimeException("unknown frequency type for synch");
+            jcomboSynchFrequency.setSelectedIndex(0);
         }
 
         if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.BI_DIRECTIONAL) {
