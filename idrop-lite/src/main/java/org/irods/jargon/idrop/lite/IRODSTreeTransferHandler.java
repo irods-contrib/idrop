@@ -290,7 +290,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         		// process the drop as a put
         		try { 
         			currentTransferRunner = new PutTransferRunner(idropGui, targetIrodsFileAbsolutePath,
-        				sourceFiles);
+        				sourceFiles, idropGui.getiDropCore().getTransferControlBlock());
         			final Thread transferThread = new Thread(currentTransferRunner);
         			log.info("launching transfer thread");
         			transferThread.start();
@@ -412,7 +412,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         		// process the drop as a put
         		try {
         			currentTransferRunner = new PutTransferRunner(idropGui, targetIrodsFileAbsolutePath,
-        					sourceFiles);
+        					sourceFiles, idropGui.getiDropCore().getTransferControlBlock());
         			final Thread transferThread = new Thread(currentTransferRunner);
         			log.info("launching transfer thread");
         			transferThread.start();

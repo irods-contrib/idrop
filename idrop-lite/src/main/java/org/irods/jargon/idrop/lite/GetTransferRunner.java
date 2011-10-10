@@ -15,12 +15,12 @@ public class GetTransferRunner implements Runnable {
 	private final List<File> sourceFiles;
 	private final String targetIrodsFileAbsolutePath;
 	private final iDropLiteApplet idropGui;
-//	private final TransferControlBlock transferControlBlock;
+	private final TransferControlBlock transferControlBlock;
 	
 	public GetTransferRunner(final iDropLiteApplet gui,
 			final String targetPath,
-			final List<File> files)
-			//final TransferControlBlock transferControlBlock)
+			final List<File> files,
+			final TransferControlBlock transferControlBlock)
 			throws JargonException {
 
 		if (files == null) {
@@ -35,14 +35,14 @@ public class GetTransferRunner implements Runnable {
 			throw new JargonException("null idrop gui");
 		}
 
-//		if (transferControlBlock == null) {
-//			throw new JargonException("null transferControlBlock");
-//		}
+		if (transferControlBlock == null) {
+			throw new JargonException("null transferControlBlock");
+		}
 
 		this.targetIrodsFileAbsolutePath = targetPath;
 		this.sourceFiles = files;
 		this.idropGui = gui;
-//		this.transferControlBlock = transferControlBlock;
+		this.transferControlBlock = transferControlBlock;
 
 	}
 
@@ -57,7 +57,7 @@ public class GetTransferRunner implements Runnable {
                 try {
                 	DataTransferOperations dto = idropGui.getiDropCore().getIRODSAccessObjectFactory().getDataTransferOperations(
                 			idropGui.getIrodsAccount());
-                	dto.getOperation(transferFile.getAbsolutePath(), targetIrodsFileAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui, null);                           
+                	dto.getOperation(transferFile.getAbsolutePath(), targetIrodsFileAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui, transferControlBlock);                           
                 } catch (JargonException ex) {
                     java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                             java.util.logging.Level.SEVERE, null, ex);
