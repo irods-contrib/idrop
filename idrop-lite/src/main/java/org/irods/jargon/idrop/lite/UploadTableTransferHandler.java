@@ -143,7 +143,7 @@ public class UploadTableTransferHandler extends TransferHandler {
              String localSourceAbsolutePath = transferFile.getAbsolutePath();
              Object [] rowData = new Object[2];
              rowData[0] = localSourceAbsolutePath;
-             rowData[1] = Boolean.TRUE;
+             //rowData[1] = Boolean.TRUE;
              tm.addRow(rowData);
           }
          }
@@ -179,7 +179,7 @@ public class UploadTableTransferHandler extends TransferHandler {
 
              Object [] rowData = new Object[2];
              rowData[0] = localSourceAbsolutePath;
-             rowData[1] = Boolean.TRUE;
+             //rowData[1] = Boolean.TRUE;
              tm.addRow(rowData);
          }
 

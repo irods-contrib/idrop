@@ -192,7 +192,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
         		// process the drop as a get
         		try {
         			currentTransferRunner = new GetTransferRunner(idropGui, tempTargetLocalFileAbsolutePath,
-                			sourceFiles);
+                			sourceFiles, idropGui.getiDropCore().getTransferControlBlock());
                 	final Thread transferThread = new Thread(currentTransferRunner);
                 	log.info("launching transfer thread");
                 	transferThread.start();
