@@ -161,6 +161,8 @@ iRODS iDrop > drag and drop, desktop to irods file should use irods parent as ta
 
 [#318] drag/select feedback missing on some platforms
 
+ [#362] change Grids in preferences to Accounts
+
 
 ==Outstanding Issues==
 

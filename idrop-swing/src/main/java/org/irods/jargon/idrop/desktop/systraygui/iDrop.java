@@ -1956,6 +1956,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         transferQueueToolbarPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        idropProgressPanelToolbar.setFloatable(false);
         idropProgressPanelToolbar.setRollover(true);
 
         btnShowTransferManager.setText("Manage");

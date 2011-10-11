@@ -39,11 +39,11 @@ import org.slf4j.LoggerFactory;
  * @author mikeconway
  */
 public class QueueManagerDialog extends javax.swing.JDialog implements ListSelectionListener {
-
+    
     private static final long serialVersionUID = 1L;
-
+    
     public enum ViewType {
-
+        
         RECENT, ERROR, WARNING, CURRENT
     }
     private final TransferManager transferManager;
@@ -54,7 +54,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     private LocalIRODSTransfer selectedMasterTableObject = null;
     public static org.slf4j.Logger log = LoggerFactory.getLogger(QueueManagerDialog.class);
     private DateFormat dateFormat = DateFormat.getDateTimeInstance();
-
+    
     private int showResubmitConfirm(LocalIRODSTransfer selectedTransfer) {
         StringBuilder sb = new StringBuilder();
         sb.append("Would you like to resubmit this transfer? \n ");
@@ -62,10 +62,10 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         // default icon, custom title
         int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Resubmit Confirmaiton", JOptionPane.YES_NO_OPTION);
-
+        
         return n;
     }
-
+    
     private int showCancelConfirm(LocalIRODSTransfer selectedTransfer) {
         StringBuilder sb = new StringBuilder();
         sb.append("Would you like to cancel this transfer? \n ");
@@ -73,14 +73,14 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
         // default icon, custom title
         int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Cancel Confirmaiton", JOptionPane.YES_NO_OPTION);
-
+        
         return n;
     }
-
+    
     public synchronized ViewType getViewType() {
         return viewType;
     }
-
+    
     public synchronized void setViewType(ViewType viewType) {
         if (viewType != this.getViewType()) {
             selectedMasterTableObject = null;
@@ -92,19 +92,19 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     public QueueManagerDialog(final iDrop iDropParent, final TransferManager transferManager, final ViewType viewType)
             throws IdropException {
         super((JFrame) null, true);
-
+        
         if (transferManager == null) {
             throw new IdropException("null transferManager");
         }
-
+        
         if (viewType == null) {
             throw new IdropException("null viewType");
         }
-
+        
         this.transferManager = transferManager;
         this.viewType = viewType;
         this.iDropParent = iDropParent;
-
+        
         initComponents();
         btnDeleteSelected.setEnabled(false);
         btnCancelSelected.setEnabled(false);
@@ -113,13 +113,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         jTableMaster.setModel(new QueueManagerMasterTableModel(new ArrayList<LocalIRODSTransfer>()));
         jTableMaster.getSelectionModel().addListSelectionListener(this);
         tabDetails.setVisible(false);
-
+        
         refreshTableView(viewType);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
+        
         int height = screenSize.height;
         int width = screenSize.width;
-        screenSize.setSize(width * (0.90), height * (0.80));
+        screenSize.setSize(width * (0.70), height * (0.60));
         int newheight = screenSize.height;
         int newwidth = screenSize.width;
         this.setSize(newwidth, newheight);
@@ -532,6 +532,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         pnlTransferInfoBasicStats.setPreferredSize(null);
         pnlTransferInfoBasicStats.setLayout(new java.awt.GridBagLayout());
 
+        lblTransferTypeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTransferTypeLabel.setText("Transfer Type:");
         lblTransferTypeLabel.setMaximumSize(null);
         lblTransferTypeLabel.setMinimumSize(null);
@@ -540,7 +541,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlTransferInfoBasicStats.add(lblTransferTypeLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -550,6 +551,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlTransferInfoBasicStats.add(lblTransferType, gridBagConstraints);
 
+        lblTransferStatusLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTransferStatusLabel.setText("Status:");
         lblTransferStatusLabel.setMaximumSize(null);
         lblTransferStatusLabel.setMinimumSize(null);
@@ -557,7 +559,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferStatusLabel, gridBagConstraints);
@@ -568,6 +570,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlTransferInfoBasicStats.add(lblTransferStatus, gridBagConstraints);
 
+        lblProcessingStateLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblProcessingStateLabel.setText("Processing State:");
         lblProcessingStateLabel.setMaximumSize(null);
         lblProcessingStateLabel.setMinimumSize(null);
@@ -575,6 +578,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlTransferInfoBasicStats.add(lblProcessingStateLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -593,6 +597,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.gridy = 0;
         pnlTransferInfoBasicStats.add(btnSynchronization, gridBagConstraints);
 
+        lblHostLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblHostLabel.setText("Host:");
         lblHostLabel.setMaximumSize(null);
         lblHostLabel.setMinimumSize(null);
@@ -601,7 +606,8 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblHostLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -611,6 +617,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblHost, gridBagConstraints);
 
+        lblZoneLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblZoneLabel.setText("Zone:");
         lblZoneLabel.setMaximumSize(null);
         lblZoneLabel.setMinimumSize(null);
@@ -618,6 +625,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
         pnlTransferInfoBasicStats.add(lblZoneLabel, gridBagConstraints);
@@ -628,6 +636,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblZone, gridBagConstraints);
 
+        lblTransferStartLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTransferStartLabel.setText("Start:");
         lblTransferStartLabel.setMaximumSize(null);
         lblTransferStartLabel.setMinimumSize(null);
@@ -635,7 +644,8 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferStartLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -645,6 +655,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferStart, gridBagConstraints);
 
+        lblTransferEndLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTransferEndLabel.setText("End:");
         lblTransferEndLabel.setMaximumSize(null);
         lblTransferEndLabel.setMinimumSize(null);
@@ -652,7 +663,8 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferEndLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -662,6 +674,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTransferEnd, gridBagConstraints);
 
+        lblSourceLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblSourceLabel.setText("Source Path:");
         lblSourceLabel.setMaximumSize(null);
         lblSourceLabel.setMinimumSize(null);
@@ -669,6 +682,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblSourceLabel, gridBagConstraints);
@@ -686,6 +700,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblSource, gridBagConstraints);
 
+        lblTargetLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTargetLabel.setText("Target Path:");
         lblTargetLabel.setMaximumSize(null);
         lblTargetLabel.setMinimumSize(null);
@@ -693,6 +708,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTargetLabel, gridBagConstraints);
@@ -710,6 +726,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblTarget, gridBagConstraints);
 
+        lblLastPathLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblLastPathLabel.setText("Last Path:");
         lblLastPathLabel.setMaximumSize(null);
         lblLastPathLabel.setMinimumSize(null);
@@ -717,6 +734,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblLastPathLabel, gridBagConstraints);
@@ -732,6 +750,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlTransferInfoBasicStats.add(lblLastPath, gridBagConstraints);
 
+        lblErrorMessageLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblErrorMessageLabel.setText("Error Message:");
         lblErrorMessageLabel.setMaximumSize(null);
         lblErrorMessageLabel.setMinimumSize(null);
@@ -896,17 +915,17 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
 
     private void jMenuCurrentActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuCurrentActionPerformed
         refreshTableView(QueueManagerDialog.ViewType.CURRENT);
-
+        
     }// GEN-LAST:event_jMenuCurrentActionPerformed
 
     private void jMenuRecentActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuRecentActionPerformed
         refreshTableView(QueueManagerDialog.ViewType.RECENT);
-
+        
     }// GEN-LAST:event_jMenuRecentActionPerformed
 
     private void jMenuErrorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuErrorActionPerformed
         refreshTableView(QueueManagerDialog.ViewType.ERROR);
-
+        
     }// GEN-LAST:event_jMenuErrorActionPerformed
 
     private void jMenuWarningActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuWarningActionPerformed
@@ -917,7 +936,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         try {
             iDropParent.getiDropCore().getTransferManager().purgeAllTransfers();
             refreshTableView(viewType);
-            resetDisplayFieldsAndStatus();
         } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             iDropParent.showIdropException(ex);
@@ -929,7 +947,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             iDropParent.getiDropCore().getTransferManager().purgeSuccessfulTransfers();
             refreshTableView(viewType);
             resetDisplayFieldsAndStatus();
-
+            
         } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             iDropParent.showIdropException(ex);
@@ -946,12 +964,12 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         // get the transfer at the selected row
         QueueManagerMasterTableModel tableModel = (QueueManagerMasterTableModel) jTableMaster.getModel();
         LocalIRODSTransfer selectedTransfer = tableModel.getTransferAtRow(jTableMaster.getSelectedRow());
-
+        
         int dialogReturn = showDeleteConfirm(selectedTransfer);
-
+        
         if (dialogReturn == JOptionPane.YES_OPTION) {
         }
-
+        
     }// GEN-LAST:event_btnDeleteSelectedActionPerformed
 
     private void btnRestartSelectedActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRestartSelectedActionPerformed
@@ -964,9 +982,9 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         // get the transfer at the selected row
         QueueManagerMasterTableModel tableModel = (QueueManagerMasterTableModel) jTableMaster.getModel();
         LocalIRODSTransfer selectedTransfer = tableModel.getTransferAtRow(jTableMaster.getSelectedRow());
-
+        
         int dialogReturn = showRestartConfirm(selectedTransfer);
-
+        
         if (dialogReturn == JOptionPane.YES_OPTION) {
             try {
                 transferManager.restartTransfer(selectedTransfer);
@@ -974,10 +992,10 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                 iDropParent.showIdropException(ex);
             }
-
+            
             refreshTableView(this.getViewType());
         }
-
+        
     }// GEN-LAST:event_btnRestartSelectedActionPerformed
 
     private void btnResubmitSelectedActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnResubmitSelectedActionPerformed
@@ -990,9 +1008,9 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         // get the transfer at the selected row
         QueueManagerMasterTableModel tableModel = (QueueManagerMasterTableModel) jTableMaster.getModel();
         LocalIRODSTransfer selectedTransfer = tableModel.getTransferAtRow(jTableMaster.getSelectedRow());
-
+        
         int dialogReturn = showResubmitConfirm(selectedTransfer);
-
+        
         if (dialogReturn == JOptionPane.YES_OPTION) {
             try {
                 transferManager.resubmitTransfer(selectedTransfer);
@@ -1000,11 +1018,11 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                 iDropParent.showIdropException(ex);
             }
-
+            
             refreshTableView(this.getViewType());
-
+            
         }
-
+        
     }// GEN-LAST:event_btnResubmitSelectedActionPerformed
 
     private void btnCancelSelectedActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelSelectedActionPerformed
@@ -1017,9 +1035,9 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         // get the transfer at the selected row
         QueueManagerMasterTableModel tableModel = (QueueManagerMasterTableModel) jTableMaster.getModel();
         LocalIRODSTransfer selectedTransfer = tableModel.getTransferAtRow(jTableMaster.getSelectedRow());
-
+        
         int dialogReturn = showCancelConfirm(selectedTransfer);
-
+        
         if (dialogReturn == JOptionPane.YES_OPTION) {
             try {
                 transferManager.cancelTransfer(selectedTransfer);
@@ -1028,11 +1046,11 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                 iDropParent.showIdropException(ex);
             }
-
+            
             refreshTableView(this.getViewType());
-
+            
         }
-
+        
     }// GEN-LAST:event_btnCancelSelectedActionPerformed
 
     private void btnRefreshViewActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshViewActionPerformed
@@ -1073,48 +1091,52 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
      * @param viewType
      */
     public final void refreshTableView(final ViewType viewType) {
-
+        
         final QueueManagerDialog queueManagerDialog = this;
-
+        
         final QueueManagerMasterTableModel masterTableModel = (QueueManagerMasterTableModel) jTableMaster.getModel();
         int selectedRow = jTableMaster.getSelectedRow();
-
+        
         if (masterTableModel.getRowCount() > 0) {
-
             jTableMaster.setRowSelectionInterval(0, 0);
         }
 
-        //selectedMasterTableObject = (LocalIRODSTransfer) masterTableModel.getTransferAtRow(jTableMaster.convertRowIndexToModel(selectedRow));
-
-
-
+        if (selectedRow > -1) {
+            selectedMasterTableObject = (LocalIRODSTransfer) masterTableModel.getTransferAtRow(jTableMaster.convertRowIndexToModel(selectedRow));
+        }
+        
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             @Override
             public void run() {
-
+                
                 queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 try {
-                    tabDetails.setVisible(true);
-                    updateDetailsWIthSelectedTable();
+                 
+                        tabDetails.setVisible(true);
+                        resetDisplayFieldsAndStatus();
+                        updateDetailsWIthSelectedTable();
+                 
+                    
                 } catch (Exception e) {
                     log.error("exceptoin updating table", e);
                     MessageManager.showError(queueManagerDialog, e.getMessage(), MessageManager.TITLE_MESSAGE);
                 } finally {
                     queueManagerDialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
-
+                
             }
-
+            
             private void updateDetailsWIthSelectedTable() throws Exception {
                 log.info("refreshing master table for view type:{}", viewType);
-
+                
                 if (viewType == null) {
                     throw new IdropRuntimeException("null viewType");
                 }
-
+                
                 List<LocalIRODSTransfer> transferQueue = null;
-
+                
                 if (viewType == ViewType.CURRENT) {
                     transferQueue = transferManager.getCurrentQueue();
                     queueManagerDialog.getLblHeader().setText("Current transfer queue");
@@ -1128,13 +1150,13 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                     transferQueue = transferManager.getWarningQueue();
                     queueManagerDialog.getLblHeader().setText("Transfer activities with warnings");
                 }
-
+                
                 queueManagerDialog.setViewType(viewType);
-
+                
                 if (transferQueue != null) {
                     jTableMaster.setModel(new QueueManagerMasterTableModel(transferQueue));
                     int matchingRowForSelected = -1;
-
+                    
                     if (selectedMasterTableObject != null) {
                         // previously selected table, refresh display, first, selecting same row
 
@@ -1146,7 +1168,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                                 break;
                             }
                         }
-
+                        
                         if (matchingRowForSelected != -1) {
                             int selectedRowIndex = jTableMaster.convertRowIndexToView(matchingRowForSelected);
                             if (selectedRowIndex != -1) {
@@ -1159,7 +1181,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 }
             }
         });
-
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelSelected;
@@ -1247,34 +1269,34 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     public JLabel getLblHeader() {
         return lblHeader;
     }
-
+    
     public void setLblHeader(JLabel lblHeader) {
         this.lblHeader = lblHeader;
     }
-
+    
     @Override
     public void valueChanged(ListSelectionEvent e) {
-
+        
         if (e.getValueIsAdjusting()) {
             return;
         }
-
+        
         if (e.getFirstIndex() == -1 || e.getLastIndex() == -1 || jTableMaster.getSelectedRow() == -1) {
             return;
         }
-
+        
         adjustDetails();
         tabDetails.setVisible(true);
-
+        
     }
-
+    
     private void adjustDetails() {
         final LocalIRODSTransfer localIRODSTransfer = ((QueueManagerMasterTableModel) jTableMaster.getModel()).getTransferAtRow(jTableMaster.convertRowIndexToModel(jTableMaster.getSelectedRow()));
         log.info("selected transfer:{}", localIRODSTransfer);
         final boolean showAll = radioShowAll.isSelected();
-
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             @Override
             public void run() {
                 // initialize panel info
@@ -1290,7 +1312,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 } else {
                     lblTransferStatus.setForeground(Color.GREEN);
                 }
-
+                
                 lblProcessingState.setText(localIRODSTransfer.getTransferState().toString());
                 if (localIRODSTransfer.getTransferState() == TransferState.PROCESSING) {
                     lblProcessingState.setForeground(Color.GREEN);
@@ -1303,27 +1325,27 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 } else {
                     lblProcessingState.setForeground(Color.BLACK);
                 }
-
+                
                 if (localIRODSTransfer.getSynchronization() != null) {
                     btnSynchronization.setEnabled(true);
                 } else {
                     btnSynchronization.setEnabled(false);
                 }
-
+                
                 lblHost.setText(localIRODSTransfer.getTransferHost());
                 lblZone.setText(localIRODSTransfer.getTransferZone());
-
+                
                 if (localIRODSTransfer.getTransferStart() != null) {
                     lblTransferStart.setText(dateFormat.format(localIRODSTransfer.getTransferStart()));
                 }
-
+                
                 if (localIRODSTransfer.getTransferEnd() != null) {
                     lblTransferEnd.setText(dateFormat.format(localIRODSTransfer.getTransferEnd()));
                 }
-
+                
                 lblLastPath.setText(IDropUtils.abbreviateFileName(localIRODSTransfer.getLastSuccessfulPath()));
                 lblErrorMessage.setText(localIRODSTransfer.getGlobalException());
-
+                
                 String source = null;
                 String target = null;
 
@@ -1356,13 +1378,14 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                         iDropParent.showIdropException(new IdropException("unable to build details for this transfer type"));
                         break;
                 }
-
+                
                 lblSource.setText(IDropUtils.abbreviateFileName(source));
                 lblTarget.setText(IDropUtils.abbreviateFileName(target));
-
+                lblLastPath.setText(IDropUtils.abbreviateFileName(localIRODSTransfer.getLastSuccessfulPath()));
+                
                 lblTransferType1.setText(localIRODSTransfer.getTransferType().toString());
-
-
+                
+                
                 lblCountSoFar.setText(String.valueOf(localIRODSTransfer.getTotalFilesTransferredSoFar()));
                 lblCountOutOf.setText(String.valueOf(localIRODSTransfer.getTotalFilesCount()));
                 lblTransferFilesCounts.setText("Files: " + localIRODSTransfer.getTotalFilesTransferredSoFar() + " / " + localIRODSTransfer.getTotalFilesCount());
@@ -1371,22 +1394,22 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 transferStatusProgressBar.setValue(localIRODSTransfer.getTotalFilesTransferredSoFar());
                 // initialize the detail values via hibernate (they are lazily loaded)
                 log.info("get the details based on the selected option");
-
+                
                 try {
                     if (showAll) {
                         log.info("showing all transfers based on radio selection");
-
+                        
                         jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager.getAllTransferItemsForTransfer(localIRODSTransfer.getId())));
                     } else {
                         jTableDetails.setModel(new QueueManagerDetailTableModel(transferManager.getErrorTransferItemsForTransfer(localIRODSTransfer.getId())));
                     }
-
+                    
                 } catch (Exception ex) {
                     Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
                     iDropParent.showIdropException(ex);
                     return;
                 }
-
+                
                 switch (localIRODSTransfer.getTransferState()) {
                     case PROCESSING:
                         btnDeleteSelected.setEnabled(false);
@@ -1416,36 +1439,36 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                         btnRestartSelected.setEnabled(false);
                         break;
                 }
-
+                
                 jTableDetails.setVisible(true);
             }
         });
     }
-
+    
     public int showDeleteConfirm(final LocalIRODSTransfer localIRODSTransfer) {
-
+        
         StringBuilder sb = new StringBuilder();
         sb.append("Would you like to delete this transfer? \n ");
         sb.append(localIRODSTransfer.toString());
 
         // default icon, custom title
         int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Delete Confirmation", JOptionPane.YES_NO_OPTION);
-
+        
         return n;
     }
-
+    
     public int showRestartConfirm(final LocalIRODSTransfer localIRODSTransfer) {
-
+        
         StringBuilder sb = new StringBuilder();
         sb.append("Would you like to retart this transfer? \n ");
         sb.append(localIRODSTransfer.toString());
 
         // default icon, custom title
         int n = JOptionPane.showConfirmDialog(this, sb.toString(), "Restart Confirmation", JOptionPane.YES_NO_OPTION);
-
+        
         return n;
     }
-
+    
     private void resetDisplayFieldsAndStatus() {
         try {
             iDropParent.getiDropCore().getTransferManager().resetStatus();
@@ -1453,20 +1476,29 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             // log and continue...not useful to user
         }
-
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             @Override
             public void run() {
-                /*
-                lblTransferType.setText("");
-                lblTransferDate.setText("");
+                
+                lblTransferType1.setText("");
+                lblTransferFilesCounts.setText("");
+                lblCurrentFile.setText("");
                 lblTransferStatus.setText("");
-                txtSourcePath.setText("");
-                txtTargetPath.setText("");
-                txtAreaErrorMessage.setText("");
-                txtLastGoodPath.setText("");
-                 * */
+                transferStatusProgressBar.setValue(0);
+                lblTransferType.setText("");
+                lblTransferStatus.setText("");
+                lblProcessingState.setText("");
+                lblHost.setText("");
+                lblZone.setText("");
+                lblTransferStart.setText("");
+                lblTransferEnd.setText("");
+                lblSource.setText("");
+                lblTarget.setText("");
+                lblLastPath.setText("");
+                lblErrorMessage.setText("");
+                 
             }
         });
     }

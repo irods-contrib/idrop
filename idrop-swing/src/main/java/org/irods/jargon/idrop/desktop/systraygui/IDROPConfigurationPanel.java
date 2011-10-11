@@ -232,6 +232,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         pnlCenter.setLayout(new java.awt.GridLayout(1, 0));
 
+        tabConfig.setMinimumSize(null);
+
         pnlConfigIdrop.setLayout(new java.awt.GridBagLayout());
 
         checkShowGUI.setMnemonic('s');
