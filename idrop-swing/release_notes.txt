@@ -117,6 +117,8 @@ iRODS iDrop > idrop-swing does not get irods file list	2011-04-18 09:21:37
 
 iRODS iDrop > -511017 on copy
 
+ [#314] in login preset mode, drag of top level folder for get oper results in no data found warning
+
 ==Features==
 
 iRODS iDrop > refresh remote tree after transfer completes - if queue is small/empty	2011-02-10 07:00:51
@@ -156,6 +158,8 @@ iRODS iDrop > LL - first-run setup wizard for sync folders	2011-05-27 08:28:32
 iRODS iDrop > drag and drop, desktop to irods file should use irods parent as target	2011-06-03 09:44:23
 
 [#468] add config panel options for time outs, max threads, etc
+
+[#318] drag/select feedback missing on some platforms
 
 
 ==Outstanding Issues==

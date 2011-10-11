@@ -953,9 +953,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     sb.append("home");
                     root.setParentPath(sb.toString());
                     root.setPathOrName(getIrodsAccount().getHomeDirectory());
+                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                 } else {
                     log.info("using root path, no login preset");
                     root.setPathOrName("/");
+                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);                    
                 }
                 IRODSOutlineModel mdl = null;
                 log.info("building new iRODS tree");
@@ -1408,7 +1410,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnearch.setToolTipText("Search iRODS based on the current view selected");
         btnearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnearchActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
         pnlSearchSizer.add(btnearch);
@@ -2580,7 +2582,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /*
      * The search button has been pressed, do a search
      */
-    private void btnearchActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnearchActionPerformed
+    private void btnSearchActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnearchActionPerformed
         processSearchRequest();
     }// GEN-LAST:event_btnearchActionPerformed
 

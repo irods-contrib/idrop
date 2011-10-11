@@ -21,6 +21,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
+import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.MoveOrCopyiRODSDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
@@ -150,14 +151,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     @Override
     public void exportDone(final JComponent comp, final Transferable trans,
             final int action) {
-        /*
-         * test code for drag to native, please leave in place MC DropTarget dt
-         * = comp.getDropTarget(); log.debug("dt is:{}", dt); FlavorMap
-         * dtFlavorMap = dt.getFlavorMap(); log.debug("flavormap:{}",
-         * dtFlavorMap); Component dropTargetComponent = dt.getComponent();
-         * log.debug("dt component:{}", dropTargetComponent); if (action !=
-         * MOVE) { // return; }
-         */
+        // no action
     }
 
     /**
@@ -179,41 +173,38 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         log.debug("selected rows for delete:{}", rows);
 
         List<IRODSNode> nodesToTransfer = new ArrayList<IRODSNode>();
-        for (int row : rows) {
-            nodesToTransfer.add((IRODSNode) idropGui.getIrodsTree().getValueAt(
-                    row, 0));
-        }
 
-        IRODSFileService irodsFileService;
         try {
-            irodsFileService = new IRODSFileService(idropGui.getIrodsAccount(),
-                    idropGui.getiDropCore().getIrodsFileSystem());
-        } catch (IdropException ex) {
+
+            for (int row : rows) {
+                nodesToTransfer.add((IRODSNode) idropGui.getIrodsTree().getValueAt(
+                        row, 0));
+            }
+
+            IRODSFileFactory irodsFileFactory = this.idropGui.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
+
+            String objectPath;
+            for (IRODSNode nodeToTransfer : nodesToTransfer) {
+                CollectionAndDataObjectListingEntry listingEntry = (CollectionAndDataObjectListingEntry) nodeToTransfer.getUserObject();
+                if (listingEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
+                    objectPath = listingEntry.getPathOrName();
+                } else {
+                    objectPath = listingEntry.getParentPath() + "/"
+                            + listingEntry.getPathOrName();
+                }
+
+                transferFiles.add((File) irodsFileFactory.instanceIRODSFile(objectPath));
+
+            }
+
+            return new IRODSTreeTransferable(transferFiles, stagingViewTree);
+        } catch (Exception ex) {
             Logger.getLogger(IRODSTreeTransferHandler.class.getName()).log(
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
+        } finally {
+            this.idropGui.getiDropCore().closeIRODSConnectionForLoggedInAccount();
         }
-
-        String objectPath;
-        for (IRODSNode nodeToTransfer : nodesToTransfer) {
-            CollectionAndDataObjectListingEntry listingEntry = (CollectionAndDataObjectListingEntry) nodeToTransfer.getUserObject();
-            if (listingEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
-                objectPath = listingEntry.getPathOrName();
-            } else {
-                objectPath = listingEntry.getParentPath() + "/"
-                        + listingEntry.getPathOrName();
-            }
-
-            try {
-                transferFiles.add((File) irodsFileService.getIRODSFileForPath(objectPath));
-            } catch (IdropException ex) {
-                Logger.getLogger(IRODSTreeTransferHandler.class.getName()).log(
-                        Level.SEVERE, null, ex);
-                throw new IdropRuntimeException(ex);
-            }
-        }
-
-        return new IRODSTreeTransferable(transferFiles, stagingViewTree);
 
     }
 
