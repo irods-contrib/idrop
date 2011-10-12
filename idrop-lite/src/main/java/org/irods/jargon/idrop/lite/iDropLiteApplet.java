@@ -574,7 +574,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private void setupUploadTable() {
     	
     	// load table cancel icon
-        java.net.URL imgURL = getClass().getResource("cancel.gif");
+        java.net.URL imgURL = getClass().getResource("images/cancel.gif");
 	    if (imgURL != null) {
 	        cancelIcon = new ImageIcon(imgURL, "image used to denote cancel or remove table entry");
 	    }
@@ -1629,7 +1629,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 java.lang.String.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
