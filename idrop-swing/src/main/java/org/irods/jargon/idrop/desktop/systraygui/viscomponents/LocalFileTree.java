@@ -28,6 +28,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 import org.irods.jargon.idrop.desktop.systraygui.DeleteLocalFileDialog;
+import org.irods.jargon.idrop.desktop.systraygui.FileInfoDialog;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.NewLocalDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.RenameLocalDirectoryDialog;
@@ -347,6 +348,27 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
             }
         };
         m_popup.add(a2);
+        
+           Action a3 = new AbstractAction("Info") {
+
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                log.info("info on node");
+
+                LocalFileNode parentNode = (LocalFileNode) m_clickedPath.getLastPathComponent();
+                File parentFile = (File) parentNode.getUserObject();
+                FileInfoPanel fileInfoPanel = new FileInfoPanel(parentFile);
+                FileInfoDialog fileInfoDialog = new FileInfoDialog(idropParentGui, fileInfoPanel, true);
+                fileInfoDialog.setSize(400, 300);
+               
+                fileInfoDialog.setLocation(
+                        (int) (idropParentGui.getLocation().getX() + idropParentGui.getWidth() / 2), (int) (idropParentGui.getLocation().getY() + idropParentGui.getHeight() / 2));
+                fileInfoDialog.setVisible(true);
+
+            }
+        };
+        m_popup.add(a3);
+      
         thisTree.add(m_popup);
         thisTree.addMouseListener(new PopupTrigger());
         thisTree.addTreeWillExpandListener(thisTree);

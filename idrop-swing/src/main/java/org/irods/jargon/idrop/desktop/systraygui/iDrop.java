@@ -1127,7 +1127,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 txtComment.setText(tagValue.getTagData());
             }
 
-            pnlInfoIcon.removeAll();
+            pnlInfoIcon.removeAll();         
             pnlInfoIcon.add(IconHelper.getFileIcon());
             pnlInfoIcon.validate();
             lblInfoCreatedAtValue.setText(df.format(dataObject.getCreatedAt()));
