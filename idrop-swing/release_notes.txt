@@ -163,6 +163,7 @@ iRODS iDrop > drag and drop, desktop to irods file should use irods parent as ta
 
  [#362] change Grids in preferences to Accounts
 
+ [#491] info view for local file system
 
 ==Outstanding Issues==
 

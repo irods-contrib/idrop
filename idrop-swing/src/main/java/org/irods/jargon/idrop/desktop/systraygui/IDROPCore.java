@@ -1,5 +1,6 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import java.text.DateFormat;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +37,11 @@ public class IDROPCore {
     private IconManager iconManager = null;
     private Timer queueTimer = new Timer();
     private IdropConfigurationService idropConfigurationService = null;
+     private final DateFormat dateFormat = DateFormat.getDateTimeInstance();
+
+    public DateFormat getDateFormat() {
+        return dateFormat;
+    }
 
     public IdropConfigurationService getIdropConfigurationService() {
         return idropConfigurationService;

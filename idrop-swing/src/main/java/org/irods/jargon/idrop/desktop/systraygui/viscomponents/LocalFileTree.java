@@ -5,6 +5,7 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -18,6 +19,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
+import javax.swing.ToolTipManager;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -26,6 +28,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 import org.irods.jargon.idrop.desktop.systraygui.DeleteLocalFileDialog;
+import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.NewLocalDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.RenameLocalDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
@@ -42,6 +45,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalFileTree.class);
     private iDrop idropParentGui = null;
+    private IDROPCore idropCore = null;
     protected JPopupMenu m_popup = null;
     protected Action m_action;
     protected TreePath m_clickedPath;
@@ -78,11 +82,14 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     public LocalFileTree(final TreeModel newModel, final iDrop idropParentGui) {
         super(newModel);
         this.idropParentGui = idropParentGui;
+        this.idropCore = idropParentGui.getiDropCore();
         setDragEnabled(true);
         this.setTransferHandler(new LocalTreeTransferHandler(idropParentGui));
-        this.setCellRenderer(new DefaultTreeCellRenderer());
+        //this.setCellRenderer(new DefaultTreeCellRenderer());
         setUpTreeMenu();
         setDropMode(javax.swing.DropMode.ON);
+       setCellRenderer(new OwnRenderer());
+       
 
     }
 
@@ -229,7 +236,9 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
     }
 
-    private void setUpTreeMenu() {
+    private void setUpTreeMenu()
+    {
+        ToolTipManager.sharedInstance().registerComponent(this);
         this.thisTree = this;
         m_popup = new JPopupMenu();
         m_action = new AbstractAction() {
@@ -402,4 +411,29 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
             }
         }
     }
+    
+      class OwnRenderer extends DefaultTreeCellRenderer {
+        @Override
+        public Component getTreeCellRendererComponent(JTree tree, Object value,
+                        boolean sel, boolean expanded, boolean leaf, int row,
+                        boolean hasFocus) {
+                LocalFileNode localFileNode = (LocalFileNode) value;
+                File file = (File) localFileNode.getUserObject();
+                StringBuilder sb = new StringBuilder();
+                sb.append("<html>");
+                sb.append("<h3>");
+                sb.append(file.getAbsolutePath());
+                sb.append("</h3>");
+                sb.append("<b>size:</b>");
+                sb.append(file.length());
+                sb.append("<br/><b>last mod:</b>");
+                sb.append(idropCore.getDateFormat().format(file.lastModified()));
+                sb.append("</html>");
+                this.setToolTipText(sb.toString());
+                return super.getTreeCellRendererComponent(tree, value, sel,
+                                expanded, leaf, row, hasFocus);
+        }
+    }
+
+    
 }
