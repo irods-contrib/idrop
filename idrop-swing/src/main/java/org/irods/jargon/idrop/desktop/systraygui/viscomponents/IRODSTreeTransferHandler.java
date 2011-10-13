@@ -41,7 +41,6 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     @Override
     public void exportAsDrag(final JComponent jc, final InputEvent ie,
             final int i) {
-        log.info("export as drag");
         super.exportAsDrag(jc, ie, i);
     }
 
@@ -64,19 +63,32 @@ public class IRODSTreeTransferHandler extends TransferHandler {
     @Override
     public boolean importData(final TransferSupport ts) {
 
+        // isdrop = false
+        // componenet m_clicked_path = file path in tree
+        // ransferrable = staging view tree transferrable:file:/test1/home/test1/test/log4j-1.2.15.jar
+
+
         // FIXME: handle 'paste' drop
         log.info("importData in irods:{}", ts);
         // mac opt = 1 w/o = 2 (no plus icon for a 2 so it's a move) / for drag
         // from local is 1 (copy)
-        Point pt = ts.getDropLocation().getDropPoint();
-        IRODSTree tree = (IRODSTree) ts.getComponent();
-        TreePath targetPath = tree.getClosestPathForLocation(pt.x, pt.y);
-        IRODSNode targetNode = (IRODSNode) targetPath.getLastPathComponent();
-        log.info("drop node is: {}", targetNode);
 
+        IRODSTree tree = (IRODSTree) ts.getComponent();
         Transferable transferable = ts.getTransferable();
 
         DataFlavor[] transferrableFlavors = transferable.getTransferDataFlavors();
+        IRODSNode targetNode = null;
+
+        if (ts.isDrop()) {
+            Point pt = ts.getDropLocation().getDropPoint();
+
+            TreePath targetPath = tree.getClosestPathForLocation(pt.x, pt.y);
+            targetNode = (IRODSNode) targetPath.getLastPathComponent();
+            log.info("drop node is: {}", targetNode);
+        } else {
+            int idx = tree.convertRowIndexToModel(tree.getSelectedRow());
+            targetNode = (IRODSNode) tree.getModel().getValueAt(idx, 0);
+        }
 
         // see if this is a phymove gesture or an iRODS copy
         if (transferable.isDataFlavorSupported(IRODSTreeTransferable.irodsTreeDataFlavor)) {
@@ -91,8 +103,11 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                     processPhymoveGesture(transferable, targetNode);
                     return true;
                 }
+            } else {
+                 // copy
+                    processCopyGesture(transferable, targetNode);
+                    return true;
             }
-
         }
 
         // not a phymove

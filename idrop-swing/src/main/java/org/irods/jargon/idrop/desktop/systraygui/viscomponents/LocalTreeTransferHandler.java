@@ -98,11 +98,22 @@ public class LocalTreeTransferHandler extends TransferHandler {
     @Override
     public boolean importData(final TransferSupport ts) {
         log.info("importData event:{}", ts);
-        Point pt = ts.getDropLocation().getDropPoint();
+
+        LocalFileNode nodeThatWasDropTarget = null;
+        File nodeThatWasDropTargetAsFile = null;
+
         JTree tree = (JTree) ts.getComponent();
-        TreePath parentpath = tree.getClosestPathForLocation(pt.x, pt.y);
-        LocalFileNode nodeThatWasDropTarget = (LocalFileNode) parentpath.getLastPathComponent();
-        final File nodeThatWasDropTargetAsFile = (File) nodeThatWasDropTarget.getUserObject();
+
+        if (ts.isDrop()) {
+            Point pt = ts.getDropLocation().getDropPoint();
+            TreePath targetPath = tree.getClosestPathForLocation(pt.x, pt.y);
+            nodeThatWasDropTarget = (LocalFileNode) targetPath.getLastPathComponent();
+        } else {
+            nodeThatWasDropTarget = (LocalFileNode) tree.getSelectionPath().getLastPathComponent();
+        }
+
+        log.info("drop node is: {}", nodeThatWasDropTarget);
+        nodeThatWasDropTargetAsFile = (File) nodeThatWasDropTarget.getUserObject();
         log.info("local file node is: {}", nodeThatWasDropTargetAsFile);
         tree.getModel();
 

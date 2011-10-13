@@ -1,9 +1,13 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.awt.Cursor;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -11,8 +15,13 @@ import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.KeyStroke;
+import javax.swing.TransferHandler;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeWillExpandListener;
@@ -104,8 +113,28 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
             throw new IdropRuntimeException(
                     "error initializing selection listener", ex);
         }
-       
+
         this.getSelectionModel().addListSelectionListener(treeListener);
+
+        /*
+        ActionMap map = this.getActionMap();
+        map.put(IRODSTreeTransferHandler.getCutAction().getValue(Action.NAME),
+                IRODSTreeTransferHandler.getCutAction());
+        map.put(IRODSTreeTransferHandler.getCopyAction().getValue(Action.NAME),
+                IRODSTreeTransferHandler.getCopyAction());
+        map.put(IRODSTreeTransferHandler.getPasteAction().getValue(Action.NAME),
+                IRODSTreeTransferHandler.getPasteAction());
+
+        InputMap imap = this.getInputMap();
+        imap.put(KeyStroke.getKeyStroke("ctrl X"),
+                TransferHandler.getCutAction().getValue(Action.NAME));
+        imap.put(KeyStroke.getKeyStroke("ctrl C"),
+                TransferHandler.getCopyAction().getValue(Action.NAME));
+        imap.put(KeyStroke.getKeyStroke("ctrl V"),
+                TransferHandler.getPasteAction().getValue(Action.NAME));
+         * 
+         */
+
 
     }
 
@@ -321,4 +350,39 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
             }
         });
     }
+
+    // FIXME: move out?
+    /*
+public class TransferActionListener implements ActionListener,
+                                              PropertyChangeListener {
+    private JComponent focusOwner = null;
+
+    public TransferActionListener() {
+        KeyboardFocusManager manager = KeyboardFocusManager.
+           getCurrentKeyboardFocusManager();
+        manager.addPropertyChangeListener("permanentFocusOwner", this);
+    }
+
+    public void propertyChange(PropertyChangeEvent e) {
+        Object o = e.getNewValue();
+        if (o instanceof JComponent) {
+            focusOwner = (JComponent)o;
+        } else {
+            focusOwner = null;
+        }
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (focusOwner == null)
+            return;
+        String action = (String)e.getActionCommand();
+        Action a = focusOwner.getActionMap().get(action);
+        if (a != null) {
+            a.actionPerformed(new ActionEvent(focusOwner,
+                                              ActionEvent.ACTION_PERFORMED,
+                                              null));
+        }
+    }
+}
+*/
 }
