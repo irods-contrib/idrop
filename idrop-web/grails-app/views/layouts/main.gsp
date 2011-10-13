@@ -14,11 +14,23 @@
 <link rel="shortcut icon"
 	href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
 <g:layoutHead />
-<g:javascript library="jquery-1.6.4" />
-<g:javascript library="jquery-ui-1.8.7.custom.min" />
-<g:javascript library="jquery.jstree.min" />
-<g:javascript library="jquery.jeditable.mini" />
+<g:javascript library="jquery-1.6.1" />
 
+<g:javascript library="jquery-ui-1.8.7.custom.min" />
+<!-- 
+<g:javascript library="jstree.core" />
+<g:javascript library="jstree.dnd" />
+<g:javascript library="jstree.html" />
+<g:javascript library="jstree.json" />
+<g:javascript library="jstree.state" />
+<g:javascript library="jstree.themes" />
+<g:javascript library="jstree.ui" />
+<g:javascript library="vakata" />
+ -->
+  <g:javascript library="jquery.hotkeys" />
+ <g:javascript library="jquery.jstree.min" />
+ 
+<g:javascript library="jquery.jeditable.mini" />
 <g:javascript library="jquery.dataTables.min" />
 <g:javascript library="jqcloud-0.1.6" />
 <g:javascript library="jquery.fileupload-ui" />

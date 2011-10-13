@@ -48,6 +48,7 @@ function retrieveBrowserFirstView() {
 function browserFirstViewRetrieved(data) {
 	var parent = data['parent']
 	dataTree = $("#dataTreeDiv").jstree({
+		"plugins" : [ "themes", "contextmenu", "json_data", "types", "ui", "crmm"],
 		"core" : {
 			"initially_open" : [ parent ]
 		},
@@ -66,6 +67,9 @@ function browserFirstViewRetrieved(data) {
 					setMessage("error loading tree");
 				}
 			}
+		},
+		"contextmenu" : {
+			
 		},
 		"types" : {
 			"types" : {
@@ -88,32 +92,14 @@ function browserFirstViewRetrieved(data) {
 			"select_limit" : 1,
 			"initially_select" : [ "phtml_2" ]
 		},
-		"contextmenu" : {
-			"rename" : {
-				// The item label
-				"label"				: "Rename",
-				// The function to execute upon a click
-				"action"			: function (obj) { this.rename(obj); },
-				// All below are optional 
-				"_disabled"			: true,		// clicking the item won't do a thing
-				"_class"			: "class",	// class is applied to the item LI node
-				"separator_before"	: false,	// Insert a separator before the item
-				"separator_after"	: true,		// Insert a separator after the item
-				// false or string - if does not contain `/` - used as classname
-				"icon"				: false,
-				"submenu"			: { 
-					/* Collection of objects (the same structure) */
-				}
-			}
-
-		},
+		
 		"themes" : {
 			"theme" : "default",
 			"url" : context + "/css/style.css",
 			"dots" : false,
 			"icons" : true
-		},
-		"plugins" : [ "json_data", "types", "ui", "crmm", "contextmenu", "themes"  ]
+		}
+	
 	});
 
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
@@ -122,6 +108,87 @@ function browserFirstViewRetrieved(data) {
 
 	tabs.resize();
 
+}
+
+function saved() {
+	function browserFirstViewRetrieved(data) {
+		var parent = data['parent']
+		dataTree = $("#dataTreeDiv").jstree({
+			"core" : {
+				"initially_open" : [ parent ]
+			},
+			"json_data" : {
+				"data" : [ data ],
+				"progressive_render" : true,
+				"ajax" : {
+					"url" : context + "/browse/ajaxDirectoryListingUnderParent",
+					"data" : function(n) {
+						lcClearMessage();
+						return {
+							dir : n.attr ? n.attr("id") : 0
+						};
+					},
+					"error" : function(n) {
+						setMessage("error loading tree");
+					}
+				}
+			},
+			"types" : {
+				"types" : {
+					"file" : {
+						"valid_children" : "none",
+						"icon" : {
+							"image" : context + "/images/file.png"
+						}
+					},
+					"folder" : {
+						"valid_children" : [ "default", "folder", "file" ],
+						"icon" : {
+							"image" : context + "/images/folder.png"
+						}
+					}
+				}
+
+			},
+			"ui" : {
+				"select_limit" : 1,
+				"initially_select" : [ "phtml_2" ]
+			},
+			"contextmenu" : {
+				"rename" : {
+					// The item label
+					"label"				: "Rename",
+					// The function to execute upon a click
+					"action"			: function (obj) { this.rename(obj); },
+					// All below are optional 
+					"_disabled"			: true,		// clicking the item won't do a thing
+					"_class"			: "class",	// class is applied to the item LI node
+					"separator_before"	: false,	// Insert a separator before the item
+					"separator_after"	: true,		// Insert a separator after the item
+					// false or string - if does not contain `/` - used as classname
+					"icon"				: false,
+					"submenu"			: { 
+						/* Collection of objects (the same structure) */
+					}
+				}
+
+			},
+			"themes" : {
+				"theme" : "default",
+				"url" : context + "/css/style.css",
+				"dots" : false,
+				"icons" : true
+			},
+			"plugins" : [ "core", "json_data", "types", "ui", "crmm", "contextmenu", "themes"  ]
+		});
+
+		$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
+			nodeSelected(e, data.rslt.obj);
+		});
+
+		tabs.resize();
+
+	}
 }
 
 /**
