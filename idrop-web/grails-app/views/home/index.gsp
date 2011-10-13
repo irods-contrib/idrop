@@ -13,54 +13,11 @@
 		<li><a href="#browse"><g:message code="text.browse" /></a></li>
 	</ul>
 	<div id="quickView">
-		<div class="objectContainer">
-
-			<div class="objectContainerDetails">
-				<span class="objectHeader">A data object</span>
-				<div class="objectDescription">This is a really nice data
-					object with a good deal of bytes dedicated to showing many
-					interesting things. For one thing, it's blue, and there are lots of
-					fiddley bits that you can inspect that can really help understand
-					all about various things. There is also enough text fill many lines
-					with all sorts of appealing extra information</div>
-			</div>
-			<div class="objectContainerTools">
-				<span class="objectContainerActions"><a href="edit"
-					class="objectAction"><g:message code="text.edit" /></a> - <a href="viewInTree"
-					class="objectAction"><g:message code="text.view" /></a> - <a href="share"
-					class="objectAction"><g:message code="text.share" /></a> </span> <span class="objectContainerTags">tag1
-					tag2:detail tag3 hello</span>
-			</div>
-
+		<div class="wrapper" >
 		</div>
-
-
-		<div class="objectContainer">
-
-			<div class="objectContainerDetails">
-				<span class="objectHeader">A data object</span>
-				<div class="objectDescription">This is a really nice data
-					object with a good deal of bytes dedicated to showing many
-					interesting things. For one thing, it's blue, and there are lots of
-					fiddley bits that you can inspect that can really help understand
-					all about various things. There is also enough text fill many lines
-					with all sorts of appealing extra information</div>
-			</div>
-			<div class="objectContainerTools">
-				<span class="objectContainerActions"><a href="edit"
-						class="objectAction"><g:message code="text.edit" /></a> - <a href="viewInTree"
-					class="objectAction"><g:message code="text.view" /></a> - <a href="share"
-					class="objectAction"><g:message code="text.share" /></a> </span> <span class="objectContainerTags">tag1
-					tag2:detail tag3 hello</span>
-			</div>
-
-		</div>
-
-
 	</div>
 	<div id="search">
-		<div class="wrapper" style="width: 100%; overflow:auto;">
-
+			<div class="wrapper" >
 			<div id="searchView">
 				<!--  this will be filled in with the search results table -->
 				<div id="searchTableDiv">
@@ -71,9 +28,9 @@
 	</div>
 
 	<div id="browse">
-		<div id="browser" class="wrapper" style="width: 100%">
-			<div id="browseToolbar" class=""
-				style="height: 30px; position: relative; display: block; width: auto;">
+		<div id="browser" class="wrapper">
+			<div id="browseToolbar"
+				style="height: 10%; position: relative; display: block; width: auto;">
 				<div id="browseToolbarSubBox" class="ui-widget-header fg-toolbar" style="height:100%;">
 
 					<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
@@ -83,15 +40,12 @@
 							from="${['info', 'sharing', 'metadata']}"
 							noSelection="${['details':'details']}" onChange="setBrowseMode()" />
 					</div>
-
-					
 				</div>
-
 
 			</div>
 			<g:render template="/common/panelmessages" />
 
-			<div id="dataTreeView" style="width:100%; height:100%">
+			<div id="dataTreeView" style="width:100%; height:90%">
 
 				<!--  no empty divs -->
 				<div id="dataTreeDiv" class="ui-layout-west" style="width:25%%;height:100%;overflow:auto;">
