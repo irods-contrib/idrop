@@ -1,4 +1,8 @@
-<div class="roundedContainer">
+<div id="infoMessageArea">
+		<!--  -->
+	</div>
+<div>
+<div id="infoLeft" style="float:left; display:inline;">
 	<fieldset id="verticalForm">
 		<label for="">Collection:</label>
 		<g:textField name="collectionName"
@@ -40,4 +44,17 @@
 		</div>
 
 	</fieldset>
+	</div>
+	<div id="infoRight" style="float:right; display:inline;">
+		<div id="infoThumbnailLoadArea"></div>
+	</div>
 </div>
+<g:if test="${getThumbnail}">
+    <script>
+
+$(function() {
+	requestThumbnailImageForInfoPane();
+});
+
+</script>
+</g:if>

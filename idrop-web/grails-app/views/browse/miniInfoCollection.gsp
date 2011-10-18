@@ -1,5 +1,6 @@
 <h2>
 <div class="roundedContainer">
+<div id="infoLeft">
 	<fieldset id="verticalForm">
 		<label for="">Parent Collection:</label>
 		<g:textField name="collectionParentName"
@@ -39,4 +40,18 @@
 		</div>
 
 	</fieldset>
+	</div>
+	<div id="infoRight" style="float:right">
+		<div id="infoThumbnail">
+		<span id="infoThumbnailLoadArea"><!--  thumbnail image --></span></div>
+	</div>
 </div>
+<script>
+
+$(function() {
+	//alert("i am done loading miniinfo");
+	//alert("abs path is:" + $("#infoAbsPath").val());
+	
+});
+
+</script>

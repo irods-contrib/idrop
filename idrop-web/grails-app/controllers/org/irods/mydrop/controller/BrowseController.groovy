@@ -6,6 +6,7 @@ import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
 import org.irods.jargon.core.pub.*
 import org.irods.jargon.core.pub.domain.DataObject
+import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -232,6 +233,8 @@ class BrowseController {
 	   def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 
 	   def isDataObject = retObj instanceof DataObject
+	   
+	   def getThumbnail = false
 
 	   log.info "is this a data object? ${isDataObject}"
 
@@ -240,7 +243,15 @@ class BrowseController {
 		   log.info("getting free tags for data object")
 		   def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
 		   log.info("rendering as data object: ${retObj}")
-		   render(view:"miniInfoDataObject", model:[dataObject:retObj,tags:freeTags])
+		   
+		   String extension = LocalFileUtils.getFileExtension(retObj.dataName)
+		   log.info("extension is:${extension}")
+		   
+		   if (extension == ".jpg" || extension == ".gif" || extension == ".png" || extension == ".tiff") {
+		   	getThumbnail = true;
+		   }
+		   
+		   render(view:"miniInfoDataObject", model:[dataObject:retObj,tags:freeTags,getThumbnail:getThumbnail])
 	   } else {
 		   log.info("getting free tags for collection")
 		   def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)

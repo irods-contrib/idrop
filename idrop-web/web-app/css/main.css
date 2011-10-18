@@ -116,6 +116,7 @@ div#tabs {
 	padding: 3px;
 	margin: 3px;
 	display: block;
+	position: relative;
 }
 
 .body {

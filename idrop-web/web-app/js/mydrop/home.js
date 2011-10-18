@@ -22,6 +22,8 @@ var aclAddUrl = '/sharing/addAcl';
 var aclDeleteUrl = '/sharing/deleteAcl';
 var aclTableLoadUrl = '/sharing/renderAclDetailsTable';
 var idropLiteUrl = '/idropLite/appletLoader';
+var thumbnailLoadUrl = '/image/generateThumbnail';
+
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
  * browser request for the root directory.
@@ -682,3 +684,21 @@ function showIdropLite() {
 			});
 
 }
+
+/**
+ * Ask for a thumbnail image for a selected path to be displayed on an info panel.  These use a consistent naming scheme
+ * for the various divs and data elements.
+ */
+function requestThumbnailImageForInfoPane() {
+	
+	var url  = scheme + "://" + host + ":" + port + context + thumbnailLoadUrl + "?absPath=" + $("#infoAbsPath").val();
+	var oImg=document.createElement("img");
+	oImg.setAttribute('src', url);
+	oImg.setAttribute('alt', 'na');
+	oImg.setAttribute('class', 'thumb');
+	//oImg.setAttribute('height', '332px');
+	//oImg.setAttribute('width', '500px');
+	$("#infoThumbnailLoadArea").append(oImg);
+	
+}
+
