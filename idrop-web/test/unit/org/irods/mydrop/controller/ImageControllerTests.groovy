@@ -7,11 +7,12 @@ import java.util.Properties
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
+import org.irods.jargon.datautils.image.ImageServiceFactory
+import org.irods.jargon.datautils.image.ThumbnailService
 import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.mockito.Mockito
 import org.springframework.security.core.context.SecurityContextHolder
-import org.irods.jargon.core.exception.JargonRuntimeException
 
 class ImageControllerTests extends ControllerUnitTestCase {
   IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -39,8 +40,15 @@ class ImageControllerTests extends ControllerUnitTestCase {
 
     void testGenerateThumbnail() {
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		
 		def testPath = "/test/path.jpg"
+		ThumbnailService thumbnailService = Mockito.mock(ThumbnailService.class)
+		InputStream mockStream = Mockito.mock(InputStream.class)
+		ImageServiceFactory imageServiceFactory = Mockito.mock(ImageServiceFactory.class)
+		Mockito.when(imageServiceFactory.instanceThumbnailService(irodsAccount)).thenReturn(thumbnailService)
+		Mockito.when(thumbnailService.retrieveThumbnailByIRODSAbsolutePathViaRule(testPath)).thenReturn(mockStream)
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.imageServiceFactory = imageServiceFactory
 		controller.irodsAccount = irodsAccount
 		controller.params.absPath = testPath
 		controller.generateThumbnail()

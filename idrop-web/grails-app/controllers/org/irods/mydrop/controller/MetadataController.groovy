@@ -56,21 +56,21 @@ class MetadataController {
 		}
 
 		log.info("showMetadataDetails for absPath: ${absPath}")
-		
+
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 		def isDataObject = retObj instanceof DataObject
 		boolean getThumbnail = false
-		
+
 		if (isDataObject) {
-		String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
-		log.info("extension is:${extension}")
-		
-	   if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
-			 getThumbnail = true;
-		 }
+			String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
+			log.info("extension is:${extension}")
+
+			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
+				getThumbnail = true;
+			}
 		}
-		
+
 		render(view:"metadataDetails", model:[retObj:retObj, isDataObject:isDataObject, getThumbnail:getThumbnail])
 	}
 
@@ -294,7 +294,7 @@ class MetadataController {
 			int i = 0;
 			attributesToDelete.each{
 				log.info "avusToDelete: ${it} has index ${i}"
-				
+
 				def thisAttr = ((List) attributesToDelete).get(i);
 				def thisVal = ((List) valuesToDelete).get(i);
 				def thisUnit = ((List) unitsToDelete).get(i);

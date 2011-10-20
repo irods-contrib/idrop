@@ -75,6 +75,11 @@ class SharingControllerTests extends ControllerUnitTestCase {
 	void testShowAclDetailsCollection() {
 		def testPath = "/testpath"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		Collection retObject = new Collection()
+		retObject.setCollectionName(testPath)
+		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
+		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
 
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount

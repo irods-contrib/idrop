@@ -49,7 +49,14 @@ class MetadataControllerTests extends ControllerUnitTestCase {
 	void testShowMetadata() {
 		def testPath = "/testpath"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
-			
+		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		DataObject retObject = new DataObject()
+		retObject.setDataName("test.jpg")
+		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
+		DataObjectAO dataObjectAO = Mockito.mock(DataObjectAO.class)
+		Mockito.when(irodsAccessObjectFactory.getDataObjectAO(irodsAccount)).thenReturn(dataObjectAO)
+		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
+		
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
 		controller.params.absPath = testPath
