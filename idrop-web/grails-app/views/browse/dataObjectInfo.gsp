@@ -1,33 +1,24 @@
-<h2><g:message code="heading.info" /></h2>
-<div class="roundedContainer">
+<div id="infoMessageArea">
+		<!--  -->
+	</div>
+<div>
+<div id="infoLeft" style="float:left; display:inline; width:60%;overflow:auto;">
 	<fieldset id="verticalForm">
-		<label for="">Collection:</label>
-		<g:textField name="collectionName"
-			value="${dataObject.collectionName}" readonly="true" />
-		<br /> <label for="dataName">Name:</label>
-		<g:textField name="dataName" value="${dataObject.dataName}"
-			readonly="true" />
-		<br /> <label for="size">Size:</label>
-		<g:textField name="size" value="${dataObject.dataSize}" readonly="true "/>
-		<br /> <label for="createdAt">Created At:</label>
-		<g:textField name="createdAt" value="${dataObject.createdAt}"
-			readonly="true" />
-		<br /> <label for="updatedAt">Updated At:</label>
-		<g:textField name="updatedAt" value="${dataObject.updatedAt}"
-			readonly="true" />
-			
-			<br /> <label for="owner">Owner:</label>
-		<g:textField name="owner" value="${dataObject.dataOwnerName}"
-			readonly="true" />
-			
-			
-			<br /> <label for="ownerZone">Owner Zone:</label>
-		<g:textField name="ownerZone" value="${dataObject.dataOwnerZone}"
-			readonly="true" />
-			
+		<label>Collection:</label>${dataObject.collectionName}
+		<br /><label>Name:</label>${dataObject.dataName}
+		<br /> <label>Size:</label>${dataObject.dataSize}
+		<br /> <label>Created At:</label>${dataObject.createdAt}
+		<br /> <label>Updated At:</label>${dataObject.updatedAt}
+		<br /> <label>Owner:</label>${dataObject.dataOwnerName}
+		<br /> <label>Owner Zone:</label>${dataObject.dataOwnerZone}
 		<br /> <label for="tags">Tags:</label>
 		<g:textField id="infoTags" name="tags"
 			value="${tags.spaceDelimitedTagsForDomain}" />
+		<br />
+		
+		<br /> <label for="comment">Comment:</label>
+		<g:textArea id="infoComment" name="comment" rows="5" cols="80"
+			value="${comment}" />
 		<br />
 		
 		<g:hiddenField id="infoAbsPath" name="absolutePath"
@@ -41,4 +32,17 @@
 		</div>
 
 	</fieldset>
+	</div>
+	<div id="infoRight" style="float:right; display:inline; width:40%;overflow:auto;">
+		<div id="infoThumbnailLoadArea"></div>
+	</div>
 </div>
+<g:if test="${getThumbnail}">
+    <script>
+
+$(function() {
+	requestThumbnailImageForInfoPane();
+});
+
+</script>
+</g:if>

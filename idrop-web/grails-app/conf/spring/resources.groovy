@@ -34,6 +34,7 @@ beans = {
 	
 	imageController(org.irods.mydrop.controller.ImageController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+		imageServiceFactory = ref("imageServiceFactory")
 	}
 	
 }

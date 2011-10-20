@@ -17,11 +17,13 @@ function search() {
  */
 function updateTags() {
 	var infoTagsVal = $("#infoTags").val();
+	var infoCommentVal = $("#infoComment").val();
 	var absPathVal = $("#infoAbsPath").val();
 
 	var params = {
 		absPath : absPathVal,
-		tags : infoTagsVal
+		tags : infoTagsVal,
+		comment: infoCommentVal
 	}
 
 	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",

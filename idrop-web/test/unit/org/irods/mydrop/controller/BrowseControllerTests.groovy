@@ -19,8 +19,11 @@ import org.irods.jargon.core.query.MetaDataAndDomainData
 import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.irods.jargon.usertagging.FreeTaggingService
+import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.jargon.usertagging.domain.IRODSTagGrouping
+import org.irods.jargon.usertagging.domain.IRODSTagValue
+import org.mockito.Matchers;
 import org.mockito.Mockito
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -120,10 +123,17 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		FreeTaggingService freeTaggingService = Mockito.mock(FreeTaggingService.class)
+		
 		TaggingServiceFactory taggingServiceFactory = Mockito.mock(TaggingServiceFactory.class)
 		IRODSTagGrouping grouping = new IRODSTagGrouping(MetaDataAndDomainData.MetadataDomain.DATA, "name", "tags", "user")
 		Mockito.when(freeTaggingService.getTagsForDataObjectInFreeTagForm(testPath)).thenReturn(grouping)
 		Mockito.when(taggingServiceFactory.instanceFreeTaggingService(irodsAccount)).thenReturn(freeTaggingService)
+		
+		IRODSTagValue tagValue = new IRODSTagValue("xxx", "yyy")
+		IRODSTaggingService irodsTaggingService = Mockito.mock(IRODSTaggingService.class)
+		Mockito.when(irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(Matchers.anyString())).thenReturn(tagValue)
+		Mockito.when(taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)).thenReturn(irodsTaggingService)
+		
 		controller.irodsAccount = irodsAccount
 		controller.taggingServiceFactory = taggingServiceFactory
 		controller.params.absPath = testPath
@@ -155,6 +165,12 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		IRODSTagGrouping grouping = new IRODSTagGrouping(MetaDataAndDomainData.MetadataDomain.COLLECTION, "name", "tags", "user")
 		Mockito.when(freeTaggingService.getTagsForCollectionInFreeTagForm(testPath)).thenReturn(grouping)
 		Mockito.when(taggingServiceFactory.instanceFreeTaggingService(irodsAccount)).thenReturn(freeTaggingService)
+		
+		IRODSTagValue tagValue = new IRODSTagValue("xxx", "yyy")
+		IRODSTaggingService irodsTaggingService = Mockito.mock(IRODSTaggingService.class)
+		Mockito.when(irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(Matchers.anyString())).thenReturn(tagValue)
+		Mockito.when(taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)).thenReturn(irodsTaggingService)
+		
 		controller.irodsAccount = irodsAccount
 		controller.taggingServiceFactory = taggingServiceFactory
 		controller.params.absPath = testPath

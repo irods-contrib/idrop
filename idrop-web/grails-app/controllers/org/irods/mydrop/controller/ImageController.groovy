@@ -3,8 +3,7 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.irods.jargon.core.pub.io.IRODSFile
-import org.irods.jargon.core.utils.LocalFileUtils
+import org.irods.jargon.datautils.image.ImageServiceFactory
 import org.irods.jargon.datautils.image.ThumbnailService
 import org.irods.jargon.datautils.image.ThumbnailServiceImpl
 import org.springframework.security.core.context.SecurityContextHolder
@@ -18,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 class ImageController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
+	ImageServiceFactory imageServiceFactory
 	IRODSAccount irodsAccount
 
 	/**
@@ -52,12 +52,10 @@ class ImageController {
 		}
 		log.info("looking up image as: ${absPath}")
 		
-		
-	
 		File tempDir =servletContext.getAttribute( "javax.servlet.context.tempdir" );
 		log.info "tempdir:${tempDir}"
 		
-		ThumbnailService thumbnailService = new ThumbnailServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		ThumbnailService thumbnailService = imageServiceFactory.instanceThumbnailService(irodsAccount)
 		InputStream thumbnailData = new BufferedInputStream(thumbnailService.retrieveThumbnailByIRODSAbsolutePathViaRule(absPath))
 		
 		response.setContentType("image/jpeg")

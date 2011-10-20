@@ -60,9 +60,10 @@ function browserFirstViewRetrieved(data) {
 				"url" : context + "/browse/ajaxDirectoryListingUnderParent",
 				"data" : function(n) {
 					lcClearMessage();
-					return {
-						dir : n.attr ? n.attr("id") : 0
-					};
+					dir =  n.attr("id");
+					 //dir : n.attr ? n.attr("id") : 0
+					return "dir=" + encodeURIComponent(dir);
+					
 				},
 				"error" : function(n) {
 					setMessage("error loading tree");
@@ -182,25 +183,25 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	if (browseOptionVal == "details") {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/browse/displayBrowseGridDetails?absPath=" + absPath,
+				"/browse/displayBrowseGridDetails?absPath=" + encodeURIComponent(absPath),
 				"#infoDiv", "#infoDiv", function(data) {
 					$("#infoDiv").html(data);
 
 				});
 	} else if (browseOptionVal == "info") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath="
-				+ absPath, "#infoDiv", "#infoDiv", null);
+				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 	} else if (browseOptionVal == "metadata") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/metadata/showMetadataDetails?absPath=" + absPath, "#infoDiv",
+				"/metadata/showMetadataDetails?absPath=" + encodeURIComponent(absPath), "#infoDiv",
 				"#infoDiv", null);
 	} else if (browseOptionVal == "sharing") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/sharing/showAclDetails?absPath=" + absPath, "#infoDiv",
+				"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath), "#infoDiv",
 				"#infoDiv", null);
 	} else if (browseOptionVal == "audit") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/audit/auditList?absPath=" + absPath, "#infoDiv",
+				"/audit/auditList?absPath=" + encodeURIComponent(absPath), "#infoDiv",
 				"#infoDiv", null);
 	}
 }
@@ -371,13 +372,6 @@ function showAclDialog(data) {
 		minLength : 3,
 		source : mySource
 	});
-
-	/**
-	 * $("#aclDialogArea").html(data); $("#aclDialogArea").dialog({ "width" :
-	 * 400, "modal" : true, "buttons" : { "Ok" : function() { submitAclDialog(); },
-	 * "Cancel" : function() { $(this).dialog("close"); } }, "title" : "Edit
-	 * Share Permission" });
-	 */
 
 }
 
@@ -690,8 +684,9 @@ function showIdropLite() {
  * for the various divs and data elements.
  */
 function requestThumbnailImageForInfoPane() {
-	
-	var url  = scheme + "://" + host + ":" + port + context + thumbnailLoadUrl + "?absPath=" + $("#infoAbsPath").val();
+	var absPath =  $("#infoAbsPath").val();
+	absPath = encodeURIComponent(absPath);
+	var url  = scheme + "://" + host + ":" + port + context + thumbnailLoadUrl + "?absPath=" + absPath;
 	var oImg=document.createElement("img");
 	oImg.setAttribute('src', url);
 	oImg.setAttribute('alt', 'na');

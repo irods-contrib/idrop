@@ -12,6 +12,7 @@ import org.irods.jargon.core.pub.DataObjectAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.AvuData
 import org.irods.jargon.core.pub.domain.DataObject
+import org.irods.jargon.core.utils.LocalFileUtils
 import org.springframework.security.core.context.SecurityContextHolder
 
 /**
@@ -55,7 +56,22 @@ class MetadataController {
 		}
 
 		log.info("showMetadataDetails for absPath: ${absPath}")
-		render(view:"metadataDetails")
+		
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+		def isDataObject = retObj instanceof DataObject
+		boolean getThumbnail = false
+		
+		if (isDataObject) {
+		String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
+		log.info("extension is:${extension}")
+		
+	   if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
+			 getThumbnail = true;
+		 }
+		}
+		
+		render(view:"metadataDetails", model:[retObj:retObj, isDataObject:isDataObject, getThumbnail:getThumbnail])
 	}
 
 	/**

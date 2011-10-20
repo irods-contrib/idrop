@@ -1,17 +1,21 @@
 package org.irods.mydrop.controller
 
+import grails.converters.*
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.usertagging.FreeTaggingService
+import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.jargon.usertagging.UserTagCloudService
+import org.irods.jargon.usertagging.domain.IRODSTagValue
 import org.irods.jargon.usertagging.domain.UserTagCloudView
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
 import org.springframework.security.core.context.SecurityContextHolder
-import grails.converters.*
 
 
 
@@ -73,7 +77,6 @@ class TagsController {
 
 			jsonBuff.add(
 					["text": it.irodsTagValue.tagData,"weight":2 + it.countOfFiles])
-					
 		}
 
 		render jsonBuff as JSON
@@ -85,7 +88,12 @@ class TagsController {
 	def updateTags = {
 		String absPath = params['absPath']
 		def tagString = Jsoup.clean(params['tags'], Whitelist.basic())
-
+		
+		def comment = ""
+		if (params['comment']) {
+			comment = Jsoup.clean(params['comment'], Whitelist.basic())
+		}
+		
 		if (absPath == null || absPath.isEmpty()) {
 			throw new JargonException("no absPath passed to method")
 		}
@@ -94,10 +102,30 @@ class TagsController {
 			throw new JargonException("null tags passed to method")
 		}
 
+		if (comment == null) {
+			throw new JargonException("null comment passed to method")
+		}
+
 		log.info("updating tags for file: ${absPath} for user: ${irodsAccount.userName}")
+		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
+
+		IRODSFile irodsFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+		
+		if (irodsFile.isFile()) {
+			log.info("saving comments for a file")
+			def irodsTagValue = new IRODSTagValue(comment, irodsAccount.userName)
+			irodsTaggingService.addDescriptionToDataObject(absPath, irodsTagValue)
+			log.info("comment added")
+		} else {
+			log.info("saving comments for a collecton")
+			def irodsTagValue = new IRODSTagValue(comment, irodsAccount.userName)
+			irodsTaggingService.addDescriptionToCollection(absPath, irodsTagValue)
+			log.info("comment added")
+		}
 
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		freeTaggingService.updateTagsForUserForADataObjectOrCollection(absPath, irodsAccount.userName, tagString)
+
 		log.info("tags updated")
 		render "success"
 	}
