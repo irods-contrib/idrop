@@ -58,7 +58,7 @@ class ImageController {
 		ThumbnailService thumbnailService = imageServiceFactory.instanceThumbnailService(irodsAccount)
 		InputStream thumbnailData = new BufferedInputStream(thumbnailService.retrieveThumbnailByIRODSAbsolutePathViaRule(absPath))
 		
-		response.setContentType("image/jpeg")
+		response.setContentType("image/jpg")
 		response.outputStream << thumbnailData // Performing a binary stream copy
 		
 	}
