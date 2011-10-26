@@ -1,7 +1,6 @@
 
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
-import java.awt.Color;
 import java.text.DateFormat;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.netbeans.swing.outline.RenderDataProvider;
