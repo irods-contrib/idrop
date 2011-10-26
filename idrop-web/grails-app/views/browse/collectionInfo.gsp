@@ -1,35 +1,27 @@
-<h2><g:message code="heading.info" /></h2>
-<div class="roundedContainer">
+<div id="infoMessageArea">
+		<!--  -->
+	</div>
+<div>
+<div id="infoLeft" style="float:left; display:inline;">
 	<fieldset id="verticalForm">
-		<label for="">Parent Collection:</label>
-		<g:textField name="collectionParentName"
-			value="${collection.collectionParentName}" readonly="true" />
-		<br /> <label for="collectionName">Collection Name:</label>
-		<g:textField name="collectionName"
-			value="${collection.collectionName}" readonly="true" />
-		<br /> <label for="createdAt">Created At:</label>
-		<g:textField name="createdAt" value="${collection.createdAt}"
-			readonly="true" />
-
-		<br /> <br /> <label for="updatedAt">Updated At:</label>
-		<g:textField name="updatedAt" value="${collection.modifiedAt}"
-			readonly="true" />
-
-		<br /> <label for="owner">Owner:</label>
-		<g:textField name="owner" value="${collection.collectionOwnerName}"
-			readonly="true" />
-
-
-		<br /> <label for="ownerZone">Owner Zone:</label>
-		<g:textField name="ownerZone"
-			value="${collection.collectionOwnerZone}" readonly="true" />
-
-		<g:hiddenField id="infoAbsPath" name="absolutePath"
-			value="${collection.collectionName}" />
-
+		<label>Parent Collection:</label>${collection.collectionParentName}
+		<br /><label>Name:</label>${collection.collectionName}
+		<br /> <label>Created At:</label>${collection.createdAt}
+		<br /> <label>Updated At:</label>${collection.modifiedAt}
+		<br /> <label>Owner:</label>${collection.collectionOwnerName}
+		<br /> <label>Owner Zone:</label>${collection.collectionOwnerZone}
 		<br /> <label for="tags">Tags:</label>
 		<g:textField id="infoTags" name="tags"
 			value="${tags.spaceDelimitedTagsForDomain}" />
+		<br />
+		
+		<br /> <label for="comment">Comment:</label>
+		<g:textArea id="infoComment" name="comment" rows="5" cols="80"
+			value="${comment}" />
+		<br />
+		
+		<g:hiddenField id="infoAbsPath" name="absolutePath"
+			value="${collection.collectionName}" />
 
 		<button type="button" id="updateTags" value="updateTags"
 			onclick="updateTags()")>Update Tags</button>
@@ -39,4 +31,18 @@
 		</div>
 
 	</fieldset>
+	</div>
+	<div id="infoRight" style="float:right">
+		<div id="infoThumbnail">
+		<span id="infoThumbnailLoadArea"><image src="<g:resource dir="images" file="folder.png" alt="folder icon" />"/></span></div>
+	</div>
 </div>
+</div>
+
+    <script>
+
+$(function() {
+	
+});
+
+</script>

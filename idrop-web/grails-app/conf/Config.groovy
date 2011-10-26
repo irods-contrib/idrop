@@ -72,7 +72,7 @@ log4j = {
 
 	root {
 		info()
-		//additivity = true
+		additivity = true
 	}
 
 	// Example of changing the log pattern for the default console
@@ -95,7 +95,7 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	info 'org.irods.mydrop'
-	info 'org.irods.jargon'
+	warn 'org.irods.jargon'
 	info 'grails.app'
 		 
 	warn 'org.mortbay.log',

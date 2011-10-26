@@ -26,6 +26,11 @@
 		<beans:constructor-arg ref="irodsAccessObjectFactory"></beans:constructor-arg>
 	</beans:bean>
 
+	<beans:bean id="imageServiceFactory"
+		class="org.irods.jargon.datautils.image.ImageServiceFactoryImpl">
+		<beans:constructor-arg ref="irodsAccessObjectFactory"></beans:constructor-arg>
+	</beans:bean>
+
 	<beans:bean id="authenticationManager"
 		class="org.irods.jargon.spring.security.IRODSAccountAuthenticationManager">
 		<beans:property name="irodsAccessObjectFactory" ref="irodsAccessObjectFactory"></beans:property>

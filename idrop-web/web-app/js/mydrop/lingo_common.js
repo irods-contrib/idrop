@@ -12,6 +12,9 @@ var dataAccessFailure = "dataAccessFailure";
 var timeoutHeaderValue = "apptimeout";
 var javascriptMessageArea = "#javascript_message_area";
 var context = "";
+var scheme = "";
+var host = "";
+var port = "";
 var messageClass = "message";
 
 /**

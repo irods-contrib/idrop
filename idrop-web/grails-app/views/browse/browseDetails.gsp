@@ -131,7 +131,8 @@
 
 	function askForBrowseDetailsPulldown(absPath, detailsId) {
 		
-		var url = "/browse/miniInfo";
+		var url = "/browse/fileInfo";
+		absPath = absPath;
 		var params = {
 				absPath:absPath
 			}

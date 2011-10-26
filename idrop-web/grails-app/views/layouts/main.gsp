@@ -43,6 +43,9 @@
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">
 	context = "${request.contextPath}";
+	scheme = "${request.scheme}";
+	host = "${request.localName}";
+	port = "${request.localPort}";
 </script>
 </head>
 <body>

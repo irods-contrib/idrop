@@ -6,7 +6,9 @@ import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
 import org.irods.jargon.core.pub.*
 import org.irods.jargon.core.pub.domain.DataObject
+import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.usertagging.FreeTaggingService
+import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -200,25 +202,47 @@ class BrowseController {
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 
 		def isDataObject = retObj instanceof DataObject
+		def getThumbnail = false
 
 		log.info "is this a data object? ${isDataObject}"
 
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
+		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
 		if (isDataObject) {
+			String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
+			log.info("extension is:${extension}")
+			
+			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" || extension == ".TIF") {
+				getThumbnail = true;
+			}
+			
 			log.info("getting free tags for data object")
 			def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
 			log.info("rendering as data object: ${retObj}")
-			render(view:"dataObjectInfo", model:[dataObject:retObj,tags:freeTags])
+			def commentTag = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(absPath)
+			
+			def comment = ""
+			if (commentTag) {
+				comment = commentTag.getTagData()
+			}
+			
+			render(view:"dataObjectInfo", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail])
 		} else {
 			log.info("getting free tags for collection")
 			def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
+			def commentTag = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(absPath)
+			
+			def comment = ""
+			if (commentTag) {
+				comment = commentTag.getTagData()
+			}
 			log.info("rendering as collection: ${retObj}")
-			render(view:"collectionInfo", model:[collection:retObj,tags:freeTags])
+			render(view:"collectionInfo", model:[collection:retObj,comment:comment,tags:freeTags])
 		}
 	}
 	
 	/**
-	* Build data for the 'large' file info display
+	* Build data for the 'mini' file info display
 	*/
    def miniInfo = {
 	   def absPath = params['absPath']
@@ -232,20 +256,48 @@ class BrowseController {
 	   def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 
 	   def isDataObject = retObj instanceof DataObject
+	   
+	   def getThumbnail = false
 
 	   log.info "is this a data object? ${isDataObject}"
 
 	   FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
+	   IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
 	   if (isDataObject) {
 		   log.info("getting free tags for data object")
 		   def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
+		   def commentTag = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(absPath)
+		   
+		   def comment = ""
+		   if (commentTag) {
+			   comment = commentTag.getTagData()
+		   }
+		   
 		   log.info("rendering as data object: ${retObj}")
-		   render(view:"miniInfoDataObject", model:[dataObject:retObj,tags:freeTags])
+		   
+		   String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
+		   log.info("extension is:${extension}")
+		   
+		  if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
+				getThumbnail = true;
+			}
+		   
+		   render(view:"miniInfoDataObject", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail])
 	   } else {
 		   log.info("getting free tags for collection")
 		   def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
+		   
+		   def commentTag = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(absPath)
+		   
+		   def comment = ""
+		   if (commentTag) {
+			   comment = commentTag.getTagData()
+		   }
+		   
+		   log.info("comment was:${comment}")
+		   
 		   log.info("rendering as collection: ${retObj}")
-		   render(view:"miniInfoCollection", model:[collection:retObj,tags:freeTags])
+		   render(view:"miniInfoCollection", model:[collection:retObj,comment:comment,tags:freeTags])
 	   }
    }
 }

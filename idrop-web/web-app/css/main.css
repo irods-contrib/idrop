@@ -116,6 +116,7 @@ div#tabs {
 	padding: 3px;
 	margin: 3px;
 	display: block;
+	position: relative;
 }
 
 .body {
@@ -612,6 +613,7 @@ th.desc a {
 #verticalForm label {
 	display: block;
 	margin-bottom: 1em;
+	margin-top: 1em;
 	font-weight: bold;
 }
 

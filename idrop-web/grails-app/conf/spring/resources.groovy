@@ -32,4 +32,9 @@ beans = {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 	}
 	
+	imageController(org.irods.mydrop.controller.ImageController) {
+		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+		imageServiceFactory = ref("imageServiceFactory")
+	}
+	
 }
