@@ -35,6 +35,9 @@
 
 					<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
 						style="float: left">
+						
+		<button type="button" id="refreshTree" value="refreshTree"
+			onclick="refreshTree()")><g:message code="text.refresh" /></button>
 						<g:message code="text.display.option" />:
 						<g:select name="browseDisplayOption" id="browseDisplayOption"
 							from="${['info', 'sharing', 'metadata']}"
@@ -45,8 +48,7 @@
 			</div>
 			<g:render template="/common/panelmessages" />
 
-			<div id="dataTreeView" style="width:100%; height:90%">
-
+			<div id="dataTreeView" style="width:100%; height:90%;">
 				<!--  no empty divs -->
 				<div id="dataTreeDiv" class="ui-layout-west" style="width:25%%;height:100%;overflow:auto;">
 					<!--  no empty divs -->

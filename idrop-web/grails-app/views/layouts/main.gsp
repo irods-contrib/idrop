@@ -26,10 +26,12 @@
 <g:javascript library="jstree.themes" />
 <g:javascript library="jstree.ui" />
 <g:javascript library="vakata" />
+
+<g:javascript library="jquery.jstree.min" />
  -->
   <g:javascript library="jquery.hotkeys" />
- <g:javascript library="jquery.jstree.min" />
  
+ <g:javascript library="jquery.jstree" />
 <g:javascript library="jquery.jeditable.mini" />
 <g:javascript library="jquery.dataTables.min" />
 <g:javascript library="jqcloud-0.1.6" />

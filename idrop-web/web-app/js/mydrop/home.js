@@ -41,6 +41,9 @@ function retrieveBrowserFirstView() {
 }
 
 /**
+ * Upon initial load of data for the iRODS tree view, set up the tree control.   This will be called as a call back method when
+ * the initial AJAX load request returns.
+ * 
  * @param data
  *            ajax response from browse controller containing the JSON
  *            representation of the collections and files underneath the given
@@ -73,6 +76,7 @@ function browserFirstViewRetrieved(data) {
 		},
 		"contextmenu" : {
 			
+			"items": customMenu
 		},
 		"types" : {
 			"types" : {
@@ -109,9 +113,48 @@ function browserFirstViewRetrieved(data) {
 		nodeSelected(e, data.rslt.obj);
 	});
 
-	tabs.resize();
+	//tabs.resize();
 
 }
+
+
+function customMenu(node) {
+    // The default set of all items FIXME: i18n
+    var items = {
+    		  refreshItem: { // The "refresh" menu item
+    	            label: "Refresh",
+    	            action: function () {
+    	            	$.jstree._reference(dataTree).refresh();
+    	            }
+    	        },
+        renameItem: { // The "rename" menu item
+            label: "Rename",
+            action: function () {}
+        },
+        deleteItem: { // The "delete" menu item
+            label: "Delete",
+            action: function () {}
+        },
+        newFolderItem: { // The "new" menu item
+            label: "New Folder",
+            action: function () {}
+        },
+        infoItem: { // The "info" menu item
+            label: "Info",
+            action: function () {}
+        },
+        
+        
+    };
+
+    if ($(node).hasClass("folder")) {
+        // Delete the "delete" menu item
+        delete items.deleteItem;
+    }
+
+    return items;
+}
+
 
 function saved() {
 	function browserFirstViewRetrieved(data) {
@@ -189,7 +232,7 @@ function saved() {
 			nodeSelected(e, data.rslt.obj);
 		});
 
-		tabs.resize();
+		//tabs.resize();
 
 	}
 }
@@ -762,5 +805,12 @@ function requestThumbnailImageForInfoPane() {
 	//oImg.setAttribute('width', '500px');
 	$("#infoThumbnailLoadArea").append(oImg);
 	
+}
+
+/**
+ * Refresh the browse tree
+ */
+function refreshTree() {
+	$.jstree._reference(dataTree).refresh();
 }
 
