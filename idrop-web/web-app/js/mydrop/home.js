@@ -26,6 +26,8 @@ var thumbnailLoadUrl = '/image/generateThumbnail';
 
 var folderAddUrl = '/file/createFolder';
 var fileDeleteUrl = '/file/deleteFileOrFolder';
+var fileRenameUrl = '/file/renameFile';
+
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
@@ -135,6 +137,11 @@ function browserFirstViewRetrieved(data) {
 	$("#dataTreeDiv").bind("remove.jstree", function(e, data) {
 		nodeRemoved(e, data.rslt.obj);
 	});
+	
+	$("#dataTreeDiv").bind("rename.jstree", function(e, data) {
+		nodeRenamed(e, data.rslt.obj);
+	});
+
 
 }
 
@@ -156,6 +163,7 @@ function customMenu(node) {
 		renameItem : { // The "rename" menu item
 			label : "Rename",
 			action : function() {
+				$.jstree._reference(dataTree).rename(node);
 			}
 		},
 		deleteItem : { // The "delete" menu item
@@ -184,6 +192,8 @@ function customMenu(node) {
 		infoItem : { // The "info" menu item
 			label : "Info",
 			action : function() {
+				lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath="
+						+ encodeURIComponent(node[0].id), "#infoDiv", "#infoDiv", null);
 			}
 		}
 
@@ -280,6 +290,41 @@ function nodeRemoved(event, data) {
 
 		setMessage(xhr.responseText);
 	});
+}
+
+/**
+ * called when a tree node is renamed. Rename the file in iRODS
+ * @param event
+ *            javascript event containing a reference to the selected node
+ * @return
+ */
+function nodeRenamed(event, data) {
+	// given the path, put in the node data
+	lcPrepareForCall();
+	var newName = $.trim(data[0].innerText);
+	var prevAbsPath = data.prevObject[0].id
+	
+	var params = {
+		prevAbsPath : prevAbsPath,
+		newName : newName
+	}
+	
+	//alert("newName=" + newName + "\n prev=" + prevAbsPath);
+
+	
+	var jqxhr = $.post(context + fileRenameUrl, params,
+			function(data, status, xhr) {
+				lcPrepareForCall();
+			}, "html").success(function(returnedData, status, xhr) {
+		setMessage("file renamed to:" + xhr.responseText);
+		selectedPath = xhr.responseText;
+		data[0].id = xhr.responseText;
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+	}).error(function(xhr, status, error) {
+		refreshTree();
+		setMessage(xhr.responseText);
+	});
+	
 }
 
 /**
