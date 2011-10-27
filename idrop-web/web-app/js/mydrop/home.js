@@ -162,7 +162,7 @@ function customMenu(node) {
         infoItem: { // The "info" menu item
             label: "Info",
             action: function () {}
-        },
+        }
         
         
     };

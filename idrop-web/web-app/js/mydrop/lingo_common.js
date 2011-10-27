@@ -276,9 +276,7 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
  */
 function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector) {
 	var dataTableCreated = $(newTableId).dataTable({
-		"bJQueryUI" : true,
-		// "sScrollX": "100%",
-		// "sScrollXInner": "110%"
+		"bJQueryUI" : true
 	});
 	
 

@@ -55,14 +55,14 @@
 <g:render template="/common/topbar"/>
 <g:render template="/common/messages"/>
 </div>
-<div id="bd">
-<div id="yui-main">
-<div class="yui-b">
-<div id="mainDiv" class="yui-ge">
-<div id="mainDivCol1" class="yui-u first"><!-- PUT MAIN COLUMN 1 CODE HERE -->
+<div id="bd" style="height:100%;">
+<div id="yui-main" style="height:100%;">
+<div class="yui-b" style="height:100%;">
+<div id="mainDiv" class="yui-ge" style="height:100%;">
+<div id="mainDivCol1" class="yui-u first" style="height:100%;"><!-- PUT MAIN COLUMN 1 CODE HERE -->
  <g:layoutBody />
 </div>
-<div id="secondaryDiv" class="yui-u"><!-- PUT MAIN COLUMN 2 CODE HERE -->
+<div id="secondaryDiv" class="yui-u" style="height:100%;"><!-- PUT MAIN COLUMN 2 CODE HERE -->
 <g:ifAuthenticated>
 <g:render template="/common/secondarymain"/>
 </g:ifAuthenticated>
