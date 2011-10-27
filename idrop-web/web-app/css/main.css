@@ -8,7 +8,10 @@ body {
 	background: #ffffff;
 	color: #210021;
 	font: 11px verdana, arial, helvetica, sans-serif;
+	height:500px;
 }
+
+
 
 a:link,a:visited,a:hover {
 	color: #330033;
@@ -80,7 +83,7 @@ div#tabs {
 	margin: 0px auto;
 	padding: 0px;
 	border: 0;
-	display: inline-block;
+	/*display: inline-block;*/
 	position: relative;
 	width: 100%;
 	height: 100%;
