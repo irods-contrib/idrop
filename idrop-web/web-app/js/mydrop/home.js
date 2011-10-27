@@ -53,7 +53,7 @@ function retrieveBrowserFirstView() {
 function browserFirstViewRetrieved(data) {
 	var parent = data['parent']
 	dataTree = $("#dataTreeDiv").jstree({
-		"plugins" : [ "themes", "contextmenu", "json_data", "types", "ui", "crmm"],
+		"plugins" : [ "themes", "contextmenu", "json_data", "types", "ui", "crrm"],
 		"core" : {
 			"initially_open" : [ parent ]
 		},
@@ -99,12 +99,14 @@ function browserFirstViewRetrieved(data) {
 			"select_limit" : 1,
 			"initially_select" : [ "phtml_2" ]
 		},
-		
 		"themes" : {
 			"theme" : "default",
 			"url" : context + "/css/style.css",
 			"dots" : false,
 			"icons" : true
+		},
+		"crrm": {
+			
 		}
 	
 	});
@@ -112,8 +114,6 @@ function browserFirstViewRetrieved(data) {
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
 		nodeSelected(e, data.rslt.obj);
 	});
-
-	//tabs.resize();
 
 }
 
@@ -137,7 +137,10 @@ function customMenu(node) {
         },
         newFolderItem: { // The "new" menu item
             label: "New Folder",
-            action: function () {}
+            action: function () {
+            	$.jstree._reference(dataTree).create(null, "inside", {data:name}, null, false);
+            	//$("#dataTreeDiv").jstree("create", null, false, name, {attr : {id: 'newnode'}, data: name}, false);
+            }
         },
         infoItem: { // The "info" menu item
             label: "Info",
@@ -153,88 +156,6 @@ function customMenu(node) {
     }
 
     return items;
-}
-
-
-function saved() {
-	function browserFirstViewRetrieved(data) {
-		var parent = data['parent']
-		dataTree = $("#dataTreeDiv").jstree({
-			"core" : {
-				"initially_open" : [ parent ]
-			},
-			"json_data" : {
-				"data" : [ data ],
-				"progressive_render" : true,
-				"ajax" : {
-					"url" : context + "/browse/ajaxDirectoryListingUnderParent",
-					"data" : function(n) {
-						lcClearMessage();
-						return {
-							dir : n.attr ? n.attr("id") : 0
-						};
-					},
-					"error" : function(n) {
-						setMessage("error loading tree");
-					}
-				}
-			},
-			"types" : {
-				"types" : {
-					"file" : {
-						"valid_children" : "none",
-						"icon" : {
-							"image" : context + "/images/file.png"
-						}
-					},
-					"folder" : {
-						"valid_children" : [ "default", "folder", "file" ],
-						"icon" : {
-							"image" : context + "/images/folder.png"
-						}
-					}
-				}
-
-			},
-			"ui" : {
-				"select_limit" : 1,
-				"initially_select" : [ "phtml_2" ]
-			},
-			"contextmenu" : {
-				"rename" : {
-					// The item label
-					"label"				: "Rename",
-					// The function to execute upon a click
-					"action"			: function (obj) { this.rename(obj); },
-					// All below are optional 
-					"_disabled"			: true,		// clicking the item won't do a thing
-					"_class"			: "class",	// class is applied to the item LI node
-					"separator_before"	: false,	// Insert a separator before the item
-					"separator_after"	: true,		// Insert a separator after the item
-					// false or string - if does not contain `/` - used as classname
-					"icon"				: false,
-					"submenu"			: { 
-						/* Collection of objects (the same structure) */
-					}
-				}
-
-			},
-			"themes" : {
-				"theme" : "default",
-				"url" : context + "/css/style.css",
-				"dots" : false,
-				"icons" : true
-			},
-			"plugins" : [ "core", "json_data", "types", "ui", "crmm", "contextmenu", "themes"  ]
-		});
-
-		$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
-			nodeSelected(e, data.rslt.obj);
-		});
-
-		//tabs.resize();
-
-	}
 }
 
 /**
