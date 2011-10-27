@@ -62,9 +62,11 @@ function browserFirstViewRetrieved(data) {
 		},
 		"json_data" : {
 			"data" : [ data ],
+			
 			"progressive_render" : true,
 			"ajax" : {
 				"url" : context + "/browse/ajaxDirectoryListingUnderParent",
+				"cache" : false,
 				"data" : function(n) {
 					lcClearMessage();
 					dir =  n.attr("id");
@@ -236,6 +238,7 @@ function nodeAdded(event, data) {
 					data[0].id=xhr.responseText;
 				}).error(function(xhr, status, error) {
 			refreshTree();
+			updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
 			setMessage(xhr.responseText);
 		});
 }

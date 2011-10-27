@@ -72,6 +72,8 @@ var tabs;
 var globalMessageArea = "#javascript_message_area";
 $(document).ready(function() {
 
+	 $.ajaxSetup({ cache: false }); 
+		
 
 	dataLayout = $("#dataTreeView").layout({ 
 		applyDefaultStyles: true,

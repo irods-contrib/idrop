@@ -182,7 +182,7 @@ class FileController {
 
 		log.info("name for create folder:${newFolderName}")
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
-		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(parent,newFolderName)
+		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(parent + "/" + newFolderName)
 		targetFile.mkdirs()
 		log.info("file created:${targetFile.absolutePath}")
 		render targetFile.getAbsolutePath()
