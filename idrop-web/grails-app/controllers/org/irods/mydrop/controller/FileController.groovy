@@ -155,6 +155,26 @@ class FileController {
 
 		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
 	}
+	
+	def deleteFileOrFolder = {
+		log.info("delete file or folder")
+		String absPath = params['absPath']
+		if (!absPath) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		absPath = absPath.trim()
+
+		log.info("name for delete folder:${absPath}")
+		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(absPath)
+		
+		targetFile.deleteWithForceOption();
+		log.info("file deleted")
+		render targetFile.getAbsolutePath()
+	}
 
 	/**
 	 * Add a new iRODS folder
@@ -162,9 +182,9 @@ class FileController {
 	def createFolder = {
 		log.info("create folder")
 
-		String parent = params['parent']
-		if (!parent) {
-			log.error "no parent in request for showAclDetails()"
+		String absPath = params['absPath']
+		if (!absPath) {
+			log.error "no absPath in request"
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
@@ -173,7 +193,7 @@ class FileController {
 
 		String newFolderName = params['name']
 		if (!newFolderName) {
-			log.error "no name in request for showAclDetails()"
+			log.error "no name in request"
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}

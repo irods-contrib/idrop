@@ -25,7 +25,7 @@ var idropLiteUrl = '/idropLite/appletLoader';
 var thumbnailLoadUrl = '/image/generateThumbnail';
 
 var folderAddUrl = '/file/createFolder';
-
+var fileDeleteUrl = '/file/deleteFileOrFolder';
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
@@ -44,8 +44,9 @@ function retrieveBrowserFirstView() {
 }
 
 /**
- * Upon initial load of data for the iRODS tree view, set up the tree control.   This will be called as a call back method when
- * the initial AJAX load request returns.
+ * Upon initial load of data for the iRODS tree view, set up the tree control.
+ * This will be called as a call back method when the initial AJAX load request
+ * returns.
  * 
  * @param data
  *            ajax response from browse controller containing the JSON
@@ -55,79 +56,82 @@ function retrieveBrowserFirstView() {
  */
 function browserFirstViewRetrieved(data) {
 	var parent = data['parent']
-	dataTree = $("#dataTreeDiv").jstree({
-		"plugins" : [ "themes", "contextmenu", "json_data", "types", "ui", "crrm"],
-		"core" : {
-			"initially_open" : [ parent ]
-		},
-		"json_data" : {
-			"data" : [ data ],
-			
-			"progressive_render" : true,
-			"ajax" : {
-				"url" : context + "/browse/ajaxDirectoryListingUnderParent",
-				"cache" : false,
-				"data" : function(n) {
-					lcClearMessage();
-					dir =  n.attr("id");
-					 //dir : n.attr ? n.attr("id") : 0
-					return "dir=" + encodeURIComponent(dir);
-					
+	dataTree = $("#dataTreeDiv").jstree(
+			{
+				"plugins" : [ "themes", "contextmenu", "json_data", "types",
+						"ui", "crrm" ],
+				"core" : {
+					"initially_open" : [ parent ]
 				},
-				"error" : function(n) {
-					if (n.statusText=="success") {
-						// ok
-					} else {
-					setMessage(n.statusText);
-				}
-				}
-			}
-		},
-		"contextmenu" : {
-			
-			"items": customMenu
-		},
-		"types" : {
-			"types" : {
-				"file" : {
-					"valid_children" : "none",
-					"icon" : {
-						"image" : context + "/images/file.png"
-					}
-				},
-				"folder" : {
-					"valid_children" : [ "default", "folder", "file" ],
-					"icon" : {
-						"image" : context + "/images/folder.png"
-					}
-				}
-			}
+				"json_data" : {
+					"data" : [ data ],
 
-		},
-		"ui" : {
-			"select_limit" : 1,
-			"initially_select" : [ "phtml_2" ]
-		},
-		"themes" : {
-			"theme" : "default",
-			"url" : context + "/css/style.css",
-			"dots" : false,
-			"icons" : true
-		},
-		"crrm": {
-			
-		}
-	
-	});
+					"progressive_render" : true,
+					"ajax" : {
+						"url" : context
+								+ "/browse/ajaxDirectoryListingUnderParent",
+						"cache" : false,
+						"data" : function(n) {
+							lcClearMessage();
+							dir = n.attr("id");
+							// dir : n.attr ? n.attr("id") : 0
+							return "dir=" + encodeURIComponent(dir);
+
+						},
+						"error" : function(n) {
+							if (n.statusText == "success") {
+								// ok
+							} else {
+								setMessage(n.statusText);
+							}
+						}
+					}
+				},
+				"contextmenu" : {
+
+					"items" : customMenu
+				},
+				"types" : {
+					"types" : {
+						"file" : {
+							"valid_children" : "none",
+							"icon" : {
+								"image" : context + "/images/file.png"
+							}
+						},
+						"folder" : {
+							"valid_children" : [ "default", "folder", "file" ],
+							"icon" : {
+								"image" : context + "/images/folder.png"
+							}
+						}
+					}
+
+				},
+				"ui" : {
+					"select_limit" : 1,
+					"initially_select" : [ "phtml_2" ]
+				},
+				"themes" : {
+					"theme" : "default",
+					"url" : context + "/css/style.css",
+					"dots" : false,
+					"icons" : true
+				},
+				"crrm" : {
+
+				}
+
+			});
 
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
 		nodeSelected(e, data.rslt.obj);
 	});
-	
+
 	$("#dataTreeDiv").bind("create.jstree", function(e, data) {
 		nodeAdded(e, data.rslt.obj);
 	});
-	
+
 	$("#dataTreeDiv").bind("remove.jstree", function(e, data) {
 		nodeRemoved(e, data.rslt.obj);
 	});
@@ -136,55 +140,61 @@ function browserFirstViewRetrieved(data) {
 
 /**
  * Handling of actions and format of pop-up menu for browse tree.
+ * 
  * @param node
  * @returns
  */
 function customMenu(node) {
-    // The default set of all items FIXME: i18n
-    var items = {
-    		  refreshItem: { // The "refresh" menu item
-    	            label: "Refresh",
-    	            action: function () {
-    	            	$.jstree._reference(dataTree).refresh();
-    	            }
-    	        },
-        renameItem: { // The "rename" menu item
-            label: "Rename",
-            action: function () {}
-        },
-        deleteItem: { // The "delete" menu item
-            label: "Delete",
-            action: function () {
-            		
-            	$.jstree._reference(dataTree).remove(node);
-            	
-            }
-        },
-        newFolderItem: { // The "new" menu item
-            label: "New Folder",
-            action: function () {
-            	$.jstree._reference(dataTree).create(null, "inside", {data:name,  state:"closed", attr:{rel:"folder"}}, 
-            			function(data) { 
-            	}
-            	, false);
-            }
-        },
-        infoItem: { // The "info" menu item
-            label: "Info",
-            action: function () {}
-        }
-        
-        
-    };
+	// The default set of all items FIXME: i18n
+	var items = {
+		refreshItem : { // The "refresh" menu item
+			label : "Refresh",
+			action : function() {
+				$.jstree._reference(dataTree).refresh();
+			}
+		},
+		renameItem : { // The "rename" menu item
+			label : "Rename",
+			action : function() {
+			}
+		},
+		deleteItem : { // The "delete" menu item
+			label : "Delete",
+			action : function() {
 
-    /*
-    if ($(node).hasClass("folder")) {
-        // Delete the "delete" menu item
-        delete items.deleteItem;
-    }
-    */
+				var answer = confirm("Delete selected file?");
+				if (answer) {
+					$.jstree._reference(dataTree).remove(node);
+				}
+			}
+		},
+		newFolderItem : { // The "new" menu item
+			label : "New Folder",
+			action : function() {
+				$.jstree._reference(dataTree).create(null, "inside", {
+					data : name,
+					state : "closed",
+					attr : {
+						rel : "folder"
+					}
+				}, function(data) {
+				}, false);
+			}
+		},
+		infoItem : { // The "info" menu item
+			label : "Info",
+			action : function() {
+			}
+		}
 
-    return items;
+	};
+
+	/*
+	 * if ($(node).hasClass("folder")) { // Delete the "delete" menu item delete
+	 * items.deleteItem; }
+	 */
+
+	return items;
 }
 
 /**
@@ -213,34 +223,33 @@ function nodeSelected(event, data) {
 }
 
 /**
- * called when a tree node is added. 
+ * called when a tree node is added.
  * 
  * @param event
  *            javascript event containing a reference to the selected node
  * @return
  */
 function nodeAdded(event, data) {
-	//alert("added node:" + data[0].innerText);
-	//alert("parent:" + data[0].parentNode.parentNode.id);
-	var parent= $.trim(data[0].parentNode.parentNode.id);
+	// alert("added node:" + data[0].innerText);
+	// alert("parent:" + data[0].parentNode.parentNode.id);
+	var parent = $.trim(data[0].parentNode.parentNode.id);
 	var name = $.trim(data[0].innerText);
 	var params = {
-			parent : parent,
-			name: name
-		}
+		parent : parent,
+		name : name
+	}
 
-		var jqxhr = $.post(context + folderAddUrl, params,
-				function(data, status, xhr) {
-					lcPrepareForCall();
-				}, "html").success(
-				function(returnedData, status, xhr) {
-					setMessage("new folder created:" + xhr.responseText);
-					data[0].id=xhr.responseText;
-				}).error(function(xhr, status, error) {
-			refreshTree();
-			updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
-			setMessage(xhr.responseText);
-		});
+	var jqxhr = $.post(context + folderAddUrl, params,
+			function(data, status, xhr) {
+				lcPrepareForCall();
+			}, "html").success(function(returnedData, status, xhr) {
+		setMessage("new folder created:" + xhr.responseText);
+		data[0].id = xhr.responseText;
+	}).error(function(xhr, status, error) {
+		refreshTree();
+		updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
+		setMessage(xhr.responseText);
+	});
 }
 
 /**
@@ -255,8 +264,22 @@ function nodeRemoved(event, data) {
 	// given the path, put in the node data
 	lcPrepareForCall();
 	var id = data[0].id;
-	selectedPath = id;
-	alert("delete:" + selectedPath);
+
+	var params = {
+		absPath : id
+	}
+
+	var jqxhr = $.post(context + fileDeleteUrl, params,
+			function(data, status, xhr) {
+				lcPrepareForCall();
+			}, "html").success(function(returnedData, status, xhr) {
+		setMessage("file deleted:" + xhr.responseText);
+		data[0].id = xhr.responseText;
+	}).error(function(xhr, status, error) {
+		refreshTree();
+
+		setMessage(xhr.responseText);
+	});
 }
 
 /**
@@ -290,8 +313,9 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	if (browseOptionVal == "details") {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/browse/displayBrowseGridDetails?absPath=" + encodeURIComponent(absPath),
-				"#infoDiv", "#infoDiv", function(data) {
+				"/browse/displayBrowseGridDetails?absPath="
+						+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
+				function(data) {
 					$("#infoDiv").html(data);
 
 				});
@@ -300,16 +324,17 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 	} else if (browseOptionVal == "metadata") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/metadata/showMetadataDetails?absPath=" + encodeURIComponent(absPath), "#infoDiv",
-				"#infoDiv", null);
+				"/metadata/showMetadataDetails?absPath="
+						+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
+				null);
 	} else if (browseOptionVal == "sharing") {
 		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath), "#infoDiv",
-				"#infoDiv", null);
+				"/sharing/showAclDetails?absPath="
+						+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
+				null);
 	} else if (browseOptionVal == "audit") {
-		lcSendValueAndCallbackHtmlAfterErrorCheck(
-				"/audit/auditList?absPath=" + encodeURIComponent(absPath), "#infoDiv",
-				"#infoDiv", null);
+		lcSendValueAndCallbackHtmlAfterErrorCheck("/audit/auditList?absPath="
+				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 	}
 }
 
@@ -793,21 +818,23 @@ function showIdropLite() {
 }
 
 /**
- * Ask for a thumbnail image for a selected path to be displayed on an info panel.  These use a consistent naming scheme
- * for the various divs and data elements.
+ * Ask for a thumbnail image for a selected path to be displayed on an info
+ * panel. These use a consistent naming scheme for the various divs and data
+ * elements.
  */
 function requestThumbnailImageForInfoPane() {
-	var absPath =  $("#infoAbsPath").val();
+	var absPath = $("#infoAbsPath").val();
 	absPath = encodeURIComponent(absPath);
-	var url  = scheme + "://" + host + ":" + port + context + thumbnailLoadUrl + "?absPath=" + absPath;
-	var oImg=document.createElement("img");
+	var url = scheme + "://" + host + ":" + port + context + thumbnailLoadUrl
+			+ "?absPath=" + absPath;
+	var oImg = document.createElement("img");
 	oImg.setAttribute('src', url);
 	oImg.setAttribute('alt', 'na');
 	oImg.setAttribute('class', 'thumb');
-	//oImg.setAttribute('height', '332px');
-	//oImg.setAttribute('width', '500px');
+	// oImg.setAttribute('height', '332px');
+	// oImg.setAttribute('width', '500px');
 	$("#infoThumbnailLoadArea").append(oImg);
-	
+
 }
 
 /**
@@ -816,4 +843,3 @@ function requestThumbnailImageForInfoPane() {
 function refreshTree() {
 	$.jstree._reference(dataTree).refresh();
 }
-
