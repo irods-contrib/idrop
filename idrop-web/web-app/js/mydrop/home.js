@@ -125,6 +125,10 @@ function browserFirstViewRetrieved(data) {
 	$("#dataTreeDiv").bind("create.jstree", function(e, data) {
 		nodeAdded(e, data.rslt.obj);
 	});
+	
+	$("#dataTreeDiv").bind("remove.jstree", function(e, data) {
+		nodeRemoved(e, data.rslt.obj);
+	});
 
 }
 
@@ -148,7 +152,11 @@ function customMenu(node) {
         },
         deleteItem: { // The "delete" menu item
             label: "Delete",
-            action: function () {}
+            action: function () {
+            		
+            	$.jstree._reference(dataTree).remove(node);
+            	
+            }
         },
         newFolderItem: { // The "new" menu item
             label: "New Folder",
@@ -167,10 +175,12 @@ function customMenu(node) {
         
     };
 
+    /*
     if ($(node).hasClass("folder")) {
         // Delete the "delete" menu item
         delete items.deleteItem;
     }
+    */
 
     return items;
 }
@@ -228,6 +238,22 @@ function nodeAdded(event, data) {
 			refreshTree();
 			setMessage(xhr.responseText);
 		});
+}
+
+/**
+ * called when a tree node is deleted. Toggle the node as appropriate, and if
+ * necessary retrieve data from iRODS to create the children
+ * 
+ * @param event
+ *            javascript event containing a reference to the selected node
+ * @return
+ */
+function nodeRemoved(event, data) {
+	// given the path, put in the node data
+	lcPrepareForCall();
+	var id = data[0].id;
+	selectedPath = id;
+	alert("delete:" + selectedPath);
 }
 
 /**
