@@ -225,9 +225,9 @@ function nodeAdded(event, data) {
 					setMessage("new folder created:" + xhr.responseText);
 					data[0].id=xhr.responseText;
 				}).error(function(xhr, status, error) {
+			refreshTree();
 			setMessage(xhr.responseText);
 		});
-	
 }
 
 /**
@@ -453,6 +453,9 @@ function showAclDialog(data) {
 
 }
 
+/**
+ * Submit the ACL dialog form to create a new ACL
+ */
 function submitAclDialog() {
 
 	lcClearDivAndDivClass(aclMessageAreaSelector);
@@ -643,6 +646,9 @@ function buildFormFromACLDetailsTable() {
 	return formData;
 }
 
+/**
+ * Close the iDrop lite applet area
+ */
 function closeApplet() {
 	// $("#idropLiteArea").animate({ height: 'hide', opacity: 'hide' }, 'slow');
 	$("#idropLiteArea").animate({
