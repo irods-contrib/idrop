@@ -96,6 +96,9 @@ class BrowseController {
 		render collectionAndDataObjectList as JSON
 	}
 
+	/**
+	 * Called by tree control to load directories under a given node
+	 */
 	def ajaxDirectoryListingUnderParent = {
 		def parent = params['dir']
 		log.info "ajaxDirectoryListingUnderParent path: ${parent}"

@@ -24,6 +24,9 @@ var aclTableLoadUrl = '/sharing/renderAclDetailsTable';
 var idropLiteUrl = '/idropLite/appletLoader';
 var thumbnailLoadUrl = '/image/generateThumbnail';
 
+var folderAddUrl = '/file/createFolder';
+
+
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
  * browser request for the root directory.
@@ -70,7 +73,11 @@ function browserFirstViewRetrieved(data) {
 					
 				},
 				"error" : function(n) {
-					setMessage("error loading tree");
+					if (n.statusText=="success") {
+						// ok
+					} else {
+					setMessage(n.statusText);
+				}
 				}
 			}
 		},
@@ -114,10 +121,18 @@ function browserFirstViewRetrieved(data) {
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
 		nodeSelected(e, data.rslt.obj);
 	});
+	
+	$("#dataTreeDiv").bind("create.jstree", function(e, data) {
+		nodeAdded(e, data.rslt.obj);
+	});
 
 }
 
-
+/**
+ * Handling of actions and format of pop-up menu for browse tree.
+ * @param node
+ * @returns
+ */
 function customMenu(node) {
     // The default set of all items FIXME: i18n
     var items = {
@@ -138,8 +153,10 @@ function customMenu(node) {
         newFolderItem: { // The "new" menu item
             label: "New Folder",
             action: function () {
-            	$.jstree._reference(dataTree).create(null, "inside", {data:name}, null, false);
-            	//$("#dataTreeDiv").jstree("create", null, false, name, {attr : {id: 'newnode'}, data: name}, false);
+            	$.jstree._reference(dataTree).create(null, "inside", {data:name,  state:"closed", attr:{rel:"folder"}}, 
+            			function(data) { 
+            	}
+            	, false);
             }
         },
         infoItem: { // The "info" menu item
@@ -181,6 +198,36 @@ function nodeSelected(event, data) {
 	selectedPath = id;
 	updateBrowseDetailsForPathBasedOnCurrentModel(id);
 
+}
+
+/**
+ * called when a tree node is added. 
+ * 
+ * @param event
+ *            javascript event containing a reference to the selected node
+ * @return
+ */
+function nodeAdded(event, data) {
+	//alert("added node:" + data[0].innerText);
+	//alert("parent:" + data[0].parentNode.parentNode.id);
+	var parent= $.trim(data[0].parentNode.parentNode.id);
+	var name = $.trim(data[0].innerText);
+	var params = {
+			parent : parent,
+			name: name
+		}
+
+		var jqxhr = $.post(context + folderAddUrl, params,
+				function(data, status, xhr) {
+					lcPrepareForCall();
+				}, "html").success(
+				function(returnedData, status, xhr) {
+					setMessage("new folder created:" + xhr.responseText);
+					data[0].id=xhr.responseText;
+				}).error(function(xhr, status, error) {
+			setMessage(xhr.responseText);
+		});
+	
 }
 
 /**

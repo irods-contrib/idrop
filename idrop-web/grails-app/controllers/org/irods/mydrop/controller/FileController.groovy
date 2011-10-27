@@ -10,7 +10,7 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
-import org.irods.jargon.core.pub.io.IRODSFile	
+import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileOutputStream
 import org.springframework.security.core.context.SecurityContextHolder
 import org.irods.jargon.core.pub.io.IRODSFileImpl
@@ -41,7 +41,7 @@ class FileController {
 		irodsAccessObjectFactory.closeSession()
 	}
 
-	
+
 	/**
 	 * This is the download action
 	 */
@@ -67,7 +67,7 @@ class FileController {
 		fullPath = fullPath.substring(idx + parseStringLength)
 		log.info("iRODS path for file is: ${fullPath}")
 
-		
+
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 		IRODSFileInputStream irodsFileInputStream = irodsFileFactory.instanceIRODSFileInputStream(fullPath)
 		IRODSFile irodsFile = irodsFileFactory.instanceIRODSFile(fullPath)
@@ -80,7 +80,7 @@ class FileController {
 		response.setHeader("Content-disposition", "attachment;filename=${fullPath}")
 
 		response.outputStream << irodsFileInputStream // Performing a binary stream copy
-		
+
 	}
 
 	/**
@@ -126,9 +126,9 @@ class FileController {
 		log.info("upload action in file controller")
 		def f = request.getFile('file')
 		def name = f.getOriginalFilename()
-		
+
 		log.info("f is ${f}");
-		
+
 		log.info("name is : ${name}")
 		def irodsCollectionPath = params.collectionParentName
 
@@ -141,7 +141,7 @@ class FileController {
 			log.error("no target iRODS collection given in upload request")
 			throw new JargonException("No iRODS target collection given for upload")
 		}
-		
+
 		InputStream fis = f.getInputStream()
 		log.info("building irodsFile for file name: ${name}")
 
@@ -152,8 +152,39 @@ class FileController {
 		irodsFileOutputStream << fis
 		irodsFileOutputStream.flush()
 		irodsFileOutputStream.close()
-		
+
 		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
-		
+	}
+
+	/**
+	 * Add a new iRODS folder
+	 */
+	def createFolder = {
+		log.info("create folder")
+
+		String parent = params['parent']
+		if (!parent) {
+			log.error "no parent in request for showAclDetails()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		parent = parent.trim()
+
+		String newFolderName = params['name']
+		if (!newFolderName) {
+			log.error "no name in request for showAclDetails()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		newFolderName = newFolderName.trim()
+
+		log.info("name for create folder:${newFolderName}")
+		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(parent,newFolderName)
+		targetFile.mkdirs()
+		log.info("file created:${targetFile.absolutePath}")
+		render targetFile.getAbsolutePath()
 	}
 }
