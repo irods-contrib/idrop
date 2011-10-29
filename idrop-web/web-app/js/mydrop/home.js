@@ -445,6 +445,7 @@ function initializeUploadDialogAjaxLoader() {
 					{
 						uploadTable : $('#files'),
 						downloadTable : $('#files'),
+						
 						buildUploadRow : function(files, index) {
 							$("#upload_message_area").html("");
 							$("#upload_message_area").removeClass();
