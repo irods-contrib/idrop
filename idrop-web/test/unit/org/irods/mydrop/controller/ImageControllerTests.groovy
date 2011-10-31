@@ -47,10 +47,15 @@ class ImageControllerTests extends ControllerUnitTestCase {
 		ImageServiceFactory imageServiceFactory = Mockito.mock(ImageServiceFactory.class)
 		Mockito.when(imageServiceFactory.instanceThumbnailService(irodsAccount)).thenReturn(thumbnailService)
 		Mockito.when(thumbnailService.retrieveThumbnailByIRODSAbsolutePathViaRule(testPath)).thenReturn(mockStream)
-		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		File mockFile = Mockito.mock(File.class)
+		Mockito.when(thumbnailService.createThumbnailLocallyViaJAI())
+		/*
+		 * FIXME: reimplement with various session states
+		 * controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.imageServiceFactory = imageServiceFactory
 		controller.irodsAccount = irodsAccount
 		controller.params.absPath = testPath
-		controller.generateThumbnail()
+		controller.generateThumbnail() */
+		
 	}
 }

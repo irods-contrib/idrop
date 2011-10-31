@@ -6,6 +6,7 @@
 			<fieldset id="verticalForm">
 				<label for="">Parent Collection:</label>
 				<h2>${irodsTargetCollection}</h2>
+				<g:hiddenField id="collectionParentName" name="collectionParentName" value="${irodsTargetCollection}"/>
 				<br /> 
 				<div id="file_upload_container">
 					<input type="file" name="file">

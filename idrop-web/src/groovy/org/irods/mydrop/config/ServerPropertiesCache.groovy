@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 import org.irods.jargon.core.connection.IRODSAccount
 
-class ServerPropertiesCache {
+class ServerPropertiesCache implements Serializable {
 
 	HashMap<IRODSAccount, ServerProperties> serverProperties = new ConcurrentHashMap<IRODSAccount, ServerProperties>()
 	

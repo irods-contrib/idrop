@@ -6,12 +6,10 @@ grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
         // uncomment to disable ehcace
-      //excludes 'ehcache'
-	//pom true
-    
+       excludes 'ehcache'
+    }
     log "warn" // LOG level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
- 
-	   repositories {
+    repositories {
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
         mavenLocal()

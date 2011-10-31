@@ -57,15 +57,17 @@ class ImageController {
 		log.info "tempdir:${tempDir}"
 		ThumbnailService thumbnailService = imageServiceFactory.instanceThumbnailService(irodsAccount)
 
-		ServerPropertiesCache serverPropertiesCache = session.serverPropertiesCache
+		ServerPropertiesCache serverPropertiesCache = session["serverPropertiesCache"]
 
 		if (!serverPropertiesCache) {
 			log.info("creating serverPropertiesCache in session")
 			serverPropertiesCache =  new ServerPropertiesCache()
-			session.serverPropertiesCache = serverPropertiesCache
+			session["serverPropertiesCache"] = serverPropertiesCache
+			log.info "server properties now saved in cache"
 		}
 
 		ServerProperties serverProperties = serverPropertiesCache.getServerProperties(irodsAccount)
+		log.info("server properties:${serverProperties}")
 
 		def goToIrods = false
 
@@ -74,18 +76,19 @@ class ImageController {
 
 		if (cacheProp != null) {
 			log.info("found cacheProp: ${cacheProp}")
-			if (cacheProp == "true") {
+			if (cacheProp) {
 				goToIrods = true
 			} else {
 				goToIrods = false
 			}
 		} else {
+			log.info("did not find cache prop in session, checking if a generator is available")
 			goToIrods = thumbnailService.isIRODSThumbnailGeneratorAvailable()
 			log.info("isIRODSThumbnailGeneratorAvailable? ${goToIrods}")
 			if (goToIrods) {
-				serverProperties.properties[IMAGE_PROP] = "true"
+				serverProperties.properties[IMAGE_PROP] = true
 			} else {
-				serverProperties.properties[IMAGE_PROP] = "false"
+				serverProperties.properties[IMAGE_PROP] = false
 			}
 		}
 
