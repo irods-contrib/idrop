@@ -155,8 +155,8 @@ public class IdropConfig {
 
         return verify;
     }
-    
-     /**
+
+    /**
      * Should connections be re-routed on put/get based on file resource containing files
      * @return 
      */
@@ -170,47 +170,47 @@ public class IdropConfig {
         }
         return bool;
     }
-   
+
     /**
      * Should transfer progress within a file be shown?
      * @return  <code>boolean</code> that will be <code>true</code> if intra-file call-backs are desired.
      */
-     public boolean isIntraFileStatusCallbacks() {
+    public boolean isIntraFileStatusCallbacks() {
         return getBooleanForKey(IdropConfigurationService.INTRA_FILE_STATUS_CALLBACKS);
     }
 
-     /**
-      * Time-out (in seconds) for the main iRODS connection.  This can be set to 0 or less to inactivate
-      * @return 
-      */
-     public int getIrodsConnectionTimeout() {
-         return getIntForKey("idrop.irods.timeout");
-     }
-     
-      /**
-      * Time-out (in seconds) for iRODS connections during parallel transfer.  This can be set to 0 or less to inactivate
-      * @return 
-      */
-      public int getIrodsParallelConnectionTimeout() {
-         return getIntForKey(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT);
-     }
-      
-      /**
-       * Maximum number of threads in parallel transfers.  This is a trade-off in performance and through-put
-       * @return 
-       */
-       public int getIrodsParallelTransferMaxThreads() {
-         return getIntForKey(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS);
-     }
-     
-       /**
-        * Indicates whether a pool is used to maintain parallel transfer threads
-        * @return 
-        */
-       public boolean isParallelUsePool() {
+    /**
+     * Time-out (in seconds) for the main iRODS connection.  This can be set to 0 or less to inactivate
+     * @return 
+     */
+    public int getIrodsConnectionTimeout() {
+        return getIntForKey("idrop.irods.timeout");
+    }
+
+    /**
+     * Time-out (in seconds) for iRODS connections during parallel transfer.  This can be set to 0 or less to inactivate
+     * @return 
+     */
+    public int getIrodsParallelConnectionTimeout() {
+        return getIntForKey(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT);
+    }
+
+    /**
+     * Maximum number of threads in parallel transfers.  This is a trade-off in performance and through-put
+     * @return 
+     */
+    public int getIrodsParallelTransferMaxThreads() {
+        return getIntForKey(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS);
+    }
+
+    /**
+     * Indicates whether a pool is used to maintain parallel transfer threads
+     * @return 
+     */
+    public boolean isParallelUsePool() {
         return getBooleanForKey(IdropConfigurationService.IRODS_PARALLEL_USE_POOL);
     }
-       
+
     /**
      * Get the configured synch device name. If not set, this will return a
      * <code>null</code>
@@ -308,17 +308,18 @@ public class IdropConfig {
         }
         return propBoolean;
     }
-    
-     private int getIntForKey(String key) {
+
+    private int getIntForKey(String key) {
         int propInt = -1;
         String propString = idropProperties.getProperty(key);
 
-        if (propString != null ) {
-            propInt = Integer.parseInt(propString);
+        if (propString == null) {
+            return propInt;
         }
+
+
+        propInt = Integer.parseInt(propString.trim());
+
         return propInt;
     }
-    
-    
-    
 }
