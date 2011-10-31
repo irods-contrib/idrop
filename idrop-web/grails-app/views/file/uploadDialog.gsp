@@ -5,8 +5,7 @@
 			target="upload_target">
 			<fieldset id="verticalForm">
 				<label for="">Parent Collection:</label>
-				<g:textField name="collectionParentName"
-					value="${irodsTargetCollection}" readonly="true" />
+				<h2>${irodsTargetCollection}</h2>
 				<br /> 
 				<div id="file_upload_container">
 					<input type="file" name="file">
@@ -20,13 +19,6 @@
 		</g:form> 
 	</div>
 </div>
-<script>
 
-function upload() {
-	alert("uploading");
-	
-}
-
-</script>
 
 
