@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.irods.jargon.idrop.lite;
 
 import java.awt.Graphics;
@@ -180,29 +179,28 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
         }
 
-        if(idropGui.isTransferInProgress()) {
-        	JOptionPane.showMessageDialog(idropGui, "Cannot Get File - Transfer Currently in Progress", "Transfer In Progress", JOptionPane.OK_OPTION);
-        }
-        else {
-        	// default icon, custom title
-        	int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Get ", JOptionPane.YES_NO_OPTION);
+        if (idropGui.isTransferInProgress()) {
+            JOptionPane.showMessageDialog(idropGui, "Cannot Get File - Transfer Currently in Progress", "Transfer In Progress", JOptionPane.OK_OPTION);
+        } else {
+            // default icon, custom title
+            int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(), "Confirm a Get ", JOptionPane.YES_NO_OPTION);
 
-        	if (n == JOptionPane.YES_OPTION) {
+            if (n == JOptionPane.YES_OPTION) {
 
-        		// process the drop as a get
-        		try {
-        			currentTransferRunner = new GetTransferRunner(idropGui, tempTargetLocalFileAbsolutePath,
-                			sourceFiles, idropGui.getiDropCore().getTransferControlBlock());
-                	final Thread transferThread = new Thread(currentTransferRunner);
-                	log.info("launching transfer thread");
-                	transferThread.start();
+                // process the drop as a get
+                try {
+                    currentTransferRunner = new GetTransferRunner(idropGui, tempTargetLocalFileAbsolutePath,
+                            sourceFiles, idropGui.getiDropCore().getTransferControlBlock());
+                    final Thread transferThread = new Thread(currentTransferRunner);
+                    log.info("launching transfer thread");
+                    transferThread.start();
                 } catch (JargonException ex) {
                     java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                             java.util.logging.Level.SEVERE, null, ex);
                     idropGui.showIdropException(ex);
                     throw new IdropRuntimeException(ex);
                 } finally {
-                	idropGui.getiDropCore().closeAllIRODSConnections();
+                    idropGui.getiDropCore().closeAllIRODSConnections();
                 }
             }
 

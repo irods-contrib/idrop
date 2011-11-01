@@ -10,9 +10,7 @@
  */
 package org.irods.jargon.idrop.lite;
 
-import java.awt.Cursor;
 import java.awt.Rectangle;
-import java.awt.dnd.DropTarget;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -33,15 +30,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 
 import org.apache.commons.io.FileUtils;
-import org.irods.jargon.core.pub.domain.DataObject;
-import org.irods.jargon.core.pub.domain.Collection;
-import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.DefaultTransferControlBlock;
 import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.packinstr.TransferOptions;
 import org.irods.jargon.core.pub.DataTransferOperations;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.io.IRODSFile;
@@ -180,6 +173,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         // do different logins depending on which mode is used
         // 0 - Hard-coded permanent password - just use this password to create and IRODS Account
         // 1 - Temporary password supplied - use this password to retrieve permanent password from cache file in cacheServiceTempDir
+        // 2 - Temporary password only mode
 
         switch (this.mode) {
 
