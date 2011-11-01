@@ -449,7 +449,6 @@ function initializeUploadDialogAjaxLoader() {
 						buildUploadRow : function(files, index) {
 							$("#upload_message_area").html("");
 							$("#upload_message_area").removeClass();
-							alert("build upload row");
 							return $('<tr><td>'
 									+ files[index].name 
 									+ '<\/td>'
@@ -458,6 +457,9 @@ function initializeUploadDialogAjaxLoader() {
 						},
 						buildDownloadRow : function(file) {
 							return $('<tr><td>' + file.name + '<\/td><\/tr>');
+						},
+						onComplete : function(event, files, index, xhr, handler) {
+							refreshTree();
 						},
 						onError : function(event, files, index, xhr, handler) {
 							$("#upload_message_area").html(

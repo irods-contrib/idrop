@@ -182,9 +182,9 @@ class FileController {
 	def createFolder = {
 		log.info("create folder")
 
-		String absPath = params['absPath']
-		if (!absPath) {
-			log.error "no absPath in request"
+		String parent = params['parent']
+		if (!parent) {
+			log.error "no parent in request"
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
