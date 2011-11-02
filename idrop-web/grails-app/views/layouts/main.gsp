@@ -17,22 +17,8 @@
 	href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
 <g:layoutHead />
 <g:javascript library="jquery-1.6.1" />
-
 <g:javascript library="jquery-ui-1.8.7.custom.min" />
-<!-- 
-<g:javascript library="jstree.core" />
-<g:javascript library="jstree.dnd" />
-<g:javascript library="jstree.html" />
-<g:javascript library="jstree.json" />
-<g:javascript library="jstree.state" />
-<g:javascript library="jstree.themes" />
-<g:javascript library="jstree.ui" />
-<g:javascript library="vakata" />
-
-<g:javascript library="jquery.jstree.min" />
- -->
-  <g:javascript library="jquery.hotkeys" />
- 
+ <g:javascript library="jquery.hotkeys" />
  <g:javascript library="jquery.jstree" />
 <g:javascript library="jquery.jeditable.mini" />
 <g:javascript library="jquery.dataTables.min" />
@@ -43,6 +29,8 @@
 <g:javascript library="mydrop/main" />
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.layout.min-1.3.0" />
+<g:javascript library="jquery-ui-13" />
+<g:javascript library="jquery.tools.min" />
 
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">
