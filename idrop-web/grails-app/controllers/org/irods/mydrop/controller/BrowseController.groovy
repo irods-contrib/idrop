@@ -173,7 +173,7 @@ class BrowseController {
 		
 		def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
 		log.debug("retrieved collectionAndDataObjectList: ${entries}")
-		render(view:"browseDetails", model:[collection:entries])
+		render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
 		
 	}
 	

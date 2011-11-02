@@ -60,7 +60,7 @@ class IdropLiteController {
 		IdropLite idropLite = new IdropLite()
 		idropLite.appletUrl = appletUrl
 		idropLite.appletCode = "org.irods.jargon.idrop.lite.iDropLiteApplet"
-		idropLite.archive = "idrop-lite-1.0.0-beta2-SNAPSHOT-jar-with-dependenciesx.jar"
+		idropLite.archive = "idrop-lite-1.0.0-beta3-SNAPSHOT-jar-with-dependencies001.jar"
 		idropLite.mode = mode
 		idropLite.host = irodsAccount.host
 		idropLite.port = irodsAccount.port

@@ -1,66 +1,94 @@
-<h2><g:message code="heading.browsing" /></h2>
+<h2>
+	<g:message code="heading.browsing" />
+</h2>
 <div id="detailsTopSection" class="box">
-<div id="detailsToolbar" class="fg-toolbar ui-widget-header">
-<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
-							style="float: left">
-<button type="button" id="upload"
-						class="ui-state-default ui-corner-all" value="upload"
-						onclick="showUploadDialog()")><g:message code="text.upload" /></button>
-					<button type="button" id="idroplite"
-						class="ui-state-default ui-corner-all" value="uploadWithIdropLite"
-						onclick="showIdropLite()")><g:message code="text.idrop.lite" /></button>
-</div>
-</div>
-<g:render template="/common/panelmessages"/>
+	<div id="detailsToolbar" class="fg-toolbar ui-widget-header">
+		<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
+			style="float: left">
+			<button type="button" id="upload"
+				class="ui-state-default ui-corner-all" value="upload"
+				onclick="showUploadDialog()")>
+				<g:message code="text.upload" />
+			</button>
 
-<div id="browseDetailsMessageArea">
-	<!--  -->
-</div>
+			<g:if test="${showLite}">
+				<button type="button" id="idroplite"
+					class="ui-state-default ui-corner-all" value="uploadWithIdropLite"
+					onclick="showIdropLite()")>
+					<g:message code="text.idrop.lite" />
+				</button>
+			</g:if>
 
-<div id=browseDetailsDialogArea">
-<!--  area for generating dialogs --></div>
-
-	<div>
-		<div id="idropLiteArea"><!--  area to show idrop lite applet --></div>
-		<div id="toggleBrowseDataDetailsTable">
-		<table cellspacing="0" cellpadding="0" border="0"
-			id="browseDataDetailsTable"  style="width: 100%;">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Name</th>
-					<th>Type</th>
-					<th>Modified date</th>
-					<th>Length</th>
-				</tr>
-			</thead>
-			<tbody>
-				<g:each in="${collection}" var="entry">
-					<tr id="${entry.formattedAbsolutePath}">
-						<td><span class="ui-icon-circle-plus browse_detail_icon ui-icon"></span></td>
-						<td><g:if test="${entry.objectType.toString() == 'COLLECTION'}">${entry.nodeLabelDisplayValue}</g:if>
-							<g:else><g:link url="${'file/download' + entry.formattedAbsolutePath}">${entry.nodeLabelDisplayValue}</g:link></g:else></td>
-						<td>${entry.objectType}</td>
-						<td>${entry.modifiedAt}</td>
-						<td>${entry.dataSize}</td>
-					</tr>
-				</g:each>
-
-			</tbody>
-
-			<tfoot>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</tfoot>
-		</table>
 		</div>
 	</div>
+	<g:render template="/common/panelmessages" />
+
+	<div id="browseDetailsMessageArea">
+		<!--  -->
 	</div>
+
+	<div id=browseDetailsDialogArea">
+		<!--  area for generating dialogs -->
+	</div>
+
+	<div>
+		<div id="idropLiteArea">
+			<!--  area to show idrop lite applet -->
+		</div>
+		<div id="toggleBrowseDataDetailsTable">
+			<table cellspacing="0" cellpadding="0" border="0"
+				id="browseDataDetailsTable" style="width: 100%;">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Name</th>
+						<th>Type</th>
+						<th>Modified date</th>
+						<th>Length</th>
+					</tr>
+				</thead>
+				<tbody>
+					<g:each in="${collection}" var="entry">
+						<tr id="${entry.formattedAbsolutePath}">
+							<td><span
+								class="ui-icon-circle-plus browse_detail_icon ui-icon"></span>
+							</td>
+							<td><g:if
+									test="${entry.objectType.toString() == 'COLLECTION'}">
+									${entry.nodeLabelDisplayValue}
+								</g:if> <g:else>
+									<g:link url="${'file/download' + entry.formattedAbsolutePath}">
+										${entry.nodeLabelDisplayValue}
+									</g:link>
+								</g:else>
+							</td>
+							<td>
+								${entry.objectType}
+							</td>
+							<td>
+								${entry.modifiedAt}
+							</td>
+							<td>
+								${entry.dataSize}
+							</td>
+						</tr>
+					</g:each>
+
+				</tbody>
+
+				<tfoot>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
 <script>
 
 	var dataTable;

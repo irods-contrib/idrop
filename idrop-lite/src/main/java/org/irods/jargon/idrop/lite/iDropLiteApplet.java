@@ -62,6 +62,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private LocalFileTree fileUploadTree = null;
     private IRODSTree irodsTree = null;
     private Integer mode;
+    private Integer displayMode;
     private String host;
     private Integer port;
     private String zone;
@@ -122,6 +123,14 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             //this.defaultStorageResource = getParameter("defaultStorageResource");
             this.tempPswd = getParameter("password");
             this.absPath = getParameter("absPath");
+
+            if (getParameter("displayMode") == null) {
+                this.displayMode = 0;
+                log.info("normal (all modes) display mode");
+            } else {
+                this.displayMode = Integer.valueOf(getParameter("displayMode"));
+                log.info("setting display mode to {}", displayMode);
+            }
 
             log.debug("creating account with applet params");
             log.info("mode:{}", mode);
@@ -195,6 +204,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
             case 2:
                 log.info("processLogin: using temp-only with cache");
+
                 if (!tempOnlyAccount()) {
                     showMessageFromOperation("Permanent Password Mode: login error - unable to log in, or invalid user id");
                     return false;
@@ -285,8 +295,35 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     }
 
     private void doPostInitWork() {
-        populateUploadDestination();
-        setupUploadTable();
+
+
+        switch (displayMode) {
+            case 1:
+                log.info(">>>>>>>>> local/irods display mode 1");
+                pnlTabbedMain.remove(1);
+                pnlTabbedMain.remove(1);
+                break;
+            case 2:
+                log.info(">>>>>>>>>upload picker display mode");
+                pnlTabbedMain.remove(0);
+                pnlTabbedMain.remove(1);
+                populateUploadDestination();
+                setupUploadTable();
+                break;
+            case 3:
+                log.info(">>>>>>>>>shopping cart display mode 3");
+                pnlTabbedMain.remove(0);
+                pnlTabbedMain.remove(0);
+                break;
+            default:
+                   log.info(">>>>>>>>> no display mode, showing all tabs");
+                populateUploadDestination();
+                setupUploadTable();
+        }
+
+
+
+
     }
 
     public void buildTargetTree() {
@@ -1412,7 +1449,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel4.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.jLabel4.text")); // NOI18N
-        jLabel4.setPreferredSize(new java.awt.Dimension(200, 17));
         jPanel6.add(jLabel4);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

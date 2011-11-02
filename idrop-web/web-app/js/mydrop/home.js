@@ -759,6 +759,7 @@ function closeApplet() {
 	$("#toggleBrowseDataDetailsTable").width = "100%";
 	dataLayout.resizeAll();
 	$("#idropLiteArea").empty();
+	refreshTree();
 }
 
 /**
@@ -810,7 +811,7 @@ function showIdropLite() {
 						// 'http://iren-web.renci.org/idrop-web/applet');//dataJSON.appletUrl);
 						a.setAttribute('codebase', dataJSON.appletUrl);
 						a.setAttribute('archive', dataJSON.archive);
-						a.setAttribute('width', 600);
+						a.setAttribute('width', 700);
 						a.setAttribute('height', 600);
 						var p = document.createElement('param');
 						p.setAttribute('name', 'mode');
@@ -849,6 +850,12 @@ function showIdropLite() {
 						p
 								.setAttribute('value',
 										dataJSON.defaultStorageResource);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'displayMode');
+						p
+								.setAttribute('value',
+										2);
 						a.appendChild(p);
 						appletDiv.append(appletTagDiv);
 
