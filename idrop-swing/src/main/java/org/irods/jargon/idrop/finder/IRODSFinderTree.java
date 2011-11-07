@@ -29,6 +29,7 @@ import org.irods.jargon.idrop.desktop.systraygui.RenameIRODSDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSRowModel;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.OutlineRenderProvider;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.netbeans.swing.outline.DefaultOutlineModel;
@@ -90,9 +91,10 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
     }
 
     private void initializeMenusAndListeners() {
-        setDragEnabled(false);
+        setDragEnabled(true);
         setUpTreeMenu();
-         setDropMode(javax.swing.DropMode.USE_SELECTION);
+        setDropMode(javax.swing.DropMode.USE_SELECTION);
+        this.setRenderDataProvider(new FinderOutlineRenderProvider(this));
     }
 
     /**

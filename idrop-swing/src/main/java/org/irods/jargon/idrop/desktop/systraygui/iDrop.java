@@ -255,13 +255,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     lblTransferByteCounts.setText("Current File (kb):"
                             + (ts.getBytesTransfered() / 1024) + " / "
                             + (ts.getTotalSize() / 1024));
-                    
+
                     log.debug("transferred so far:{}", ts.getBytesTransfered());
                     log.debug("total bytes:{}", ts.getTotalSize());
                     float rawPct = (float) ts.getBytesTransfered() / ts.getTotalSize();
-                    int percentDone = (int)  (rawPct * 100F);
+                    int percentDone = (int) (rawPct * 100F);
                     log.info("pct done:{}", percentDone);
-                   
+
                     progressIntraFile.setValue(percentDone);
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_START_FILE) {
@@ -274,13 +274,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     progressIntraFile.setMaximum(100);
                     progressIntraFile.setValue(0);
                     lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
-                      lblTransferFilesCounts.setText("Files: "
+                    lblTransferFilesCounts.setText("Files: "
                             + ts.getTotalFilesTransferredSoFar() + " / "
                             + ts.getTotalFilesToTransfer());
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_COMPLETE_FILE) {
 
-                   
+
                     progressIntraFile.setValue(100);
                     lblTransferByteCounts.setText("Current File (kb):"
                             + (ts.getTotalSize() / 1024) + " / "
@@ -302,7 +302,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                             + (ts.getBytesTransfered() / 1024) + " / "
                             + (ts.getTotalSize() / 1024));
 
-               
+
                     lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts.getSourceFileAbsolutePath()));
                 }
             }
@@ -957,7 +957,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } else {
                     log.info("using root path, no login preset");
                     root.setPathOrName("/");
-                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);                    
+                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                 }
                 IRODSOutlineModel mdl = null;
                 log.info("building new iRODS tree");
@@ -1127,7 +1127,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 txtComment.setText(tagValue.getTagData());
             }
 
-            pnlInfoIcon.removeAll();         
+            pnlInfoIcon.removeAll();
             pnlInfoIcon.add(IconHelper.getFileIcon());
             pnlInfoIcon.validate();
             lblInfoCreatedAtValue.setText(df.format(dataObject.getCreatedAt()));
