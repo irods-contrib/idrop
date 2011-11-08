@@ -35,7 +35,7 @@
 		<div id="idropLiteArea">
 			<!--  area to show idrop lite applet -->
 		</div>
-		<div id="toggleBrowseDataDetailsTable">
+		<div id="toggleHtmlArea">
 			<table cellspacing="0" cellpadding="0" border="0"
 				id="browseDataDetailsTable" style="width: 100%;">
 				<thead>
@@ -96,15 +96,9 @@
 	$(function() {
 		dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon");
 		$("#infoDiv").resize();
-		/*dataTable.fnAdjustColumnSizing();
-		$(window).bind('resize', function () {
-
-			dataTable.fnAdjustColumnSizing();
-
-			} );
-		*/
 	});
 
+	/* click twistie to open details table info */
 	function browseDetailsClick(minMaxIcon) {
 		var nTr = minMaxIcon.parentNode.parentNode;
 
@@ -120,11 +114,15 @@
 		}
 	}
 
+	/*
 	function clickFileToDownload(element) {
 		//window.open(element,'Download');
 		//alert("clicked on link for element:" + element);
-	}
+	}*/
 
+	/* called by browseDetailsClick() when it is decided that the details table row should be opened, go 
+	to server and get the details.
+	*/
 	function browseDataDetailsFunction(clickedIcon, rowActionIsOn) {
 		/* Open this row */
 		lcPrepareForCall();
@@ -143,6 +141,8 @@
 		
 	}
 
+	/* The table row is being opened, and the query has returned from the server with the data, fill in the table row
+	*/
 	function buildDetailsLayout(detailsId) {
 		var td = document.createElement("TD");
 		td.setAttribute("colspan", "4");

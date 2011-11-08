@@ -754,9 +754,9 @@ function closeApplet() {
 	$("#idropLiteArea").animate({
 		height : 'hide'
 	}, 'slow');
-	$("#toggleBrowseDataDetailsTable").show('slow');
-	$("#toggleBrowseDataDetailsTable").height = "100%";
-	$("#toggleBrowseDataDetailsTable").width = "100%";
+	$("#toggleHtmlArea").show('slow');
+	$("#toggleHtmlArea").height = "100%";
+	$("#toggleHtmlArea").width = "100%";
 	dataLayout.resizeAll();
 	$("#idropLiteArea").empty();
 	refreshTree();
@@ -774,9 +774,9 @@ function showIdropLite() {
 	}
 
 	// first hide Browse Data Details table
-	$("#toggleBrowseDataDetailsTable").hide('slow');
-	$("#toggleBrowseDataDetailsTable").width = "0%";
-	$("#toggleBrowseDataDetailsTable").height = "0%";
+	$("#toggleHtmlArea").hide('slow');
+	$("#toggleHtmlArea").width = "0%";
+	$("#toggleHtmlArea").height = "0%";
 
 	lcShowBusyIconInDiv(idropLiteSelector);
 

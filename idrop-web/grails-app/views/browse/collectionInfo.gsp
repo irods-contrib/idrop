@@ -1,7 +1,12 @@
 <div id="infoMessageArea">
 		<!--  -->
 	</div>
-<div>
+
+<div id="idropLiteArea">
+			<!--  area to show idrop lite applet -->
+		</div>
+		<div id="toggleHtmlArea">
+		<g:render template="/common/browseToolbar" />
 <div id="infoLeft" style="float:left; display:inline;">
 	<fieldset id="verticalForm">
 		<label>Parent Collection:</label>${collection.collectionParentName}

@@ -17,11 +17,15 @@
 
 			<button type="button" id="toggleMenuButton"
 				class="ui-state-default ui-corner-all" value="showMenu"
-				onclick="showMenu()")>Show/Hide Menu</button>
+				onclick="showMenu()")><g:message code="text.show.menu" /></button>
+				
+			<button type="button" id="checkout"
+				class="ui-state-default ui-corner-all" value="checkout"
+				onclick="checkOut()")><g:message code="text.check.out" /></button>
 
 			<button type="button" id="logoutButton"
 				class="ui-state-default ui-corner-all" value="logout"
-				onclick="logout()")>Logout</button>
+				onclick="logout()")><g:message code="text.logout" /></button>
 
 		</div>
 

@@ -37,28 +37,28 @@ class BrowseController {
 		irodsAccount = irodsAuthentication.irodsAccount
 		log.debug("retrieved account for request: ${irodsAccount}")
 	}
-	
+
 	def afterInterceptor = {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
 	}
-	
+
 	/**
 	 * Set the parent dir based on the possibility of 'strict ACL' being set
 	 */
 	def establishParentDir = {
-		
+
 		log.info("establishParentDir")
-		
+
 		def parent = params['dir']
 		log.info "loading tree for parent path: ${parent}"
-		
+
 		if (!parent) {
 			log.error "no parent param set"
-			throw new 
+			throw new
 			JargonException("no parent param set")
 		}
-		
+
 		if (parent != "/") {
 			log.info "parent not root use as is"
 		} else {
@@ -69,16 +69,14 @@ class BrowseController {
 			if (isStrict) {
 				parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName + "/"
 			}
-			
 		}
 
-		log.info "set root dir as: ${parent}"	
+		log.info "set root dir as: ${parent}"
 		def jsonResult = ["parent" : parent]
-			
+
 		log.info "jsonResult:${jsonResult}"
-		
+
 		render jsonResult as JSON
-	
 	}
 
 	/**
@@ -102,13 +100,13 @@ class BrowseController {
 	def ajaxDirectoryListingUnderParent = {
 		def parent = params['dir']
 		log.info "ajaxDirectoryListingUnderParent path: ${parent}"
-		
+
 		if (!parent) {
 			log.error "no dir param set"
 			throw new
 			JargonException("no dir param set")
 		}
-		
+
 		if (parent != "/") {
 			log.info "parent not root use as is"
 		} else {
@@ -117,15 +115,14 @@ class BrowseController {
 			def isStrict = environmentalInfoAO.isStrictACLs()
 			log.info "is strict?:{isStrict}"
 			if (isStrict) {
-				parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName 
+				parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
 			}
-			
 		}
-		
+
 		def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 		def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
 		log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
-		
+
 		def jsonBuff = []
 		//jsonBuff.add(['parent':parent])
 
@@ -139,7 +136,7 @@ class BrowseController {
 				state = "open"
 				type = "file"
 			} else {
-				icon = "folder" 
+				icon = "folder"
 				state = "closed"
 				type = "folder"
 			}
@@ -153,39 +150,39 @@ class BrowseController {
 
 		render jsonBuff as JSON
 	}
-	
+
 	def displayBrowseGridDetails = {
 		def absPath = params['absPath']
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
-		
+
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath);
 		def isDataObject = retObj instanceof DataObject
-		
+
 		// if data object, show the info details instead...
 		if (isDataObject) {
-		redirect(action:"fileInfo", params:[absPath:absPath])
-		return
+			redirect(action:"fileInfo", params:[absPath:absPath])
+			return
 		}
-		
+
 		def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
 		log.debug("retrieved collectionAndDataObjectList: ${entries}")
 		render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
-		
+
 	}
-	
+
 	def displayPulldownDataDetails = {
 		def absPath = params['absPath']
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
-		
+
 		log.info "displayPulldownDataDetails for absPath: ${absPath}"
 		render(view:"pulldownDataDetails")
-		
+
 	}
 
 
@@ -204,6 +201,12 @@ class BrowseController {
 		// TODO: some sort of catch and display of no data available in info?
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 
+		if (!retObj) {
+			log.error "no data found for path ${absPath}"
+			def message = message(code:"error.no.data.found")
+			response.sendError(500,message)
+		}
+
 		def isDataObject = retObj instanceof DataObject
 		def getThumbnail = false
 
@@ -214,93 +217,93 @@ class BrowseController {
 		if (isDataObject) {
 			String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
 			log.info("extension is:${extension}")
-			
+
 			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" || extension == ".TIF") {
 				getThumbnail = true;
 			}
-			
+
 			log.info("getting free tags for data object")
 			def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
 			log.info("rendering as data object: ${retObj}")
 			def commentTag = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(absPath)
-			
+
 			def comment = ""
 			if (commentTag) {
 				comment = commentTag.getTagData()
 			}
-			
-			render(view:"dataObjectInfo", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail])
+
+			render(view:"dataObjectInfo", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail, isDataObject:isDataObject,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
 		} else {
 			log.info("getting free tags for collection")
 			def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
 			def commentTag = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(absPath)
-			
+
 			def comment = ""
 			if (commentTag) {
 				comment = commentTag.getTagData()
 			}
 			log.info("rendering as collection: ${retObj}")
-			render(view:"collectionInfo", model:[collection:retObj,comment:comment,tags:freeTags])
+			render(view:"collectionInfo", model:[collection:retObj,comment:comment,tags:freeTags,  isDataObject:isDataObject, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
 		}
 	}
-	
+
 	/**
-	* Build data for the 'mini' file info display
-	*/
-   def miniInfo = {
-	   def absPath = params['absPath']
-	   if (absPath == null) {
-		   throw new JargonException("no absolute path passed to the method")
-	   }
+	 * Build data for the 'mini' file info display
+	 */
+	def miniInfo = {
+		def absPath = params['absPath']
+		if (absPath == null) {
+			throw new JargonException("no absolute path passed to the method")
+		}
 
-	   log.info "mini for absPath: ${absPath}"
-	   CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		log.info "mini for absPath: ${absPath}"
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 
-	   def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 
-	   def isDataObject = retObj instanceof DataObject
-	   
-	   def getThumbnail = false
+		def isDataObject = retObj instanceof DataObject
 
-	   log.info "is this a data object? ${isDataObject}"
+		def getThumbnail = false
 
-	   FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
-	   IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
-	   if (isDataObject) {
-		   log.info("getting free tags for data object")
-		   def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
-		   def commentTag = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(absPath)
-		   
-		   def comment = ""
-		   if (commentTag) {
-			   comment = commentTag.getTagData()
-		   }
-		   
-		   log.info("rendering as data object: ${retObj}")
-		   
-		   String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
-		   log.info("extension is:${extension}")
-		   
-		  if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
+		log.info "is this a data object? ${isDataObject}"
+
+		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
+		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
+		if (isDataObject) {
+			log.info("getting free tags for data object")
+			def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
+			def commentTag = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(absPath)
+
+			def comment = ""
+			if (commentTag) {
+				comment = commentTag.getTagData()
+			}
+
+			log.info("rendering as data object: ${retObj}")
+
+			String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
+			log.info("extension is:${extension}")
+
+			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
 				getThumbnail = true;
 			}
-		   
-		   render(view:"miniInfoDataObject", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail])
-	   } else {
-		   log.info("getting free tags for collection")
-		   def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
-		   
-		   def commentTag = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(absPath)
-		   
-		   def comment = ""
-		   if (commentTag) {
-			   comment = commentTag.getTagData()
-		   }
-		   
-		   log.info("comment was:${comment}")
-		   
-		   log.info("rendering as collection: ${retObj}")
-		   render(view:"miniInfoCollection", model:[collection:retObj,comment:comment,tags:freeTags])
-	   }
-   }
+
+			render(view:"miniInfoDataObject", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail])
+		} else {
+			log.info("getting free tags for collection")
+			def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
+
+			def commentTag = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(absPath)
+
+			def comment = ""
+			if (commentTag) {
+				comment = commentTag.getTagData()
+			}
+
+			log.info("comment was:${comment}")
+
+			log.info("rendering as collection: ${retObj}")
+			render(view:"miniInfoCollection", model:[collection:retObj,comment:comment,tags:freeTags])
+		}
+	}
 }
