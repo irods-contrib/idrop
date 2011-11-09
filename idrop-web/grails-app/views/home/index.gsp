@@ -35,7 +35,7 @@
 					<div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
 						style="float: left">
 						
-		<button type="button" id="refreshTree" value="refreshTree"
+		<button type="button" class="ui-state-default ui-corner-all" id="refreshTree" value="refreshTree"
 			onclick="refreshTree()")><g:message code="text.refresh" /></button>
 						<g:message code="text.display.option" />:
 						<g:select name="browseDisplayOption" id="browseDisplayOption"

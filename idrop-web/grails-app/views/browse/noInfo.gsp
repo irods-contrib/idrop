@@ -1,0 +1,1 @@
+<h2><g:message code="error.no.data.found" /></h2>

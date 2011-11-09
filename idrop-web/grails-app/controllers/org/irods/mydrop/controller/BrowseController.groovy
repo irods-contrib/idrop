@@ -6,6 +6,7 @@ import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
 import org.irods.jargon.core.pub.*
 import org.irods.jargon.core.pub.domain.DataObject
+import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.IRODSTaggingService
@@ -197,14 +198,19 @@ class BrowseController {
 
 		log.info "fileInfo for absPath: ${absPath}"
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def retObj = null
+		// If I cant find any data just put a message up in the display area
+		try {
+			 retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 
-		// TODO: some sort of catch and display of no data available in info?
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-
-		if (!retObj) {
-			log.error "no data found for path ${absPath}"
-			def message = message(code:"error.no.data.found")
-			response.sendError(500,message)
+			if (!retObj) {
+				log.error "no data found for path ${absPath}"
+				render(view:"noInfo")
+				return
+			}
+		} catch (DataNotFoundException) {
+			render(view:"noInfo")
+			return
 		}
 
 		def isDataObject = retObj instanceof DataObject
@@ -305,5 +311,39 @@ class BrowseController {
 			log.info("rendering as collection: ${retObj}")
 			render(view:"miniInfoCollection", model:[collection:retObj,comment:comment,tags:freeTags])
 		}
+	}
+	
+	/*
+	 * build the rename dialog
+	 */
+	def prepareRenameDialog = {
+		log.info("prepareRenameDialog()")
+		
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+		
+		log.info("abs path:${absPath}")
+		
+		/*
+		 * Get the last part of the path from the given absolute path
+		 */
+		
+		IRODSFile targetFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+		
+		log.info("target file obtained")
+		if (!targetFile.exists()) {
+			log.error "absPath does not exist in iRODS"
+			def message = message(code:"error.no.data.found")
+			response.sendError(500,message)
+		}
+		
+		log.info("target file exists")
+		
+		String fileName = targetFile.name
+		render(view:"renameDialog", model:[fileName:fileName, absPath:absPath])
 	}
 }

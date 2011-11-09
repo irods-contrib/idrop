@@ -5,12 +5,7 @@
 		<br />
 		<label>Name:</label>
 		${retObj.dataName}
-		<br /> <label>Size:</label>
-		${retObj.dataSize}
-		<br /> <label>Created At:</label>
-		${retObj.createdAt}
-		<br /> <label>Updated At:</label>
-		${retObj.updatedAt}
+		<br /> 
 		<g:hiddenField id="infoAbsPath" name="absolutePath"
 			value="${retObj.absolutePath}" />
 

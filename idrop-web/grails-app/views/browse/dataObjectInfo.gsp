@@ -6,6 +6,7 @@
 </div>
 <div id="toggleHtmlArea">
 	<g:render template="/common/browseToolbar" />
+	<div id="infoDialogArea"><!--  no empty divs --></div>
 	<div id="infoLeft"
 		style="float: left; display: inline; width: 60%; overflow: auto;">
 		<fieldset id="verticalForm">

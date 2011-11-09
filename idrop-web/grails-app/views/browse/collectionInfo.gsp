@@ -7,6 +7,7 @@
 		</div>
 		<div id="toggleHtmlArea">
 		<g:render template="/common/browseToolbar" />
+		<div id="infoDialogArea"><!--  no empty divs --></div>
 <div id="infoLeft" style="float:left; display:inline;">
 	<fieldset id="verticalForm">
 		<label>Parent Collection:</label>${collection.collectionParentName}

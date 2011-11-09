@@ -5,6 +5,17 @@
 	<div id="detailsToolbar" class="fg-toolbar ui-widget-header">
 		<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
 			style="float: left">
+
+			<!-- FIXME: i18n -->
+
+			<button type="button" class="ui-state-default ui-corner-all" id="doBulkAction" value="doBulkAction"
+				onclick="bulkAction()")>
+				<g:message code="text.bulk.action" />
+			</button>
+		
+			<g:select name="bulkAction" id="bulkAction"
+				from="${['Add to cart', 'Delete']}" />
+
 			<button type="button" id="upload"
 				class="ui-state-default ui-corner-all" value="upload"
 				onclick="showUploadDialog()")>
@@ -41,6 +52,7 @@
 				<thead>
 					<tr>
 						<th></th>
+						<th></th>
 						<th>Name</th>
 						<th>Type</th>
 						<th>Modified date</th>
@@ -51,7 +63,9 @@
 					<g:each in="${collection}" var="entry">
 						<tr id="${entry.formattedAbsolutePath}">
 							<td><span
-								class="ui-icon-circle-plus browse_detail_icon ui-icon"></span>
+								class="ui-icon-circle-plus browse_detail_icon ui-icon"></span></td>
+							<td><g:checkBox name="selectDetail"
+									value="${entry.formattedAbsolutePath}" checked="false" />
 							</td>
 							<td><g:if
 									test="${entry.objectType.toString() == 'COLLECTION'}">
@@ -60,8 +74,7 @@
 									<g:link url="${'file/download' + entry.formattedAbsolutePath}">
 										${entry.nodeLabelDisplayValue}
 									</g:link>
-								</g:else>
-							</td>
+								</g:else></td>
 							<td>
 								${entry.objectType}
 							</td>
@@ -78,6 +91,7 @@
 
 				<tfoot>
 					<tr>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -114,13 +128,7 @@
 		}
 	}
 
-	/*
-	function clickFileToDownload(element) {
-		//window.open(element,'Download');
-		//alert("clicked on link for element:" + element);
-	}*/
-
-	/* called by browseDetailsClick() when it is decided that the details table row should be opened, go 
+	/** called by browseDetailsClick() when it is decided that the details table row should be opened, go 
 	to server and get the details.
 	*/
 	function browseDataDetailsFunction(clickedIcon, rowActionIsOn) {
@@ -141,7 +149,7 @@
 		
 	}
 
-	/* The table row is being opened, and the query has returned from the server with the data, fill in the table row
+	/** The table row is being opened, and the query has returned from the server with the data, fill in the table row
 	*/
 	function buildDetailsLayout(detailsId) {
 		var td = document.createElement("TD");

@@ -50,8 +50,8 @@ class IdropLiteController {
 		String contextPath =request.contextPath
 		
 		// Reconstruct original requesting URL
-		String appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
-		//String appletUrl = "http://iren-web.renci.org/idrop-web/applet"
+		//String appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
+		String appletUrl = "http://iren-web.renci.org/idrop-web/applet"
 		
 		/* set applet operation mode=2 to indicate temporary password is being sent */
 		def mode = "2";
@@ -60,7 +60,7 @@ class IdropLiteController {
 		IdropLite idropLite = new IdropLite()
 		idropLite.appletUrl = appletUrl
 		idropLite.appletCode = "org.irods.jargon.idrop.lite.iDropLiteApplet"
-		idropLite.archive = "idrop-lite-1.0.0-beta3-SNAPSHOT-jar-with-dependencies001.jar"
+		idropLite.archive = "idrop-lite-1.0.0-beta3-SNAPSHOT-jar-with-dependencies.jar"
 		idropLite.mode = mode
 		idropLite.host = irodsAccount.host
 		idropLite.port = irodsAccount.port
