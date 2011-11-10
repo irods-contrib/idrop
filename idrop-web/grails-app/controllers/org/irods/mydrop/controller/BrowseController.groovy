@@ -201,7 +201,7 @@ class BrowseController {
 		def retObj = null
 		// If I cant find any data just put a message up in the display area
 		try {
-			 retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+			retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 
 			if (!retObj) {
 				log.error "no data found for path ${absPath}"
@@ -312,38 +312,83 @@ class BrowseController {
 			render(view:"miniInfoCollection", model:[collection:retObj,comment:comment,tags:freeTags])
 		}
 	}
-	
-	/*
+
+	/**
 	 * build the rename dialog
 	 */
 	def prepareRenameDialog = {
 		log.info("prepareRenameDialog()")
-		
+
 		def absPath = params['absPath']
 		if (absPath == null) {
 			log.error "no absPath in request"
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
-		
+
 		log.info("abs path:${absPath}")
-		
+
 		/*
 		 * Get the last part of the path from the given absolute path
 		 */
-		
+
 		IRODSFile targetFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
-		
+
 		log.info("target file obtained")
 		if (!targetFile.exists()) {
 			log.error "absPath does not exist in iRODS"
 			def message = message(code:"error.no.data.found")
 			response.sendError(500,message)
 		}
-		
+
 		log.info("target file exists")
-		
+
 		String fileName = targetFile.name
 		render(view:"renameDialog", model:[fileName:fileName, absPath:absPath])
+	}
+
+ 
+	/**
+	 * Prepare the 'new folder' dialog
+	 */
+	def prepareNewFolderDialog = {
+		log.info("prepareNewFolderDialog()")
+
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info("abs path:${absPath}")
+
+		/*
+		 * If this is a data object, get the parent
+		 */
+
+		String parentPath = null;
+
+		IRODSFile targetFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+
+		log.info("target file obtained")
+		if (!targetFile.exists()) {
+			log.error "absPath does not exist in iRODS"
+			def message = message(code:"error.no.data.found")
+			response.sendError(500,message)
+		}
+
+		if (targetFile.isFile()) {
+			log.info("is a file, use the parent collection as the parent of the new folder")
+			parentPath = targetFile.getParent()
+		} else {
+			log.info("is a collection use abs path as parent of new folder")
+			parentPath = targetFile.getAbsolutePath()
+		}
+
+		log.info("parent path:${parentPath}")
+
+		String fileName = targetFile.name
+		render(view:"newFolderDialog", model:[absPath:absPath])
 	}
 }

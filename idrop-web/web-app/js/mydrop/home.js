@@ -926,7 +926,6 @@ function deleteViaToolbar() {
 						lcPrepareForCall();
 					}, "html").success(function(returnedData, status, xhr) {
 				setMessage("file deleted:" + xhr.responseText);
-				data[0].id = xhr.responseText;
 				refreshTree();
 			}).error(function(xhr, status, error) {
 				refreshTree();
@@ -942,11 +941,38 @@ function deleteViaToolbar() {
 }
 
 /**
+* new folder was selected from the toolbar
+*/
+function newFolderViaToolbar() {
+		
+	lcPrepareForCall();
+
+	lcShowBusyIconInDiv("#infoDialogArea");
+	var url = "/browse/prepareNewFolderDialog";
+	var infoAbsPath = $("#infoAbsPath").val();
+	
+	var params = {
+		absPath : infoAbsPath 
+	}
+	
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
+		
+}
+
+/**
  *Close the rename dialog that would have been opened by pressing the 'rename' button on the toolbar.
  */
 function closeRenameDialog() {
 	$("#renameDialog").dialog('close');
 	$("#renameDialog").remove();
+}
+
+/**
+ *Close the ne folder dialog that would have been opened by pressing the 'new folder' button on the toolbar.
+ */
+function closeNewFolderDialog() {
+	$("#newFolderDialog").dialog('close');
+	$("#newFolderDialog").remove();
 }
 
 /**
