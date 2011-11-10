@@ -1009,3 +1009,38 @@ function submitRenameDialog() {
 	
 	
 }
+
+/**
+ * Process a new folder operation requested from the toolbar by processing the submitted new folder dialog
+ */
+function submitNewFolderDialog() {
+	lcClearDivAndDivClass("#newFolderDialogMessageArea");
+	var absPath = $("#newFolderDialogAbsPath").val();
+	var newName = $("#fileName").val();
+	//name must be entered
+	if (newName == null || newName.length == 0) {
+		setMessageInArea("#newFolderDialogMessageArea", "Please enter a new folder name");
+		return;
+	}
+	
+	var params = {
+			parent : absPath,
+			name : newName
+		}
+		
+		var jqxhr = $.post(context + folderAddUrl, params,
+				function(data, status, xhr) {
+					lcPrepareForCall();
+				}, "html").success(function(returnedData, status, xhr) {
+			setMessage("file renamed to:" + xhr.responseText);
+			selectedPath = xhr.responseText;
+			closeNewFolderDialog();
+			refreshTree();
+			updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		}).error(function(xhr, status, error) {
+			refreshTree();
+			setMessage(xhr.responseText);
+		});
+	
+	
+}
