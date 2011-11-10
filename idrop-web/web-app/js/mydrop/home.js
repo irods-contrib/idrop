@@ -29,7 +29,6 @@ var folderAddUrl = '/file/createFolder';
 var fileDeleteUrl = '/file/deleteFileOrFolder';
 var fileRenameUrl = '/file/renameFile';
 
-
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
  * browser request for the root directory.
@@ -62,7 +61,7 @@ function browserFirstViewRetrieved(data) {
 	dataTree = $("#dataTreeDiv").jstree(
 			{
 				"plugins" : [ "themes", "contextmenu", "json_data", "types",
-						"ui", "crrm" ],
+						"ui", "crrm", "dnd" ],
 				"core" : {
 					"initially_open" : [ parent ]
 				},
@@ -77,9 +76,7 @@ function browserFirstViewRetrieved(data) {
 						"data" : function(n) {
 							lcClearMessage();
 							dir = n.attr("id");
-							// dir : n.attr ? n.attr("id") : 0
 							return "dir=" + encodeURIComponent(dir);
-
 						},
 						"error" : function(n) {
 							if (n.statusText == "success") {
@@ -115,6 +112,13 @@ function browserFirstViewRetrieved(data) {
 					"select_limit" : 1,
 					"initially_select" : [ "phtml_2" ]
 				},
+				"dnd" : {
+					"copy_modifier" : "shift",
+					"dnd_finish" : function(data) {
+						alert("drop check!");
+						return true;
+					}
+				},
 				"themes" : {
 					"theme" : "default",
 					"url" : context + "/css/style.css",
@@ -138,11 +142,24 @@ function browserFirstViewRetrieved(data) {
 	$("#dataTreeDiv").bind("remove.jstree", function(e, data) {
 		nodeRemoved(e, data.rslt.obj);
 	});
-	
+
 	$("#dataTreeDiv").bind("rename.jstree", function(e, data) {
 		nodeRenamed(e, data.rslt.obj);
 	});
 
+	$("#dataTreeDiv").bind("move_node.jstree", function(e, data) {
+		var copy = false;
+		if (data.args[3] == true) {
+			copy = true;
+		}
+		
+		var targetId = data.args[0].cr[0].id;
+		var sourceId = data.args[0].o[0].id;
+		alert("copy?" + copy + " source id=" + sourceId + " target=" + targetId);
+		$.jstree.rollback(data.rlbk);
+		return false;
+
+	});
 
 }
 
@@ -193,8 +210,10 @@ function customMenu(node) {
 		infoItem : { // The "info" menu item
 			label : "Info",
 			action : function() {
-				lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath="
-						+ encodeURIComponent(node[0].id), "#infoDiv", "#infoDiv", null);
+				lcSendValueAndCallbackHtmlAfterErrorCheck(
+						"/browse/fileInfo?absPath="
+								+ encodeURIComponent(node[0].id), "#infoDiv",
+						"#infoDiv", null);
 			}
 		}
 
@@ -237,7 +256,7 @@ function nodeSelected(event, data) {
  * @return
  */
 function nodeAdded(event, data) {
-	
+
 	var parent = $.trim(data[0].parentNode.parentNode.id);
 	var name = $.trim(data[0].innerText);
 	var params = {
@@ -290,6 +309,7 @@ function nodeRemoved(event, data) {
 
 /**
  * called when a tree node is renamed. Rename the file in iRODS
+ * 
  * @param event
  *            javascript event containing a reference to the selected node
  * @return
@@ -299,12 +319,12 @@ function nodeRenamed(event, data) {
 	lcPrepareForCall();
 	var newName = $.trim(data[0].innerText);
 	var prevAbsPath = data.prevObject[0].id
-	
+
 	var params = {
 		prevAbsPath : prevAbsPath,
 		newName : newName
 	}
-	
+
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
 				lcPrepareForCall();
@@ -317,7 +337,7 @@ function nodeRenamed(event, data) {
 		refreshTree();
 		setMessage(xhr.responseText);
 	});
-	
+
 }
 
 /**
@@ -441,12 +461,12 @@ function initializeUploadDialogAjaxLoader() {
 					{
 						uploadTable : $('#files'),
 						downloadTable : $('#files'),
-						
+
 						buildUploadRow : function(files, index) {
 							$("#upload_message_area").html("");
 							$("#upload_message_area").removeClass();
 							return $('<tr><td>'
-									+ files[index].name 
+									+ files[index].name
 									+ '<\/td>'
 									+ '<td class="file_upload_progress"><div><\/div><\/td>'
 									+ '<\/tr>');
@@ -588,7 +608,7 @@ function submitAclDialog() {
 				lcClearDivAndDivClass(aclDialogMessageSelector);
 			}, "html").success(
 			function(data, status, xhr) {
-				
+
 				var dataJSON = jQuery.parseJSON(data);
 				if (dataJSON.response.errorMessage != null) {
 
@@ -841,9 +861,7 @@ function showIdropLite() {
 						a.appendChild(p);
 						p = document.createElement('param');
 						p.setAttribute('name', 'displayMode');
-						p
-								.setAttribute('value',
-										2);
+						p.setAttribute('value', 2);
 						a.appendChild(p);
 						appletDiv.append(appletTagDiv);
 
@@ -892,14 +910,13 @@ function renameViaToolbar() {
 	lcShowBusyIconInDiv("#infoDialogArea");
 	var url = "/browse/prepareRenameDialog";
 	var infoAbsPath = $("#infoAbsPath").val();
-	//$("#infoDialogArea").remove();
-	
+
 	var params = {
-		absPath : infoAbsPath 
+		absPath : infoAbsPath
 	}
-	
+
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
-	
+
 }
 
 /**
@@ -908,12 +925,12 @@ function renameViaToolbar() {
 function deleteViaToolbar() {
 	var answer = confirm("Delete selected file?"); // FIXME: i18n
 	if (answer) {
-		
+
 		/*
 		 * If looking at an info div, use that path for the delete
 		 */
 		var infoDivAbsPath = $("#infoAbsPath");
-		
+
 		if (infoDivAbsPath != null) {
 			lcPrepareForCall();
 			var id = infoDivAbsPath.val();
@@ -935,32 +952,33 @@ function deleteViaToolbar() {
 			// otherwise, use the tree selection
 			$.jstree._reference(dataTree).remove(selectedNode);
 		}
-		
+
 		$("#infoDiv").html("");
 	}
 }
 
 /**
-* new folder was selected from the toolbar
-*/
+ * new folder was selected from the toolbar
+ */
 function newFolderViaToolbar() {
-		
+
 	lcPrepareForCall();
 
 	lcShowBusyIconInDiv("#infoDialogArea");
 	var url = "/browse/prepareNewFolderDialog";
 	var infoAbsPath = $("#infoAbsPath").val();
-	
+
 	var params = {
-		absPath : infoAbsPath 
+		absPath : infoAbsPath
 	}
-	
+
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
-		
+
 }
 
 /**
- *Close the rename dialog that would have been opened by pressing the 'rename' button on the toolbar.
+ * Close the rename dialog that would have been opened by pressing the 'rename'
+ * button on the toolbar.
  */
 function closeRenameDialog() {
 	$("#renameDialog").dialog('close');
@@ -968,7 +986,8 @@ function closeRenameDialog() {
 }
 
 /**
- *Close the ne folder dialog that would have been opened by pressing the 'new folder' button on the toolbar.
+ * Close the ne folder dialog that would have been opened by pressing the 'new
+ * folder' button on the toolbar.
  */
 function closeNewFolderDialog() {
 	$("#newFolderDialog").dialog('close');
@@ -976,71 +995,72 @@ function closeNewFolderDialog() {
 }
 
 /**
- * Process a rename operation requested from the toolbar by processing the submitted rename dialog
+ * Process a rename operation requested from the toolbar by processing the
+ * submitted rename dialog
  */
 function submitRenameDialog() {
 	lcClearDivAndDivClass("#renameDialogMessageArea");
 	var absPath = $("#renameDialogAbsPath").val();
 	var newName = $("#fileName").val();
-	//name must be entered
+	// name must be entered
 	if (newName == null || newName.length == 0) {
 		setMessageInArea("#renameDialogMessageArea", "Please enter a new name");
 		return;
 	}
-	
+
 	var params = {
-			prevAbsPath : absPath,
-			newName : newName
-		}
-		
-		var jqxhr = $.post(context + fileRenameUrl, params,
-				function(data, status, xhr) {
-					lcPrepareForCall();
-				}, "html").success(function(returnedData, status, xhr) {
-			setMessage("file renamed to:" + xhr.responseText);
-			selectedPath = xhr.responseText;
-			closeRenameDialog();
-			refreshTree();
-			updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-		}).error(function(xhr, status, error) {
-			refreshTree();
-			setMessage(xhr.responseText);
-		});
-	
-	
+		prevAbsPath : absPath,
+		newName : newName
+	}
+
+	var jqxhr = $.post(context + fileRenameUrl, params,
+			function(data, status, xhr) {
+				lcPrepareForCall();
+			}, "html").success(function(returnedData, status, xhr) {
+		setMessage("file renamed to:" + xhr.responseText);
+		selectedPath = xhr.responseText;
+		closeRenameDialog();
+		refreshTree();
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+	}).error(function(xhr, status, error) {
+		refreshTree();
+		setMessage(xhr.responseText);
+	});
+
 }
 
 /**
- * Process a new folder operation requested from the toolbar by processing the submitted new folder dialog
+ * Process a new folder operation requested from the toolbar by processing the
+ * submitted new folder dialog
  */
 function submitNewFolderDialog() {
 	lcClearDivAndDivClass("#newFolderDialogMessageArea");
 	var absPath = $("#newFolderDialogAbsPath").val();
 	var newName = $("#fileName").val();
-	//name must be entered
+	// name must be entered
 	if (newName == null || newName.length == 0) {
-		setMessageInArea("#newFolderDialogMessageArea", "Please enter a new folder name");
+		setMessageInArea("#newFolderDialogMessageArea",
+				"Please enter a new folder name");
 		return;
 	}
-	
+
 	var params = {
-			parent : absPath,
-			name : newName
-		}
-		
-		var jqxhr = $.post(context + folderAddUrl, params,
-				function(data, status, xhr) {
-					lcPrepareForCall();
-				}, "html").success(function(returnedData, status, xhr) {
-			setMessage("file renamed to:" + xhr.responseText);
-			selectedPath = xhr.responseText;
-			closeNewFolderDialog();
-			refreshTree();
-			updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-		}).error(function(xhr, status, error) {
-			refreshTree();
-			setMessage(xhr.responseText);
-		});
-	
-	
+		parent : absPath,
+		name : newName
+	}
+
+	var jqxhr = $.post(context + folderAddUrl, params,
+			function(data, status, xhr) {
+				lcPrepareForCall();
+			}, "html").success(function(returnedData, status, xhr) {
+		setMessage("file renamed to:" + xhr.responseText);
+		selectedPath = xhr.responseText;
+		closeNewFolderDialog();
+		refreshTree();
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+	}).error(function(xhr, status, error) {
+		refreshTree();
+		setMessage(xhr.responseText);
+	});
+
 }
