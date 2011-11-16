@@ -21,5 +21,19 @@ class AuthTagLib {
 		   out << body()
 		}
 	 }
+	 
+	 def isRodsAdmin = { attrs, body ->
+		 // add extra check if auth
+		 def auth = session["SPRING_SECURITY_CONTEXT"]
+		/* List<GrantedAuthorities> grantedAuthorities = auth.grantedAuthorities
+		 
+		 boolean isRodsAdmin = false;
+		 grantedAuthories.each() {it ->
+			 if (it == "rodsadmin") {
+				out << body()
+				 break
+			 }
+		 }*/
+	}
 
 }

@@ -30,7 +30,7 @@ class BrowseController {
 	 */
 	def beforeInterceptor = {
 		def irodsAuthentication = SecurityContextHolder.getContext().authentication
-
+		
 		if (irodsAuthentication == null) {
 			throw new JargonRuntimeException("no irodsAuthentication in security context!")
 		}
