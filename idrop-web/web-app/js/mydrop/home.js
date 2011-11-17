@@ -147,19 +147,22 @@ function browserFirstViewRetrieved(data) {
 		nodeRenamed(e, data.rslt.obj);
 	});
 
-	$("#dataTreeDiv").bind("move_node.jstree", function(e, data) {
-		var copy = false;
-		if (data.args[3] == true) {
-			copy = true;
-		}
-		
-		var targetId = data.args[0].cr[0].id;
-		var sourceId = data.args[0].o[0].id;
-		alert("copy?" + copy + " source id=" + sourceId + " target=" + targetId);
-		$.jstree.rollback(data.rlbk);
-		return false;
+	$("#dataTreeDiv").bind(
+			"move_node.jstree",
+			function(e, data) {
+				var copy = false;
+				if (data.args[3] == true) {
+					copy = true;
+				}
 
-	});
+				var targetId = data.args[0].cr[0].id;
+				var sourceId = data.args[0].o[0].id;
+				alert("copy?" + copy + " source id=" + sourceId + " target="
+						+ targetId);
+				$.jstree.rollback(data.rlbk);
+				return false;
+
+			});
 
 }
 
@@ -270,6 +273,7 @@ function nodeAdded(event, data) {
 			}, "html").success(function(returnedData, status, xhr) {
 		setMessage("new folder created:" + xhr.responseText);
 		data[0].id = xhr.responseText;
+		updateBrowseDetailsForPathBasedOnCurrentModel(parent);
 	}).error(function(xhr, status, error) {
 		refreshTree();
 		updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
@@ -400,8 +404,31 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
  * Show the dialog to allow upload of data
  */
 function showUploadDialog() {
-
 	if (selectedPath == null) {
+		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
+		return;
+	}
+
+	showUploadDialogUsingPath(selectedPath);
+
+}
+
+/**
+ * Show the dialog to upload from the browse details view
+ */
+function showBrowseDetailsUploadDialog() {
+	var path = $("#browseDetailsAbsPath").val();
+	showUploadDialogUsingPath(path);
+}
+
+/**
+ * Show the dialog to allow upload of data
+ * 
+ * @param path
+ *            path of collection to upload to
+ */
+function showUploadDialogUsingPath(path) {
+	if (path == null) {
 		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
 		return;
 	}
@@ -414,7 +441,6 @@ function showUploadDialog() {
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
 		fillInUploadDialog(data);
 	});
-
 }
 
 /**
@@ -776,10 +802,42 @@ function closeApplet() {
  * Display the iDrop lite gui, passing in the given irods base collection name
  */
 function showIdropLite() {
-	var idropLiteSelector = "#idropLiteArea";
+
 	var myPath = selectedPath;
 	if (selectedPath == null) {
 		myPath = "/";
+	}
+
+	showIdropLiteGivenPath(myPath);
+}
+
+/**
+ * Display the iDrop lite gui, passing in the given irods base collection name,
+ * from the browseDetails view
+ */
+function showBrowseDetailsIdropLite() {
+
+	var path = $("#browseDetailsAbsPath").val();
+
+	if (path == null) {
+		path = "/";
+	}
+
+	showIdropLiteGivenPath(path);
+}
+
+/**
+ * Given a path which is the parent collection to display in iDrop lite, show
+ * the iDrop-lite applet
+ * 
+ * @param path
+ *            parent path to which files will be uploaded in iDrop-lite
+ */
+function showIdropLiteGivenPath(path) {
+	var idropLiteSelector = "#idropLiteArea";
+	if (path == null) {
+		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
+		return;
 	}
 
 	// first hide Browse Data Details table
@@ -790,7 +848,7 @@ function showIdropLite() {
 	lcShowBusyIconInDiv(idropLiteSelector);
 
 	var params = {
-		absPath : myPath
+		absPath : path
 	}
 
 	var jqxhr = $
@@ -920,60 +978,95 @@ function renameViaToolbar() {
 }
 
 /**
- * delete was selected on the toolbar
+ * Delete was selected on the toolbar
  */
 function deleteViaToolbar() {
-	var answer = confirm("Delete selected file?"); // FIXME: i18n
-	if (answer) {
 
-		/*
-		 * If looking at an info div, use that path for the delete
-		 */
-		var infoDivAbsPath = $("#infoAbsPath");
+		var infoDivAbsPath = $("#infoAbsPath").val();
 
 		if (infoDivAbsPath != null) {
-			lcPrepareForCall();
-			var id = infoDivAbsPath.val();
-
-			var params = {
-				absPath : id
-			}
-			var jqxhr = $.post(context + fileDeleteUrl, params,
-					function(data, status, xhr) {
-						lcPrepareForCall();
-					}, "html").success(function(returnedData, status, xhr) {
-				setMessage("file deleted:" + xhr.responseText);
-				refreshTree();
-			}).error(function(xhr, status, error) {
-				refreshTree();
-				setMessage(xhr.responseText);
-			});
-		} else {
-			// otherwise, use the tree selection
-			$.jstree._reference(dataTree).remove(selectedNode);
+			deleteViaToolbarGivenPath(infoDivAbsPath);
 		}
+		
+}
 
-		$("#infoDiv").html("");
+/**
+ * Delete was selected from a toolbar, process given theabsolute path to delete
+ * 
+ * @param path
+ *            absolute path to delete
+ */
+function deleteViaToolbarGivenPath(path) {
+
+	if (path == null) {
+		alert("No path was selected, use the tree to select an iRODS collection or file to delete"); // FIXME:
+		// i18n
+		return;
 	}
+
+	var answer = confirm("Delete selected file?"); // FIXME: i18n
+
+	if (answer) {
+
+		lcPrepareForCall();
+
+		var params = {
+			absPath : path
+		}
+		var jqxhr = $.post(context + fileDeleteUrl, params,
+				function(data, status, xhr) {
+					lcPrepareForCall();
+				}, "html").success(function(returnedData, status, xhr) {
+			setMessage("file deleted:" + xhr.responseText);
+			$("#infoDiv").html("<h2>File Deleted</h2>");
+			refreshTree();
+		}).error(function(xhr, status, error) {
+			refreshTree();
+			setMessage(xhr.responseText);
+		});
+	}
+
 }
 
 /**
  * new folder was selected from the toolbar
  */
 function newFolderViaToolbar() {
+	var infoAbsPath = $("#infoAbsPath").val();
+	newFolderViaToolbarGivenPath(infoAbsPath);
+}
+
+/**
+ * new folder was selected from the browse details toolbar
+ */
+function newFolderViaBrowseDetailsToolbar() {
+	var infoAbsPath = $("#browseDetailsAbsPath").val();
+	newFolderViaToolbarGivenPath(infoAbsPath);
+}
+
+/**
+ * Given a path, show the new folder dialog
+ * 
+ * @param path
+ *            path for the parent of the new folder.
+ */
+function newFolderViaToolbarGivenPath(path) {
+
+	if (path == null) {
+		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
+		return;
+	}
 
 	lcPrepareForCall();
 
 	lcShowBusyIconInDiv("#infoDialogArea");
 	var url = "/browse/prepareNewFolderDialog";
-	var infoAbsPath = $("#infoAbsPath").val();
 
 	var params = {
-		absPath : infoAbsPath
+		absPath : path
 	}
 
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
-
 }
 
 /**
