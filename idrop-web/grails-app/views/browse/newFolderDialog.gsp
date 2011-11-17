@@ -27,7 +27,7 @@
 <script>
 
 	$(function() {
-		$("#newFolderDialog").dialog({width:500});
+		$("#newFolderDialog").dialog({width:500, modal:true});
 	});
 
 	

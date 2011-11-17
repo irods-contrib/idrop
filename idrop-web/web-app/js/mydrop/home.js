@@ -963,14 +963,37 @@ function refreshTree() {
  * The rename button has been selected from an info view, show the rename dialog
  */
 function renameViaToolbar() {
+	var infoAbsPath = $("#infoAbsPath").val();
+	renameViaToolbarGivenPath(infoAbsPath);
+}
+
+/**
+ * The rename button has been selected from the browse details view, show the rename dialog
+ */
+function renameViaBrowseDetailsToolbar() {
+	var path = $("#browseDetailsAbsPath").val();
+	renameViaToolbarGivenPath(path);
+}
+
+/**
+ * Given a path for the file/collection to be renamed, show the rename dialog
+ * @param path
+ */
+function renameViaToolbarGivenPath(path) {
+	
+	if (path == null) {
+		alert("No path was selected, use the tree to select an iRODS collection or file to rename"); // FIXME:
+		// i18n
+		return;
+	}
+
 	lcPrepareForCall();
 
 	lcShowBusyIconInDiv("#infoDialogArea");
 	var url = "/browse/prepareRenameDialog";
-	var infoAbsPath = $("#infoAbsPath").val();
-
+	
 	var params = {
-		absPath : infoAbsPath
+		absPath : path
 	}
 
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
@@ -982,12 +1005,20 @@ function renameViaToolbar() {
  */
 function deleteViaToolbar() {
 
-		var infoDivAbsPath = $("#infoAbsPath").val();
+	var infoDivAbsPath = $("#infoAbsPath").val();
 
-		if (infoDivAbsPath != null) {
-			deleteViaToolbarGivenPath(infoDivAbsPath);
-		}
-		
+	if (infoDivAbsPath != null) {
+		deleteViaToolbarGivenPath(infoDivAbsPath);
+	}
+
+}
+
+/**
+ * Delete was selected on the browse details toolbar
+ */
+function deleteViaBrowseDetailsToolbar() {
+	var path = $("#browseDetailsAbsPath").val();
+	deleteViaToolbarGivenPath(path);
 }
 
 /**

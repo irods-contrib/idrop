@@ -29,7 +29,7 @@
 <script>
 
 	$(function() {
-		$("#renameDialog").dialog({width:500});
+		$("#renameDialog").dialog({width:500, modal:true});
 	});
 
 	
