@@ -113,11 +113,7 @@ function browserFirstViewRetrieved(data) {
 					"initially_select" : [ "phtml_2" ]
 				},
 				"dnd" : {
-					"copy_modifier" : "shift",
-					"dnd_finish" : function(data) {
-						alert("drop check!");
-						return true;
-					}
+					"copy_modifier" : "shift"
 				},
 				"themes" : {
 					"theme" : "default",
@@ -147,22 +143,33 @@ function browserFirstViewRetrieved(data) {
 		nodeRenamed(e, data.rslt.obj);
 	});
 
-	$("#dataTreeDiv").bind(
-			"move_node.jstree",
-			function(e, data) {
-				var copy = false;
-				if (data.args[3] == true) {
-					copy = true;
-				}
+	$("#dataTreeDiv").bind("move_node.jstree", function(e, data) {
+		var copy = false;
+		if (data.args[3] == true) {
+			copy = true;
+		}
 
-				var targetId = data.args[0].cr[0].id;
-				var sourceId = data.args[0].o[0].id;
-				alert("copy?" + copy + " source id=" + sourceId + " target="
-						+ targetId);
-				$.jstree.rollback(data.rlbk);
-				return false;
+		var targetId = data.args[0].cr[0].id;
+		var sourceId = data.args[0].o[0].id;
+		var msg = "";
+		if (copy) {
+			msg += "Copy ";
+		} else {
+			msg += "Move ";
+		}
 
-			});
+		msg = msg + " from:" + sourceId + " to:" + targetId;
+
+		var answer = confirm(msg); // FIXME: i18n
+
+		if (!answer) {
+			$.jstree.rollback(data.rlbk);
+			return false;
+		}
+
+		// move/copy confirmed, process...
+
+	});
 
 }
 
@@ -342,6 +349,37 @@ function nodeRenamed(event, data) {
 		setMessage(xhr.responseText);
 	});
 
+}
+
+/**
+ * Given a source and target absolute path, do a move
+ * @param sourcePath
+ * @param targetPath
+ */
+function moveFile(sourcePath,targetPath) {
+	
+	if (sourcePath == null || targetPath == null) {
+		alert("cannot move, source and target path must be specified"); // FIXME: i18n
+		return;
+	}
+	
+	lcPrepareForCall();
+	
+	var params = {
+			sourceAbsPath : sourcePath,
+			targetAbsPath : targetPath
+		}
+
+		var jqxhr = $.post(context + fileMoveUrl, params,
+				function(data, status, xhr) {
+					lcPrepareForCall();
+				}, "html").success(function(returnedData, status, xhr) {
+			setMessage("file moved to:" + xhr.responseText);
+			updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		}).error(function(xhr, status, error) {
+			refreshTree();
+			setMessage(xhr.responseText);
+		});
 }
 
 /**
@@ -968,7 +1006,8 @@ function renameViaToolbar() {
 }
 
 /**
- * The rename button has been selected from the browse details view, show the rename dialog
+ * The rename button has been selected from the browse details view, show the
+ * rename dialog
  */
 function renameViaBrowseDetailsToolbar() {
 	var path = $("#browseDetailsAbsPath").val();
@@ -977,10 +1016,11 @@ function renameViaBrowseDetailsToolbar() {
 
 /**
  * Given a path for the file/collection to be renamed, show the rename dialog
+ * 
  * @param path
  */
 function renameViaToolbarGivenPath(path) {
-	
+
 	if (path == null) {
 		alert("No path was selected, use the tree to select an iRODS collection or file to rename"); // FIXME:
 		// i18n
@@ -991,7 +1031,7 @@ function renameViaToolbarGivenPath(path) {
 
 	lcShowBusyIconInDiv("#infoDialogArea");
 	var url = "/browse/prepareRenameDialog";
-	
+
 	var params = {
 		absPath : path
 	}

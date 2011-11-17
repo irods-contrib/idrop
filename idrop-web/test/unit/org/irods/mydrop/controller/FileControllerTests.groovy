@@ -98,5 +98,18 @@ class FileControllerTests extends ControllerUnitTestCase {
 		
 	}
 	
+	void testMoveFile() {
+		def sourcePath = "source"
+		def targetPath = "target"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+
+		controller.params.sourceAbsPath = sourcePath
+		controller.params.targetAbsPath = targetPath
+		controller.moveFile()
+		
+	}
+	
 	
 }

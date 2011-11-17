@@ -7,8 +7,10 @@ import grails.test.*
 import java.util.Properties
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
+import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAOImpl
 import org.irods.jargon.core.pub.EnvironmentalInfoAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
@@ -23,7 +25,7 @@ import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.jargon.usertagging.domain.IRODSTagGrouping
 import org.irods.jargon.usertagging.domain.IRODSTagValue
-import org.mockito.Matchers;
+import org.mockito.Matchers
 import org.mockito.Mockito
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -117,6 +119,9 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		def testPath = "/testpath.txt"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		IRODSServerProperties irodsServerProperties = IRODSServerProperties.instance(IRODSServerProperties.IcatEnabled.ICAT_ENABLED, 0, "rods3.0", "rods3.0", "zone")
+		Mockito.when(collectionListAndSearchAO.getIRODSServerProperties()).thenReturn(irodsServerProperties)
+
 		DataObject retObject = new DataObject()
 		retObject.setDataName(testPath)
 		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
@@ -155,6 +160,10 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		def testPath = "/testpath"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		IRODSServerProperties irodsServerProperties = Mockito.mock(IRODSServerProperties.class)
+		Mockito.when(irodsServerProperties.isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")).thenReturn(true)
+		Mockito.when(collectionListAndSearchAO.getIRODSServerProperties()).thenReturn(irodsServerProperties)
+		
 		Collection retObject = new Collection()
 		retObject.setCollectionName(testPath)
 		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
@@ -192,6 +201,10 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		def testPath = "/testpath"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		IRODSServerProperties irodsServerProperties = Mockito.mock(IRODSServerProperties.class)
+		Mockito.when(irodsServerProperties.isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")).thenReturn(true)
+		Mockito.when(collectionListAndSearchAO.getIRODSServerProperties()).thenReturn(irodsServerProperties)
+		
 		def retObject = new ArrayList<CollectionAndDataObjectListingEntry>()
 		Mockito.when(collectionListAndSearchAO.listDataObjectsAndCollectionsUnderPath(testPath)).thenReturn(retObject)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)

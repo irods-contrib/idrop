@@ -11,6 +11,7 @@ import org.irods.jargon.datautils.image.ImageServiceFactory
 import org.irods.jargon.datautils.image.ThumbnailService
 import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
+import org.mockito.Matchers;
 import org.mockito.Mockito
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -46,9 +47,8 @@ class ImageControllerTests extends ControllerUnitTestCase {
 		InputStream mockStream = Mockito.mock(InputStream.class)
 		ImageServiceFactory imageServiceFactory = Mockito.mock(ImageServiceFactory.class)
 		Mockito.when(imageServiceFactory.instanceThumbnailService(irodsAccount)).thenReturn(thumbnailService)
-		Mockito.when(thumbnailService.retrieveThumbnailByIRODSAbsolutePathViaRule(testPath)).thenReturn(mockStream)
 		File mockFile = Mockito.mock(File.class)
-		Mockito.when(thumbnailService.createThumbnailLocallyViaJAI())
+		Mockito.when(thumbnailService.createThumbnailLocallyViaJAI(mockFile, testPath, 300)).thenReturn(mockFile)
 		/*
 		 * FIXME: reimplement with various session states
 		 * controller.irodsAccessObjectFactory = irodsAccessObjectFactory

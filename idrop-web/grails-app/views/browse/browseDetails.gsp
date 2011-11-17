@@ -39,20 +39,6 @@
 					<g:select name="bulkAction" id="bulkAction"
 						from="${['Add to cart', 'Delete']}" />
 
-					<button type="button" id="upload"
-						class="ui-state-default ui-corner-all" value="upload"
-						onclick="showUploadDialog()")>
-						<g:message code="text.upload" />
-					</button>
-
-					<g:if test="${showLite}">
-						<button type="button" id="idroplite"
-							class="ui-state-default ui-corner-all"
-							value="uploadWithIdropLite" onclick="showIdropLite()")>
-							<g:message code="text.idrop.lite" />
-						</button>
-					</g:if>
-
 				</div>
 			</div>
 			<table cellspacing="0" cellpadding="0" border="0"

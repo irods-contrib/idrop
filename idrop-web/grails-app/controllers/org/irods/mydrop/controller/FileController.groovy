@@ -241,6 +241,31 @@ class FileController {
 	   
 	   render newFile.getAbsolutePath()
    }
+   
+   /**
+    * Move a file in iRODS
+    */
+   def moveFile = {
+	   String sourceAbsPath = params['sourceAbsPath']
+	   String targetAbsPath = params['targetAbsPath']
+	   
+	   if (!sourceAbsPath) {
+		   log.error "no source path in request"
+		   def message = message(code:"error.no.path.provided")
+		   response.sendError(500,message)
+	   }
+	   
+	   if (!targetAbsPath) {
+		   log.error "no target path in request"
+		   def message = message(code:"error.no.path.provided")
+		   response.sendError(500,message)
+	   }
+	   
+	   
+	   
+	   
+	   
+   }
 	
 	
 }
