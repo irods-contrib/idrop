@@ -1,20 +1,21 @@
 package org.irods.mydrop.controller
 
 
+import grails.converters.*
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
+import org.irods.jargon.core.pub.DataTransferOperations
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.DataObject
+import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
-import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileOutputStream
 import org.springframework.security.core.context.SecurityContextHolder
-import org.irods.jargon.core.pub.io.IRODSFileImpl
-import grails.converters.*
 
 
 class FileController {
@@ -246,6 +247,7 @@ class FileController {
     * Move a file in iRODS
     */
    def moveFile = {
+	   log.info("move file")
 	   String sourceAbsPath = params['sourceAbsPath']
 	   String targetAbsPath = params['targetAbsPath']
 	   
@@ -261,10 +263,11 @@ class FileController {
 		   response.sendError(500,message)
 	   }
 	   
-	   
-	   
-	   
-	   
+	   DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+	   log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
+	   dataTransferOperations.move(sourceAbsPath, targetAbsPath)
+	   render "OK"
+	  
    }
 	
 	

@@ -470,13 +470,17 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
             throws JargonFileOrCollAlreadyExistsException, IdropException {
 
         try {
-            if (sourceFile.isFile()) {
-                log.debug("source file is a file, do a move");
-                dataTransferOperations.move(sourceFile.getAbsolutePath(),
-                        targetAbsolutePath);
+            
+             boolean isFile = sourceFile.isFile();
+            IRODSFile targetFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount().instanceIRODSFile(targetAbsolutePath);
+            
+            dataTransferOperations.move(sourceFile.getAbsolutePath(),
+                    targetAbsolutePath);
 
-                IRODSFile targetFile = idrop.getiDropCore().getIRODSFileFactoryForLoggedInAccount().instanceIRODSFile(targetAbsolutePath);
-                String targetPathForNotify = null;
+             String targetPathForNotify = null;
+            if (isFile) {
+                log.debug("source file is a file, do a move");
+
                 if (targetFile.isDirectory()) {
                     targetPathForNotify = targetFile.getAbsolutePath() + "/"
                             + sourceFile.getName();
@@ -489,11 +493,11 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
             } else {
                 log.debug("source file is a collection, reparent it");
-                dataTransferOperations.moveTheSourceCollectionUnderneathTheTargetCollectionUsingSourceParentCollectionName(
-                        sourceFile.getAbsolutePath(),
-                        targetAbsolutePath);
+                   targetPathForNotify = targetFile.getAbsolutePath() + "/"
+                            + sourceFile.getName();
+
                 irodsFileSystemModel.notifyFileShouldBeAdded(stagingViewTree,
-                        targetAbsolutePath);
+                        targetPathForNotify);
             }
         } catch (JargonFileOrCollAlreadyExistsException fcae) {
             throw fcae;

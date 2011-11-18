@@ -28,6 +28,8 @@ var thumbnailLoadUrl = '/image/generateThumbnail';
 var folderAddUrl = '/file/createFolder';
 var fileDeleteUrl = '/file/deleteFileOrFolder';
 var fileRenameUrl = '/file/renameFile';
+var fileMoveUrl = '/file/moveFile';
+
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
@@ -168,6 +170,12 @@ function browserFirstViewRetrieved(data) {
 		}
 
 		// move/copy confirmed, process...
+		
+		if (copy) {
+			
+		} else {
+			moveFile(sourceId, targetId);
+		}
 
 	});
 
@@ -1198,6 +1206,7 @@ function submitRenameDialog() {
  * submitted new folder dialog
  */
 function submitNewFolderDialog() {
+	
 	lcClearDivAndDivClass("#newFolderDialogMessageArea");
 	var absPath = $("#newFolderDialogAbsPath").val();
 	var newName = $("#fileName").val();

@@ -4,22 +4,16 @@ import grails.test.ControllerUnitTestCase
 
 import java.util.Properties
 
-import org.irods.jargon.core.exception.DataNotFoundException
-import org.irods.jargon.core.exception.JargonException
-import org.irods.jargon.core.exception.JargonRuntimeException
+import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
+import org.irods.jargon.core.pub.DataTransferOperations
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.irods.jargon.core.pub.domain.DataObject
+import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.core.pub.domain.Collection
-import org.irods.jargon.core.pub.io.IRODSFileFactory
-import org.irods.jargon.core.pub.io.IRODSFileInputStream
+import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.mockito.Mockito
-import org.irods.jargon.core.connection.IRODSAccount
-import org.irods.jargon.core.pub.IRODSFileSystem
-
-
 import org.springframework.security.core.context.SecurityContextHolder
 
 class FileControllerTests extends ControllerUnitTestCase {
@@ -102,12 +96,15 @@ class FileControllerTests extends ControllerUnitTestCase {
 		def sourcePath = "source"
 		def targetPath = "target"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		DataTransferOperations dataTransferOperations = Mockito.mock(DataTransferOperations.class)
+		Mockito.when(irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)).thenReturn(dataTransferOperations)
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
 
 		controller.params.sourceAbsPath = sourcePath
 		controller.params.targetAbsPath = targetPath
 		controller.moveFile()
+		Mockito.verify(dataTransferOperations).move(sourcePath,targetPath)
 		
 	}
 	

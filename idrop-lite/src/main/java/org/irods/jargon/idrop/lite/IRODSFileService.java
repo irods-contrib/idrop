@@ -521,39 +521,6 @@ public class IRODSFileService {
         }
     }
 
-    public void moveCollectionUnderneathNewParent(final String currentAbsolutePath, final String newAbsolutePath)
-            throws IdropException {
-
-        log.info("renameFileOrFolder");
-
-        if (currentAbsolutePath == null || currentAbsolutePath.isEmpty()) {
-            throw new IdropException("null or empty currentAbsolutePath");
-        }
-
-        if (newAbsolutePath == null || newAbsolutePath.isEmpty()) {
-            throw new IdropException("null or empty newAbsolutePath");
-        }
-
-        log.info("currentAbsolutePath:{}", currentAbsolutePath);
-        log.info("newAbsolutePath:{}", newAbsolutePath);
-
-        try {
-            DataTransferOperations dataTransferOperations = irodsFileSystem.getIRODSAccessObjectFactory()
-                    .getDataTransferOperations(irodsAccount);
-            dataTransferOperations.moveTheSourceCollectionUnderneathTheTargetCollectionUsingSourceParentCollectionName(
-                    currentAbsolutePath, newAbsolutePath);
-        } catch (JargonException ex) {
-            Logger.getLogger(IRODSFileService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IdropException("exception renaming file", ex);
-        } finally {
-            try {
-                irodsFileSystem.close(irodsAccount);
-            } catch (JargonException ex) {
-                Logger.getLogger(IRODSFileService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
     public String renameIRODSFileOrDirectory(final String irodsCurrentAbsolutePath, final String newFileOrCollectionName)
             throws IdropException {
 

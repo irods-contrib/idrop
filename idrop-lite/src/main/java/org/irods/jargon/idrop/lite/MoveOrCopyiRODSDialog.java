@@ -346,13 +346,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
     private void processAMoveOfAnIndividualFile(final DataTransferOperations dataTransferOperations, final IRODSFile sourceFile, final String targetAbsolutePath) throws JargonFileOrCollAlreadyExistsException, IdropException {
 
         try {
-            if (sourceFile.isFile()) {
-                log.debug("source file is a file, do a move");
-                dataTransferOperations.move(sourceFile.getAbsolutePath(), targetAbsolutePath);
-            } else {
-                log.debug("source file is a collection, reparent it");
-                dataTransferOperations.moveTheSourceCollectionUnderneathTheTargetCollectionUsingSourceParentCollectionName(sourceFile.getAbsolutePath(), targetAbsolutePath);
-            }
+             dataTransferOperations.move(sourceFile.getAbsolutePath(), targetAbsolutePath);
         } catch (JargonFileOrCollAlreadyExistsException fcae) {
             throw fcae;
         } catch (JargonException je) {
