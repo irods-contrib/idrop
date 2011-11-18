@@ -156,7 +156,7 @@ class FileController {
 
 		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
 	}
-	
+
 	def deleteFileOrFolder = {
 		log.info("delete file or folder")
 		String absPath = params['absPath']
@@ -171,7 +171,7 @@ class FileController {
 		log.info("name for delete folder:${absPath}")
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(absPath)
-		
+
 		targetFile.deleteWithForceOption();
 		log.info("file deleted")
 		render targetFile.getAbsolutePath()
@@ -208,67 +208,91 @@ class FileController {
 		log.info("file created:${targetFile.absolutePath}")
 		render targetFile.getAbsolutePath()
 	}
-	
+
 	/**
-	* Rename an iRODS file or folder
-	*/
-   def renameFile = {
-	   log.info("renameFile()")
+	 * Rename an iRODS file or folder
+	 */
+	def renameFile = {
+		log.info("renameFile()")
 
-	   String prevAbsPath = params['prevAbsPath']
-	   if (!prevAbsPath) {
-		   log.error "no prevAbsPath in request"
-		   def message = message(code:"error.no.path.provided")
-		   response.sendError(500,message)
-	   }
+		String prevAbsPath = params['prevAbsPath']
+		if (!prevAbsPath) {
+			log.error "no prevAbsPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
 
-	   prevAbsPath = prevAbsPath.trim()
+		prevAbsPath = prevAbsPath.trim()
 
-	   String newName = params['newName']
-	   if (!newName) {
-		   log.error "no newName in request"
-		   def message = message(code:"error.no.path.provided")
-		   response.sendError(500,message)
-	   }
+		String newName = params['newName']
+		if (!newName) {
+			log.error "no newName in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
 
-	   newName = newName.trim()
+		newName = newName.trim()
 
-	   log.info("rename to :${newName}")
-	   IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
-	   IRODSFile prevFile = irodsFileFactory.instanceIRODSFile(prevAbsPath)
-	  
-	   IRODSFile newFile = irodsFileFactory.instanceIRODSFile(prevFile.getParentFile(), newName)
-	   prevFile.renameTo(newFile)
-	   
-	   render newFile.getAbsolutePath()
-   }
-   
-   /**
-    * Move a file in iRODS
-    */
-   def moveFile = {
-	   log.info("move file")
-	   String sourceAbsPath = params['sourceAbsPath']
-	   String targetAbsPath = params['targetAbsPath']
-	   
-	   if (!sourceAbsPath) {
-		   log.error "no source path in request"
-		   def message = message(code:"error.no.path.provided")
-		   response.sendError(500,message)
-	   }
-	   
-	   if (!targetAbsPath) {
-		   log.error "no target path in request"
-		   def message = message(code:"error.no.path.provided")
-		   response.sendError(500,message)
-	   }
-	   
-	   DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-	   log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
-	   dataTransferOperations.move(sourceAbsPath, targetAbsPath)
-	   render "OK"
-	  
-   }
-	
-	
+		log.info("rename to :${newName}")
+		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+		IRODSFile prevFile = irodsFileFactory.instanceIRODSFile(prevAbsPath)
+
+		IRODSFile newFile = irodsFileFactory.instanceIRODSFile(prevFile.getParentFile(), newName)
+		prevFile.renameTo(newFile)
+
+		render newFile.getAbsolutePath()
+	}
+
+	/**
+	 * Move a file in iRODS
+	 */
+	def moveFile = {
+		log.info("move file")
+		String sourceAbsPath = params['sourceAbsPath']
+		String targetAbsPath = params['targetAbsPath']
+
+		if (!sourceAbsPath) {
+			log.error "no source path in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		if (!targetAbsPath) {
+			log.error "no target path in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+		log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
+		dataTransferOperations.move(sourceAbsPath, targetAbsPath)
+		render targetAbsPath
+	}
+
+	/** 
+	 * Copy a file in iRODS
+	 */
+	def copyFile = {
+		log.info("move file")
+		String sourceAbsPath = params['sourceAbsPath']
+		String targetAbsPath = params['targetAbsPath']
+
+		if (!sourceAbsPath) {
+			log.error "no source path in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		if (!targetAbsPath) {
+			log.error "no target path in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+		log.info("moving ${sourceAbsPath} to ${targetAbsPath}") 
+		dataTransferOperations.copy(sourceAbsPath,"", targetAbsPath,null, false, null) //TODO: resource here?
+		render targetAbsPath
+
+	}
 }

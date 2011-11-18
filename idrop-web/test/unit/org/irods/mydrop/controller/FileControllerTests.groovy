@@ -108,5 +108,21 @@ class FileControllerTests extends ControllerUnitTestCase {
 		
 	}
 	
+	void testCopyFile() {
+		def sourcePath = "source"
+		def targetPath = "target"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		DataTransferOperations dataTransferOperations = Mockito.mock(DataTransferOperations.class)
+		Mockito.when(irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)).thenReturn(dataTransferOperations)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+
+		controller.params.sourceAbsPath = sourcePath
+		controller.params.targetAbsPath = targetPath
+		controller.copyFile()
+		Mockito.verify(dataTransferOperations).copy(sourcePath,"",targetPath,null,false,null)
+		
+	}
+	
 	
 }

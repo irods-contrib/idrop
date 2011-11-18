@@ -29,7 +29,7 @@ var folderAddUrl = '/file/createFolder';
 var fileDeleteUrl = '/file/deleteFileOrFolder';
 var fileRenameUrl = '/file/renameFile';
 var fileMoveUrl = '/file/moveFile';
-
+var fileCopyUrl = '/file/copyFile';
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
@@ -161,7 +161,7 @@ function browserFirstViewRetrieved(data) {
 		}
 
 		msg = msg + " from:" + sourceId + " to:" + targetId;
-
+		
 		var answer = confirm(msg); // FIXME: i18n
 
 		if (!answer) {
@@ -172,7 +172,7 @@ function browserFirstViewRetrieved(data) {
 		// move/copy confirmed, process...
 		
 		if (copy) {
-			
+			copyFile(sourceId, targetId);
 		} else {
 			moveFile(sourceId, targetId);
 		}
@@ -383,7 +383,41 @@ function moveFile(sourcePath,targetPath) {
 					lcPrepareForCall();
 				}, "html").success(function(returnedData, status, xhr) {
 			setMessage("file moved to:" + xhr.responseText);
-			updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+			selectedPath = targetPath;
+			refreshTree();
+			updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+		}).error(function(xhr, status, error) {
+			refreshTree();
+			setMessage(xhr.responseText);
+		});
+}
+
+/**
+ * Given a source and target absolute path, do a copy
+ * @param sourcePath
+ * @param targetPath
+ */
+function copyFile(sourcePath,targetPath) {
+	
+	if (sourcePath == null || targetPath == null) {
+		alert("cannot copy, source and target path must be specified"); // FIXME: i18n
+		return;
+	}
+	
+	lcPrepareForCall();
+	
+	var params = {
+			sourceAbsPath : sourcePath,
+			targetAbsPath : targetPath
+		}
+
+		var jqxhr = $.post(context + fileCopyUrl, params,
+				function(data, status, xhr) {
+					lcPrepareForCall();
+				}, "html").success(function(returnedData, status, xhr) {
+			setMessage("file copied to:" + xhr.responseText);
+			refreshTree();
+			updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 		}).error(function(xhr, status, error) {
 			refreshTree();
 			setMessage(xhr.responseText);
@@ -408,7 +442,7 @@ function setBrowseMode() {
  */
 function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 
-	lcPrepareForCall();
+	//lcPrepareForCall();
 
 	if (absPath == null) {
 		return;
