@@ -233,6 +233,24 @@ function customMenu(node) {
 								+ encodeURIComponent(node[0].id), "#infoDiv",
 						"#infoDiv", null);
 			}
+		},
+		cutItem : { // The "cut" menu item
+			label : "Cut",
+			action : function() {
+				$.jstree._reference(dataTree).cut(node[0]);
+			}
+		},
+		copyItem : { // The "copy" menu item
+			label : "Copy",
+			action : function() {
+				$.jstree._reference(dataTree).copy(node[0]);
+			}
+		},
+		pasteItem : { // The "paste" menu item
+			label : "Paste",
+			action : function() {
+				$.jstree._reference(dataTree).paste(node[0]);
+			}
 		}
 
 	};

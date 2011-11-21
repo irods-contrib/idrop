@@ -1,6 +1,7 @@
 package org.irods.mydrop.controller
 
 import grails.converters.*
+import org.irods.mydrop.service.ShoppingCartService
 
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
@@ -24,6 +25,7 @@ class BrowseController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TaggingServiceFactory taggingServiceFactory
 	IRODSAccount irodsAccount
+	ShoppingCartService shoppingCartService
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -390,5 +392,29 @@ class BrowseController {
 
 		String fileName = targetFile.name
 		render(view:"newFolderDialog", model:[absPath:absPath])
+	}
+	
+	def addFileToCart = {
+		log.info ("addFileToCart")
+		String fileName = params['absPath']
+		if (!fileName) {
+			log.error "no file name in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+		
+		log.info("adding ${fileName} to the shopping cart")
+
+		shoppingCartService.addToCart(fileName, irodsAccount)
+		
+		log.info("shopping cart: ${session.shoppingCart}")
+		
+		log.info("file added")
+		render fileName
+	}
+	
+	def listCart = {
+		log.info("listCart")
+		render(view:"listCart")
 	}
 }

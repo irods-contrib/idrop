@@ -31,6 +31,8 @@
 <g:javascript library="jquery.layout.min-1.3.0" />
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.tools.min" />
+<g:javascript library="mydrop/shopping_cart" />
+
 
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">

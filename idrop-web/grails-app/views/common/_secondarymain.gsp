@@ -2,6 +2,7 @@
 	$(function() {
 		$("#secondaryTabs").tabs();
 		refreshTagCloud();
+		refreshCartFiles();
 		showUserPanel();
 	});
 
@@ -11,6 +12,7 @@
 	<li><a href="#tabs-1">Tags</a></li>
 	<li><a href="#tabs-2">People</a></li>
 	<li><a href="#tabs-3">iDrop Desktop</a></li>
+	<li><a href="#tabs-4">File Cart</a></li>
 	
 </ul>
 <div id="tabs-1">
@@ -40,3 +42,10 @@
 
 </div>
 
+
+<div id="tabs-4">
+ <div id="cartFileDetails"><!--  cart file details div --></div>
+    
+</div>
+
+</div>

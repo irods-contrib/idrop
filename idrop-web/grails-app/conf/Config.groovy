@@ -95,10 +95,11 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	info 'org.irods.mydrop'
-	debug 'org.irods.jargon'
+	info 'org.irods.jargon'
+	debug 'org.irods.jargon.spring.security'
 	info 'grails.app'
 		 
-	warn 'org.mortbay.log',
+	info 'org.mortbay.log',
 		//'grails.app.controller',
 		'org.springframework.security'
 }

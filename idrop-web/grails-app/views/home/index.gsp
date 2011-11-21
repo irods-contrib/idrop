@@ -4,6 +4,7 @@
 <g:javascript library="mydrop/search" />
 <g:javascript library="mydrop/metadata" />
 
+
 </head>
 
 <div id="tabs" class="wrapper" style="height:820px;">
