@@ -2,7 +2,7 @@
 	$(function() {
 		$("#secondaryTabs").tabs();
 		refreshTagCloud();
-		refreshCartFiles();
+		displayCartTab();
 		showUserPanel();
 	});
 

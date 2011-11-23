@@ -8,23 +8,27 @@
 			onclick="clearCart()")><g:message code="default.button.clear.label" /></button>
 		<button type="button" id="deleteFromCartButton"
 			class="ui-state-default ui-corner-all" value="deleteFromCart"
-			onclick="deleteFromCartAcl()")><g:message code="default.button.delete.label" /></button>
+			onclick="deleteFromCart()")><g:message code="default.button.delete.label" /></button>
 			<button type="button" id="reloadCartButton"
 			class="ui-state-default ui-corner-all" value="reloadCart"
-			onclick="reloadCart()")><g:message code="default.button.reload.label" /></button>
+			onclick="refreshCartFiles()")><g:message code="default.button.reload.label" /></button>
 					<button type="button" id="checkout"
 				class="ui-state-default ui-corner-all" value="checkout"
 				onclick="checkOut()")><g:message code="text.check.out" /></button>
-			
 	</div>
 </div>
-<div id="cartTableDiv">
+<div id="cartToggleDiv">
+<div id="cartTableDiv" style="overflow:auto;">
+<!--  cart table -->
 </div>
+</div>
+<div id="cartAppletDiv">
+<!--  empty div --></div>
 </div>
 <script type="text/javascript">
 
 	$(function() {
-		reloadCart();
+		refreshCartFiles();
 	});
 
 	</script>

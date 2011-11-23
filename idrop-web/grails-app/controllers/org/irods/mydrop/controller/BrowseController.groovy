@@ -413,8 +413,65 @@ class BrowseController {
 		render fileName
 	}
 	
-	def listCart = {
-		log.info("listCart")
+	/**
+	 * Display the contents of the 'file cart tab'.  This is a cascading operation, such that the loading of the tab will call the process
+	 * to load the cart contents table.
+	 */
+	def showCartTab = {
+		log.info("showCartTab")
 		render(view:"listCart")
 	}
+	
+	/**
+	 * Build the JTable entries for the contents of the shopping cart
+	 */
+	def listCart = {
+		log.info("listCart")
+		List<String> cart = shoppingCartService.listCart()
+		render(view:"cartDetails", model:[cart:cart])
+	}
+	
+	/**
+	 * Clear the contents of the shopping cart
+	 */
+	def clearCart = {
+		log.info("clearCart")
+		shoppingCartService.clearCart()
+		render "OK"
+	}
+	
+	def deleteFromCart = {
+		log.info("deleteFromCart")
+		log.info("params: ${params}")
+		
+		def filesToDelete = params['selectCart']
+		
+		// if nothing selected, just jump out and return a message
+		if (!filesToDelete) {
+			log.info("no files to delete")
+			render "OK"
+			return;
+		}
+
+		log.info("filesToDelete: ${filesToDelete}")
+
+		if (filesToDelete instanceof Object[]) {
+			log.debug "is array"
+			filesToDelete.each{
+				log.info "filesToDelete: ${it}"
+				shoppingCartService.deleteFromCart(it)
+			}
+			
+		} else {
+			log.debug "not array"
+			log.info "deleting: ${filesToDelete}"
+			shoppingCartService.deleteFromCart(filesToDelete)
+		}
+
+		render "OK"
+	}
+	
+	
+	
+	
 }

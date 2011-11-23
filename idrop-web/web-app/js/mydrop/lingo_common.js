@@ -300,12 +300,12 @@ function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector) {
  *            reference to jquery dataTable (not a selector, the table)
  */
 function lcCloseTableNodes(dataTable) {
-	$(dataTable.fnGetNodes()).each(function() {
-		if (this.innerHTML.match('circle-minus')) {
-			var firstNode = $(this).children().first().children(".ui-icon");
+	$(dataTable.fnGetNodes()).each(function(index, value) {
+		if (value.innerHTML.match('circle-minus')) {
+			var firstNode = $(value).children().first().children(".ui-icon");
 			firstNode.removeClass("ui-icon-circle-minus");
 			firstNode.addClass("ui-icon-circle-plus");
-			dataTable.fnClose(this);
+			dataTable.fnClose(value);
 		}
 
 	});

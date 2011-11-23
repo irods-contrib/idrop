@@ -37,6 +37,24 @@ class ShoppingCartService {
 	}
 	
 	/**
+	 * Clear the files in the cart
+	 */
+	public void clearCart() {
+		FileShoppingCart fileShoppingCart = getCartFromSession()
+		if (fileShoppingCart) {
+			fileShoppingCart.clearCart()
+		}
+	}
+	
+	public void deleteFromCart(String fileName) {
+		FileShoppingCart shoppingCart = getSession().shoppingCart
+		if (shoppingCart) {
+			log.info("have a shopping cart, delete ${fileName}")
+			shoppingCart.removeAnItem(fileName);
+		}
+	}
+	
+	/**
 	 * Get shopping cart from session if present, but don't create one if not present (saves storing unnecesary session state)
 	 * @return {@link FileShoppingCart} if stored in session, or <code>null</code> if not stored
 	 */
