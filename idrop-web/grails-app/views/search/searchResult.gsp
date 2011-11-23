@@ -1,5 +1,5 @@
 <table cellspacing="0" cellpadding="0" border="0" id="searchResultTable"
-	class="display" style="width: 100%;">
+	class="display" style="width: 90%;height:90%;overflow:auto;">
 	<thead>
 		<tr>
 			<th></th>

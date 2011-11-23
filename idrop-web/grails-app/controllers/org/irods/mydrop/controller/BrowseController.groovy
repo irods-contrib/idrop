@@ -440,6 +440,9 @@ class BrowseController {
 		render "OK"
 	}
 	
+	/**
+	 * Delete the given files from the shopping cart
+	 */
 	def deleteFromCart = {
 		log.info("deleteFromCart")
 		log.info("params: ${params}")

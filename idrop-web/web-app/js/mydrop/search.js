@@ -76,7 +76,7 @@ function buildSearchLayout(detailsId) {
 
 function askForSearchDetailsPulldown(absPath, detailsId) {
 	
-	var url = "/browse/miniInfo";
+	var url = "/browse/fileInfo";
 	var params = {
 			absPath:absPath
 		}
