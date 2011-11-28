@@ -32,8 +32,7 @@
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.tools.min" />
 <g:javascript library="mydrop/shopping_cart" />
-
-
+<g:javascript library="mydrop/user" />
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">
 	context = "${request.contextPath}";

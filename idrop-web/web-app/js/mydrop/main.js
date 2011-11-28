@@ -55,6 +55,16 @@ function refreshTagCloud() {
 	
 }
 
+/**
+ * Initial display of the user tab information in the sidebar
+ */
+function displayUserTab() {
+	
+	
+	
+}
+
+
 function logout() {
 	window.location = context + "/j_spring_security_logout"; 
 }
@@ -63,11 +73,7 @@ function logout() {
  * On main panel, show the user panel
  */
 function showUserPanel() {
-	
-	
-	
-	
-	
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/user/index", "#userDiv", "#userDiv", null);
 }
 
 

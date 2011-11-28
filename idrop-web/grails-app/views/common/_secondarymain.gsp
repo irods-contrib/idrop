@@ -23,13 +23,7 @@
 </div>
 </div>
 <div id="tabs-2">
-<ul>
-	<li>Mike Conway</li>
-	<li>Terrell Russell</li>
-	<li>Art Vandalay</li>
-</ul>
-</div>
-
+<div id="userDiv"><!--  user information --></div>
 
 <div id="tabs-3">
  <h1>Launch iDrop Desktop Client</h1>
