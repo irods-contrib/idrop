@@ -36,65 +36,69 @@
 						<g:message code="text.bulk.action" />
 					</button>
 
-					<g:select name="bulkAction" id="bulkAction"
-						from="${['Add to cart', 'Delete']}" />
+					<select name="bulkAction" id="bulkAction">
+						<option value="add">Add To Cart</option>
+						<option value="delete">Delete</option>
+					</select>
 
 				</div>
 			</div>
-			<table cellspacing="0" cellpadding="0" border="0"
-				id="browseDataDetailsTable" style="width: 100%;">
-				<thead>
-					<tr>
-						<th></th>
-						<th></th>
-						<th>Name</th>
-						<th>Type</th>
-						<th>Modified date</th>
-						<th>Length</th>
-					</tr>
-				</thead>
-				<tbody>
-					<g:each in="${collection}" var="entry">
-						<tr id="${entry.formattedAbsolutePath}">
-							<td><span
-								class="ui-icon-circle-plus browse_detail_icon ui-icon"></span>
-							</td>
-							<td><g:checkBox name="selectDetail"
-									value="${entry.formattedAbsolutePath}" checked="false" /></td>
-							<td><g:if
-									test="${entry.objectType.toString() == 'COLLECTION'}">
-									${entry.nodeLabelDisplayValue}
-								</g:if> <g:else>
-									<g:link url="${'file/download' + entry.formattedAbsolutePath}">
-										${entry.nodeLabelDisplayValue}
-									</g:link>
-								</g:else>
-							</td>
-							<td>
-								${entry.objectType}
-							</td>
-							<td>
-								${entry.modifiedAt}
-							</td>
-							<td>
-								${entry.dataSize}
-							</td>
+			<form id="browseDetailsForm" name="browseDetailsForm">
+				<table cellspacing="0" cellpadding="0" border="0"
+					id="browseDataDetailsTable" style="width: 100%;">
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+							<th>Name</th>
+							<th>Type</th>
+							<th>Modified date</th>
+							<th>Length</th>
 						</tr>
-					</g:each>
+					</thead>
+					<tbody>
+						<g:each in="${collection}" var="entry">
+							<tr id="${entry.formattedAbsolutePath}">
+								<td><span
+									class="ui-icon-circle-plus browse_detail_icon ui-icon"></span>
+								</td>
+								<td><g:checkBox name="selectDetail"
+										value="${entry.formattedAbsolutePath}" checked="false" />
+								</td>
+								<td><g:if
+										test="${entry.objectType.toString() == 'COLLECTION'}">
+										${entry.nodeLabelDisplayValue}
+									</g:if> <g:else>
+										<g:link url="${'file/download' + entry.formattedAbsolutePath}">
+											${entry.nodeLabelDisplayValue}
+										</g:link>
+									</g:else></td>
+								<td>
+									${entry.objectType}
+								</td>
+								<td>
+									${entry.modifiedAt}
+								</td>
+								<td>
+									${entry.dataSize}
+								</td>
+							</tr>
+						</g:each>
 
-				</tbody>
+					</tbody>
 
-				<tfoot>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tfoot>
-			</table>
+					<tfoot>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
 		</div>
 	</div>
 </div>
@@ -171,6 +175,33 @@
 		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, ".details",
 				null);
 		
+	}
+
+	/**
+	* A bulk action has been requested via the button.  The actual action is controlled by the drop-down setting
+	*/
+	function bulkAction() {
+		lcPrepareForCall();
+
+		var action = $("#bulkAction").val();
+
+		var answer;
+		if (action == "add") {
+			 answer = confirm("Add the selected files to the cart?"); //FIXME: i18n
+			 if (!answer) {
+				 return false;
+			}
+
+			 addToCartBulkAction();
+		
+		} else if (action == "delete") {
+			 answer = confirm("Delete the selected files?"); //FIXME: i18n
+			 if (!answer) {
+				 return false;
+			}
+				deleteFilesBulkAction();	
+		}
+	
 	}
 	
 	</script>

@@ -1,8 +1,6 @@
 <div>
 <div id="infoLeft" style="float:left; display:inline;">
 	<fieldset id="verticalForm">
-
-		<label>Parent Collection:</label>${retObj.collectionParentName}
 		<br /><label>Name:</label>${retObj.collectionName}
 		</fieldset>
 	</div>

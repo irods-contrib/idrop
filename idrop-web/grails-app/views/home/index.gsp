@@ -97,7 +97,7 @@ $(document).ready(function() {
 	dataLayout = $("#dataTreeView").layout({ 
 		applyDefaultStyles: true,
 		size: "auto",
-		west__minSize: 100,
+		west__minSize: 200,
 		west__resizable: true		
 		});
 

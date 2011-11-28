@@ -10,7 +10,7 @@
 		<div id="infoDialogArea"><!--  no empty divs --></div>
 <div id="infoLeft" style="float:left; display:inline;">
 	<fieldset id="verticalForm">
-		<label>Parent Collection:</label>${collection.collectionParentName}
+		
 		<br /><label>Name:</label>${collection.collectionName}
 		<br /> <label>Created At:</label>${collection.createdAt}
 		<br /> <label>Updated At:</label>${collection.modifiedAt}

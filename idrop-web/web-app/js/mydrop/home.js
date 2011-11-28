@@ -27,6 +27,7 @@ var thumbnailLoadUrl = '/image/generateThumbnail';
 
 var folderAddUrl = '/file/createFolder';
 var fileDeleteUrl = '/file/deleteFileOrFolder';
+var deleteBulkActionUrl = '/file/deleteBulkAction';
 var fileRenameUrl = '/file/renameFile';
 var fileMoveUrl = '/file/moveFile';
 var fileCopyUrl = '/file/copyFile';
@@ -1288,5 +1289,24 @@ function submitNewFolderDialog() {
 		refreshTree();
 		setMessage(xhr.responseText);
 	});
+
+}
+
+/**
+ * Delete files based on inputs in the browse details table.  Note that confirmation has already
+ * been provided.
+ */
+function deleteFilesBulkAction() {
+	
+		var formData = $("#browseDetailsForm").serializeArray();
+		var jqxhr = $.post(context + deleteBulkActionUrl, formData, "html").success(
+				function(returnedData, status, xhr) {
+					lcPrepareForCall();
+					refreshTree();
+					updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+					setMessage("Delete action successful");
+				}).error(function(xhr, status, error) {
+			setMessage(xhr.responseText);
+		});
 
 }

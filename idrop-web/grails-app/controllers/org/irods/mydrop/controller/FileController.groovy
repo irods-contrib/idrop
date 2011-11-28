@@ -157,6 +157,9 @@ class FileController {
 		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
 	}
 
+	/**
+	 * Delete the given file or folder
+	 */
 	def deleteFileOrFolder = {
 		log.info("delete file or folder")
 		String absPath = params['absPath']
@@ -176,6 +179,46 @@ class FileController {
 		log.info("file deleted")
 		render targetFile.getAbsolutePath()
 	}
+
+	/**
+	 * Process a bulk delete action based on data input from the browse details form
+	 */
+	def deleteBulkAction = {
+		log.info("deleteBulkAction")
+
+		log.info("params: ${params}")
+
+		def filesToDelete = params['selectDetail']
+
+		// if nothing selected, just jump out and return a message
+		if (!filesToDelete) {
+			log.info("no files to delete")
+			render "OK"
+			return;
+		}
+
+		log.info("filesToDelete: ${filesToDelete}")
+
+		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount);
+
+		if (filesToDelete instanceof Object[]) {
+			log.debug "is array"
+			filesToDelete.each{
+				log.info "filesToDelete: ${it}"
+				IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(it);
+				toDelete.delete();
+			}
+
+		} else {
+			log.debug "not array"
+			log.info "deleting: ${filesToDelete}"
+			IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(filesToDelete);
+			toDelete.delete();
+		}
+
+		render "OK"
+	}
+
 
 	/**
 	 * Add a new iRODS folder
@@ -290,7 +333,7 @@ class FileController {
 		}
 
 		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-		log.info("moving ${sourceAbsPath} to ${targetAbsPath}") 
+		log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
 		dataTransferOperations.copy(sourceAbsPath,"", targetAbsPath,null, false, null) //TODO: resource here?
 		render targetAbsPath
 

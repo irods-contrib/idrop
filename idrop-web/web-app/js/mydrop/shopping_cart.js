@@ -8,7 +8,7 @@ var showCartUrl = '/browse/showCartTab';
 var listCartUrl = '/browse/listCart';
 var clearCartUrl = '/browse/clearCart';
 var deleteCartUrl = '/browse/deleteFromCart';
-
+var addToCartBulkActionUrl = '/browse/addToCartBulkAction';
 
 /**
  * The add to shopping cart button has been selected from an info view
@@ -78,6 +78,9 @@ function clearCart() {
 
 }
 
+/**
+ * Delete files from the cart based on inputs in the cart details tab
+ */
 function deleteFromCart() {
 	var answer = confirm("Delete selected files from cart?"); // FIXME: i18n
 
@@ -94,3 +97,23 @@ function deleteFromCart() {
 
 	}
 }
+
+/**
+ * Add to the file cart based on inputs in the browse details table.  Note that confirmation has already
+ * been provided.
+ */
+function addToCartBulkAction() {
+	
+		var formData = $("#browseDetailsForm").serializeArray();
+		lcPrepareForCall();
+		var jqxhr = $.post(context + addToCartBulkActionUrl, formData, "html").success(
+				function(returnedData, status, xhr) {
+					setMessage("Selected files added to cart");  // FIXME: i18n
+					refreshCartFiles();
+				}).error(function(xhr, status, error) {
+			setMessage(xhr.responseText);
+		});
+
+}
+
+

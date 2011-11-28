@@ -475,6 +475,40 @@ class BrowseController {
 	}
 	
 	
-	
-	
+	/**
+	* Process a bulk add to cart action based on data input from the browse details form
+	*/
+   def addToCartBulkAction = {
+	   log.info("addToCartBulkAction")
+
+	   log.info("params: ${params}")
+
+	   def filesToAdd = params['selectDetail']
+
+	   // if nothing selected, just jump out and return a message
+	   if (!filesToAdd) {
+		   log.info("no files to add")
+		   render "OK"
+		   return;
+	   }
+
+	   log.info("filesToAdd: ${filesToAdd}")
+
+
+	   if (filesToAdd instanceof Object[]) {
+		   log.debug "is array"
+		   filesToAdd.each{
+			   log.info "filesToAdd: ${it}"
+			   shoppingCartService.addToCart(it, irodsAccount)
+
+		   }
+
+	   } else {
+		   log.debug "not array"
+		   log.info "adding: ${filesToAdd}"
+		   shoppingCartService.addToCart(filesToAdd, irodsAccount)
+	   }
+
+	   render "OK"
+   }
 }
