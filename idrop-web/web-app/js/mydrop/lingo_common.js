@@ -452,6 +452,52 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 }
 
 /**
+* Send a query via ajax GET request that results in html plugged into the
+* correct div.  Do not overwrite message if no error occurs
+*/
+function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divForAjaxError,
+		divForLoadingGif, callbackFunction) {
+
+	if (getUrl.length == 0) {
+		throw ("no get url for call");
+		return;
+	}
+
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
+
+	$(divForLoadingGif).html(img);
+
+	try {
+
+		$.get(context + getUrl, function(data, status, xhr) {
+			var continueReq = checkForSessionTimeout(data, xhr);
+			if (continueReq) {
+				$(divForLoadingGif).html("");
+				if (callbackFunction != null) {
+					var myHtml = data;
+					callbackFunction(myHtml);
+				} else {
+					$(divForLoadingGif).html(data);
+				
+				}
+			}
+		}, "html").error(function() {
+			
+			$(divForLoadingGif).html("");
+			setMessage("unable to load data");
+			// alert("error loading");
+		});
+
+	} catch (err) {
+		$(divForLoadingGif).html(""); // FIXME: some sort of error icon?
+		setMessage(err);
+		// console.log("javascript error:" + err);
+	}
+
+}
+
+/**
  * Send a query via ajax POST request that results in html plugged into the
  * correct div
  * 

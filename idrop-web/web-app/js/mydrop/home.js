@@ -76,7 +76,7 @@ function browserFirstViewRetrieved(data) {
 								+ "/browse/ajaxDirectoryListingUnderParent",
 						"cache" : false,
 						"data" : function(n) {
-							lcClearMessage();
+							//lcClearMessage();
 							dir = n.attr("id");
 							return "dir=" + encodeURIComponent(dir);
 						},
@@ -238,12 +238,14 @@ function customMenu(node) {
 			label : "Cut",
 			action : function() {
 				$.jstree._reference(dataTree).cut(node[0]);
+				setMessage("File cut and placed in clipboard:" + node[0].id);
 			}
 		},
 		copyItem : { // The "copy" menu item
 			label : "Copy",
 			action : function() {
 				$.jstree._reference(dataTree).copy(node[0]);
+				setMessage("File copied and placed in clipboard:" + node[0].id);
 			}
 		},
 		pasteItem : { // The "paste" menu item
@@ -281,7 +283,6 @@ function nodeSelected(event, data) {
 	selectedPath = id;
 	selectedNode = data[0];
 	updateBrowseDetailsForPathBasedOnCurrentModel(id);
-
 }
 
 /**
@@ -472,7 +473,7 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 
 	if (browseOptionVal == "details") {
 
-		lcSendValueAndCallbackHtmlAfterErrorCheck(
+		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 				"/browse/displayBrowseGridDetails?absPath="
 						+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
 				function(data) {
@@ -480,20 +481,20 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 
 				});
 	} else if (browseOptionVal == "info") {
-		lcSendValueAndCallbackHtmlAfterErrorCheck("/browse/fileInfo?absPath="
+		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/browse/fileInfo?absPath="
 				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 	} else if (browseOptionVal == "metadata") {
-		lcSendValueAndCallbackHtmlAfterErrorCheck(
+		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 				"/metadata/showMetadataDetails?absPath="
 						+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
 				null);
 	} else if (browseOptionVal == "sharing") {
-		lcSendValueAndCallbackHtmlAfterErrorCheck(
+		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 				"/sharing/showAclDetails?absPath="
 						+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
 				null);
 	} else if (browseOptionVal == "audit") {
-		lcSendValueAndCallbackHtmlAfterErrorCheck("/audit/auditList?absPath="
+		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/audit/auditList?absPath="
 				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 	}
 }

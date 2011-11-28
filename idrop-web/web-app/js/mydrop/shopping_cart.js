@@ -61,7 +61,7 @@ function displayCartTab() {
  * Display the tab data that shows the files in the shopping cart
  */
 function refreshCartFiles() {
-	lcSendValueAndCallbackHtmlAfterErrorCheck(listCartUrl, "#cartTableDiv",
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(listCartUrl, "#cartTableDiv",
 			"#cartTableDiv", null);
 }
 
