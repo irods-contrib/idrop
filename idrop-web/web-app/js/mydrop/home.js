@@ -228,6 +228,7 @@ function customMenu(node) {
 		},
 		infoItem : { // The "info" menu item
 			label : "Info",
+			 "separator_before"  : true,    // Insert a separator before the item
 			action : function() {
 				lcSendValueAndCallbackHtmlAfterErrorCheck(
 						"/browse/fileInfo?absPath="
@@ -237,6 +238,7 @@ function customMenu(node) {
 		},
 		cutItem : { // The "cut" menu item
 			label : "Cut",
+			 "separator_before"  : true,    // Insert a separator before the item
 			action : function() {
 				$.jstree._reference(dataTree).cut(node[0]);
 				setMessage("File cut and placed in clipboard:" + node[0].id);

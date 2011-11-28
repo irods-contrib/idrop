@@ -14,7 +14,9 @@
 			${dataObject.collectionName}
 			<br />
 			<label>Name:</label>
-			${dataObject.dataName}
+			<g:link url="${'file/download' + dataObject.absolutePath}">
+											${dataObject.dataName}
+			</g:link>
 			<br /> <label>Size:</label>
 			${dataObject.dataSize}
 			<br /> <label>Created At:</label>
