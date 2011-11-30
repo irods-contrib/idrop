@@ -24,7 +24,7 @@
 </div>
 <div id="tabs-2">
 <div id="userDiv"><!--  user information --></div>
-
+</div>
 <div id="tabs-3">
  <h1>Launch iDrop Desktop Client</h1>
       <script src="http://www.java.com/js/deployJava.js"></script>
