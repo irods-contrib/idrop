@@ -1,15 +1,14 @@
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 /*
-grails.config.locations = [ "classpath:${appName}-config.properties",
-                         "classpath:${appName}-config.groovy",
-                        "file:${userHome}/.grails/${appName}-config.properties",
-                          "file:${userHome}/.grails/${appName}-config.groovy"]
-
-if(System.properties["${appName}.config.location"]) {
-  grails.config.locations << "file:" + System.properties["${appName}.config.location"]
-   }
-   */
+ grails.config.locations = [ "classpath:${appName}-config.properties",
+ "classpath:${appName}-config.groovy",
+ "file:${userHome}/.grails/${appName}-config.properties",
+ "file:${userHome}/.grails/${appName}-config.groovy"]
+ if(System.properties["${appName}.config.location"]) {
+ grails.config.locations << "file:" + System.properties["${appName}.config.location"]
+ }
+ */
 
 grails.project.groupId = org.irods.mydrop // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
@@ -61,11 +60,9 @@ grails.validateable.packages = ['org.irods']
 
 // set per-environment serverURL stem for creating absolute links
 environments {
-	production { 
-		grails.serverURL = "http://iren-web.renci.org:8080/${appName}"
-		 }
+	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
-	test { grails.serverURL = "http://localhost:8080/${appName}" }
+	test {  grails.serverURL = "http://localhost:8080/${appName}"  }
 }
 
 // log4j configuration
@@ -99,8 +96,8 @@ log4j = {
 	info 'org.irods.jargon'
 	debug 'org.irods.jargon.spring.security'
 	info 'grails.app'
-		 
+
 	info 'org.mortbay.log',
-		//'grails.app.controller',
-		'org.springframework.security'
+			//'grails.app.controller',
+			'org.springframework.security'
 }

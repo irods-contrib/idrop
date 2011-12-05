@@ -40,6 +40,8 @@
 	host = "${request.localName}";
 	port = "${request.localPort}";
 </script>
+
+ 
 </head>
 <body>
 <div id="hd"><!-- PUT MASTHEAD CODE HERE -->
