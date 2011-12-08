@@ -1,4 +1,4 @@
-<div id="userTopSection" class="box" style="position:relative;overflow:visible;">
+<div id="userTopSection" class="box" style="height:8%;">
   <div id="searchMenu" class="fg-buttonset fg-buttonset-multi"
        style="float: left, clear:both; margin: 5px;">
 
@@ -17,14 +17,7 @@
   </div>
   </div>     
 
-  <div id="userTableDiv" style="overflow:visible; position:relative;">
+  <div id="userTableDiv" style="height:90%;">
     <!--  user table -->
   </div>
 
-<script type="text/javascript">
-
-        $(function() {
-               $("#userAccordion").accordion();
-        });
-
-</script>

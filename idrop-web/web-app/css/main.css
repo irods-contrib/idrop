@@ -652,8 +652,7 @@ th.desc a {
 }
 
 #tagCloudDiv {
-	height: 400px;
-	display: inline-block;
+	height: 800px;
 	width: 100%;
 	overflow: auto;
 }

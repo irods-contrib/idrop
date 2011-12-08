@@ -7,20 +7,20 @@
 	});
 
 </script>
-<div id="secondaryTabs" style="position:relative;height:820px;overflow:visible;">
+<div id="secondaryTabs" style="position:relative;height:820px;overflow:hidden;">
 <ul>
 	<li><a href="#tabs-1">Tags</a></li>
 	<li><a href="#tabs-2">People</a></li>
 	<li><a href="#tabs-3">iDrop Desktop</a></li>
 	<li><a href="#tabs-4">File Cart</a></li>
 </ul>
-<div id="tabs-1">
-<div id="tagCloudDiv" >
+<div id="tabs-1" style="height:100%;	">
+<div id="tagCloudDiv"  style="height:100%;overflow:auto;">
 <!--  tag cloud div is ajax loaded -->
 </div>
 </div>
-<div id="tabs-2" style="visible;height:90%;">
-<div id="userDiv" style="position:relative;"><!--  user information --></div>
+<div id="tabs-2" style="height:100%;">
+<div id="userDiv" style="height:100%;"><!--  user information --></div>
 </div>
 <div id="tabs-3">
  <h1>Launch iDrop Desktop Client</h1>

@@ -94,7 +94,7 @@ log4j = {
 
 	info 'org.irods.mydrop'
 	info 'org.irods.jargon'
-	debug 'org.irods.jargon.spring.security'
+	info 'org.irods.jargon.spring.security'
 	info 'grails.app'
 
 	info 'org.mortbay.log',

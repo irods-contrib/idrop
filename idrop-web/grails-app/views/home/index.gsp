@@ -55,13 +55,13 @@
       <div id="dataTreeView" style="width: 100%; height: 700px; overflow:visible;">
         <!--  no empty divs -->
         <div id="dataTreeDiv" class="ui-layout-west"
-             style="width: 25%; height: 700px; overflow: visible;">
+             style="width: 25%; height: 700px; overflow: auto;">
           <!--  no empty divs -->
         </div>
         <div id="infoDivOuter"
-             style="display: block; width: 75%; height:100%; position:relative; overflow:visible;"
+             style="display: block; width: 75%; height:100%; position:relative; overflow:auto;"
              class="ui-layout-center">
-          <div id="infoDiv" style="overflow:visible; position:relative;">
+          <div id="infoDiv" style="overflow:auto; position:relative;">
             <h2>
               <g:message code="browse.page.prompt" />
             </h2>
