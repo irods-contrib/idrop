@@ -1,7 +1,6 @@
 package org.irods.mydrop.controller
 
 import grails.converters.*
-import org.irods.mydrop.service.ShoppingCartService
 
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
@@ -12,6 +11,7 @@ import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
+import org.irods.mydrop.service.ShoppingCartService
 import org.springframework.security.core.context.SecurityContextHolder
 
 
@@ -32,7 +32,7 @@ class BrowseController {
 	 */
 	def beforeInterceptor = {
 		def irodsAuthentication = SecurityContextHolder.getContext().authentication
-		
+
 		if (irodsAuthentication == null) {
 			throw new JargonRuntimeException("no irodsAuthentication in security context!")
 		}
@@ -162,7 +162,7 @@ class BrowseController {
 
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath);
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 		def isDataObject = retObj instanceof DataObject
 
 		// if data object, show the info details instead...
@@ -227,7 +227,7 @@ class BrowseController {
 			log.info("extension is:${extension}")
 
 			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" || extension == ".TIF") {
-				getThumbnail = true;
+				getThumbnail = true
 			}
 
 			log.info("getting free tags for data object")
@@ -293,7 +293,7 @@ class BrowseController {
 			log.info("extension is:${extension}")
 
 			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
-				getThumbnail = true;
+				getThumbnail = true
 			}
 
 			render(view:"miniInfoDataObject", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail])
@@ -349,7 +349,7 @@ class BrowseController {
 		render(view:"renameDialog", model:[fileName:fileName, absPath:absPath])
 	}
 
- 
+
 	/**
 	 * Prepare the 'new folder' dialog
 	 */
@@ -369,7 +369,7 @@ class BrowseController {
 		 * If this is a data object, get the parent
 		 */
 
-		String parentPath = null;
+		String parentPath = null
 
 		IRODSFile targetFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
 
@@ -393,7 +393,7 @@ class BrowseController {
 		String fileName = targetFile.name
 		render(view:"newFolderDialog", model:[absPath:absPath])
 	}
-	
+
 	def addFileToCart = {
 		log.info ("addFileToCart")
 		String fileName = params['absPath']
@@ -402,17 +402,17 @@ class BrowseController {
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
-		
+
 		log.info("adding ${fileName} to the shopping cart")
 
 		shoppingCartService.addToCart(fileName, irodsAccount)
-		
+
 		log.info("shopping cart: ${session.shoppingCart}")
-		
+
 		log.info("file added")
 		render fileName
 	}
-	
+
 	/**
 	 * Display the contents of the 'file cart tab'.  This is a cascading operation, such that the loading of the tab will call the process
 	 * to load the cart contents table.
@@ -421,7 +421,7 @@ class BrowseController {
 		log.info("showCartTab")
 		render(view:"listCart")
 	}
-	
+
 	/**
 	 * Build the JTable entries for the contents of the shopping cart
 	 */
@@ -430,7 +430,7 @@ class BrowseController {
 		List<String> cart = shoppingCartService.listCart()
 		render(view:"cartDetails", model:[cart:cart])
 	}
-	
+
 	/**
 	 * Clear the contents of the shopping cart
 	 */
@@ -439,21 +439,21 @@ class BrowseController {
 		shoppingCartService.clearCart()
 		render "OK"
 	}
-	
+
 	/**
 	 * Delete the given files from the shopping cart
 	 */
 	def deleteFromCart = {
 		log.info("deleteFromCart")
 		log.info("params: ${params}")
-		
+
 		def filesToDelete = params['selectCart']
-		
+
 		// if nothing selected, just jump out and return a message
 		if (!filesToDelete) {
 			log.info("no files to delete")
 			render "OK"
-			return;
+			return
 		}
 
 		log.info("filesToDelete: ${filesToDelete}")
@@ -464,7 +464,7 @@ class BrowseController {
 				log.info "filesToDelete: ${it}"
 				shoppingCartService.deleteFromCart(it)
 			}
-			
+
 		} else {
 			log.debug "not array"
 			log.info "deleting: ${filesToDelete}"
@@ -473,42 +473,70 @@ class BrowseController {
 
 		render "OK"
 	}
-	
-	
+
+
 	/**
-	* Process a bulk add to cart action based on data input from the browse details form
-	*/
-   def addToCartBulkAction = {
-	   log.info("addToCartBulkAction")
+	 * Process a bulk add to cart action based on data input from the browse details form
+	 */
+	def addToCartBulkAction = {
+		log.info("addToCartBulkAction")
 
-	   log.info("params: ${params}")
+		log.info("params: ${params}")
 
-	   def filesToAdd = params['selectDetail']
+		def filesToAdd = params['selectDetail']
 
-	   // if nothing selected, just jump out and return a message
-	   if (!filesToAdd) {
-		   log.info("no files to add")
-		   render "OK"
-		   return;
-	   }
+		// if nothing selected, just jump out and return a message
+		if (!filesToAdd) {
+			log.info("no files to add")
+			render "OK"
+			return
+		}
 
-	   log.info("filesToAdd: ${filesToAdd}")
+		log.info("filesToAdd: ${filesToAdd}")
 
 
-	   if (filesToAdd instanceof Object[]) {
-		   log.debug "is array"
-		   filesToAdd.each{
-			   log.info "filesToAdd: ${it}"
-			   shoppingCartService.addToCart(it, irodsAccount)
+		if (filesToAdd instanceof Object[]) {
+			log.debug "is array"
+			filesToAdd.each{
+				log.info "filesToAdd: ${it}"
+				shoppingCartService.addToCart(it, irodsAccount)
 
-		   }
+			}
 
-	   } else {
-		   log.debug "not array"
-		   log.info "adding: ${filesToAdd}"
-		   shoppingCartService.addToCart(filesToAdd, irodsAccount)
-	   }
+		} else {
+			log.debug "not array"
+			log.info "adding: ${filesToAdd}"
+			shoppingCartService.addToCart(filesToAdd, irodsAccount)
+		}
 
-	   render "OK"
-   }
+		render "OK"
+	}
+
+	/**
+	 * Show gallery view for given directory
+	 */
+	def galleryView = {
+		log.info("galleryView()")
+		def absPath = params['absPath']
+		if (absPath == null) {
+			throw new JargonException("no absolute path passed to the method")
+		}
+
+		log.info "galleryView for absPath: ${absPath}"
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+		def isDataObject = retObj instanceof DataObject
+
+		// if data object, show the info details instead...
+		if (isDataObject) {
+			redirect(action:"fileInfo", params:[absPath:absPath])
+			return
+		}
+
+		def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
+		log.debug("retrieved collectionAndDataObjectList: ${entries}")
+		render(view:"galleryView", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
+	}
+
+
 }

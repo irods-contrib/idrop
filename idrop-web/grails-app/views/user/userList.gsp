@@ -1,4 +1,5 @@
 <div id="userTableWrappingDiv" style="height:93%;overflow:hidden;">
+
 <form id="userTableForm" name="userTableForm" style="height:100%; overflow:auto;">
  
     <table cellspacing="0" cellpadding="0" border="0" id="userListTable" style="width:100%;">
@@ -10,10 +11,10 @@
       </thead> 
       <tbody>
       <g:each in="${users}" var="entry">
-        <tr id="${entry.nameWithZone}">
+        <tr >
         <td><g:checkBox name="selectuser"
                             value="${entry.nameWithZone}" checked="false" /></td>
-          <td>${entry.nameWithZone}</td>
+          <td  id="${entry.nameWithZone}" class="userDetailRow">${entry.nameWithZone}</td>
         </tr>
       </g:each>
       </tbody>
@@ -33,6 +34,12 @@
         var userListTable;
 
         $(function() {
+
+        	$('.userDetailRow').click(function(event) {
+        		requestUserPopup(event);
+        		});
+
+            
                //userListTable = $("#userListTable").dataTable({});
             	//	"sScrollX": "100%",
             	//	"sScrollXInner": "110%",

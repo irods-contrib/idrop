@@ -33,6 +33,8 @@
 <g:javascript library="jquery.tools.min" />
 <g:javascript library="mydrop/shopping_cart" />
 <g:javascript library="mydrop/user" />
+<g:javascript library="jquery.galleriffic" />
+<g:javascript library="jquery.opacityrollover" />
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">
 	context = "${request.contextPath}";

@@ -69,14 +69,36 @@ class UserControllerTests extends ControllerUnitTestCase {
 		controller.params.dir = "/"
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
-		controller.params.userSearchTerm = "search"
-		controller.userSearchByNameLike()
+		controller.params.userSearchTerm = testUserName
+		controller.userSearchByGroup()
 		def mav = controller.modelAndView
 		def name = mav.viewName
 
 		assertNotNull("null mav", mav)
 		assertEquals("wrong view, should be userList", "userList", name)
 		def userResult = mav.model.users
+		assertNotNull("null users object", userResult)
+	}
+
+	void testUserInfoDialog() {
+		def testUserName = "abc"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		def UserAO userAO = Mockito.mock(UserAO.class)
+		User user = new User()
+		Mockito.when(userAO.findByName(testUserName)).thenReturn(user)
+		Mockito.when(irodsAccessObjectFactory.getUserAO(irodsAccount)).thenReturn(userAO)
+
+
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+		controller.params.user = testUserName
+		controller.userInfoDialog()
+		def mav = controller.modelAndView
+		def name = mav.viewName
+
+		assertNotNull("null mav", mav)
+		assertEquals("wrong view, should be userInfoDialog", "userInfoDialog", name)
+		def userResult = mav.model.user
 		assertNotNull("null users object", userResult)
 	}
 }

@@ -64,7 +64,7 @@ class UserController {
 	def userSearchByGroup = {
 		log.info("userSearchByGroup()")
 
-		String userSearchTerm = params['userGroup']
+		String userSearchTerm = params['userSearchTerm']
 		if (userSearchTerm == null) {
 			log.error "no userSearchTerm in request"
 			def message = message(code:"error.no.user.name.provided")
@@ -76,5 +76,24 @@ class UserController {
 		List<User> users = userGroupAO.listUserGroupMembers(userSearchTerm)
 		log.info("user list: ${users}")
 		render(view:"userList", model:[users:users])
+	}
+
+	/**
+	 * Get details on the given user to produce a user dialog
+	 */
+	def userInfoDialog = {
+		log.info("userInfoDialog()")
+
+		String userSearchTerm = params['user']
+		if (userSearchTerm == null) {
+			log.error "no user in request"
+			def message = message(code:"error.no.user.name.provided")
+			response.sendError(500,message)
+		}
+
+		log.info("user:${userSearchTerm}")
+		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
+		User user = userAO.findByName(userSearchTerm)
+		render(view:"userInfoDialog", model:[user:user])
 	}
 }

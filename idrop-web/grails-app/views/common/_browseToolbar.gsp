@@ -38,6 +38,18 @@
 			onclick="addToCartViaToolbar()")>
 			<g:message code="text.add.to.cart" />
 		</button>
+		
+		<button type="button" id="shareWithSelected"
+			class="ui-state-default ui-corner-all" value="shareWithSelected"
+			onclick="shareWithSelectedUsers()")>
+			<g:message code="text.share.with.selected.users" />
+		</button>
+		
+		<button type="button" id="createTicket"
+			class="ui-state-default ui-corner-all" value="createTicket"
+			onclick="createTicket()")>
+			<g:message code="text.create.ticket" />
+		</button>
 
 	</div>
 </div>

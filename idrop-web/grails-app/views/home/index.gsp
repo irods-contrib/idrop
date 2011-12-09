@@ -45,7 +45,7 @@
             <g:message code="text.display.option" />
             :
             <g:select name="browseDisplayOption" id="browseDisplayOption"
-                      from="${['info', 'sharing', 'metadata']}"
+                      from="${['info', 'sharing', 'metadata', 'gallery']}"
                       noSelection="${['details':'details']}" onChange="setBrowseMode()" />
           </div>
         </div>

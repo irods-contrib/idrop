@@ -1,4 +1,5 @@
 <div id="userTopSection" class="box" style="height:8%;">
+<div id="userPopupDialogArea"><!-- empty div for user popup dialogs --></div>
   <div id="searchMenu" class="fg-buttonset fg-buttonset-multi"
        style="float: left, clear:both; margin: 5px;">
 

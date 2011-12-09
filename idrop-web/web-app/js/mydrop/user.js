@@ -14,3 +14,19 @@ function searchUsers() {
 	
 }
 
+function requestUserPopup(event) {
+	var user = event.currentTarget.id;
+	lcPrepareForCall();
+
+	lcShowBusyIconInDiv("#userPopupDialogArea");
+	var url = "/user/userInfoDialog";
+
+	var params = {
+		user : user
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#userPopupDialogArea", null);
+
+}
+
+
