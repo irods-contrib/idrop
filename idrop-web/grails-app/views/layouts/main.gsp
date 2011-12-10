@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="${resource(dir:'css',file:'jqcloud.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'layout-default-latest.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'galleriffic-2.css')}" />
 <link rel="stylesheet"
 	href="${resource(dir:'css',file:'reset-fonts-grids.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'overcast/jquery-ui-1.8.7.custom.css')}" />

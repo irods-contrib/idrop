@@ -533,7 +533,7 @@ class BrowseController {
 			return
 		}
 
-		def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
+		def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsUnderPath(absPath,0)
 		log.debug("retrieved collectionAndDataObjectList: ${entries}")
 		render(view:"galleryView", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
 	}

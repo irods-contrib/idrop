@@ -16,7 +16,7 @@
   <div id="toggleHtmlArea">
     <g:render template="/common/browseDetailsBrowseToolbar" />
     <fieldset id="verticalForm">
-      <label>Collection Name:</label>
+    
 ${parent.collectionName}
       <g:hiddenField id="browseDetailsAbsPath" name="browseDetailsAbsPath"
                      value="${parent.collectionName}" />
