@@ -605,12 +605,14 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private void setupUploadTable() {
 
         // load table cancel icon
-        java.net.URL imgURL = getClass().getResource("images/cancel.gif");
+        java.net.URL imgURL = getClass().getResource("/cancel.gif");
+    	
         if (imgURL != null) {
             cancelIcon = new ImageIcon(imgURL, "image used to denote cancel or remove table entry");
         } else {
             log.error("cannot find image: cancel.gif for Upload Table");
         }
+    	
         //set FillsViewportHeight so user can drop onto an empty table
         tblUploadTable1.setFillsViewportHeight(true);
         tblUploadTable1.setShowGrid(true);
