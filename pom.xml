@@ -272,12 +272,12 @@
                 <version>${spring.core.version}</version>
                 <type>jar</type>
             </dependency>
-            <dependency>
+           <!--  <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring.core.version}</version>
                 <type>pom</type>
-            </dependency>
+            </dependency>--> 
             <dependency>
                 <groupId>hibernate</groupId>
                 <artifactId>hibernate3</artifactId>

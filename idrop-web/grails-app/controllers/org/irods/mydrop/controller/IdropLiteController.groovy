@@ -1,20 +1,18 @@
-package org.irods.mydrop.controller 
+package org.irods.mydrop.controller
 
 import grails.converters.*
- 
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.UserAO
-import org.irods.jargon.datautils.datacache.DataCacheService
-import org.irods.jargon.datautils.datacache.DataCacheServiceImpl
 import org.springframework.security.core.context.SecurityContextHolder
 class IdropLiteController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
- 
+
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
@@ -35,27 +33,27 @@ class IdropLiteController {
 	}
 
 	def appletLoader = {
-		
+
 		def absPath = params['absPath']
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
-		
+
 		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
 		def password = userAO.getTemporaryPasswordForConnectedUser()
-		
-		String scheme = request.scheme     
-		String serverName = request.serverName   
-		int serverPort = request.serverPort 
+
+		String scheme = request.scheme
+		String serverName = request.serverName
+		int serverPort = request.serverPort
 		String contextPath =request.contextPath
-		
+
 		// Reconstruct original requesting URL
 		//String appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
 		String appletUrl = "http://iren-web.renci.org/idrop-web/applet"
-		
+
 		/* set applet operation mode=2 to indicate temporary password is being sent */
-		def mode = "2";
-		
+		def mode = "2"
+
 		log.info "temporary user password is: ${password}"
 		IdropLite idropLite = new IdropLite()
 		idropLite.appletUrl = appletUrl
@@ -69,13 +67,13 @@ class IdropLiteController {
 		idropLite.password = password
 		idropLite.defaultStorageResource = irodsAccount.defaultStorageResource
 		idropLite.absolutePath = absPath
-		
+
 		def jsonResult = ["appletUrl" : idropLite.appletUrl, "appletCode": idropLite.appletCode, "archive": idropLite.archive, "mode":idropLite.mode,
-			"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
-			"absolutePath":idropLite.absolutePath]
-		
+					"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
+					"absolutePath":idropLite.absolutePath]
+
 		render jsonResult as JSON
-				
+
 	}
 }
 

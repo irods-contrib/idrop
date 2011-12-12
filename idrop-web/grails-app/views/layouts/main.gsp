@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="${resource(dir:'css',file:'jqcloud.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'layout-default-latest.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'galleriffic-2.css')}" />
 <link rel="stylesheet"
 	href="${resource(dir:'css',file:'reset-fonts-grids.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'overcast/jquery-ui-1.8.7.custom.css')}" />
@@ -33,6 +34,8 @@
 <g:javascript library="jquery.tools.min" />
 <g:javascript library="mydrop/shopping_cart" />
 <g:javascript library="mydrop/user" />
+<g:javascript library="jquery.galleriffic" />
+<g:javascript library="jquery.opacityrollover" />
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">
 	context = "${request.contextPath}";
@@ -40,6 +43,8 @@
 	host = "${request.localName}";
 	port = "${request.localPort}";
 </script>
+
+ 
 </head>
 <body>
 <div id="hd"><!-- PUT MASTHEAD CODE HERE -->

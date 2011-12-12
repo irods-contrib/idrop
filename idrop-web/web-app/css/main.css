@@ -8,10 +8,8 @@ body {
 	background: #ffffff;
 	color: #210021;
 	font: 11px verdana, arial, helvetica, sans-serif;
-	height:500px;
+	height: 500px;
 }
-
-
 
 a:link,a:visited,a:hover {
 	color: #330033;
@@ -36,7 +34,7 @@ div.box {
 	border: 1px solid #C6CFE1;
 	color: #333333;
 	margin-bottom: 20px;
-	padding: 10px;
+	padding: 15px;
 }
 
 div.box .input-text {
@@ -45,12 +43,10 @@ div.box .input-text {
 	color: #666666;
 }
 
-div.box label {
-	display: block;
-	fload: left;
-	margin-bottom: 10px;
+div.box label { /*display: block;*/
+	float: left;
+	/*margin-bottom: 10px;*/
 	color: #555555;
-	margin-bottom: 10px;
 }
 
 div.box label span {
@@ -66,17 +62,14 @@ div.scroll {
 	padding: 8px;
 }
 
-div#tabs {
-	/*width: 100%;
+div#tabs { /*width: 100%;
 	height: 100%;
 	display: inline-block;
 	clear: both;*/
-	clear: both;
-	overflow; auto;
+	clear: both; overflow; auto;
 	display: block;
 	position: relative;
 }
-
 
 .wrapper {
 	text-align: left;
@@ -149,7 +142,7 @@ div#tabs {
 }
 
 #mainDivColl {
-	clear:both;
+	clear: both;
 	width: auto;
 	height: auto;
 	position: relative;
@@ -169,7 +162,6 @@ div#tabs {
 	margin: 0;
 	display: block;
 	clear: both;
-	
 }
 
 .fg-toolbar .fg-buttonset {
@@ -217,11 +209,11 @@ div#tabs {
 	color: #fff;
 	margin: 10px 0 5px 0;
 	padding: 5px 5px 5px 30px;
-	display:block;
-	overflow:auto;
-	width:90%;
+	display: block;
+	overflow: auto;
+	width: 90%;
 	/*height:55px;*/
-	position:relative;
+	position: relative;
 }
 
 div.errors {
@@ -440,7 +432,6 @@ th.desc a {
 	width: 15em;
 }
 
-
 #columnarForm textarea {
 	display: block;
 	width: 15em;
@@ -484,7 +475,6 @@ th.desc a {
 	display: block;
 	width: 15em;
 }
-
 
 #horizontalForm textarea {
 	display: block;
@@ -547,7 +537,6 @@ th.desc a {
 	display: block;
 }
 
-
 #marginForm textarea {
 	position: relative;
 	top: -1.4em;
@@ -607,7 +596,6 @@ th.desc a {
 	width: 20em;
 }
 
-
 #verticalForm textarea {
 	display: block;
 	width: 20em;
@@ -644,7 +632,6 @@ th.desc a {
 	margin: 0;
 	padding: 0;
 } */
-
 #secondaryDiv {
 	height: 400px;
 	display: inline-block; //
@@ -652,8 +639,7 @@ th.desc a {
 }
 
 #tagCloudDiv {
-	height: 400px;
-	display: inline-block;
+	height: 800px;
 	width: 100%;
 	overflow: auto;
 }
@@ -667,7 +653,6 @@ th.desc a {
 	overflow: auto;
 }
 
-
 #dataTreeView {
 	height: 90%;
 	width: 100%;
@@ -676,12 +661,10 @@ th.desc a {
 	overflow: auto;*/
 }
 
-
-
 #infoDiv {
 	width: auto;
-	height:auto;
-	padding:3px;
+	height: auto;
+	padding: 3px;
 	overflow: auto;
 	/*height: 100%;*/
 	/*background: #f4f4f4;*/
@@ -689,21 +672,19 @@ th.desc a {
 
 #detailsToolbar {
 	text-align: left;
-	height:25px;
+	height: 25px;
 	margin: 0px auto;
 	padding: 0px;
 	border: 0;
 	display: inline-block;
 	overflow: auto;
-	width:100%;
+	width: 100%;
 }
-
 
 /* file upload dialog */
 #file_upload_container {
 	margin: 5px;
 }
-
 
 /* idrop lite area */
 #idropLiteArea {
@@ -713,31 +694,52 @@ th.desc a {
 }
 
 #appletMenu {
-	clear:both;
-	display:block;
+	clear: both;
+	display: block;
 	position: relative;
-	float:none;
+	float: none;
 }
 
 #appletTagDiv {
-	clear:both;
-	display:inline-block;
+	clear: both;
+	display: inline-block;
 	position: relative;
 }
 
 /* simple css-based tooltip */
 .tooltip {
-	background-color:#000;
-	border:1px solid #fff;
-	padding:10px 15px;
-	width:200px;
-	display:none;
-	color:#fff;
-	text-align:left;
-	font-size:12px;
-
+	background-color: #000;
+	border: 1px solid #fff;
+	padding: 10px 15px;
+	width: 200px;
+	display: none;
+	color: #fff;
+	text-align: left;
+	font-size: 12px;
 	/* outline radius for mozilla/firefox only */
-	-moz-box-shadow:0 0 10px #000;
-	-webkit-box-shadow:0 0 10px #000;
+	-moz-box-shadow: 0 0 10px #000;
+	-webkit-box-shadow: 0 0 10px #000;
 }
 
+/*
+.ui-layout-pane {
+	overflow:visible;
+}*/
+
+/* css table layout */
+#container {
+	display: table;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+#container>div {
+	display: table-row;
+	height: 25px;
+	
+}
+
+#container>div>div {
+	display: table-cell;
+	
+}

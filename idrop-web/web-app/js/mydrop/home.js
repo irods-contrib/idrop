@@ -486,6 +486,9 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	} else if (browseOptionVal == "info") {
 		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/browse/fileInfo?absPath="
 				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
+	} else if (browseOptionVal == "gallery") {
+		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/browse/galleryView?absPath="
+				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 	} else if (browseOptionVal == "metadata") {
 		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 				"/metadata/showMetadataDetails?absPath="

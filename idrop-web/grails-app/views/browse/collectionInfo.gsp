@@ -11,7 +11,7 @@
 <div id="infoLeft" style="float:left; display:inline;">
 	<fieldset id="verticalForm">
 		
-		<br /><label>Name:</label>${collection.collectionName}
+		<br /><label><g:message code="text.name" /></label>${collection.collectionName}
 		<br /> <label>Created At:</label>${collection.createdAt}
 		<br /> <label>Updated At:</label>${collection.modifiedAt}
 		<br /> <label>Owner:</label>${collection.collectionOwnerName}
