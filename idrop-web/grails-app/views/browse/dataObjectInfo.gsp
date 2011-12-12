@@ -14,9 +14,9 @@
 			${dataObject.collectionName}
 			<br />
 			<label>Name:</label>
-			<g:link url="${'file/download' + dataObject.absolutePath}">
-											${dataObject.dataName}
-			</g:link>
+			<g:link url="${'file/download' + dataObject.absolutePath}"/>
+											
+				
 			<br /> <label>Size:</label>
 			${dataObject.dataSize}
 			<br /> <label>Created At:</label>
@@ -50,6 +50,9 @@
 	<div id="infoRight"
 		style="float: right; display: inline; width: 40%; overflow: auto;">
 		<div id="infoThumbnailLoadArea"></div>
+		<g:link class="media" absolute=true url="${'file/download' + dataObject.absolutePath}"></g:link>
+											
+		<!--  <g:addMediaTag absPath="${dataObject.absolutePath}" renderMedia:"${renderMedia}"/>-->
 	</div>
 </div>
 <g:if test="${getThumbnail}">
@@ -61,3 +64,10 @@ $(function() {
 
 </script>
 </g:if>
+<g:else>
+<script>
+$(function() {
+	$('.media').media( { width: 300, height: 200, autoplay: true } ); 
+});
+</script>
+</g:else>

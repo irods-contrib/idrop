@@ -8,6 +8,7 @@ import org.irods.jargon.core.pub.*
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.utils.LocalFileUtils
+import org.irods.jargon.datautils.image.MediaHandlingUtils
 import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
@@ -217,17 +218,20 @@ class BrowseController {
 
 		def isDataObject = retObj instanceof DataObject
 		def getThumbnail = false
+		def renderMedia = false
 
 		log.info "is this a data object? ${isDataObject}"
 
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
 		if (isDataObject) {
-			String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
-			log.info("extension is:${extension}")
 
-			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" || extension == ".TIF") {
-				getThumbnail = true
+			getThumbnail = MediaHandlingUtils.isImageFile(absPath)
+			log.info("getThumbnail? ${getThumbnail}")
+
+			if (!getThumbnail) {
+				renderMedia = MediaHandlingUtils.isMediaFile(absPath)
+				log.info("renderMedia? ${renderMedia}")
 			}
 
 			log.info("getting free tags for data object")
@@ -240,7 +244,7 @@ class BrowseController {
 				comment = commentTag.getTagData()
 			}
 
-			render(view:"dataObjectInfo", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail, isDataObject:isDataObject,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
+			render(view:"dataObjectInfo", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
 		} else {
 			log.info("getting free tags for collection")
 			def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)

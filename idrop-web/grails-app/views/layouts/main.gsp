@@ -26,6 +26,7 @@
 <g:javascript library="jqcloud-0.1.6" />
 <g:javascript library="jquery.fileupload-ui" />
 <g:javascript library="jquery.fileupload" />
+<g:javascript library="jquery.media" />
 <g:javascript library="mydrop/lingo_common" />
 <g:javascript library="mydrop/main" />
 <g:javascript library="jquery-ui-13" />
