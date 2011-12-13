@@ -22,8 +22,8 @@ function addToCartViaToolbar() {
  * The add to cart button was selected from the browseDetailsView
  */
 function addToCartViaBrowseDetailsToolbar() {
-	var path = $("#browseDetailsAbsPath").val();
-	addToCartGivenPath(path);
+	//var path = $("#browseDetailsAbsPath").val();
+	addToCartGivenPath(selectedPath);
 }
 
 /**

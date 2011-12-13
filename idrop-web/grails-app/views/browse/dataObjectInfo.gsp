@@ -1,3 +1,4 @@
+
 <div id="infoMessageArea">
 	<!--  -->
 </div>
@@ -5,7 +6,10 @@
 	<!--  area to show idrop lite applet -->
 </div>
 <div id="toggleHtmlArea">
+	<div id="displayArea" style="position:relative;width:100%;height:95%;display:block;">
 	<g:render template="/common/browseToolbar" />
+
+	
 	<div id="infoDialogArea"><!--  no empty divs --></div>
 	<div id="infoLeft"
 		style="float: left; display: inline; width: 60%; overflow: auto;">
@@ -55,6 +59,8 @@
 		<!--  <g:addMediaTag absPath="${dataObject.absolutePath}" renderMedia:"${renderMedia}"/>-->
 	</div>
 </div>
+</div>
+
 <g:if test="${getThumbnail}">
 	<script>
 

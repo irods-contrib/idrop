@@ -201,7 +201,7 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		Mockito.when(collectionListAndSearchAO.getIRODSServerProperties()).thenReturn(irodsServerProperties)
 
 		def retObject = new ArrayList<CollectionAndDataObjectListingEntry>()
-		Mockito.when(collectionListAndSearchAO.listDataObjectsUnderPath(testPath)).thenReturn(retObject)
+		Mockito.when(collectionListAndSearchAO.listDataObjectsAndCollectionsUnderPath(testPath)).thenReturn(retObject)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
