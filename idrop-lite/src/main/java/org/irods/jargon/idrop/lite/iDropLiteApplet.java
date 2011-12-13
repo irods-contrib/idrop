@@ -1690,7 +1690,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 java.lang.String.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
