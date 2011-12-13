@@ -78,6 +78,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private LocalFileSystemModel localUploadFileModel = null;
     private final JFileChooser dlgLocalFileChooser = new JFileChooser();
     private Boolean transferInProgress = false;
+    private Boolean transferCancelled = false;
     private String currentUploadFile = null;
     private ImageIcon cancelIcon;
 
@@ -863,6 +864,14 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     public Boolean isTransferInProgress() {
         return this.transferInProgress;
     }
+    
+    public void setTransferCancelled(Boolean state) {
+    	this.transferCancelled = state;
+    }
+    
+    public Boolean isTransferCancelled() {
+    	return this.transferCancelled;
+    }
 
     public void cancelTransfer() {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1113,6 +1122,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         lblUploadTotalFiles = new javax.swing.JLabel();
         lblUploadTotalSize = new javax.swing.JLabel();
         btnUploadBeginImport = new javax.swing.JButton();
+        btnOverallUploadCancel = new javax.swing.JButton();
         pnlOperationMode3 = new javax.swing.JPanel();
         pnlDownloadModeTarget = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -1522,6 +1532,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         btnUploadUrl.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         btnUploadUrl.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadUrl.text")); // NOI18N
+        btnUploadUrl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUploadUrlActionPerformed(evt);
+            }
+        });
         pnlUploadRefreshButton.add(btnUploadUrl, java.awt.BorderLayout.WEST);
 
         btnUploadLocalRefresh.setFont(new java.awt.Font("Lucida Grande", 0, 12));
@@ -1780,7 +1795,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
         pnlUploadToolbar.add(pnlUploadToolStatus, gridBagConstraints);
 
-        btnUploadBeginImport.setFont(new java.awt.Font("Lucida Grande", 0, 12));
+        btnUploadBeginImport.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         btnUploadBeginImport.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadBeginImport.text")); // NOI18N
         btnUploadBeginImport.setEnabled(false);
         btnUploadBeginImport.setMaximumSize(new java.awt.Dimension(115, 29));
@@ -1797,6 +1812,18 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 0.5;
         pnlUploadToolbar.add(btnUploadBeginImport, gridBagConstraints);
+
+        btnOverallUploadCancel.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnOverallUploadCancel.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnOverallUploadCancel.text")); // NOI18N
+        btnOverallUploadCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOverallUploadCancelActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        pnlUploadToolbar.add(btnOverallUploadCancel, gridBagConstraints);
 
         pnlOperationMode2.add(pnlUploadToolbar, java.awt.BorderLayout.SOUTH);
 
@@ -1816,7 +1843,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         txtDownloadTarget.setPreferredSize(new java.awt.Dimension(300, 28));
         jPanel1.add(txtDownloadTarget);
 
-        jButton1.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         jButton1.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.jButton1.text")); // NOI18N
         jButton1.setPreferredSize(new java.awt.Dimension(80, 29));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -1871,7 +1898,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         jPanel4.setPreferredSize(new java.awt.Dimension(300, 40));
 
-        bntBeginDownload.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        bntBeginDownload.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         bntBeginDownload.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.bntBeginDownload.text")); // NOI18N
         bntBeginDownload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1880,7 +1907,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         });
         jPanel4.add(bntBeginDownload);
 
-        btnCancelDownload.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnCancelDownload.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         btnCancelDownload.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnCancelDownload.text")); // NOI18N
         btnCancelDownload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2031,12 +2058,30 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelDownloadActionPerformed
 
+    private void btnOverallUploadCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOverallUploadCancelActionPerformed
+    	java.awt.EventQueue.invokeLater(new Runnable() {
+    	
+    		@Override
+            public void run() {
+    			if(isTransferInProgress()) {
+    				setTransferCancelled(true);
+    			}
+    		}
+    		
+    	});
+    }//GEN-LAST:event_btnOverallUploadCancelActionPerformed
+
+    private void btnUploadUrlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadUrlActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUploadUrlActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntBeginDownload;
     private javax.swing.JButton btnBrowseIRODSUploadDest;
     private javax.swing.JButton btnCancelDownload;
     private javax.swing.JButton btnIrodsTreeRefresh;
     private javax.swing.JButton btnLocalRefresh;
+    private javax.swing.JButton btnOverallUploadCancel;
     private javax.swing.JToggleButton btnToggleLocalView;
     private javax.swing.JButton btnUploadBeginImport;
     private javax.swing.JButton btnUploadCancel;

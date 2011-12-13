@@ -49,7 +49,14 @@ public class PutTransferRunner implements Runnable {
     public void run() {
         for (File transferFile : sourceFiles) {
             log.info("process a put from source: {}", transferFile.getAbsolutePath());
-
+            
+            // handle overall cancel if requested by client
+            if(idropGui.isTransferCancelled()) {
+            	log.info("put transfer cancelled by client");
+            	idropGui.setTransferCancelled(false);
+            	break;
+            }
+            
             String localSourceAbsolutePath = transferFile.getAbsolutePath();
             String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
             log.info("initiating put transfer");
