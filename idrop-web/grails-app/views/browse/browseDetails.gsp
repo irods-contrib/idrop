@@ -15,34 +15,10 @@
   </div>
   <div id="toggleHtmlArea">
     <g:render template="/common/browseDetailsBrowseToolbar" />
-    <fieldset id="verticalForm">
-    
-${parent.collectionName}
-      <g:hiddenField id="browseDetailsAbsPath" name="browseDetailsAbsPath"
-                     value="${parent.collectionName}" />
-    </fieldset>
     <div id="infoDialogArea">
       <!--  no empty divs -->
     </div>
     <div id="detailsTopSection" class="box">
-      <div id="detailsToolbar" class="fg-toolbar ui-widget-header">
-        <div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
-             style="float: left">
-
-          <!-- FIXME: i18n -->
-
-          <button type="button" class="ui-state-default ui-corner-all"
-                  id="doBulkAction" value="doBulkAction" onclick="bulkAction()")>
-                  <g:message code="text.bulk.action" />
-          </button>
-
-          <select name="bulkAction" id="bulkAction">
-            <option value="add">Add To Cart</option>
-            <option value="delete">Delete</option>
-          </select>
-
-        </div>
-      </div>
       <form id="browseDetailsForm" name="browseDetailsForm">
         <table cellspacing="0" cellpadding="0" border="0"
                id="browseDataDetailsTable" style="width: 100%;">
@@ -106,9 +82,16 @@ ${entry.dataSize}
 
         var dataTable;
 
+        tableParams = {"bJQueryUI" : true,
+                	"aLengthMenu" : [50, 100, 500, 1000],
+                	"iDisplayLength" : 500
+
+                }
+
         $(function() {
-                dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon");
-                $("#infoDiv").resize();
+                dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon", tableParams);
+                //$("#infoDiv").resize();
+                $("#menuDownload").hide();
                                       // $(".draggableFile").draggable({ revert: true, containment: 'document', stack: '#bd', scroll:false, zindex:-1 });
         });
 
@@ -178,31 +161,6 @@ ${entry.dataSize}
 		
         }
 
-        /**
-        * A bulk action has been requested via the button.  The actual action is controlled by the drop-down setting
-        */
-        function bulkAction() {
-                lcPrepareForCall();
-
-                var action = $("#bulkAction").val();
-
-                var answer;
-                if (action == "add") {
-                         answer = confirm("Add the selected files to the cart?"); //FIXME: i18n
-                         if (!answer) {
-                                 return false;
-                        }
-
-                         addToCartBulkAction();
-		
-                } else if (action == "delete") {
-                         answer = confirm("Delete the selected files?"); //FIXME: i18n
-                         if (!answer) {
-                                 return false;
-                        }
-                                deleteFilesBulkAction();	
-                }
-	
-        }
+       
 	
 </script>

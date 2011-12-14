@@ -78,7 +78,7 @@ class FileController {
 
 		response.setContentType("application/octet-stream")
 		response.setContentLength((int) length)
-		response.setHeader("Content-disposition", "attachment;filename=${fullPath}")
+		response.setHeader("Content-disposition", "attachment;filename=\"${fullPath}\"")
 
 		response.outputStream << irodsFileInputStream // Performing a binary stream copy
 
@@ -128,7 +128,7 @@ class FileController {
 		def f = request.getFile('file')
 		def name = f.getOriginalFilename()
 
-		log.info("f is ${f}");
+		log.info("f is ${f}")
 
 		log.info("name is : ${name}")
 		def irodsCollectionPath = params.collectionParentName
@@ -175,7 +175,7 @@ class FileController {
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(absPath)
 
-		targetFile.deleteWithForceOption();
+		targetFile.deleteWithForceOption()
 		log.info("file deleted")
 		render targetFile.getAbsolutePath()
 	}
@@ -194,26 +194,26 @@ class FileController {
 		if (!filesToDelete) {
 			log.info("no files to delete")
 			render "OK"
-			return;
+			return
 		}
 
 		log.info("filesToDelete: ${filesToDelete}")
 
-		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount);
+		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 
 		if (filesToDelete instanceof Object[]) {
 			log.debug "is array"
 			filesToDelete.each{
 				log.info "filesToDelete: ${it}"
-				IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(it);
-				toDelete.delete();
+				IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(it)
+				toDelete.delete()
 			}
 
 		} else {
 			log.debug "not array"
 			log.info "deleting: ${filesToDelete}"
-			IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(filesToDelete);
-			toDelete.delete();
+			IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(filesToDelete)
+			toDelete.delete()
 		}
 
 		render "OK"

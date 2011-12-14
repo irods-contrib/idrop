@@ -98,6 +98,6 @@ log4j = {
 	info 'grails.app'
 
 	info 'org.mortbay.log',
-			//'grails.app.controller',
+			'grails.app.controller',
 			'org.springframework.security'
 }

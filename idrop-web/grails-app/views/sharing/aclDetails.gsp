@@ -1,12 +1,5 @@
 <h2><g:message code="heading.sharing" /></h2>
 <g:render template="/common/panelmessages" />
-<g:if test="${isDataObject == true}">
-<g:render template="/common/miniInfoDataObject" />
-</g:if>
-<g:else>
-<g:render template="/common/miniInfoCollection" />
-</g:else> 
-
 <div id="detailsTopSection" class="box">
 <div id="detailsToolbar" class="fg-toolbar ui-widget-header">
 	<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"

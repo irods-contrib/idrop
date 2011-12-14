@@ -8,47 +8,89 @@
 		<div id="toggleHtmlArea">
 		<g:render template="/common/browseToolbar" />
 		<div id="infoDialogArea"><!--  no empty divs --></div>
-<div id="infoLeft" style="float:left; display:inline;">
-	<fieldset id="verticalForm">
 		
-		<br /><label><g:message code="text.name" /></label>${collection.collectionName}
-		<br /> <label>Created At:</label>${collection.createdAt}
-		<br /> <label>Updated At:</label>${collection.modifiedAt}
-		<br /> <label>Owner:</label>${collection.collectionOwnerName}
-		<br /> <label>Owner Zone:</label>${collection.collectionOwnerZone}
-		<br /> <label for="tags">Tags:</label>
-		<g:textField id="infoTags" name="tags"
-			value="${tags.spaceDelimitedTagsForDomain}" />
-		<br />
-		
-		<br /> <label for="comment">Comment:</label>
-		<g:textArea id="infoComment" name="comment" rows="5" cols="80"
-			value="${comment}" />
-		<br />
-		
-		<g:hiddenField id="infoAbsPath" name="absolutePath"
-			value="${collection.collectionName}" />
-
-		<button type="button" id="updateTags" value="updateTags"
-			onclick="updateTags()")>Update Tags</button>
-
-		<div id="infoUpdateArea">
-			<!--  div for any updates in info -->
+		<!-- display area lays out info in a main and side column -->
+	<div id="infoDisplayLayout" style="display:table;width:100%;height:100%;">
+	
+	<div style="display:table-row;">
+		<div id="infoThumbnailAndMediaDisplay"  style="display:table-cell;">
+			<div id="infoThumbnailLoadArea"><image src="<g:resource dir="images" file="folder.png" alt="folder icon" />"/></div>
 		</div>
-
-	</fieldset>
 	</div>
-	<div id="infoRight" style="float:right">
-		<div id="infoThumbnail">
-		<span id="infoThumbnailLoadArea"><image src="<g:resource dir="images" file="folder.png" alt="folder icon" />"/></span></div>
-	</div>
-</div>
-</div>
+	
+	<div style="display:table-row;">
+		<div id="infoDisplayMain"  style="display:table-cell;">
+		
+		<!-- inner table for general data -->
+		
+			<div id="container" style="height:100%;width:100%;">
+		
+				<div>
+					<div style="width:20%;"><label>Collection:</label></div>
+					<div style="overflow:auto;">${collection.collectionName}</div>
+				</div>
+				<div>
+					<div><label>Tags:</label></div>
+					<div><g:textField id="infoTags" name="tags"
+					value="${tags.spaceDelimitedTagsForDomain}" /></div>
+				</div>
+				<div>
+					<div><label>Comment:</label></div>
+					<div><g:textArea id="infoComment" name="comment" rows="5" cols="80"
+					value="${comment}" /></div>
+				</div>
+				<div>
+					<div></div>
+					<div><button type="button" id="updateTags" value="updateTags"
+					onclick="updateTags()")>Update Tags</button></div>
+				</div>
+				<div>
+					<div><label>Created At:</label></div>
+					<div>${collection.createdAt}</div>
+				</div>
+				<div>
+					<div><label>Updated At:</label></div>
+					<div>${collection.modifiedAt}</div>
+				</div>
+				<div>
+					<div><label>Owner:</label></div>
+					<div>${collection.collectionOwnerName}</div>
+				</div>
+				<div>
+					<div><label>Owner Zone:</label></div>
+					<div>${collection.collectionOwnerZone}</div>
+				</div>
+				<div>
+					<div><label>CollectionType:</label></div>
+					<div>${collection.collectionType}</div>
+				</div>
+				<div>
+					<div><label>Description:</label></div>
+					<div>${collection.comments}</div>
+				</div>
+				<div>
+					<div><label>Info1:</label></div>
+					<div>${collection.info1}</div>
+				</div>
+				<div>
+					<div><label>Info2:</label></div>
+					<div>${collection.info2}</div>
+				</div>
+				
+			</div>
+			
+		</div><!-- cell -->
+	</div><!-- row -->
+	
+	
+</div><!-- table -->
+</div><!--  toggle html area -->
+	
 
     <script>
 
 $(function() {
-	
+	$("#menuDownload").hide();
 });
 
 </script>

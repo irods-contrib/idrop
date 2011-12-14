@@ -5,7 +5,7 @@
 	<div id="headerSearchBox" class="ui-widget-header fg-toolbar">
 
 		<div id="searchMenu" class="fg-buttonset fg-buttonset-multi" style="float:left">
-			<label for="">Search Term:</label> <input id="searchTerm" type="text"
+			<label for="searchTerm" style="float:none;">Search Term:</label> <input id="searchTerm" type="text"
 				name="searchTerm" />
 
 			<button type="button" id="search"

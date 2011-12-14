@@ -8,7 +8,7 @@
  * Global var holds jquery ref to the dataTree
  */
 var dataTree;
-var browseOptionVal = "details";
+var browseOptionVal = "browse";
 var selectedPath = null;
 var selectedNode = null;
 var fileUploadUI = null;
@@ -469,40 +469,102 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	if (absPath == null) {
 		return;
 	}
-
-	if (browseOptionVal === null) {
+	
+	if (browseOptionVal == null) {
 		browseOptionVal = "info";
 	}
 
-	if (browseOptionVal == "details") {
-
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-				"/browse/displayBrowseGridDetails?absPath="
-						+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
-				function(data) {
-					$("#infoDiv").html(data);
-
-				});
+	if (browseOptionVal == "browse") {
+		showBrowseView(absPath);
 	} else if (browseOptionVal == "info") {
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/browse/fileInfo?absPath="
-				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
+		showInfoView(absPath);
 	} else if (browseOptionVal == "gallery") {
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/browse/galleryView?absPath="
-				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
+		showGalleryView(absPath);
 	} else if (browseOptionVal == "metadata") {
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-				"/metadata/showMetadataDetails?absPath="
-						+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
-				null);
+		showMetadataView(absPath);
 	} else if (browseOptionVal == "sharing") {
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-				"/sharing/showAclDetails?absPath="
-						+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
-				null);
+		showSharingView(absPath);
 	} else if (browseOptionVal == "audit") {
 		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/audit/auditList?absPath="
 				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 	}
+}
+
+
+/**
+ * Show the browse view
+ * @param absPath absolute path to browse to
+ */
+function showBrowseView(absPath) {
+	if (absPath == null) {
+		return false;
+	}
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+			"/browse/displayBrowseGridDetails?absPath="
+					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
+			function(data) {
+				$("#infoDiv").html(data);
+
+			});
+}
+
+
+/**
+ * Show the sharing view
+ * @param absPath
+ * @returns {Boolean}
+ */
+function showSharingView(absPath) {
+	if (absPath == null) {
+		return false;
+	}
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+			"/sharing/showAclDetails?absPath="
+					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
+			null);
+}
+
+/**
+ * Show the metadata view
+ * @param absPath
+ * @returns {Boolean}
+ */
+function showMetadataView(absPath) {
+	if (absPath == null) {
+		return false;
+	}
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+			"/metadata/showMetadataDetails?absPath="
+					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
+			null);
+}
+
+
+/**
+ * Show the info view
+ * @param absPath
+ * @returns {Boolean}
+ */
+function showInfoView(absPath) {
+	if (absPath == null) {
+		return false;
+	}
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/browse/fileInfo?absPath="
+			+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
+}
+
+
+/**
+ * Show the gallery view
+ * @param absPath
+ * @returns {Boolean}
+ */
+function showGalleryView(absPath) {
+	if (absPath == null) {
+		return false;
+	}
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/browse/galleryView?absPath="
+			+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 }
 
 /**
@@ -522,8 +584,8 @@ function showUploadDialog() {
  * Show the dialog to upload from the browse details view
  */
 function showBrowseDetailsUploadDialog() {
-	var path = $("#browseDetailsAbsPath").val();
-	showUploadDialogUsingPath(path);
+	//var path = $("#browseDetailsAbsPath").val();
+	showUploadDialogUsingPath(selectedPath);
 }
 
 /**
@@ -922,7 +984,7 @@ function showIdropLite() {
  */
 function showBrowseDetailsIdropLite() {
 
-	var path = $("#browseDetailsAbsPath").val();
+	var path = selectedPath;//$("#browseDetailsAbsPath").val();
 
 	if (path == null) {
 		path = "/";
@@ -1065,6 +1127,16 @@ function refreshTree() {
 }
 
 /**
+ * The download button has been selected from an info view, download the given file
+ */
+function downloadViaToolbar() {
+	var infoAbsPath = $("#infoAbsPath").val();
+	window.open(context + '/file/download/' + infoAbsPath,
+			'_self');
+			
+}
+
+/**
  * The rename button has been selected from an info view, show the rename dialog
  */
 function renameViaToolbar() {
@@ -1077,8 +1149,8 @@ function renameViaToolbar() {
  * rename dialog
  */
 function renameViaBrowseDetailsToolbar() {
-	var path = $("#browseDetailsAbsPath").val();
-	renameViaToolbarGivenPath(path);
+	//var path = $("#browseDetailsAbsPath").val();
+	renameViaToolbarGivenPath(selectedPath);
 }
 
 /**
@@ -1124,8 +1196,8 @@ function deleteViaToolbar() {
  * Delete was selected on the browse details toolbar
  */
 function deleteViaBrowseDetailsToolbar() {
-	var path = $("#browseDetailsAbsPath").val();
-	deleteViaToolbarGivenPath(path);
+	//var path = $("#browseDetailsAbsPath").val();
+	deleteViaToolbarGivenPath(selectedPath);
 }
 
 /**
@@ -1178,8 +1250,8 @@ function newFolderViaToolbar() {
  * new folder was selected from the browse details toolbar
  */
 function newFolderViaBrowseDetailsToolbar() {
-	var infoAbsPath = $("#browseDetailsAbsPath").val();
-	newFolderViaToolbarGivenPath(infoAbsPath);
+	//var infoAbsPath = $("#browseDetailsAbsPath").val();
+	newFolderViaToolbarGivenPath(selectedPath);
 }
 
 /**

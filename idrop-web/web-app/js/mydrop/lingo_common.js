@@ -273,11 +273,16 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
  * @param newTableId
  * @param detailsFunction
  * @param dataIconSelector
+ * @param tableParams optional parameters for JTable
  */
-function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector) {
-	var dataTableCreated = $(newTableId).dataTable({
-		"bJQueryUI" : true
-	});
+function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector, tableParams) {
+	
+	if (tableParams == null) {
+		tableParams = {"bJQueryUI" : true}
+	}
+	
+	
+	var dataTableCreated = $(newTableId).dataTable(tableParams);
 	
 
 	if (detailsFunction != null) {

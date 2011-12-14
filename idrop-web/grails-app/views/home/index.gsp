@@ -31,9 +31,9 @@
   </div>
   <div id="browse">
     <div id="browser" class="wrapper">
-      <div id="browseToolbar"
-           style="height: 35px; position: relative; display: block; width: auto;">
-        <div id="browseToolbarSubBox" class="ui-widget-header fg-toolbar"
+      <div id="browseToolbar">
+           <g:render template="/common/topToolbar" />
+        <!--<div id="browseToolbarSubBox" class="ui-widget-header fg-toolbar"
              style="height: 35px;">
           <div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
                style="float: left">
@@ -47,8 +47,9 @@
             <g:select name="browseDisplayOption" id="browseDisplayOption"
                       from="${['info', 'sharing', 'metadata', 'gallery']}"
                       noSelection="${['details':'details']}" onChange="setBrowseMode()" />
+            <span id="commonToolbarArea"></span>
           </div>
-        </div>
+        </div>-->
       </div>
       <g:render template="/common/panelmessages" />
 
@@ -61,7 +62,7 @@
         <div id="infoDivOuter"
              style="display: block; width: 75%; height:100%; position:relative; overflow:auto;"
              class="ui-layout-center">
-          <div id="infoDiv" style="overflow:auto; position:relative;">
+          <div id="infoDiv" style="overflow:visible; position:relative;">
             <h2>
               <g:message code="browse.page.prompt" />
             </h2>
