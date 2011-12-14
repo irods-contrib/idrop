@@ -2181,7 +2181,16 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     }//GEN-LAST:event_bntBeginDownloadActionPerformed
 
     private void btnCancelDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelDownloadActionPerformed
-        // TODO add your handling code here:
+    	java.awt.EventQueue.invokeLater(new Runnable() {
+        	
+    		@Override
+            public void run() {
+    			if(isTransferInProgress()) {
+    				setTransferCancelled(true);
+    			}
+    		}
+    		
+    	});
     }//GEN-LAST:event_btnCancelDownloadActionPerformed
 
     private void btnOverallUploadCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOverallUploadCancelActionPerformed
