@@ -1127,6 +1127,16 @@ function refreshTree() {
 }
 
 /**
+ * The download button has been selected from an info view, download the given file
+ */
+function downloadViaToolbar() {
+	var infoAbsPath = $("#infoAbsPath").val();
+	window.open(context + '/file/download/' + infoAbsPath,
+			'_self');
+			
+}
+
+/**
  * The rename button has been selected from an info view, show the rename dialog
  */
 function renameViaToolbar() {

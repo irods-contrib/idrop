@@ -1,13 +1,6 @@
 <h2>
 	<g:message code="heading.metadata" />
 </h2>
-<g:if test="${isDataObject == true}">
-<g:render template="/common/miniInfoDataObject" />
-</g:if>
-<g:else>
-<g:render template="/common/miniInfoCollection" />
-</g:else> 
-
 <div id="detailsTopSection" class="box">
 
 	<div id="detailsToolbar" class="fg-toolbar ui-widget-header">

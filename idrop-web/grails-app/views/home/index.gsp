@@ -62,7 +62,7 @@
         <div id="infoDivOuter"
              style="display: block; width: 75%; height:100%; position:relative; overflow:auto;"
              class="ui-layout-center">
-          <div id="infoDiv" style="overflow:auto; position:relative;">
+          <div id="infoDiv" style="overflow:visible; position:relative;">
             <h2>
               <g:message code="browse.page.prompt" />
             </h2>

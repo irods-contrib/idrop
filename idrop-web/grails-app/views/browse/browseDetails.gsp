@@ -82,9 +82,16 @@ ${entry.dataSize}
 
         var dataTable;
 
+        tableParams = {"bJQueryUI" : true,
+                	"aLengthMenu" : [50, 100, 500, 1000],
+                	"iDisplayLength" : 500
+
+                }
+
         $(function() {
-                dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon");
-                $("#infoDiv").resize();
+                dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon", tableParams);
+                //$("#infoDiv").resize();
+                $("#menuDownload").hide();
                                       // $(".draggableFile").draggable({ revert: true, containment: 'document', stack: '#bd', scroll:false, zindex:-1 });
         });
 
