@@ -1115,12 +1115,25 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     
     private void populateDownloadTableWithCartContents()
     {
+    	long fileSize = 0;
+    	
     	List<String> cartFiles = getCartFiles();
+    	
         for(String cf: cartFiles) {
         	DefaultTableModel tm = (DefaultTableModel)tblUploadTable1.getModel();
         	Object [] rowData = new Object[4];
         	rowData[0] = cf;
-        	rowData[1] = 1;
+        	try {
+             	IRODSFileService irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), IRODSFileSystem.instance());
+             	IRODSFile ifile = irodsFS.getIRODSFileForPath(cf);
+             	fileSize = ifile.length();
+             }
+             catch(Exception ex)  {
+             	ex.printStackTrace();
+             	log.error("cannot retrieve irods file size for display in download table");
+             	fileSize=0;
+             }
+        	rowData[1] = (int)fileSize;
         	rowData[2] = 0;
         	rowData[3] = Boolean.TRUE;
         	tm.addRow(rowData);
@@ -2150,17 +2163,27 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         // now go through and process selected import files from table
         if(!isTransferInProgress()) {
         	
+        	IRODSFileService irodsFS = null;
+        	try {
+        		irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), IRODSFileSystem.instance());
+        	}
+            catch(Exception ex) {
+            	JOptionPane.showMessageDialog(this, "Cannot access iRODS file system for get.");
+            	log.error("cannot create irods file service");
+            	return;
+            }
+       
         	// collect list of files in the table
             int rows = tblUploadTable1.getRowCount();            
             for(int row=0; row<rows; row++) {
+            	IRODSFile ifile = null;
             	 try {
-                 	IRODSFileService irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), IRODSFileSystem.instance());
-                 	IRODSFile ifile = irodsFS.getIRODSFileForPath((String)tblUploadTable1.getValueAt(row, 0));
+                 	ifile = irodsFS.getIRODSFileForPath((String)tblUploadTable1.getValueAt(row, 0));
                  	sourceFiles.add((File)ifile);
                  }
                  catch(Exception ex)  {
+                	log.error("cannot access irods file for get: {}", (String)tblUploadTable1.getValueAt(row, 0));
                  	ex.printStackTrace();
-                 	return;
                  }
             }
             try {
