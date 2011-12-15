@@ -1,14 +1,13 @@
 package org.irods.mydrop.service
 import javax.servlet.http.HttpSession
 
-import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.datautils.shoppingcart.FileShoppingCart
 import org.irods.jargon.datautils.shoppingcart.ShoppingCartEntry
 import org.springframework.web.context.request.RequestContextHolder
 
-class ShoppingCartService {
+class ShoppingCartSessionService {
 
-    static transactional = false
+	static transactional = false
 	//static scope = "session"
 	static final String CART_ATTRIBUTE = "shoppingCart"
 
@@ -18,11 +17,11 @@ class ShoppingCartService {
 	 * @param irodsAccount <code>IRODSAccount</code> for which the cart will be associated
 	 * @return
 	 */
-    public void  addToCart(String irodsFileAbsolutePath, IRODSAccount irodsAccount) {
-		FileShoppingCart fileShoppingCart = getCartFromSessionAndCreateIfNotThere(irodsAccount)
+	public void  addToCart(String irodsFileAbsolutePath) {
+		FileShoppingCart fileShoppingCart = getCartFromSessionAndCreateIfNotThere()
 		fileShoppingCart.addAnItem(new ShoppingCartEntry(irodsFileAbsolutePath))
-    }
-	
+	}
+
 	/**
 	 * List the contents of the cart as a list of file names
 	 * @return
@@ -35,7 +34,7 @@ class ShoppingCartService {
 		}
 		return results
 	}
-	
+
 	/**
 	 * Clear the files in the cart
 	 */
@@ -45,15 +44,15 @@ class ShoppingCartService {
 			fileShoppingCart.clearCart()
 		}
 	}
-	
+
 	public void deleteFromCart(String fileName) {
 		FileShoppingCart shoppingCart = getSession().shoppingCart
 		if (shoppingCart) {
 			log.info("have a shopping cart, delete ${fileName}")
-			shoppingCart.removeAnItem(fileName);
+			shoppingCart.removeAnItem(fileName)
 		}
 	}
-	
+
 	/**
 	 * Get shopping cart from session if present, but don't create one if not present (saves storing unnecesary session state)
 	 * @return {@link FileShoppingCart} if stored in session, or <code>null</code> if not stored
@@ -62,20 +61,20 @@ class ShoppingCartService {
 		FileShoppingCart shoppingCart = getSession().shoppingCart
 		return shoppingCart
 	}
-	
-	private FileShoppingCart getCartFromSessionAndCreateIfNotThere(IRODSAccount irodsAccount) {
+
+	private FileShoppingCart getCartFromSessionAndCreateIfNotThere() {
 		FileShoppingCart shoppingCart = getSession().shoppingCart
 		if (!shoppingCart) {
 			log.info("no shopping cart, create one")
-			shoppingCart = new FileShoppingCart(irodsAccount)
+			shoppingCart = new FileShoppingCart()
 			getSession().shoppingCart = shoppingCart
 		}
 		return shoppingCart
-		
+
 	}
-	
+
 	private HttpSession getSession() {
 		return RequestContextHolder.currentRequestAttributes().getSession()
-	  }
-	
+	}
+
 }

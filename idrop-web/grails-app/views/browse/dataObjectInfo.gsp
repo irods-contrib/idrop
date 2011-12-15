@@ -131,7 +131,14 @@
 </div><!-- table -->
 </div><!--  toggle html area -->
 
-
+<script>
+$(function() {
+	
+	$("#menuDownload").show();
+	$("#menuUpload").hide();
+	$("#menuBulkUpload").hide();
+});
+</script>
 <g:if test="${getThumbnail}">
 	<script>
 
@@ -145,8 +152,8 @@ $(function() {
 <script>
 $(function() {
 	$.fn.media.mapFormat('pdf', 'quicktime');
-	$('.media').media( { width: 300, height: 200, autoplay: true } ); 
-	$("#menuDownload").show();
+	$('.media').media( { width: 300, height: 200, autoplay: false } ); 
+
 });
 </script>
 </g:else>

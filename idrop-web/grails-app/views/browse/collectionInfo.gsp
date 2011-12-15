@@ -91,6 +91,8 @@
 
 $(function() {
 	$("#menuDownload").hide();
+	$("#menuUpload").show();
+	$("#menuBulkUpload").show();
 });
 
 </script>

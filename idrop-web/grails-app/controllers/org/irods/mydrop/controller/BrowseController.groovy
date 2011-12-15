@@ -12,7 +12,7 @@ import org.irods.jargon.datautils.image.MediaHandlingUtils
 import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
-import org.irods.mydrop.service.ShoppingCartService
+import org.irods.mydrop.service.ShoppingCartSessionService
 import org.springframework.security.core.context.SecurityContextHolder
 
 
@@ -26,7 +26,7 @@ class BrowseController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TaggingServiceFactory taggingServiceFactory
 	IRODSAccount irodsAccount
-	ShoppingCartService shoppingCartService
+	ShoppingCartSessionService shoppingCartSessionService
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -409,7 +409,7 @@ class BrowseController {
 
 		log.info("adding ${fileName} to the shopping cart")
 
-		shoppingCartService.addToCart(fileName, irodsAccount)
+		shoppingCartSessionService.addToCart(fileName)
 
 		log.info("shopping cart: ${session.shoppingCart}")
 
@@ -431,7 +431,7 @@ class BrowseController {
 	 */
 	def listCart = {
 		log.info("listCart")
-		List<String> cart = shoppingCartService.listCart()
+		List<String> cart = shoppingCartSessionService.listCart()
 		render(view:"cartDetails", model:[cart:cart])
 	}
 
@@ -440,7 +440,7 @@ class BrowseController {
 	 */
 	def clearCart = {
 		log.info("clearCart")
-		shoppingCartService.clearCart()
+		shoppingCartSessionService.clearCart()
 		render "OK"
 	}
 
@@ -466,13 +466,13 @@ class BrowseController {
 			log.debug "is array"
 			filesToDelete.each{
 				log.info "filesToDelete: ${it}"
-				shoppingCartService.deleteFromCart(it)
+				shoppingCartSessionService.deleteFromCart(it)
 			}
 
 		} else {
 			log.debug "not array"
 			log.info "deleting: ${filesToDelete}"
-			shoppingCartService.deleteFromCart(filesToDelete)
+			shoppingCartSessionService.deleteFromCart(filesToDelete)
 		}
 
 		render "OK"
@@ -503,14 +503,14 @@ class BrowseController {
 			log.debug "is array"
 			filesToAdd.each{
 				log.info "filesToAdd: ${it}"
-				shoppingCartService.addToCart(it, irodsAccount)
+				shoppingCartSessionService.addToCart(it)
 
 			}
 
 		} else {
 			log.debug "not array"
 			log.info "adding: ${filesToAdd}"
-			shoppingCartService.addToCart(filesToAdd, irodsAccount)
+			shoppingCartSessionService.addToCart(filesToAdd)
 		}
 
 		render "OK"
