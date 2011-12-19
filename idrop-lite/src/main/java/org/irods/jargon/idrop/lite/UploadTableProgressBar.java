@@ -7,7 +7,10 @@ import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
+import org.irods.jargon.core.transfer.TransferStatus;
 
 public class UploadTableProgressBar extends JProgressBar implements TableCellRenderer {
 	
@@ -23,14 +26,49 @@ public class UploadTableProgressBar extends JProgressBar implements TableCellRen
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		
-		if(value != null) {
-			Integer ival = (Integer)value;
-//			if(ival == 100) {
-//					return "Done";
-//			}
+//		if(value.getClass().getName().equals("TransferStatus")) {
+//			TransferStatus ts = (TransferStatus)value;
+//			float bt = ts.getBytesTransfered() * 100;
+//            float tot = ts.getTotalSize();
+//            float percentDone = bt / tot;
+//            Integer ival = (int)percentDone;
+//            
+//            setValue(ival);
+//            // find out if this is a file or folder
+//            if(!ts.isIntraFileStatusReport()) {
+//            	String progressString = "File " + ts.getTotalFilesTransferredSoFar() + " of " + ts.getTotalFilesToTransfer() + " complete";
+//            	setString(progressString);
+//            }
+//            else {
+//            	//setString(ival.toString().concat("%"));
+//            }      
+//		}
+//		if(value != null) {
+//			Integer ival = (Integer)value;
+//			
+//			setValue(ival);
+//			setString(ival.toString().concat("%"));
+//		}
+//		else {
+//			setValue(0);
+//		    setString("0%");
+//		}
+		if((value != null) && (value instanceof TransferProgressInfo)) {
+			TransferProgressInfo tpInfo = (TransferProgressInfo)value;
+			Integer ival = tpInfo.getPercentDone();
 			setValue(ival);
-			setString(ival.toString().concat("%"));
+			
+			// check to see if this a folder and if files have already started to be transferred
+			Boolean isFolder = (Boolean) table.getModel().getValueAt(row, 4);
+			int filesToTransfer = tpInfo.getTotalFilesToTransfer();
+			int soFar = tpInfo.getTotalFilesTransferredSoFar();
+			if((isFolder) && (soFar > 0)) {
+				String pbText = "File " + soFar + " of " + filesToTransfer + " complete";
+				setString(pbText);
+			}
+			else {
+				setString(ival.toString().concat("%"));
+			}
 		}
 		else {
 			setValue(0);
