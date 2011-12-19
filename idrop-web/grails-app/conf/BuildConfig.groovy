@@ -34,7 +34,7 @@ grails.project.dependency.resolution = {
 		compile 'org.springframework.security:spring-security-core:3.0.5.RELEASE'
 		compile 'org.springframework.security:spring-security-web:3.0.5.RELEASE'
 		compile 'org.springframework.security:spring-security-config:3.0.5.RELEASE'
-		//compile 'org.springframework:spring-web:3.0.5.RELEASE'
+		compile 'org.springframework:spring-web:3.0.5.RELEASE'
 		compile 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 

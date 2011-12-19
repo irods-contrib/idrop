@@ -3,10 +3,10 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.springframework.security.context.SecurityContextHolder
+import org.springframework.security.core.context.SecurityContextHolder
 
 class AuditController {
-	
+
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 
@@ -28,9 +28,7 @@ class AuditController {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
 	}
-	
-    def auditList = { 
-		
-		
-		}
+
+	def auditList = {
+	}
 }

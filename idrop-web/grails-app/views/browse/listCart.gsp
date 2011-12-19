@@ -1,6 +1,7 @@
+<div id="cartTopSection" class="box" style="width:100%;height:100%;">
 
-<div id="cartTopSection" class="box">
-<div id="cartToolbar" class="fg-toolbar ui-widget-header">
+<div id="cartToggleDiv" style="width:100%;height:100%;">
+<div id="cartToolbar" class="fg-toolbar ui-widget-header" style="height:10%;">
 	<div id="cartMenu" class="fg-buttonset fg-buttonset-multi"
 		style="float: left, clear: both;">
 		<button type="button" id="clearCartButton"
@@ -17,8 +18,7 @@
 				onclick="checkOut()")><g:message code="text.check.out" /></button>
 	</div>
 </div>
-<div id="cartToggleDiv">
-<div id="cartTableDiv" style="overflow:auto;">
+<div id="cartTableDiv" style="overflow:auto;height:90%;">
 <!--  cart table -->
 </div>
 </div>

@@ -4,8 +4,6 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-<!--<import resource="classpath:**/resources.xml" />  -->
-
 	<bean id="grailsApplication" class="org.codehaus.groovy.grails.commons.GrailsApplicationFactoryBean">
 		<description>Grails application factory bean</description>
         <property name="grailsDescriptor" value="/WEB-INF/grails.xml" />

@@ -1007,6 +1007,10 @@ function showIdropLiteGivenPath(path) {
 		return;
 	}
 
+	// close the shopping cart mode if open
+	closeShoppingCartApplet();
+	
+	
 	// first hide Browse Data Details table
 	$("#toggleHtmlArea").hide('slow');
 	$("#toggleHtmlArea").width = "0%";
@@ -1091,9 +1095,6 @@ function showIdropLiteGivenPath(path) {
 						appletDiv.append(appletTagDiv);
 
 						$("#idropLiteArea").removeAttr('style');
-
-						// $("#idropLiteArea").animate({ height: '100%',
-						// opacity: '100%' }, 'slow');
 
 					}).error(function(xhr, status, error) {
 				setMessageInArea(idropLiteSelector, xhr.responseText);

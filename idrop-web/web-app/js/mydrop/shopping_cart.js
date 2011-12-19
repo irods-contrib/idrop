@@ -9,6 +9,8 @@ var listCartUrl = '/browse/listCart';
 var clearCartUrl = '/browse/clearCart';
 var deleteCartUrl = '/browse/deleteFromCart';
 var addToCartBulkActionUrl = '/browse/addToCartBulkAction';
+var checkOutCartUrl = '/idropLite/shoppingCartAppletLoader';
+var idropLiteShoppingCartSelector = "#cartAppletDiv";
 
 /**
  * The add to shopping cart button has been selected from an info view
@@ -38,6 +40,8 @@ function addToCartGivenPath(absPath) {
 	var params = {
 		absPath : absPath
 	}
+	
+	lcShowBusyIconInDiv("#cartTableDiv");
 
 	var jqxhr = $.post(context + addToCartUrl, params, "html").success(
 			function(returnedData, status, xhr) {
@@ -113,6 +117,132 @@ function addToCartBulkAction() {
 				}).error(function(xhr, status, error) {
 			setMessage(xhr.responseText);
 		});
+
+}
+
+function closeShoppingCartApplet() {
+	
+	$(idropLiteShoppingCartSelector).animate({
+		height : 'hide'
+	}, 'slow');
+	$("#cartToggleDiv").show('slow');
+	$("#cartToggleDiv").height = "100%";
+	$("#cartToggleDiv").width = "100%";
+	$(idropLiteShoppingCartSelector).empty();
+	
+}
+
+/**
+ * Check out the shopping cart as the logged in user, this will launch iDrop lite in shopping cart mode
+ */
+function checkOut() {
+	lcPrepareForCall();
+	// close the idrop lite area in the browse details area if that was opened for bulk upload, you cannot run 2 idrop lites
+	closeApplet();
+	// first hide cart details table
+	$("#cartToggleDiv").hide('slow');
+	$("#cartToggleDiv").width = "0%";
+	$("#cartToggleDiv").height = "0%";
+	$(idropLiteShoppingCartSelector).animate({ height: '100%',
+		 opacity: '100%' }, 'slow');
+	$(idropLiteShoppingCartSelector).show('slow');
+	$(idropLiteShoppingCartSelector).width = "100%";
+	$(idropLiteShoppingCartSelector).height = "100%";
+
+
+	lcShowBusyIconInDiv(idropLiteShoppingCartSelector);
+	var jqxhr = $
+			.post(context + checkOutCartUrl, null, function(data, status, xhr) {
+				lcClearDivAndDivClass(idropLiteShoppingCartSelector);
+			}, "html")
+			.error(function(xhr, status, error) {
+
+				setMessage(xhr.responseText);
+				
+				$("#cartToggleDiv").show('slow');
+				$("#cartToggleDiv").width = "100%";
+				$("#cartToggleDiv").height = "100%";
+				$(idropLiteShoppingCartSelector).hide('slow');
+
+			})
+			.success(
+					function(data) {
+
+						var dataJSON = jQuery.parseJSON(data);
+						var appletDiv = $(idropLiteShoppingCartSelector);
+						$(appletDiv)
+								.append(
+										"<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:none'><button type='button' id='toggleCartClosed' class='ui-state-default ui-corner-all' value='toggleCartClosed' onclick='closeShoppingCartApplet()')>Close Shopping Cart</button></div>")
+						var appletTagDiv = document.createElement('div');
+						appletTagDiv.setAttribute('id', 'appletTagDiv');
+						var a = document.createElement('applet');
+						appletTagDiv.appendChild(a);
+						a.setAttribute('code', dataJSON.appletCode);
+						a.setAttribute('codebase', dataJSON.appletUrl);
+						a.setAttribute('archive', dataJSON.archive);
+						a.setAttribute('width', 300);
+						a.setAttribute('height', 150);
+						var p = document.createElement('param');
+						p.setAttribute('name', 'mode');
+						p.setAttribute('value', dataJSON.mode);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'host');
+						p.setAttribute('value', dataJSON.host);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'port');
+						p.setAttribute('value', dataJSON.port);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'zone');
+						p.setAttribute('value', dataJSON.zone);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'user');
+						p.setAttribute('value', dataJSON.user);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'password');
+						p.setAttribute('value', dataJSON.password);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'absPath');
+						p.setAttribute('value', dataJSON.absolutePath);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'uploadDest');
+						p.setAttribute('value', dataJSON.absolutePath);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'defaultStorageResource');
+						p
+								.setAttribute('value',
+										dataJSON.defaultStorageResource);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'key');
+						p
+								.setAttribute('value',
+										dataJSON.key);
+						a.appendChild(p);
+						p = document.createElement('param');
+						p.setAttribute('name', 'displayMode');
+						p.setAttribute('value', 3);
+						a.appendChild(p);
+						appletDiv.append(appletTagDiv);
+
+						$(idropLiteShoppingCartSelector).removeAttr('style');
+
+					
+					}).error(function(xhr, status, error) {
+				setMessage(xhr.responseText);
+				$("#cartToggleDiv").show('slow');
+				$("#cartToggleDiv").width = "100%";
+				$("#cartToggleDiv").height = "100%";
+				$(idropLiteShoppingCartSelector).hide('slow');
+
+			});
 
 }
 
