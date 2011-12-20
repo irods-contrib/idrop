@@ -53,6 +53,10 @@ public class UploadTableProgressBar extends JProgressBar implements TableCellRen
 //			setValue(0);
 //		    setString("0%");
 //		}
+		Boolean transferInProgress = ((iDropLiteApplet)table.getTopLevelAncestor()).isTransferInProgress();
+		
+		setFont(new java.awt.Font("Lucida Grande", 0, 12));
+		
 		if((value != null) && (value instanceof TransferProgressInfo)) {
 			TransferProgressInfo tpInfo = (TransferProgressInfo)value;
 			Integer ival = tpInfo.getPercentDone();
@@ -62,18 +66,21 @@ public class UploadTableProgressBar extends JProgressBar implements TableCellRen
 			Boolean isFolder = (Boolean) table.getModel().getValueAt(row, 4);
 			int filesToTransfer = tpInfo.getTotalFilesToTransfer();
 			int soFar = tpInfo.getTotalFilesTransferredSoFar();
-			if((isFolder) && (soFar > 0)) {
-				String pbText = "File " + soFar + " of " + filesToTransfer + " complete";
-				setString(pbText);
+			if((isFolder) && (ival > 0)) {
+				//if((transferInProgress) && (soFar > 0)) {
+				//if(!tpInfo.isIntraFile) {
+					String pbText = "File " + soFar + " of " + filesToTransfer + " complete";
+					setString(pbText);
+				//}
 			}
 			else {
 				setString(ival.toString().concat("%"));
 			}
 		}
-		else {
-			setValue(0);
-		    setString("0%");
-		}
+//		else {
+//			setValue(0);
+//		    setString("0%");
+//		}
 		
 		return this;
 	}

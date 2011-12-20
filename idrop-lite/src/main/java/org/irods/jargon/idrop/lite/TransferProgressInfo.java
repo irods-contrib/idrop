@@ -1,6 +1,7 @@
 package org.irods.jargon.idrop.lite;
 
 public class TransferProgressInfo {
+	Boolean isIntraFile = false;
 	int percentDone = 0;
 	int totalFilesToTransfer = 0;
 	int totalFilesTransferredSoFar = 0;
@@ -17,6 +18,13 @@ public class TransferProgressInfo {
 		this.percentDone = this.calcPercentDone(fileSoFar, fileSize);
 		this.totalFilesToTransfer = toTransfer;
 		this.totalFilesTransferredSoFar = soFar;
+	}
+	
+	public TransferProgressInfo(long fileSize, long fileSoFar, int toTransfer, int soFar, Boolean isIntra) {
+		this.percentDone = this.calcPercentDone(fileSoFar, fileSize);
+		this.totalFilesToTransfer = toTransfer;
+		this.totalFilesTransferredSoFar = soFar;
+		this.isIntraFile = isIntra;
 	}
 	
 	public int calcPercentDone(long bytesTransfered, long totalSize) {

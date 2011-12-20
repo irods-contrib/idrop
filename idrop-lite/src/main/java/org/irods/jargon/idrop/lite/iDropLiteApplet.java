@@ -725,7 +725,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                         float tot = ts.getTotalSize();
                         float percentDone = bt / tot;
                         //tblUploadTable1.getModel().setValueAt((int) percentDone, tableRow, 2);
-                        TransferProgressInfo tpi = new TransferProgressInfo(ts.getTotalSize(), ts.getBytesTransfered(), 0, 0);
+                        TransferProgressInfo tpi = new TransferProgressInfo(ts.getTotalSize(), ts.getBytesTransfered(), 0, 0, true);
                         tblUploadTable1.getModel().setValueAt(tpi, tableRow, 2);
                     }
 
@@ -798,6 +798,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         final iDropLiteApplet idropGui = this;
         idropGui.setTransferInProgress(true);
 
+        log.info("transfer OVERALL status callback to iDropLiteApplet:{}", ts);
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
@@ -2120,7 +2121,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             	
             // set Upload button test to Cancel
             try {
-                currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles, iDropCore.getTransferControlBlock());
+                //currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles, iDropCore.getTransferControlBlock());
+                currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles);
                 final Thread transferThread = new Thread(currentTransferRunner);
                 log.info("launching transfer thread");
                 // close so that transfer thread can grab account
@@ -2194,7 +2196,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             }
             try {
             	 // process a get
-                 currentTransferRunner = new GetTransferRunner(applet, targetPath, sourceFiles, iDropCore.getTransferControlBlock());
+                 //currentTransferRunner = new GetTransferRunner(applet, targetPath, sourceFiles, iDropCore.getTransferControlBlock());
+                 currentTransferRunner = new GetTransferRunner(applet, targetPath, sourceFiles);
                  final Thread transferThread = new Thread(currentTransferRunner);
                  log.info("launching transfer thread");
                  // close so that transfer thread can grab account

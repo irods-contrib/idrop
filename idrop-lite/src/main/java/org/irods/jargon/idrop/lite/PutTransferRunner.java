@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.DataTransferOperations;
+import org.irods.jargon.core.transfer.DefaultTransferControlBlock;
 import org.irods.jargon.core.transfer.TransferControlBlock;
 import org.slf4j.LoggerFactory;
 
@@ -14,12 +15,13 @@ public class PutTransferRunner implements Runnable {
     private final List<File> sourceFiles;
     private final String targetIrodsFileAbsolutePath;
     private final iDropLiteApplet idropGui;
-    private final TransferControlBlock transferControlBlock;
+    //private final TransferControlBlock transferControlBlock;
+    private TransferControlBlock transferControlBlock;
 
     public PutTransferRunner(final iDropLiteApplet gui,
             final String targetPath,
-            final List<File> files,
-            final TransferControlBlock transferControlBlock)
+            final List<File> files)
+            //final TransferControlBlock transferControlBlock)
             throws JargonException {
 
         if (files == null) {
@@ -34,14 +36,14 @@ public class PutTransferRunner implements Runnable {
             throw new JargonException("null idrop gui");
         }
 
-        if (transferControlBlock == null) {
-            throw new JargonException("null transferControlBlock");
-        }
+//        if (transferControlBlock == null) {
+//            throw new JargonException("null transferControlBlock");
+//        }
 
         this.targetIrodsFileAbsolutePath = targetPath;
         this.sourceFiles = files;
         this.idropGui = gui;
-        this.transferControlBlock = transferControlBlock;
+        //this.transferControlBlock = transferControlBlock;
 
     }
 
@@ -59,6 +61,19 @@ public class PutTransferRunner implements Runnable {
             
             String localSourceAbsolutePath = transferFile.getAbsolutePath();
             String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
+            
+            // need to create new Transfer Control Block for each transfer since it needs to be reset
+            // on how many files there are to transfer and how many have been transferred so far
+            TransferControlBlock tcb = null;;
+            try {
+            	tcb = DefaultTransferControlBlock.instance();
+                idropGui.getiDropCore().setTransferControlBlock(tcb);
+                this.transferControlBlock = tcb;
+            } catch (JargonException ex) {
+            	java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+                        java.util.logging.Level.SEVERE, null, ex);
+                idropGui.showIdropException(ex);
+            }
             log.info("initiating put transfer");
             try {
                 idropGui.getiDropCore().getTransferManager().putOperation(localSourceAbsolutePath,
