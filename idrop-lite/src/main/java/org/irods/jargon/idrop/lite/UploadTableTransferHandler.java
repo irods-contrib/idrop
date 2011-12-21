@@ -136,14 +136,22 @@ public class UploadTableTransferHandler extends TransferHandler {
          }
          
          DefaultTableModel tm = (DefaultTableModel)table.getModel();
-         
+         Boolean isFolder = false;
          for (File transferFile : sourceFiles) {
              log.info("put file in upload table: {}", transferFile.getAbsolutePath());
 
              String localSourceAbsolutePath = transferFile.getAbsolutePath();
-             Object [] rowData = new Object[2];
+             
+             if(transferFile.isDirectory()) {
+          		isFolder = true;
+          	 }
+             
+             Object [] rowData = new Object[5];
              rowData[0] = localSourceAbsolutePath;
-             //rowData[1] = Boolean.TRUE;
+             rowData[1] = 0;
+             rowData[2] = new TransferProgressInfo();
+          	 rowData[3] = Boolean.TRUE;
+          	 rowData[4] = isFolder;
              tm.addRow(rowData);
           }
          }
@@ -172,15 +180,23 @@ public class UploadTableTransferHandler extends TransferHandler {
          }
 
          DefaultTableModel tm = (DefaultTableModel)table.getModel();
-         
+         Boolean isFolder = false;
          for (File transferFile : sourceFiles) {
         	 String localSourceAbsolutePath = transferFile.getAbsolutePath();
         	 log.info("put file in upload table: {}", localSourceAbsolutePath);
+        	 
+         	 if(transferFile.isDirectory()) {
+         		isFolder = true;
+         	 }
 
-             Object [] rowData = new Object[2];
+             Object [] rowData = new Object[5];
              rowData[0] = localSourceAbsolutePath;
-             //rowData[1] = Boolean.TRUE;
+             rowData[1] = 0;
+             rowData[2] = new TransferProgressInfo();
+          	 rowData[3] = Boolean.TRUE;
+          	 rowData[4] = isFolder;
              tm.addRow(rowData);
+             
          }
 
      } 
