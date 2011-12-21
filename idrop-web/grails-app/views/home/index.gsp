@@ -6,30 +6,17 @@
 </head>
 <div id="tabs" class="wrapper" style="height: 820px;position:relative;">
   <ul>
-    <li><a href="#quickView"><g:message code="text.home" />
+    <!-- <li><a href="#browse"><g:message code="text.browse" />
+      </a>
+    </li> -->
+     <li><a href="#quickView"><g:message code="text.home" />
       </a>
     </li>
     <li><a href="#search"><g:message code="text.search" />
       </a>
     </li>
-    <li><a href="#browse"><g:message code="text.browse" />
-      </a>
-    </li>
   </ul>
-  <div id="quickView" class="wrapper">
-    <h1>Home View Here...</h1>
-  </div>
-  <div id="search" class="wrapper">
-    <div id="searchDivOuter"
-         style="display: block; width: 95%; height: 90%; position: relative; overflow:hidden;"
-         class="ui-layout-center">
-      <!--  this will be filled in with the search results table -->
-      <div id="searchTableDiv" style="width:100%;height:100%;overflow:auto;">
-        <!--  search table display di -->
-      </div>
-    </div>
-  </div>
-  <div id="browse">
+   <div id="browse">
     <div id="browser" class="wrapper">
       <div id="browseToolbar">
            <g:render template="/common/topToolbar" />
@@ -51,6 +38,20 @@
           </div>
         </div>-->
       </div>
+  <div id="quickView" class="wrapper" style="display:none;">
+    <h1>Home View Here...</h1>
+  </div>
+  <div id="search" class="wrapper">
+    <div id="searchDivOuter"
+         style="display: block; width: 95%; height: 90%; position: relative; overflow:hidden;"
+         class="ui-layout-center">
+      <!--  this will be filled in with the search results table -->
+      <div id="searchTableDiv" style="width:100%;height:100%;overflow:auto;">
+        <!--  search table display di -->
+      </div>
+    </div>
+  </div>
+ 
       <g:render template="/common/panelmessages" />
 
       <div id="dataTreeView" style="width: 100%; height: 700px; overflow:visible;">

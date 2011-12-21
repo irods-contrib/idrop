@@ -20,7 +20,7 @@ class SharingController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
-	
+
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
@@ -53,21 +53,21 @@ class SharingController {
 		}
 
 		log.info("showAclDetails for absPath: ${absPath}")
-		
+
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 		def isDataObject = retObj instanceof DataObject
 		boolean getThumbnail = false
-		
+
 		if (isDataObject) {
-		String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
-		log.info("extension is:${extension}")
-		
-	   if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
-			 getThumbnail = true;
-		 }
+			String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
+			log.info("extension is:${extension}")
+
+			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
+				getThumbnail = true
+			}
 		}
-		
+
 		render(view:"aclDetails",model:[retObj:retObj, isDataObject:isDataObject, getThumbnail:getThumbnail])
 	}
 
@@ -82,7 +82,7 @@ class SharingController {
 		}
 
 		log.info("renderAclDetailsTable for absPath: ${absPath}")
-		def acls;
+		def acls
 
 		try {
 
@@ -93,7 +93,7 @@ class SharingController {
 			def isDataObject = retObj instanceof DataObject
 
 			if (isDataObject) {
-				log.debug("retrieving ACLs for a data object");
+				log.debug("retrieving ACLs for a data object")
 				DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
 				acls = dataObjectAO.listPermissionsForDataObject(retObj.collectionName + "/" + retObj.dataName)
 			} else {
@@ -103,7 +103,7 @@ class SharingController {
 			}
 		} catch (Exception je){
 			log.error("exception getting acl data ${je}", je)
-			response.sendError(500,je.getMessage());
+			response.sendError(500,je.getMessage())
 		}
 
 		render(view:"aclTable", model:[acls:acls])
@@ -166,7 +166,7 @@ class SharingController {
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
 		def isDataObject = retObj instanceof DataObject
 		log.info("adding ACLs for a data object")
-		
+
 
 		if (isDataObject) {
 			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
@@ -225,7 +225,7 @@ class SharingController {
 
 		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
 
-		def userList = userAO.findUserNameLike(term);
+		def userList = userAO.findUserNameLike(term)
 		def jsonBuff = []
 
 
@@ -237,7 +237,7 @@ class SharingController {
 
 		render jsonBuff as JSON
 
-	} 
+	}
 
 	def deleteAcl = {
 		log.info("deleteAcl")
@@ -247,16 +247,16 @@ class SharingController {
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 		def isDataObject = retObj instanceof DataObject
 		log.info("adding ACLs for a data object")
-		
+
 		def DataObjectAO dataObjectAO
 		def CollectionAO collectionAO
-		
+
 		if (isDataObject) {
 			dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
 		} else {
 			collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 		}
-		
+
 		if (!absPath) {
 			log.error "no path provided"
 			def errorMessage = message(code:"error.no.path.provided")
@@ -265,13 +265,13 @@ class SharingController {
 		}
 
 		def aclsToDelete = params['selectedAcl']
-		
+
 		// if nothing selected, just jump out and return a message
 		if (!aclsToDelete) {
 			log.info("no acls to delete")
 			def errorMessage = message(code:"error.nothing.selected")
 			response.sendError(500,errorMessage)
-			return;
+			return
 		}
 
 		log.info("aclsToDelete: ${aclsToDelete}")
@@ -283,63 +283,89 @@ class SharingController {
 				if (isDataObject) {
 					log.info "delete as data object"
 					deleteAclForDataObject(absPath, it, dataObjectAO)
-				 } else {
-				 	deleteAclForCollection(absPath, it, collectionAO)
-				 }
+				} else {
+					deleteAclForCollection(absPath, it, collectionAO)
+				}
 			}
-			
+
 		} else {
 			log.debug "not array"
 			log.info "deleting: ${aclsToDelete}"
 			if (isDataObject) {
 				log.info "delete as data object"
 				deleteAclForDataObject(absPath, aclsToDelete, dataObjectAO)
-			 } else {
-				 deleteAclForCollection(absPath, aclsToDelete, collectionAO)
-			 }
+			} else {
+				deleteAclForCollection(absPath, aclsToDelete, collectionAO)
+			}
 		}
 
 		render "OK"
 
 	}
-	
+
+	/**
+	 * Prepare and show a dialog to add a group of users with ACL permissions to a specified iRODS file or collection
+	 */
+	def userBulkSharingDialog = {
+		log.info "userBulkSharingDialog"
+		log.info "params: ${params}"
+
+		// if a user is provided, this will be an edit, otherwise, it's a create
+		def absPath = params['absPath']
+
+		if (!absPath) {
+			log.error "no absPath in request for userBulkSharingDialog()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+			return
+		}
+
+		log.info("get representative object for path: ${absPath}")
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+		def isDataObject = retObj instanceof DataObject
+
+		render(view:"userBulkSharingDialog", model:[absPath:absPath, retObj:retObj, isDataObject:isDataObject])
+
+	}
+
 	private void deleteAclForDataObject(String absPath, String userName, DataObjectAO dataObjectAO) throws JargonException {
-		
+
 		if (!absPath) {
 			throw new IllegalArgumentException("null absPath")
 		}
-		
+
 		if (!userName) {
 			throw new IllegalArgumentException("null userName")
 		}
-		
+
 		if (!dataObjectAO) {
 			throw new IllegalArgumentException("null dataObjectAO")
 		}
-		
+
 		dataObjectAO.removeAccessPermissionsForUser(irodsAccount.zone, absPath, userName)
-		
+
 	}
-	
+
 	private void deleteAclForCollection(String absPath, String userName, CollectionAO collectionAO) throws JargonException {
-		
+
 		if (!absPath) {
 			throw new IllegalArgumentException("null absPath")
 		}
-		
+
 		if (!userName) {
 			throw new IllegalArgumentException("null userName")
 		}
-		
+
 		if (!collectionAO) {
 			throw new IllegalArgumentException("null collectionAO")
 		}
-		
-		
+
+
 		collectionAO.removeAccessPermissionForUser(irodsAccount.zone, absPath, userName,true)
-		
+
 	}
-	
+
 }
 
 class AclCommand {

@@ -145,7 +145,7 @@ class BrowseController {
 				type = "folder"
 			}
 
-			def attrBuf = ["id":it.formattedAbsolutePath, "rel":type]
+			def attrBuf = ["id":it.formattedAbsolutePath, "rel":type, "absPath":it.formattedAbsolutePath]
 
 			jsonBuff.add(
 					["data": it.nodeLabelDisplayValue,"attr":attrBuf, "state":state,"icon":icon, "type":type]
@@ -541,6 +541,5 @@ class BrowseController {
 		log.debug("retrieved collectionAndDataObjectList: ${entries}")
 		render(view:"galleryView", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
 	}
-
 
 }

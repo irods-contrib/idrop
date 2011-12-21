@@ -4,6 +4,7 @@
 <div id="browseDetailsMessageArea">
   <!--  -->
 </div>
+<div id="infoDialogArea"><!--  no empty divs --></div>
 
 <div id=browseDetailsDialogArea">
   <!--  area for generating dialogs -->

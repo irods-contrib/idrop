@@ -23,7 +23,7 @@
 	<li id="menuSharing"><a href="#sharing"><g:message code="text.sharing"/></a>
 	<ul>
 		<li id="menuCreateTicket"><a href="#createTicket"><g:message code="text.create.ticket" /></a></li>
-		<li id="menuShareWithUsers"><a href="#shareWithUsers"><g:message code="text.share" /></a></li>
+		<li id="menuShareWithUsers"><a href="#shareWithUsers" onclick="showBulkShareDialogFromToolbar()"><g:message code="text.share" /></a></li>
 	</ul>
 	</li>
 
@@ -36,8 +36,15 @@ $(function() {
 });
 
 function downloadAction() {
-	downloadViaToolbar();
-
+	var path = $("#infoAbsPath").val();
+	downloadViaToolbar(path);
 }
+
+function showBulkShareDialogFromToolbar() {
+	var path = $("#infoAbsPath").val();
+	showBulkShareDialog(path);
+}
+
+
 
 </script>

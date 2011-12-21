@@ -334,6 +334,8 @@ function nodeRemoved(event, data) {
 	var params = {
 		absPath : id
 	}
+	
+	closeTreeNodeAtAbsolutePath(id);  // FIXME: test
 
 	var jqxhr = $.post(context + fileDeleteUrl, params,
 			function(data, status, xhr) {
@@ -342,8 +344,8 @@ function nodeRemoved(event, data) {
 		setMessage("file deleted:" + xhr.responseText);
 		data[0].id = xhr.responseText;
 	}).error(function(xhr, status, error) {
-		refreshTree();
-
+		refreshTree(); 
+		// FIXME: update middle div to parent path
 		setMessage(xhr.responseText);
 	});
 }
@@ -1388,3 +1390,23 @@ function deleteFilesBulkAction() {
 		});
 
 }
+
+function closeTreeNodeAtAbsolutePath(absPath) {
+	
+	if (absPath == null) {
+		return false;
+	}
+	
+	absPath = absPath.replace(/\//g, "\\\\/");
+	absPath = absPath.replace(/\./g, "\\\\.");
+	
+	var selector = '#' + absPath; 
+	//var selector = "#" + absPath; 
+
+
+	var treeNode = $(selector);
+	//var treeNode= $("#\\/test1\\/home\\/test1");
+	//alert("treeNode:" + treeNode);
+	
+}
+
