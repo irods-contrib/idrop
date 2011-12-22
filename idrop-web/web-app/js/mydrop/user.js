@@ -29,4 +29,33 @@ function requestUserPopup(event) {
 
 }
 
+/**
+* Show a dialog that allows selection of multiple users such that a share permission can be set
+* @param absPath absolute path to the file or collection to which the share will pertain
+ */
+function showBulkShareDialog(absPath) {
+	lcPrepareForCall();
+
+	lcShowBusyIconInDiv("#infoDialogArea");
+	var url = "/sharing/userBulkSharingDialog";
+
+	var params = {
+		absPath : absPath
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
+
+}
+
+/**
+* Do a user search for bulk sharing display
+*/
+function searchUsersBulkSharingDialog() {
+	var userSearchType = $("#userBulkSharingSearchType").val();
+	var userName = $("#userBulkSharingSearchTerm").val();
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/user/userSearchByNameLike?userSearchTerm="
+			+ encodeURIComponent(userName), "#userBulkSharingTableDiv", "#userBulkSharingTableDiv", null);
+}
+
+
 

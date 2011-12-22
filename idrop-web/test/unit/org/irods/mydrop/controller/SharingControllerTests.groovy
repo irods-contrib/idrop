@@ -6,7 +6,6 @@ import grails.test.ControllerUnitTestCase
 import java.util.Properties
 
 import org.irods.jargon.core.connection.IRODSAccount
-import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
@@ -55,8 +54,8 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
 
 		CollectionAO collectionAO = Mockito.mock(CollectionAO.class)
-		List<UserFilePermission> mockMetadata = new ArrayList<UserFilePermission>();
-		Mockito.when(collectionAO.listPermissionsForCollection(testPath)).thenReturn(mockMetadata);
+		List<UserFilePermission> mockMetadata = new ArrayList<UserFilePermission>()
+		Mockito.when(collectionAO.listPermissionsForCollection(testPath)).thenReturn(mockMetadata)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAO(irodsAccount)).thenReturn(collectionAO)
 
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
@@ -71,7 +70,7 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		def metadata = mav.model.acls
 		assertNotNull("null acls object", metadata)
 	}
-	
+
 	void testShowAclDetailsCollection() {
 		def testPath = "/testpath"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
@@ -94,7 +93,7 @@ class SharingControllerTests extends ControllerUnitTestCase {
 	void testRenderAclDetailsTableDataObject() {
 		def testPath = "/testpath"
 		def testFileName = "filename.txt"
-	
+
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
 		DataObject retObject = new DataObject()
@@ -104,8 +103,8 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
 
 		DataObjectAO dataObjectAO = Mockito.mock(DataObjectAO.class)
-		List<UserFilePermission> mockMetadata = new ArrayList<UserFilePermission>();
-		Mockito.when(dataObjectAO.listPermissionsForDataObject(testPath + "/" + testFileName)).thenReturn(mockMetadata);
+		List<UserFilePermission> mockMetadata = new ArrayList<UserFilePermission>()
+		Mockito.when(dataObjectAO.listPermissionsForDataObject(testPath + "/" + testFileName)).thenReturn(mockMetadata)
 		Mockito.when(irodsAccessObjectFactory.getDataObjectAO(irodsAccount)).thenReturn(dataObjectAO)
 
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
@@ -120,43 +119,35 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		def metadata = mav.model.acls
 		assertNotNull("null acls object", metadata)
 	}
-	
+
 	/* FIXME: temp disable due to 'message' call issue when testing
-	void testAddAclDataObject() {
-		def testPath = "/testpath"
-		def testFileName = "filename.txt"
-		def testUserName = "username"
-		def testACL = "READ"
-		
-		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
-		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
-		DataObject retObject = new DataObject()
-		retObject.setCollectionName(testPath)
-		retObject.setDataName(testFileName)
-		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
-		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
+	 void testAddAclDataObject() {
+	 def testPath = "/testpath"
+	 def testFileName = "filename.txt"
+	 def testUserName = "username"
+	 def testACL = "READ"
+	 def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+	 CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+	 DataObject retObject = new DataObject()
+	 retObject.setCollectionName(testPath)
+	 retObject.setDataName(testFileName)
+	 Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
+	 Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
+	 DataObjectAO dataObjectAO = Mockito.mock(DataObjectAO.class)
+	 Mockito.when(irodsAccessObjectFactory.getDataObjectAO(irodsAccount)).thenReturn(dataObjectAO)
+	 controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+	 controller.irodsAccount = irodsAccount
+	 mockCommandObject(AclCommand.class)
+	 def cmd = new AclCommand()
+	 cmd.acl = testACL
+	 cmd.absPath = testPath
+	 cmd.userName = testUserName
+	 cmd.validate()
+	 controller.addAcl(cmd)
+	 def controllerResponse = controller.response.contentAsString
+	 assertEquals("should be OK", "OK", controllerResponse)
+	 } */
 
-		DataObjectAO dataObjectAO = Mockito.mock(DataObjectAO.class)
-		
-		Mockito.when(irodsAccessObjectFactory.getDataObjectAO(irodsAccount)).thenReturn(dataObjectAO)
-
-		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
-		controller.irodsAccount = irodsAccount
-		
-		mockCommandObject(AclCommand.class)
-		def cmd = new AclCommand()
-		cmd.acl = testACL
-		cmd.absPath = testPath
-		cmd.userName = testUserName
-		
-		cmd.validate()
-		
-		controller.addAcl(cmd)
-		def controllerResponse = controller.response.contentAsString
-		assertEquals("should be OK", "OK", controllerResponse)
-		
-	} */
-	
 	void testPrepareAclDialogWhenCreate() {
 		def testPath = "/testpath"
 		def testFileName = "filename.txt"
@@ -214,24 +205,45 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		def response = controller.response
 		assertEquals("should have encountered a validation error", 500, response.status)
 	}
-	
+
 	void listUsersForAutocomplete() {
 		def testUser = "t"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		UserAO userAO = Mockito.mock(UserAO.class)
-		List<String> retUsers = new ArrayList<String>();
-		retUsers.add("test1");
-		retUsers.add('test2');
-		Mockito.when(userAO.findUserNameLike(testUser)).thenReturn(retUsers);
+		List<String> retUsers = new ArrayList<String>()
+		retUsers.add("test1")
+		retUsers.add('test2')
+		Mockito.when(userAO.findUserNameLike(testUser)).thenReturn(retUsers)
 		Mockito.when(irodsAccessObjectFactory.getUserAO(irodsAccount)).thenReturn(userAO)
 
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
 		controller.params.term = testUser
-		
+
 		controller.listUsersForAutocomplete()
 
 		def jsonResult = JSON.parse(controllerResponse)
 		assertNotNull("missing json result", jsonResult)
+	}
+
+	void testUserBulkSharingDialog() {
+		def testPath = "/testpath"
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		Collection retObject = new Collection()
+		retObject.setCollectionName(testPath)
+		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
+		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
+
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+		controller.irodsAccount = irodsAccount
+		controller.params.absPath = testPath
+		controller.userBulkSharingDialog()
+		def mav = controller.modelAndView
+
+		assertEquals("view name should be userBulkSharingDialog", "userBulkSharingDialog", mav.viewName)
+		assertNotNull("no object for coll/data", mav.model.retObj)
+		assertNotNull("no absPath", mav.model.absPath)
+		assertNotNull("no isDataObj", mav.model.isDataObject)
 	}
 }
