@@ -1105,6 +1105,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     	List<String> cartContents = new ArrayList<String>();
     	FileShoppingCart cart = null;
     	
+    	log.info("retrieving cart shopping cart contents");
+    	
     	DataCacheServiceFactory dataCacheServiceFactory;
 		try {
 			dataCacheServiceFactory = new DataCacheServiceFactoryImpl(
@@ -1112,6 +1114,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 			ShoppingCartService shoppingCartService = new ShoppingCartServiceImpl(
 					iDropCore.getIrodsFileSystem().getIRODSAccessObjectFactory(), iDropCore.getIrodsAccount(),
 					dataCacheServiceFactory);
+			log.info("getting cart as logged in user, key: {}", this.key);
 			cart = shoppingCartService.retreiveShoppingCartAsLoggedInUser(this.key);
 		} catch (JargonException e) {
 			log.error("could not create shopping cart");
@@ -1125,6 +1128,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 		// for testing
     	// cartContents.add("/renci/home/rods/lisa/icp.out");
     	
+		log.info("returning contents of shopping cart {}", cartContents);
     	return cartContents;
     }
     
