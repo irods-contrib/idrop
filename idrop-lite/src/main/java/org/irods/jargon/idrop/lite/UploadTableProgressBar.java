@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import org.irods.jargon.core.transfer.TransferControlBlock;
 import org.irods.jargon.core.transfer.TransferStatus;
 
 public class UploadTableProgressBar extends JProgressBar implements TableCellRenderer {
@@ -26,33 +27,7 @@ public class UploadTableProgressBar extends JProgressBar implements TableCellRen
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-//		if(value.getClass().getName().equals("TransferStatus")) {
-//			TransferStatus ts = (TransferStatus)value;
-//			float bt = ts.getBytesTransfered() * 100;
-//            float tot = ts.getTotalSize();
-//            float percentDone = bt / tot;
-//            Integer ival = (int)percentDone;
-//            
-//            setValue(ival);
-//            // find out if this is a file or folder
-//            if(!ts.isIntraFileStatusReport()) {
-//            	String progressString = "File " + ts.getTotalFilesTransferredSoFar() + " of " + ts.getTotalFilesToTransfer() + " complete";
-//            	setString(progressString);
-//            }
-//            else {
-//            	//setString(ival.toString().concat("%"));
-//            }      
-//		}
-//		if(value != null) {
-//			Integer ival = (Integer)value;
-//			
-//			setValue(ival);
-//			setString(ival.toString().concat("%"));
-//		}
-//		else {
-//			setValue(0);
-//		    setString("0%");
-//		}
+
 		Boolean transferInProgress = ((iDropLiteApplet)table.getTopLevelAncestor()).isTransferInProgress();
 		
 		setFont(new java.awt.Font("Lucida Grande", 0, 12));
@@ -67,20 +42,20 @@ public class UploadTableProgressBar extends JProgressBar implements TableCellRen
 			int filesToTransfer = tpInfo.getTotalFilesToTransfer();
 			int soFar = tpInfo.getTotalFilesTransferredSoFar();
 			if((isFolder) && (ival > 0)) {
-				//if((transferInProgress) && (soFar > 0)) {
-				//if(!tpInfo.isIntraFile) {
-					String pbText = "File " + soFar + " of " + filesToTransfer + " complete";
-					setString(pbText);
-				//}
+				if(tpInfo.isIntraFile) { // retrieve file transfer statistics not given in intraFile type callback
+					TransferControlBlock tcb = ((iDropLiteApplet)table.getTopLevelAncestor()).getiDropCore().getTransferControlBlock();
+					if(tcb != null) {
+						soFar = tcb.getTotalFilesTransferredSoFar();
+						filesToTransfer = tcb.getTotalFilesToTransfer();
+					}
+				}
+				String pbText = "File " + soFar + " of " + filesToTransfer + " complete";
+				setString(pbText);
 			}
 			else {
 				setString(ival.toString().concat("%"));
 			}
 		}
-//		else {
-//			setValue(0);
-//		    setString("0%");
-//		}
 		
 		return this;
 	}

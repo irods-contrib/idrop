@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 public class GetTransferRunner implements Runnable {
 	
-	public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferHandler.class);
+	public static org.slf4j.Logger log = LoggerFactory.getLogger(GetTransferRunner.class);
 	private final List<File> sourceFiles;
 	private final String targetIrodsFileAbsolutePath;
 	private final iDropLiteApplet idropGui;
@@ -71,7 +71,8 @@ public class GetTransferRunner implements Runnable {
                 try {
                 	DataTransferOperations dto = idropGui.getiDropCore().getIRODSAccessObjectFactory().getDataTransferOperations(
                 			idropGui.getIrodsAccount());
-                	dto.getOperation(transferFile.getAbsolutePath(), targetIrodsFileAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(), idropGui, transferControlBlock);                           
+                	dto.getOperation(transferFile.getAbsolutePath(), targetIrodsFileAbsolutePath, idropGui.getIrodsAccount().getDefaultStorageResource(),
+                			idropGui, this.transferControlBlock);
                 } catch (JargonException ex) {
                     java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                             java.util.logging.Level.SEVERE, null, ex);
