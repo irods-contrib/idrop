@@ -77,7 +77,7 @@ function browserFirstViewRetrieved(data) {
 								+ "/browse/ajaxDirectoryListingUnderParent",
 						"cache" : false,
 						"data" : function(n) {
-							//lcClearMessage();
+							// lcClearMessage();
 							dir = n.attr("id");
 							return "dir=" + encodeURIComponent(dir);
 						},
@@ -162,7 +162,7 @@ function browserFirstViewRetrieved(data) {
 		}
 
 		msg = msg + " from:" + sourceId + " to:" + targetId;
-		
+
 		var answer = confirm(msg); // FIXME: i18n
 
 		if (!answer) {
@@ -171,7 +171,7 @@ function browserFirstViewRetrieved(data) {
 		}
 
 		// move/copy confirmed, process...
-		
+
 		if (copy) {
 			copyFile(sourceId, targetId);
 		} else {
@@ -228,7 +228,7 @@ function customMenu(node) {
 		},
 		infoItem : { // The "info" menu item
 			label : "Info",
-			 "separator_before"  : true,    // Insert a separator before the item
+			"separator_before" : true, // Insert a separator before the item
 			action : function() {
 				lcSendValueAndCallbackHtmlAfterErrorCheck(
 						"/browse/fileInfo?absPath="
@@ -238,7 +238,7 @@ function customMenu(node) {
 		},
 		cutItem : { // The "cut" menu item
 			label : "Cut",
-			 "separator_before"  : true,    // Insert a separator before the item
+			"separator_before" : true, // Insert a separator before the item
 			action : function() {
 				$.jstree._reference(dataTree).cut(node[0]);
 				setMessage("File cut and placed in clipboard:" + node[0].id);
@@ -334,8 +334,8 @@ function nodeRemoved(event, data) {
 	var params = {
 		absPath : id
 	}
-	
-	closeTreeNodeAtAbsolutePath(id);  // FIXME: test
+
+	closeTreeNodeAtAbsolutePath(id); // FIXME: test
 
 	var jqxhr = $.post(context + fileDeleteUrl, params,
 			function(data, status, xhr) {
@@ -344,7 +344,7 @@ function nodeRemoved(event, data) {
 		setMessage("file deleted:" + xhr.responseText);
 		data[0].id = xhr.responseText;
 	}).error(function(xhr, status, error) {
-		refreshTree(); 
+		refreshTree();
 		// FIXME: update middle div to parent path
 		setMessage(xhr.responseText);
 	});
@@ -385,67 +385,71 @@ function nodeRenamed(event, data) {
 
 /**
  * Given a source and target absolute path, do a move
+ * 
  * @param sourcePath
  * @param targetPath
  */
-function moveFile(sourcePath,targetPath) {
-	
+function moveFile(sourcePath, targetPath) {
+
 	if (sourcePath == null || targetPath == null) {
-		alert("cannot move, source and target path must be specified"); // FIXME: i18n
+		alert("cannot move, source and target path must be specified"); // FIXME:
+																		// i18n
 		return;
 	}
-	
-	lcPrepareForCall();
-	
-	var params = {
-			sourceAbsPath : sourcePath,
-			targetAbsPath : targetPath
-		}
 
-		var jqxhr = $.post(context + fileMoveUrl, params,
-				function(data, status, xhr) {
-					lcPrepareForCall();
-				}, "html").success(function(returnedData, status, xhr) {
-			setMessage("file moved to:" + xhr.responseText);
-			selectedPath = targetPath;
-			refreshTree();
-			updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
-		}).error(function(xhr, status, error) {
-			refreshTree();
-			setMessage(xhr.responseText);
-		});
+	lcPrepareForCall();
+
+	var params = {
+		sourceAbsPath : sourcePath,
+		targetAbsPath : targetPath
+	}
+
+	var jqxhr = $.post(context + fileMoveUrl, params,
+			function(data, status, xhr) {
+				lcPrepareForCall();
+			}, "html").success(function(returnedData, status, xhr) {
+		setMessage("file moved to:" + xhr.responseText);
+		selectedPath = targetPath;
+		refreshTree();
+		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+	}).error(function(xhr, status, error) {
+		refreshTree();
+		setMessage(xhr.responseText);
+	});
 }
 
 /**
  * Given a source and target absolute path, do a copy
+ * 
  * @param sourcePath
  * @param targetPath
  */
-function copyFile(sourcePath,targetPath) {
-	
+function copyFile(sourcePath, targetPath) {
+
 	if (sourcePath == null || targetPath == null) {
-		alert("cannot copy, source and target path must be specified"); // FIXME: i18n
+		alert("cannot copy, source and target path must be specified"); // FIXME:
+																		// i18n
 		return;
 	}
-	
-	lcPrepareForCall();
-	
-	var params = {
-			sourceAbsPath : sourcePath,
-			targetAbsPath : targetPath
-		}
 
-		var jqxhr = $.post(context + fileCopyUrl, params,
-				function(data, status, xhr) {
-					lcPrepareForCall();
-				}, "html").success(function(returnedData, status, xhr) {
-			setMessage("file copied to:" + xhr.responseText);
-			refreshTree();
-			updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
-		}).error(function(xhr, status, error) {
-			refreshTree();
-			setMessage(xhr.responseText);
-		});
+	lcPrepareForCall();
+
+	var params = {
+		sourceAbsPath : sourcePath,
+		targetAbsPath : targetPath
+	}
+
+	var jqxhr = $.post(context + fileCopyUrl, params,
+			function(data, status, xhr) {
+				lcPrepareForCall();
+			}, "html").success(function(returnedData, status, xhr) {
+		setMessage("file copied to:" + xhr.responseText);
+		refreshTree();
+		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+	}).error(function(xhr, status, error) {
+		refreshTree();
+		setMessage(xhr.responseText);
+	});
 }
 
 /**
@@ -466,12 +470,12 @@ function setBrowseMode() {
  */
 function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 
-	//lcPrepareForCall();
+	// lcPrepareForCall();
 
 	if (absPath == null) {
 		return;
 	}
-	
+
 	if (browseOptionVal == null) {
 		browseOptionVal = "info";
 	}
@@ -487,15 +491,17 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	} else if (browseOptionVal == "sharing") {
 		showSharingView(absPath);
 	} else if (browseOptionVal == "audit") {
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/audit/auditList?absPath="
-				+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
+		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+				"/audit/auditList?absPath=" + encodeURIComponent(absPath),
+				"#infoDiv", "#infoDiv", null);
 	}
 }
 
-
 /**
  * Show the browse view
- * @param absPath absolute path to browse to
+ * 
+ * @param absPath
+ *            absolute path to browse to
  */
 function showBrowseView(absPath) {
 	if (absPath == null) {
@@ -510,9 +516,9 @@ function showBrowseView(absPath) {
 			});
 }
 
-
 /**
  * Show the sharing view
+ * 
  * @param absPath
  * @returns {Boolean}
  */
@@ -521,13 +527,13 @@ function showSharingView(absPath) {
 		return false;
 	}
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/sharing/showAclDetails?absPath="
-					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
-			null);
+			"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
+			"#infoDiv", "#infoDiv", null);
 }
 
 /**
  * Show the metadata view
+ * 
  * @param absPath
  * @returns {Boolean}
  */
@@ -537,13 +543,12 @@ function showMetadataView(absPath) {
 	}
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/metadata/showMetadataDetails?absPath="
-					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
-			null);
+					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 }
-
 
 /**
  * Show the info view
+ * 
  * @param absPath
  * @returns {Boolean}
  */
@@ -551,13 +556,14 @@ function showInfoView(absPath) {
 	if (absPath == null) {
 		return false;
 	}
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/browse/fileInfo?absPath="
-			+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
+			"#infoDiv", "#infoDiv", null);
 }
-
 
 /**
  * Show the gallery view
+ * 
  * @param absPath
  * @returns {Boolean}
  */
@@ -565,8 +571,9 @@ function showGalleryView(absPath) {
 	if (absPath == null) {
 		return false;
 	}
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/browse/galleryView?absPath="
-			+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
+			"#infoDiv", "#infoDiv", null);
 }
 
 /**
@@ -586,7 +593,7 @@ function showUploadDialog() {
  * Show the dialog to upload from the browse details view
  */
 function showBrowseDetailsUploadDialog() {
-	//var path = $("#browseDetailsAbsPath").val();
+	// var path = $("#browseDetailsAbsPath").val();
 	showUploadDialogUsingPath(selectedPath);
 }
 
@@ -986,7 +993,7 @@ function showIdropLite() {
  */
 function showBrowseDetailsIdropLite() {
 
-	var path = selectedPath;//$("#browseDetailsAbsPath").val();
+	var path = selectedPath;// $("#browseDetailsAbsPath").val();
 
 	if (path == null) {
 		path = "/";
@@ -1011,8 +1018,7 @@ function showIdropLiteGivenPath(path) {
 
 	// close the shopping cart mode if open
 	closeShoppingCartApplet();
-	
-	
+
 	// first hide Browse Data Details table
 	$("#toggleHtmlArea").hide('slow');
 	$("#toggleHtmlArea").width = "0%";
@@ -1130,13 +1136,13 @@ function refreshTree() {
 }
 
 /**
- * The download button has been selected from an info view, download the given file
+ * The download button has been selected from an info view, download the given
+ * file
  */
 function downloadViaToolbar() {
 	var infoAbsPath = $("#infoAbsPath").val();
-	window.open(context + '/file/download/' + infoAbsPath,
-			'_self');
-			
+	window.open(context + '/file/download/' + infoAbsPath, '_self');
+
 }
 
 /**
@@ -1152,7 +1158,7 @@ function renameViaToolbar() {
  * rename dialog
  */
 function renameViaBrowseDetailsToolbar() {
-	//var path = $("#browseDetailsAbsPath").val();
+	// var path = $("#browseDetailsAbsPath").val();
 	renameViaToolbarGivenPath(selectedPath);
 }
 
@@ -1199,7 +1205,7 @@ function deleteViaToolbar() {
  * Delete was selected on the browse details toolbar
  */
 function deleteViaBrowseDetailsToolbar() {
-	//var path = $("#browseDetailsAbsPath").val();
+	// var path = $("#browseDetailsAbsPath").val();
 	deleteViaToolbarGivenPath(selectedPath);
 }
 
@@ -1253,7 +1259,7 @@ function newFolderViaToolbar() {
  * new folder was selected from the browse details toolbar
  */
 function newFolderViaBrowseDetailsToolbar() {
-	//var infoAbsPath = $("#browseDetailsAbsPath").val();
+	// var infoAbsPath = $("#browseDetailsAbsPath").val();
 	newFolderViaToolbarGivenPath(selectedPath);
 }
 
@@ -1340,7 +1346,7 @@ function submitRenameDialog() {
  * submitted new folder dialog
  */
 function submitNewFolderDialog() {
-	
+
 	lcClearDivAndDivClass("#newFolderDialogMessageArea");
 	var absPath = $("#newFolderDialogAbsPath").val();
 	var newName = $("#fileName").val();
@@ -1373,40 +1379,175 @@ function submitNewFolderDialog() {
 }
 
 /**
- * Delete files based on inputs in the browse details table.  Note that confirmation has already
- * been provided.
+ * Delete files based on inputs in the browse details table. Note that
+ * confirmation has already been provided.
  */
 function deleteFilesBulkAction() {
+
+	var formData = $("#browseDetailsForm").serializeArray();
+	var jqxhr = $.post(context + deleteBulkActionUrl, formData, "html")
+			.success(function(returnedData, status, xhr) {
+				lcPrepareForCall();
+				refreshTree();
+				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+				setMessage("Delete action successful");
+			}).error(function(xhr, status, error) {
+				setMessage(xhr.responseText);
+			});
+
+}
+
+/**
+ * Given the tree path in the text box, recursively open the nodes in the tree based
+ * on the path.
+ * 
+ * If called with no parameters, it assumes this is the top node, it will open the top node.
+ * 
+ * If called with a last 
+ * 
+ * 
+ * @param lastIndex
+ * @param currentNode
+ * @returns {Boolean}
+ */
+function selectTreePath(path, currentNode, currentIndex) {
 	
-		var formData = $("#browseDetailsForm").serializeArray();
-		var jqxhr = $.post(context + deleteBulkActionUrl, formData, "html").success(
-				function(returnedData, status, xhr) {
-					lcPrepareForCall();
-					refreshTree();
-					updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-					setMessage("Delete action successful");
-				}).error(function(xhr, status, error) {
-			setMessage(xhr.responseText);
-		});
+	if (path == null) {
+		var val = $("#treePath").val();
+		// alert("select tree path:" + val);
+		path = val.split("/");
+	}
+	
+	if (currentIndex == null) {
+		currentIndex = 0;
+	}
+
+	// if called with no params, get the root node, open it, and process the children
+	if (currentNode == null) {
+		currentNode = $.jstree._reference(dataTree)
+		.get_container();
+		
+	} else if (currentNode == null) {
+		alert("error - call to open node, currentNode is null");
+		return false;
+	}
+	
+	var skip=false;
+	var end = false;
+	$.each(path, function(index, value) {
+		if (skip) {
+			return;
+		}
+		
+		if (index < currentIndex) {
+			return;
+		}
+		
+		 if (value > "") {
+			var loaded = $.jstree._reference(dataTree)._is_loaded(currentNode);
+			if (!loaded) {
+				skip = true;
+				$.jstree._reference(dataTree).open_node(currentNode,
+						function(path){selectTreePath(path, currentNode, index);}, false);
+				return;
+			}
+			
+			var children = $.jstree._reference(dataTree)
+			._get_children(currentNode);
+			currentNode = getPathInNode(children, value);
+			if (currentNode == null) {
+				alert("Path not found in tree");
+				return false;
+			} else {
+				if (index == path.length - 1) {
+					end = true;
+				}
+			}
+		}
+	});
+	
+	if (currentNode != null && end) {
+		$.jstree._reference(dataTree).select_node(currentNode)
+	}
+	
+	
+	
+	
+	/*
+	$.each(path, function(index, value) {
+		if (index < lastIndex) {
+			// skip to the current part of the path
+		} else if (value > "") {
+			// if this node is open, process the children, otherwise open and do this again
+			if ($.jstree._reference(dataTree)
+						.is_open(currentNode)) {
+				// is open, process the kids
+				currentNode = getPathInNode($.jstree._reference(dataTree)
+						._get_children(currrentNode), value);
+				selectTreePath(path, index, currentNode);
+				return false;
+			} else {
+				// need to open the node and do this again
+				$.jstree._reference(dataTree).open_node(currentNode,
+						function(path, index, currentNode) {
+							selectTreePath(path, index, currentNode);
+						}, false);
+				return false;
+			}
+		}
+	});
+	*/
+}
+
+function findChildInNode(currentNode, targetPath) {
+	var foundChild = null;
+	var nodeText = null;
+	$.each(childNodes, function(index, value) {
+		var theChild = $.jstree._reference(dataTree)._get_node(value);
+		nodeText = $.jstree._reference(dataTree).get_text(theChild);
+		if (nodeText == targetPath) {
+			foundChild = theChild;
+			return;
+		}
+
+	});
+
+	return foundChild;
+
+}
+
+
+function getPathInNode(childNodes, targetPath) {
+	var foundChild = null;
+	var nodeText = null;
+	$.each(childNodes, function(index, value) {
+		var theChild = $.jstree._reference(dataTree)._get_node(value);
+		nodeText = $.jstree._reference(dataTree).get_text(theChild);
+		if (nodeText == targetPath) {
+			foundChild = theChild;
+			return;
+		}
+
+	});
+
+	return foundChild;
 
 }
 
 function closeTreeNodeAtAbsolutePath(absPath) {
-	
+
 	if (absPath == null) {
 		return false;
 	}
-	
+
 	absPath = absPath.replace(/\//g, "\\\\/");
 	absPath = absPath.replace(/\./g, "\\\\.");
-	
-	var selector = '#' + absPath; 
-	//var selector = "#" + absPath; 
 
+	var selector = '#' + absPath;
+	// var selector = "#" + absPath;
 
 	var treeNode = $(selector);
-	//var treeNode= $("#\\/test1\\/home\\/test1");
-	//alert("treeNode:" + treeNode);
-	
-}
+	// var treeNode= $("#\\/test1\\/home\\/test1");
+	// alert("treeNode:" + treeNode);
 
+}

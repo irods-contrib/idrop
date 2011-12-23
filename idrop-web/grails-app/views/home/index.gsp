@@ -4,6 +4,7 @@
 <g:javascript library="mydrop/search" />
 <g:javascript library="mydrop/metadata" />
 </head>
+ <g:render template="/common/panelmessages" />
 <div id="tabs" class="wrapper" style="height: 820px;position:relative;">
   <ul>
     <!-- <li><a href="#browse"><g:message code="text.browse" />
@@ -20,23 +21,6 @@
     <div id="browser" class="wrapper">
       <div id="browseToolbar">
            <g:render template="/common/topToolbar" />
-        <!--<div id="browseToolbarSubBox" class="ui-widget-header fg-toolbar"
-             style="height: 35px;">
-          <div id="browseMenu" class="fg-buttonset fg-buttonset-multi"
-               style="float: left">
-
-            <button type="button" class="ui-state-default ui-corner-all"
-                    id="refreshTree" value="refreshTree" onclick="refreshTree()")>
-                    <g:message code="text.refresh" />
-            </button>
-            <g:message code="text.display.option" />
-            :
-            <g:select name="browseDisplayOption" id="browseDisplayOption"
-                      from="${['info', 'sharing', 'metadata', 'gallery']}"
-                      noSelection="${['details':'details']}" onChange="setBrowseMode()" />
-            <span id="commonToolbarArea"></span>
-          </div>
-        </div>-->
       </div>
   <div id="quickView" class="wrapper" style="display:none;">
     <h1>Home View Here...</h1>
@@ -47,21 +31,17 @@
          class="ui-layout-center">
       <!--  this will be filled in with the search results table -->
       <div id="searchTableDiv" style="width:100%;height:100%;overflow:auto;">
-        <!--  search table display di -->
+        <!--  search table display div -->
       </div>
     </div>
   </div>
  
-      <g:render template="/common/panelmessages" />
+     
 
       <div id="dataTreeView" style="width: 100%; height: 700px; overflow:visible;">
-        <!--  no empty divs -->
-        <div id="dataTreeDiv" class="ui-layout-west"
-             style="width: 25%; height: 700px; overflow: auto;">
-          <!--  no empty divs -->
-        </div>
-        <div id="infoDivOuter"
-             style="display: block; width: 75%; height:100%; position:relative; overflow:auto;"
+       
+        <div id="dataTreeDiv" class="ui-layout-west" style="width:25%;height:700px;overflow:auto;"></div>
+        <div id="infoDivOuter" style="display: block; width: 75%; height:100%; position:relative; overflow:auto;"
              class="ui-layout-center">
           <div id="infoDiv" style="overflow:visible; position:relative;">
             <h2>
