@@ -11,6 +11,10 @@
 			<button type="button" id="search"
 				class="ui-state-default ui-corner-all" value="search"
 				onclick="search()")>Search</button><span>as a<g:select name="searchType" id="searchType" from="${['file', 'tag']}" /></span>
+		
+		<span> or </span><button type="button" id="selectTreePath"
+				class="ui-state-default ui-corner-all" value="search"
+				onclick="selectTreePath()")>Go directly to a path in the tree</button>
 		</div>
 
 		<div id="toggleMenu" class="fg-buttonset fg-buttonset-single" style="float:right">

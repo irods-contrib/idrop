@@ -57,7 +57,7 @@ class IdropLiteController {
 		log.info("shopping cart:${fileShoppingCart}")
 		String key = ""
 		if (fileShoppingCart) {
-			key = request.requestedSessionId
+			key = String.valueOf(System.currentTimeMillis())
 			log.info("key:${key}")
 			String shoppingCartFile = shoppingCartService
 					.serializeShoppingCartAsLoggedInUser(fileShoppingCart, key)

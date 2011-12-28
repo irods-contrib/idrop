@@ -335,14 +335,14 @@ function nodeRemoved(event, data) {
 		absPath : id
 	}
 
-	closeTreeNodeAtAbsolutePath(id); // FIXME: test
 
 	var jqxhr = $.post(context + fileDeleteUrl, params,
 			function(data, status, xhr) {
 				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
 		setMessage("file deleted:" + xhr.responseText);
-		data[0].id = xhr.responseText;
+		selectedPqth = xhr.responseText;
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	}).error(function(xhr, status, error) {
 		refreshTree();
 		// FIXME: update middle div to parent path
@@ -1238,7 +1238,33 @@ function deleteViaToolbarGivenPath(path) {
 				}, "html").success(function(returnedData, status, xhr) {
 			setMessage("file deleted:" + xhr.responseText);
 			$("#infoDiv").html("<h2>File Deleted</h2>");
-			refreshTree();
+			
+			/*
+			 * delete the node from the tree, select the parent node and update the display to the parent node
+			 */
+			splitPathAndPerformOperationAtGivenTreePath(path, null, null, function(treePath, tree, currentNode){
+				// get the parent node
+				var parent = $.jstree._reference(dataTree)._get_parent(currentNode); 
+				if (parent == null) {
+					refreshTree();
+					return false;
+				}
+				// remove node..
+				
+				$.jstree._reference(dataTree)._get_parent(currentNode); 
+				$.jstree._reference(dataTree).remove(currentNode); 
+				
+				
+				var parent = $.jstree._reference(dataTree).refresh(parent);
+				selectedPath = xhr.responseText;
+				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+				
+			});
+			
+			
+			
+			
+			//refreshTree();
 		}).error(function(xhr, status, error) {
 			refreshTree();
 			setMessage(xhr.responseText);
@@ -1413,7 +1439,7 @@ function deleteFilesBulkAction() {
 function selectTreePath(path, currentNode, currentIndex) {
 	
 	if (path == null) {
-		var val = $("#treePath").val();
+		var val = $("#searchTerm").val();
 		// alert("select tree path:" + val);
 		path = val.split("/");
 	}
@@ -1470,53 +1496,17 @@ function selectTreePath(path, currentNode, currentIndex) {
 		$.jstree._reference(dataTree).select_node(currentNode)
 	}
 	
-	
-	
-	
-	/*
-	$.each(path, function(index, value) {
-		if (index < lastIndex) {
-			// skip to the current part of the path
-		} else if (value > "") {
-			// if this node is open, process the children, otherwise open and do this again
-			if ($.jstree._reference(dataTree)
-						.is_open(currentNode)) {
-				// is open, process the kids
-				currentNode = getPathInNode($.jstree._reference(dataTree)
-						._get_children(currrentNode), value);
-				selectTreePath(path, index, currentNode);
-				return false;
-			} else {
-				// need to open the node and do this again
-				$.jstree._reference(dataTree).open_node(currentNode,
-						function(path, index, currentNode) {
-							selectTreePath(path, index, currentNode);
-						}, false);
-				return false;
-			}
-		}
-	});
-	*/
-}
-
-function findChildInNode(currentNode, targetPath) {
-	var foundChild = null;
-	var nodeText = null;
-	$.each(childNodes, function(index, value) {
-		var theChild = $.jstree._reference(dataTree)._get_node(value);
-		nodeText = $.jstree._reference(dataTree).get_text(theChild);
-		if (nodeText == targetPath) {
-			foundChild = theChild;
-			return;
-		}
-
-	});
-
-	return foundChild;
 
 }
 
 
+/**
+ * among the children in the given tree node, find the node who's title is
+ * the given target path
+ * @param childNodes
+ * @param targetPath
+ * @returns
+ */
 function getPathInNode(childNodes, targetPath) {
 	var foundChild = null;
 	var nodeText = null;
@@ -1534,6 +1524,95 @@ function getPathInNode(childNodes, targetPath) {
 
 }
 
+/**
+ * Given an iRODS absolute path in string form, find that path in the tree and perform the given operation on that path.  The
+ * passed in function wil be called with the params(path, tree, currentNode)
+ * @param path
+ * @param currentNode
+ * @param currentIndex
+ * @param operationToPerform
+ */
+function splitPathAndPerformOperationAtGivenTreePath(path, currentNode, currentIndex, operationToPerform) {
+	splitPath = path.split("/");
+	performOperationAtGivenTreePath(splitPath, currentNode, currentIndex, operationToPerform);
+}
+
+/**
+ * Given the tree path in the text box, call the given function, passing in the path array, tree and the current node as arugments to
+ * the function
+ * 
+ * @param path array of strings for each part of the path
+ * @param currentNode current tree node (especially if calling recursively, this will match the 'lastIndex' in the path
+ * @param lastIndex ponter to position in tree path array that is an absolute path to the curentNode
+ * @param operationToPerform a function(path, tree, currentNode) that will be called when at the end of the path
+ * @returns {Boolean}
+ */
+function performOperationAtGivenTreePath(path, currentNode, currentIndex, operationToPerform) {
+	
+	if (path == null) {
+		var val = $("#treePath").val();
+		// alert("select tree path:" + val);
+		path = val.split("/");
+	}
+	
+	if (currentIndex == null) {
+		currentIndex = 0;
+	}
+
+	// if called with no params, get the root node, open it, and process the children
+	if (currentNode == null) {
+		currentNode = $.jstree._reference(dataTree)
+		.get_container();
+		
+	} else if (currentNode == null) {
+		alert("error - call to open node, currentNode is null");
+		return false;
+	}
+	
+	var skip=false;
+	var end = false;
+	$.each(path, function(index, value) {
+		if (skip) {
+			return;
+		}
+		
+		if (index < currentIndex) {
+			return;
+		}
+		
+		 if (value > "") {
+			var loaded = $.jstree._reference(dataTree)._is_loaded(currentNode);
+			if (!loaded) {
+				skip = true;
+				$.jstree._reference(dataTree).open_node(currentNode,
+						function(path){performOperationAtGivenTreePath(path, currentNode, index, operationToPerform);}, false);
+				return;
+			}
+			
+			var children = $.jstree._reference(dataTree)
+			._get_children(currentNode);
+			currentNode = getPathInNode(children, value);
+			if (currentNode == null) {
+				alert("Path not found in tree");
+				return false;
+			} else {
+				if (index == path.length - 1) {
+					end = true;
+				}
+			}
+		}
+	});
+	
+	if (currentNode != null && end) {
+		operationToPerform(path, dataTree, currentNode);
+	}
+	
+
+}
+
+
+
+/*
 function closeTreeNodeAtAbsolutePath(absPath) {
 
 	if (absPath == null) {
@@ -1550,4 +1629,4 @@ function closeTreeNodeAtAbsolutePath(absPath) {
 	// var treeNode= $("#\\/test1\\/home\\/test1");
 	// alert("treeNode:" + treeNode);
 
-}
+} */

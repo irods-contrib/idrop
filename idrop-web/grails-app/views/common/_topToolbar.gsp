@@ -1,13 +1,5 @@
 <div id="topToolbar" style="height:100%;overflow:visible;margin-left:auto;margin-right:auto;">
 
-		<div id="testBar" class="fg-buttonset fg-buttonset-multi" style="float:left">
-			<label for="treePath" style="float:none;">Tree Path:</label> <input id="treePath" type="text"
-				name="treePath" />
-
-			<button type="button" id="selectTreePath"
-				class="ui-state-default ui-corner-all" value="search"
-				onclick="selectTreePath()")>Open and select</button>
-		</div>
 <ul id="topToolbarMenu" class="sf-menu">
 	<li id="menuRefresh"><a href="#refresh" onclick="refreshTree()"><g:message code="text.refresh"/></a></li>
 	<li id="menuView"><a href="#view"><g:message code="text.view"/></a>

@@ -177,7 +177,7 @@ class FileController {
 
 		targetFile.deleteWithForceOption()
 		log.info("file deleted")
-		render targetFile.getAbsolutePath()
+		render targetFile.getParent()
 	}
 
 	/**
