@@ -678,6 +678,9 @@ function initializeUploadDialogAjaxLoader() {
 						},
 						onComplete : function(event, files, index, xhr, handler) {
 							refreshTree();
+							$('#uploadDialog').dialog('close');
+							$('#uploadDialog').remove();
+							
 						},
 						onError : function(event, files, index, xhr, handler) {
 							$("#upload_message_area").html(

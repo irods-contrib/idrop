@@ -98,7 +98,7 @@ class IdropLiteController {
 
 		def jsonResult = ["appletUrl" : idropLite.appletUrl, "appletCode": idropLite.appletCode, "archive": idropLite.archive, "mode":idropLite.mode,
 					"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
-					"absolutePath":idropLite.absolutePath]
+					"absolutePath":idropLite.absolutePath, "key":key]
 
 		render jsonResult as JSON
 	}
