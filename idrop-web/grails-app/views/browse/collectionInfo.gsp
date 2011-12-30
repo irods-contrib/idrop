@@ -1,3 +1,5 @@
+<g:hiddenField id="infoAbsPath" name="absolutePath"
+					value="${collection.collectionName}" />
 <div id="infoMessageArea">
 		<!--  -->
 	</div>

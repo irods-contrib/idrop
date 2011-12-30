@@ -308,6 +308,10 @@ function nodeAdded(event, data) {
 			function(data, status, xhr) {
 				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 		setMessage("new folder created:" + xhr.responseText);
 		data[0].id = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(parent);
@@ -340,6 +344,10 @@ function nodeRemoved(event, data) {
 			function(data, status, xhr) {
 				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 		setMessage("file deleted:" + xhr.responseText);
 		selectedPqth = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
@@ -360,7 +368,8 @@ function nodeRemoved(event, data) {
 function nodeRenamed(event, data) {
 	// given the path, put in the node data
 	lcPrepareForCall();
-	var newName = $.trim(data[0].innerText);
+
+	var newName = $.trim(data[0].absPath);
 	var prevAbsPath = data.prevObject[0].id
 
 	var params = {
@@ -372,6 +381,10 @@ function nodeRenamed(event, data) {
 			function(data, status, xhr) {
 				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 		setMessage("file renamed to:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		data[0].id = xhr.responseText;
@@ -408,6 +421,10 @@ function moveFile(sourcePath, targetPath) {
 			function(data, status, xhr) {
 				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 		setMessage("file moved to:" + xhr.responseText);
 		selectedPath = targetPath;
 		refreshTree();
@@ -443,6 +460,10 @@ function copyFile(sourcePath, targetPath) {
 			function(data, status, xhr) {
 				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 		setMessage("file copied to:" + xhr.responseText);
 		refreshTree();
 		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
@@ -714,7 +735,8 @@ function aclUpdate(value, settings, userName) {
 	var jqxhr = $.post(context + aclAddUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(messageAreaSelector);
-			}, "html").error(function(xhr, status, error) {
+			}, "html")
+			.error(function(xhr, status, error) {
 		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
 	}).complete(
 			function() {
@@ -813,7 +835,10 @@ function submitAclDialog() {
 				lcClearDivAndDivClass(aclDialogMessageSelector);
 			}, "html").success(
 			function(data, status, xhr) {
-
+				var continueReq = checkForSessionTimeout(data, xhr);
+				if (!continueReq) {
+					return false;
+				}
 				var dataJSON = jQuery.parseJSON(data);
 				if (dataJSON.response.errorMessage != null) {
 
@@ -872,6 +897,10 @@ function reloadAclTable(absPath) {
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(aclMessageAreaSelector, xhr.responseText);
 	}).success(function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		$('#aclTableDiv').html(data);
 		buildAclTableInPlace();
 	});
@@ -946,7 +975,11 @@ function deleteAcl() {
 
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(aclMessageAreaSelector, xhr.responseText);
-	}).success(function(data) {
+	}).success(function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		reloadAclTable();
 		setMessageInArea(aclMessageAreaSelector, "Delete successful"); // FIXME:
 		// i18n
@@ -1043,8 +1076,12 @@ function showIdropLiteGivenPath(path) {
 
 			})
 			.success(
-					function(data) {
+					function(data, status, xhr) {
 
+						var continueReq = checkForSessionTimeout(data, xhr);
+						if (!continueReq) {
+							return false;
+						}
 						var dataJSON = jQuery.parseJSON(data);
 						var appletDiv = $("#idropLiteArea");
 						$(appletDiv)
@@ -1239,6 +1276,10 @@ function deleteViaToolbarGivenPath(path) {
 				function(data, status, xhr) {
 					lcPrepareForCall();
 				}, "html").success(function(returnedData, status, xhr) {
+					var continueReq = checkForSessionTimeout(returnedData, xhr);
+					if (!continueReq) {
+						return false;
+					}
 			setMessage("file deleted:" + xhr.responseText);
 			$("#infoDiv").html("<h2>File Deleted</h2>");
 			
@@ -1358,6 +1399,10 @@ function submitRenameDialog() {
 			function(data, status, xhr) {
 				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 		setMessage("file renamed to:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		closeRenameDialog();
@@ -1395,6 +1440,10 @@ function submitNewFolderDialog() {
 			function(data, status, xhr) {
 				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 		setMessage("file renamed to:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		closeNewFolderDialog();
@@ -1416,6 +1465,10 @@ function deleteFilesBulkAction() {
 	var formData = $("#browseDetailsForm").serializeArray();
 	var jqxhr = $.post(context + deleteBulkActionUrl, formData, "html")
 			.success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 				lcPrepareForCall();
 				refreshTree();
 				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);

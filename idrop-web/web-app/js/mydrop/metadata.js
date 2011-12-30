@@ -50,7 +50,11 @@ function metadataUpdate(currentAvu, newAvu, path) {
 		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
 		throw (xhr.responseText);
 	}).success(
-			function() {
+			function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 				setMessageInArea(metadataMessageAreaSelector,
 						"Metadata update successful"); // FIXME: i18n
 			});
@@ -125,6 +129,10 @@ function submitMetadataDialog() {
 		setMessageInArea(metadataDialogMessageAreaSelector, xhr.responseText);
 	}).success(
 			function(data, status, xhr) {
+				var continueReq = checkForSessionTimeout(data, xhr);
+				if (!continueReq) {
+					return false;
+				}
 				// on success (no exception), check for valid data or invalid
 				// data and update appropriately
 				var dataJSON = jQuery.parseJSON(data);
@@ -208,7 +216,11 @@ function deleteMetadata() {
 			function(data, status, xhr) {
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
-	}).success(function(data) {
+	}).success(function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		reloadMetadataDetailsTable();
 		setMessageInArea(metadataMessageAreaSelector, "Delete successful"); // FIXME:
 																			// i18n
@@ -250,7 +262,11 @@ function reloadMetadataDetailsTable() {
 				$('#metadataTableDiv').html(data);
 			}, "html").error(function(xhr, status, error) {
 		setMessageInArea(metadataMessageArea, xhr.responseText);
-	}).success(function() {
+	}).success(function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		buildMetadataTableInPlace();
 	});
 }
@@ -307,10 +323,10 @@ function buildMetadataTableInPlace() {
 		try {
 			metadataUpdate(avu, newAvu, selectedPath);
 		} catch (e) {
-			console.log("error, returning:" + e);
+			//console.log("error, returning:" + e);
 			return origData;
 		}
-		console.log("success, returning:" + content);
+		//console.log("success, returning:" + content);
 		return content;
 
 	}, {

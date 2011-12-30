@@ -45,9 +45,15 @@ function addToCartGivenPath(absPath) {
 
 	var jqxhr = $.post(context + addToCartUrl, params, "html").success(
 			function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 				setMessage("file added to cart:" + xhr.responseText);
 				refreshCartFiles();
-			}).error(function(xhr, status, error) {
+			})
+			
+			.error(function(xhr, status, error) {
 		setMessage(xhr.responseText);
 	});
 }
@@ -75,6 +81,10 @@ function refreshCartFiles() {
 function clearCart() {
 	var jqxhr = $.post(context + clearCartUrl, null, "html").success(
 			function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
 				refreshCartFiles();
 			}).error(function(xhr, status, error) {
 		setMessage(xhr.responseText);
@@ -94,6 +104,10 @@ function deleteFromCart() {
 		var formData = $("#cartTableForm").serializeArray();
 		var jqxhr = $.post(context + deleteCartUrl, formData, "html").success(
 				function(returnedData, status, xhr) {
+					var continueReq = checkForSessionTimeout(returnedData, xhr);
+					if (!continueReq) {
+						return false;
+					}
 					refreshCartFiles();
 				}).error(function(xhr, status, error) {
 			setMessage(xhr.responseText);
@@ -112,6 +126,10 @@ function addToCartBulkAction() {
 		lcPrepareForCall();
 		var jqxhr = $.post(context + addToCartBulkActionUrl, formData, "html").success(
 				function(returnedData, status, xhr) {
+					var continueReq = checkForSessionTimeout(returnedData, xhr);
+					if (!continueReq) {
+						return false;
+					}
 					setMessage("Selected files added to cart");  // FIXME: i18n
 					refreshCartFiles();
 				}).error(function(xhr, status, error) {
@@ -153,6 +171,10 @@ function checkOut() {
 	lcShowBusyIconInDiv(idropLiteShoppingCartSelector);
 	var jqxhr = $
 			.post(context + checkOutCartUrl, null, function(data, status, xhr) {
+				var continueReq = checkForSessionTimeout(data, xhr);
+				if (!continueReq) {
+					return false;
+				}
 				lcClearDivAndDivClass(idropLiteShoppingCartSelector);
 			}, "html")
 			.error(function(xhr, status, error) {
