@@ -348,7 +348,7 @@ function nodeRemoved(event, data) {
 				if (!continueReq) {
 					return false;
 				}
-		setMessage("file deleted:" + xhr.responseText);
+		setMessage("file deleted:" + id);
 		selectedPqth = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	}).error(function(xhr, status, error) {

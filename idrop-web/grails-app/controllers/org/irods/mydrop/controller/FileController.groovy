@@ -325,7 +325,7 @@ class FileController {
 	 * Copy a file in iRODS
 	 */
 	def copyFile = {
-		log.info("move file")
+		log.info("copy file")
 		String sourceAbsPath = params['sourceAbsPath']
 		String targetAbsPath = params['targetAbsPath']
 
@@ -342,7 +342,7 @@ class FileController {
 		}
 
 		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-		log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
+		log.info("copy ${sourceAbsPath} to ${targetAbsPath}")
 		dataTransferOperations.copy(sourceAbsPath,"", targetAbsPath,null, false, null) //TODO: resource here?
 		render targetAbsPath
 

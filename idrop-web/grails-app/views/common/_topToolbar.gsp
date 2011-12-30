@@ -24,6 +24,7 @@ $(function() {
  */
 function setDefaultViewInfo() {
 	browseOptionVal = "info";
+	$("input[name=viewGroup]").filter("[value='info']").prop("checked",true);
 }
 
 /**
@@ -31,6 +32,8 @@ function setDefaultViewInfo() {
  */
 function setDefaultViewSharing() {
 	browseOptionVal = "sharing";
+	$("input[name=viewGroup]").filter("[value='Sharing']").prop("checked",true);
+	
 }
 
 /**
@@ -38,6 +41,7 @@ function setDefaultViewSharing() {
  */
 function setDefaultViewBrowse() {
 	browseOptionVal = "browse";
+	$("input[name=viewGroup]").filter("[value='browse']").prop("checked",true);
 }
 
 /**
@@ -45,6 +49,8 @@ function setDefaultViewBrowse() {
  */
 function setDefaultViewMetadata() {
 	browseOptionVal = "metadata";
+	$("input[name=viewGroup]").filter("[value='Metadata']").prop("checked",true);
+	
 }
 
 /**
@@ -52,12 +58,14 @@ function setDefaultViewMetadata() {
  */
 function setDefaultViewGallery() {
 	browseOptionVal = "gallery";
+	$("input[name=viewGroup]").filter("[value='Gallery']").prop("checked",true);
 }
 
 /**
  * browse view selected
  */
 function browseView() {
+	setDefaultViewBrowse();
 	showBrowseView(selectedPath);
 
 }
@@ -66,6 +74,7 @@ function browseView() {
  * Show the info view
  */
 function infoView() {
+	setDefaultViewInfo();
 	showInfoView(selectedPath);
 }
 
@@ -73,6 +82,7 @@ function infoView() {
  * Show the sharing (ACL) view
  */
 function sharingView() {
+	setDefaultViewSharing();
 	showSharingView(selectedPath);
 }
 
@@ -80,6 +90,7 @@ function sharingView() {
  * Show the metadata (AVU) view
  */
 function metadataView() {
+	setDefaultViewMetadata();
 	showMetadataView(selectedPath);
 }
 
@@ -87,6 +98,7 @@ function metadataView() {
  * Show the gallery (photo) view
  */
 function galleryView() {
+	setDefaultViewGallery();
 	showGalleryView(selectedPath);
 }
 
