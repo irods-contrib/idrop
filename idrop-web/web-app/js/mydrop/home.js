@@ -143,7 +143,7 @@ function browserFirstViewRetrieved(data) {
 	});
 
 	$("#dataTreeDiv").bind("rename.jstree", function(e, data) {
-		nodeRenamed(e, data.rslt.obj);
+		nodeRenamed(e, data);
 	});
 
 	$("#dataTreeDiv").bind("move_node.jstree", function(e, data) {
@@ -316,9 +316,9 @@ function nodeAdded(event, data) {
 		data[0].id = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(parent);
 	}).error(function(xhr, status, error) {
+		alert(xhr.responseText);
 		refreshTree();
-		updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
-		setMessage(xhr.responseText);
+		//updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
 	});
 }
 
@@ -352,9 +352,8 @@ function nodeRemoved(event, data) {
 		selectedPqth = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	}).error(function(xhr, status, error) {
+		alert(xhr.responseText);
 		refreshTree();
-		// FIXME: update middle div to parent path
-		setMessage(xhr.responseText);
 	});
 }
 
@@ -368,9 +367,10 @@ function nodeRemoved(event, data) {
 function nodeRenamed(event, data) {
 	// given the path, put in the node data
 	lcPrepareForCall();
-
-	var newName = $.trim(data[0].absPath);
-	var prevAbsPath = data.prevObject[0].id
+	
+	
+	var newName = data.rslt.new_name;
+	var prevAbsPath = data.rslt.obj[0].id;
 
 	var params = {
 		prevAbsPath : prevAbsPath,
@@ -387,11 +387,11 @@ function nodeRenamed(event, data) {
 				}
 		setMessage("file renamed to:" + xhr.responseText);
 		selectedPath = xhr.responseText;
-		data[0].id = xhr.responseText;
+		data.rslt.obj[0].id = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	}).error(function(xhr, status, error) {
+		alert(xhr.responseText);
 		refreshTree();
-		setMessage(xhr.responseText);
 	});
 
 }
@@ -430,8 +430,8 @@ function moveFile(sourcePath, targetPath) {
 		refreshTree();
 		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 	}).error(function(xhr, status, error) {
+		alert(xhr.responseText);
 		refreshTree();
-		setMessage(xhr.responseText);
 	});
 }
 
@@ -468,8 +468,8 @@ function copyFile(sourcePath, targetPath) {
 		refreshTree();
 		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 	}).error(function(xhr, status, error) {
+		alert(xhr.responseText);
 		refreshTree();
-		setMessage(xhr.responseText);
 	});
 }
 
