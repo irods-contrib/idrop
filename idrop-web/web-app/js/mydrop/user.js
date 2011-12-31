@@ -16,7 +16,6 @@ function searchUsers() {
 
 function requestUserPopup(event) {
 	var user = event.currentTarget.id;
-	lcPrepareForCall();
 
 	lcShowBusyIconInDiv("#userPopupDialogArea");
 	var url = "/user/userInfoDialog";
@@ -34,7 +33,6 @@ function requestUserPopup(event) {
 * @param absPath absolute path to the file or collection to which the share will pertain
  */
 function showBulkShareDialog(absPath) {
-	lcPrepareForCall();
 
 	lcShowBusyIconInDiv("#infoDialogArea");
 	var url = "/sharing/userBulkSharingDialog";

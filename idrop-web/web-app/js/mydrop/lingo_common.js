@@ -17,13 +17,6 @@ var host = "";
 var port = "";
 var messageClass = "message";
 
-/**
- * Prepare for a call (usually an ajax call) doing things like clearing the
- * message area
- */
-function lcPrepareForCall() {
-	lcClearMessage();
-}
 
 function checkForSessionTimeout(data, xhr) {
 	var headers = xhr.getAllResponseHeaders();
@@ -53,27 +46,27 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
 	}
 
 	if (resultHtml.indexOf(resourceNotFound) > -1) {
-		setMessageInArea(messageAreaId,
+		setMessage(
 				"Session expired or resource was not found");
 		return false;
 	}
 
 	if (resultHtml.indexOf(uncaughtException) > -1) {
 
-		setMessageInArea(messageAreaId, "An exception has occurred");
+		setErrorMessage("An exception has occurred");
 		return false;
 	}
 
 	if (resultHtml.indexOf(dataAccessFailure) > -1) {
 
-		setMessageInArea(messageAreaId,
+		setErrorMessage(
 				"Unable to access, due to expired login or no authorization");
 		return false;
 	}
 
 	if (resultHtml.indexOf(expiredSessionVal) > -1) {
 
-		setMessageInArea(messageAreaId,
+		setErrorMessage(
 				"Unable to access, due to expired login or no authorization");
 		return false;
 	}
@@ -83,7 +76,7 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
 		exceptionStart = resultHtml.indexOf("_exception") + 12;
 		exceptionEnd = resultHtml.indexOf("<", exceptionStart);
 		errorFromApp = resultHtml.substring(exceptionStart, exceptionEnd);
-		setMessageInArea(messageId, errorFromApp);
+		setErrorMessage(errorFromApp);
 		return false;
 	}
 
@@ -95,42 +88,63 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
  * 
  * message: the text message to display
  */
-function setMessageInArea(messageAreaId, message) {
+/*function setMessageInArea(messageAreaId, message) {
 	try {
 	$(messageAreaId).html(message);
 	$(messageAreaId).addClass(messageClass);
 	} catch(e) {
 		
 	}
+}*/
 
-}
+
 /**
- * Set the default message area message to a given string. The target will be a
- * message area denoted on the web page by the javascriptMessageArea div id.
+ * Set the default message area message to a given string. This will be a normal, non-sticky 
+ * gritter message
  * 
  * message: the text message to display
  */
 function setMessage(message) {
-	try {
-	if (message == null || message.length == 0) {
-		$(javascriptMessageArea).html("");
-		$(javascriptMessageArea).removeClass();
-	} else {
-		$(javascriptMessageArea).html(message);
-		$(javascriptMessageArea).addClass(messageClass);
-	}
-} catch(e) {
+	$.gritter.add({
+		// (string | mandatory) the heading of the notification
+		title: 'iDrop Message',
+		// (string | mandatory) the text inside the notification
+		text: message,
+		// (string | optional) the image to display on the left
+		image: 'http://a0.twimg.com/profile_images/59268975/jquery_avatar_bigger.png',
+		// (bool | optional) if you want it to fade out on its own or just sit there
+		sticky: false,
+		// (int | optional) the time you want it to be alive for before fading out
+		time: '3000'
+	});
+
+}
+
+/**
+ * Set an error message, which is treated as sticky
+ * @param message
+ */
+function setErrorMessage(message) {
+	$.gritter.add({
+		// (string | mandatory) the heading of the notification
+		title: 'iDrop Error Message',
+		// (string | mandatory) the text inside the notification
+		text: message,
+		// (string | optional) the image to display on the left
+		image: 'http://a0.twimg.com/profile_images/59268975/jquery_avatar_bigger.png',
+		// (bool | optional) if you want it to fade out on its own or just sit there
+		sticky: true
 		
-	}
+	});
 
 }
 
 /**
  * Clear global javascript message area
  */
-function lcClearMessage() {
+/*function lcClearMessage() {
 	setMessage();
-}
+}*/
 
 /**
  * Given the result of an AJAX call, inspect the returned data for various types
@@ -138,28 +152,27 @@ function lcClearMessage() {
  */
 function checkAjaxResultForError(resultHtml) {
 
-	setMessage("");
-
+	
 	if (resultHtml.indexOf(resourceNotFound) > -1) {
-		setMessage("Session expired or resource was not found");
+		setErrorMessage("Session expired or resource was not found");
 		throw ("resourceNotFound");
 	}
 
 	if (resultHtml.indexOf(uncaughtException) > -1) {
 
-		setMessage("An exception has occurred");
+		setErrorMessage("An exception has occurred");
 		throw ("uncaughtException");
 	}
 
 	if (resultHtml.indexOf(dataAccessFailure) > -1) {
 
-		setMessage("Unable to access, due to expired login or no authorization");
+		setErrorMessage("Unable to access, due to expired login or no authorization");
 		throw ("dataAccessError");
 	}
 
 	if (resultHtml.indexOf(expiredSessionVal) > -1) {
 
-		setMessage("Unable to access, due to expired login or no authorization");
+		setErrorMessage("Unable to access, due to expired login or no authorization");
 		throw ("dataAccessError");
 	}
 
@@ -168,11 +181,11 @@ function checkAjaxResultForError(resultHtml) {
 		exceptionStart = resultHtml.indexOf("_exception") + 12;
 		exceptionEnd = resultHtml.indexOf("<", exceptionStart);
 		errorFromApp = resultHtml.substring(exceptionStart, exceptionEnd);
-		setMessage(errorFromApp);
+		setErrorMessage(errorFromApp);
 		throw ("appException");
 	}
 
-	setMessage("An error occurred processing your request");
+	setErrorMessage("An error occurred processing your request");
 }
 
 /**
@@ -202,7 +215,6 @@ function checkAjaxResultForError(resultHtml) {
 function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
 		detailsFunction, detailsIconSelector) {
 
-	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 	}
@@ -225,7 +237,7 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
 		// FIXME: console traces are not good for IE - mcc
 		// console.trace();
 		$(tableDiv).html(""); // FIXME: some sort of error icon?
-		setMessage(err);
+		setErrorMessage(err);
 		// console.log("javascript error:" + err);
 	}
 
@@ -337,7 +349,6 @@ function lcCloseDetails(minMaxIcon, rowActionIsOn, dataTable) {
 function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 		postLoadFunction) {
 
-	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 	}
@@ -355,19 +366,15 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 			}
 
-		}, "html").error(function() {
-			// TODO: default message put into area
+		}, "html").error(function(xhr, status, error) {
 			resultDiv.html("");
-			setMessage("unable to load data");
-			// alert("error loading");
+			setErrorMessage(xhr.responseText);
 		});
 
 	} catch (err) {
-		// FIXME: console traces are not good for IE - mcc
-		// console.trace();
+		
 		$(resultDiv).html(""); // FIXME: some sort of error icon?
-		setMessage(err);
-		// console.log("javascript error:" + err);
+		setErrorMessage(err);
 	}
 
 }
@@ -378,7 +385,6 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 		postLoadFunction) {
 
-	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 	}
@@ -395,15 +401,16 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 			if (continueReq) {
 				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 			}
-		}, "html").error(function() {
-			setMessage("Error in request");
+		}, "html").error(function(xhr, status, error) {
+			resultDiv.html("");
+			setErrorMessage(xhr.responseText);
 		});
 
 	} catch (err) {
 		// FIXME: console traces are not good for IE - mcc
 		// console.trace();
 		$(resultDiv).html(""); // FIXME: some sort of error icon?
-		setMessage(err);
+		setErrorMessage(err);
 		// console.log("javascript error:" + err);
 	}
 
@@ -416,7 +423,6 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 		divForLoadingGif, callbackFunction) {
 
-	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 		return;
@@ -441,16 +447,15 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 				
 				}
 			}
-		}, "html").error(function() {
+		}, "html").error(function(xhr, status, error) {
 			
 			$(divForLoadingGif).html("");
-			setMessage("unable to load data");
-			// alert("error loading");
+			setErrorMessage(xhr.responseText);
 		});
 
 	} catch (err) {
 		$(divForLoadingGif).html(""); // FIXME: some sort of error icon?
-		setMessage(err);
+		setErrorMessage(err);
 		// console.log("javascript error:" + err);
 	}
 
@@ -487,17 +492,15 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 				
 				}
 			}
-		}, "html").error(function() {
+		}, "html").error(function(xhr, status, error) {
 			
 			$(divForLoadingGif).html("");
-			setMessage("unable to load data");
-			// alert("error loading");
+			setErrorMessage(xhr.responseText);
 		});
 
 	} catch (err) {
-		$(divForLoadingGif).html(""); // FIXME: some sort of error icon?
-		setMessage(err);
-		// console.log("javascript error:" + err);
+		$(divForLoadingGif).html(""); 
+		setErrorMessage(err);
 	}
 
 }
@@ -522,7 +525,6 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 		divForAjaxError, divForLoadingGif, callbackFunction) {
 
-	lcPrepareForCall();
 	if (postUrl.length == 0) {
 		throw ("no post url for call");
 	}
@@ -545,26 +547,17 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 					$(divForLoadingGif).html(data);
 				}
 			}
-		}, "html").error(function() {
+		}, "html").error(function(xhr, status, error) {
 			if (divForLoadingGif != null) {
 				$(divForLoadingGif).html("");
 			}
-			if (divForAjaxError != null) {
-				// alert("error in callback sending back for divForAjaxError");
-				setMessageInArea(divForAjaxError, "An error occurred");
-			} else {
-				setMessage("An error occurred");
-			}
-
-			
+			setErrorMessage(xhr.responseText);
 
 		});
 
 	} catch (err) {
-		alert("error caught:" + err);
 		$(divForLoadingGif).html(""); // FIXME: some sort of error icon?
-		setMessage(err);
-		// console.log("javascript error:" + err);
+		setErrorMessage(err);
 	}
 
 }
@@ -576,7 +569,6 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
 		divForAjaxError, callbackFunction) {
 
-	lcPrepareForCall();
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 	}
@@ -588,21 +580,15 @@ function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
 			if (continueReq) {
 				callbackFunction(data);
 			}
-		}, "json").error(function() {
-			if (divForAjaxError != null) {
-				setMessageInArea(divForAjaxError, "An error occurred");
-			} else {
-				setMessage("An error occurred");
-			}
-
+		}, "json").error(function(xhr, status, error) {
+			setErrorMessage(xhr.responseText);
 			if (divForLoadingGif != null) {
 				$(divForLoadingGif).html("");
 			}
 
 		});
 	} catch (err) {
-		setMessage(err);
-		// console.log("javascript error:" + err);
+		setErrorMessage(err);
 	}
 
 }

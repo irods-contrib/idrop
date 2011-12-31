@@ -77,7 +77,6 @@ function browserFirstViewRetrieved(data) {
 								+ "/browse/ajaxDirectoryListingUnderParent",
 						"cache" : false,
 						"data" : function(n) {
-							// lcClearMessage();
 							dir = n.attr("id");
 							return "dir=" + encodeURIComponent(dir);
 						},
@@ -85,7 +84,7 @@ function browserFirstViewRetrieved(data) {
 							if (n.statusText == "success") {
 								// ok
 							} else {
-								setMessage(n.statusText);
+								setErrorMessage(n.statusText);
 							}
 						}
 					}
@@ -281,7 +280,6 @@ function nodeLoadedCallback() {
  */
 function nodeSelected(event, data) {
 	// given the path, put in the node data
-	lcPrepareForCall();
 	var id = data[0].id;
 	selectedPath = id;
 	selectedNode = data[0];
@@ -306,19 +304,18 @@ function nodeAdded(event, data) {
 
 	var jqxhr = $.post(context + folderAddUrl, params,
 			function(data, status, xhr) {
-				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		setMessage("new folder created:" + xhr.responseText);
 		data[0].id = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(parent);
 	}).error(function(xhr, status, error) {
-		alert(xhr.responseText);
+		setErrorMessage(xhr.responseText);
 		refreshTree();
-		//updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
+		// updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
 	});
 }
 
@@ -332,27 +329,24 @@ function nodeAdded(event, data) {
  */
 function nodeRemoved(event, data) {
 	// given the path, put in the node data
-	lcPrepareForCall();
 	var id = data[0].id;
 
 	var params = {
 		absPath : id
 	}
 
-
 	var jqxhr = $.post(context + fileDeleteUrl, params,
 			function(data, status, xhr) {
-				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		setMessage("file deleted:" + id);
 		selectedPqth = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	}).error(function(xhr, status, error) {
-		alert(xhr.responseText);
+		setErrorMessage(xhr.responseText);
 		refreshTree();
 	});
 }
@@ -366,9 +360,7 @@ function nodeRemoved(event, data) {
  */
 function nodeRenamed(event, data) {
 	// given the path, put in the node data
-	lcPrepareForCall();
-	
-	
+
 	var newName = data.rslt.new_name;
 	var prevAbsPath = data.rslt.obj[0].id;
 
@@ -379,18 +371,17 @@ function nodeRenamed(event, data) {
 
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
-				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		setMessage("file renamed to:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		data.rslt.obj[0].id = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	}).error(function(xhr, status, error) {
-		alert(xhr.responseText);
+		setErrorMessage(xhr.responseText);
 		refreshTree();
 	});
 
@@ -406,11 +397,9 @@ function moveFile(sourcePath, targetPath) {
 
 	if (sourcePath == null || targetPath == null) {
 		alert("cannot move, source and target path must be specified"); // FIXME:
-																		// i18n
+		// i18n
 		return;
 	}
-
-	lcPrepareForCall();
 
 	var params = {
 		sourceAbsPath : sourcePath,
@@ -419,18 +408,17 @@ function moveFile(sourcePath, targetPath) {
 
 	var jqxhr = $.post(context + fileMoveUrl, params,
 			function(data, status, xhr) {
-				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		setMessage("file moved to:" + xhr.responseText);
 		selectedPath = targetPath;
 		refreshTree();
 		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 	}).error(function(xhr, status, error) {
-		alert(xhr.responseText);
+		setErrorMessage(xhr.responseText);
 		refreshTree();
 	});
 }
@@ -445,11 +433,9 @@ function copyFile(sourcePath, targetPath) {
 
 	if (sourcePath == null || targetPath == null) {
 		alert("cannot copy, source and target path must be specified"); // FIXME:
-																		// i18n
+		// i18n
 		return;
 	}
-
-	lcPrepareForCall();
 
 	var params = {
 		sourceAbsPath : sourcePath,
@@ -458,17 +444,16 @@ function copyFile(sourcePath, targetPath) {
 
 	var jqxhr = $.post(context + fileCopyUrl, params,
 			function(data, status, xhr) {
-				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		setMessage("file copied to:" + xhr.responseText);
 		refreshTree();
 		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 	}).error(function(xhr, status, error) {
-		alert(xhr.responseText);
+		setErrorMessage(xhr.responseText);
 		refreshTree();
 	});
 }
@@ -479,7 +464,6 @@ function copyFile(sourcePath, targetPath) {
  * the right hand pane
  */
 function setBrowseMode() {
-	lcPrepareForCall();
 	browseOptionVal = $("#browseDisplayOption").val();
 	updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 }
@@ -490,8 +474,6 @@ function setBrowseMode() {
  * 'browseOption' that is set in the drop-down above the browse area.
  */
 function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
-
-	// lcPrepareForCall();
 
 	if (absPath == null) {
 		return;
@@ -626,7 +608,7 @@ function showBrowseDetailsUploadDialog() {
  */
 function showUploadDialogUsingPath(path) {
 	if (path == null) {
-		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
+		setErrorMessage("No path was selected, use the tree to select an iRODS collection to upload the file to");
 		return;
 	}
 
@@ -647,8 +629,6 @@ function showUploadDialogUsingPath(path) {
  * @param data
  */
 function fillInUploadDialog(data) {
-
-	lcPrepareForCall();
 
 	if (data == null) {
 		return;
@@ -673,7 +653,6 @@ function fillInUploadDialog(data) {
  * Create the upload dialog for web (http) uploaded.
  */
 function initializeUploadDialogAjaxLoader() {
-	lcPrepareForCall();
 
 	if (fileUploadUI != null) {
 		$("#fileUploadForm").remove;
@@ -698,15 +677,14 @@ function initializeUploadDialogAjaxLoader() {
 							return $('<tr><td>' + file.name + '<\/td><\/tr>');
 						},
 						onComplete : function(event, files, index, xhr, handler) {
+							setMessage("Upload complete");
 							refreshTree();
 							$('#uploadDialog').dialog('close');
 							$('#uploadDialog').remove();
-							
+
 						},
 						onError : function(event, files, index, xhr, handler) {
-							$("#upload_message_area").html(
-									"an error occurred:" + xhr);
-							$("#upload_message_area").addClass("message");
+							setErrorMessage(xhr.responseText);
 						}
 					});
 
@@ -717,8 +695,6 @@ function initializeUploadDialogAjaxLoader() {
  */
 function aclUpdate(value, settings, userName) {
 
-	lcPrepareForCall();
-	lcClearDivAndDivClass(aclMessageAreaSelector);
 
 	if (selectedPath == null) {
 		throw "no collection or data object selected";
@@ -735,13 +711,11 @@ function aclUpdate(value, settings, userName) {
 	var jqxhr = $.post(context + aclAddUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(messageAreaSelector);
-			}, "html")
-			.error(function(xhr, status, error) {
-		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
+			}, "html").error(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
 	}).complete(
 			function() {
-				setMessageInArea(messageAreaSelector,
-						"File sharing update successful");
+				setMessage("File sharing update successful");
 			});
 
 	return value;
@@ -754,12 +728,9 @@ function aclUpdate(value, settings, userName) {
 function prepareAclDialog(isNew) {
 
 	if (selectedPath == null) {
-		alert("No path is selected, Share cannot be set");
+		setErrorMessage("No path is selected, Share cannot be set");
 		return;
 	}
-
-	lcPrepareForCall();
-	lcClearDivAndDivClass(aclMessageAreaSelector);
 
 	if (isNew == null) {
 		isNew = true;
@@ -785,8 +756,6 @@ function prepareAclDialog(isNew) {
  */
 function showAclDialog(data) {
 
-	lcPrepareForCall();
-	lcClearDivAndDivClass(aclMessageAreaSelector);
 	$("#aclDialogArea").html(data).fadeIn('slow');
 	var mySource = context + "/sharing/listUsersForAutocomplete";
 	$("#userName").autocomplete({
@@ -801,17 +770,15 @@ function showAclDialog(data) {
  */
 function submitAclDialog() {
 
-	lcClearDivAndDivClass(aclMessageAreaSelector);
-
 	var userName = $('[name=userName]').val();
 	if (userName == null || userName == "") {
-		setMessageInArea(aclDialogMessageSelector,
+		setErrorMessage(
 				"Please select a user to share data with");
 		return false;
 	}
 	var permissionVal = $('[name=acl]').val();
 	if (permissionVal == null || permissionVal == "" || permissionVal == "NONE") {
-		setMessageInArea(aclDialogMessageSelector,
+		setErrorMessage(
 				"Please select a permission value in the drop-down");
 		return false;
 	}
@@ -842,18 +809,18 @@ function submitAclDialog() {
 				var dataJSON = jQuery.parseJSON(data);
 				if (dataJSON.response.errorMessage != null) {
 
-					setMessageInArea(aclMessageAreaSelector,
+					setErrorMessage(
 							dataJSON.response.errorMessage);
 				} else {
 					reloadAclTable();
 					closeAclAddDialog();
-					setMessageInArea(aclMessageAreaSelector,
+					setMessage(
 							"Sharing permission saved successfully"); // FIXME:
 					// i18n
 				}
 
 			}).error(function(xhr, status, error) {
-		setMessageInArea(aclDialogMessageSelector, xhr.responseText);
+		setErrorMessage(xhr.responseText);
 	});
 }
 
@@ -895,7 +862,7 @@ function reloadAclTable(absPath) {
 			function(data, status, xhr) {
 
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea(aclMessageAreaSelector, xhr.responseText);
+		setErrorMessage(xhr.responseText);
 	}).success(function(data, status, xhr) {
 		var continueReq = checkForSessionTimeout(data, xhr);
 		if (!continueReq) {
@@ -937,7 +904,6 @@ function buildAclTableInPlace() {
  * @param permission
  */
 function addRowToAclDetailsTable(userName, permission) {
-	alert("adding row");
 	var idxs = $("#aclDetailsTable")
 			.dataTable()
 			.fnAddData(
@@ -946,7 +912,6 @@ function addRowToAclDetailsTable(userName, permission) {
 							userName, permission ], true);
 	var newNode = $("#aclDetailsTable").dataTable().fnGetNodes()[idxs[0]];
 	$(newNode).attr("id", userName);
-	alert("new node=" + newNode);
 }
 
 /**
@@ -955,10 +920,8 @@ function addRowToAclDetailsTable(userName, permission) {
  */
 function deleteAcl() {
 
-	lcClearDivAndDivClass(aclMessageAreaSelector);
-
 	if (!confirm('Are you sure you want to delete?')) {
-		setMessageInArea(aclMessageAreaSelector, "Delete cancelled"); // FIXME:
+		setMessage("Delete cancelled"); // FIXME:
 		// i18n
 		return;
 	}
@@ -974,14 +937,14 @@ function deleteAcl() {
 			function(data, status, xhr) {
 
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea(aclMessageAreaSelector, xhr.responseText);
+		setErrorMessage(xhr.responseText);
 	}).success(function(data, status, xhr) {
 		var continueReq = checkForSessionTimeout(data, xhr);
 		if (!continueReq) {
 			return false;
 		}
 		reloadAclTable();
-		setMessageInArea(aclMessageAreaSelector, "Delete successful"); // FIXME:
+		setMessage("Delete successful"); // FIXME:
 		// i18n
 	});
 }
@@ -1072,7 +1035,7 @@ function showIdropLiteGivenPath(path) {
 			}, "html")
 			.error(function(xhr, status, error) {
 
-				setMessageInArea(idropLiteSelector, xhr.responseText);
+				setErrorMessage(xhr.responseText);
 
 			})
 			.success(
@@ -1145,7 +1108,7 @@ function showIdropLiteGivenPath(path) {
 						$("#idropLiteArea").removeAttr('style');
 
 					}).error(function(xhr, status, error) {
-				setMessageInArea(idropLiteSelector, xhr.responseText);
+				setErrorMessage(xhr.responseText);
 			});
 
 }
@@ -1210,12 +1173,10 @@ function renameViaBrowseDetailsToolbar() {
 function renameViaToolbarGivenPath(path) {
 
 	if (path == null) {
-		alert("No path was selected, use the tree to select an iRODS collection or file to rename"); // FIXME:
+		setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to rename"); // FIXME:
 		// i18n
 		return;
 	}
-
-	lcPrepareForCall();
 
 	lcShowBusyIconInDiv("#infoDialogArea");
 	var url = "/browse/prepareRenameDialog";
@@ -1258,7 +1219,7 @@ function deleteViaBrowseDetailsToolbar() {
 function deleteViaToolbarGivenPath(path) {
 
 	if (path == null) {
-		alert("No path was selected, use the tree to select an iRODS collection or file to delete"); // FIXME:
+		setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to delete"); // FIXME:
 		// i18n
 		return;
 	}
@@ -1267,52 +1228,61 @@ function deleteViaToolbarGivenPath(path) {
 
 	if (answer) {
 
-		lcPrepareForCall();
-
 		var params = {
 			absPath : path
 		}
-		var jqxhr = $.post(context + fileDeleteUrl, params,
-				function(data, status, xhr) {
-					lcPrepareForCall();
-				}, "html").success(function(returnedData, status, xhr) {
-					var continueReq = checkForSessionTimeout(returnedData, xhr);
-					if (!continueReq) {
-						return false;
-					}
-			setMessage("file deleted:" + xhr.responseText);
-			$("#infoDiv").html("<h2>File Deleted</h2>");
-			
-			/*
-			 * delete the node from the tree, select the parent node and update the display to the parent node
-			 */
-			splitPathAndPerformOperationAtGivenTreePath(path, null, null, function(treePath, tree, currentNode){
-				// get the parent node
-				var parent = $.jstree._reference(dataTree)._get_parent(currentNode); 
-				if (parent == null) {
+		var jqxhr = $
+				.post(context + fileDeleteUrl, params,
+						function(data, status, xhr) {
+						}, "html")
+				.success(
+						function(returnedData, status, xhr) {
+							var continueReq = checkForSessionTimeout(
+									returnedData, xhr);
+							if (!continueReq) {
+								return false;
+							}
+							
+							setMessage("file deleted:" + xhr.responseText);
+							
+							
+							$("#infoDiv").html("<h2>File Deleted</h2>");
+
+							/*
+							 * delete the node from the tree, select the parent
+							 * node and update the display to the parent node
+							 */
+							splitPathAndPerformOperationAtGivenTreePath(
+									path,
+									null,
+									null,
+									function(treePath, tree, currentNode) {
+										// get the parent node
+										var parent = $.jstree._reference(
+												dataTree)._get_parent(
+												currentNode);
+										if (parent == null) {
+											refreshTree();
+											return false;
+										}
+										// remove node..
+
+										$.jstree._reference(dataTree)
+												._get_parent(currentNode);
+										$.jstree._reference(dataTree).remove(
+												currentNode);
+
+										var parent = $.jstree._reference(
+												dataTree).refresh(parent);
+										selectedPath = xhr.responseText;
+										updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+
+									});
+
+						}).error(function(xhr, status, error) {
 					refreshTree();
-					return false;
-				}
-				// remove node..
-				
-				$.jstree._reference(dataTree)._get_parent(currentNode); 
-				$.jstree._reference(dataTree).remove(currentNode); 
-				
-				
-				var parent = $.jstree._reference(dataTree).refresh(parent);
-				selectedPath = xhr.responseText;
-				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-				
-			});
-			
-			
-			
-			
-			//refreshTree();
-		}).error(function(xhr, status, error) {
-			refreshTree();
-			setMessage(xhr.responseText);
-		});
+					setErrorMessage(xhr.responseText);
+				});
 	}
 
 }
@@ -1329,7 +1299,6 @@ function newFolderViaToolbar() {
  * new folder was selected from the browse details toolbar
  */
 function newFolderViaBrowseDetailsToolbar() {
-	// var infoAbsPath = $("#browseDetailsAbsPath").val();
 	newFolderViaToolbarGivenPath(selectedPath);
 }
 
@@ -1345,8 +1314,6 @@ function newFolderViaToolbarGivenPath(path) {
 		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
 		return;
 	}
-
-	lcPrepareForCall();
 
 	lcShowBusyIconInDiv("#infoDialogArea");
 	var url = "/browse/prepareNewFolderDialog";
@@ -1386,7 +1353,7 @@ function submitRenameDialog() {
 	var newName = $("#fileName").val();
 	// name must be entered
 	if (newName == null || newName.length == 0) {
-		setMessageInArea("#renameDialogMessageArea", "Please enter a new name");
+		setMessage("Please enter a new name");
 		return;
 	}
 
@@ -1397,12 +1364,11 @@ function submitRenameDialog() {
 
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
-				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		setMessage("file renamed to:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		closeRenameDialog();
@@ -1410,7 +1376,7 @@ function submitRenameDialog() {
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	}).error(function(xhr, status, error) {
 		refreshTree();
-		setMessage(xhr.responseText);
+		setErrorMessage(xhr.responseText);
 	});
 
 }
@@ -1426,7 +1392,7 @@ function submitNewFolderDialog() {
 	var newName = $("#fileName").val();
 	// name must be entered
 	if (newName == null || newName.length == 0) {
-		setMessageInArea("#newFolderDialogMessageArea",
+		setErrorMessage(
 				"Please enter a new folder name");
 		return;
 	}
@@ -1438,12 +1404,11 @@ function submitNewFolderDialog() {
 
 	var jqxhr = $.post(context + folderAddUrl, params,
 			function(data, status, xhr) {
-				lcPrepareForCall();
 			}, "html").success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
 		setMessage("file renamed to:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		closeNewFolderDialog();
@@ -1451,7 +1416,7 @@ function submitNewFolderDialog() {
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	}).error(function(xhr, status, error) {
 		refreshTree();
-		setMessage(xhr.responseText);
+		setErrorMessage(xhr.responseText);
 	});
 
 }
@@ -1469,23 +1434,23 @@ function deleteFilesBulkAction() {
 				if (!continueReq) {
 					return false;
 				}
-				lcPrepareForCall();
 				refreshTree();
 				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 				setMessage("Delete action successful");
 			}).error(function(xhr, status, error) {
-				setMessage(xhr.responseText);
+				setErrorMessage(xhr.responseText);
 			});
 
 }
 
 /**
- * Given the tree path in the text box, recursively open the nodes in the tree based
- * on the path.
+ * Given the tree path in the text box, recursively open the nodes in the tree
+ * based on the path.
  * 
- * If called with no parameters, it assumes this is the top node, it will open the top node.
+ * If called with no parameters, it assumes this is the top node, it will open
+ * the top node.
  * 
- * If called with a last 
+ * If called with a last
  * 
  * 
  * @param lastIndex
@@ -1493,52 +1458,54 @@ function deleteFilesBulkAction() {
  * @returns {Boolean}
  */
 function selectTreePath(path, currentNode, currentIndex) {
-	
+
 	if (path == null) {
 		var val = $("#searchTerm").val();
 		// alert("select tree path:" + val);
 		path = val.split("/");
 	}
-	
+
 	if (currentIndex == null) {
 		currentIndex = 0;
 	}
 
-	// if called with no params, get the root node, open it, and process the children
+	// if called with no params, get the root node, open it, and process the
+	// children
 	if (currentNode == null) {
-		currentNode = $.jstree._reference(dataTree)
-		.get_container();
-		
+		currentNode = $.jstree._reference(dataTree).get_container();
+
 	} else if (currentNode == null) {
-		alert("error - call to open node, currentNode is null");
+		setErrorMessage("error - call to open node, currentNode is null");
 		return false;
 	}
-	
-	var skip=false;
+
+	var skip = false;
 	var end = false;
 	$.each(path, function(index, value) {
 		if (skip) {
 			return;
 		}
-		
+
 		if (index < currentIndex) {
 			return;
 		}
-		
-		 if (value > "") {
+
+		if (value > "") {
 			var loaded = $.jstree._reference(dataTree)._is_loaded(currentNode);
 			if (!loaded) {
 				skip = true;
 				$.jstree._reference(dataTree).open_node(currentNode,
-						function(path){selectTreePath(path, currentNode, index);}, false);
+						function(path) {
+							selectTreePath(path, currentNode, index);
+						}, false);
 				return;
 			}
-			
-			var children = $.jstree._reference(dataTree)
-			._get_children(currentNode);
+
+			var children = $.jstree._reference(dataTree)._get_children(
+					currentNode);
 			currentNode = getPathInNode(children, value);
 			if (currentNode == null) {
-				alert("Path not found in tree");
+				setErrorMessage("Path not found in tree");
 				return false;
 			} else {
 				if (index == path.length - 1) {
@@ -1547,18 +1514,17 @@ function selectTreePath(path, currentNode, currentIndex) {
 			}
 		}
 	});
-	
+
 	if (currentNode != null && end) {
 		$.jstree._reference(dataTree).select_node(currentNode)
 	}
-	
 
 }
 
-
 /**
- * among the children in the given tree node, find the node who's title is
- * the given target path
+ * among the children in the given tree node, find the node who's title is the
+ * given target path
+ * 
  * @param childNodes
  * @param targetPath
  * @returns
@@ -1581,75 +1547,91 @@ function getPathInNode(childNodes, targetPath) {
 }
 
 /**
- * Given an iRODS absolute path in string form, find that path in the tree and perform the given operation on that path.  The
- * passed in function wil be called with the params(path, tree, currentNode)
+ * Given an iRODS absolute path in string form, find that path in the tree and
+ * perform the given operation on that path. The passed in function wil be
+ * called with the params(path, tree, currentNode)
+ * 
  * @param path
  * @param currentNode
  * @param currentIndex
  * @param operationToPerform
  */
-function splitPathAndPerformOperationAtGivenTreePath(path, currentNode, currentIndex, operationToPerform) {
+function splitPathAndPerformOperationAtGivenTreePath(path, currentNode,
+		currentIndex, operationToPerform) {
 	splitPath = path.split("/");
-	performOperationAtGivenTreePath(splitPath, currentNode, currentIndex, operationToPerform);
+	performOperationAtGivenTreePath(splitPath, currentNode, currentIndex,
+			operationToPerform);
 }
 
 /**
- * Given the tree path in the text box, call the given function, passing in the path array, tree and the current node as arugments to
- * the function
+ * Given the tree path in the text box, call the given function, passing in the
+ * path array, tree and the current node as arugments to the function
  * 
- * @param path array of strings for each part of the path
- * @param currentNode current tree node (especially if calling recursively, this will match the 'lastIndex' in the path
- * @param lastIndex ponter to position in tree path array that is an absolute path to the curentNode
- * @param operationToPerform a function(path, tree, currentNode) that will be called when at the end of the path
+ * @param path
+ *            array of strings for each part of the path
+ * @param currentNode
+ *            current tree node (especially if calling recursively, this will
+ *            match the 'lastIndex' in the path
+ * @param lastIndex
+ *            ponter to position in tree path array that is an absolute path to
+ *            the curentNode
+ * @param operationToPerform
+ *            a function(path, tree, currentNode) that will be called when at
+ *            the end of the path
  * @returns {Boolean}
  */
-function performOperationAtGivenTreePath(path, currentNode, currentIndex, operationToPerform) {
-	
+function performOperationAtGivenTreePath(path, currentNode, currentIndex,
+		operationToPerform) {
+
 	if (path == null) {
 		var val = $("#treePath").val();
 		// alert("select tree path:" + val);
 		path = val.split("/");
 	}
-	
+
 	if (currentIndex == null) {
 		currentIndex = 0;
 	}
 
-	// if called with no params, get the root node, open it, and process the children
+	// if called with no params, get the root node, open it, and process the
+	// children
 	if (currentNode == null) {
-		currentNode = $.jstree._reference(dataTree)
-		.get_container();
-		
+		currentNode = $.jstree._reference(dataTree).get_container();
+
 	} else if (currentNode == null) {
 		alert("error - call to open node, currentNode is null");
 		return false;
 	}
-	
-	var skip=false;
+
+	var skip = false;
 	var end = false;
 	$.each(path, function(index, value) {
 		if (skip) {
 			return;
 		}
-		
+
 		if (index < currentIndex) {
 			return;
 		}
-		
-		 if (value > "") {
+
+		if (value > "") {
 			var loaded = $.jstree._reference(dataTree)._is_loaded(currentNode);
 			if (!loaded) {
 				skip = true;
-				$.jstree._reference(dataTree).open_node(currentNode,
-						function(path){performOperationAtGivenTreePath(path, currentNode, index, operationToPerform);}, false);
+				$.jstree._reference(dataTree).open_node(
+						currentNode,
+						function(path) {
+							performOperationAtGivenTreePath(path, currentNode,
+									index, operationToPerform);
+						}, false);
 				return;
 			}
-			
-			var children = $.jstree._reference(dataTree)
-			._get_children(currentNode);
+
+			var children = $.jstree._reference(dataTree)._get_children(
+					currentNode);
 			currentNode = getPathInNode(children, value);
 			if (currentNode == null) {
-				alert("Path not found in tree");
+				setErrorMessage("Path not found in tree");
 				return false;
 			} else {
 				if (index == path.length - 1) {
@@ -1658,31 +1640,24 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex, operat
 			}
 		}
 	});
-	
+
 	if (currentNode != null && end) {
 		operationToPerform(path, dataTree, currentNode);
 	}
-	
 
 }
 
-
-
 /*
-function closeTreeNodeAtAbsolutePath(absPath) {
-
-	if (absPath == null) {
-		return false;
-	}
-
-	absPath = absPath.replace(/\//g, "\\\\/");
-	absPath = absPath.replace(/\./g, "\\\\.");
-
-	var selector = '#' + absPath;
-	// var selector = "#" + absPath;
-
-	var treeNode = $(selector);
-	// var treeNode= $("#\\/test1\\/home\\/test1");
-	// alert("treeNode:" + treeNode);
-
-} */
+ * function closeTreeNodeAtAbsolutePath(absPath) {
+ * 
+ * if (absPath == null) { return false; }
+ * 
+ * absPath = absPath.replace(/\//g, "\\\\/"); absPath = absPath.replace(/\./g,
+ * "\\\\.");
+ * 
+ * var selector = '#' + absPath; // var selector = "#" + absPath;
+ * 
+ * var treeNode = $(selector); // var treeNode= $("#\\/test1\\/home\\/test1"); //
+ * alert("treeNode:" + treeNode);
+ *  }
+ */

@@ -3,13 +3,14 @@
 </head>
  <g:form controller="j_spring_security_check"
 	absolute="true" method="post">
-<div class="box" id="container" style="width:350px; margin: auto;">
-
 	<g:if test="${request.login_error}">
 		<div class="message">
 		${request.login_error}
 		</div>
 	</g:if>
+	
+<div class="box" id="container" style="width:350px; margin: auto;">
+
 	
 	<div>
 	<div style="width:30%;"><label style="float:right;"><g:message code="text.host" />:</label></div><div><input type="text"

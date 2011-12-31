@@ -47,7 +47,7 @@ function metadataUpdate(currentAvu, newAvu, path) {
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(metadataMessageAreaSelector);
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
+		setErrorMessage(xhr.responseText);
 		throw (xhr.responseText);
 	}).success(
 			function(returnedData, status, xhr) {
@@ -55,7 +55,7 @@ function metadataUpdate(currentAvu, newAvu, path) {
 				if (!continueReq) {
 					return false;
 				}
-				setMessageInArea(metadataMessageAreaSelector,
+				setMessage(
 						"Metadata update successful"); // FIXME: i18n
 			});
 
@@ -70,7 +70,7 @@ function metadataUpdate(currentAvu, newAvu, path) {
 function prepareMetadataDialog(data) {
 
 	if (selectedPath == null) {
-		alert("No path is selected, metadata cannot be entered");
+		setErrorMessage("No path is selected, metadata cannot be entered");
 		return;
 	}
 
@@ -93,7 +93,6 @@ function prepareMetadataDialog(data) {
  * @param data
  */
 function showMetadataDialog(data) {
-	lcPrepareForCall();
 	$("#metadataDialogArea").html(data).fadeIn('slow');
 
 }
@@ -108,7 +107,8 @@ function submitMetadataDialog() {
 	var unit = $('[name=unit]').val();
 
 	if (selectedPath == null) {
-		throw "no collection or data object selected"; // FIXME: alert and i18n
+		setErrorMessage("no collection or data object selected"); // FIXME: alert and i18n
+		return false;
 	}
 
 	var isCreate = $('[name=isCreate]').val();
@@ -126,7 +126,7 @@ function submitMetadataDialog() {
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(metadataMessageAreaSelector);
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea(metadataDialogMessageAreaSelector, xhr.responseText);
+		setErrorMessage(xhr.responseText);
 	}).success(
 			function(data, status, xhr) {
 				var continueReq = checkForSessionTimeout(data, xhr);
@@ -137,13 +137,12 @@ function submitMetadataDialog() {
 				// data and update appropriately
 				var dataJSON = jQuery.parseJSON(data);
 				if (dataJSON.response.errorMessage != null) {
-					setMessageInArea(metadataDialogMessageAreaSelector,
+					setErrorMessage(
 							dataJSON.response.errorMessage);
 				} else {
 					reloadMetadataDetailsTable();
 					closeMetadataDialog();
-					setMessageInArea(metadataMessageAreaSelector,
-							"AVU saved successfully"); // FIXME: i18n
+					setMessage("AVU saved successfully"); // FIXME: i18n
 				}
 			});
 }
@@ -164,7 +163,7 @@ function deleteMetadata() {
 	lcClearDivAndDivClass(metadataMessageAreaSelector);
 
 	if (!confirm('Are you sure you want to delete?')) {
-		setMessageInArea(metadataMessageAreaSelector, "Delete cancelled"); // FIXME:i18n
+		setMessage("Delete cancelled"); // FIXME:i18n
 		return;
 	}
 
@@ -179,21 +178,14 @@ function deleteMetadata() {
 
 	selectedRows.each(function(index, element) {
 
-		console.log("element:" + element);
-
-		console.log("------  element --------");
-
 		var siblings = $(element).parent().siblings();
 		siblings.each(function(index) {
 			var sib = $(this);
-			console.log("sib:" + sib.html());
 		});
 
 		var attr = siblings.filter(".avuAttribute");
 		var value = siblings.filter(".avuValue");
 		var unit = siblings.filter(".avuUnit");
-		console.log("attribute:" + attr.html() + " value:" + value.html()
-				+ " unit:" + unit.html());
 		
 		var attributeParm = new Object();
 		attributeParm.name = "attribute";
@@ -215,15 +207,14 @@ function deleteMetadata() {
 	var jqxhr = $.post(context + metadataDeleteUrl, formFields,
 			function(data, status, xhr) {
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea(metadataMessageAreaSelector, xhr.responseText);
+		setError(xhr.responseText);
 	}).success(function(data, status, xhr) {
 		var continueReq = checkForSessionTimeout(data, xhr);
 		if (!continueReq) {
 			return false;
 		}
 		reloadMetadataDetailsTable();
-		setMessageInArea(metadataMessageAreaSelector, "Delete successful"); // FIXME:
-																			// i18n
+		setMessage("Delete successful"); 
 	});
 
 }
@@ -261,7 +252,7 @@ function reloadMetadataDetailsTable() {
 			function(data, status, xhr) {
 				$('#metadataTableDiv').html(data);
 			}, "html").error(function(xhr, status, error) {
-		setMessageInArea(metadataMessageArea, xhr.responseText);
+		setErrorMessage(xhr.responseText);
 	}).success(function(data, status, xhr) {
 		var continueReq = checkForSessionTimeout(data, xhr);
 		if (!continueReq) {

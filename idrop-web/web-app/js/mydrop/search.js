@@ -36,7 +36,7 @@ function searchDetailsClick(minMaxIcon) {
 		try {
 			searchDetailsFunction(minMaxIcon, nTr);
 		} catch (err) {
-			console.log("error in searchDetailsClick():" + err);
+			setErrorMessage("error in searchDetailsClick():" + err);
 		}
 
 	}
@@ -45,7 +45,6 @@ function searchDetailsClick(minMaxIcon) {
 function searchDetailsFunction(clickedIcon, rowActionIsOn) {
 	var searchTable = $("#searchResultTable").dataTable();
 	/* Open this row */
-	lcPrepareForCall();
 	lcCloseTableNodes(searchTable);
 	// nTr points to row and has absPath in id
 	var absPath = $(rowActionIsOn).attr('id');

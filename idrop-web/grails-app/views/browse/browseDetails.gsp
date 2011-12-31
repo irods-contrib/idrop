@@ -117,7 +117,6 @@ ${entry.dataSize}
         */
         function browseDataDetailsFunction(clickedIcon, rowActionIsOn) {
                 /* Open this row */
-                lcPrepareForCall();
                 lcCloseTableNodes(dataTable);
                 // nTr points to row and has absPath in id
                 var absPath = $(rowActionIsOn).attr('id');

@@ -35,7 +35,6 @@ function addToCartViaBrowseDetailsToolbar() {
  *            absolute path to file to add to the cart
  */
 function addToCartGivenPath(absPath) {
-	lcPrepareForCall();
 
 	var params = {
 		absPath : absPath
@@ -54,7 +53,7 @@ function addToCartGivenPath(absPath) {
 			})
 			
 			.error(function(xhr, status, error) {
-		setMessage(xhr.responseText);
+		setErrorMessage(xhr.responseText);
 	});
 }
 
@@ -87,7 +86,7 @@ function clearCart() {
 				}
 				refreshCartFiles();
 			}).error(function(xhr, status, error) {
-		setMessage(xhr.responseText);
+		setErrorMessage(xhr.responseText);
 	});
 
 }
@@ -110,7 +109,7 @@ function deleteFromCart() {
 					}
 					refreshCartFiles();
 				}).error(function(xhr, status, error) {
-			setMessage(xhr.responseText);
+			setErrorMessage(xhr.responseText);
 		});
 
 	}
@@ -123,7 +122,6 @@ function deleteFromCart() {
 function addToCartBulkAction() {
 	
 		var formData = $("#browseDetailsForm").serializeArray();
-		lcPrepareForCall();
 		var jqxhr = $.post(context + addToCartBulkActionUrl, formData, "html").success(
 				function(returnedData, status, xhr) {
 					var continueReq = checkForSessionTimeout(returnedData, xhr);
@@ -133,7 +131,7 @@ function addToCartBulkAction() {
 					setMessage("Selected files added to cart");  // FIXME: i18n
 					refreshCartFiles();
 				}).error(function(xhr, status, error) {
-			setMessage(xhr.responseText);
+			setErrorMessage(xhr.responseText);
 		});
 
 }
@@ -154,7 +152,6 @@ function closeShoppingCartApplet() {
  * Check out the shopping cart as the logged in user, this will launch iDrop lite in shopping cart mode
  */
 function checkOut() {
-	lcPrepareForCall();
 	// close the idrop lite area in the browse details area if that was opened for bulk upload, you cannot run 2 idrop lites
 	closeApplet();
 	// first hide cart details table
@@ -179,7 +176,7 @@ function checkOut() {
 			}, "html")
 			.error(function(xhr, status, error) {
 
-				setMessage(xhr.responseText);
+				setErrorMessage(xhr.responseText);
 				
 				$("#cartToggleDiv").show('slow');
 				$("#cartToggleDiv").width = "100%";
@@ -258,7 +255,7 @@ function checkOut() {
 
 					
 					}).error(function(xhr, status, error) {
-				setMessage(xhr.responseText);
+				setErrorMessage(xhr.responseText);
 				$("#cartToggleDiv").show('slow');
 				$("#cartToggleDiv").width = "100%";
 				$("#cartToggleDiv").height = "100%";

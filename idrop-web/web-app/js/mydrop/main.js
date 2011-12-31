@@ -28,7 +28,7 @@ function updateTags() {
 
 	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
 			params, null, "#infoUpdateArea", function() {
-				alert("Tags and comments updated successfully");
+				setMessage("Tags and comments updated successfully");
 				refreshTagCloud();
 			});
 }
