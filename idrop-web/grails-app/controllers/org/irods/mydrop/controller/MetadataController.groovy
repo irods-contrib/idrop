@@ -67,7 +67,7 @@ class MetadataController {
 			log.info("extension is:${extension}")
 
 			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
-				getThumbnail = true;
+				getThumbnail = true
 			}
 		}
 
@@ -86,7 +86,7 @@ class MetadataController {
 		log.info("listMetadataForDataObject for absPath: ${absPath}")
 
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def metadata;
+		def metadata
 
 		/*
 		 * Get the data object or collection at the given path, and access the relevant metadata 
@@ -96,7 +96,7 @@ class MetadataController {
 			def isDataObject = retObj instanceof DataObject
 
 			if (isDataObject) {
-				log.debug("retrieving meta data for a data object");
+				log.debug("retrieving meta data for a data object")
 				DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
 				metadata = dataObjectAO.findMetadataValuesForDataObject(retObj.collectionName, retObj.dataName)
 			} else {
@@ -282,7 +282,7 @@ class MetadataController {
 			log.info("no avu to delete")
 			def errorMessage = message(code:"error.nothing.selected")
 			response.sendError(500,errorMessage)
-			return;
+			return
 		}
 
 		log.info("avusToDelete: ${attributesToDelete}")
@@ -291,15 +291,15 @@ class MetadataController {
 
 		if (attributesToDelete instanceof Object[] || attributesToDelete instanceof List) {
 			log.debug "is array"
-			int i = 0;
+			int i = 0
 			attributesToDelete.each{
 				log.info "avusToDelete: ${it} has index ${i}"
 
-				def thisAttr = ((List) attributesToDelete).get(i);
-				def thisVal = ((List) valuesToDelete).get(i);
-				def thisUnit = ((List) unitsToDelete).get(i);
+				def thisAttr = ((List) attributesToDelete).get(i)
+				def thisVal = ((List) valuesToDelete).get(i)
+				def thisUnit = ((List) unitsToDelete).get(i)
 
-				avuValue = new AvuData(thisAttr,thisVal,thisUnit);
+				avuValue = new AvuData(thisAttr,thisVal,thisUnit)
 				log.info("avuValue: ${avuValue}")
 
 				if (isDataObject) {
@@ -309,7 +309,7 @@ class MetadataController {
 					deleteAvuForCollection(absPath, avuValue, collectionAO)
 				}
 
-				i++;
+				i++
 			}
 
 		} else {
@@ -376,7 +376,7 @@ public class AddMetadataCommand {
 	String unit
 	static constraints = {
 		attribute(blank:false)
-		value(nullable:false)
+		value(blank:false)
 		absPath(blank:false)
 	}
 }

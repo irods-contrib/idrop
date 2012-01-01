@@ -127,6 +127,7 @@ function submitMetadataDialog() {
 				lcClearDivAndDivClass(metadataMessageAreaSelector);
 			}, "html").error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
+		lcClearDivAndDivClass(metadataMessageAreaSelector);
 	}).success(
 			function(data, status, xhr) {
 				var continueReq = checkForSessionTimeout(data, xhr);
@@ -140,9 +141,10 @@ function submitMetadataDialog() {
 					setErrorMessage(
 							dataJSON.response.errorMessage);
 				} else {
+					setMessage("AVU saved successfully"); 
 					reloadMetadataDetailsTable();
 					closeMetadataDialog();
-					setMessage("AVU saved successfully"); // FIXME: i18n
+					
 				}
 			});
 }
@@ -308,22 +310,23 @@ function buildMetadataTableInPlace() {
 		});
 
 		if (selectedPath == null) {
-			throw "no collection or data object selected";
+			setErrorMessage("No path selected");
+			return origData;
 		}
 
 		try {
 			metadataUpdate(avu, newAvu, selectedPath);
 		} catch (e) {
-			//console.log("error, returning:" + e);
+			setErrorMessage("Error updating metadata:" + e);
 			return origData;
 		}
-		//console.log("success, returning:" + content);
 		return content;
 
 	}, {
 		type : 'textarea',
 		submit : 'OK',
 		cancel : 'Cancel',
+		onblur: 'ignore',
 		tooltip : 'Click to edit...',
 		placeholder : '',
 		data : function(value, settings) {

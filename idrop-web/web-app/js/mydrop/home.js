@@ -893,6 +893,7 @@ function buildAclTableInPlace() {
 				'type' : 'select',
 				'submit' : 'OK',
 				'cancel' : 'Cancel',
+				 'onblur': 'ignore',
 				'indicator' : 'Saving'
 			});
 }
