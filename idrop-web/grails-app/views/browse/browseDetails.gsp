@@ -19,10 +19,10 @@
     <div id="infoDialogArea">
       <!--  no empty divs -->
     </div>
-    <div id="detailsTopSection" class="box">
+    <div id="detailsTopSection" >
       <form id="browseDetailsForm" name="browseDetailsForm">
         <table cellspacing="0" cellpadding="0" border="0"
-               id="browseDataDetailsTable" style="width: 100%;">
+               id="browseDataDetailsTable" style="width: 95%;">
           <thead>
             <tr>
               <th></th>

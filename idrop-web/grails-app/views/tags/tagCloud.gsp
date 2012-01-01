@@ -1,7 +1,7 @@
-<div style="height:100%;">
+<div style="height:100%;position:absolute;">
 <ul>
 <g:each in="${tagCloud}" var="tagVal">
-	<li class="tagCouldEntry">${tagVal.irodsTagValue.tagData}</li>
+	<li>${tagVal.irodsTagValue.tagData}</li>
 </g:each>
 </ul>
 </div>

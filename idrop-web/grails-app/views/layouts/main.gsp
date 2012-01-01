@@ -51,7 +51,7 @@
 
  
 </head>
-<body>
+<body style="height:100%;">
 <div id="hd"><!-- PUT MASTHEAD CODE HERE -->
 <g:render template="/common/topbar"/>
 <g:render template="/common/messages"/>

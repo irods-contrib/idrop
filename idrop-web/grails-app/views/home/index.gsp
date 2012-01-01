@@ -66,12 +66,12 @@ $(document).ready(function() {
         dataLayout = $("#dataTreeView").layout({ 
                 applyDefaultStyles: false,
                 size: "auto",
-                west__minSize: 200,
+                west__minSize: 150,
                 west__resizable: true		
                 });
 
         retrieveBrowserFirstView();
-          //  $("#infoDivOuter").droppable();
+       
         tabs = $( "#tabs" ).tabs({		
         } );
 });

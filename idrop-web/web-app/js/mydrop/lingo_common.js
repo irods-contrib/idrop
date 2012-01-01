@@ -105,6 +105,9 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
  * message: the text message to display
  */
 function setMessage(message) {
+	if (message == null || message == "") {
+		message = "An unknown error has occurred";
+	}
 	$.gritter.add({
 		// (string | mandatory) the heading of the notification
 		title: 'iDrop Message',
@@ -125,6 +128,9 @@ function setMessage(message) {
  * @param message
  */
 function setErrorMessage(message) {
+	if (message == null || message == "") {
+		message = "An unknown error has occurred";
+	}
 	$.gritter.add({
 		// (string | mandatory) the heading of the notification
 		title: 'iDrop Error Message',

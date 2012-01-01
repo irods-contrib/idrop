@@ -38,8 +38,10 @@ function updateTags() {
  */
 function haveTagCloudData(data) {
 	$("#tagCloudDiv").empty();
-	//$("#tagCloudDiv").jQCloud(data, new function(){	$(".w1").each(function(index, value) { value.bind("click", function(data) { alert("clicked for data " + data);});});});
-	$("#tagCloudDiv").jQCloud(data, new function(){});
+	$("#tagCloudDiv").jQCloud(data, {
+		  width: 300,
+		  height: 600
+		});
 
 }
 
