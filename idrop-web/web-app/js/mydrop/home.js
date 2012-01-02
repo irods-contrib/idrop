@@ -592,6 +592,8 @@ function showUploadDialog() {
 
 }
 
+
+
 /**
  * Show the dialog to upload from the browse details view
  */
@@ -614,7 +616,7 @@ function showUploadDialogUsingPath(path) {
 
 	var url = "/file/prepareUploadDialog";
 	var params = {
-		irodsTargetCollection : selectedPath
+		irodsTargetCollection : path
 	}
 
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {

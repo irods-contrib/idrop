@@ -8,9 +8,9 @@
 		<li id="menuDelete"><a href="#delete" 	onclick="deleteViaToolbar()"><g:message code="default.button.delete.label" /></a></li>
 	</ul>
 	</li>
-	<li id="menuUploadDownload"><a href="#uploadDownload" onclick="showUploadDialog()"><g:message code="text.upload.and.download"/></a>
+	<li id="menuUploadDownload"><a href="#uploadDownload"><g:message code="text.upload.and.download"/></a>
 	<ul>
-		<li id="menuUpload"><a href="#upload" onclick="showUploadDialog()"><g:message code="text.upload" /></a></li>
+		<li id="menuUpload"><a href="#upload" onclick="showUploadDialogFromInfoToolbar()"><g:message code="text.upload" /></a></li>
 		<li id="menuDownload"><a href="#download" onclick="downloadAction()"><g:message code="text.download" /></a></li>
 		<g:if test="${showLite}">
 		<li id="menuBulkUpload"><a href="#bulkupload" onclick="showIdropLite()"><g:message code="text.bulk.upload" /></a></li>
@@ -43,6 +43,25 @@ function downloadAction() {
 function showBulkShareDialogFromToolbar() {
 	var path = $("#infoAbsPath").val();
 	showBulkShareDialog(path);
+}
+
+function showIdropLiteFromToolbar() {
+	var path = $("#infoAbsPath").val();
+	showBulkShareDialog(path);
+}
+
+/**
+ * Show the dialog to allow upload of data using the abs path in the info pane
+ */
+function showUploadDialogFromInfoToolbar() {
+	var uploadPath = $("#infoAbsPath").val();
+	if (uploadPath == null) {
+		showErrorMessage("No path was found to upload, application error occurred");
+		return;
+	}
+
+	showUploadDialogUsingPath(uploadPath);
+
 }
 
 
