@@ -68,8 +68,7 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" id="updateTags" value="updateTags"
-					onclick="updateTags()")>Update Tags</button></div>
+					<div><button type="button" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
 				</div>
 				<div>
 					<div><label>Created At:</label></div>
@@ -138,6 +137,11 @@ $(function() {
 	$("#menuUpload").hide();
 	$("#menuBulkUpload").hide();
 });
+
+function callUpdateTags() {
+	updateTags();
+}
+
 </script>
 <g:if test="${getThumbnail}">
 	<script>
@@ -145,6 +149,8 @@ $(function() {
 $(function() {
 	requestThumbnailImageForInfoPane();
 });
+
+
 
 </script>
 </g:if>
