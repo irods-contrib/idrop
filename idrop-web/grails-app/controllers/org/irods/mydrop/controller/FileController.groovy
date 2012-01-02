@@ -247,6 +247,13 @@ class FileController {
 		log.info("name for create folder:${newFolderName}")
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(parent + "/" + newFolderName)
+
+		if (targetFile.exists()) {
+			log.error "no name in request"
+			def message = message(code:"error.duplicate.file")
+			response.sendError(500,message)
+		}
+
 		targetFile.mkdirs()
 		log.info("file created:${targetFile.absolutePath}")
 		render targetFile.getAbsolutePath()
