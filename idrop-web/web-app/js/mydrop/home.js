@@ -1207,7 +1207,6 @@ function deleteViaToolbar() {
  * Delete was selected on the browse details toolbar
  */
 function deleteViaBrowseDetailsToolbar() {
-	// var path = $("#browseDetailsAbsPath").val();
 	deleteViaToolbarGivenPath(selectedPath);
 }
 
@@ -1222,7 +1221,7 @@ function deleteViaToolbarGivenPath(path) {
 	if (path == null) {
 		setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to delete"); // FIXME:
 		// i18n
-		return;
+		return false;
 	}
 
 	var answer = confirm("Delete selected file?"); // FIXME: i18n
@@ -1270,8 +1269,8 @@ function deleteViaToolbarGivenPath(path) {
 
 										$.jstree._reference(dataTree)
 												._get_parent(currentNode);
-										$.jstree._reference(dataTree).remove(
-												currentNode);
+										//$.jstree._reference(dataTree).remove(
+										//		currentNode);
 
 										var parent = $.jstree._reference(
 												dataTree).refresh(parent);
