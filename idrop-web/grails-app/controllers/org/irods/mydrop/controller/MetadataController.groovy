@@ -397,7 +397,7 @@ public class UpdateMetadataCommand {
 		currentValue( nullable:false)
 		currentUnit(nullable:false)
 		newAttribute(blank:false)
-		newValue(nullable:false)
+		newValue(blank:false)
 		newUnit(nullable:false)
 		absPath(blank:false)
 	}

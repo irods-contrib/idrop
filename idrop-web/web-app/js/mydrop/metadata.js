@@ -47,7 +47,9 @@ function metadataUpdate(currentAvu, newAvu, path) {
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(metadataMessageAreaSelector);
 			}, "html").error(function(xhr, status, error) {
+				lcClearDivAndDivClass(metadataMessageAreaSelector);
 		setErrorMessage(xhr.responseText);
+		reloadMetadataDetailsTable();
 		throw (xhr.responseText);
 	}).success(
 			function(returnedData, status, xhr) {
@@ -56,10 +58,10 @@ function metadataUpdate(currentAvu, newAvu, path) {
 					return false;
 				}
 				setMessage(
-						"Metadata update successful"); // FIXME: i18n
+						"Metadata update successful"); 
 			});
 
-	return currentAvu;
+	
 }
 
 /**
