@@ -27,8 +27,6 @@
 					</tr>
 				</tfoot>
 			</table>
-		</div>
-	</div>
 </div>
 </form>
 <script>
