@@ -77,7 +77,9 @@ public class GetTransferRunner implements Runnable {
                     java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                             java.util.logging.Level.SEVERE, null, ex);
                     idropGui.showIdropException(ex);
-                }               
+                } finally {
+					idropGui.getiDropCore().getIrodsFileSystem().closeAndEatExceptions();
+				}
 			} else {
                     log.info("process a local to local move with source...not yet implemented : {}",
                             transferFile.getAbsolutePath());
