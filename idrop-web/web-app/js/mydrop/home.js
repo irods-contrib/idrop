@@ -379,7 +379,11 @@ function nodeRenamed(event, data) {
 		setMessage("file renamed to:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		data.rslt.obj[0].id = xhr.responseText;
-		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		data.rslt.obj[0].abspath = xhr.responseText;
+		// refresh this node
+		$.jstree._reference(dataTree).refresh(
+				data.rslt.obj[0]);
+		updateBrowseDetailsForPathBasedOnCurrentModel(xhr.responseText);
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
 		refreshTree();
@@ -1382,6 +1386,7 @@ function submitRenameDialog() {
 	});
 
 }
+
 
 /**
  * Process a new folder operation requested from the toolbar by processing the
