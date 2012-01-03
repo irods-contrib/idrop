@@ -16,12 +16,14 @@ import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
 import org.irods.jargon.core.pub.io.IRODSFileOutputStream
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.multipart.MultipartFile
 
 
 class FileController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
+	static long MAX_UPLOAD = 3221225472  // shooting for 3GB max, make parm?
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -125,10 +127,24 @@ class FileController {
 	 */
 	def upload = {
 		log.info("upload action in file controller")
-		def f = request.getFile('file')
+		MultipartFile f = request.getFile('file')
 		def name = f.getOriginalFilename()
 
 		log.info("f is ${f}")
+		log.info("length of f is ${f.size}")
+		log.info("max upload size is ${MAX_UPLOAD}")
+
+		if (f.size > MAX_UPLOAD) {
+			log.error("file size is too large, send error message to use bulk upload")
+			def message = message(code:"error.use.bulk.upload")
+			response.sendError(500,message)
+			return
+		} else if (f.size == 0) {
+			log.error("file is zero length")
+			def message = message(code:"error.zero.length.upload")
+			response.sendError(500,message)
+			return
+		}
 
 		log.info("name is : ${name}")
 		def irodsCollectionPath = params.collectionParentName
@@ -143,7 +159,7 @@ class FileController {
 			throw new JargonException("No iRODS target collection given for upload")
 		}
 
-		InputStream fis = f.getInputStream()
+		InputStream fis = new BufferedInputStream(f.getInputStream())
 		log.info("building irodsFile for file name: ${name}")
 
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
