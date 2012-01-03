@@ -1411,7 +1411,7 @@ function submitNewFolderDialog() {
 		if (!continueReq) {
 			return false;
 		}
-		setMessage("file renamed to:" + xhr.responseText);
+		setMessage("New folder created:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		closeNewFolderDialog();
 		refreshTree();
