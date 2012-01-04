@@ -2274,9 +2274,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     	 
     	Boolean isFolder = false;
         TreePath [] paths = fileUploadTree.getSelectionPaths();
+        Object selectedDrive = lstUploadLocalDrives.getSelectedValue();
         for(TreePath path: paths) {
         	DefaultTableModel tm = (DefaultTableModel)tblUploadTable1.getModel();
-        	String filePath = LocalFileUtils.makeLocalFilePath(path);
+        	// need to add selected drive to make file transfer work properly in windows browser
+        	String filePath = LocalFileUtils.makeLocalFilePath(path, selectedDrive);
         	File localFile = new File(filePath);
         	if(localFile.isDirectory()) {
         		isFolder = true;

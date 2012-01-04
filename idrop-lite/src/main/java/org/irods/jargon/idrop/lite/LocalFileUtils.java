@@ -37,4 +37,23 @@ public class LocalFileUtils {
     	
     	return filePath;
     }
+    
+public static String makeLocalFilePath(TreePath treePath, Object drive) {
+    	
+    	String filePath = "";
+    	String truncDrive = "";
+    	
+    	for(Object node: treePath.getPath()) {
+    		if(node.toString().equals("/")) continue;
+    		filePath += System.getProperty("file.separator") + node.toString();
+    	}
+    	
+    	if (drive != null) {
+    		truncDrive = drive.toString().substring(0, drive.toString().length()-1);
+    		return truncDrive + filePath;
+    	}
+    	else {
+    		return filePath;
+    	}
+    }
 }
