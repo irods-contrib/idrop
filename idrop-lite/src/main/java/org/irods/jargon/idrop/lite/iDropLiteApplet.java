@@ -90,6 +90,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private Boolean transferInProgress = false;
     private Boolean transferCancelled = false;
     private String currentUploadFile = null;
+    private int filesInTable = 0;
+    private int filesInTableProcessed = 0;
     private ImageIcon cancelIcon;
 
     /** Initializes the applet NewJApplet */
@@ -99,11 +101,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             java.awt.EventQueue.invokeAndWait(new Runnable() {
 
                 public void run() {
-                    getAppletParams();
-                    if (doStartup()) {
-                        initComponents();
-                        doPostInitWork();
-                    }
+                	getAppletParams();
+                	if (doStartup()) {
+                		initComponents();
+                		doPostInitWork();
+                	}
                 }
             });
         } catch (Exception ex) {
@@ -261,8 +263,9 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 return false;
             } else {
                 Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
-                showMessageFromOperation("login error - unable to log in, or invalid user id");
-                return false;
+                System.exit(0); // added for weird applet lifecycle behavior in windows browser
+                //showMessageFromOperation("login error - unable to log in, or invalid user id");
+                //return false;
             }
         } finally {
             if (irodsFileSystem != null) {
@@ -874,6 +877,15 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     currentUploadFile = null;
                     idropGui.setTransferInProgress(false);
                     enableUploadButtons(true);
+                    // for Bulk Upload and Shopping Carts modes, display message when file transfer is done
+                    if(idropGui.displayMode == 2 || idropGui.displayMode == 3) {
+                    	idropGui.filesInTableProcessed++;
+                    	if(idropGui.filesInTableProcessed >= idropGui.filesInTable) {
+                    		showMessageFromOperation("Transfer Completed");
+                    		idropGui.filesInTable = 0;
+                    		idropGui.filesInTableProcessed = 0;
+                    	}
+                    }
                 }
 
                 /*
@@ -1070,10 +1082,12 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     
     private void collectDownloadTarget() {
     	int ret = dlgLocalFileChooser.showOpenDialog(this.applet);
+    	//int ret = dlgLocalFileChooser.showSaveDialog(this.applet); // update this so you can create a folder???
     	if (ret == JFileChooser.APPROVE_OPTION) {
     		File path = dlgLocalFileChooser.getSelectedFile();
     		if(path.getPath() != null) {
     			txtDownloadTarget.setText(path.getPath());
+    			txtIdropWebModeDownloadTarget.setText(path.getPath());
     		}
         }
     }
@@ -1168,6 +1182,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     	// set up listener to capture resize of applet - so if it gets really small it will switch to
     	// iDrop Web mode for shopping cart mode
     	this.addComponentListener(this);
+    	checkForIdropWebMode();
     }
     
     private void checkForIdropWebMode() {
@@ -1175,7 +1190,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 		int height = this.getHeight();
 		CardLayout cl = (CardLayout)(testCardPanel.getLayout());
 		
-		if(width < 300 && height < 300) {
+		if(width < 350 && height < 250) {
 			String target = txtDownloadTarget.getText();
 			if(target.length() > 0) {
 				txtIdropWebModeDownloadTarget.setText(target);
@@ -1239,7 +1254,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     	
     	IRODSFileService irodsFS = null;
     	try {
-    		irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), IRODSFileSystem.instance());
+    		irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), iDropCore.getIrodsFileSystem());
     	}
         catch(Exception ex) {
         	JOptionPane.showMessageDialog(this, "Cannot access iRODS file system for get.");
@@ -1262,6 +1277,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         }
         try {
         	 // process a get
+        	this.filesInTable = rows; // reset to 0 in overall status callback when all files have been transferred
              //currentTransferRunner = new GetTransferRunner(applet, targetPath, sourceFiles, iDropCore.getTransferControlBlock());
              currentTransferRunner = new GetTransferRunner(applet, targetPath, sourceFiles);
              final Thread transferThread = new Thread(currentTransferRunner);
@@ -2314,7 +2330,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         log.info("upload destination is: {}", targetPath);
 
         try {
-        	IRODSFileService irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), IRODSFileSystem.instance());
+        	IRODSFileService irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), iDropCore.getIrodsFileSystem());
         	IRODSFile ifile = irodsFS.getIRODSFileForPath(targetPath);
         	if(!ifile.isDirectory()) {
         		JOptionPane.showMessageDialog(this, "Please enter a valid IRODS destination for upload.");
@@ -2330,7 +2346,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         if(!isTransferInProgress()) {
         	
         	// collect list of files in the table
-            int rows = tblUploadTable1.getRowCount();            
+            int rows = tblUploadTable1.getRowCount();
+            this.filesInTable = rows; // reset to 0 in overall status callback when all files have been transferred
             for(int row=0; row<rows; row++) {
             	// only select files checked for import
             	//if((Boolean)tblUploadTable.getValueAt(row, 1)) {
@@ -2386,7 +2403,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         	
         	IRODSFileService irodsFS = null;
         	try {
-        		irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), IRODSFileSystem.instance());
+        		irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), iDropCore.getIrodsFileSystem());
         	}
             catch(Exception ex) {
             	JOptionPane.showMessageDialog(this, "Cannot access iRODS file system for get.");
@@ -2408,6 +2425,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                  }
             }
             try {
+            	this.filesInTable = rows; // reset to 0 in overall status callback when all files have been transferred
             	 // process a get
                  //currentTransferRunner = new GetTransferRunner(applet, targetPath, sourceFiles, iDropCore.getTransferControlBlock());
                  currentTransferRunner = new GetTransferRunner(applet, targetPath, sourceFiles);
