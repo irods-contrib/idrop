@@ -232,8 +232,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         pnlCenter.setLayout(new java.awt.GridLayout(1, 0));
 
-        tabConfig.setMinimumSize(null);
-
         pnlConfigIdrop.setLayout(new java.awt.GridBagLayout());
 
         checkShowGUI.setMnemonic('s');
@@ -495,7 +493,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         plnPipelineConfiguration.add(lblMaximumParallelTransferThreads, gridBagConstraints);
 
-        spinnerIrodsMaxParallelThreads.setModel(new javax.swing.SpinnerNumberModel(4, 1, 16, 1));
+        spinnerIrodsMaxParallelThreads.setModel(new javax.swing.SpinnerNumberModel(4, 0, 16, 1));
         spinnerIrodsMaxParallelThreads.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.spinnerIrodsMaxParallelThreads.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
