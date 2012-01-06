@@ -685,6 +685,7 @@ function initializeUploadDialogAjaxLoader() {
 						onComplete : function(event, files, index, xhr, handler) {
 							setMessage("Upload complete");
 							refreshTree();
+							updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 							$('#uploadDialog').dialog('close');
 							$('#uploadDialog').remove();
 

@@ -119,6 +119,10 @@ iRODS iDrop > -511017 on copy
 
  [#314] in login preset mode, drag of top level folder for get oper results in no data found warning
 
+[#579] iDrop put transfer sets to 1 threads, completes leaving 0 len file
+
+
+
 ==Features==
 
 iRODS iDrop > refresh remote tree after transfer completes - if queue is small/empty	2011-02-10 07:00:51

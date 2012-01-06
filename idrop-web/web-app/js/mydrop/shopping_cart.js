@@ -199,7 +199,7 @@ function checkOut() {
 						a.setAttribute('code', dataJSON.appletCode);
 						a.setAttribute('codebase', dataJSON.appletUrl);
 						a.setAttribute('archive', dataJSON.archive);
-						a.setAttribute('width', 300);
+						a.setAttribute('width', 250);
 						a.setAttribute('height', 150);
 						var p = document.createElement('param');
 						p.setAttribute('name', 'mode');
