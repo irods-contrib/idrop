@@ -4,9 +4,10 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.datautils.image.ImageServiceFactory
-import org.irods.jargon.datautils.image.ThumbnailService
-import org.springframework.security.core.context.SecurityContextHolder
 import org.irods.mydrop.config.*
+import org.irods.mydrop.service.ThumbnailGeneratorService
+import org.irods.mydrop.service.ThumbnailProcessResult
+import org.springframework.security.core.context.SecurityContextHolder
 
 /**
  * Controller to handle images (including thumbnails and galleries)
@@ -18,8 +19,8 @@ class ImageController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	ImageServiceFactory imageServiceFactory
+	ThumbnailGeneratorService thumbnailGeneratorService
 	IRODSAccount irodsAccount
-	static String IMAGE_PROP = "irods_thumbnail"
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -51,62 +52,14 @@ class ImageController {
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
+
+		File tempDir =servletContext.getAttribute("javax.servlet.context.tempdir")
+
 		log.info("looking up image as: ${absPath}")
-
-		File tempDir =servletContext.getAttribute( "javax.servlet.context.tempdir" );
-		log.info "tempdir:${tempDir}"
-		ThumbnailService thumbnailService = imageServiceFactory.instanceThumbnailService(irodsAccount)
-
-		ServerPropertiesCache serverPropertiesCache = session["serverPropertiesCache"]
-
-		if (!serverPropertiesCache) {
-			log.info("creating serverPropertiesCache in session")
-			serverPropertiesCache =  new ServerPropertiesCache()
-			session["serverPropertiesCache"] = serverPropertiesCache
-			log.info "server properties now saved in cache"
-		}
-
-		ServerProperties serverProperties = serverPropertiesCache.getServerProperties(irodsAccount)
-		log.info("server properties:${serverProperties}")
-
-		def goToIrods = false
-
-		def cacheProp = serverProperties.properties[IMAGE_PROP]
-		InputStream thumbnailData
-
-		if (cacheProp != null) {
-			log.info("found cacheProp: ${cacheProp}")
-			if (cacheProp) {
-				goToIrods = true
-			} else {
-				goToIrods = false
-			}
-		} else {
-			log.info("did not find cache prop in session, checking if a generator is available")
-			goToIrods = thumbnailService.isIRODSThumbnailGeneratorAvailable()
-			log.info("isIRODSThumbnailGeneratorAvailable? ${goToIrods}")
-			if (goToIrods) {
-				serverProperties.properties[IMAGE_PROP] = true
-			} else {
-				serverProperties.properties[IMAGE_PROP] = false
-			}
-		}
-
-		if  (goToIrods) {
-			log.info("cacheProp is true, use thumbnail process on iRODS")
-			thumbnailData = new BufferedInputStream(thumbnailService.retrieveThumbnailByIRODSAbsolutePathViaRule(absPath))
-			response.setContentType("image/jpg")
-			response.outputStream << thumbnailData // Performing a binary stream copy
-		} else  {
-			log.info("using fallback, cacheProp is false")
-			File tempThumbnailFile = thumbnailService.createThumbnailLocallyViaJAI(tempDir, absPath, 300);
-			thumbnailData = new BufferedInputStream(new FileInputStream(tempThumbnailFile))
-			response.setContentType("image/png")
-			response.outputStream << thumbnailData // Performing a binary stream copy
-			tempThumbnailFile.delete()
-		}
-
-		
-
+		ThumbnailProcessResult thumbnailProcessResult = thumbnailGeneratorService.getStreamForThumbnailImage(absPath, irodsAccount, irodsAccessObjectFactory, tempDir)
+		response.setContentType("application/octet-stream")
+		response.outputStream << thumbnailProcessResult.thumbnailStream // Performing a binary stream copy
+		log.info("stream done, do any necessary cleanup")
+		thumbnailProcessResult.cleanUpIfNeeded()
 	}
 }
