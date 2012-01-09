@@ -727,30 +727,31 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                         float bt = ts.getBytesTransfered() * 100;
                         float tot = ts.getTotalSize();
                         float percentDone = bt / tot;
-                        //tblUploadTable1.getModel().setValueAt((int) percentDone, tableRow, 2);
                         TransferProgressInfo tpi = new TransferProgressInfo(ts.getTotalSize(), ts.getBytesTransfered(), 0, 0, true);
                         tblUploadTable1.getModel().setValueAt(tpi, tableRow, 2);
                     }
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_START_FILE) {
-
-                    // start of a file operation
-                    progressIntraFile.setMinimum(0);
-                    progressIntraFile.setMaximum((int) ts.getTotalSize());
-                    progressIntraFile.setValue(0);
-                    lblCurrentFile.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
-
-                    //currentUploadFile = ts.getSourceFileAbsolutePath();
-                    if (currentUploadFile != null) {
-                        tableRow = getUploadTableProgressRow(currentUploadFile);
-                    }
-                    if ((tableRow >= 0)) {
-                        //tblUploadTable1.getModel().setValueAt(0, tableRow, 2);
-                    	TransferProgressInfo tpi = new TransferProgressInfo(ts.getTotalSize(), ts.getBytesTransfered(),
-                    			ts.getTotalFilesToTransfer(), ts.getTotalFilesTransferredSoFar());
-                        tblUploadTable1.getModel().setValueAt(tpi, tableRow, 2);
-                    }
-
+                	
+                	// start of a file operation
+                	progressIntraFile.setMinimum(0);
+                	progressIntraFile.setMaximum((int) ts.getTotalSize());
+                	progressIntraFile.setValue(0);
+                	lblCurrentFile.setText(abbreviateFileName(ts.getSourceFileAbsolutePath()));
+                	
+                	// need to do this because an IN_PROGRESS_START_FILE message is sent first that says
+                	// all of the bytes have been transferred which of course is incorrect, so must ignore
+                	// that first message
+                	if(!(ts.getTotalSize() == ts.getBytesTransfered())) {
+                		if (currentUploadFile != null) {
+                			tableRow = getUploadTableProgressRow(currentUploadFile);
+                		}
+                		if ((tableRow >= 0)) {
+                			TransferProgressInfo tpi = new TransferProgressInfo(ts.getTotalSize(), ts.getBytesTransfered(),
+                					ts.getTotalFilesToTransfer(), ts.getTotalFilesTransferredSoFar());
+                			tblUploadTable1.getModel().setValueAt(tpi, tableRow, 2);
+                		}
+                	}
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_COMPLETE_FILE) {
 
