@@ -10,11 +10,11 @@ import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataTransferOperations
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.Stream2StreamAO
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
-import org.irods.jargon.core.pub.io.IRODSFileOutputStream
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.multipart.MultipartFile
 
@@ -159,16 +159,22 @@ class FileController {
 			throw new JargonException("No iRODS target collection given for upload")
 		}
 
-		InputStream fis = new BufferedInputStream(f.getInputStream())
+		InputStream fis = null
 		log.info("building irodsFile for file name: ${name}")
 
-		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
-		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, name)
-		IRODSFileOutputStream irodsFileOutputStream = irodsFileFactory.instanceIRODSFileOutputStream(targetFile)
-		log.info("initiating transfer to ${targetFile}")
-		irodsFileOutputStream << fis
-		irodsFileOutputStream.flush()
-		irodsFileOutputStream.close()
+
+		try {
+			fis = new BufferedInputStream(f.getInputStream())
+			IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+			IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, name)
+			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
+			stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
+		} catch (Exception e) {
+			log.error("exception in upload transfer", e)
+			response.sendError(500,e.message)
+		} finally {
+			// stream2Stream will close input and output streams
+		}
 
 		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
 	}
