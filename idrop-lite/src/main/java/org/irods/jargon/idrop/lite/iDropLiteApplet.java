@@ -1161,7 +1161,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         	Object [] rowData = new Object[5];
         	rowData[0] = cf;
         	try {
-             	IRODSFileService irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), IRODSFileSystem.instance());
+             	IRODSFileService irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), iDropCore.getIrodsFileSystem());
              	IRODSFile ifile = irodsFS.getIRODSFileForPath(cf);
              	if(ifile.isDirectory()) {
              		isFolder = true;
