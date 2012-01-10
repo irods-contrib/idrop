@@ -300,7 +300,9 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             return false;
         }
 
-        buildTargetTree();
+        if(this.displayMode != 3) {
+        	buildTargetTree();
+        }
         setUpLocalFileSelectTree();
         setUpUploadLocalFileSelectTree();
 
