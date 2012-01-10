@@ -803,8 +803,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
     @Override
     public void overallStatusCallback(final TransferStatus ts) {
-
-        final IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree.getModel();
+    	
+//        final IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree.getModel();
         final iDropLiteApplet idropGui = this;
         idropGui.setTransferInProgress(true);
 
@@ -837,13 +837,13 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 } else if (ts.getTransferType() == TransferStatus.TransferType.COPY || ts.getTransferType() == TransferStatus.TransferType.PUT) {
                     if (ts.getTransferZone().equals(
                             iDropCore.getIrodsAccount().getZone()) && ts.getTransferHost().equals(iDropCore.getIrodsAccount().getHost())) {
-                        try {
-                            // should leave PUT, and COPY
-                            irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
-                        } catch (IdropException ex) {
-                            log.error("error on tree notify after operation", ex);
-                            throw new IdropRuntimeException("error processing overall status callback", ex);
-                        }
+//                        try {
+//                            // should leave PUT, and COPY
+//                            irodsTreeModel.notifyCompletionOfOperation(irodsTree, ts);
+//                        } catch (IdropException ex) {
+//                            log.error("error on tree notify after operation", ex);
+//                            throw new IdropRuntimeException("error processing overall status callback", ex);
+//                        }
                     }
 
                 }
