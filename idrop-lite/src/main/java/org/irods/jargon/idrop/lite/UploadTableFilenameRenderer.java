@@ -45,8 +45,14 @@ public class UploadTableFilenameRenderer extends DefaultTableCellRenderer {
             switch(mode) {
           
           	case(UPLOAD_MODE) :
-          		File localFile = new File(filename);
-          		icon = FileSystemView.getFileSystemView().getSystemIcon(localFile);
+          		// check for url
+          		if((Integer)table.getModel().getValueAt(row, 4) == iDropLiteApplet.uploadURL) {
+          			icon = UIManager.getIcon("FileView.fileIcon");
+          		}
+          		else {
+          			File localFile = new File(filename);
+          			icon = FileSystemView.getFileSystemView().getSystemIcon(localFile);
+          		}
           		break;
           		
           	case(DOWNLOAD_MODE) :
@@ -73,9 +79,13 @@ public class UploadTableFilenameRenderer extends DefaultTableCellRenderer {
     
     private Boolean isIrodsFolder(JTable table, int row) {
     	
-    	Boolean isFolder = false;
+    	Boolean isFolder = Boolean.FALSE;
+    	int fileType = iDropLiteApplet.uploadFile;
     	
-		isFolder = (Boolean) table.getModel().getValueAt(row, 4);
+		fileType = (Integer) table.getModel().getValueAt(row, 4);
+		if(fileType == iDropLiteApplet.uploadFolder) {
+			isFolder = Boolean.TRUE;
+		}
     	return isFolder;
     }
     
