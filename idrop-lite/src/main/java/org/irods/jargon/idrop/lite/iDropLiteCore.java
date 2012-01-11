@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javax.swing.table.DefaultTableModel;
+
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.DataTransferOperations;
@@ -31,6 +33,8 @@ public class iDropLiteCore {
     private DataTransferOperations dataTransferOps = null;
     
     private TransferControlBlock transferControlBlock = null;
+    
+    private DefaultTableModel tmUploadTable = null;
 
     public IRODSFileSystem getIrodsFileSystem() {
         return irodsFileSystem;
@@ -194,6 +198,14 @@ public class iDropLiteCore {
     
     public TransferControlBlock getTransferControlBlock() {
     	return this.transferControlBlock;
+    }
+    
+    protected void setUploadTableModel(DefaultTableModel tm) {
+    	this.tmUploadTable = tm;
+    }
+    
+    public DefaultTableModel getUploadTableModel() {
+	   return this.tmUploadTable;
     }
 }
 
