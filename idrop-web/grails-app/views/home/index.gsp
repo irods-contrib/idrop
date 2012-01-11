@@ -24,7 +24,7 @@
    <div id="browse">
     <div id="browser" class="wrapper">
       <div id="browseToolbar">
-           <g:render template="/common/topToolbar" />
+           <g:render template="/common/topToolbar" /> <span id="infoDivPathArea" style="overflow:hidden;position:relative;display:inline-block;margin:10px;font-size:120%;"><!-- area for the path crumb-trails --></span>
       </div>
  
   
@@ -33,6 +33,7 @@
     		<div id="dataTreeDiv" class="ui-layout-west" style="width:25%;height:700px;overflow:auto;"></div>
     		<div id="infoDivOuter" style="display: block; width: 75%; height:100%; position:relative; overflow:auto;"
              class="ui-layout-center">
+            
        			<div id="infoDiv" style="overflow:visible; position:relative;">
             		<h2>
               		<g:message code="browse.page.prompt" />
