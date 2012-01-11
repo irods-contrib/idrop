@@ -136,14 +136,14 @@ public class UploadTableTransferHandler extends TransferHandler {
          }
          
          DefaultTableModel tm = (DefaultTableModel)table.getModel();
-         Boolean isFolder = false;
+         int fileType = iDropLiteApplet.uploadFile;
          for (File transferFile : sourceFiles) {
              log.info("put file in upload table: {}", transferFile.getAbsolutePath());
 
              String localSourceAbsolutePath = transferFile.getAbsolutePath();
              
              if(transferFile.isDirectory()) {
-          		isFolder = true;
+          		fileType = iDropLiteApplet.uploadFolder;
           	 }
              
              Object [] rowData = new Object[5];
@@ -151,7 +151,7 @@ public class UploadTableTransferHandler extends TransferHandler {
              rowData[1] = 0;
              rowData[2] = new TransferProgressInfo();
           	 rowData[3] = Boolean.TRUE;
-          	 rowData[4] = isFolder;
+          	 rowData[4] = fileType;
              tm.addRow(rowData);
           }
          }
@@ -180,13 +180,13 @@ public class UploadTableTransferHandler extends TransferHandler {
          }
 
          DefaultTableModel tm = (DefaultTableModel)table.getModel();
-         Boolean isFolder = false;
+         int fileType = iDropLiteApplet.uploadFile;
          for (File transferFile : sourceFiles) {
         	 String localSourceAbsolutePath = transferFile.getAbsolutePath();
         	 log.info("put file in upload table: {}", localSourceAbsolutePath);
         	 
          	 if(transferFile.isDirectory()) {
-         		isFolder = true;
+         		fileType = iDropLiteApplet.uploadFolder;
          	 }
 
              Object [] rowData = new Object[5];
@@ -194,7 +194,7 @@ public class UploadTableTransferHandler extends TransferHandler {
              rowData[1] = 0;
              rowData[2] = new TransferProgressInfo();
           	 rowData[3] = Boolean.TRUE;
-          	 rowData[4] = isFolder;
+          	 rowData[4] = fileType;
              tm.addRow(rowData);
              
          }
