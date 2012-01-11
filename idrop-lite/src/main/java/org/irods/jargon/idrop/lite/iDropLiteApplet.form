@@ -1222,7 +1222,7 @@
                                     <Column editable="false" title="File/Folder Size" type="java.lang.Integer"/>
                                     <Column editable="false" title="Progress" type="java.lang.Object"/>
                                     <Column editable="true" title="Cancel/Remove" type="java.lang.Boolean"/>
-                                    <Column editable="false" title="isFolder" type="java.lang.Boolean"/>
+                                    <Column editable="false" title="File Type" type="java.lang.Integer"/>
                                   </Table>
                                 </Property>
                                 <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">
