@@ -482,6 +482,8 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	if (absPath == null) {
 		return;
 	}
+	
+	setPathCrumbtrail(absPath);
 
 	if (browseOptionVal == null) {
 		browseOptionVal = "info";
