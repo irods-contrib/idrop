@@ -15,13 +15,11 @@ public class PutTransferRunner implements Runnable {
     private final List<File> sourceFiles;
     private final String targetIrodsFileAbsolutePath;
     private final iDropLiteApplet idropGui;
-    //private final TransferControlBlock transferControlBlock;
     private TransferControlBlock transferControlBlock;
 
     public PutTransferRunner(final iDropLiteApplet gui,
             final String targetPath,
             final List<File> files)
-            //final TransferControlBlock transferControlBlock)
             throws JargonException {
 
         if (files == null) {
@@ -36,14 +34,9 @@ public class PutTransferRunner implements Runnable {
             throw new JargonException("null idrop gui");
         }
 
-//        if (transferControlBlock == null) {
-//            throw new JargonException("null transferControlBlock");
-//        }
-
         this.targetIrodsFileAbsolutePath = targetPath;
         this.sourceFiles = files;
         this.idropGui = gui;
-        //this.transferControlBlock = transferControlBlock;
 
     }
 
