@@ -38,10 +38,11 @@ public class UploadTableProgressBar extends JProgressBar implements TableCellRen
 			setValue(ival);
 			
 			// check to see if this a folder and if files have already started to be transferred
-			Boolean isFolder = (Boolean) table.getModel().getValueAt(row, 4);
+			//Boolean isFolder = (Boolean) table.getModel().getValueAt(row, 4);
+			int fileType = (Integer)table.getModel().getValueAt(row, 4);
 			int filesToTransfer = tpInfo.getTotalFilesToTransfer();
 			int soFar = tpInfo.getTotalFilesTransferredSoFar();
-			if((isFolder) && (ival > 0)) {
+			if((fileType == iDropLiteApplet.uploadFolder) && (ival > 0)) {
 				if(tpInfo.isIntraFile) { // retrieve file transfer statistics not given in intraFile type callback
 					TransferControlBlock tcb = ((iDropLiteApplet)table.getTopLevelAncestor()).getiDropCore().getTransferControlBlock();
 					if(tcb != null) {
