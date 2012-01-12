@@ -2261,6 +2261,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         jLabel1.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.jLabel1.text")); // NOI18N
         jPanel15.add(jLabel1, java.awt.BorderLayout.CENTER);
 
+        pnlIdropWebModeProgressBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 20));
         pnlIdropWebModeProgressBar.setPreferredSize(new java.awt.Dimension(700, 75));
         pnlIdropWebModeProgressBar.setLayout(new java.awt.BorderLayout());
 
