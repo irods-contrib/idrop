@@ -293,15 +293,15 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         log.info("initiating startup sequence...");
 
-        log.info("creating irods file system instance...");
-        try {
-            irodsFileSystem = IRODSFileSystem.instance();
-        } catch (JargonException ex) {
-            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        log.info("creating temporary irods account...");
-        this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
+//        log.info("creating irods file system instance...");
+//        try {
+//            irodsFileSystem = IRODSFileSystem.instance();
+//        } catch (JargonException ex) {
+//            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        log.info("creating temporary irods account...");
+//        this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
 
         log.info("creating idropCore...");
         iDropCore = new iDropLiteCore();
@@ -2220,6 +2220,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         testCardPanel.add(pnlOperationMode3, "card4");
 
+        pnlIdropWebMode.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlIdropWebMode.setLayout(new java.awt.BorderLayout());
 
         pnlIdropWebModeDownloadTarget.setPreferredSize(new java.awt.Dimension(700, 35));
@@ -2248,7 +2249,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 700, Short.MAX_VALUE)
+            .add(0, 690, Short.MAX_VALUE)
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
