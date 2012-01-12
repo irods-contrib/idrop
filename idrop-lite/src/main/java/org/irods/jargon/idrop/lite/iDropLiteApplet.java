@@ -110,6 +110,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             java.awt.EventQueue.invokeAndWait(new Runnable() {
 
                 public void run() {
+                	log.info("iDropLiteApplet version is:{}", Version.VERSION);
                 	getAppletParams();
                 	if (doStartup()) {
                 		initComponents();
@@ -2511,11 +2512,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     }//GEN-LAST:event_btnOverallUploadCancelActionPerformed
 
     private void btnUploadUrlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadUrlActionPerformed
-    	UploadFromURLDialog dlgUploadFromURL = new UploadFromURLDialog(this, true);
-    	dlgUploadFromURL.setLocation(
-                (int) (this.getLocation().getX() + this.getWidth() / 2),
-                (int) (this.getLocation().getY() + this.getHeight() / 2));
-        dlgUploadFromURL.setVisible(true);
+//    	UploadFromURLDialog dlgUploadFromURL = new UploadFromURLDialog(this, true);
+//    	dlgUploadFromURL.setLocation(
+//                (int) (this.getLocation().getX() + this.getWidth() / 2),
+//                (int) (this.getLocation().getY() + this.getHeight() / 2));
+//        dlgUploadFromURL.setVisible(true);
     }//GEN-LAST:event_btnUploadUrlActionPerformed
 
     private void btnIdropWebModeTargetBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIdropWebModeTargetBrowseActionPerformed
