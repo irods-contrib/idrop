@@ -41,7 +41,7 @@ var fileCopyUrl = '/file/copyFile';
 function retrieveBrowserFirstView() {
 	if (dataTree == null) {
 		var url = "/browse/ajaxDirectoryListingUnderParent";
-		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, "dir=/",
+		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, "dir=",
 				"#dataTreeDiv", browserFirstViewRetrieved);
 	} else {
 

@@ -105,52 +105,66 @@ class BrowseController {
 		def parent = params['dir']
 		log.info "ajaxDirectoryListingUnderParent path: ${parent}"
 
-		if (!parent) {
-			log.error "no dir param set"
-			throw new
-			JargonException("no dir param set")
-		}
+		// if no parent, then this is first view, so determine and display the root directory
 
-		if (parent != "/") {
-			log.info "parent not root use as is"
-		} else {
-			log.info "parent set to root, see if strict acl set"
+		def jsonBuff = []
+		def icon
+		def state
+		def type
+
+		if (!parent) {
+			log.info("no parent parm set, treat as first view and determine and display root node")
 			def environmentalInfoAO = irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)
 			def isStrict = environmentalInfoAO.isStrictACLs()
 			log.info "is strict?:{isStrict}"
 			if (isStrict) {
 				parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
-			}
-		}
-
-		def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
-		log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
-
-		def jsonBuff = []
-		//jsonBuff.add(['parent':parent])
-
-		collectionAndDataObjectList.each {
-
-			def icon
-			def state
-			def type
-			if (it.isDataObject()) {
-				icon = "../images/file.png"
-				state = "open"
-				type = "file"
 			} else {
-				icon = "folder"
-				state = "closed"
-				type = "folder"
+				parent = "/"
 			}
 
-			def attrBuf = ["id":it.formattedAbsolutePath, "rel":type, "absPath":it.formattedAbsolutePath]
+			// display a root node
+
+			icon = "folder"
+			state = "closed"
+			type = "folder"
+
+			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
 
 			jsonBuff.add(
-					["data": it.nodeLabelDisplayValue,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+					["data": "/","attr":attrBuf, "state":state,"icon":icon, "type":type]
 					)
+
+
+		} else {
+			log.info("parent dir for listing provided as:${parent}")
+			def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+			def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
+			log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
+			collectionAndDataObjectList.each {
+
+
+				if (it.isDataObject()) {
+					icon = "../images/file.png"
+					state = "open"
+					type = "file"
+				} else {
+					icon = "folder"
+					state = "closed"
+					type = "folder"
+				}
+
+				def attrBuf = ["id":it.formattedAbsolutePath, "rel":type, "absPath":it.formattedAbsolutePath]
+
+				jsonBuff.add(
+						["data": it.nodeLabelDisplayValue,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+						)
+			}
 		}
+
+		//jsonBuff.add(['parent':parent])
+
+
 
 		render jsonBuff as JSON
 	}
