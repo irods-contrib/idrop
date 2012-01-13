@@ -107,7 +107,7 @@ function setPathCrumbtrail(irodsAbsolutePath) {
 	
 	var s = "";
 	
-	// a long path will drop the leading path parts, so give an elipsis
+	// a long path will drop the leading path parts, so indicate truncation
 	if (totLen > 80) {
 		s += "...";
 	}

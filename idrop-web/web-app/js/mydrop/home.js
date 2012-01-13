@@ -7,7 +7,21 @@
 /**
  * Global var holds jquery ref to the dataTree
  */
+
+
+/**
+ * ref to the jtree
+ */
 var dataTree;
+
+/**
+ * root path (which could be a multi-element path, such as a home directory
+ */
+
+var baseAbsPath = "/";
+var baseAbsPathAsArrayOfPathElements;
+
+
 var browseOptionVal = "browse";
 var selectedPath = null;
 var selectedNode = null;
@@ -43,8 +57,6 @@ function retrieveBrowserFirstView() {
 		var url = "/browse/ajaxDirectoryListingUnderParent";
 		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, "dir=",
 				"#dataTreeDiv", browserFirstViewRetrieved);
-	} else {
-
 	}
 }
 
@@ -60,7 +72,9 @@ function retrieveBrowserFirstView() {
  * @return
  */
 function browserFirstViewRetrieved(data) {
-	var parent = data['parent']
+	baseAbsPath = data[0].attr.absPath;
+	baseAbsPathAsArrayOfPathElements = baseAbsPath.split("/");
+	var parent = data['parent'];
 	dataTree = $("#dataTreeDiv").jstree(
 			{
 				"plugins" : [ "themes", "contextmenu", "json_data", "types",
@@ -1278,8 +1292,8 @@ function deleteViaToolbarGivenPath(path) {
 
 										$.jstree._reference(dataTree)
 												._get_parent(currentNode);
-										//$.jstree._reference(dataTree).remove(
-										//		currentNode);
+										// $.jstree._reference(dataTree).remove(
+										// currentNode);
 
 										var parent = $.jstree._reference(
 												dataTree).refresh(parent);
@@ -1422,7 +1436,10 @@ function submitNewFolderDialog() {
 		setMessage("New folder created:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		closeNewFolderDialog();
-		refreshTree();
+		
+		// refresh the parent node and open
+		addANodeToTheParentInTheTree(absPath, newName);
+		// refreshTree();
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	}).error(function(xhr, status, error) {
 		refreshTree();
@@ -1453,6 +1470,50 @@ function deleteFilesBulkAction() {
 
 }
 
+
+function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
+	
+	if (parentAbsolutePath == null || parentAbsolutePath.length == 0) {
+		throw("no path provided, cannot add a node to the tree");
+	}
+	
+	if (parentAbsolutePath == null || parentAbsolutePath.length == 0) {
+		throw("no path provided, cannot add a node to the tree");
+	}
+	
+	// find and open the parent node, then add the child to it
+	splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null, function(path, dataTree, currentNode) {
+		// alert("trying to add a node, found the parent, my child name will
+		// be:" + childRelativeName);
+	
+		var icon = "folder";
+	    var state = "closed";
+		var type = "folder";
+		
+		
+		var childAbsolutePath = parentAbsolutePath + "/" + childRelativeName;
+		
+		var attrBuf = new Object();
+		attrBuf.id = childAbsolutePath;
+		attrBuf.rel = type;
+		attrBuf.absPath = childAbsolutePath;
+		
+		var nodeProps = new Object();
+		nodeProps.data = childRelativeName;
+		nodeProps.attr = attrBuf;
+		nodeProps.state = state;
+
+		
+		$.jstree._reference(dataTree).create_node(currentNode, "inside", nodeProps, null, false);	
+		// be sure the parent node is open too
+		$.jstree._reference(dataTree).open_node($.jstree._reference(dataTree)._get_parent(currentNode), null, false);
+		
+	});
+	
+	
+	
+}
+
 /**
  * Given the tree path in the text box, recursively open the nodes in the tree
  * based on the path.
@@ -1469,29 +1530,35 @@ function deleteFilesBulkAction() {
  */
 function selectTreePath(path, currentNode, currentIndex) {
 
+	
+	if (currentIndex == null) {
+		currentIndex = 0;
+	}
+	
 	if (path == null) {
 		var val = $("#searchTerm").val();
 		// alert("select tree path:" + val);
 		path = val.split("/");
 	}
 
-	if (currentIndex == null) {
-		currentIndex = 0;
-	}
 
 	// if called with no params, get the root node, open it, and process the
 	// children
 	if (currentNode == null) {
 		currentNode = $.jstree._reference(dataTree).get_container();
-
-	} else if (currentNode == null) {
-		setErrorMessage("error - call to open node, currentNode is null");
-		return false;
-	}
-
+		var children = $.jstree._reference(dataTree)._get_children(
+				currentNode);
+		currentNode = children[0];
+		selectTreePath(path, currentNode, currentIndex);
+		return;
+	} 
+	
+	
+	
 	var skip = false;
 	var end = false;
 	$.each(path, function(index, value) {
+		
 		if (skip) {
 			return;
 		}
@@ -1499,8 +1566,20 @@ function selectTreePath(path, currentNode, currentIndex) {
 		if (index < currentIndex) {
 			return;
 		}
-
-		if (value > "") {
+		
+		if (value == "") {
+			return;
+		}
+		
+		/**
+		 * I might have a root that is not really '/', I could have a tree root that is a node inside of the actual
+		 * iRODS tree.  Use the baseAbsPathAsArrayOfPathElements to account for this
+		 */
+		if (baseAbsPath.length > 1 && index < (baseAbsPathAsArrayOfPathElements.length)) {
+			return;
+		}
+		
+		// if (value > "") {
 			var loaded = $.jstree._reference(dataTree)._is_loaded(currentNode);
 			if (!loaded) {
 				skip = true;
@@ -1522,7 +1601,7 @@ function selectTreePath(path, currentNode, currentIndex) {
 					end = true;
 				}
 			}
-		}
+		// }
 	});
 
 	if (currentNode != null && end) {
@@ -1545,7 +1624,12 @@ function getPathInNode(childNodes, targetPath) {
 	$.each(childNodes, function(index, value) {
 		var theChild = $.jstree._reference(dataTree)._get_node(value);
 		nodeText = $.jstree._reference(dataTree).get_text(theChild);
+		
 		if (nodeText == targetPath) {
+			foundChild = theChild;
+			return;
+		} else if (nodeText == "/" && targetPath == "") {
+			// this matches the root node
 			foundChild = theChild;
 			return;
 		}
@@ -1593,26 +1677,30 @@ function splitPathAndPerformOperationAtGivenTreePath(path, currentNode,
 function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 		operationToPerform) {
 
+	if (currentIndex == null) {
+		currentIndex = 0;
+	}
+	
+
 	if (path == null) {
-		var val = $("#treePath").val();
+		var val = $("#searchTerm").val();
 		// alert("select tree path:" + val);
 		path = val.split("/");
 	}
 
-	if (currentIndex == null) {
-		currentIndex = 0;
-	}
+	
 
 	// if called with no params, get the root node, open it, and process the
 	// children
 	if (currentNode == null) {
 		currentNode = $.jstree._reference(dataTree).get_container();
-
-	} else if (currentNode == null) {
-		alert("error - call to open node, currentNode is null");
-		return false;
-	}
-
+		var children = $.jstree._reference(dataTree)._get_children(
+				currentNode);
+		currentNode = children[0];
+		performOperationAtGivenTreePath(path, currentNode, currentIndex, operationToPerform);
+		return;
+	} 
+	
 	var skip = false;
 	var end = false;
 	$.each(path, function(index, value) {
@@ -1623,8 +1711,23 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 		if (index < currentIndex) {
 			return;
 		}
+		
+		if (value == "") {
+			return;
+		}
+		
+		/**
+		 * I might have a root that is not really '/', I could have a tree root that is a node inside of the actual
+		 * iRODS tree.  Use the baseAbsPathAsArrayOfPathElements to account for this
+		 */
+		if (baseAbsPath.length > 1 && index < (baseAbsPathAsArrayOfPathElements.length)) {
+			return;
+		}
+			
+			
+		//} else {
 
-		if (value > "") {
+		// if (value > "") {
 			var loaded = $.jstree._reference(dataTree)._is_loaded(currentNode);
 			if (!loaded) {
 				skip = true;
@@ -1641,14 +1744,14 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 					currentNode);
 			currentNode = getPathInNode(children, value);
 			if (currentNode == null) {
-				setErrorMessage("Path not found in tree");
+				setErrorMessage("Path not found in tree:" + path);
 				return false;
 			} else {
 				if (index == path.length - 1) {
 					end = true;
 				}
 			}
-		}
+	// }
 	});
 
 	if (currentNode != null && end) {
@@ -1657,17 +1760,3 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 
 }
 
-/*
- * function closeTreeNodeAtAbsolutePath(absPath) {
- * 
- * if (absPath == null) { return false; }
- * 
- * absPath = absPath.replace(/\//g, "\\\\/"); absPath = absPath.replace(/\./g,
- * "\\\\.");
- * 
- * var selector = '#' + absPath; // var selector = "#" + absPath;
- * 
- * var treeNode = $(selector); // var treeNode= $("#\\/test1\\/home\\/test1"); //
- * alert("treeNode:" + treeNode);
- *  }
- */
