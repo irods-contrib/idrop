@@ -36,7 +36,7 @@
         $(function() {
 
         	$('.userDetailRow').click(function(event) {
-        		requestUserPopup(event);
+        		//requestUserPopup(event);
         		});
 
             

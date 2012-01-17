@@ -19,12 +19,12 @@
 		
 	</ul>
 	</li>
-	<li id="menuSharingDetails"><a href="#sharingDetails"><g:message code="text.sharing"/></a>
+	<!-- <li id="menuSharingDetails"><a href="#sharingDetails"><g:message code="text.sharing"/></a>
 	<ul>
 		<li id="menuCreateTicketDetails"><a href="#createTicketDetails"><g:message code="text.create.ticket" /></a></li>
-		<li id="menuShareWithUsersDetails"><a href="#shareWithUsersDetails" onclick="showBulkShareDialogFromBrowseDetailsToolbar()"><g:message code="text.share" /></a></li>
+		<li id="menuShareWithUsersDetails"><a href="#shareWithUsersDetails" onclick="sharingSelectedFromBrowseDetailsToolbar()"><g:message code="text.share" /></a></li>
 	</ul>
-	</li>
+	</li> -->
 	<li id="menuBulkActionDetails"><a href="#applyActionToAllDetails"><g:message code="text.apply.to.all"/></a>
 	<ul>
 	
@@ -63,17 +63,8 @@ function deleteSelected() {
              deleteFilesBulkAction();	
 }
 
-/**
- * 
- */
-function showBulkShareDialogFromBrowseDetailsToolbar() {
-	if (selectedPath == null) {
-		setMessage("no file or collection selected");
-		return false;	
-	}
-	
-	showBulkShareDialog(selectedPath);
-
+function sharingSelectedFromBrowseDetailsToolbar() {
+	showSharingView(selectedPath);
 }
 
 </script>
