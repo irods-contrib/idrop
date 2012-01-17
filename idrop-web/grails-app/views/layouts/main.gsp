@@ -32,6 +32,8 @@
 <g:javascript library="mydrop/lingo_common" />
 <g:javascript library="mydrop/main" />
 <g:javascript library="jquery-ui-13" />
+<g:javascript library="jquery.blockUI" />
+
 <g:javascript library="jquery.layout.min-1.3.0" />
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.tools.min" />

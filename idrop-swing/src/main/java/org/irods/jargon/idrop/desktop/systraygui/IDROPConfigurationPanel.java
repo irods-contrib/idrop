@@ -187,7 +187,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlSynchName = new javax.swing.JPanel();
         lblSynchName = new javax.swing.JLabel();
         txtSynchName = new javax.swing.JTextField();
-        btnSynchDetails = new javax.swing.JButton();
         lblSynchDateLabel = new javax.swing.JLabel();
         lblSynchDate = new javax.swing.JLabel();
         pnlSynchIcon = new javax.swing.JPanel();
@@ -575,14 +574,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlSynchName.add(txtSynchName, gridBagConstraints);
-
-        btnSynchDetails.setMnemonic('H');
-        btnSynchDetails.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnSynchDetails.text")); // NOI18N
-        btnSynchDetails.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnSynchDetails.toolTipText")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        pnlSynchName.add(btnSynchDetails, gridBagConstraints);
 
         lblSynchDateLabel.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblSynchDateLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1311,7 +1302,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JButton btnNewSynch;
     private javax.swing.JButton btnOK;
     private javax.swing.JButton btnRefreshSynch;
-    private javax.swing.JButton btnSynchDetails;
     private javax.swing.JButton btnSynchNow;
     private javax.swing.JButton btnUpdateSynch;
     private javax.swing.ButtonGroup buttonGroupSynchMode;
@@ -1501,7 +1491,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         btnDeleteSynch.setEnabled(lockStatus);
         btnUpdateSynch.setEnabled(lockStatus);
         btnSynchNow.setEnabled(lockStatus);
-        btnSynchDetails.setEnabled(lockStatus);
+        //btnSynchDetails.setEnabled(lockStatus);
     }
 
     private void setSynchIcon(Synchronization synchronization) {

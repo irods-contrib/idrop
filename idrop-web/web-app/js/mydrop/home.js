@@ -8,7 +8,6 @@
  * Global var holds jquery ref to the dataTree
  */
 
-
 /**
  * ref to the jtree
  */
@@ -20,7 +19,6 @@ var dataTree;
 
 var baseAbsPath = "/";
 var baseAbsPathAsArrayOfPathElements;
-
 
 var browseOptionVal = "browse";
 var selectedPath = null;
@@ -202,6 +200,11 @@ function browserFirstViewRetrieved(data) {
  * @returns
  */
 function customMenu(node) {
+	
+	selectedNode = node;
+	selectedPath = node[0].idd;
+	
+	
 	// The default set of all items FIXME: i18n
 	var items = {
 		refreshItem : { // The "refresh" menu item
@@ -315,6 +318,9 @@ function nodeAdded(event, data) {
 		parent : parent,
 		name : name
 	}
+	
+	showBlockingPanel();
+
 
 	var jqxhr = $.post(context + folderAddUrl, params,
 			function(data, status, xhr) {
@@ -326,9 +332,11 @@ function nodeAdded(event, data) {
 		setMessage("new folder created:" + xhr.responseText);
 		data[0].id = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(parent);
+		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
 		refreshTree();
+		unblockPanel();
 		// updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
 	});
 }
@@ -349,6 +357,8 @@ function nodeRemoved(event, data) {
 		absPath : id
 	}
 
+	showBlockingPanel();
+
 	var jqxhr = $.post(context + fileDeleteUrl, params,
 			function(data, status, xhr) {
 			}, "html").success(function(returnedData, status, xhr) {
@@ -359,9 +369,11 @@ function nodeRemoved(event, data) {
 		setMessage("file deleted:" + id);
 		selectedPqth = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
 		refreshTree();
+		unblockPanel();
 	});
 }
 
@@ -382,6 +394,8 @@ function nodeRenamed(event, data) {
 		prevAbsPath : prevAbsPath,
 		newName : newName
 	}
+	
+	showBlockingPanel();
 
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
@@ -395,12 +409,13 @@ function nodeRenamed(event, data) {
 		data.rslt.obj[0].id = xhr.responseText;
 		data.rslt.obj[0].abspath = xhr.responseText;
 		// refresh this node
-		$.jstree._reference(dataTree).refresh(
-				data.rslt.obj[0]);
+		$.jstree._reference(dataTree).refresh(data.rslt.obj[0]);
 		updateBrowseDetailsForPathBasedOnCurrentModel(xhr.responseText);
+		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
 		refreshTree();
+		unblockPanel();
 	});
 
 }
@@ -423,6 +438,9 @@ function moveFile(sourcePath, targetPath) {
 		sourceAbsPath : sourcePath,
 		targetAbsPath : targetPath
 	}
+	
+	showBlockingPanel();
+
 
 	var jqxhr = $.post(context + fileMoveUrl, params,
 			function(data, status, xhr) {
@@ -435,9 +453,11 @@ function moveFile(sourcePath, targetPath) {
 		selectedPath = targetPath;
 		refreshTree();
 		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
 		refreshTree();
+		unblockPanel();
 	});
 }
 
@@ -459,6 +479,9 @@ function copyFile(sourcePath, targetPath) {
 		sourceAbsPath : sourcePath,
 		targetAbsPath : targetPath
 	}
+	
+	showBlockingPanel();
+
 
 	var jqxhr = $.post(context + fileCopyUrl, params,
 			function(data, status, xhr) {
@@ -470,9 +493,11 @@ function copyFile(sourcePath, targetPath) {
 		setMessage("file copied to:" + xhr.responseText);
 		refreshTree();
 		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
 		refreshTree();
+		unblockPanel();
 	});
 }
 
@@ -496,7 +521,7 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	if (absPath == null) {
 		return;
 	}
-	
+
 	setPathCrumbtrail(absPath);
 
 	if (browseOptionVal == null) {
@@ -612,8 +637,6 @@ function showUploadDialog() {
 
 }
 
-
-
 /**
  * Show the dialog to upload from the browse details view
  */
@@ -718,7 +741,6 @@ function initializeUploadDialogAjaxLoader() {
  */
 function aclUpdate(value, settings, userName) {
 
-
 	if (selectedPath == null) {
 		throw "no collection or data object selected";
 	}
@@ -736,10 +758,9 @@ function aclUpdate(value, settings, userName) {
 				lcClearDivAndDivClass(messageAreaSelector);
 			}, "html").error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
-	}).complete(
-			function() {
-				setMessage("File sharing update successful");
-			});
+	}).complete(function() {
+		setMessage("File sharing update successful");
+	});
 
 	return value;
 
@@ -795,14 +816,12 @@ function submitAclDialog() {
 
 	var userName = $('[name=userName]').val();
 	if (userName == null || userName == "") {
-		setErrorMessage(
-				"Please select a user to share data with");
+		setErrorMessage("Please select a user to share data with");
 		return false;
 	}
 	var permissionVal = $('[name=acl]').val();
 	if (permissionVal == null || permissionVal == "" || permissionVal == "NONE") {
-		setErrorMessage(
-				"Please select a permission value in the drop-down");
+		setErrorMessage("Please select a permission value in the drop-down");
 		return false;
 	}
 
@@ -823,26 +842,23 @@ function submitAclDialog() {
 	var jqxhr = $.post(context + aclAddUrl, params,
 			function(data, status, xhr) {
 				lcClearDivAndDivClass(aclDialogMessageSelector);
-			}, "html").success(
-			function(data, status, xhr) {
-				var continueReq = checkForSessionTimeout(data, xhr);
-				if (!continueReq) {
-					return false;
-				}
-				var dataJSON = jQuery.parseJSON(data);
-				if (dataJSON.response.errorMessage != null) {
+			}, "html").success(function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		var dataJSON = jQuery.parseJSON(data);
+		if (dataJSON.response.errorMessage != null) {
 
-					setErrorMessage(
-							dataJSON.response.errorMessage);
-				} else {
-					reloadAclTable();
-					closeAclAddDialog();
-					setMessage(
-							"Sharing permission saved successfully"); // FIXME:
-					// i18n
-				}
+			setErrorMessage(dataJSON.response.errorMessage);
+		} else {
+			reloadAclTable();
+			closeAclAddDialog();
+			setMessage("Sharing permission saved successfully"); // FIXME:
+			// i18n
+		}
 
-			}).error(function(xhr, status, error) {
+	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
 	});
 }
@@ -916,7 +932,7 @@ function buildAclTableInPlace() {
 				'type' : 'select',
 				'submit' : 'OK',
 				'cancel' : 'Cancel',
-				 'onblur': 'ignore',
+				'onblur' : 'ignore',
 				'indicator' : 'Saving'
 			});
 }
@@ -1251,6 +1267,8 @@ function deleteViaToolbarGivenPath(path) {
 
 	if (answer) {
 
+		showBlockingPanel();
+		
 		var params = {
 			absPath : path
 		}
@@ -1265,10 +1283,9 @@ function deleteViaToolbarGivenPath(path) {
 							if (!continueReq) {
 								return false;
 							}
-							
+
 							setMessage("file deleted:" + xhr.responseText);
-							
-							
+
 							$("#infoDiv").html("<h2>File Deleted</h2>");
 
 							/*
@@ -1301,10 +1318,13 @@ function deleteViaToolbarGivenPath(path) {
 										updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 
 									});
+							
+							unblockPanel();
 
 						}).error(function(xhr, status, error) {
 					refreshTree();
 					setErrorMessage(xhr.responseText);
+					unblockPanel();
 				});
 	}
 
@@ -1384,6 +1404,8 @@ function submitRenameDialog() {
 		prevAbsPath : absPath,
 		newName : newName
 	}
+	
+	showBlockingPanel();
 
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
@@ -1396,14 +1418,16 @@ function submitRenameDialog() {
 		selectedPath = xhr.responseText;
 		closeRenameDialog();
 		refreshTree();
+		selectTreePathFromIrodsPath(selectedPath);
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		unblockPanel();
 	}).error(function(xhr, status, error) {
 		refreshTree();
 		setErrorMessage(xhr.responseText);
+		unblockPanel();
 	});
 
 }
-
 
 /**
  * Process a new folder operation requested from the toolbar by processing the
@@ -1416,8 +1440,7 @@ function submitNewFolderDialog() {
 	var newName = $("#fileName").val();
 	// name must be entered
 	if (newName == null || newName.length == 0) {
-		setErrorMessage(
-				"Please enter a new folder name");
+		setErrorMessage("Please enter a new folder name");
 		return;
 	}
 
@@ -1425,7 +1448,9 @@ function submitNewFolderDialog() {
 		parent : absPath,
 		name : newName
 	}
-
+	
+	showBlockingPanel();
+	
 	var jqxhr = $.post(context + folderAddUrl, params,
 			function(data, status, xhr) {
 			}, "html").success(function(returnedData, status, xhr) {
@@ -1434,16 +1459,19 @@ function submitNewFolderDialog() {
 			return false;
 		}
 		setMessage("New folder created:" + xhr.responseText);
-		selectedPath = xhr.responseText;
+		//selectedPath = xhr.responseText;
 		closeNewFolderDialog();
-		
+
 		// refresh the parent node and open
 		addANodeToTheParentInTheTree(absPath, newName);
 		// refreshTree();
-		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		updateBrowseDetailsForPathBasedOnCurrentModel(absPath);
+		unblockPanel();
+
 	}).error(function(xhr, status, error) {
 		refreshTree();
 		setErrorMessage(xhr.responseText);
+		unblockPanel();
 	});
 
 }
@@ -1455,6 +1483,8 @@ function submitNewFolderDialog() {
 function deleteFilesBulkAction() {
 
 	var formData = $("#browseDetailsForm").serializeArray();
+	showBlockingPanel();
+
 	var jqxhr = $.post(context + deleteBulkActionUrl, formData, "html")
 			.success(function(returnedData, status, xhr) {
 				var continueReq = checkForSessionTimeout(returnedData, xhr);
@@ -1464,54 +1494,76 @@ function deleteFilesBulkAction() {
 				refreshTree();
 				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 				setMessage("Delete action successful");
+				unblockPanel();
 			}).error(function(xhr, status, error) {
 				setErrorMessage(xhr.responseText);
+				unblockPanel();
 			});
 
 }
 
-
 function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
-	
-	if (parentAbsolutePath == null || parentAbsolutePath.length == 0) {
-		throw("no path provided, cannot add a node to the tree");
-	}
-	
-	if (parentAbsolutePath == null || parentAbsolutePath.length == 0) {
-		throw("no path provided, cannot add a node to the tree");
-	}
-	
-	// find and open the parent node, then add the child to it
-	splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null, function(path, dataTree, currentNode) {
-		// alert("trying to add a node, found the parent, my child name will
-		// be:" + childRelativeName);
-	
-		var icon = "folder";
-	    var state = "closed";
-		var type = "folder";
-		
-		
-		var childAbsolutePath = parentAbsolutePath + "/" + childRelativeName;
-		
-		var attrBuf = new Object();
-		attrBuf.id = childAbsolutePath;
-		attrBuf.rel = type;
-		attrBuf.absPath = childAbsolutePath;
-		
-		var nodeProps = new Object();
-		nodeProps.data = childRelativeName;
-		nodeProps.attr = attrBuf;
-		nodeProps.state = state;
 
-		
-		$.jstree._reference(dataTree).create_node(currentNode, "inside", nodeProps, null, false);	
-		// be sure the parent node is open too
-		$.jstree._reference(dataTree).open_node($.jstree._reference(dataTree)._get_parent(currentNode), null, false);
-		
-	});
-	
-	
-	
+	if (parentAbsolutePath == null || parentAbsolutePath.length == 0) {
+		throw ("no path provided, cannot add a node to the tree");
+	}
+
+	if (childRelativeName == null || childRelativeName.length == 0) {
+		throw ("no childRelativeName provided, cannot add a node to the tree");
+	}
+
+	var childAbsolutePath = parentAbsolutePath + "/" + childRelativeName;
+
+	// find and open the parent node, then add the child to it
+	splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
+			function(path, dataTree, currentNode) {
+
+				if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
+
+					// parent node was already loaded, so it makes sense to add
+					// the node to
+					// the parent
+
+					var icon = "folder";
+					var state = "closed";
+					var type = "folder";
+
+					var attrBuf = new Object();
+					attrBuf.id = childAbsolutePath;
+					attrBuf.rel = type;
+					attrBuf.absPath = childAbsolutePath;
+
+					var nodeProps = new Object();
+					nodeProps.data = childRelativeName;
+					nodeProps.attr = attrBuf;
+					nodeProps.state = state;
+
+					$.jstree._reference(dataTree).create_node(currentNode,
+							"inside", nodeProps, null, false);
+
+				}
+
+				// select and open this new node
+				selectTreePathFromIrodsPath(parentAbsolutePath);
+				
+
+			});
+
+}
+
+/**
+ * Given an iRODS absolute path to a node, find and select that node
+ * 
+ * @param irodsAbsolutePath
+ *            irods absolute path
+ */
+function selectTreePathFromIrodsPath(irodsAbsolutePath) {
+	if (irodsAbsolutePath == null || irodsAbsolutePath.length == 0) {
+		throw "irodsAbsolutePath is missing";
+	}
+
+	selectTreePath(irodsAbsolutePath.split("/"), null, null);
+
 }
 
 /**
@@ -1530,82 +1582,82 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
  */
 function selectTreePath(path, currentNode, currentIndex) {
 
-	
 	if (currentIndex == null) {
 		currentIndex = 0;
 	}
-	
+
 	if (path == null) {
 		var val = $("#searchTerm").val();
 		// alert("select tree path:" + val);
 		path = val.split("/");
 	}
 
-
 	// if called with no params, get the root node, open it, and process the
 	// children
 	if (currentNode == null) {
 		currentNode = $.jstree._reference(dataTree).get_container();
-		var children = $.jstree._reference(dataTree)._get_children(
-				currentNode);
+		var children = $.jstree._reference(dataTree)._get_children(currentNode);
 		currentNode = children[0];
 		selectTreePath(path, currentNode, currentIndex);
 		return;
-	} 
-	
-	
-	
+	}
+
 	var skip = false;
 	var end = false;
-	$.each(path, function(index, value) {
-		
-		if (skip) {
-			return;
-		}
+	$.each(path,
+			function(index, value) {
 
-		if (index < currentIndex) {
-			return;
-		}
-		
-		if (value == "") {
-			return;
-		}
-		
-		/**
-		 * I might have a root that is not really '/', I could have a tree root that is a node inside of the actual
-		 * iRODS tree.  Use the baseAbsPathAsArrayOfPathElements to account for this
-		 */
-		if (baseAbsPath.length > 1 && index < (baseAbsPathAsArrayOfPathElements.length)) {
-			return;
-		}
-		
-		// if (value > "") {
-			var loaded = $.jstree._reference(dataTree)._is_loaded(currentNode);
-			if (!loaded) {
-				skip = true;
-				$.jstree._reference(dataTree).open_node(currentNode,
-						function(path) {
-							selectTreePath(path, currentNode, index);
-						}, false);
-				return;
-			}
-
-			var children = $.jstree._reference(dataTree)._get_children(
-					currentNode);
-			currentNode = getPathInNode(children, value);
-			if (currentNode == null) {
-				setErrorMessage("Path not found in tree");
-				return false;
-			} else {
-				if (index == path.length - 1) {
-					end = true;
+				if (skip) {
+					return;
 				}
-			}
-		// }
-	});
+
+				if (index < currentIndex) {
+					return;
+				}
+
+				if (value == "") {
+					return;
+				}
+
+				/**
+				 * I might have a root that is not really '/', I could have a
+				 * tree root that is a node inside of the actual iRODS tree. Use
+				 * the baseAbsPathAsArrayOfPathElements to account for this
+				 */
+				if (baseAbsPath.length > 1
+						&& index < (baseAbsPathAsArrayOfPathElements.length)) {
+					return;
+				}
+
+				// if (value > "") {
+				var loaded = $.jstree._reference(dataTree)._is_loaded(
+						currentNode);
+				if (!loaded) {
+					skip = true;
+					$.jstree._reference(dataTree).open_node(currentNode,
+							function(path) {
+								selectTreePath(path, currentNode, index);
+							}, false);
+					return;
+				}
+
+				var children = $.jstree._reference(dataTree)._get_children(
+						currentNode);
+				currentNode = getPathInNode(children, value);
+				if (currentNode == null) {
+					setErrorMessage("Path not found in tree");
+					return false;
+				} else {
+					if (index == path.length - 1) {
+						end = true;
+					}
+				}
+				// }
+			});
 
 	if (currentNode != null && end) {
-		$.jstree._reference(dataTree).select_node(currentNode)
+		//$.jstree._reference(dataTree).select_node(currentNode);
+		$.jstree._reference(dataTree).open_node(currentNode);
 	}
 
 }
@@ -1624,7 +1676,7 @@ function getPathInNode(childNodes, targetPath) {
 	$.each(childNodes, function(index, value) {
 		var theChild = $.jstree._reference(dataTree)._get_node(value);
 		nodeText = $.jstree._reference(dataTree).get_text(theChild);
-		
+
 		if (nodeText == targetPath) {
 			foundChild = theChild;
 			return;
@@ -1680,7 +1732,6 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 	if (currentIndex == null) {
 		currentIndex = 0;
 	}
-	
 
 	if (path == null) {
 		var val = $("#searchTerm").val();
@@ -1688,75 +1739,77 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 		path = val.split("/");
 	}
 
-	
-
 	// if called with no params, get the root node, open it, and process the
 	// children
 	if (currentNode == null) {
 		currentNode = $.jstree._reference(dataTree).get_container();
-		var children = $.jstree._reference(dataTree)._get_children(
-				currentNode);
+		var children = $.jstree._reference(dataTree)._get_children(currentNode);
 		currentNode = children[0];
-		performOperationAtGivenTreePath(path, currentNode, currentIndex, operationToPerform);
+		performOperationAtGivenTreePath(path, currentNode, currentIndex,
+				operationToPerform);
 		return;
-	} 
-	
+	}
+
 	var skip = false;
 	var end = false;
-	$.each(path, function(index, value) {
-		if (skip) {
-			return;
-		}
-
-		if (index < currentIndex) {
-			return;
-		}
-		
-		if (value == "") {
-			return;
-		}
-		
-		/**
-		 * I might have a root that is not really '/', I could have a tree root that is a node inside of the actual
-		 * iRODS tree.  Use the baseAbsPathAsArrayOfPathElements to account for this
-		 */
-		if (baseAbsPath.length > 1 && index < (baseAbsPathAsArrayOfPathElements.length)) {
-			return;
-		}
-			
-			
-		//} else {
-
-		// if (value > "") {
-			var loaded = $.jstree._reference(dataTree)._is_loaded(currentNode);
-			if (!loaded) {
-				skip = true;
-				$.jstree._reference(dataTree).open_node(
-						currentNode,
-						function(path) {
-							performOperationAtGivenTreePath(path, currentNode,
-									index, operationToPerform);
-						}, false);
-				return;
-			}
-
-			var children = $.jstree._reference(dataTree)._get_children(
-					currentNode);
-			currentNode = getPathInNode(children, value);
-			if (currentNode == null) {
-				setErrorMessage("Path not found in tree:" + path);
-				return false;
-			} else {
-				if (index == path.length - 1) {
-					end = true;
+	$.each(path,
+			function(index, value) {
+				if (skip) {
+					return;
 				}
-			}
-	// }
-	});
+
+				if (index < currentIndex) {
+					return;
+				}
+
+				if (value == "") {
+					return;
+				}
+
+				/**
+				 * I might have a root that is not really '/', I could have a
+				 * tree root that is a node inside of the actual iRODS tree. Use
+				 * the baseAbsPathAsArrayOfPathElements to account for this
+				 */
+				if (baseAbsPath.length > 1
+						&& index < (baseAbsPathAsArrayOfPathElements.length)) {
+					return;
+				}
+
+				// } else {
+
+				// if (value > "") {
+				var loaded = $.jstree._reference(dataTree)._is_loaded(
+						currentNode);
+				if (!loaded) {
+					skip = true;
+					$.jstree._reference(dataTree)
+							.open_node(
+									currentNode,
+									function(path) {
+										performOperationAtGivenTreePath(path,
+												currentNode, index,
+												operationToPerform);
+									}, false);
+					return;
+				}
+
+				var children = $.jstree._reference(dataTree)._get_children(
+						currentNode);
+				currentNode = getPathInNode(children, value);
+				if (currentNode == null) {
+					setErrorMessage("Path not found in tree:" + path);
+					return false;
+				} else {
+					if (index == path.length - 1) {
+						end = true;
+					}
+				}
+				// }
+			});
 
 	if (currentNode != null && end) {
 		operationToPerform(path, dataTree, currentNode);
 	}
 
 }
-

@@ -93,7 +93,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
             irodsTree.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
             CollectionAndDataObjectListAndSearchAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAndDataObjectListAndSearchAO(irodsAccount);
-            List<CollectionAndDataObjectListingEntry> childCache = collectionAO.listDataObjectsAndCollectionsUnderPath(parentObject.getPathOrName());
+            List<CollectionAndDataObjectListingEntry> childCache = collectionAO.listDataObjectsAndCollectionsUnderPath(parentObject.getFormattedAbsolutePath());
 
             for (CollectionAndDataObjectListingEntry childEntry : childCache) {
                 insert(new IRODSNode(childEntry, irodsAccount, irodsFileSystem,

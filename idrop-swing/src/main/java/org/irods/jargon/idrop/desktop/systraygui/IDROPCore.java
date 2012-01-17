@@ -37,8 +37,17 @@ public class IDROPCore {
     private IconManager iconManager = null;
     private Timer queueTimer = new Timer();
     private IdropConfigurationService idropConfigurationService = null;
-     private final DateFormat dateFormat = DateFormat.getDateTimeInstance();
+    private final DateFormat dateFormat = DateFormat.getDateTimeInstance();
+    private String basePath = null;
 
+    public synchronized String getBasePath() {
+        return basePath;
+    }
+
+    public synchronized void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+   
     public DateFormat getDateFormat() {
         return dateFormat;
     }

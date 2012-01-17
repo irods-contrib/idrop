@@ -121,6 +121,7 @@ iRODS iDrop > -511017 on copy
 
 [#579] iDrop put transfer sets to 1 threads, completes leaving 0 len file
 
+ [#604] Idrop-swing hangs while logging in as other user then rods - msAccessPolicy set to strict
 
 
 ==Features==

@@ -80,7 +80,7 @@ class FileController {
 
 		response.setContentType("application/octet-stream")
 		response.setContentLength((int) length)
-		response.setHeader("Content-disposition", "attachment;filename=\"${fullPath}\"")
+		response.setHeader("Content-disposition", "attachment;filename=\"${irodsFile.name}\"")
 
 		response.outputStream << irodsFileInputStream // Performing a binary stream copy
 

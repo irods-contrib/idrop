@@ -656,3 +656,29 @@ function lcShowLoaderBarIconInDiv(divSelector) {
 
 	$(divSelector).html(img);
 }
+
+/**
+ * Show a modal blocking overlay with a message using blockUI
+ * @param message
+ */
+function showBlockingPanel(message) {
+	
+	if (message == null || message == "") {
+		message = "please wait...";
+	}
+	
+	
+	//var messageHtml = "<h1><img src='";
+	//messageHtml+= context + "' />";
+	var messageHtml = "<h1>";
+	messageHtml += message;
+	messageHtml += "</h1>";
+	
+	$.blockUI({ message: messageHtml });
+	
+} 
+
+
+function unblockPanel() {
+	$.unblockUI();
+}
