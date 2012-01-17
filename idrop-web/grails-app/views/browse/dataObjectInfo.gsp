@@ -1,6 +1,6 @@
 <g:hiddenField id="infoAbsPath" name="absolutePath"
-					value="${dataObject.absolutePath}" />
-	
+	value="${dataObject.absolutePath}" />
+
 <div id="infoMessageArea">
 	<!--  -->
 </div>
@@ -38,10 +38,19 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	
 	<div style="display:table-row;">
-		<div id="infoThumbnailAndMediaDisplay"  style="display:table-cell;">
-			<div id="infoThumbnailLoadArea"></div>
+	<div id="infoThumbnailAndMediaDisplay"  style="display:table-cell;">
+	<div id="infoThumbnailLoadArea"></div>
+	<g:if test="${renderMedia}">
 			<a class="media" href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
+	</g:if>
+	<g:else>
+		<a href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
+	</g:else>
+		
 		</div>
 	</div>
 	
@@ -157,8 +166,8 @@ $(function() {
 <g:else>
 <script>
 $(function() {
-	$.fn.media.mapFormat('pdf', 'quicktime');
-	$('.media').media( { width: 300, height: 200, autoplay: false } ); 
+	//$.fn.media.mapFormat('pdf', 'quicktime');
+	$('.media').media( { width: 300, height: 200, autoplay: true } ); 
 
 });
 </script>
