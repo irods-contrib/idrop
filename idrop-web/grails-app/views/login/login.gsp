@@ -9,7 +9,7 @@
 		</div>
 	</g:if>
 	
-<div class="box" id="container" style="width:350px; margin: auto;">
+<div class="roundedContainer" id="container" style="width:350px; margin: auto;">
 
 	
 	<div>
