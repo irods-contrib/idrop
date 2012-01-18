@@ -19,8 +19,7 @@
     </li>
   </ul>
   
-  
-  
+ 
    <div id="browse">
     <div id="browser" class="wrapper">
       <div id="browseToolbar">

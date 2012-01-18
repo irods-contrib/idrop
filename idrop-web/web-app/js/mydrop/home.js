@@ -799,8 +799,8 @@ function prepareAclDialog(isNew) {
  * @param data
  */
 function showAclDialog(data) {
-
-	$("#aclDialogArea").html(data).fadeIn('slow');
+	$("#aclDetailsArea").hide("slow");
+	$("#aclDialogArea").html(data).show("slow");
 	var mySource = context + "/sharing/listUsersForAutocomplete";
 	$("#userName").autocomplete({
 		minLength : 3,
@@ -864,13 +864,16 @@ function submitAclDialog() {
 }
 
 /**
- * Close the dialog for adding ACL's
+ * Close the dialog for adding ACL's, reshow the acl details area
  */
 function closeAclAddDialog() {
 	try {
-		$("#aclDialogArea").fadeOut('slow', new function() {
-			$("#aclDialogArea").html("")
+		$("#aclDialogArea").hide("slow", new function() {
+			$("#aclDialogArea").html("");
+			$("#aclDetailsArea").css('display', 'block');
+			$("#aclDetailsArea").show("slow");
 		});
+		
 	} catch (e) {
 
 	}

@@ -22,7 +22,7 @@
     <div id="detailsTopSection" >
       <form id="browseDetailsForm" name="browseDetailsForm">
         <table cellspacing="0" cellpadding="0" border="0"
-               id="browseDataDetailsTable" style="width: 95%;">
+               id="browseDataDetailsTable">
           <thead>
             <tr>
               <th></th>
@@ -91,7 +91,7 @@ ${entry.dataSize}
 
         $(function() {
                 dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon", tableParams);
-                //$("#infoDiv").resize();
+                $("#infoDiv").resize();
                 $("#menuDownload").hide();
                                       // $(".draggableFile").draggable({ revert: true, containment: 'document', stack: '#bd', scroll:false, zindex:-1 });
         });
