@@ -4,8 +4,8 @@
 		<thead>
 			<tr>
 				<th></th>
-				<th>Person</th>
-				<th>Access</th>
+				<th><g:message code="text.user" /></th>
+				<th><g:message code="text.share.type" /></th>
 			</tr>
 		</thead>
 		<tbody>

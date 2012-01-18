@@ -1,18 +1,16 @@
  <form id="userTableForm" name="userTableForm">
     <table cellspacing="0" cellpadding="0" border="0" id="userListTable">
-   
       <thead>
         <tr>
-          <th></th>
-          <th>User Name</th>
+          <th ></th>
+          <th >User Name</th>
         </tr>     
       </thead> 
       <tbody>
       <g:each in="${users}" var="entry">
-        <tr >
-        <td><g:checkBox name="selectuser"
-                            value="${entry.nameWithZone}" checked="false" /></td>
-          <td  id="${entry.nameWithZone}" class="userDetailRow">${entry.nameWithZone}</td>
+        <tr>
+        <td style="width:10px;"><g:checkBox name="selectuser" style="width:10px;" value="${entry.nameWithZone}" checked="false" /></td>
+          <td id="${entry.nameWithZone}">${entry.nameWithZone}</td>
         </tr>
       </g:each>
       </tbody>

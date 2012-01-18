@@ -1,7 +1,5 @@
-<div id="aclDialogDiv" class="xroundedContainer" style="display:block;clear:both;width:98%;height:98%;position:relative;">
+<div id="aclDialogDiv">
 	
-	
-			<div id="aclDetailsFormWrapperDiv" style="width:90%;height:95%;position:relative;display:block;">
 			<fieldset id="verticalForm">
 				<g:hiddenField name="create" value="${create}" />
 				<label for="absPath"><g:message code="text.path" />:</label>
@@ -10,14 +8,19 @@
 				<g:textField id="userName" name="userName" value="${userName}" />
 				<button type="button" id="lookUpUserNames"
 							class="ui-state-default ui-corner-all" value="lookUpUserNames"
-							onclick="lookUpUserNameFromACLDialogClicked()")><label for="userName"><g:message code="text.search" /></button>
-				<br /> <label for="acl"><g:message code="text.share.type" />:</label>
-				<div id="aclUserPickList" style="display:block;position:relative;overflow:visible;width=80%;">
+							onclick="lookUpUserNameFromACLDialogClicked()")><g:message code="text.search" /></button>
+				<br/>
+				<div class="roundedContainer" style="margin:20px;">
+				<h2 ><g:message code="heading.enter.user.or.search" /></h2>
+				</div>
+				<br />
+				<label for="acl"><g:message code="text.share.type" />:</label>
+				<g:select name="acl" from="${userPermissionEnum}" />
+				<br />
+				<div id="aclUserPickList" style="display:block;position:relative;overflow:auto;">
 					<!-- div for sharing pick list -->
 				</div>
 				<br/>
-				<g:select name="acl" from="${userPermissionEnum}" />
-				<br />
 				<div id="detailsDialogToolbar" class="fg-toolbar ui-widget-header">
 					<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
 						style="float: left, clear :   both; width: 90%;">
@@ -30,7 +33,6 @@
 					</div>
 				</div>
 			</fieldset>
-			</div>
 </div>
 
 <script type="text/javascript">

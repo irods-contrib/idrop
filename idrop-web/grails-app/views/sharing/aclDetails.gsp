@@ -1,9 +1,8 @@
 <h2><g:message code="heading.sharing" /></h2>
-<div id="aclDialogArea">
-<!--  area for generating dialogs --></div>
+<div id="aclDialogArea"><!--  area for generating dialogs --></div>
 
 <div id="aclDetailsArea">
-	<div id="detailsTopSection" class="box">
+	<div id="detailsTopSection" >
 		<div id="detailsToolbar" class="fg-toolbar ui-widget-header">
 			<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
 				style="float: left, clear: both;">
@@ -18,11 +17,9 @@
 					onclick="reloadAclTable(selectedPath)")><g:message code="default.button.reload.label" /></button>
 			</div>
 		</div>
-	
+	</div>
 
-	<div id="aclTableDiv">
-	</div>
-	</div>
+	<div id="aclTableDiv"><!-- acl user list --></div>
 </div>
 
 <script type="text/javascript">
