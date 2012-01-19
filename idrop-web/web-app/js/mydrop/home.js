@@ -1651,7 +1651,7 @@ function selectTreePath(path, currentNode, currentIndex) {
 			});
 
 	if (currentNode != null && end) {
-		// $.jstree._reference(dataTree).select_node(currentNode);
+		//$.jstree._reference(dataTree).select_node(currentNode);
 		$.jstree._reference(dataTree).open_node(currentNode);
 	}
 
@@ -1781,12 +1781,16 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 					$.jstree._reference(dataTree)
 							.open_node(
 									currentNode,
-									function(path) {
+									function() {
 										performOperationAtGivenTreePath(path,
 												currentNode, index,
 												operationToPerform);
 									}, false);
 					return;
+				} else {
+					$.jstree._reference(dataTree)
+					.open_node(
+							currentNode, false, false);
 				}
 
 				var children = $.jstree._reference(dataTree)._get_children(
