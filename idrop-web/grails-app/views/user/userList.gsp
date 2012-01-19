@@ -1,4 +1,4 @@
- <form id="userTableForm" name="userTableForm">
+ 
     <table cellspacing="0" cellpadding="0" border="0" id="userListTable">
       <thead>
         <tr>
@@ -23,7 +23,6 @@
       </tfoot>
     </table>
  
-</form>
 <script>
 /*
         var userListTable;

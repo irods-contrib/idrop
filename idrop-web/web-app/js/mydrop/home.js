@@ -32,6 +32,7 @@ var aclMessageAreaSelector = "#aclMessageArea";
 
 var aclUpdateUrl = '/sharing/updateAcl';
 var aclAddUrl = '/sharing/addAcl';
+var aclAddUserDialogUrl = '/sharing/processAddAclDialog';
 var aclDeleteUrl = '/sharing/deleteAcl';
 var aclTableLoadUrl = '/sharing/renderAclDetailsTable';
 var idropLiteUrl = '/idropLite/appletLoader';
@@ -200,11 +201,10 @@ function browserFirstViewRetrieved(data) {
  * @returns
  */
 function customMenu(node) {
-	
+
 	selectedNode = node;
 	selectedPath = node[0].idd;
-	
-	
+
 	// The default set of all items FIXME: i18n
 	var items = {
 		refreshItem : { // The "refresh" menu item
@@ -318,9 +318,8 @@ function nodeAdded(event, data) {
 		parent : parent,
 		name : name
 	}
-	
-	showBlockingPanel();
 
+	showBlockingPanel();
 
 	var jqxhr = $.post(context + folderAddUrl, params,
 			function(data, status, xhr) {
@@ -394,7 +393,7 @@ function nodeRenamed(event, data) {
 		prevAbsPath : prevAbsPath,
 		newName : newName
 	}
-	
+
 	showBlockingPanel();
 
 	var jqxhr = $.post(context + fileRenameUrl, params,
@@ -438,9 +437,8 @@ function moveFile(sourcePath, targetPath) {
 		sourceAbsPath : sourcePath,
 		targetAbsPath : targetPath
 	}
-	
-	showBlockingPanel();
 
+	showBlockingPanel();
 
 	var jqxhr = $.post(context + fileMoveUrl, params,
 			function(data, status, xhr) {
@@ -479,9 +477,8 @@ function copyFile(sourcePath, targetPath) {
 		sourceAbsPath : sourcePath,
 		targetAbsPath : targetPath
 	}
-	
-	showBlockingPanel();
 
+	showBlockingPanel();
 
 	var jqxhr = $.post(context + fileCopyUrl, params,
 			function(data, status, xhr) {
@@ -810,15 +807,12 @@ function showAclDialog(data) {
 }
 
 /**
- * Submit the ACL dialog form to create a new ACL
+ * Submit the ACL dialog form to create a new ACL. The dialog will either have a
+ * single user name, or it may have a pick list to send. If it has neither, it's
+ * an error.
  */
 function submitAclDialog() {
 
-	var userName = $('[name=userName]').val();
-	if (userName == null || userName == "") {
-		setErrorMessage("Please select a user to share data with");
-		return false;
-	}
 	var permissionVal = $('[name=acl]').val();
 	if (permissionVal == null || permissionVal == "" || permissionVal == "NONE") {
 		setErrorMessage("Please select a permission value in the drop-down");
@@ -826,40 +820,39 @@ function submitAclDialog() {
 	}
 
 	if (selectedPath == null) {
-		throw "no collection or data object selected";
+		setErrorMessage("no collection or data object selected");
+		return false;
+	}
+
+	// see if there is form data (users in a pick list) that are selected
+	var formData = $("#userDialogForm").serializeArray();
+
+	if (formData == null) {
+		setErrorMessage("Please select a user to share data with");
+		return false;
 	}
 
 	var isCreate = $('[name=isCreate]').val();
 
-	lcShowBusyIconInDiv(aclDialogMessageSelector);
+	showBlockingPanel();
 
-	var params = {
-		absPath : selectedPath,
-		acl : permissionVal,
-		userName : userName
-	}
-
-	var jqxhr = $.post(context + aclAddUrl, params,
+	var jqxhr = $.post(context + aclAddUserDialogUrl, formData,
 			function(data, status, xhr) {
-				lcClearDivAndDivClass(aclDialogMessageSelector);
 			}, "html").success(function(data, status, xhr) {
 		var continueReq = checkForSessionTimeout(data, xhr);
 		if (!continueReq) {
 			return false;
 		}
-		var dataJSON = jQuery.parseJSON(data);
-		if (dataJSON.response.errorMessage != null) {
-
-			setErrorMessage(dataJSON.response.errorMessage);
-		} else {
-			reloadAclTable();
-			closeAclAddDialog();
-			setMessage("Sharing permission saved successfully"); // FIXME:
+		
+		reloadAclTable();
+		closeAclAddDialog();
+		setMessage("Sharing permission saved successfully"); // FIXME:
 			// i18n
-		}
+		unblockPanel();
 
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
+		unblockPanel();
 	});
 }
 
@@ -873,7 +866,7 @@ function closeAclAddDialog() {
 			$("#aclDetailsArea").css('display', 'block');
 			$("#aclDetailsArea").show("slow");
 		});
-		
+
 	} catch (e) {
 
 	}
@@ -1271,7 +1264,7 @@ function deleteViaToolbarGivenPath(path) {
 	if (answer) {
 
 		showBlockingPanel();
-		
+
 		var params = {
 			absPath : path
 		}
@@ -1321,7 +1314,7 @@ function deleteViaToolbarGivenPath(path) {
 										updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 
 									});
-							
+
 							unblockPanel();
 
 						}).error(function(xhr, status, error) {
@@ -1407,7 +1400,7 @@ function submitRenameDialog() {
 		prevAbsPath : absPath,
 		newName : newName
 	}
-	
+
 	showBlockingPanel();
 
 	var jqxhr = $.post(context + fileRenameUrl, params,
@@ -1451,9 +1444,9 @@ function submitNewFolderDialog() {
 		parent : absPath,
 		name : newName
 	}
-	
+
 	showBlockingPanel();
-	
+
 	var jqxhr = $.post(context + folderAddUrl, params,
 			function(data, status, xhr) {
 			}, "html").success(function(returnedData, status, xhr) {
@@ -1462,7 +1455,7 @@ function submitNewFolderDialog() {
 			return false;
 		}
 		setMessage("New folder created:" + xhr.responseText);
-		//selectedPath = xhr.responseText;
+		// selectedPath = xhr.responseText;
 		closeNewFolderDialog();
 
 		// refresh the parent node and open
@@ -1548,7 +1541,6 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
 
 				// select and open this new node
 				selectTreePathFromIrodsPath(parentAbsolutePath);
-				
 
 			});
 
@@ -1659,7 +1651,7 @@ function selectTreePath(path, currentNode, currentIndex) {
 			});
 
 	if (currentNode != null && end) {
-		//$.jstree._reference(dataTree).select_node(currentNode);
+		// $.jstree._reference(dataTree).select_node(currentNode);
 		$.jstree._reference(dataTree).open_node(currentNode);
 	}
 

@@ -1,22 +1,26 @@
 <div id="aclDialogDiv">
+
+<div class="roundedContainer" style="margin:20px;">
+				<h2 ><g:message code="heading.enter.user.or.search" /></h2>
+				</div>
+				<form id="userDialogForm" name="userFormForm">
 	
 			<fieldset id="verticalForm">
 				<g:hiddenField name="create" value="${create}" />
-				<label for="absPath"><g:message code="text.path" />:</label>
-				<g:textArea name="absPath" value="${absPath}" readonly="true" />
-				<br /> <label for="userName"><g:message code="text.user" />:</label>
+		
+				<g:hiddenField name="absPath" value="${absPath}"  />
+				<label for="acl"><g:message code="text.share.type" />:</label>
+				<g:select name="acl" from="${userPermissionEnum}" />
+				<br />
+				<label for="userName"><g:message code="text.user" />:</label>
 				<g:textField id="userName" name="userName" value="${userName}" />
 				<button type="button" id="lookUpUserNames"
 							class="ui-state-default ui-corner-all" value="lookUpUserNames"
 							onclick="lookUpUserNameFromACLDialogClicked()")><g:message code="text.search" /></button>
 				<br/>
-				<div class="roundedContainer" style="margin:20px;">
-				<h2 ><g:message code="heading.enter.user.or.search" /></h2>
-				</div>
+				
 				<br />
-				<label for="acl"><g:message code="text.share.type" />:</label>
-				<g:select name="acl" from="${userPermissionEnum}" />
-				<br />
+				
 				<div id="aclUserPickList" style="display:block;position:relative;overflow:auto;">
 					<!-- div for sharing pick list -->
 				</div>

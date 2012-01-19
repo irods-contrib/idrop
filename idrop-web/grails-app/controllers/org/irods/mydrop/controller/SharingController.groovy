@@ -132,6 +132,159 @@ class SharingController {
 
 	}
 
+	def processAddAclDialog = {
+		log.info("processAddAclDialog")
+		log.info(params)
+		def absPath = params['absPath']
+		def acl = params['acl']
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+		def isDataObject = retObj instanceof DataObject
+		log.info("adding ACLs for a data object")
+
+		def DataObjectAO dataObjectAO
+		def CollectionAO collectionAO
+
+		if (isDataObject) {
+			dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+		} else {
+			collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+		}
+
+		if (!absPath) {
+			log.error "no path provided"
+			def errorMessage = message(code:"error.no.path.provided")
+			response.sendError(500,errorMessage)
+			return
+		}
+
+		if (!acl) {
+			log.error "no acl provided"
+			def errorMessage = message(code:"error.no.acl.provided")
+			response.sendError(500,errorMessage)
+			return
+		}
+
+		def selectedUsers = params['selectuser']
+
+		// if nothing selected, just jump out and return a message
+		if (!selectedUsers) {
+			log.info("no users to add")
+			def errorMessage = message(code:"error.nothing.selected")
+			response.sendError(500,errorMessage)
+			return
+		}
+
+		log.info("users to add: ${selectedUsers}")
+
+		// based on the type of file at absPath, get the appropriate access object
+		if (isDataObject) {
+			dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+		} else {
+			collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+		}
+
+		if (selectedUsers instanceof Object[]) {
+			log.debug "is array"
+			selectedUsers.each{
+				log.info "selecteduser: ${it}"
+				if (isDataObject) {
+					log.info "add user to data object"
+					try {
+						updateACLValueForDataObject(irodsAccount.getZone(),absPath, acl, it, dataObjectAO)
+					} catch (Exception e) {
+						log.error("Exception during acl processing", e)
+						response.sendError(500,e.message)
+						return
+					}
+
+				} else {
+					log.info("add user to collection")
+					try {
+						updateACLValueForCollection(irodsAccount.getZone(),absPath, acl, it, collectionAO)
+					} catch (Exception e) {
+						log.error("Exception during acl processing", e)
+						response.sendError(500,e.message)
+						return
+					}
+				}
+			}
+
+		} else {
+			log.debug "not array"
+			log.info "adding: ${selectedUsers}"
+			log.info "selecteduser: ${it}"
+			if (isDataObject) {
+				log.info "add user to data object"
+				try {
+					updateACLValueForDataObject(irodsAccount.getZone(),absPath, acl, selectedUsers, dataObjectAO)
+				} catch (Exception e) {
+					log.error("Exception during acl processing", e)
+					response.sendError(500,e.message)
+					return
+				}
+
+			} else {
+				log.info("add user to collection")
+				try {
+					updateACLValueForCollection(irodsAccount.getZone(),absPath, acl, selectedUsers, collectionAO)
+				} catch (Exception e) {
+					log.error("Exception during acl processing", e)
+					response.sendError(500,e.message)
+					return
+				}
+			}
+		}
+
+		render "OK"
+	}
+
+	/**
+	 * FIXME: refactor to service object
+	 * @param zone
+	 * @param absPath
+	 * @param aclString
+	 * @param userName
+	 * @param dataObjectAO
+	 * @return
+	 */
+	private updateACLValueForDataObject(String zone, String absPath, String aclString, String userName, DataObjectAO dataObjectAO) {
+		if (aclString == "READ") {
+			dataObjectAO.setAccessPermissionRead(zone,absPath, userName)
+		} else if (aclString == "WRITE") {
+			dataObjectAO.setAccessPermissionWrite(irodsAccount.getZone(), absPath, userName)
+		} else if (aclString == "OWN") {
+			dataObjectAO.setAccessPermissionOwn(irodsAccount.getZone(), absPath, userName)
+		} else {
+			log.error "invalid acl ${acl}"
+			throw new JargonException("invalid ACL value:" + aclString)
+		}
+
+	}
+
+	/**
+	 * FIXME: refactor to service object
+	 * @param zone
+	 * @param absPath
+	 * @param aclString
+	 * @param userName
+	 * @param collectionAO
+	 * @return
+	 */
+	private updateACLValueForCollection(String zone, String absPath, String aclString, String userName, CollectionAO collectionAO) {
+		if (aclString == "READ") {
+			collectionAO.setAccessPermissionRead(zone,absPath, userName, true)
+		} else if (aclString == "WRITE") {
+			collectionAO.setAccessPermissionWrite(zone, absPath, userName, true)
+		} else if (aclString == "OWN") {
+			collectionAO.setAccessPermissionOwn(zone, absPath, userName, true)
+		} else {
+			log.error "invalid acl ${acl}"
+			throw new JargonException("invalid ACL value:" + aclString)
+		}
+
+	}
+
 	/**
 	 * Add an ACL via the ACL dialog, then, in response, reload the ACL table
 	 * TODO: may not be returning errors in a way that jquery editable can interpret
@@ -303,31 +456,7 @@ class SharingController {
 
 	}
 
-	/**
-	 * Prepare and show a dialog to add a group of users with ACL permissions to a specified iRODS file or collection
-	 */
-	def userBulkSharingDialog = {
-		log.info "userBulkSharingDialog"
-		log.info "params: ${params}"
 
-		// if a user is provided, this will be an edit, otherwise, it's a create
-		def absPath = params['absPath']
-
-		if (!absPath) {
-			log.error "no absPath in request for userBulkSharingDialog()"
-			def message = message(code:"error.no.path.provided")
-			response.sendError(500,message)
-			return
-		}
-
-		log.info("get representative object for path: ${absPath}")
-		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-		def isDataObject = retObj instanceof DataObject
-
-		render(view:"userBulkSharingDialog", model:[absPath:absPath, retObj:retObj, isDataObject:isDataObject])
-
-	}
 
 	private void deleteAclForDataObject(String absPath, String userName, DataObjectAO dataObjectAO) throws JargonException {
 
