@@ -313,13 +313,13 @@ class FileController {
 
 		// don't rename to self
 		if (newFile.absolutePath == prevFile.absolutePath) {
-			log.error "no prevAbsPath in request"
-			def message = message(code:"error.rename.to.self")
-			response.sendError(500,message)
+			log.info("ignoring rename to self")
+			render prevFile.absolutePath
 			return
 		}
 
 		prevFile.renameTo(newFile)
+
 
 		render newFile.getAbsolutePath()
 	}

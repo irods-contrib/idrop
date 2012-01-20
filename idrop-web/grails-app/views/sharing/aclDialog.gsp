@@ -1,19 +1,30 @@
-<div id="aclDialogDiv" class="roundedContainer" style="display:block;clear:both;width:98%;height:350px;position:relative;">
+<div id="aclDialogDiv">
+
+<div class="roundedContainer" style="margin:20px;">
+				<h2 ><g:message code="heading.enter.user.or.search" /></h2>
+				</div>
+				<form id="userDialogForm" name="userFormForm">
 	
-	
-			<div id="sharingLeft" style="float:left;width:60%;height:100%;position:relative;display:block;">
 			<fieldset id="verticalForm">
 				<g:hiddenField name="create" value="${create}" />
-				<label for="absPath"><g:message code="text.path" />:</label>
-				<g:textArea name="absPath" value="${absPath}" readonly="true" />
-				<br /> <label for="userName"><g:message code="text.user" />:</label>
+		
+				<g:hiddenField name="absPath" value="${absPath}"  />
+				<label for="acl"><g:message code="text.share.type" />:</label>
+				<g:select name="acl" from="${userPermissionEnum}" />
+				<br />
+				<label for="userName"><g:message code="text.user" />:</label>
 				<g:textField id="userName" name="userName" value="${userName}" />
 				<button type="button" id="lookUpUserNames"
 							class="ui-state-default ui-corner-all" value="lookUpUserNames"
-							onclick="lookUpUserNameFromACLDialogClicked()")><label for="userName"><g:message code="text.search" /></button>
-				<br /> <label for="acl"><g:message code="text.share.type" />:</label>
-				<g:select name="acl" from="${userPermissionEnum}" />
+							onclick="lookUpUserNameFromACLDialogClicked()")><g:message code="text.search" /></button>
+				<br/>
+				
 				<br />
+				
+				<div id="aclUserPickList" style="display:block;position:relative;overflow:auto;">
+					<!-- div for sharing pick list -->
+				</div>
+				<br/>
 				<div id="detailsDialogToolbar" class="fg-toolbar ui-widget-header">
 					<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
 						style="float: left, clear :   both; width: 90%;">
@@ -26,11 +37,6 @@
 					</div>
 				</div>
 			</fieldset>
-			</div>
-			<div id="sharingRight" style="display:block;float:right;position:relative;overflow:auto;height:100%;width=40%;">
-			<!-- div for sharing pick list -->
-			</div>
-
 </div>
 
 <script type="text/javascript">
@@ -40,7 +46,7 @@
  */
 function lookUpUserNameFromACLDialogClicked() {
 	 var userName = $("#userName").val();
-	 searchUsers(1, userName, "#sharingRight");
+	 searchUsers(1, userName, "#aclUserPickList");
 }
 
 </script>

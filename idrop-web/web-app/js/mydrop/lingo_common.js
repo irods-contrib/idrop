@@ -270,6 +270,7 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
 		"bJQueryUI" : true
 	});
 	
+	dataTableCreated.fnAdjustColumnSizing();
 	
 	
 	if (detailsFunction != null) {
@@ -311,6 +312,8 @@ function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector, tabl
 		});
 
 	}
+	
+	dataTableCreated.fnAdjustColumnSizing();
 
 	return dataTableCreated;
 
