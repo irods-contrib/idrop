@@ -1586,74 +1586,16 @@ function selectTreePath(path, currentNode, currentIndex) {
 		// alert("select tree path:" + val);
 		path = val.split("/");
 	}
+	
+	performOperationAtGivenTreePath(path, null,
+				null, function(path, dataTree, currentNode){
 
-	// if called with no params, get the root node, open it, and process the
-	// children
-	if (currentNode == null) {
-		currentNode = $.jstree._reference(dataTree).get_container();
-		var children = $.jstree._reference(dataTree)._get_children(currentNode);
-		currentNode = children[0];
-		selectTreePath(path, currentNode, currentIndex);
-		return;
-	}
+		  $.jstree._reference(dataTree).open_node(currentNode);
+		  $.jstree._reference(dataTree).select_node(currentNode, true);
 
-	var skip = false;
-	var end = false;
-	$.each(path,
-			function(index, value) {
-
-				if (skip) {
-					return;
-				}
-
-				if (index < currentIndex) {
-					return;
-				}
-
-				if (value == "") {
-					return;
-				}
-
-				/**
-				 * I might have a root that is not really '/', I could have a
-				 * tree root that is a node inside of the actual iRODS tree. Use
-				 * the baseAbsPathAsArrayOfPathElements to account for this
-				 */
-				if (baseAbsPath.length > 1
-						&& index < (baseAbsPathAsArrayOfPathElements.length)) {
-					return;
-				}
-
-				// if (value > "") {
-				var loaded = $.jstree._reference(dataTree)._is_loaded(
-						currentNode);
-				if (!loaded) {
-					skip = true;
-					$.jstree._reference(dataTree).open_node(currentNode,
-							function(path) {
-								selectTreePath(path, currentNode, index);
-							}, false);
-					return;
-				}
-
-				var children = $.jstree._reference(dataTree)._get_children(
-						currentNode);
-				currentNode = getPathInNode(children, value);
-				if (currentNode == null) {
-					setErrorMessage("Path not found in tree");
-					return false;
-				} else {
-					if (index == path.length - 1) {
-						end = true;
-					}
-				}
-				// }
 			});
+	
 
-	if (currentNode != null && end) {
-		//$.jstree._reference(dataTree).select_node(currentNode);
-		$.jstree._reference(dataTree).open_node(currentNode);
-	}
 
 }
 
