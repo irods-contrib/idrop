@@ -3,6 +3,7 @@
 	
 	<li id="menuFile"><a href="#file"><g:message code="text.file"/></a>
 	<ul>
+		<li id="menuShowInTree"><a href="#showInTree" onclick="showInTreeClickedFromToolbar()"><g:message code="text.show.in.tree" /></a></li>
 		<li id="menuNewFolder"><a href="#newFolder" onclick="newFolderViaToolbar()"><g:message code="text.new.folder" /></a></li>
 		<li id="menuRename"><a href="#rename" onclick="renameViaToolbar()"><g:message code="text.rename" /></a></li>
 		<li id="menuDelete"><a href="#delete" 	onclick="deleteViaToolbar()"><g:message code="default.button.delete.label" /></a></li>
@@ -34,6 +35,19 @@ $(function() {
 	
 	$("ul.sf-menu").superfish();
 });
+
+function showInTreeClickedFromToolbar() {
+var path = $("#infoAbsPath").val();
+ $(tabs).tabs('select', 0); // switch to home tab
+	  splitPathAndPerformOperationAtGivenTreePath(path, null,
+				null, function(path, dataTree, currentNode){
+
+		  $.jstree._reference(dataTree).open_node(currentNode);
+		  $.jstree._reference(dataTree).select_node(currentNode, true);
+		 // updateBrowseDetailsForPathBasedOnCurrentModel(data);
+
+			});
+}
 
 function downloadAction() {
 	var path = $("#infoAbsPath").val();
