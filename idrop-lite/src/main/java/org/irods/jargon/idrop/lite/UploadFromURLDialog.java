@@ -174,11 +174,11 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
 				connection = url.openConnection();
 				fileSize = connection.getContentLength();
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				idropApplet.showMessageFromOperation("Please enter a valid URL");
+				return;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				idropApplet.showMessageFromOperation("Please enter a valid URL");
+				return;
 			}
 			
         	DefaultTableModel tm = idropApplet.getiDropCore().getUploadTableModel();
