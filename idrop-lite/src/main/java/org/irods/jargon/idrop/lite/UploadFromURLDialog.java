@@ -179,6 +179,14 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
 			} catch (IOException e) {
 				idropApplet.showMessageFromOperation("Please enter a valid URL");
 				return;
+			} catch (NullPointerException e) {
+				idropApplet.showMessageFromOperation("Please enter a valid URL");
+				return;
+			}
+			
+			if(fileSize <= 0) {
+				idropApplet.showMessageFromOperation("Please enter a valid URL file for download");
+				return;
 			}
 			
         	DefaultTableModel tm = idropApplet.getiDropCore().getUploadTableModel();
