@@ -887,6 +887,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     pbIdropWebModeDownloadProgress.setMinimum(0);
                     pbIdropWebModeDownloadProgress.setMaximum(ts.getTotalFilesToTransfer());
                     pbIdropWebModeDownloadProgress.setValue(0);
+                    
+                    if ((tableRow >= 0)) {
+            			TransferProgressInfo tpi = new TransferProgressInfo();
+            			tblUploadTable1.getModel().setValueAt(tpi, tableRow, 2);
+            		}
 
                     currentUploadFile = ts.getSourceFileAbsolutePath();
                     enableUploadButtons(false);
@@ -2370,7 +2375,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private void btnUploadBeginImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadBeginImportActionPerformed
 
     	PutTransferRunner currentTransferRunner = null;
-    	final List<File> sourceFiles = new ArrayList<File>();
+    	final List<UploadDataObj> sourceFiles = new ArrayList<UploadDataObj>();
     	
         // make sure IRODS destination is legal
         final String targetPath = txtIRODSUploadDest.getText();
@@ -2387,22 +2392,28 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         catch(Exception ex)  {
         	JOptionPane.showMessageDialog(this, "Please enter a valid IRODS destination for upload.");
         	return;
+        } finally {
+        	iDropCore.getIrodsFileSystem().closeAndEatExceptions();
         }
         
         // now go through and process selected import files from table
         if(!isTransferInProgress()) {
         	
-        	// collect list of files in the table
+        	// collect list of files and/or URLS in the table
             int rows = tblUploadTable1.getRowCount();
             this.filesInTable = rows; // reset to 0 in overall status callback when all files have been transferred
             for(int row=0; row<rows; row++) {
-            		sourceFiles.add(new File((String)tblUploadTable1.getValueAt(row, 0)));
+            		if((Integer)tblUploadTable1.getValueAt(row, 4) == iDropLiteApplet.uploadURL) { // this is an URL
+            			sourceFiles.add(new UploadDataObj((String)tblUploadTable1.getValueAt(row, 0), Boolean.TRUE));
+            		}
+            		else { // this is just a regular file or folder
+            			sourceFiles.add(new UploadDataObj(new File((String)tblUploadTable1.getValueAt(row, 0))));
+            		}
             }
             	
             // set Upload button test to Cancel
             try {
                 currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles);
-                //currentTransferRunner = new PutTransferRunner(applet, targetPath, tblUploadTable1);
                 final Thread transferThread = new Thread(currentTransferRunner);
                 log.info("launching transfer thread");
                 // close so that transfer thread can grab account
@@ -2514,11 +2525,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     }//GEN-LAST:event_btnOverallUploadCancelActionPerformed
 
     private void btnUploadUrlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadUrlActionPerformed
-//    	UploadFromURLDialog dlgUploadFromURL = new UploadFromURLDialog(this, true);
-//    	dlgUploadFromURL.setLocation(
-//                (int) (this.getLocation().getX() + this.getWidth() / 2),
-//                (int) (this.getLocation().getY() + this.getHeight() / 2));
-//        dlgUploadFromURL.setVisible(true);
+    	UploadFromURLDialog dlgUploadFromURL = new UploadFromURLDialog(this, true);
+    	dlgUploadFromURL.setLocation(
+                (int) (this.getLocation().getX() + this.getWidth() / 2),
+                (int) (this.getLocation().getY() + this.getHeight() / 2));
+        dlgUploadFromURL.setVisible(true);
     }//GEN-LAST:event_btnUploadUrlActionPerformed
 
     private void btnIdropWebModeTargetBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIdropWebModeTargetBrowseActionPerformed
