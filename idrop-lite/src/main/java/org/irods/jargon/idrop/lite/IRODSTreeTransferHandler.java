@@ -229,7 +229,8 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
     private void processDropOfTreeSelectionModel(final Transferable transferable, final IRODSNode parent,
             final DataFlavor dataFlavor) {
-        final List<File> sourceFiles = new ArrayList<File>();
+        //final List<File> sourceFiles = new ArrayList<File>();
+    	final List<UploadDataObj> sourceFiles = new ArrayList<UploadDataObj>();
         CollectionAndDataObjectListingEntry putTarget = (CollectionAndDataObjectListingEntry) parent.getUserObject();
         final String targetIrodsFileAbsolutePath;
 
@@ -247,7 +248,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
             for (TreePath treePath : treePaths) {
                 LocalFileNode lastPathComponent = (LocalFileNode) treePath.getLastPathComponent();
-                sourceFiles.add((File) lastPathComponent.getUserObject());
+                sourceFiles.add(new UploadDataObj((File) lastPathComponent.getUserObject()));
             }
 
         } catch (UnsupportedFlavorException ex) {
@@ -271,7 +272,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             sb.append(targetIrodsFileAbsolutePath);
         } else {
             sb.append("Would you like to put the file  ");
-            sb.append(sourceFiles.get(0).getAbsolutePath());
+            sb.append(sourceFiles.get(0).getFile().getAbsolutePath());
             sb.append(" to iRODS at ");
             sb.append(targetIrodsFileAbsolutePath);
         }
@@ -385,6 +386,11 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             log.error("no source files in transfer");
             throw new IdropRuntimeException("no source files in transfer");
         }
+        // copy sourceFiles into ArrayList of UploadDataObjs
+        List<UploadDataObj> uploadData = new ArrayList<UploadDataObj>();
+        for (File file : sourceFiles) {
+        	uploadData.add(new UploadDataObj(file));
+        }
 
         StringBuilder sb = new StringBuilder();
 
@@ -414,7 +420,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
         		try {
         			//currentTransferRunner = new PutTransferRunner(idropGui, targetIrodsFileAbsolutePath,
         					//sourceFiles, idropGui.getiDropCore().getTransferControlBlock());
-        			currentTransferRunner = new PutTransferRunner(idropGui, targetIrodsFileAbsolutePath, sourceFiles);
+        			currentTransferRunner = new PutTransferRunner(idropGui, targetIrodsFileAbsolutePath, uploadData);
         			final Thread transferThread = new Thread(currentTransferRunner);
         			log.info("launching transfer thread");
         			transferThread.start();
