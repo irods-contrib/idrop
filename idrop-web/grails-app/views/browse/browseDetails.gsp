@@ -36,6 +36,7 @@
           <tbody>
           <g:each in="${collection}" var="entry">
             <tr id="${entry.formattedAbsolutePath}" class="draggableFile">
+            
               <td><span
                   class="ui-icon-circle-plus browse_detail_icon ui-icon"></span>
               </td>
@@ -44,7 +45,8 @@
             </td>
             <td class="draggableFile"><g:if
               test="${entry.objectType.toString() == 'COLLECTION'}">
-${entry.nodeLabelDisplayValue}
+              <a href="#" id="${entry.formattedAbsolutePath}" onclick="clickOnPathInBrowseDetails(this.id)">${entry.nodeLabelDisplayValue}</a>
+
             </g:if> <g:else>
               <g:link url="${'file/download' + entry.formattedAbsolutePath}">
 ${entry.nodeLabelDisplayValue}
@@ -160,6 +162,22 @@ ${entry.dataSize}
                                 null);
 		
         }
+
+        function clickOnPathInBrowseDetails(data) {
+        	if (data == null) {
+        		throw new Exception("no absolute path provided");
+        	}
+        	// show main browse tab
+        	 
+        	  splitPathAndPerformOperationAtGivenTreePath(data, null,
+        				null, function(path, dataTree, currentNode){
+
+        		  $.jstree._reference(dataTree).open_node(currentNode);
+        		  $.jstree._reference(dataTree).select_node(currentNode, true);
+
+        			});
+        }
+                
 
        
 	

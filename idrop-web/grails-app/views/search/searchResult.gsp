@@ -16,7 +16,7 @@
 				<td><div class="ui-icon-circle-plus search-detail-icon ui-icon " /></td>
 				<td><g:if test="${entry.objectType.toString() == 'COLLECTION'}">${entry.nodeLabelDisplayValue}</g:if><g:else><g:link url="${'file/download' + entry.formattedAbsolutePath}">${entry.nodeLabelDisplayValue}</g:link>
 				</g:else></td>
-				<td><span id="${entry.formattedAbsolutePath}" onclick="clickOnPathInSearchResult(this.id)">${entry.formattedAbsolutePath}<span></td>
+				<td><a href="#" id="${entry.formattedAbsolutePath}" onclick="clickOnPathInSearchResult(this.id)">${entry.formattedAbsolutePath}</a></td>
 				<td>${entry.objectType}</td>
 				<td>${entry.modifiedAt}</td>
 				<td>${entry.dataSize}</td>

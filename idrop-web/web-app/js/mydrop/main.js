@@ -154,8 +154,10 @@ function buildPathPartAnchor(indexOfCurrentPathPart, pathArray) {
 			return;
 		}
 
+		if (value.length > 0) {
 		absPathSubsection += "/";
 		absPathSubsection += value;
+		}
 
 	});
 	pathUrl += absPathSubsection;
