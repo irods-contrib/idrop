@@ -154,6 +154,7 @@ function buildPathPartAnchor(indexOfCurrentPathPart, pathArray) {
 			return;
 		}
 
+		absPathSubsection += "/";
 		absPathSubsection += value;
 
 	});
