@@ -359,6 +359,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 break;
             default:
             	log.info(">>>>>>>>> no display mode, show local/rods display mode 1");
+            	this.displayMode = 1;
                 cl.show(testCardPanel, "card2");
         }
 
@@ -852,8 +853,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 } else if (ts.getTransferType() == TransferStatus.TransferType.COPY || ts.getTransferType() == TransferStatus.TransferType.PUT) {
                     if (ts.getTransferZone().equals(
                             iDropCore.getIrodsAccount().getZone()) && ts.getTransferHost().equals(iDropCore.getIrodsAccount().getHost())) {
-                    	// don't do this for mode 3 (shopping cart mode)
-                    	if(idropGui.displayMode != 3) {
+                    	// only do this for displayMode 1 - local and irods trees
+                    	if(idropGui.displayMode == 1) {
                     		try {
                     			// should leave PUT, and COPY
                     			final IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) idropGui.irodsTree.getModel();
