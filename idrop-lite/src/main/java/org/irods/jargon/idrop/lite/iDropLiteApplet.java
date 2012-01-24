@@ -226,12 +226,15 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         switch (this.mode) {
 
             case 1:
-                log.info("processLogin: retrieving permanent password...");
-                if (!retrievePermAccount()) {
-                    showMessageFromOperation("Temporary Password Mode: login error - unable to log in, or invalid user id");
-                    return false;
-                }
-                break;
+            	showMessageFromOperation("Connection mode - 1 is not currently supported. Please configure another connection mode.");
+            	return false;
+//				Disable mode 1 for now
+//                log.info("processLogin: retrieving permanent password...");
+//                if (!retrievePermAccount()) {
+//                    showMessageFromOperation("Temporary Password Mode: login error - unable to log in, or invalid user id");
+//                    return false;
+//                }
+//                break;
             case 0:
                 log.info("processLogin: creating account with provided permanent password...");
                 if (!createPermAccount()) {
@@ -569,6 +572,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             return;
         } else if (roots.size() == 1) {
             scrollLocalDrives.setVisible(false);
+            pnlLocalRoots.setPreferredSize(new java.awt.Dimension(295, 39));
             localFileModel = new LocalFileSystemModel(new LocalFileNode(
                     new File(roots.get(0))));
 
@@ -619,6 +623,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             return;
         } else if (roots.size() == 1) {
             scrollUploadLocalDrives.setVisible(false);
+            pnlUploadRoots.setPreferredSize(new java.awt.Dimension(295, 34));
             localUploadFileModel = new LocalFileSystemModel(new LocalFileNode(
                     new File(roots.get(0))));
 
