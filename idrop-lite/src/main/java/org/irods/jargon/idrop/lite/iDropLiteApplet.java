@@ -293,12 +293,12 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         log.info("initiating startup sequence...");
 
-//        log.info("creating irods file system instance...");
-//        try {
-//            irodsFileSystem = IRODSFileSystem.instance();
-//        } catch (JargonException ex) {
-//            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        log.info("creating irods file system instance...");
+        try {
+            irodsFileSystem = IRODSFileSystem.instance();
+        } catch (JargonException ex) {
+            Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+        }
 //
 //        log.info("creating temporary irods account...");
 //        this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
