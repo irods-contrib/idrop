@@ -193,7 +193,9 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         } catch (JargonException e1) {
             Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, e1);
         }
-        dataCache.setIrodsAccount(irodsAccount);
+        log.info("creating temporary irods account...");
+        IRODSAccount tmpAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
+        dataCache.setIrodsAccount(tmpAccount);
 
         try {
             log.info("sending user name and key user:{}", user);
