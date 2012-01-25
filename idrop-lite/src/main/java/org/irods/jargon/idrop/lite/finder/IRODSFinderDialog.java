@@ -1,5 +1,7 @@
 package org.irods.jargon.idrop.lite.finder;
 
+import java.awt.Dimension;
+
 import javax.swing.ListSelectionModel;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.lite.IdropRuntimeException;
@@ -41,6 +43,7 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
             throw new IllegalArgumentException("null idropCore");
         }
         
+        this.setTitle("Import Location");
         this.idropCore = idropCore;
         initComponents();
         buildTargetTree();
@@ -122,8 +125,6 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        topPanel = new javax.swing.JPanel();
         treePanel = new javax.swing.JPanel();
         pnlIrodsTreeToolbar = new javax.swing.JPanel();
         btnRefreshTargetTree = new javax.swing.JButton();
@@ -132,22 +133,16 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
         bottomPanel = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnSelectFolder = new javax.swing.JButton();
+        lblInstruct = new javax.swing.JLabel();
+        westPanel = new javax.swing.JPanel();
+        eastPanel = new javax.swing.JPanel();
+        
+        bottomPanel.setMinimumSize(new Dimension(100,40));
+        bottomPanel.setPreferredSize(new Dimension(100,40));
+        bottomPanel.setLayout(new java.awt.BorderLayout());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setModal(true);
-
-        org.jdesktop.layout.GroupLayout topPanelLayout = new org.jdesktop.layout.GroupLayout(topPanel);
-        topPanel.setLayout(topPanelLayout);
-        topPanelLayout.setHorizontalGroup(
-            topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 593, Short.MAX_VALUE)
-        );
-        topPanelLayout.setVerticalGroup(
-            topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 484, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(topPanel, java.awt.BorderLayout.CENTER);
+        setModal(true);;
 
         treePanel.setLayout(new java.awt.BorderLayout());
 
@@ -162,7 +157,14 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
                 btnRefreshTargetTreeActionPerformed(evt);
             }
         });
-        pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
+        
+        pnlIrodsTreeToolbar.setMinimumSize(new Dimension(100, 30));
+        pnlIrodsTreeToolbar.setPreferredSize(new Dimension(100, 30));
+        pnlIrodsTreeToolbar.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 0));
+        pnlIrodsTreeToolbar.setLayout(new java.awt.BorderLayout());
+        lblInstruct.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.lblInstruct.text")); // NOI18N
+        pnlIrodsTreeToolbar.add(lblInstruct, java.awt.BorderLayout.WEST);
+        //pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
 
         treePanel.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
 
@@ -174,8 +176,11 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
 
         treePanel.add(pnlIrodsTreeMaster, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(treePanel, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(treePanel, java.awt.BorderLayout.CENTER);
 
+        westPanel.setPreferredSize(new Dimension(100,40));
+        westPanel.add(btnRefreshTargetTree);
+        
         btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnCancel.text")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -183,7 +188,8 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
                 btnCancelActionPerformed(evt);
             }
         });
-        bottomPanel.add(btnCancel);
+        eastPanel.setPreferredSize(new Dimension(200,40));
+        eastPanel.add(btnCancel);
 
         btnSelectFolder.setMnemonic('s');
         btnSelectFolder.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnSelectFolder.text")); // NOI18N
@@ -192,9 +198,12 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
                 btnSelectFolderActionPerformed(evt);
             }
         });
-        bottomPanel.add(btnSelectFolder);
+        eastPanel.add(btnSelectFolder);
+        
+        bottomPanel.add(westPanel, java.awt.BorderLayout.WEST);
+        bottomPanel.add(eastPanel, java.awt.BorderLayout.EAST);
 
-        getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(bottomPanel, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -232,7 +241,8 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
             return;
         }
         
-       this.selectedAbsolutePath = entry.getFormattedAbsolutePath();
+       this.selectedAbsolutePath = entry.getPathOrName();
+       //this.selectedAbsolutePath = entry.getFormattedAbsolutePath();
        this.setVisible(false);
         
     }//GEN-LAST:event_btnSelectFolderActionPerformed
@@ -245,8 +255,10 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
     private javax.swing.JPanel pnlIrodsTreeMaster;
     private javax.swing.JPanel pnlIrodsTreeToolbar;
     private javax.swing.JScrollPane scrollIrodsTree;
-    private javax.swing.JPanel topPanel;
     private javax.swing.JPanel treePanel;
+    private javax.swing.JLabel lblInstruct;
+    private javax.swing.JPanel westPanel;
+    private javax.swing.JPanel eastPanel;
     // End of variables declaration//GEN-END:variables
 
 }
