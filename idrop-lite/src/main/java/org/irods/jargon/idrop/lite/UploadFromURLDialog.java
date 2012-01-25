@@ -34,7 +34,7 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
     /** Creates new form UploadFromURLDialog */
     public UploadFromURLDialog(final iDropLiteApplet parent, final boolean modal) {
         //super(parent, modal);
-        super((Frame)null, modal);
+        super(parent.getiDropCore().findAppletParentFrame(parent), modal);
         initComponents();
         Border empty_border = BorderFactory.createEmptyBorder (0,10,0,10);
         jPanel1.setBorder(empty_border);
