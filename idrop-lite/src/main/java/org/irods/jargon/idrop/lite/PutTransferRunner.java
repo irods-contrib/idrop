@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.packinstr.TransferOptions;
 import org.irods.jargon.core.pub.DataTransferOperations;
 import org.irods.jargon.core.transfer.DefaultTransferControlBlock;
 import org.irods.jargon.core.transfer.TransferControlBlock;
@@ -69,6 +70,9 @@ public class PutTransferRunner implements Runnable {
     			TransferControlBlock tcb = null;;
     			try {
     				tcb = DefaultTransferControlBlock.instance();
+    				TransferOptions transferOptions = idropGui.getiDropCore().getIrodsFileSystem().getIrodsSession().buildTransferOptionsBasedOnJargonProperties();
+                    transferOptions.setIntraFileStatusCallbacks(true);
+                    tcb.setTransferOptions(transferOptions);
     				idropGui.getiDropCore().setTransferControlBlock(tcb);
     				this.transferControlBlock = tcb;
     			} catch (JargonException ex) {
@@ -79,7 +83,7 @@ public class PutTransferRunner implements Runnable {
     			log.info("initiating put transfer");
     			try {
     				idropGui.getiDropCore().getTransferManager().putOperationURL(localSourceAbsolutePath,
-                        targetIrodsFileAbsolutePath, sourceResource, idropGui, transferControlBlock);
+                        targetIrodsFileAbsolutePath, sourceResource, idropGui, tcb);
     			} catch (JargonException ex) {
     				java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                         	java.util.logging.Level.SEVERE, null, ex);
