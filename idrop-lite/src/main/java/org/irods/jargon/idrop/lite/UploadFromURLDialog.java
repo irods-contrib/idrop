@@ -34,7 +34,7 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
     /** Creates new form UploadFromURLDialog */
     public UploadFromURLDialog(final iDropLiteApplet parent, final boolean modal) {
         //super(parent, modal);
-        super(parent.getiDropCore().findAppletParentFrame(parent), modal);
+    	super(parent.getiDropCore().findAppletParentFrame(parent), modal);
         initComponents();
         Border empty_border = BorderFactory.createEmptyBorder (0,10,0,10);
         jPanel1.setBorder(empty_border);
@@ -60,14 +60,15 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
         jPanel6 = new javax.swing.JPanel();
         btnUploadDFromURL_Add = new javax.swing.JButton();
         btnUploadFromURL_Cancel = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(UploadFromURLDialog.class, "UploadFromURLDialog.title")); // NOI18N
+        setSize(new java.awt.Dimension(495, 125));
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(495, 50));
+        jPanel2.setMinimumSize(new java.awt.Dimension(239, 30));
+        jPanel2.setPreferredSize(new java.awt.Dimension(495, 40));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(UploadFromURLDialog.class, "UploadFromURLDialog.jLabel1.text")); // NOI18N
@@ -88,7 +89,8 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        jPanel4.setPreferredSize(new java.awt.Dimension(495, 30));
+        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 2, 4, 2));
+        jPanel4.setPreferredSize(new java.awt.Dimension(495, 40));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
         jPanel5.setPreferredSize(new java.awt.Dimension(200, 30));
@@ -109,7 +111,7 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
         jPanel6.setPreferredSize(new java.awt.Dimension(155, 100));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        btnUploadDFromURL_Add.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnUploadDFromURL_Add.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         btnUploadDFromURL_Add.setText(org.openide.util.NbBundle.getMessage(UploadFromURLDialog.class, "UploadFromURLDialog.btnUploadDFromURL_Add.text")); // NOI18N
         btnUploadDFromURL_Add.setSize(new java.awt.Dimension(80, 29));
         btnUploadDFromURL_Add.addActionListener(new java.awt.event.ActionListener() {
@@ -119,7 +121,7 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
         });
         jPanel6.add(btnUploadDFromURL_Add, java.awt.BorderLayout.WEST);
 
-        btnUploadFromURL_Cancel.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnUploadFromURL_Cancel.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         btnUploadFromURL_Cancel.setText(org.openide.util.NbBundle.getMessage(UploadFromURLDialog.class, "UploadFromURLDialog.btnUploadFromURL_Cancel.text")); // NOI18N
         btnUploadFromURL_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,21 +135,6 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
         jPanel1.add(jPanel4, java.awt.BorderLayout.PAGE_END);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
-
-        jPanel7.setPreferredSize(new java.awt.Dimension(495, 5));
-
-        org.jdesktop.layout.GroupLayout jPanel7Layout = new org.jdesktop.layout.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 400, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 5, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel7, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -170,25 +157,25 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
         
         if(urlName != null) {
         	try {
-				url = new URL(urlName);
-				connection = url.openConnection();
-				fileSize = connection.getContentLength();
-			} catch (MalformedURLException e) {
-				idropApplet.showMessageFromOperation("Please enter a valid URL");
-				return;
-			} catch (IOException e) {
-				idropApplet.showMessageFromOperation("Please enter a valid URL");
-				return;
-			} catch (NullPointerException e) {
-				idropApplet.showMessageFromOperation("Please enter a valid URL");
-				return;
-			}
-			
-			if(fileSize <= 0) {
-				idropApplet.showMessageFromOperation("Please enter a valid URL file for download");
-				return;
-			}
-			
+        		url = new URL(urlName);
+        		connection = url.openConnection();
+        		fileSize = connection.getContentLength();
+        	} catch (MalformedURLException e) {
+        		idropApplet.showMessageFromOperation("Please enter a valid URL");
+        		return;
+        	} catch (IOException e) {
+        		idropApplet.showMessageFromOperation("Please enter a valid URL");
+        		return;
+        	} catch (NullPointerException e) {
+        		idropApplet.showMessageFromOperation("Please enter a valid URL");
+        		return;
+        	}
+
+        	if(fileSize <= 0) {
+        		idropApplet.showMessageFromOperation("Please enter a valid URL file for download");
+        		return;
+        	}
+
         	DefaultTableModel tm = idropApplet.getiDropCore().getUploadTableModel();
         	Object [] rowData = new Object[5];
         	rowData[0] = urlName;
@@ -197,7 +184,7 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
         	rowData[3] = Boolean.TRUE;
         	rowData[4] = iDropLiteApplet.uploadURL;  // treat this as a file
         	tm.addRow(rowData);
-    	}
+        }
         this.dispose();
     }//GEN-LAST:event_btnUploadDFromURL_AddActionPerformed
 
@@ -212,7 +199,6 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JTextField txtUploadFromURL;
     // End of variables declaration//GEN-END:variables
 
