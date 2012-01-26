@@ -5,6 +5,8 @@
 
 package org.irods.jargon.idrop.lite;
 
+import java.awt.Container;
+import java.awt.Frame;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -206,6 +208,17 @@ public class iDropLiteCore {
     
     public DefaultTableModel getUploadTableModel() {
 	   return this.tmUploadTable;
+    }
+    
+    protected Frame findAppletParentFrame(iDropLiteApplet applet) {
+    	Container c = applet; 
+        while(c != null){ 
+          if (c instanceof Frame) 
+            return (Frame)c; 
+
+          c = c.getParent(); 
+        } 
+        return (Frame)null;
     }
 }
 

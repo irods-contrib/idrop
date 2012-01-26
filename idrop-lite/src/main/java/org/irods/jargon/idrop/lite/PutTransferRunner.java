@@ -1,9 +1,15 @@
 package org.irods.jargon.idrop.lite;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.packinstr.TransferOptions;
 import org.irods.jargon.core.pub.DataTransferOperations;
 import org.irods.jargon.core.transfer.DefaultTransferControlBlock;
 import org.irods.jargon.core.transfer.TransferControlBlock;
@@ -12,14 +18,15 @@ import org.slf4j.LoggerFactory;
 public class PutTransferRunner implements Runnable {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferHandler.class);
-    private final List<File> sourceFiles;
+//    private final List<File> sourceFiles = null;
+    private final List<UploadDataObj> sourceFiles;
     private final String targetIrodsFileAbsolutePath;
     private final iDropLiteApplet idropGui;
     private TransferControlBlock transferControlBlock;
 
     public PutTransferRunner(final iDropLiteApplet gui,
             final String targetPath,
-            final List<File> files)
+            final List<UploadDataObj> files)
             throws JargonException {
 
         if (files == null) {
@@ -42,42 +49,88 @@ public class PutTransferRunner implements Runnable {
 
     @Override
     public void run() {
-        for (File transferFile : sourceFiles) {
-            log.info("process a put from source: {}", transferFile.getAbsolutePath());
+    	//for (File transferFile : sourceFiles) {
+    	for (UploadDataObj uploadData : sourceFiles) {
+    		if(uploadData.isURL) { // this is an import from URL
+
+				log.info("process a put from an url: {}", uploadData.getFileName());
+	            
+    			// handle overall cancel if requested by client
+    			if(idropGui.isTransferCancelled()) {
+    				log.info("put transfer cancelled by client");
+    				idropGui.setTransferCancelled(false);
+    				break;
+    			}
             
-            // handle overall cancel if requested by client
-            if(idropGui.isTransferCancelled()) {
-            	log.info("put transfer cancelled by client");
-            	idropGui.setTransferCancelled(false);
-            	break;
-            }
+    			String localSourceAbsolutePath = uploadData.getFileName();
+    			String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
             
-            String localSourceAbsolutePath = transferFile.getAbsolutePath();
-            String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
+    			// need to create new Transfer Control Block for each transfer since it needs to be reset
+    			// on how many files there are to transfer and how many have been transferred so far
+    			TransferControlBlock tcb = null;;
+    			try {
+    				tcb = DefaultTransferControlBlock.instance();
+    				TransferOptions transferOptions = idropGui.getiDropCore().getIrodsFileSystem().getIrodsSession().buildTransferOptionsBasedOnJargonProperties();
+                    transferOptions.setIntraFileStatusCallbacks(true);
+                    tcb.setTransferOptions(transferOptions);
+    				idropGui.getiDropCore().setTransferControlBlock(tcb);
+    				this.transferControlBlock = tcb;
+    			} catch (JargonException ex) {
+    				java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+    						java.util.logging.Level.SEVERE, null, ex);
+    				idropGui.showIdropException(ex);
+    			}
+    			log.info("initiating put transfer");
+    			try {
+    				idropGui.getiDropCore().getTransferManager().putOperationURL(localSourceAbsolutePath,
+                        targetIrodsFileAbsolutePath, sourceResource, idropGui, tcb);
+    			} catch (JargonException ex) {
+    				java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+                        	java.util.logging.Level.SEVERE, null, ex);
+    				idropGui.showIdropException(ex);
+    			} finally {
+    				idropGui.getiDropCore().getIrodsFileSystem().closeAndEatExceptions();
+    			}
+    		}
+    		else { // this is just a regular local file or folder
+    			
+    			log.info("process a put from source: {}", uploadData.getFile().getAbsolutePath());
             
-            // need to create new Transfer Control Block for each transfer since it needs to be reset
-            // on how many files there are to transfer and how many have been transferred so far
-            TransferControlBlock tcb = null;;
-            try {
-            	tcb = DefaultTransferControlBlock.instance();
-                idropGui.getiDropCore().setTransferControlBlock(tcb);
-                this.transferControlBlock = tcb;
-            } catch (JargonException ex) {
-            	java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
-                        java.util.logging.Level.SEVERE, null, ex);
-                idropGui.showIdropException(ex);
-            }
-            log.info("initiating put transfer");
-            try {
-                idropGui.getiDropCore().getTransferManager().putOperation(localSourceAbsolutePath,
+    			// handle overall cancel if requested by client
+    			if(idropGui.isTransferCancelled()) {
+    				log.info("put transfer cancelled by client");
+    				idropGui.setTransferCancelled(false);
+    				break;
+    			}
+            
+    			//String localSourceAbsolutePath = transferFile.getAbsolutePath();
+    			String localSourceAbsolutePath = uploadData.getFile().getAbsolutePath();
+    			String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
+            
+    			// need to create new Transfer Control Block for each transfer since it needs to be reset
+    			// on how many files there are to transfer and how many have been transferred so far
+    			TransferControlBlock tcb = null;;
+    			try {
+    				tcb = DefaultTransferControlBlock.instance();
+    				idropGui.getiDropCore().setTransferControlBlock(tcb);
+    				this.transferControlBlock = tcb;
+    			} catch (JargonException ex) {
+    				java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+    						java.util.logging.Level.SEVERE, null, ex);
+    				idropGui.showIdropException(ex);
+    			}
+    			log.info("initiating put transfer");
+    			try {
+    				idropGui.getiDropCore().getTransferManager().putOperation(localSourceAbsolutePath,
                         targetIrodsFileAbsolutePath, sourceResource, idropGui, transferControlBlock);
-            } catch (JargonException ex) {
-                java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
-                        java.util.logging.Level.SEVERE, null, ex);
-                idropGui.showIdropException(ex);
-            } finally {
-                idropGui.getiDropCore().getIrodsFileSystem().closeAndEatExceptions();
-            }
+    			} catch (JargonException ex) {
+    				java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+                        	java.util.logging.Level.SEVERE, null, ex);
+    				idropGui.showIdropException(ex);
+    			} finally {
+    				idropGui.getiDropCore().getIrodsFileSystem().closeAndEatExceptions();
+    			}
+    		}
         }
     }
 }

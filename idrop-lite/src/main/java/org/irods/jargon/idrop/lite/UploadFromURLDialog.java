@@ -34,7 +34,7 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
     /** Creates new form UploadFromURLDialog */
     public UploadFromURLDialog(final iDropLiteApplet parent, final boolean modal) {
         //super(parent, modal);
-        super((Frame)null, modal);
+        super(parent.getiDropCore().findAppletParentFrame(parent), modal);
         initComponents();
         Border empty_border = BorderFactory.createEmptyBorder (0,10,0,10);
         jPanel1.setBorder(empty_border);
@@ -174,11 +174,19 @@ public class UploadFromURLDialog extends javax.swing.JDialog {
 				connection = url.openConnection();
 				fileSize = connection.getContentLength();
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				idropApplet.showMessageFromOperation("Please enter a valid URL");
+				return;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				idropApplet.showMessageFromOperation("Please enter a valid URL");
+				return;
+			} catch (NullPointerException e) {
+				idropApplet.showMessageFromOperation("Please enter a valid URL");
+				return;
+			}
+			
+			if(fileSize <= 0) {
+				idropApplet.showMessageFromOperation("Please enter a valid URL file for download");
+				return;
 			}
 			
         	DefaultTableModel tm = idropApplet.getiDropCore().getUploadTableModel();
