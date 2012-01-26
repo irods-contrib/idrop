@@ -849,7 +849,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 if (ts.getTransferType() == TransferStatus.TransferType.SYNCH || ts.getTransferType() == TransferStatus.TransferType.REPLICATE) {
                     log.info("no need to notify tree for synch or replicate");
                 } else if (ts.getTransferType() == TransferStatus.TransferType.GET
-                        && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                        && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION
+                        && idropGui.displayMode == 1) {
                     try {
                         ((LocalFileSystemModel) idropGui.getFileTree().getModel()).notifyCompletionOfOperation(idropGui.getFileTree(), ts);
 
@@ -1464,9 +1465,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         txtIdropWebModeDownloadTarget = new javax.swing.JTextField();
         btnIdropWebModeTargetBrowse = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         pnlIdropWebModeProgressBar = new javax.swing.JPanel();
         pbIdropWebModeDownloadProgress = new javax.swing.JProgressBar();
         pnlIdropWebModeBeginDownload = new javax.swing.JPanel();
@@ -1527,7 +1526,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlSearchSizer.setLayout(pnlSearchSizerLayout);
         pnlSearchSizerLayout.setHorizontalGroup(
             pnlSearchSizerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 396, Short.MAX_VALUE)
+            .add(0, 392, Short.MAX_VALUE)
         );
         pnlSearchSizerLayout.setVerticalGroup(
             pnlSearchSizerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1647,14 +1646,14 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             .add(pnlIrodsSearchLayout.createSequentialGroup()
                 .add(83, 83, 83)
                 .add(jLabel5)
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
         pnlIrodsSearchLayout.setVerticalGroup(
             pnlIrodsSearchLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(pnlIrodsSearchLayout.createSequentialGroup()
                 .add(84, 84, 84)
                 .add(jLabel5)
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         tabIrodsViews.addTab(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.pnlIrodsSearch.TabConstraints.tabTitle"), pnlIrodsSearch); // NOI18N
@@ -1663,11 +1662,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlIrodsTree.setLayout(pnlIrodsTreeLayout);
         pnlIrodsTreeLayout.setHorizontalGroup(
             pnlIrodsTreeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(tabIrodsViews, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+            .add(tabIrodsViews, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
         );
         pnlIrodsTreeLayout.setVerticalGroup(
             pnlIrodsTreeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(tabIrodsViews, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+            .add(tabIrodsViews, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
         );
 
         pnlSplitPaneLocalRemote.setRightComponent(pnlIrodsTree);
@@ -1865,7 +1864,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadRefreshButton.setRequestFocusEnabled(false);
         pnlUploadRefreshButton.setLayout(new java.awt.BorderLayout());
 
-        btnUploadUrl.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnUploadUrl.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         btnUploadUrl.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadUrl.text")); // NOI18N
         btnUploadUrl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1874,7 +1873,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         });
         pnlUploadRefreshButton.add(btnUploadUrl, java.awt.BorderLayout.WEST);
 
-        btnUploadLocalRefresh.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnUploadLocalRefresh.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         btnUploadLocalRefresh.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadLocalRefresh.text")); // NOI18N
         btnUploadLocalRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1891,7 +1890,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadLocalDrivesFiller.setLayout(pnlUploadLocalDrivesFillerLayout);
         pnlUploadLocalDrivesFillerLayout.setHorizontalGroup(
             pnlUploadLocalDrivesFillerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 298, Short.MAX_VALUE)
+            .add(0, 296, Short.MAX_VALUE)
         );
         pnlUploadLocalDrivesFillerLayout.setVerticalGroup(
             pnlUploadLocalDrivesFillerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1913,7 +1912,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 298, Short.MAX_VALUE)
+            .add(0, 296, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1974,7 +1973,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         });
         jPanel12.add(btnUploadMove);
 
-        btnUploadCancel.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnUploadCancel.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         btnUploadCancel.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadCancel.text")); // NOI18N
         btnUploadCancel.setMinimumSize(new java.awt.Dimension(50, 40));
         btnUploadCancel.setPreferredSize(new java.awt.Dimension(80, 40));
@@ -2104,11 +2103,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadToolStatus.setRequestFocusEnabled(false);
         pnlUploadToolStatus.setLayout(new java.awt.BorderLayout());
 
-        lblUploadTotalFiles.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        lblUploadTotalFiles.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         lblUploadTotalFiles.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.lblUploadTotalFiles.text")); // NOI18N
         pnlUploadToolStatus.add(lblUploadTotalFiles, java.awt.BorderLayout.NORTH);
 
-        lblUploadTotalSize.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        lblUploadTotalSize.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         lblUploadTotalSize.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.lblUploadTotalSize.text")); // NOI18N
         lblUploadTotalSize.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 3, 0));
         pnlUploadToolStatus.add(lblUploadTotalSize, java.awt.BorderLayout.SOUTH);
@@ -2118,7 +2117,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         jPanel17.setMinimumSize(new java.awt.Dimension(100, 40));
         jPanel17.setPreferredSize(new java.awt.Dimension(106, 40));
 
-        btnUploadBeginImport.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnUploadBeginImport.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         btnUploadBeginImport.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadBeginImport.text")); // NOI18N
         btnUploadBeginImport.setEnabled(false);
         btnUploadBeginImport.setMaximumSize(new java.awt.Dimension(115, 29));
@@ -2266,7 +2265,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlIdropWebMode.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlIdropWebMode.setLayout(new java.awt.BorderLayout());
 
-        pnlIdropWebModeDownloadTarget.setPreferredSize(new java.awt.Dimension(700, 35));
+        pnlIdropWebModeDownloadTarget.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        pnlIdropWebModeDownloadTarget.setPreferredSize(new java.awt.Dimension(700, 40));
         pnlIdropWebModeDownloadTarget.setLayout(new java.awt.BorderLayout());
 
         txtIdropWebModeDownloadTarget.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.txtIdropWebModeDownloadTarget.text")); // NOI18N
@@ -2282,43 +2282,38 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         pnlIdropWebMode.add(pnlIdropWebModeDownloadTarget, java.awt.BorderLayout.NORTH);
 
+        jPanel6.setPreferredSize(new java.awt.Dimension(700, 60));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        jPanel15.setLayout(new java.awt.BorderLayout());
-
-        jPanel16.setPreferredSize(new java.awt.Dimension(700, 10));
+        jPanel16.setPreferredSize(new java.awt.Dimension(700, 24));
 
         org.jdesktop.layout.GroupLayout jPanel16Layout = new org.jdesktop.layout.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 690, Short.MAX_VALUE)
+            .add(0, 686, Short.MAX_VALUE)
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 10, Short.MAX_VALUE)
+            .add(0, 24, Short.MAX_VALUE)
         );
 
-        jPanel15.add(jPanel16, java.awt.BorderLayout.PAGE_START);
+        jPanel6.add(jPanel16, java.awt.BorderLayout.NORTH);
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.jLabel1.text")); // NOI18N
-        jPanel15.add(jLabel1, java.awt.BorderLayout.CENTER);
-
-        pnlIdropWebModeProgressBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 20));
-        pnlIdropWebModeProgressBar.setPreferredSize(new java.awt.Dimension(700, 75));
+        pnlIdropWebModeProgressBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 15, 10, 15));
+        pnlIdropWebModeProgressBar.setMinimumSize(new java.awt.Dimension(40, 24));
+        pnlIdropWebModeProgressBar.setPreferredSize(new java.awt.Dimension(700, 24));
         pnlIdropWebModeProgressBar.setLayout(new java.awt.BorderLayout());
 
         pbIdropWebModeDownloadProgress.setStringPainted(true);
         pnlIdropWebModeProgressBar.add(pbIdropWebModeDownloadProgress, java.awt.BorderLayout.CENTER);
 
-        jPanel15.add(pnlIdropWebModeProgressBar, java.awt.BorderLayout.SOUTH);
-
-        jPanel6.add(jPanel15, java.awt.BorderLayout.CENTER);
+        jPanel6.add(pnlIdropWebModeProgressBar, java.awt.BorderLayout.CENTER);
 
         pnlIdropWebMode.add(jPanel6, java.awt.BorderLayout.CENTER);
 
-        pnlIdropWebModeBeginDownload.setPreferredSize(new java.awt.Dimension(700, 35));
+        pnlIdropWebModeBeginDownload.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        pnlIdropWebModeBeginDownload.setPreferredSize(new java.awt.Dimension(700, 40));
         pnlIdropWebModeBeginDownload.setLayout(new java.awt.BorderLayout());
 
         btnIdropWebModeBeginDownload.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnIdropWebModeBeginDownload.text")); // NOI18N
@@ -2591,7 +2586,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JButton btnUploadLocalRefresh;
     private javax.swing.JButton btnUploadMove;
     private javax.swing.JButton btnUploadUrl;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2602,7 +2596,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
