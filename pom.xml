@@ -4,13 +4,13 @@
     <groupId>org.irods</groupId>
     <artifactId>idrop</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-beta2-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>iRODS iDrop</name>
     <description>iRODS iDrop - personal web and desktop grid access clients</description>
     <url>https://code.renci.org/gf/project/irodsidrop/</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jargon.version>3.0.1-SNAPSHOT</jargon.version>  
+        <jargon.version>3.0.0.2-SNAPSHOT</jargon.version>  
         <spring.core.version>3.0.5.RELEASE</spring.core.version>
         <commons.io.version>2.0.1</commons.io.version>
         <netbeans.version>RELEASE701</netbeans.version>
@@ -405,6 +405,5 @@
         <module>idrop-swing</module>
         <module>idrop-web</module>
          <module>idrop-lite</module>
-          <module>idrop-commons</module>
     </modules>
 </project>
