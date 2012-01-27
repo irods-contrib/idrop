@@ -2678,4 +2678,10 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JTextField txtIRODSUploadDest;
     private javax.swing.JTextField txtIdropWebModeDownloadTarget;
     // End of variables declaration//GEN-END:variables
+
+    //TODO: add a dialog?
+    @Override
+    public CallbackResponse transferAsksWhetherToForceOperation(String irodsAbsolutePath, boolean isCollection) {
+       return CallbackResponse.YES_FOR_ALL;
+    }
 }
