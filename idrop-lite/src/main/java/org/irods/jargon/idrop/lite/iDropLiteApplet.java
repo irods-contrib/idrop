@@ -1031,6 +1031,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         btnUploadCancel.setEnabled(state);
         btnUploadMove.setEnabled(state);
         btnBrowseIRODSUploadDest.setEnabled(state);
+        btnUploadUrl.setEnabled(state);
     }
 
     public void setTotalFileUpload(int total) {
