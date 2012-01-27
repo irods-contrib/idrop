@@ -2941,6 +2941,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
     }
 
+    @Override
+    public CallbackResponse transferAsksWhetherToForceOperation(String irodsAbsolutePath, boolean isCollection) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     class PopupListener extends MouseAdapter {
 
         @Override
