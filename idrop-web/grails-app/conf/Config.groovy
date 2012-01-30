@@ -1,13 +1,20 @@
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
+
+
+grails.config.locations = [
+	"file:${userHome}/.grails/${appName}-config.groovy"
+]
+if(System.properties["${appName}.config.location"]) {
+	grails.config.locations << "file:" + System.properties["${appName}.config.location"]
+}
+
+// config properties that can be externalized
 /*
- grails.config.locations = [ "classpath:${appName}-config.properties",
- "classpath:${appName}-config.groovy",
- "file:${userHome}/.grails/${appName}-config.properties",
- "file:${userHome}/.grails/${appName}-config.groovy"]
- if(System.properties["${appName}.config.location"]) {
- grails.config.locations << "file:" + System.properties["${appName}.config.location"]
- }
+ idrop.confiig.preset.host=diamond.ils.unc.edu
+ idrop.config.preset.port=2247
+ idrop.config.preset.zone=lifelibZone
+ idrop.config.preset.resource=lifelibResc1
  */
 
 grails.project.groupId = org.irods.mydrop // change this to alter the default package name and Maven publishing destination
@@ -92,9 +99,9 @@ log4j = {
 			'org.hibernate',
 			'net.sf.ehcache.hibernate'
 
-	info 'org.irods.mydrop'
-	info 'org.irods.jargon'
-	info 'org.irods.jargon.spring.security'
+	debug 'org.irods.mydrop'
+	debug 'org.irods.jargon'
+	debug 'org.irods.jargon.spring.security'
 	info 'grails.app'
 
 	info 'org.mortbay.log',

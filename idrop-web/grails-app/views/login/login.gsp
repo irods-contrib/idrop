@@ -9,8 +9,21 @@
 		</div>
 	</g:if>
 	
-<div class="roundedContainer" id="container" style="width:350px; margin: auto;">
+<div id="container" style="width:350px; margin: auto;">
 
+	
+	<g:if test="${request.presetHost}">
+	<g:hiddenField
+		name="host" id="host" value="${request.presetHost}"/>
+		<g:hiddenField
+		name="port" id="port" value="${request.presetPort}"/>
+		<g:hiddenField
+		name="zone" id="zone" value="${request.presetZone}"/>
+   <g:hiddenField
+		name="resource" id="resource" value="${request.presetResource}"/>
+	</g:if>
+	<g:else>
+	
 	
 	<div>
 	<div style="width:30%;"><label style="float:right;"><g:message code="text.host" />:</label></div><div><input type="text"
@@ -28,6 +41,7 @@
 	<div><label style="float:right;"><g:message code="text.resource" />:</label></div><div><input type="text"
 		class="input-text" name="resource" id="resource" value="${request.resource}"/></div>
 	</div>
+	</g:else>
 	<div>
 	<div><label style="float:right;"><g:message code="text.user" />:</label></div><div><input type="text"
 		class="input-text" name="user" id="user" value="${request.user}"/></div>
