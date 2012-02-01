@@ -143,9 +143,15 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             this.port = Integer.parseInt(getParameter("port"));
             this.user = getParameter("user");
             this.zone = getParameter("zone");
-            //this.defaultStorageResource = getParameter("defaultStorageResource");
             this.tempPswd = getParameter("password");
-            this.absPath = getParameter("absPath");
+            
+            if(getParameter("absPath") == null) {
+            	this.absPath = "/" + this.zone + "/" + this.user;
+            	log.info("no absPath parameter provided, set to default: {}", this.absPath);
+            }
+            else {
+            	this.absPath = getParameter("absPath");
+            }
 
             if (getParameter("displayMode") == null) {
                 this.displayMode = 0;
