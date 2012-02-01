@@ -66,6 +66,34 @@ class IdropLiteController {
 
 		// now generate the temp password and the applet tag
 
+		def useThisWar = grailsApplication.config.idrop.config.idrop.lite.use.applet.dir
+		def iDropLiteJar = grailsApplication.config.idrop.config.idrop.lite.applet.jar
+
+		if (!iDropLiteJar) {
+			log.error("no idrop lite jar specified in config, please add the idrop.config.idrop.lite.applet.jar value to the config.groovy or external configuaration")
+			throw new JargonException("unable to find idrop lite jar in config.groovy")
+		}
+
+		String appletUrl = ""
+		if (useThisWar) {
+			log.info("will use the applet dir here to download idrop lite")
+			String scheme = request.scheme
+			String serverName = request.serverName
+			int serverPort = request.serverPort
+			String contextPath =request.contextPath
+			// Reconstruct original requesting URL
+			appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
+		} else {
+			log.info("looking for an explicitly defined url for applet codebase...")
+			appletUrl = grailsApplication.config.idrop.config.idrop.lite.codebase
+			if (!appletUrl) {
+				log.error("unable to find the applet uri in config groovy, please configure a idrop.config.idrop.lite.codebase property")
+				throw new JargonException("unable to find applet uri in config.groovy")
+			}
+		}
+
+		log.info("computed applet url:${appletUrl}")
+
 		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
 		def password = userAO.getTemporaryPasswordForConnectedUser()
 
@@ -76,7 +104,7 @@ class IdropLiteController {
 
 		// Reconstruct original requesting URL
 		//String appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
-		String appletUrl = "http://iren-web.renci.org/idrop-web/applet"
+		//String appletUrl = "http://iren-web.renci.org/idrop-web/applet"
 
 		/* set applet operation mode=2 to indicate temporary password is being sent */
 		def mode = "2"
@@ -85,7 +113,7 @@ class IdropLiteController {
 		IdropLite idropLite = new IdropLite()
 		idropLite.appletUrl = appletUrl
 		idropLite.appletCode = "org.irods.jargon.idrop.lite.iDropLiteApplet"
-		idropLite.archive = "idrop-lite-1.0.0-beta3-SNAPSHOT-jar-with-dependencies.jar"
+		idropLite.archive = iDropLiteJar
 		idropLite.mode = mode
 		idropLite.host = irodsAccount.host
 		idropLite.port = irodsAccount.port
@@ -113,14 +141,33 @@ class IdropLiteController {
 		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
 		def password = userAO.getTemporaryPasswordForConnectedUser()
 
-		String scheme = request.scheme
-		String serverName = request.serverName
-		int serverPort = request.serverPort
-		String contextPath =request.contextPath
+		def useThisWar = grailsApplication.config.idrop.config.idrop.lite.use.applet.dir
+		def iDropLiteJar = grailsApplication.config.idrop.config.idrop.lite.applet.jar
 
-		// Reconstruct original requesting URL
-		//String appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
-		String appletUrl = "http://iren-web.renci.org/idrop-web/applet"
+		if (!iDropLiteJar) {
+			log.error("no idrop lite jar specified in config, please add the idrop.config.idrop.lite.applet.jar value to the config.groovy or external configuaration")
+			throw new JargonException("unable to find idrop lite jar in config.groovy")
+		}
+
+		String appletUrl = ""
+		if (useThisWar) {
+			log.info("will use the applet dir here to download idrop lite")
+			String scheme = request.scheme
+			String serverName = request.serverName
+			int serverPort = request.serverPort
+			String contextPath =request.contextPath
+			// Reconstruct original requesting URL
+			appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
+		} else {
+			log.info("looking for an explicitly defined url for applet codebase...")
+			appletUrl = grailsApplication.config.idrop.config.idrop.lite.codebase
+			if (!appletUrl) {
+				log.error("unable to find the applet uri in config groovy, please configure a idrop.config.idrop.lite.codebase property")
+				throw new JargonException("unable to find applet uri in config.groovy")
+			}
+		}
+
+		log.info("computed applet url:${appletUrl}")
 
 		/* set applet operation mode=2 to indicate temporary password is being sent */
 		def mode = "2"
@@ -129,8 +176,8 @@ class IdropLiteController {
 		IdropLite idropLite = new IdropLite()
 		idropLite.appletUrl = appletUrl
 		idropLite.appletCode = "org.irods.jargon.idrop.lite.iDropLiteApplet"
-		idropLite.archive = "idrop-lite-1.0.0-beta3-SNAPSHOT-jar-with-dependencies.jar"
-		idropLite.mode = mode
+		idropLite.archive =iDropLiteJar
+		idropLite.mode =  mode
 		idropLite.host = irodsAccount.host
 		idropLite.port = irodsAccount.port
 		idropLite.zone = irodsAccount.zone

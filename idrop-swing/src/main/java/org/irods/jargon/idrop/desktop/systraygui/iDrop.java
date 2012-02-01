@@ -243,14 +243,24 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     @Override
     public void statusCallback(final TransferStatus ts) {
 
-
         log.info("transfer status callback to iDROP:{}", ts);
+        final iDrop idrop = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                if (ts.isIntraFileStatusReport()) {
+
+                if (ts.getTransferState() == TransferStatus.TransferState.FAILURE) {
+                    // an error occurs, stop the transfer
+                    log.error("error occurred in transfer: {}", ts);
+                    if (ts.getTransferException() == null) {
+                        idrop.showMessageFromOperation("An error occurred in the transfer, this transfer will be cancelled");
+                    } else {
+                        idrop.showIdropException(ts.getTransferException());
+                    }
+                    
+                } else if (ts.isIntraFileStatusReport()) {
 
                     // intra file reports update the progress bar
                     lblTransferByteCounts.setText("Current File (kb):"
@@ -956,7 +966,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             @Override
             public void run() {
                 gui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-               
+
                 IRODSOutlineModel mdl = null;
                 log.info("building new iRODS tree");
                 try {
@@ -981,7 +991,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
              */
             private void loadNewTree() throws JargonException, IdropException {
                 IRODSOutlineModel mdl;
-                 TreePath[] currentPaths = null;
+                TreePath[] currentPaths = null;
                 CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
                 if (iDropCore.getIdropConfig().isLoginPreset()) {
                     log.info("using policy preset home directory");
@@ -999,7 +1009,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     root.setPathOrName(basePath);
                     root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                 }
-                
+
                 irodsTree = new IRODSTree(gui);
                 IRODSNode rootNode = new IRODSNode(root,
                         getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
@@ -1016,7 +1026,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             /**
              * A tree already exists so use the current information to reload
              */
-             
             private void reloadExistingTree() throws IdropException, JargonException {
                 IRODSNode currentRoot = (IRODSNode) irodsTree.getOutlineModel().getRoot();
                 log.debug("current tree root:{}", currentRoot);
@@ -1026,7 +1035,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 scrollIrodsTree.getViewport().removeAll();
                 irodsTree = null;
                 irodsTree = new IRODSTree(gui);
-               CollectionAndDataObjectListingEntry currentEntry = (CollectionAndDataObjectListingEntry) currentRoot.getUserObject();
+                CollectionAndDataObjectListingEntry currentEntry = (CollectionAndDataObjectListingEntry) currentRoot.getUserObject();
                 IRODSNode rootNode = new IRODSNode(currentEntry,
                         getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
                 irodsTree.setRefreshingTree(true);

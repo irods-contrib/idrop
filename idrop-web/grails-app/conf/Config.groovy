@@ -1,21 +1,30 @@
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
-
-grails.config.locations = [
-	"file:${userHome}/.grails/${appName}-config.groovy"
-]
-if(System.properties["${appName}.config.location"]) {
-	grails.config.locations << "file:" + System.properties["${appName}.config.location"]
-}
+/*
+ grails.config.locations = [
+ "file:${userHome}/.grails/${appName}-config.groovy"
+ ]
+ if(System.properties["${appName}.config.location"]) {
+ grails.config.locations << "file:" + System.properties["${appName}.config.location"]
+ }
+ */
 
 // config properties that can be externalized
 /*
- idrop.confiig.preset.host=diamond.ils.unc.edu
- idrop.config.preset.port=2247
- idrop.config.preset.zone=lifelibZone
- idrop.config.preset.resource=lifelibResc1
+ * 
+ * add the following group of properties to present a user id/password only login
+ * 
+ idrop.confiig.preset.host=xxx
+ idrop.config.preset.port=1247
+ idrop.config.preset.zone=xxx
+ idrop.config.preset.resource=xxx
  */
+
+// required properties for idrop lite
+idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
+idrop.config.idrop.lite.use.applet.dir=true
 
 grails.project.groupId = org.irods.mydrop // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
@@ -76,7 +85,7 @@ environments {
 log4j = {
 
 	root {
-		info()
+		warn()
 		additivity = true
 	}
 
@@ -100,8 +109,8 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	debug 'org.irods.mydrop'
-	debug 'org.irods.jargon'
-	debug 'org.irods.jargon.spring.security'
+	warn 'org.irods.jargon'
+	warn 'org.irods.jargon.spring.security'
 	info 'grails.app'
 
 	info 'org.mortbay.log',

@@ -82,33 +82,7 @@ public class iDropLiteCore {
     public void setTransferManager(DataTransferOperations transferOps) {
         this.dataTransferOps = transferOps;
     }
-
-//    public IconManager getIconManager() {
-//        return iconManager;
-//    }
-//
-//    public void setIconManager(IconManager iconManager) {
-//        this.iconManager = iconManager;
-//    }
-
-//    public Timer getQueueTimer() {
-//        return queueTimer;
-//    }
-
-//    public void setQueueTimer(Timer queueTimer) {
-//        this.queueTimer = queueTimer;
-//    }
-
-//    @Deprecated
-//    public Preferences getPreferences() {
-//        return preferences;
-//    }
-//
-//     @Deprecated
-//    public void setPreferences(Preferences preferences) {
-//        this.preferences = preferences;
-//    }
-
+    
     /**
      * Handy method that delegates the process of getting an <code>IRODSAccessObjectFactory</code>.
      * @return {@link IRODSAccessObjectFactory}
