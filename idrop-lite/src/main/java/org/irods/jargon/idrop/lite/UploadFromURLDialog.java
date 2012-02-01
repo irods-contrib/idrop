@@ -302,38 +302,6 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
             }
         }
         
-//        urlName = txtUploadFromURL.getText();
-        
-//        if(urlName != null) {
-//        	try {
-//        		url = new URL(urlName);
-//        		connection = url.openConnection();
-//        		fileSize = connection.getContentLength();
-//        	} catch (MalformedURLException e) {
-//        		idropApplet.showMessageFromOperation("Please enter a valid URL");
-//        		return;
-//        	} catch (IOException e) {
-//        		idropApplet.showMessageFromOperation("Please enter a valid URL");
-//        		return;
-//        	} catch (NullPointerException e) {
-//        		idropApplet.showMessageFromOperation("Please enter a valid URL");
-//        		return;
-//        	}
-//
-//        	if(fileSize <= 0) {
-//        		idropApplet.showMessageFromOperation("Please enter a valid URL file for download");
-//        		return;
-//        	}
-//
-//        	DefaultTableModel tm = idropApplet.getiDropCore().getUploadTableModel();
-//        	Object [] rowData = new Object[5];
-//        	rowData[0] = urlName;
-//        	rowData[1] = 0;
-//        	rowData[2] = new TransferProgressInfo();
-//        	rowData[3] = Boolean.TRUE;
-//        	rowData[4] = iDropLiteApplet.uploadURL;  // treat this as a file
-//        	tm.addRow(rowData);
-//        }
         this.dispose();
     }//GEN-LAST:event_btnUploadDFromURL_AddActionPerformed
 
