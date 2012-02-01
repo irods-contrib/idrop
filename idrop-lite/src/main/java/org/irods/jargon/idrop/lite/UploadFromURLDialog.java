@@ -11,27 +11,19 @@
 
 package org.irods.jargon.idrop.lite;
 
-import java.awt.Color;
-import java.awt.Frame;
-import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
-import javax.swing.DropMode;
 import javax.swing.ImageIcon;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.TreePath;
 
 import org.slf4j.LoggerFactory;
 
@@ -290,8 +282,12 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
             		idropApplet.showMessageFromOperation("Please enter a valid URL file for download");
             		return;
             	}
+            	if(fileSize < 0)  {
+            		idropApplet.showMessageFromOperation("Please enter a valid URL file for download - file size for " +
+            				urlName + " is less than 0");
+            		return;
+            	}
     
-            	//DefaultTableModel tblModel = idropApplet.getiDropCore().getUploadTableModel();
             	Object [] rowData = new Object[5];
             	rowData[0] = urlName;
             	rowData[1] = 0;
