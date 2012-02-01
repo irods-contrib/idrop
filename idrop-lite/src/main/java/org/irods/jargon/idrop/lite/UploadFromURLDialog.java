@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -254,7 +255,8 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
     private void btnUploadDFromURL_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadDFromURL_AddActionPerformed
         URL url = null;
         String urlName = null;
-        URLConnection connection = null;
+        HttpURLConnection connection = null;
+        int httpCode;
         int fileSize = 0;
         DefaultTableModel tm = (DefaultTableModel) tblUploadURLS.getModel();
         int rowcount = tm.getRowCount();
@@ -267,8 +269,12 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
         	if(urlName != null) {
             	try {
             		url = new URL(urlName);
-            		connection = url.openConnection();
+            		connection = (HttpURLConnection) url.openConnection();
+            		connection.setRequestMethod ("GET");
+            		connection.connect () ; 
+                	httpCode = connection.getResponseCode() ;
             		fileSize = connection.getContentLength();
+            		
             	} catch (MalformedURLException e) {
             		idropApplet.showMessageFromOperation("Please enter a valid URL");
             		return;
@@ -280,7 +286,7 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
             		return;
             	}
     
-            	if(fileSize <= 0) {
+            	if(httpCode != HttpURLConnection.HTTP_OK) {
             		idropApplet.showMessageFromOperation("Please enter a valid URL file for download");
             		return;
             	}

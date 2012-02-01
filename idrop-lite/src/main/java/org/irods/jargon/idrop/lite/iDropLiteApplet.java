@@ -747,6 +747,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                         idrop.showIdropException(ts.getTransferException());
                     }
                     idrop.getiDropCore().getTransferControlBlock().setCancelled(true);
+                    // reset process transfer flags
+                    if (isTransferInProgress()) {
+                        setTransferCancelled(true);
+                        setTransferInProgress(false);
+                    }
                     
                 } else if (ts.isIntraFileStatusReport()) {
 
