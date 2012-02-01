@@ -2549,7 +2549,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
     private void btnUploadUrlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadUrlActionPerformed
         UploadFromURLDialog dlgUploadFromURL = new UploadFromURLDialog(this, true);
-        dlgUploadFromURL.setSize(495, 220);
+        dlgUploadFromURL.setSize(495, 200);
         dlgUploadFromURL.setLocationRelativeTo(iDropCore.findAppletParentFrame(this));
         dlgUploadFromURL.setVisible(true);
     }//GEN-LAST:event_btnUploadUrlActionPerformed

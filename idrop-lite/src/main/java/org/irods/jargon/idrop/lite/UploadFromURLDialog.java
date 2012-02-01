@@ -173,7 +173,6 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
 
         tblUploadURLS.setModel(new javax.swing.table.DefaultTableModel(
         	new Object [][] {
-        		{"Insert URL", Boolean.FALSE},
         		{"Insert URL", Boolean.TRUE}
         	},
         	new String [] {
