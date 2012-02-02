@@ -1,7 +1,6 @@
 package org.irods.jargon.idrop.lite;
 
 import java.awt.Component;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComponent;
 import javax.swing.JTable;
@@ -18,18 +17,15 @@ public class UploadToURLTableURLCellEditor extends AbstractCellEditor implements
 	public Object getCellEditorValue() {
 		return ((JTextField)txtURL).getText();
 	}
-
+	
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
 
 		((JTextComponent) txtURL).setText(value.toString());
-//		((JTextComponent) txtURL).setSelectionStart(0);
-//		((JTextComponent) txtURL).setSelectionEnd(value.toString().length());
-		((JTextComponent) txtURL).requestFocus();
+		((JTextComponent) txtURL).requestFocusInWindow();
 		((JTextComponent) txtURL).selectAll();
 		
-
 		return txtURL;
 	}
 

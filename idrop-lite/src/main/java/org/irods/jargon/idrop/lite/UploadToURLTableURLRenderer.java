@@ -18,7 +18,7 @@ public class UploadToURLTableURLRenderer extends JTextField implements
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean arg2, boolean arg3, int row, int column) {
+			boolean isSelected, boolean hasFocus, int row, int column) {
 
 		if(value instanceof String) {
 			setText((String)value);

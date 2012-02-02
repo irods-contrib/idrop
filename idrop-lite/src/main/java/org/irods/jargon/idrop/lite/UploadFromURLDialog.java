@@ -15,9 +15,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -60,7 +60,6 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
         jPanel3.setBorder(BorderFactory.createEmptyBorder (0,4,0,4));
         tblUploadURLS.getColumnModel().getColumn(0).setPreferredWidth(300);
         tblUploadURLS.getColumnModel().getColumn(1).setPreferredWidth(2);
-        //tblUploadURLS.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         tblUploadURLS.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tblUploadURLS.setRowSelectionAllowed(false);
         tblUploadURLS.setColumnSelectionAllowed(false);
@@ -94,6 +93,13 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
     	
     }
     
+    private void highliteRow(int row) {
+    	String badURL = (String)tblUploadURLS.getModel().getValueAt(row, 0);
+    	tblUploadURLS.requestFocusInWindow();
+    	tblUploadURLS.editCellAt(row, 0);
+    	JTextField badTextField = (JTextField)tblUploadURLS.getCellEditor().getTableCellEditorComponent(tblUploadURLS, badURL, Boolean.FALSE, row, 0);
+    }
+    
     @Override
 	public void tableChanged(TableModelEvent tme) {
     	Boolean value = null;
@@ -119,6 +125,7 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
                 rowData[0] = "Insert URL";
              	rowData[1] = Boolean.TRUE;
                 tm.addRow(rowData);
+                tm.fireTableRowsInserted(0, 0);
             }
         }
 	}
@@ -254,6 +261,7 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
         int rowcount = tm.getRowCount();
         DefaultTableModel tblModel = idropApplet.getiDropCore().getUploadTableModel();
         
+        // first go through table and make sure all entries are valid
         for (int row=0; row<rowcount; row++) {
         	
         	urlName = (String)tm.getValueAt(row, 0);
@@ -263,39 +271,51 @@ public class UploadFromURLDialog extends javax.swing.JDialog implements TableMod
             		url = new URL(urlName);
             		connection = (HttpURLConnection) url.openConnection();
             		connection.setRequestMethod ("GET");
-            		connection.connect () ; 
-                	httpCode = connection.getResponseCode() ;
+            		connection.connect (); 
+                	httpCode = connection.getResponseCode();
             		fileSize = connection.getContentLength();
             		
             	} catch (MalformedURLException e) {
             		idropApplet.showMessageFromOperation("Please enter a valid URL");
+            		highliteRow(row);
             		return;
             	} catch (IOException e) {
             		idropApplet.showMessageFromOperation("Please enter a valid URL");
+            		highliteRow(row);
             		return;
             	} catch (NullPointerException e) {
             		idropApplet.showMessageFromOperation("Please enter a valid URL");
+            		highliteRow(row);
             		return;
             	}
     
             	if(httpCode != HttpURLConnection.HTTP_OK) {
             		idropApplet.showMessageFromOperation("Please enter a valid URL file for download");
+            		highliteRow(row);
             		return;
             	}
             	if(fileSize < 0)  {
             		idropApplet.showMessageFromOperation("Please enter a valid URL file for download - file size for " +
             				urlName + " is less than 0");
+            		highliteRow(row);
             		return;
             	}
+        	}
+        }
+            	
+        // now actually process them
+        for (int row=0; row<rowcount; row++) {
+                	
+        	urlName = (String)tm.getValueAt(row, 0);
     
-            	Object [] rowData = new Object[5];
-            	rowData[0] = urlName;
-            	rowData[1] = 0;
-            	rowData[2] = new TransferProgressInfo();
-            	rowData[3] = Boolean.TRUE;
-            	rowData[4] = iDropLiteApplet.uploadURL;  // treat this as a file
-            	tblModel.addRow(rowData);
-            }
+            Object [] rowData = new Object[5];
+            rowData[0] = urlName;
+            rowData[1] = 0;
+            rowData[2] = new TransferProgressInfo();
+            rowData[3] = Boolean.TRUE;
+            rowData[4] = iDropLiteApplet.uploadURL;  // treat this as a file
+            tblModel.addRow(rowData);
+            	
         }
         
         this.dispose();
