@@ -17,6 +17,8 @@
 		<li id="menuBulkUpload"><a href="#bulkupload" onclick="showIdropLite()"><g:message code="text.bulk.upload" /></a></li>
 		
 		<li id="menuAddToCart"><a href="#addToCart" onclick="addToCartViaToolbar()"><g:message code="text.add.to.cart" /></a></li>
+		<li id="menuQuickTransfer"><a href="#quickTransfers" onclick="showIdropLiteLocalAndIrods()"><g:message code="text.quick.transfers" /></a></li>
+		
 		</g:if>
 		
 	</ul>

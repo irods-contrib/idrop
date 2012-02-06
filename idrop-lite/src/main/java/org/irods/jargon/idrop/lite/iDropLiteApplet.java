@@ -11,6 +11,7 @@
 package org.irods.jargon.idrop.lite;
 
 import java.awt.CardLayout;
+import java.awt.Cursor;
 import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -42,6 +43,7 @@ import org.apache.commons.io.FileUtils;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.DataTransferOperations;
+import org.irods.jargon.core.pub.EnvironmentalInfoAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.core.pub.io.IRODSFile;
@@ -380,64 +382,129 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
             @Override
             public void run() {
+                gui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
-
-                log.info("using root path, no login preset");
-                root.setPathOrName("/");
-
+                IRODSOutlineModel mdl = null;
                 log.info("building new iRODS tree");
                 try {
-                    if (irodsTree == null) {
-                        irodsTree = new IRODSTree(gui);
-                        IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
-                                getiDropCore().getIrodsFileSystem(), irodsTree);
-                        irodsTree.setRefreshingTree(true);
-                        //irodsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+                    if (getTreeStagingResource() != null) {
+                        reloadExistingTree();
+                    } else {
+                        loadNewTree();
                     }
-                    IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(), getiDropCore().getIrodsFileSystem(),
-                            irodsTree);
-
-                    IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(rootNode, getIrodsAccount());
-                    IRODSOutlineModel mdl = new IRODSOutlineModel(gui, irodsFileSystemModel, new IRODSRowModel(), true,
-                            "File System");
-                    irodsTree.setModel(mdl);
-
-                    /*
-                     * IrodsTreeListenerForBuildingInfoPanel treeListener = new
-                     * IrodsTreeListenerForBuildingInfoPanel(gui); irodsTree.addTreeExpansionListener(treeListener);
-                     * irodsTree.addTreeSelectionListener(treeListener); // preset to display root tree node
-                     * irodsTree.setSelectionRow(0);
-                     */
                 } catch (Exception ex) {
-                    Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE,
+                            null, ex);
                     throw new IdropRuntimeException(ex);
+                } finally {
+                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(
+                            iDropCore.getIrodsAccount());
+                    gui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
+
+            /**
+             * A tree has not been previosly loaded, establish the root (strict ACLs?  Login preset?)
+             */
+            private void loadNewTree() throws JargonException, IdropException {
+                IRODSOutlineModel mdl;
+                TreePath[] currentPaths = null;
+                CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
+                if (gui.absPath == null || gui.absPath.isEmpty()) {
+                    log.info("using home directory");
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("/");
+                    sb.append(getIrodsAccount().getZone());
+                    sb.append("/");
+                    sb.append("home");
+                    root.setParentPath(sb.toString());
+                    root.setPathOrName(getIrodsAccount().getHomeDirectory());
+                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
+                } else {
+                    String basePath = gui.absPath;
+                    log.info("base path set to:{}", basePath);
+                    root.setPathOrName(basePath);
+                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                 }
 
-                scrIrodsTreeView.setViewportView(getTreeStagingResource());
-                if (gui.absPath != null) {
-                    try {
-                        TreePath selectedPath = TreeUtils.buildTreePathForIrodsAbsolutePath(gui.irodsTree, gui.absPath);
-                        irodsTree.expandPath(selectedPath);
-                        Rectangle rect = irodsTree.getPathBounds(selectedPath);
-                        scrIrodsTreeView.getViewport().scrollRectToVisible(rect);
-                    } catch (IdropException ex) {
-                        Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, ex);
+                irodsTree = new IRODSTree(gui);
+                IRODSNode rootNode = new IRODSNode(root,
+                        getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
+                irodsTree.setRefreshingTree(true);
+                IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
+                        rootNode, getIrodsAccount());
+                mdl = new IRODSOutlineModel(gui,
+                        irodsFileSystemModel, new IRODSRowModel(), true,
+                        "File System");
+                irodsTree.setModel(mdl);
+                gui.scrIrodsTreeView.setViewportView(irodsTree);
+            }
+
+            /**
+             * A tree already exists so use the current information to reload
+             */
+            private void reloadExistingTree() throws IdropException, JargonException {
+                IRODSNode currentRoot = (IRODSNode) irodsTree.getOutlineModel().getRoot();
+                log.debug("current tree root:{}", currentRoot);
+                TreePath rootPath = TreeUtils.getPath(currentRoot);
+                TreePath[] currentPaths = irodsTree.getOutlineModel().getTreePathSupport().getExpandedDescendants(rootPath);
+                log.info("expanded paths:{}", currentPaths);
+                   gui.scrIrodsTreeView.getViewport().removeAll();
+                irodsTree = null;
+                irodsTree = new IRODSTree(gui);
+                CollectionAndDataObjectListingEntry currentEntry = (CollectionAndDataObjectListingEntry) currentRoot.getUserObject();
+                IRODSNode rootNode = new IRODSNode(currentEntry,
+                        getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
+                irodsTree.setRefreshingTree(true);
+                IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
+                        rootNode, getIrodsAccount());
+                IRODSOutlineModel mdl = new IRODSOutlineModel(gui,
+                        irodsFileSystemModel, new IRODSRowModel(), true,
+                        "File System");
+
+                irodsTree.setModel(mdl);
+                   gui.scrIrodsTreeView.setViewportView(irodsTree);
+                if (currentPaths != null) {
+                    IRODSNode irodsNode = null;
+                    TreePath pathOfExpandingNode = null;
+                    CollectionAndDataObjectListingEntry expandedEntry = null;
+                    log.info("looking to re-expand paths...");
+                    for (TreePath treePath : currentPaths) {
+                        irodsNode = (IRODSNode) treePath.getLastPathComponent();
+                        expandedEntry = (CollectionAndDataObjectListingEntry) irodsNode.getUserObject();
+                        irodsNode = (IRODSNode) TreeUtils.buildTreePathForIrodsAbsolutePath(irodsTree, expandedEntry.getFormattedAbsolutePath()).getLastPathComponent();
+                        irodsNode.getChildCount();
+                        TreePath pathInNew = TreeUtils.getPath(irodsNode);
+                        irodsTree.collapsePath(pathInNew);
+                        irodsTree.expandPath(pathInNew);
                     }
                 }
-
-                /*
-                 * TreePath currentPath;
-                 *
-                 * if (currentPaths != null) { while (currentPaths.hasMoreElements()) { currentPath = (TreePath)
-                 * currentPaths.nextElement(); log.debug("expanding tree path:{}", currentPath);
-                 * irodsTree.expandPath(currentPath); } }
-                 */
-                irodsTree.setRefreshingTree(false);
-
-                getiDropCore().getIrodsFileSystem().closeAndEatExceptions(iDropCore.getIrodsAccount());
             }
         });
+    }
+    
+       /**
+     * Establish base path (checking if strict acl's are in place
+     * @return <code>String</code> with the base path for the tree
+     * @throws JargonException 
+     */
+    private synchronized String getBasePath() throws JargonException {
+        String myBase = this.getiDropCore().getBasePath();
+        if (myBase == null) {
+            EnvironmentalInfoAO environmentalInfoAO = this.getiDropCore().getIRODSAccessObjectFactory().getEnvironmentalInfoAO(getiDropCore().getIrodsAccount());
+            boolean isStrict = environmentalInfoAO.isStrictACLs();
+            log.info("is strict?:{}", isStrict);
+            if (isStrict) {
+                myBase = "/"
+                        + getiDropCore().getIrodsAccount().getZone() + "/home/"
+                        + getiDropCore().getIrodsAccount().getUserName();
+            } else {
+                myBase = "/";
+            }
+        }
+
+        return myBase;
+
     }
 
     // NEED TO REFACTOR ALL OF THE FOLLOWING DUPLICATION!!!!!!!!

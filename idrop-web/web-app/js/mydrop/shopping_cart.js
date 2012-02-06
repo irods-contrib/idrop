@@ -166,6 +166,7 @@ function checkOut() {
 
 
 	lcShowBusyIconInDiv(idropLiteShoppingCartSelector);
+	setMessage("This will launch the iDrop Lite applet, it may take a minute for the applet to load, please be patient");
 	var jqxhr = $
 			.post(context + checkOutCartUrl, null, function(data, status, xhr) {
 				var continueReq = checkForSessionTimeout(data, xhr);

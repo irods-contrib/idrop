@@ -1019,7 +1019,20 @@ function showIdropLite() {
 		myPath = "/";
 	}
 
-	showIdropLiteGivenPath(myPath);
+	showIdropLiteGivenPath(myPath,2);
+}
+
+/**
+ * Display the iDrop lite gui, passing in the given irods base collection name
+ */
+function showIdropLiteLocalAndIrods() {
+
+	var myPath = selectedPath;
+	if (selectedPath == null) {
+		myPath = "/";
+	}
+
+	showIdropLiteGivenPath(myPath, 1);
 }
 
 /**
@@ -1034,7 +1047,20 @@ function showBrowseDetailsIdropLite() {
 		path = "/";
 	}
 
-	showIdropLiteGivenPath(path);
+	showIdropLiteGivenPath(path, 2);
+}
+
+/**
+ * Display the iDrop lite gui, displaying in a local tree/irods tree view (display mode 1)
+ */
+function showBrowseDetailsIdropLiteLocalAndIrods() {
+
+	var path = selectedPath;
+
+	if (path == null) {
+		path = "/";
+	}
+	showIdropLiteGivenPath(path, 1);
 }
 
 /**
@@ -1043,8 +1069,9 @@ function showBrowseDetailsIdropLite() {
  * 
  * @param path
  *            parent path to which files will be uploaded in iDrop-lite
+ * @param displayMode 1=local/irods tree, 2=bulk upload
  */
-function showIdropLiteGivenPath(path) {
+function showIdropLiteGivenPath(path, displayMode) {
 	var idropLiteSelector = "#idropLiteArea";
 	if (path == null) {
 		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
@@ -1060,6 +1087,7 @@ function showIdropLiteGivenPath(path) {
 	$("#toggleHtmlArea").height = "0%";
 
 	lcShowBusyIconInDiv(idropLiteSelector);
+	setMessage("This will launch the iDrop Lite applet, it may take a minute for the applet to load, please be patient");
 
 	var params = {
 		absPath : path
@@ -1137,7 +1165,7 @@ function showIdropLiteGivenPath(path) {
 						a.appendChild(p);
 						p = document.createElement('param');
 						p.setAttribute('name', 'displayMode');
-						p.setAttribute('value', 2);
+						p.setAttribute('value', displayMode);
 						a.appendChild(p);
 						appletDiv.append(appletTagDiv);
 

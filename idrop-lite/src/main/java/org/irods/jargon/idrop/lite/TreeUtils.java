@@ -18,6 +18,7 @@ import javax.swing.tree.TreePath;
 
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.netbeans.swing.outline.Outline;
+import org.netbeans.swing.outline.TreePathSupport;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -29,21 +30,38 @@ public class TreeUtils {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(TreeUtils.class);
 
-    public static IRODSNode findChild(IRODSNode parent, String userObject) throws IdropException {
+    /**
+     * Given a <code>TreeNode</code> get the corresponding <code>TreePath</code>
+     * @param treeNode
+     * @return 
+     */
+    public static TreePath getPath(TreeNode treeNode) {
+        List<Object> nodes = new ArrayList<Object>();
+        if (treeNode != null) {
+            nodes.add(treeNode);
+            treeNode = treeNode.getParent();
+            while (treeNode != null) {
+                nodes.add(0, treeNode);
+                treeNode = treeNode.getParent();
+            }
+        }
+
+        return nodes.isEmpty() ? null : new TreePath(nodes.toArray());
+    }
+
+    public static IRODSNode findChild(final IRODSNode parent,
+            final String userObject) throws IdropException {
         log.debug("finding child of parent:{}", parent);
         log.debug("user object:{}", userObject);
-        String childString = "";
-
-        // FIXME: children of archive1 is null, child count is empty so it does not look for nodes
-
-        CollectionAndDataObjectListingEntry parentEntry = (CollectionAndDataObjectListingEntry) parent.getUserObject();
+        parent.getUserObject();
         CollectionAndDataObjectListingEntry childEntry = null;
 
         IRODSNode foundNode = null;
         try {
             parent.lazyLoadOfChildrenOfThisNode();
         } catch (IdropException ex) {
-            Logger.getLogger(TreeUtils.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TreeUtils.class.getName()).log(Level.SEVERE, null,
+                    ex);
             throw new IdropException("unable to load children of node");
         }
 
@@ -62,7 +80,9 @@ public class TreeUtils {
                 sb.append(childEntry.getParentPath());
                 sb.append('/');
                 sb.append(childEntry.getPathOrName());
-                log.debug("looking for match when child entry is a file with abs path:{}", sb.toString());
+                log.debug(
+                        "looking for match when child entry is a file with abs path:{}",
+                        sb.toString());
                 if (userObject.equals(sb.toString())) {
                     foundNode = (IRODSNode) parent.getChildAt(i);
                     break;
@@ -72,34 +92,44 @@ public class TreeUtils {
         return foundNode;
     }
 
-    public static LocalFileNode findChild(LocalFileNode parent, String userObject) throws IdropException {
+    public static LocalFileNode findChild(final LocalFileNode parent,
+            final String userObject) throws IdropException {
         log.debug("finding child of parent:{}", parent);
         log.debug("user object:{}", userObject);
-        String childString = "";
-
-        // FIXME: children of archive1 is null, child count is empty so it does not look for nodes
-
-        File parentEntry = (File) parent.getUserObject();
+        parent.getUserObject();
         File childEntry = null;
 
         LocalFileNode foundNode = null;
 
         parent.lazyLoadOfChildrenOfThisNode();
 
+        String normalizedPath = null;
+        
         for (int i = 0; i < parent.getChildCount(); i++) {
             childEntry = (File) ((LocalFileNode) parent.getChildAt(i)).getUserObject();
+            
+            normalizedPath = childEntry.getAbsolutePath().replace('\\', '/');
+            
+            if (normalizedPath.length() >= 2) {
+                if (normalizedPath.charAt(1) == ':') {
+                    normalizedPath = normalizedPath.substring(2);
+                }
+            }
+            
 
             if (childEntry.isDirectory()) {
                 log.debug("child entry is a collection");
-                if (userObject.equals(childEntry.getAbsolutePath())) {
+                if (userObject.equals(normalizedPath)) {
                     foundNode = (LocalFileNode) parent.getChildAt(i);
                     break;
                 }
             } else {
                 log.debug("child entry is a data object");
 
-                log.debug("looking for match when child entry is a file with abs path:{}", childEntry.getAbsolutePath());
-                if (userObject.equals(childEntry.getAbsolutePath())) {
+                log.debug(
+                        "looking for match when child entry is a file with abs path:{}",
+                        childEntry.getAbsolutePath());
+                if (userObject.equals(normalizedPath)) {
                     foundNode = (LocalFileNode) parent.getChildAt(i);
                     break;
                 }
@@ -108,13 +138,17 @@ public class TreeUtils {
         return foundNode;
     }
 
-    public static TreePath buildTreePathForLocalAbsolutePath(final JTree tree, final String absolutePath)
-            throws IdropException {
+    public static TreePath buildTreePathForLocalAbsolutePath(final JTree tree,
+            final String absolutePath) throws IdropException {
         LocalFileSystemModel fileSystemModel = (LocalFileSystemModel) tree.getModel();
         LocalFileNode localNode = (LocalFileNode) fileSystemModel.getRoot();
         TreePath calculatedTreePath = new TreePath(localNode);
-        File rootEntry = (File) localNode.getUserObject();
-        String[] pathComponents = absolutePath.split("/");
+        localNode.getUserObject();
+
+        String normalizedPath = absolutePath.replace('\\', '/');
+
+        String[] pathComponents = normalizedPath.split("/");
+
 
         StringBuilder searchRoot = new StringBuilder();
         LocalFileNode currentNode = (LocalFileNode) fileSystemModel.getRoot();
@@ -127,20 +161,35 @@ public class TreeUtils {
         String nextPathComponent;
 
         for (int i = 0; i < pathComponents.length; i++) {
-            // next element from userObjects is the child of the current node, note that for the first node (typically
+
+            nextPathComponent = pathComponents[i];
+
+            /*
+             * In windows, the drive letter is the first part of the path, so if the first path
+             * component is length 2 and the second char is ':', then it will be ignored
+             */
+
+            if (i == 0 && nextPathComponent.length() == 2 && nextPathComponent.charAt(1) == ':') {
+                log.debug("skipping drive in path");
+                continue;
+            }
+
+            // next element from userObjects is the child of the current node,
+            // note that for the first node (typically
             // '/') a delimiting slash is not needed
             if (searchRoot.length() > 1) {
                 searchRoot.append('/');
             }
 
-            nextPathComponent = pathComponents[i];
             searchRoot.append(nextPathComponent);
             if (i > 0) {
                 currentNode = findChild(currentNode, searchRoot.toString());
             }
 
             if (currentNode == null) {
-                log.warn("cannot find node for path, will attempt to return parent {}:", searchRoot.toString());
+                log.warn(
+                        "cannot find node for path, will attempt to return parent {}:",
+                        searchRoot.toString());
                 break;
             } else {
                 // root node is already part of the calculcated tree path
@@ -152,42 +201,48 @@ public class TreeUtils {
             }
         }
         if (calculatedTreePath == null) {
-            throw new IdropException("cannot find path to node:" + absolutePath);
+            throw new IdropException("cannot find path to node:" + normalizedPath);
         }
         return calculatedTreePath;
 
     }
 
     /**
-     * Given an absolute path to a file from the iRODS view, build the corresponding <code>TreePath</code> that points
-     * to the position in the tree model.
-     *
+     * Given an absolute path to a file from the iRODS view, build the
+     * corresponding <code>TreePath</code> that points to the position in the
+     * tree model.
+     * 
      * @param tree
      *            <code>JTree</code> that depicts the iRODS file hierarchy.
      * @param irodsAbsolutePath
-     *            <code>String</code> that gives the absolute path to the iRODS file.
-     * @return <code>TreePath</code> to the given node at the given absolute path in iRODS.
+     *            <code>String</code> that gives the absolute path to the iRODS
+     *            file.
+     * @return <code>TreePath</code> to the given node at the given absolute
+     *         path in iRODS.
      * @throws IdropException
      */
-    public static TreePath buildTreePathForIrodsAbsolutePath(final JTree tree, final String irodsAbsolutePath)
-            throws IdropException {
+    public static TreePath buildTreePathForIrodsAbsolutePath(final JTree tree,
+            final String irodsAbsolutePath) throws IdropException {
 
         IRODSFileSystemModel irodsFileSystemModel = (IRODSFileSystemModel) tree.getModel();
-        // the root of the model, which may not be a path underneath the root of the irods resource
+        // the root of the model, which may not be a path underneath the root of
+        // the irods resource
         IRODSNode rootNode = (IRODSNode) irodsFileSystemModel.getRoot();
         TreePath calculatedTreePath = new TreePath(rootNode);
         CollectionAndDataObjectListingEntry rootEntry = (CollectionAndDataObjectListingEntry) rootNode.getUserObject();
         String[] irodsPathComponents = irodsAbsolutePath.split("/");
 
         /*
-         * get an array that has the path components that descend from the root of the iRODS file system to the
-         * subdirectory which the tree model considers the root of the tree
+         * get an array that has the path components that descend from the root
+         * of the iRODS file system to the subdirectory which the tree model
+         * considers the root of the tree
          */
-        String[] irodsRootNodePathComponents = rootEntry.getPathOrName().split("/");
+        String[] irodsRootNodePathComponents = rootEntry.getPathOrName().split(
+                "/");
 
         /*
-         * determine the relative calculatedTreePath of the given iRODS file underneath the root. There are cases where
-         * the root is not '/'.
+         * determine the relative calculatedTreePath of the given iRODS file
+         * underneath the root. There are cases where the root is not '/'.
          */
 
         StringBuilder searchRoot = new StringBuilder();
@@ -196,16 +251,19 @@ public class TreeUtils {
         searchRoot.append(entry.getPathOrName());
 
         /*
-         * calculatedTreePath now holds the path from the root of iRODS to the root of the tree, now accumulate any
-         * TreePath entries that represent the path below the root of the tree contained in the absolute path. The
-         * relative path starts at the path component in the position after the length of the root path.
+         * calculatedTreePath now holds the path from the root of iRODS to the
+         * root of the tree, now accumulate any TreePath entries that represent
+         * the path below the root of the tree contained in the absolute path.
+         * The relative path starts at the path component in the position after
+         * the length of the root path.
          */
 
         int relativePathStartsAfter = irodsRootNodePathComponents.length - 1;
         String nextPathComponent;
 
         for (int i = (relativePathStartsAfter + 1); i < irodsPathComponents.length; i++) {
-            // next element from userObjects is the child of the current node, note that for the first node (typically
+            // next element from userObjects is the child of the current node,
+            // note that for the first node (typically
             // '/') a delimiting slash is not needed
             if (searchRoot.length() > 1) {
                 searchRoot.append('/');
@@ -218,7 +276,9 @@ public class TreeUtils {
             }
 
             if (currentNode == null) {
-                log.warn("cannot find node for path, will attempt to return parent {}:", searchRoot.toString());
+                log.warn(
+                        "cannot find node for path, will attempt to return parent {}:",
+                        searchRoot.toString());
                 break;
             } else {
                 // root node is already part of the calculcated tree path
@@ -230,30 +290,35 @@ public class TreeUtils {
             }
         }
         if (calculatedTreePath == null) {
-            throw new IdropException("cannot find path to node:" + irodsAbsolutePath);
+            throw new IdropException("cannot find path to node:"
+                    + irodsAbsolutePath);
         }
         return calculatedTreePath;
     }
 
-    public static TreePath buildTreePathForIrodsAbsolutePath(final Outline tree, final String irodsAbsolutePath)
+    public static TreePath buildTreePathForIrodsAbsolutePath(
+            final Outline tree, final String irodsAbsolutePath)
             throws IdropException {
 
         IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) tree.getModel();
-        // the root of the model, which may not be a path underneath the root of the irods resource
+        // the root of the model, which may not be a path underneath the root of
+        // the irods resource
         IRODSNode rootNode = (IRODSNode) irodsFileSystemModel.getRoot();
         TreePath calculatedTreePath = new TreePath(rootNode);
         CollectionAndDataObjectListingEntry rootEntry = (CollectionAndDataObjectListingEntry) rootNode.getUserObject();
         String[] irodsPathComponents = irodsAbsolutePath.split("/");
 
         /*
-         * get an array that has the path components that descend from the root of the iRODS file system to the
-         * subdirectory which the tree model considers the root of the tree
+         * get an array that has the path components that descend from the root
+         * of the iRODS file system to the subdirectory which the tree model
+         * considers the root of the tree
          */
-        String[] irodsRootNodePathComponents = rootEntry.getPathOrName().split("/");
+        String[] irodsRootNodePathComponents = rootEntry.getPathOrName().split(
+                "/");
 
         /*
-         * determine the relative calculatedTreePath of the given iRODS file underneath the root. There are cases where
-         * the root is not '/'.
+         * determine the relative calculatedTreePath of the given iRODS file
+         * underneath the root. There are cases where the root is not '/'.
          */
 
         StringBuilder searchRoot = new StringBuilder();
@@ -262,16 +327,19 @@ public class TreeUtils {
         searchRoot.append(entry.getPathOrName());
 
         /*
-         * calculatedTreePath now holds the path from the root of iRODS to the root of the tree, now accumulate any
-         * TreePath entries that represent the path below the root of the tree contained in the absolute path. The
-         * relative path starts at the path component in the position after the length of the root path.
+         * calculatedTreePath now holds the path from the root of iRODS to the
+         * root of the tree, now accumulate any TreePath entries that represent
+         * the path below the root of the tree contained in the absolute path.
+         * The relative path starts at the path component in the position after
+         * the length of the root path.
          */
 
         int relativePathStartsAfter = irodsRootNodePathComponents.length - 1;
         String nextPathComponent;
 
         for (int i = (relativePathStartsAfter + 1); i < irodsPathComponents.length; i++) {
-            // next element from userObjects is the child of the current node, note that for the first node (typically
+            // next element from userObjects is the child of the current node,
+            // note that for the first node (typically
             // '/') a delimiting slash is not needed
             if (searchRoot.length() > 1) {
                 searchRoot.append('/');
@@ -284,7 +352,9 @@ public class TreeUtils {
             }
 
             if (currentNode == null) {
-                log.warn("cannot find node for path, will attempt to return parent {}:", searchRoot.toString());
+                log.warn(
+                        "cannot find node for path, will attempt to return parent {}:",
+                        searchRoot.toString());
                 break;
             } else {
                 // root node is already part of the calculcated tree path
@@ -296,12 +366,14 @@ public class TreeUtils {
             }
         }
         if (calculatedTreePath == null) {
-            throw new IdropException("cannot find path to node:" + irodsAbsolutePath);
+            throw new IdropException("cannot find path to node:"
+                    + irodsAbsolutePath);
         }
         return calculatedTreePath;
     }
 
-    public static void expandAll(JTree tree, TreePath parent, boolean expand) {
+    public static void expandAll(final JTree tree, final TreePath parent,
+            final boolean expand) {
         // Traverse children
         TreeNode node = (TreeNode) parent.getLastPathComponent();
         if (node.getChildCount() >= 0) {
@@ -320,16 +392,39 @@ public class TreeUtils {
         }
     }
 
+    public static void expandAll(final Outline tree, final TreePath parent,
+            final boolean expand) {
+        // Traverse children
+        TreeNode node = (TreeNode) parent.getLastPathComponent();
+        if (node.getChildCount() >= 0) {
+            for (Enumeration e = node.children(); e.hasMoreElements();) {
+                TreeNode n = (TreeNode) e.nextElement();
+                TreePath path = parent.pathByAddingChild(n);
+                expandAll(tree, path, expand);
+            }
+        }
+
+        // Expansion or collapse must be done bottom-up
+        if (expand) {
+            tree.expandPath(parent);
+        } else {
+            tree.collapsePath(parent);
+        }
+    }
+
+    //FIXME: consider getting rid of defunct code below...
     /**
-     * Given a tree node, get the nodes that are in the given expansion state as a list of TreePath
-     *
+     * Given a tree node, get the nodes that are in the given expansion state as
+     * a list of TreePath
+     * 
      * @param tree
      *            <code>JTree</code> that will be inspected
      * @param expanded
-     *            <code>boolean</code> that indicates the desired state that will be preserved in the tree paths
+     *            <code>boolean</code> that indicates the desired state that
+     *            will be preserved in the tree paths
      * @return <code>TreePath[]</code> with the list of paths in the given state
      */
-    public static TreePath[] getPaths(JTree tree, boolean expanded) {
+    public static TreePath[] getPaths(final JTree tree, final boolean expanded) {
         TreeNode root = (TreeNode) tree.getModel().getRoot();
 
         // Create array to hold the treepaths
@@ -342,20 +437,26 @@ public class TreeUtils {
         return (TreePath[]) list.toArray(new TreePath[list.size()]);
     }
 
-    public static TreePath[] getPaths(Outline tree, boolean expanded) {
+    public static TreePath[] getPaths(final Outline tree, final boolean expanded) {
+
         TreeNode root = (TreeNode) tree.getOutlineModel().getRoot();
+        log.debug("tree root:{}", root);
+        TreePath rootPath = getPath(root);
+        log.debug("root path:{}", rootPath);
+        TreePathSupport treePathSupport = tree.getOutlineModel().getTreePathSupport();
 
         // Create array to hold the treepaths
         List list = new ArrayList();
 
         // Traverse tree from root adding treepaths for all nodes to list
-        getPaths(tree, new TreePath(root), expanded, list);
+        getPaths(tree, new TreePath(root), expanded, list, treePathSupport);
 
         // Convert list to array
         return (TreePath[]) list.toArray(new TreePath[list.size()]);
     }
 
-    private static void getPaths(JTree tree, TreePath parent, boolean expanded, List list) {
+    private static void getPaths(final JTree tree, final TreePath parent,
+            final boolean expanded, final List list) {
         // Return if node is not expanded
         if (expanded && !tree.isVisible(parent)) {
             return;
@@ -375,22 +476,34 @@ public class TreeUtils {
         }
     }
 
-    private static void getPaths(Outline tree, TreePath parent, boolean expanded, List list) {
+    private static void getPaths(final Outline tree, final TreePath parent,
+            final boolean expanded, final List list, final TreePathSupport treePathSupport) {
         // Return if node is not expanded
-        if (expanded && !tree.isVisible(parent)) {
-            return;
-        }
+     /*   if (expanded && !tree.isVisible(parent)) {
+        return;
+        }*/
 
-        // Add node to list
-        list.add(parent);
+        log.debug("getPaths for parent:{}", parent);
 
         // Create paths for all children
-        TreeNode node = (TreeNode) parent.getLastPathComponent();
-        if (node.getChildCount() >= 0) {
-            for (Enumeration e = node.children(); e.hasMoreElements();) {
-                TreeNode n = (TreeNode) e.nextElement();
-                TreePath path = parent.pathByAddingChild(n);
-                getPaths(tree, path, expanded, list);
+        IRODSNode node = (IRODSNode) parent.getLastPathComponent();
+        if (treePathSupport.hasBeenExpanded(parent)) {
+            // Add node to list
+            log.info("path is expanded, adding to list and checking children");
+            list.add(parent);
+
+            if (!node.isCached()) {
+                log.debug("node not cached, not expanded");
+                return;
+            }
+
+            log.debug("iterating cached children of this node....");
+            if (node.getChildCount() >= 0) {
+                for (Enumeration e = node.children(); e.hasMoreElements();) {
+                    TreeNode n = (TreeNode) e.nextElement();
+                    TreePath path = parent.pathByAddingChild(n);
+                    getPaths(tree, path, expanded, list, treePathSupport);
+                }
             }
         }
     }

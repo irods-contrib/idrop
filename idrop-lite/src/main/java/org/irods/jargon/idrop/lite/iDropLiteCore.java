@@ -38,6 +38,8 @@ public class iDropLiteCore {
     
     private DefaultTableModel tmUploadTable = null;
 
+     private String basePath = null;
+    
     public IRODSFileSystem getIrodsFileSystem() {
         return irodsFileSystem;
     }
@@ -49,12 +51,6 @@ public class iDropLiteCore {
     private IdropConfig idropConfig = null;
 
  
-//    private IconManager iconManager = null;
-
-    private Timer queueTimer = new Timer();
-
-    private Preferences preferences = Preferences.userRoot();
-
     public IRODSAccount getIrodsAccount() {
         return irodsAccount;
     }
@@ -194,5 +190,15 @@ public class iDropLiteCore {
         } 
         return (Frame)null;
     }
+    
+   
+    public synchronized String getBasePath() {
+        return basePath;
+    }
+
+    public synchronized void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+   
 }
 

@@ -131,6 +131,9 @@ class IdropLiteController {
 		render jsonResult as JSON
 	}
 
+	/**
+	 * Load the applet in 'bulk upload' mode
+	 */
 	def appletLoader = {
 
 		def absPath = params['absPath']
@@ -193,6 +196,73 @@ class IdropLiteController {
 		render jsonResult as JSON
 
 	}
+
+	/**
+	 * Load the applet in 'bulk upload' mode
+	 */
+	def localIrodsTreeViewAppletLoader = {
+
+		def absPath = params['absPath']
+		if (absPath == null) {
+			throw new JargonException("no absolute path passed to the method")
+		}
+
+		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
+		def password = userAO.getTemporaryPasswordForConnectedUser()
+
+		def useThisWar = grailsApplication.config.idrop.config.idrop.lite.use.applet.dir
+		def iDropLiteJar = grailsApplication.config.idrop.config.idrop.lite.applet.jar
+
+		if (!iDropLiteJar) {
+			log.error("no idrop lite jar specified in config, please add the idrop.config.idrop.lite.applet.jar value to the config.groovy or external configuaration")
+			throw new JargonException("unable to find idrop lite jar in config.groovy")
+		}
+
+		String appletUrl = ""
+		if (useThisWar) {
+			log.info("will use the applet dir here to download idrop lite")
+			String scheme = request.scheme
+			String serverName = request.serverName
+			int serverPort = request.serverPort
+			String contextPath =request.contextPath
+			// Reconstruct original requesting URL
+			appletUrl = scheme+"://"+serverName+":"+serverPort+contextPath + "/applet"
+		} else {
+			log.info("looking for an explicitly defined url for applet codebase...")
+			appletUrl = grailsApplication.config.idrop.config.idrop.lite.codebase
+			if (!appletUrl) {
+				log.error("unable to find the applet uri in config groovy, please configure a idrop.config.idrop.lite.codebase property")
+				throw new JargonException("unable to find applet uri in config.groovy")
+			}
+		}
+
+		log.info("computed applet url:${appletUrl}")
+
+		/* set applet operation mode=2 to indicate temporary password is being sent */
+		def mode = "2"
+
+		log.info "temporary user password is: ${password}"
+		IdropLite idropLite = new IdropLite()
+		idropLite.appletUrl = appletUrl
+		idropLite.appletCode = "org.irods.jargon.idrop.lite.iDropLiteApplet"
+		idropLite.archive =iDropLiteJar
+		idropLite.mode =  mode
+		idropLite.host = irodsAccount.host
+		idropLite.port = irodsAccount.port
+		idropLite.zone = irodsAccount.zone
+		idropLite.user = irodsAccount.userName
+		idropLite.password = password
+		idropLite.defaultStorageResource = irodsAccount.defaultStorageResource
+		idropLite.absolutePath = absPath
+
+		def jsonResult = ["appletUrl" : idropLite.appletUrl, "appletCode": idropLite.appletCode, "archive": idropLite.archive, "mode":idropLite.mode,
+					"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
+					"absolutePath":idropLite.absolutePath, "key":idropLite.key]
+
+		render jsonResult as JSON
+
+	}
+
 }
 
 class IdropLite {
