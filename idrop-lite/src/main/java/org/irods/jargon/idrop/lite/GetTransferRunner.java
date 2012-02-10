@@ -16,7 +16,6 @@ public class GetTransferRunner implements Runnable {
 	private final List<File> sourceFiles;
 	private final String targetIrodsFileAbsolutePath;
 	private final iDropLiteApplet idropGui;
-	//private final TransferControlBlock transferControlBlock;
 	private TransferControlBlock transferControlBlock;
 	
 	public GetTransferRunner(final iDropLiteApplet gui,
@@ -37,14 +36,9 @@ public class GetTransferRunner implements Runnable {
 			throw new JargonException("null idrop gui");
 		}
 
-//		if (transferControlBlock == null) {
-//			throw new JargonException("null transferControlBlock");
-//		}
-
 		this.targetIrodsFileAbsolutePath = targetPath;
 		this.sourceFiles = files;
 		this.idropGui = gui;
-		//this.transferControlBlock = transferControlBlock;
 
 	}
 
@@ -55,11 +49,10 @@ public class GetTransferRunner implements Runnable {
 
 			// need to create new Transfer Control Block for each transfer since it needs to be reset
             // on how many files there are to transfer and how many have been transferred so far
-			TransferControlBlock tcb = null;
             try {
-            	tcb = DefaultTransferControlBlock.instance();
-                idropGui.getiDropCore().setTransferControlBlock(tcb);
-                this.transferControlBlock = tcb;
+            	this.transferControlBlock =  idropGui.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().buildDefaultTransferControlBlockBasedOnJargonProperties();
+                transferControlBlock.getTransferOptions().setIntraFileStatusCallbacks(true); 
+                idropGui.getiDropCore().setTransferControlBlock(transferControlBlock);
             } catch (JargonException ex) {
             	java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                         java.util.logging.Level.SEVERE, null, ex);
