@@ -34,7 +34,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 
@@ -54,6 +53,7 @@ import org.irods.jargon.datautils.datacache.DataCacheServiceFactory;
 import org.irods.jargon.datautils.datacache.DataCacheServiceFactoryImpl;
 import org.irods.jargon.datautils.datacache.DataCacheServiceImpl;
 import org.irods.jargon.datautils.shoppingcart.FileShoppingCart;
+import org.irods.jargon.datautils.shoppingcart.ShoppingCartEntry;
 import org.irods.jargon.datautils.shoppingcart.ShoppingCartService;
 import org.irods.jargon.datautils.shoppingcart.ShoppingCartServiceImpl;
 import org.irods.jargon.idrop.lite.finder.IRODSFinderDialog;
@@ -1202,6 +1202,12 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     dataCacheServiceFactory);
             log.info("getting cart as logged in user, key: {}", this.key);
             cart = shoppingCartService.retreiveShoppingCartAsLoggedInUser(this.key);
+
+            // for testing
+            //cart = FileShoppingCart.instance();
+            //ShoppingCartEntry entry = ShoppingCartEntry.instance("/test1/home/test1/NC_DEMv2_6_Tile16.txt");
+            //cart.addAnItem(entry);
+            //
         } catch (JargonException e) {
             log.error("could not create shopping cart");
             Logger.getLogger(iDropLiteApplet.class.getName()).log(Level.SEVERE, null, e);
@@ -1211,9 +1217,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         if (cart.hasItems()) {
             cartContents = cart.getShoppingCartFileList();
         }
-
-        // for testing
-        // cartContents.add("/renci/home/rods/lisa/icp.out");
 
         log.info("returning contents of shopping cart {}", cartContents);
         return cartContents;
@@ -1241,7 +1244,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 log.error("cannot retrieve irods file size for display in download table");
                 fileSize = 0;
             }
-            rowData[1] = (int) fileSize;
+            rowData[1] = fileSize;
             rowData[2] = 0;
             rowData[3] = Boolean.TRUE;
             rowData[4] = fileType;
@@ -1461,7 +1464,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         bntBeginDownload = new javax.swing.JButton();
-        btnCancelDownload = new javax.swing.JButton();
         pnlIdropWebMode = new javax.swing.JPanel();
         pnlIdropWebModeDownloadTarget = new javax.swing.JPanel();
         txtIdropWebModeDownloadTarget = new javax.swing.JTextField();
@@ -2038,7 +2040,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Long.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, true, false
@@ -2238,7 +2240,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlDownloadButtons.setLayout(new java.awt.BorderLayout());
         pnlDownloadButtons.add(jPanel3, java.awt.BorderLayout.WEST);
 
-        jPanel4.setPreferredSize(new java.awt.Dimension(300, 40));
+        jPanel4.setPreferredSize(new java.awt.Dimension(160, 40));
 
         bntBeginDownload.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         bntBeginDownload.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.bntBeginDownload.text")); // NOI18N
@@ -2248,15 +2250,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             }
         });
         jPanel4.add(bntBeginDownload);
-
-        btnCancelDownload.setFont(new java.awt.Font("Lucida Grande", 0, 12));
-        btnCancelDownload.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnCancelDownload.text")); // NOI18N
-        btnCancelDownload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelDownloadActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnCancelDownload);
 
         pnlDownloadButtons.add(jPanel4, java.awt.BorderLayout.EAST);
 
@@ -2540,18 +2533,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         }
     }//GEN-LAST:event_bntBeginDownloadActionPerformed
 
-    private void btnCancelDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelDownloadActionPerformed
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                if (isTransferInProgress()) {
-                    setTransferCancelled(true);
-                }
-            }
-        });
-    }//GEN-LAST:event_btnCancelDownloadActionPerformed
-
     private void btnUploadUrlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadUrlActionPerformed
         UploadFromURLDialog dlgUploadFromURL = new UploadFromURLDialog(this, true);
         dlgUploadFromURL.setSize(495, 200);
@@ -2570,7 +2551,6 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JButton bntBeginDownload;
     private javax.swing.JButton btnBrowseDownloadTarget;
     private javax.swing.JButton btnBrowseIRODSUploadDest;
-    private javax.swing.JButton btnCancelDownload;
     private javax.swing.JButton btnIdropWebModeBeginDownload;
     private javax.swing.JButton btnIdropWebModeTargetBrowse;
     private javax.swing.JButton btnIrodsTreeRefresh;
