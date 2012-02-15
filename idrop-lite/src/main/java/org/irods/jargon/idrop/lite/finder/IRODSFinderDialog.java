@@ -65,18 +65,19 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
                 CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
 
 //			Change to start at root for finder dialog - requested in GForge tracker # 484
+//          changing this back again to how it was before - GForge tracker #484 was apparently wrong
 //                if (idropCore.getIdropConfig().isLoginPreset()) {
-//                    log.info("using policy preset home directory");
-//                    StringBuilder sb = new StringBuilder();
-//                    sb.append("/");
-//                    sb.append(idropCore.getIrodsAccount().getZone());
-//                    sb.append("/");
-//                    sb.append("home");
-//                    root.setParentPath(sb.toString());
-//                    root.setPathOrName(idropCore.getIrodsAccount().getHomeDirectory());
+                    log.info("using policy preset home directory");
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("/");
+                    sb.append(idropCore.getIrodsAccount().getZone());
+                    sb.append("/");
+                    sb.append("home");
+                    root.setParentPath(sb.toString());
+                    root.setPathOrName(idropCore.getIrodsAccount().getHomeDirectory());
 //                } else {
 //                    log.info("using root path, no login preset");
-                    root.setPathOrName("/");
+//                    root.setPathOrName("/");
 //                }
 
                 log.info("building new iRODS tree");
