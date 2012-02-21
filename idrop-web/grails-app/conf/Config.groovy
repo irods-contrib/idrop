@@ -24,7 +24,7 @@
 // required properties for idrop lite
 idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
 idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
-idrop.config.idrop.lite.use.applet.dir=true
+idrop.config.idrop.lite.use.applet.dir=false
 
 grails.project.groupId = org.irods.mydrop // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format

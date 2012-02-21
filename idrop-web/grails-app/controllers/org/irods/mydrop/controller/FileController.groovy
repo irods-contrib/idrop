@@ -167,6 +167,7 @@ class FileController {
 			fis = new BufferedInputStream(f.getInputStream())
 			IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 			IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, name)
+			targetFile.setResource(irodsAccount.defaultStorageResource)
 			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 			stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
 		} catch (Exception e) {

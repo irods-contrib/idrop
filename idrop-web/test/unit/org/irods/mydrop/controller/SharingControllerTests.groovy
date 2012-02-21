@@ -225,25 +225,4 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		def jsonResult = JSON.parse(controllerResponse)
 		assertNotNull("missing json result", jsonResult)
 	}
-
-	void testUserBulkSharingDialog() {
-		def testPath = "/testpath"
-		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
-		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
-		Collection retObject = new Collection()
-		retObject.setCollectionName(testPath)
-		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
-		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
-
-		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
-		controller.irodsAccount = irodsAccount
-		controller.params.absPath = testPath
-		controller.userBulkSharingDialog()
-		def mav = controller.modelAndView
-
-		assertEquals("view name should be userBulkSharingDialog", "userBulkSharingDialog", mav.viewName)
-		assertNotNull("no object for coll/data", mav.model.retObj)
-		assertNotNull("no absPath", mav.model.absPath)
-		assertNotNull("no isDataObj", mav.model.isDataObject)
-	}
 }
