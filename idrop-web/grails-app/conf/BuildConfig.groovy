@@ -5,7 +5,7 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.dependency.resolution = {
 	// inherit Grails' default dependencies
 	inherits("global") { // uncomment to disable ehcace
-		excludes 'ehcache' }
+		excludes 'ehcache','commons-io' }
 	log "warn" // LOG level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 	repositories {
 		// uncomment the below to enable remote dependency resolution
