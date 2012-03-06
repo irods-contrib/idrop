@@ -2,7 +2,11 @@ package org.irods.jargon.idrop.lite;
 
 import java.util.List;
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.pub.io.IRODSFile;
+import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.core.transfer.TransferControlBlock;
+import org.irods.jargon.httpstream.HttpStreamingException;
+import org.irods.jargon.httpstream.HttpStreamingServiceImpl;
 import org.slf4j.LoggerFactory;
 
 public class PutTransferRunner implements Runnable {
@@ -92,21 +96,35 @@ public class PutTransferRunner implements Runnable {
 
         log.info("process a put from an url: {}", uploadData.getFileName());
         String localSourceAbsolutePath = uploadData.getFileName();
-        String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
 
 		// need to create new Transfer Control Block for each transfer since it needs to be reset
 		// on how many files there are to transfer and how many have been transferred so far
         log.info("initiating put transfer");
         try {
-           this.transferControlBlock =  idropGui.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().buildDefaultTransferControlBlockBasedOnJargonProperties();
+           this.transferControlBlock =  idropGui.getiDropCore().getIrodsFileSystem()
+           		.getIRODSAccessObjectFactory().buildDefaultTransferControlBlockBasedOnJargonProperties();
            transferControlBlock.getTransferOptions().setIntraFileStatusCallbacks(true); 
            idropGui.getiDropCore().setTransferControlBlock(transferControlBlock);
-           idropGui.getiDropCore().getTransferManager().putOperationURL(localSourceAbsolutePath,
-                    targetIrodsFileAbsolutePath, sourceResource, idropGui, transferControlBlock);
+           
+           IRODSFileFactory irodsFileFactory = idropGui.getiDropCore().getIrodsFileSystem()
+           		.getIRODSFileFactory(idropGui.getiDropCore().getIrodsAccount());
+
+           IRODSFile destFile = irodsFileFactory.instanceIRODSFile(targetIrodsFileAbsolutePath);
+           
+           HttpStreamingServiceImpl httpStreamingService = new HttpStreamingServiceImpl(
+           		idropGui.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory(),
+           		idropGui.getiDropCore().getIrodsAccount());
+           httpStreamingService.streamHttpUrlContentsToIRODSFile(localSourceAbsolutePath, destFile,
+        		   idropGui, transferControlBlock);
+           
         } catch (JargonException ex) {
             java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
                     java.util.logging.Level.SEVERE, null, ex);
             idropGui.showIdropException(ex);
+        } catch (HttpStreamingException e) {
+        	java.util.logging.Logger.getLogger(LocalFileTree.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, e);
+            		idropGui.showIdropException(e);
         } finally {
             idropGui.getiDropCore().getIrodsFileSystem().closeAndEatExceptions();
         }
