@@ -104,14 +104,14 @@ log4j = {
 			'org.codehaus.groovy.grails.commons', // core / classloading
 			'org.codehaus.groovy.grails.plugins', // plugins
 			'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-			'org.springframework',
 			'org.hibernate',
 			'net.sf.ehcache.hibernate'
 
 	debug 'org.irods.mydrop'
-	warn 'org.irods.jargon'
-	warn 'org.irods.jargon.spring.security'
-	info 'grails.app'
+	debug 'org.irods.jargon'
+	debug 'org.irods.jargon.spring.security'
+	info 'org.springframework'
+	debug 'grails.app'
 
 	info 'org.mortbay.log',
 			'grails.app.controller',

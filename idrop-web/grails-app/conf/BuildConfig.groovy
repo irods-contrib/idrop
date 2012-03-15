@@ -2,10 +2,11 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
+grails.project.war.file = "target/${appName}.war"
 grails.project.dependency.resolution = {
 	// inherit Grails' default dependencies
 	inherits("global") { // uncomment to disable ehcace
-		excludes 'ehcache','commons-io' }
+		excludes 'ehcache'}
 	log "warn" // LOG level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 	repositories {
 		// uncomment the below to enable remote dependency resolution
@@ -26,6 +27,7 @@ grails.project.dependency.resolution = {
 		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		test 'org.irods.jargon:jargon-test:3.0.0.2-SNAPSHOT'
 		test 'org.mockito:mockito-all:1.8.1'
+		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
 		compile 'org.irods.jargon:jargon-core:3.0.0.2-SNAPSHOT'
 		compile 'org.irods.jargon:jargon-security:3.0.0.2-SNAPSHOT'
@@ -35,7 +37,7 @@ grails.project.dependency.resolution = {
 		compile 'org.springframework.security:spring-security-web:3.0.5.RELEASE'
 		compile 'org.springframework.security:spring-security-config:3.0.5.RELEASE'
 		compile 'org.springframework:spring-web:3.0.5.RELEASE'
-		compile 'javax.servlet:servlet-api:2.5'
+		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )

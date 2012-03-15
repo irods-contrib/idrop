@@ -33,7 +33,6 @@
 <g:javascript library="mydrop/main" />
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.blockUI" />
-
 <g:javascript library="jquery.layout.min-1.3.0" />
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.tools.min" />
@@ -50,8 +49,6 @@
 	host = "${request.localName}";
 	port = "${request.localPort}";
 </script>
-
- 
 </head>
 <body style="height:100%;">
 <div id="hd"><!-- PUT MASTHEAD CODE HERE -->

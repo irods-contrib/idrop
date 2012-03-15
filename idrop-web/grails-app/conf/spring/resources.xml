@@ -64,7 +64,6 @@
 				<intercept-url pattern="/js/**" access="permitAll" />
 				<intercept-url pattern="/login*" access="permitAll" />
 				<intercept-url pattern="/**" access="isAuthenticated()" />
-
 			</filter-security-metadata-source>
 		</beans:property>
 	</beans:bean>
