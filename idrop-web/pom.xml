@@ -9,181 +9,66 @@
     <packaging>war</packaging>
     <name>idrop-web</name>
 
+  
+  <properties>
+    <grails.version>2.0.1</grails.version>
+  </properties>
+
   <dependencies>
-    <dependency>
-      <groupId>org.grails</groupId>
-      <artifactId>grails-bootstrap</artifactId>
-      <version>2.0.1</version>
-    </dependency>
-	
-    <dependency>
-      <groupId>org.grails</groupId>
-      <artifactId>grails-crud</artifactId>
-      <version>2.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.grails</groupId>
-      <artifactId>grails-gorm</artifactId>
-      <version>2.0.1</version>
-    </dependency>
 
-	<!-- Needed in the case of AOP usage -->
-    <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjweaver</artifactId>
-        <version>1.6.8</version>
-    </dependency>        
-
-    <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjrt</artifactId>
-        <version>1.6.8</version>
-    </dependency>	
-
-    <!-- Grails defaults to Ehache for the second-level Hibernate cache. -->
 	<dependency>
-	  <groupId>org.hibernate</groupId>
-	  <artifactId>hibernate-ehcache</artifactId>
-	  <version>3.3.1.GA</version>
-      <!-- see http://www.slf4j.org/faq.html#IllegalAccessError -->
-      <exclusions>
-         <exclusion>
-           <groupId>org.slf4j</groupId>
-           <artifactId>slf4j-api</artifactId>
-       	 </exclusion>
-   	   </exclusions>	
-	</dependency>
-
-	<!-- Use javassist as the bytecode manipulation provider for Hibernate -->
-    <dependency>
-        <groupId>javassist</groupId>
-        <artifactId>javassist</artifactId>
-        <version>3.11.0.GA</version>            
-    </dependency>
-	
-	<dependency>
-	  <groupId>net.sf.ehcache</groupId>
-	  <artifactId>ehcache-core</artifactId>
-	  <version>1.7.1</version>
-      <exclusions>
-          <exclusion>
-              <artifactId>jms</artifactId>
-          </exclusion>
-          <exclusion>
-              <artifactId>servlet-api</artifactId>
-          </exclusion>
-          <exclusion>
-           	  <groupId>org.slf4j</groupId>
-           	  <artifactId>slf4j-api</artifactId>
-       	  </exclusion>
-          <!-- We have JCL-over-SLF4J instead. -->
-          <exclusion>
-              <artifactId>commons-logging</artifactId>
-          </exclusion>
-      </exclusions>
-	</dependency>
-
-    <!-- For ease of development and testing, we include the HSQLDB database. -->
-    <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>1.8.0.10</version>
-    </dependency>
-
-    <!-- Use Log4J for logging. This artifact also pulls in the Log4J JAR. -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
+      <groupId>org.grails</groupId>
+      <artifactId>grails-dependencies</artifactId>
+      <version>${grails.version}</version>
+	  <type>pom</type>
     </dependency>
   </dependencies>
-
-  <repositories>
-    <!-- Required to get hold of JTA -->
-    <repository>
-        <id>jboss.org</id>
-        <name>jboss.org</name>            
-        <url>http://repository.jboss.com/maven2/</url>
-    </repository>
-    <repository>
-      <id>maven2-repository.dev.java.net</id>
-      <name>Java.net Repository for Maven</name>
-      <url>http://download.java.net/maven/2/</url>
-      <layout>default</layout>
-    </repository>
-    <repository>
-      <id>Codehaus Snapshots</id>
-      <url>http://snapshots.repository.codehaus.org</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>Codehaus Snapshots</id>
-      <url>http://snapshots.repository.codehaus.org</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </pluginRepository>
-  </pluginRepositories>
-
+  
   <build>
-    <pluginManagement >
-    	<plugins>
-    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-    		<plugin>
-    			<groupId>org.eclipse.m2e</groupId>
-    			<artifactId>lifecycle-mapping</artifactId>
-    			<version>1.0.0</version>
-    			<configuration>
-    				<lifecycleMappingMetadata>
-    					<pluginExecutions>
-    						<pluginExecution>
-    							<pluginExecutionFilter>
-    								<groupId>org.grails</groupId>
-    								<artifactId>
-    									grails-maven-plugin
-    								</artifactId>
-    								<versionRange>
-    									[2.0.1,)
-    								</versionRange>
-    								<goals>
-    									<goal>config-directories</goal>
-    									<goal>maven-compile</goal>
-    									<goal>validate</goal>
-    									<goal>init</goal>
-    								</goals>
-    							</pluginExecutionFilter>
-    							<action>
-    								<ignore></ignore>
-    							</action>
-    						</pluginExecution>
-    					</pluginExecutions>
-    				</lifecycleMappingMetadata>
-    			</configuration>
-    		</plugin>
-    	</plugins>
-    </pluginManagement>
+    <pluginManagement />
+    
     <plugins>
+        <!-- Disables the Maven surefire plugin for Grails applications, as we have our own test runner -->
+        <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-surefire-plugin</artifactId>
+           <configuration>
+             <skip>true</skip>
+           </configuration>
+           <executions>
+             <execution>
+               <id>surefire-it</id>
+               <phase>integration-test</phase>
+               <goals>
+                 <goal>test</goal>
+               </goals>
+               <configuration>
+                 <skip>false</skip>
+               </configuration>
+             </execution>
+           </executions>
+         </plugin>        
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.4.1</version>
+		<configuration>
+		    <filesets>
+		        <fileset>
+		            <directory>plugins</directory>
+		            <includes>
+		                <include>**/*</include>
+		            </includes>
+		            <followSymlinks>false</followSymlinks>
+		        </fileset>
+		    </filesets>
+         </configuration>
+      </plugin>	
+	
       <plugin>
         <groupId>org.grails</groupId>
         <artifactId>grails-maven-plugin</artifactId>
-        <version>2.0.1</version>
+        <version>${grails.version}</version>
         <extensions>true</extensions>
         <executions>
           <execution>
@@ -200,22 +85,26 @@
           </execution>
         </executions>
       </plugin>
+      
       <plugin>
+		<groupId>org.apache.maven.plugins</groupId>	
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
       </plugin>
-      <plugin>            
-  <groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-war-plugin</artifactId>
-  <configuration>
-    <webXml>web-app\WEB-INF\web.xml</webXml>        
-  </configuration>
-</plugin>
     </plugins>
   </build>
+
+  <repositories>
+	<repository>
+	  <id>grails</id>
+	  <name>grails</name>
+      <url>http://repo.grails.org/grails/core</url>
+	</repository>
+  </repositories>
+  
   <profiles>
     <profile>
       <id>tools</id>
