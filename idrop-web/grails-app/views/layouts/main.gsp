@@ -2,7 +2,7 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<title><g:layoutTitle default="myDrop - iRODS Personal Cloud" /></title>
+<title><g:layoutTitle default="iDrop-web - iRODS Cloud Browser" /></title>
 <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'base.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'style.css')}" />

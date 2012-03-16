@@ -1,60 +1,68 @@
 <head>
-<meta name="layout" content="main" />
+<title>"iDrop-web - iRODS Personal Cloud"</title>
+<link rel="stylesheet" href="./css/main.css"/>
+<link rel="stylesheet" href="./css/base.css"/>
+<link rel="stylesheet" href="./css/style.css"/>
 </head>
+<body style="height:100%;">
+<div id="hd"><!-- PUT MASTHEAD CODE HERE -->
+<div id="bannercontainer">
+	<!--  image banner -->
+</div>
+</div>
+<div id="bd" style="height:100%;">
+<div id="yui-main" style="height:100%;">
+<div class="yui-b" style="height:100%;">
+<div id="mainDiv" class="yui-ge" style="height:100%;">
+<div id="mainDivCol1" class="yui-u first" style="height:100%;padding:20px;"><!-- PUT MAIN COLUMN 1 CODE HERE -->
+
  <g:form controller="j_spring_security_check"
 	absolute="true" method="post">
-	<g:if test="${request.login_error}">
+	
+<div id="loginForm" class="roundedContainer" style="width: 60%;
+    margin: 0px auto; ">
+    <g:if test="${request.login_error}">
 		<div class="message">
 		${request.login_error}
 		</div>
 	</g:if>
 	
-<div id="container" style="width:350px; margin: auto;">
-
-	
-	<g:if test="${request.presetHost}">
+	<g:if test="${presetHost}">
 	<g:hiddenField
-		name="host" id="host" value="${request.presetHost}"/>
+		name="host" id="host" value="${presetHost}"/>
 		<g:hiddenField
-		name="port" id="port" value="${request.presetPort}"/>
+		name="port" id="port" value="${presetPort}"/>
 		<g:hiddenField
-		name="zone" id="zone" value="${request.presetZone}"/>
+		name="zone" id="zone" value="${presetZone}"/>
    <g:hiddenField
-		name="resource" id="resource" value="${request.presetResource}"/>
+		name="resource" id="resource" value="${presetResource}"/>
 	</g:if>
 	<g:else>
 	
-	
-	<div>
-	<div style="width:30%;"><label style="float:right;"><g:message code="text.host" />:</label></div><div><input type="text"
-		class="input-text" name="host" id="host" value="${request.host}"/></div> 
-	</div>
-	<div>
-	<div><label style="float:right;"><g:message code="text.port" />:</label></div><div><input type="text"
-		class="input-text" name="port" id="port" value="${request.port}"/></div>
-	</div>
-	<div>
-	<div><label style="float:right;"><g:message code="text.zone" />:</label></div><div><input type="text"
-		class="input-text" name="zone" id="zone" value="${request.zone}"/></div>
-	</div>
-	<div>
-	<div><label style="float:right;"><g:message code="text.resource" />:</label></div><div><input type="text"
-		class="input-text" name="resource" id="resource" value="${request.resource}"/></div>
-	</div>
+	<label><g:message code="text.host" />:</label><input type="text"
+		class="input-text" name="host" id="host" value="${request.host}"/>
+	<br/>
+	<label><g:message code="text.port" />:</label><input type="text"
+		class="input-text" name="port" id="port" value="${request.port}"/>
+	<br/>
+	<label><g:message code="text.zone" />:</label><input type="text"
+		class="input-text" name="zone" id="zone" value="${request.zone}"/>
+	<br/>
+	<label><g:message code="text.resource" />:</label><input type="text"
+		class="input-text" name="resource" id="resource" value="${request.resource}"/>
+	<br/>
 	</g:else>
-	<div>
-	<div><label style="float:right;"><g:message code="text.user" />:</label></div><div><input type="text"
-		class="input-text" name="user" id="user" value="${request.user}"/></div>
-	</div>
-	<div>
-	<div><label style="float:right;"><g:message code="text.password" />:</label></div><div><input type="password" class="input-text" name="password" id="password" value="${request.password}"/></div>
-	</div>
-	<div>
-	<div></div><div><input style="float:right;margin:15px;"
-		type="submit" value="${message(code:'text.login')}" /></div>
+	<label><g:message code="text.user" />:</label><input type="text"
+		class="input-text" name="user" id="user" value="${request.user}"/>
+	<br/>
+	<label><g:message code="text.password" />:</label>
+		<input type="password" class="input-text" name="password" id="password" value="${request.password}"/>
+	<br/>
+	<input style="float:right;margin:15px;"
+		type="submit" value="${message(code:'text.login')}" />
 </div>
-
-
-</g:form>
-
+</g:form> 
+</div>
+</body>
+</html>
 

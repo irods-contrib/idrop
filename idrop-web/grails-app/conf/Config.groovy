@@ -15,10 +15,10 @@
  * 
  * add the following group of properties to present a user id/password only login
  * 
- idrop.confiig.preset.host=xxx
- idrop.config.preset.port=1247
- idrop.config.preset.zone=xxx
- idrop.config.preset.resource=xxx
+ idrop.config.preset.host="diamond.ils.unc.edu"
+ idrop.config.preset.port="2247"
+ idrop.config.preset.zone="lifelibZone"
+ idrop.config.preset.resource="lifelibResc1"
  */
 
 // required properties for idrop lite
@@ -76,7 +76,7 @@ grails.validateable.packages = ['org.irods']
 
 // set per-environment serverURL stem for creating absolute links
 environments {
-	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
+	production {  grails.serverURL = "http://emerald.ils.unc.edu:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test {  grails.serverURL = "http://localhost:8080/${appName}"  }
 }
@@ -107,11 +107,11 @@ log4j = {
 			'org.hibernate',
 			'net.sf.ehcache.hibernate'
 
-	debug 'org.irods.mydrop'
-	debug 'org.irods.jargon'
+	warn 'org.irods.mydrop'
+	info 'org.irods.jargon'
 	debug 'org.irods.jargon.spring.security'
-	info 'org.springframework'
-	debug 'grails.app'
+	warn 'org.springframework'
+	info 'grails.app'
 
 	info 'org.mortbay.log',
 			'grails.app.controller',
