@@ -139,11 +139,12 @@ div#tabs { /*width: 100%;
 /*  banner and top bar */
 #bannercontainer {
 	width: 800px;
-	height: 50px;
+	height: 100px;
 	padding: 0;
 	margin-left: auto;
 	margin-right: auto;
 	background: #fff url(../images/iDropLogo.png) left center no-repeat;
+	/*background: #fff url(../images/Lifetime-Library.png) left center no-repeat;*/
 	display: inline-block;
 	position: relative;
 }
@@ -776,8 +777,8 @@ form {  /* set width in form, not fieldset (still takes up more room w/ fieldset
   margin: 0;
   padding: 0;
   min-width: 500px;
-  max-width: 600px;
-  width: 560px; 
+ /* max-width: 600px;
+  width: 560px; */
 }
 
 form fieldset {

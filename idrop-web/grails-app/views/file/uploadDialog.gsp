@@ -3,7 +3,7 @@
 	<g:form controller="file" action="upload" method="post"
 			name="uploadForm" enctype="multipart/form-data"
 			target="upload_target">
-			<fieldset id="verticalForm">
+			<fieldset>
 				<label for="">Parent Collection:</label>
 				<h2>${irodsTargetCollection}</h2>
 				<g:hiddenField id="collectionParentName" name="collectionParentName" value="${irodsTargetCollection}"/>

@@ -25,6 +25,10 @@
 idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
 idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
 idrop.config.idrop.lite.use.applet.dir=false
+/*idrop.config.preset.host="diamond.ils.unc.edu"
+ idrop.config.preset.port="2247"
+ idrop.config.preset.zone="lifelibZone"
+ idrop.config.preset.resource="lifelibResc1"*/
 
 grails.project.groupId = org.irods.mydrop // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format

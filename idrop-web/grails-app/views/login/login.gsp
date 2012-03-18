@@ -1,8 +1,8 @@
 <head>
-<title>"iDrop-web - iRODS Personal Cloud"</title>
-<link rel="stylesheet" href="./css/main.css"/>
-<link rel="stylesheet" href="./css/base.css"/>
-<link rel="stylesheet" href="./css/style.css"/>
+<title>iDrop-web - iRODS Personal Cloud"</title>
+<link rel="stylesheet" type="txt/css" href="${resource (dir:'css',file:'main.css')}" />
+<link rel="stylesheet" type="txt/css" href="${resource (dir:'css',file:'base.css')}" />
+<link rel="stylesheet" type="txt/css" href="${resource (dir:'css',file:'style.css')}" />
 </head>
 <body style="height:100%;">
 <div id="hd"><!-- PUT MASTHEAD CODE HERE -->
@@ -17,7 +17,7 @@
 <div id="mainDivCol1" class="yui-u first" style="height:100%;padding:20px;"><!-- PUT MAIN COLUMN 1 CODE HERE -->
 
  <g:form controller="j_spring_security_check"
-	absolute="true" method="post">
+	 method="post" style="width:560px;">
 	
 <div id="loginForm" class="roundedContainer" style="width: 60%;
     margin: 0px auto; ">

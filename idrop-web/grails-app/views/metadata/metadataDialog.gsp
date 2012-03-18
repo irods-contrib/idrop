@@ -6,10 +6,7 @@
 	
 			<fieldset id="verticalForm">
 				<g:hiddenField name="isCreate" value="true" />
-				<label for="absPath"><g:message code="text.path" />:</label>
-				<g:textArea name="absPath" value="${absPath}" readonly="true" />
-				
-				<br /> <label for="attribute"><g:message code="text.attribute" />:</label>
+				<label for="attribute"><g:message code="text.attribute" />:</label>
 				<g:textField name="attribute" value="${attribute}"/>
 				<br />
 				<label for="value"><g:message code="text.value" />:</label>

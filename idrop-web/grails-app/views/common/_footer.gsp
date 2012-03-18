@@ -1,1 +1,1 @@
-<span><h1>footer content</h1></span>
+<h2>iDrop-web developed by the DICE Group, developers of the <a href="http://www.irods.org">iRODS Data Grid</a> -- iDrop Project Page available <a href="https://code.renci.org/jargon">here</a></h2>
