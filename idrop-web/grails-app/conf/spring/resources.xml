@@ -64,7 +64,6 @@
 				<intercept-url pattern="/js/**" access="permitAll" />
 				<intercept-url pattern="/login*" access="permitAll" />
 				<intercept-url pattern="/**" access="isAuthenticated()" />
-
 			</filter-security-metadata-source>
 		</beans:property>
 	</beans:bean>
@@ -127,6 +126,6 @@
 
 	<beans:bean id="authenticationFailureHandler"
 		class="org.irods.jargon.spring.security.IRODSAuthenticationFailureHandler">
-		<beans:property name="defaultFailureUrl" value="/login/login" />
+		<beans:property name="defaultFailureUrl" value="/login" />
 	</beans:bean>
 </beans:beans>

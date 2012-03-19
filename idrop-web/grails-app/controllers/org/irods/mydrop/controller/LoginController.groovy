@@ -4,6 +4,7 @@ class LoginController {
 
 	def login = {
 		log.info "in login"
+		log.info  "params:${request.parameterMap}"
 		log.info("config is:${grailsApplication.config}")
 		def presetHost = grailsApplication.config.idrop.config.preset.host
 		def presetPort = grailsApplication.config.idrop.config.preset.port

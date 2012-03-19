@@ -5,9 +5,8 @@
  *
  */
 class SecurityFilters {
-	
-	
+
+
 	def filters = {
-		
 	}
 }

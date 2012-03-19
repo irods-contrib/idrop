@@ -2,7 +2,7 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<title><g:layoutTitle default="myDrop - iRODS Personal Cloud" /></title>
+<title><g:layoutTitle default="iDrop-web - iRODS Cloud Browser" /></title>
 <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'base.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'style.css')}" />
@@ -33,7 +33,6 @@
 <g:javascript library="mydrop/main" />
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.blockUI" />
-
 <g:javascript library="jquery.layout.min-1.3.0" />
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.tools.min" />
@@ -50,8 +49,6 @@
 	host = "${request.localName}";
 	port = "${request.localPort}";
 </script>
-
- 
 </head>
 <body style="height:100%;">
 <div id="hd"><!-- PUT MASTHEAD CODE HERE -->

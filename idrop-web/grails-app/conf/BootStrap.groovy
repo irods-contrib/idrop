@@ -1,17 +1,12 @@
 class BootStrap {
 
-    def init = { servletContext ->
-		
+	def init = { servletContext ->
+
 		environments {
-			production {
-				servletContext.setAttribute("idropLiteUrl", "http://iren-web.renci.org/idrop-web/applet")
-			}
-			development {
-				
-			}
+			production {}
+			development {}
 		}
-	
-    }
-    def destroy = {
-    }
+	}
+	def destroy = {
+	}
 }

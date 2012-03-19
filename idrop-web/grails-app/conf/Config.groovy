@@ -15,16 +15,20 @@
  * 
  * add the following group of properties to present a user id/password only login
  * 
- idrop.confiig.preset.host=xxx
- idrop.config.preset.port=1247
- idrop.config.preset.zone=xxx
- idrop.config.preset.resource=xxx
+ idrop.config.preset.host="diamond.ils.unc.edu"
+ idrop.config.preset.port="2247"
+ idrop.config.preset.zone="lifelibZone"
+ idrop.config.preset.resource="lifelibResc1"
  */
 
 // required properties for idrop lite
 idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
 idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
 idrop.config.idrop.lite.use.applet.dir=false
+/*idrop.config.preset.host="diamond.ils.unc.edu"
+ idrop.config.preset.port="2247"
+ idrop.config.preset.zone="lifelibZone"
+ idrop.config.preset.resource="lifelibResc1"*/
 
 grails.project.groupId = org.irods.mydrop // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
@@ -76,7 +80,7 @@ grails.validateable.packages = ['org.irods']
 
 // set per-environment serverURL stem for creating absolute links
 environments {
-	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
+	production {  grails.serverURL = "http://emerald.ils.unc.edu:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test {  grails.serverURL = "http://localhost:8080/${appName}"  }
 }
@@ -104,13 +108,13 @@ log4j = {
 			'org.codehaus.groovy.grails.commons', // core / classloading
 			'org.codehaus.groovy.grails.plugins', // plugins
 			'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-			'org.springframework',
 			'org.hibernate',
 			'net.sf.ehcache.hibernate'
 
-	debug 'org.irods.mydrop'
-	warn 'org.irods.jargon'
-	warn 'org.irods.jargon.spring.security'
+	warn 'org.irods.mydrop'
+	info 'org.irods.jargon'
+	debug 'org.irods.jargon.spring.security'
+	warn 'org.springframework'
 	info 'grails.app'
 
 	info 'org.mortbay.log',
