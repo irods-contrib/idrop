@@ -380,7 +380,7 @@ public class IRODSFileService {
         try {
             final CollectionAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAO(
                     irodsAccount);
-            return collectionAO.findMetadataValuesByMetadataQueryWithAdditionalWhere(queryElements, sb.toString());
+            return collectionAO.findMetadataValuesByMetadataQueryWithAdditionalWhere(queryElements, sb.toString(),0);
         } catch (JargonException ex) {
             Logger.getLogger(IRODSFileService.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("exception processing rule", ex);
