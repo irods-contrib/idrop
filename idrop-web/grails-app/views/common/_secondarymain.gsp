@@ -18,7 +18,10 @@ $(document).ready(function() {
 	<li><a href="#tabs-4">File Cart</a></li>
 </ul>
 <div id="tabs-1" style="height:100%;">
-	<div id="tagCloudDiv" style="height:100%;">
+<div style="height:5%;position:relative">
+<button type="button" id="refreshTags" name="refreshTags" onclick="refreshTagCloudButtonClicked()"><g:message code="text.refresh" /></button>
+</div>
+	<div id="tagCloudDiv" style="height:95%;">
 	<!--  tag cloud div is ajax loaded -->
 	</div>
 </div>
@@ -47,3 +50,11 @@ $(document).ready(function() {
  	<div id="cartFileDetails"><!--  cart file details div --></div>
 </div>
 </div>
+<script type="text/javascript">
+
+function refreshTagCloudButtonClicked() {
+	
+	refreshTagCloud();
+}
+
+</script>
