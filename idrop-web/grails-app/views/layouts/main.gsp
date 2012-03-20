@@ -56,6 +56,7 @@
 <g:render template="/common/messages"/>
 </div>
 <div id="bd" style="height:100%;">
+<div id="defaultDialogDiv"><!-- default for general jquery dialogs --></div>
 <div id="yui-main" style="height:100%;">
 <div class="yui-b" style="height:100%;">
 <div id="mainDiv" class="yui-ge" style="height:100%;">

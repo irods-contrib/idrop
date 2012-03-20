@@ -25,7 +25,6 @@
  idrop.config.idrop.lite.use.applet.dir=false
  * 
  */
-
 idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
 idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
 idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"

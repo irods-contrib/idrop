@@ -53,6 +53,7 @@ function showMenu() {
 		$("#mainDivCol1").width="80%";
 		$("#secondaryDiv").width="20%";
 		$("#mainDivCol1").addClass("yui-u first");
+		refreshTagCloud();
 		dataLayout.resizeAll();
 		
 		//$("#dataTreeView").layout.resizeContent("center");

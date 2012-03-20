@@ -403,13 +403,14 @@ function nodeRenamed(event, data) {
 		if (!continueReq) {
 			return false;
 		}
-		setMessage("file renamed to:" + xhr.responseText);
-		selectedPath = xhr.responseText;
-		data.rslt.obj[0].id = xhr.responseText;
-		data.rslt.obj[0].abspath = xhr.responseText;
+		var nodeRenamedTo = xhr.responseText + "/" + newName;
+		setMessage("file renamed to:" + nodeRenamedTo);
+		selectedPath = nodeRenamedTo;
+		data.rslt.obj[0].id = nodeRenamedTo ;
+		data.rslt.obj[0].abspath = nodeRenamedTo;
 		// refresh this node
 		$.jstree._reference(dataTree).refresh(data.rslt.obj[0]);
-		updateBrowseDetailsForPathBasedOnCurrentModel(xhr.responseText);
+		updateBrowseDetailsForPathBasedOnCurrentModel(nodeRenamedTo);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
@@ -1806,5 +1807,25 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 	if (currentNode != null && end) {
 		operationToPerform(path, dataTree, currentNode);
 	}
+	
 
+}
+
+
+function showOverwriteOptionDialog(message) {
+	/*
+	var dialogDiv = $("#efaultDialogDiv");
+	dialogDiv.html("");
+	
+	
+	var messageDiv = document.createElement('div');
+	var message = document.createElement('h2');
+	messageDiv.appendChild(message);
+	
+	
+	var a = document.createElement('applet');
+	appletTagDiv.appendChild(a);
+	*/
+	
+	
 }
