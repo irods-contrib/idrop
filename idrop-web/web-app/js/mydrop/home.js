@@ -488,9 +488,11 @@ function copyFile(sourcePath, targetPath) {
 			return false;
 		}
 		setMessage("file copied to:" + xhr.responseText);
-		refreshTree();
-		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 		unblockPanel();
+		selectTreePathFromIrodsPath(xhr.responseText);
+		//refreshTree();
+		//updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+		
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
 		refreshTree();
@@ -681,7 +683,7 @@ function fillInUploadDialog(data) {
 	var $dialog = $('<div id="uploadDialog"></div>').html(data).dialog({
 		autoOpen : false,
 		modal : true,
-		width : 400,
+		width : 500,
 		title : 'Upload to iRODS',
 		create : function(event, ui) {
 			initializeUploadDialogAjaxLoader();
@@ -1417,7 +1419,7 @@ function closeNewFolderDialog() {
 function submitRenameDialog() {
 	lcClearDivAndDivClass("#renameDialogMessageArea");
 	var absPath = $("#renameDialogAbsPath").val();
-	var newName = $("#fileName").val();
+	var newName = $.trim($("#fileName").val());
 	// name must be entered
 	if (newName == null || newName.length == 0) {
 		setMessage("Please enter a new name");
@@ -1441,9 +1443,10 @@ function submitRenameDialog() {
 		setMessage("file renamed to:" + xhr.responseText);
 		selectedPath = xhr.responseText;
 		closeRenameDialog();
-		refreshTree();
-		selectTreePathFromIrodsPath(selectedPath);
-		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		//refreshTree();
+		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+		//selectTreePathFromIrodsPath(selectedPath);
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath + "/" + newName);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
 		refreshTree();
@@ -1460,8 +1463,8 @@ function submitRenameDialog() {
 function submitNewFolderDialog() {
 
 	lcClearDivAndDivClass("#newFolderDialogMessageArea");
-	var absPath = $("#newFolderDialogAbsPath").val();
-	var newName = $("#fileName").val();
+	var absPath = $.trim($("#newFolderDialogAbsPath").val());
+	var newName = $.trim($("#fileName").val());
 	// name must be entered
 	if (newName == null || newName.length == 0) {
 		setErrorMessage("Please enter a new folder name");
@@ -1587,6 +1590,29 @@ function selectTreePathFromIrodsPath(irodsAbsolutePath) {
 
 	selectTreePath(irodsAbsolutePath.split("/"), null, null);
 
+}
+
+
+/**
+ * Find the given iRODS absolute path in the tree, clear the children and reload
+ * @param path
+ */
+function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
+	
+	if (path == null) {
+		throw "No path provided";
+	}
+	
+	splitPath = path.split("/");
+	
+	performOperationAtGivenTreePath(splitPath, null,
+				null, function(thisPath, dataTree, currentNode){
+
+		  $.jstree._reference(dataTree).refresh(currentNode);
+		  $.jstree._reference(dataTree).select_node(currentNode, true);
+
+			});
+	
 }
 
 /**

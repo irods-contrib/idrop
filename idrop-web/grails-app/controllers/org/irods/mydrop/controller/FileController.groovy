@@ -321,8 +321,8 @@ class FileController {
 
 		prevFile.renameTo(newFile)
 
-
-		render newFile.getAbsolutePath()
+		// return the parent, which will be reloaded
+		render newFile.parent
 	}
 
 	/**
