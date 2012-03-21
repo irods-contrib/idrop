@@ -97,7 +97,8 @@ function browserFirstViewRetrieved(data) {
 							if (n.statusText == "success") {
 								// ok
 							} else {
-								setErrorMessage(n.statusText);
+								setMessage("Tree out of synch, refreshed...");
+								refreshTree();
 							}
 						}
 					}
@@ -582,13 +583,25 @@ function showBrowseView(absPath) {
 	if (absPath == null) {
 		return false;
 	}
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+	
+	
+	try {
+	
+	lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
 			"/browse/displayBrowseGridDetails?absPath="
-					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
+					+ encodeURIComponent(absPath),"#infoDiv",
 			function(data) {
 				$("#infoDiv").html(data);
-
+			},
+			function() {
+				setMessage("Tree reloading, out of synch with iRODS Data");
+				refreshTree();
 			});
+	} catch (err) {
+		// tree is out of synch, refresh it
+		refreshTree();
+	}
+	
 }
 
 /**
@@ -1835,7 +1848,7 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 						currentNode);
 				currentNode = getPathInNode(children, value);
 				if (currentNode == null) {
-					setErrorMessage("Path not found in tree:" + path);
+					setMessage("Path not found in tree, please reload");
 					return false;
 				} else {
 					if (index == path.length - 1) {
