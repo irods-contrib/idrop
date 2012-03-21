@@ -277,13 +277,13 @@ table {
 
 tr {
 	border: 0;
-	padding: 8px;
+	padding: 3px;
 }
 
 td,th {
-	font: 14px verdana, arial, helvetica, sans-serif;
-	line-height: 14px;
-	padding: 8px;
+	font: 12px verdana, arial, helvetica, sans-serif;
+	line-height: 12px;
+	padding: 3px;
 	text-align: left;
 	vertical-align: top;
 }
@@ -762,12 +762,12 @@ th.desc a {
 
 #container>div {
 	display: table-row;
-	height: 25px;
+	height: 20px;
 }
 
 #container>div>div {
 	display: table-cell;
-	padding: 1em;
+	padding: .5em;
 	vertical-align: middle;
 	overflow:hidden;
 }

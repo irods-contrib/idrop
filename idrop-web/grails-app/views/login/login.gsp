@@ -54,9 +54,9 @@
 	<br/>
 	<label><g:message code="text.password" />:</label>
 		<input type="password" class="input-text" name="password" id="password" value="${request.password}"/>
-	<br/>
-	<input style="float:right;margin:15px;"
-		type="submit" value="${message(code:'text.login')}" />
+
+	<button type="submit" id="login" name="login" style="float:right;margin:10px;"><g:message code="text.login"/></button>
+	
 </div>
 </g:form> 
 </body>
