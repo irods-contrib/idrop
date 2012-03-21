@@ -312,7 +312,6 @@ function nodeSelected(event, data) {
  */
 function nodeAdded(event, data) {
 
-	//alert("nodeAdded");
 	var parent = $.trim(data[0].parentNode.parentNode.id);
 	
 	/*
@@ -326,7 +325,6 @@ function nodeAdded(event, data) {
 		return false;
 	}
 	
-	//alert("parent:" + parent);
 	var name = $.trim(data[0].innerText);
 	
 	if (name == "") {
@@ -344,7 +342,6 @@ function nodeAdded(event, data) {
 		}
 	}
 	
-	//alert("name:" + name);
 	var params = {
 		parent : parent,
 		name : name
@@ -753,8 +750,22 @@ function initializeUploadDialogAjaxLoader() {
 						},
 						onComplete : function(event, files, index, xhr, handler) {
 							setMessage("Upload complete");
-							refreshTree();
-							updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+							
+							/*
+							 * Find the uploaded file name, refresh the parent node and select the file
+							 * If for some reason a psychotic quirk won't let me do this, just reload the parent
+							 */
+							
+							if (files.length == 1) {
+								var uploadFileName = files[0].name;
+								uploadFileName = selectedPath + "/" + uploadFileName;
+								reloadAndSelectTreePathBasedOnIrodsAbsolutePath(uploadFileName);
+								updateBrowseDetailsForPathBasedOnCurrentModel(uploadFileName);
+							} else {
+								reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+								updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+							}
+		
 							$('#uploadDialog').dialog('close');
 							$('#uploadDialog').remove();
 
