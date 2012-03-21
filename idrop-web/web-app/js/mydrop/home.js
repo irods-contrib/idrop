@@ -312,8 +312,39 @@ function nodeSelected(event, data) {
  */
 function nodeAdded(event, data) {
 
+	//alert("nodeAdded");
 	var parent = $.trim(data[0].parentNode.parentNode.id);
+	
+	/*
+	 * Firefox bug allows add of node outside of tree, so if 
+	 * my parent is 'dataTreeDiv' then rollback and set an error message
+	 */
+	
+	if (parent == "dataTreeDiv") {
+		$.jstree._reference(dataTree).refresh();
+		setMessage("Cannot create a new folder outside of root of tree, select a tree node first");
+		return false;
+	}
+	
+	//alert("parent:" + parent);
 	var name = $.trim(data[0].innerText);
+	
+	if (name == "") {
+		/*
+		 * If I can't find the name, this may be Firefox, which seems to behave strangely, so look for it
+		 * by manipulating the node I got back
+		 */
+		var node = $(data[0]);
+		var children = node.children();
+		var target = $(children).filter("a:last-child");
+		target=$(target).html();
+		var pos = target.indexOf("</ins>");
+		if (pos > -1) {
+			name = target.substr(pos + 6);
+		}
+	}
+	
+	//alert("name:" + name);
 	var params = {
 		parent : parent,
 		name : name
@@ -336,7 +367,6 @@ function nodeAdded(event, data) {
 		setErrorMessage(xhr.responseText);
 		refreshTree();
 		unblockPanel();
-		// updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
 	});
 }
 
