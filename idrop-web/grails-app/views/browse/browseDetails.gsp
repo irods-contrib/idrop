@@ -9,6 +9,8 @@
 <div id=browseDetailsDialogArea">
   <!--  area for generating dialogs -->
 </div>
+<g:hiddenField id="browseDetailsAbsPath" name="absolutePath"
+					value="${parent.collectionName}" />
 
 <div style="overflow:visible; position:relative;">
   <div id="idropLiteArea">
