@@ -192,7 +192,7 @@ function checkOut() {
 						var appletDiv = $(idropLiteShoppingCartSelector);
 						$(appletDiv)
 								.append(
-										"<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:none'><button type='button' id='toggleCartClosed' class='ui-state-default ui-corner-all' value='toggleCartClosed' onclick='closeShoppingCartApplet()')>Close Shopping Cart</button></div>")
+										"<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:none'><button type='button' id='toggleCartClosed' class='ui-state-default ui-corner-all' value='toggleCartClosed' onclick='closeShoppingCartApplet()')>Close Cart</button></div>")
 						var appletTagDiv = document.createElement('div');
 						appletTagDiv.setAttribute('id', 'appletTagDiv');
 						var a = document.createElement('applet');
