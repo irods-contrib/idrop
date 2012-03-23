@@ -14,6 +14,7 @@ import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.packinstr.TransferOptions;
 
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -31,9 +32,9 @@ import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
- * Manage configuration information. This service will initialize and manage
- * configuration information from iDrop
- * 
+ * Manage configuration information. This service will initialize and manage configuration
+ * information from iDrop
+ *
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IdropConfigurationServiceImpl implements IdropConfigurationService {
@@ -111,8 +112,8 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         log.info("now storing derived properties in idrop configuration");
         log.info("checking for force mode, which forces certain properties to be loaded from the idrop.properties file");
         /*
-         * This is something of a shim right now until config things settle
-         * down. For lifetime library, force into login preset mode
+         * This is something of a shim right now until config things settle down. For lifetime
+         * library, force into login preset mode
          */
 
         String forceMode = configFileProperties.getProperty(FORCE_MODE);
@@ -126,8 +127,8 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         }
 
         /*
-         * If the distro has the idrop.properties to force.no.synch=true, then
-         * override the force option in effect
+         * If the distro has the idrop.properties to force.no.synch=true, then override the force
+         * option in effect
          */
         forceMode = configFileProperties.getProperty(FORCE_NO_SYNCH);
         if (forceMode != null) {
@@ -146,7 +147,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 
     /**
      * Save the database configuration information to a properties file
-     * 
+     *
      * @throws IdropException
      */
     @Override
@@ -171,9 +172,9 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     }
 
     /**
-     * In cases where there are no database properties, attempt to import them
-     * from a file in the .idrop directory
-     * 
+     * In cases where there are no database properties, attempt to import them from a file in the
+     * .idrop directory
+     *
      * @return
      * @throws IdropException
      */
@@ -245,38 +246,42 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         if (key == null || key.isEmpty()) {
             throw new IllegalArgumentException("null or empty key");
         }
-        try {
-            ConfigurationProperty configurationProperty = configurationService.findConfigurationServiceByKey(key);
 
-            if (configurationProperty == null) {
-                log.info("not found, this is new configuration");
-                configurationProperty = new ConfigurationProperty();
-                configurationProperty.setPropertyKey(key);
-                configurationProperty.setPropertyValue(value);
-                configurationProperty.setCreatedAt(new Date());
-            } else {
-                log.info("found config property:{}", configurationProperty);
-                configurationProperty.setPropertyValue(value);
-                configurationProperty.setUpdatedAt(new Date());
+        synchronized (this) {
+            try {
+                ConfigurationProperty configurationProperty = configurationService.findConfigurationServiceByKey(key);
+
+                if (configurationProperty == null) {
+                    log.info("not found, this is new configuration");
+                    configurationProperty = new ConfigurationProperty();
+                    configurationProperty.setPropertyKey(key);
+                    configurationProperty.setPropertyValue(value);
+                    configurationProperty.setCreatedAt(new Date());
+                } else {
+                    log.info("found config property:{}", configurationProperty);
+                    configurationProperty.setPropertyValue(value);
+                    configurationProperty.setUpdatedAt(new Date());
+                }
+
+                configurationService.updateConfigurationProperty(configurationProperty);
+                log.info("database updated...updating property cache");
+                idropCore.getIdropConfig().setProperty(key, value);
+                log.info("property cache updated");
+
+            } catch (Exception ex) {
+                log.error("exception removing config property");
+                throw new IdropException("exception updating config", ex);
             }
-
-            configurationService.updateConfigurationProperty(configurationProperty);
-            log.info("database updated...updating property cache");
-            idropCore.getIdropConfig().setProperty(key, value);
-            log.info("property cache updated");
-
-        } catch (Exception ex) {
-            log.error("exception removing config property");
-            throw new IdropException("exception updating config", ex);
         }
     }
 
     /**
      * Cause the transfer options using in the transfer engine to be updated
-     * @throws JargonException 
+     *
+     * @throws JargonException
      */
     @Override
-    public void updateTransferOptions() throws JargonException {
+    public synchronized void updateTransferOptions() throws JargonException {
         /*
          * The transfer manager may not have been built the first time this is invoked
          */
@@ -286,20 +291,58 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     }
 
     @Override
+    public void restoreIDROPConfigFromJargonProperties(final JargonProperties jargonProperties) throws JargonException {
+        if (jargonProperties == null) {
+            throw new IllegalArgumentException("null jargonProperties");
+        }
+
+        synchronized (this) {
+            IdropConfig idropConfig = idropCore.getIdropConfig();
+            idropConfig.setProperty(IdropConfigurationService.IRODS_CONNECTION_TIMEOUT, String.valueOf(jargonProperties.getIRODSSocketTimeout()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_IO_GET_BUFFER_SIZE, String.valueOf(jargonProperties.getGetBufferSize()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_IO_INPUT_TO_OUTPUT_COPY_BUFFER_SIZE, String.valueOf(jargonProperties.getInputToOutputCopyBufferByteSize()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_IO_INTERNAL_CACHE_BUFFER_SIZE, String.valueOf(jargonProperties.getInternalCacheBufferSize()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_IO_INTERNAL_INPUT_STREAM_BUFFER_SIZE, String.valueOf(jargonProperties.getInternalInputStreamBufferSize()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_IO_INTERNAL_OUTPUT_STREAM_BUFFER_SIZE, String.valueOf(jargonProperties.getInternalOutputStreamBufferSize()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_IO_LOCAL_INPUT_STREAM_BUFFER_SIZE, String.valueOf(jargonProperties.getLocalFileInputStreamBufferSize()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_IO_LOCAL_OUTPUT_STREAM_BUFFER_SIZE, String.valueOf(jargonProperties.getLocalFileOutputStreamBufferSize()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_IO_PUT_BUFFER_SIZE, String.valueOf(jargonProperties.getPutBufferSize()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_IO_SEND_INPUT_STREAM_BUFFER_SIZE, String.valueOf(jargonProperties.getSendInputStreamBufferSize()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS, String.valueOf(jargonProperties.getMaxParallelThreads()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT, String.valueOf(jargonProperties.getIRODSParallelTransferSocketTimeout()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_PARALLEL_USE_NIO, String.valueOf(jargonProperties.isUseNIOForParallelTransfers()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_PARALLEL_USE_PARALLEL, String.valueOf(jargonProperties.isUseParallelTransfer()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_PARALLEL_USE_POOL, String.valueOf(jargonProperties.isUseTransferThreadsPool()));
+        }
+    }
+
+    @Override
     public void updateJargonPropertiesBasedOnIDROPConfig() throws JargonException {
         JargonProperties props = idropCore.getIrodsFileSystem().getIrodsSession().getJargonProperties();
         SettableJargonProperties newProps = new SettableJargonProperties(props);
+        synchronized (this) {
+            newProps.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
+            newProps.setIntraFileStatusCallbacks(idropCore.getIdropConfig().isIntraFileStatusCallbacks());
+            newProps.setTransferThreadPoolMaxSimultaneousTransfers(1);
+            newProps.setUseTransferThreadsPool(idropCore.getIdropConfig().isParallelUsePool());
+            newProps.setIrodsSocketTimeout(idropCore.getIdropConfig().getIrodsConnectionTimeout());
+            newProps.setIrodsParallelSocketTimeout(idropCore.getIdropConfig().getIrodsParallelConnectionTimeout());
+            newProps.setAllowPutGetResourceRedirects(idropCore.getIdropConfig().isAllowConnectionRerouting());
+            newProps.setMaxParallelThreads(idropCore.getIdropConfig().getIrodsParallelTransferMaxThreads());
+            newProps.setGetBufferSize(idropCore.getIdropConfig().getGetBufferSize());
+            newProps.setInputToOutputCopyBufferByteSize(idropCore.getIdropConfig().getInputToOutputCopyBufferByteSize());
+            newProps.setInternalCacheBufferSize(idropCore.getIdropConfig().getInternalCacheBufferSize());
+            newProps.setInternalInputStreamBufferSize(idropCore.getIdropConfig().getInternalInputStreamBufferSize());
+            newProps.setInternalOutputStreamBufferSize(idropCore.getIdropConfig().getInternalOutputStreamBufferSize());
+            newProps.setLocalFileInputStreamBufferSize(idropCore.getIdropConfig().getLocalFileInputStreamBufferSize());
+            newProps.setLocalFileOutputStreamBufferSize(idropCore.getIdropConfig().getLocalFileOutputStreamBufferSize());
+            newProps.setPutBufferSize(idropCore.getIdropConfig().getPutBufferSize());
+            newProps.setSendInputStreamBufferSize(idropCore.getIdropConfig().getSendInputStreamBufferSize());
+            newProps.setUseParallelTransfer(idropCore.getIdropConfig().isUseParallelTransfers());
+            newProps.setUseNIOForParallelTransfers(idropCore.getIdropConfig().isUseNIOForParallelTransfers());
 
-        newProps.setComputeAndVerifyChecksumAfterTransfer(idropCore.getIdropConfig().isVerifyChecksum());
-        newProps.setIntraFileStatusCallbacks(idropCore.getIdropConfig().isIntraFileStatusCallbacks());
-        newProps.setTransferThreadPoolMaxSimultaneousTransfers(1);
-        newProps.setUseParallelTransfer(true);
-        newProps.setUseTransferThreadsPool(idropCore.getIdropConfig().isParallelUsePool());
-        newProps.setIrodsSocketTimeout(idropCore.getIdropConfig().getIrodsConnectionTimeout());
-        newProps.setIrodsParallelSocketTimeout(idropCore.getIdropConfig().getIrodsParallelConnectionTimeout());
-        newProps.setAllowPutGetResourceRedirects(idropCore.getIdropConfig().isAllowConnectionRerouting());
-        newProps.setMaxParallelThreads(idropCore.getIdropConfig().getIrodsParallelTransferMaxThreads());
-        idropCore.getIrodsFileSystem().getIrodsSession().setJargonProperties(newProps);
+            idropCore.getIrodsFileSystem().getIrodsSession().setJargonProperties(newProps);
+        }
     }
 
     @Override
@@ -309,20 +352,22 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             throw new IllegalArgumentException("null or empty key");
         }
         log.info("key to remove:{}", key);
-        try {
-            ConfigurationProperty configurationProperty = configurationService.findConfigurationServiceByKey(key);
-            if (configurationProperty == null) {
-                log.info("no prop with key, ignore");
-                return;
+        synchronized (this) {
+            try {
+                ConfigurationProperty configurationProperty = configurationService.findConfigurationServiceByKey(key);
+                if (configurationProperty == null) {
+                    log.info("no prop with key, ignore");
+                    return;
+                }
+                configurationService.deleteConfigurationProperty(configurationProperty);
+                log.info("configuration property is deleted");
+                idropCore.getIdropConfig().getIdropProperties().remove(key);
+                log.info("property removed");
+                this.updateTransferOptions();
+            } catch (Exception ex) {
+                log.error("exception removing config property");
+                throw new IdropRuntimeException("exception updating config", ex);
             }
-            configurationService.deleteConfigurationProperty(configurationProperty);
-            log.info("configuration property is deleted");
-            idropCore.getIdropConfig().getIdropProperties().remove(key);
-            log.info("property removed");
-            this.updateTransferOptions();
-        } catch (Exception ex) {
-            log.error("exception removing config property");
-            throw new IdropRuntimeException("exception updating config", ex);
         }
     }
 
@@ -349,7 +394,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     }
 
     @Override
-    public void pushIDROPConfigToJargonAndTransfer() throws IdropException {
+    public synchronized void pushIDROPConfigToJargonAndTransfer() throws IdropException {
         try {
             this.updateTransferOptions();
             this.updateJargonPropertiesBasedOnIDROPConfig();
@@ -360,7 +405,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     }
 
     @Override
-    public void updateSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException {
+    public synchronized void updateSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException {
         log.info("updateSynchronization()");
         if (synchConfiguration == null) {
             throw new IllegalArgumentException("null synchConfiguration");

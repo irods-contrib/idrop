@@ -10,11 +10,11 @@
 
 			<button type="button" id="search"
 				class="ui-state-default ui-corner-all" value="search"
-				onclick="search()")>Search</button><span>as a<g:select name="searchType" id="searchType" from="${['file', 'tag']}" /></span>
+				onclick="search()")><g:message code="text.search" /></button><span>as a<g:select name="searchType" id="searchType" from="${['file', 'tag']}" /></span>
 		
 		<span> or </span><button type="button" id="selectTreePath"
 				class="ui-state-default ui-corner-all" value="search"
-				onclick="selectTreePath()")>Go directly to a path in the tree</button>
+				onclick="selectTreePath()")><g:message code="text.find.path.in.tree" /></button>
 		</div>
 
 		<div id="toggleMenu" class="fg-buttonset fg-buttonset-single" style="float:right">
@@ -45,8 +45,6 @@ function showMenu() {
 		$("#mainDivCol1").width="100%";
 		$("#mainDivCol1").removeClass();
 		dataLayout.resizeAll();
-		//$("#dataTreeView").layout.resizeContent("center");
-		//$("#infoDiv").width="100%";
 	} else {
 		$("#secondaryDiv").show('slow');
 		$("#mainDiv").width="80%";
@@ -55,10 +53,6 @@ function showMenu() {
 		$("#mainDivCol1").addClass("yui-u first");
 		refreshTagCloud();
 		dataLayout.resizeAll();
-		
-		//$("#dataTreeView").layout.resizeContent("center");
-		
-		//$("#infoDiv").width="100%";
 		menuShown = true;
 	}
 }

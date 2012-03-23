@@ -7,6 +7,13 @@
 
 function search() {
 	var searchTerm = $("#searchTerm").val();
+	
+	if (searchTerm == "") {
+		setMessage("Enter a search term");
+		return false;
+	}
+	
+	
 	var searchType = $("#searchType").val();
 
 	$('#tabs').tabs({

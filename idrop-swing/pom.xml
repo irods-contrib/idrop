@@ -42,6 +42,11 @@
             <artifactId>jargon-user-tagging</artifactId>
             <scope>compile</scope>
         </dependency>
+         <dependency>
+                <groupId>org.irods.jargon</groupId>
+                <artifactId>jargon-core</artifactId>
+               <scope>compile</scope>
+            </dependency>
         <dependency>
             <groupId>org.irods.jargon.transfer</groupId>
             <artifactId>jargon-transfer-dao-spring</artifactId>

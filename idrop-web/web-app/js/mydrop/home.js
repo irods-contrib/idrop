@@ -1701,6 +1701,15 @@ function selectTreePath(path, currentNode, currentIndex) {
 
     if (path == null) {
         var val = $("#searchTerm").val();
+        if (val == "") {
+        	setMessage("enter a path to search");
+        	return false;
+        }
+        
+        if (val.charAt(val.length -1) == "/") {
+        	val = val.substring(0, val.length - 1);
+        }
+        
         // alert("select tree path:" + val);
         path = val.split("/");
     }
@@ -1790,6 +1799,10 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 
     if (path == null) {
         var val = $("#searchTerm").val();
+        
+        
+        
+        
         // alert("select tree path:" + val);
         path = val.split("/");
     }
