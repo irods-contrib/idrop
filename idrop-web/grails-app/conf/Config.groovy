@@ -26,13 +26,13 @@
  * 
  */
 idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
-idrop.config.idrop.lite.codebase="https://lifetime-library.ils.unc.edu/llclient"
-idrop.config.preset.host="diamond.ils.unc.edu"
-idrop.config.preset.port="2247"
-idrop.config.preset.zone="lifelibZone"
-idrop.config.preset.resource="lifelibResc1"
-idrop.config.idrop.lite.use.applet.dir=false
-idrop.config.idrop.jnlp="https://lifetime-library.ils.unc.edu/llclient/idrop.jnlp"
+ idrop.config.idrop.lite.codebase="https://lifetime-library.ils.unc.edu/llclient"
+ idrop.config.preset.host="diamond.ils.unc.edu"
+ idrop.config.preset.port="2247"
+ idrop.config.preset.zone="lifelibZone"
+ idrop.config.preset.resource="lifelibResc1"
+ idrop.config.idrop.lite.use.applet.dir=false
+ idrop.config.idrop.jnlp="https://lifetime-library.ils.unc.edu/llclient/idrop.jnlp"
 /*
  * ll config*/
 /*idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"

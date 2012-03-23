@@ -79,7 +79,7 @@ function browserFirstViewRetrieved(data) {
         "plugins" : [ "themes", "contextmenu", "json_data", "types",
         "ui", "crrm", "dnd" ],
         "core" : {
-            "initially_open" : [ parent ]
+            "initially_open" : [ baseAbsPath ]
         },
         "json_data" : {
             "data" : [ data ],
@@ -192,7 +192,9 @@ function browserFirstViewRetrieved(data) {
         }
 
     });
-
+    
+    updateBrowseDetailsForPathBasedOnCurrentModel(baseAbsPath);
+    
 }
 
 /**
@@ -594,8 +596,7 @@ function showBrowseView(absPath) {
                 $("#infoDiv").html(data);
             },
             function() {
-                setMessage("Tree reloading, out of synch with iRODS Data");
-                refreshTree();
+                setMessage("Unable to browse to location, please refresh the tree");
             });
     } catch (err) {
         // tree is out of synch, refresh it
@@ -769,24 +770,29 @@ function initializeUploadDialogAjaxLoader() {
 							 * Find the uploaded file name, refresh the parent node and select the file
 							 * If for some reason a psychotic quirk won't let me do this, just reload the parent
 							 */
-							
+				
+            /*
             if (files.length == 1) {
                 var uploadFileName = files[0].name;
                                                                 
                 // windows (ie) will put the whole file path in the name, so just reload the parent
+              
                 if (uploadFileName.indexOf("\\") > -1) {
                     reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
                     updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
                 } else {                                             
                     uploadFileName = selectedPath + "/" + uploadFileName;
-                    reloadAndSelectTreePathBasedOnIrodsAbsolutePath(uploadFileName);
+                    reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
                     updateBrowseDetailsForPathBasedOnCurrentModel(uploadFileName);
                 }
             
             } else {
                 reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
                 updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-            }
+            }*/
+            
+            reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+            updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 		
             $('#uploadDialog').dialog('close');
             $('#uploadDialog').remove();
@@ -1676,7 +1682,6 @@ function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
             $.jstree._reference(dataTree).select_node(currentNode, true);
 
         });
-	
 }
 
 /**
@@ -1716,14 +1721,9 @@ function selectTreePath(path, currentNode, currentIndex) {
 	
     performOperationAtGivenTreePath(path, null,
         null, function(path, dataTree, currentNode){
-
             $.jstree._reference(dataTree).open_node(currentNode);
             $.jstree._reference(dataTree).select_node(currentNode, true);
-
         });
-	
-
-
 }
 
 /**
