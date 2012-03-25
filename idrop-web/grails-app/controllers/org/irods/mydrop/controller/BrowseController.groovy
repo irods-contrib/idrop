@@ -134,7 +134,6 @@ class BrowseController {
                 ["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
             )
 
-
         } else {
             log.info("parent dir for listing provided as:${parent}")
             def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)

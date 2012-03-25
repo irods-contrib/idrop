@@ -1,4 +1,5 @@
 http://codebrewery.blogspot.com/2011/01/memu-simple-css-javascript-jquery-menu.html
+http://coffeescripter.com/code/ad-gallery/
 
 design notes:
 
