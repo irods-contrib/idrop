@@ -131,7 +131,7 @@ class BrowseController {
             def attrBuf = ["id":parent, "rel":type, "absPath":parent]
 
             jsonBuff.add(
-                ["data": "/","attr":attrBuf, "state":state,"icon":icon, "type":type]
+                ["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
             )
 
 
