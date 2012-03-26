@@ -7,13 +7,12 @@
 
 function search() {
 	var searchTerm = $("#searchTerm").val();
-	
+
 	if (searchTerm == "") {
 		setMessage("Enter a search term");
 		return false;
 	}
-	
-	
+
 	var searchType = $("#searchType").val();
 
 	$('#tabs').tabs({
@@ -96,6 +95,7 @@ function showUserPanel() {
  * @param irodsAbsolutePath
  */
 function setPathCrumbtrail(irodsAbsolutePath) {
+
 	if (irodsAbsolutePath == null || irodsAbsolutePath.length == 0) {
 		$("#infoDivPathArea").html("");
 		return;
@@ -162,8 +162,8 @@ function buildPathPartAnchor(indexOfCurrentPathPart, pathArray) {
 		}
 
 		if (value.length > 0) {
-		absPathSubsection += "/";
-		absPathSubsection += value;
+			absPathSubsection += "/";
+			absPathSubsection += value;
 		}
 
 	});
@@ -200,24 +200,34 @@ function truncatePathPart(pathPart) {
 }
 
 /**
- * Called when a path component is clicked in the thumbtrail, align tree with selected absolute path, which will
- * show in the current view choice	
+ * Called when a path component is clicked in the thumbtrail, align tree with
+ * selected absolute path, which will show in the current view choice
+ * 
  * @param data
  */
 function clickOnPathInCrumbtrail(data) {
+
 	if (data == null) {
 		throw new Exception("no absolute path provided");
 	}
 
-	splitPathAndPerformOperationAtGivenTreePath(data, null, null, function(
-			path, dataTree, currentNode) {
+	// if the id (abs path) length is less then or equal to the absolute path,
+	// then show the root of the tree
+
+	if (data.length <= baseAbsPath.length) {
+		currentNode = $.jstree._reference(dataTree).get_container();
+		var children = $.jstree._reference(dataTree)._get_children(currentNode);
+		currentNode = children[0];
 
 		$.jstree._reference(dataTree).open_node(currentNode);
 		$.jstree._reference(dataTree).select_node(currentNode, true);
-		// updateBrowseDetailsForPathBasedOnCurrentModel(data);
+	} else {
 
-	});
+		splitPathAndPerformOperationAtGivenTreePath(data, null, null, function(
+				path, dataTree, currentNode) {
+			$.jstree._reference(dataTree).open_node(currentNode);
+			$.jstree._reference(dataTree).select_node(currentNode, true);
+
+		});
+	}
 }
-
-
-
