@@ -549,7 +549,7 @@ function setBrowseMode() {
 function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 
 	if (absPath == null) {
-		return;
+		absPath = baseAbsPath;
 	}
 
 	setPathCrumbtrail(absPath);

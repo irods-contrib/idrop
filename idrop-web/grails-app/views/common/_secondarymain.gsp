@@ -19,7 +19,7 @@ $(document).ready(function() {
 </ul>
 <div id="tabs-1" style="height:100%;">
 <div style="height:5%;position:relative">
-<button type="button" id="refreshTags" name="refreshTags" onclick="refreshTagCloudButtonClicked()"><g:message code="text.refresh" /></button>
+<button type="button" class="ui-state-default ui-corner-all" id="refreshTags" name="refreshTags" onclick="refreshTagCloudButtonClicked()"><g:message code="text.refresh" /></button>
 </div>
 	<div id="tagCloudDiv" style="height:95%;">
 	<!--  tag cloud div is ajax loaded -->
