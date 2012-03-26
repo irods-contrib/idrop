@@ -583,9 +583,8 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
  */
 function showBrowseView(absPath) {
 	if (absPath == null) {
-		return false;
+		absPath = baseAbsPath;
 	}
-
 	try {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
@@ -613,7 +612,7 @@ function showBrowseView(absPath) {
  */
 function showSharingView(absPath) {
 	if (absPath == null) {
-		return false;
+		absPath = baseAbsPath;
 	}
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
@@ -628,7 +627,7 @@ function showSharingView(absPath) {
  */
 function showMetadataView(absPath) {
 	if (absPath == null) {
-		return false;
+		absPath = baseAbsPath;
 	}
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/metadata/showMetadataDetails?absPath="
@@ -643,7 +642,7 @@ function showMetadataView(absPath) {
  */
 function showInfoView(absPath) {
 	if (absPath == null) {
-		return false;
+		absPath = baseAbsPath;
 	}
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
@@ -658,7 +657,7 @@ function showInfoView(absPath) {
  */
 function showGalleryView(absPath) {
 	if (absPath == null) {
-		return false;
+		absPath = baseAbsPath;
 	}
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
