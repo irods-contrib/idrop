@@ -43,7 +43,7 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
+					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
 				</div>
 				<div>
 					<div><label>Created At:</label></div>
