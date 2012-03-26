@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN">
 <html>
 <head>
 <title><g:layoutTitle default="iDrop-web - iRODS Cloud Browser" /></title>
@@ -9,7 +8,6 @@
 <link rel="stylesheet" href="${resource(dir:'css',file:'jqcloud.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'layout-default-latest.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'jquery.ad-gallery.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'superfish.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.gritter.css')}" />
 <link rel="stylesheet"
@@ -38,7 +36,7 @@
 <g:javascript library="jquery.tools.min" />
 <g:javascript library="mydrop/shopping_cart" />
 <g:javascript library="mydrop/user" />
-<g:javascript library="jquery.ad-gallery" />
+<g:javascript library="galleria-1.2.6" />
 <g:javascript library="jquery.gritter.min" />
 <g:javascript library="jquery.opacityrollover" />
 <g:javascript library="superfish" />

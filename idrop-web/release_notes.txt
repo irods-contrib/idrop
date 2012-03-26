@@ -15,3 +15,18 @@ author: Mike Conway
 						</li>
 						</g:galleryEntryIfImage>
 						</g:each>
+
+						
+						
+						
+							<g:each in="${collection}" var="entry">
+					<g:galleryEntryIfImage entry="${entry}">
+
+						<li><a name="${entry.formattedAbsolutePath}"
+							href="${resource(absolute:true,controller:'file',dir:'/file/download',file:entry.formattedAbsolutePath)}"
+							title="${entry.pathOrName}"> <img
+								src="${createLink(absolute:true,controller:'image',action:'generateThumbnail',params:[absPath:entry.formattedAbsolutePath])}"
+								alt="${entry.pathOrName}" abspath="entry.formattedAbsolutePath" />
+						</a></li>
+					</g:galleryEntryIfImage>
+				</g:each>
