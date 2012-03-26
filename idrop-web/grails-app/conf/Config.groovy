@@ -10,26 +10,36 @@
  }
  */
 
-// config properties that can be externalized
 /*
  * 
  * add the following group of properties to present a user id/password only login
  * 
+ idrop.config.preset.host="diamond.ils.unc.edu
+ idrop.config.preset.port="2247"
+ idrop.config.preset.zone="lifelibZone"
+ idrop.config.preset.resource="lifelibResc1"
+ *
+ idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+ idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
+ idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
+ idrop.config.idrop.lite.use.applet.dir=false
+ * 
+ */
+idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+ idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
+ idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
+ idrop.config.idrop.lite.use.applet.dir=false
+/*
+ * ll config*/
+/*idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+ idrop.config.idrop.lite.codebase="https://lifetime-library.ils.unc.edu/llclient"
  idrop.config.preset.host="diamond.ils.unc.edu"
  idrop.config.preset.port="2247"
  idrop.config.preset.zone="lifelibZone"
  idrop.config.preset.resource="lifelibResc1"
+ idrop.config.idrop.lite.use.applet.dir=false
+ idrop.config.idrop.jnlp="https://lifetime-library.ils.unc.edu/llclient/idrop.jnlp"
  */
-
-// required properties for idrop lite
-idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
-idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
-idrop.config.idrop.lite.use.applet.dir=false
-/*idrop.config.preset.host="diamond.ils.unc.edu"
- idrop.config.preset.port="2247"
- idrop.config.preset.zone="lifelibZone"
- idrop.config.preset.resource="lifelibResc1"*/
-
 grails.project.groupId = org.irods.mydrop // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
@@ -80,7 +90,8 @@ grails.validateable.packages = ['org.irods']
 
 // set per-environment serverURL stem for creating absolute links
 environments {
-	production {  grails.serverURL = "http://emerald.ils.unc.edu:8080/${appName}" }
+	production {  grails.serverURL = "http://lifetime-library.ils.unc.edu/${appName}" }
+	/*production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }*/
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test {  grails.serverURL = "http://localhost:8080/${appName}"  }
 }

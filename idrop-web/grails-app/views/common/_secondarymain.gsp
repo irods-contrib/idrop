@@ -18,7 +18,10 @@ $(document).ready(function() {
 	<li><a href="#tabs-4">File Cart</a></li>
 </ul>
 <div id="tabs-1" style="height:100%;">
-	<div id="tagCloudDiv" style="height:100%;">
+<div style="height:5%;position:relative">
+<button type="button" id="refreshTags" name="refreshTags" onclick="refreshTagCloudButtonClicked()"><g:message code="text.refresh" /></button>
+</div>
+	<div id="tagCloudDiv" style="height:95%;">
 	<!--  tag cloud div is ajax loaded -->
 	</div>
 </div>
@@ -41,9 +44,17 @@ $(document).ready(function() {
         // using JavaScript to get location of JNLP file relative to HTML page
         //var url = "http://irendb.renci.org:8080/idrop/launchIDrop.html";
         //deployJava.createWebStartLaunchButton(url, '1.6.0');
-    </script><a onmouseover="window.status=''; return true;" href="javascript:if (!deployJava.isWebStartInstalled(&quot;1.6.0&quot;)) {if (deployJava.installLatestJRE()) {if (deployJava.launch(&quot;http://iren-web.renci.org:8080/idrop/idrop.jnlp&quot;)) {}}} else {if (deployJava.launch(&quot;http://iren-web.renci.org:8080/idrop/idrop.jnlp&quot;)) {}}"><img border="0" src="http://java.sun.com/products/jfc/tsc/articles/swing2d/webstart.png"></a>
+    </script><a onmouseover="window.status=''; return true;" href="javascript:if (!deployJava.isWebStartInstalled(&quot;1.6.0&quot;)) {if (deployJava.installLatestJRE()) {if (deployJava.launch(&quot;${grailsApplication.config.idrop.config.idrop.jnlp}&quot;)) {}}} else {if (deployJava.launch(&quot;${grailsApplication.config.idrop.config.idrop.jnlp}&quot;)) {}}"><img border="0" src="http://java.sun.com/products/jfc/tsc/articles/swing2d/webstart.png"></a>
 </div>
 <div id="tabs-4">
  	<div id="cartFileDetails"><!--  cart file details div --></div>
 </div>
 </div>
+<script type="text/javascript">
+
+function refreshTagCloudButtonClicked() {
+	
+	refreshTagCloud();
+}
+
+</script>

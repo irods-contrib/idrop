@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="${resource(dir:'css',file:'jqcloud.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'layout-default-latest.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'galleriffic-2.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'jquery.ad-gallery.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'superfish.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.gritter.css')}" />
 <link rel="stylesheet"
@@ -38,7 +38,7 @@
 <g:javascript library="jquery.tools.min" />
 <g:javascript library="mydrop/shopping_cart" />
 <g:javascript library="mydrop/user" />
-<g:javascript library="jquery.galleriffic" />
+<g:javascript library="jquery.ad-gallery" />
 <g:javascript library="jquery.gritter.min" />
 <g:javascript library="jquery.opacityrollover" />
 <g:javascript library="superfish" />
@@ -56,6 +56,7 @@
 <g:render template="/common/messages"/>
 </div>
 <div id="bd" style="height:100%;">
+<div id="defaultDialogDiv"><!-- default for general jquery dialogs --></div>
 <div id="yui-main" style="height:100%;">
 <div class="yui-b" style="height:100%;">
 <div id="mainDiv" class="yui-ge" style="height:100%;">

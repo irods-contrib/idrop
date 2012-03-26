@@ -52,11 +52,11 @@ var fileCopyUrl = '/file/copyFile';
  * @return
  */
 function retrieveBrowserFirstView() {
-	if (dataTree == null) {
-		var url = "/browse/ajaxDirectoryListingUnderParent";
-		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, "dir=",
-				"#dataTreeDiv", browserFirstViewRetrieved);
-	}
+    if (dataTree == null) {
+        var url = "/browse/ajaxDirectoryListingUnderParent";
+        lcSendValueAndCallbackWithJsonAfterErrorCheck(url, "dir=",
+            "#dataTreeDiv", browserFirstViewRetrieved);
+    }
 }
 
 /**
@@ -71,127 +71,130 @@ function retrieveBrowserFirstView() {
  * @return
  */
 function browserFirstViewRetrieved(data) {
-	baseAbsPath = data[0].attr.absPath;
-	baseAbsPathAsArrayOfPathElements = baseAbsPath.split("/");
-	var parent = data['parent'];
-	dataTree = $("#dataTreeDiv").jstree(
-			{
-				"plugins" : [ "themes", "contextmenu", "json_data", "types",
-						"ui", "crrm", "dnd" ],
-				"core" : {
-					"initially_open" : [ parent ]
-				},
-				"json_data" : {
-					"data" : [ data ],
+    baseAbsPath = data[0].attr.absPath;
+    baseAbsPathAsArrayOfPathElements = baseAbsPath.split("/");
+    var parent = data['parent'];
+    dataTree = $("#dataTreeDiv").jstree(
+    {
+        "plugins" : [ "themes", "contextmenu", "json_data", "types",
+        "ui", "crrm", "dnd" ],
+        "core" : {
+            "initially_open" : [ baseAbsPath ]
+        },
+        "json_data" : {
+            "data" : [ data ],
 
-					"progressive_render" : true,
-					"ajax" : {
-						"url" : context
-								+ "/browse/ajaxDirectoryListingUnderParent",
-						"cache" : false,
-						"data" : function(n) {
-							dir = n.attr("id");
-							return "dir=" + encodeURIComponent(dir);
-						},
-						"error" : function(n) {
-							if (n.statusText == "success") {
-								// ok
-							} else {
-								setErrorMessage(n.statusText);
-							}
-						}
-					}
-				},
-				"contextmenu" : {
+            "progressive_render" : true,
+            "ajax" : {
+                "url" : context
+                + "/browse/ajaxDirectoryListingUnderParent",
+                "cache" : false,
+                "data" : function(n) {
+                    dir = n.attr("id");
+                    return "dir=" + encodeURIComponent(dir);
+                },
+                "error" : function(n) {
+                    if (n.statusText == "success") {
+                    // ok
+                    } else {
+                        setMessage("Tree out of synch, refreshed...");
+                        refreshTree();
+                    }
+                }
+            }
+        },
+        "contextmenu" : {
 
-					"items" : customMenu
-				},
-				"types" : {
-					"types" : {
-						"file" : {
-							"valid_children" : "none",
-							"icon" : {
-								"image" : context + "/images/file.png"
-							}
-						},
-						"folder" : {
-							"valid_children" : [ "default", "folder", "file" ],
-							"icon" : {
-								"image" : context + "/images/folder.png"
-							}
-						}
-					}
+            "items" : customMenu
+        },
+        "types" : {
+            "types" : {
+                "file" : {
+                    "valid_children" : "none",
+                    "icon" : {
+                        "image" : context + "/images/file.png"
+                    }
+                },
+                "folder" : {
+                    "valid_children" : [ "default", "folder", "file" ],
+                    "icon" : {
+                        "image" : context + "/images/folder.png"
+                    }
+                }
+            }
 
-				},
-				"ui" : {
-					"select_limit" : 1,
-					"initially_select" : [ "phtml_2" ]
-				},
-				"dnd" : {
-					"copy_modifier" : "shift"
-				},
-				"themes" : {
-					"theme" : "default",
-					"url" : context + "/css/style.css",
-					"dots" : false,
-					"icons" : true
-				},
-				"crrm" : {
+        },
+        "ui" : {
+            "select_limit" : 1,
+            "initially_select" : [ "phtml_2" ]
+        },
+        "dnd" : {
+            "copy_modifier" : "shift"
+        },
+        "themes" : {
+            "theme" : "default",
+            "url" : context + "/css/style.css",
+            "dots" : false,
+            "icons" : true
+        },
+        "crrm" : {
 
-				}
+    }
 
-			});
+    });
 
-	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
-		nodeSelected(e, data.rslt.obj);
-	});
+    $("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
+        nodeSelected(e, data.rslt.obj);
+    });
 
-	$("#dataTreeDiv").bind("create.jstree", function(e, data) {
-		nodeAdded(e, data.rslt.obj);
-	});
+    $("#dataTreeDiv").bind("create.jstree", function(e, data) {
+        nodeAdded(e, data.rslt.obj);
+    });
 
-	$("#dataTreeDiv").bind("remove.jstree", function(e, data) {
-		nodeRemoved(e, data.rslt.obj);
-	});
+    $("#dataTreeDiv").bind("remove.jstree", function(e, data) {
+        nodeRemoved(e, data.rslt.obj);
+    });
 
-	$("#dataTreeDiv").bind("rename.jstree", function(e, data) {
-		nodeRenamed(e, data);
-	});
+    $("#dataTreeDiv").bind("rename.jstree", function(e, data) {
+        nodeRenamed(e, data);
+    });
 
-	$("#dataTreeDiv").bind("move_node.jstree", function(e, data) {
-		var copy = false;
-		if (data.args[3] == true) {
-			copy = true;
-		}
+    $("#dataTreeDiv").bind("move_node.jstree", function(e, data) {
+        var copy = false;
+        if (data.args[3] == true) {
+            copy = true;
+        }
 
-		var targetId = data.args[0].cr[0].id;
-		var sourceId = data.args[0].o[0].id;
-		var msg = "";
-		if (copy) {
-			msg += "Copy ";
-		} else {
-			msg += "Move ";
-		}
+        var targetId = data.args[0].cr[0].id;
+        var sourceId = data.args[0].o[0].id;
+        var msg = "";
+        if (copy) {
+            msg += "Copy ";
+        } else {
+            msg += "Move ";
+        }
 
-		msg = msg + " from:" + sourceId + " to:" + targetId;
+        msg = msg + " from:" + sourceId + " to:" + targetId;
 
-		var answer = confirm(msg); // FIXME: i18n
+        var answer = confirm(msg); // FIXME: i18n
 
-		if (!answer) {
-			$.jstree.rollback(data.rlbk);
-			return false;
-		}
+        if (!answer) {
+            $.jstree.rollback(data.rlbk);
+            return false;
+        }
 
-		// move/copy confirmed, process...
+        // move/copy confirmed, process...
 
-		if (copy) {
-			copyFile(sourceId, targetId);
-		} else {
-			moveFile(sourceId, targetId);
-		}
+        if (copy) {
+            copyFile(sourceId, targetId);
+        } else {
+            moveFile(sourceId, targetId);
+        }
 
-	});
-
+    });
+    
+    updateBrowseDetailsForPathBasedOnCurrentModel(baseAbsPath);
+    
 }
 
 /**
@@ -202,81 +205,81 @@ function browserFirstViewRetrieved(data) {
  */
 function customMenu(node) {
 
-	selectedNode = node;
-	selectedPath = node[0].idd;
+    selectedNode = node;
+    selectedPath = node[0].idd;
 
-	// The default set of all items FIXME: i18n
-	var items = {
-		refreshItem : { // The "refresh" menu item
-			label : "Refresh",
-			action : function() {
-				$.jstree._reference(dataTree).refresh();
-			}
-		},
-		renameItem : { // The "rename" menu item
-			label : "Rename",
-			action : function() {
-				$.jstree._reference(dataTree).rename(node);
-			}
-		},
-		deleteItem : { // The "delete" menu item
-			label : "Delete",
-			action : function() {
+    // The default set of all items FIXME: i18n
+    var items = {
+        refreshItem : { // The "refresh" menu item
+            label : "Refresh",
+            action : function() {
+                $.jstree._reference(dataTree).refresh();
+            }
+        },
+        renameItem : { // The "rename" menu item
+            label : "Rename",
+            action : function() {
+                $.jstree._reference(dataTree).rename(node);
+            }
+        },
+        deleteItem : { // The "delete" menu item
+            label : "Delete",
+            action : function() {
 
-				var answer = confirm("Delete selected file?");
-				if (answer) {
-					$.jstree._reference(dataTree).remove(node);
-				}
-			}
-		},
-		newFolderItem : { // The "new" menu item
-			label : "New Folder",
-			action : function() {
-				$.jstree._reference(dataTree).create(null, "inside", {
-					data : name,
-					state : "closed",
-					attr : {
-						rel : "folder"
-					}
-				}, function(data) {
-				}, false);
-			}
-		},
-		infoItem : { // The "info" menu item
-			label : "Info",
-			"separator_before" : true, // Insert a separator before the item
-			action : function() {
-				lcSendValueAndCallbackHtmlAfterErrorCheck(
-						"/browse/fileInfo?absPath="
-								+ encodeURIComponent(node[0].id), "#infoDiv",
-						"#infoDiv", null);
-			}
-		},
-		cutItem : { // The "cut" menu item
-			label : "Cut",
-			"separator_before" : true, // Insert a separator before the item
-			action : function() {
-				$.jstree._reference(dataTree).cut(node[0]);
-				setMessage("File cut and placed in clipboard:" + node[0].id);
-			}
-		},
-		copyItem : { // The "copy" menu item
-			label : "Copy",
-			action : function() {
-				$.jstree._reference(dataTree).copy(node[0]);
-				setMessage("File copied and placed in clipboard:" + node[0].id);
-			}
-		},
-		pasteItem : { // The "paste" menu item
-			label : "Paste",
-			action : function() {
-				$.jstree._reference(dataTree).paste(node[0]);
-			}
-		}
+                var answer = confirm("Delete selected file?");
+                if (answer) {
+                    $.jstree._reference(dataTree).remove(node);
+                }
+            }
+        },
+        newFolderItem : { // The "new" menu item
+            label : "New Folder",
+            action : function() {
+                $.jstree._reference(dataTree).create(null, "inside", {
+                    data : name,
+                    state : "closed",
+                    attr : {
+                        rel : "folder"
+                    }
+                }, function(data) {
+                    }, false);
+            }
+        },
+        infoItem : { // The "info" menu item
+            label : "Info",
+            "separator_before" : true, // Insert a separator before the item
+            action : function() {
+                lcSendValueAndCallbackHtmlAfterErrorCheck(
+                    "/browse/fileInfo?absPath="
+                    + encodeURIComponent(node[0].id), "#infoDiv",
+                    "#infoDiv", null);
+            }
+        },
+        cutItem : { // The "cut" menu item
+            label : "Cut",
+            "separator_before" : true, // Insert a separator before the item
+            action : function() {
+                $.jstree._reference(dataTree).cut(node[0]);
+                setMessage("File cut and placed in clipboard:" + node[0].id);
+            }
+        },
+        copyItem : { // The "copy" menu item
+            label : "Copy",
+            action : function() {
+                $.jstree._reference(dataTree).copy(node[0]);
+                setMessage("File copied and placed in clipboard:" + node[0].id);
+            }
+        },
+        pasteItem : { // The "paste" menu item
+            label : "Paste",
+            action : function() {
+                $.jstree._reference(dataTree).paste(node[0]);
+            }
+        }
 
-	};
+    };
 
-	return items;
+    return items;
 }
 
 /**
@@ -296,11 +299,11 @@ function nodeLoadedCallback() {
  * @return
  */
 function nodeSelected(event, data) {
-	// given the path, put in the node data
-	var id = data[0].id;
-	selectedPath = id;
-	selectedNode = data[0];
-	updateBrowseDetailsForPathBasedOnCurrentModel(id);
+    // given the path, put in the node data
+    var id = data[0].id;
+    selectedPath = id;
+    selectedNode = data[0];
+    updateBrowseDetailsForPathBasedOnCurrentModel(id);
 }
 
 /**
@@ -312,32 +315,59 @@ function nodeSelected(event, data) {
  */
 function nodeAdded(event, data) {
 
-	var parent = $.trim(data[0].parentNode.parentNode.id);
-	var name = $.trim(data[0].innerText);
-	var params = {
-		parent : parent,
-		name : name
-	}
+    var parent = $.trim(data[0].parentNode.parentNode.id);
+	
+    /*
+	 * Firefox bug allows add of node outside of tree, so if 
+	 * my parent is 'dataTreeDiv' then rollback and set an error message
+	 */
+	
+    if (parent == "dataTreeDiv") {
+        $.jstree._reference(dataTree).refresh();
+        setMessage("Cannot create a new folder outside of root of tree, select a tree node first");
+        return false;
+    }
+	
+    var name = $.trim(data[0].innerText);
+	
+    if (name == "") {
+        /*
+		 * If I can't find the name, this may be Firefox, which seems to behave strangely, so look for it
+		 * by manipulating the node I got back
+		 */
+        var node = $(data[0]);
+        var children = node.children();
+        var target = $(children).filter("a:last-child");
+        target=$(target).html();
+        var pos = target.indexOf("</ins>");
+        if (pos > -1) {
+            name = target.substr(pos + 6);
+        }
+    }
+	
+    var params = {
+        parent : parent,
+        name : name
+    }
 
-	showBlockingPanel();
+    showBlockingPanel();
 
-	var jqxhr = $.post(context + folderAddUrl, params,
-			function(data, status, xhr) {
-			}, "html").success(function(returnedData, status, xhr) {
-		var continueReq = checkForSessionTimeout(returnedData, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		setMessage("new folder created:" + xhr.responseText);
-		data[0].id = xhr.responseText;
-		updateBrowseDetailsForPathBasedOnCurrentModel(parent);
-		unblockPanel();
-	}).error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-		refreshTree();
-		unblockPanel();
-		// updateBrowseDetailsForPathBasedOnCurrentModel(parent + "/" + name);
-	});
+    var jqxhr = $.post(context + folderAddUrl, params,
+        function(data, status, xhr) {
+        }, "html").success(function(returnedData, status, xhr) {
+        var continueReq = checkForSessionTimeout(returnedData, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        setMessage("new folder created:" + xhr.responseText);
+        data[0].id = xhr.responseText;
+        updateBrowseDetailsForPathBasedOnCurrentModel(parent);
+        unblockPanel();
+    }).error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+        refreshTree();
+        unblockPanel();
+    });
 }
 
 /**
@@ -349,31 +379,31 @@ function nodeAdded(event, data) {
  * @return
  */
 function nodeRemoved(event, data) {
-	// given the path, put in the node data
-	var id = data[0].id;
+    // given the path, put in the node data
+    var id = data[0].id;
 
-	var params = {
-		absPath : id
-	}
+    var params = {
+        absPath : id
+    }
 
-	showBlockingPanel();
+    showBlockingPanel();
 
-	var jqxhr = $.post(context + fileDeleteUrl, params,
-			function(data, status, xhr) {
-			}, "html").success(function(returnedData, status, xhr) {
-		var continueReq = checkForSessionTimeout(returnedData, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		setMessage("file deleted:" + id);
-		selectedPqth = xhr.responseText;
-		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-		unblockPanel();
-	}).error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-		refreshTree();
-		unblockPanel();
-	});
+    var jqxhr = $.post(context + fileDeleteUrl, params,
+        function(data, status, xhr) {
+        }, "html").success(function(returnedData, status, xhr) {
+        var continueReq = checkForSessionTimeout(returnedData, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        setMessage("file deleted:" + id);
+        selectedPqth = xhr.responseText;
+        updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+        unblockPanel();
+    }).error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+        refreshTree();
+        unblockPanel();
+    });
 }
 
 /**
@@ -384,38 +414,39 @@ function nodeRemoved(event, data) {
  * @return
  */
 function nodeRenamed(event, data) {
-	// given the path, put in the node data
+    // given the path, put in the node data
 
-	var newName = data.rslt.new_name;
-	var prevAbsPath = data.rslt.obj[0].id;
+    var newName = data.rslt.new_name;
+    var prevAbsPath = data.rslt.obj[0].id;
 
-	var params = {
-		prevAbsPath : prevAbsPath,
-		newName : newName
-	}
+    var params = {
+        prevAbsPath : prevAbsPath,
+        newName : newName
+    }
 
-	showBlockingPanel();
+    showBlockingPanel();
 
-	var jqxhr = $.post(context + fileRenameUrl, params,
-			function(data, status, xhr) {
-			}, "html").success(function(returnedData, status, xhr) {
-		var continueReq = checkForSessionTimeout(returnedData, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		setMessage("file renamed to:" + xhr.responseText);
-		selectedPath = xhr.responseText;
-		data.rslt.obj[0].id = xhr.responseText;
-		data.rslt.obj[0].abspath = xhr.responseText;
-		// refresh this node
-		$.jstree._reference(dataTree).refresh(data.rslt.obj[0]);
-		updateBrowseDetailsForPathBasedOnCurrentModel(xhr.responseText);
-		unblockPanel();
-	}).error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-		refreshTree();
-		unblockPanel();
-	});
+    var jqxhr = $.post(context + fileRenameUrl, params,
+        function(data, status, xhr) {
+        }, "html").success(function(returnedData, status, xhr) {
+        var continueReq = checkForSessionTimeout(returnedData, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        var nodeRenamedTo = xhr.responseText + "/" + newName;
+        setMessage("file renamed to:" + nodeRenamedTo);
+        selectedPath = nodeRenamedTo;
+        data.rslt.obj[0].id = nodeRenamedTo ;
+        data.rslt.obj[0].abspath = nodeRenamedTo;
+        // refresh this node
+        $.jstree._reference(dataTree).refresh(data.rslt.obj[0]);
+        updateBrowseDetailsForPathBasedOnCurrentModel(nodeRenamedTo);
+        unblockPanel();
+    }).error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+        refreshTree();
+        unblockPanel();
+    });
 
 }
 
@@ -427,36 +458,36 @@ function nodeRenamed(event, data) {
  */
 function moveFile(sourcePath, targetPath) {
 
-	if (sourcePath == null || targetPath == null) {
-		alert("cannot move, source and target path must be specified"); // FIXME:
-		// i18n
-		return;
-	}
+    if (sourcePath == null || targetPath == null) {
+        alert("cannot move, source and target path must be specified"); // FIXME:
+        // i18n
+        return;
+    }
 
-	var params = {
-		sourceAbsPath : sourcePath,
-		targetAbsPath : targetPath
-	}
+    var params = {
+        sourceAbsPath : sourcePath,
+        targetAbsPath : targetPath
+    }
 
-	showBlockingPanel();
+    showBlockingPanel();
 
-	var jqxhr = $.post(context + fileMoveUrl, params,
-			function(data, status, xhr) {
-			}, "html").success(function(returnedData, status, xhr) {
-		var continueReq = checkForSessionTimeout(returnedData, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		setMessage("file moved to:" + xhr.responseText);
-		selectedPath = targetPath;
-		refreshTree();
-		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
-		unblockPanel();
-	}).error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-		refreshTree();
-		unblockPanel();
-	});
+    var jqxhr = $.post(context + fileMoveUrl, params,
+        function(data, status, xhr) {
+        }, "html").success(function(returnedData, status, xhr) {
+        var continueReq = checkForSessionTimeout(returnedData, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        setMessage("file moved to:" + xhr.responseText);
+        selectedPath = targetPath;
+        refreshTree();
+        updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+        unblockPanel();
+    }).error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+        refreshTree();
+        unblockPanel();
+    });
 }
 
 /**
@@ -467,35 +498,37 @@ function moveFile(sourcePath, targetPath) {
  */
 function copyFile(sourcePath, targetPath) {
 
-	if (sourcePath == null || targetPath == null) {
-		alert("cannot copy, source and target path must be specified"); // FIXME:
-		// i18n
-		return;
-	}
+    if (sourcePath == null || targetPath == null) {
+        alert("cannot copy, source and target path must be specified"); // FIXME:
+        // i18n
+        return;
+    }
 
-	var params = {
-		sourceAbsPath : sourcePath,
-		targetAbsPath : targetPath
-	}
+    var params = {
+        sourceAbsPath : sourcePath,
+        targetAbsPath : targetPath
+    }
 
-	showBlockingPanel();
+    showBlockingPanel();
 
-	var jqxhr = $.post(context + fileCopyUrl, params,
-			function(data, status, xhr) {
-			}, "html").success(function(returnedData, status, xhr) {
-		var continueReq = checkForSessionTimeout(returnedData, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		setMessage("file copied to:" + xhr.responseText);
-		refreshTree();
-		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
-		unblockPanel();
-	}).error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-		refreshTree();
-		unblockPanel();
-	});
+    var jqxhr = $.post(context + fileCopyUrl, params,
+        function(data, status, xhr) {
+        }, "html").success(function(returnedData, status, xhr) {
+        var continueReq = checkForSessionTimeout(returnedData, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        setMessage("file copied to:" + xhr.responseText);
+        unblockPanel();
+        selectTreePathFromIrodsPath(xhr.responseText);
+    //refreshTree();
+    //updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+		
+    }).error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+        refreshTree();
+        unblockPanel();
+    });
 }
 
 /**
@@ -504,8 +537,8 @@ function copyFile(sourcePath, targetPath) {
  * the right hand pane
  */
 function setBrowseMode() {
-	browseOptionVal = $("#browseDisplayOption").val();
-	updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+    browseOptionVal = $("#browseDisplayOption").val();
+    updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 }
 
 /**
@@ -515,31 +548,31 @@ function setBrowseMode() {
  */
 function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 
-	if (absPath == null) {
-		return;
-	}
+    if (absPath == null) {
+        return;
+    }
 
-	setPathCrumbtrail(absPath);
+    setPathCrumbtrail(absPath);
 
-	if (browseOptionVal == null) {
-		browseOptionVal = "info";
-	}
+    if (browseOptionVal == null) {
+        browseOptionVal = "info";
+    }
 
-	if (browseOptionVal == "browse") {
-		showBrowseView(absPath);
-	} else if (browseOptionVal == "info") {
-		showInfoView(absPath);
-	} else if (browseOptionVal == "gallery") {
-		showGalleryView(absPath);
-	} else if (browseOptionVal == "metadata") {
-		showMetadataView(absPath);
-	} else if (browseOptionVal == "sharing") {
-		showSharingView(absPath);
-	} else if (browseOptionVal == "audit") {
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-				"/audit/auditList?absPath=" + encodeURIComponent(absPath),
-				"#infoDiv", "#infoDiv", null);
-	}
+    if (browseOptionVal == "browse") {
+        showBrowseView(absPath);
+    } else if (browseOptionVal == "info") {
+        showInfoView(absPath);
+    } else if (browseOptionVal == "gallery") {
+        showGalleryView(absPath);
+    } else if (browseOptionVal == "metadata") {
+        showMetadataView(absPath);
+    } else if (browseOptionVal == "sharing") {
+        showSharingView(absPath);
+    } else if (browseOptionVal == "audit") {
+        lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+            "/audit/auditList?absPath=" + encodeURIComponent(absPath),
+            "#infoDiv", "#infoDiv", null);
+    }
 }
 
 /**
@@ -549,16 +582,27 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
  *            absolute path to browse to
  */
 function showBrowseView(absPath) {
-	if (absPath == null) {
-		return false;
-	}
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/browse/displayBrowseGridDetails?absPath="
-					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv",
-			function(data) {
-				$("#infoDiv").html(data);
-
-			});
+    if (absPath == null) {
+        return false;
+    }
+	
+	
+    try {
+	
+        lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+            "/browse/displayBrowseGridDetails?absPath="
+            + encodeURIComponent(absPath),"#infoDiv",
+            function(data) {
+                $("#infoDiv").html(data);
+            },
+            function() {
+                setMessage("Unable to browse to location, please refresh the tree");
+            });
+    } catch (err) {
+        // tree is out of synch, refresh it
+        refreshTree();
+    }
+	
 }
 
 /**
@@ -568,12 +612,12 @@ function showBrowseView(absPath) {
  * @returns {Boolean}
  */
 function showSharingView(absPath) {
-	if (absPath == null) {
-		return false;
-	}
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
-			"#infoDiv", "#infoDiv", null);
+    if (absPath == null) {
+        return false;
+    }
+    lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+        "/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
+        "#infoDiv", "#infoDiv", null);
 }
 
 /**
@@ -583,12 +627,12 @@ function showSharingView(absPath) {
  * @returns {Boolean}
  */
 function showMetadataView(absPath) {
-	if (absPath == null) {
-		return false;
-	}
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/metadata/showMetadataDetails?absPath="
-					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
+    if (absPath == null) {
+        return false;
+    }
+    lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+        "/metadata/showMetadataDetails?absPath="
+        + encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
 }
 
 /**
@@ -598,12 +642,12 @@ function showMetadataView(absPath) {
  * @returns {Boolean}
  */
 function showInfoView(absPath) {
-	if (absPath == null) {
-		return false;
-	}
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
-			"#infoDiv", "#infoDiv", null);
+    if (absPath == null) {
+        return false;
+    }
+    lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+        "/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
+        "#infoDiv", "#infoDiv", null);
 }
 
 /**
@@ -613,24 +657,24 @@ function showInfoView(absPath) {
  * @returns {Boolean}
  */
 function showGalleryView(absPath) {
-	if (absPath == null) {
-		return false;
-	}
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
-			"#infoDiv", "#infoDiv", null);
+    if (absPath == null) {
+        return false;
+    }
+    lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+        "/browse/galleryView?absPath=" + encodeURIComponent(absPath),
+        "#infoDiv", "#infoDiv", null);
 }
 
 /**
  * Show the dialog to allow upload of data
  */
 function showUploadDialog() {
-	if (selectedPath == null) {
-		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
-		return;
-	}
+    if (selectedPath == null) {
+        alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
+        return;
+    }
 
-	showUploadDialogUsingPath(selectedPath);
+    showUploadDialogUsingPath(selectedPath);
 
 }
 
@@ -638,8 +682,8 @@ function showUploadDialog() {
  * Show the dialog to upload from the browse details view
  */
 function showBrowseDetailsUploadDialog() {
-	// var path = $("#browseDetailsAbsPath").val();
-	showUploadDialogUsingPath(selectedPath);
+    var path = $("#browseDetailsAbsPath").val();
+    showUploadDialogUsingPath(path);
 }
 
 /**
@@ -649,19 +693,20 @@ function showBrowseDetailsUploadDialog() {
  *            path of collection to upload to
  */
 function showUploadDialogUsingPath(path) {
-	if (path == null) {
-		setErrorMessage("No path was selected, use the tree to select an iRODS collection to upload the file to");
-		return;
-	}
+    
+    if (path == null) {
+        setErrorMessage("No path was selected, use the tree to select an iRODS collection to upload the file to");
+        return;
+    }
 
-	var url = "/file/prepareUploadDialog";
-	var params = {
-		irodsTargetCollection : path
-	}
+    var url = "/file/prepareUploadDialog";
+    var params = {
+        irodsTargetCollection : path
+    }
 
-	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
-		fillInUploadDialog(data);
-	});
+    lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+        fillInUploadDialog(data);
+    });
 }
 
 /**
@@ -672,23 +717,23 @@ function showUploadDialogUsingPath(path) {
  */
 function fillInUploadDialog(data) {
 
-	if (data == null) {
-		return;
-	}
+    if (data == null) {
+        return;
+    }
 
-	$('#uploadDialog').remove();
+    $('#uploadDialog').remove();
 
-	var $dialog = $('<div id="uploadDialog"></div>').html(data).dialog({
-		autoOpen : false,
-		modal : true,
-		width : 400,
-		title : 'Upload to iRODS',
-		create : function(event, ui) {
-			initializeUploadDialogAjaxLoader();
-		}
-	});
+    var $dialog = $('<div id="uploadDialog"></div>').html(data).dialog({
+        autoOpen : false,
+        modal : true,
+        width : 500,
+        title : 'Upload to iRODS',
+        create : function(event, ui) {
+            initializeUploadDialogAjaxLoader();
+        }
+    });
 
-	$dialog.dialog('open');
+    $dialog.dialog('open');
 }
 
 /**
@@ -696,40 +741,67 @@ function fillInUploadDialog(data) {
  */
 function initializeUploadDialogAjaxLoader() {
 
-	if (fileUploadUI != null) {
-		$("#fileUploadForm").remove;
-	}
+    if (fileUploadUI != null) {
+        $("#fileUploadForm").remove;
+    }
 
-	fileUploadUI = $('#uploadForm')
-			.fileUploadUI(
-					{
-						uploadTable : $('#files'),
-						downloadTable : $('#files'),
+    fileUploadUI = $('#uploadForm')
+    .fileUploadUI(
+    {
+        uploadTable : $('#files'),
+        downloadTable : $('#files'),
 
-						buildUploadRow : function(files, index) {
-							$("#upload_message_area").html("");
-							$("#upload_message_area").removeClass();
-							return $('<tr><td>'
-									+ files[index].name
-									+ '<\/td>'
-									+ '<td class="file_upload_progress"><div><\/div><\/td>'
-									+ '<\/tr>');
-						},
-						buildDownloadRow : function(file) {
-							return $('<tr><td>' + file.name + '<\/td><\/tr>');
-						},
-						onComplete : function(event, files, index, xhr, handler) {
-							setMessage("Upload complete");
-							refreshTree();
-							updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-							$('#uploadDialog').dialog('close');
-							$('#uploadDialog').remove();
+        buildUploadRow : function(files, index) {
+            $("#upload_message_area").html("");
+            $("#upload_message_area").removeClass();
+            return $('<tr><td>'
+                + files[index].name
+                + '<\/td>'
+                + '<td class="file_upload_progress"><div><\/div><\/td>'
+                + '<\/tr>');
+        },
+        buildDownloadRow : function(file) {
+            return $('<tr><td>' + file.name + '<\/td><\/tr>');
+        },
+        onComplete : function(event, files, index, xhr, handler) {
+            setMessage("Upload complete");
+							
+            /*
+							 * Find the uploaded file name, refresh the parent node and select the file
+							 * If for some reason a psychotic quirk won't let me do this, just reload the parent
+							 */
+				
+            /*
+            if (files.length == 1) {
+                var uploadFileName = files[0].name;
+                                                                
+                // windows (ie) will put the whole file path in the name, so just reload the parent
+              
+                if (uploadFileName.indexOf("\\") > -1) {
+                    reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+                    updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+                } else {                                             
+                    uploadFileName = selectedPath + "/" + uploadFileName;
+                    reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+                    updateBrowseDetailsForPathBasedOnCurrentModel(uploadFileName);
+                }
+            
+            } else {
+                reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+                updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+            }*/
+            
+            reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+            updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		
+            $('#uploadDialog').dialog('close');
+            $('#uploadDialog').remove();
 
-						},
-						onError : function(event, files, index, xhr, handler) {
-							setErrorMessage(xhr.responseText);
-						}
-					});
+        },
+        onError : function(event, files, index, xhr, handler) {
+            setErrorMessage(xhr.responseText);
+        }
+    });
 
 }
 
@@ -738,28 +810,28 @@ function initializeUploadDialogAjaxLoader() {
  */
 function aclUpdate(value, settings, userName) {
 
-	if (selectedPath == null) {
-		throw "no collection or data object selected";
-	}
+    if (selectedPath == null) {
+        throw "no collection or data object selected";
+    }
 
-	lcShowBusyIconInDiv(messageAreaSelector);
+    lcShowBusyIconInDiv(messageAreaSelector);
 
-	var params = {
-		absPath : selectedPath,
-		acl : value,
-		userName : userName
-	}
+    var params = {
+        absPath : selectedPath,
+        acl : value,
+        userName : userName
+    }
 
-	var jqxhr = $.post(context + aclAddUrl, params,
-			function(data, status, xhr) {
-				lcClearDivAndDivClass(messageAreaSelector);
-			}, "html").error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-	}).complete(function() {
-		setMessage("File sharing update successful");
-	});
+    var jqxhr = $.post(context + aclAddUrl, params,
+        function(data, status, xhr) {
+            lcClearDivAndDivClass(messageAreaSelector);
+        }, "html").error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+    }).complete(function() {
+        setMessage("File sharing update successful");
+    });
 
-	return value;
+    return value;
 
 }
 
@@ -768,24 +840,24 @@ function aclUpdate(value, settings, userName) {
  */
 function prepareAclDialog(isNew) {
 
-	if (selectedPath == null) {
-		setErrorMessage("No path is selected, Share cannot be set");
-		return;
-	}
+    if (selectedPath == null) {
+        setErrorMessage("No path is selected, Share cannot be set");
+        return;
+    }
 
-	if (isNew == null) {
-		isNew = true;
-	}
+    if (isNew == null) {
+        isNew = true;
+    }
 
-	var url = "/sharing/prepareAclDialog";
-	var params = {
-		absPath : selectedPath,
-		create : true
-	}
+    var url = "/sharing/prepareAclDialog";
+    var params = {
+        absPath : selectedPath,
+        create : true
+    }
 
-	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
-		showAclDialog(data);
-	});
+    lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+        showAclDialog(data);
+    });
 
 }
 
@@ -796,13 +868,13 @@ function prepareAclDialog(isNew) {
  * @param data
  */
 function showAclDialog(data) {
-	$("#aclDetailsArea").hide("slow");
-	$("#aclDialogArea").html(data).show("slow");
-	var mySource = context + "/sharing/listUsersForAutocomplete";
-	$("#userName").autocomplete({
-		minLength : 3,
-		source : mySource
-	});
+    $("#aclDetailsArea").hide("slow");
+    $("#aclDialogArea").html(data).show("slow");
+    var mySource = context + "/sharing/listUsersForAutocomplete";
+    $("#userName").autocomplete({
+        minLength : 3,
+        source : mySource
+    });
 
 }
 
@@ -813,63 +885,63 @@ function showAclDialog(data) {
  */
 function submitAclDialog() {
 
-	var permissionVal = $('[name=acl]').val();
-	if (permissionVal == null || permissionVal == "" || permissionVal == "NONE") {
-		setErrorMessage("Please select a permission value in the drop-down");
-		return false;
-	}
+    var permissionVal = $('[name=acl]').val();
+    if (permissionVal == null || permissionVal == "" || permissionVal == "NONE") {
+        setErrorMessage("Please select a permission value in the drop-down");
+        return false;
+    }
 
-	if (selectedPath == null) {
-		setErrorMessage("no collection or data object selected");
-		return false;
-	}
+    if (selectedPath == null) {
+        setErrorMessage("no collection or data object selected");
+        return false;
+    }
 
-	// see if there is form data (users in a pick list) that are selected
-	var formData = $("#userDialogForm").serializeArray();
+    // see if there is form data (users in a pick list) that are selected
+    var formData = $("#userDialogForm").serializeArray();
 
-	if (formData == null) {
-		setErrorMessage("Please select a user to share data with");
-		return false;
-	}
+    if (formData == null) {
+        setErrorMessage("Please select a user to share data with");
+        return false;
+    }
 
-	var isCreate = $('[name=isCreate]').val();
+    var isCreate = $('[name=isCreate]').val();
 
-	showBlockingPanel();
+    showBlockingPanel();
 
-	var jqxhr = $.post(context + aclAddUserDialogUrl, formData,
-			function(data, status, xhr) {
-			}, "html").success(function(data, status, xhr) {
-		var continueReq = checkForSessionTimeout(data, xhr);
-		if (!continueReq) {
-			return false;
-		}
+    var jqxhr = $.post(context + aclAddUserDialogUrl, formData,
+        function(data, status, xhr) {
+        }, "html").success(function(data, status, xhr) {
+        var continueReq = checkForSessionTimeout(data, xhr);
+        if (!continueReq) {
+            return false;
+        }
 		
-		reloadAclTable();
-		closeAclAddDialog();
-		setMessage("Sharing permission saved successfully"); // FIXME:
-			// i18n
-		unblockPanel();
+        reloadAclTable();
+        closeAclAddDialog();
+        setMessage("Sharing permission saved successfully"); // FIXME:
+        // i18n
+        unblockPanel();
 
-	}).error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-		unblockPanel();
-	});
+    }).error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+        unblockPanel();
+    });
 }
 
 /**
  * Close the dialog for adding ACL's, reshow the acl details area
  */
 function closeAclAddDialog() {
-	try {
-		$("#aclDialogArea").hide("slow", new function() {
-			$("#aclDialogArea").html("");
-			$("#aclDetailsArea").css('display', 'block');
-			$("#aclDetailsArea").show("slow");
-		});
+    try {
+        $("#aclDialogArea").hide("slow", new function() {
+            $("#aclDialogArea").html("");
+            $("#aclDetailsArea").css('display', 'block');
+            $("#aclDetailsArea").show("slow");
+        });
 
-	} catch (e) {
+    } catch (e) {
 
-	}
+    }
 
 }
 
@@ -884,28 +956,28 @@ function closeAclAddDialog() {
  */
 function reloadAclTable(absPath) {
 
-	lcClearDivAndDivClass(aclMessageAreaSelector);
+    lcClearDivAndDivClass(aclMessageAreaSelector);
 
-	$("#aclTableDiv").empty();
-	lcShowBusyIconInDiv("#aclTableDiv");
+    $("#aclTableDiv").empty();
+    lcShowBusyIconInDiv("#aclTableDiv");
 
-	var params = {
-		absPath : selectedPath
-	}
+    var params = {
+        absPath : selectedPath
+    }
 
-	var jqxhr = $.get(context + aclTableLoadUrl, params,
-			function(data, status, xhr) {
+    var jqxhr = $.get(context + aclTableLoadUrl, params,
+        function(data, status, xhr) {
 
-			}, "html").error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-	}).success(function(data, status, xhr) {
-		var continueReq = checkForSessionTimeout(data, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		$('#aclTableDiv').html(data);
-		buildAclTableInPlace();
-	});
+        }, "html").error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+    }).success(function(data, status, xhr) {
+        var continueReq = checkForSessionTimeout(data, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        $('#aclTableDiv').html(data);
+        buildAclTableInPlace();
+    });
 
 }
 
@@ -913,24 +985,24 @@ function reloadAclTable(absPath) {
  * Given an acl details html table, wrap it in a jquery dataTable
  */
 function buildAclTableInPlace() {
-	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null);
+    dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null);
 
-	$('.forSharePermission', dataTable.fnGetNodes()).editable(
-			function(value, settings) {
-				var userName = this.parentNode.getAttribute('id');
-				return aclUpdate(value, settings, userName);
-			}, {
-				"callback" : function(sValue, y) {
-					var aPos = dataTable.fnGetPosition(this);
-					dataTable.fnUpdate(sValue, aPos[0], aPos[1]);
-				},
-				'data' : "{'OWN':'OWN','READ':'READ','WRITE':'WRITE'}",
-				'type' : 'select',
-				'submit' : 'OK',
-				'cancel' : 'Cancel',
-				'onblur' : 'ignore',
-				'indicator' : 'Saving'
-			});
+    $('.forSharePermission', dataTable.fnGetNodes()).editable(
+        function(value, settings) {
+            var userName = this.parentNode.getAttribute('id');
+            return aclUpdate(value, settings, userName);
+        }, {
+            "callback" : function(sValue, y) {
+                var aPos = dataTable.fnGetPosition(this);
+                dataTable.fnUpdate(sValue, aPos[0], aPos[1]);
+            },
+            'data' : "{'OWN':'OWN','READ':'READ','WRITE':'WRITE'}",
+            'type' : 'select',
+            'submit' : 'OK',
+            'cancel' : 'Cancel',
+            'onblur' : 'ignore',
+            'indicator' : 'Saving'
+        });
 }
 
 /**
@@ -940,14 +1012,14 @@ function buildAclTableInPlace() {
  * @param permission
  */
 function addRowToAclDetailsTable(userName, permission) {
-	var idxs = $("#aclDetailsTable")
-			.dataTable()
-			.fnAddData(
-					[
-							"<input id=\"selectedAcl\" type=\"checkbox\" name=\"selectedAcl\">",
-							userName, permission ], true);
-	var newNode = $("#aclDetailsTable").dataTable().fnGetNodes()[idxs[0]];
-	$(newNode).attr("id", userName);
+    var idxs = $("#aclDetailsTable")
+    .dataTable()
+    .fnAddData(
+        [
+        "<input id=\"selectedAcl\" type=\"checkbox\" name=\"selectedAcl\">",
+        userName, permission ], true);
+    var newNode = $("#aclDetailsTable").dataTable().fnGetNodes()[idxs[0]];
+    $(newNode).attr("id", userName);
 }
 
 /**
@@ -956,57 +1028,57 @@ function addRowToAclDetailsTable(userName, permission) {
  */
 function deleteAcl() {
 
-	if (!confirm('Are you sure you want to delete?')) {
-		setMessage("Delete cancelled"); // FIXME:
-		// i18n
-		return;
-	}
+    if (!confirm('Are you sure you want to delete?')) {
+        setMessage("Delete cancelled"); // FIXME:
+        // i18n
+        return;
+    }
 
-	var formFields = $("#aclDetailsForm").serializeArray();
-	var pathInfo = new Object();
-	pathInfo.name = "absPath";
-	pathInfo.value = selectedPath;
+    var formFields = $("#aclDetailsForm").serializeArray();
+    var pathInfo = new Object();
+    pathInfo.name = "absPath";
+    pathInfo.value = selectedPath;
 
-	formFields.push(pathInfo);
+    formFields.push(pathInfo);
 
-	var jqxhr = $.post(context + aclDeleteUrl, formFields,
-			function(data, status, xhr) {
+    var jqxhr = $.post(context + aclDeleteUrl, formFields,
+        function(data, status, xhr) {
 
-			}, "html").error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-	}).success(function(data, status, xhr) {
-		var continueReq = checkForSessionTimeout(data, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		reloadAclTable();
-		setMessage("Delete successful"); // FIXME:
-		// i18n
-	});
+        }, "html").error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+    }).success(function(data, status, xhr) {
+        var continueReq = checkForSessionTimeout(data, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        reloadAclTable();
+        setMessage("Delete successful"); // FIXME:
+    // i18n
+    });
 }
 
 function buildFormFromACLDetailsTable() {
-	var formData = $("#aclDetailsForm").serializeArray();
-	formData.push({
-		name : 'absPath',
-		value : selectedPath
-	});
-	return formData;
+    var formData = $("#aclDetailsForm").serializeArray();
+    formData.push({
+        name : 'absPath',
+        value : selectedPath
+    });
+    return formData;
 }
 
 /**
  * Close the iDrop lite applet area
  */
 function closeApplet() {
-	$("#idropLiteArea").animate({
-		height : 'hide'
-	}, 'slow');
-	$("#toggleHtmlArea").show('slow');
-	$("#toggleHtmlArea").height = "100%";
-	$("#toggleHtmlArea").width = "100%";
-	dataLayout.resizeAll();
-	$("#idropLiteArea").empty();
-	refreshTree();
+    $("#idropLiteArea").animate({
+        height : 'hide'
+    }, 'slow');
+    $("#toggleHtmlArea").show('slow');
+    $("#toggleHtmlArea").height = "100%";
+    $("#toggleHtmlArea").width = "100%";
+    dataLayout.resizeAll();
+    $("#idropLiteArea").empty();
+    reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 }
 
 /**
@@ -1014,12 +1086,12 @@ function closeApplet() {
  */
 function showIdropLite() {
 
-	var myPath = selectedPath;
-	if (selectedPath == null) {
-		myPath = "/";
-	}
+    var myPath = selectedPath;
+    if (selectedPath == null) {
+        myPath = "/";
+    }
 
-	showIdropLiteGivenPath(myPath,2);
+    showIdropLiteGivenPath(myPath,2);
 }
 
 /**
@@ -1027,12 +1099,12 @@ function showIdropLite() {
  */
 function showIdropLiteLocalAndIrods() {
 
-	var myPath = selectedPath;
-	if (selectedPath == null) {
-		myPath = "/";
-	}
+    var myPath = selectedPath;
+    if (selectedPath == null) {
+        myPath = "/";
+    }
 
-	showIdropLiteGivenPath(myPath, 1);
+    showIdropLiteGivenPath(myPath, 1);
 }
 
 /**
@@ -1041,13 +1113,13 @@ function showIdropLiteLocalAndIrods() {
  */
 function showBrowseDetailsIdropLite() {
 
-	var path = selectedPath;// $("#browseDetailsAbsPath").val();
+    var path = selectedPath;// $("#browseDetailsAbsPath").val();
 
-	if (path == null) {
-		path = "/";
-	}
+    if (path == null) {
+        path = "/";
+    }
 
-	showIdropLiteGivenPath(path, 2);
+    showIdropLiteGivenPath(path, 2);
 }
 
 /**
@@ -1055,12 +1127,12 @@ function showBrowseDetailsIdropLite() {
  */
 function showBrowseDetailsIdropLiteLocalAndIrods() {
 
-	var path = selectedPath;
+    var path = selectedPath;
 
-	if (path == null) {
-		path = "/";
-	}
-	showIdropLiteGivenPath(path, 1);
+    if (path == null) {
+        path = "/";
+    }
+    showIdropLiteGivenPath(path, 1);
 }
 
 /**
@@ -1072,108 +1144,108 @@ function showBrowseDetailsIdropLiteLocalAndIrods() {
  * @param displayMode 1=local/irods tree, 2=bulk upload
  */
 function showIdropLiteGivenPath(path, displayMode) {
-	var idropLiteSelector = "#idropLiteArea";
-	if (path == null) {
-		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
-		return;
-	}
+    var idropLiteSelector = "#idropLiteArea";
+    if (path == null) {
+        alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
+        return;
+    }
 
-	// close the shopping cart mode if open
-	closeShoppingCartApplet();
+    // close the shopping cart mode if open
+    closeShoppingCartApplet();
 
-	// first hide Browse Data Details table
-	$("#toggleHtmlArea").hide('slow');
-	$("#toggleHtmlArea").width = "0%";
-	$("#toggleHtmlArea").height = "0%";
+    // first hide Browse Data Details table
+    $("#toggleHtmlArea").hide('slow');
+    $("#toggleHtmlArea").width = "0%";
+    $("#toggleHtmlArea").height = "0%";
 
-	lcShowBusyIconInDiv(idropLiteSelector);
-	setMessage("This will launch the iDrop Lite applet, it may take a minute for the applet to load, please be patient");
+    lcShowBusyIconInDiv(idropLiteSelector);
+    setMessage("This will launch the iDrop Lite applet, it may take a minute for the applet to load, please be patient");
 
-	var params = {
-		absPath : path
-	}
+    var params = {
+        absPath : path
+    }
 
-	var jqxhr = $
-			.post(context + idropLiteUrl, params, function(data, status, xhr) {
-				lcClearDivAndDivClass(idropLiteSelector);
-			}, "html")
-			.error(function(xhr, status, error) {
+    var jqxhr = $
+    .post(context + idropLiteUrl, params, function(data, status, xhr) {
+        lcClearDivAndDivClass(idropLiteSelector);
+    }, "html")
+    .error(function(xhr, status, error) {
 
-				setErrorMessage(xhr.responseText);
+        setErrorMessage(xhr.responseText);
 
-			})
-			.success(
-					function(data, status, xhr) {
+    })
+    .success(
+        function(data, status, xhr) {
 
-						var continueReq = checkForSessionTimeout(data, xhr);
-						if (!continueReq) {
-							return false;
-						}
-						var dataJSON = jQuery.parseJSON(data);
-						var appletDiv = $("#idropLiteArea");
-						$(appletDiv)
-								.append(
-										"<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:none'><button type='button' id='toggleMenuButton' class='ui-state-default ui-corner-all' value='closeIdropApplet' onclick='closeApplet()')>Close iDrop Lite</button></div>")
-						var appletTagDiv = document.createElement('div');
-						appletTagDiv.setAttribute('id', 'appletTagDiv');
-						var a = document.createElement('applet');
-						appletTagDiv.appendChild(a);
-						a.setAttribute('code', dataJSON.appletCode);
-						// a.setAttribute('codebase',
-						// 'http://iren-web.renci.org/idrop-web/applet');//dataJSON.appletUrl);
-						a.setAttribute('codebase', dataJSON.appletUrl);
-						a.setAttribute('archive', dataJSON.archive);
-						a.setAttribute('width', 700);
-						a.setAttribute('height', 600);
-						var p = document.createElement('param');
-						p.setAttribute('name', 'mode');
-						p.setAttribute('value', dataJSON.mode);
-						a.appendChild(p);
-						p = document.createElement('param');
-						p.setAttribute('name', 'host');
-						p.setAttribute('value', dataJSON.host);
-						a.appendChild(p);
-						p = document.createElement('param');
-						p.setAttribute('name', 'port');
-						p.setAttribute('value', dataJSON.port);
-						a.appendChild(p);
-						p = document.createElement('param');
-						p.setAttribute('name', 'zone');
-						p.setAttribute('value', dataJSON.zone);
-						a.appendChild(p);
-						p = document.createElement('param');
-						p.setAttribute('name', 'user');
-						p.setAttribute('value', dataJSON.user);
-						a.appendChild(p);
-						p = document.createElement('param');
-						p.setAttribute('name', 'password');
-						p.setAttribute('value', dataJSON.password);
-						a.appendChild(p);
-						p = document.createElement('param');
-						p.setAttribute('name', 'absPath');
-						p.setAttribute('value', dataJSON.absolutePath);
-						a.appendChild(p);
-						p = document.createElement('param');
-						p.setAttribute('name', 'uploadDest');
-						p.setAttribute('value', dataJSON.absolutePath);
-						a.appendChild(p);
-						p = document.createElement('param');
-						p.setAttribute('name', 'defaultStorageResource');
-						p
-								.setAttribute('value',
-										dataJSON.defaultStorageResource);
-						a.appendChild(p);
-						p = document.createElement('param');
-						p.setAttribute('name', 'displayMode');
-						p.setAttribute('value', displayMode);
-						a.appendChild(p);
-						appletDiv.append(appletTagDiv);
+            var continueReq = checkForSessionTimeout(data, xhr);
+            if (!continueReq) {
+                return false;
+            }
+            var dataJSON = jQuery.parseJSON(data);
+            var appletDiv = $("#idropLiteArea");
+            $(appletDiv)
+            .append(
+                "<div id='appletMenu' class='fg-buttonset fg-buttonset-single' style='float:none'><button type='button' id='toggleMenuButton' class='ui-state-default ui-corner-all' value='closeIdropApplet' onclick='closeApplet()')>Close iDrop Lite</button></div>")
+            var appletTagDiv = document.createElement('div');
+            appletTagDiv.setAttribute('id', 'appletTagDiv');
+            var a = document.createElement('applet');
+            appletTagDiv.appendChild(a);
+            a.setAttribute('code', dataJSON.appletCode);
+            // a.setAttribute('codebase',
+            // 'http://iren-web.renci.org/idrop-web/applet');//dataJSON.appletUrl);
+            a.setAttribute('codebase', dataJSON.appletUrl);
+            a.setAttribute('archive', dataJSON.archive);
+            a.setAttribute('width', 700);
+            a.setAttribute('height', 600);
+            var p = document.createElement('param');
+            p.setAttribute('name', 'mode');
+            p.setAttribute('value', dataJSON.mode);
+            a.appendChild(p);
+            p = document.createElement('param');
+            p.setAttribute('name', 'host');
+            p.setAttribute('value', dataJSON.host);
+            a.appendChild(p);
+            p = document.createElement('param');
+            p.setAttribute('name', 'port');
+            p.setAttribute('value', dataJSON.port);
+            a.appendChild(p);
+            p = document.createElement('param');
+            p.setAttribute('name', 'zone');
+            p.setAttribute('value', dataJSON.zone);
+            a.appendChild(p);
+            p = document.createElement('param');
+            p.setAttribute('name', 'user');
+            p.setAttribute('value', dataJSON.user);
+            a.appendChild(p);
+            p = document.createElement('param');
+            p.setAttribute('name', 'password');
+            p.setAttribute('value', dataJSON.password);
+            a.appendChild(p);
+            p = document.createElement('param');
+            p.setAttribute('name', 'absPath');
+            p.setAttribute('value', dataJSON.absolutePath);
+            a.appendChild(p);
+            p = document.createElement('param');
+            p.setAttribute('name', 'uploadDest');
+            p.setAttribute('value', dataJSON.absolutePath);
+            a.appendChild(p);
+            p = document.createElement('param');
+            p.setAttribute('name', 'defaultStorageResource');
+            p
+            .setAttribute('value',
+                dataJSON.defaultStorageResource);
+            a.appendChild(p);
+            p = document.createElement('param');
+            p.setAttribute('name', 'displayMode');
+            p.setAttribute('value', displayMode);
+            a.appendChild(p);
+            appletDiv.append(appletTagDiv);
 
-						$("#idropLiteArea").removeAttr('style');
+            $("#idropLiteArea").removeAttr('style');
 
-					}).error(function(xhr, status, error) {
-				setErrorMessage(xhr.responseText);
-			});
+        }).error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+    });
 
 }
 
@@ -1183,15 +1255,15 @@ function showIdropLiteGivenPath(path, displayMode) {
  * elements.
  */
 function requestThumbnailImageForInfoPane() {
-	var absPath = $("#infoAbsPath").val();
-	absPath = encodeURIComponent(absPath);
-	var url = scheme + "://" + host + ":" + port + context + thumbnailLoadUrl
-			+ "?absPath=" + absPath;
-	var oImg = document.createElement("img");
-	oImg.setAttribute('src', url);
-	oImg.setAttribute('alt', 'na');
-	oImg.setAttribute('class', 'thumb');
-	$("#infoThumbnailLoadArea").append(oImg);
+    var absPath = $("#infoAbsPath").val();
+    absPath = encodeURIComponent(absPath);
+    var url = scheme + "://" + host + ":" + port + context + thumbnailLoadUrl
+    + "?absPath=" + absPath;
+    var oImg = document.createElement("img");
+    oImg.setAttribute('src', url);
+    oImg.setAttribute('alt', 'na');
+    oImg.setAttribute('class', 'thumb');
+    $("#infoThumbnailLoadArea").append(oImg);
 
 }
 
@@ -1199,7 +1271,7 @@ function requestThumbnailImageForInfoPane() {
  * Refresh the browse tree
  */
 function refreshTree() {
-	$.jstree._reference(dataTree).refresh();
+    $.jstree._reference(dataTree).refresh();
 }
 
 /**
@@ -1207,8 +1279,8 @@ function refreshTree() {
  * file
  */
 function downloadViaToolbar() {
-	var infoAbsPath = $("#infoAbsPath").val();
-	window.open(context + '/file/download/' + infoAbsPath, '_self');
+    var infoAbsPath = $("#infoAbsPath").val();
+    window.open(context + '/file/download/' + infoAbsPath, '_self');
 
 }
 
@@ -1216,8 +1288,8 @@ function downloadViaToolbar() {
  * The rename button has been selected from an info view, show the rename dialog
  */
 function renameViaToolbar() {
-	var infoAbsPath = $("#infoAbsPath").val();
-	renameViaToolbarGivenPath(infoAbsPath);
+    var infoAbsPath = $("#infoAbsPath").val();
+    renameViaToolbarGivenPath(infoAbsPath);
 }
 
 /**
@@ -1225,8 +1297,8 @@ function renameViaToolbar() {
  * rename dialog
  */
 function renameViaBrowseDetailsToolbar() {
-	// var path = $("#browseDetailsAbsPath").val();
-	renameViaToolbarGivenPath(selectedPath);
+    // var path = $("#browseDetailsAbsPath").val();
+    renameViaToolbarGivenPath(selectedPath);
 }
 
 /**
@@ -1236,20 +1308,20 @@ function renameViaBrowseDetailsToolbar() {
  */
 function renameViaToolbarGivenPath(path) {
 
-	if (path == null) {
-		setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to rename"); // FIXME:
-		// i18n
-		return;
-	}
+    if (path == null) {
+        setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to rename"); // FIXME:
+        // i18n
+        return;
+    }
 
-	lcShowBusyIconInDiv("#infoDialogArea");
-	var url = "/browse/prepareRenameDialog";
+    lcShowBusyIconInDiv("#infoDialogArea");
+    var url = "/browse/prepareRenameDialog";
 
-	var params = {
-		absPath : path
-	}
+    var params = {
+        absPath : path
+    }
 
-	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
+    lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
 
 }
 
@@ -1258,11 +1330,11 @@ function renameViaToolbarGivenPath(path) {
  */
 function deleteViaToolbar() {
 
-	var infoDivAbsPath = $("#infoAbsPath").val();
+    var infoDivAbsPath = $("#infoAbsPath").val();
 
-	if (infoDivAbsPath != null) {
-		deleteViaToolbarGivenPath(infoDivAbsPath);
-	}
+    if (infoDivAbsPath != null) {
+        deleteViaToolbarGivenPath(infoDivAbsPath);
+    }
 
 }
 
@@ -1270,7 +1342,7 @@ function deleteViaToolbar() {
  * Delete was selected on the browse details toolbar
  */
 function deleteViaBrowseDetailsToolbar() {
-	deleteViaToolbarGivenPath(selectedPath);
+    deleteViaToolbarGivenPath(selectedPath);
 }
 
 /**
@@ -1281,76 +1353,76 @@ function deleteViaBrowseDetailsToolbar() {
  */
 function deleteViaToolbarGivenPath(path) {
 
-	if (path == null) {
-		setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to delete"); // FIXME:
-		// i18n
-		return false;
-	}
+    if (path == null) {
+        setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to delete"); // FIXME:
+        // i18n
+        return false;
+    }
 
-	var answer = confirm("Delete selected file?"); // FIXME: i18n
+    var answer = confirm("Delete selected file?"); // FIXME: i18n
 
-	if (answer) {
+    if (answer) {
 
-		showBlockingPanel();
+        showBlockingPanel();
 
-		var params = {
-			absPath : path
-		}
-		var jqxhr = $
-				.post(context + fileDeleteUrl, params,
-						function(data, status, xhr) {
-						}, "html")
-				.success(
-						function(returnedData, status, xhr) {
-							var continueReq = checkForSessionTimeout(
-									returnedData, xhr);
-							if (!continueReq) {
-								return false;
-							}
+        var params = {
+            absPath : path
+        }
+        var jqxhr = $
+        .post(context + fileDeleteUrl, params,
+            function(data, status, xhr) {
+            }, "html")
+        .success(
+            function(returnedData, status, xhr) {
+                var continueReq = checkForSessionTimeout(
+                    returnedData, xhr);
+                if (!continueReq) {
+                    return false;
+                }
 
-							setMessage("file deleted:" + xhr.responseText);
+                setMessage("file deleted:" + xhr.responseText);
 
-							$("#infoDiv").html("<h2>File Deleted</h2>");
+                $("#infoDiv").html("<h2>File Deleted</h2>");
 
-							/*
+                /*
 							 * delete the node from the tree, select the parent
 							 * node and update the display to the parent node
 							 */
-							splitPathAndPerformOperationAtGivenTreePath(
-									path,
-									null,
-									null,
-									function(treePath, tree, currentNode) {
-										// get the parent node
-										var parent = $.jstree._reference(
-												dataTree)._get_parent(
-												currentNode);
-										if (parent == null) {
-											refreshTree();
-											return false;
-										}
-										// remove node..
+                splitPathAndPerformOperationAtGivenTreePath(
+                    path,
+                    null,
+                    null,
+                    function(treePath, tree, currentNode) {
+                        // get the parent node
+                        var parent = $.jstree._reference(
+                            dataTree)._get_parent(
+                            currentNode);
+                        if (parent == null) {
+                            refreshTree();
+                            return false;
+                        }
+                        // remove node..
 
-										$.jstree._reference(dataTree)
-												._get_parent(currentNode);
-										// $.jstree._reference(dataTree).remove(
-										// currentNode);
+                        $.jstree._reference(dataTree)
+                        ._get_parent(currentNode);
+                        // $.jstree._reference(dataTree).remove(
+                        // currentNode);
 
-										var parent = $.jstree._reference(
-												dataTree).refresh(parent);
-										selectedPath = xhr.responseText;
-										updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+                        var parent = $.jstree._reference(
+                            dataTree).refresh(parent);
+                        selectedPath = xhr.responseText;
+                        updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 
-									});
+                    });
 
-							unblockPanel();
+                unblockPanel();
 
-						}).error(function(xhr, status, error) {
-					refreshTree();
-					setErrorMessage(xhr.responseText);
-					unblockPanel();
-				});
-	}
+            }).error(function(xhr, status, error) {
+            refreshTree();
+            setErrorMessage(xhr.responseText);
+            unblockPanel();
+        });
+    }
 
 }
 
@@ -1358,15 +1430,15 @@ function deleteViaToolbarGivenPath(path) {
  * new folder was selected from the toolbar
  */
 function newFolderViaToolbar() {
-	var infoAbsPath = $("#infoAbsPath").val();
-	newFolderViaToolbarGivenPath(infoAbsPath);
+    var infoAbsPath = $("#infoAbsPath").val();
+    newFolderViaToolbarGivenPath(infoAbsPath);
 }
 
 /**
  * new folder was selected from the browse details toolbar
  */
 function newFolderViaBrowseDetailsToolbar() {
-	newFolderViaToolbarGivenPath(selectedPath);
+    newFolderViaToolbarGivenPath(selectedPath);
 }
 
 /**
@@ -1377,19 +1449,19 @@ function newFolderViaBrowseDetailsToolbar() {
  */
 function newFolderViaToolbarGivenPath(path) {
 
-	if (path == null) {
-		alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
-		return;
-	}
+    if (path == null) {
+        alert("No path was selected, use the tree to select an iRODS collection to upload the file to");
+        return;
+    }
 
-	lcShowBusyIconInDiv("#infoDialogArea");
-	var url = "/browse/prepareNewFolderDialog";
+    lcShowBusyIconInDiv("#infoDialogArea");
+    var url = "/browse/prepareNewFolderDialog";
 
-	var params = {
-		absPath : path
-	}
+    var params = {
+        absPath : path
+    }
 
-	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
+    lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
 }
 
 /**
@@ -1397,8 +1469,8 @@ function newFolderViaToolbarGivenPath(path) {
  * button on the toolbar.
  */
 function closeRenameDialog() {
-	$("#renameDialog").dialog('close');
-	$("#renameDialog").remove();
+    $("#renameDialog").dialog('close');
+    $("#renameDialog").remove();
 }
 
 /**
@@ -1406,8 +1478,8 @@ function closeRenameDialog() {
  * folder' button on the toolbar.
  */
 function closeNewFolderDialog() {
-	$("#newFolderDialog").dialog('close');
-	$("#newFolderDialog").remove();
+    $("#newFolderDialog").dialog('close');
+    $("#newFolderDialog").remove();
 }
 
 /**
@@ -1415,41 +1487,42 @@ function closeNewFolderDialog() {
  * submitted rename dialog
  */
 function submitRenameDialog() {
-	lcClearDivAndDivClass("#renameDialogMessageArea");
-	var absPath = $("#renameDialogAbsPath").val();
-	var newName = $("#fileName").val();
-	// name must be entered
-	if (newName == null || newName.length == 0) {
-		setMessage("Please enter a new name");
-		return;
-	}
+    lcClearDivAndDivClass("#renameDialogMessageArea");
+    var absPath = $("#renameDialogAbsPath").val();
+    var newName = $.trim($("#fileName").val());
+    // name must be entered
+    if (newName == null || newName.length == 0) {
+        setMessage("Please enter a new name");
+        return;
+    }
 
-	var params = {
-		prevAbsPath : absPath,
-		newName : newName
-	}
+    var params = {
+        prevAbsPath : absPath,
+        newName : newName
+    }
 
-	showBlockingPanel();
+    showBlockingPanel();
 
-	var jqxhr = $.post(context + fileRenameUrl, params,
-			function(data, status, xhr) {
-			}, "html").success(function(returnedData, status, xhr) {
-		var continueReq = checkForSessionTimeout(returnedData, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		setMessage("file renamed to:" + xhr.responseText);
-		selectedPath = xhr.responseText;
-		closeRenameDialog();
-		refreshTree();
-		selectTreePathFromIrodsPath(selectedPath);
-		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-		unblockPanel();
-	}).error(function(xhr, status, error) {
-		refreshTree();
-		setErrorMessage(xhr.responseText);
-		unblockPanel();
-	});
+    var jqxhr = $.post(context + fileRenameUrl, params,
+        function(data, status, xhr) {
+        }, "html").success(function(returnedData, status, xhr) {
+        var continueReq = checkForSessionTimeout(returnedData, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        setMessage("file renamed to:" + xhr.responseText);
+        selectedPath = xhr.responseText;
+        closeRenameDialog();
+        //refreshTree();
+        reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+        //selectTreePathFromIrodsPath(selectedPath);
+        updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath + "/" + newName);
+        unblockPanel();
+    }).error(function(xhr, status, error) {
+        refreshTree();
+        setErrorMessage(xhr.responseText);
+        unblockPanel();
+    });
 
 }
 
@@ -1459,44 +1532,44 @@ function submitRenameDialog() {
  */
 function submitNewFolderDialog() {
 
-	lcClearDivAndDivClass("#newFolderDialogMessageArea");
-	var absPath = $("#newFolderDialogAbsPath").val();
-	var newName = $("#fileName").val();
-	// name must be entered
-	if (newName == null || newName.length == 0) {
-		setErrorMessage("Please enter a new folder name");
-		return;
-	}
+    lcClearDivAndDivClass("#newFolderDialogMessageArea");
+    var absPath = $.trim($("#newFolderDialogAbsPath").val());
+    var newName = $.trim($("#fileName").val());
+    // name must be entered
+    if (newName == null || newName.length == 0) {
+        setErrorMessage("Please enter a new folder name");
+        return;
+    }
 
-	var params = {
-		parent : absPath,
-		name : newName
-	}
+    var params = {
+        parent : absPath,
+        name : newName
+    }
 
-	showBlockingPanel();
+    showBlockingPanel();
 
-	var jqxhr = $.post(context + folderAddUrl, params,
-			function(data, status, xhr) {
-			}, "html").success(function(returnedData, status, xhr) {
-		var continueReq = checkForSessionTimeout(returnedData, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		setMessage("New folder created:" + xhr.responseText);
-		// selectedPath = xhr.responseText;
-		closeNewFolderDialog();
+    var jqxhr = $.post(context + folderAddUrl, params,
+        function(data, status, xhr) {
+        }, "html").success(function(returnedData, status, xhr) {
+        var continueReq = checkForSessionTimeout(returnedData, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        setMessage("New folder created:" + xhr.responseText);
+        // selectedPath = xhr.responseText;
+        closeNewFolderDialog();
 
-		// refresh the parent node and open
-		addANodeToTheParentInTheTree(absPath, newName);
-		// refreshTree();
-		updateBrowseDetailsForPathBasedOnCurrentModel(absPath);
-		unblockPanel();
+        // refresh the parent node and open
+        addANodeToTheParentInTheTree(absPath, newName);
+        // refreshTree();
+        updateBrowseDetailsForPathBasedOnCurrentModel(absPath);
+        unblockPanel();
 
-	}).error(function(xhr, status, error) {
-		refreshTree();
-		setErrorMessage(xhr.responseText);
-		unblockPanel();
-	});
+    }).error(function(xhr, status, error) {
+        refreshTree();
+        setErrorMessage(xhr.responseText);
+        unblockPanel();
+    });
 
 }
 
@@ -1506,71 +1579,71 @@ function submitNewFolderDialog() {
  */
 function deleteFilesBulkAction() {
 
-	var formData = $("#browseDetailsForm").serializeArray();
-	showBlockingPanel();
+    var formData = $("#browseDetailsForm").serializeArray();
+    showBlockingPanel();
 
-	var jqxhr = $.post(context + deleteBulkActionUrl, formData, "html")
-			.success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
-				refreshTree();
-				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-				setMessage("Delete action successful");
-				unblockPanel();
-			}).error(function(xhr, status, error) {
-				setErrorMessage(xhr.responseText);
-				unblockPanel();
-			});
+    var jqxhr = $.post(context + deleteBulkActionUrl, formData, "html")
+    .success(function(returnedData, status, xhr) {
+        var continueReq = checkForSessionTimeout(returnedData, xhr);
+        if (!continueReq) {
+            return false;
+        }
+        refreshTree();
+        updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+        setMessage("Delete action successful");
+        unblockPanel();
+    }).error(function(xhr, status, error) {
+        setErrorMessage(xhr.responseText);
+        unblockPanel();
+    });
 
 }
 
 function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
 
-	if (parentAbsolutePath == null || parentAbsolutePath.length == 0) {
-		throw ("no path provided, cannot add a node to the tree");
-	}
+    if (parentAbsolutePath == null || parentAbsolutePath.length == 0) {
+        throw ("no path provided, cannot add a node to the tree");
+    }
 
-	if (childRelativeName == null || childRelativeName.length == 0) {
-		throw ("no childRelativeName provided, cannot add a node to the tree");
-	}
+    if (childRelativeName == null || childRelativeName.length == 0) {
+        throw ("no childRelativeName provided, cannot add a node to the tree");
+    }
 
-	var childAbsolutePath = parentAbsolutePath + "/" + childRelativeName;
+    var childAbsolutePath = parentAbsolutePath + "/" + childRelativeName;
 
-	// find and open the parent node, then add the child to it
-	splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
-			function(path, dataTree, currentNode) {
+    // find and open the parent node, then add the child to it
+    splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
+        function(path, dataTree, currentNode) {
 
-				if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
+            if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
 
-					// parent node was already loaded, so it makes sense to add
-					// the node to
-					// the parent
+                // parent node was already loaded, so it makes sense to add
+                // the node to
+                // the parent
 
-					var icon = "folder";
-					var state = "closed";
-					var type = "folder";
+                var icon = "folder";
+                var state = "closed";
+                var type = "folder";
 
-					var attrBuf = new Object();
-					attrBuf.id = childAbsolutePath;
-					attrBuf.rel = type;
-					attrBuf.absPath = childAbsolutePath;
+                var attrBuf = new Object();
+                attrBuf.id = childAbsolutePath;
+                attrBuf.rel = type;
+                attrBuf.absPath = childAbsolutePath;
 
-					var nodeProps = new Object();
-					nodeProps.data = childRelativeName;
-					nodeProps.attr = attrBuf;
-					nodeProps.state = state;
+                var nodeProps = new Object();
+                nodeProps.data = childRelativeName;
+                nodeProps.attr = attrBuf;
+                nodeProps.state = state;
 
-					$.jstree._reference(dataTree).create_node(currentNode,
-							"inside", nodeProps, null, false);
+                $.jstree._reference(dataTree).create_node(currentNode,
+                    "inside", nodeProps, null, false);
 
-				}
+            }
 
-				// select and open this new node
-				selectTreePathFromIrodsPath(parentAbsolutePath);
+            // select and open this new node
+            selectTreePathFromIrodsPath(parentAbsolutePath);
 
-			});
+        });
 
 }
 
@@ -1581,12 +1654,34 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
  *            irods absolute path
  */
 function selectTreePathFromIrodsPath(irodsAbsolutePath) {
-	if (irodsAbsolutePath == null || irodsAbsolutePath.length == 0) {
-		throw "irodsAbsolutePath is missing";
-	}
+    if (irodsAbsolutePath == null || irodsAbsolutePath.length == 0) {
+        throw "irodsAbsolutePath is missing";
+    }
 
-	selectTreePath(irodsAbsolutePath.split("/"), null, null);
+    selectTreePath(irodsAbsolutePath.split("/"), null, null);
 
+}
+
+
+/**
+ * Find the given iRODS absolute path in the tree, clear the children and reload
+ * @param path
+ */
+function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
+	
+    if (path == null) {
+        throw "No path provided";
+    }
+	
+    splitPath = path.split("/");
+	
+    performOperationAtGivenTreePath(splitPath, null,
+        null, function(thisPath, dataTree, currentNode){
+
+            $.jstree._reference(dataTree).refresh(currentNode);
+            $.jstree._reference(dataTree).select_node(currentNode, true);
+
+        });
 }
 
 /**
@@ -1605,26 +1700,30 @@ function selectTreePathFromIrodsPath(irodsAbsolutePath) {
  */
 function selectTreePath(path, currentNode, currentIndex) {
 
-	if (currentIndex == null) {
-		currentIndex = 0;
-	}
+    if (currentIndex == null) {
+        currentIndex = 0;
+    }
 
-	if (path == null) {
-		var val = $("#searchTerm").val();
-		// alert("select tree path:" + val);
-		path = val.split("/");
-	}
+    if (path == null) {
+        var val = $("#searchTerm").val();
+        if (val == "") {
+        	setMessage("enter a path to search");
+        	return false;
+        }
+        
+        if (val.charAt(val.length -1) == "/") {
+        	val = val.substring(0, val.length - 1);
+        }
+        
+        // alert("select tree path:" + val);
+        path = val.split("/");
+    }
 	
-	performOperationAtGivenTreePath(path, null,
-				null, function(path, dataTree, currentNode){
-
-		  $.jstree._reference(dataTree).open_node(currentNode);
-		  $.jstree._reference(dataTree).select_node(currentNode, true);
-
-			});
-	
-
-
+    performOperationAtGivenTreePath(path, null,
+        null, function(path, dataTree, currentNode){
+            $.jstree._reference(dataTree).open_node(currentNode);
+            $.jstree._reference(dataTree).select_node(currentNode, true);
+        });
 }
 
 /**
@@ -1636,24 +1735,24 @@ function selectTreePath(path, currentNode, currentIndex) {
  * @returns
  */
 function getPathInNode(childNodes, targetPath) {
-	var foundChild = null;
-	var nodeText = null;
-	$.each(childNodes, function(index, value) {
-		var theChild = $.jstree._reference(dataTree)._get_node(value);
-		nodeText = $.jstree._reference(dataTree).get_text(theChild);
+    var foundChild = null;
+    var nodeText = null;
+    $.each(childNodes, function(index, value) {
+        var theChild = $.jstree._reference(dataTree)._get_node(value);
+        nodeText = $.jstree._reference(dataTree).get_text(theChild);
 
-		if (nodeText == targetPath) {
-			foundChild = theChild;
-			return;
-		} else if (nodeText == "/" && targetPath == "") {
-			// this matches the root node
-			foundChild = theChild;
-			return;
-		}
+        if (nodeText == targetPath) {
+            foundChild = theChild;
+            return;
+        } else if (nodeText == "/" && targetPath == "") {
+            // this matches the root node
+            foundChild = theChild;
+            return;
+        }
 
-	});
+    });
 
-	return foundChild;
+    return foundChild;
 
 }
 
@@ -1668,10 +1767,10 @@ function getPathInNode(childNodes, targetPath) {
  * @param operationToPerform
  */
 function splitPathAndPerformOperationAtGivenTreePath(path, currentNode,
-		currentIndex, operationToPerform) {
-	splitPath = path.split("/");
-	performOperationAtGivenTreePath(splitPath, currentNode, currentIndex,
-			operationToPerform);
+    currentIndex, operationToPerform) {
+    splitPath = path.split("/");
+    performOperationAtGivenTreePath(splitPath, currentNode, currentIndex,
+        operationToPerform);
 }
 
 /**
@@ -1692,93 +1791,117 @@ function splitPathAndPerformOperationAtGivenTreePath(path, currentNode,
  * @returns {Boolean}
  */
 function performOperationAtGivenTreePath(path, currentNode, currentIndex,
-		operationToPerform) {
+    operationToPerform) {
 
-	if (currentIndex == null) {
-		currentIndex = 0;
-	}
+    if (currentIndex == null) {
+        currentIndex = 0;
+    }
 
-	if (path == null) {
-		var val = $("#searchTerm").val();
-		// alert("select tree path:" + val);
-		path = val.split("/");
-	}
+    if (path == null) {
+        var val = $("#searchTerm").val();
+        
+        
+        
+        
+        // alert("select tree path:" + val);
+        path = val.split("/");
+    }
 
-	// if called with no params, get the root node, open it, and process the
-	// children
-	if (currentNode == null) {
-		currentNode = $.jstree._reference(dataTree).get_container();
-		var children = $.jstree._reference(dataTree)._get_children(currentNode);
-		currentNode = children[0];
-		performOperationAtGivenTreePath(path, currentNode, currentIndex,
-				operationToPerform);
-		return;
-	}
+    // if called with no params, get the root node, open it, and process the
+    // children
+    if (currentNode == null) {
+        currentNode = $.jstree._reference(dataTree).get_container();
+        var children = $.jstree._reference(dataTree)._get_children(currentNode);
+        currentNode = children[0];
+        performOperationAtGivenTreePath(path, currentNode, currentIndex,
+            operationToPerform);
+        return;
+    }
 
-	var skip = false;
-	var end = false;
-	$.each(path,
-			function(index, value) {
-				if (skip) {
-					return;
-				}
+    var skip = false;
+    var end = false;
+    $.each(path,
+        function(index, value) {
+            if (skip) {
+                return;
+            }
 
-				if (index < currentIndex) {
-					return;
-				}
+            if (index < currentIndex) {
+                return;
+            }
 
-				if (value == "") {
-					return;
-				}
+            if (value == "") {
+                return;
+            }
 
-				/**
+            /**
 				 * I might have a root that is not really '/', I could have a
 				 * tree root that is a node inside of the actual iRODS tree. Use
 				 * the baseAbsPathAsArrayOfPathElements to account for this
 				 */
-				if (baseAbsPath.length > 1
-						&& index < (baseAbsPathAsArrayOfPathElements.length)) {
-					return;
-				}
+            if (baseAbsPath.length > 1
+                && index < (baseAbsPathAsArrayOfPathElements.length)) {
+                return;
+            }
 
-				// } else {
+            // } else {
 
-				// if (value > "") {
-				var loaded = $.jstree._reference(dataTree)._is_loaded(
-						currentNode);
-				if (!loaded) {
-					skip = true;
-					$.jstree._reference(dataTree)
-							.open_node(
-									currentNode,
-									function() {
-										performOperationAtGivenTreePath(path,
-												currentNode, index,
-												operationToPerform);
-									}, false);
-					return;
-				} else {
-					$.jstree._reference(dataTree)
-					.open_node(
-							currentNode, false, false);
-				}
+            // if (value > "") {
+            var loaded = $.jstree._reference(dataTree)._is_loaded(
+                currentNode);
+            if (!loaded) {
+                skip = true;
+                $.jstree._reference(dataTree)
+                .open_node(
+                    currentNode,
+                    function() {
+                        performOperationAtGivenTreePath(path,
+                            currentNode, index,
+                            operationToPerform);
+                    }, false);
+                return;
+            } else {
+                $.jstree._reference(dataTree)
+                .open_node(
+                    currentNode, false, false);
+            }
 
-				var children = $.jstree._reference(dataTree)._get_children(
-						currentNode);
-				currentNode = getPathInNode(children, value);
-				if (currentNode == null) {
-					setErrorMessage("Path not found in tree:" + path);
-					return false;
-				} else {
-					if (index == path.length - 1) {
-						end = true;
-					}
-				}
-				// }
-			});
+            var children = $.jstree._reference(dataTree)._get_children(
+                currentNode);
+            currentNode = getPathInNode(children, value);
+            if (currentNode == null) {
+                setMessage("Path not found in tree, please reload");
+                return false;
+            } else {
+                if (index == path.length - 1) {
+                    end = true;
+                }
+            }
+        // }
+        });
 
-	if (currentNode != null && end) {
-		operationToPerform(path, dataTree, currentNode);
-	}
+    if (currentNode != null && end) {
+        operationToPerform(path, dataTree, currentNode);
+    }
+	
 
+}
+
+
+function showOverwriteOptionDialog(message) {
+/*
+	var dialogDiv = $("#efaultDialogDiv");
+	dialogDiv.html("");
+	
+	
+	var messageDiv = document.createElement('div');
+	var message = document.createElement('h2');
+	messageDiv.appendChild(message);
+	
+	
+	var a = document.createElement('applet');
+	appletTagDiv.appendChild(a);
+	*/
+	
+	
 }

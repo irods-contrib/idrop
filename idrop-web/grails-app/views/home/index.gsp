@@ -49,6 +49,7 @@
          class="ui-layout-center">
       <!--  this will be filled in with the search results table -->
      <div id="searchTableDiv" style="width:100%;height:100%;overflow:auto;">
+     <h2><g:message code="heading.no.search.yet" /></h2>
         <!--  search table display div -->
      </div>
   </div>

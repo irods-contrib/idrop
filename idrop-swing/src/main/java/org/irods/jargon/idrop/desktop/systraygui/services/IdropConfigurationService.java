@@ -2,6 +2,7 @@ package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import java.util.Properties;
 import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.exception.JargonException;
 
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -31,15 +32,25 @@ public interface IdropConfigurationService  {
     public static final String POLICY_AWARE_PROPERTY = "policy.aware";
     public static final String LOOK_AND_FEEL = "idrop.lookandfeel";
     public static final String TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES = "transferengine.record.successful.files";
-    public static final String  VERIFY_CHECKSUM_ON_TRANSFER = "idrop.verify.checksum";
-    public static final String  ALLOW_CONNECTION_REROUTING = "idrop.allow.connection.rerouting";
-    public static final String  INTRA_FILE_STATUS_CALLBACKS = "idrop.intra.file.status.callbacks";
-    public static final String  IRODS_CONNECTION_TIMEOUT = "idrop.irods.timeout";
-    public static final String  IRODS_PARALLEL_CONNECTION_TIMEOUT = "idrop.irods.parallel.timeout";
-    public static final String  IRODS_PARALLEL_CONNECTION_MAX_THREADS = "idrop.parallel.transfer.max.threads";
-    public static final String  IRODS_PARALLEL_USE_POOL = "idrop.parallel.use.pool";
-
-
+    public static final String  VERIFY_CHECKSUM_ON_TRANSFER = "transfer.computeandvalidate.checksum";
+    public static final String  ALLOW_CONNECTION_REROUTING = "transfer.allow.redirects";
+    public static final String  INTRA_FILE_STATUS_CALLBACKS = "transfer.intra.file.callbacks";
+    public static final String  IRODS_CONNECTION_TIMEOUT = "socket.timeout";
+    public static final String  IRODS_PARALLEL_CONNECTION_TIMEOUT = "parallel.socket.timeout";
+    public static final String  IRODS_PARALLEL_CONNECTION_MAX_THREADS = "transfer.max.parallel.threads";
+    public static final String  IRODS_PARALLEL_USE_PARALLEL = "transfer.use.parallel";
+      public static final String  IRODS_PARALLEL_USE_NIO = "transfer.use.nio.for.parallel";
+    public static final String  IRODS_PARALLEL_USE_POOL = "transfer.use.pool";
+    public static final String IRODS_IO_INTERNAL_INPUT_STREAM_BUFFER_SIZE = "jargon.io.internal.input.stream.buffer.size";
+    public static final String IRODS_IO_INTERNAL_OUTPUT_STREAM_BUFFER_SIZE = "jargon.io.internal.output.stream.buffer.size";
+    public static final String IRODS_IO_INTERNAL_CACHE_BUFFER_SIZE = "jargon.io.internal.cache.buffer.size";
+    public static final String IRODS_IO_SEND_INPUT_STREAM_BUFFER_SIZE = "jargon.io.send.input.stream.buffer.size";
+    public static final String IRODS_IO_INPUT_TO_OUTPUT_COPY_BUFFER_SIZE = "jargon.io.input.to.output.copy.byte.buffer.size";
+    public static final String IRODS_IO_LOCAL_INPUT_STREAM_BUFFER_SIZE = "jargon.io.local.input.stream.buffer.size";
+    public static final String IRODS_IO_LOCAL_OUTPUT_STREAM_BUFFER_SIZE = "jargon.io.local.output.stream.buffer.size";
+    public static final String IRODS_IO_PUT_BUFFER_SIZE = "jargon.put.buffer.size";
+     public static final String IRODS_IO_GET_BUFFER_SIZE = "jargon.get.buffer.size";
+    
     Properties bootstrapConfiguration() throws IdropException;
 
     /**
@@ -85,4 +96,12 @@ public interface IdropConfigurationService  {
     void updateJargonPropertiesBasedOnIDROPConfig() throws JargonException;
 
     void pushIDROPConfigToJargonAndTransfer() throws IdropException;
+
+    /**
+     * Set the idrop configuration to values defined in the jargon properties file in the classpath.  These should contain
+     * (hopefully) sensible defaults
+     * @param jargonProperties
+     * @throws JargonException 
+     */
+    void restoreIDROPConfigFromJargonProperties(final JargonProperties jargonProperties) throws JargonException;
 }

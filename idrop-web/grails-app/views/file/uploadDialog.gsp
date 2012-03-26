@@ -1,11 +1,11 @@
 <div id="uploadDialogDiv">
-	<div class="box">
+	
 	<g:form controller="file" action="upload" method="post"
 			name="uploadForm" enctype="multipart/form-data"
 			target="upload_target">
-			<fieldset>
-				<label for="">Parent Collection:</label>
-				<h2>${irodsTargetCollection}</h2>
+		
+				<b>Parent Collection:</b>
+				${irodsTargetCollection}
 				<g:hiddenField id="collectionParentName" name="collectionParentName" value="${irodsTargetCollection}"/>
 				<br /> 
 				<div id="file_upload_container">
@@ -16,9 +16,9 @@
 				<div id="upload_message_area">
 				</div>
 				<table id="files"></table>
-			</fieldset>
+			
 		</g:form> 
-	</div>
+	
 </div>
 
 

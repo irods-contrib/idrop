@@ -515,6 +515,49 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 }
 
 /**
+* Send a query via ajax GET request that results in html plugged into the
+* correct div.  If an error occurs then do a throw
+*/
+function lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(getUrl, 
+		divForLoadingGif, callbackFunction, errorHandlingFunction) {
+
+	if (getUrl.length == 0) {
+		throw ("no get url for call");
+		return;
+	}
+
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
+
+	$(divForLoadingGif).html(img);
+
+		$.get(context + getUrl, function(data, status, xhr) {
+			var continueReq = checkForSessionTimeout(data, xhr);
+			if (continueReq) {
+				$(divForLoadingGif).html("");
+				if (callbackFunction != null) {
+					var myHtml = data;
+					callbackFunction(myHtml);
+				} else {
+					$(divForLoadingGif).html(data);
+				
+				}
+			}
+		}, "html").error(function(xhr, status, error) {
+			$(divForLoadingGif).html("");
+			if (errorHandlingFunction == null) {
+				throw "error loading:" + error;
+			} else {
+				errorHandlingFunction();
+			}
+			
+		});
+
+
+
+}
+
+/**
  * Send a query via ajax POST request that results in html plugged into the
  * correct div
  * 
