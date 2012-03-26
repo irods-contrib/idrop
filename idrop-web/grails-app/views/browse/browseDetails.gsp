@@ -88,7 +88,8 @@ ${entry.dataSize}
         var dataTable;
 
         tableParams = {"bJQueryUI" : true,
-                	"aLengthMenu" : [50, 100, 500, 1000],
+                	"bLengthChange": false,
+                	"bFilter": false,
                 	"iDisplayLength" : 500
 
                 }
