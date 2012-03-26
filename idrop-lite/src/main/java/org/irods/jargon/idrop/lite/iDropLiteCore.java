@@ -12,6 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 import org.irods.jargon.core.connection.IRODSAccount;
@@ -198,6 +201,27 @@ public class iDropLiteCore {
 
     public synchronized void setBasePath(String basePath) {
         this.basePath = basePath;
+    }
+    
+    public String setLookAndFeel() {
+    	
+    	String lookAndFeel = null;
+    	
+    	for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                lookAndFeel = info.getClassName();
+                break;
+            }
+        }
+    	
+    	try {
+			UIManager.setLookAndFeel(lookAndFeel);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+    	return lookAndFeel;
     }
    
 }
