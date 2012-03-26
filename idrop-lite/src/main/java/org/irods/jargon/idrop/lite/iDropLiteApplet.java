@@ -735,6 +735,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         tblUploadTable1.setShowGrid(true);
         tblUploadTable1.setShowVerticalLines(false);
         tblUploadTable1.getColumnModel().getColumn(3).setPreferredWidth(6);
+        tblUploadTable1.setRowHeight(24);
 
         tblUploadTable1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         if (displayMode == 2) { // do some special stuff for Upload Mode
