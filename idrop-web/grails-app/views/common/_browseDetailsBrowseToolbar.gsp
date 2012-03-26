@@ -15,7 +15,7 @@
 		<li id="menuBulkUploadDetails"><a href="#bulkuploadDetails" onclick="showBrowseDetailsIdropLite()"><g:message code="text.bulk.upload" /></a></li>
 		
 		<li id="menuAddToCartDetails"><a href="#addToCartDetails" onclick="addToCartViaBrowseDetailsToolbar()"><g:message code="text.add.to.cart" /></a></li>
-		<li id="menuQuickTransfer"><a href="#quickTransfers" onclick="showBrowseDetailsIdropLiteLocalAndIrods()"><g:message code="text.quick.transfers" /></a></li>
+		<!--  <li id="menuQuickTransfer"><a href="#quickTransfers" onclick="showBrowseDetailsIdropLiteLocalAndIrods()"><g:message code="text.quick.transfers" /></a></li>-->
 		
 		</g:if>
 		
@@ -33,7 +33,6 @@
 	<li id="menuAddToCartDetails"><a href="#addAllToCartDetails" onclick="addSelectedToCart()"><g:message code="text.add.all.to.cart" /></a></li>
 	<li id="menuDeleteDetails"><a href="#deleteAllDetails" onclick="deleteSelected()"><g:message code="text.delete.all" /></a></li>
 	</ul>
-
 	</li>
 	</ul>
 </div>
