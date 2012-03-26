@@ -19,8 +19,8 @@ var undef,
 
 // internal constants
     VERSION = 1.26,
-    DEBUG = true,
-    TIMEOUT = 30000,
+    DEBUG = false,
+    TIMEOUT = 180000,
     DUMMY = false,
     NAV = navigator.userAgent.toLowerCase(),
     HASH = window.location.hash.replace(/#\//, ''),
@@ -2003,6 +2003,7 @@ Galleria = function() {
                 lightbox.elems.counter.innerHTML = (index + 1) + ' / ' + total;
                 $win.resize( lightbox.rescale );
                 lightbox.rescale();
+                
             });
 
             $( lightbox.elems.overlay ).show();
@@ -2259,9 +2260,9 @@ Galleria.prototype = {
                     // Height was probably not set, raise hard errors
 
                     if ( testHeight() ) {
-                        Galleria.raise('Could not extract sufficient width/height of the gallery container. Traced measures: width:' + num.width + 'px, height: ' + num.height + 'px.', true);
+                        //Galleria.raise('Could not extract sufficient width/height of the gallery container. Traced measures: width:' + num.width + 'px, height: ' + num.height + 'px.', true);
                     } else {
-                        Galleria.raise('Could not extract a stage height from the CSS. Traced height: ' + testHeight() + 'px.', true);
+                        //Galleria.raise('Could not extract a stage height from the CSS. Traced height: ' + testHeight() + 'px.', true);
                     }
                 },
                 timeout: 10000
@@ -4745,7 +4746,7 @@ Galleria.Picture.prototype = {
         // set a load timeout for debugging
         this.tid = window.setTimeout( (function(src) {
             return function() {
-                Galleria.raise('Image not loaded in ' + Math.round( TIMEOUT/1000 ) + ' seconds: '+ src);
+                //Galleria.raise('Image not loaded in ' + Math.round( TIMEOUT/1000 ) + ' seconds: '+ src);
             };
         }( src )), TIMEOUT );
 
