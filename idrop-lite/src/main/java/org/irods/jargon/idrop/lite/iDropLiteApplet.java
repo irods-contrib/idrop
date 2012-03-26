@@ -1273,7 +1273,14 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                     iDropCore.getIrodsFileSystem().getIRODSAccessObjectFactory(), iDropCore.getIrodsAccount(),
                     dataCacheServiceFactory);
             log.info("getting cart as logged in user, key: {}", this.key);
-            cart = shoppingCartService.retreiveShoppingCartAsLoggedInUser(this.key);
+            if ((this.mode == 2) && (this.key != null) && (this.key != "undefined")) {
+            	cart = shoppingCartService.retreiveShoppingCartAsLoggedInUser(this.key);
+            }
+            else {
+            	log.error("could not create shopping cart");
+                showMessageFromOperation("Cannot retrieve files from shopping cart");
+                return cartContents;
+            }
 
             // for testing
             //cart = FileShoppingCart.instance();
