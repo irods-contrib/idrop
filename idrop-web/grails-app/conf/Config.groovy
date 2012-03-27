@@ -25,7 +25,7 @@
  idrop.config.idrop.lite.use.applet.dir=false
  * 
  */
-idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+ idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
  idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
  idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
  idrop.config.idrop.lite.use.applet.dir=false
@@ -91,8 +91,8 @@ grails.validateable.packages = ['org.irods']
 
 // set per-environment serverURL stem for creating absolute links
 environments {
-	/*production {  grails.serverURL = "http://lifetime-library.ils.unc.edu/${appName}" }*/
-	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
+	production {  grails.serverURL = "http://lifetime-library.ils.unc.edu/${appName}" }
+	/*production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }*/
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test {  grails.serverURL = "http://localhost:8080/${appName}"  }
 }
