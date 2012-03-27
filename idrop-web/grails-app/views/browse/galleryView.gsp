@@ -22,7 +22,7 @@
 		   Galleria.loadTheme(context + '/js/themes/classic/galleria.classic.min.js');
 		   $("#gallery").galleria({
 		        width: 800,
-		        height: 500,
+		        height: 750,
 		        dataConfig: function(img) {
 		            return {
 		                description: $(img).next('div').html()

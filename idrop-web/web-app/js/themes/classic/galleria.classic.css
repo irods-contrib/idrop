@@ -15,7 +15,7 @@
     -o-user-select: none;
 }
 .galleria-stage { 
-  height:450px; <-- set this to any height and i should work :)
+  height:600px; <-- set this to any height and i should work :)
   position: absolute; 
   top: 10px; 
   bottom: 60px; 
@@ -24,7 +24,7 @@
   overflow:hidden;
 } 
 .galleria-thumbnails-container {
-    height: 50px;
+    height: 100px;
     bottom: 0;
     position: absolute;
     left: 10px;
@@ -36,8 +36,8 @@
     margin-right: 30px;
 }
 .galleria-thumbnails .galleria-image {
-    height: 40px;
-    width: 60px;
+    height: 100px;
+    width: 120px;
     background: #000;
     margin: 0 5px 0 0;
     border: 1px solid #000;
@@ -50,7 +50,7 @@
     left: 10px;
     text-align: right;
     color: #fff;
-    font: normal 11px/1 arial,sans-serif;
+    font: normal 14px/1 arial,sans-serif;
     z-index: 1;
 }
 .galleria-loader {
@@ -84,7 +84,7 @@
 	margin-bottom: 7px;
 }
 .galleria-info-description {
-    font: italic 12px/1.4 georgia,serif;
+    font:  14px/1.4 georgia,serif;
     margin: 0;
     color: #bbb;
 }

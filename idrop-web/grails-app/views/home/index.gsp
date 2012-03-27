@@ -18,7 +18,10 @@
 
 
 	<div id="browseTab">
+	
+	
 		<div id="browser" class="wrapper">
+			
 			<div id="browseToolbar">
 				<g:render template="/common/topToolbar" />
 				<span id="infoDivPathArea"
@@ -45,9 +48,12 @@
 				</div>
 			</div>
 		</div>
+	</div>
+		
 	
-
 	<div id="searchTab">
+	
+	
 		<div id="searchDivOuter"
 			style="display: block; width: 95%; height: 90%; position: relative; overflow: hidden;"
 			class="ui-layout-center">

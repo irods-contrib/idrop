@@ -229,14 +229,16 @@ class FileController {
 			filesToDelete.each{
 				log.info "filesToDelete: ${it}"
 				IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(it)
-				toDelete.delete()
+				toDelete.deleteWithForceOption()
+				log.info("...delete successful")
 			}
 
 		} else {
 			log.debug "not array"
-			log.info "deleting: ${filesToDelete}"
+			log.info "deleting: ${filesToDelete}..."
 			IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(filesToDelete)
-			toDelete.delete()
+			toDelete.deleteWithForceOption()
+			log.info("...delete successful")
 		}
 
 		render "OK"
