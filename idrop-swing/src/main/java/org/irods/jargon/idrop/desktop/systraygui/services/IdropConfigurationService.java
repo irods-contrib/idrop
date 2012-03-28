@@ -4,7 +4,6 @@ import java.util.Properties;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.exception.JargonException;
-
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
@@ -15,6 +14,11 @@ import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
  */
 public interface IdropConfigurationService  {
 
+    public static final String IDROP_VERSION_FILE_NAME = ".idropVersion";
+    
+    public static final String VERSION_3_1 = "3.1.0.0";
+  
+    public static final String VERSION_NUMBER = "idrop.version";
     public static final String IDROP_PROPS_FILE_NAME = "idrop.properties";
     public static final String FORCE_MODE = "force.mode";
     public static final String FORCE_NO_SYNCH = "force.no.synch";
@@ -51,7 +55,7 @@ public interface IdropConfigurationService  {
     public static final String IRODS_IO_PUT_BUFFER_SIZE = "jargon.put.buffer.size";
      public static final String IRODS_IO_GET_BUFFER_SIZE = "jargon.get.buffer.size";
     
-    Properties bootstrapConfiguration() throws IdropException;
+    Properties bootstrapConfigurationAndMergePropertiesFromLocalAndClasspath() throws IdropException;
 
     /**
      * Save the database configuration information to a properties file
@@ -104,4 +108,6 @@ public interface IdropConfigurationService  {
      * @throws JargonException 
      */
     void restoreIDROPConfigFromJargonProperties(final JargonProperties jargonProperties) throws JargonException;
+
+
 }

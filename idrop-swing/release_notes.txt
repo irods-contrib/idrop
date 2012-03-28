@@ -24,84 +24,57 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Bug Fixes==
 
-iRODS iDrop > 15GB streaming has issue in field (rules specify no parallel txfrs)	2011-08-12 07:26:57
-iRODS iDrop > gui position for login dialog from prefs/switch grids	2011-08-15 16:43:39
-iRODS iDrop > get transfer not updating intra-file progress	2011-08-19 10:43:03
-iRODS iDrop > Misc gui glitches and cleanup for 1.0.0 RC1 testing	2011-08-19 12:57:31
-iRODS iDrop > z fighting errors password change dialog	2011-08-25 15:10:24
-iRODS iDrop > weird error acl add	2011-09-29 16:34:38
-iRODS iDrop > show/hide menu button functionality break?	2011-10-06 09:32:09
-iRODS iDrop > fix login preset accidentally committed	2011-10-25 13:03:04
-iRODS iDrop > http upload 0 length file fails	2011-11-09 16:19:54
-iRODS iDrop > error generating thumbs from large TIFF	2011-12-19 10:13:50
-iRODS iDrop > error rename function in context menu	2011-12-30 08:54:36
-iRODS iDrop > error adding tag, no description from idrop web	2011-12-30 15:25:03
-iRODS iDrop > fix format of login screen	2011-12-31 09:00:34
-iRODS iDrop > unified message scheme for web interface	2011-12-31 11:20:00
-iRODS iDrop > minor formatting changes from initial functional testing	2012-01-01 09:53:41
-iRODS iDrop > New folder tree refresh cleanup	2012-01-02 09:53:19
-iRODS iDrop > remove PDF previews	2012-01-02 14:59:26
-iRODS iDrop > new folder message is for rename	2012-01-02 18:02:27
-iRODS iDrop > look at info rendering of html files	2012-01-04 10:42:04
-iRODS iDrop > occ'l broken images in gallery view	2012-01-06 10:33:04
-iRODS iDrop > error retrieving shopping cart idrop lite	2012-01-10 12:59:42
-iRODS iDrop > put operation fails with parallel threads	2012-01-11 12:56:53
-iRODS iDrop > stack traces initial load mode '2'	2012-01-11 14:49:39
-iRODS iDrop > Idrop-swing hangs while logging in as other user then rods - msAccessPolicy set to strict	2012-01-17 05:04:34
-iRODS iDrop > mutli-file irods delete not working	2011-06-02 11:42:24
-iRODS iDrop > refresh of irodsFileTree does not scroll down to selected item	2011-06-05 15:33:17
-iRODS iDrop > windows error on irods move WinXP	2011-06-06 12:24:34
-iRODS iDrop > Unable to build details for transfer type in queue manager dialog when copy	2011-06-06 12:26:14
-iRODS iDrop > -321000 error on copy in idrop	2011-06-06 12:35:59
-iRODS iDrop > info not synchronizing on tree select	2011-06-30 09:51:56
-iRODS iDrop > delete nodes in ll, refresh issue?	2011-06-30 16:41:36
-iRODS iDrop > drag/select feedback missing on some platforms	2011-07-01 08:35:17
-iRODS iDrop > potential grails build error clean on fedora linux	2011-07-21 11:21:32
-iRODS iDrop > fedora linux error when selecting node for info	2011-08-09 08:41:15
-iRODS iDrop > Txfr iRODS to local on WinXP, refresh collapses	2011-08-09 11:10:56
-iRODS iDrop > on txfr from local irods, did not update tree	2011-08-10 16:04:54
-iRODS iDrop > node delete issue seen on mac and win	2011-08-10 16:09:37
-iRODS iDrop > after refresh info panel selections skewed	2011-08-12 10:47:08
-iRODS iDrop > hit cancel button on switch grid or change password shouldn't exit	2011-08-15 16:22:54
-iRODS iDrop > drag from local to top level dir in LL causes warning	2011-08-29 09:43:10
-iRODS iDrop > add to cart seems to not be working on data object from info display	2011-11-24 09:44:29
-iRODS iDrop > tag/comment not working/giving feedback on iren	2011-12-06 11:13:47
-iRODS iDrop > new folder via context menu of tree not working	2011-12-17 11:53:39
-iRODS iDrop > rename error on win	2012-01-02 14:56:09
-iRODS iDrop > delete needs a 'busy' modal dialog until completion	2012-01-13 16:22:26
-iRODS iDrop > idrop-swing does not get irods file list	2011-04-18 13:21:37
-iRODS iDrop > -511017 on copy	2011-06-07 14:13:57
-iRODS iDrop > confirmation dialogs are not consistent	2011-07-08 11:06:35
-iRODS iDrop > comment field not persisting in info box	2011-07-21 11:57:03
-iRODS iDrop > multi select local file delete error	2011-08-17 15:39:12
-iRODS iDrop > local-irods synch path scheme implemented	2011-08-17 16:09:23
-iRODS iDrop > access error on copy	2011-08-22 07:48:03
-iRODS iDrop > cannot delete a synchronization	2011-09-28 20:36:33
-iRODS iDrop > idrop startup error with numberformatexception	2011-10-31 12:19:47
-iRODS iDrop > Upload errors from win	2012-01-02 14:51:26
-iRODS iDrop > for strict acl mode show home dir as root in tree	2012-01-11 11:23:50
-iRODS iDrop > sizing of browse table in various browsers - no scrolls	2012-01-17 15:24:38
-
+*15GB streaming has issue in field (rules specify no parallel txfrs)	2011-08-12 07:26:57
+*gui position for login dialog from prefs/switch grids	2011-08-15 16:43:39
+*get transfer not updating intra-file progress	2011-08-19 10:43:03
+*Misc gui glitches and cleanup for 1.0.0 RC1 testing	2011-08-19 12:57:31
+*z fighting errors password change dialog	2011-08-25 15:10:24
+*error rename function in context menu	2011-12-30 08:54:36
+*put operation fails with parallel threads	2012-01-11 12:56:53
+*Idrop-swing hangs while logging in as other user then rods - msAccessPolicy set to strict	2012-01-17 05:04:34
+*mutli-file irods delete not working	2011-06-02 11:42:24
+*refresh of irodsFileTree does not scroll down to selected item	2011-06-05 15:33:17
+*Unable to build details for transfer type in queue manager dialog when copy	2011-06-06 12:26:14
+*-321000 error on copy in idrop	2011-06-06 12:35:59
+*info not synchronizing on tree select	2011-06-30 09:51:56
+*delete nodes in ll, refresh issue?	2011-06-30 16:41:36
+*drag/select feedback missing on some platforms	2011-07-01 08:35:17
+*fedora linux error when selecting node for info	2011-08-09 08:41:15
+*Txfr iRODS to local on WinXP, refresh collapses	2011-08-09 11:10:56
+*on txfr from local irods, did not update tree	2011-08-10 16:04:54
+*node delete issue seen on mac and win	2011-08-10 16:09:37
+*after refresh info panel selections skewed	2011-08-12 10:47:08
+*hit cancel button on switch grid or change password shouldn't exit	2011-08-15 16:22:54
+*drag from local to top level dir in LL causes warning	2011-08-29 09:43:10
+*new folder via context menu of tree not working	2011-12-17 11:53:39
+*rename error on win	2012-01-02 14:56:09
+*delete needs a 'busy' modal dialog until completion	2012-01-13 16:22:26
+*idrop-swing does not get irods file list	2011-04-18 13:21:37
+*511017 on copy	2011-06-07 14:13:57
+*confirmation dialogs are not consistent	2011-07-08 11:06:35
+*multi select local file delete error	2011-08-17 15:39:12
+*local-irods synch path scheme implemented	2011-08-17 16:09:23
+*access error on copy	2011-08-22 07:48:03
+*cannot delete a synchronization	2011-09-28 20:36:33
+*drop startup error with numberformatexception	2011-10-31 12:19:47
+*for strict acl mode show home dir as root in tree	2012-01-11 11:23:50
 
 ==Features==
 
-iRODS iDrop > info view for local file system	2011-10-10 13:26:07
-iRODS iDrop > upload/download in info views and on menu	2011-11-28 11:01:14
-iRODS iDrop > make web view options sticky	2011-12-30 08:49:32
-iRODS iDrop > login preset capability	2012-01-30 13:05:16
-iRODS iDrop > LL - sync management preferences for single device	2011-05-27 12:32:58
-iRODS iDrop > add within-file progress bar	2011-08-15 13:49:50
-iRODS iDrop > AVU Crud in idrop-swing	2011-10-10 13:21:35
-iRODS iDrop > Metadata CRUD in idrop swing	2011-10-10 13:23:08
-iRODS iDrop > DnD and tree cleanup	2011-11-16 15:41:58
-iRODS iDrop > Consolidate buttons into drop-down menu	2011-12-09 11:02:16
-iRODS iDrop > Add progress bar to bottom of iDrop and links to view queue from idrop menu	2011-02-10 10:55:07
-iRODS iDrop > copy irods function	2011-02-10 11:02:02
-iRODS iDrop > LL - headless auto-backup	2011-02-10 11:25:14
-iRODS iDrop > LL - first-run setup wizard for sync folders	2011-05-27 12:28:32
-iRODS iDrop > drag and drop, desktop to irods file should use irods parent as target	2011-06-03 13:44:23
-iRODS iDrop > password change update synchs and transfers with new	2011-08-01 16:52:14
-iRODS iDrop > Fix search results screen to show info, including toolbar	2011-11-23 15:14:02
+*info view for local file system	2011-10-10 13:26:07
+*upload/download in info views and on menu	2011-11-28 11:01:14
+*make web view options sticky	2011-12-30 08:49:32
+*login preset capability	2012-01-30 13:05:16
+*LL - sync management preferences for single device	2011-05-27 12:32:58
+*add within-file progress bar	2011-08-15 13:49:50
+*DnD and tree cleanup	2011-11-16 15:41:58
+*Add progress bar to bottom of iDrop and links to view queue from idrop menu	2011-02-10 10:55:07
+*copy irods function	2011-02-10 11:02:02
+*headless auto-backup	2011-02-10 11:25:14
+*drag and drop, desktop to irods file should use irods parent as target	2011-06-03 13:44:23
+*password change update synchs and transfers with new	2011-08-01 16:52:14
+*Fix search results screen to show info, including toolbar	2011-11-23 15:14:02
+* [#691] revamp startup sequence
 
 ==Outstanding Issues==
 

@@ -13,7 +13,6 @@ import org.irods.jargon.idrop.exceptions.IdropException;
  */
 public class IdropPropertiesHelper {
 
-    
     public static final String LOGIN_PRESET = "login.preset";
     public static final String LOGIN_PRESET_HOST = "login.preset.host";
     public static final String LOGIN_PRESET_PORT = "login.preset.port";
@@ -25,7 +24,7 @@ public class IdropPropertiesHelper {
     public static final String ROLLING_LOG_LEVEL = "rolling.log.level";
 
     /**
-     * Load the default iDrop poperties file
+     * Load the default iDrop properties file
      * 
      * @return
      * @throws IdropException
@@ -49,4 +48,5 @@ public class IdropPropertiesHelper {
 
         return properties;
     }
+
 }

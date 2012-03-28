@@ -30,7 +30,7 @@
         <dependency>
             <groupId>org.irods.jargon</groupId>
             <artifactId>jargon-test</artifactId>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

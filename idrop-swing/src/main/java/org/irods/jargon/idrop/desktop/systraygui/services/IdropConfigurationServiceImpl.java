@@ -1,8 +1,6 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -11,8 +9,6 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.connection.SettableJargonProperties;
 import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.packinstr.TransferOptions;
-
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
@@ -24,7 +20,6 @@ import org.irods.jargon.transfer.TransferServiceFactoryImpl;
 import org.irods.jargon.transfer.dao.domain.ConfigurationProperty;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.engine.ConfigurationService;
-import org.irods.jargon.transfer.engine.TransferEngineConfigurationProperties;
 import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 import org.irods.jargon.transfer.engine.synch.SynchException;
 import org.irods.jargon.transfer.engine.synch.SynchManagerService;
@@ -78,8 +73,9 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         }
     }
 
+  
     @Override
-    public Properties bootstrapConfiguration() throws IdropException {
+    public Properties bootstrapConfigurationAndMergePropertiesFromLocalAndClasspath() throws IdropException {
         log.info("bootstrapConfiguratiion()\nlooking for properties in database");
         Properties databaseProperties;
         Properties configFileProperties;
@@ -425,4 +421,6 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         log.info("synch saved");
 
     }
+
+   
 }
