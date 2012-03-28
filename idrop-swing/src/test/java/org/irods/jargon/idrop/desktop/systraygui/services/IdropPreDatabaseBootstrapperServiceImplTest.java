@@ -4,6 +4,7 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
+import java.io.File;
 import java.util.Properties;
 import junit.framework.TestCase;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
@@ -64,7 +65,9 @@ public class IdropPreDatabaseBootstrapperServiceImplTest {
     @Test
     public void testDetectPriorVersionWhenNotSet() throws Exception {
         String testIdropSubdir = "testDetectPriorVersionWhenNotSet";
-        String absPath = scratchFileUtils.createAndReturnAbsoluteScratchPath(TESTING_SUBDIR);
+        String absPath = scratchFileUtils.createAndReturnAbsoluteScratchPath(TESTING_SUBDIR + "/" + testIdropSubdir);
+        File versionFile = new File(absPath);
+        versionFile.delete();
         String returnedVersion = preDatabaseBootstrapperService.detectPriorVersion(absPath);
         TestCase.assertNull("should not get a version back", returnedVersion);
     }
