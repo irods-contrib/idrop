@@ -177,6 +177,8 @@ public class IdropPreDatabaseBootstrapperServiceImpl implements IdropPreDatabase
         File delFile = new File(absolutePath);
         try {
             delete(delFile);
+        } catch (FileNotFoundException fnf) {
+            log.warn("file not found on delete...treat as normal");
         } catch (IOException ex) {
             log.error("error on delete of files under {}", absolutePath);
             throw new IdropException("error on delete", ex);
