@@ -275,7 +275,13 @@ function reloadMetadataDetailsTable() {
  */
 function buildMetadataTableInPlace() {
 
-	var metaDataTable = lcBuildTableInPlace("#metaDataDetailsTable", null, null);
+	  tableParams = {"bJQueryUI" : true,
+          	"bLengthChange": false,
+          	"bFilter": false,
+          	"iDisplayLength" : 500
+
+          }
+	var metaDataTable = lcBuildTableInPlace("#metaDataDetailsTable", null, null, tableParams);
 	$("#infoDiv").resize();
 
 	$('.editable').editable(function(content, settings) {

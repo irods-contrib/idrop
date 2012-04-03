@@ -17,17 +17,20 @@
 	</ul>
 
 
-	<div id="browseTab">
+	<div id="browseTab" style="padding:0;">
 	
 	
 		<div id="browser" class="wrapper">
 			
 			<div id="browseToolbar">
-				<g:render template="/common/topToolbar" />
+				
 				<span id="infoDivPathArea"
 					style="overflow: hidden; position: relative; display: inline-block; margin: 10px; font-size: 120%;">
 					<!-- area for the path crumb-trails -->
 				</span>
+			</div>
+			<div id="browseMenuDiv">
+			<g:render template="/common/topToolbar" />
 			</div>
 
 

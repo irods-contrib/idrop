@@ -19,6 +19,7 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
+		hideAllToolbars();
 		   Galleria.loadTheme(context + '/js/themes/classic/galleria.classic.min.js');
 		   $("#gallery").galleria({
 		        width: 800,

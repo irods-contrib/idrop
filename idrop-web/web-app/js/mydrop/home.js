@@ -989,7 +989,13 @@ function reloadAclTable(absPath) {
  * Given an acl details html table, wrap it in a jquery dataTable
  */
 function buildAclTableInPlace() {
-	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null);
+	  tableParams = {"bJQueryUI" : true,
+          	"bLengthChange": false,
+          	"bFilter": false,
+          	"iDisplayLength" : 500
+
+          }
+	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null, tableParams);
 
 	$('.forSharePermission', dataTable.fnGetNodes()).editable(
 			function(value, settings) {

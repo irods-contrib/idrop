@@ -9,9 +9,7 @@
 </div>
 <div id="toggleHtmlArea">
 	<div id="displayArea" style="position:relative;width:100%;height:95%;display:block;">
-	<g:render template="/common/browseToolbar" />
 
-	
 	<div id="infoDialogArea"><!--  no empty divs --></div>
 	
 	
@@ -139,7 +137,7 @@
 
 <script>
 $(function() {
-	
+	showDetailsToolbar();
 	$("#menuDownload").show();
 	$("#menuUpload").hide();
 	$("#menuBulkUpload").hide();

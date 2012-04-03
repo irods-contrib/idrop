@@ -34,7 +34,12 @@
 	var cartTable;
 
 	$(function() {
-		cartTable = $("#cartTable").dataTable();
+		cartTable = $("#cartTable").dataTable(  {"bJQueryUI" : true,
+	          	"bLengthChange": false,
+	          	"bFilter": false,
+	          	"iDisplayLength" : 500
+
+	          });
 	});
 
 

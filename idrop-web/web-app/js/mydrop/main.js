@@ -231,3 +231,29 @@ function clickOnPathInCrumbtrail(data) {
 		});
 	}
 }
+
+/**
+ * Hides all but the standard toolbar
+ */
+function hideAllToolbars() {
+	$(".toolbarMenuItem").hide();
+	$(".detailsToolbarMenuItem").hide();
+}
+
+/**
+ * Show menu appropriate for browse details
+ */
+function showBrowseDetailsToolbar() {
+	hideAllToolbars();
+	$(".detailsToolbarMenuItem").show();
+	
+}
+
+/**
+ * Show menu appropriate for browse details
+ */
+function showDetailsToolbar() {
+	hideAllToolbars();
+	$(".toolbarMenuItem").show();
+	
+}

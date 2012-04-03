@@ -43,6 +43,7 @@
 	var origData = "";
 	
 	$(function() {
+		hideAllToolbars();
 		reloadMetadataDetailsTable();
 	});
 

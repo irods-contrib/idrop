@@ -8,7 +8,6 @@
 			<!--  area to show idrop lite applet -->
 		</div>
 		<div id="toggleHtmlArea">
-		<g:render template="/common/browseToolbar" />
 		<div id="infoDialogArea"><!--  no empty divs --></div>
 		
 		<!-- display area lays out info in a main and side column -->
@@ -91,6 +90,7 @@
     <script>
 
 $(function() {
+	showDetailsToolbar();
 	$("#menuDownload").hide();
 	$("#menuUpload").show();
 	$("#menuBulkUpload").show();

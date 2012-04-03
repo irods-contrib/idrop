@@ -27,6 +27,7 @@
 	var messageAreaSelector="#aclMessageArea";
 	
 	$(function() {
+		hideAllToolbars();
 		reloadAclTable(selectedPath);
 	});
 

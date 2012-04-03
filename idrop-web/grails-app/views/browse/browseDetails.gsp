@@ -1,5 +1,4 @@
 
-<g:render template="/common/panelmessages" />
 
 <div id="browseDetailsMessageArea">
   <!--  -->
@@ -17,7 +16,6 @@
     <!--  area to show idrop lite applet -->
   </div>
   <div id="toggleHtmlArea">
-    <g:render template="/common/browseDetailsBrowseToolbar" />
     <div id="infoDialogArea">
       <!--  no empty divs -->
     </div>
@@ -95,6 +93,7 @@ ${entry.dataSize}
                 }
 
         $(function() {
+        		showBrowseDetailsToolbar();
                 dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon", tableParams);
                 $("#infoDiv").resize();
                 $("#menuDownload").hide();
