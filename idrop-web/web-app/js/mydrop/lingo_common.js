@@ -509,7 +509,13 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 
 	} catch (err) {
 		$(divForLoadingGif).html(""); 
-		setErrorMessage(err);
+		
+		if (err.indexOf("Runtime") > -1) {
+			err = "Unable to view data, this may be a permissions issue";
+			setMessage(err);
+		} else {
+			setErrorMessage(err);
+		}
 	}
 
 }

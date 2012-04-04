@@ -97,8 +97,8 @@ function browserFirstViewRetrieved(data) {
 							if (n.statusText == "success") {
 								// ok
 							} else {
-								setMessage("Tree out of synch, refreshed...");
-								refreshTree();
+								setMessage("Unable to browse to location, try refreshing the tree.  You may not have permission to view this directory");
+								//refreshTree();
 							}
 						}
 					}
@@ -595,7 +595,7 @@ function showBrowseView(absPath) {
 					$("#infoDiv").html(data);
 				},
 				function() {
-					setMessage("Unable to browse to location, please refresh the tree");
+					setMessage("Unable to browse to location");
 				});
 	} catch (err) {
 		// tree is out of synch, refresh it

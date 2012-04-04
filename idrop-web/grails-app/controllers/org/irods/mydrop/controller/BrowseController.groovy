@@ -312,7 +312,7 @@ class BrowseController {
                 getThumbnail = true
             }
 
-            render(view:"miniInfoDataObject", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail])
+            render(view:"dataObjectInfoMini", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail])
         } else {
             log.info("getting free tags for collection")
             def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
@@ -327,7 +327,7 @@ class BrowseController {
             log.info("comment was:${comment}")
 
             log.info("rendering as collection: ${retObj}")
-            render(view:"miniInfoCollection", model:[collection:retObj,comment:comment,tags:freeTags])
+            render(view:"collectionInfoMini", model:[collection:retObj,comment:comment,tags:freeTags])
         }
     }
 

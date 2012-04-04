@@ -105,7 +105,10 @@ class MetadataController {
 			}
 		} catch (DataNotFoundException dnf) {
 			log.warn "cannot find data for path"
-			flash.message="error.data.not.found"
+			flash.message="error.no.data.found"
+		} catch (Exception e) {
+			log.warn "cannot find data for path"
+			flash.message="error.no.data.found"
 		}
 
 		render(view:"metadataTable", model:[metadata:metadata])
@@ -126,7 +129,6 @@ class MetadataController {
 			log.error "no absPath in request for prepareMetadataDialog()"
 			throw new JargonException("a path was not supplied")
 		}
-
 
 		render(view:"metadataDialog", model:[absPath:absPath])
 	}

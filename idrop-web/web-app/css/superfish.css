@@ -26,6 +26,7 @@
 .sf-menu a {
 	display:		block;
 	position:		relative;
+	color:			#ffffff;
 }
 .sf-menu li:hover ul,
 .sf-menu li.sfHover ul {
@@ -84,6 +85,7 @@ ul.sf-menu li li li.sfHover ul {
 
 /*** arrows **/
 .sf-menu a.sf-with-ul {
+	color:			#ffffff;
 	padding-right: 	2.25em;
 	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
 }

@@ -137,11 +137,7 @@
 
 <script>
 $(function() {
-	showDetailsToolbar();
-	$(".idropLiteBulkUpload").hide();
-	$("#menuDownload").show();
-	$("#menuUpload").hide();
-	$("#menuBulkUpload").hide();
+	
 });
 
 function callUpdateTags() {

@@ -246,11 +246,12 @@ function hideAllToolbars() {
 function showBrowseDetailsToolbar() {
 	hideAllToolbars();
 	$(".detailsToolbarMenuItem").show();
+	$(".idropLiteBulkUpload").show();
 	
 }
 
 /**
- * Show menu appropriate for browse details
+ * Show menu appropriate for collection or data object details
  */
 function showDetailsToolbar() {
 	hideAllToolbars();

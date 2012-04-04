@@ -70,8 +70,8 @@
 				<li id="menuUploadDetails"><a href="#uploadDetails"
 					onclick="showBrowseDetailsUploadDialog()"><g:message
 							code="text.upload" /></a></li>
-				<g:if test="${showLite}">
-					<li id="menuBulkUploadDetails"><a href="#bulkuploadDetails"
+			
+					<li id="menuBulkUploadDetails" class="idropLiteBulkUpload"><a href="#bulkuploadDetails"
 						onclick="showBrowseDetailsIdropLite()"><g:message
 								code="text.bulk.upload" /></a></li>
 
@@ -79,7 +79,7 @@
 						onclick="addToCartViaBrowseDetailsToolbar()"><g:message
 								code="text.add.to.cart" /></a></li>
 
-				</g:if>
+			
 
 			</ul></li>
 		<li id="menuBulkActionDetails" class="detailsToolbarMenuItem"><a
@@ -107,14 +107,13 @@
 							code="text.upload" /></a></li>
 				<li id="menuDownload"><a href="#download"
 					onclick="downloadAction()"><g:message code="text.download" /></a></li>
-				<g:if test="${showLite}">
-					<li id="menuBulkUpload"><a href="#bulkupload"
+					<li id="menuBulkUpload" class="idropLiteBulkUpload"><a href="#bulkupload"
 						onclick="showIdropLite()"><g:message code="text.bulk.upload" /></a></li>
 
 					<li id="menuAddToCart"><a href="#addToCart"
 						onclick="addToCartViaToolbar()"><g:message
 								code="text.add.to.cart" /></a></li>
-				</g:if>
+		
 
 			</ul></li>
 
@@ -124,6 +123,11 @@
 
 
 <script type="text/javascript">
+
+	var showLite = false;
+
+
+
 	$(function() {
 		$(".toolbarMenuItem").hide();
 		$(".detailsToolbarMenuItem").hide();

@@ -89,13 +89,6 @@
 
     <script>
 
-$(function() {
-	showDetailsToolbar();
-	$(".idropLiteBulkUpload").show();
-	$("#menuDownload").hide();
-	$("#menuUpload").show();
-	$("#menuBulkUpload").show();
-});
 
 function callUpdateTags() {
 	updateTags();

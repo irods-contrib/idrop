@@ -154,7 +154,7 @@ ${entry.dataSize}
 
         function askForBrowseDetailsPulldown(absPath, detailsId) {
 		
-                var url = "/browse/fileInfo";
+                var url = "/browse/miniInfo";
                 absPath = absPath;
                 var params = {
                                 absPath:absPath
