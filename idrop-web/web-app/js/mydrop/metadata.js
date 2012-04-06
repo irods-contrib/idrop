@@ -144,7 +144,7 @@ function submitMetadataDialog() {
 							dataJSON.response.errorMessage);
 				} else {
 					setMessage("AVU saved successfully"); 
-					reloadMetadataDetailsTable();
+					reloadMetadataDetailsTable(selectedPath);
 					closeMetadataDialog();
 					
 				}
@@ -242,14 +242,20 @@ function addRowToMetadataDetailsTable(attribute, value, unit) {
  * 
  * @returns
  */
-function reloadMetadataDetailsTable() {
+function reloadMetadataDetailsTable(absPath) {
+	
+	if (absPath == null) {
+		absPath = selectedPath;
+	}
 
 	lcClearDivAndDivClass(metadataMessageAreaSelector);
 	$("#metadataTableDiv").empty();
 	lcShowBusyIconInDiv("#metadataTableDiv");
+	
+	
 
 	var params = {
-		absPath : selectedPath
+		absPath : absPath
 	}
 
 	var jqxhr = $.get(context + metadataLoadUrl, params,

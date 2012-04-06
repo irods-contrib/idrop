@@ -71,7 +71,7 @@ class MetadataController {
 			}
 		}
 
-		render(view:"metadataDetails", model:[retObj:retObj, isDataObject:isDataObject, getThumbnail:getThumbnail])
+		render(view:"metadataDetails", model:[retObj:retObj, isDataObject:isDataObject,  absPath:absPath, getThumbnail:getThumbnail])
 	}
 
 	/**

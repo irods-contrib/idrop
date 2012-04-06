@@ -24,6 +24,7 @@
 		</div>
 	</div>
 	<g:render template="/common/panelmessages" />
+	<g:hiddenField name='metadataDetailsAbsPath' id='metadataDetailsAbsPath' value='${absPath}'/>
 
 	<div id="metadataMessageArea">
 		<!--  -->
@@ -41,10 +42,16 @@
 <script type="text/javascript">
 
 	var origData = "";
+
+	var path = $("#metadataDetailsAbsPath").val();
+	if (path == null) {
+		path = baseAbsPath;
+	}
+	reloadAclTable(path);
 	
 	$(function() {
 		hideAllToolbars();
-		reloadMetadataDetailsTable();
+		reloadMetadataDetailsTable(path);
 	});
 
 	
