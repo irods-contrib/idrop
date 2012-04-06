@@ -18,7 +18,7 @@
 			</div>
 		</div>
 	</div>
-
+	<g:hiddenField name='aclDetailsAbsPath' id='aclDetailsAbsPath' value='${absPath}'/>
 	<div id="aclTableDiv"><!-- acl user list --></div>
 </div>
 
@@ -28,7 +28,11 @@
 	
 	$(function() {
 		hideAllToolbars();
-		reloadAclTable(selectedPath);
+		var path = $("#aclDetailsAbsPath").val();
+		if (path == null) {
+			path = baseAbsPath;
+		}
+		reloadAclTable(path);
 	});
 
 	</script>

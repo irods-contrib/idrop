@@ -11,8 +11,8 @@
  */
 environments {
 	/*production {  grails.serverURL = "http://lifetime-library.ils.unc.edu/${appName}" }
-	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }*/
-	production {  grails.serverURL = "http://www.irods.org" }
+	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } */
+	production {  grails.serverURL = "http://www.irods.org" } 
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test {  grails.serverURL = "http://localhost:8080/${appName}"  }
 }
@@ -147,10 +147,10 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	warn 'org.irods.mydrop'
-	warn 'org.irods.jargon'
+	info 'org.irods.jargon'
 	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
-	warn 'grails.app'
+	info 'grails.app'
 
 	warn 'org.mortbay.log',
 			'grails.app.controller',

@@ -14,6 +14,7 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.utils.LocalFileUtils
+import org.irods.jargon.core.utils.MiscIRODSUtils
 import org.springframework.security.core.context.SecurityContextHolder
 
 class SharingController {
@@ -68,14 +69,14 @@ class SharingController {
 			}
 		}
 
-		render(view:"aclDetails",model:[retObj:retObj, isDataObject:isDataObject, getThumbnail:getThumbnail])
+		render(view:"aclDetails",model:[retObj:retObj, isDataObject:isDataObject, absPath:absPath, getThumbnail:getThumbnail])
 	}
 
 	def renderAclDetailsTable = {
 
 		def absPath = params['absPath']
 
-		if (absPath == null) {
+		if (!absPath) {
 			log.error "no absPath in request for renderAclDetailsTable()"
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
@@ -105,8 +106,10 @@ class SharingController {
 			log.error("exception getting acl data ${je}", je)
 			response.sendError(500,je.getMessage())
 		}
-
-		render(view:"aclTable", model:[acls:acls])
+		
+		def homeZone = MiscIRODSUtils.getZoneInPath(absPath)
+		
+		render(view:"aclTable", model:[acls:acls, homeZone:homeZone])
 	}
 
 	/**
@@ -188,10 +191,14 @@ class SharingController {
 			log.debug "is array"
 			selectedUsers.each{
 				log.info "selecteduser: ${it}"
+				
+				def theUserName = MiscIRODSUtils.getUserInUserName(it)
+				def theZone = MiscIRODSUtils.getZoneInUserName(it)
+		
 				if (isDataObject) {
 					log.info "add user to data object"
 					try {
-						updateACLValueForDataObject(irodsAccount.getZone(),absPath, acl, it, dataObjectAO)
+						updateACLValueForDataObject(theZone,absPath, acl, theUserName, dataObjectAO)
 					} catch (Exception e) {
 						log.error("Exception during acl processing", e)
 						response.sendError(500,e.message)
@@ -201,7 +208,7 @@ class SharingController {
 				} else {
 					log.info("add user to collection")
 					try {
-						updateACLValueForCollection(irodsAccount.getZone(),absPath, acl, it, collectionAO)
+						updateACLValueForCollection(theZone,absPath, acl, theUserName, collectionAO)
 					} catch (Exception e) {
 						log.error("Exception during acl processing", e)
 						response.sendError(500,e.message)
@@ -213,11 +220,12 @@ class SharingController {
 		} else {
 			log.debug "not array"
 			log.info "adding: ${selectedUsers}"
-			log.info "selecteduser: ${it}"
+			def theUserName = MiscIRODSUtils.getUserInUserName(selectedUsers)
+			def theZone = MiscIRODSUtils.getZoneInUserName(selectedUsers)
 			if (isDataObject) {
 				log.info "add user to data object"
 				try {
-					updateACLValueForDataObject(irodsAccount.getZone(),absPath, acl, selectedUsers, dataObjectAO)
+					updateACLValueForDataObject(theZone,absPath, acl, theUserName, dataObjectAO)
 				} catch (Exception e) {
 					log.error("Exception during acl processing", e)
 					response.sendError(500,e.message)
@@ -227,7 +235,7 @@ class SharingController {
 			} else {
 				log.info("add user to collection")
 				try {
-					updateACLValueForCollection(irodsAccount.getZone(),absPath, acl, selectedUsers, collectionAO)
+					updateACLValueForCollection(theZone,absPath, acl, theUserName, collectionAO)
 				} catch (Exception e) {
 					log.error("Exception during acl processing", e)
 					response.sendError(500,e.message)
@@ -319,17 +327,20 @@ class SharingController {
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
 		def isDataObject = retObj instanceof DataObject
 		log.info("adding ACLs for a data object")
+		
+		def theUserName = MiscIRODSUtils.getUserInUserName(cmd.userName)
+		def theZone = MiscIRODSUtils.getZoneInUserName(cmd.userName)
 
 
 		if (isDataObject) {
 			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
 
 			if (cmd.acl == "READ") {
-				dataObjectAO.setAccessPermissionRead(irodsAccount.getZone(), cmd.absPath, cmd.userName)
+				dataObjectAO.setAccessPermissionRead(theZone, cmd.absPath, theUserName)
 			} else if (cmd.acl == "WRITE") {
-				dataObjectAO.setAccessPermissionWrite(irodsAccount.getZone(), cmd.absPath, cmd.userName)
+				dataObjectAO.setAccessPermissionWrite(theZone, cmd.absPath, theUserName)
 			} else if (cmd.acl == "OWN") {
-				dataObjectAO.setAccessPermissionOwn(irodsAccount.getZone(), cmd.absPath, cmd.userName)
+				dataObjectAO.setAccessPermissionOwn(theZone, cmd.absPath, theUserName)
 			} else {
 				log.error "invalid acl ${cmd.acl}"
 				def errorMessage = message(code:"error.invalid.acl", args[cmd.acl])
@@ -343,11 +354,11 @@ class SharingController {
 			CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 
 			if (cmd.acl == "READ") {
-				collectionAO.setAccessPermissionRead(irodsAccount.getZone(), cmd.absPath, cmd.userName, true)
+				collectionAO.setAccessPermissionRead(theZone, cmd.absPath,theUserName, true)
 			} else if (cmd.acl == "WRITE") {
-				collectionAO.setAccessPermissionWrite(irodsAccount.getZone(), cmd.absPath, cmd.userName, true)
+				collectionAO.setAccessPermissionWrite(theZone, cmd.absPath, theUserName, true)
 			} else if (cmd.acl == "OWN") {
-				collectionAO.setAccessPermissionOwn(irodsAccount.getZone(), cmd.absPath, cmd.userName, true)
+				collectionAO.setAccessPermissionOwn(theZone, cmd.absPath,theUserName, true)
 			} else {
 				log.error "invalid acl ${cmd.acl}"
 				def errorMessage = message(code:"error.invalid.acl", args[cmd.acl])
@@ -456,8 +467,6 @@ class SharingController {
 
 	}
 
-
-
 	private void deleteAclForDataObject(String absPath, String userName, DataObjectAO dataObjectAO) throws JargonException {
 
 		if (!absPath) {
@@ -471,8 +480,11 @@ class SharingController {
 		if (!dataObjectAO) {
 			throw new IllegalArgumentException("null dataObjectAO")
 		}
+		
+		def theUserName = MiscIRODSUtils.getUserInUserName(userName)
+		def theZone = MiscIRODSUtils.getZoneInUserName(userName)
 
-		dataObjectAO.removeAccessPermissionsForUser(irodsAccount.zone, absPath, userName)
+		dataObjectAO.removeAccessPermissionsForUser(theZone, absPath, theUserName)
 
 	}
 
@@ -490,8 +502,10 @@ class SharingController {
 			throw new IllegalArgumentException("null collectionAO")
 		}
 
+		def theUserName = MiscIRODSUtils.getUserInUserName(userName)
+		def theZone = MiscIRODSUtils.getZoneInUserName(userName)
 
-		collectionAO.removeAccessPermissionForUser(irodsAccount.zone, absPath, userName,true)
+		collectionAO.removeAccessPermissionForUser(theZone, absPath, theUserName,true)
 
 	}
 

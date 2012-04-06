@@ -14,6 +14,7 @@
 				<br />
 				<label for="userName"><g:message code="text.user" />:</label>
 				<g:textField id="userName" name="userName" value="${userName}" />
+				<br/>
 				<button type="button" id="lookUpUserNames"
 							class="ui-state-default ui-corner-all" value="lookUpUserNames"
 							onclick="lookUpUserNameFromACLDialogClicked()")><g:message code="text.search" /></button>

@@ -94,7 +94,7 @@ function browserFirstViewRetrieved(data) {
 							return "dir=" + encodeURIComponent(dir);
 						},
 						"error" : function(n) {
-							if (n.statusText == "success") {
+							if (n.statusText == "success" || n.statusText == "OK") {
 								// ok
 							} else {
 								setMessage("Unable to browse to location, try refreshing the tree.  You may not have permission to view this directory");
@@ -874,11 +874,7 @@ function prepareAclDialog(isNew) {
 function showAclDialog(data) {
 	$("#aclDetailsArea").hide("slow");
 	$("#aclDialogArea").html(data).show("slow");
-	var mySource = context + "/sharing/listUsersForAutocomplete";
-	$("#userName").autocomplete({
-		minLength : 3,
-		source : mySource
-	});
+
 
 }
 
@@ -966,7 +962,7 @@ function reloadAclTable(absPath) {
 	lcShowBusyIconInDiv("#aclTableDiv");
 
 	var params = {
-		absPath : selectedPath
+		absPath : absPath
 	}
 
 	var jqxhr = $.get(context + aclTableLoadUrl, params,

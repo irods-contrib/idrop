@@ -10,13 +10,13 @@
 		</thead>
 		<tbody>
 			<g:each in="${acls}" var="acl">
-				<tr id="${acl.userName}">
-					<td><g:checkBox name="selectedAcl" value="${acl.userName}" checked="false"/>
+				<tr id="${acl.nameWithZone}">
+					<td><g:checkBox name="selectedAcl" value="${acl.nameWithZone}" checked="false"/>
 					</td>
 					<td>
-						${acl.userName}
+						${acl.nameWithZone}
 					</td>
-					<td class="forSharePermission" id="${acl.userName}">
+					<td class="forSharePermission" id="${acl.nameWithZone}">
 						${acl.filePermissionEnum}
 					</td>
 
