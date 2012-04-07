@@ -440,6 +440,7 @@ function nodeRenamed(event, data) {
 		data.rslt.obj[0].abspath = nodeRenamedTo;
 		// refresh this node
 		$.jstree._reference(dataTree).refresh(data.rslt.obj[0]);
+		//reloadAndSelectTreePathBasedOnIrodsAbsolutePath(nodeRenamedTo);
 		updateBrowseDetailsForPathBasedOnCurrentModel(nodeRenamedTo);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
@@ -520,9 +521,10 @@ function copyFile(sourcePath, targetPath) {
 		}
 		setMessage("file copied to:" + xhr.responseText);
 		unblockPanel();
-		selectTreePathFromIrodsPath(xhr.responseText);
-		// refreshTree();
-		// updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+		
+		//refreshTree();
+		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(xhr.responseText);
+		//updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
@@ -1280,6 +1282,9 @@ function requestThumbnailImageForInfoPane() {
  */
 function refreshTree() {
 	$.jstree._reference(dataTree).refresh();
+	if (selectedPath != null) {
+		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+	}
 }
 
 /**
