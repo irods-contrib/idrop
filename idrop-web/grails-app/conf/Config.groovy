@@ -12,8 +12,9 @@
 environments {
 	/*production {  grails.serverURL = "http://lifetime-library.ils.unc.edu/${appName}" }
 	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
+	production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
 	production {  grails.serverURL = "http://www.irods.org" } */
-	production {  grails.serverURL = "http://www.irods.org" }
+	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test {  grails.serverURL = "http://localhost:8080/${appName}"  }
 }
@@ -32,19 +33,32 @@ environments {
 /*
  * 3) iDROP web includes the idrop-lite Java applet, which is launched from the iDROP web interface.  The interface needs to know where to find this jar file.
  * The Jar file should be placed on a web server in an accessible directory, and configured below
- */
-
+ * 
+ * 
 idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
 idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
-idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
 idrop.config.idrop.lite.use.applet.dir=false
+
+idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+idrop.config.idrop.lite.codebase="https://lifetime-library.ils.unc.edu/llclient"
+idrop.config.idrop.lite.use.applet.dir=false
+ */
+
+idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-jar-with-dependencies.jar"
+idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
+idrop.config.idrop.lite.use.applet.dir=false
+
 
 /*
  * 4) iDROP web includes a link to launch the iDROP desktop GUI, using Java WebStart.  WebStart looks for a jnlp file and the accompanying 
  * lib directories.  This should be deployed on a web server at some accessible location and referred to here
+ * 
+ * idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
+ * 
+ * idrop.config.idrop.jnlp="https://lifetime-library.ils.unc.edu/llclient/idrop.jnlp"
  */
-idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
 
+idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
 /*
  * Some properties may be set in an external configuration file, as configured below
  */
@@ -151,7 +165,7 @@ log4j = {
 	info 'org.irods.jargon'
 	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
-	info 'grails.app'
+	warn 'grails.app'
 
 	warn 'org.mortbay.log',
 			'grails.app.controller',

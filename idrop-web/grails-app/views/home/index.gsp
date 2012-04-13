@@ -4,7 +4,6 @@
 <g:javascript library="mydrop/search" />
 <g:javascript library="mydrop/metadata" />
 </head>
-<g:render template="/common/panelmessages" />
 <div id="tabs" class="wrapper"
 	style="height: 820px; position: relative;">
 
