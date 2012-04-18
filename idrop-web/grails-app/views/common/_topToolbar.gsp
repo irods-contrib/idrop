@@ -2,11 +2,12 @@
 	style="height: 100%; overflow: visible; margin-left: auto; margin-right: auto;">
 
 	<ul id="topToolbarMenu" class="sf-menu">
-		<li id="menuRefresh"><a href="#refresh" onclick="refreshTree()"><g:message
-					code="text.refresh" /></a></li>
-					<li id="menuFileDetails" class="detailsToolbarMenuItem"><a
+		
+		<li id="menuFileDetails" class="detailsToolbarMenuItem"><a
 			href="#file"><g:message code="text.file" /></a>
 			<ul>
+			<li id="menuRefresh"><a href="#refresh" onclick="refreshTree()"><g:message
+					code="text.refresh" /></a></li>
 				<li id="menuNewFolderDetails"><a href="#newFolderDetails"
 					onclick="newFolderViaBrowseDetailsToolbar()"><g:message
 							code="text.new.folder" /></a></li>
@@ -20,9 +21,8 @@
 			<li id="menuFile" class="toolbarMenuItem"><a href="#file"><g:message
 					code="text.file" /></a>
 			<ul>
-				<li id="menuShowInTree"><a href="#showInTree"
-					onclick="showInTreeClickedFromToolbar()"><g:message
-							code="text.show.in.tree" /></a></li>
+			<li id="menuRefresh"><a href="#refresh" onclick="refreshTree()"><g:message
+					code="text.refresh" /></a></li>
 				<li id="menuNewFolder"><a href="#newFolder"
 					onclick="newFolderViaToolbar()"><g:message
 							code="text.new.folder" /></a></li>
