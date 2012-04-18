@@ -1,32 +1,26 @@
-iDrop-web cloud browser interface for iRODS
-author: Mike Conway
+*'''Project''': idrop-web
+*'''Date''': xx/xx/xxxx
+*'''Release Version''': 1.0.1-SNAPSHOT	
+*'''git tag''': TBD
 
-					 <g:each in="${collection}" var="entry">
-					 <g:galleryEntryIfImage entry="${entry}">
-						<li>
-						<a  name="${entry.formattedAbsolutePath}" href="${createLink(absolute:true,controller:'image',action:'generateThumbnail',params:[absPath:entry.formattedAbsolutePath])}" title="${entry.pathOrName}">
-								<img src="${createLink(absolute:true,controller:'image',action:'generateThumbnail',params:[absPath:entry.formattedAbsolutePath])}" alt="${entry.pathOrName}" />
-						</a>
-					
-						<span class="download">
-								<a href="${resource(absolute:true,controller:'file',dir:'/file/download',file:entry.formattedAbsolutePath)}">Download Original</a>
-						</span>
-					
-						</li>
-						</g:galleryEntryIfImage>
-						</g:each>
+==News==
 
-						
-						
-						
-							<g:each in="${collection}" var="entry">
-					<g:galleryEntryIfImage entry="${entry}">
 
-						<li><a name="${entry.formattedAbsolutePath}"
-							href="${resource(absolute:true,controller:'file',dir:'/file/download',file:entry.formattedAbsolutePath)}"
-							title="${entry.pathOrName}"> <img
-								src="${createLink(absolute:true,controller:'image',action:'generateThumbnail',params:[absPath:entry.formattedAbsolutePath])}"
-								alt="${entry.pathOrName}" abspath="entry.formattedAbsolutePath" />
-						</a></li>
-					</g:galleryEntryIfImage>
-				</g:each>
+
+==Requirements==
+
+*idrop-web depends on Java 1.6+
+*idrop-web depends on grails 2.0.1
+*
+
+Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
+
+
+==Bug Fixes==
+
+
+
+==Features==
+
+* [#116] browse/search/tab memory
+** added jquery bbq plug-in for history management and provisional 'back button' functionality

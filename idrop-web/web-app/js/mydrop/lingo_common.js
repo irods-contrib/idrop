@@ -313,8 +313,9 @@ function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector, tabl
 
 	}
 	
-	dataTableCreated.fnAdjustColumnSizing();
-
+	if (dataTableCreated != null) {
+		dataTableCreated.fnAdjustColumnSizing();
+	}
 	return dataTableCreated;
 
 }

@@ -23,7 +23,6 @@
 			</button>
 		</div>
 	</div>
-	<g:render template="/common/panelmessages" />
 	<g:hiddenField name='metadataDetailsAbsPath' id='metadataDetailsAbsPath' value='${absPath}'/>
 
 	<div id="metadataMessageArea">

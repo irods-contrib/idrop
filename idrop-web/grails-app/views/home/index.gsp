@@ -100,5 +100,16 @@
 		retrieveBrowserFirstView();
 
 		tabs = $("#tabs").tabs({});
+
+		tabs.bind("tabsselect", function(event, ui){
+			
+		    var state = {};
+		    // Get the id of this tab widget.
+		    //alert(ui.tab.hash);
+		    state[ "#tabs" ] = ui.tab.hash;
+		    $.bbq.pushState( state );
+		    
+		  });
+
 	});
 </script>

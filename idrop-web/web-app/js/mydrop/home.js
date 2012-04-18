@@ -553,12 +553,20 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-
-	setPathCrumbtrail(absPath);
-
+	
 	if (browseOptionVal == null) {
 		browseOptionVal = "info";
 	}
+	
+	 var state = {};
+	    // Get the id of this tab widget.
+	    state[ "absPath" ] = absPath;
+	    state[ "browseOptionVal"] = browseOptionVal;
+	    $.bbq.pushState( state );
+
+	setPathCrumbtrail(absPath);
+
+	
 
 	if (browseOptionVal == "browse") {
 		showBrowseView(absPath);
@@ -1895,6 +1903,26 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 		operationToPerform(path, dataTree, currentNode);
 	}
 
+}
+
+function processStateChange(state) {
+	var statePath = state["absPath"];
+	var view = state["browseOptionVal"];
+	
+	if (view == null || statePath == null ) {
+		return false;
+	}
+	
+	
+	if (view != browseOptionVal && statePath == selectedPath) {
+		// view change only
+		browseOptionVal = view;
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+	} else if (statePath != selectedPath) {
+		browseOptionVal = view;
+		selectTreePathFromIrodsPath(statePath);
+	}
+	
 }
 
 function showOverwriteOptionDialog(message) {
