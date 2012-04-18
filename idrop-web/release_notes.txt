@@ -24,3 +24,6 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 * [#116] browse/search/tab memory
 ** added jquery bbq plug-in for history management and provisional 'back button' functionality
+
+* [#696] Add ticket support
+** refactoring of 'info' pages to add accordion for various types of details, including ticket information

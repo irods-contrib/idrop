@@ -620,13 +620,19 @@ function showBrowseView(absPath) {
  * @param absPath
  * @returns {Boolean}
  */
-function showSharingView(absPath) {
+function showSharingView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
+	
+	
+	if (targetDiv == null) {
+		targetDiv = "#infoDiv";
+	}
+	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
-			"#infoDiv", "#infoDiv", null);
+			targetDiv, targetDiv, null);
 }
 
 /**
@@ -635,14 +641,20 @@ function showSharingView(absPath) {
  * @param absPath
  * @returns {Boolean}
  */
-function showMetadataView(absPath) {
+function showMetadataView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
+	
+	if (targetDiv == null) {
+		targetDiv = "#infoDiv";
+	}
+	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/metadata/showMetadataDetails?absPath="
-					+ encodeURIComponent(absPath), "#infoDiv", "#infoDiv", null);
+					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
 }
+
 
 /**
  * Show the info view
@@ -926,7 +938,7 @@ function submitAclDialog() {
 			return false;
 		}
 
-		reloadAclTable();
+		reloadAclTable(selectedPath);
 		closeAclAddDialog();
 		setMessage("Sharing permission saved successfully"); // FIXME:
 		// i18n
@@ -1067,7 +1079,7 @@ function deleteAcl() {
 		if (!continueReq) {
 			return false;
 		}
-		reloadAclTable();
+		reloadAclTable(selectedPath);
 		setMessage("Delete successful"); // FIXME:
 		// i18n
 	});
