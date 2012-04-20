@@ -93,7 +93,7 @@ ${entry.dataSize}
                 }
 
         $(function() {
-        		showBrowseDetailsToolbar();
+        		
                 dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon", tableParams);
                 $("#infoDiv").resize();
                 $("#menuDownload").hide();

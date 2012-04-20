@@ -49,7 +49,7 @@
 	reloadAclTable(path);
 	
 	$(function() {
-		hideAllToolbars();
+		
 		reloadMetadataDetailsTable(path);
 	});
 

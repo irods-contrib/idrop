@@ -18,8 +18,6 @@
 			<h3>${collection.collectionName}</h3>
 	</div>
 	
-	
-	
 </div><!-- table -->
 
 <div id="infoAccordion" style="width:98%;margin:10px;">
@@ -89,7 +87,7 @@
    			<div id="infoAccordionACLInner">
 			</div>
 			<h3 id="infoAccordionTickets"><a href="#infoAccordionTickets" ><g:message code="text.tickets" /></a></h3>
-   			<div >
+   			<div id="infoAccordionTicketsInner">
 			</div>
 			<h3 id="infoAccordionAudit"><a href="#infoAccordionAudit"><g:message code="text.audit" /></a></h3>
    			<div >
@@ -102,7 +100,7 @@
 
     <script>
 					$(function() {
-						showDetailsToolbar();
+						
 						$(".idropLiteBulkUpload").show();
 						$("#menuDownload").hide();
 						$("#menuUpload").show();

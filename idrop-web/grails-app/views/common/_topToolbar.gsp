@@ -17,6 +17,7 @@
 				<li id="menuDeleteDetails"><a href="#deleteDetails"
 					onclick="deleteViaBrowseDetailsToolbar()"><g:message
 							code="default.button.delete.label" /></a></li>
+				
 			</ul></li>
 			<li id="menuFile" class="toolbarMenuItem"><a href="#file"><g:message
 					code="text.file" /></a>
@@ -47,13 +48,16 @@
 				<li id="menuGalleryView"><a href="#galleryView"
 					onclick="galleryView()"><g:message
 							code="text.gallery" /></a></li>
+				<li id="menuAuditView"><a href="#auditView"
+					onclick="auditView()"><g:message
+							code="text.audit" /></a></li>
+				<li id="menuTicketView"><a href="#ticketView"
+					onclick="ticektView()"><g:message
+							code="text.tickets" /></a></li>
 			</ul></li>
 
 		<!--  details toolbar -->
 
-
-
-		
 		<li id="menuUploadDownloadDetails" class="detailsToolbarMenuItem"><a
 			href="#uploadDownloadDetails"><g:message
 					code="text.upload.and.download" /></a>
@@ -73,19 +77,21 @@
 			
 
 			</ul></li>
-		<li id="menuBulkActionDetails" class="detailsToolbarMenuItem"><a
-			href="#applyActionToAllDetails"><g:message
-					code="text.apply.to.all" /></a>
+		<li id="menuTicketDetails" class="detailsToolbarMenuItem"><a
+			href="#ticketsMenu"><g:message
+					code="text.tickets" /></a>
 			<ul>
 
-				<li id="menuAddToCartDetails"><a href="#addAllToCartDetails"
-					onclick="addSelectedToCart()"><g:message
-							code="text.add.all.to.cart" /></a></li>
-				<li id="menuDeleteDetails"><a href="#deleteAllDetails"
-					onclick="deleteSelected()"><g:message code="text.delete.all" /></a></li>
+				<li id="menuCreateAndEmailATicketDetails"><a href="#menuCreateAndEmailATicketDetails"
+					onclick="createAndEmailATicketViaBrowseDetailsToolbar()"><g:message
+							code="text.ticket.email" /></a></li>
+				<li id="menuCreateAndEmailATicketDetails"><a href="#menuCreateAndEmailATicketDetails"
+					onclick="createAndEmailATicketViaBrowseDetailsToolbar()"><g:message
+							code="text.ticket.email" /></a></li>
+				
 			</ul></li>
-
-
+			
+			
 	<!--  info toolbar -->
 
 

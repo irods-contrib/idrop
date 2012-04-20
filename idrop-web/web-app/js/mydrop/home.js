@@ -595,6 +595,8 @@ function showBrowseView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
+	showBrowseDetailsToolbar();
+	
 	try {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
@@ -625,10 +627,11 @@ function showSharingView(absPath, targetDiv) {
 		absPath = baseAbsPath;
 	}
 	
-	
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-	}
+		// I am not embedded, so manipulate the toolbars
+		hideAllToolbars();
+	} 
 	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
@@ -648,11 +651,14 @@ function showMetadataView(absPath, targetDiv) {
 	
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-	}
+		// I am not embedded, so manipulate the toolbars
+		hideAllToolbars();
+	} 
 	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/metadata/showMetadataDetails?absPath="
 					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
+	
 }
 
 
@@ -666,6 +672,7 @@ function showInfoView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
+	showDetailsToolbar();
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);
@@ -681,6 +688,9 @@ function showGalleryView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
+	
+	hideAllToolbars();
+
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);

@@ -27,7 +27,6 @@
 	var messageAreaSelector="#aclMessageArea";
 	
 	$(function() {
-		hideAllToolbars();
 		var path = $("#aclDetailsAbsPath").val();
 		if (path == null) {
 			path = baseAbsPath;
