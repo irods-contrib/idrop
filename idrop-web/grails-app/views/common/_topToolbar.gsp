@@ -52,7 +52,7 @@
 					onclick="auditView()"><g:message
 							code="text.audit" /></a></li>
 				<li id="menuTicketView"><a href="#ticketView"
-					onclick="ticektView()"><g:message
+					onclick="ticketView()"><g:message
 							code="text.tickets" /></a></li>
 			</ul></li>
 
@@ -85,15 +85,14 @@
 				<li id="menuCreateAndEmailATicketDetails"><a href="#menuCreateAndEmailATicketDetails"
 					onclick="createAndEmailATicketViaBrowseDetailsToolbar()"><g:message
 							code="text.ticket.email" /></a></li>
-				<li id="menuCreateAndEmailATicketDetails"><a href="#menuCreateAndEmailATicketDetails"
-					onclick="createAndEmailATicketViaBrowseDetailsToolbar()"><g:message
-							code="text.ticket.email" /></a></li>
+				<li id="menuUseATicket"><a href="#menuUseATicket"
+					onclick="useATicketViaBrowseDetailsToolbar()"><g:message
+							code="text.ticket.use" /></a></li>
 				
 			</ul></li>
 			
 			
 	<!--  info toolbar -->
-
 
 		
 		<li id="menuUploadDownload" class="toolbarMenuItem"><a
@@ -113,6 +112,20 @@
 		
 
 			</ul></li>
+			<li id="menuTicket" class="toolbarMenuItem"><a
+			href="#ticketsMenu"><g:message
+					code="text.tickets" /></a>
+			<ul>
+
+				<li id="menuCreateAndEmailATicket"><a href="#menuCreateAndEmailATicket"
+					onclick="createAndEmailATicketToolbar()"><g:message
+							code="text.ticket.email" /></a></li>
+				<li id="menuUseATicket"><a href="#menuUseATicket"
+					onclick="useATicket()"><g:message
+							code="text.ticket.use" /></a></li>
+				
+			</ul></li>
+			
 
 
 	</ul>
@@ -178,6 +191,15 @@
 		setDefaultView("metadata");
 		showMetadataView(selectedPath);
 	}
+
+	/**
+	 * Show the ticket view
+	 */
+	function ticketView() {
+		setDefaultView("ticket");
+		showTicketView(selectedPath);
+	}
+	
 
 	/**
 	 * Show the gallery (photo) view

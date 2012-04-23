@@ -11,10 +11,10 @@
  */
 environments {
 	/*production {  grails.serverURL = "http://lifetime-library.ils.unc.edu/${appName}" }
-	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
-	production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
-	production {  grails.serverURL = "http://www.irods.org" } */
-	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
+	 production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
+	 production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
+	 production {  grails.serverURL = "http://www.irods.org" } */
+	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test {  grails.serverURL = "http://localhost:8080/${appName}"  }
 }
@@ -34,13 +34,12 @@ environments {
  * The Jar file should be placed on a web server in an accessible directory, and configured below
  * 
  * 
-idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
-idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
-idrop.config.idrop.lite.use.applet.dir=false
-
-idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
-idrop.config.idrop.lite.codebase="https://lifetime-library.ils.unc.edu/llclient"
-idrop.config.idrop.lite.use.applet.dir=false
+ idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+ idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
+ idrop.config.idrop.lite.use.applet.dir=false
+ idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+ idrop.config.idrop.lite.codebase="https://lifetime-library.ils.unc.edu/llclient"
+ idrop.config.idrop.lite.use.applet.dir=false
  */
 
 idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
@@ -56,7 +55,7 @@ idrop.config.idrop.lite.use.applet.dir=false
  * idrop.config.idrop.jnlp="https://lifetime-library.ils.unc.edu/llclient/idrop.jnlp"
  */
 
- idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
+idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
 /*
  * Some properties may be set in an external configuration file, as configured below
  */
@@ -72,7 +71,7 @@ idrop.config.idrop.lite.use.applet.dir=false
  }
  */
 
- /* ll config*/
+/* ll config*/
 /*idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
  idrop.config.idrop.lite.codebase="https://lifetime-library.ils.unc.edu/llclient"
  idrop.config.preset.host="diamond.ils.unc.edu"
@@ -160,10 +159,10 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	warn 'org.irods.mydrop'
-	info 'org.irods.jargon'
+	debug 'org.irods.jargon'
 	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
-	warn 'grails.app'
+	debug 'grails.app'
 
 	warn 'org.mortbay.log',
 			'grails.app.controller',

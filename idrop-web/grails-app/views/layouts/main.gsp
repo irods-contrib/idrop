@@ -23,6 +23,7 @@
  <g:javascript library="jquery.jstree" />
 <g:javascript library="jquery.jeditable.mini" />
 <g:javascript library="jquery.dataTables.min" />
+<g:javascript library="jquery.i18n.properties-min-1.0.9" />
 <g:javascript library="jqcloud-0.1.6" />
 <g:javascript library="jquery.fileupload-ui" />
 <g:javascript library="jquery.fileupload" />
@@ -53,7 +54,7 @@
 		var cache = {
 		// If url is '' (no fragment), display this div's content.
 		'': $('.bbq-default')
-	};
+		};
 
 
 		 // Bind an event to window.onhashchange that, when the history state changes,
@@ -63,7 +64,13 @@
 			  
 				processStateChange( $.bbq.getState());
 			   
-		  })
+		  });
+
+		  jQuery.i18n.properties({
+			    name:'messages', 
+			    path:'js/bundles/', 
+			    mode:'both'
+			});
 		  
 		  // Since the event is only triggered when the hash changes, we need to trigger
 		  // the event now, to handle the hash the page may have loaded with.

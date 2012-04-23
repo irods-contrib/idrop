@@ -32,6 +32,7 @@ grails.project.dependency.resolution = {
 		compile 'org.irods.jargon:jargon-core:3.1.2-SNAPSHOT'
 		compile 'org.irods.jargon:jargon-security:3.1.2-SNAPSHOT'
 		compile 'org.irods.jargon:jargon-data-utils:3.1.2-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-ticket:3.1.2-SNAPSHOT'
 		compile ('org.irods.jargon:jargon-user-tagging:3.1.2-SNAPSHOT') { exclude 'junit' }
 		compile 'org.springframework.security:spring-security-core:3.0.5.RELEASE'
 		compile 'org.springframework.security:spring-security-web:3.0.5.RELEASE'

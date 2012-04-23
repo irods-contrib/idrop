@@ -12,18 +12,8 @@
 
 	<div id="infoDialogArea"><!--  no empty divs --></div>
 	
-	
-	<!-- display area lays out info in a main and side column -->
-	<div id="infoDisplayLayout" style="display:table;width:100%;height:100%;">
-	
-	
-	
-	<div style="display:table-row;">
-		<div id="infoDisplayMain"  style="display:table-cell;">
-		
-		<!-- inner table for general data -->
-		
-			<div id="container" style="height:100%;width:100%;">
+		<div class="roundedContainer">
+		<div id="container" style="height:100%;width:100%;">
 		
 				<div>
 					<div style="width:20%;"><label>Collection:</label></div>
@@ -34,26 +24,21 @@
 					<div style="overflow:auto;"><g:link url="${'file/download' + dataObject.absolutePath}">${dataObject.dataName}</g:link></div>
 				</div>
 			</div>
+			<div id="infoThumbnailLoadArea"></div>
+				<g:if test="${renderMedia}">
+					<a class="media" href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
+				</g:if>
+				<g:else>
+					<a href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
+				</g:else>
+			</div>
 		</div>
-	</div>
 	
-	<div style="display:table-row;">
-	<div id="infoThumbnailAndMediaDisplay"  style="display:table-cell;">
-	<div id="infoThumbnailLoadArea"></div>
-	<g:if test="${renderMedia}">
-			<a class="media" href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
-	</g:if>
-	<g:else>
-		<a href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
-	</g:else>
-		
-		</div>
 	</div>
-	
-	<div style="display:table-row;">
-		<div id="infoDisplaySecondary"  style="display:table-cell;">
-		
-		<!-- inner table for general data -->
+
+<div id="infoAccordion" style="width:98%;margin:10px;">
+ <h3  id="infoAccordionBasicInfo"><a href="#infoAccordionBasicInfo"><g:message code="text.info" /></a></h3>
+    	<div>
 		
 			<div id="container" style="height:100%;width:100%;">
 		
@@ -61,20 +46,7 @@
 					<div style="width:20%;"><label>Size:</label></div>
 					<div>${dataObject.dataSize}</div>
 				</div>
-				<div>
-					<div><label>Tags:</label></div>
-					<div><g:textField id="infoTags" name="tags"
-					value="${tags.spaceDelimitedTagsForDomain}" /></div>
-				</div>
-				<div>
-					<div><label>Comment:</label></div>
-					<div><g:textArea id="infoComment" name="comment" rows="5" cols="80"
-					value="${comment}" /></div>
-				</div>
-				<div>
-					<div></div>
-					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
-				</div>
+				
 				<div>
 					<div><label>Created At:</label></div>
 					<div>${dataObject.createdAt}</div>
@@ -128,44 +100,108 @@
 					<div>${dataObject.dataVersion}</div>
 				</div>
 			</div>
-		</div><!-- cell -->
-	</div><!-- row -->
+		</div>
+
+    <h3 id="infoAccordionTags"><a href="#infoAccordionTags"><g:message code="text.tags" /></a></h3>
+   	<div >
+			<div id="container" style="height:100%;width:100%;">
+				<div>
+					<div><label>Tags:</label></div>
+					<div><g:textField id="infoTags" name="tags"
+					value="${tags.spaceDelimitedTagsForDomain}" /></div>
+				</div>
+				<div>
+					<div><label>Comment:</label></div>
+					<div><g:textArea id="infoComment" name="comment" rows="5" cols="80"
+					value="${comment}" /></div>
+				</div>
+				<div>
+					<div></div>
+					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
+				</div>
+			</div>
+		</div>
+		 <h3  id="infoAccordionMetadata"><a href="#infoAccordionMetadata" ><g:message code="text.metadata" /></a></h3>
+   			<div id="infoAccordionMetadataInner">
+			</div>
+			<h3 id="infoAccordionACL"><a href="#infoAccordionACL" ><g:message code="text.permissions" /></a></h3>
+   			<div id="infoAccordionACLInner">
+			</div>
+			<h3 id="infoAccordionTickets"><a href="#infoAccordionTickets" ><g:message code="text.tickets" /></a></h3>
+   			<div id="infoAccordionTicketsInner">
+			</div>
+			<h3 id="infoAccordionAudit"><a href="#infoAccordionAudit"><g:message code="text.audit" /></a></h3>
+   			<div >
+			</div>
+</div>
 	
 	
-</div><!-- table -->
+	
 </div><!--  toggle html area -->
 
 <script>
-$(function() {
-	showDetailsToolbar();
-	$(".idropLiteBulkUpload").hide();
-	$("#menuDownload").show();
-	$("#menuUpload").hide();
-	$("#menuBulkUpload").hide();
-});
+	$(function() {
+		showDetailsToolbar();
+		$(".idropLiteBulkUpload").hide();
+		$("#menuDownload").show();
+		$("#menuUpload").hide();
+		$("#menuBulkUpload").hide();
 
-function callUpdateTags() {
-	updateTags();
-}
+		$("#infoAccordion").accordion({ 
+			  clearStyle: true,
+			  autoHeight: false
+			}).bind("accordionchange", function(event, ui) {
+			  //console.dir(ui.newHeader); // jQuery, activated header
+			  console.log(ui.newHeader[0].id); //this has the id attribute of the header that was clicked
+			  //doSomething(ui.newHeader[0].id);
+				var infoSection = ui.newHeader[0].id;
+				updateInfoSection(infoSection);
+			});
 
+		
+	});
+
+	function callUpdateTags() {
+		updateTags();
+	}
+
+	/**
+	Update the info for a section in the info accordion based on the provided section id
+	*/
+	function updateInfoSection(sectionToUpdate) {
+		//alert("sectionToUpdate:" + sectionToUpdate);
+		if (sectionToUpdate=="infoAccordionMetadata") {
+			showMetadataView(selectedPath, "#infoAccordionMetadataInner");
+		} else if (sectionToUpdate=="infoAccordionACL") {
+			showSharingView(selectedPath, "#infoAccordionACLInner");
+		} else if (sectionToUpdate=="infoAccordionTickets") {
+		} else if (sectionToUpdate=="infoAccordionAudit") {
+		} else {
+		}
+	}
+
+
+
+	
+	
 </script>
 <g:if test="${getThumbnail}">
 	<script>
-
-$(function() {
-	requestThumbnailImageForInfoPane();
-});
-
-
-
-</script>
+		$(function() {
+			requestThumbnailImageForInfoPane();
+		});
+	</script>
 </g:if>
 <g:else>
 <script>
-$(function() {
-	//$.fn.media.mapFormat('pdf', 'quicktime');
-	$('.media').media( { width: 300, height: 200, autoplay: true } ); 
+	$(function() {
+		//$.fn.media.mapFormat('pdf', 'quicktime');
+		$('.media').media({
+			width : 300,
+			height : 200,
+			autoplay : true
+		});
 
-});
+	});
 </script>
 </g:else>

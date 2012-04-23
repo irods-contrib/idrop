@@ -582,6 +582,8 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 				"/audit/auditList?absPath=" + encodeURIComponent(absPath),
 				"#infoDiv", "#infoDiv", null);
+	} else if (browseOptionVal == "ticket") {
+		showTicketView(absPath);
 	}
 }
 
@@ -695,6 +697,29 @@ function showGalleryView(absPath) {
 			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);
 }
+
+/**
+ * Show the ticket view
+ * 
+ * @param absPath
+ * @returns {Boolean}
+ */
+function showTicketView(absPath, targetDiv) {
+	if (absPath == null) {
+		absPath = baseAbsPath;
+	}
+	
+	if (targetDiv == null) {
+		targetDiv = "#infoDiv";
+		// I am not embedded, so manipulate the toolbars
+		hideAllToolbars();
+	} 
+	
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+			"/ticket/index?absPath=" + encodeURIComponent(absPath),
+			targetDiv, targetDiv, null);
+}
+
 
 /**
  * Show the dialog to allow upload of data
