@@ -23,6 +23,7 @@
  <g:javascript library="jquery.jstree" />
 <g:javascript library="jquery.jeditable.mini" />
 <g:javascript library="jquery.dataTables.min" />
+<g:javascript library="mydrop/ticket" />
 <g:javascript library="jquery.i18n.properties-min-1.0.9" />
 <g:javascript library="jqcloud-0.1.6" />
 <g:javascript library="jquery.fileupload-ui" />

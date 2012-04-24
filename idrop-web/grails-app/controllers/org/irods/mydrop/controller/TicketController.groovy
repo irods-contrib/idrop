@@ -100,4 +100,42 @@ class TicketController {
 			response.sendError(500,je.message)
 		}
 	}
+
+	def update = { render "OK" }
+
+	/**
+	 * Display the ticket table content
+	 */
+	def ticketDetailsDialog = {
+		def ticketString = params['ticketString']
+		if (ticketString == null) {
+			throw new JargonException("no ticketString passed to the method")
+		}
+
+		def create = params['create']
+		if (create == null) {
+			throw new JargonException("no create parameter passed to the method")
+		}
+
+		def ticket
+
+		log.info "ticketDetailsDialog for ticketString: ${ticketString} with create:${create}"
+		try {
+			if (create) {
+				ticket = new Ticket()
+			} else {
+				TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
+				ticket = ticketAdminService.getTicketForSpecifiedTicketString(ticketString)
+			}
+			render(view:"ticketDetailsDialog", model:[ticket:ticket, create:create])
+		} catch (FileNotFoundException fnf) {
+			log.error "ticket not found for given ticketString:${ticketString}", fnf
+			def message = message(code:"error.no.data.found")
+			response.sendError(500,message)
+		}
+		catch (JargonException je) {
+			log.error "exception getting ticket for :${ticketString}", je
+			response.sendError(500,je.message)
+		}
+	}
 }

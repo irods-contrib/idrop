@@ -1,8 +1,5 @@
 package org.irods.mydrop.controller
 
-
-
-
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
@@ -111,5 +108,69 @@ class TicketControllerTests {
 
 		assert view == "/ticket/ticketTable"
 	}
-}
 
+	void testTicketDetailsDialog() {
+		def testPath = "/testpath"
+		def create = true
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		IRODSServerProperties irodsServerProperties = Mockito.mock(IRODSServerProperties.class)
+		Mockito.when(irodsServerProperties.isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.1")).thenReturn(true)
+		Mockito.when(collectionListAndSearchAO.getIRODSServerProperties()).thenReturn(irodsServerProperties)
+
+		ObjStat objStat = new ObjStat()
+		objStat.setAbsolutePath(testPath)
+		objStat.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION)
+		Mockito.when(collectionListAndSearchAO.retrieveObjectStatForPath(testPath)).thenReturn(objStat)
+		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+
+		Ticket ticket = new Ticket()
+		TicketAdminService ticketAdminService = Mockito.mock(TicketAdminService.class)
+		Mockito.when(ticketAdminService.getTicketForSpecifiedTicketString(testPath)).thenReturn(ticket)
+
+		ticketServiceFactory = Mockito.mock(TicketServiceFactory.class)
+		Mockito.when(ticketServiceFactory.instanceTicketAdminService(irodsAccount)).thenReturn(ticketAdminService)
+
+		controller.irodsAccount = irodsAccount
+		controller.ticketServiceFactory = ticketServiceFactory
+		controller.params.ticketString = testPath
+		controller.params.create = create
+		controller.ticketDetailsDialog()
+
+		assert view == "/ticket/ticketDetailsDialog"
+	}
+
+	void testTicketDetailsDialogNoCreate() {
+		def testPath = "/testpath"
+		def create = false
+		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
+		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
+		IRODSServerProperties irodsServerProperties = Mockito.mock(IRODSServerProperties.class)
+		Mockito.when(irodsServerProperties.isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.1")).thenReturn(true)
+		Mockito.when(collectionListAndSearchAO.getIRODSServerProperties()).thenReturn(irodsServerProperties)
+
+		ObjStat objStat = new ObjStat()
+		objStat.setAbsolutePath(testPath)
+		objStat.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION)
+		Mockito.when(collectionListAndSearchAO.retrieveObjectStatForPath(testPath)).thenReturn(objStat)
+		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
+
+		Ticket ticket = new Ticket()
+		TicketAdminService ticketAdminService = Mockito.mock(TicketAdminService.class)
+		Mockito.when(ticketAdminService.getTicketForSpecifiedTicketString(testPath)).thenReturn(ticket)
+
+		ticketServiceFactory = Mockito.mock(TicketServiceFactory.class)
+		Mockito.when(ticketServiceFactory.instanceTicketAdminService(irodsAccount)).thenReturn(ticketAdminService)
+
+		controller.irodsAccount = irodsAccount
+		controller.ticketServiceFactory = ticketServiceFactory
+		controller.params.ticketString = testPath
+		controller.params.create = create
+		controller.ticketDetailsDialog()
+
+		assert view == "/ticket/ticketDetailsDialog"
+		assert model.ticket
+	}
+}
