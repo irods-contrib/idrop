@@ -133,6 +133,7 @@
 						} else if (sectionToUpdate=="infoAccordionACL") {
 							showSharingView(selectedPath, "#infoAccordionACLInner");
 						} else if (sectionToUpdate=="infoAccordionTickets") {
+							showTicketView(selectedPath, "#infoAccordionTicketsInner");
 						} else if (sectionToUpdate=="infoAccordionAudit") {
 						} else {
 						}

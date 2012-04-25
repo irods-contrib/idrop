@@ -4,10 +4,11 @@
 		<thead>
 			<tr>
 				<th></th>
-				<th><g:message code="text.ticket.user" /></th>
-				<th><g:message code="text.ticket.valid" /></th>
-				<th><g:message code="text.ticket.type" /></th>
 				<th><g:message code="text.ticket.string" /></th>
+				<th><g:message code="text.ticket.user" /></th>
+			
+				<th><g:message code="text.ticket.type" /></th>
+				
 			</tr>
 		</thead>
 		<tbody>
@@ -15,10 +16,11 @@
 				<tr id="${ticket.ticketString}">
 					<td><g:checkBox name="selectedTicket" />
 					</td>
+					<td>${ticket.ticketString}</td>
 					<td>${ticket.ownerName}</td>
-					<td>valid here</td>
+					
 					<td>${ticket.type}</td>
-					td>${ticket.ticketString}</td>
+					
 				</tr>
 			</g:each>
 		</tbody>
@@ -27,7 +29,7 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td></td>
+				
 				<td></td>
 			</tr>
 		</tfoot>

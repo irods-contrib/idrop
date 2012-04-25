@@ -16,13 +16,10 @@ function reloadTicketTable(absPath) {
 		throw "null absPath";
 	}
 	
-	//alert("clearing div");
+	//$("#ticketTableDiv").fadeIn('slow');
 	
 	lcClearDivAndDivClass("#ticketTableDiv");
-	//$("#ticketTableDiv").empty();
 	lcShowBusyIconInDiv("#ticketTableDiv");
-	
-	//alert("showing busy icon and making call");
 	
 	var params = {
 		absPath : absPath
@@ -32,10 +29,8 @@ function reloadTicketTable(absPath) {
 			function(data, status, xhr) {
 				$('#ticketTableDiv').html(data);
 			}, "html").error(function(xhr, status, error) {
-		//alert("error");
 		setErrorMessage(xhr.responseText);
 	}).success(function(data, status, xhr) {
-		//alert("success");
 		var continueReq = checkForSessionTimeout(data, xhr);
 		if (!continueReq) {
 			return false;
@@ -60,7 +55,6 @@ function buildTicketTableInPlace() {
 
           }
 	var ticketTable = lcBuildTableInPlace("#ticketDetailsTable", null, null, tableParams);
-	// $("#infoDiv").resize();
 
 	return ticketTable;
 }
@@ -95,7 +89,8 @@ function prepareTicketDetailsDialog(ticketString) {
 	
 	var params = {
 		ticketString : ticketString,
-		create : create
+		create : create,
+		irodsAbsolutePath : absPath
 	}
 
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
@@ -111,6 +106,7 @@ function prepareTicketDetailsDialog(ticketString) {
  *            html data
  */
 function showTicketDetailsDialog(data) {
+	//$("#ticketTableDiv").fadeOut('slow');
 	$("#ticketDialogArea").html(data).fadeIn('slow');
 }
 
@@ -118,9 +114,14 @@ function showTicketDetailsDialog(data) {
  * Cause the add ticket dialog to be closed
  */
 function closeTicketDialog() {
+	try {
 	$("#ticketDialogArea").fadeOut('slow', new function() {
 		$("#ticketDialogArea").empty();
 	});
+	} catch(err) {
+		//ignore
+	}
+	//$("#ticketTableDiv").fadeIn('slow');
 }
 
 
@@ -128,7 +129,6 @@ function closeTicketDialog() {
  * Handle form submit to add a ticket
  */
 function submitTicketDialog() {
-
 	
 		var selectedPath = $("#ticketDetailsAbsPath").val();
 	
@@ -145,21 +145,16 @@ function submitTicketDialog() {
 			return false;
 		}
 	
-		//alert("sending request");
 		var jqxhr = $.post(context + ticketUpdateUrl, formData,
 				function(data, status, xhr) {
 				}, "html").success(function(data, status, xhr) {
-					//alert("success...");
 					var continueReq = checkForSessionTimeout(data, xhr);
 					if (!continueReq) {
 						return false;
 					} 
 					
-					//alert("closing dialog");
 					closeTicketDialog();
-					//alert("setting success message");
 					setMessage(jQuery.i18n.prop('msg_ticket_update_successful'));
-					//alert("reloading ticket table");
 					reloadTicketTable(selectedPath);
 					
 
