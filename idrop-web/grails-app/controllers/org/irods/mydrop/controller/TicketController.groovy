@@ -149,6 +149,39 @@ class TicketController {
 	}
 
 	/**
+	 * Display a ticket pulldown meant for the ticket summary table
+	 */
+	def ticketPulldown = {
+
+		log.info "ticketPulldown()"
+
+		def ticketString = params['ticketString']
+		if (ticketString == null) {
+			throw new JargonException("no ticketString passed to the method")
+		}
+
+		def absPath = params['absPath']
+		if (absPath == null) {
+			throw new JargonException("no absPath parameter passed to the method")
+		}
+
+		log.info("ticketString: ${ticketString}")
+		log.info("absPath: ${absPath}")
+
+		TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
+		def ticket
+
+		try {
+			ticket = ticketAdminService.getTicketForSpecifiedTicketString(ticketString)
+			render(view:"ticketPulldown", model:[ticket:ticket])
+		} catch (DataNotFoundException dnf) {
+			log.error "ticket not found for given ticketString:${ticketString}", fnf
+			def message = message(code:"error.no.ticket.found")
+			response.sendError(500,message)
+		}
+	}
+
+	/**
 	 * Display the ticket table content
 	 */
 	def ticketDetailsDialog = {

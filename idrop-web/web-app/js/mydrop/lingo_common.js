@@ -383,7 +383,11 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 
 	} catch (err) {
 		
-		$(resultDiv).html(""); // FIXME: some sort of error icon?
+		try {
+			$(resultDiv).html(""); // FIXME: some sort of error icon?
+		} catch(err) {
+			// ignore
+		}
 		setErrorMessage(err);
 	}
 
@@ -412,14 +416,18 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 			}
 		}, "html").error(function(xhr, status, error) {
-			resultDiv.html("");
+			$(resultDiv).html("");
 			setErrorMessage(xhr.responseText);
 		});
 
 	} catch (err) {
 		// FIXME: console traces are not good for IE - mcc
 		// console.trace();
-		$(resultDiv).html(""); // FIXME: some sort of error icon?
+		try {
+			$(resultDiv).html(""); // FIXME: some sort of error icon?
+		} catch(err) {
+			// ignore
+		}
 		setErrorMessage(err);
 		// console.log("javascript error:" + err);
 	}
@@ -464,7 +472,11 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 		});
 
 	} catch (err) {
-		$(divForLoadingGif).html(""); // FIXME: some sort of error icon?
+		try {
+			$(resultDiv).html(""); // FIXME: some sort of error icon?
+		} catch(err) {
+			// ignore
+		}
 		setErrorMessage(err);
 		// console.log("javascript error:" + err);
 	}
@@ -504,7 +516,11 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 			}
 		}, "html").error(function(xhr, status, error) {
 			
-			$(divForLoadingGif).html("");
+			try {
+				$(resultDiv).html(""); // FIXME: some sort of error icon?
+			} catch(err) {
+				// ignore
+			}
 			setErrorMessage(xhr.responseText);
 		});
 
@@ -615,7 +631,11 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 		});
 
 	} catch (err) {
-		$(divForLoadingGif).html(""); // FIXME: some sort of error icon?
+		try {
+			$(divForLoadingGif).html(""); 
+		} catch(err) {
+			// ignore
+		}
 		setErrorMessage(err);
 	}
 
@@ -720,9 +740,6 @@ function showBlockingPanel(message) {
 		message = "please wait...";
 	}
 	
-	
-	//var messageHtml = "<h1><img src='";
-	//messageHtml+= context + "' />";
 	var messageHtml = "<h1>";
 	messageHtml += message;
 	messageHtml += "</h1>";

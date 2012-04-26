@@ -4,6 +4,7 @@
 		<thead>
 			<tr>
 				<th></th>
+				<th></th>
 				<th><g:message code="text.ticket.string" /></th>
 				<th><g:message code="text.ticket.user" /></th>
 			
@@ -14,7 +15,10 @@
 		<tbody>
 			<g:each in="${tickets}" var="ticket">
 				<tr id="${ticket.ticketString}">
-					<td><g:checkBox name="selectedTicket" />
+					 <td><span
+                  class="ui-icon-circle-plus browse_detail_icon ui-icon"></span>
+              </td>
+              <td><g:checkBox name="selectedTicket" />
 					</td>
 					<td>${ticket.ticketString}</td>
 					<td>${ticket.ownerName}</td>
@@ -29,7 +33,7 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				
+				<td></td>
 				<td></td>
 			</tr>
 		</tfoot>
