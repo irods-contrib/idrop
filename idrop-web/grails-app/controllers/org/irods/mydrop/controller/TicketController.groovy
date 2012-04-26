@@ -94,8 +94,7 @@ class TicketController {
 			log.error "file not found for given path:${absPath}", fnf
 			def message = message(code:"error.no.data.found")
 			response.sendError(500,message)
-		}
-		catch (JargonException je) {
+		} catch (JargonException je) {
 			log.error "exception getting tickets for :${absPath}", je
 			response.sendError(500,je.message)
 		}
@@ -168,12 +167,40 @@ class TicketController {
 		log.info("ticketString: ${ticketString}")
 		log.info("absPath: ${absPath}")
 
-		TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
-		def ticket
+		TicketDistributionContext ticketDistributionContext = new TicketDistributionContext()
+		String grailsServerURL =  grailsApplication.config.grails.serverURL
+		log.info("server URL for context: ${grailsServerURL}")
 
 		try {
+			URL url = new URL(grailsServerURL)
+			ticketDistributionContext.host = url.host
+			ticketDistributionContext.port = url.port
+			ticketDistributionContext.context = url.path + "/ticket/redeemTicket"
+			if (url.protocol == "https") {
+				ticketDistributionContext.ssl = true
+			}
+
+			log.info("ticketDistributionContext:${ticketDistributionContext}")
+		} catch (MalformedURLException e) {
+			log.error("malformed url from:${sb.toString()}", e)
+			throw new JargonException(
+			"malformed URL for ticketDistribution, probably a malformed ticketDistributionContext")
+			def message = message(code:"error.invalid.ticket.url")
+			response.sendError(500,message)
+		}
+
+		//ticketDistributionContext.setHost();
+
+		TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
+		TicketDistributionService ticketDistributionService = ticketServiceFactory.instanceTicketDistributionService(irodsAccount, ticketDistributionContext)
+		def ticket
+		def ticketDistribution
+		try {
 			ticket = ticketAdminService.getTicketForSpecifiedTicketString(ticketString)
-			render(view:"ticketPulldown", model:[ticket:ticket])
+			log.info("got ticket:${ticket}")
+			ticketDistribution = ticketDistributionService.getTicketDistributionForTicket(ticket)
+			log.info("got ticket distribution: ${ticketDistribution}")
+			render(view:"ticketPulldown", model:[ticket:ticket, ticketDistribution:ticketDistribution])
 		} catch (DataNotFoundException dnf) {
 			log.error "ticket not found for given ticketString:${ticketString}", fnf
 			def message = message(code:"error.no.ticket.found")

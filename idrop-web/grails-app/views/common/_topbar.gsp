@@ -10,7 +10,7 @@
 
 			<button type="button" id="search"
 				class="ui-state-default ui-corner-all" value="search"
-				onclick="search()")><g:message code="text.search" /></button><span>as a<g:select name="searchType" id="searchType" from="${['file', 'tag']} " /></span>
+				onclick="search()")><g:message code="text.search" /></button><span>as a<g:select name="searchType" id="searchType" from="${['file', 'tag']}" /></span>
 		
 		<span> or </span><button type="button" id="selectTreePath"
 				class="ui-state-default ui-corner-all" value="search"
