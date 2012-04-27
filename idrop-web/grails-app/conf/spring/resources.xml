@@ -48,6 +48,7 @@
 			<filter-chain pattern="/images/**" filters="none" />
 			<filter-chain pattern="/js/**" filters="none" />
 			<filter-chain pattern="/login/*" filters="none" />
+			<filter-chain pattern="/ticketAccess/**" filters="none" />
 			<filter-chain pattern="/**"
 				filters="securityContextPersistenceFilter,
 				logoutFilter,

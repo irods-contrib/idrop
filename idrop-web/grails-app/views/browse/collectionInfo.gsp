@@ -86,9 +86,11 @@
 			<h3 id="infoAccordionACL"><a href="#infoAccordionACL" ><g:message code="text.permissions" /></a></h3>
    			<div id="infoAccordionACLInner">
 			</div>
+			<g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
 			<h3 id="infoAccordionTickets"><a href="#infoAccordionTickets" ><g:message code="text.tickets" /></a></h3>
    			<div id="infoAccordionTicketsInner">
 			</div>
+			</g:if>
 			<h3 id="infoAccordionAudit"><a href="#infoAccordionAudit"><g:message code="text.audit" /></a></h3>
    			<div >
 			</div>

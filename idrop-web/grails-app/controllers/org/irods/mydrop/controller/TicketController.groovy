@@ -175,7 +175,7 @@ class TicketController {
 			URL url = new URL(grailsServerURL)
 			ticketDistributionContext.host = url.host
 			ticketDistributionContext.port = url.port
-			ticketDistributionContext.context = url.path + "/ticket/redeemTicket"
+			ticketDistributionContext.context = url.path + "/ticketAccess/redeemTicket"
 			if (url.protocol == "https") {
 				ticketDistributionContext.ssl = true
 			}
@@ -200,7 +200,8 @@ class TicketController {
 			log.info("got ticket:${ticket}")
 			ticketDistribution = ticketDistributionService.getTicketDistributionForTicket(ticket)
 			log.info("got ticket distribution: ${ticketDistribution}")
-			render(view:"ticketPulldown", model:[ticket:ticket, ticketDistribution:ticketDistribution])
+			boolean isDataObject = (ticket.getObjectType() == Ticket.TicketObjectType.DATA_OBJECT)
+			render(view:"ticketPulldown", model:[ticket:ticket, ticketDistribution:ticketDistribution, isDataObject:isDataObject])
 		} catch (DataNotFoundException dnf) {
 			log.error "ticket not found for given ticketString:${ticketString}", fnf
 			def message = message(code:"error.no.ticket.found")
@@ -274,6 +275,7 @@ class TicketController {
 			response.sendError(500,je.message)
 		}
 	}
+
 }
 class TicketCommand {
 	boolean create

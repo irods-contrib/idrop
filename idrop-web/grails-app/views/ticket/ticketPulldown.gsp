@@ -40,11 +40,14 @@
 						<div><g:textField id="writeFileLimit" name="writeFileLimit"
 						value="${ticket.writeFileLimit}" /></div>
 					</div>
-					<div>
-						<div><label><g:message code="text.ticket.url" />:</label></div>
-						<div><a href="${ticketDistribution.ticketURL}">${ticketDistribution.ticketURL}</a></div>
-					</div>
+					<g:if test="${isDataObject}">
+						<div>
+							<div><label><g:message code="text.ticket.url" />:</label></div>
+							<div><a href="${ticketDistribution.ticketURL}">${ticketDistribution.ticketURL}</a></div>
+						</div>
+					</g:if>
 				</div>		
 </div>
 <script>
+	
 </script>

@@ -20,6 +20,8 @@ beans = {
 
 	ticketController(org.irods.mydrop.controller.TicketController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
+	ticketAccessController(org.irods.mydrop.controller.TicketAccessController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
 	sharingController(org.irods.mydrop.controller.SharingController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 	auditController(org.irods.mydrop.controller.AuditController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
