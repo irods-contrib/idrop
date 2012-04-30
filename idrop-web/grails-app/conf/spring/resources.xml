@@ -132,6 +132,6 @@
 
 	<beans:bean id="authenticationFailureHandler"
 		class="org.irods.jargon.spring.security.IRODSAuthenticationFailureHandler">
-		<beans:property name="defaultFailureUrl" value="/login" />
+		<beans:property name="defaultFailureUrl" value="/login/login" />
 	</beans:bean>
 </beans:beans>

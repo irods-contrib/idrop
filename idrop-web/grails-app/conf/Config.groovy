@@ -62,7 +62,7 @@ idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
  */
 
 // do I support tickets? This determies whether the ticket feature is available via the interface, it also requires ticket support in iRODS itself (version 3.1+)
-idrop.config.use.tickets=false
+idrop.config.use.tickets=true
 
 /*
  * Some properties may be set in an external configuration file, as configured below
@@ -168,7 +168,7 @@ log4j = {
 
 	warn 'org.irods.mydrop'
 	debug 'org.irods.jargon'
-	warn 'org.irods.jargon.spring.security'
+	debug 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
 	debug 'grails.app'
 
