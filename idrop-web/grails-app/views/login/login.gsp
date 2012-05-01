@@ -65,10 +65,10 @@ clear:both;
 margin-left:150px;
 width:125px;
 height:31px;
-background:#666666 url(img/button.png) no-repeat;
+
 text-align:center;
 line-height:31px;
-color:#FFFFFF;
+
 font-size:11px;
 font-weight:bold;
 }
@@ -82,7 +82,7 @@ font-weight:bold;
 <div id="bannercontainer">
 	<!--  image banner -->
 </div>
-<div id="stylized" style="width: 60%;height:80%;">
+<div id="stylized" style="width: 80%;height:80%;">
  <g:form class="myform" controller="j_spring_security_check"
 	 method="post" >
 	

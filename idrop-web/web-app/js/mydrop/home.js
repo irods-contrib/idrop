@@ -1727,6 +1727,10 @@ function selectTreePathFromIrodsPath(irodsAbsolutePath) {
 	if (irodsAbsolutePath == null || irodsAbsolutePath.length == 0) {
 		throw "irodsAbsolutePath is missing";
 	}
+	
+	if (irodsAbsolutePath == "/") {
+		return false;
+	}
 
 	selectTreePath(irodsAbsolutePath.split("/"), null, null);
 
@@ -1862,6 +1866,10 @@ function splitPathAndPerformOperationAtGivenTreePath(path, currentNode,
  */
 function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 		operationToPerform) {
+	
+	if (dataTree == null) {
+		return false;
+	}
 
 	if (currentIndex == null) {
 		currentIndex = 0;
@@ -1966,8 +1974,10 @@ function processStateChange(state) {
 		browseOptionVal = view;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	} else if (statePath != selectedPath) {
-		browseOptionVal = view;
-		selectTreePathFromIrodsPath(statePath);
+		if (statePath != null) {
+			browseOptionVal = view;
+			selectTreePathFromIrodsPath(statePath);
+		}
 	}
 	
 }

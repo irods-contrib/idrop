@@ -112,9 +112,7 @@
 							  clearStyle: true,
 							  autoHeight: false
 							}).bind("accordionchange", function(event, ui) {
-							  //console.dir(ui.newHeader); // jQuery, activated header
-							  console.log(ui.newHeader[0].id); //this has the id attribute of the header that was clicked
-							  //doSomething(ui.newHeader[0].id);
+							 
 								var infoSection = ui.newHeader[0].id;
 								updateInfoSection(infoSection);
 							});

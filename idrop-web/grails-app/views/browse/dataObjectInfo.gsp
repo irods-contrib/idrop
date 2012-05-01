@@ -38,8 +38,7 @@
 
 <div id="infoAccordion" style="width:98%;margin:10px;">
  <h3  id="infoAccordionBasicInfo"><a href="#infoAccordionBasicInfo"><g:message code="text.info" /></a></h3>
-    	<div>
-		
+    	
 			<div id="container" style="height:100%;width:100%;">
 		
 				<div >
@@ -99,11 +98,11 @@
 					<div><label>Version:</label></div>
 					<div>${dataObject.dataVersion}</div>
 				</div>
-			</div>
+		
 		</div>
 
     <h3 id="infoAccordionTags"><a href="#infoAccordionTags"><g:message code="text.tags" /></a></h3>
-   	<div >
+  
 			<div id="container" style="height:100%;width:100%;">
 				<div>
 					<div><label>Tags:</label></div>
@@ -120,17 +119,16 @@
 					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
 				</div>
 			</div>
-		</div>
+	
 		 <h3  id="infoAccordionMetadata"><a href="#infoAccordionMetadata" ><g:message code="text.metadata" /></a></h3>
-   			<div id="infoAccordionMetadataInner">
-			</div>
+   			<div id="infoAccordionMetadataInner"></div>
 			<h3 id="infoAccordionACL"><a href="#infoAccordionACL" ><g:message code="text.permissions" /></a></h3>
    			<div id="infoAccordionACLInner">
 			</div>
+			
 			<g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
 			<h3 id="infoAccordionTickets"><a href="#infoAccordionTickets" ><g:message code="text.tickets" /></a></h3>
-   			<div id="infoAccordionTicketsInner">
-			</div>
+   			<div id="infoAccordionTicketsInner"></div>
 			</g:if>
 			<h3 id="infoAccordionAudit"><a href="#infoAccordionAudit"><g:message code="text.audit" /></a></h3>
    			<div >
@@ -153,24 +151,17 @@
 			  clearStyle: true,
 			  autoHeight: false
 			}).bind("accordionchange", function(event, ui) {
-			  //console.dir(ui.newHeader); // jQuery, activated header
-			  console.log(ui.newHeader[0].id); //this has the id attribute of the header that was clicked
-			  //doSomething(ui.newHeader[0].id);
 				var infoSection = ui.newHeader[0].id;
-				updateInfoSection(infoSection);
+				updateDataObjectInfoSection(infoSection);
 			});
-
 		
 	});
 
-	function callUpdateTags() {
-		updateTags();
-	}
-
+	
 	/**
 	Update the info for a section in the info accordion based on the provided section id
 	*/
-	function updateInfoSection(sectionToUpdate) {
+	function updateDataObjectInfoSection(sectionToUpdate) {
 		//alert("sectionToUpdate:" + sectionToUpdate);
 		if (sectionToUpdate=="infoAccordionMetadata") {
 			showMetadataView(selectedPath, "#infoAccordionMetadataInner");
@@ -183,9 +174,6 @@
 		}
 	}
 
-
-
-	
 	
 </script>
 <g:if test="${getThumbnail}">

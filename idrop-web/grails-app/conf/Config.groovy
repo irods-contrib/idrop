@@ -71,8 +71,9 @@ idrop.config.use.tickets=true
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 /*
+ * "file:/etc/idrop-web/idrop-web-config.groovy"
  grails.config.locations = [
- "file:${userHome}/.grails/${appName}-config.groovy"
+ "file:${userHome}/.grails/${appName}-config.groovy"   
  ]
  if(System.properties["${appName}.config.location"]) {
  grails.config.locations << "file:" + System.properties["${appName}.config.location"]

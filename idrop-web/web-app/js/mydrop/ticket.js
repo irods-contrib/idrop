@@ -72,7 +72,7 @@ function ticketDetailsClick(minMaxIcon) {
                 try {
                         browseTicketDetailsFunction(minMaxIcon, nTr);
                 } catch (err) {
-                        console.log("error in detailsClick():" + err);
+                        showError("error in detailsClick():" + err);
                 }
 
         }
