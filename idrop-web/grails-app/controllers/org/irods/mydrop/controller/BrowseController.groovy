@@ -14,6 +14,7 @@ import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.mydrop.service.ShoppingCartSessionService
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.servlet.ModelAndView
  
 /**
  * Controller for browser functionality
@@ -180,8 +181,9 @@ class BrowseController {
 
         // if data object, show the info details instead...
         if (isDataObject) {
-            redirect(action:"fileInfo", params:[absPath:absPath])
-            return
+			ViewNameAndModelValues mav = handleInfoLookup(absPath)
+			render(view:mav.view, model:mav.model)
+			return
         }
 
         def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
@@ -206,6 +208,7 @@ class BrowseController {
      * Build data for the 'large' file info display
      */
     def fileInfo = {
+		log.info("fileInfo()");
         def absPath = params['absPath']
         if (absPath == null) {
             throw new JargonException("no absolute path passed to the method")
@@ -553,5 +556,79 @@ class BrowseController {
         log.debug("retrieved collectionAndDataObjectList: ${entries}")
         render(view:"galleryView", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
     }
+	
+	private ViewNameAndModelValues handleInfoLookup(String absPath) {
+		
+		log.info "fileInfo for absPath: ${absPath}"
+		ViewNameAndModelValues mav = new ViewNameAndModelValues()
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def retObj = null
+		// If I cant find any data just put a message up in the display area
+		try {
+			retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 
+			if (!retObj) {
+				log.error "no data found for path ${absPath}"
+				mav.view = "noInfo"
+				return mav
+			}
+		} catch (DataNotFoundException) {
+			log.error "no data found for path ${absPath}"
+				mav.view = "noInfo"
+				return mav
+		}
+
+		def isDataObject = retObj instanceof DataObject
+		def getThumbnail = false
+		def renderMedia = false
+
+		log.info "is this a data object? ${isDataObject}"
+
+		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
+		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
+		if (isDataObject) {
+
+			getThumbnail = MediaHandlingUtils.isImageFile(absPath)
+			log.info("getThumbnail? ${getThumbnail}")
+
+			if (!getThumbnail) {
+				renderMedia = MediaHandlingUtils.isMediaFile(absPath)
+				log.info("renderMedia? ${renderMedia}")
+			}
+
+			log.info("getting free tags for data object")
+			def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
+			log.info("rendering as data object: ${retObj}")
+			def commentTag = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(absPath)
+
+			def comment = ""
+			if (commentTag) {
+				comment = commentTag.getTagData()
+			}
+
+			mav.view = "dataObjectInfo"
+			mav.model = [dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
+			return mav
+		} else {
+			log.info("getting free tags for collection")
+			def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
+			def commentTag = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(absPath)
+
+			def comment = ""
+			if (commentTag) {
+				comment = commentTag.getTagData()
+			}
+			log.info("rendering as collection: ${retObj}")
+			mav.view = "collectionInfo"
+			mav.model = [collection:retObj,comment:comment,tags:freeTags,  isDataObject:isDataObject, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
+			return mav
+		
+		}
+	}
+
+}
+
+class ViewNameAndModelValues {
+	String view
+	Map<String,Object> model = new HashMap<String, Object>()
 }

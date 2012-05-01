@@ -10,31 +10,31 @@
 <div id="toggleHtmlArea">
 	<div id="displayArea" style="position:relative;width:100%;height:95%;display:block;">
 
-	<div id="infoDialogArea"><!--  no empty divs --></div>
+		<div id="infoDialogArea"><!--  no empty divs --></div>
 	
-		<div class="roundedContainer">
-		<div id="container" style="height:100%;width:100%;">
-		
-				<div>
-					<div style="width:20%;"><label>Collection:</label></div>
-					<div style="overflow:auto;">${dataObject.collectionName}</div>
+			<div class="roundedContainer">
+				<div id="container" style="height:100%;width:100%;">
+				
+						<div>
+							<div style="width:20%;"><label>Collection:</label></div>
+							<div style="overflow:auto;">${dataObject.collectionName}</div>
+						</div>
+						<div >
+							<div><label>Name:</label></div>
+							<div style="overflow:auto;"><g:link url="${'file/download' + dataObject.absolutePath}">${dataObject.dataName}</g:link></div>
+						</div>
 				</div>
-				<div >
-					<div><label>Name:</label></div>
-					<div style="overflow:auto;"><g:link url="${'file/download' + dataObject.absolutePath}">${dataObject.dataName}</g:link></div>
+				<div id="infoThumbnailLoadArea"></div>
+					<g:if test="${renderMedia}">
+						<a class="media" href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
+					</g:if>
+					<g:else>
+						<a href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
+					</g:else>
 				</div>
-			</div>
-			<div id="infoThumbnailLoadArea"></div>
-				<g:if test="${renderMedia}">
-					<a class="media" href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
-				</g:if>
-				<g:else>
-					<a href="${resource(absolute:true,dir:'file/download',file:dataObject.absolutePath)}"></a>
-				</g:else>
 			</div>
 		</div>
-	
-	</div>
+		
 
 <div id="infoAccordion" style="width:98%;margin:10px;">
  <h3  id="infoAccordionBasicInfo"><a href="#infoAccordionBasicInfo"><g:message code="text.info" /></a></h3>
@@ -135,11 +135,10 @@
 			</div>
 </div>
 	
-	
-	
-</div><!--  toggle html area -->
+
 
 <script>
+
 	$(function() {
 		showDetailsToolbar();
 		$(".idropLiteBulkUpload").hide();
@@ -156,6 +155,7 @@
 			});
 		
 	});
+	
 
 	
 	/**

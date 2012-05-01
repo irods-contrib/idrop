@@ -564,9 +564,10 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	    state[ "browseOptionVal"] = browseOptionVal;
 	    $.bbq.pushState( state );
 
+	//alert("call setPathCrumbtrail");
 	setPathCrumbtrail(absPath);
-
-	
+	//alert("skipped setpathcrumbtrail");
+	//alert("browseOptionVal is:" + browseOptionVal);
 
 	if (browseOptionVal == "browse") {
 		showBrowseView(absPath);
@@ -674,7 +675,9 @@ function showInfoView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
+	alert("show info view");
 	showDetailsToolbar();
+	alert("details toolbar shown");
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);
