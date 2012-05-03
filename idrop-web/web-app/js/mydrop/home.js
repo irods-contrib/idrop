@@ -675,9 +675,7 @@ function showInfoView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	alert("show info view");
 	showDetailsToolbar();
-	alert("details toolbar shown");
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);

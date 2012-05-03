@@ -79,8 +79,17 @@
 			
 
 			</ul></li>
+			
+			<li id="menuBulkActionDetails" class="detailsToolbarMenuItem"><a href="#applyActionToAllDetails"><g:message code="text.apply.to.all"/></a>
+				<ul>
+
+					<li id="menuAddToCartDetails"><a href="#addAllToCartDetails" onclick="addSelectedToCart()"><g:message code="text.add.all.to.cart" /></a></li>
+					<li id="menuDeleteDetails"><a href="#deleteAllDetails" onclick="deleteSelected()"><g:message code="text.delete.all" /></a></li>
+				</ul>
+			</li>
+				
 			<g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
-		<li id="menuTicketDetails" class="detailsToolbarMenuItem"><a
+			<li id="menuTicketDetails" class="detailsToolbarMenuItem"><a
 			href="#ticketsMenu"><g:message
 					code="text.tickets" /></a>
 			<ul>
@@ -139,10 +148,7 @@
 
 
 <script type="text/javascript">
-
 	var showLite = false;
-
-
 
 	$(function() {
 		$(".toolbarMenuItem").hide();
@@ -159,12 +165,11 @@
 
 		var state = {};
 
-		state[ "browseOptionVal"] = browseOptionVal;
-		$.bbq.pushState( state );
+		state["browseOptionVal"] = browseOptionVal;
+		$.bbq.pushState(state);
 
 	}
 
-	
 	/**
 	 * browse view selected
 	 */
@@ -205,7 +210,6 @@
 		setDefaultView("ticket");
 		showTicketView(selectedPath);
 	}
-	
 
 	/**
 	 * Show the gallery (photo) view
