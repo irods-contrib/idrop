@@ -59,6 +59,11 @@ cd ../packaging
 if [ -d idrop-web ]; then
   rm -rf idrop-web
 fi
+
+if [ -f idrop-web.list ]; then
+  rm idrop-web.list
+fi
+
 mkdir idrop-web
 cd idrop-web
 cp ../../idrop-web/idrop-web.war .
@@ -88,5 +93,3 @@ elif [ -f "/etc/lsb-release" ]; then  # Ubuntu
 elif [ -f "/usr/bin/sw_vers" ]; then  # MacOSX
   echo "TODO: generate package for MacOSX"
 fi
-
-rm idrop-web.list
