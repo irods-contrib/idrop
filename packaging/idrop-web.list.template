@@ -6,10 +6,6 @@
 %description Web Based Interface for Interacting with the iRODS data grid
 %version 3.1 300001
 
-%if DEB
-%elseif RPM
-%endif
-
 #%requires http 2
 #%requires java 6
 #%requires wget
@@ -155,7 +151,11 @@ echo "INFO :: Removing Firewall Access for iDrop Web ..."
 /sbin/iptables -F idropweb
 /sbin/iptables -D INPUT -j idropweb
 /sbin/iptables -X idropweb
+%if RPM
 /sbin/service iptables save
+%else
+/sbin/iptables-save
+%endif
 END_PREREMOVE
 
 # =-=-=-=-=-=-=-

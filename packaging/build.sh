@@ -83,10 +83,10 @@ rm tmp.list
 
 if [ -f "/etc/redhat-release" ]; then # CentOS and RHEL and Fedora
   echo "Running EPM :: Generating RPM"
-  epm -f rpm idrop-web idrop-web.list
+  epm -f rpm idrop-web RPM=true idrop-web.list
 elif [ -f "/etc/SuSE-release" ]; then # SuSE
   echo "Running EPM :: Generating RPM"
-  epm -f rpm idrop-web idrop-web.list
+  epm -f rpm idrop-web RPM=true idrop-web.list
 elif [ -f "/etc/lsb-release" ]; then  # Ubuntu
   echo "Running EPM :: Generating DEB"
   epm -a amd64 -f deb idrop-web idrop-web.list
