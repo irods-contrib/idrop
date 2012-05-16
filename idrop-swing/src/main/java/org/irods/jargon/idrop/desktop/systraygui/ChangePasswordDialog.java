@@ -6,7 +6,6 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Color;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -16,7 +15,6 @@ import javax.swing.JOptionPane;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.UserAO;
-import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.irods.jargon.transfer.exception.CannotUpdateTransferInProgressException;
 import org.slf4j.LoggerFactory;
 

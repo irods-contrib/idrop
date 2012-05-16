@@ -1,4 +1,4 @@
 package org.irods.jargon.idrop.lite;
 public final class Version {
- public static String VERSION="20120413-0834";
+ public static String VERSION="20120516-1413";
 }

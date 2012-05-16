@@ -10,10 +10,10 @@
     <url>https://code.renci.org/gf/project/irodsidrop/</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jargon.version>3.1.1</jargon.version>  
+        <jargon.version>3.1.2-SNAPSHOT</jargon.version>  
         <spring.core.version>3.0.5.RELEASE</spring.core.version>
         <commons.io.version>2.0.1</commons.io.version>
-        <netbeans.version>RELEASE701</netbeans.version>
+        <netbeans.version>RELEASE711</netbeans.version>
     </properties>
     <issueManagement>
         <system>gForge</system>
@@ -160,6 +160,11 @@
             <dependency>
                 <groupId>org.netbeans.api</groupId>
                 <artifactId>org-netbeans-swing-outline</artifactId>
+                <version>${netbeans.version}</version>
+            </dependency>
+             <dependency>
+                <groupId>org.netbeans.api</groupId>
+                <artifactId>org-openide-util</artifactId>
                 <version>${netbeans.version}</version>
             </dependency>
             <dependency>
@@ -339,9 +344,13 @@
             <artifactId>jargon-core</artifactId>
             <scope>compile</scope>
         </dependency>   
+         <dependency>
+                <groupId>org.netbeans.api</groupId>
+                <artifactId>org-openide-util</artifactId>
+            <scope>compile</scope>
+            </dependency>
     </dependencies>
     <build>
-   
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
