@@ -78,7 +78,13 @@ $(function() {
 	if (limit == 0) {
 		limit = 100;
 		current = 0;
+	} else if (current < limit) {
+		limit = limit - current;
+	} else if (current >= limit) {
+		current=1;
+		limit=0;	
 	}
+	
 
 	var data = [$.gchart.series('Usage', [current,limit])];
 	    
@@ -87,11 +93,16 @@ $(function() {
 
 	 current = ${ticket.writeByteCount};
 	 limit =  ${ticket.writeByteLimit}; 
-
-	if (limit == 0) {
-		limit = 100;
-		current = 0;
-	}
+	 
+	 if (limit == 0) {
+			limit = 100;
+			current = 0;
+		} else if (current < limit) {
+			limit = limit - current;
+		} else if (current >= limit) {
+			current=1;
+			limit=0;	
+		}
 
 	 data = [$.gchart.series('Bytes', [current,limit])];
 
@@ -100,12 +111,15 @@ $(function() {
 
 	 current = ${ticket.writeFileCount};
 	 limit =  ${ticket.writeFileLimit}; 
-
 	 if (limit == 0) {
 			limit = 100;
 			current = 0;
+		} else if (current < limit) {
+			limit = limit - current;
+		} else if (current >= limit) {
+			current=1;
+			limit=0;	
 		}
-
 		 data = [$.gchart.series('Files', [current,limit])];
 
 	 $('#ticketWriteFilesChart').gchart({type: 'pie3D', series: data, legend: 'bottom', 
