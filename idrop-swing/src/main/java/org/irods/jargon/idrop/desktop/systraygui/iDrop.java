@@ -180,6 +180,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         if (fileTree == null) {
             buildIdropGuiComponents();
         }
+        
         initializeLookAndFeelSelected();
 
         if (irodsTree == null) {
@@ -189,10 +190,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         //setLookAndFeel(iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
         setUpLocalFileSelectTree();
         togglePauseTransfer.setSelected(pausedItem.getState());
-        iDropCore.getIconManager().setRunningStatus(
-                iDropCore.getTransferManager().getRunningStatus());
+        RunningStatus status =  iDropCore.getTransferManager().getRunningStatus();
+        iDropCore.getIconManager().setRunningStatus(status);
         iDropCore.getIconManager().setErrorStatus(
                 iDropCore.getTransferManager().getErrorStatus());
+        if (status == RunningStatus.PROCESSING) {
+           this.pnlCurrentTransferStatus.setVisible(true);
+        } else {
+             this.pnlCurrentTransferStatus.setVisible(false);
+        }
         setVisible(true);
 
     }
@@ -335,6 +341,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             @Override
             public void run() {
 
+                if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION || ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
+                    idropGui.pnlCurrentTransferStatus.setVisible(true);
+                } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION || ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) { 
+                     idropGui.pnlCurrentTransferStatus.setVisible(false);
+                }
+                
                 /* 
                  * Handle appropriate tree notifications, so some filtering to prevent notifications when for a different host/zone
                  */
@@ -1354,8 +1366,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMoveToTrash = new javax.swing.JButton();
         separator2 = new javax.swing.JToolBar.Separator();
         pnlIdropBottom = new javax.swing.JPanel();
-        pnlCurrentGrid = new javax.swing.JPanel();
+        pnlBottomGutter = new javax.swing.JPanel();
         userNameLabel = new javax.swing.JLabel();
+        pnlQueueManagerSummary = new javax.swing.JPanel();
+        idropProgressPanelToolbar = new javax.swing.JToolBar();
+        btnShowTransferManager = new javax.swing.JButton();
+        togglePauseTransfer = new javax.swing.JToggleButton();
+        progressIconImageLabel = new javax.swing.JLabel();
         pnlCurrentTransferStatus = new javax.swing.JPanel();
         lblTransferTypeLabel = new javax.swing.JLabel();
         lblTransferType = new javax.swing.JLabel();
@@ -1366,11 +1383,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         progressIntraFile = new javax.swing.JProgressBar();
         lblTransferFilesCounts = new javax.swing.JLabel();
         transferStatusProgressBar = new javax.swing.JProgressBar();
-        pnlQueueManagerSummary = new javax.swing.JPanel();
-        idropProgressPanelToolbar = new javax.swing.JToolBar();
-        btnShowTransferManager = new javax.swing.JButton();
-        togglePauseTransfer = new javax.swing.JToggleButton();
-        progressIconImageLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemClose = new javax.swing.JMenuItem();
@@ -1903,13 +1915,67 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlIdropBottom.setToolTipText("Display area for status and messages");
         pnlIdropBottom.setLayout(new java.awt.BorderLayout());
 
+        pnlBottomGutter.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        pnlBottomGutter.setMaximumSize(new java.awt.Dimension(2147483647, 10));
+        pnlBottomGutter.setMinimumSize(null);
+        pnlBottomGutter.setPreferredSize(null);
+        pnlBottomGutter.setLayout(new java.awt.BorderLayout());
+
         userNameLabel.setText("usernamelabel");
-        pnlCurrentGrid.add(userNameLabel);
+        userNameLabel.setMinimumSize(null);
+        userNameLabel.setPreferredSize(null);
+        pnlBottomGutter.add(userNameLabel, java.awt.BorderLayout.WEST);
 
-        pnlIdropBottom.add(pnlCurrentGrid, java.awt.BorderLayout.WEST);
-        pnlCurrentGrid.getAccessibleContext().setAccessibleName("Current Grid Panel");
-        pnlCurrentGrid.getAccessibleContext().setAccessibleDescription("Panel Showing the Current iRODS Grid");
+        pnlQueueManagerSummary.setMinimumSize(null);
+        pnlQueueManagerSummary.setPreferredSize(null);
+        pnlQueueManagerSummary.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
+        idropProgressPanelToolbar.setFloatable(false);
+        idropProgressPanelToolbar.setRollover(true);
+        idropProgressPanelToolbar.setMaximumSize(null);
+        idropProgressPanelToolbar.setMinimumSize(null);
+        idropProgressPanelToolbar.setPreferredSize(null);
+
+        btnShowTransferManager.setText("Manage");
+        btnShowTransferManager.setToolTipText("Show a panel to manage transfers");
+        btnShowTransferManager.setFocusable(false);
+        btnShowTransferManager.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnShowTransferManager.setMinimumSize(null);
+        btnShowTransferManager.setPreferredSize(null);
+        btnShowTransferManager.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnShowTransferManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowTransferManagerActionPerformed(evt);
+            }
+        });
+        idropProgressPanelToolbar.add(btnShowTransferManager);
+
+        togglePauseTransfer.setText("Pause");
+        togglePauseTransfer.setToolTipText("Pause the current transfer");
+        togglePauseTransfer.setFocusable(false);
+        togglePauseTransfer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        togglePauseTransfer.setMinimumSize(null);
+        togglePauseTransfer.setPreferredSize(null);
+        togglePauseTransfer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        togglePauseTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                togglePauseTransferActionPerformed(evt);
+            }
+        });
+        idropProgressPanelToolbar.add(togglePauseTransfer);
+
+        pnlQueueManagerSummary.add(idropProgressPanelToolbar);
+        pnlQueueManagerSummary.add(progressIconImageLabel);
+
+        pnlBottomGutter.add(pnlQueueManagerSummary, java.awt.BorderLayout.EAST);
+        pnlQueueManagerSummary.getAccessibleContext().setAccessibleName("Queue Manager Summary Panel");
+        pnlQueueManagerSummary.getAccessibleContext().setAccessibleDescription("Panel showing summary of the status of the queue manager");
+
+        pnlIdropBottom.add(pnlBottomGutter, java.awt.BorderLayout.SOUTH);
+        pnlBottomGutter.getAccessibleContext().setAccessibleName("Current Grid Panel");
+        pnlBottomGutter.getAccessibleContext().setAccessibleDescription("Panel Showing the Current iRODS Grid");
+
+        pnlCurrentTransferStatus.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         pnlCurrentTransferStatus.setLayout(new java.awt.GridBagLayout());
 
         lblTransferTypeLabel.setText("Transfer Type:");
@@ -1918,8 +1984,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlCurrentTransferStatus.add(lblTransferTypeLabel, gridBagConstraints);
-
-        lblTransferType.setText("xxxxxx");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1927,7 +1991,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlCurrentTransferStatus.add(lblTransferType, gridBagConstraints);
 
         lblTransferStatusMessage.setForeground(new java.awt.Color(0, 0, 255));
-        lblTransferStatusMessage.setText("this is the status message");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -1944,7 +2007,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlCurrentTransferStatus.add(lblCurrentFileLabel, gridBagConstraints);
         lblCurrentFileLabel.getAccessibleContext().setAccessibleDescription("Label for the current file");
 
-        lblCurrentFile.setText("this is the current file");
         lblCurrentFile.setMaximumSize(new java.awt.Dimension(999, 999));
         lblCurrentFile.setMinimumSize(new java.awt.Dimension(30, 10));
         lblCurrentFile.setPreferredSize(new java.awt.Dimension(500, 20));
@@ -1990,40 +2052,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlIdropBottom.add(pnlCurrentTransferStatus, java.awt.BorderLayout.CENTER);
         pnlCurrentTransferStatus.getAccessibleContext().setAccessibleName("Current Transfer Status Panel");
         pnlCurrentTransferStatus.getAccessibleContext().setAccessibleDescription("Panel Describing the stete of the current transfer");
-
-        idropProgressPanelToolbar.setFloatable(false);
-        idropProgressPanelToolbar.setRollover(true);
-
-        btnShowTransferManager.setText("Manage");
-        btnShowTransferManager.setToolTipText("Show a panel to manage transfers");
-        btnShowTransferManager.setFocusable(false);
-        btnShowTransferManager.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnShowTransferManager.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnShowTransferManager.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShowTransferManagerActionPerformed(evt);
-            }
-        });
-        idropProgressPanelToolbar.add(btnShowTransferManager);
-
-        togglePauseTransfer.setText("Pause");
-        togglePauseTransfer.setToolTipText("Pause the current transfer");
-        togglePauseTransfer.setFocusable(false);
-        togglePauseTransfer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        togglePauseTransfer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        togglePauseTransfer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                togglePauseTransferActionPerformed(evt);
-            }
-        });
-        idropProgressPanelToolbar.add(togglePauseTransfer);
-
-        pnlQueueManagerSummary.add(idropProgressPanelToolbar);
-        pnlQueueManagerSummary.add(progressIconImageLabel);
-
-        pnlIdropBottom.add(pnlQueueManagerSummary, java.awt.BorderLayout.EAST);
-        pnlQueueManagerSummary.getAccessibleContext().setAccessibleName("Queue Manager Summary Panel");
-        pnlQueueManagerSummary.getAccessibleContext().setAccessibleDescription("Panel showing summary of the status of the queue manager");
 
         getContentPane().add(pnlIdropBottom, java.awt.BorderLayout.SOUTH);
 
@@ -2657,10 +2685,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JButton btnRefreshLocalDrives;
     private javax.swing.JButton btnRefreshTargetTree;
     private javax.swing.JButton btnReplication;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnShowTransferManager;
     private javax.swing.JButton btnUpdateInfo;
     private javax.swing.JButton btnViewMetadata;
-    private javax.swing.JButton btnSearch;
     private javax.swing.ButtonGroup buttonGroupLandF;
     private javax.swing.JComboBox comboSearchType;
     private javax.swing.JPanel iDropToolbar;
@@ -2705,7 +2733,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JLabel lblTransferTypeLabel;
     private javax.swing.JList listLocalDrives;
     private javax.swing.JMenuItem menuItemShowInHierarchy;
-    private javax.swing.JPanel pnlCurrentGrid;
+    private javax.swing.JPanel pnlBottomGutter;
     private javax.swing.JPanel pnlCurrentTransferStatus;
     private javax.swing.JPanel pnlDrivesFiller;
     private javax.swing.JPanel pnlFileIconSizer;
