@@ -106,12 +106,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private CheckboxMenuItem pausedItem = null;
     private TrayIcon trayIcon = null;
     private Object lastCachedInfoItem = null;
-    public DateFormat df = DateFormat.getDateInstance(DateFormat.LONG);
+    public DateFormat df = DateFormat.getDateInstance(DateFormat.FULL);
     private ChangePasswordDialog changePasswordDialog = null;
     public static JDialog newPreferencesDialog;
     public JCheckBox showGUICheckBox;
     public JButton preferencesDialogOKButton;
     private static SimpleDateFormat SDF = new SimpleDateFormat("MM-dd-yyyy");
+     private static SimpleDateFormat STF = new SimpleDateFormat("hh:mm:ss");
     private boolean receivedStartupSignal = false;
     private ImageIcon pnlIdropProgressIcon = null;
 
@@ -155,15 +156,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         int width = t.getScreenSize().width;
         int height = t.getScreenSize().height;
 
-        // FIXME: don't build prefs panel here
-
         int showX = (width / 2) - (this.getWidth() / 2);
         int showY = (height / 2) - (this.getHeight() / 2);
         this.setLocation(showX, showY);
-
-        if (!getiDropCore().getIdropConfig().isAdvancedView()) {
-            toolBarInfo.setVisible(false);
-        }
 
         if (getiDropCore().getIrodsAccount() == null) {
             log.warn("no account, exiting");
@@ -195,7 +190,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         iDropCore.getIconManager().setErrorStatus(
                 iDropCore.getTransferManager().getErrorStatus());
         if (status == RunningStatus.PROCESSING) {
-             setUpTransferPanel(true);
+            setUpTransferPanel(true);
         } else {
             setUpTransferPanel(false);
         }
@@ -305,17 +300,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Be able to do things to the transfer panel 
-     * @param isBegin 
+     * Be able to do things to the transfer panel
+     *
+     * @param isBegin
      */
     private void setUpTransferPanel(boolean isBegin) {
         if (isBegin) {
-             pnlCurrentTransferStatus.setVisible(true);
+            pnlCurrentTransferStatus.setVisible(true);
         } else {
-             pnlCurrentTransferStatus.setVisible(true);
+            pnlCurrentTransferStatus.setVisible(true);
         }
     }
-    
+
     /**
      * Implementation of transfer manager callback. The overall status callback represents the start
      * and completion of a transfer operation
@@ -334,9 +330,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             public void run() {
 
                 if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION || ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
-                     transferStatusProgressBar.setString(FieldFormatHelper.formatFileProgress(ts.getTotalFilesToTransfer(), ts.getTotalFilesTransferredSoFar(), 0));
+                    transferStatusProgressBar.setString(FieldFormatHelper.formatFileProgress(ts.getTotalFilesToTransfer(), ts.getTotalFilesTransferredSoFar(), 0));
                     progressIntraFile.setString(FieldFormatHelper.formatByteProgress(ts.getTotalSize(), ts.getBytesTransfered(), 0));
-                   idropGui.setUpTransferPanel(true);
+                    idropGui.setUpTransferPanel(true);
                 } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION || ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
                     idropGui.setUpTransferPanel(false);
                 }
@@ -1140,10 +1136,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         final iDrop idropGui = this;
 
 
-        lblFileOrCollectionName.setText(IDropUtils.abbreviateFileName(dataObject.getDataName()));
-        lblFileOrCollectionName.setToolTipText(dataObject.getDataName());
-        lblFileParent.setText(IDropUtils.abbreviateFileName(dataObject.getCollectionName()));
-        lblFileParent.setToolTipText(dataObject.getCollectionName());
+        lblFileOrCollectionName.setText(IDropUtils.abbreviateFileName(dataObject.getAbsolutePath()));
+        lblFileOrCollectionName.setToolTipText(dataObject.getAbsolutePath());
 
         log.debug("getting available tags for data object");
 
@@ -1161,7 +1155,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             IRODSTagValue tagValue = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(dataObject.getAbsolutePath());
 
             if (tagValue == null) {
-
                 txtComment.setText("");
             } else {
                 txtComment.setText(tagValue.getTagData());
@@ -1170,14 +1163,30 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             pnlInfoIcon.removeAll();
             pnlInfoIcon.add(IconHelper.getFileIcon());
             pnlInfoIcon.validate();
-            lblInfoCreatedAtValue.setText(df.format(dataObject.getCreatedAt()));
-            lblInfoUpdatedAtValue.setText(df.format(dataObject.getUpdatedAt()));
-            lblInfoLengthValue.setText(String.valueOf(dataObject.getDataSize()));
-            lblInfoLengthValue.setVisible(true);
-            lblInfoLength.setVisible(true);
-            lblInfoChecksum.setVisible(true);
-            lblInfoChecksumValue.setVisible(true);
+            lblInfoCreatedAtValue.setText(SDF.format(dataObject.getCreatedAt()));
+            lblInfoCreatedAtTimeValue.setText(STF.format(dataObject.getCreatedAt()));
+            lblInfoUpdatedAtValue.setText(SDF.format(dataObject.getUpdatedAt()));
+             lblInfoUpdatedAtTimeValue.setText(STF.format(dataObject.getUpdatedAt()));
+            lblInfoLengthValue.setText(FieldFormatHelper.formatFileLength(dataObject.getDataSize()));
+
             lblInfoChecksumValue.setText(dataObject.getChecksum());
+            lblCollectionTypeLabel.setVisible(false);
+            lblCollectionType.setVisible(false);
+            adjustInfoPanelVisibilityOfDataObjectSpecificContent(true);
+            
+            lblDataPath.setText(IDropUtils.abbreviateFileName(dataObject.getDataPath()));
+            lblDataPath.setToolTipText(dataObject.getDataPath());
+            
+            lblDataReplicationStatus.setText(dataObject.getReplicationStatus());
+            lblDataVersion.setText(String.valueOf(dataObject.getDataVersion()));
+            
+            lblDataType.setText(dataObject.getDataTypeName());
+            
+            lblDataStatus.setText(dataObject.getDataStatus());
+            
+            lblOwnerName.setText(dataObject.getDataOwnerName());
+            lblOwnerZone.setText(dataObject.getDataOwnerZone());
+            
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                     null, ex);
@@ -1211,11 +1220,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         this.lastCachedInfoItem = collection;
         final iDrop idropGui = this;
 
-
-        lblFileOrCollectionName.setText(IDropUtils.abbreviateFileName(collection.getCollectionLastPathComponent()));
-        lblFileOrCollectionName.setToolTipText(collection.getCollectionLastPathComponent());
-        lblFileParent.setText(IDropUtils.abbreviateFileName(collection.getCollectionParentName()));
-        lblFileParent.setToolTipText(collection.getCollectionParentName());
+        lblFileOrCollectionName.setText(IDropUtils.abbreviateFileName(collection.getAbsolutePath()));
+        lblFileOrCollectionName.setToolTipText(collection.getAbsolutePath());
 
         log.debug("getting available tags for data object");
 
@@ -1239,12 +1245,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             pnlInfoIcon.removeAll();
             pnlInfoIcon.add(IconHelper.getFolderIcon());
             pnlInfoIcon.validate();
-            lblInfoCreatedAtValue.setText(df.format(collection.getCreatedAt()));
-            lblInfoUpdatedAtValue.setText(df.format(collection.getModifiedAt()));
-            lblInfoLengthValue.setVisible(false);
-            lblInfoLength.setVisible(false);
-            lblInfoChecksum.setVisible(false);
-            lblInfoChecksumValue.setVisible(false);
+            lblInfoCreatedAtValue.setText(SDF.format(collection.getCreatedAt()));
+             lblInfoCreatedAtTimeValue.setText(STF.format(collection.getCreatedAt()));
+            lblInfoUpdatedAtValue.setText(SDF.format(collection.getModifiedAt()));
+             lblInfoUpdatedAtTimeValue.setText(STF.format(collection.getModifiedAt()));
+            lblCollectionTypeLabel.setVisible(true);
+            lblCollectionType.setVisible(true);
+            lblCollectionType.setText(collection.getCollectionType());
+            adjustInfoPanelVisibilityOfDataObjectSpecificContent(false);
+
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                     null, ex);
@@ -1252,6 +1261,27 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         } finally {
             this.getiDropCore().closeIRODSConnectionForLoggedInAccount();
         }
+    }
+
+    private void adjustInfoPanelVisibilityOfDataObjectSpecificContent(final boolean visible) {
+        lblInfoLengthValue.setVisible(visible);
+        lblInfoLength.setVisible(visible);
+        lblInfoChecksum.setVisible(visible);
+        lblInfoChecksumValue.setVisible(visible);
+        lblOwnerNameLabel.setVisible(visible);
+        lblOwnerName.setVisible(visible);
+         lblOwnerZoneLabel.setVisible(visible);
+        lblOwnerZone.setVisible(visible);
+        lblDataPathLabel.setVisible(visible);
+        lblDataPath.setVisible(visible);
+        lblDataReplicationStatusLabel.setVisible(visible);
+        lblDataReplicationStatus.setVisible(visible);
+        lblDataVersionLabel.setVisible(visible);
+        lblDataVersion.setVisible(visible);
+        lblDataTypeLabel.setVisible(visible);
+        lblDataType.setVisible(visible);
+        lblDataStatusLabel.setVisible(visible);
+        lblDataStatus.setVisible(visible);
     }
 
     /**
@@ -1317,39 +1347,53 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         scrollPaneSearchResults = new javax.swing.JScrollPane();
         tableSearchResults = new javax.swing.JTable();
         pnlIrodsInfo = new javax.swing.JPanel();
-        pnlIrodsInfoInner = new javax.swing.JPanel();
-        pnlFileIconSizer = new javax.swing.JPanel();
+        tabInfo = new javax.swing.JTabbedPane();
+        pnlInfoInner = new javax.swing.JPanel();
         pnlInfoIcon = new javax.swing.JPanel();
-        pnlFileNameAndIcon = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblSelectedFileInfo = new javax.swing.JLabel();
+        lblFilePathLabel = new javax.swing.JLabel();
         lblFileOrCollectionName = new javax.swing.JLabel();
-        pnlInfoCollectionParent = new javax.swing.JPanel();
-        lblFileParentLabel = new javax.swing.JLabel();
-        lblFileParent = new javax.swing.JLabel();
-        pnlInfoComment = new javax.swing.JPanel();
         lblComment = new javax.swing.JLabel();
         scrollComment = new javax.swing.JScrollPane();
         txtComment = new javax.swing.JTextArea();
-        pnlInfoTags = new javax.swing.JPanel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         lblTags = new javax.swing.JLabel();
         txtTags = new javax.swing.JTextField();
-        pnlInfoButton = new javax.swing.JPanel();
         btnUpdateInfo = new javax.swing.JButton();
-        pnlInfoDetails = new javax.swing.JPanel();
+        pnlFileInfoDemographics = new javax.swing.JPanel();
         lblInfoCreatedAt = new javax.swing.JLabel();
         lblInfoCreatedAtValue = new javax.swing.JLabel();
+        lblInfoCreatedAtTimeValue = new javax.swing.JLabel();
         lblInfoUpdatedAt = new javax.swing.JLabel();
         lblInfoUpdatedAtValue = new javax.swing.JLabel();
+        lblInfoUpdatedAtTimeValue = new javax.swing.JLabel();
         lblInfoLength = new javax.swing.JLabel();
         lblInfoLengthValue = new javax.swing.JLabel();
         lblInfoChecksum = new javax.swing.JLabel();
         lblInfoChecksumValue = new javax.swing.JLabel();
-        pnlToolbarInfo = new javax.swing.JPanel();
-        toolBarInfo = new javax.swing.JToolBar();
-        btnViewMetadata = new javax.swing.JButton();
-        btnReplication = new javax.swing.JButton();
-        separator1 = new javax.swing.JToolBar.Separator();
-        btnMoveToTrash = new javax.swing.JButton();
-        separator2 = new javax.swing.JToolBar.Separator();
+        lblOwnerNameLabel = new javax.swing.JLabel();
+        lblOwnerName = new javax.swing.JLabel();
+        lblOwnerZoneLabel = new javax.swing.JLabel();
+        lblOwnerZone = new javax.swing.JLabel();
+        lblCollectionTypeLabel = new javax.swing.JLabel();
+        lblCollectionType = new javax.swing.JLabel();
+        lblDataPathLabel = new javax.swing.JLabel();
+        lblDataPath = new javax.swing.JLabel();
+        lblDataReplicationStatusLabel = new javax.swing.JLabel();
+        lblDataReplicationStatus = new javax.swing.JLabel();
+        lblDataVersionLabel = new javax.swing.JLabel();
+        lblDataVersion = new javax.swing.JLabel();
+        lblDataTypeLabel = new javax.swing.JLabel();
+        lblDataType = new javax.swing.JLabel();
+        lblDataStatusLabel = new javax.swing.JLabel();
+        lblDataStatus = new javax.swing.JLabel();
+        pnlInfoMetadata = new javax.swing.JPanel();
+        lblMetadataInfo = new javax.swing.JLabel();
+        pnlInfoSharing = new javax.swing.JPanel();
+        lblInfoSharing = new javax.swing.JLabel();
+        pnlInfoReplication = new javax.swing.JPanel();
+        lblMetadataInfo1 = new javax.swing.JLabel();
         pnlIdropBottom = new javax.swing.JPanel();
         pnlBottomGutter = new javax.swing.JPanel();
         pnlHostInfo = new javax.swing.JPanel();
@@ -1639,93 +1683,117 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         splitTargetCollections.setLeftComponent(tabIrodsViews);
 
         pnlIrodsInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 15, 10, 15));
-        pnlIrodsInfo.setMinimumSize(new java.awt.Dimension(300, 708));
         pnlIrodsInfo.setLayout(new java.awt.BorderLayout());
 
-        pnlIrodsInfoInner.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        pnlIrodsInfoInner.setToolTipText("Information on selected iRODS file or collection");
-        pnlIrodsInfoInner.setLayout(new java.awt.GridBagLayout());
+        tabInfo.setToolTipText("View basic demographics for a file or collection");
 
-        pnlFileIconSizer.setMinimumSize(new java.awt.Dimension(80, 40));
-        pnlFileIconSizer.setLayout(new java.awt.BorderLayout());
+        pnlInfoInner.setLayout(new java.awt.GridBagLayout());
 
         pnlInfoIcon.setMaximumSize(new java.awt.Dimension(50, 50));
         pnlInfoIcon.setLayout(new java.awt.GridLayout(1, 0));
-        pnlFileIconSizer.add(pnlInfoIcon, java.awt.BorderLayout.WEST);
+
+        jLabel1.setBackground(new java.awt.Color(255, 0, 204));
+        pnlInfoIcon.add(jLabel1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.8;
-        pnlIrodsInfoInner.add(pnlFileIconSizer, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
+        pnlInfoInner.add(pnlInfoIcon, gridBagConstraints);
 
-        pnlFileNameAndIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlFileNameAndIcon.setMinimumSize(new java.awt.Dimension(100, 50));
-        pnlFileNameAndIcon.setLayout(new java.awt.GridLayout(1, 0));
+        lblSelectedFileInfo.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblSelectedFileInfo.setForeground(java.awt.Color.blue);
+        lblSelectedFileInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/help-contents.png"))); // NOI18N
+        lblSelectedFileInfo.setText("Selected File Info");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        pnlInfoInner.add(lblSelectedFileInfo, gridBagConstraints);
+        lblSelectedFileInfo.getAccessibleContext().setAccessibleDescription("Label indicating panel for selected file info");
 
-        lblFileOrCollectionName.setText("           ");
+        lblFilePathLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblFilePathLabel.setText("Path:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlInfoInner.add(lblFilePathLabel, gridBagConstraints);
+        lblFilePathLabel.getAccessibleContext().setAccessibleName("Path Label");
+        lblFilePathLabel.getAccessibleContext().setAccessibleDescription("Label for file Path");
+
+        lblFileOrCollectionName.setText("file or collection name      ");
         lblFileOrCollectionName.setMaximumSize(new java.awt.Dimension(900, 100));
         lblFileOrCollectionName.setMinimumSize(new java.awt.Dimension(80, 30));
-        pnlFileNameAndIcon.add(lblFileOrCollectionName);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        pnlIrodsInfoInner.add(pnlFileNameAndIcon, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 5, 0);
+        pnlInfoInner.add(lblFileOrCollectionName, gridBagConstraints);
+        lblFileOrCollectionName.getAccessibleContext().setAccessibleName("Abbreviated file name ");
+        lblFileOrCollectionName.getAccessibleContext().setAccessibleDescription("File name of selected file or collection (abbreviated if necessary with elipses)");
 
-        pnlInfoCollectionParent.setLayout(new java.awt.BorderLayout());
-
-        lblFileParentLabel.setText("Parent path of file:");
-        pnlInfoCollectionParent.add(lblFileParentLabel, java.awt.BorderLayout.NORTH);
-        lblFileParentLabel.getAccessibleContext().setAccessibleDescription("The path of the parent of the file or collection");
-
-        lblFileParent.setText("           ");
-        lblFileParent.setMinimumSize(new java.awt.Dimension(80, 30));
-        pnlInfoCollectionParent.add(lblFileParent, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.8;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        pnlIrodsInfoInner.add(pnlInfoCollectionParent, gridBagConstraints);
-
-        pnlInfoComment.setLayout(new java.awt.BorderLayout());
-
+        lblComment.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblComment.setText("Comment:");
         lblComment.setToolTipText("");
-        pnlInfoComment.add(lblComment, java.awt.BorderLayout.NORTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlInfoInner.add(lblComment, gridBagConstraints);
         lblComment.getAccessibleContext().setAccessibleDescription("lable for comment area");
 
         scrollComment.setMinimumSize(null);
-        scrollComment.setPreferredSize(new java.awt.Dimension(388, 84));
+        scrollComment.setPreferredSize(null);
 
+        txtComment.setColumns(30);
+        txtComment.setRows(6);
+        txtComment.setTabSize(5);
+        txtComment.setToolTipText("Free form comment for a file or collection");
+        txtComment.setWrapStyleWord(true);
         txtComment.setMaximumSize(null);
         txtComment.setMinimumSize(null);
         txtComment.setPreferredSize(null);
         scrollComment.setViewportView(txtComment);
-
-        pnlInfoComment.add(scrollComment, java.awt.BorderLayout.CENTER);
+        txtComment.getAccessibleContext().setAccessibleName("Comment");
+        txtComment.getAccessibleContext().setAccessibleDescription("Comment for a file");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlIrodsInfoInner.add(pnlInfoComment, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlInfoInner.add(scrollComment, gridBagConstraints);
+        scrollComment.getAccessibleContext().setAccessibleName("scroll box for file comment");
+        scrollComment.getAccessibleContext().setAccessibleDescription("Scroll box for file comment");
 
-        pnlInfoTags.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        pnlInfoInner.add(filler4, gridBagConstraints);
 
+        lblTags.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblTags.setText("Tags:");
         lblTags.setToolTipText("");
-        pnlInfoTags.add(lblTags, java.awt.BorderLayout.NORTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        pnlInfoInner.add(lblTags, gridBagConstraints);
         lblTags.getAccessibleContext().setAccessibleName("Tags");
         lblTags.getAccessibleContext().setAccessibleDescription("Label for free tagging area");
 
@@ -1743,159 +1811,326 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 txtTagsKeyPressed(evt);
             }
         });
-        pnlInfoTags.add(txtTags, java.awt.BorderLayout.PAGE_END);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.8;
-        pnlIrodsInfoInner.add(pnlInfoTags, gridBagConstraints);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlInfoInner.add(txtTags, gridBagConstraints);
 
-        pnlInfoButton.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-        btnUpdateInfo.setMnemonic('I');
-        btnUpdateInfo.setText("Update Info");
+        btnUpdateInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dialog-accept.png"))); // NOI18N
+        btnUpdateInfo.setMnemonic('u');
+        btnUpdateInfo.setText("Update Comment and Tags");
         btnUpdateInfo.setToolTipText("Update information on the info panel such as tags and comment");
         btnUpdateInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateInfoActionPerformed(evt);
             }
         });
-        pnlInfoButton.add(btnUpdateInfo);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.weightx = 0.1;
-        pnlIrodsInfoInner.add(pnlInfoButton, gridBagConstraints);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        pnlInfoInner.add(btnUpdateInfo, gridBagConstraints);
 
-        pnlInfoDetails.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlInfoDetails.setLayout(new java.awt.GridBagLayout());
+        pnlFileInfoDemographics.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        pnlFileInfoDemographics.setLayout(new java.awt.GridBagLayout());
 
+        lblInfoCreatedAt.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblInfoCreatedAt.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblInfoCreatedAt.setText("Created:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlInfoDetails.add(lblInfoCreatedAt, gridBagConstraints);
-
-        lblInfoCreatedAtValue.setText("XXXXXX");
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 2, 0);
+        pnlFileInfoDemographics.add(lblInfoCreatedAt, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlInfoDetails.add(lblInfoCreatedAtValue, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(4, 5, 5, 0);
+        pnlFileInfoDemographics.add(lblInfoCreatedAtValue, gridBagConstraints);
 
+        lblInfoCreatedAtTimeValue.setToolTipText("Time file was created");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(4, 5, 5, 0);
+        pnlFileInfoDemographics.add(lblInfoCreatedAtTimeValue, gridBagConstraints);
+        lblInfoCreatedAtTimeValue.getAccessibleContext().setAccessibleName("Created at time");
+        lblInfoCreatedAtTimeValue.getAccessibleContext().setAccessibleDescription("time fiel was created");
+
+        lblInfoUpdatedAt.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblInfoUpdatedAt.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblInfoUpdatedAt.setText("Updated:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlInfoDetails.add(lblInfoUpdatedAt, gridBagConstraints);
-
-        lblInfoUpdatedAtValue.setText("XXXXXX");
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 2, 0);
+        pnlFileInfoDemographics.add(lblInfoUpdatedAt, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlInfoDetails.add(lblInfoUpdatedAtValue, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 2, 0);
+        pnlFileInfoDemographics.add(lblInfoUpdatedAtValue, gridBagConstraints);
 
+        lblInfoUpdatedAtTimeValue.setToolTipText("Time file was last updated");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 2, 0);
+        pnlFileInfoDemographics.add(lblInfoUpdatedAtTimeValue, gridBagConstraints);
+        lblInfoUpdatedAtTimeValue.getAccessibleContext().setAccessibleName("Updated at time");
+
+        lblInfoLength.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblInfoLength.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblInfoLength.setText("Length:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlInfoDetails.add(lblInfoLength, gridBagConstraints);
-
-        lblInfoLengthValue.setText("XXXXXX");
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlFileInfoDemographics.add(lblInfoLength, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlInfoDetails.add(lblInfoLengthValue, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 2, 0);
+        pnlFileInfoDemographics.add(lblInfoLengthValue, gridBagConstraints);
 
+        lblInfoChecksum.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblInfoChecksum.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblInfoChecksum.setText("Checksum:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlInfoDetails.add(lblInfoChecksum, gridBagConstraints);
-
-        lblInfoChecksumValue.setText("XXXXXX");
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 2, 0);
+        pnlFileInfoDemographics.add(lblInfoChecksum, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlInfoDetails.add(lblInfoChecksumValue, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 2, 0);
+        pnlFileInfoDemographics.add(lblInfoChecksumValue, gridBagConstraints);
+
+        lblOwnerNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblOwnerNameLabel.setText("Owner:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 2, 0);
+        pnlFileInfoDemographics.add(lblOwnerNameLabel, gridBagConstraints);
+        lblOwnerNameLabel.getAccessibleContext().setAccessibleDescription("Label for file or collection owner name");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.8;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        pnlIrodsInfoInner.add(pnlInfoDetails, gridBagConstraints);
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(20, 2, 2, 0);
+        pnlFileInfoDemographics.add(lblOwnerName, gridBagConstraints);
 
-        pnlToolbarInfo.setLayout(new java.awt.BorderLayout());
+        lblOwnerZoneLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblOwnerZoneLabel.setText("Owner Zone:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 26, 2, 0);
+        pnlFileInfoDemographics.add(lblOwnerZoneLabel, gridBagConstraints);
+        lblOwnerZoneLabel.getAccessibleContext().setAccessibleName("Owner Zone");
+        lblOwnerZoneLabel.getAccessibleContext().setAccessibleDescription("label for owner zone");
 
-        toolBarInfo.setRollover(true);
+        lblOwnerZone.setToolTipText("Zone of file owner");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 2, 0);
+        pnlFileInfoDemographics.add(lblOwnerZone, gridBagConstraints);
+        lblOwnerZone.getAccessibleContext().setAccessibleName("Owner Zone");
 
-        btnViewMetadata.setText("Metadata");
-        btnViewMetadata.setFocusable(false);
-        btnViewMetadata.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnViewMetadata.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnViewMetadata.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewMetadataActionPerformed(evt);
-            }
-        });
-        toolBarInfo.add(btnViewMetadata);
-
-        btnReplication.setText("Replication");
-        btnReplication.setFocusable(false);
-        btnReplication.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnReplication.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnReplication.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReplicationActionPerformed(evt);
-            }
-        });
-        toolBarInfo.add(btnReplication);
-        toolBarInfo.add(separator1);
-
-        btnMoveToTrash.setText("Move to Trash");
-        btnMoveToTrash.setFocusable(false);
-        btnMoveToTrash.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMoveToTrash.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolBarInfo.add(btnMoveToTrash);
-
-        separator2.setMinimumSize(new java.awt.Dimension(50, 1));
-        toolBarInfo.add(separator2);
-
-        pnlToolbarInfo.add(toolBarInfo, java.awt.BorderLayout.NORTH);
-
+        lblCollectionTypeLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblCollectionTypeLabel.setText("Collection Type:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.8;
-        pnlIrodsInfoInner.add(pnlToolbarInfo, gridBagConstraints);
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
+        pnlFileInfoDemographics.add(lblCollectionTypeLabel, gridBagConstraints);
+        lblCollectionTypeLabel.getAccessibleContext().setAccessibleName("Collection Type");
+        lblCollectionTypeLabel.getAccessibleContext().setAccessibleDescription("Label for collection type");
 
-        pnlIrodsInfo.add(pnlIrodsInfoInner, java.awt.BorderLayout.CENTER);
-        pnlIrodsInfoInner.getAccessibleContext().setAccessibleName("info panel");
+        lblCollectionType.setToolTipText("Collection type");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
+        pnlFileInfoDemographics.add(lblCollectionType, gridBagConstraints);
+        lblCollectionType.getAccessibleContext().setAccessibleName("Collection type");
+        lblCollectionType.getAccessibleContext().setAccessibleDescription("Type of collection");
+
+        lblDataPathLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblDataPathLabel.setText("Data Path:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlFileInfoDemographics.add(lblDataPathLabel, gridBagConstraints);
+        lblDataPathLabel.getAccessibleContext().setAccessibleDescription("Label for data path");
+
+        lblDataPath.setToolTipText("Physical path of file");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 10);
+        pnlFileInfoDemographics.add(lblDataPath, gridBagConstraints);
+        lblDataPath.getAccessibleContext().setAccessibleName("Data Path");
+        lblDataPath.getAccessibleContext().setAccessibleDescription("Physical path of the data file");
+
+        lblDataReplicationStatusLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblDataReplicationStatusLabel.setText("Replication Status:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        pnlFileInfoDemographics.add(lblDataReplicationStatusLabel, gridBagConstraints);
+        lblDataReplicationStatusLabel.getAccessibleContext().setAccessibleName("Label for data replication status");
+        lblDataReplicationStatusLabel.getAccessibleContext().setAccessibleDescription("Label for data replication status");
+
+        lblDataReplicationStatus.setToolTipText("Data replication status");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 2, 0, 10);
+        pnlFileInfoDemographics.add(lblDataReplicationStatus, gridBagConstraints);
+        lblDataReplicationStatus.getAccessibleContext().setAccessibleName("Data Replication Status");
+        lblDataReplicationStatus.getAccessibleContext().setAccessibleDescription("Status of replication of this data object");
+
+        lblDataVersionLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblDataVersionLabel.setText("Data Version:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 2, 0);
+        pnlFileInfoDemographics.add(lblDataVersionLabel, gridBagConstraints);
+        lblDataVersionLabel.getAccessibleContext().setAccessibleName("Data Version Label");
+        lblDataVersionLabel.getAccessibleContext().setAccessibleDescription("Label for data version");
+
+        lblDataVersion.setText("jLabel2");
+        lblDataVersion.setToolTipText("Data version");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 2, 0, 10);
+        pnlFileInfoDemographics.add(lblDataVersion, gridBagConstraints);
+        lblDataVersion.getAccessibleContext().setAccessibleName("Data Version");
+        lblDataVersion.getAccessibleContext().setAccessibleDescription("Version of data");
+
+        lblDataTypeLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblDataTypeLabel.setText("Data Type:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlFileInfoDemographics.add(lblDataTypeLabel, gridBagConstraints);
+        lblDataTypeLabel.getAccessibleContext().setAccessibleName("Data Type Label");
+        lblDataTypeLabel.getAccessibleContext().setAccessibleDescription("Label for data type");
+
+        lblDataType.setToolTipText("Data type for selected file");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        pnlFileInfoDemographics.add(lblDataType, gridBagConstraints);
+        lblDataType.getAccessibleContext().setAccessibleName("Data Type");
+
+        lblDataStatusLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblDataStatusLabel.setText("Data Status:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlFileInfoDemographics.add(lblDataStatusLabel, gridBagConstraints);
+        lblDataStatusLabel.getAccessibleContext().setAccessibleName("Data Status label");
+        lblDataStatusLabel.getAccessibleContext().setAccessibleDescription("Label for data status");
+
+        lblDataStatus.setToolTipText("Status of selected file");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 10);
+        pnlFileInfoDemographics.add(lblDataStatus, gridBagConstraints);
+        lblDataStatus.getAccessibleContext().setAccessibleName("Data status");
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(8, 2, 6, 2);
+        pnlInfoInner.add(pnlFileInfoDemographics, gridBagConstraints);
+
+        tabInfo.addTab("Info", new javax.swing.ImageIcon(getClass().getResource("/help-contents.png")), pnlInfoInner); // NOI18N
+
+        lblMetadataInfo.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblMetadataInfo.setForeground(java.awt.Color.blue);
+        lblMetadataInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-4.png"))); // NOI18N
+        lblMetadataInfo.setText("iRODS AVU Metadata");
+        pnlInfoMetadata.add(lblMetadataInfo);
+
+        tabInfo.addTab("Metadata", new javax.swing.ImageIcon(getClass().getResource("/edit-4.png")), pnlInfoMetadata, "AVU Metadata edit and display"); // NOI18N
+
+        lblInfoSharing.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblInfoSharing.setForeground(java.awt.Color.blue);
+        lblInfoSharing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/share.png"))); // NOI18N
+        lblInfoSharing.setText("Access Permissions and Tickets");
+        pnlInfoSharing.add(lblInfoSharing);
+
+        tabInfo.addTab("Sharing and Tickets", new javax.swing.ImageIcon(getClass().getResource("/share.png")), pnlInfoSharing, "ACL permissions and tickets"); // NOI18N
+
+        lblMetadataInfo1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblMetadataInfo1.setForeground(java.awt.Color.blue);
+        lblMetadataInfo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-copy-3.png"))); // NOI18N
+        lblMetadataInfo1.setText("File Replication");
+        pnlInfoReplication.add(lblMetadataInfo1);
+
+        tabInfo.addTab("Replication", new javax.swing.ImageIcon(getClass().getResource("/edit-copy-3.png")), pnlInfoReplication, "Replication of data"); // NOI18N
+
+        pnlIrodsInfo.add(tabInfo, java.awt.BorderLayout.NORTH);
+        tabInfo.getAccessibleContext().setAccessibleName("Info");
 
         splitTargetCollections.setRightComponent(pnlIrodsInfo);
 
@@ -2045,6 +2280,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         idropProgressPanelToolbar.setRollover(true);
 
         btnShowTransferManager.setIcon(new javax.swing.ImageIcon(getClass().getResource("/configure-5.png"))); // NOI18N
+        btnShowTransferManager.setMnemonic('m');
         btnShowTransferManager.setText("Manage");
         btnShowTransferManager.setToolTipText("Show a panel to manage transfers");
         btnShowTransferManager.setFocusable(false);
@@ -2058,6 +2294,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         idropProgressPanelToolbar.add(btnShowTransferManager);
 
         togglePauseTransfer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media-playback-pause-7.png"))); // NOI18N
+        togglePauseTransfer.setMnemonic('p');
         togglePauseTransfer.setText("Pause");
         togglePauseTransfer.setToolTipText("Pause the current transfer");
         togglePauseTransfer.setFocusable(false);
@@ -2699,24 +2936,23 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }// GEN-LAST:event_menuItemShowInHierarchyActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnManageGrids;
-    private javax.swing.JButton btnMoveToTrash;
     private javax.swing.JButton btnRefreshLocalDrives;
     private javax.swing.JButton btnRefreshTargetTree;
-    private javax.swing.JButton btnReplication;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnShowTransferManager;
     private javax.swing.JButton btnUpdateInfo;
-    private javax.swing.JButton btnViewMetadata;
     private javax.swing.ButtonGroup buttonGroupLandF;
     private javax.swing.JComboBox comboDfaultResource;
     private javax.swing.JComboBox comboSearchType;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.JPanel iDropToolbar;
     private javax.swing.JToolBar idropProgressPanelToolbar;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowIrodsInfo;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemShowSourceTree;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuEdit;
     private javax.swing.JMenu jMenuFile;
@@ -2732,23 +2968,44 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemMetal;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemMotif;
     private javax.swing.JSplitPane jSplitPanelLocalRemote;
+    private javax.swing.JLabel lblCollectionType;
+    private javax.swing.JLabel lblCollectionTypeLabel;
     private javax.swing.JLabel lblComment;
     private javax.swing.JLabel lblCurrentFile;
+    private javax.swing.JLabel lblDataPath;
+    private javax.swing.JLabel lblDataPathLabel;
+    private javax.swing.JLabel lblDataReplicationStatus;
+    private javax.swing.JLabel lblDataReplicationStatusLabel;
+    private javax.swing.JLabel lblDataStatus;
+    private javax.swing.JLabel lblDataStatusLabel;
+    private javax.swing.JLabel lblDataType;
+    private javax.swing.JLabel lblDataTypeLabel;
+    private javax.swing.JLabel lblDataVersion;
+    private javax.swing.JLabel lblDataVersionLabel;
     private javax.swing.JLabel lblDefaultResource;
     private javax.swing.JLabel lblFileOrCollectionName;
-    private javax.swing.JLabel lblFileParent;
-    private javax.swing.JLabel lblFileParentLabel;
+    private javax.swing.JLabel lblFilePathLabel;
     private javax.swing.JLabel lblHost;
     private javax.swing.JLabel lblHostLabel;
     private javax.swing.JLabel lblInfoChecksum;
     private javax.swing.JLabel lblInfoChecksumValue;
     private javax.swing.JLabel lblInfoCreatedAt;
+    private javax.swing.JLabel lblInfoCreatedAtTimeValue;
     private javax.swing.JLabel lblInfoCreatedAtValue;
     private javax.swing.JLabel lblInfoLength;
     private javax.swing.JLabel lblInfoLengthValue;
+    private javax.swing.JLabel lblInfoSharing;
     private javax.swing.JLabel lblInfoUpdatedAt;
+    private javax.swing.JLabel lblInfoUpdatedAtTimeValue;
     private javax.swing.JLabel lblInfoUpdatedAtValue;
     private javax.swing.JLabel lblMainSearch;
+    private javax.swing.JLabel lblMetadataInfo;
+    private javax.swing.JLabel lblMetadataInfo1;
+    private javax.swing.JLabel lblOwnerName;
+    private javax.swing.JLabel lblOwnerNameLabel;
+    private javax.swing.JLabel lblOwnerZone;
+    private javax.swing.JLabel lblOwnerZoneLabel;
+    private javax.swing.JLabel lblSelectedFileInfo;
     private javax.swing.JLabel lblTags;
     private javax.swing.JLabel lblTransferByteCounts;
     private javax.swing.JLabel lblTransferFilesCounts;
@@ -2762,21 +3019,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JPanel pnlBottomGutter;
     private javax.swing.JPanel pnlCurrentTransferStatus;
     private javax.swing.JPanel pnlDrivesFiller;
-    private javax.swing.JPanel pnlFileIconSizer;
-    private javax.swing.JPanel pnlFileNameAndIcon;
+    private javax.swing.JPanel pnlFileInfoDemographics;
     private javax.swing.JPanel pnlHostInfo;
     private javax.swing.JPanel pnlIdropBottom;
     private javax.swing.JPanel pnlIdropMain;
-    private javax.swing.JPanel pnlInfoButton;
-    private javax.swing.JPanel pnlInfoCollectionParent;
-    private javax.swing.JPanel pnlInfoComment;
-    private javax.swing.JPanel pnlInfoDetails;
     private javax.swing.JPanel pnlInfoIcon;
-    private javax.swing.JPanel pnlInfoTags;
+    private javax.swing.JPanel pnlInfoInner;
+    private javax.swing.JPanel pnlInfoMetadata;
+    private javax.swing.JPanel pnlInfoReplication;
+    private javax.swing.JPanel pnlInfoSharing;
     private javax.swing.JPanel pnlIrodsArea;
     private javax.swing.JPanel pnlIrodsDetailsToggleSizer;
     private javax.swing.JPanel pnlIrodsInfo;
-    private javax.swing.JPanel pnlIrodsInfoInner;
     private javax.swing.JPanel pnlIrodsTreeMaster;
     private javax.swing.JPanel pnlIrodsTreeToolbar;
     private javax.swing.JPanel pnlLocalRoots;
@@ -2789,7 +3043,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JPanel pnlTabSearch;
     private javax.swing.JPanel pnlTabSearchResults;
     private javax.swing.JPanel pnlTabSearchTop;
-    private javax.swing.JPanel pnlToolbarInfo;
     private javax.swing.JPanel pnlToolbarSizer;
     private javax.swing.JPanel pnlTopToolbarSearchArea;
     private javax.swing.JPanel pnlTransferOptions;
@@ -2801,15 +3054,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JScrollPane scrollLocalFileTree;
     private javax.swing.JScrollPane scrollPaneSearchResults;
     protected javax.swing.JPopupMenu searchTablePopupMenu;
-    private javax.swing.JToolBar.Separator separator1;
-    private javax.swing.JToolBar.Separator separator2;
     private javax.swing.JSplitPane splitTargetCollections;
+    private javax.swing.JTabbedPane tabInfo;
     private javax.swing.JTabbedPane tabIrodsViews;
     private javax.swing.JTable tableSearchResults;
     private javax.swing.JToggleButton toggleIrodsDetails;
     private javax.swing.JToggleButton toggleLocalFiles;
     private javax.swing.JToggleButton togglePauseTransfer;
-    private javax.swing.JToolBar toolBarInfo;
     private javax.swing.JProgressBar transferStatusProgressBar;
     private javax.swing.JTextArea txtComment;
     private javax.swing.JTextField txtMainSearch;

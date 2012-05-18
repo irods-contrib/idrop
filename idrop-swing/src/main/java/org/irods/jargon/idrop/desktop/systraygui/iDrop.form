@@ -783,9 +783,6 @@
                             <EmptyBorder bottom="10" left="15" right="15" top="10"/>
                           </Border>
                         </Property>
-                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[300, 708]"/>
-                        </Property>
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
@@ -795,39 +792,34 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                       <SubComponents>
-                        <Container class="javax.swing.JPanel" name="pnlIrodsInfoInner">
+                        <Container class="javax.swing.JTabbedPane" name="tabInfo">
                           <Properties>
-                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                                <EmptyBorder bottom="10" left="10" right="10" top="10"/>
-                              </Border>
-                            </Property>
-                            <Property name="toolTipText" type="java.lang.String" value="Information on selected iRODS file or collection"/>
+                            <Property name="toolTipText" type="java.lang.String" value="View basic demographics for a file or collection"/>
                           </Properties>
                           <AccessibilityProperties>
-                            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="info panel"/>
+                            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Info"/>
                           </AccessibilityProperties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                              <BorderConstraints direction="Center"/>
+                              <BorderConstraints direction="North"/>
                             </Constraint>
                           </Constraints>
 
-                          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
                           <SubComponents>
-                            <Container class="javax.swing.JPanel" name="pnlFileIconSizer">
-                              <Properties>
-                                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[80, 40]"/>
-                                </Property>
-                              </Properties>
+                            <Container class="javax.swing.JPanel" name="pnlInfoInner">
                               <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.8" weightY="0.0"/>
+                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                                  <JTabbedPaneConstraints tabName="Info">
+                                    <Property name="tabTitle" type="java.lang.String" value="Info"/>
+                                    <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/help-contents.png"/>
+                                    </Property>
+                                  </JTabbedPaneConstraints>
                                 </Constraint>
                               </Constraints>
 
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
                               <SubComponents>
                                 <Container class="javax.swing.JPanel" name="pnlInfoIcon">
                                   <Properties>
@@ -836,8 +828,8 @@
                                     </Property>
                                   </Properties>
                                   <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="West"/>
+                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                      <GridBagConstraints gridX="2" gridY="1" gridWidth="3" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="0" insetsBottom="2" insetsRight="2" anchor="21" weightX="0.0" weightY="0.0"/>
                                     </Constraint>
                                   </Constraints>
 
@@ -845,34 +837,58 @@
                                     <Property name="columns" type="int" value="0"/>
                                     <Property name="rows" type="int" value="1"/>
                                   </Layout>
+                                  <SubComponents>
+                                    <Component class="javax.swing.JLabel" name="jLabel1">
+                                      <Properties>
+                                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                          <Color blue="cc" green="0" red="ff" type="rgb"/>
+                                        </Property>
+                                      </Properties>
+                                    </Component>
+                                  </SubComponents>
                                 </Container>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="pnlFileNameAndIcon">
-                              <Properties>
-                                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                                    <LineBorder/>
-                                  </Border>
-                                </Property>
-                                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[100, 50]"/>
-                                </Property>
-                              </Properties>
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="0" gridY="1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="10" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="21" weightX="1.0" weightY="0.0"/>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-                                <Property name="columns" type="int" value="0"/>
-                                <Property name="rows" type="int" value="1"/>
-                              </Layout>
-                              <SubComponents>
+                                <Component class="javax.swing.JLabel" name="lblSelectedFileInfo">
+                                  <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Lucida Grande" size="13" style="1"/>
+                                    </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+                                    </Property>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/help-contents.png"/>
+                                    </Property>
+                                    <Property name="text" type="java.lang.String" value="Selected File Info"/>
+                                  </Properties>
+                                  <AccessibilityProperties>
+                                    <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label indicating panel for selected file info"/>
+                                  </AccessibilityProperties>
+                                  <Constraints>
+                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                      <GridBagConstraints gridX="1" gridY="0" gridWidth="2" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="10" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                                    </Constraint>
+                                  </Constraints>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="lblFilePathLabel">
+                                  <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Lucida Grande" size="13" style="1"/>
+                                    </Property>
+                                    <Property name="text" type="java.lang.String" value="Path:"/>
+                                  </Properties>
+                                  <AccessibilityProperties>
+                                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Path Label"/>
+                                    <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label for file Path"/>
+                                  </AccessibilityProperties>
+                                  <Constraints>
+                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                      <GridBagConstraints gridX="2" gridY="2" gridWidth="2" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="21" weightX="0.0" weightY="0.0"/>
+                                    </Constraint>
+                                  </Constraints>
+                                </Component>
                                 <Component class="javax.swing.JLabel" name="lblFileOrCollectionName">
                                   <Properties>
-                                    <Property name="text" type="java.lang.String" value="           "/>
+                                    <Property name="text" type="java.lang.String" value="file or collection name      "/>
                                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                       <Dimension value="[900, 100]"/>
                                     </Property>
@@ -880,57 +896,21 @@
                                       <Dimension value="[80, 30]"/>
                                     </Property>
                                   </Properties>
-                                </Component>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="pnlInfoCollectionParent">
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="0" gridY="2" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="10" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="21" weightX="0.8" weightY="0.0"/>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                              <SubComponents>
-                                <Component class="javax.swing.JLabel" name="lblFileParentLabel">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="Parent path of file:"/>
-                                  </Properties>
                                   <AccessibilityProperties>
-                                    <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="The path of the parent of the file or collection"/>
+                                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Abbreviated file name "/>
+                                    <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="File name of selected file or collection (abbreviated if necessary with elipses)"/>
                                   </AccessibilityProperties>
                                   <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="North"/>
+                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                      <GridBagConstraints gridX="2" gridY="3" gridWidth="2" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="2" insetsBottom="5" insetsRight="0" anchor="21" weightX="0.0" weightY="0.0"/>
                                     </Constraint>
                                   </Constraints>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="lblFileParent">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="           "/>
-                                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                      <Dimension value="[80, 30]"/>
-                                    </Property>
-                                  </Properties>
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="Center"/>
-                                    </Constraint>
-                                  </Constraints>
-                                </Component>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="pnlInfoComment">
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="0" gridY="3" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                              <SubComponents>
                                 <Component class="javax.swing.JLabel" name="lblComment">
                                   <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Lucida Grande" size="13" style="1"/>
+                                    </Property>
                                     <Property name="text" type="java.lang.String" value="Comment:"/>
                                     <Property name="toolTipText" type="java.lang.String" value=""/>
                                   </Properties>
@@ -938,8 +918,8 @@
                                     <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="lable for comment area"/>
                                   </AccessibilityProperties>
                                   <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="North"/>
+                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                      <GridBagConstraints gridX="1" gridY="4" gridWidth="2" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="21" weightX="0.0" weightY="0.0"/>
                                     </Constraint>
                                   </Constraints>
                                 </Component>
@@ -949,15 +929,19 @@
                                       <Dimension value="null"/>
                                     </Property>
                                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                      <Dimension value="[388, 84]"/>
+                                      <Dimension value="null"/>
                                     </Property>
                                   </Properties>
+                                  <AccessibilityProperties>
+                                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="scroll box for file comment"/>
+                                    <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Scroll box for file comment"/>
+                                  </AccessibilityProperties>
                                   <AuxValues>
                                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                                   </AuxValues>
                                   <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="Center"/>
+                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                      <GridBagConstraints gridX="1" gridY="5" gridWidth="2" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="21" weightX="0.0" weightY="0.0"/>
                                     </Constraint>
                                   </Constraints>
 
@@ -965,6 +949,11 @@
                                   <SubComponents>
                                     <Component class="javax.swing.JTextArea" name="txtComment">
                                       <Properties>
+                                        <Property name="columns" type="int" value="30"/>
+                                        <Property name="rows" type="int" value="6"/>
+                                        <Property name="tabSize" type="int" value="5"/>
+                                        <Property name="toolTipText" type="java.lang.String" value="Free form comment for a file or collection"/>
+                                        <Property name="wrapStyleWord" type="boolean" value="true"/>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="null"/>
                                         </Property>
@@ -975,22 +964,39 @@
                                           <Dimension value="null"/>
                                         </Property>
                                       </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Comment"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Comment for a file"/>
+                                      </AccessibilityProperties>
                                     </Component>
                                   </SubComponents>
                                 </Container>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="pnlInfoTags">
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="0" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="21" weightX="0.8" weightY="0.0"/>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                              <SubComponents>
+                                <Component class="javax.swing.Box$Filler" name="filler4">
+                                  <Properties>
+                                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                      <Dimension value="[10, 32767]"/>
+                                    </Property>
+                                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                      <Dimension value="[10, 0]"/>
+                                    </Property>
+                                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                      <Dimension value="[10, 0]"/>
+                                    </Property>
+                                  </Properties>
+                                  <AuxValues>
+                                    <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalStrut"/>
+                                  </AuxValues>
+                                  <Constraints>
+                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                      <GridBagConstraints gridX="1" gridY="6" gridWidth="2" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                                    </Constraint>
+                                  </Constraints>
+                                </Component>
                                 <Component class="javax.swing.JLabel" name="lblTags">
                                   <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Lucida Grande" size="13" style="1"/>
+                                    </Property>
                                     <Property name="text" type="java.lang.String" value="Tags:"/>
                                     <Property name="toolTipText" type="java.lang.String" value=""/>
                                   </Properties>
@@ -999,8 +1005,8 @@
                                     <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label for free tagging area"/>
                                   </AccessibilityProperties>
                                   <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="North"/>
+                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                      <GridBagConstraints gridX="1" gridY="6" gridWidth="2" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="21" weightX="0.0" weightY="0.0"/>
                                     </Constraint>
                                   </Constraints>
                                 </Component>
@@ -1020,200 +1026,488 @@
                                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTagsKeyPressed"/>
                                   </Events>
                                   <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="Last"/>
+                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                      <GridBagConstraints gridX="1" gridY="7" gridWidth="2" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
                                     </Constraint>
                                   </Constraints>
                                 </Component>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="pnlInfoButton">
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="0" gridY="5" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="22" weightX="0.1" weightY="0.0"/>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-                                <Property name="alignment" type="int" value="2"/>
-                              </Layout>
-                              <SubComponents>
                                 <Component class="javax.swing.JButton" name="btnUpdateInfo">
                                   <Properties>
-                                    <Property name="mnemonic" type="int" value="73"/>
-                                    <Property name="text" type="java.lang.String" value="Update Info"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/dialog-accept.png"/>
+                                    </Property>
+                                    <Property name="mnemonic" type="int" value="117"/>
+                                    <Property name="text" type="java.lang.String" value="Update Comment and Tags"/>
                                     <Property name="toolTipText" type="java.lang.String" value="Update information on the info panel such as tags and comment"/>
                                   </Properties>
                                   <Events>
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateInfoActionPerformed"/>
                                   </Events>
-                                </Component>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="pnlInfoDetails">
-                              <Properties>
-                                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                                    <LineBorder/>
-                                  </Border>
-                                </Property>
-                              </Properties>
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="0" gridY="6" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="10" insetsLeft="0" insetsBottom="10" insetsRight="0" anchor="17" weightX="0.8" weightY="0.0"/>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
-                              <SubComponents>
-                                <Component class="javax.swing.JLabel" name="lblInfoCreatedAt">
-                                  <Properties>
-                                    <Property name="horizontalAlignment" type="int" value="11"/>
-                                    <Property name="text" type="java.lang.String" value="Created:"/>
-                                  </Properties>
                                   <Constraints>
                                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                      <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="13" weightX="0.0" weightY="0.0"/>
+                                      <GridBagConstraints gridX="1" gridY="8" gridWidth="2" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
                                     </Constraint>
                                   </Constraints>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="lblInfoCreatedAtValue">
+                                <Container class="javax.swing.JPanel" name="pnlFileInfoDemographics">
                                   <Properties>
-                                    <Property name="text" type="java.lang.String" value="XXXXXX"/>
+                                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                                        <BevelBorder bevelType="1"/>
+                                      </Border>
+                                    </Property>
                                   </Properties>
                                   <Constraints>
                                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                      <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
-                                    </Constraint>
-                                  </Constraints>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="lblInfoUpdatedAt">
-                                  <Properties>
-                                    <Property name="horizontalAlignment" type="int" value="11"/>
-                                    <Property name="text" type="java.lang.String" value="Updated:"/>
-                                  </Properties>
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                      <GridBagConstraints gridX="0" gridY="1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="13" weightX="0.0" weightY="0.0"/>
-                                    </Constraint>
-                                  </Constraints>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="lblInfoUpdatedAtValue">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="XXXXXX"/>
-                                  </Properties>
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                      <GridBagConstraints gridX="1" gridY="1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
-                                    </Constraint>
-                                  </Constraints>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="lblInfoLength">
-                                  <Properties>
-                                    <Property name="horizontalAlignment" type="int" value="11"/>
-                                    <Property name="text" type="java.lang.String" value="Length:"/>
-                                  </Properties>
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                      <GridBagConstraints gridX="0" gridY="3" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="13" weightX="0.0" weightY="0.0"/>
-                                    </Constraint>
-                                  </Constraints>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="lblInfoLengthValue">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="XXXXXX"/>
-                                  </Properties>
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                      <GridBagConstraints gridX="1" gridY="3" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
-                                    </Constraint>
-                                  </Constraints>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="lblInfoChecksum">
-                                  <Properties>
-                                    <Property name="horizontalAlignment" type="int" value="11"/>
-                                    <Property name="text" type="java.lang.String" value="Checksum:"/>
-                                  </Properties>
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                      <GridBagConstraints gridX="0" gridY="2" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="13" weightX="0.0" weightY="0.0"/>
-                                    </Constraint>
-                                  </Constraints>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="lblInfoChecksumValue">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="XXXXXX"/>
-                                  </Properties>
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                      <GridBagConstraints gridX="1" gridY="2" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
-                                    </Constraint>
-                                  </Constraints>
-                                </Component>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="pnlToolbarInfo">
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="0" gridY="7" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.8" weightY="0.0"/>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                              <SubComponents>
-                                <Container class="javax.swing.JToolBar" name="toolBarInfo">
-                                  <Properties>
-                                    <Property name="rollover" type="boolean" value="true"/>
-                                  </Properties>
-                                  <Constraints>
-                                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                                      <BorderConstraints direction="North"/>
+                                      <GridBagConstraints gridX="1" gridY="9" gridWidth="2" gridHeight="2" fill="1" ipadX="0" ipadY="0" insetsTop="8" insetsLeft="2" insetsBottom="6" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>
                                     </Constraint>
                                   </Constraints>
 
-                                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+                                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
                                   <SubComponents>
-                                    <Component class="javax.swing.JButton" name="btnViewMetadata">
+                                    <Component class="javax.swing.JLabel" name="lblInfoCreatedAt">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="Metadata"/>
-                                        <Property name="focusable" type="boolean" value="false"/>
-                                        <Property name="horizontalTextPosition" type="int" value="0"/>
-                                        <Property name="verticalTextPosition" type="int" value="3"/>
-                                      </Properties>
-                                      <Events>
-                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewMetadataActionPerformed"/>
-                                      </Events>
-                                    </Component>
-                                    <Component class="javax.swing.JButton" name="btnReplication">
-                                      <Properties>
-                                        <Property name="text" type="java.lang.String" value="Replication"/>
-                                        <Property name="focusable" type="boolean" value="false"/>
-                                        <Property name="horizontalTextPosition" type="int" value="0"/>
-                                        <Property name="verticalTextPosition" type="int" value="3"/>
-                                      </Properties>
-                                      <Events>
-                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReplicationActionPerformed"/>
-                                      </Events>
-                                    </Component>
-                                    <Component class="javax.swing.JToolBar$Separator" name="separator1">
-                                    </Component>
-                                    <Component class="javax.swing.JButton" name="btnMoveToTrash">
-                                      <Properties>
-                                        <Property name="text" type="java.lang.String" value="Move to Trash"/>
-                                        <Property name="focusable" type="boolean" value="false"/>
-                                        <Property name="horizontalTextPosition" type="int" value="0"/>
-                                        <Property name="verticalTextPosition" type="int" value="3"/>
-                                      </Properties>
-                                    </Component>
-                                    <Component class="javax.swing.JToolBar$Separator" name="separator2">
-                                      <Properties>
-                                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                          <Dimension value="[50, 1]"/>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
                                         </Property>
+                                        <Property name="horizontalAlignment" type="int" value="11"/>
+                                        <Property name="text" type="java.lang.String" value="Created:"/>
                                       </Properties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="0" insetsBottom="2" insetsRight="0" anchor="13" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblInfoCreatedAtValue">
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="1" gridY="0" gridWidth="2" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="4" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblInfoCreatedAtTimeValue">
+                                      <Properties>
+                                        <Property name="toolTipText" type="java.lang.String" value="Time file was created"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Created at time"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="time fiel was created"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="3" gridY="0" gridWidth="3" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="4" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblInfoUpdatedAt">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="horizontalAlignment" type="int" value="11"/>
+                                        <Property name="text" type="java.lang.String" value="Updated:"/>
+                                      </Properties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="0" gridY="1" gridWidth="1" gridHeight="1" fill="3" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="2" insetsRight="0" anchor="13" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblInfoUpdatedAtValue">
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="1" gridY="1" gridWidth="2" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="7" insetsBottom="2" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblInfoUpdatedAtTimeValue">
+                                      <Properties>
+                                        <Property name="toolTipText" type="java.lang.String" value="Time file was last updated"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Updated at time"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="3" gridY="1" gridWidth="3" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="2" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblInfoLength">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="horizontalAlignment" type="int" value="11"/>
+                                        <Property name="text" type="java.lang.String" value="Length:"/>
+                                      </Properties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="0" gridY="4" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="0" insetsBottom="2" insetsRight="0" anchor="13" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblInfoLengthValue">
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="1" gridY="4" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="2" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblInfoChecksum">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="horizontalAlignment" type="int" value="11"/>
+                                        <Property name="text" type="java.lang.String" value="Checksum:"/>
+                                      </Properties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="0" gridY="3" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="20" insetsLeft="0" insetsBottom="2" insetsRight="0" anchor="13" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblInfoChecksumValue">
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="1" gridY="3" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="20" insetsLeft="5" insetsBottom="2" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblOwnerNameLabel">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="text" type="java.lang.String" value="Owner:"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label for file or collection owner name"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="3" gridY="3" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="20" insetsLeft="15" insetsBottom="2" insetsRight="0" anchor="22" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblOwnerName">
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="4" gridY="3" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="20" insetsLeft="2" insetsBottom="2" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblOwnerZoneLabel">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="text" type="java.lang.String" value="Owner Zone:"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Owner Zone"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="label for owner zone"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="3" gridY="4" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="26" insetsBottom="2" insetsRight="0" anchor="22" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblOwnerZone">
+                                      <Properties>
+                                        <Property name="toolTipText" type="java.lang.String" value="Zone of file owner"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Owner Zone"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="4" gridY="4" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="2" insetsBottom="2" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblCollectionTypeLabel">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="text" type="java.lang.String" value="Collection Type:"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Collection Type"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label for collection type"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="0" gridY="5" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="15" insetsRight="0" anchor="22" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblCollectionType">
+                                      <Properties>
+                                        <Property name="toolTipText" type="java.lang.String" value="Collection type"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Collection type"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Type of collection"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="1" gridY="5" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="15" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataPathLabel">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="text" type="java.lang.String" value="Data Path:"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label for data path"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="0" gridY="13" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="20" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="22" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataPath">
+                                      <Properties>
+                                        <Property name="toolTipText" type="java.lang.String" value="Physical path of file"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Data Path"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Physical path of the data file"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="1" gridY="13" gridWidth="0" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="20" insetsLeft="0" insetsBottom="0" insetsRight="10" anchor="21" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataReplicationStatusLabel">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="text" type="java.lang.String" value="Replication Status:"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Label for data replication status"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label for data replication status"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="3" gridY="10" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="10" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="22" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataReplicationStatus">
+                                      <Properties>
+                                        <Property name="toolTipText" type="java.lang.String" value="Data replication status"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Data Replication Status"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Status of replication of this data object"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="4" gridY="10" gridWidth="7" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="10" insetsLeft="2" insetsBottom="0" insetsRight="10" anchor="21" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataVersionLabel">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="text" type="java.lang.String" value="Data Version:"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Data Version Label"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label for data version"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="0" gridY="10" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="10" insetsLeft="0" insetsBottom="2" insetsRight="0" anchor="22" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataVersion">
+                                      <Properties>
+                                        <Property name="text" type="java.lang.String" value="jLabel2"/>
+                                        <Property name="toolTipText" type="java.lang.String" value="Data version"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Data Version"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Version of data"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="1" gridY="10" gridWidth="0" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="10" insetsLeft="2" insetsBottom="0" insetsRight="10" anchor="21" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataTypeLabel">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="text" type="java.lang.String" value="Data Type:"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Data Type Label"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label for data type"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="0" gridY="11" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="22" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataType">
+                                      <Properties>
+                                        <Property name="toolTipText" type="java.lang.String" value="Data type for selected file"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Data Type"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="1" gridY="11" gridWidth="0" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="10" anchor="21" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataStatusLabel">
+                                      <Properties>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Lucida Grande" size="13" style="1"/>
+                                        </Property>
+                                        <Property name="text" type="java.lang.String" value="Data Status:"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Data Status label"/>
+                                        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Label for data status"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="3" gridY="11" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="22" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="lblDataStatus">
+                                      <Properties>
+                                        <Property name="toolTipText" type="java.lang.String" value="Status of selected file"/>
+                                      </Properties>
+                                      <AccessibilityProperties>
+                                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Data status"/>
+                                      </AccessibilityProperties>
+                                      <Constraints>
+                                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                                          <GridBagConstraints gridX="4" gridY="11" gridWidth="4" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="4" insetsBottom="0" insetsRight="10" anchor="21" weightX="0.0" weightY="0.0"/>
+                                        </Constraint>
+                                      </Constraints>
                                     </Component>
                                   </SubComponents>
                                 </Container>
+                              </SubComponents>
+                            </Container>
+                            <Container class="javax.swing.JPanel" name="pnlInfoMetadata">
+                              <Constraints>
+                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                                  <JTabbedPaneConstraints tabName="Metadata" toolTip="AVU Metadata edit and display">
+                                    <Property name="tabTitle" type="java.lang.String" value="Metadata"/>
+                                    <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/edit-4.png"/>
+                                    </Property>
+                                    <Property name="tabToolTip" type="java.lang.String" value="AVU Metadata edit and display"/>
+                                  </JTabbedPaneConstraints>
+                                </Constraint>
+                              </Constraints>
+
+                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+                              <SubComponents>
+                                <Component class="javax.swing.JLabel" name="lblMetadataInfo">
+                                  <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Lucida Grande" size="13" style="1"/>
+                                    </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+                                    </Property>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/edit-4.png"/>
+                                    </Property>
+                                    <Property name="text" type="java.lang.String" value="iRODS AVU Metadata"/>
+                                  </Properties>
+                                </Component>
+                              </SubComponents>
+                            </Container>
+                            <Container class="javax.swing.JPanel" name="pnlInfoSharing">
+                              <Constraints>
+                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                                  <JTabbedPaneConstraints tabName="Sharing and Tickets" toolTip="ACL permissions and tickets">
+                                    <Property name="tabTitle" type="java.lang.String" value="Sharing and Tickets"/>
+                                    <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/share.png"/>
+                                    </Property>
+                                    <Property name="tabToolTip" type="java.lang.String" value="ACL permissions and tickets"/>
+                                  </JTabbedPaneConstraints>
+                                </Constraint>
+                              </Constraints>
+
+                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+                              <SubComponents>
+                                <Component class="javax.swing.JLabel" name="lblInfoSharing">
+                                  <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Lucida Grande" size="13" style="1"/>
+                                    </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+                                    </Property>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/share.png"/>
+                                    </Property>
+                                    <Property name="text" type="java.lang.String" value="Access Permissions and Tickets"/>
+                                  </Properties>
+                                </Component>
+                              </SubComponents>
+                            </Container>
+                            <Container class="javax.swing.JPanel" name="pnlInfoReplication">
+                              <Constraints>
+                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                                  <JTabbedPaneConstraints tabName="Replication" toolTip="Replication of data">
+                                    <Property name="tabTitle" type="java.lang.String" value="Replication"/>
+                                    <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/edit-copy-3.png"/>
+                                    </Property>
+                                    <Property name="tabToolTip" type="java.lang.String" value="Replication of data"/>
+                                  </JTabbedPaneConstraints>
+                                </Constraint>
+                              </Constraints>
+
+                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+                              <SubComponents>
+                                <Component class="javax.swing.JLabel" name="lblMetadataInfo1">
+                                  <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Lucida Grande" size="13" style="1"/>
+                                    </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+                                    </Property>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/edit-copy-3.png"/>
+                                    </Property>
+                                    <Property name="text" type="java.lang.String" value="File Replication"/>
+                                  </Properties>
+                                </Component>
                               </SubComponents>
                             </Container>
                           </SubComponents>
@@ -1566,6 +1860,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/configure-5.png"/>
                     </Property>
+                    <Property name="mnemonic" type="int" value="109"/>
                     <Property name="text" type="java.lang.String" value="Manage"/>
                     <Property name="toolTipText" type="java.lang.String" value="Show a panel to manage transfers"/>
                     <Property name="focusable" type="boolean" value="false"/>
@@ -1581,6 +1876,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/media-playback-pause-7.png"/>
                     </Property>
+                    <Property name="mnemonic" type="int" value="112"/>
                     <Property name="text" type="java.lang.String" value="Pause"/>
                     <Property name="toolTipText" type="java.lang.String" value="Pause the current transfer"/>
                     <Property name="focusable" type="boolean" value="false"/>
