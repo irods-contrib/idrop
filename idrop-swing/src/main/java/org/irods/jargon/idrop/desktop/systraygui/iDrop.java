@@ -30,7 +30,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -42,10 +41,12 @@ import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.*;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
+import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.query.MetaDataAndDomainData;
 import org.irods.jargon.core.query.MetaDataAndDomainData.MetadataDomain;
 import org.irods.jargon.core.transfer.TransferStatus;
+import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
@@ -76,7 +77,6 @@ import org.irods.jargon.usertagging.domain.IRODSTagGrouping;
 import org.irods.jargon.usertagging.domain.IRODSTagValue;
 import org.irods.jargon.usertagging.domain.TagQuerySearchResult;
 import org.netbeans.swing.outline.Outline;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -104,7 +104,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     public JCheckBox showGUICheckBox;
     public JButton preferencesDialogOKButton;
     private static SimpleDateFormat SDF = new SimpleDateFormat("MM-dd-yyyy");
-     private static SimpleDateFormat STF = new SimpleDateFormat("hh:mm:ss");
+    private static SimpleDateFormat STF = new SimpleDateFormat("hh:mm:ss");
     private boolean receivedStartupSignal = false;
     private ImageIcon pnlIdropProgressIcon = null;
 
@@ -186,9 +186,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         } else {
             setUpTransferPanel(false);
         }
-        
+
         setUpAccountGutter();
-        
+
         setVisible(true);
 
     }
@@ -916,7 +916,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Establish base path (checking if strict acl's are in place
+     * Establish base path (checking if strict acl's are in place.
      *
      * @return
      * <code>String</code> with the base path for the tree
@@ -924,19 +924,33 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     private synchronized String getBasePath() throws JargonException {
         String myBase = this.getiDropCore().getBasePath();
+
+        // if no base defined, see if there is a prese
         if (myBase == null) {
-            EnvironmentalInfoAO environmentalInfoAO = this.getiDropCore().getIRODSAccessObjectFactory().getEnvironmentalInfoAO(getiDropCore().getIrodsAccount());
-            boolean isStrict = environmentalInfoAO.isStrictACLs();
-            log.info("is strict?:{}", isStrict);
-            if (isStrict) {
-                myBase = "/"
-                        + getiDropCore().getIrodsAccount().getZone() + "/home/"
-                        + getiDropCore().getIrodsAccount().getUserName();
+
+            if (iDropCore.getIdropConfig().isLoginPreset()) {
+                log.info("using policy preset home directory");
+                StringBuilder sb = new StringBuilder();
+                sb.append("/");
+                sb.append(getIrodsAccount().getZone());
+                sb.append("/");
+                sb.append("home");
+                myBase = sb.toString();
             } else {
-                myBase = "/";
+
+                // look up the strict acl setting for the server, if strict acl, home the person in their user directory
+                EnvironmentalInfoAO environmentalInfoAO = this.getiDropCore().getIRODSAccessObjectFactory().getEnvironmentalInfoAO(getiDropCore().getIrodsAccount());
+                boolean isStrict = environmentalInfoAO.isStrictACLs();
+                log.info("is strict?:{}", isStrict);
+                if (isStrict) {
+                    myBase = MiscIRODSUtils.computeHomeDirectoryForIRODSAccount(iDropCore.getIrodsAccount());
+                } else {
+                    myBase = "/";
+                }
             }
         }
 
+        getiDropCore().setBasePath(myBase);
         return myBase;
 
     }
@@ -980,20 +994,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 IRODSOutlineModel mdl;
                 TreePath[] currentPaths = null;
                 CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
-                if (iDropCore.getIdropConfig().isLoginPreset()) {
-                    log.info("using policy preset home directory");
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("/");
-                    sb.append(getIrodsAccount().getZone());
-                    sb.append("/");
-                    sb.append("home");
-                    root.setParentPath(sb.toString());
-                    root.setPathOrName(getIrodsAccount().getHomeDirectory());
+                String basePath = getBasePath();
+                log.info("base path set to:{}", basePath);
+                if (basePath.equals("/")) {
+                    root.setPathOrName(basePath);
                     root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                 } else {
-                    String basePath = getBasePath();
-                    log.info("base path set to:{}", basePath);
-                    root.setPathOrName(basePath);
+                    IRODSFile baseFile = iDropCore.getIRODSFileFactoryForLoggedInAccount().instanceIRODSFile(basePath);
+                    root.setParentPath(baseFile.getParent());
+                    root.setPathOrName(baseFile.getAbsolutePath());
                     root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                 }
 
@@ -1021,19 +1030,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 log.info("expanded paths:{}", currentPaths);
                 scrollIrodsTree.getViewport().removeAll();
                 irodsTree = null;
-                irodsTree = new IRODSTree(gui);
-                CollectionAndDataObjectListingEntry currentEntry = (CollectionAndDataObjectListingEntry) currentRoot.getUserObject();
-                IRODSNode rootNode = new IRODSNode(currentEntry,
-                        getIrodsAccount(), getiDropCore().getIrodsFileSystem(), irodsTree);
-                irodsTree.setRefreshingTree(true);
-                IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
-                        rootNode, getIrodsAccount());
-                IRODSOutlineModel mdl = new IRODSOutlineModel(gui,
-                        irodsFileSystemModel, new IRODSRowModel(), true,
-                        "File System");
-
-                irodsTree.setModel(mdl);
-                scrollIrodsTree.setViewportView(irodsTree);
+                loadNewTree();
                 if (currentPaths != null) {
                     IRODSNode irodsNode = null;
                     TreePath pathOfExpandingNode = null;
@@ -1049,8 +1046,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         irodsTree.expandPath(pathInNew);
                     }
                 }
-
-
             }
         });
     }
@@ -1161,27 +1156,27 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             lblInfoCreatedAtValue.setText(SDF.format(dataObject.getCreatedAt()));
             lblInfoCreatedAtTimeValue.setText(STF.format(dataObject.getCreatedAt()));
             lblInfoUpdatedAtValue.setText(SDF.format(dataObject.getUpdatedAt()));
-             lblInfoUpdatedAtTimeValue.setText(STF.format(dataObject.getUpdatedAt()));
+            lblInfoUpdatedAtTimeValue.setText(STF.format(dataObject.getUpdatedAt()));
             lblInfoLengthValue.setText(FieldFormatHelper.formatFileLength(dataObject.getDataSize()));
 
             lblInfoChecksumValue.setText(dataObject.getChecksum());
             lblCollectionTypeLabel.setVisible(false);
             lblCollectionType.setVisible(false);
             adjustInfoPanelVisibilityOfDataObjectSpecificContent(true);
-            
+
             lblDataPath.setText(IDropUtils.abbreviateFileName(dataObject.getDataPath()));
             lblDataPath.setToolTipText(dataObject.getDataPath());
-            
+
             lblDataReplicationStatus.setText(dataObject.getReplicationStatus());
             lblDataVersion.setText(String.valueOf(dataObject.getDataVersion()));
-            
+
             lblDataType.setText(dataObject.getDataTypeName());
-            
+
             lblDataStatus.setText(dataObject.getDataStatus());
-            
+
             lblOwnerName.setText(dataObject.getDataOwnerName());
             lblOwnerZone.setText(dataObject.getDataOwnerZone());
-            
+
         } catch (JargonException ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                     null, ex);
@@ -1241,9 +1236,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             pnlInfoIcon.add(IconHelper.getFolderIcon());
             pnlInfoIcon.validate();
             lblInfoCreatedAtValue.setText(SDF.format(collection.getCreatedAt()));
-             lblInfoCreatedAtTimeValue.setText(STF.format(collection.getCreatedAt()));
+            lblInfoCreatedAtTimeValue.setText(STF.format(collection.getCreatedAt()));
             lblInfoUpdatedAtValue.setText(SDF.format(collection.getModifiedAt()));
-             lblInfoUpdatedAtTimeValue.setText(STF.format(collection.getModifiedAt()));
+            lblInfoUpdatedAtTimeValue.setText(STF.format(collection.getModifiedAt()));
             lblCollectionTypeLabel.setVisible(true);
             lblCollectionType.setVisible(true);
             lblCollectionType.setText(collection.getCollectionType());
@@ -1265,7 +1260,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblInfoChecksumValue.setVisible(visible);
         lblOwnerNameLabel.setVisible(visible);
         lblOwnerName.setVisible(visible);
-         lblOwnerZoneLabel.setVisible(visible);
+        lblOwnerZoneLabel.setVisible(visible);
         lblOwnerZone.setVisible(visible);
         lblDataPathLabel.setVisible(visible);
         lblDataPath.setVisible(visible);
@@ -1656,6 +1651,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnGoHomeTargetTree.setFocusable(false);
         btnGoHomeTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGoHomeTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGoHomeTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoHomeTargetTreeActionPerformed(evt);
+            }
+        });
         toolbarIrodsTree.add(btnGoHomeTargetTree);
 
         btnGoRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/go-parent-folder.png"))); // NOI18N
@@ -1665,6 +1665,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnGoRootTargetTree.setFocusable(false);
         btnGoRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGoRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGoRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoRootTargetTreeActionPerformed(evt);
+            }
+        });
         toolbarIrodsTree.add(btnGoRootTargetTree);
 
         btnSetRootCustomTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/go-jump.png"))); // NOI18N
@@ -2533,16 +2538,39 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             idropConfigurationPanel.setVisible(true);
         }//GEN-LAST:event_jMenuItemConfigActionPerformed
 
-        /**
-         * Handle a change in default storage resource
-         * @param evt 
-         */
+    /**
+     * Handle a change in default storage resource
+     *
+     * @param evt
+     */
     private void comboDefaultResourceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDefaultResourceActionPerformed
-       
-        String newResource = (String)comboDefaultResource.getSelectedItem();
+
+        String newResource = (String) comboDefaultResource.getSelectedItem();
         this.getiDropCore().getIrodsAccount().setDefaultStorageResource(newResource);
-     
+
     }//GEN-LAST:event_comboDefaultResourceActionPerformed
+
+    /**
+     * Set the iRODS tree to the user home directory
+     *
+     * @param evt
+     */
+    private void btnGoHomeTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoHomeTargetTreeActionPerformed
+        // set the root path of the irods tree to root and refresh
+        String homeRoot = MiscIRODSUtils.computeHomeDirectoryForIRODSAccount(this.getiDropCore().getIrodsAccount());
+        this.getiDropCore().setBasePath(homeRoot);
+        buildTargetTree();
+    }//GEN-LAST:event_btnGoHomeTargetTreeActionPerformed
+
+    /**
+     * Set the iRODS tree to the root directory
+     *
+     * @param evt
+     */
+    private void btnGoRootTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoRootTargetTreeActionPerformed
+        this.getiDropCore().setBasePath("/");
+         buildTargetTree();
+    }//GEN-LAST:event_btnGoRootTargetTreeActionPerformed
 
     private void btnShowTransferManagerActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnShowTransferManagerActionPerformed
@@ -2722,7 +2750,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     /**
      * Set the account information in the gutter, including the available resources on the grid.
-     * Note that this method should be called in the context of a <code>Runnable</code>
+     * Note that this method should be called in the context of a
+     * <code>Runnable</code>
      */
     private void setUpAccountGutter() {
         userNameLabel.setText(this.getIrodsAccount().getUserName());
@@ -2742,7 +2771,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             throw new IdropRuntimeException("error getting resource list", ex);
         }
     }
-   
+
     /**
      * Method to clear any cached values when an account changes. Some data is cached and lazily
      * loaded. Rebuilds gui state for new grid.

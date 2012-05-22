@@ -6,6 +6,7 @@ import java.util.Properties;
 import org.apache.log4j.Level;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
+import org.irods.jargon.core.connection.IRODSCommands;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 
 /**
@@ -24,7 +25,7 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 public class IdropConfig {
 
     private final Properties idropProperties;
-
+   
     /**
      * Given a key, get the value in the cached properties (this is not going against the config
      * database)
