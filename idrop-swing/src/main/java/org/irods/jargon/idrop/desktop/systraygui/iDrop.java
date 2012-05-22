@@ -30,25 +30,16 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JToggleButton;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.TreePath;
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.pub.CollectionAO;
-import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
-import org.irods.jargon.core.pub.DataObjectAO;
-import org.irods.jargon.core.pub.EnvironmentalInfoAO;
+import org.irods.jargon.core.pub.*;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
@@ -85,6 +76,7 @@ import org.irods.jargon.usertagging.domain.IRODSTagGrouping;
 import org.irods.jargon.usertagging.domain.IRODSTagValue;
 import org.irods.jargon.usertagging.domain.TagQuerySearchResult;
 import org.netbeans.swing.outline.Outline;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -194,6 +186,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         } else {
             setUpTransferPanel(false);
         }
+        
+        setUpAccountGutter();
+        
         setVisible(true);
 
     }
@@ -1407,7 +1402,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblHost = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         lblDefaultResource = new javax.swing.JLabel();
-        comboDfaultResource = new javax.swing.JComboBox();
+        comboDefaultResource = new javax.swing.JComboBox();
         pnlStatusIcon = new javax.swing.JPanel();
         btnManageGrids = new javax.swing.JButton();
         pnlCurrentTransferStatus = new javax.swing.JPanel();
@@ -1754,7 +1749,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblComment.getAccessibleContext().setAccessibleDescription("lable for comment area");
 
         scrollComment.setMinimumSize(null);
-        scrollComment.setPreferredSize(null);
 
         txtComment.setColumns(30);
         txtComment.setRows(6);
@@ -2180,9 +2174,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblDefaultResource.setText("Default Storage Resource:");
         pnlHostInfo.add(lblDefaultResource);
 
-        pnlHostInfo.add(comboDfaultResource);
-        comboDfaultResource.getAccessibleContext().setAccessibleName("Default resource selection");
-        comboDfaultResource.getAccessibleContext().setAccessibleDescription("Selection options for the default storage resource");
+        comboDefaultResource.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboDefaultResourceActionPerformed(evt);
+            }
+        });
+        pnlHostInfo.add(comboDefaultResource);
+        comboDefaultResource.getAccessibleContext().setAccessibleName("Default resource selection");
+        comboDefaultResource.getAccessibleContext().setAccessibleDescription("Selection options for the default storage resource");
 
         pnlBottomGutter.add(pnlHostInfo, java.awt.BorderLayout.WEST);
 
@@ -2496,6 +2495,17 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             idropConfigurationPanel.setVisible(true);
         }//GEN-LAST:event_jMenuItemConfigActionPerformed
 
+        /**
+         * Handle a change in default storage resource
+         * @param evt 
+         */
+    private void comboDefaultResourceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDefaultResourceActionPerformed
+       
+        String newResource = (String)comboDefaultResource.getSelectedItem();
+        this.getiDropCore().getIrodsAccount().setDefaultStorageResource(newResource);
+     
+    }//GEN-LAST:event_comboDefaultResourceActionPerformed
+
     private void btnShowTransferManagerActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnShowTransferManagerActionPerformed
 
@@ -2673,6 +2683,29 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }// GEN-LAST:event_txtTagsFocusLost
 
     /**
+     * Set the account information in the gutter, including the available resources on the grid.
+     * Note that this method should be called in the context of a <code>Runnable</code>
+     */
+    private void setUpAccountGutter() {
+        userNameLabel.setText(this.getIrodsAccount().getUserName());
+        lblZone.setText(this.getIrodsAccount().getZone());
+        lblHost.setText(this.getIrodsAccount().getHost());
+        /*
+         * Get a list of storage resources on this host
+         */
+        try {
+            ResourceAO resourceAO = this.getiDropCore().getIRODSAccessObjectFactory().getResourceAO(this.getIrodsAccount());
+            log.info("getting a list of all resources in the zone");
+            List<String> resources = resourceAO.listResourceNames();
+            comboDefaultResource.setModel(new DefaultComboBoxModel(resources.toArray()));
+            comboDefaultResource.setSelectedItem(this.getIrodsAccount().getDefaultStorageResource());
+        } catch (JargonException ex) {
+            log.error("error getting resource list", ex);
+            throw new IdropRuntimeException("error getting resource list", ex);
+        }
+    }
+   
+    /**
      * Method to clear any cached values when an account changes. Some data is cached and lazily
      * loaded. Rebuilds gui state for new grid.
      */
@@ -2683,14 +2716,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
             @Override
             public void run() {
-                //scrollIrodsTree.removeAll();
-                // irodsTree=null;
-                //scrollIrodsTree.getViewport().validate();
                 lastCachedInfoItem = null;
                 idropGui.buildTargetTree();
                 idropGui.toggleIrodsDetails.setSelected(false);
                 handleInfoPanelShowOrHide();
                 getiDropCore().setBasePath(null);
+                setUpAccountGutter();
             }
         });
 
@@ -2942,7 +2973,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JButton btnShowTransferManager;
     private javax.swing.JButton btnUpdateInfo;
     private javax.swing.ButtonGroup buttonGroupLandF;
-    private javax.swing.JComboBox comboDfaultResource;
+    private javax.swing.JComboBox comboDefaultResource;
     private javax.swing.JComboBox comboSearchType;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;

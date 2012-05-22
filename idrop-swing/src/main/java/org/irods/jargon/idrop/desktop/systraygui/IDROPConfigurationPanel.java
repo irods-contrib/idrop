@@ -18,19 +18,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.irods.jargon.core.connection.DefaultPropertiesJargonConfig;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.pub.ResourceAO;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IconHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
@@ -62,6 +57,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private JTable jTableSynch = null;
     private Synchronization selectedSynchronization = null;
     private DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance();
+    private final iDrop idropGui;
 
     /**
      * Creates new form IDROPConfigurationPanel
@@ -69,6 +65,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     public IDROPConfigurationPanel(java.awt.Frame parent, boolean modal, IDROPCore idropCore) {
         super(parent, modal);
         this.idropCore = idropCore;
+        this.idropGui = (iDrop) parent;
         initComponents();
         initWithConfigData();
     }
@@ -160,12 +157,12 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         lblZoneLabel = new javax.swing.JLabel();
         lblZone = new javax.swing.JLabel();
         lblResourceLabel = new javax.swing.JLabel();
-        lblResource = new javax.swing.JLabel();
         lblUserNameLabel = new javax.swing.JLabel();
         lblUserName = new javax.swing.JLabel();
         pnlCurrentGridToolbar = new javax.swing.JPanel();
         btnLogout = new javax.swing.JButton();
         btnChangePassword = new javax.swing.JButton();
+        comboPrefsDefaultResource = new javax.swing.JComboBox();
         pnlConfigTransfers = new javax.swing.JPanel();
         pnlTransferManagement = new javax.swing.JPanel();
         checkLogSuccessfulTransfer = new javax.swing.JCheckBox();
@@ -300,6 +297,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlCurrentGrid.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlCurrentGrid.border.title"))); // NOI18N
         pnlCurrentGrid.setLayout(new java.awt.GridBagLayout());
 
+        lblHostLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblHostLabel.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblHostLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
@@ -311,7 +309,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentGrid.add(lblHost, gridBagConstraints);
+        lblHost.getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblHost.AccessibleContext.accessibleDescription")); // NOI18N
 
+        lblPortLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblPortLabel.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblPortLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -327,7 +327,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentGrid.add(lblPort, gridBagConstraints);
+        lblPort.getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblPort.AccessibleContext.accessibleDescription")); // NOI18N
 
+        lblZoneLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblZoneLabel.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblZoneLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -343,27 +345,22 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentGrid.add(lblZone, gridBagConstraints);
+        lblZone.getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblZone.AccessibleContext.accessibleDescription")); // NOI18N
 
+        lblResourceLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblResourceLabel.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblResourceLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlCurrentGrid.add(lblResourceLabel, gridBagConstraints);
 
-        lblResource.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblResource.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlCurrentGrid.add(lblResource, gridBagConstraints);
-
+        lblUserNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         lblUserNameLabel.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblUserNameLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlCurrentGrid.add(lblUserNameLabel, gridBagConstraints);
@@ -371,9 +368,10 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         lblUserName.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblUserName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentGrid.add(lblUserName, gridBagConstraints);
+        lblUserName.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblUserName.AccessibleContext.accessibleName")); // NOI18N
 
         btnLogout.setMnemonic('l');
         btnLogout.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnLogout.text")); // NOI18N
@@ -401,6 +399,18 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         pnlCurrentGrid.add(pnlCurrentGridToolbar, gridBagConstraints);
+
+        comboPrefsDefaultResource.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboPrefsDefaultResource.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboPrefsDefaultResourceActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCurrentGrid.add(comboPrefsDefaultResource, gridBagConstraints);
 
         pnlConfigGrids.add(pnlCurrentGrid, java.awt.BorderLayout.CENTER);
 
@@ -1243,16 +1253,22 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         log.info("restoring pipeline config to jargon properties settings");
         try {
             JargonProperties defaultJargonProperties = new DefaultPropertiesJargonConfig();
-            IdropConfigurationService configService =  idropCore.getIdropConfigurationService();
+            IdropConfigurationService configService = idropCore.getIdropConfigurationService();
             configService.restoreIDROPConfigFromJargonProperties(defaultJargonProperties);
             initWithConfigData();
             MessageManager.showMessage(this, "Values restored to defaults, hit apply to update", MessageManager.TITLE_MESSAGE);
         } catch (JargonException ex) {
-           log.error("unable to restore jargon properties", ex);
-           throw new IdropRuntimeException("unable to restore jargon properties", ex);
+            log.error("unable to restore jargon properties", ex);
+            throw new IdropRuntimeException("unable to restore jargon properties", ex);
         }
-        
+
     }//GEN-LAST:event_btnRestoreDefaultsActionPerformed
+
+    private void comboPrefsDefaultResourceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPrefsDefaultResourceActionPerformed
+           String newResource = (String)comboPrefsDefaultResource.getSelectedItem();
+           idropCore.getIrodsAccount().setDefaultStorageResource(newResource);
+           idropGui.reinitializeForChangedIRODSAccount();
+    }//GEN-LAST:event_comboPrefsDefaultResourceActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
@@ -1680,6 +1696,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JCheckBox checkUseExecutorPool;
     private javax.swing.JCheckBox checkUseNIOForParallelTransfers;
     private javax.swing.JCheckBox checkVerifyChecksumOnTransfer;
+    private javax.swing.JComboBox comboPrefsDefaultResource;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JComboBox jcomboSynchFrequency;
@@ -1698,7 +1715,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JLabel lblPort;
     private javax.swing.JLabel lblPortLabel;
     private javax.swing.JLabel lblPutBufferSize;
-    private javax.swing.JLabel lblResource;
     private javax.swing.JLabel lblResourceLabel;
     private javax.swing.JLabel lblSynchDate;
     private javax.swing.JLabel lblSynchDateLabel;
@@ -1809,14 +1825,23 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
             lblHost.setText("");
             lblPort.setText("");
             lblZone.setText("");
-            lblResource.setText("");
+            comboPrefsDefaultResource.setModel(new DefaultComboBoxModel());
             lblUserName.setText("");
         } else {
             lblHost.setText(idropCore.getIrodsAccount().getHost());
             lblPort.setText(String.valueOf(idropCore.getIrodsAccount().getPort()));
             lblZone.setText(idropCore.getIrodsAccount().getZone());
-            lblResource.setText(idropCore.getIrodsAccount().getDefaultStorageResource());
             lblUserName.setText(idropCore.getIrodsAccount().getUserName());
+            try {
+                ResourceAO resourceAO = idropCore.getIRODSAccessObjectFactory().getResourceAO(idropCore.getIrodsAccount());
+                log.info("getting a list of all resources in the zone");
+                List<String> resources = resourceAO.listResourceNames();
+                comboPrefsDefaultResource.setModel(new DefaultComboBoxModel(resources.toArray()));
+                comboPrefsDefaultResource.setSelectedItem(idropCore.getIrodsAccount().getDefaultStorageResource());
+            } catch (JargonException ex) {
+                log.error("error getting resource list", ex);
+                throw new IdropRuntimeException("error getting resource list", ex);
+            }
         }
     }
 
