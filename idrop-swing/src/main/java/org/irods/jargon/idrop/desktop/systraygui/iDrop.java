@@ -1333,7 +1333,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         tabIrodsViews = new javax.swing.JTabbedPane();
         pnlTabHierarchicalView = new javax.swing.JPanel();
         pnlIrodsTreeToolbar = new javax.swing.JPanel();
+        toolbarIrodsTree = new javax.swing.JToolBar();
         btnRefreshTargetTree = new javax.swing.JButton();
+        btnGoHomeTargetTree = new javax.swing.JButton();
+        btnGoRootTargetTree = new javax.swing.JButton();
+        btnSetRootCustomTargetTree = new javax.swing.JButton();
         pnlIrodsTreeMaster = new javax.swing.JPanel();
         scrollIrodsTree = new javax.swing.JScrollPane();
         pnlTabSearch = new javax.swing.JPanel();
@@ -1628,6 +1632,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlTabHierarchicalView.setLayout(new java.awt.BorderLayout());
 
+        toolbarIrodsTree.setFloatable(false);
+        toolbarIrodsTree.setRollover(true);
+
+        btnRefreshTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recur.png"))); // NOI18N
         btnRefreshTargetTree.setMnemonic('r');
         btnRefreshTargetTree.setText("Refresh");
         btnRefreshTargetTree.setToolTipText("Refresh the view of the iRODS server");
@@ -1639,7 +1647,36 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 btnRefreshTargetTreeActionPerformed(evt);
             }
         });
-        pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
+        toolbarIrodsTree.add(btnRefreshTargetTree);
+
+        btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/go-home-4.png"))); // NOI18N
+        btnGoHomeTargetTree.setMnemonic('h');
+        btnGoHomeTargetTree.setText("Home");
+        btnGoHomeTargetTree.setToolTipText("Go to the user home directory on the iRODS grid");
+        btnGoHomeTargetTree.setFocusable(false);
+        btnGoHomeTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoHomeTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolbarIrodsTree.add(btnGoHomeTargetTree);
+
+        btnGoRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/go-parent-folder.png"))); // NOI18N
+        btnGoRootTargetTree.setMnemonic('t');
+        btnGoRootTargetTree.setText("Top");
+        btnGoRootTargetTree.setToolTipText("Go to the top of the iRODS tree");
+        btnGoRootTargetTree.setFocusable(false);
+        btnGoRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolbarIrodsTree.add(btnGoRootTargetTree);
+
+        btnSetRootCustomTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/go-jump.png"))); // NOI18N
+        btnSetRootCustomTargetTree.setMnemonic('c');
+        btnSetRootCustomTargetTree.setText("Custom Root");
+        btnSetRootCustomTargetTree.setToolTipText("Set the root of the tree to a custom path");
+        btnSetRootCustomTargetTree.setFocusable(false);
+        btnSetRootCustomTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSetRootCustomTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolbarIrodsTree.add(btnSetRootCustomTargetTree);
+
+        pnlIrodsTreeToolbar.add(toolbarIrodsTree);
 
         pnlTabHierarchicalView.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
 
@@ -1768,6 +1805,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weighty = 0.2;
         pnlInfoInner.add(scrollComment, gridBagConstraints);
         scrollComment.getAccessibleContext().setAccessibleName("scroll box for file comment");
         scrollComment.getAccessibleContext().setAccessibleDescription("Scroll box for file comment");
@@ -2966,10 +3004,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         tabIrodsViews.setSelectedComponent(pnlTabHierarchicalView);
     }// GEN-LAST:event_menuItemShowInHierarchyActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGoHomeTargetTree;
+    private javax.swing.JButton btnGoRootTargetTree;
     private javax.swing.JButton btnManageGrids;
     private javax.swing.JButton btnRefreshLocalDrives;
     private javax.swing.JButton btnRefreshTargetTree;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnSetRootCustomTargetTree;
     private javax.swing.JButton btnShowTransferManager;
     private javax.swing.JButton btnUpdateInfo;
     private javax.swing.ButtonGroup buttonGroupLandF;
@@ -3092,6 +3133,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JToggleButton toggleIrodsDetails;
     private javax.swing.JToggleButton toggleLocalFiles;
     private javax.swing.JToggleButton togglePauseTransfer;
+    private javax.swing.JToolBar toolbarIrodsTree;
     private javax.swing.JProgressBar transferStatusProgressBar;
     private javax.swing.JTextArea txtComment;
     private javax.swing.JTextField txtMainSearch;

@@ -61,20 +61,23 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Features==
 
-*info view for local file system	2011-10-10 13:26:07
-*upload/download in info views and on menu	2011-11-28 11:01:14
-*make web view options sticky	2011-12-30 08:49:32
-*login preset capability	2012-01-30 13:05:16
-*LL - sync management preferences for single device	2011-05-27 12:32:58
-*add within-file progress bar	2011-08-15 13:49:50
+*info view for local file system	
+*upload/download in info views and on menu	
+*make web view options sticky	
+*login preset capability	
+*LL - sync management preferences for single device	
+*add within-file progress bar	
 *DnD and tree cleanup	2011-11-16 15:41:58
-*Add progress bar to bottom of iDrop and links to view queue from idrop menu	2011-02-10 10:55:07
-*copy irods function	2011-02-10 11:02:02
-*headless auto-backup	2011-02-10 11:25:14
-*drag and drop, desktop to irods file should use irods parent as target	2011-06-03 13:44:23
-*password change update synchs and transfers with new	2011-08-01 16:52:14
-*Fix search results screen to show info, including toolbar	2011-11-23 15:14:02
+*Add progress bar to bottom of iDrop and links to view queue from idrop menu	
+*copy irods function	
+*headless auto-backup	
+*drag and drop, desktop to irods file should use irods parent as target	
+*password change update synchs and transfers with new	
+*Fix search results screen to show info, including toolbar	
 * [#691] revamp startup sequence
+* [#775] 1.1.0 refactoring activities
+** iDrop main gui redesign, including info tabs and icons
+** account information 'gutter' with change resource and switch grids
 
 ==Outstanding Issues==
 
