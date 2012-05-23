@@ -24,6 +24,66 @@
     </Container>
     <Component class="javax.swing.ButtonGroup" name="buttonGroupLandF">
     </Component>
+    <Container class="javax.swing.JPanel" name="pnlInfoMetadata">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblMetadataInfo">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Lucida Grande" size="13" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/edit-4.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="iRODS AVU Metadata"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="pnlInfoSharing">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblInfoSharing">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Lucida Grande" size="13" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/share.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Access Permissions and Tickets"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="pnlInfoReplication">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblMetadataInfo1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Lucida Grande" size="13" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/edit-copy-3.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="File Replication"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenuFile">
@@ -1472,99 +1532,6 @@
                                 </Container>
                               </SubComponents>
                             </Container>
-                            <Container class="javax.swing.JPanel" name="pnlInfoMetadata">
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                  <JTabbedPaneConstraints tabName="Metadata" toolTip="AVU Metadata edit and display">
-                                    <Property name="tabTitle" type="java.lang.String" value="Metadata"/>
-                                    <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                      <Image iconType="3" name="/edit-4.png"/>
-                                    </Property>
-                                    <Property name="tabToolTip" type="java.lang.String" value="AVU Metadata edit and display"/>
-                                  </JTabbedPaneConstraints>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-                              <SubComponents>
-                                <Component class="javax.swing.JLabel" name="lblMetadataInfo">
-                                  <Properties>
-                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Lucida Grande" size="13" style="1"/>
-                                    </Property>
-                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
-                                    </Property>
-                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                      <Image iconType="3" name="/edit-4.png"/>
-                                    </Property>
-                                    <Property name="text" type="java.lang.String" value="iRODS AVU Metadata"/>
-                                  </Properties>
-                                </Component>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="pnlInfoSharing">
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                  <JTabbedPaneConstraints tabName="Sharing and Tickets" toolTip="ACL permissions and tickets">
-                                    <Property name="tabTitle" type="java.lang.String" value="Sharing and Tickets"/>
-                                    <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                      <Image iconType="3" name="/share.png"/>
-                                    </Property>
-                                    <Property name="tabToolTip" type="java.lang.String" value="ACL permissions and tickets"/>
-                                  </JTabbedPaneConstraints>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-                              <SubComponents>
-                                <Component class="javax.swing.JLabel" name="lblInfoSharing">
-                                  <Properties>
-                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Lucida Grande" size="13" style="1"/>
-                                    </Property>
-                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
-                                    </Property>
-                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                      <Image iconType="3" name="/share.png"/>
-                                    </Property>
-                                    <Property name="text" type="java.lang.String" value="Access Permissions and Tickets"/>
-                                  </Properties>
-                                </Component>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="pnlInfoReplication">
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                  <JTabbedPaneConstraints tabName="Replication" toolTip="Replication of data">
-                                    <Property name="tabTitle" type="java.lang.String" value="Replication"/>
-                                    <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                      <Image iconType="3" name="/edit-copy-3.png"/>
-                                    </Property>
-                                    <Property name="tabToolTip" type="java.lang.String" value="Replication of data"/>
-                                  </JTabbedPaneConstraints>
-                                </Constraint>
-                              </Constraints>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-                              <SubComponents>
-                                <Component class="javax.swing.JLabel" name="lblMetadataInfo1">
-                                  <Properties>
-                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Lucida Grande" size="13" style="1"/>
-                                    </Property>
-                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
-                                    </Property>
-                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                      <Image iconType="3" name="/edit-copy-3.png"/>
-                                    </Property>
-                                    <Property name="text" type="java.lang.String" value="File Replication"/>
-                                  </Properties>
-                                </Component>
-                              </SubComponents>
-                            </Container>
                           </SubComponents>
                         </Container>
                       </SubComponents>
@@ -1763,6 +1730,9 @@
                   <AccessibilityProperties>
                     <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Switch the grid or iRODS account information"/>
                   </AccessibilityProperties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageGridsActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

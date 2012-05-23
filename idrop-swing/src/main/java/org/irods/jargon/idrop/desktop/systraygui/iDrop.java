@@ -188,9 +188,44 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
         setUpAccountGutter();
+        
+        setVisibleComponentsAtStartup();
 
         setVisible(true);
 
+    }
+
+    private void displayAndProcessSignOn() {
+        final iDrop thisPanel = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+                IRODSAccount savedAccount = iDropCore.getIrodsAccount();
+                iDropCore.setIrodsAccount(null);
+                LoginDialog loginDialog = new LoginDialog(null, iDropCore);
+                loginDialog.setLocationRelativeTo(null);
+                loginDialog.setVisible(true);
+
+                if (iDropCore.getIrodsAccount() == null) {
+                    log.warn("no account, reverting");
+                    iDropCore.setIrodsAccount(savedAccount);
+                } else {
+                    thisPanel.reinitializeForChangedIRODSAccount();
+                }
+            }
+        });
+    }
+    
+    /**
+     * Startup exit to set visibility of components in iDrop GUI at startup.  Here is where the initial visible status
+     * of components can be specified.
+     */
+    private void setVisibleComponentsAtStartup() {
+        this.btnSetRootCustomTargetTree.setVisible(false);
+       
     }
 
     protected void signalIdropCoreReadyAndSplashComplete() {
@@ -590,27 +625,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         } else if (e.getActionCommand().equals("Logout")) {
             log.info("logging out to log in to a new grid");
 
-            final iDrop thisPanel = this;
-
-            java.awt.EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-
-                    IRODSAccount savedAccount = iDropCore.getIrodsAccount();
-                    iDropCore.setIrodsAccount(null);
-                    LoginDialog loginDialog = new LoginDialog(null, iDropCore);
-                    loginDialog.setLocationRelativeTo(null);
-                    loginDialog.setVisible(true);
-
-                    if (iDropCore.getIrodsAccount() == null) {
-                        log.warn("no account, reverting");
-                        iDropCore.setIrodsAccount(savedAccount);
-                    } else {
-                        thisPanel.reinitializeForChangedIRODSAccount();
-                    }
-                }
-            });
+            displayAndProcessSignOn();
 
         } else if (e.getActionCommand().equals("About")) {
             AboutDialog aboutDialog = new AboutDialog(this, true);
@@ -1301,6 +1316,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         searchTablePopupMenu = new javax.swing.JPopupMenu();
         menuItemShowInHierarchy = new javax.swing.JMenuItem();
         buttonGroupLandF = new javax.swing.ButtonGroup();
+        pnlInfoMetadata = new javax.swing.JPanel();
+        lblMetadataInfo = new javax.swing.JLabel();
+        pnlInfoSharing = new javax.swing.JPanel();
+        lblInfoSharing = new javax.swing.JLabel();
+        pnlInfoReplication = new javax.swing.JPanel();
+        lblMetadataInfo1 = new javax.swing.JLabel();
         iDropToolbar = new javax.swing.JPanel();
         pnlToolbarSizer = new javax.swing.JPanel();
         pnlTopToolbarSearchArea = new javax.swing.JPanel();
@@ -1382,12 +1403,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblDataType = new javax.swing.JLabel();
         lblDataStatusLabel = new javax.swing.JLabel();
         lblDataStatus = new javax.swing.JLabel();
-        pnlInfoMetadata = new javax.swing.JPanel();
-        lblMetadataInfo = new javax.swing.JLabel();
-        pnlInfoSharing = new javax.swing.JPanel();
-        lblInfoSharing = new javax.swing.JLabel();
-        pnlInfoReplication = new javax.swing.JPanel();
-        lblMetadataInfo1 = new javax.swing.JLabel();
         pnlIdropBottom = new javax.swing.JPanel();
         pnlBottomGutter = new javax.swing.JPanel();
         pnlHostInfo = new javax.swing.JPanel();
@@ -1442,6 +1457,24 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         searchTablePopupMenu.add(menuItemShowInHierarchy);
+
+        lblMetadataInfo.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblMetadataInfo.setForeground(java.awt.Color.blue);
+        lblMetadataInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-4.png"))); // NOI18N
+        lblMetadataInfo.setText("iRODS AVU Metadata");
+        pnlInfoMetadata.add(lblMetadataInfo);
+
+        lblInfoSharing.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblInfoSharing.setForeground(java.awt.Color.blue);
+        lblInfoSharing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/share.png"))); // NOI18N
+        lblInfoSharing.setText("Access Permissions and Tickets");
+        pnlInfoSharing.add(lblInfoSharing);
+
+        lblMetadataInfo1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblMetadataInfo1.setForeground(java.awt.Color.blue);
+        lblMetadataInfo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-copy-3.png"))); // NOI18N
+        lblMetadataInfo1.setText("File Replication");
+        pnlInfoReplication.add(lblMetadataInfo1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("iDrop - iRODS Cloud Browser");
@@ -2142,30 +2175,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         tabInfo.addTab("Info", new javax.swing.ImageIcon(getClass().getResource("/help-contents.png")), pnlInfoInner); // NOI18N
 
-        lblMetadataInfo.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        lblMetadataInfo.setForeground(java.awt.Color.blue);
-        lblMetadataInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-4.png"))); // NOI18N
-        lblMetadataInfo.setText("iRODS AVU Metadata");
-        pnlInfoMetadata.add(lblMetadataInfo);
-
-        tabInfo.addTab("Metadata", new javax.swing.ImageIcon(getClass().getResource("/edit-4.png")), pnlInfoMetadata, "AVU Metadata edit and display"); // NOI18N
-
-        lblInfoSharing.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        lblInfoSharing.setForeground(java.awt.Color.blue);
-        lblInfoSharing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/share.png"))); // NOI18N
-        lblInfoSharing.setText("Access Permissions and Tickets");
-        pnlInfoSharing.add(lblInfoSharing);
-
-        tabInfo.addTab("Sharing and Tickets", new javax.swing.ImageIcon(getClass().getResource("/share.png")), pnlInfoSharing, "ACL permissions and tickets"); // NOI18N
-
-        lblMetadataInfo1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        lblMetadataInfo1.setForeground(java.awt.Color.blue);
-        lblMetadataInfo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-copy-3.png"))); // NOI18N
-        lblMetadataInfo1.setText("File Replication");
-        pnlInfoReplication.add(lblMetadataInfo1);
-
-        tabInfo.addTab("Replication", new javax.swing.ImageIcon(getClass().getResource("/edit-copy-3.png")), pnlInfoReplication, "Replication of data"); // NOI18N
-
         pnlIrodsInfo.add(tabInfo, java.awt.BorderLayout.NORTH);
         tabInfo.getAccessibleContext().setAccessibleName("Info");
 
@@ -2231,6 +2240,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnManageGrids.setIcon(new javax.swing.ImageIcon(getClass().getResource("/im-user.png"))); // NOI18N
         btnManageGrids.setMnemonic('S');
         btnManageGrids.setLabel("Switch Grid Account");
+        btnManageGrids.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageGridsActionPerformed(evt);
+            }
+        });
         pnlStatusIcon.add(btnManageGrids);
         btnManageGrids.getAccessibleContext().setAccessibleDescription("Switch the grid or iRODS account information");
 
@@ -2571,6 +2585,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         this.getiDropCore().setBasePath("/");
          buildTargetTree();
     }//GEN-LAST:event_btnGoRootTargetTreeActionPerformed
+
+    
+    /**
+     * Signal to switch grids
+     * @param evt 
+     */
+    private void btnManageGridsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageGridsActionPerformed
+                    displayAndProcessSignOn();
+
+    }//GEN-LAST:event_btnManageGridsActionPerformed
 
     private void btnShowTransferManagerActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnShowTransferManagerActionPerformed
