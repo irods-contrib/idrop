@@ -18,8 +18,6 @@ function reloadTicketTable(absPath) {
 		throw "null absPath";
 	}
 	
-	//$("#ticketTableDiv").fadeIn('slow');
-	
 	lcClearDivAndDivClass("#ticketTableDiv");
 	lcShowBusyIconInDiv("#ticketTableDiv");
 	
@@ -92,7 +90,7 @@ function browseTicketDetailsFunction(clickedIcon, rowActionIsOn) {
         var buildDetailsLayoutVal = buildTicketDetailsLayout(ticketString);
         clickedIcon.setAttribute("class", "ui-icon ui-icon-circle-minus");
         newRowNode = ticketTable.fnOpen(rowActionIsOn,
-        		buildDetailsLayoutVal, 'details');
+        		buildDetailsLayoutVal, 'ticketDetails');
         newRowNode.setAttribute("id", detailsId);
         askForTicketDetailsPulldown(ticketString, detailsId)
         
@@ -106,7 +104,7 @@ function browseTicketDetailsFunction(clickedIcon, rowActionIsOn) {
 
          var detailsPulldownDiv = document.createElement("DIV");
          detailsPulldownDiv.setAttribute("id", detailsId);
-         detailsPulldownDiv.setAttribute("class", "details");
+         detailsPulldownDiv.setAttribute("class", "ticketDetails");
          var img = document.createElement('IMG');
          img.setAttribute("src", context + "/images/ajax-loader.gif");
          detailsPulldownDiv.appendChild(img);
@@ -123,7 +121,7 @@ function browseTicketDetailsFunction(clickedIcon, rowActionIsOn) {
                      ticketString:ticketString
              }
 	 try {
-     lcSendValueWithParamsAndPlugHtmlInDiv(ticketPulldownUrl, params, ".details",
+     lcSendValueWithParamsAndPlugHtmlInDiv(ticketPulldownUrl, params, ".ticketDetails",
                      null);
 	 } catch(err) {
 		 showErrorMessage(err);
@@ -172,6 +170,34 @@ function prepareTicketDetailsDialog(ticketString) {
 
 }
 
+/*
+ *The ticket in the pulldown should be updated 
+ */
+function updateTicketFromPulldown() {
+	var formData = $("#ticketPulldownDetailsForm").serializeArray();
+	if (formData == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_no_ticket_data'));
+		return false;
+	}
+	
+	lcShowBusyIconInDiv("#ticketPulldownDiv");
+
+	var jqxhr = $.post(context + ticketUpdateUrl, formData,
+			function(data, status, xhr) {
+			}, "html").success(function(data, status, xhr) {
+				var continueReq = checkForSessionTimeout(data, xhr);
+				if (!continueReq) {
+					return false;
+				} 
+				
+	$(".ticketDetails").html(data);
+				
+	}).error(function(xhr, status, error) {
+		reloadTicketTable(selectedPath);
+		setErrorMessage(xhr.responseText);
+	});
+}
+
 /**
  * Show the dialog with the provided data
  * 
@@ -180,21 +206,34 @@ function prepareTicketDetailsDialog(ticketString) {
  */
 function showTicketDetailsDialog(data) {
 	//$("#ticketTableDiv").fadeOut('slow');
+	$("#ticketDetailsTableArea").html(data).fadeOut('slow');
 	$("#ticketDialogArea").html(data).fadeIn('slow');
+}
+
+/*
+ *Reload the ticket pulldown data 
+ */
+function cancelTicketFromPulldown() {
+	var ticketString = $("#ticketString").val();
+	
+	if (ticketString == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_ticket_no_data'));
+		return false;
+	}
+	
+	askForTicketDetailsPulldown(ticketString, ".ticketDetails");
 }
 
 /**
  * Cause the add ticket dialog to be closed
  */
 function closeTicketDialog() {
-	try {
-	$("#ticketDialogArea").fadeOut('slow', new function() {
-		$("#ticketDialogArea").empty();
-	});
-	} catch(err) {
-		//ignore
-	}
-	//$("#ticketTableDiv").fadeIn('slow');
+	
+	$("#ticketDialogArea").fadeOut('slow');
+	$("#ticketDetailsTableArea").fadeIn('slow');
+	
+	// setting width and height?
+	
 }
 
 

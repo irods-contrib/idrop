@@ -1,8 +1,33 @@
-<div id="ticketPulldownDiv" style="overflow:auto;">
+<div id="ticketPulldownDiv" style="overflow:visible;width:auto;">
+
+<g:form name="ticketPulldownDetailsForm" id="ticketPulldownDetailsForm">
+
 	<g:hiddenField name='irodsAbsolutePath' id='ticketDetailsAbsPath' value='${ticket.irodsAbsolutePath}'/>
-	
-			<div id="container" style="height:100%;width:100%;">
+	<g:hiddenField name='type' id='ticketType' value='${ticket.type}'/>
+	<g:hiddenField name='ticketString' id='ticketString' value='${ticket.ticketString}'/>
+	<g:hiddenField name='create' id='create' value='${ticket.create}'/>
+	<g:hiddenField name='isDialog' id='isDialog' value='${ticket.isDialog}'/>
+	<g:hiddenField name='ownerName' id='ownerName' value='${ticket.ownerName}'/>
+	<g:hiddenField name='ownerZone' id='ownerZone' value='${ticket.ownerZone}'/>
+	<g:hiddenField name='usesCount' id='usersCount' value='${ticket.usesCount}'/>
+	<g:hiddenField name='writeFileCount' id='writeFileCount' value='${ticket.writeFileCount}'/>
+	<g:hiddenField name='writeByteCount' id='writeByteCount' value='${ticket.writeByteCount}'/>
+	<g:hiddenField name='ticketURL' id='ticketURL' value='${ticket.ticketURL}'/>
+	<g:hiddenField name='ticketURLWithLandingPage' id='ticketURLWithLandingPage' value='${ticket.ticketURLWithLandingPage}'/>
+	<g:hiddenField name='isDataObject' id='isDataObject' value='${ticket.isDataObject}'/>
+		<g:hasErrors bean="${ticket}">
+					<div class="errors">
+				  <ul>
+				   <g:eachError var="err" bean="${ticket}">
+				       <li><g:message error="${err}" /></li>
+				   </g:eachError>
+				  </ul>
+				  </div>
+				</g:hasErrors>
 					
+			<div id="container" style="height:100%;width:100%;">
+			
+				
 					<div>
 						<div style="width:20%;"><label><g:message code="text.ticket.user" />:</label></div>
 						<div>${ticket.ownerName}</div>
@@ -13,15 +38,26 @@
 					</div>
 					<div>
 						<div><label><g:message code="text.ticket.expire.time" />:</label></div>
-						<div>${ticket.expireTime}</div>
+						<div><g:textField id="expireTime" name="expireTime" width="20em"
+						value="${ticket.expireTime}" /></div>
 					</div>
-					<g:if test="${isDataObject}">
-						<div>
+					<!-- Data objects may have an optional landing page, colls always show a landing page (at least for now, maybe we can do an auto bundle or something) -->
+					<g:if test="${ticket.isDataObject}">
+						<div >
 							<div><label><g:message code="text.ticket.url" />:</label></div>
-							<div><a href="${ticketDistribution.ticketURL}">${ticketDistribution.ticketURL}</a></div>
+							<div><span id="ticketPulldownUrl"><a href="${ticket.ticketURL}">${ticket.ticketURL}</a></span><span id="ticketPulldownUrlLanding"><a href="${ticket.ticketURLWithLandingPage}">${ticket.ticketURLWithLandingPage}</a></span></div>
+						</div>
+						<div>
+							<div><label><g:message code="text.ticket.url.landing" />:</label></div>
+							<div><g:checkBox id="showLandingPage" name="showLandingPage" onclick="toggleLandingUrl()"/></div>
 						</div>
 					</g:if>
-					
+					<g:else>
+						<div >
+							<div><label><g:message code="text.ticket.url" />:</label></div>
+							<div><span id="ticketPulldownUrlCollection"><a href="${ticket.ticketURLWithLandingPage}">${ticket.ticketURLWithLandingPage}</a></span></div>
+						</div>
+					</g:else>
 				</div>
 				
 				<div id="container" style="height:100%;width:100%;margin:10px;" >
@@ -33,8 +69,6 @@
 								<div id="ticketUsesChart" style="height:auto;width:auto;"></div>
 								<label><g:message code="text.ticket.uses.count" /></label><br/>${ticket.usesCount}<br/>
 								<label><g:message code="text.ticket.uses.limit" /></label><br/><g:textField id="usesLimit" name="usesLimit" value="${ticket.usesLimit}" />
-					
-								
 						</div>
 						<div style="width:33%;height:auto;"  class="roundedContainer">
 							<!--  pie chart cell write bytes -->
@@ -55,80 +89,136 @@
 					</div><!--  pie chart row end -->
 					
 				</div> <!--  pie chart table end -->
+				
+				<g:if test="${ticket.isDialog}">
+					<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
+							style="float: left, clear :   both; width: 90%;">
+							<button type="button" id="updateTicketDetailButton"
+								class="ui-state-default ui-corner-all" value="update  Ticket"
+								onclick="submitTicketDialog()")><g:message code="default.button.save.label" /></button>
+							<button type="button" id="cancelAddTicketButton"
+								class="ui-state-default ui-corner-all" value="cancelAdd"
+								onclick="closeTicketDialog()")><g:message code="default.button.cancel.label" /></button>
+				</div>
 					
+			</g:if>
+			<g:else>
+			
+				<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
+							style="width: auto;">
+							<button type="button" id="updateTicketPulldownButton"
+								class="ui-state-default ui-corner-all" 
+								onclick="updateTicketFromPulldown()")><g:message code="default.button.save.label" /></button>
+							<button type="button" id="cancelTicketPulldownButton"
+								class="ui-state-default ui-corner-all" 
+								onclick="cancelTicketFromPulldown()")><g:message code="default.button.cancel.label" /></button>
+				</div>
 					
-					
-					
-					
+			</g:else>
+			</g:form>
 			
 </div>
 <script>
-$(function() {
+	$(function() {
 
-	
-	
-	//var data = [$.gchart.series('Usage', [${ticket.usesCount}, ${ticket.usesLimit}])];
+		$.datepicker.setDefaults($.datepicker.regional[""]);
+		var current =
+${ticket.usesCount}
+	;
+		var limit =
+${ticket.usesLimit}
+	;
 
-	 //var data = [$.gchart.series( [1, 3])];
-	  
-	  
-	var current = ${ticket.usesCount};
-	var limit =  ${ticket.usesLimit}; 
+		if (limit == 0) {
+			limit = 100;
+			current = 0;
+		} else if (current < limit) {
+			limit = limit - current;
+		} else if (current >= limit) {
+			current = 1;
+			limit = 0;
+		}
 
-	if (limit == 0) {
-		limit = 100;
-		current = 0;
-	} else if (current < limit) {
-		limit = limit - current;
-	} else if (current >= limit) {
-		current=1;
-		limit=0;	
+		var data = [ $.gchart.series('Usage', [ current, limit ]) ];
+
+		$('#ticketUsesChart').gchart({
+			type : 'pie3D',
+			series : data,
+			legend : 'bottom',
+			width : 100,
+			height : 80
+		});
+
+		current =
+${ticket.writeByteCount}
+	;
+		limit =
+${ticket.writeByteLimit}
+	;
+
+		if (limit == 0) {
+			limit = 100;
+			current = 0;
+		} else if (current < limit) {
+			limit = limit - current;
+		} else if (current >= limit) {
+			current = 1;
+			limit = 0;
+		}
+
+		data = [ $.gchart.series('Bytes', [ current, limit ]) ];
+
+		$('#ticketWriteBytesChart').gchart({
+			type : 'pie3D',
+			series : data,
+			legend : 'bottom',
+			width : 100,
+			height : 80
+		});
+
+		current =
+${ticket.writeFileCount}
+	;
+		limit =
+${ticket.writeFileLimit}
+	;
+		if (limit == 0) {
+			limit = 100;
+			current = 0;
+		} else if (current < limit) {
+			limit = limit - current;
+		} else if (current >= limit) {
+			current = 1;
+			limit = 0;
+		}
+		data = [ $.gchart.series('Files', [ current, limit ]) ];
+
+		$('#ticketWriteFilesChart').gchart({
+			type : 'pie3D',
+			series : data,
+			legend : 'bottom',
+			width : 100,
+			height : 80
+		});
+
+		$("#ticketPulldownUrlLanding").hide();
+		$("#ticketPulldownUrl").show();
+		$("#expireTime").datepicker();
+
+	});
+
+	/*
+	 * switches content of url displayed to show either the URL with the landing page parameter, or one without to go 'direct'
+	 */
+	function toggleLandingUrl() {
+		var checkVal = $("#showLandingPage").attr("checked");
+		if (checkVal) {
+			$("#ticketPulldownUrl").hide("fast");
+			$("#ticketPulldownUrlLanding").show("slow");
+
+		} else {
+			$("#ticketPulldownUrlLanding").hide("fast");
+			$("#ticketPulldownUrl").show("slow");
+		}
 	}
-	
-
-	var data = [$.gchart.series('Usage', [current,limit])];
-	    
-	 $('#ticketUsesChart').gchart({type: 'pie3D', series: data, legend: 'bottom', 
-	      width:100, height:80}); 
-
-	 current = ${ticket.writeByteCount};
-	 limit =  ${ticket.writeByteLimit}; 
-	 
-	 if (limit == 0) {
-			limit = 100;
-			current = 0;
-		} else if (current < limit) {
-			limit = limit - current;
-		} else if (current >= limit) {
-			current=1;
-			limit=0;	
-		}
-
-	 data = [$.gchart.series('Bytes', [current,limit])];
-
-	 $('#ticketWriteBytesChart').gchart({type: 'pie3D', series: data, legend: 'bottom', 
-	      width:100, height:80}); 
-
-	 current = ${ticket.writeFileCount};
-	 limit =  ${ticket.writeFileLimit}; 
-	 if (limit == 0) {
-			limit = 100;
-			current = 0;
-		} else if (current < limit) {
-			limit = limit - current;
-		} else if (current >= limit) {
-			current=1;
-			limit=0;	
-		}
-		 data = [$.gchart.series('Files', [current,limit])];
-
-	 $('#ticketWriteFilesChart').gchart({type: 'pie3D', series: data, legend: 'bottom', 
-	      width:100, height:80}); 
-
-
-	 
-});
-
-
-	
 </script>

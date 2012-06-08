@@ -98,6 +98,7 @@ function browserFirstViewRetrieved(data) {
 								// ok
 							} else {
 								setMessage("Unable to browse to location, try refreshing the tree.  You may not have permission to view this directory");
+								return false;
 								//refreshTree();
 							}
 						}

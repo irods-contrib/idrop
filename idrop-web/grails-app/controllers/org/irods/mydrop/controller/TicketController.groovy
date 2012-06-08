@@ -1,9 +1,12 @@
 package org.irods.mydrop.controller
 
 
+import java.net.MalformedURLException
+import java.text.SimpleDateFormat
 import org.irods.jargon.ticket.*
 import org.irods.jargon.ticket.packinstr.TicketCreateModeEnum
 import org.irods.jargon.core.pub.*
+import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
 import org.springframework.security.core.context.SecurityContextHolder
@@ -108,43 +111,29 @@ class TicketController {
 		/**
 		 * If there is an error send back the view for redisplay with error messages
 		 */
-		if (cmd.hasErrors()) {
-			log.info "errors occured build error messages"
-			def errorMessage = message(code:"error.data.error")
-
-			cmd.errors.allErrors.each() {
-				log.info "error identified in validation: ${it}"
-				errors.add(message(error:it))
-			}
+		if (!cmd.validate()) {
+			log.info("errors in page, returning with error info:${cmd}")
+			render(view:"ticketPulldown", model:[ticket:cmd])
+			return
 		}
 
 		log.info("edits pass")
 
 		TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
-
+		Ticket ticket
+		def locale =  org.springframework.web.servlet.support.RequestContextUtils.getLocale(request)
 		if (cmd.create) {
-			Ticket ticket = new Ticket()
-			ticket.setExpireTime(cmd.expireTime)
-			ticket.setIrodsAbsolutePath(cmd.irodsAbsolutePath)
-			ticket.setTicketString(cmd.ticketString)
-
-			if (cmd.type == 'READ') {
-				ticket.setType(TicketCreateModeEnum.TICKET_CREATE_READ)
-			} else {
-				ticket.setType(TicketCreateModeEnum.TICKET_CREATE_WRITE)
-			}
-
-			ticket.setUsesLimit(cmd.usesLimit)
-			ticket.setWriteByteLimit(cmd.writeByteLimit)
-			ticket.setWriteFileLimit(cmd.writeFileLimit)
-
+			ticket = ticketFromTicketCommand(cmd, locale)
 			log.info("built ticket to add:${ticket}")
-
-			Ticket createdTicket = ticketAdminService.createTicketFromTicketObject(ticket)
-			log.info("created ticket:${createdTicket}")
-
-			render "OK"
+			ticket = ticketAdminService.createTicketFromTicketObject(ticket)
+			log.info("created ticket:${ticket}")
+		} else {
+			log.info "updating ticket info for command...looking up the ticket based on the ticket string"
+			ticket = ticketFromTicketCommand(cmd, locale)
+			ticket = ticketAdminService.compareGivenTicketToActualAndUpdateAsNeeded(ticket)
+			log.info("ticket after update:${ticket}")
 		}
+		redirect(action:ticketPulldown, params:[ticketString:ticket.ticketString, absPath:ticket.irodsAbsolutePath])
 	}
 
 	/**
@@ -167,29 +156,18 @@ class TicketController {
 		log.info("ticketString: ${ticketString}")
 		log.info("absPath: ${absPath}")
 
-		TicketDistributionContext ticketDistributionContext = new TicketDistributionContext()
-		String grailsServerURL =  grailsApplication.config.grails.serverURL
-		log.info("server URL for context: ${grailsServerURL}")
+		def locale =  org.springframework.web.servlet.support.RequestContextUtils.getLocale(request)
+		log.info("locale is: ${locale}")
+		TicketDistributionContext ticketDistributionContext
 
 		try {
-			URL url = new URL(grailsServerURL)
-			ticketDistributionContext.host = url.host
-			ticketDistributionContext.port = url.port
-			ticketDistributionContext.context = url.path + "/ticketAccess/redeemTicket"
-			if (url.protocol == "https") {
-				ticketDistributionContext.ssl = true
-			}
-
-			log.info("ticketDistributionContext:${ticketDistributionContext}")
-		} catch (MalformedURLException e) {
-			log.error("malformed url from:${sb.toString()}", e)
-			throw new JargonException(
-			"malformed URL for ticketDistribution, probably a malformed ticketDistributionContext")
+			ticketDistributionContext = buildTicketDistributionContext()
+		} catch (Exception e) {
+			log.error("exception building ticketDistributionContext", e)
 			def message = message(code:"error.invalid.ticket.url")
 			response.sendError(500,message)
+			return
 		}
-
-		//ticketDistributionContext.setHost();
 
 		TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
 		TicketDistributionService ticketDistributionService = ticketServiceFactory.instanceTicketDistributionService(irodsAccount, ticketDistributionContext)
@@ -200,8 +178,11 @@ class TicketController {
 			log.info("got ticket:${ticket}")
 			ticketDistribution = ticketDistributionService.getTicketDistributionForTicket(ticket)
 			log.info("got ticket distribution: ${ticketDistribution}")
-			boolean isDataObject = (ticket.getObjectType() == Ticket.TicketObjectType.DATA_OBJECT)
-			render(view:"ticketPulldown", model:[ticket:ticket, ticketDistribution:ticketDistribution, isDataObject:isDataObject])
+			TicketCommand ticketCommand = ticketCommandFromData(ticket, ticketDistribution, locale)
+			ticketCommand.isDataObject = (ticket.getObjectType() == Ticket.TicketObjectType.DATA_OBJECT)
+			ticketCommand.isDialog = false
+			ticketCommand.create = false
+			render(view:"ticketPulldown", model:[ticket:ticketCommand])
 		} catch (DataNotFoundException dnf) {
 			log.error "ticket not found for given ticketString:${ticketString}", fnf
 			def message = message(code:"error.no.ticket.found")
@@ -223,48 +204,64 @@ class TicketController {
 			throw new JargonException("no create parameter passed to the method")
 		}
 
-		def absPath = params['irodsAbsolutePath']
-		if (create == null) {
+		def irodsAbsolutePath = params['irodsAbsolutePath']
+		if (irodsAbsolutePath == null) {
 			throw new JargonException("no irodsAbsolutePath parameter passed to the method")
 		}
 
-		def ticketCommand
+		TicketCommand ticketCommand
+		TicketDistribution ticketDistribution = new TicketDistribution()
+
+		TicketDistributionContext ticketDistributionContext
+		def locale =  org.springframework.web.servlet.support.RequestContextUtils.getLocale(request)
+
+		try {
+			ticketDistributionContext = buildTicketDistributionContext()
+		} catch (Exception e) {
+			log.error("exception building ticketDistributionContext", e)
+			def message = message(code:"error.invalid.ticket.url")
+			response.sendError(500,message)
+			return
+		}
+
+		TicketDistributionService ticketDistributionService = ticketServiceFactory.instanceTicketDistributionService(irodsAccount, ticketDistributionContext)
 
 		log.info "ticketDetailsDialog for ticketString: ${ticketString} with create:${create}"
 		try {
 			if (create) {
 				ticketCommand = new TicketCommand()
 				ticketCommand.create = create
+				ticketCommand.isDialog = true
 				ticketCommand.ownerName = irodsAccount.userName
 				ticketCommand.ownerZone = irodsAccount.zone
-				ticketCommand.irodsAbsolutePath = absPath
+				ticketCommand.irodsAbsolutePath = irodsAbsolutePath
 				ticketCommand.type = "READ"
+
+				log.info "checking object type for path: ${irodsAbsolutePath}"
+
+				CollectionAndDataObjectListAndSearchAO listAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+				try {
+					ObjStat objStat = listAndSearchAO.retrieveObjectStatForPath(irodsAbsolutePath)
+					if (objStat.isSomeTypeOfCollection()) {
+						ticketCommand.isDataObject = false
+					} else {
+						ticketCommand.isDataObject = true
+					}
+				} catch (DataNotFoundException dnf) {
+					def message = message(code:"error.no.data.found")
+					response.sendError(500,message)
+					return
+				}
+				render(view:"ticketPulldown", model:[ticket:ticketCommand])
+				return
 			} else {
 				TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
-				def ticket = ticketAdminService.getTicketForSpecifiedTicketString(ticketString)
-				ticketCommand = new TicketCommand()
-				ticketCommand.create = create
-				ticketCommand.ticketString = ticket.ticketString
-
-				if (ticket.type == TicketCreateModeEnum.TICKET_CREATE_READ) {
-					ticketCommand.type = 'READ'
-				} else {
-					ticketCommand.type='WRITE'
-				}
-
-				ticketCommand.type = ticket.type
-				ticketCommand.ownerName = ticket.ownerName
-				ticketCommand.ownerZone = ticket.ownerZone
-				ticketCommand.usesCount =ticket.usesCount
-				ticketCommand.usesLimit = ticket.usesLimit
-				ticketCommand.writeFileCount = ticket.writeFileCount
-				ticketCommand.writeFileLimit = ticket.writeFileLimit
-				ticketCommand.writeByteCount = ticket.writeByteCount
-				ticketCommand.writeByteLimit = ticket.writeByteLimit
-				ticketCommand.expireTime = ticket.expireTime
-				ticketCommand.irodsAbsolutePath = ticket.irodsAbsolutePath
+				Ticket ticket = ticketAdminService.getTicketForSpecifiedTicketString(ticketString)
+				ticketDistribution = ticketDistributionService.getTicketDistributionForTicket(ticket)
+				ticketCommand = ticketCommandFromData(ticket, ticketDistribution, locale)
 			}
-			render(view:"ticketDetailsDialog", model:[ticket:ticketCommand, create:create])
+
+			render(view:"ticketPulldown", model:[ticket:ticketCommand])
 		} catch (FileNotFoundException fnf) {
 			log.error "ticket not found for given ticketString:${ticketString}", fnf
 			def message = message(code:"error.no.data.found")
@@ -276,9 +273,99 @@ class TicketController {
 		}
 	}
 
+	private Ticket ticketFromTicketCommand(TicketCommand ticketCommand, Locale locale) {
+		Ticket ticket = new Ticket()
+		log.info("ticket command expire time:${ticketCommand.expireTime}")
+
+
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", locale)
+
+		if (ticketCommand.expireTime) {
+			ticket.setExpireTime(formatter.parse(ticketCommand.expireTime))
+			//log.info(*"parsed date and set in ticket:${ticket.expireTime}")
+		}
+
+		ticket.setIrodsAbsolutePath(ticketCommand.irodsAbsolutePath)
+		ticket.setTicketString(ticketCommand.ticketString)
+
+		if (ticketCommand.type == 'READ') {
+			ticket.setType(TicketCreateModeEnum.READ)
+		} else {
+			ticket.setType(TicketCreateModeEnum.WRITE)
+		}
+
+		ticket.setUsesLimit(ticketCommand.usesLimit)
+		ticket.setWriteByteLimit(ticketCommand.writeByteLimit)
+		ticket.setWriteFileLimit(ticketCommand.writeFileLimit)
+
+		log.info("built ticket data from command:${ticket}")
+		return ticket
+	}
+
+	private TicketCommand ticketCommandFromData(Ticket ticket, TicketDistribution ticketDistribution, Locale locale) {
+		TicketCommand ticketCommand = new TicketCommand()
+		ticketCommand.create = false
+		ticketCommand.ticketString = ticket.ticketString
+
+		if (ticket.type == TicketCreateModeEnum.READ) {
+			ticketCommand.type = 'READ'
+		} else {
+			ticketCommand.type='WRITE'
+		}
+
+		ticketCommand.ownerName = ticket.ownerName
+		ticketCommand.ownerZone = ticket.ownerZone
+		ticketCommand.usesCount =ticket.usesCount
+		ticketCommand.usesLimit = ticket.usesLimit
+		ticketCommand.writeFileCount = ticket.writeFileCount
+		ticketCommand.writeFileLimit = ticket.writeFileLimit
+		ticketCommand.writeByteCount = ticket.writeByteCount
+		ticketCommand.writeByteLimit = ticket.writeByteLimit
+
+		if (ticket.expireTime) {
+			SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", locale)
+			ticketCommand.expireTime  = formatter.format(ticket.expireTime)
+		} else {
+			ticketCommand.expireTime = ""
+		}
+
+		ticketCommand.irodsAbsolutePath = ticket.irodsAbsolutePath
+		ticketCommand.showLandingPage = false
+		ticketCommand.ticketURL = ticketDistribution.ticketURL
+		ticketCommand.ticketURLWithLandingPage = ticketDistribution.ticketURLWithLandingPage
+		return ticketCommand
+	}
+
+	/**
+	 * Build a ticket distribution context object that describes how URL's should be built for this server
+	 * @return
+	 */
+	private TicketDistributionContext buildTicketDistributionContext() {
+		TicketDistributionContext ticketDistributionContext = new TicketDistributionContext()
+		String grailsServerURL =  grailsApplication.config.grails.serverURL
+		log.info("server URL for context: ${grailsServerURL}")
+
+		try {
+			URL url = new URL(grailsServerURL)
+			ticketDistributionContext.host = url.host
+			ticketDistributionContext.port = url.port
+			ticketDistributionContext.context = url.path + "/ticketAccess/redeemTicket"
+			if (url.protocol == "https") {
+				ticketDistributionContext.ssl = true
+			}
+
+			log.info("ticketDistributionContext:${ticketDistributionContext}")
+			return ticketDistributionContext
+		} catch (MalformedURLException e) {
+			throw new JargonException(
+			"malformed URL for ticketDistribution, probably a malformed ticketDistributionContext")
+		}
+	}
 }
 class TicketCommand {
 	boolean create
+	boolean isDataObject
+	boolean isDialog
 	String ticketString
 	String type
 	String ownerName
@@ -289,10 +376,17 @@ class TicketCommand {
 	int writeFileLimit
 	long writeByteCount
 	long writeByteLimit
-	Date expireTime
+	String expireTime
 	String irodsAbsolutePath
+	boolean showLandingPage
+	String ticketURL
+	String ticketURLWithLandingPage
+
 	static constraints = {
 		type(blank:false, inList:["READ", "WRITE"])
 		irodsAbsolutePath(blank:false)
+		usesLimit( min:0, max:Integer.MAX_VALUE)
+		writeFileLimit(min:0, max:Integer.MAX_VALUE)
+		writeByteLimit( min:0L, max:Long.MAX_VALUE)
 	}
 }

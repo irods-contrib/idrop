@@ -136,7 +136,7 @@ class TicketControllerTests {
 		controller.ticketServiceFactory = ticketServiceFactory
 		controller.params.ticketString = testPath
 		controller.params.create = create
-		controller.ticketDetailsDialog()
+		controller.xxxxxticketDetailsDialog()
 
 		assert view == "/ticket/ticketDetailsDialog"
 	}
@@ -168,7 +168,7 @@ class TicketControllerTests {
 		controller.ticketServiceFactory = ticketServiceFactory
 		controller.params.ticketString = testPath
 		controller.params.create = create
-		controller.ticketDetailsDialog()
+		controller.xxxxxticketDetailsDialog()
 
 		assert view == "/ticket/ticketDetailsDialog"
 		assert model.ticket

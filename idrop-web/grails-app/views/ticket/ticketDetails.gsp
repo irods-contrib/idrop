@@ -3,8 +3,8 @@
 <div id="ticketDialogArea"><!--  area for generating dialogs --></div>
 <div id="ticketMessageArea"><!--  area for messages --></div>
 
-<div id="ticketDetailsArea">
-	<div class="roundedContainer" id="ticketDetailsTopSection" >
+<div id="ticketDetailsTableArea">
+	<div class="fg-toolbar ui-widget-header" id="ticketDetailsTopSection" >
 		<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
 			style="float: left, clear :   both;">
 			<button type="button" id="addTicketButton"
