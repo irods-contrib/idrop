@@ -1,4 +1,4 @@
-<g:form name="ticketDetailsForm" action="" id="ticketDetailsForm">
+<g:form name="ticketTableForm" action="" id="ticketTableForm">
 	<table cellspacing="0" cellpadding="0" border="0"
 		id="ticketDetailsTable" style="width: 100%;">
 		<thead>

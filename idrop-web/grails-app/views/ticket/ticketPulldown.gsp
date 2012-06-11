@@ -1,10 +1,21 @@
 <div id="ticketPulldownDiv" style="overflow:visible;width:auto;">
+			<g:if test="${flash.error}">
+                <script>
+                $(function() { setErrorMessage("${flash.error}"); });
+                </script>
+              </g:if>
+
+              <g:if test="${flash.message}">
+                <script>
+                $(function() { setMessage("${flash.message}");});
+                </script>
+              </g:if>
+
 
 <g:form name="ticketPulldownDetailsForm" id="ticketPulldownDetailsForm">
 
 	<g:hiddenField name='irodsAbsolutePath' id='ticketDetailsAbsPath' value='${ticket.irodsAbsolutePath}'/>
 	<g:hiddenField name='type' id='ticketType' value='${ticket.type}'/>
-	<g:hiddenField name='ticketString' id='ticketString' value='${ticket.ticketString}'/>
 	<g:hiddenField name='create' id='create' value='${ticket.create}'/>
 	<g:hiddenField name='isDialog' id='isDialog' value='${ticket.isDialog}'/>
 	<g:hiddenField name='ownerName' id='ownerName' value='${ticket.ownerName}'/>
@@ -15,6 +26,7 @@
 	<g:hiddenField name='ticketURL' id='ticketURL' value='${ticket.ticketURL}'/>
 	<g:hiddenField name='ticketURLWithLandingPage' id='ticketURLWithLandingPage' value='${ticket.ticketURLWithLandingPage}'/>
 	<g:hiddenField name='isDataObject' id='isDataObject' value='${ticket.isDataObject}'/>
+	
 		<g:hasErrors bean="${ticket}">
 					<div class="errors">
 				  <ul>
@@ -23,11 +35,26 @@
 				   </g:eachError>
 				  </ul>
 				  </div>
-				</g:hasErrors>
+		</g:hasErrors>
 					
 			<div id="container" style="height:100%;width:100%;">
 			
+				<g:if test="${ticket.create}">
+				<div>
+						<div style="width:20%;"><label><g:message code="text.ticket.string" />:</label></div>
+						<div><g:textField id="ticketString" name="ticketString" width="20em"
+						value="${ticket.ticketString}" /></div>
+					</div>
 				
+				</g:if>
+				<g:else>
+				<g:hiddenField name='ticketString' id='ticketString' value='${ticket.ticketString}'/>
+					<div>
+					<div style="width:20%;"><label><g:message code="text.ticket.string" />:</label></div>
+						<div>${ticket.ticketString}</div>
+					</div>
+				</g:else>
+			
 					<div>
 						<div style="width:20%;"><label><g:message code="text.ticket.user" />:</label></div>
 						<div>${ticket.ownerName}</div>

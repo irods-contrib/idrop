@@ -14,7 +14,9 @@ class TicketAccessController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TicketServiceFactory ticketServiceFactory
 
-
+	/**
+	 * Use a direct data url to stream back data for a ticket
+	 */
 	def redeemTicket = {
 		log.info("redeemTicket()")
 
@@ -31,6 +33,14 @@ class TicketAccessController {
 		log.info("ticketString: ${ticketString}")
 		log.info("irodsURIString: ${irodsURIString}")
 
+		def useLandingPage = params['landingPage']
+
+		if (useLandingPage) {
+			log.info("reroute to landing page")
+			redirect(action:"landingPage", params:params)
+			return
+		}
+
 		// get an anonymous account based on the provided URI
 		URI irodsURI = new URI(irodsURIString)
 		String filePath = irodsURI.getPath()
@@ -42,7 +52,6 @@ class TicketAccessController {
 				"")
 
 		File tempDir =servletContext.getAttribute("javax.servlet.context.tempdir")
-
 		log.info("temp dir:${tempDir}")
 
 		TicketClientOperations ticketClientOperations = ticketServiceFactory.instanceTicketClientOperations(irodsAccount)
@@ -62,5 +71,9 @@ class TicketAccessController {
 
 		response.outputStream << info.inputStream // Performing a binary stream copy
 
+	}
+
+	def landingPage = {
+		render(view:'ticketAccessCollection', model:[irodsURI:irodsURI, ticketString:ticketString])
 	}
 }

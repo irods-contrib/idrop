@@ -113,6 +113,7 @@ class TicketController {
 		 */
 		if (!cmd.validate()) {
 			log.info("errors in page, returning with error info:${cmd}")
+			flash.error =  message(code:"error.data.error")
 			render(view:"ticketPulldown", model:[ticket:cmd])
 			return
 		}
@@ -133,7 +134,8 @@ class TicketController {
 			ticket = ticketAdminService.compareGivenTicketToActualAndUpdateAsNeeded(ticket)
 			log.info("ticket after update:${ticket}")
 		}
-		redirect(action:ticketPulldown, params:[ticketString:ticket.ticketString, absPath:ticket.irodsAbsolutePath])
+		flash.message = message(code:"message.update.successful")
+		redirect(action:ticketPulldown, params:[ticketString:ticket.ticketString, absPath:ticket.irodsAbsolutePath, isDialog:cmd.isDialog])
 	}
 
 	/**
@@ -153,8 +155,11 @@ class TicketController {
 			throw new JargonException("no absPath parameter passed to the method")
 		}
 
+		boolean isDialog = params['isDialog']
+
 		log.info("ticketString: ${ticketString}")
 		log.info("absPath: ${absPath}")
+		log.info("isDialog: ${isDialog}")
 
 		def locale =  org.springframework.web.servlet.support.RequestContextUtils.getLocale(request)
 		log.info("locale is: ${locale}")
@@ -180,7 +185,7 @@ class TicketController {
 			log.info("got ticket distribution: ${ticketDistribution}")
 			TicketCommand ticketCommand = ticketCommandFromData(ticket, ticketDistribution, locale)
 			ticketCommand.isDataObject = (ticket.getObjectType() == Ticket.TicketObjectType.DATA_OBJECT)
-			ticketCommand.isDialog = false
+			ticketCommand.isDialog = isDialog
 			ticketCommand.create = false
 			render(view:"ticketPulldown", model:[ticket:ticketCommand])
 		} catch (DataNotFoundException dnf) {

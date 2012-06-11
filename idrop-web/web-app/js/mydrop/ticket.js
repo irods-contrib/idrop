@@ -206,7 +206,7 @@ function updateTicketFromPulldown() {
  */
 function showTicketDetailsDialog(data) {
 	//$("#ticketTableDiv").fadeOut('slow');
-	$("#ticketDetailsTableArea").html(data).fadeOut('slow');
+	$("#ticketDetailsTableArea").fadeOut('slow');
 	$("#ticketDialogArea").html(data).fadeIn('slow');
 }
 
@@ -237,7 +237,6 @@ function closeTicketDialog() {
 }
 
 
-
 /**
  * Handle form submit to add a ticket
  */
@@ -251,7 +250,7 @@ function submitTicketDialog() {
 		}
 		
 		// see if there is form data (users in a pick list) that are selected
-		var formData = $("#ticketDialogForm").serializeArray();
+		var formData = $("#ticketPulldownDetailsForm").serializeArray();
 	
 		if (formData == null) {
 			setErrorMessage(jQuery.i18n.prop('msg_no_ticket_data'));
@@ -266,10 +265,10 @@ function submitTicketDialog() {
 						return false;
 					} 
 					
-					closeTicketDialog();
-					setMessage(jQuery.i18n.prop('msg_ticket_update_successful'));
-					reloadTicketTable(selectedPath);
-					
+					//closeTicketDialog();
+					//setMessage(jQuery.i18n.prop('msg_ticket_update_successful'));
+					//reloadTicketTable(selectedPath);
+					$("#ticketDialogArea").html(data);
 
 		}).error(function(xhr, status, error) {
 			closeTicketDialog();
