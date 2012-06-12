@@ -2,7 +2,9 @@ package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
+import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.utils.MiscIRODSUtils
 import org.irods.jargon.ticket.TicketClientOperations
@@ -42,9 +44,12 @@ class TicketAccessController {
 		}
 
 		// get an anonymous account based on the provided URI
-		URI irodsURI = new URI(irodsURIString)
+		//URI irodsURI = new URI(URLDecoder.decode(irodsURIString))
+		String mungedIRODSURI = irodsURIString.replaceAll(" ", "&&space&&")
+		URI irodsURI = new URI(mungedIRODSURI)
 		String filePath = irodsURI.getPath()
 		log.info("irodsFilePath:${filePath}")
+		filePath = filePath.replaceAll("&&space&&", " ")
 		String zone = MiscIRODSUtils.getZoneInPath(filePath)
 		log.info("zone:${zone}")
 		IRODSAccount irodsAccount = IRODSAccount.instanceForAnonymous(irodsURI.getHost(),
@@ -74,6 +79,50 @@ class TicketAccessController {
 	}
 
 	def landingPage = {
-		render(view:'ticketAccessCollection', model:[irodsURI:irodsURI, ticketString:ticketString])
+		log.info("landingPage()")
+
+		def ticketString = params['ticketString']
+		if (ticketString == null) {
+			throw new JargonException("no ticketString passed to the method")
+		}
+
+		def irodsURIString = params['irodsURI']
+		if (irodsURIString == null) {
+			throw new JargonException("no irodsURI parameter passed to the method")
+		}
+
+		log.info("ticketString: ${ticketString}")
+		log.info("irodsURIString: ${irodsURIString}")
+		// FIXME: formalize (?) this path munging monstrosity
+		// get an anonymous account based on the provided URI
+		String mungedIRODSURI = irodsURIString.replaceAll(" ", "&&space&&")
+		URI irodsURI = new URI(mungedIRODSURI)
+		String filePath = irodsURI.getPath()
+		log.info("irodsFilePath:${filePath}")
+		filePath = filePath.replaceAll("&&space&&", " ")
+		log.info("irodsFilePath:${filePath}")
+		String zone = MiscIRODSUtils.getZoneInPath(filePath)
+		log.info("zone:${zone}")
+		IRODSAccount irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
+
+		CollectionAndDataObjectListAndSearchAO listAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		ObjStat objStat = listAndSearchAO.retrieveObjectStatForPath(filePath)
+
+		log.info("got objstat:${objStat}")
+
+		render(view:'ticketAccessCollection', model:[irodsURI:irodsURIString, ticketString:ticketString], filePath:filePath)
+	}
+
+	private IRODSAccount anonymousIrodsAccountForURIString(String uriString) {
+		// get an anonymous account based on the provided URI
+		URI irodsURI = new URI(uriString)
+		String filePath = irodsURI.getPath()
+		log.info("irodsFilePath:${filePath}")
+		String zone = MiscIRODSUtils.getZoneInPath(filePath)
+		log.info("zone:${zone}")
+		IRODSAccount irodsAccount = IRODSAccount.instanceForAnonymous(irodsURI.getHost(),
+				irodsURI.getPort(), "", zone,
+				"")
+		return irodsAccount
 	}
 }

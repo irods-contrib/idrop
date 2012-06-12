@@ -72,7 +72,7 @@
 					<g:if test="${ticket.isDataObject}">
 						<div >
 							<div><label><g:message code="text.ticket.url" />:</label></div>
-							<div><span id="ticketPulldownUrl"><a href="${ticket.ticketURL}">${ticket.ticketURL}</a></span><span id="ticketPulldownUrlLanding"><a href="${ticket.ticketURLWithLandingPage}">${ticket.ticketURLWithLandingPage}</a></span></div>
+							<div><span id="ticketPulldownUrl"><a target="_blank" href="${ticket.ticketURL}">${ticket.ticketURL}</a></span><span id="ticketPulldownUrlLanding"><a href="${ticket.ticketURLWithLandingPage}">${ticket.ticketURLWithLandingPage}</a></span></div>
 						</div>
 						<div>
 							<div><label><g:message code="text.ticket.url.landing" />:</label></div>
@@ -82,7 +82,7 @@
 					<g:else>
 						<div >
 							<div><label><g:message code="text.ticket.url" />:</label></div>
-							<div><span id="ticketPulldownUrlCollection"><a href="${ticket.ticketURLWithLandingPage}">${ticket.ticketURLWithLandingPage}</a></span></div>
+							<div><span id="ticketPulldownUrlCollection"><a target="_blank" href="${ticket.ticketURLWithLandingPage}">${ticket.ticketURLWithLandingPage}</a></span></div>
 						</div>
 					</g:else>
 				</div>

@@ -55,7 +55,8 @@ idrop.config.idrop.lite.use.applet.dir=false
  * idrop.config.idrop.jnlp="https://lifetime-library.ils.unc.edu/llclient/idrop.jnlp"
  */
 
-idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
+//idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
+idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
 
 /*
  * 5) Customization properties
