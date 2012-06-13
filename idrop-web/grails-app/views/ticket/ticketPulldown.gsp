@@ -40,8 +40,8 @@
 			<div id="container" style="height:100%;width:100%;">
 			
 				<g:if test="${ticket.create}">
-				<div>
-						<div style="width:20%;"><label><g:message code="text.ticket.string" />:</label></div>
+					<div>
+						<div style="width:15%;"><label><g:message code="text.ticket.string" />:</label></div>
 						<div><g:textField id="ticketString" name="ticketString" width="20em"
 						value="${ticket.ticketString}" /></div>
 					</div>
@@ -72,12 +72,14 @@
 					<g:if test="${ticket.isDataObject}">
 						<div >
 							<div><label><g:message code="text.ticket.url" />:</label></div>
-							<div><span id="ticketPulldownUrl"><a target="_blank" href="${ticket.ticketURL}">${ticket.ticketURL}</a></span><span id="ticketPulldownUrlLanding"><a href="${ticket.ticketURLWithLandingPage}">${ticket.ticketURLWithLandingPage}</a></span></div>
+							<div><span id="ticketPulldownUrl"><a target="_blank" href="${ticket.ticketURL}">${ticket.ticketURL}</a></span><span id="ticketPulldownUrlLanding"><a target="_blank" href="${ticket.ticketURLWithLandingPage}">${ticket.ticketURLWithLandingPage}</a></span></div>
 						</div>
+						<g:if test="${!ticket.create}">
 						<div>
 							<div><label><g:message code="text.ticket.url.landing" />:</label></div>
 							<div><g:checkBox id="showLandingPage" name="showLandingPage" onclick="toggleLandingUrl()"/></div>
 						</div>
+						</g:if>
 					</g:if>
 					<g:else>
 						<div >
@@ -97,12 +99,6 @@
 								<label><g:message code="text.ticket.uses.count" /></label><br/>${ticket.usesCount}<br/>
 								<label><g:message code="text.ticket.uses.limit" /></label><br/><g:textField id="usesLimit" name="usesLimit" value="${ticket.usesLimit}" />
 						</div>
-						<div style="width:33%;height:auto;"  class="roundedContainer">
-							<!--  pie chart cell write bytes -->
-							<div id="ticketWriteBytesChart" style="height:auto;width:auto;"></div>
-							<label><g:message code="text.ticket.byte.count" /></label><br/>${ticket.writeByteCount}<br/>
-							<label><g:message code="text.ticket.byte.limit" /></label><br/><g:textField id="writeByteLimit" name="writeByteLimit" value="${ticket.writeByteLimit}" />
-						</div>
 						<div style="width:33%;height:auto;" class="roundedContainer">
 							<!--  pie chart cell write files -->
 							<div id="ticketWriteFilesChart" style="height:auto;width:auto%;" ></div>
@@ -111,6 +107,13 @@
 							<g:textField id="writeFileLimit" name="writeFileLimit" value="${ticket.writeFileLimit}" />
 						</div>
 					
+						<div style="width:33%;height:auto;"  class="roundedContainer">
+							<!--  pie chart cell write bytes -->
+							<div id="ticketWriteBytesChart" style="height:auto;width:auto;"></div>
+							<label><g:message code="text.ticket.byte.count" /></label><br/>${ticket.writeByteCount}<br/>
+							<label><g:message code="text.ticket.byte.limit" /></label><br/><g:textField id="writeByteLimit" name="writeByteLimit" value="${ticket.writeByteLimit}" />
+						</div>
+						
 					
 					
 					</div><!--  pie chart row end -->

@@ -2,10 +2,9 @@ package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
-import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.pub.io.IRODSFile
+import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.utils.MiscIRODSUtils
 import org.irods.jargon.ticket.TicketClientOperations
 import org.irods.jargon.ticket.TicketServiceFactory
@@ -15,6 +14,75 @@ class TicketAccessController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TicketServiceFactory ticketServiceFactory
+
+	/**
+	 * Process an actual call to upload data to iRODS as a multi-part file
+	 */
+	/*
+	 def uploadViaTicket = {
+	 log.info("uploadViaTicket")
+	 MultipartFile f = request.getFile('file')
+	 def name = f.getOriginalFilename()
+	 log.info("f is ${f}")
+	 log.info("length of f is ${f.size}")
+	 log.info("max upload size is ${MAX_UPLOAD}")
+	 if (f.size > MAX_UPLOAD) {
+	 log.error("file size is too large, send error message to use bulk upload")
+	 def message = message(code:"error.use.bulk.upload")
+	 response.sendError(500,message)
+	 return
+	 } else if (f.size == 0) {
+	 log.error("file is zero length")
+	 def message = message(code:"error.zero.length.upload")
+	 response.sendError(500,message)
+	 return
+	 }
+	 log.info("name is : ${name}")
+	 def irodsURI = params.irodsURI
+	 if (f == null || f.empty) {
+	 log.error("no file to upload")
+	 throw new JargonException("No file to upload")
+	 }
+	 InputStream fis = null
+	 log.info("building irodsFile for file name: ${name}")
+	 try {
+	 fis = new BufferedInputStream(f.getInputStream())
+	 IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+	 IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, name)
+	 targetFile.setResource(irodsAccount.defaultStorageResource)
+	 Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
+	 stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
+	 } catch (Exception e) {
+	 log.error("exception in upload transfer", e)
+	 response.sendError(500,e.message)
+	 } finally {
+	 // stream2Stream will close input and output streams
+	 }
+	 render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
+	 }*/
+
+	/**
+	 * Delete the given file or folder
+	 */
+	def deleteFileOrFolder = {
+		log.info("delete file or folder")
+		String absPath = params['absPath']
+		if (!absPath) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		absPath = absPath.trim()
+
+		log.info("name for delete folder:${absPath}")
+		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(absPath)
+
+		targetFile.deleteWithForceOption()
+		log.info("file deleted")
+		render targetFile.getParent()
+	}
 
 	/**
 	 * Use a direct data url to stream back data for a ticket
@@ -91,8 +159,20 @@ class TicketAccessController {
 			throw new JargonException("no irodsURI parameter passed to the method")
 		}
 
+		def objectType = params['objectType']
+		if (objectType == null) {
+			throw new JargonException("no objectType parameter passed to the method")
+		}
+
+		def ticketType = params['ticketType']
+		if (ticketType == null) {
+			throw new JargonException("no ticketType parameter passed to the method")
+		}
+
 		log.info("ticketString: ${ticketString}")
 		log.info("irodsURIString: ${irodsURIString}")
+		log.info("objectType:${objectType}")
+		log.info("ticketType:${ticketType}")
 		// FIXME: formalize (?) this path munging monstrosity
 		// get an anonymous account based on the provided URI
 		String mungedIRODSURI = irodsURIString.replaceAll(" ", "&&space&&")
@@ -105,12 +185,12 @@ class TicketAccessController {
 		log.info("zone:${zone}")
 		IRODSAccount irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
 
-		CollectionAndDataObjectListAndSearchAO listAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		ObjStat objStat = listAndSearchAO.retrieveObjectStatForPath(filePath)
+		if (objectType == "DATA_OBJECT") {
+			render(view:'ticketAccessDataObject', model:[irodsURI:irodsURIString, ticketString:ticketString, filePath:filePath, ticketType:ticketType])
+		} else {
+			render(view:'ticketAccessCollection', model:[irodsURI:irodsURIString, ticketString:ticketString, filePath:filePath, ticketType:ticketType])
+		}
 
-		log.info("got objstat:${objStat}")
-
-		render(view:'ticketAccessCollection', model:[irodsURI:irodsURIString, ticketString:ticketString], filePath:filePath)
 	}
 
 	private IRODSAccount anonymousIrodsAccountForURIString(String uriString) {

@@ -19,7 +19,6 @@ Note that the following bug and feature requests are logged in GForge with relat
 ==Bug Fixes==
 
 
-
 ==Features==
 
 * [#116] browse/search/tab memory
@@ -27,3 +26,18 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 * [#696] Add ticket support
 ** refactoring of 'info' pages to add accordion for various types of details, including ticket information
+** development of 'landing page' alternative
+
+
+todo:
+
+sizing on menu
+
+
+then
+
+soft link fixes
+config home in idrop web (browse up)
+history?
+ticket when logged in
+add icons and headers

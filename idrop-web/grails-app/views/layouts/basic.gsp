@@ -1,5 +1,4 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN">
-<meta name="layout" content="basic" />
 <html>
 <head>
 <title><g:layoutTitle default="iDrop-web - iRODS Cloud Browser" /></title>
@@ -83,6 +82,9 @@
 </head>
 <body style="height:100%;">
 <div id="hd"><!-- PUT MASTHEAD CODE HERE -->
+<div id="bannercontainer">
+	<!--  image banner -->
+</div>
 </div>
 <div id="bd" style="height:100%;">
 <div id="defaultDialogDiv"><!-- default for general jquery dialogs --></div>
