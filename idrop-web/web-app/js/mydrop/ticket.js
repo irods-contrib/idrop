@@ -230,6 +230,7 @@ function cancelTicketFromPulldown() {
 function closeTicketDialog() {
 	
 	$("#ticketDialogArea").fadeOut('slow');
+	$("#ticketDialogArea").html("");
 	$("#ticketDetailsTableArea").fadeIn('slow');
 	reloadTicketTable(selectedPath);
 	
