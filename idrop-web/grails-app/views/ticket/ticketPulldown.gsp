@@ -45,13 +45,24 @@
 						<div><g:textField id="ticketString" name="ticketString" width="20em"
 						value="${ticket.ticketString}" /></div>
 					</div>
+					<div>
+						<div style="width:15%;"><label><g:message code="text.ticket.type" />:</label></div>
+						<div><g:select id="type" name="type" from="${['READ', 'WRITE']}"
+						value="${ticket.type}" /></div>
+					</div>
+				
 				
 				</g:if>
 				<g:else>
 				<g:hiddenField name='ticketString' id='ticketString' value='${ticket.ticketString}'/>
+				<g:hiddenField name='type' id='type' value='${ticket.type}'/>
 					<div>
 					<div style="width:20%;"><label><g:message code="text.ticket.string" />:</label></div>
 						<div>${ticket.ticketString}</div>
+					</div>
+					<div>
+						<div style="width:15%;"><label><g:message code="text.ticket.type" />:</label></div>
+						<div>${ticket.type}</div>
 					</div>
 				</g:else>
 			

@@ -7,6 +7,7 @@ import org.irods.jargon.ticket.*
 import org.irods.jargon.ticket.packinstr.TicketCreateModeEnum
 import org.irods.jargon.core.pub.*
 import org.irods.jargon.core.pub.domain.ObjStat
+import org.irods.jargon.core.utils.MiscIRODSUtils
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
 import org.springframework.security.core.context.SecurityContextHolder
@@ -114,7 +115,9 @@ class TicketController {
 		if (!cmd.validate()) {
 			log.info("errors in page, returning with error info:${cmd}")
 			flash.error =  message(code:"error.data.error")
-			render(view:"ticketPulldown", model:[ticket:cmd])
+			def ticketTypes = MiscIRODSUtils.getDisplayValuesFromEnum(TicketCreateModeEnum)
+			log.info("ticketTypes:${ticketTypes}")
+			render(view:"ticketPulldown", model:[ticket:cmd, ticketTypes:ticketTypes])
 			return
 		}
 
@@ -187,7 +190,9 @@ class TicketController {
 			ticketCommand.isDataObject = (ticket.getObjectType() == Ticket.TicketObjectType.DATA_OBJECT)
 			ticketCommand.isDialog = isDialog
 			ticketCommand.create = false
-			render(view:"ticketPulldown", model:[ticket:ticketCommand])
+			def ticketTypes = MiscIRODSUtils.getDisplayValuesFromEnum(TicketCreateModeEnum)
+			log.info("ticketTypes:${ticketTypes}")
+			render(view:"ticketPulldown", model:[ticket:ticketCommand, ticketTypes:ticketTypes])
 		} catch (DataNotFoundException dnf) {
 			log.error "ticket not found for given ticketString:${ticketString}", fnf
 			def message = message(code:"error.no.ticket.found")
@@ -232,6 +237,8 @@ class TicketController {
 		TicketDistributionService ticketDistributionService = ticketServiceFactory.instanceTicketDistributionService(irodsAccount, ticketDistributionContext)
 
 		log.info "ticketDetailsDialog for ticketString: ${ticketString} with create:${create}"
+		def ticketTypes = MiscIRODSUtils.getDisplayValuesFromEnum(TicketCreateModeEnum)
+		log.info("ticketTypes:${ticketTypes}")
 		try {
 			if (create) {
 				ticketCommand = new TicketCommand()
@@ -257,7 +264,7 @@ class TicketController {
 					response.sendError(500,message)
 					return
 				}
-				render(view:"ticketPulldown", model:[ticket:ticketCommand])
+				render(view:"ticketPulldown", model:[ticket:ticketCommand, ticketTypes:ticketTypes])
 				return
 			} else {
 				TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
@@ -266,7 +273,7 @@ class TicketController {
 				ticketCommand = ticketCommandFromData(ticket, ticketDistribution, locale)
 			}
 
-			render(view:"ticketPulldown", model:[ticket:ticketCommand])
+			render(view:"ticketPulldown", model:[ticket:ticketCommand, ticketTypes:ticketTypes])
 		} catch (FileNotFoundException fnf) {
 			log.error "ticket not found for given ticketString:${ticketString}", fnf
 			def message = message(code:"error.no.data.found")
@@ -388,7 +395,7 @@ class TicketCommand {
 	String ticketURLWithLandingPage
 
 	static constraints = {
-		type(blank:false, inList:["READ", "WRITE"])
+		type(blank:false)//, inList:MiscIRODSUtils.getDisplayValuesFromEnum(TicketCreateModeEnum))
 		irodsAbsolutePath(blank:false)
 		usesLimit( min:0, max:Integer.MAX_VALUE)
 		writeFileLimit(min:0, max:Integer.MAX_VALUE)

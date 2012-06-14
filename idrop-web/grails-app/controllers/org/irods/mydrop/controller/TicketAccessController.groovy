@@ -9,57 +9,92 @@ import org.irods.jargon.core.utils.MiscIRODSUtils
 import org.irods.jargon.ticket.TicketClientOperations
 import org.irods.jargon.ticket.TicketServiceFactory
 import org.irods.jargon.ticket.io.FileStreamAndInfo
+import org.springframework.web.multipart.MultipartFile
 
 class TicketAccessController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TicketServiceFactory ticketServiceFactory
+	long MAX_UPLOAD = 32 * 1024 * 1024
 
 	/**
 	 * Process an actual call to upload data to iRODS as a multi-part file
 	 */
-	/*
-	 def uploadViaTicket = {
-	 log.info("uploadViaTicket")
-	 MultipartFile f = request.getFile('file')
-	 def name = f.getOriginalFilename()
-	 log.info("f is ${f}")
-	 log.info("length of f is ${f.size}")
-	 log.info("max upload size is ${MAX_UPLOAD}")
-	 if (f.size > MAX_UPLOAD) {
-	 log.error("file size is too large, send error message to use bulk upload")
-	 def message = message(code:"error.use.bulk.upload")
-	 response.sendError(500,message)
-	 return
-	 } else if (f.size == 0) {
-	 log.error("file is zero length")
-	 def message = message(code:"error.zero.length.upload")
-	 response.sendError(500,message)
-	 return
-	 }
-	 log.info("name is : ${name}")
-	 def irodsURI = params.irodsURI
-	 if (f == null || f.empty) {
-	 log.error("no file to upload")
-	 throw new JargonException("No file to upload")
-	 }
-	 InputStream fis = null
-	 log.info("building irodsFile for file name: ${name}")
-	 try {
-	 fis = new BufferedInputStream(f.getInputStream())
-	 IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
-	 IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, name)
-	 targetFile.setResource(irodsAccount.defaultStorageResource)
-	 Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
-	 stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
-	 } catch (Exception e) {
-	 log.error("exception in upload transfer", e)
-	 response.sendError(500,e.message)
-	 } finally {
-	 // stream2Stream will close input and output streams
-	 }
-	 render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
-	 }*/
+
+	def uploadViaTicket = {
+		log.info("uploadViaTicket")
+
+		def ticketString = params['ticketString']
+		if (ticketString == null) {
+			throw new JargonException("no ticketString passed to the method")
+		}
+
+		def irodsURIString = params['irodsURI']
+		if (irodsURIString == null) {
+			throw new JargonException("no irodsURI parameter passed to the method")
+		}
+
+		log.info("ticketString: ${ticketString}")
+		log.info("irodsURIString: ${irodsURIString}")
+
+		File tempDir =servletContext.getAttribute("javax.servlet.context.tempdir")
+		log.info("tempDir:${tempDir}")
+
+		MultipartFile f = request.getFile('file')
+		if (f == null) {
+			throw new JargonException("no file parameter passed to the method")
+		}
+
+		def name = f.getOriginalFilename()
+		log.info("f is ${f}")
+		log.info("length of f is ${f.size}")
+		log.info("max upload size is ${MAX_UPLOAD}")
+		if (f.size > MAX_UPLOAD) {
+			log.error("file size is too large, send error message to use bulk upload")
+			def message = message(code:"error.use.bulk.upload")
+			response.sendError(500,message)
+			return
+		} else if (f.size == 0) {
+			log.error("file is zero length")
+			def message = message(code:"error.zero.length.upload")
+			response.sendError(500,message)
+			return
+		}
+		log.info("name is : ${name}")
+
+		InputStream fis = null
+		log.info("building irodsFile for file name: ${name}")
+		try {
+			fis = new BufferedInputStream(f.getInputStream())
+			// FIXME: formalize (?) this path munging monstrosity
+			// get an anonymous account based on the provided URI
+			String mungedIRODSURI = irodsURIString.replaceAll(" ", "&&space&&")
+			URI irodsURI = new URI(mungedIRODSURI)
+			String filePath = irodsURI.getPath()
+			log.info("irodsFilePath:${filePath}")
+			filePath = filePath.replaceAll("&&space&&", " ")
+			log.info("irodsFilePath:${filePath}")
+			String zone = MiscIRODSUtils.getZoneInPath(filePath)
+			log.info("zone:${zone}")
+			IRODSAccount irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
+			IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+			IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(filePath, name)
+			targetFile.setResource(irodsAccount.defaultStorageResource)
+
+			TicketClientOperations ticketClientOperations = ticketServiceFactory.instanceTicketClientOperations(irodsAccount)
+
+			ticketClientOperations.redeemTicketAndStreamToIRODSCollection(
+					ticketString, filePath, name,
+					fis, tempDir)
+
+
+		} catch (Exception e) {
+			log.error("exception in upload transfer", e)
+			response.sendError(500,e.message)
+		} finally {
+		}
+		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
+	}
 
 	/**
 	 * Delete the given file or folder
@@ -191,6 +226,24 @@ class TicketAccessController {
 			render(view:'ticketAccessCollection', model:[irodsURI:irodsURIString, ticketString:ticketString, filePath:filePath, ticketType:ticketType])
 		}
 
+	}
+
+	/**
+	 * Prepare a dialog to upload a file into the given collection
+	 *
+	 */
+	def prepareUploadDialog = {
+		log.info("prepareUploadDialog")
+		def ticketString = params['ticketString']
+		if (ticketString == null) {
+			throw new JargonException("no ticketString passed to the method")
+		}
+
+		def irodsURI = params['irodsURI']
+		if (irodsURI == null) {
+			throw new JargonException("no irodsURI parameter passed to the method")
+		}
+		render(view:"uploadToTicketCollection", model:[irodsURI:irodsURI, ticketString:ticketString])
 	}
 
 	private IRODSAccount anonymousIrodsAccountForURIString(String uriString) {
