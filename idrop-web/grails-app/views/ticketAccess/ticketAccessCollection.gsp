@@ -98,10 +98,10 @@ function initializeUploadToTicketCollectionDialogAjaxLoader() {
 							return $('<tr><td>' + file.name + '<\/td><\/tr>');
 						},
 						onComplete : function(event, files, index, xhr, handler) {
-							setMessage("Upload complete");
+							setMessage(jQuery.i18n.prop('msg_upload_complete'));
 
-							$('#uploadToTicketDialog').dialog('close');
-							$('#uploadToTicketDialog').remove();
+							$('#uploadToTicketCollectionDialogDiv').dialog('close');
+							$('#uploadToTicketCollectionDialogDiv').remove();
 
 						},
 						onError : function(event, files, index, xhr, handler) {

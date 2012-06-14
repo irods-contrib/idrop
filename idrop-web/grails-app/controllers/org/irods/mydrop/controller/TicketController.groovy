@@ -158,7 +158,13 @@ class TicketController {
 			throw new JargonException("no absPath parameter passed to the method")
 		}
 
-		boolean isDialog = params['isDialog']
+		String dialogString = params['isDialog']
+		boolean isDialog = false
+		if (dialogString == null || dialogString == "false") {
+			isDialog = false
+		} else {
+			isDialog = true
+		}
 
 		log.info("ticketString: ${ticketString}")
 		log.info("absPath: ${absPath}")
@@ -240,7 +246,7 @@ class TicketController {
 		def ticketTypes = MiscIRODSUtils.getDisplayValuesFromEnum(TicketCreateModeEnum)
 		log.info("ticketTypes:${ticketTypes}")
 		try {
-			if (create) {
+			if (create == "true") {
 				ticketCommand = new TicketCommand()
 				ticketCommand.create = create
 				ticketCommand.isDialog = true
@@ -271,6 +277,7 @@ class TicketController {
 				Ticket ticket = ticketAdminService.getTicketForSpecifiedTicketString(ticketString)
 				ticketDistribution = ticketDistributionService.getTicketDistributionForTicket(ticket)
 				ticketCommand = ticketCommandFromData(ticket, ticketDistribution, locale)
+				ticketCommand.isDialog = true
 			}
 
 			render(view:"ticketPulldown", model:[ticket:ticketCommand, ticketTypes:ticketTypes])
@@ -316,7 +323,12 @@ class TicketController {
 
 	private TicketCommand ticketCommandFromData(Ticket ticket, TicketDistribution ticketDistribution, Locale locale) {
 		TicketCommand ticketCommand = new TicketCommand()
-		ticketCommand.create = false
+		if (ticket.ticketString == "") {
+			ticketCommand.create = true
+		} else {
+			ticketCommand.create = false
+		}
+
 		ticketCommand.ticketString = ticket.ticketString
 
 		if (ticket.type == TicketCreateModeEnum.READ) {
@@ -395,7 +407,7 @@ class TicketCommand {
 	String ticketURLWithLandingPage
 
 	static constraints = {
-		type(blank:false)//, inList:MiscIRODSUtils.getDisplayValuesFromEnum(TicketCreateModeEnum))
+		type(blank:false, inList:MiscIRODSUtils.getDisplayValuesFromEnum(TicketCreateModeEnum))
 		irodsAbsolutePath(blank:false)
 		usesLimit( min:0, max:Integer.MAX_VALUE)
 		writeFileLimit(min:0, max:Integer.MAX_VALUE)

@@ -15,7 +15,6 @@
 <g:form name="ticketPulldownDetailsForm" id="ticketPulldownDetailsForm">
 
 	<g:hiddenField name='irodsAbsolutePath' id='ticketDetailsAbsPath' value='${ticket.irodsAbsolutePath}'/>
-	<g:hiddenField name='type' id='ticketType' value='${ticket.type}'/>
 	<g:hiddenField name='create' id='create' value='${ticket.create}'/>
 	<g:hiddenField name='isDialog' id='isDialog' value='${ticket.isDialog}'/>
 	<g:hiddenField name='ownerName' id='ownerName' value='${ticket.ownerName}'/>
@@ -125,8 +124,6 @@
 							<label><g:message code="text.ticket.byte.limit" /></label><br/><g:textField id="writeByteLimit" name="writeByteLimit" value="${ticket.writeByteLimit}" />
 						</div>
 						
-					
-					
 					</div><!--  pie chart row end -->
 					
 				</div> <!--  pie chart table end -->

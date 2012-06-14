@@ -18,7 +18,7 @@
 					 <td><span
                   class="ui-icon-circle-plus browse_detail_icon ui-icon"></span>
               </td>
-              <td><g:checkBox name="selectedTicket" />
+              <td><g:checkBox name="selectedTicket" id="selectedTicket" />
 					</td>
 					<td>${ticket.ticketString}</td>
 					<td>${ticket.ownerName}</td>

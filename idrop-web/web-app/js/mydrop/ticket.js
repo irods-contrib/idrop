@@ -231,6 +231,7 @@ function closeTicketDialog() {
 	
 	$("#ticketDialogArea").fadeOut('slow');
 	$("#ticketDetailsTableArea").fadeIn('slow');
+	reloadTicketTable(selectedPath);
 	
 	// setting width and height?
 	
@@ -276,6 +277,23 @@ function submitTicketDialog() {
 			setErrorMessage(xhr.responseText);
 		});
 		
+}
+
+/**
+ * Edit was selected, see if there is a ticket to edit and show the edit dialog
+ */
+function editTicketDialog() {
+	// find first selected ticket in table, if none selected show message and ignore
+	var edited =  $(":checked").filter("#selectedTicket");
+	if (!edited.length > 0) {
+		setMessage(jQuery.i18n.prop('msg_nothing_selected_for_edit'));
+		return;
+	}
+	
+	var selectedTR = $(edited[0]).parent().parent();
+	var ticketString = $(selectedTR).attr('id');
+	prepareTicketDetailsDialog(ticketString);
+
 }
 
 
