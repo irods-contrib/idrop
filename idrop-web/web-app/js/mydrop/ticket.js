@@ -11,6 +11,8 @@
 var ticketTableUrl = '/ticket/listTickets';
 var ticketUpdateUrl = '/ticket/update';
 var ticketPulldownUrl = '/ticket/ticketPulldown';
+var deleteTicketsActionUrl = '/ticket/deleteTickets';
+
 var ticketTable;
 
 function reloadTicketTable(absPath) {
@@ -278,6 +280,32 @@ function submitTicketDialog() {
 			setErrorMessage(xhr.responseText);
 		});
 		
+}
+
+function deleteTicket() {
+	
+	if (!confirm(jQuery.i18n.prop('msg_delete_confirm'))) {
+        // your deletion code
+		return false;
+	}
+    
+	var formData = $("#ticketTableForm").serializeArray();
+	showBlockingPanel();
+
+	var jqxhr = $.post(context + deleteTicketsActionUrl, formData, "html")
+			.success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
+				reloadTicketTable(selectedPath);
+				setMessage(jQuery.i18n.prop('msg_delete_successful'));
+				unblockPanel();
+			}).error(function(xhr, status, error) {
+				setErrorMessage(xhr.responseText);
+				unblockPanel();
+			});
+
 }
 
 /**

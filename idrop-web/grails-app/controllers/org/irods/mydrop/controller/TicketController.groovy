@@ -207,6 +207,43 @@ class TicketController {
 	}
 
 	/**
+	 * Bulk delete action via the ticket details toolbar
+	 */
+	def deleteTickets = {
+		log.info("deleteTickets")
+
+		log.info("params: ${params}")
+
+		def ticketsToDelete = params['selectedTicket']
+
+		// if nothing selected, just jump out and return a message
+		if (!ticketsToDelete) {
+			log.info("no tickets to delete")
+			render "OK"
+			return
+		}
+
+		TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
+
+		log.info("tickets: ${ticketsToDelete}")
+		if (ticketsToDelete instanceof Object[]) {
+			log.debug "is array"
+			ticketsToDelete.each{
+				log.info "ticketsToDelete: ${it}"
+				ticketAdminService.deleteTicket(it)
+				log.info("deleted:${it}")
+			}
+		} else {
+			log.debug "not array"
+			log.info "deleting: ${ticketsToDelete}..."
+			ticketAdminService.deleteTicket(ticketsToDelete)
+			log.info("deleted:${ticketsToDelete}")
+		}
+
+		render "OK"
+	}
+
+	/**
 	 * Display the ticket table content
 	 */
 	def ticketDetailsDialog = {
