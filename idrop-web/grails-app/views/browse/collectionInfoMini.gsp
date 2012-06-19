@@ -61,8 +61,12 @@
 					<div>${collection.collectionOwnerZone}</div>
 				</div>
 				<div>
-					<div><label>CollectionType:</label></div>
-					<div>${collection.collectionType}</div>
+					<div><label>Collection Type:</label></div>
+					<div>${collection.specColType}</div>
+				</div>
+				<div>
+					<div><label>Object Path:</label></div>
+					<div>${collection.objectPath}</div>
 				</div>
 				<div>
 					<div><label>Description:</label></div>

@@ -26,7 +26,7 @@
 		
 			<div id="container" style="height:100%;width:100%;">
 				<div>
-					<div><label>Created At:</label></div>
+					<div style="width:15%;"><label>Created At:</label></div>
 					<div>${collection.createdAt}</div>
 				</div>
 				<div>
@@ -42,8 +42,12 @@
 					<div>${collection.collectionOwnerZone}</div>
 				</div>
 				<div>
-					<div><label>CollectionType:</label></div>
-					<div>${collection.collectionType}</div>
+					<div><label>Collection Type:</label></div>
+					<div>${collection.specColType}</div>
+				</div>
+				<div>
+					<div><label>Object path:</label></div>
+					<div>${collection.objectPath}</div>
 				</div>
 				<div>
 					<div><label>Description:</label></div>
