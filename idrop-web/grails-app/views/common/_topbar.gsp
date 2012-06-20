@@ -1,8 +1,8 @@
-<div id="bannercontainer">
+<!--  <div id="bannercontainer"> -->
 	<!--  image banner -->
-</div>
+<!--  </div> -->
 <g:ifAuthenticated>
-	<div id="headerSearchBox" class="ui-widget-header fg-toolbar">
+	<div id="headerSearchBox" class="box">
 
 		<div id="searchMenu" class="fg-buttonset fg-buttonset-multi" style="float:left">
 			<input id="searchTerm" type="text"
@@ -17,17 +17,21 @@
 				onclick="selectTreePath()")><g:message code="text.find.path.in.tree" /></button>
 		</div>
 
-		<div id="toggleMenu" class="fg-buttonset fg-buttonset-single" style="float:right">
+		<div id="toggleMenu" class="box" style="float:right">
+		
+			<span id="topBarLoginInfo" ><!--  login bar goes here --></span>
+		
+			<button type="button" id="logoutButton"
+				class="ui-state-default ui-corner-all" value="logout"
+				onclick="logout()")><g:message code="text.logout" /></button>
+		
 
 			<button type="button" id="toggleMenuButton"
 				class="ui-state-default ui-corner-all" value="showMenu"
 				onclick="showMenu()")><g:message code="text.show.menu" /></button>
 				
 	
-			<button type="button" id="logoutButton"
-				class="ui-state-default ui-corner-all" value="logout"
-				onclick="logout()")><g:message code="text.logout" /></button>
-
+			
 		</div>
 
 	</div>
@@ -56,6 +60,14 @@ function showMenu() {
 		menuShown = true;
 	}
 }
+
+$(function() {	
+	var url = "/browse/showLoginBar";
+	lcSendValueAndCallbackHtmlAfterErrorCheck(url, "#topBarLoginInfo",
+			"#topBarLoginInfo", null);
+});
+
+
 
 </script>
 

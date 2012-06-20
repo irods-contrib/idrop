@@ -13,6 +13,7 @@
  */
 var dataTree;
 
+
 /**
  * root path (which could be a multi-element path, such as a home directory
  */
@@ -44,6 +45,11 @@ var deleteBulkActionUrl = '/file/deleteBulkAction';
 var fileRenameUrl = '/file/renameFile';
 var fileMoveUrl = '/file/moveFile';
 var fileCopyUrl = '/file/copyFile';
+
+function setTreeViewToHomeDirectory() {
+	alert("view into home directory");
+}
+
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory

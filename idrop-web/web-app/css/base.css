@@ -36,11 +36,11 @@ em {
 }
 blockquote,ul,ol,dl {
 	/*giving blockquotes and lists room to breath*/
-	margin:1em;
+	margin:.5em;
 }
 ol,ul,dl {
 	/*bringing lists on to the page with breathing room */
-	margin-left:2em;
+	margin-left:1em;
 }
 ol li {
 	/*giving OL's LIs generated numbers*/
@@ -57,7 +57,7 @@ dl dd {
 th,td {
 	/*borders and padding to make the table readable*/
 	/*border:1px solid #000;*/
-	padding:.5em;
+	/*padding:.5em;*/
 }
 th {
 	/*distinguishing table headers from data cells*/

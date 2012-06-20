@@ -59,7 +59,7 @@ ${entry.objectType}
 ${entry.modifiedAt}
             </td>
             <td>
-${entry.dataSize}
+${entry.displayDataSize}
             </td>
             </tr>
           </g:each>
@@ -97,7 +97,6 @@ ${entry.dataSize}
                 dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon", tableParams);
                 $("#infoDiv").resize();
                 $("#menuDownload").hide();
-                                      // $(".draggableFile").draggable({ revert: true, containment: 'document', stack: '#bd', scroll:false, zindex:-1 });
         });
 
         /* click twistie to open details table info */

@@ -59,7 +59,7 @@
 		
 				<div >
 					<div style="width:20%;"><label>Size:</label></div>
-					<div>${dataObject.dataSize}</div>
+					<div>${dataObject.displayDataSize}</div>
 				</div>
 				<div>
 					<div><label>Tags:</label></div>

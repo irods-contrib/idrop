@@ -1,0 +1,2 @@
+<span id="loginInfo">User:${irodsAccount.userName}&nbsp;&nbsp;Zone:${irodsAccount.zone}&nbsp;&nbsp;Default Storage Resource:<g:select name="defaultStorageResource" from="${resources}" value="${irodsAccount.defaultStorageResource}"/>
+</span>
