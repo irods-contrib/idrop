@@ -55,12 +55,48 @@ function setTreeViewToHomeDirectory() {
  * Initialize the tree control for the first view by issuing an ajax directory
  * browser request for the root directory.
  * 
+ * type is optional, and can either be root, home, or path
+ * root - go to root of dir
+ * home - go to user home dir
+ * path - set provided path as the base path
+ * detect - useful for an initial display will choose based on 'strictACL' setting
+ * 
  * @return
  */
-function retrieveBrowserFirstView() {
+function retrieveBrowserFirstView(type, path) {
+	
+	if (dataTree != null) {
+		dataTree = null;
+		$("#dataTreeDiv").html("");
+	}
+	
+	if (type != null) {
+		if (type == 'root') {
+			path = '';
+		} else if (type == 'home') {
+			path = "";
+		} else if (type == "path") {
+			if (path == null || path= "") {
+				path = baseAbsPath;
+			}
+		} else if (type == 'detect') {
+			path = "";
+		} else {
+			throw "invalid type parameter";
+		}
+	} else {
+		type = "path";
+		path = baseAbsPath;
+	}
+	
+	var parms = {
+			dir:path,
+			type:type
+	}
+	
 	if (dataTree == null) {
 		var url = "/browse/ajaxDirectoryListingUnderParent";
-		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, "dir=",
+		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, parms,
 				"#dataTreeDiv", browserFirstViewRetrieved);
 	}
 }
@@ -77,9 +113,9 @@ function retrieveBrowserFirstView() {
  * @return
  */
 function browserFirstViewRetrieved(data) {
+	
 	baseAbsPath = data[0].attr.absPath;
 	baseAbsPathAsArrayOfPathElements = baseAbsPath.split("/");
-	var parent = data['parent'];
 	dataTree = $("#dataTreeDiv").jstree(
 			{
 				"plugins" : [ "themes", "contextmenu", "json_data", "types",
@@ -97,7 +133,7 @@ function browserFirstViewRetrieved(data) {
 						"cache" : false,
 						"data" : function(n) {
 							dir = n.attr("id");
-							return "dir=" + encodeURIComponent(dir);
+							return "type=list&dir=" + encodeURIComponent(dir);
 						},
 						"error" : function(n) {
 							if (n.statusText == "success" || n.statusText == "OK") {
@@ -2019,6 +2055,23 @@ function setDefaultStorageResource(resource) {
 
 	
 }
+
+/**
+ * Set the root of the tree to the user home directory and reload
+ */
+function setTreeToUserHome() {
+	retrieveBrowserFirstView("home", "");
+	
+}
+
+/**
+ * Set the root of the tree to the user home directory and reload
+ */
+function setTreeToRoot() {
+	retrieveBrowserFirstView("root", "");
+	
+}
+
 
 function showOverwriteOptionDialog(message) {
 	/*

@@ -17,7 +17,7 @@
 				onclick="selectTreePath()")><g:message code="text.find.path.in.tree" /></button>
 		</div>
 
-		<div id="toggleMenu" class="box" style="float:right">
+		<div id="toggleMenu"  style="float:right">
 		
 			<span id="topBarLoginInfo" ><!--  login bar goes here --></span>
 		

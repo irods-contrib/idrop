@@ -1,5 +1,6 @@
 package org.irods.mydrop.controller
 
+
 import java.util.HashMap
 
 import grails.converters.*
@@ -103,18 +104,34 @@ class BrowseController {
 	 * Called by tree control to load directories under a given node
 	 */
 	def ajaxDirectoryListingUnderParent = {
+		log.info "ajaxDirectoryListingUnderParent()}"
 		def parent = params['dir']
-		log.info "ajaxDirectoryListingUnderParent path: ${parent}"
+		def pathType = params['type']
 
-		// if no parent, then this is first view, so determine and display the root directory
+		if (parent == null) {
+			throw new JargonException("no parent parm passed to this method")
+		}
+
+		log.info("parent:${parent}")
+
+		if (pathType == null) {
+			pathType = "list"
+		}
+
+		log.info("parthType:${pathType}")
 
 		def jsonBuff = []
 		def icon
 		def state
 		def type
 
-		if (!parent) {
-			log.info("no parent parm set, treat as first view and determine and display root node")
+		icon = "folder"
+		state = "closed"
+		type = "folder"
+
+		// look at the type to decide how to set the root path
+		if (pathType == "detect") {
+			log.info("no parent parm set, detect display as either root or home")
 			def environmentalInfoAO = irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)
 			def isStrict = environmentalInfoAO.isStrictACLs()
 			log.info "is strict?:{isStrict}"
@@ -124,6 +141,44 @@ class BrowseController {
 				parent = "/"
 			}
 
+			// display a root node
+
+			// display a root node
+			parent = "/"
+
+			icon = "folder"
+			state = "closed"
+			type = "folder"
+
+			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
+
+			jsonBuff.add(
+					["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+					)
+
+		} else if (pathType == "root") {
+
+			log.info("display the root node")
+			// display a root node
+			parent = "/"
+
+			icon = "folder"
+			state = "closed"
+			type = "folder"
+
+			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
+
+			jsonBuff.add(
+					["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+					)
+
+
+		} else if (pathType == "home") {
+
+			parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+			log.info("setting to home directory:${parent}")
+
+			// display a root node
 			// display a root node
 
 			icon = "folder"
@@ -136,7 +191,26 @@ class BrowseController {
 					["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
 					)
 
-		} else {
+
+		} else if (pathType == "path") {
+
+			log.info("attempt to set to given path")
+			if (parent == "") {
+				parent = "/"
+			}
+			// display a root node
+
+			icon = "folder"
+			state = "closed"
+			type = "folder"
+
+			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
+
+			jsonBuff.add(
+					["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+					)
+		} else if (pathType == "list") {
+
 			log.info("parent dir for listing provided as:${parent}")
 			def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 			def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
@@ -160,11 +234,9 @@ class BrowseController {
 						["data": it.nodeLabelDisplayValue,"attr":attrBuf, "state":state,"icon":icon, "type":type]
 						)
 			}
+		} else {
+			throw new JargonException("invalid path type:${pathType}")
 		}
-
-		//jsonBuff.add(['parent':parent])
-
-
 
 		render jsonBuff as JSON
 	}

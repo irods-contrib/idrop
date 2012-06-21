@@ -49,13 +49,13 @@
 							</button>
 							<button type="button" id="homeTreeButton"
 								class="ui-state-default" value="homeTreeButton"
-								onclick="thishometree()")>
+								onclick="setTreeToUserHome()")>
 								<!--<g:message code="text.refresh" />-->
 								<g:img dir="images" file="go-home-4.png" width="16" height="16"/>
 							</button>
 								<button type="button" id="rootTreeButton"
 								class="ui-state-default ui-corner-right" value="rootTreeButton"
-								onclick="thisroottree()")>
+								onclick="setTreeToRoot()")>
 								<!--<g:message code="text.refresh" />-->
 								<g:img dir="images" file="go-parent-folder.png" width="16" height="16"/>
 							</button>
@@ -123,7 +123,7 @@
 			west__resizable : true
 		});
 
-		retrieveBrowserFirstView();
+		retrieveBrowserFirstView("detect","");
 
 		tabs = $("#tabs").tabs({});
 
