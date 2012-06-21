@@ -1990,6 +1990,36 @@ function processStateChange(state) {
 	
 }
 
+/**
+ * Set the default storage resource in the IRODSAccount for subsequent transfers
+ */
+function setDefaultStorageResource(resource) {
+	if (resource == null) {
+		return false;
+	}
+	
+	var params = {
+			resource : resource
+	}
+
+	showBlockingPanel();
+
+	var jqxhr = $.post(context + "/browse/setDefautlResourceForAccount", params, "html")
+			.success(function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
+				setMessage(jQuery.i18n.prop('msg_resource_changed'));
+				unblockPanel();
+			}).error(function(xhr, status, error) {
+				setErrorMessage(xhr.responseText);
+				unblockPanel();
+			});
+
+	
+}
+
 function showOverwriteOptionDialog(message) {
 	/*
 	 * var dialogDiv = $("#efaultDialogDiv"); dialogDiv.html("");

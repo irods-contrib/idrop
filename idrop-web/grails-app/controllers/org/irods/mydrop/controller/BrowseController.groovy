@@ -1,5 +1,7 @@
 package org.irods.mydrop.controller
 
+import java.util.HashMap
+
 import grails.converters.*
 
 import org.irods.jargon.core.connection.*
@@ -625,12 +627,30 @@ class BrowseController {
 		}
 	}
 
-
+	/**
+	 * Show information about the current user/host
+	 */
 	def showLoginBar = {
 		log.info("showLoginBar()")
 		ResourceAO resourceAO = irodsAccessObjectFactory.getResourceAO(irodsAccount)
 		def resources = resourceAO.listResourceNames()
 		render(view:"loginInfo", model:[irodsAccount:irodsAccount, resources:resources])
+
+	}
+
+	/**
+	 * Set the default storage resource in the IRODSAccount holding the login info
+	 */
+	def setDefautlResourceForAccount = {
+		log.info("setDefautlResourceForAccount")
+		def resource = params['resource']
+		if (resource == null || resource == "") {
+			log.error "no file name in request"
+			def message = message(code:"error.no.resource")
+			response.sendError(500,message)
+		}
+		irodsAccount.setDefaultStorageResource(resource)
+		render "OK"
 
 	}
 
