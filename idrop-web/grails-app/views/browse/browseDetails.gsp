@@ -88,7 +88,11 @@ ${entry.displayDataSize}
         tableParams = {"bJQueryUI" : true,
                 	"bLengthChange": false,
                 	"bFilter": false,
-                	"iDisplayLength" : 500
+                	"iDisplayLength" : 500,
+                	"fnInitComplete": function() {
+                		this.fnAdjustColumnSizing(true);
+                	}
+                	
 
                 }
 

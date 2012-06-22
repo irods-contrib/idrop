@@ -76,7 +76,7 @@ function retrieveBrowserFirstView(type, path) {
 		} else if (type == 'home') {
 			path = "";
 		} else if (type == "path") {
-			if (path == null || path= "") {
+			if (path == null || path== "") {
 				path = baseAbsPath;
 			}
 		} else if (type == 'detect') {
@@ -1380,10 +1380,20 @@ function requestThumbnailImageForInfoPane() {
  * Refresh the browse tree
  */
 function refreshTree() {
-	$.jstree._reference(dataTree).refresh();
-	if (selectedPath != null) {
+	//$.jstree._reference(dataTree).refresh();
+	/*if (selectedPath != null) {
 		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
-	}
+	}*/
+	//selectTreePath(selectedPath);
+	path = selectedPath.split("/");
+
+
+performOperationAtGivenTreePath(path, null, null, function(path, dataTree,
+		currentNode) {
+	$.jstree._reference(dataTree).refresh(currentNode);
+	$.jstree._reference(dataTree).open_node(currentNode);
+	$.jstree._reference(dataTree).select_node(currentNode, true);
+});
 }
 
 /**
@@ -1796,7 +1806,7 @@ function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
 	performOperationAtGivenTreePath(splitPath, null, null, function(thisPath,
 			dataTree, currentNode) {
 
-		$.jstree._reference(dataTree).refresh(currentNode);
+		$.jstree._reference(dataTree).open_node(currentNode);
 		$.jstree._reference(dataTree).select_node(currentNode, true);
 
 	});

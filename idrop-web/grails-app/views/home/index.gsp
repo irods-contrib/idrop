@@ -37,7 +37,7 @@
 				style="width: 100%; height: 700px; overflow: visible;">
 				
 				<div id="dataTreeDivWrapper" class="ui-layout-west"
-					style="width: 25%; height: 100%; overflow: hidden; position:relative;">
+					style="width: 25%; height: 100%; position:relative;">
 					<div id="dataTreeToolbar" style="width:100%; height:3%;display:block; position:relative;" class="fg-toolbar">
 						<div id="dataTreeMenu" class="fg-buttonset fg-buttonset-multi"
 							style="float: left, clear : both; display:block; overflow:hidden;">
@@ -61,7 +61,7 @@
 							</button>
 						</div>
 					</div>
-					<div id="dataTreeDiv" style="width:auto; height:95%;">
+					<div id="dataTreeDiv" style="width:auto; height:95%; overflow:visible;">
 					</div>	
 				</div>
 				<div id="infoDivOuter"
