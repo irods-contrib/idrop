@@ -33,7 +33,9 @@
 				   </g:eachError>
 				  </ul>
 				  </div>
-		</g:hasErrors>
+				</g:hasErrors>
+				
+				<div id="container" style="height:100%;width:100%;">
 			
 					<g:if test="${loginCommand.usePresets}">
 				
@@ -47,22 +49,47 @@
 							name="resource" id="resource" value="${loginCommand.defautStorageResoruce}"/>
 				</g:if>
 				<g:else>
-					<label><g:message code="text.host" />:</label><input type="text" class="input-text" name="host" id="host" value="${loginCommand.host}"/><br/>
-					<label><g:message code="text.port" />:</label><input type="text" class="input-text" name="port" id="port" value="${loginCommand.port}"/><br/>
-					<label><g:message code="text.zone" />:</label><input type="text" class="input-text" name="zone" id="zone" value="${loginCommand.zone}"/><br/>
-					<label><g:message code="text.resource" />:</label><input type="text" class="input-text" name="resource" id="resource" value="${loginCommand.defaultStorageResource}"/><g:message code="text.optional" /><br/>
+						<div>
+							<div style="width:30%;"><label><g:message code="text.host" />:</label></div>
+							<div><input type="text" class="input-text" name="host" id="host" value="${loginCommand.host}"/></div>
+						</div>
+						<div>
+							<div ><label><g:message code="text.port" />:</label></div>
+							<div><input type="text" class="input-text" name="port" id="port" value="${loginCommand.port}"/></div>
+						</div>
+						<div>
+							<div ><label><g:message code="text.zone" />:</label></div>
+							<div><input type="text" class="input-text" name="zone" id="zone" value="${loginCommand.zone}"/></div>
+						</div>
+						<div>
+							<div ><label><g:message code="text.resource" />:</label></div>
+							<div><input type="text" class="input-text" name="resource" id="resource" value="${loginCommand.defaultStorageResource}"/><g:message code="text.optional" /></div>
+						</div>
 				</g:else>
-				<span id="userLoginData">
-				<label><g:message code="text.user" />:</label><input type="text" class="input-text" name="user" id="user" value="${loginCommand.user}"/><br/>
-				<label><g:message code="text.password" />:</label><input type="password" class="input-text" name="password" id="password" value="${loginCommand.password}"/></br>
-								<button id="login" name="login" style="float:right;margin:2px;" ><g:message code="text.login"/></button>
+				
+				
+				<div>
+					<div ><label><g:message code="text.guest.login" />:</label></div>
+					<div><g:checkBox name="useGuestLogin" id="useGuestLogin" value="${loginCommand.useGuestLogin}" onclick="toggleGuestLogin()"/></div>
+				</div>
+				
+				
+				<div class="userLoginData">
+					<div ><label><g:message code="text.user" />:</label></div>
+					<div><input type="text" class="input-text" name="user" id="user" value="${loginCommand.user}"/></div>
+				</div>
+				<div  class="userLoginData">
+					<div><label><g:message code="text.password" />:</label></div>
+					<div><input type="password" class="input-text" name="password" id="password" value="${loginCommand.password}"/></div>
+				</div>
+												
 				</span>
+				</div> <!-- container div -->
+				<button id="login" name="login" style="float:right;margin:2px;" ><g:message code="text.login"/></button>
 			</g:form> 
 			
 				<!--end-normalLogin-->
 		</div>
-		
-		
 		</div>
 	</div>
 	
@@ -71,15 +98,22 @@
 </html>
 <script>
 
-	/*$(function() {
-    	$("#tabs").tabs();
-    	
-    });*/
+	$(function() {
+		toggleGuestLogin();
+
+	});
 
 
-	
+    function toggleGuestLogin() {
+		var checkVal = $("#useGuestLogin").attr("checked");
+		if (checkVal) {
+			$(".userLoginData").hide("slow");
+			
+		} else {
+			$(".userLoginData").show("slow");
+		}
+	}
 
-    
 </script>
 
 

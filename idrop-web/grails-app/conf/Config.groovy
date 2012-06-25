@@ -170,8 +170,8 @@ log4j = {
 
 	warn 'org.irods.mydrop'
 	info 'org.irods.jargon'
-	debug 'org.irods.jargon.spring.security'\
-			warn 'org.springframework'
+	debug 'org.irods.jargon.spring.security'
+	warn 'org.springframework'
 	debug 'grails.app'
 
 	warn 'org.mortbay.log',

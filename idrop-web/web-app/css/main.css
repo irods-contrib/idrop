@@ -767,7 +767,7 @@ th.desc a {
 
 #container>div>div {
 	display: table-cell;
-	padding: .5em;
+	padding: .2em;
 	vertical-align: middle;
 	overflow:hidden;
 }

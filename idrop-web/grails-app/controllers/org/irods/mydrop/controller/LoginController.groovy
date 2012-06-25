@@ -86,28 +86,43 @@ class LoginController {
 		def userName =  loginCommand.user ? loginCommand.user : ""
 		def password =  loginCommand.password ? loginCommand.password : ""
 
+
 		boolean success = true
+		IRODSAccount irodsAccount
 
-		if (userName == "" && !loginCommand.useGuestLogin) {
-			loginCommand.errors.reject("error.auth.invalid.user","Invalid user or password")
-			render(view:"login", model:[loginCommand:loginCommand])
-			return
+		if (loginCommand.useGuestLogin) {
+
+			log.info("generate a guest login")
+			irodsAccount = IRODSAccount.instanceForAnonymous(loginCommand.host,
+					loginCommand.port,
+					"",
+					loginCommand.zone,
+					resource)
+
+		} else {
+
+			log.info("normal login mode")
+			if (userName == "") {
+				loginCommand.errors.reject("error.auth.invalid.user","Invalid user or password")
+				render(view:"login", model:[loginCommand:loginCommand])
+				return
+			}
+
+			if (password == "" ) {
+				loginCommand.errors.reject("error.auth.invalid.user","Invalid user or password")
+				render(view:"login", model:[loginCommand:loginCommand])
+				return
+			}
+
+			irodsAccount = IRODSAccount.instance(
+					loginCommand.host,
+					loginCommand.port,
+					userName,
+					password,
+					"",
+					loginCommand.zone,
+					resource)
 		}
-
-		if (password == "" | userName == "" && !loginCommand.useGuestLogin) {
-			loginCommand.errors.reject("error.auth.invalid.user","Invalid user or password")
-			render(view:"login", model:[loginCommand:loginCommand])
-			return
-		}
-
-		IRODSAccount irodsAccount = IRODSAccount.instance(
-				loginCommand.host,
-				loginCommand.port,
-				userName,
-				password,
-				"",
-				loginCommand.zone,
-				resource)
 
 		log.info("built irodsAccount:${irodsAccount}")
 
