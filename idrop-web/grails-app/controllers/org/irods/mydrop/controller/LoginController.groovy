@@ -9,6 +9,8 @@ class LoginController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 
+	static allowedMethods = [authenticate:'POST']
+
 	def beforeInterceptor = [action:this.&auth, except:[
 			'login',
 			'index',
@@ -81,19 +83,35 @@ class LoginController {
 		log.info("edits pass")
 
 		def resource =  loginCommand.defaultStorageResource ? loginCommand.defaultStorageResource : ""
+		def userName =  loginCommand.user ? loginCommand.user : ""
+		def password =  loginCommand.password ? loginCommand.password : ""
+
+		boolean success = true
+
+		if (userName == "" && !loginCommand.useGuestLogin) {
+			loginCommand.errors.reject("error.auth.invalid.user","Invalid user or password")
+			render(view:"login", model:[loginCommand:loginCommand])
+			return
+		}
+
+		if (password == "" | userName == "" && !loginCommand.useGuestLogin) {
+			loginCommand.errors.reject("error.auth.invalid.user","Invalid user or password")
+			render(view:"login", model:[loginCommand:loginCommand])
+			return
+		}
 
 		IRODSAccount irodsAccount = IRODSAccount.instance(
 				loginCommand.host,
 				loginCommand.port,
-				loginCommand.user,
-				loginCommand.password,
+				userName,
+				password,
 				"",
 				loginCommand.zone,
 				resource)
 
 		log.info("built irodsAccount:${irodsAccount}")
 
-		boolean success = true
+
 
 		try {
 			irodsAccessObjectFactory
