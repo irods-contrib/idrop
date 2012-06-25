@@ -10,7 +10,6 @@ import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.utils.MiscIRODSUtils
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
-import org.springframework.security.core.context.SecurityContextHolder
 
 class TicketController {
 
@@ -21,16 +20,16 @@ class TicketController {
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
-	def beforeInterceptor = {
-		def irodsAuthentication = SecurityContextHolder.getContext().authentication
+	def beforeInterceptor = [action:this.&auth]
 
-		if (irodsAuthentication == null) {
-			throw new JargonRuntimeException("no irodsAuthentication in security context!")
+	def auth() {
+		if(!session["SPRING_SECURITY_CONTEXT"]) {
+			redirect(controller:"login", action:"login")
+			return false
 		}
-
-		irodsAccount = irodsAuthentication.irodsAccount
-		log.debug("retrieved account for request: ${irodsAccount}")
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
+
 
 	def afterInterceptor = {
 		log.debug("closing the session")

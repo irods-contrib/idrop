@@ -78,7 +78,7 @@ function displayUserTab() {
 }
 
 function logout() {
-	window.location = context + "/j_spring_security_logout";
+	window.location = context + "/login/logout";
 }
 
 /**

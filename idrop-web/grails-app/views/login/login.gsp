@@ -3,120 +3,106 @@
 <html>
 <head>
 <title>iDrop-web - iRODS Personal Cloud"</title>
+<g:javascript library="jquery-1.7.1.min" />
+<g:javascript library="jquery-ui-1.8.7.custom.min" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'base.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'style.css')}" />
+<link rel="stylesheet"
+	href="${resource(dir:'css',file:'reset-fonts-grids.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'start/jquery-ui-1.8.18.custom.css')}" />
 
-<style type="text/css">
-body{
-font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
-font-size:12px;
-}
-p, h1, form, button{border:0; margin:0; padding:0;}
-.spacer{clear:both; height:1px;}
-/* ----------- My Form ----------- */
-.myform{
-margin:0 auto;
-width:400px;
-height:400px;
-padding:14px;
-}
-
-/* ----------- stylized ----------- */
-#stylized{
-border:solid 2px #b7ddf2;
-background:#ebf4fb;
-display:block;
-}
-#stylized h1 {
-font-size:14px;
-font-weight:bold;
-margin-bottom:8px;
-}
-#stylized p{
-font-size:11px;
-color:#666666;
-margin-bottom:20px;
-border-bottom:solid 1px #b7ddf2;
-padding-bottom:10px;
-}
-#stylized label{
-display:block;
-font-weight:bold;
-text-align:right;
-width:140px;
-float:left;
-}
-#stylized .small{
-color:#666666;
-display:block;
-font-size:11px;
-font-weight:normal;
-text-align:right;
-width:140px;
-}
-#stylized input{
-float:left;
-font-size:12px;
-padding:4px 2px;
-border:solid 1px #aacfe4;
-width:200px;
-margin:2px 0 20px 10px;
-}
-#stylized button{
-clear:both;
-margin-left:150px;
-width:125px;
-height:31px;
-
-text-align:center;
-line-height:31px;
-
-font-size:11px;
-font-weight:bold;
-}
-</style>
-<link rel="stylesheet" type="text/css" href="${grailsApplication.config.grails.serverURL}/css/main.css" />
-<link rel="stylesheet" type="text/css" href="${grailsApplication.config.grails.serverURL}/css/base.css" />
-<link rel="stylesheet" type="text/css" href="${grailsApplication.config.grails.serverURL}/css/style.css" />
 </head>
 <body style="height:100%;">
-
 <div id="bannercontainer">
 	<!--  image banner -->
 </div>
-<div id="stylized" style="width: 80%;height:80%;">
- <g:form class="myform" controller="j_spring_security_check"
-	 method="post" >
-	
+		
+		<div id="normalLoginWrapper">
+		<!--begin-normalLogin-->
+		<div id="normalLoginForm" class="roundedContainer" style="float:left;clear:both;">
 
-    <g:if test="${request.login_error}">
-		<div class="message" style="margin:10px;">
-		${request.login_error}
+			 <g:form class="normalLogin" id="normalLogin" method="POST" controller="login" action="authenticate">
+				
+			
+			   	<g:hasErrors bean="${loginCommand}">
+					<div class="errors">
+				  <ul>
+				   <g:eachError var="err" bean="${loginCommand}">
+				       <li><g:message error="${err}" /></li>
+				   </g:eachError>
+				  </ul>
+				  </div>
+		</g:hasErrors>
+			
+					<g:if test="${loginCommand.usePresets}">
+				
+						<g:hiddenField
+							name="host" id="host" value="${loginCommand.host}"/>
+							<g:hiddenField
+							name="port" id="port" value="${loginCommand.port}"/>
+							<g:hiddenField
+							name="zone" id="zone" value="${loginCommand.zone}"/>
+					   <g:hiddenField
+							name="resource" id="resource" value="${loginCommand.defautStorageResoruce}"/>
+				</g:if>
+				<g:else>
+					<label><g:message code="text.host" />:</label><input type="text" class="input-text" name="host" id="host" value="${loginCommand.host}"/><br/>
+					<label><g:message code="text.port" />:</label><input type="text" class="input-text" name="port" id="port" value="${loginCommand.port}"/><br/>
+					<label><g:message code="text.zone" />:</label><input type="text" class="input-text" name="zone" id="zone" value="${loginCommand.zone}"/><br/>
+					<label><g:message code="text.resource" />:</label><input type="text" class="input-text" name="resource" id="resource" value="${loginCommand.defaultStorageResource}"/><g:message code="text.optional" /><br/>
+				</g:else>
+				<label><g:message code="text.user" />:</label><input type="text" class="input-text" name="user" id="user" value="${loginCommand.user}"/><br/>
+				<label><g:message code="text.password" />:</label><input type="password" class="input-text" name="password" id="password" value="${loginCommand.password}"/></br>
+								<button id="login" name="login" style="float:right;margin:2px;" ><g:message code="text.login"/></button>
+					
+			</g:form> 
+			
+				<!--end-normalLogin-->
 		</div>
-	</g:if>
-
-
-		<g:if test="${presetHost}">
+		
+		
+		</div>
+	</div>
 	
-			<g:hiddenField
-				name="host" id="host" value="${presetHost}"/>
-				<g:hiddenField
-				name="port" id="port" value="${presetPort}"/>
-				<g:hiddenField
-				name="zone" id="zone" value="${presetZone}"/>
-		   <g:hiddenField
-				name="resource" id="resource" value="${presetResource}"/>
-	</g:if>
-	<g:else>
-		<label><g:message code="text.host" />:</label><input type="text" class="input-text" name="host" id="host" value="${host}"/><br/>
-		<label><g:message code="text.port" />:</label><input type="text" class="input-text" name="port" id="port" value="${port}"/><br/>
-		<label><g:message code="text.zone" />:</label><input type="text" class="input-text" name="zone" id="zone" value="${zone}"/><br/>
-		<label><g:message code="text.resource" />:</label><input type="text" class="input-text" name="resource" id="resource" value="${resource}"/><br/>
-	</g:else>
-	<label><g:message code="text.user" />:</label><input type="text" class="input-text" name="user" id="user" value="${user}"/><br/>
-	<label><g:message code="text.password" />:</label><input type="password" class="input-text" name="password" id="password" value="${password}"/></br>
-	<button type="submit" id="login" name="login" style="float:right;margin:10px;"><g:message code="text.login"/></button>
-	
-</g:form> 
 </div>
 </body>
 </html>
+<script>
+	var loginUrl = "/login/authenticate"
+	/*$(function() {
+    	$("#tabs").tabs();
+    	
+    });*/
+
+
+	function normalLogin() {
+		// see if there is form data (users in a pick list) that are selected
+		var formData = $("#normalLogin").serializeArray();
+		context = "${request.contextPath}";
+	
+		if (formData == null) {
+			setErrorMessage(jQuery.i18n.prop('msg_no_login'));
+			return false;
+		}
+	
+		var jqxhr = $.post(context + loginUrl, formData,
+				function(data, status, xhr) {
+
+					// if i have error data, redisplay the normal login part of the form (I know, it's kind of a hack)
+					var begin = data.indexOf("<!--begin-normalLogin-->");
+					var end = data.indexOf("<!--end-normalLogin-->") + 22;
+					var parsedResponse = data.substring(begin, end);
+					
+					$("#normalLoginWrapper").html("yo...." + parsedResponse + "...oy");
+					//$("#normalLoginWrapper").html("yo....");
+					return false;
+		});
+		
+	}
+
+    
+</script>
+
+
 

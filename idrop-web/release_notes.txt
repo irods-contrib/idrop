@@ -28,6 +28,9 @@ Note that the following bug and feature requests are logged in GForge with relat
 ** refactoring of 'info' pages to add accordion for various types of details, including ticket information
 ** development of 'landing page' alternative
 
+* [#851] add anonymous login and other login enhancments
+** Remove spring security and simplify login process
+
 
 todo:
 

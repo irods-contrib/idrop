@@ -4,7 +4,6 @@ import grails.converters.*
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
-import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.usertagging.FreeTaggingService
@@ -15,10 +14,9 @@ import org.irods.jargon.usertagging.domain.IRODSTagValue
 import org.irods.jargon.usertagging.domain.UserTagCloudView
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
-import org.springframework.security.core.context.SecurityContextHolder
 
 
- 
+
 class TagsController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -31,15 +29,14 @@ class TagsController {
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
-	def beforeInterceptor = {
-		def irodsAuthentication = SecurityContextHolder.getContext().authentication
+	def beforeInterceptor = [action:this.&auth]
 
-		if (irodsAuthentication == null) {
-			throw new JargonRuntimeException("no irodsAuthentication in security context!")
+	def auth() {
+		if(!session["SPRING_SECURITY_CONTEXT"]) {
+			redirect(controller:"login", action:"login")
+			return false
 		}
-
-		irodsAccount = irodsAuthentication.irodsAccount
-		log.debug("retrieved account for request: ${irodsAccount}")
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
 
 
@@ -88,12 +85,12 @@ class TagsController {
 	def updateTags = {
 		String absPath = params['absPath']
 		def tagString = Jsoup.clean(params['tags'], Whitelist.basic())
-		
+
 		def comment = ""
 		if (params['comment']) {
 			comment = Jsoup.clean(params['comment'], Whitelist.basic())
 		}
-		
+
 		if (absPath == null || absPath.isEmpty()) {
 			throw new JargonException("no absPath passed to method")
 		}
@@ -110,7 +107,7 @@ class TagsController {
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
 
 		IRODSFile irodsFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
-		
+
 		if (irodsFile.isFile()) {
 			log.info("saving comments for a file")
 			def irodsTagValue = new IRODSTagValue(comment, irodsAccount.userName)

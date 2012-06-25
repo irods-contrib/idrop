@@ -5,7 +5,6 @@ import grails.converters.JSON
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
-import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.protovalues.FilePermissionEnum
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
@@ -15,7 +14,6 @@ import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.core.utils.MiscIRODSUtils
-import org.springframework.security.core.context.SecurityContextHolder
 
 class SharingController {
 
@@ -25,16 +23,16 @@ class SharingController {
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
-	def beforeInterceptor = {
-		def irodsAuthentication = SecurityContextHolder.getContext().authentication
+	def beforeInterceptor = [action:this.&auth]
 
-		if (irodsAuthentication == null) {
-			throw new JargonRuntimeException("no irodsAuthentication in security context!")
+	def auth() {
+		if(!session["SPRING_SECURITY_CONTEXT"]) {
+			redirect(controller:"login", action:"login")
+			return false
 		}
-
-		irodsAccount = irodsAuthentication.irodsAccount
-		log.debug("retrieved account for request: ${irodsAccount}")
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
+
 
 	def afterInterceptor = {
 		log.debug("closing the session")
@@ -106,9 +104,9 @@ class SharingController {
 			log.error("exception getting acl data ${je}", je)
 			response.sendError(500,je.getMessage())
 		}
-		
+
 		def homeZone = MiscIRODSUtils.getZoneInPath(absPath)
-		
+
 		render(view:"aclTable", model:[acls:acls, homeZone:homeZone])
 	}
 
@@ -191,10 +189,10 @@ class SharingController {
 			log.debug "is array"
 			selectedUsers.each{
 				log.info "selecteduser: ${it}"
-				
+
 				def theUserName = MiscIRODSUtils.getUserInUserName(it)
 				def theZone = MiscIRODSUtils.getZoneInUserName(it)
-		
+
 				if (isDataObject) {
 					log.info "add user to data object"
 					try {
@@ -327,7 +325,7 @@ class SharingController {
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
 		def isDataObject = retObj instanceof DataObject
 		log.info("adding ACLs for a data object")
-		
+
 		def theUserName = MiscIRODSUtils.getUserInUserName(cmd.userName)
 		def theZone = MiscIRODSUtils.getZoneInUserName(cmd.userName)
 
@@ -480,7 +478,7 @@ class SharingController {
 		if (!dataObjectAO) {
 			throw new IllegalArgumentException("null dataObjectAO")
 		}
-		
+
 		def theUserName = MiscIRODSUtils.getUserInUserName(userName)
 		def theZone = MiscIRODSUtils.getZoneInUserName(userName)
 

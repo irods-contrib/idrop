@@ -16,7 +16,6 @@ import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.mydrop.service.ShoppingCartSessionService
-import org.springframework.security.core.context.SecurityContextHolder
 
 /**
  * Controller for browser functionality
@@ -33,15 +32,14 @@ class BrowseController {
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
-	def beforeInterceptor = {
-		def irodsAuthentication = SecurityContextHolder.getContext().authentication
+	def beforeInterceptor = [action:this.&auth]
 
-		if (irodsAuthentication == null) {
-			throw new JargonRuntimeException("no irodsAuthentication in security context!")
+	def auth() {
+		if(!session["SPRING_SECURITY_CONTEXT"]) {
+			redirect(controller:"login", action:"login")
+			return false
 		}
-
-		irodsAccount = irodsAuthentication.irodsAccount
-		log.debug("retrieved account for request: ${irodsAccount}")
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
 
 	def afterInterceptor = {

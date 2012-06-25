@@ -26,6 +26,8 @@ beans = {
 
 	auditController(org.irods.mydrop.controller.AuditController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
+	loginController(org.irods.mydrop.controller.AuditController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
 	idropLiteController(org.irods.mydrop.controller.IdropLiteController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 	imageController(org.irods.mydrop.controller.ImageController) {

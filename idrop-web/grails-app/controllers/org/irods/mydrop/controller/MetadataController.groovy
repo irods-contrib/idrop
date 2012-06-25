@@ -5,7 +5,6 @@ import grails.converters.JSON
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.JargonException
-import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
@@ -13,7 +12,6 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.AvuData
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.utils.LocalFileUtils
-import org.springframework.security.core.context.SecurityContextHolder
 
 /**
  * Controller for displaying and updating various metadata for data objects or collections
@@ -27,16 +25,16 @@ class MetadataController {
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
-	def beforeInterceptor = {
-		def irodsAuthentication = SecurityContextHolder.getContext().authentication
+	def beforeInterceptor = [action:this.&auth]
 
-		if (irodsAuthentication == null) {
-			throw new JargonRuntimeException("no irodsAuthentication in security context!")
+	def auth() {
+		if(!session["SPRING_SECURITY_CONTEXT"]) {
+			redirect(controller:"login", action:"login")
+			return false
 		}
-
-		irodsAccount = irodsAuthentication.irodsAccount
-		log.debug("retrieved account for request: ${irodsAccount}")
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
+
 
 	def afterInterceptor = {
 		log.debug("closing the session")

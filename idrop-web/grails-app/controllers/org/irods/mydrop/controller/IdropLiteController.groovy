@@ -4,7 +4,6 @@ import grails.converters.*
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
-import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.datautils.datacache.DataCacheServiceFactory
@@ -13,7 +12,6 @@ import org.irods.jargon.datautils.shoppingcart.FileShoppingCart
 import org.irods.jargon.datautils.shoppingcart.ShoppingCartService
 import org.irods.jargon.datautils.shoppingcart.ShoppingCartServiceImpl
 import org.irods.mydrop.service.ShoppingCartSessionService
-import org.springframework.security.core.context.SecurityContextHolder
 class IdropLiteController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -23,15 +21,14 @@ class IdropLiteController {
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
-	def beforeInterceptor = {
-		def irodsAuthentication = SecurityContextHolder.getContext().authentication
+	def beforeInterceptor = [action:this.&auth]
 
-		if (irodsAuthentication == null) {
-			throw new JargonRuntimeException("no irodsAuthentication in security context!")
+	def auth() {
+		if(!session["SPRING_SECURITY_CONTEXT"]) {
+			redirect(controller:"login", action:"login")
+			return false
 		}
-
-		irodsAccount = irodsAuthentication.irodsAccount
-		log.debug("retrieved account for request: ${irodsAccount}")
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
 
 	def afterInterceptor = {
