@@ -22,7 +22,7 @@
 		<!--begin-normalLogin-->
 		<div id="normalLoginForm" class="roundedContainer" style="float:left;clear:both;">
 
-			 <g:form class="normalLogin" id="normalLogin" method="POST" controller="login" action="authenticate">
+			 <g:form class="normalLogin" id="normalLogin" method="post" controller="login" action="authenticate">
 				
 			
 			   	<g:hasErrors bean="${loginCommand}">
@@ -52,10 +52,11 @@
 					<label><g:message code="text.zone" />:</label><input type="text" class="input-text" name="zone" id="zone" value="${loginCommand.zone}"/><br/>
 					<label><g:message code="text.resource" />:</label><input type="text" class="input-text" name="resource" id="resource" value="${loginCommand.defaultStorageResource}"/><g:message code="text.optional" /><br/>
 				</g:else>
+				<span id="userLoginData">
 				<label><g:message code="text.user" />:</label><input type="text" class="input-text" name="user" id="user" value="${loginCommand.user}"/><br/>
 				<label><g:message code="text.password" />:</label><input type="password" class="input-text" name="password" id="password" value="${loginCommand.password}"/></br>
 								<button id="login" name="login" style="float:right;margin:2px;" ><g:message code="text.login"/></button>
-					
+				</span>
 			</g:form> 
 			
 				<!--end-normalLogin-->
@@ -69,37 +70,14 @@
 </body>
 </html>
 <script>
-	var loginUrl = "/login/authenticate"
+
 	/*$(function() {
     	$("#tabs").tabs();
     	
     });*/
 
 
-	function normalLogin() {
-		// see if there is form data (users in a pick list) that are selected
-		var formData = $("#normalLogin").serializeArray();
-		context = "${request.contextPath}";
 	
-		if (formData == null) {
-			setErrorMessage(jQuery.i18n.prop('msg_no_login'));
-			return false;
-		}
-	
-		var jqxhr = $.post(context + loginUrl, formData,
-				function(data, status, xhr) {
-
-					// if i have error data, redisplay the normal login part of the form (I know, it's kind of a hack)
-					var begin = data.indexOf("<!--begin-normalLogin-->");
-					var end = data.indexOf("<!--end-normalLogin-->") + 22;
-					var parsedResponse = data.substring(begin, end);
-					
-					$("#normalLoginWrapper").html("yo...." + parsedResponse + "...oy");
-					//$("#normalLoginWrapper").html("yo....");
-					return false;
-		});
-		
-	}
 
     
 </script>

@@ -1,6 +1,13 @@
 class UrlMappings {
 
 	static mappings = {
+
+		"/login/authenticate/*"(controller:"login"){
+			action = [GET:"login", POST:"authenticate"]
+		}
+
+		//"/login/authenticate/normalLogin"(controller:"login", action:'login')
+
 		"/$controller/$action?/$id?"{ constraints {
 				// apply constraints here
 			} }
@@ -14,10 +21,6 @@ class UrlMappings {
 			} }
 
 		"/"(controller:"home", action:"index")
-
-		"/login/authenticate"(controller:"login") {
-			action = [GET:"login", PUT:"authenticate"]
-		}
 
 		"500"(view:'/error')
 	}

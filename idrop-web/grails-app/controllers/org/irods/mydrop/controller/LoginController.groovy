@@ -9,7 +9,7 @@ class LoginController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 
-	static allowedMethods = [authenticate:'POST']
+	//static allowedMethods = [authenticate:'POST']
 
 	def beforeInterceptor = [action:this.&auth, except:[
 			'login',
@@ -110,8 +110,6 @@ class LoginController {
 				resource)
 
 		log.info("built irodsAccount:${irodsAccount}")
-
-
 
 		try {
 			irodsAccessObjectFactory
