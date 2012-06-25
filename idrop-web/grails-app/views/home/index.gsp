@@ -34,7 +34,7 @@
 
 
 			<div id="dataTreeView"
-				style="width: 100%; height: 700px; overflow: visible;">
+				style="width: 100%; height: 700px; overflow: hidden;">
 				
 				<div id="dataTreeDivWrapper" class="ui-layout-west"
 					style="width: 25%; height: 100%; position:relative;">
