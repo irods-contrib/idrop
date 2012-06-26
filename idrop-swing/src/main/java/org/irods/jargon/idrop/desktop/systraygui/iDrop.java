@@ -1256,7 +1256,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             lblInfoUpdatedAtTimeValue.setText(STF.format(collection.getModifiedAt()));
             lblCollectionTypeLabel.setVisible(true);
             lblCollectionType.setVisible(true);
-            lblCollectionType.setText(collection.getCollectionType());
+            lblCollectionType.setText(collection.getSpecColType().name());
             adjustInfoPanelVisibilityOfDataObjectSpecificContent(false);
 
         } catch (JargonException ex) {
@@ -1363,6 +1363,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         tableSearchResults = new javax.swing.JTable();
         pnlIrodsInfo = new javax.swing.JPanel();
         tabInfo = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         pnlInfoInner = new javax.swing.JPanel();
         pnlInfoIcon = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -2173,9 +2174,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.insets = new java.awt.Insets(8, 2, 6, 2);
         pnlInfoInner.add(pnlFileInfoDemographics, gridBagConstraints);
 
-        tabInfo.addTab("Info", new javax.swing.ImageIcon(getClass().getResource("/help-contents.png")), pnlInfoInner); // NOI18N
+        jScrollPane1.setViewportView(pnlInfoInner);
 
-        pnlIrodsInfo.add(tabInfo, java.awt.BorderLayout.NORTH);
+        tabInfo.addTab("tab2", jScrollPane1);
+
+        pnlIrodsInfo.add(tabInfo, java.awt.BorderLayout.CENTER);
         tabInfo.getAccessibleContext().setAccessibleName("Info");
 
         splitTargetCollections.setRightComponent(pnlIrodsInfo);
@@ -3092,6 +3095,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemGTK;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemMetal;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemMotif;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPanelLocalRemote;
     private javax.swing.JLabel lblCollectionType;
     private javax.swing.JLabel lblCollectionTypeLabel;

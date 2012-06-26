@@ -3,13 +3,9 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.swing.table.AbstractTableModel;
-
-import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
+import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
@@ -121,13 +117,7 @@ public class IRODSSearchTableModel extends AbstractTableModel {
                 break;
             case (2):
                 if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
-                    try {
-                        returnedVal = entry.getLastPathComponentForCollectionName();
-                    } catch (JargonException ex) {
-                        Logger.getLogger(IRODSSearchTableModel.class.getName()).log(Level.SEVERE, null, ex);
-                        throw new IdropRuntimeException(
-                                "error getting collection last path");
-                    }
+                        returnedVal = MiscIRODSUtils.getLastPathComponentForGiveAbsolutePath(entry.getPathOrName());
                 } else {
                     returnedVal = entry.getPathOrName();
                 }
