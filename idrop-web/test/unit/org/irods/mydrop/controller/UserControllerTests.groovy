@@ -13,7 +13,6 @@ import org.irods.jargon.core.pub.domain.User
 import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.mockito.Mockito
-import org.springframework.security.core.context.SecurityContextHolder
 
 class UserControllerTests extends ControllerUnitTestCase {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -29,7 +28,7 @@ class UserControllerTests extends ControllerUnitTestCase {
 		testingProperties = testingPropertiesHelper.getTestProperties()
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
 		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
-		SecurityContextHolder.getContext().authentication = irodsAuthentication
+		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
 	protected void tearDown() {

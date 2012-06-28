@@ -5,9 +5,7 @@ import java.util.Properties
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
-import org.springframework.security.core.context.SecurityContextHolder
 import grails.test.*
 import grails.converters.*
 
@@ -26,8 +24,7 @@ class IdropLiteControllerTests extends ControllerUnitTestCase {
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
 		irodsFileSystem = IRODSFileSystem.instance()
 		irodsAccessObjectFactory = irodsFileSystem.getIRODSAccessObjectFactory()
-		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
-		SecurityContextHolder.getContext().authentication = irodsAuthentication
+		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
 	protected void tearDown() {

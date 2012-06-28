@@ -11,14 +11,12 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.core.pub.domain.Collection
 import org.irods.jargon.core.pub.domain.DataObject
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.mockito.Mockito
-import org.springframework.security.core.context.SecurityContextHolder
 
 class FileControllerTests extends ControllerUnitTestCase {
-	
-  IRODSAccessObjectFactory irodsAccessObjectFactory
+
+	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 	Properties testingProperties
 	TestingPropertiesHelper testingPropertiesHelper
@@ -32,16 +30,15 @@ class FileControllerTests extends ControllerUnitTestCase {
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
 		irodsFileSystem = IRODSFileSystem.instance()
 		irodsAccessObjectFactory = irodsFileSystem.getIRODSAccessObjectFactory()
-		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
-		SecurityContextHolder.getContext().authentication = irodsAuthentication
+		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
 	protected void tearDown() {
 		super.tearDown()
 	}
 
-    void testPrepareUploadDialog() {
-		
+	void testPrepareUploadDialog() {
+
 		def testPath = "/a/path/to/coll"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
@@ -56,17 +53,16 @@ class FileControllerTests extends ControllerUnitTestCase {
 		controller.prepareUploadDialog()
 		def mav = controller.modelAndView
 		def name = mav.viewName
-		
+
 		assertNotNull("null mav", mav)
 		assertEquals("view name should be uploadDialog", "uploadDialog", name)
 		def irodsTargetCollection = mav.model.irodsTargetCollection
 		assertNotNull("null targetIrodsCollection", irodsTargetCollection)
 		assertEquals("did not find expected path", testPath,irodsTargetCollection)
-		
-    }
-	
+	}
+
 	void testPrepareUploadDialogAsDataObjectTarget() {
-		
+
 		def testPath = "/a/path/to/coll/file.txt"
 		def collectionParentPath = "/a/path/to/coll"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
@@ -83,15 +79,14 @@ class FileControllerTests extends ControllerUnitTestCase {
 		controller.prepareUploadDialog()
 		def mav = controller.modelAndView
 		def name = mav.viewName
-		
+
 		assertNotNull("null mav", mav)
 		assertEquals("view name should be uploadDialog", "uploadDialog", name)
 		def irodsTargetCollection = mav.model.irodsTargetCollection
 		assertNotNull("null targetIrodsCollection", irodsTargetCollection)
 		assertEquals("did not find expected path, shold be parent path", collectionParentPath ,irodsTargetCollection)
-		
 	}
-	
+
 	void testMoveFile() {
 		def sourcePath = "source"
 		def targetPath = "target"
@@ -105,9 +100,8 @@ class FileControllerTests extends ControllerUnitTestCase {
 		controller.params.targetAbsPath = targetPath
 		controller.moveFile()
 		Mockito.verify(dataTransferOperations).move(sourcePath,targetPath)
-		
 	}
-	
+
 	void testCopyFile() {
 		def sourcePath = "source"
 		def targetPath = "target"
@@ -121,8 +115,5 @@ class FileControllerTests extends ControllerUnitTestCase {
 		controller.params.targetAbsPath = targetPath
 		controller.copyFile()
 		Mockito.verify(dataTransferOperations).copy(sourcePath,"",targetPath,null,false,null)
-		
 	}
-	
-	
 }

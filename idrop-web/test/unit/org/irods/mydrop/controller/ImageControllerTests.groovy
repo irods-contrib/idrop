@@ -9,14 +9,11 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.datautils.image.ImageServiceFactory
 import org.irods.jargon.datautils.image.ThumbnailService
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
-import org.mockito.Matchers;
 import org.mockito.Mockito
-import org.springframework.security.core.context.SecurityContextHolder
 
 class ImageControllerTests extends ControllerUnitTestCase {
-  IRODSAccessObjectFactory irodsAccessObjectFactory
+	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 	Properties testingProperties
 	TestingPropertiesHelper testingPropertiesHelper
@@ -30,8 +27,7 @@ class ImageControllerTests extends ControllerUnitTestCase {
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
 		irodsFileSystem = IRODSFileSystem.instance()
 		irodsAccessObjectFactory = irodsFileSystem.getIRODSAccessObjectFactory()
-		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
-		SecurityContextHolder.getContext().authentication = irodsAuthentication
+		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
 	protected void tearDown() {
@@ -39,9 +35,9 @@ class ImageControllerTests extends ControllerUnitTestCase {
 		irodsFileSystem.closeAndEatExceptions()
 	}
 
-    void testGenerateThumbnail() {
+	void testGenerateThumbnail() {
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
-		
+
 		def testPath = "/test/path.jpg"
 		ThumbnailService thumbnailService = Mockito.mock(ThumbnailService.class)
 		InputStream mockStream = Mockito.mock(InputStream.class)
@@ -52,10 +48,9 @@ class ImageControllerTests extends ControllerUnitTestCase {
 		/*
 		 * FIXME: reimplement with various session states
 		 * controller.irodsAccessObjectFactory = irodsAccessObjectFactory
-		controller.imageServiceFactory = imageServiceFactory
-		controller.irodsAccount = irodsAccount
-		controller.params.absPath = testPath
-		controller.generateThumbnail() */
-		
+		 controller.imageServiceFactory = imageServiceFactory
+		 controller.irodsAccount = irodsAccount
+		 controller.params.absPath = testPath
+		 controller.generateThumbnail() */
 	}
 }

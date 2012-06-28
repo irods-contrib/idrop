@@ -17,7 +17,6 @@ import org.irods.jargon.core.pub.domain.Collection
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.core.query.MetaDataAndDomainData
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.IRODSTaggingService
@@ -26,7 +25,6 @@ import org.irods.jargon.usertagging.domain.IRODSTagGrouping
 import org.irods.jargon.usertagging.domain.IRODSTagValue
 import org.mockito.Matchers
 import org.mockito.Mockito
-import org.springframework.security.core.context.SecurityContextHolder
 
 class BrowseControllerTests extends ControllerUnitTestCase {
 
@@ -44,8 +42,9 @@ class BrowseControllerTests extends ControllerUnitTestCase {
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
 		irodsFileSystem = IRODSFileSystem.instance()
 		irodsAccessObjectFactory = irodsFileSystem.getIRODSAccessObjectFactory()
-		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
-		SecurityContextHolder.getContext().authentication = irodsAuthentication
+		//def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
+		//SecurityContextHolder.getContext().authentication = irodsAuthentication
+		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
 	protected void tearDown() {

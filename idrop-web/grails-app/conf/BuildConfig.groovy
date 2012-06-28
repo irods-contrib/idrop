@@ -25,7 +25,7 @@ grails.project.dependency.resolution = {
 	}
 	dependencies {
 		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		test 'org.irods.jargon:jargon-test:3.1.3-SNAPSHOT'
+		//test 'org.irods.jargon:jargon-test:3.1.3-SNAPSHOT'
 		test 'org.mockito:mockito-all:1.8.1'
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'

@@ -11,7 +11,6 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.*
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.IRODSTaggingService
@@ -20,7 +19,6 @@ import org.irods.jargon.usertagging.UserTagCloudService
 import org.irods.jargon.usertagging.domain.IRODSTagValue
 import org.irods.jargon.usertagging.domain.UserTagCloudView
 import org.mockito.Mockito
-import org.springframework.security.core.context.SecurityContextHolder
 
 
 class TagsControllerTests extends ControllerUnitTestCase {
@@ -38,8 +36,7 @@ class TagsControllerTests extends ControllerUnitTestCase {
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
 		irodsFileSystem = IRODSFileSystem.instance()
 		irodsAccessObjectFactory = irodsFileSystem.getIRODSAccessObjectFactory()
-		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
-		SecurityContextHolder.getContext().authentication = irodsAuthentication
+		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
 	protected void tearDown() {
@@ -72,10 +69,10 @@ class TagsControllerTests extends ControllerUnitTestCase {
 		FreeTaggingService freeTaggingService = Mockito.mock(FreeTaggingService.class)
 		TaggingServiceFactory taggingServiceFactory = Mockito.mock(TaggingServiceFactory.class)
 		Mockito.when(taggingServiceFactory.instanceFreeTaggingService(irodsAccount)).thenReturn(freeTaggingService)
-		
+
 		IRODSTaggingService irodsTaggingService = Mockito.mock(IRODSTaggingService.class)
 		Mockito.when(taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)).thenReturn(irodsTaggingService)
-		
+
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.taggingServiceFactory = taggingServiceFactory
 		controller.irodsAccount = irodsAccount
@@ -86,7 +83,6 @@ class TagsControllerTests extends ControllerUnitTestCase {
 		controller.params.tags = tags
 		controller.updateTags()
 		Mockito.verify(freeTaggingService).updateTagsForUserForADataObjectOrCollection(absPath, user, tags)
-
 	}
 
 	void testUpdateTagsNoPath() {
@@ -106,7 +102,7 @@ class TagsControllerTests extends ControllerUnitTestCase {
 		controller.params.tags = tags
 		shouldFail(JargonException) { controller.updateTags() }
 	}
-	
+
 	void testUpdateTagsBlankPath() {
 		testingPropertiesHelper = new TestingPropertiesHelper()
 		testingProperties = testingPropertiesHelper.getTestProperties()
@@ -124,19 +120,19 @@ class TagsControllerTests extends ControllerUnitTestCase {
 		controller.params.tags = tags
 		shouldFail(JargonException) { controller.updateTags() }
 	}
-	
+
 	void testUpdateTagsNullTags() {
 		testingPropertiesHelper = new TestingPropertiesHelper()
 		testingProperties = testingPropertiesHelper.getTestProperties()
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
-		
+
 		FreeTaggingService freeTaggingService = Mockito.mock(FreeTaggingService.class)
 		TaggingServiceFactory taggingServiceFactory = Mockito.mock(TaggingServiceFactory.class)
 		Mockito.when(taggingServiceFactory.instanceFreeTaggingService(irodsAccount)).thenReturn(freeTaggingService)
-		
+
 		IRODSTaggingService irodsTaggingService = Mockito.mock(IRODSTaggingService.class)
 		Mockito.when(taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)).thenReturn(irodsTaggingService)
-		
+
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.taggingServiceFactory = taggingServiceFactory
 		controller.irodsAccount = irodsAccount

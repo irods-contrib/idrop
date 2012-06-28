@@ -9,7 +9,6 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.irods.jargon.ticket.Ticket
 import org.irods.jargon.ticket.TicketAdminService
@@ -17,7 +16,6 @@ import org.irods.jargon.ticket.TicketServiceFactory
 import org.irods.mydrop.controller.TicketController
 import org.junit.*
 import org.mockito.Mockito
-import org.springframework.security.core.context.SecurityContextHolder
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
@@ -39,8 +37,7 @@ class TicketControllerTests {
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
 		irodsFileSystem = IRODSFileSystem.instance()
 		irodsAccessObjectFactory = irodsFileSystem.getIRODSAccessObjectFactory()
-		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
-		SecurityContextHolder.getContext().authentication = irodsAuthentication
+		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
 	protected void tearDown() {

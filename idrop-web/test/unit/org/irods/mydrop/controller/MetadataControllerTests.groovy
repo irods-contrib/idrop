@@ -16,10 +16,8 @@ import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.core.pub.domain.Collection
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.query.MetaDataAndDomainData
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.mockito.Mockito
-import org.springframework.security.core.context.SecurityContextHolder
 
 
 class MetadataControllerTests extends ControllerUnitTestCase {
@@ -38,14 +36,13 @@ class MetadataControllerTests extends ControllerUnitTestCase {
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
 		irodsFileSystem = IRODSFileSystem.instance()
 		irodsAccessObjectFactory = irodsFileSystem.getIRODSAccessObjectFactory()
-		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
-		SecurityContextHolder.getContext().authentication = irodsAuthentication
+		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
 	protected void tearDown() {
 		super.tearDown()
 	}
-	
+
 	void testShowMetadata() {
 		def testPath = "/testpath"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
@@ -56,7 +53,7 @@ class MetadataControllerTests extends ControllerUnitTestCase {
 		DataObjectAO dataObjectAO = Mockito.mock(DataObjectAO.class)
 		Mockito.when(irodsAccessObjectFactory.getDataObjectAO(irodsAccount)).thenReturn(dataObjectAO)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
-		
+
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
 		controller.params.absPath = testPath
@@ -66,31 +63,30 @@ class MetadataControllerTests extends ControllerUnitTestCase {
 
 		assertNotNull("null mav", mav)
 		assertEquals("view name should be metadataDetails", "metadataDetails", name)
-		
 	}
-	
+
 	void testUpdateMetadata() {
 		def testPath = "/testpath"
 		def currentAttrib = "currentAttrib"
 		def currentValue = "currentValue"
 		def newAttrib = "newAttrib"
 		def newValue = "newValue"
-		
+
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
 		Collection retObject = new Collection()
 		retObject.setCollectionName(testPath)
 		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
-		
+
 		CollectionAO collectionAO = Mockito.mock(CollectionAO.class)
-		List<MetaDataAndDomainData> mockMetadata = new ArrayList<MetaDataAndDomainData>();
-		Mockito.when(collectionAO.findMetadataValuesForCollection(testPath, 0)).thenReturn(mockMetadata);
+		List<MetaDataAndDomainData> mockMetadata = new ArrayList<MetaDataAndDomainData>()
+		Mockito.when(collectionAO.findMetadataValuesForCollection(testPath, 0)).thenReturn(mockMetadata)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAO(irodsAccount)).thenReturn(collectionAO)
-		
+
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
-		
+
 		mockCommandObject(UpdateMetadataCommand.class)
 		def cmd = new UpdateMetadataCommand()
 		cmd.absPath = testPath
@@ -101,13 +97,12 @@ class MetadataControllerTests extends ControllerUnitTestCase {
 		cmd.newValue = newValue
 		cmd.newUnit = ""
 		cmd.validate()
-		
+
 		controller.updateMetadata(cmd)
 		def controllerResponse = controller.response.contentAsString
 		assertEquals("should be OK", "OK", controllerResponse)
-		
 	}
-	
+
 	void testMetadataTableWhenCollection() {
 		def testPath = "/testpath"
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
@@ -116,13 +111,13 @@ class MetadataControllerTests extends ControllerUnitTestCase {
 		retObject.setCollectionName(testPath)
 		Mockito.when(collectionListAndSearchAO.getFullObjectForType(testPath)).thenReturn(retObject)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
-		
+
 		CollectionAO collectionAO = Mockito.mock(CollectionAO.class)
-		List<MetaDataAndDomainData> mockMetadata = new ArrayList<MetaDataAndDomainData>();
-		Mockito.when(collectionAO.findMetadataValuesForCollection(testPath, 0)).thenReturn(mockMetadata);
+		List<MetaDataAndDomainData> mockMetadata = new ArrayList<MetaDataAndDomainData>()
+		Mockito.when(collectionAO.findMetadataValuesForCollection(testPath, 0)).thenReturn(mockMetadata)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAO(irodsAccount)).thenReturn(collectionAO)
-		
-		controller.irodsAccessObjectFactory = irodsAccessObjectFactory		
+
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
 		controller.params.absPath = testPath
 		controller.listMetadata()
@@ -133,16 +128,15 @@ class MetadataControllerTests extends ControllerUnitTestCase {
 		assertEquals("view name should be metadataTable", "metadataTable", name)
 		def metadata = mav.model.metadata
 		assertNotNull("null metadata object", metadata)
-		
 	}
-	
+
 	void testDeleteMetadataCollectionOneVal() {
 		def testPath = "/testpath"
-		
+
 		def attrib = "attrib"
 		def value = "value"
 		def unit = "unit"
-		
+
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
 		Collection retObject = new Collection()
@@ -151,30 +145,29 @@ class MetadataControllerTests extends ControllerUnitTestCase {
 		CollectionAO collectionAO = Mockito.mock(CollectionAO.class)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAO(irodsAccount)).thenReturn(collectionAO)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
-		
+
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
-		
+
 		controller.params.absPath = testPath
 		controller.params.selectedMetadata = "selected"
 		controller.params.attribute = attrib
 		controller.params.value = value
 		controller.params.unit = unit
-		
+
 		controller.deleteMetadata()
-		
+
 		def controllerResponse = controller.response.contentAsString
 		assertEquals("should be OK", "OK", controllerResponse)
-		
 	}
-	
+
 	void testDeleteMetadataDataObjMultiVal() {
 		def testPath = "/testpath"
-		
+
 		def attrib = "attrib"
 		def value = "value"
 		def unit = "unit"
-		
+
 		def irodsAccessObjectFactory = Mockito.mock(IRODSAccessObjectFactory.class)
 		CollectionAndDataObjectListAndSearchAO collectionListAndSearchAO = Mockito.mock(CollectionAndDataObjectListAndSearchAO.class)
 		DataObject retObject = new DataObject()
@@ -182,23 +175,19 @@ class MetadataControllerTests extends ControllerUnitTestCase {
 		DataObjectAO dataObjectAO = Mockito.mock(DataObjectAO.class)
 		Mockito.when(irodsAccessObjectFactory.getDataObjectAO(irodsAccount)).thenReturn(dataObjectAO)
 		Mockito.when(irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)).thenReturn(collectionListAndSearchAO)
-		
+
 		controller.irodsAccessObjectFactory = irodsAccessObjectFactory
 		controller.irodsAccount = irodsAccount
-		
+
 		controller.params.absPath = testPath
 		controller.params.selectedMetadata = ["selected", "selected"]
 		controller.params.attribute = [attrib, attrib]
 		controller.params.value = [value, value]
 		controller.params.unit = [unit, unit]
-		
+
 		controller.deleteMetadata()
-		
+
 		def controllerResponse = controller.response.contentAsString
 		assertEquals("should be OK", "OK", controllerResponse)
-		
 	}
-	
-	
-	
 }

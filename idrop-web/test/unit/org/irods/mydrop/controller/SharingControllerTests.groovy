@@ -15,10 +15,8 @@ import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.core.pub.domain.Collection
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.domain.UserFilePermission
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.mockito.Mockito
-import org.springframework.security.core.context.SecurityContextHolder
 
 
 class SharingControllerTests extends ControllerUnitTestCase {
@@ -36,8 +34,7 @@ class SharingControllerTests extends ControllerUnitTestCase {
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
 		irodsFileSystem = IRODSFileSystem.instance()
 		irodsAccessObjectFactory = irodsFileSystem.getIRODSAccessObjectFactory()
-		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
-		SecurityContextHolder.getContext().authentication = irodsAuthentication
+		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
 	protected void tearDown() {

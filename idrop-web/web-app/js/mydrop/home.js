@@ -873,22 +873,6 @@ function initializeUploadDialogAjaxLoader() {
 							 * the parent
 							 */
 
-							/*
-							 * if (files.length == 1) { var uploadFileName =
-							 * files[0].name; // windows (ie) will put the whole
-							 * file path in the name, so just reload the parent
-							 * 
-							 * if (uploadFileName.indexOf("\\") > -1) {
-							 * reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
-							 * updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath); }
-							 * else { uploadFileName = selectedPath + "/" +
-							 * uploadFileName;
-							 * reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
-							 * updateBrowseDetailsForPathBasedOnCurrentModel(uploadFileName); } }
-							 * else {
-							 * reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
-							 * updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath); }
-							 */
 							var uploadParent = $("#collectionParentName").val();
 
 							if (uploadParent != null) {

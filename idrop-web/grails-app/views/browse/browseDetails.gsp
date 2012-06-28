@@ -1,13 +1,9 @@
 
 
-<div id="browseDetailsMessageArea">
-  <!--  -->
-</div>
-<div id="infoDialogArea"><!--  no empty divs --></div>
+<div id="browseDetailsMessageArea" style:overflow:visible;></div>
+<div id="infoDialogArea" style="height:0px; "></div>
 
-<div id=browseDetailsDialogArea">
-  <!--  area for generating dialogs -->
-</div>
+<div id=browseDetailsDialogArea" style-"height:0px;></div>
 <g:hiddenField id="browseDetailsAbsPath" name="absolutePath"
 					value="${parent.collectionName}" />
 

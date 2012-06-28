@@ -670,6 +670,7 @@ th.desc a {
 	overflow: auto;
 }
 
+/*
 #dataTreeDiv {
 	float: left;
 	height: auto;
@@ -683,9 +684,22 @@ th.desc a {
 	height: 90%;
 	width: 100%;
 	clear: both;
-	/*background: #ffffff;
-	overflow: auto;*/
 }
+*/
+
+#splitter {
+	height: 100%;
+	width: 100%;
+	border: 5px solid #aaa;
+}
+#splitter div {
+	overflow: auto;
+}
+.vsplitbar {
+	width: 5px;
+	background: #aaa;
+}
+
 
 #infoDiv {
 	width: auto;
