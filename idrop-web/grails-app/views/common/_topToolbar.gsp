@@ -171,6 +171,16 @@
 	}
 
 	/**
+	 * audit view selected
+	 */
+	function auditView() {
+		setDefaultView("audit");
+		showAuditView(selectedPath);
+
+	}
+	
+
+	/**
 	 * browse view selected
 	 */
 	function browseView() {

@@ -663,6 +663,29 @@ function showBrowseView(absPath) {
 }
 
 /**
+ * Show the audit view specifying a target div
+ * 
+ * @param absPath
+ * @returns {Boolean}
+ */
+function showAuditView(absPath, targetDiv) {
+	if (absPath == null) {
+		absPath = baseAbsPath;
+	}
+	
+	if (targetDiv == null) {
+		targetDiv = "#infoDiv";
+		// I am not embedded, so manipulate the toolbars
+		hideAllToolbars();
+	} 
+	
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+			"/audit/auditList?absPath="
+					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
+
+}
+
+/**
  * Show the sharing view
  * 
  * @param absPath

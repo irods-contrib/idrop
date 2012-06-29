@@ -131,6 +131,8 @@
    			<div id="infoAccordionTicketsInner"></div>
 			</g:if>
 			<h3 id="infoAccordionAudit"><a href="#infoAccordionAudit"><g:message code="text.audit" /></a></h3>
+			<div id="infoAccordionAuditInner">
+			</div>
    			<div >
 			</div>
 </div>
@@ -170,6 +172,7 @@
 		} else if (sectionToUpdate=="infoAccordionTickets") {
 			showTicketView(selectedPath, "#infoAccordionTicketsInner");
 		} else if (sectionToUpdate=="infoAccordionAudit") {
+			showAuditView(selectedPath, "#infoAccordionAuditInner");
 		} else {
 		}
 	}
