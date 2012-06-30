@@ -100,7 +100,15 @@ function browseAuditDetailsFunction(clickedIcon, rowActionIsOn) {
                         buildDetailsLayoutVal, 'details');
         newRowNode.setAttribute("id", detailsId);
         var absPath = $("#auditDetailsAbsPath").val();
-        askForAuditDetailsPulldown(absPath, objId, detailsId)
+        
+        // get the audit action and timestamp from the hidden fields
+        var auditActionSelector = '#audit_' + objId + '_code';
+        var auditAction = $(auditActionSelector).val();
+        
+        var timestampSelector = '#audit_' + objId + '_timestamp';
+        var timestamp = $(timestampSelector).val();
+        
+        askForAuditDetailsPulldown(absPath, auditAction, timestamp);
 
 }
 
@@ -120,13 +128,14 @@ function buildAuditDetailsLayout(detailsId) {
         return $(td).html();
 }
 
-function askForAuditDetailsPulldown(absPath,objId,detailsId) {
+function askForAuditDetailsPulldown(absPath, auditAction, timestamp) {
 
         var url = "/audit/auditInfo";
         absPath = absPath;
         var params = {
                         absPath:absPath,
-                        id:objId
+                        actionCode:auditAction,
+                        timeStamp:timestamp
                 }
 	
         lcSendValueWithParamsAndPlugHtmlInDiv(url, params, ".details",

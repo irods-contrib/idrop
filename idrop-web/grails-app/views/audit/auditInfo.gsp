@@ -19,8 +19,8 @@
 					<div><div>${auditedAction.auditActionEnum.meaning}</div></div>
 				</div>
 				<div>
-					<div><label><label><g:message code="text.content" /></label></div>
-					<div><div>${auditedAction.auditActionEnum.commentContent}</div></div>
+					<div><label>${auditedAction.auditActionEnum.commentContent}</label></div>
+					<div>${auditedAction.comment}</div>
 				</div>
 				<div>
 					<div><label><label><g:message code="text.timestamp" /></label></div>

@@ -11,12 +11,15 @@
 		</thead>
 		<tbody>
 			<g:each in="${auditedActions}" var="entry">
-				<tr id="${entry.objectId}">
+				<tr id="${entry.count}">
 					  <td><span
                   class="ui-icon-circle-plus browse_detail_icon ui-icon"></span></td>
 					<td>${entry.auditActionEnum.textValue}</td>
 					<td>${entry.userName}</td>
 					<td>${entry.createdAt}</td>
+					<g:hiddenField id="${ 'audit_' + entry.count + '_id'}" name="${ 'audit_' + entry.count + '_id'}"  value="${entry.count}"/>
+					<g:hiddenField id="${ 'audit_' + entry.count + '_code'}" name="${ 'audit_' + entry.count + '_code'}" value="${entry.auditActionEnum.auditCode}"/>
+					<g:hiddenField id="${ 'audit_' + entry.count + '_timestamp'}" name="${ 'audit_' + entry.count + '_timestamp'}" value="${entry.timeStampInIRODSFormat}"/>
 				</tr>
 			</g:each>
 		</tbody>

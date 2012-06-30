@@ -3,10 +3,12 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
+import org.irods.jargon.core.pub.CollectionAuditAO
 import org.irods.jargon.core.pub.DataObjectAuditAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.io.IRODSFile
+
 
 class AuditController {
 
@@ -31,6 +33,60 @@ class AuditController {
 		irodsAccessObjectFactory.closeSession()
 	}
 
+	def auditInfo = {
+		log.info("auditInfo()")
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request "
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		def actionCode = params['actionCode']
+		if (actionCode == null) {
+			log.error "no actionCode in request"
+			def message = message(code:"error.no.id.provided")
+			response.sendError(500,message)
+		}
+
+		def timeStamp = params['timeStamp']
+		if (timeStamp == null) {
+			log.error "no timeStamp in request"
+			def message = message(code:"error.no.timestamp.provided")
+			response.sendError(500,message)
+		}
+
+		log.info("get object and audit for absPath: ${absPath} and actionCode: ${actionCode}")
+
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+		def isDataObject = retObj instanceof DataObject
+
+		def auditedAction
+
+		try {
+
+			if (isDataObject) {
+				log.info("is a data object, get audit for it")
+				DataObjectAuditAO dataObjectAuditAO = irodsAccessObjectFactory.getDataObjectAuditAO(irodsAccount)
+				IRODSFile dataObjectFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+				auditedAction = dataObjectAuditAO.getAuditedActionForDataObject(dataObjectFile, actionCode, timeStamp)
+			} else {
+				log.info("is a collection, get audit info for it")
+				CollectionAuditAO collectionAuditAO = irodsAccessObjectFactory.getCollectionAuditAO(irodsAccount)
+				IRODSFile collectionFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+				auditedAction = collectionAuditAO.getAuditedActionForCollection(collectionFile, actionCode, timeStamp)
+			}
+		} catch (DataNotFoundException e) {
+			log.error("no audit data found")
+			response.sendError(500,e.message)
+			return
+		}
+
+		render(view:"auditInfo", model:[auditedAction:auditedAction])
+	}
+
+
 	def auditTable = {
 		def absPath = params['absPath']
 		if (absPath == null) {
@@ -53,52 +109,12 @@ class AuditController {
 			auditedActions = dataObjectAuditAO.findAllAuditRecordsForDataObject(dataObjectFile, 0, 1000)
 		} else {
 			log.info("is a collection, get audit info for it")
+			CollectionAuditAO collectionAuditAO = irodsAccessObjectFactory.getCollectionAuditAO(irodsAccount)
+			IRODSFile dataObjectFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+			auditedActions = collectionAuditAO.findAllAuditRecordsForCollection(dataObjectFile, 0, 1000)
 		}
 
 		render(view:"auditTable", model:[auditedActions:auditedActions])
-	}
-
-	def auditInfo = {
-		log.info("auditInfo()")
-		def absPath = params['absPath']
-		if (absPath == null) {
-			log.error "no absPath in request "
-			def message = message(code:"error.no.path.provided")
-			response.sendError(500,message)
-		}
-
-		def id = params['id']
-		if (id == null) {
-			log.error "no id in request"
-			def message = message(code:"error.no.id.provided")
-			response.sendError(500,message)
-		}
-
-		log.info("get object and audit for absPath: ${absPath} and id: ${id}")
-
-		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-		def isDataObject = retObj instanceof DataObject
-
-		def auditedAction
-
-		try {
-
-			if (isDataObject) {
-				log.info("is a data object, get audit for it")
-				DataObjectAuditAO dataObjectAuditAO = irodsAccessObjectFactory.getDataObjectAuditAO(irodsAccount)
-				IRODSFile dataObjectFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
-				auditedAction = dataObjectAuditAO.getAuditedActionForDataObject(dataObjectFile, Integer.parseInt(id))
-			} else {
-				log.info("is a collection, get audit info for it")
-			}
-		} catch (DataNotFoundException e) {
-			log.error("no audit data found")
-			response.sendError(500,e.message)
-			return
-		}
-
-		render(view:"auditInfo", model:[auditedAction:auditedAction])
 	}
 
 	/**
