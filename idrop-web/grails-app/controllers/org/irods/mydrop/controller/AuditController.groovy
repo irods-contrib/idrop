@@ -1,6 +1,7 @@
 package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.CatNoAccessException
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.CollectionAuditAO
@@ -101,20 +102,26 @@ class AuditController {
 		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
 		def isDataObject = retObj instanceof DataObject
 
-		def auditedActions
-		if (isDataObject) {
-			log.info("is a data object, get audit for it")
-			DataObjectAuditAO dataObjectAuditAO = irodsAccessObjectFactory.getDataObjectAuditAO(irodsAccount)
-			IRODSFile dataObjectFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
-			auditedActions = dataObjectAuditAO.findAllAuditRecordsForDataObject(dataObjectFile, 0, 1000)
-		} else {
-			log.info("is a collection, get audit info for it")
-			CollectionAuditAO collectionAuditAO = irodsAccessObjectFactory.getCollectionAuditAO(irodsAccount)
-			IRODSFile dataObjectFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
-			auditedActions = collectionAuditAO.findAllAuditRecordsForCollection(dataObjectFile, 0, 1000)
-		}
+		try {
+			def auditedActions
+			if (isDataObject) {
+				log.info("is a data object, get audit for it")
+				DataObjectAuditAO dataObjectAuditAO = irodsAccessObjectFactory.getDataObjectAuditAO(irodsAccount)
+				IRODSFile dataObjectFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+				auditedActions = dataObjectAuditAO.findAllAuditRecordsForDataObject(dataObjectFile, 0, 1000)
+			} else {
+				log.info("is a collection, get audit info for it")
+				CollectionAuditAO collectionAuditAO = irodsAccessObjectFactory.getCollectionAuditAO(irodsAccount)
+				IRODSFile dataObjectFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+				auditedActions = collectionAuditAO.findAllAuditRecordsForCollection(dataObjectFile, 0, 1000)
+			}
 
-		render(view:"auditTable", model:[auditedActions:auditedActions])
+			render(view:"auditTable", model:[auditedActions:auditedActions])
+			return
+		} catch(CatNoAccessException cna) {
+			render(view:"auditNoAccess")
+			return
+		}
 	}
 
 	/**
