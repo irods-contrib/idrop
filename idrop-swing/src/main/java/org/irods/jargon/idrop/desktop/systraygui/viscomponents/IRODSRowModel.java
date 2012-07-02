@@ -29,7 +29,7 @@ public class IRODSRowModel implements RowModel {
                 if (entry.isCollection()) {
                     return "";
                 } else {
-                    return String.valueOf(entry.getDataSize());
+                    return String.valueOf(entry.getDisplayDataSize());
                 }
                 //return entry.getDataSize();
             case 1:

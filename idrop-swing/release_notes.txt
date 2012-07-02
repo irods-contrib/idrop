@@ -1,13 +1,13 @@
 
 *'''Project''': iDrop-swing- Desktop iRODS transfer manager
 *'''Date''': 03/28/2012
-*'''Release Version''': 3.1.0 RC to coincide with iRODS 3.1
-*'''git tag''':  3-1-0
+*'''Release Version''': 1.0.1 SNAPSHOT
+*'''git tag''':  1.0.1 TBD
 *'''download jar with dependencies (run java -jar jarname)''':  https://code.renci.org/gf/project/irodsidrop/frs/?action=FrsReleaseBrowse&frs_package_id=4
 
 ==News==
 
-This is the initial release of the iDrop desktop transfer manager client.  iDrop runs in the system tray of your favorite operating system, and can manage transfers between your computer and iRODS, and manage data once in iRODS.
+This is the iDrop desktop transfer manager client.  iDrop runs in the system tray of your favorite operating system, and can manage transfers between your computer and iRODS, and manage data once in iRODS.
 
 iDrop also automates synchronization between your desktop and iRODS.  There is an initial local -> iRODS backup capability, with automatic version of files within iRODS.  Other modes are in development
 
@@ -78,6 +78,7 @@ Note that the following bug and feature requests are logged in GForge with relat
 * [#775] 1.1.0 refactoring activities
 ** iDrop main gui redesign, including info tabs and icons
 ** account information 'gutter' with change resource and switch grids
+**  [#866] IP - simplify login, advanced view, resource/resource group setting
 
 ==Outstanding Issues==
 

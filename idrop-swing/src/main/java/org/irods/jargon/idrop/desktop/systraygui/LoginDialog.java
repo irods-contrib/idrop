@@ -59,6 +59,9 @@ public class LoginDialog extends JDialog {
         String host = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_HOST);
         txtHost.setText(host);
         String port = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_PORT);
+        if (port.isEmpty()) {
+            port = "1247";
+        }
         txtPort.setText(port);
         String zone = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_ZONE);
         txtZone.setText(zone);
@@ -66,7 +69,7 @@ public class LoginDialog extends JDialog {
         txtResource.setText(resource);
         String username = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME);
         txtUserName.setText(username);
-
+        hidePortAndResource();
     }
 
     private void loginUsingPreset() {
@@ -79,6 +82,7 @@ public class LoginDialog extends JDialog {
         txtZone.setVisible(false);
         lblResource.setVisible(false);
         txtResource.setVisible(false);
+        chkAdvancedLogin.setVisible(false);
     }
 
     /**
@@ -160,20 +164,34 @@ public class LoginDialog extends JDialog {
                 sb.append(presetZone);
                 sb.append("/home/");
                 sb.append(txtUserName.getText());
-                irodsAccount = IRODSAccount.instance(presetHost, presetPort,
-                        txtUserName.getText(),
-                        new String(password.getPassword()), sb.toString(),
-                        presetZone, presetResource);
+                
+                if (chkGuestLogin.isSelected()) {
+                    irodsAccount = IRODSAccount.instanceForAnonymous(txtHost.getText().trim(),
+                        Integer.parseInt(txtPort.getText().trim()), "",
+                        txtZone.getText().trim(), txtResource.getText().trim());
+                } else {
+                    irodsAccount = IRODSAccount.instance(presetHost, presetPort,
+                            txtUserName.getText(),
+                            new String(password.getPassword()), sb.toString(),
+                            presetZone, presetResource);
+                }
             } else {
                 sb.append('/');
                 sb.append(txtZone.getText());
                 sb.append("/home/");
                 sb.append(txtUserName.getText());
-                irodsAccount = IRODSAccount.instance(txtHost.getText().trim(),
+                
+                 if (chkGuestLogin.isSelected()) {
+                    irodsAccount = IRODSAccount.instanceForAnonymous(txtHost.getText().trim(),
+                        Integer.parseInt(txtPort.getText().trim()),
+                     "", txtZone.getText().trim(), txtResource.getText().trim());
+                } else {
+                   irodsAccount = IRODSAccount.instance(txtHost.getText().trim(),
                         Integer.parseInt(txtPort.getText().trim()),
                         txtUserName.getText().trim(),
                         new String(password.getPassword()).trim(), sb.toString().trim(),
                         txtZone.getText().trim(), txtResource.getText().trim());
+                }
             }
         } catch (JargonException ex) {
             Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
@@ -275,6 +293,9 @@ public class LoginDialog extends JDialog {
         txtUserName = new javax.swing.JTextField();
         lblPassword = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
+        jPanel1 = new javax.swing.JPanel();
+        chkAdvancedLogin = new javax.swing.JCheckBox();
+        chkGuestLogin = new javax.swing.JCheckBox();
         pnlToolbar = new javax.swing.JPanel();
         btnOK = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
@@ -376,6 +397,28 @@ public class LoginDialog extends JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlLoginInfo.add(password, gridBagConstraints);
 
+        chkAdvancedLogin.setText("Advanced Login Settings");
+        chkAdvancedLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkAdvancedLoginActionPerformed(evt);
+            }
+        });
+        jPanel1.add(chkAdvancedLogin);
+
+        chkGuestLogin.setText("Login As Guest");
+        chkGuestLogin.setToolTipText("Use a guest login");
+        chkGuestLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkGuestLoginActionPerformed(evt);
+            }
+        });
+        jPanel1.add(chkGuestLogin);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        pnlLoginInfo.add(jPanel1, gridBagConstraints);
+
         getContentPane().add(pnlLoginInfo, java.awt.BorderLayout.CENTER);
 
         pnlToolbar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 2, 5));
@@ -408,6 +451,23 @@ public class LoginDialog extends JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void chkAdvancedLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAdvancedLoginActionPerformed
+        // TODO add your handling code here:
+        if (chkAdvancedLogin.isSelected()) {
+            showPortAndResource();
+        } else {
+            hidePortAndResource();
+        }
+    }//GEN-LAST:event_chkAdvancedLoginActionPerformed
+
+    private void chkGuestLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkGuestLoginActionPerformed
+        if (chkGuestLogin.isSelected()) {
+            hideUserAndPassword();
+        } else {
+            showUserAndPassword();
+        }
+    }//GEN-LAST:event_chkGuestLoginActionPerformed
+
     private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
         processLogin();
     }// GEN-LAST:event_btnOKActionPerformed
@@ -418,6 +478,9 @@ public class LoginDialog extends JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
+    private javax.swing.JCheckBox chkAdvancedLogin;
+    private javax.swing.JCheckBox chkGuestLogin;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblHost;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblPassword;
@@ -434,4 +497,32 @@ public class LoginDialog extends JDialog {
     private javax.swing.JTextField txtUserName;
     private javax.swing.JTextField txtZone;
     // End of variables declaration//GEN-END:variables
+
+    private void showPortAndResource() {
+       txtResource.setVisible(true);
+       txtPort.setVisible(true);
+       lblPort.setVisible(true);
+       lblResource.setVisible(true);
+    }
+
+    private void hidePortAndResource() {
+       txtResource.setVisible(false);
+       txtPort.setVisible(false);
+       lblPort.setVisible(false);
+       lblResource.setVisible(false);
+    }
+
+    private void hideUserAndPassword() {
+        lblUserName.setVisible(false);
+        txtUserName.setVisible(false);
+        lblPassword.setVisible(false);
+        password.setVisible(false);
+    }
+
+    private void showUserAndPassword() {
+        lblUserName.setVisible(true);
+        txtUserName.setVisible(true);
+        lblPassword.setVisible(true);
+        password.setVisible(true);
+    }
 }
