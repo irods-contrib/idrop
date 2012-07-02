@@ -566,7 +566,7 @@ function copyFile(sourcePath, targetPath) {
 		unblockPanel();
 		
 		//refreshTree();
-		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(xhr.responseText);
+		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(targetPath);
 		//updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 
 	}).error(function(xhr, status, error) {
@@ -659,6 +659,29 @@ function showBrowseView(absPath) {
 		// tree is out of synch, refresh it
 		refreshTree();
 	}
+
+}
+
+/**
+ * Show the audit view specifying a target div
+ * 
+ * @param absPath
+ * @returns {Boolean}
+ */
+function showAuditView(absPath, targetDiv) {
+	if (absPath == null) {
+		absPath = baseAbsPath;
+	}
+	
+	if (targetDiv == null) {
+		targetDiv = "#infoDiv";
+		// I am not embedded, so manipulate the toolbars
+		hideAllToolbars();
+	} 
+	
+	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+			"/audit/auditList?absPath="
+					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
 
 }
 
@@ -1790,6 +1813,7 @@ function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
 	performOperationAtGivenTreePath(splitPath, null, null, function(thisPath,
 			dataTree, currentNode) {
 
+		$.jstree._reference(dataTree).refresh(currentNode);
 		$.jstree._reference(dataTree).open_node(currentNode);
 		$.jstree._reference(dataTree).select_node(currentNode, true);
 

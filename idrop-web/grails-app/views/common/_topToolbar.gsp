@@ -88,6 +88,7 @@
 				</ul>
 			</li>
 				
+			<!--  
 			<g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
 			<li id="menuTicketDetails" class="detailsToolbarMenuItem"><a
 			href="#ticketsMenu"><g:message
@@ -102,7 +103,7 @@
 							code="text.ticket.use" /></a></li>
 				
 			</ul></li>
-			</g:if>
+			</g:if>-->
 			
 			
 	<!--  info toolbar -->
@@ -125,6 +126,7 @@
 		
 
 			</ul></li>
+			<!--  
 			<g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
 				<li id="menuTicket" class="toolbarMenuItem"><a
 				href="#ticketsMenu"><g:message
@@ -139,7 +141,7 @@
 								code="text.ticket.use" /></a></li>
 					
 			</ul></li>
-			</g:if>
+			</g:if>-->
 			
 
 
@@ -169,6 +171,16 @@
 		$.bbq.pushState(state);
 
 	}
+
+	/**
+	 * audit view selected
+	 */
+	function auditView() {
+		setDefaultView("audit");
+		showAuditView(selectedPath);
+
+	}
+	
 
 	/**
 	 * browse view selected

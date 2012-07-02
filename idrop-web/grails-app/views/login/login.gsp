@@ -20,7 +20,7 @@
 		
 		<div id="normalLoginWrapper">
 		<!--begin-normalLogin-->
-		<div id="normalLoginForm" class="roundedContainer" style="float:left;clear:both;">
+		<div id="normalLoginForm" class="roundedContainer" style="float:left;clear:both;background:grey">
 
 			 <g:form class="normalLogin" id="normalLogin" method="post" controller="login" action="authenticate">
 				
@@ -61,18 +61,13 @@
 							<div ><label><g:message code="text.zone" />:</label></div>
 							<div><input type="text" class="input-text" name="zone" id="zone" value="${loginCommand.zone}"/></div>
 						</div>
-						<div>
-							<div ><label><g:message code="text.resource" />:</label></div>
-							<div><input type="text" class="input-text" name="resource" id="resource" value="${loginCommand.defaultStorageResource}"/><g:message code="text.optional" /></div>
-						</div>
+						
 				</g:else>
-				
 				
 				<div>
 					<div ><label><g:message code="text.guest.login" />:</label></div>
 					<div><g:checkBox name="useGuestLogin" id="useGuestLogin" value="${loginCommand.useGuestLogin}" onclick="toggleGuestLogin()"/></div>
 				</div>
-				
 				
 				<div class="userLoginData">
 					<div ><label><g:message code="text.user" />:</label></div>
@@ -84,8 +79,18 @@
 				</div>
 												
 				</span>
+				<div>
+					<div></div>
+					<div><button id="login" name="login" style="margin-left:150px;margin-top:20px;margin-bottom:20px;" ><g:message code="text.login"/></button></div>
+				</div>
+				<g:if test="${!loginCommand.usePresets}">
+				<div>
+					<div><label><g:message code="text.resource" />:</label></div>
+					<div><input type="text" class="input-text" name="resource" id="resource" value="${loginCommand.defaultStorageResource}"/><stong><g:message code="text.optional" /></strong></div>
+				</div>
+				</g:if>
 				</div> <!-- container div -->
-				<button id="login" name="login" style="float:right;margin:2px;" ><g:message code="text.login"/></button>
+				
 			</g:form> 
 			
 				<!--end-normalLogin-->

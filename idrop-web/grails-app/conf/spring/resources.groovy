@@ -24,9 +24,7 @@ beans = {
 
 	sharingController(org.irods.mydrop.controller.SharingController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
-	auditController(org.irods.mydrop.controller.AuditController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
-
-	loginController(org.irods.mydrop.controller.AuditController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+	loginController(org.irods.mydrop.controller.LoginController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 	idropLiteController(org.irods.mydrop.controller.IdropLiteController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
@@ -34,5 +32,8 @@ beans = {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 		imageServiceFactory = ref("imageServiceFactory")
 	}
+
+	auditController(org.irods.mydrop.controller.AuditController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
 
 }

@@ -770,7 +770,7 @@ th.desc a {
 #container {
 	display: table;
 	border-collapse: collapse;
-	table-layout: fixed;
+	/*table-layout: fixed;*/
 	
 }
 

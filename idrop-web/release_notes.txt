@@ -18,6 +18,7 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Bug Fixes==
 
+* [#711] post copy via tree context menu - unable to browse to a location
 
 ==Features==
 
@@ -30,6 +31,9 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 * [#851] add anonymous login and other login enhancments
 ** Remove spring security and simplify login process
+
+*[#479] audit trail support in idrop web
+** added audit trail views in idrop-web
 
 
 todo:
