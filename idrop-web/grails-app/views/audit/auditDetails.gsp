@@ -10,6 +10,16 @@
 				onclick="callReloadForAudit()")>
 				<g:message code="default.button.reload.label" />
 			</button>
+			<span id="backwardAuditButton"><button type="button" id="backwardAuditButton"
+				class="ui-state-default ui-corner-all" value="backwardAudit"
+				onclick="backwardAudit()")>
+				<g:message code="text.backwards" />
+			</button></span>
+			<span id="forwardAuditButton"><button type="button" id="forwardAuditButton"
+				class="ui-state-default ui-corner-all" value="forwardAudit"
+				onclick="forwardAudit()")>
+				<g:message code="text.forward" />
+			</button></span>
 		</div>
 	</div>
 	<g:hiddenField name='auditDetailsAbsPath' id='auditDetailsAbsPath' value='${dataObject.absolutePath}'/>
@@ -22,12 +32,16 @@
 <script type="text/javascript">
 
 	var origData = "";
+	var pageableForward = false;
+	var pageableBackwards = false;
+	var firstCount = 0;
+	var lastCount = 0;
+	var auditPageSize = 1000;
 
 	var path = $("#auditDetailsAbsPath").val();
 	if (path == null) {
 		path = baseAbsPath;
 	}
-	reloadAuditTable(path);
 	
 	$(function() {
 		reloadAuditTable(path);
@@ -36,6 +50,27 @@
 	function callReloadForAudit() {
 		var absPath = $("#auditDetailsAbsPath").val();
 		reloadAuditTable(path);
+	}
+
+	function backwardAudit() {
+		if (pageableBackwards == false) {
+			return false
+		}
+		var newOffset = firstCount - auditPageSize;
+		if (newOffset < 0) {
+			newOffset = 0;
+		}
+		reloadAuditTable(path, newOffset, auditPageSize);
+		
+	}
+
+	function forwardAudit() {
+		if (pageableForward == false) {
+			return false
+		}
+		
+		var newOffset = lastCount;
+		reloadAuditTable(path, newOffset, auditPageSize);
 	}
 
 	

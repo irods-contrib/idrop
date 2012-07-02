@@ -7,6 +7,7 @@ import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.CollectionAuditAO
 import org.irods.jargon.core.pub.DataObjectAuditAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.domain.AuditedAction
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.io.IRODSFile
 
@@ -96,6 +97,19 @@ class AuditController {
 			response.sendError(500,message)
 		}
 
+		def pageSize = params['pageSize']
+		if (pageSize == null) {
+			pageSize = "1000"
+		}
+
+		def offset = params["offset"]
+		if (offset == null) {
+			offset = "0"
+		}
+
+		int usePageSize = Integer.parseInt(pageSize)
+		int useOffset = Integer.parseInt(offset)
+
 		log.info("auditListDataObject for absPath: ${absPath}")
 
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
@@ -108,15 +122,36 @@ class AuditController {
 				log.info("is a data object, get audit for it")
 				DataObjectAuditAO dataObjectAuditAO = irodsAccessObjectFactory.getDataObjectAuditAO(irodsAccount)
 				IRODSFile dataObjectFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
-				auditedActions = dataObjectAuditAO.findAllAuditRecordsForDataObject(dataObjectFile, 0, 1000)
+				auditedActions = dataObjectAuditAO.findAllAuditRecordsForDataObject(dataObjectFile, useOffset, usePageSize)
 			} else {
 				log.info("is a collection, get audit info for it")
 				CollectionAuditAO collectionAuditAO = irodsAccessObjectFactory.getCollectionAuditAO(irodsAccount)
 				IRODSFile dataObjectFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
-				auditedActions = collectionAuditAO.findAllAuditRecordsForCollection(dataObjectFile, 0, 1000)
+				auditedActions = collectionAuditAO.findAllAuditRecordsForCollection(dataObjectFile, useOffset, usePageSize)
 			}
 
-			render(view:"auditTable", model:[auditedActions:auditedActions])
+			boolean pageableForward = false
+			boolean pageableBackwards = false
+			int firstCount = 0
+			int lastCount = 0
+
+			if (!auditedActions.empty) {
+				AuditedAction first = auditedActions.get(0)
+				firstCount = first.count
+				if (first.getCount() > 1) {
+					pageableBackwards = true
+				}
+				AuditedAction last = auditedActions.get(auditedActions.size() -1)
+				lastCount = lastCount
+				if (!last.lastResult)  {
+					pageableForward = true
+				}
+			}
+
+			log.info("pageable forward:${pageableForward}")
+			log.info("pageable backwards:${pageableBackwards}")
+
+			render(view:"auditTable", model:[auditedActions:auditedActions, pageableForward:pageableForward, pageableBackwards:pageableBackwards, firstCount:firstCount, lastCount:lastCount])
 			return
 		} catch(CatNoAccessException cna) {
 			render(view:"auditNoAccess")

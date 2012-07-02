@@ -32,4 +32,28 @@
 			</tr>
 		</tfoot>
 	</table>
+	<script>
+	$(function() {
+		
+		 pageableForward = "${pageableForward}";
+		 pageableBackwards = "${pageableBackwards}";
+
+		 firstCount = "${firstCount}";
+		 lastCount = "${lastCount}";
+		 
+		 if (pageableForward == true) {
+				$('#forwardAuditButton').show();
+			} else {
+				$('#forwardAuditButton').hide();
+			}
+		
+			if (pageableBackwards == true) {
+				$('#backwardAuditButton').show();
+			} else {
+				$('#backwardAuditButton').hide();
+			}
+		
+	});
+	
+	</script>
 	

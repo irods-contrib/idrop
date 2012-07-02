@@ -17,19 +17,27 @@ var auditTable;
  * 
  * @returns
  */
-function reloadAuditTable(absPath) {
+function reloadAuditTable(absPath, usePageSize, useOffset) {
 	
 	if (absPath == null) {
 		absPath = selectedPath;
+	}
+	
+	if (usePageSize == null) {
+		usePageSize = 1000;
+	}
+	
+	if (useOffset == null) {
+		useOffset = 0;
 	}
 
 	$("#auditTableDiv").empty();
 	lcShowBusyIconInDiv("#auditTableDiv");
 	
-	
-
 	var params = {
-		absPath : absPath
+		absPath : absPath,
+		pageSize : usePageSize,
+		offset : useOffset
 	}
 
 	var jqxhr = $.get(context + auditLoadUrl, params,
@@ -61,6 +69,9 @@ function buildAuditTableInPlace() {
 
           }
 	var auditDataTable = lcBuildTableInPlace("#auditDetailsTable", auditDetailsClick, ".browse_detail_icon", tableParams);
+	 
+		
+		
 	return auditDataTable;
 }
 
