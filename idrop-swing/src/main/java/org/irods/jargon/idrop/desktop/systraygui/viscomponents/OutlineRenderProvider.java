@@ -41,9 +41,11 @@ public class OutlineRenderProvider implements RenderDataProvider {
                 sb.append(entry.getFormattedAbsolutePath());
                 sb.append("</h3>");
                 sb.append("<b>size:</b>");
-                sb.append(entry.getDataSize());
+                sb.append(entry.getDisplayDataSize());
                 sb.append("<br/><b>last mod:</b>");
-                sb.append(dateFormat.format(entry.getModifiedAt()));
+                if (entry.getModifiedAt() != null) {
+                    sb.append(dateFormat.format(entry.getModifiedAt()));
+                }
                 sb.append("</html>");
                return sb.toString();
       }

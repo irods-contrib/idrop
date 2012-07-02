@@ -26,6 +26,7 @@ import java.io.File;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
@@ -171,7 +172,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         initializeLookAndFeelSelected();
 
         if (irodsTree == null) {
-            buildTargetTree();
+            buildTargetTree(false);
         }
         // setting look and feel will also trigger build of irods tree view
         //setLookAndFeel(iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL));
@@ -662,7 +663,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 // refresh the tree when setting visible again, the account may
                 // have changed.
 
-                buildTargetTree();
+                buildTargetTree(false);
                 this.setVisible(true);
             }
 
@@ -973,7 +974,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * build the JTree that will depict the iRODS resource
      */
-    public void buildTargetTree() {
+    public void buildTargetTree(final boolean reset) {
         log.info("building tree to look at staging resource");
         final iDrop gui = this;
 
@@ -987,7 +988,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 log.info("building new iRODS tree");
                 try {
                     if (getTreeStagingResource() != null) {
-                        reloadExistingTree();
+                        if (reset) {
+                              loadNewTree();
+                        } else {
+                             reloadExistingTree();
+                        }
                     } else {
                         loadNewTree();
                     }
@@ -2576,7 +2581,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         // set the root path of the irods tree to root and refresh
         String homeRoot = MiscIRODSUtils.computeHomeDirectoryForIRODSAccount(this.getiDropCore().getIrodsAccount());
         this.getiDropCore().setBasePath(homeRoot);
-        buildTargetTree();
+        buildTargetTree(false);
     }//GEN-LAST:event_btnGoHomeTargetTreeActionPerformed
 
     /**
@@ -2586,7 +2591,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     private void btnGoRootTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoRootTargetTreeActionPerformed
         this.getiDropCore().setBasePath("/");
-         buildTargetTree();
+         buildTargetTree(false);
     }//GEN-LAST:event_btnGoRootTargetTreeActionPerformed
 
     
@@ -2661,7 +2666,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     private void btnRefreshTargetTreeActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshTargetTreeActionPerformed
-        buildTargetTree();
+        buildTargetTree(false);
     }// GEN-LAST:event_btnRefreshTargetTreeActionPerformed
 
     private void toggleLocalFilesStateChanged(
@@ -2790,7 +2795,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         try {
             ResourceAO resourceAO = this.getiDropCore().getIRODSAccessObjectFactory().getResourceAO(this.getIrodsAccount());
             log.info("getting a list of all resources in the zone");
-            List<String> resources = resourceAO.listResourceNames();
+            List<String> resources = new ArrayList<String>();
+            resources.add("");
+             resources.addAll(resourceAO.listResourceAndResourceGroupNames());
             comboDefaultResource.setModel(new DefaultComboBoxModel(resources.toArray()));
             comboDefaultResource.setSelectedItem(this.getIrodsAccount().getDefaultStorageResource());
         } catch (JargonException ex) {
@@ -2811,7 +2818,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             @Override
             public void run() {
                 lastCachedInfoItem = null;
-                idropGui.buildTargetTree();
+                idropGui.buildTargetTree(true);
                 idropGui.toggleIrodsDetails.setSelected(false);
                 handleInfoPanelShowOrHide();
                 getiDropCore().setBasePath(null);
