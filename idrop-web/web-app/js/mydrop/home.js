@@ -566,7 +566,7 @@ function copyFile(sourcePath, targetPath) {
 		unblockPanel();
 		
 		//refreshTree();
-		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(xhr.responseText);
+		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(targetPath);
 		//updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 
 	}).error(function(xhr, status, error) {
@@ -1813,6 +1813,7 @@ function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
 	performOperationAtGivenTreePath(splitPath, null, null, function(thisPath,
 			dataTree, currentNode) {
 
+		$.jstree._reference(dataTree).refresh(currentNode);
 		$.jstree._reference(dataTree).open_node(currentNode);
 		$.jstree._reference(dataTree).select_node(currentNode, true);
 

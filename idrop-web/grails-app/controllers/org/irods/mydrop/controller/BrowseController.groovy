@@ -1,6 +1,5 @@
 package org.irods.mydrop.controller
 
-
 import java.util.HashMap
 
 import grails.converters.*
@@ -703,9 +702,10 @@ class BrowseController {
 	def showLoginBar = {
 		log.info("showLoginBar()")
 		ResourceAO resourceAO = irodsAccessObjectFactory.getResourceAO(irodsAccount)
-		def resources = resourceAO.listResourceNames()
+		List<String> resources = new ArrayList<String>()
+		resources.add("")
+		resources.addAll(resourceAO.listResourceAndResourceGroupNames())
 		render(view:"loginInfo", model:[irodsAccount:irodsAccount, resources:resources])
-
 	}
 
 	/**
@@ -723,7 +723,6 @@ class BrowseController {
 		render "OK"
 
 	}
-
 }
 
 class ViewNameAndModelValues {
