@@ -359,12 +359,22 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 break;
             case 2:
                 log.info(">>>>>>>>>upload picker display mode");
+                // need to make upload destination text box background invisible here since
+                // Netbeans GUI builder will not preserve correct setting
+                txtIRODSUploadDest.setBackground(new Color(0, 0, 0, 0));
+                txtIRODSUploadDest.setOpaque(false);
+                
                 cl.show(testCardPanel, "card3");
                 populateUploadDestination();
                 setupProgressTable();
                 break;
             case 3:
                 log.info(">>>>>>>>>shopping cart display mode 3");
+                // need to make download destination text box background invisible here since
+                // Netbeans GUI builder will not preserve correct setting
+                txtDownloadTarget.setBackground(new Color(0, 0, 0, 0));
+                txtDownloadTarget.setOpaque(false);
+                
                 dlgLocalFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 cl.show(testCardPanel, "card4");
                 setupProgressTable();
@@ -1533,6 +1543,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlOperationMode3 = new javax.swing.JPanel();
         pnlDownloadModeTarget = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         txtDownloadTarget = new javax.swing.JTextField();
         btnBrowseDownloadTarget = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -1863,7 +1874,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         jPanel8.setPreferredSize(new java.awt.Dimension(285, 20));
         jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 13));
         jLabel6.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.jLabel6.text")); // NOI18N
         jLabel6.setPreferredSize(new java.awt.Dimension(150, 17));
         jPanel8.add(jLabel6);
@@ -1904,7 +1915,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         jPanel10.setPreferredSize(new java.awt.Dimension(310, 20));
         jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 13));
         jLabel7.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.jLabel7.text")); // NOI18N
         jPanel10.add(jLabel7);
 
@@ -1963,6 +1974,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         });
         pnlUploadRefreshButton.add(btnUploadLocalRefresh);
 
+        btnUploadMove.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
         btnUploadMove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/lite/images/icon_idroplite_addtoqueue.png"))); // NOI18N
         btnUploadMove.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadMove.text")); // NOI18N
         btnUploadMove.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -2121,7 +2133,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadToolStatus.setRequestFocusEnabled(false);
         pnlUploadToolStatus.setLayout(new java.awt.BorderLayout());
 
-        lblUploadTotalFiles.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        lblUploadTotalFiles.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         lblUploadTotalFiles.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.lblUploadTotalFiles.text")); // NOI18N
         lblUploadTotalFiles.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 0, 0, 0));
         lblUploadTotalFiles.setMaximumSize(new java.awt.Dimension(122, 24));
@@ -2129,7 +2141,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         lblUploadTotalFiles.setPreferredSize(new java.awt.Dimension(122, 30));
         pnlUploadToolStatus.add(lblUploadTotalFiles, java.awt.BorderLayout.NORTH);
 
-        lblUploadTotalSize.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        lblUploadTotalSize.setFont(new java.awt.Font("Lucida Grande", 0, 12));
         lblUploadTotalSize.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.lblUploadTotalSize.text")); // NOI18N
         lblUploadTotalSize.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 6, 0));
         lblUploadTotalSize.setPreferredSize(new java.awt.Dimension(83, 30));
@@ -2197,12 +2209,11 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         });
         pnlIRODSUploadBrowse.add(btnBrowseIRODSUploadDest, java.awt.BorderLayout.EAST);
 
-        txtIRODSUploadDest.setBackground(new Color(0, 0, 0, 0));
         txtIRODSUploadDest.setEditable(false);
+        txtIRODSUploadDest.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
         txtIRODSUploadDest.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.txtIRODSUploadDest.text")); // NOI18N
         txtIRODSUploadDest.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
         txtIRODSUploadDest.setDragEnabled(false);
-        txtIRODSUploadDest.setOpaque(false);
         txtIRODSUploadDest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIRODSUploadDestActionPerformed(evt);
@@ -2251,22 +2262,30 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlDownloadModeTarget.setPreferredSize(new java.awt.Dimension(700, 40));
         pnlDownloadModeTarget.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(400, 38));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 6, 2, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(450, 38));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        txtDownloadTarget.setFont(new java.awt.Font("Lucida Grande", 0, 12));
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.jLabel2.text")); // NOI18N
+        jPanel1.add(jLabel2, java.awt.BorderLayout.WEST);
+
+        txtDownloadTarget.setEditable(false);
+        txtDownloadTarget.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
         txtDownloadTarget.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.txtDownloadTarget.text")); // NOI18N
-        txtDownloadTarget.setPreferredSize(new java.awt.Dimension(300, 28));
-        jPanel1.add(txtDownloadTarget);
+        txtDownloadTarget.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtDownloadTarget.setPreferredSize(new java.awt.Dimension(20, 28));
+        jPanel1.add(txtDownloadTarget, java.awt.BorderLayout.CENTER);
 
-        btnBrowseDownloadTarget.setFont(new java.awt.Font("Lucida Grande", 0, 12));
+        btnBrowseDownloadTarget.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
         btnBrowseDownloadTarget.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnBrowseDownloadTarget.text")); // NOI18N
-        btnBrowseDownloadTarget.setPreferredSize(new java.awt.Dimension(80, 29));
+        btnBrowseDownloadTarget.setPreferredSize(new java.awt.Dimension(140, 30));
         btnBrowseDownloadTarget.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBrowseDownloadTargetActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBrowseDownloadTarget);
+        jPanel1.add(btnBrowseDownloadTarget, java.awt.BorderLayout.EAST);
 
         pnlDownloadModeTarget.add(jPanel1, java.awt.BorderLayout.WEST);
 
@@ -2294,10 +2313,15 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlDownloadButtons.setLayout(new java.awt.BorderLayout());
         pnlDownloadButtons.add(jPanel3, java.awt.BorderLayout.WEST);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 8, 4));
         jPanel4.setPreferredSize(new java.awt.Dimension(160, 40));
+        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        bntBeginDownload.setFont(new java.awt.Font("Lucida Grande", 0, 12));
-        bntBeginDownload.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.bntBeginDownload.text")); // NOI18N
+        bntBeginDownload.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
+        bntBeginDownload.setLabel(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.bntBeginDownload.label")); // NOI18N
+        bntBeginDownload.setMaximumSize(new java.awt.Dimension(101, 30));
+        bntBeginDownload.setMinimumSize(new java.awt.Dimension(101, 30));
+        bntBeginDownload.setPreferredSize(new java.awt.Dimension(101, 33));
         bntBeginDownload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bntBeginDownloadActionPerformed(evt);
@@ -2643,6 +2667,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     private javax.swing.JButton btnUploadMove;
     private javax.swing.JButton btnUploadUrl;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
