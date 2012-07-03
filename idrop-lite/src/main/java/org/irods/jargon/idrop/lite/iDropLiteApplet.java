@@ -1962,7 +1962,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadRefreshButton.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 6));
 
         btnUploadLocalRefresh.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
-        btnUploadLocalRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/lite/images/icon_idroplite_refresh.png"))); // NOI18N
+        //btnUploadLocalRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/lite/images/icon_idroplite_refresh.png"))); // NOI18N
+        btnUploadLocalRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_idroplite_refresh.png")));
         btnUploadLocalRefresh.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadLocalRefresh.text")); // NOI18N
         btnUploadLocalRefresh.setMaximumSize(new java.awt.Dimension(94, 34));
         btnUploadLocalRefresh.setMinimumSize(new java.awt.Dimension(94, 34));
@@ -1975,7 +1976,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         pnlUploadRefreshButton.add(btnUploadLocalRefresh);
 
         btnUploadMove.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
-        btnUploadMove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/lite/images/icon_idroplite_addtoqueue.png"))); // NOI18N
+        //btnUploadMove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/lite/images/icon_idroplite_addtoqueue.png"))); // NOI18N
+        btnUploadMove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_idroplite_addtoqueue.png")));
         btnUploadMove.setText(org.openide.util.NbBundle.getMessage(iDropLiteApplet.class, "iDropLiteApplet.btnUploadMove.text")); // NOI18N
         btnUploadMove.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btnUploadMove.setMaximumSize(new java.awt.Dimension(75, 34));
