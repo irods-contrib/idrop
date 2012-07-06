@@ -47,7 +47,7 @@ class LoginController {
 		}
 
 		if (presetPort) {
-			loginCommand.port = presetPort
+			loginCommand.port = Integer.parseInt(presetPort)
 		} else {
 			loginCommand.port = 1247
 		}

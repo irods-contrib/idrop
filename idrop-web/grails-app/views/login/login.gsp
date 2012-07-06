@@ -46,7 +46,7 @@
 							<g:hiddenField
 							name="zone" id="zone" value="${loginCommand.zone}"/>
 					   <g:hiddenField
-							name="resource" id="resource" value="${loginCommand.defautStorageResoruce}"/>
+							name="resource" id="resource" value="${loginCommand.defaultStorageResource}"/>
 				</g:if>
 				<g:else>
 						<div>

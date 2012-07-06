@@ -138,11 +138,6 @@ class BrowseController {
 				parent = "/"
 			}
 
-			// display a root node
-
-			// display a root node
-			parent = "/"
-
 			icon = "folder"
 			state = "closed"
 			type = "folder"

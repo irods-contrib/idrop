@@ -16,7 +16,7 @@ environments {
 	 production {  grails.serverURL = "http://www.irods.org" } */
 	production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
-	test {  grails.serverURL = "http://localhost:8080/${appName}"  }
+	test { grails.serverURL = "http://localhost:8080/${appName}" }
 }
 
 /*
@@ -42,7 +42,7 @@ environments {
  idrop.config.idrop.lite.use.applet.dir=false
  */
 
-idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
+idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.1-SNAPSHOT-jar-with-dependencies.jar"
 idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
 idrop.config.idrop.lite.use.applet.dir=false
 
@@ -56,8 +56,8 @@ idrop.config.idrop.lite.use.applet.dir=false
  */
 
 //idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
+//drop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
 idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
-
 /*
  * 5) Customization properties
  */
