@@ -2560,29 +2560,38 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
             // collect list of files and/or URLS in the table
             int rows = tblUploadTable1.getRowCount();
-            this.filesInTable = rows; // reset to 0 in overall status callback when all files have been transferred
+            //this.filesInTable = rows; // reset to 0 in overall status callback when all files have been transferred
+            this.filesInTable = 0; // #833 ignore items in table that have already been uploaded
             for (int row = 0; row < rows; row++) {
-                if ((Integer) tblUploadTable1.getValueAt(row, 4) == iDropLiteApplet.uploadURL) { // this is an URL
-                    sourceFiles.add(new UploadDataObj((String) tblUploadTable1.getValueAt(row, 0), Boolean.TRUE));
-                } else { // this is just a regular file or folder
-                    sourceFiles.add(new UploadDataObj(new File((String) tblUploadTable1.getValueAt(row, 0))));
-                }
+            	// first check to see if the file has already been 100% uploaded, and if so ignore
+            	TransferProgressInfo progressInfo = (TransferProgressInfo)tblUploadTable1.getValueAt(row, 2);
+            	if (progressInfo.getPercentDone() < 100) {
+            		this.filesInTable++; // now set count of files to be uploaded
+	                if ((Integer) tblUploadTable1.getValueAt(row, 4) == iDropLiteApplet.uploadURL) { // this is an URL
+	                    sourceFiles.add(new UploadDataObj((String) tblUploadTable1.getValueAt(row, 0), Boolean.TRUE));
+	                } else { // this is just a regular file or folder
+	                    sourceFiles.add(new UploadDataObj(new File((String) tblUploadTable1.getValueAt(row, 0))));
+	                }
+            	}
             }
 
             // set Upload button test to Cancel
-            try {
-                currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles);
-                final Thread transferThread = new Thread(currentTransferRunner);
-                log.info("launching transfer thread");
-                // close so that transfer thread can grab account
-                irodsFileSystem.closeAndEatExceptions();
-                transferThread.start();
-                //transferThread.join();
-            } catch (Exception e) {
-                log.error("exception choosings iRODS file");
-                throw new IdropRuntimeException("exception choosing irods file", e);
-            } finally {
-                iDropCore.getIrodsFileSystem().closeAndEatExceptions();
+            // make sure there is stuff to upload
+            if ( sourceFiles.size() > 0) {
+	            try {
+	                currentTransferRunner = new PutTransferRunner(applet, targetPath, sourceFiles);
+	                final Thread transferThread = new Thread(currentTransferRunner);
+	                log.info("launching transfer thread");
+	                // close so that transfer thread can grab account
+	                irodsFileSystem.closeAndEatExceptions();
+	                transferThread.start();
+	                //transferThread.join();
+	            } catch (Exception e) {
+	                log.error("exception choosings iRODS file");
+	                throw new IdropRuntimeException("exception choosing irods file", e);
+	            } finally {
+	                iDropCore.getIrodsFileSystem().closeAndEatExceptions();
+	            }
             }
         }
 
