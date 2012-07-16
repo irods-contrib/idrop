@@ -1,3 +1,8 @@
+
+grails.config.locations = [
+	"file:/etc/idrop-web/idrop-web-config.groovy"
+]
+
 /*
  * Configuration for idrop-web - iDROP Cloud browser
  * Project page: https://code.renci.org/gf/project/irodsidrop/
@@ -80,6 +85,7 @@ idrop.config.use.tickets=true
  grails.config.locations << "file:" + System.properties["${appName}.config.location"]
  }
  */
+
 
 /* ll config*/
 /*idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"

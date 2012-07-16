@@ -133,11 +133,11 @@ class BrowseController {
 		icon = "folder"
 		state = "closed"
 		type = "folder"
+		def environmentalInfoAO = irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)
 
 		// look at the type to decide how to set the root path
 		if (pathType == "detect") {
 			log.info("no parent parm set, detect display as either root or home")
-			def environmentalInfoAO = irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)
 
 			if (irodsAccount.userName ==  "anonymous") {
 				log.info("user is anonymous, default to view the public directory")
@@ -191,13 +191,7 @@ class BrowseController {
 
 			} else {
 
-				def isStrict = environmentalInfoAO.isStrictACLs()
-				log.info "is strict?:{isStrict}"
-				if (isStrict) {
-					parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
-				} else {
-					parent = "/"
-				}
+				parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
 			}
 
 			log.info("setting to home directory:${parent}")
