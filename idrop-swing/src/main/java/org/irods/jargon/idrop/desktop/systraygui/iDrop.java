@@ -189,7 +189,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
         setUpAccountGutter();
-        
+
         setVisibleComponentsAtStartup();
 
         setVisible(true);
@@ -219,14 +219,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
     }
-    
+
     /**
-     * Startup exit to set visibility of components in iDrop GUI at startup.  Here is where the initial visible status
-     * of components can be specified.
+     * Startup exit to set visibility of components in iDrop GUI at startup. Here is where the
+     * initial visible status of components can be specified.
      */
     private void setVisibleComponentsAtStartup() {
         this.btnSetRootCustomTargetTree.setVisible(false);
-       
+
     }
 
     protected void signalIdropCoreReadyAndSplashComplete() {
@@ -944,28 +944,35 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         // if no base defined, see if there is a prese
         if (myBase == null) {
 
-            if (iDropCore.getIdropConfig().isLoginPreset()) {
-                log.info("using policy preset home directory");
-                StringBuilder sb = new StringBuilder();
-                sb.append("/");
-                sb.append(getIrodsAccount().getZone());
-                sb.append("/");
-                sb.append("home");
-                myBase = sb.toString();
+            if (this.getiDropCore().getIrodsAccount().isAnonymousAccount()) {
+                log.info("user is anonymous, default to view the public directory");
+                myBase = MiscIRODSUtils.computePublicDirectory(this.getiDropCore().getIrodsAccount());
+
             } else {
 
-                // look up the strict acl setting for the server, if strict acl, home the person in their user directory
-                EnvironmentalInfoAO environmentalInfoAO = this.getiDropCore().getIRODSAccessObjectFactory().getEnvironmentalInfoAO(getiDropCore().getIrodsAccount());
-                boolean isStrict = environmentalInfoAO.isStrictACLs();
-                log.info("is strict?:{}", isStrict);
-                if (isStrict) {
-                    myBase = MiscIRODSUtils.computeHomeDirectoryForIRODSAccount(iDropCore.getIrodsAccount());
+                if (iDropCore.getIdropConfig().isLoginPreset()) {
+                    log.info("using policy preset home directory");
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("/");
+                    sb.append(getIrodsAccount().getZone());
+                    sb.append("/");
+                    sb.append("home");
+                    myBase = sb.toString();
                 } else {
-                    myBase = "/";
+                    // look up the strict acl setting for the server, if strict acl, home the person in their user directory
+                    EnvironmentalInfoAO environmentalInfoAO = this.getiDropCore().getIRODSAccessObjectFactory().getEnvironmentalInfoAO(getiDropCore().getIrodsAccount());
+                    boolean isStrict = environmentalInfoAO.isStrictACLs();
+                    log.info("is strict?:{}", isStrict);
+
+                    if (isStrict) {
+                        myBase = MiscIRODSUtils.computeHomeDirectoryForIRODSAccount(iDropCore.getIrodsAccount());
+                    } else {
+                        myBase = "/";
+                    }
+
                 }
             }
         }
-
         getiDropCore().setBasePath(myBase);
         return myBase;
 
@@ -989,9 +996,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 try {
                     if (getTreeStagingResource() != null) {
                         if (reset) {
-                              loadNewTree();
+                            loadNewTree();
                         } else {
-                             reloadExistingTree();
+                            reloadExistingTree();
                         }
                     } else {
                         loadNewTree();
@@ -1763,6 +1770,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         tabInfo.setToolTipText("View basic demographics for a file or collection");
 
+        pnlInfoInner.setMinimumSize(null);
+        pnlInfoInner.setPreferredSize(null);
         pnlInfoInner.setLayout(new java.awt.GridBagLayout());
 
         pnlInfoIcon.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -2181,7 +2190,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         jScrollPane1.setViewportView(pnlInfoInner);
 
-        tabInfo.addTab("tab2", jScrollPane1);
+        tabInfo.addTab("Info", jScrollPane1);
 
         pnlIrodsInfo.add(tabInfo, java.awt.BorderLayout.CENTER);
         tabInfo.getAccessibleContext().setAccessibleName("Info");
@@ -2579,7 +2588,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     private void btnGoHomeTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoHomeTargetTreeActionPerformed
         // set the root path of the irods tree to root and refresh
-        String homeRoot = MiscIRODSUtils.computeHomeDirectoryForIRODSAccount(this.getiDropCore().getIrodsAccount());
+        String homeRoot;
+        if (this.getiDropCore().getIrodsAccount().isAnonymousAccount()) {
+            log.info("setting home dir to public");
+            homeRoot = MiscIRODSUtils.computePublicDirectory(this.getiDropCore().getIrodsAccount());
+        } else {
+            homeRoot = MiscIRODSUtils.computeHomeDirectoryForIRODSAccount(this.getiDropCore().getIrodsAccount());
+        }
+
         this.getiDropCore().setBasePath(homeRoot);
         buildTargetTree(false);
     }//GEN-LAST:event_btnGoHomeTargetTreeActionPerformed
@@ -2591,16 +2607,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     private void btnGoRootTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoRootTargetTreeActionPerformed
         this.getiDropCore().setBasePath("/");
-         buildTargetTree(false);
+        buildTargetTree(false);
     }//GEN-LAST:event_btnGoRootTargetTreeActionPerformed
 
-    
     /**
      * Signal to switch grids
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnManageGridsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageGridsActionPerformed
-                    displayAndProcessSignOn();
+        displayAndProcessSignOn();
 
     }//GEN-LAST:event_btnManageGridsActionPerformed
 
@@ -2797,7 +2813,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             log.info("getting a list of all resources in the zone");
             List<String> resources = new ArrayList<String>();
             resources.add("");
-             resources.addAll(resourceAO.listResourceAndResourceGroupNames());
+            resources.addAll(resourceAO.listResourceAndResourceGroupNames());
             comboDefaultResource.setModel(new DefaultComboBoxModel(resources.toArray()));
             comboDefaultResource.setSelectedItem(this.getIrodsAccount().getDefaultStorageResource());
         } catch (JargonException ex) {

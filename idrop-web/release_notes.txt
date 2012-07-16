@@ -35,6 +35,9 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#479] audit trail support in idrop web
 ** added audit trail views in idrop-web
 
+* [#907] anonymous listing default behavior
+** added default for 'home' listing when anonymous to display a 'public' dir as the top level
+
 
 todo:
 

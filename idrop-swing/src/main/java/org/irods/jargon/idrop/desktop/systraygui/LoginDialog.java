@@ -166,9 +166,9 @@ public class LoginDialog extends JDialog {
                 sb.append(txtUserName.getText());
                 
                 if (chkGuestLogin.isSelected()) {
-                    irodsAccount = IRODSAccount.instanceForAnonymous(txtHost.getText().trim(),
-                        Integer.parseInt(txtPort.getText().trim()), "",
-                        txtZone.getText().trim(), txtResource.getText().trim());
+                    irodsAccount = IRODSAccount.instanceForAnonymous(presetHost,
+                       presetPort, "",
+                        presetZone, presetResource);
                 } else {
                     irodsAccount = IRODSAccount.instance(presetHost, presetPort,
                             txtUserName.getText(),
@@ -209,7 +209,7 @@ public class LoginDialog extends JDialog {
         try {
             irodsFileSystem = idropCore.getIrodsFileSystem();
             final UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
-            userAO.findByName(txtUserName.getText());
+            userAO.findByName(irodsAccount.getUserName());
             idropCore.setIrodsAccount(irodsAccount);
             try {
                 idropCore.getIdropConfigurationService().saveLogin(irodsAccount);

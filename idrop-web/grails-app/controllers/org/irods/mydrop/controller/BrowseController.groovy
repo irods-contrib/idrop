@@ -66,11 +66,19 @@ class BrowseController {
 			log.info "parent not root use as is"
 		} else {
 			log.info "parent set to root, see if strict acl set"
-			def environmentalInfoAO = irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)
-			def isStrict = environmentalInfoAO.isStrictACLs()
-			log.info "is strict?:{isStrict}"
-			if (isStrict) {
-				parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName + "/"
+			if (irodsAccount.userName ==  "anonymous") {
+				log.info("user is anonymous, default to view the public directory")
+
+				parent = "/" + irodsAccount.zone + "/home/public"
+			} else {
+
+				def isStrict = environmentalInfoAO.isStrictACLs()
+				log.info "is strict?:{isStrict}"
+				if (isStrict) {
+					parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+				} else {
+					parent = "/"
+				}
 			}
 		}
 
@@ -130,12 +138,21 @@ class BrowseController {
 		if (pathType == "detect") {
 			log.info("no parent parm set, detect display as either root or home")
 			def environmentalInfoAO = irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)
-			def isStrict = environmentalInfoAO.isStrictACLs()
-			log.info "is strict?:{isStrict}"
-			if (isStrict) {
-				parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+
+			if (irodsAccount.userName ==  "anonymous") {
+				log.info("user is anonymous, default to view the public directory")
+
+				parent = "/" + irodsAccount.zone + "/home/public"
+
 			} else {
-				parent = "/"
+
+				def isStrict = environmentalInfoAO.isStrictACLs()
+				log.info "is strict?:{isStrict}"
+				if (isStrict) {
+					parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+				} else {
+					parent = "/"
+				}
 			}
 
 			icon = "folder"
@@ -167,7 +184,22 @@ class BrowseController {
 
 		} else if (pathType == "home") {
 
-			parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+			if (irodsAccount.userName ==  "anonymous") {
+				log.info("user is anonymous, default to view the public directory")
+
+				parent = "/" + irodsAccount.zone + "/home/public"
+
+			} else {
+
+				def isStrict = environmentalInfoAO.isStrictACLs()
+				log.info "is strict?:{isStrict}"
+				if (isStrict) {
+					parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+				} else {
+					parent = "/"
+				}
+			}
+
 			log.info("setting to home directory:${parent}")
 
 			// display a root node

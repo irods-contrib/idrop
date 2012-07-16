@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.exception.FileNotFoundException;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
@@ -105,7 +106,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
             }
 
             cached = true;
-
+          
         } catch (Exception ex) {
             Logger.getLogger(IRODSNode.class.getName()).log(Level.SEVERE, null,
                     ex);
