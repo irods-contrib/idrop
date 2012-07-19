@@ -266,20 +266,26 @@ class BrowseController {
 		}
 
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
-		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-		def isDataObject = retObj instanceof DataObject
+		try {
+			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+			def isDataObject = retObj instanceof DataObject
 
-		// if data object, show the info details instead...
-		if (isDataObject) {
-			ViewNameAndModelValues mav = handleInfoLookup(absPath)
-			render(view:mav.view, model:mav.model)
-			return
+
+			// if data object, show the info details instead...
+			if (isDataObject) {
+				ViewNameAndModelValues mav = handleInfoLookup(absPath)
+				render(view:mav.view, model:mav.model)
+				return
+			}
+
+			def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
+			log.debug("retrieved collectionAndDataObjectList: ${entries}")
+			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
+		} catch (FileNotFoundException fnf) {
+			log.info("file not found looking for data, show stand-in page", fnf)
+			render(view:"noInfo")
 		}
-
-		def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
-		log.debug("retrieved collectionAndDataObjectList: ${entries}")
-		render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
 
 	}
 
@@ -632,20 +638,25 @@ class BrowseController {
 			throw new JargonException("no absolute path passed to the method")
 		}
 
-		log.info "galleryView for absPath: ${absPath}"
-		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-		def isDataObject = retObj instanceof DataObject
+		try {
+			log.info "galleryView for absPath: ${absPath}"
+			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+			def isDataObject = retObj instanceof DataObject
 
-		// if data object, show the info details instead...
-		if (isDataObject) {
-			redirect(action:"fileInfo", params:[absPath:absPath])
-			return
+			// if data object, show the info details instead...
+			if (isDataObject) {
+				redirect(action:"fileInfo", params:[absPath:absPath])
+				return
+			}
+
+			def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsUnderPath(absPath,0)
+			log.debug("retrieved collectionAndDataObjectList: ${entries}")
+			render(view:"galleryView", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
+		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
+			log.info("file not found looking for data, show stand-in page", fnf)
+			render(view:"noInfo")
 		}
-
-		def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsUnderPath(absPath,0)
-		log.debug("retrieved collectionAndDataObjectList: ${entries}")
-		render(view:"galleryView", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
 	}
 
 	private ViewNameAndModelValues handleInfoLookup(String absPath) {

@@ -55,10 +55,9 @@ class TicketController {
 		try {
 			objStat = collectionAndDataObjectListAndSearchAO.retrieveObjectStatForPath(absPath)
 			render(view:"ticketDetails", model:[objStat:objStat])
-		} catch (FileNotFoundException fnf) {
-			log.error "file not found for given path:${absPath}", fnf
-			def message = message(code:"error.no.data.found")
-			response.sendError(500,message)
+		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
+			log.info("file not found looking for data, show stand-in page", fnf)
+			render(view:"/browse/noInfo")
 		}
 		catch (JargonException je) {
 			log.error "exception getting tickets for :${absPath}", je
@@ -410,10 +409,10 @@ class TicketController {
 			ticketDistributionContext.host = url.host
 			ticketDistributionContext.port = url.port
 			ticketDistributionContext.context = url.path + "/ticketAccess/redeemTicket"
-			if (url.protocol == "https") {
+			log.info("protocol of server:{$url.protocol}")
+			if (url.protocol.equalsIgnoreCase("https")) {
 				ticketDistributionContext.ssl = true
 			}
-
 			log.info("ticketDistributionContext:${ticketDistributionContext}")
 			return ticketDistributionContext
 		} catch (MalformedURLException e) {

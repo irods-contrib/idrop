@@ -53,21 +53,26 @@ class SharingController {
 
 		log.info("showAclDetails for absPath: ${absPath}")
 
-		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-		def isDataObject = retObj instanceof DataObject
-		boolean getThumbnail = false
+		try {
+			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+			def isDataObject = retObj instanceof DataObject
+			boolean getThumbnail = false
 
-		if (isDataObject) {
-			String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
-			log.info("extension is:${extension}")
+			if (isDataObject) {
+				String extension = LocalFileUtils.getFileExtension(retObj.dataName).toUpperCase()
+				log.info("extension is:${extension}")
 
-			if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
-				getThumbnail = true
+				if (extension == ".JPG" || extension == ".GIF" || extension == ".PNG" || extension == ".TIFF" ||   extension == ".TIF") {
+					getThumbnail = true
+				}
 			}
-		}
 
-		render(view:"aclDetails",model:[retObj:retObj, isDataObject:isDataObject, absPath:absPath, getThumbnail:getThumbnail])
+			render(view:"aclDetails",model:[retObj:retObj, isDataObject:isDataObject, absPath:absPath, getThumbnail:getThumbnail])
+		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
+			log.info("file not found looking for data, show stand-in page", fnf)
+			render(view:"/browse/noInfo")
+		}
 	}
 
 	def renderAclDetailsTable = {

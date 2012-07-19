@@ -39,6 +39,7 @@ Note that the following bug and feature requests are logged in GForge with relat
 ** added default for 'home' listing when anonymous to display a 'public' dir as the top level
 
 
+
 todo:
 
 sizing on menu

@@ -173,10 +173,15 @@ class AuditController {
 
 		log.info("auditListDataObject for absPath: ${absPath}")
 
-		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-		def isDataObject = retObj instanceof DataObject
+		try {
+			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+			def isDataObject = retObj instanceof DataObject
 
-		render(view:"auditDetails", model:[dataObject:retObj])
+			render(view:"auditDetails", model:[dataObject:retObj])
+		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
+			log.info("file not found looking for data, show stand-in page", fnf)
+			render(view:"/browse/noInfo")
+		}
 	}
 }
