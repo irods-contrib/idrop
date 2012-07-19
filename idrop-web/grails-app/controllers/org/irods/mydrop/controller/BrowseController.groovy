@@ -27,6 +27,7 @@ class BrowseController {
 	TaggingServiceFactory taggingServiceFactory
 	IRODSAccount irodsAccount
 	ShoppingCartSessionService shoppingCartSessionService
+	def grailsApplication
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -305,11 +306,15 @@ class BrowseController {
 	 * Build data for the 'large' file info display
 	 */
 	def fileInfo = {
-		log.info("fileInfo()")
+		log.info("fileInfo()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 		def absPath = params['absPath']
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
+
+		ViewNameAndModelValues mav = handleInfoLookup(absPath)
+		render(view:mav.view, model:mav.model)
+		return
 
 		log.info "fileInfo for absPath: ${absPath}"
 		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
@@ -337,6 +342,22 @@ class BrowseController {
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
 		if (isDataObject) {
+			long maxSize
+			String maxSizeParm = grailsApplication.config.idrop.config.max.thumbnail.size.mb
+			if (maxSizeParm != null) {
+				try {
+					maxSize = Long.valueOf(maxSizeParm) * 1024 * 1024
+				} catch (Exception e) {
+					maxSize = 32 * 1024 * 1024
+				}
+			}
+
+			log.info("data size: ${retObj.dataSize}, max size: ${maxSize}")
+
+			if (retObj.dataSize > maxSize) {
+				log.info("do not render media")
+				renderMedia = false
+			}
 
 			getThumbnail = MediaHandlingUtils.isImageFile(absPath)
 			log.info("getThumbnail? ${getThumbnail}")
@@ -684,18 +705,35 @@ class BrowseController {
 		def getThumbnail = false
 		def renderMedia = false
 
+
 		log.info "is this a data object? ${isDataObject}"
 
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
 		if (isDataObject) {
+			long maxSize
+			String maxSizeParm = grailsApplication.config.idrop.config.max.thumbnail.size.mb
+			if (maxSizeParm != null) {
+				try {
+					maxSize = Long.valueOf(maxSizeParm) * 1024 * 1024
+				} catch (Exception e) {
+					maxSize = 32 * 1024 * 1024
+				}
+			}
+
+			log.info("data size: ${retObj.dataSize}, max size: ${maxSize}")
 
 			getThumbnail = MediaHandlingUtils.isImageFile(absPath)
 			log.info("getThumbnail? ${getThumbnail}")
 
-			if (!getThumbnail) {
-				renderMedia = MediaHandlingUtils.isMediaFile(absPath)
-				log.info("renderMedia? ${renderMedia}")
+			renderMedia = MediaHandlingUtils.isMediaFile(absPath)
+			log.info("renderMedia? ${renderMedia}")
+
+
+			if (retObj.dataSize > maxSize) {
+				log.info("do not render media or thumb")
+				renderMedia = false
+				getThumbnail = false
 			}
 
 			log.info("getting free tags for data object")

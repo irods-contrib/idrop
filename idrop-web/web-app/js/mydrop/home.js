@@ -1387,20 +1387,7 @@ function requestThumbnailImageForInfoPane() {
  * Refresh the browse tree
  */
 function refreshTree() {
-	//$.jstree._reference(dataTree).refresh();
-	/*if (selectedPath != null) {
-		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
-	}*/
-	//selectTreePath(selectedPath);
-	path = selectedPath.split("/");
-
-
-performOperationAtGivenTreePath(path, null, null, function(path, dataTree,
-		currentNode) {
-	$.jstree._reference(dataTree).refresh(currentNode);
-	$.jstree._reference(dataTree).open_node(currentNode);
-	$.jstree._reference(dataTree).select_node(currentNode, true);
-});
+	$.jstree._reference(dataTree).refresh();
 }
 
 /**

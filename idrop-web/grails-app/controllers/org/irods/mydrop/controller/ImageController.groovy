@@ -55,6 +55,10 @@ class ImageController {
 
 		log.info("looking up image as: ${absPath}")
 		ThumbnailProcessResult thumbnailProcessResult = thumbnailGeneratorService.getStreamForThumbnailImage(absPath, irodsAccount, irodsAccessObjectFactory, tempDir)
+		if (thumbnailProcessResult == null) {
+			log.info("no thumbnail returned, probably too large to thumbnail")
+			return
+		}
 		response.setContentType("image/png")
 		response.outputStream << thumbnailProcessResult.thumbnailStream // Performing a binary stream copy
 		log.info("stream done, do any necessary cleanup")
