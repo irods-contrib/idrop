@@ -25,6 +25,8 @@
 			 <g:form class="normalLogin" id="normalLogin" method="post" controller="login" action="authenticate">
 				
 			
+				 <g:hiddenField
+							name="usePresets" id="usePresets" value="${loginCommand.usePresets}"/>
 			   	<g:hasErrors bean="${loginCommand}">
 					<div class="errors">
 				  <ul>
@@ -46,7 +48,7 @@
 							<g:hiddenField
 							name="zone" id="zone" value="${loginCommand.zone}"/>
 					   <g:hiddenField
-							name="resource" id="resource" value="${loginCommand.defaultStorageResource}"/>
+							name="defaultStorageResource" id="resource" value="${loginCommand.defaultStorageResource}"/>
 				</g:if>
 				<g:else>
 						<div>

@@ -86,6 +86,7 @@ class LoginController {
 		def userName =  loginCommand.user ? loginCommand.user : ""
 		def password =  loginCommand.password ? loginCommand.password : ""
 
+		log.info("default storage resource: ${resource}")
 
 		boolean success = true
 		IRODSAccount irodsAccount

@@ -1,10 +1,11 @@
 *'''Project''': idrop-web
-*'''Date''': xx/xx/xxxx
-*'''Release Version''': 1.0.1-SNAPSHOT	
-*'''git tag''': TBD
+*'''Date''': 07/28/2012
+*'''Release Version''': 1.0.1-beta1
+*'''git tag''': 1.0.1-beta1
 
 ==News==
 
+This is a beta release of iDrop web version 1.0.1
 
 
 ==Requirements==
@@ -19,6 +20,10 @@ Note that the following bug and feature requests are logged in GForge with relat
 ==Bug Fixes==
 
 * [#711] post copy via tree context menu - unable to browse to a location
+
+* [#873] login preset redisplay shows all
+
+
 
 ==Features==
 
@@ -38,17 +43,3 @@ Note that the following bug and feature requests are logged in GForge with relat
 * [#907] anonymous listing default behavior
 ** added default for 'home' listing when anonymous to display a 'public' dir as the top level
 
-
-
-todo:
-
-sizing on menu
-
-
-then
-
-soft link fixes
-config home in idrop web (browse up)
-history?
-ticket when logged in
-add icons and headers
