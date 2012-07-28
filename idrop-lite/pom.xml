@@ -4,13 +4,13 @@
     <parent>
         <artifactId>idrop</artifactId>
         <groupId>org.irods</groupId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1-beta1</version>
     </parent>
     <groupId>org.irods.idrop</groupId>
     <artifactId>idrop-lite</artifactId>
     <packaging>jar</packaging>
     <name>idrop-lite</name>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1-beta1</version>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
