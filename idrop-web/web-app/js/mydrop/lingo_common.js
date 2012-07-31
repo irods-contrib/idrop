@@ -296,13 +296,18 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
  */
 function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector, tableParams) {
 	
+	//alert("new table id:" + newTableId);
+	//alert("table params:" + tableParams);
+	
 	if (tableParams == null) {
 		tableParams = {"bJQueryUI" : true}
 	}
 	
-	
+	//$(newTableId).html("hey there");
+	//alert("set hey there");
 	var dataTableCreated = $(newTableId).dataTable(tableParams);
 	
+	//alert("table built");
 
 	if (detailsFunction != null) {
 		$(dataIconSelector, dataTableCreated.fnGetNodes()).each(function() {
@@ -312,10 +317,10 @@ function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector, tabl
 		});
 
 	}
-	
+	/*
 	if (dataTableCreated != null) {
 		dataTableCreated.fnAdjustColumnSizing();
-	}
+	}*/
 	return dataTableCreated;
 
 }
@@ -559,11 +564,9 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(getUrl,
 			if (continueReq) {
 				$(divForLoadingGif).html("");
 				if (callbackFunction != null) {
-					var myHtml = data;
-					callbackFunction(myHtml);
+					callbackFunction(data);
 				} else {
 					$(divForLoadingGif).html(data);
-				
 				}
 			}
 		}, "html").error(function(xhr, status, error) {

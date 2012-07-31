@@ -1,6 +1,6 @@
 
 
-<div id="browseDetailsMessageArea" style:overflow:visible;></div>
+<div id="browseDetailsMessageArea"></div>
 <div id="infoDialogArea" style="height:0px; "></div>
 
 <div id=browseDetailsDialogArea" style-"height:0px;></div>
@@ -86,14 +86,14 @@ ${entry.displayDataSize}
                 	"bFilter": false,
                 	"iDisplayLength" : 500,
                 	"fnInitComplete": function() {
-                		this.fnAdjustColumnSizing(true);
+                		//this.fnAdjustColumnSizing(true);
                 	}
                 	
 
                 }
 
         $(function() {
-        		
+        		//alert("building table ");
                 dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon", tableParams);
                 $("#infoDiv").resize();
                 $("#menuDownload").hide();
@@ -101,7 +101,25 @@ ${entry.displayDataSize}
 
         /* click twistie to open details table info */
         function browseDetailsClick(minMaxIcon) {
-                var nTr = minMaxIcon.parentNode.parentNode;
+
+        		var parentOfIcon = minMaxIcon.parentNode;
+
+        		/*
+        		 if (parentOfIcon == null) {
+ 					alert("parentOfIcon is null!");
+                 } else {
+ 					alert("parentOfIcon is:" + parentOfIcon);
+                 }*/
+            
+                var nTr = parentOfIcon.parentNode;
+
+                 /*
+                if (nTr == null) {
+					alert("nTr is null!");
+                } else {
+					alert("nTr is:" + nTr);
+                }
+                */
 
                 if (minMaxIcon.parentNode.innerHTML.match('circle-minus')) {
                         lcCloseTableNodes(dataTable);

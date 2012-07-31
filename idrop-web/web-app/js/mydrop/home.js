@@ -650,6 +650,7 @@ function showBrowseView(absPath) {
 						+ encodeURIComponent(absPath),
 				"#infoDiv",
 				function(data) {
+					//alert("data is:" + data);
 					$("#infoDiv").html(data);
 				},
 				function() {
@@ -657,6 +658,7 @@ function showBrowseView(absPath) {
 				});
 	} catch (err) {
 		// tree is out of synch, refresh it
+		setMessage("Tree is out of synch, refreshing...");
 		refreshTree();
 	}
 

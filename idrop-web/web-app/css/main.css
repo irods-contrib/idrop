@@ -139,12 +139,12 @@ div#tabs { /*width: 100%;
 /*  banner and top bar */
 #bannercontainer {
 	width: 800px;
-	height: 40px;
+	height: 80px;
 	padding: 0;
 	margin-left: auto;
 	margin-right: auto;
-	background: #fff url(../images/iDropLogo.png) left center no-repeat;
-	/*background: #fff url(../images/Lifetime-Library.png) left center no-repeat;*/
+	/*background: #fff url(../images/iDropLogo.png) left center no-repeat;*/
+	background: #fff url(../images/Lifetime-Library.png) left center no-repeat;
 	display: inline-block;
 	position: relative;
 }
