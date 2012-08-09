@@ -22,13 +22,15 @@ $IDROP_HOME_DIR=/usr/share/$OS_IDROP_DIR
 $OS_TOMCAT_ACCT=idroptomcat
 $TOMCAT_EXTRACT_DIR=/usr/share
 $TOMCAT_VER=7
-$TOMCAT_VER_DOT=0.27
+$TOMCAT_VER_DOT=0.29
 $TOMCAT_FILE=apache-tomcat-${TOMCAT_VER}.${TOMCAT_VER_DOT}
 $TOMCAT_ARC_FILE=${TOMCAT_FILE}.tar.gz
 $TOMCAT_HTTP_HOST=http://apache.mirrors.pair.com/tomcat/tomcat-${TOMCAT_VER}/v${TOMCAT_VER}.${TOMCAT_VER_DOT}/bin/
 $TOMCAT_TMP_LOC=/tmp/tomcat${TOMCAT_VER}.tar.gz
 $TOMCAT_HOME_DIR=${TOMCAT_EXTRACT_DIR}/idrop-tomcat-${TOMCAT_VER}.${TOMCAT_VER_DOT}
 $TOMCAT_STARTED=false
+$HTTP_EXTRAS=/var/www/html
+$IDROP_EXTRAS=idrop-web-extras
 
 # =-=-=-=-=-=-=-
 # preinstall directives
@@ -72,6 +74,7 @@ else
 # create the service account
  echo "INFO :: Creating Service Account: $OS_IDROP_ACCT at ${IDROP_HOME_DIR}"
  /usr/sbin/useradd -m -d ${IDROP_HOME_DIR} $OS_IDROP_ACCT
+ chmod 755 ${IDROP_HOME_DIR}
 fi
 END_PREINSTALL
 
@@ -79,6 +82,8 @@ END_PREINSTALL
 # post install
 # =-=-=-=-=-=-=-
 %postinstall << END_POSTINSTALL
+# move extras to http doc root
+mv ${IDROP_HOME_DIR}/${IDROP_EXTRAS} ${HTTP_EXTRAS}
 
 # start tomcat
 echo "INFO :: Starting Tomcat ..."
@@ -124,7 +129,8 @@ echo "INFO :: Modifying Firewall For HTTP Port 8080 access ..."
 /sbin/service iptables save
 
 # TODO: Any other instructions that should be printed here about configuring idrop-web?
-echo "INFO :: To Run IDrop Web In Web Browser Type: http://localhost:8080/idrop-web"
+echo "INFO :: To Run IDrop Web In Web Browser Type: http://127.0.0.1:8080/idrop-web"
+echo "INFO :: To use iDrop-Lite applet or iDrop Swing Desktop application, verify that your browser supports JAVA"
 END_POSTINSTALL
 
 # =-=-=-=-=-=-=-
@@ -166,7 +172,7 @@ echo "INFO: :: Removing iDrop Web Service Account: ${OS_IDROP_ACCT} ..."
 USER=$$( grep $OS_IDROP_ACCT /etc/passwd )
 if [ -n "$$USER" ];
 then
- /usr/sbin/userdel $OS_IDROP_ACCT
+ /usr/sbin/userdel -r $OS_IDROP_ACCT
 else
  echo "WARNING :: Service Account: ${OS_IDROP_ACCT} Already Removed"
 fi
@@ -185,3 +191,5 @@ END_POSTREMOVE
 # =-=-=-=-=-=-=-
 # =-=-=-=-=-=-=-
 # files, and more files...
+d 775 idropweb idropweb /etc/idrop-web -
+f 664 idropweb idropweb /etc/idrop-web/idrop-web-config.groovy ./idrop-web-config.groovy
