@@ -56,7 +56,7 @@ class ImageController {
 		log.info("looking up image as: ${absPath}")
 		ThumbnailProcessResult thumbnailProcessResult = thumbnailGeneratorService.getStreamForThumbnailImage(absPath, irodsAccount, irodsAccessObjectFactory, tempDir)
 		if (thumbnailProcessResult == null) {
-			log.info("no thumbnail returned, probably too large to thumbnail")
+			log.info("no thumbnail returned, probably not configured on iRODS")
 			return
 		}
 		response.setContentType("image/png")

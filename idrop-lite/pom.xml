@@ -39,8 +39,13 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-swing-outline</artifactId>
-            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
+          <dependency>
+                <groupId>org.netbeans.api</groupId>
+                <artifactId>org-openide-awt</artifactId>
+                <scope>compile</scope>
+            </dependency>
 	<dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -119,6 +124,7 @@
                     <verify>true</verify>
                 </configuration>
             </plugin>
+           
         </plugins>
     </build>
 </project>  

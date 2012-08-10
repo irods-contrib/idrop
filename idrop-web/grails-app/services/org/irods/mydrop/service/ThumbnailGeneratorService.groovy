@@ -42,16 +42,10 @@ class ThumbnailGeneratorService {
 			InputStream thumbnailData = new BufferedInputStream(thumbnailService.retrieveThumbnailByIRODSAbsolutePathViaRule(irodsAbsolutePath))
 			thumbnailProcessResult = new ThumbnailProcessResult()
 			thumbnailProcessResult.thumbnailStream = thumbnailData
-		} else  {
-			log.info("using fallback, cacheProp is false")
-			log.info "tempdir:${tempDir}"
-			File tempThumbnailFile = thumbnailService.createThumbnailLocallyViaJAI(tempDir, irodsAbsolutePath, 300)
-			InputStream thumbnailData = new BufferedInputStream(new FileInputStream(tempThumbnailFile))
-			thumbnailProcessResult = new ThumbnailProcessResult()
-			thumbnailProcessResult.thumbnailStream = thumbnailData
-			thumbnailProcessResult.cleanupFile = tempThumbnailFile
+		}  else {
+			log.warn("cannot process thumbnail, imagemagik is not supported")
+			return null
 		}
-
 		return thumbnailProcessResult
 	}
 

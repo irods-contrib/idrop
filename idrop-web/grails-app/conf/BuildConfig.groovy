@@ -29,11 +29,11 @@ grails.project.dependency.resolution = {
 		test 'org.mockito:mockito-all:1.8.1'
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
-		compile 'org.irods.jargon:jargon-core:3.1.3-beta2'
-		compile 'org.irods.jargon:jargon-security:3.1.3-beta2'
-		compile 'org.irods.jargon:jargon-data-utils:3.1.3-beta2'
-		compile 'org.irods.jargon:jargon-ticket:3.1.3-beta2'
-		compile ('org.irods.jargon:jargon-user-tagging:3.1.3-beta2') { exclude 'junit' }
+		compile 'org.irods.jargon:jargon-core:3.1.3-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-security:3.1.3-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-data-utils:3.1.3-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-ticket:3.1.3-SNAPSHOT'
+		compile ('org.irods.jargon:jargon-user-tagging:3.1.3-SNAPSHOT') { exclude 'junit' }
 		compile 'org.springframework.security:spring-security-core:3.0.5.RELEASE'
 		compile 'org.springframework.security:spring-security-web:3.0.5.RELEASE'
 		compile 'org.springframework.security:spring-security-config:3.0.5.RELEASE'
