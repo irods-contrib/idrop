@@ -25,7 +25,7 @@ echo "Building iDrop Swing ..."
 cd ../idrop-swing
 #mvn assembly:assembly -Dmaven.test.skip=true
 # TODO: jar (JNLP) created is signed and expire is 6 months????
-mvn package webstart:jnlp-inline -Dmaven.test.skip=true
+mvn clean package webstart:jnlp-inline -Dmaven.test.skip=true
 RETVAL=$?
 if [ $RETVAL -eq 1 ]; then
   echo "iDrop Swing Build Failed - Exiting"
@@ -36,7 +36,7 @@ fi
 # now build idrop-lite
 echo "Building iDrop Lite ..."
 cd ../idrop-lite
-mvn assembly:assembly -Dmaven.test.skip=true
+mvn clean assembly:assembly -Dmaven.test.skip=true
 RETVAL=$?
 if [ $RETVAL -eq 1 ]; then
   echo "iDrop Lite Build Failed - Exiting"
@@ -68,11 +68,11 @@ mkdir idrop-web
 cd idrop-web
 cp ../../idrop-web/idrop-web.war .
 unzip idrop-web.war
-mkdir extras
+mkdir idrop-web-extras
 # get idrop-lite applet
-cp ../../idrop-lite/target/$IDROP_LITE_APPLET extras
+cp ../../idrop-lite/target/$IDROP_LITE_APPLET idrop-web-extras
 # get idrop-swing app
-cp ../../idrop-swing/target/jnlp/idrop.jnlp extras
+cp ../../idrop-swing/target/jnlp/idrop.jnlp idrop-web-extras
 rm -f idrop-web.war
 cd ..
 
