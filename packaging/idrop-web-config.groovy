@@ -41,7 +41,7 @@ idrop.config.idrop.lite.use.applet.dir=false
  * 
  */
 
-idrop.config.idrop.jnlp="http://127.0.0.1/idrop-web-extras/idrop.jnlp"
+idrop.config.idrop.jnlp="http://127.0.0.1:8080/idrop-web/idrop-web-extras/idrop.jnlp"
 /*
  * 5) Customization properties
  */

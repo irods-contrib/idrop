@@ -17,10 +17,10 @@
 # =-=-=-=-=-=-=-
 $OS_IDROP_ACCT=idropweb
 $OS_IDROP_DIR=idrop-web
-$IDROP_HOME_DIR=/usr/share/$OS_IDROP_DIR
+$IDROP_HOME_DIR=/var/lib/$OS_IDROP_DIR
 
-$OS_TOMCAT_ACCT=idroptomcat
-$TOMCAT_EXTRACT_DIR=/usr/share
+$OS_TOMCAT_ACCT=idroptc
+$TOMCAT_EXTRACT_DIR=/var/lib
 $TOMCAT_VER=7
 $TOMCAT_VER_DOT=0.29
 $TOMCAT_FILE=apache-tomcat-${TOMCAT_VER}.${TOMCAT_VER_DOT}
@@ -45,9 +45,9 @@ else
  echo "INFO :: Getting Apache Tomcat version: ${TOMCAT_VER}.${TOMCAT_VER_DOT} ..."
 # download install archive
  wget -O ${TOMCAT_TMP_LOC} ${TOMCAT_HTTP_HOST}${TOMCAT_ARC_FILE}
-# unpack into share
+# unpack into /var/lib
  tar -zxf $TOMCAT_TMP_LOC -C $TOMCAT_EXTRACT_DIR
- mv /usr/share/${TOMCAT_FILE} ${TOMCAT_HOME_DIR}
+ mv /var/lib/${TOMCAT_FILE} ${TOMCAT_HOME_DIR}
 fi
 
 # create a service account for tomcat
@@ -82,8 +82,6 @@ END_PREINSTALL
 # post install
 # =-=-=-=-=-=-=-
 %postinstall << END_POSTINSTALL
-# move extras to http doc root
-mv ${IDROP_HOME_DIR}/${IDROP_EXTRAS} ${HTTP_EXTRAS}
 
 # start tomcat
 echo "INFO :: Starting Tomcat ..."

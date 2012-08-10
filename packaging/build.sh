@@ -72,11 +72,11 @@ mkdir idrop-web-extras
 # get idrop-lite applet
 cp ../../idrop-lite/target/$IDROP_LITE_APPLET idrop-web-extras
 # get idrop-swing app
-cp ../../idrop-swing/target/jnlp/idrop.jnlp idrop-web-extras
+cp -r ../../idrop-swing/target/jnlp/* idrop-web-extras
 rm -f idrop-web.war
 cd ..
 
-mkepmlist -u idropweb -g idropweb --prefix /usr/share/idrop-web idrop-web > idrop-web.list
+mkepmlist -u idropweb -g idropweb --prefix /var/lib/idrop-web idrop-web > idrop-web.list
 sed 's/\$/$$/g' idrop-web.list > tmp.list
 cat idrop-web.list.template tmp.list > idrop-web.list
 rm tmp.list
