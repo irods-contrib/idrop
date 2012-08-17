@@ -40,11 +40,7 @@ $(document).ready(function() {
  Bulk Upload and File Cart are available for occasional large transfers within the browser.
  </p>
      
-    <script>
-        // using JavaScript to get location of JNLP file relative to HTML page
-        //var url = "http://irendb.renci.org:8080/idrop/launchIDrop.html";
-        //deployJava.createWebStartLaunchButton(url, '1.6.0');
-    </script><a onmouseover="window.status=''; return true;" href="javascript:if (!deployJava.isWebStartInstalled(&quot;1.6.0&quot;)) {if (deployJava.installLatestJRE()) {if (deployJava.launch(&quot;${grailsApplication.config.idrop.config.idrop.jnlp}&quot;)) {}}} else {if (deployJava.launch(&quot;${grailsApplication.config.idrop.config.idrop.jnlp}&quot;)) {}}"><img border="0" src="http://java.sun.com/products/jfc/tsc/articles/swing2d/webstart.png"></a>
+   <a href="${grailsApplication.config.idrop.config.idrop.jnlp}"><img border="0" src="http://java.sun.com/products/jfc/tsc/articles/swing2d/webstart.png"></a>
 </div>
 <div id="tabs-4">
  	<div id="cartFileDetails"><!--  cart file details div --></div>
