@@ -89,7 +89,7 @@ elif [ -f "/etc/SuSE-release" ]; then # SuSE
   epm -f rpm idrop-web RPM=true idrop-web.list
 elif [ -f "/etc/lsb-release" ]; then  # Ubuntu
   echo "Running EPM :: Generating DEB"
-  epm -a amd64 -f deb idrop-web idrop-web.list
+  epm -a amd64 -f deb idrop-web DEB=true idrop-web.list
 elif [ -f "/usr/bin/sw_vers" ]; then  # MacOSX
   echo "TODO: generate package for MacOSX"
 fi

@@ -6,9 +6,15 @@
 %description Web Based Interface for Interacting with the iRODS data grid
 %version 3.1 300001
 
-%requires httpd 2
+# don't think http is actually needed
+# %requires httpd 2
+
+%if DEB
+%requires tomcat7
+%requires openjdk-6-jre
+%else
 %requires java 6
-%requires tomcat5
+%endif
 
 %format all
 
@@ -20,15 +26,65 @@ $OS_IDROP_DIR=idrop-web
 $IDROP_HOME_DIR=/var/lib/$OS_IDROP_DIR
 $IDROP_EXTRAS=idrop-web-extras
 
-$OS_TOMCAT_ACCT=tomcat
-$TOMCAT_VER=tomcat5
-$TOMCAT_HOME_DIR=/usr/share/${TOMCAT_VER}
 $TOMCAT_STARTED=false
+
+# these tomcat vars used for tomcat install on rpm systems
+$TOMCAT_EXTRACT_DIR=/var/lib
+$TOMCAT_VER=7
+$TOMCAT_VER_DOT=0.29
+$TOMCAT_FILE=apache-tomcat-${TOMCAT_VER}.${TOMCAT_VER_DOT}
+$TOMCAT_ARC_FILE=${TOMCAT_FILE}.tar.gz
+$TOMCAT_HTTP_HOST=http://apache.mirrors.pair.com/tomcat/tomcat-${TOMCAT_VER}/v${TOMCAT_VER}.${TOMCAT_VER_DOT}/bin/
+$TOMCAT_TMP_LOC=/tmp/tomcat${TOMCAT_VER}.tar.gz
+
+%if DEB
+# these tomcat vars used for tomcat install on debian systems
+# hopefully everything will migrate to use these vars when centos
+# finally catches up with support for tomcat 7
+$OS_TOMCAT_ACCT=tomcat7
+$TOMCAT_HOME_DIR=/var/lib/${OS_TOMCAT_ACCT}
+$DEB=true
+%else
+$TOMCAT_HOME_DIR=${TOMCAT_EXTRACT_DIR}/idrop-tomcat-${TOMCAT_VER}.${TOMCAT_VER_DOT}
+$OS_TOMCAT_ACCT=idroptc7
+$RPM=true
+%endif
 
 # =-=-=-=-=-=-=-
 # preinstall directives
 # =-=-=-=-=-=-=-
+
+# if this is a centos install, use wget to download tomcat 7
+# and install manually # also add a service account for tomcat
+%if RPM
 %preinstall << END_PREINSTALL
+
+#make sure tomcat is not already installed here
+if [ -d "${TOMCAT_HOME_DIR}" ]; then
+  echo "WARNING :: Tomcat Is Already Installed In: ${TOMCAT_HOME_DIR}"
+else
+# install tomcat
+  echo "INFO :: Getting Apache Tomcat version: ${TOMCAT_VER}.${TOMCAT_VER_DOT} ..."
+# download install archive
+  wget -O ${TOMCAT_TMP_LOC} ${TOMCAT_HTTP_HOST}${TOMCAT_ARC_FILE}
+# unpack into /var/lib
+  tar -zxf $TOMCAT_TMP_LOC -C $TOMCAT_EXTRACT_DIR
+  mv /var/lib/${TOMCAT_FILE} ${TOMCAT_HOME_DIR}
+fi
+
+# create a service account for tomcat
+# determine if the service account already exists
+USER=$$( grep $OS_TOMCAT_ACCT /etc/passwd )
+if [ -n "$$USER" ];
+then
+  echo "WARNING :: Service Account $OS_TOMCAT_ACCT Already Exists."
+else
+# create the service account
+  echo "INFO :: Creating Service Account: $OS_TOMCAT_ACCT at ${TOMCAT_HOME_DIR}"
+  /usr/sbin/useradd -c "Tomcat" -d ${TOMCAT_HOME_DIR} -s "/sbin/nologin" $OS_TOMCAT_ACCT
+fi
+ACCT=$OS_TOMCAT_ACCT
+chown -R $$ACCT:$$ACCT ${TOMCAT_HOME_DIR}
 
 # create a service account for idrop-web 
 # determine if the service account already exists
@@ -44,29 +100,42 @@ else
 fi
 END_PREINSTALL
 
+%elseif DEB
+%preinstall << END_PREINSTALL
+# create a service account for idrop-web 
+# determine if the service account already exists
+USER=$$( grep $OS_IDROP_ACCT /etc/passwd )
+if [ -n "$$USER" ];
+then
+ echo "WARNING :: Service Account $OS_IDROP_ACCT Already Exists"
+else
+# create the service account
+ echo "INFO :: Creating Service Account: $OS_IDROP_ACCT at ${IDROP_HOME_DIR}"
+ /usr/sbin/useradd -m -d ${IDROP_HOME_DIR} $OS_IDROP_ACCT
+ chmod 755 ${IDROP_HOME_DIR}
+fi
+END_PREINSTALL
+
+%endif
+
 # =-=-=-=-=-=-=-
 # post install
 # =-=-=-=-=-=-=-
+
+%if RPM
 %postinstall << END_POSTINSTALL
 
-# create link to xala jar for tomcat5 so it can find TransformerFactory class
-# for Grails apps
-ln -s /usr/share/java/xalan-j2.jar /var/lib/${TOMCAT_VER}/common/endorsed/xalan-j2.jar
+# start tomcat
+echo "INFO :: Starting Tomcat ..."
+su -p -s /bin/sh $OS_TOMCAT_ACCT ${TOMCAT_HOME_DIR}/bin/startup.sh
 
-# if not already running - start tomcat
-RESULT=$$(ps ax | grep -v grep | grep -i tomcat)
-if [ -n "$$RESULT" ];
-then
-  echo "INFO :: Starting Tomcat ..."
-  /sbin/service ${TOMCAT_VER} start
-  # wait until the tomcat conf/Catalina/localhost folder is created
-  # or timeout after about 10 seconds
-  TRIES=0
-  while [ "$$TRIES" -lt 100 -a ! -e ${TOMCAT_HOME_DIR}/conf/Catalina/localhost ]; do
-   TRIES=$$((TRIES + 1))
-   sleep .1
-  done
-fi
+# wait until the tomcat conf/Catalina/localhost folder is created
+# or timeout after about 10 seconds
+TRIES=0
+while [ "$$TRIES" -lt 100 -a ! -e ${TOMCAT_HOME_DIR}/conf/Catalina/localhost ]; do
+  TRIES=$$((TRIES + 1))
+  sleep .1
+done
 
 # create config file (if it does not exist) for idrop-web in order to allow symbolic linking
 echo "INFO :: Configuring iDrop Web for Tomcat ..."
@@ -104,9 +173,93 @@ echo "INFO :: To Run IDrop Web In Web Browser Type: http://127.0.0.1:8080/idrop-
 echo "INFO :: To use iDrop-Lite applet or iDrop Swing Desktop application, verify that your browser supports JAVA"
 END_POSTINSTALL
 
+%elseif DEB
+%postinstall << END_POSTINSTALL
+
+# if not already running - start tomcat
+RESULT=$$(ps ax | grep -v grep | grep -i tomcat)
+if [ -n "$$RESULT" ];
+then
+  echo "INFO :: Starting Tomcat ..."
+  /usr/sbin/service ${TOMCAT_VER} start
+fi
+
+# wait until the tomcat conf/Catalina/localhost folder is created
+# or timeout after about 10 seconds
+TRIES=0
+while [ "$$TRIES" -lt 100 -a ! -e ${TOMCAT_HOME_DIR}/conf/Catalina/localhost ]; do
+  TRIES=$$((TRIES + 1))
+  sleep .1
+done
+
+# create config file (if it does not exist) for idrop-web in order to allow symbolic linking
+echo "INFO :: Configuring iDrop Web for Tomcat ..."
+if [ -f ${TOMCAT_HOME_DIR}/conf/Catalina/localhost/${OS_IDROP_DIR}.xml ];
+then
+ echo "WARNING :: ${TOMCAT_HOME_DIR}/conf/Catalina/localhost/${OS_IDROP_DIR}.xml Already Exists"
+else
+ echo "<?xml version='1.0' encoding='utf-8'?>
+<Context path=\"/idrop-web\" allowLinking=\"true\">
+
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+</Context>" > ${TOMCAT_HOME_DIR}/conf/Catalina/localhost/${OS_IDROP_DIR}.xml
+fi
+
+# create symbolic link to idrop-web
+if [ -f ${TOMCAT_HOME_DIR}/webapps/${OS_IDROP_DIR} ];
+then
+ echo "WARNING :: ${TOMCAT_HOME_DIR}/webapps/${OS_IDROP_DIR} Already Exists"
+else
+ ln -s ${IDROP_HOME_DIR} ${TOMCAT_HOME_DIR}/webapps/${OS_IDROP_DIR}
+fi
+
+# add iptables entry for HTTP and port 8080
+echo "INFO :: Modifying Firewall For HTTP Port 8080 access ..."
+/sbin/iptables -N idropweb
+/sbin/iptables -I INPUT 1 -j idropweb
+/sbin/iptables -A idropweb -m state --state NEW -p tcp --dport 80 -j ACCEPT
+/sbin/iptables -A idropweb -m tcp -p tcp --dport 8080 -m state --state NEW -j ACCEPT
+/sbin/iptables -A idropweb -m state --state ESTABLISHED,RELATED -j ACCEPT
+/sbin/iptables-save
+
+# Done - print info for starting up
+echo "INFO :: To Run IDrop Web In Web Browser Type: http://127.0.0.1:8080/idrop-web"
+echo "INFO :: To use iDrop-Lite applet or iDrop Swing Desktop application, verify that your browser supports JAVA"
+END_POSTINSTALL
+
+%endif
+
 # =-=-=-=-=-=-=-
 # preremove
 # =-=-=-=-=-=-=-
+
+%if RPM
+%preremove << END_PREREMOVE
+# first check to make sure idrop-web is not logged in.
+USER=$$( who | grep $OS_IDROP_ACCT )
+if [ -n "$$USER" ]; then
+  echo "${OS_IDROP_ACCT} is currently logged in. Aborting."
+  exit 1
+fi
+
+# stop tomcat if RPM
+RESULT=$$(ps ax | grep -v grep | grep -i $OS_TOMCAT_ACCT)
+if [ -n "$$RESULT" ];
+then
+ echo "INFO :: Stopping Tomcat ..."
+ su -p -s /bin/sh $OS_TOMCAT_ACCT ${TOMCAT_HOME_DIR}/bin/shutdown.sh
+fi
+
+# remove iptables entries related to idropweb install
+echo "INFO :: Removing Firewall Access for iDrop Web ..."
+/sbin/iptables -F idropweb
+/sbin/iptables -D INPUT -j idropweb
+/sbin/iptables -X idropweb
+/sbin/service iptables save
+END_PREREMOVE
+
+%elseif DEB
 %preremove << END_PREREMOVE
 # first check to make sure idrop-web is not logged in.
 USER=$$( who | grep $OS_IDROP_ACCT )
@@ -120,16 +273,41 @@ echo "INFO :: Removing Firewall Access for iDrop Web ..."
 /sbin/iptables -F idropweb
 /sbin/iptables -D INPUT -j idropweb
 /sbin/iptables -X idropweb
-%if RPM
-/sbin/service iptables save
-%else
 /sbin/iptables-save
-%endif
 END_PREREMOVE
+
+%endif
 
 # =-=-=-=-=-=-=-
 # postremove
+%if RPM
 %postremove << END_POSTREMOVE
+
+# remove idropweb service account
+echo "INFO: :: Removing iDrop Web Service Account: ${OS_IDROP_ACCT} ..."
+USER=$$( grep $OS_IDROP_ACCT /etc/passwd )
+if [ -n "$$USER" ];
+then
+ /usr/sbin/userdel -r $OS_IDROP_ACCT
+else
+ echo "WARNING :: Service Account: ${OS_IDROP_ACCT} Already Removed"
+fi
+
+# clean up tomcat install if this is RPM
+# remove tomcat service account
+echo "INFO: :: Removing iDrop Web Tomcat Service Account: ${OS_TOMCAT_ACCT} ..."
+USER=$$( grep $OS_TOMCAT_ACCT /etc/passwd )
+if [ -n "$$USER" ];
+then
+ /usr/sbin/userdel -r $OS_TOMCAT_ACCT
+else
+ echo "WARNING :: Service Account: ${OS_TOMCAT_ACCT} Already Removed."
+fi
+END_POSTREMOVE
+
+%elseif DEB
+%postremove << END_POSTREMOVE
+
 # remove idropweb service account
 echo "INFO: :: Removing iDrop Web Service Account: ${OS_IDROP_ACCT} ..."
 USER=$$( grep $OS_IDROP_ACCT /etc/passwd )
@@ -140,6 +318,8 @@ else
  echo "WARNING :: Service Account: ${OS_IDROP_ACCT} Already Removed"
 fi
 END_POSTREMOVE
+
+%endif
 
 # =-=-=-=-=-=-=-
 # =-=-=-=-=-=-=-
