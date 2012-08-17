@@ -3,6 +3,7 @@ package org.irods.jargon.idrop.desktop.systraygui.services;
 import java.io.*;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.irods.jargon.core.connection.IRODSAccount;
@@ -135,6 +136,21 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
                 databaseProperties.setProperty(SHOW_STARTUP, "false");
             }
         }
+        
+        /*
+         * Bring over anything in the configuration file that is not stored n the database properties file
+         */
+        
+        
+       Set<Object> configPropKeys = configFileProperties.keySet();
+       
+       for(Object configPropKey : configPropKeys) {
+           if (databaseProperties.get(configPropKey) == null) {
+               log.info("propogating config file prop to database, as not currently set:{}", configPropKey);
+               databaseProperties.put(configPropKey, configFileProperties.get(configPropKey));
+           }
+       }
+        
 
         saveConfigurationToPropertiesFile();
         return databaseProperties;

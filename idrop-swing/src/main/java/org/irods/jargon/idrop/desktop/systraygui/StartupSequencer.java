@@ -323,6 +323,7 @@ public class StartupSequencer {
     private String deriveConfigHomeDirectory() {
         log.info("determine config root directory");
         String userHomeDirectory = System.getProperty("user.home");
+        userHomeDirectory = userHomeDirectory.replaceAll("\\\\", "/");
         StringBuilder sb = new StringBuilder();
         sb.append(userHomeDirectory);
         sb.append("/.idrop");
