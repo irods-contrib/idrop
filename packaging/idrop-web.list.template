@@ -4,7 +4,7 @@
 %license COPYING
 %readme README
 %description Web Based Interface for Interacting with the iRODS data grid
-%version 3.1 300001
+%version 1.0.1 100001
 
 # don't think http is actually needed
 # %requires httpd 2
@@ -244,7 +244,7 @@ if [ -n "$$USER" ]; then
 fi
 
 # stop tomcat if RPM
-RESULT=$$(ps ax | grep -v grep | grep -i $OS_TOMCAT_ACCT)
+RESULT=$$(ps ax | grep -v grep | grep -i $OS_TOMCAT_ACCT )
 if [ -n "$$RESULT" ];
 then
  echo "INFO :: Stopping Tomcat ..."
