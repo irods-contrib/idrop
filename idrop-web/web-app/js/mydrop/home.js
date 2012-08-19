@@ -524,8 +524,12 @@ function moveFile(sourcePath, targetPath) {
 		}
 		setMessage("file moved to:" + xhr.responseText);
 		selectedPath = targetPath;
+		
+		/*
+		 * delete the node from the tree, select the parent
+		 * node and update the display to the parent node
+		 */
 		refreshTree();
-		updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
@@ -1619,6 +1623,7 @@ function submitRenameDialog() {
 		newName : newName
 	}
 
+	closeRenameDialog();
 	showBlockingPanel();
 
 	var jqxhr = $.post(context + fileRenameUrl, params,
@@ -1631,9 +1636,9 @@ function submitRenameDialog() {
 				}
 				setMessage("file renamed to:" + xhr.responseText);
 				selectedPath = xhr.responseText;
-				closeRenameDialog();
-				// refreshTree();
-				reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+				
+				refreshTree();
+				//reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 				// selectTreePathFromIrodsPath(selectedPath);
 				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath
 						+ "/" + newName);
@@ -1808,6 +1813,7 @@ function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
 
 	});
 }
+
 
 /**
  * Given the tree path in the text box, recursively open the nodes in the tree
