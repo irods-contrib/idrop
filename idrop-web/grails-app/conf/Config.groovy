@@ -176,7 +176,7 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	warn 'org.irods.mydrop'
-	info 'org.irods.jargon'
+	debug 'org.irods.jargon'
 	debug 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
 	debug 'grails.app'

@@ -195,7 +195,7 @@ class FileController {
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(absPath)
 
-		targetFile.deleteWithForceOption()
+		targetFile.delete()
 		log.info("file deleted")
 		render targetFile.getParent()
 	}
