@@ -461,7 +461,7 @@ function nodeRenamed(event, data) {
 
 	var newName = data.rslt.new_name;
 	var prevAbsPath = data.rslt.obj[0].id;
-
+	
 	var params = {
 		prevAbsPath : prevAbsPath,
 		newName : newName
@@ -469,6 +469,7 @@ function nodeRenamed(event, data) {
 
 	showBlockingPanel();
 
+	
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
 			}, "html").success(function(returnedData, status, xhr) {
@@ -476,15 +477,25 @@ function nodeRenamed(event, data) {
 		if (!continueReq) {
 			return false;
 		}
+		
+		//alert("xhr.response:" + xhr.responseText);
+		//alert("new name:" + newName);
 		var nodeRenamedTo = xhr.responseText + "/" + newName;
-		setMessage("file renamed to:" + nodeRenamedTo);
-		selectedPath = nodeRenamedTo;
-		data.rslt.obj[0].id = nodeRenamedTo;
-		data.rslt.obj[0].abspath = nodeRenamedTo;
-		// refresh this node
-		$.jstree._reference(dataTree).refresh(data.rslt.obj[0]);
+		
+		// safari seems to have a hard time handling rename to self, this check traps that
+		if (xhr.responseText == prevAbsPath) {
+			setMessage("Rename ignored, name was not changed");
+		} else {
+			setMessage("file renamed to:" + nodeRenamedTo);
+			selectedPath = nodeRenamedTo;
+			data.rslt.obj[0].id = nodeRenamedTo;
+			data.rslt.obj[0].abspath = nodeRenamedTo;
+			// refresh this node
+			$.jstree._reference(dataTree).refresh(data.rslt.obj[0]);
+			updateBrowseDetailsForPathBasedOnCurrentModel(nodeRenamedTo);
+		}
+			
 		//reloadAndSelectTreePathBasedOnIrodsAbsolutePath(nodeRenamedTo);
-		updateBrowseDetailsForPathBasedOnCurrentModel(nodeRenamedTo);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
