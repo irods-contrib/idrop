@@ -226,7 +226,7 @@ class FileController {
 			filesToDelete.each{
 				log.info "filesToDelete: ${it}"
 				IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(it)
-				toDelete.deleteWithForceOption()
+				toDelete.delete()
 				log.info("...delete successful")
 			}
 
@@ -234,7 +234,7 @@ class FileController {
 			log.debug "not array"
 			log.info "deleting: ${filesToDelete}..."
 			IRODSFile toDelete = irodsFileFactory.instanceIRODSFile(filesToDelete)
-			toDelete.deleteWithForceOption()
+			toDelete.delete()
 			log.info("...delete successful")
 		}
 
