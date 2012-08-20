@@ -245,7 +245,6 @@ public class StartupSequencer {
             }
         }
 
-
         idropSplashWindow.setStatus("Starting work queue...", ++count);
         try {
             QueueSchedulerTimerTask queueSchedulerTimerTask = new QueueSchedulerTimerTask(

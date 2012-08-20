@@ -120,6 +120,13 @@ public class LoginDialog extends JDialog {
                 txtResource.setBackground(Color.red);
             }
         }
+        
+        
+        
+        
+        
+        
+        
         txtUserName.setBackground(Color.white);
         password.setBackground(Color.white);
         if (txtUserName.getText().length() == 0) {
@@ -130,36 +137,27 @@ public class LoginDialog extends JDialog {
         }
         StringBuilder sb = new StringBuilder();
         final IRODSAccount irodsAccount;
+        
+        
+        
+        
+        
         try {
-            IdropPropertiesHelper helper = new IdropPropertiesHelper();
-            Properties classpathConfig = null;
-            try {
-                classpathConfig = helper.loadIdropProperties();
-                if (classpathConfig == null || classpathConfig.isEmpty()) {
-                    throw new IdropRuntimeException("cannot find classpath idrop.properties to check for login preset");
-                }
-            } catch (IdropException ex) {
-                log.error("exception getting idrop.properties from the classpath", ex);
-                throw new IdropRuntimeException("cannot find classpath idrop.properties to check for login preset", ex);
-            }
-
-            String loginPreset = classpathConfig.getProperty(IdropPropertiesHelper.LOGIN_PRESET);
-            boolean useLoginPreset = false;
-
-            if (loginPreset != null) {
-                useLoginPreset = Boolean.valueOf(loginPreset);
-            }
+            
+            
+            
+          
 
             // validated, now try to log in
-            if (useLoginPreset) {
+            if (idropCore.getIdropConfig().isLoginPreset()) {
                 log.debug("creating account with presets");
-                String presetHost = classpathConfig.getProperty(IdropPropertiesHelper.LOGIN_PRESET_HOST);
+                String presetHost = idropCore.getIdropConfig().getPropertyForKey(IdropPropertiesHelper.LOGIN_PRESET_HOST);
                 log.info("presetHost:{}", presetHost);
-                int presetPort = Integer.parseInt(classpathConfig.getProperty(IdropPropertiesHelper.LOGIN_PRESET_PORT));
+                int presetPort = Integer.parseInt(idropCore.getIdropConfig().getPropertyForKey(IdropPropertiesHelper.LOGIN_PRESET_PORT));
                 log.info("presetPort:{}", presetPort);
-                String presetZone = classpathConfig.getProperty(IdropPropertiesHelper.LOGIN_PRESET_ZONE);
+                String presetZone = idropCore.getIdropConfig().getPropertyForKey(IdropPropertiesHelper.LOGIN_PRESET_ZONE);
                 log.info("presetZone:{}", presetZone);
-                String presetResource = classpathConfig.getProperty(
+                String presetResource = idropCore.getIdropConfig().getPropertyForKey(
                         IdropPropertiesHelper.LOGIN_PRESET_RESOURCE);
                 log.info("presetResource:{}", presetResource);
                 sb.append('/');
