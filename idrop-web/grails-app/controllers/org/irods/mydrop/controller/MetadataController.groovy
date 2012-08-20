@@ -4,6 +4,7 @@ import grails.converters.JSON
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
+import org.irods.jargon.core.exception.DuplicateDataException
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
@@ -180,14 +181,21 @@ class MetadataController {
 
 			def isDataObject = retObj instanceof DataObject
 
-			if (isDataObject) {
-				log.debug("setting AVU for a data object")
-				DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
-				dataObjectAO.addAVUMetadata(cmd.absPath, avuData)
-			} else {
-				log.debug("setting AVU for collection")
-				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
-				collectionAO.addAVUMetadata(cmd.absPath, avuData)
+			try {
+				if (isDataObject) {
+					log.debug("setting AVU for a data object")
+					DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+					dataObjectAO.addAVUMetadata(cmd.absPath, avuData)
+				} else {
+					log.debug("setting AVU for collection")
+					CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+					collectionAO.addAVUMetadata(cmd.absPath, avuData)
+				}
+			} catch (DuplicateDataException dde) {
+				log.warn("duplicate data exception", dde)
+				def errorMessage = message(code:"error.duplicate.metadata")
+				response.sendError(500,errorMessage)
+				return
 			}
 
 			log.info("avu set successfully")

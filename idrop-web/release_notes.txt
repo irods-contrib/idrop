@@ -32,6 +32,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *  [#940] safari rename file to self fails to show data when tree node clicked in safari/mac
 
+* [#941] crummy message displayed for add duplicate avu
+
 ==Features==
 
 * [#116] browse/search/tab memory
