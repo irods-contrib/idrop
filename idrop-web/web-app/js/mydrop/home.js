@@ -1670,7 +1670,8 @@ function submitNewFolderDialog() {
 		parent : absPath,
 		name : newName
 	}
-
+	
+	closeNewFolderDialog();
 	showBlockingPanel();
 
 	var jqxhr = $.post(context + folderAddUrl, params,
@@ -1682,7 +1683,7 @@ function submitNewFolderDialog() {
 		}
 		setMessage("New folder created:" + xhr.responseText);
 		// selectedPath = xhr.responseText;
-		closeNewFolderDialog();
+		
 
 		// refresh the parent node and open
 		addANodeToTheParentInTheTree(absPath, newName);
@@ -2003,15 +2004,18 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 				if (currentNode == null) {
 					setMessage("Path not found in tree, please reload");
 					return false;
-				} else {
+				} /*else {
 					if (index == path.length - 1) {
 						end = true;
 					}
-				}
+				}*/
 				// }
 			});
 
-	if (currentNode != null && end) {
+	
+	// need to set end to true if current node is a preset dir /x/y/z and matches path
+	
+	if (currentNode != null) { //&& end) {
 		operationToPerform(path, dataTree, currentNode);
 	}
 

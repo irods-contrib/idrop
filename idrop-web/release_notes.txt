@@ -28,6 +28,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 * [#935] idrop desktop launch works inconsistantly
 ** took cruft out of webstart launch link to make a direct link to the jnlp file
 
+* [#939] new folder tree refresh fails when in 'home' view
+
 ==Features==
 
 * [#116] browse/search/tab memory
