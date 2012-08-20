@@ -59,6 +59,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 *drop startup error with numberformatexception	2011-10-31 12:19:47
 *for strict acl mode show home dir as root in tree	2012-01-11 11:23:50
 
+[#943] startp errors LL windows
+
 ==Features==
 
 *info view for local file system	

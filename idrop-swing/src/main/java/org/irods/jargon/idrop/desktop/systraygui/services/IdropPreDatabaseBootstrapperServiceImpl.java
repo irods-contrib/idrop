@@ -46,7 +46,7 @@ public class IdropPreDatabaseBootstrapperServiceImpl implements IdropPreDatabase
     }
 
     @Override
-    public void storePriorVersion(final String idropHomeDir, final String desiredVersionString) throws IdropException {
+    public void storePriorVersion( String idropHomeDir, final String desiredVersionString) throws IdropException {
 
         log.info("storePriorVersion()");
 
@@ -57,9 +57,14 @@ public class IdropPreDatabaseBootstrapperServiceImpl implements IdropPreDatabase
         if (desiredVersionString == null || desiredVersionString.isEmpty()) {
             throw new IllegalArgumentException("null or empty desiredVersionString");
         }
+        
+        //String normalizedHomeDir = idropHomeDir.replaceAll("\\\\", "/");
 
         log.info("home dir is:{}", idropHomeDir);
         log.info("desired version string is:{}", desiredVersionString);
+        
+        File idropHomeParent = new File(idropHomeDir);
+        idropHomeParent.mkdirs();
 
         /*
          * wipe out the previous version file and replace
@@ -94,10 +99,13 @@ public class IdropPreDatabaseBootstrapperServiceImpl implements IdropPreDatabase
         if (idropHomeDir == null || idropHomeDir.isEmpty()) {
             throw new IllegalArgumentException("null or empty idropHomeDir");
         }
+        
+        String normalizedHomeDir = idropHomeDir.replaceAll("\\\\", "/");
 
-        log.info("idropHomeDir:{}...deleting to reinitialize...", idropHomeDir);
-        File homeDirFile = new File(idropHomeDir);
-        deleteChildDirsAndDir(idropHomeDir);
+
+        log.info("idropHomeDir:{}...deleting to reinitialize...", normalizedHomeDir);
+        File homeDirFile = new File(normalizedHomeDir);
+        deleteChildDirsAndDir(normalizedHomeDir);
         homeDirFile.mkdirs();
         log.info("home dir initialized");
     }

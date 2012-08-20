@@ -57,9 +57,11 @@ public class LoginDialog extends JDialog {
     private void loginNormally() {
         // predispose based on preferences
         String host = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_HOST);
-        txtHost.setText(host);
+        if (host != null) {
+            txtHost.setText(host);
+        }
         String port = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_PORT);
-        if (port.isEmpty()) {
+        if (port == null || port.isEmpty()) {
             port = "1247";
         }
         txtPort.setText(port);
@@ -137,17 +139,17 @@ public class LoginDialog extends JDialog {
                     throw new IdropRuntimeException("cannot find classpath idrop.properties to check for login preset");
                 }
             } catch (IdropException ex) {
-               log.error("exception getting idrop.properties from the classpath", ex);
+                log.error("exception getting idrop.properties from the classpath", ex);
                 throw new IdropRuntimeException("cannot find classpath idrop.properties to check for login preset", ex);
             }
-            
-            String loginPreset =  classpathConfig.getProperty(IdropPropertiesHelper.LOGIN_PRESET);
+
+            String loginPreset = classpathConfig.getProperty(IdropPropertiesHelper.LOGIN_PRESET);
             boolean useLoginPreset = false;
-            
+
             if (loginPreset != null) {
                 useLoginPreset = Boolean.valueOf(loginPreset);
             }
-            
+
             // validated, now try to log in
             if (useLoginPreset) {
                 log.debug("creating account with presets");
@@ -155,7 +157,7 @@ public class LoginDialog extends JDialog {
                 log.info("presetHost:{}", presetHost);
                 int presetPort = Integer.parseInt(classpathConfig.getProperty(IdropPropertiesHelper.LOGIN_PRESET_PORT));
                 log.info("presetPort:{}", presetPort);
-                String presetZone =classpathConfig.getProperty(IdropPropertiesHelper.LOGIN_PRESET_ZONE);
+                String presetZone = classpathConfig.getProperty(IdropPropertiesHelper.LOGIN_PRESET_ZONE);
                 log.info("presetZone:{}", presetZone);
                 String presetResource = classpathConfig.getProperty(
                         IdropPropertiesHelper.LOGIN_PRESET_RESOURCE);
@@ -164,11 +166,11 @@ public class LoginDialog extends JDialog {
                 sb.append(presetZone);
                 sb.append("/home/");
                 sb.append(txtUserName.getText());
-                
+
                 if (chkGuestLogin.isSelected()) {
                     irodsAccount = IRODSAccount.instanceForAnonymous(presetHost,
-                       presetPort, "",
-                        presetZone, presetResource);
+                            presetPort, "",
+                            presetZone, presetResource);
                 } else {
                     irodsAccount = IRODSAccount.instance(presetHost, presetPort,
                             txtUserName.getText(),
@@ -180,17 +182,17 @@ public class LoginDialog extends JDialog {
                 sb.append(txtZone.getText());
                 sb.append("/home/");
                 sb.append(txtUserName.getText());
-                
-                 if (chkGuestLogin.isSelected()) {
+
+                if (chkGuestLogin.isSelected()) {
                     irodsAccount = IRODSAccount.instanceForAnonymous(txtHost.getText().trim(),
-                        Integer.parseInt(txtPort.getText().trim()),
-                     "", txtZone.getText().trim(), txtResource.getText().trim());
+                            Integer.parseInt(txtPort.getText().trim()),
+                            "", txtZone.getText().trim(), txtResource.getText().trim());
                 } else {
-                   irodsAccount = IRODSAccount.instance(txtHost.getText().trim(),
-                        Integer.parseInt(txtPort.getText().trim()),
-                        txtUserName.getText().trim(),
-                        new String(password.getPassword()).trim(), sb.toString().trim(),
-                        txtZone.getText().trim(), txtResource.getText().trim());
+                    irodsAccount = IRODSAccount.instance(txtHost.getText().trim(),
+                            Integer.parseInt(txtPort.getText().trim()),
+                            txtUserName.getText().trim(),
+                            new String(password.getPassword()).trim(), sb.toString().trim(),
+                            txtZone.getText().trim(), txtResource.getText().trim());
                 }
             }
         } catch (JargonException ex) {
@@ -259,7 +261,6 @@ public class LoginDialog extends JDialog {
         KeyStroke enter = KeyStroke.getKeyStroke(
                 java.awt.event.KeyEvent.VK_ENTER, 0);
         Action enterAction = new AbstractAction() {
-
             @Override
             public void actionPerformed(final ActionEvent e) {
                 processLogin();
@@ -271,8 +272,9 @@ public class LoginDialog extends JDialog {
     }
 
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
-     * modify this code. The content of this method is always regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed"
@@ -499,17 +501,17 @@ public class LoginDialog extends JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void showPortAndResource() {
-       txtResource.setVisible(true);
-       txtPort.setVisible(true);
-       lblPort.setVisible(true);
-       lblResource.setVisible(true);
+        txtResource.setVisible(true);
+        txtPort.setVisible(true);
+        lblPort.setVisible(true);
+        lblResource.setVisible(true);
     }
 
     private void hidePortAndResource() {
-       txtResource.setVisible(false);
-       txtPort.setVisible(false);
-       lblPort.setVisible(false);
-       lblResource.setVisible(false);
+        txtResource.setVisible(false);
+        txtPort.setVisible(false);
+        lblPort.setVisible(false);
+        lblResource.setVisible(false);
     }
 
     private void hideUserAndPassword() {
