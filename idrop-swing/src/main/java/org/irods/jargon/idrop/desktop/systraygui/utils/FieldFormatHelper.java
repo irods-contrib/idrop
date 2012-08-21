@@ -27,9 +27,9 @@ public class FieldFormatHelper {
      */
     public static String formatByteProgress(long totalBytes, long currentBytes, int padValue) {
         StringBuilder sb = new StringBuilder();
-        sb.append(formatFileLength(totalBytes));
-        sb.append(" / ");
         sb.append(formatFileLength(currentBytes));
+        sb.append(" / ");
+        sb.append(formatFileLength(totalBytes));
         return IRODSPasswordUtilities.pad(sb.toString(), padValue, ' ');
     }
     
@@ -41,9 +41,9 @@ public class FieldFormatHelper {
      */
     public static String formatFileProgress(int totalFiles, int currentFiles, int padValue) {
         StringBuilder sb = new StringBuilder();
-        sb.append(totalFiles);
-        sb.append(" / ");
         sb.append(currentFiles);
+        sb.append(" / ");
+        sb.append(totalFiles);
         sb.append(" files");
         return IRODSPasswordUtilities.pad(sb.toString(), padValue, ' ');
     }
