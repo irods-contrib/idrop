@@ -10,7 +10,6 @@ $(document).ready(function() {
 	});
 
 </script>
-<script src="http://www.java.com/js/deployJava.js"></script>
 <div id="secondaryTabs" style="position:relative;height:820px;overflow:auto;">
 <ul>
 	<li><a href="#tabs-1">Tags</a></li>
@@ -40,7 +39,7 @@ $(document).ready(function() {
  Bulk Upload and File Cart are available for occasional large transfers within the browser.
  </p>
      
-   <a href="${grailsApplication.config.idrop.config.idrop.jnlp}"><img border="0" src="http://java.sun.com/products/jfc/tsc/articles/swing2d/webstart.png"></a>
+   <a href="${grailsApplication.config.idrop.config.idrop.jnlp}">Launch iDrop Desktop</a>
 </div>
 <div id="tabs-4">
  	<div id="cartFileDetails"><!--  cart file details div --></div>

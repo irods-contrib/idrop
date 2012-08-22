@@ -17,7 +17,7 @@
 <link rel="shortcut icon"
 	href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
 <g:layoutHead />
-<g:javascript library="jquery-1.7.1.min" />
+<g:javascript library="jquery-1.7.2.min" />
 <g:javascript library="jquery-ui-1.8.7.custom.min" />
  <g:javascript library="jquery.hotkeys" />
  <g:javascript library="jquery.jstree" />
@@ -34,7 +34,7 @@
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.blockUI" />
 <g:javascript library="jquery.ba-bbq.min" />
-<g:javascript library="jquery.layout.min-1.3.0" />
+<g:javascript library="jquery.layout-latest.min" />
 <g:javascript library="jquery-ui-13" />
 <g:javascript library="jquery.tools.min" />
 <g:javascript library="mydrop/shopping_cart" />
