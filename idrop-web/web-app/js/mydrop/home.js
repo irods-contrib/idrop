@@ -64,7 +64,6 @@ function setTreeViewToHomeDirectory() {
  * @return
  */
 function retrieveBrowserFirstView(type, path) {
-	
 	if (dataTree != null) {
 		dataTree = null;
 		$("#dataTreeDiv").html("");
@@ -113,7 +112,7 @@ function retrieveBrowserFirstView(type, path) {
  * @return
  */
 function browserFirstViewRetrieved(data) {
-	
+
 	baseAbsPath = data[0].attr.absPath;
 	baseAbsPathAsArrayOfPathElements = baseAbsPath.split("/");
 	dataTree = $("#dataTreeDiv").jstree(
@@ -1791,6 +1790,7 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
  *            irods absolute path
  */
 function selectTreePathFromIrodsPath(irodsAbsolutePath) {
+
 	if (irodsAbsolutePath == null || irodsAbsolutePath.length == 0) {
 		throw "irodsAbsolutePath is missing";
 	}
@@ -1935,7 +1935,7 @@ function splitPathAndPerformOperationAtGivenTreePath(path, currentNode,
  */
 function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 		operationToPerform) {
-	
+
 	if (dataTree == null) {
 		return false;
 	}
@@ -1957,6 +1957,15 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 		currentNode = $.jstree._reference(dataTree).get_container();
 		var children = $.jstree._reference(dataTree)._get_children(currentNode);
 		currentNode = children[0];
+                // fix for a bug in ie9 that surfaces on initial load, otherwise does infinite recursion...
+                if (currentNode == null) {
+                   // alert("currentNode is null");
+                    return;
+                } else if (currentNode == undefined) {
+                  //  alert("currentNode is undefined");
+                    return;
+                }
+                
 		performOperationAtGivenTreePath(path, currentNode, currentIndex,
 				operationToPerform);
 		return;
