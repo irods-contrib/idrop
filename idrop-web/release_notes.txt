@@ -1,11 +1,11 @@
 *'''Project''': idrop-web
-*'''Date''': 07/28/2012
-*'''Release Version''': 1.0.1-SNAPSHOT
-*'''git tag''': XXXX
+*'''Date''': 08/28/2012
+*'''Release Version''': 1.0.1
+*'''git tag''': 1.0.1
 
 ==News==
 
-This is a beta release of iDrop web version 1.0.1
+This is a release of iDrop web version 1.0.1
 
 
 ==Requirements==

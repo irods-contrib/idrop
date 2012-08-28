@@ -47,8 +47,8 @@ environments {
  idrop.config.idrop.lite.use.applet.dir=false
  */
 
-idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.1-SNAPSHOT-jar-with-dependencies.jar"
-idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
+idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.1-jar-with-dependencies.jar"
+idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-release"
 idrop.config.idrop.lite.use.applet.dir=false
 
 /*
@@ -62,7 +62,7 @@ idrop.config.idrop.lite.use.applet.dir=false
 
 //idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
 //drop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
-idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
+idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-release/idrop.jnlp"
 /*
  * 5) Customization properties
  */
@@ -176,10 +176,10 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	warn 'org.irods.mydrop'
-	debug 'org.irods.jargon'
-	debug 'org.irods.jargon.spring.security'
+	warn 'org.irods.jargon'
+	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
-	debug 'grails.app'
+	info 'grails.app'
 
 	warn 'org.mortbay.log',
 			'grails.app.controller',

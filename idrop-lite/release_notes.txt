@@ -1,0 +1,33 @@
+
+*'''Project''': iDrop-lite transfer applet
+*'''Date''': 08/28/2012
+*'''Release Version''': 1.0.1
+*'''git tag''':  1.0.1 
+*'''download jar with dependencies (run java -jar jarname)''':  https://code.renci.org/gf/project/irodsidrop/frs/?action=FrsReleaseBrowse&frs_package_id=4
+
+NOTE: the release notes were not yet in place for this project, going forward bugs and features addressed will be reflected here
+
+==News==
+
+This is the iDrop lite applet plug in that allows transfers between client and server using a direct iRODS protocol connection
+
+GForge for iDrop-swing is at:  [[https://code.renci.org/gf/project/irodsidrop/]]
+
+==Requirements==
+
+-iDrop depends on Java 1.6+
+-iDrop is built using Maven
+
+iDrop-swing uses Maven for dependency management.  See the pom.xml file for references to various dependencies.
+
+Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
+
+==Bug Fixes==
+
+==Features==
+
+==Outstanding Issues==
+
+Please consult [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
+
+for the latest open bugs and Jargon feature requests
