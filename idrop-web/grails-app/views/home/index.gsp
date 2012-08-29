@@ -10,8 +10,11 @@
 	<ul>
 		<li><a href="#browseTab"><g:message code="text.browse" /> </a></li>
 		<li><a href="#searchTab"><g:message code="text.search" /> </a></li>
-		<li><a href="#profileTab"><g:message code="text.profile" /> </a></li>
+		<g:if test="${grailsApplication.config.idrop.config.use.userprofile==true}">
+			<li><a href="#profileTab"><g:message code="text.profile" /> </a></li>
+		</g:if>
 	</ul>
+	
 
 	<div id="browseTab" style="height:100%;overflow;hidden;">
 		<g:render template="/browse/browseTabContent" />
@@ -32,9 +35,11 @@
 		</div> <!--  searchDivOuter -->
 	</div> <!--  search tab -->
 
-	<div id="profileTab" style="height:100%;overflow;hidden;">
-		<g:render template="/profile/profileTabContent" />
-	</div><!--  profile tab -->
+	<g:if test="${grailsApplication.config.idrop.config.use.userprofile==true}">
+		<div id="profileTab" style="height:100%;overflow;hidden;">
+			<g:render template="/profile/profileTabContent" />
+		</div><!--  profile tab -->
+	</g:if>
 		
 
 </div> <!--  tabs -->

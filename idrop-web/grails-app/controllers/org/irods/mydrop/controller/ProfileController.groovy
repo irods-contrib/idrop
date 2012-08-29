@@ -2,10 +2,12 @@ package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.mydrop.service.ProfileService
 
 class ProfileController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
+	ProfileService profileService
 	def grailsApplication
 
 	/**
@@ -27,5 +29,8 @@ class ProfileController {
 	}
 
 	def index() {
+		log.info "index()"
+		render(view:"profileData", model:[])
+		
 	}
 }
