@@ -35,5 +35,8 @@ beans = {
 
 	auditController(org.irods.mydrop.controller.AuditController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
+	profileController(org.irods.mydrop.controller.ProfileController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
+
 
 }

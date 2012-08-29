@@ -10,6 +10,7 @@
 	<ul>
 		<li><a href="#browseTab"><g:message code="text.browse" /> </a></li>
 		<li><a href="#searchTab"><g:message code="text.search" /> </a></li>
+		<li><a href="#profileTab"><g:message code="text.profile" /> </a></li>
 	</ul>
 
 	<div id="browseTab" style="height:100%;overflow;hidden;">
@@ -30,6 +31,11 @@
 			</div> <!--  searchTableDiv -->
 		</div> <!--  searchDivOuter -->
 	</div> <!--  search tab -->
+
+	<div id="profileTab" style="height:100%;overflow;hidden;">
+		<g:render template="/profile/profileTabContent" />
+	</div><!--  profile tab -->
+		
 
 </div> <!--  tabs -->
 <script type="text/javascript">
