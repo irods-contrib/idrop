@@ -4,13 +4,10 @@
 	<ul id="profileToolbarMenu" class="sf-menu">
 		
 		<li id="menuProfileData" class="detailsToolbarMenuItem"><a
-			href="#profile"><g:message code="text.profile" /></a>
+			href="#view"><g:message code="text.view" /></a>
 			<ul>
-				<li id="menuRefresh"><a href="#refresh" onclick="refreshProfile()"><g:message
+				<li id="menuRefresh"><a href="#refresh" onclick="loadProfileData()"><g:message
 					code="text.refresh" /></a></li>
-				<li id="menuSave"><a href="#saveProfile"
-					onclick="saveProfile()"><g:message
-							code="text.save" /></a></li>
 			</ul>
 		</li>
 		<li id="menuPassword" class="detailsToolbarMenuItem"><a href="#password"><g:message

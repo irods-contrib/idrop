@@ -70,7 +70,7 @@ idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-release/idrop.jnlp"
 // do I support tickets? This determies whether the ticket feature is available via the interface, it also requires ticket support in iRODS itself (version 3.1+)
 idrop.config.use.tickets=true
 idrop.config.max.thumbnail.size.mb=20
-idrop.config.use.userprofile=true
+idrop.config.use.userprofile=false
 
 /*
  * Some properties may be set in an external configuration file, as configured below

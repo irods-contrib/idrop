@@ -3,6 +3,7 @@
 <g:javascript library="mydrop/home" />
 <g:javascript library="mydrop/search" />
 <g:javascript library="mydrop/metadata" />
+<g:javascript library="mydrop/profile" />
 </head>
 <div id="tabs" class="wrapper clearfix"
 	style="height: 820px; overflow:hidden;">
