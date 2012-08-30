@@ -1,24 +1,23 @@
-	<div id="browseToolbar" style="display:block; width:100%;">
+	<div id="browseToolbar" style="display:block; width:100%;position:relative;">
 				
 		<div id="infoDivPathArea"
-			style="overflow: hidden; display:block; margin: 3px; font-size: 120%;">
+			style="overflow: hidden; display:block; margin: 3px; font-size: 120%;position:relative;">
 			<!-- area for the path crumb-trails -->
 		</div>
 		
 	</div> <!--  browseToolbar -->
-	<div id="browseMenuDiv">
-		<g:render template="/common/topToolbar" />
+	<div id="browseMenuDiv" style="display:block; width:100%;position:relative;">
+          <g:render template="/common/topToolbar" />
 	</div>
 		
-	<div id="browser" class="wrapper" style="height:85%;width:100%;">
-		<div id="dataTreeView"
-						style="width: 100%; height: 700px; overflow: hidden;">
+	<div id="browser" class="wrapper" style="height:85%;width:100%;clear:both;">
+		<div id="dataTreeView" style="width: 100%; height: 700px; overflow: hidden;">
 						
 			<div id="dataTreeDivWrapper"  class="ui-layout-west" style="width: 25%; height: 100%; position:relative;">
 				<div id="dataTreeToolbar" style="width:100%; height:3%;display:block;" class="fg-toolbar">
 						
 						<div id="dataTreeMenu" class="fg-buttonset fg-buttonset-multi"
-							style="float: left, clear : both; display:block; overflow:hidden;">
+							style="float: left; clear : both; display:block; overflow:hidden;">
 							<button type="button" id="refreshTreeButton"
 								class="ui-state-default ui-corner-left" value="refreshTreeButton"
 								onclick="refreshTree()")>
@@ -38,7 +37,7 @@
 						
 				</div> <!--  dataTreeToolbar -->
 						
-				<div id="dataTreeDiv" class="clearfix" style="height:95%; width:100%; overflow:auto;"></div>	
+				<div id="dataTreeDiv" class="clearfix" style="height:95%; width:100%; overflow:auto;"><!-- no empty div --></div>	
 			</div> <!-- dataTreeDivWrapper -->
 							
 			<div id="infoDivOuter" style="display: block; width: 75%; height: 100%; position: relative; overflow: auto;"

@@ -5,7 +5,7 @@
 	</div> <!--  profileToolbar -->
 	<div id="profileDialogArea"><!--  div for optional profile dialogs -->
 	</div>
-	<div id="profileDataArea">
+	<div id="profileDataArea" style="clear:both;">
 	<!-- area for profile data -->
 	</div>
 </div>

@@ -1,6 +1,3 @@
-<!--  <div id="bannercontainer"> -->
-	<!--  image banner -->
-<!--  </div> -->
 <g:ifAuthenticated>
 	<div id="headerSearchBox" class="box">
 

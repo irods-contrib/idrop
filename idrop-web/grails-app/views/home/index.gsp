@@ -37,7 +37,7 @@
 	</div> <!--  search tab -->
 
 	<g:if test="${grailsApplication.config.idrop.config.use.userprofile==true}">
-		<div id="profileTab" style="height:100%;overflow;hidden;">
+		<div id="profileTab" style="height:100%;overflow:hidden;">
 			<g:render template="/profile/profileTabContent" />
 		</div><!--  profile tab -->
 	</g:if>

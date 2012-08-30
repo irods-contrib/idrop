@@ -53,6 +53,7 @@ function loadProfileData() {
 function showChangePasswordDialog() {
 	var targetDiv = "#profileDialogArea";
 	$("#profileDataArea").hide("slow");
+        $("#profileToolbar").hide("slow");
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/profile/showPasswordChangeDialog",
 			targetDiv, targetDiv, null);
@@ -63,6 +64,7 @@ function showChangePasswordDialog() {
  */
 function closePasswordDialog() {
 	$("#profileDialogArea").html("");
+        $("#profileToolbar").show("slow");
 	$("#profileDataArea").show("slow");
 }
 

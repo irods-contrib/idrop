@@ -34,6 +34,7 @@ environments {
  idrop.config.preset.resource="lifelibResc1"
  */
 
+
 /*
  * 3) iDROP web includes the idrop-lite Java applet, which is launched from the iDROP web interface.  The interface needs to know where to find this jar file.
  * The Jar file should be placed on a web server in an accessible directory, and configured below
