@@ -17,7 +17,7 @@
 	</ul>
 	
 
-	<div id="browseTab" style="height:100%;overflow;hidden;">
+	<div id="browseTab" style="height:100%;">
 		<g:render template="/browse/browseTabContent" />
 	</div><!--  browse tab -->
 		
