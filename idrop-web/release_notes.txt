@@ -18,7 +18,7 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 
 ==Bug Fixes==
-
+*  [#959] firefox browse div float error
 
 ==Features==
 
