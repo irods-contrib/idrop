@@ -16,7 +16,6 @@ This is a release of iDrop web version 1.0.1
 
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
-
 ==Bug Fixes==
 
 * [#711] post copy via tree context menu - unable to browse to a location
@@ -35,6 +34,9 @@ Note that the following bug and feature requests are logged in GForge with relat
 * [#941] crummy message displayed for add duplicate avu
 
 * [#942] Bulk delete of coll with children fails silently
+
+* [#950] unable to browse to location message in idrop web tree for new safari/mac
+** temp catch of icon assignment added as shim in jstree javascript
 
 ==Features==
 

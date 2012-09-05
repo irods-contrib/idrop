@@ -265,7 +265,7 @@ class BrowseController {
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
-
+		
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		try {
 			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
