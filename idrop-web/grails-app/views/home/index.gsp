@@ -3,84 +3,25 @@
 <g:javascript library="mydrop/home" />
 <g:javascript library="mydrop/search" />
 <g:javascript library="mydrop/metadata" />
+<g:javascript library="mydrop/profile" />
 </head>
-<div id="tabs" class="wrapper"
-	style="height: 820px; position: relative; overflow:hidden;">
+<div id="tabs" class="wrapper clearfix"
+	style="height: 820px; overflow:hidden;">
 
 	<ul>
 		<li><a href="#browseTab"><g:message code="text.browse" /> </a></li>
-		<!--  <li><a href="#quickView"><g:message code="text.home" />
-      </a>
-    </li> -->
 		<li><a href="#searchTab"><g:message code="text.search" /> </a></li>
+		<g:if test="${grailsApplication.config.idrop.config.use.userprofile==true}">
+			<li><a href="#profileTab"><g:message code="text.profile" /> </a></li>
+		</g:if>
 	</ul>
-
-
-	<div id="browseTab" style="padding:0;">
 	
-	
-		<div id="browser" class="wrapper">
-			
-			<div id="browseToolbar">
-				
-				<span id="infoDivPathArea"
-					style="overflow: hidden; position: relative; display: inline-block; margin: 3px; font-size: 120%;">
-					<!-- area for the path crumb-trails -->
-				</span>
-			</div>
-			<div id="browseMenuDiv">
-			<g:render template="/common/topToolbar" />
-			</div>
 
-
-			<div id="dataTreeView"
-				style="width: 100%; height: 700px; overflow: hidden;">
-				
-				<div id="dataTreeDivWrapper" class="ui-layout-west"
-					style="width: 25%; height: 100%; position:relative;">
-					<div id="dataTreeToolbar" style="width:100%; height:3%;display:block; position:relative;" class="fg-toolbar">
-						<div id="dataTreeMenu" class="fg-buttonset fg-buttonset-multi"
-							style="float: left, clear : both; display:block; overflow:hidden;">
-							<button type="button" id="refreshTreeButton"
-								class="ui-state-default ui-corner-left" value="refreshTreeButton"
-								onclick="refreshTree()")>
-								<!--<g:message code="text.refresh" />-->
-								<g:img dir="images" file="arrow-refresh.png" width="16" height="16"/>
-							</button>
-							<button type="button" id="homeTreeButton"
-								class="ui-state-default" value="homeTreeButton"
-								onclick="setTreeToUserHome()")>
-								<!--<g:message code="text.refresh" />-->
-								<g:img dir="images" file="go-home-4.png" width="16" height="16"/>
-							</button>
-								<button type="button" id="rootTreeButton"
-								class="ui-state-default ui-corner-right" value="rootTreeButton"
-								onclick="setTreeToRoot()")>
-								<!--<g:message code="text.refresh" />-->
-								<g:img dir="images" file="go-parent-folder.png" width="16" height="16"/>
-							</button>
-						</div>
-					</div>
-					<div id="dataTreeDiv" style="width:auto; height:95%; overflow:visible;">
-					</div>	
-				</div>
-				<div id="infoDivOuter"
-					style="display: block; width: 75%; height: 100%; position: relative; overflow: auto;"
-					class="ui-layout-center">
-
-					<div id="infoDiv" style="overflow: visible; position: relative;">
-						<h2>
-							<g:message code="browse.page.prompt" />
-						</h2>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div id="browseTab" style="height:100%;">
+		<g:render template="/browse/browseTabContent" />
+	</div><!--  browse tab -->
 		
-	
 	<div id="searchTab">
-	
 	
 		<div id="searchDivOuter"
 			style="display: block; width: 95%; height: 90%; position: relative; overflow: hidden;"
@@ -91,12 +32,18 @@
 				<h2>
 					<g:message code="heading.no.search.yet" />
 				</h2>
-				<!--  search table display div -->
-			</div>
-		</div>
-	</div>
+			</div> <!--  searchTableDiv -->
+		</div> <!--  searchDivOuter -->
+	</div> <!--  search tab -->
 
-</div>
+	<g:if test="${grailsApplication.config.idrop.config.use.userprofile==true}">
+		<div id="profileTab" style="height:100%;overflow:hidden;">
+			<g:render template="/profile/profileTabContent" />
+		</div><!--  profile tab -->
+	</g:if>
+		
+
+</div> <!--  tabs -->
 <script type="text/javascript">
 	var dataLayout;
 	var tabs;

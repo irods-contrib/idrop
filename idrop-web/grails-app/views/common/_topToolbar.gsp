@@ -77,7 +77,6 @@
 								code="text.add.to.cart" /></a></li>
 
 			
-
 			</ul></li>
 			
 			<li id="menuBulkActionDetails" class="detailsToolbarMenuItem"><a href="#applyActionToAllDetails"><g:message code="text.apply.to.all"/></a>
@@ -88,23 +87,6 @@
 				</ul>
 			</li>
 				
-			<!--  
-			<g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
-			<li id="menuTicketDetails" class="detailsToolbarMenuItem"><a
-			href="#ticketsMenu"><g:message
-					code="text.tickets" /></a>
-			<ul>
-
-				<li id="menuCreateAndEmailATicketDetails"><a href="#menuCreateAndEmailATicketDetails"
-					onclick="createAndEmailATicketViaBrowseDetailsToolbar()"><g:message
-							code="text.ticket.email" /></a></li>
-				<li id="menuUseATicket"><a href="#menuUseATicket"
-					onclick="useATicketViaBrowseDetailsToolbar()"><g:message
-							code="text.ticket.use" /></a></li>
-				
-			</ul></li>
-			</g:if>-->
-			
 			
 	<!--  info toolbar -->
 
@@ -126,26 +108,7 @@
 		
 
 			</ul></li>
-			<!--  
-			<g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
-				<li id="menuTicket" class="toolbarMenuItem"><a
-				href="#ticketsMenu"><g:message
-						code="text.tickets" /></a>
-				<ul>
-	
-					<li id="menuCreateAndEmailATicket"><a href="#menuCreateAndEmailATicket"
-						onclick="createAndEmailATicketToolbar()"><g:message
-								code="text.ticket.email" /></a></li>
-					<li id="menuUseATicket"><a href="#menuUseATicket"
-						onclick="useATicket()"><g:message
-								code="text.ticket.use" /></a></li>
-					
-			</ul></li>
-			</g:if>-->
-			
-
-
-	</ul>
+		</ul>
 </div>
 
 
@@ -180,7 +143,6 @@
 		showAuditView(selectedPath);
 
 	}
-	
 
 	/**
 	 * browse view selected

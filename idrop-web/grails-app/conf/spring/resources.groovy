@@ -1,6 +1,8 @@
 // Place your Spring DSL code here
 beans = {
 
+	profileService(org.irods.mydrop.service.ProfileService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
 	browseController(org.irods.mydrop.controller.BrowseController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 		taggingServiceFactory = ref("taggingServiceFactory")
@@ -34,6 +36,8 @@ beans = {
 	}
 
 	auditController(org.irods.mydrop.controller.AuditController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
+	profileController(org.irods.mydrop.controller.ProfileController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 
 }

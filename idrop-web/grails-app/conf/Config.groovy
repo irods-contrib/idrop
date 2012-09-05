@@ -18,7 +18,7 @@ environments {
 	/*production {  grails.serverURL = "http://lifetime-library.ils.unc.edu/${appName}" }
 	 production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
 	 production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
-	 production {  grails.serverURL = "http://www.irods.org" } */
+	 production {  grails.serverURL = "http://www.irods.org" } */2
 	production {  grails.serverURL = "http://edit.your.server.info.in.your.etc.file.or.update.the.groovy.config" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test { grails.serverURL = "http://localhost:8080/${appName}" }
@@ -33,6 +33,7 @@ environments {
  idrop.config.preset.zone="lifelibZone"
  idrop.config.preset.resource="lifelibResc1"
  */
+
 
 /*
  * 3) iDROP web includes the idrop-lite Java applet, which is launched from the iDROP web interface.  The interface needs to know where to find this jar file.
@@ -70,6 +71,7 @@ idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-release/idrop.jnlp"
 // do I support tickets? This determies whether the ticket feature is available via the interface, it also requires ticket support in iRODS itself (version 3.1+)
 idrop.config.use.tickets=true
 idrop.config.max.thumbnail.size.mb=20
+idrop.config.use.userprofile=false
 
 /*
  * Some properties may be set in an external configuration file, as configured below

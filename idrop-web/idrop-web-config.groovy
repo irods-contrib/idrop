@@ -61,3 +61,6 @@ idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
 
 // do I support tickets? This determies whether the ticket feature is available via the interface, it also requires ticket support in iRODS itself (version 3.1+)
 idrop.config.use.tickets=true
+
+// do I want to display the profile tab and maintain user profile info 
+idrop.config.use.userprofile=false
