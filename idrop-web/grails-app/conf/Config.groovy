@@ -153,6 +153,10 @@ grails.validateable.packages = ['org.irods']
 
 // log4j configuration
 log4j = {
+	
+	appenders {
+		'null' name:'stacktrace'
+	}
 
 	root {
 		warn()

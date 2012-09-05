@@ -10,7 +10,6 @@ import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.core.pub.UserGroupAO
 import org.irods.jargon.core.pub.domain.User
-import org.irods.jargon.spring.security.IRODSAuthenticationToken
 import org.irods.jargon.testutils.TestingPropertiesHelper
 import org.mockito.Mockito
 
@@ -27,7 +26,7 @@ class UserControllerTests extends ControllerUnitTestCase {
 		testingPropertiesHelper = new TestingPropertiesHelper()
 		testingProperties = testingPropertiesHelper.getTestProperties()
 		irodsAccount = testingPropertiesHelper.buildIRODSAccountFromTestProperties(testingProperties)
-		def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
+		//def irodsAuthentication = new IRODSAuthenticationToken(irodsAccount)
 		controller.session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 	}
 
