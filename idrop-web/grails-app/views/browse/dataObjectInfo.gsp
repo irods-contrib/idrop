@@ -13,16 +13,18 @@
 		<div id="infoDialogArea"><!--  no empty divs --></div>
 	
 			<div class="roundedContainer">
+			<image style="float:left;margin-right:10px;" src="<g:resource dir="images" file="file.png" alt="file icon" />"/>
+			
 				<div id="container" style="height:100%;width:100%;">
 				
-						<div>
-							<div style="width:20%;"><label>Collection:</label></div>
-							<div style="overflow:auto;">${dataObject.collectionName}</div>
-						</div>
 						<div >
-							<div><label>Name:</label></div>
-							<div style="overflow:auto;"><g:link url="${'file/download' + dataObject.absolutePath}">${dataObject.dataName}</g:link></div>
-						</div>
+					<div><label>File Name:</label></div>
+					<div style="overflow:auto;"><g:link url="${'file/download' + dataObject.absolutePath}">${dataObject.dataName}</g:link></div>
+				</div>
+				<div>
+					<div style="width:20%;"><label>Parent Collection:</label></div>
+					<div style="overflow:auto;">${dataObject.collectionName}</div>
+				</div>
 				</div>
 				<div id="infoThumbnailLoadArea"></div>
 					<g:if test="${renderMedia}">

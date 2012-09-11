@@ -26,3 +26,6 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 * [#922] User Profile Management
 ** added profile management tab, including ability to change password by user
+
+* [#962] missing file icon in info view for data objects
+Fixed data object info to include icon and be clearer about file versus collection

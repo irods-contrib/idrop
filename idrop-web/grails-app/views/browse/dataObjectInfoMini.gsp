@@ -20,18 +20,20 @@
 	
 	<div style="display:table-row;">
 		<div id="infoDisplayMain"  style="display:table-cell;">
+		<image style="float:left;margin-right:10px;" src="<g:resource dir="images" file="file.png" alt="file icon" />"/>
 		
 		<!-- inner table for general data -->
 		
 			<div id="container" style="height:100%;width:100%;">
 		
-				<div>
-					<div style="width:20%;"><label>Collection:</label></div>
-					<div style="overflow:auto;">${dataObject.collectionName}</div>
-				</div>
+				
 				<div >
-					<div><label>Name:</label></div>
+					<div><label>File Name:</label></div>
 					<div style="overflow:auto;"><g:link url="${'file/download' + dataObject.absolutePath}">${dataObject.dataName}</g:link></div>
+				</div>
+				<div>
+					<div style="width:20%;"><label>Parent Collection:</label></div>
+					<div style="overflow:auto;">${dataObject.collectionName}</div>
 				</div>
 			</div>
 		</div>
