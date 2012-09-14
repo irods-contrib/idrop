@@ -1,16 +1,18 @@
 package org.irods.mydrop.controller
 
-import java.util.HashMap
-
 import grails.converters.*
 
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
+import org.irods.jargon.core.protovalues.FilePermissionEnum
 import org.irods.jargon.core.pub.*
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.io.IRODSFile
+import org.irods.jargon.core.utils.IRODSUriUtils
 import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.datautils.image.MediaHandlingUtils
+import org.irods.jargon.datautils.sharing.*
+import org.irods.jargon.ticket.TicketDistributionContext
 import org.irods.jargon.usertagging.FreeTaggingService
 import org.irods.jargon.usertagging.IRODSTaggingService
 import org.irods.jargon.usertagging.TaggingServiceFactory
@@ -791,8 +793,73 @@ class BrowseController {
 		}
 		irodsAccount.setDefaultStorageResource(resource)
 		render "OK"
-
 	}
+	
+	/**
+	 * Create the contents of a 'public link' dialog that will either display a url to copy, or create the appropriate ACL alterations
+	 * to support such a public link
+	 */
+	def preparePublicLinkDialog = {
+		def absPath = params['absPath']
+		if (absPath == null) {
+				log.error "no file name in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+		
+		// see if anonymous already has access
+		AnonymousAccessService anonymousAccessService = new AnonymousAccessServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		 
+		boolean accessSet = anonymousAccessService.isAnonymousAccessSetUp(absPath)
+		URI irodsUri = IRODSUriUtils.buildURIForAnAccountWithNoUserInformationIncluded(irodsAccount, absPath)
+		String irodsUriPath = irodsUri.toString()
+		String accessUrlString = buildAnonymousAccessUrl(irodsUriPath)
+		render(view:"publicLinkDialog", model:[absPath:absPath, accessSet:accessSet, accessUrlString:accessUrlString])
+
+	}	
+	
+	def updatePublicLinkDialog = {
+		def absPath = params['absPath']
+		if (absPath == null) {
+				log.error "no file name in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+		
+		// see if anonymous already has access
+		AnonymousAccessService anonymousAccessService = new AnonymousAccessServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		try {
+			log.info("adding anonymous access...")
+			anonymousAccessService.permitAnonymousToFileOrCollectionSettingCollectionAndDataObjectProperties(absPath, FilePermissionEnum.READ, null)
+			log.info("add successful, link generated")
+			} catch (JargonException je) {
+			log.error("unable to update anonymous access", je)
+			def message = message(code:"error.unable.to.add.anonymous.access")
+			response.sendError(500,message)
+			return
+		}
+		
+		URI irodsUri = IRODSUriUtils.buildURIForAnAccountWithNoUserInformationIncluded(irodsAccount, absPath)
+		String irodsUriPath = irodsUri.toString()
+		String accessUrlString = buildAnonymousAccessUrl(irodsUriPath)
+		//boolean accessSet = anonymousAccessService.isAnonymousAccessSetUp(absPath)
+		boolean accessSet = true
+		render(view:"publicLinkDialog", model:[absPath:absPath, accessSet:accessSet, accessUrlString:accessUrlString])
+	}
+	
+	/**
+	 * Build a url that will set up anonymous access to the given file
+	 * @return
+	 */
+	private String buildAnonymousAccessUrl(String irodsUriString) {
+		TicketDistributionContext ticketDistributionContext = new TicketDistributionContext()
+		String grailsServerURL =  grailsApplication.config.grails.serverURL
+		log.info("server URL for context: ${grailsServerURL}")
+		grailsServerURL = grailsServerURL  + "/home/link?irodsURI=" + URLEncoder.encode(irodsUriString, grailsApplication.config.grails.views.gsp.encoding)
+		return grailsServerURL	
+	}
+	
+	
 }
 
 class ViewNameAndModelValues {

@@ -139,10 +139,7 @@
 			</div>
 </div>
 	
-
-
 <script>
-
 	$(function() {
 		showDetailsToolbar();
 		$(".idropLiteBulkUpload").hide();
@@ -150,36 +147,32 @@
 		$("#menuUpload").hide();
 		$("#menuBulkUpload").hide();
 
-		$("#infoAccordion").accordion({ 
-			  clearStyle: true,
-			  autoHeight: false
-			}).bind("accordionchange", function(event, ui) {
-				var infoSection = ui.newHeader[0].id;
-				updateDataObjectInfoSection(infoSection);
-			});
-		
-	});
-	
+		$("#infoAccordion").accordion({
+			clearStyle : true,
+			autoHeight : false
+		}).bind("accordionchange", function(event, ui) {
+			var infoSection = ui.newHeader[0].id;
+			updateDataObjectInfoSection(infoSection);
+		});
 
-	
+	});
+
 	/**
 	Update the info for a section in the info accordion based on the provided section id
-	*/
+	 */
 	function updateDataObjectInfoSection(sectionToUpdate) {
 		//alert("sectionToUpdate:" + sectionToUpdate);
-		if (sectionToUpdate=="infoAccordionMetadata") {
+		if (sectionToUpdate == "infoAccordionMetadata") {
 			showMetadataView(selectedPath, "#infoAccordionMetadataInner");
-		} else if (sectionToUpdate=="infoAccordionACL") {
+		} else if (sectionToUpdate == "infoAccordionACL") {
 			showSharingView(selectedPath, "#infoAccordionACLInner");
-		} else if (sectionToUpdate=="infoAccordionTickets") {
+		} else if (sectionToUpdate == "infoAccordionTickets") {
 			showTicketView(selectedPath, "#infoAccordionTicketsInner");
-		} else if (sectionToUpdate=="infoAccordionAudit") {
+		} else if (sectionToUpdate == "infoAccordionAudit") {
 			showAuditView(selectedPath, "#infoAccordionAuditInner");
 		} else {
 		}
 	}
-
-	
 </script>
 <g:if test="${getThumbnail}">
 	<script>

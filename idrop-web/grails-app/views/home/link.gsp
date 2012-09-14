@@ -1,6 +1,7 @@
 <head>
 <meta name="layout" content="basic" />
 </head>
+<g:hiddenField name="absPath" id="absPath" value="${absPath}"/>
 <div style="height:100px;margin-left:auto; margin-right:auto;">
 <h1 style="text-align:center;"><g:message code="heading.loading.for.link" /></h1>
 </div>
@@ -11,6 +12,11 @@
 <script type="text/javascript">
 	
 	$(document).ready(function() {
-		alert("link!");
+		baseAbsPath = $("#absPath").val();
+		if (baseAbsPath == null) {
+			return false;
+		}
+		baseAbsPath = escape(baseAbsPath);
+		window.location.href = context + "/home/index?mode=path&absPath=" + baseAbsPath;
 	});
 </script>
