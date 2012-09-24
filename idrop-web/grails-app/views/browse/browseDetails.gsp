@@ -44,7 +44,9 @@
               <a href="#" id="${entry.formattedAbsolutePath}" onclick="clickOnPathInBrowseDetails(this.id)">${entry.nodeLabelDisplayValue}</a>
 
             </g:if> <g:else>
-              <g:link url="${'file/download' + entry.formattedAbsolutePath}">
+            	
+            
+              <g:link url="${context + '/file/download' + entry.formattedAbsolutePath}">
 ${entry.nodeLabelDisplayValue}
               </g:link>
             </g:else></td>

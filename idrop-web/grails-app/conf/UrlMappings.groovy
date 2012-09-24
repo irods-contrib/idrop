@@ -16,6 +16,11 @@ class UrlMappings {
 			name = { request.requestURI }
 		}
 
+		// FIXME: temp hack
+		"/home/null/file/**" (controller:"file", action:"index"){
+			name = { request.requestURI }
+		}
+
 		"/$controller/$action?"{ constraints {
 				// apply constraints here
 			} }
