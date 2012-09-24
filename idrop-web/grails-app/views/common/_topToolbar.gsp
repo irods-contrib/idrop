@@ -33,6 +33,7 @@
 					onclick="deleteViaToolbar()"><g:message
 							code="default.button.delete.label" /></a></li>
 			</ul></li>
+			
 		<li id="menuView"><a href="#view"><g:message code="text.view" /></a>
 			<ul>
 				<li id="menuBrowseView"><a href="#browseView"
@@ -79,6 +80,13 @@
 			
 			</ul></li>
 			
+			<li id="menuToolsDetails" class="detailsToolbarMenuItem"><a href="#menuToolsDetails"><g:message code="text.tools"/></a>
+				<ul>
+					<li id="menuToolsDetailsMakePublicLink"><a href="#makePublicLinkDetails" onclick="makePublicLinkAtPath()"><g:message code="text.create.public.link" /></a></li>
+				</ul>
+			</li>
+				
+			
 			<li id="menuBulkActionDetails" class="detailsToolbarMenuItem"><a href="#applyActionToAllDetails"><g:message code="text.apply.to.all"/></a>
 				<ul>
 
@@ -86,10 +94,17 @@
 					<li id="menuDeleteDetails"><a href="#deleteAllDetails" onclick="deleteSelected()"><g:message code="text.delete.all" /></a></li>
 				</ul>
 			</li>
+			
+			
 				
 			
 	<!--  info toolbar -->
 
+	<li id="menuTools" class="toolbarMenuItem"><a href="#menuToolsD"><g:message code="text.tools"/></a>
+				<ul>
+					<li id="menuToolsMakePublicLink"><a href="#makePublicLink" onclick="makePublicLinkAtPath()"><g:message code="text.create.public.link" /></a></li>
+				</ul>
+			</li>
 		
 		<li id="menuUploadDownload" class="toolbarMenuItem"><a
 			href="#uploadDownload"><g:message code="text.upload.and.download" /></a>
@@ -270,4 +285,36 @@
 		var path = $("#infoAbsPath").val();
 		showSharingView(path);
 	}
+
+	/*
+	* Cause a dialog to appear that has a link for a public path for the current path
+	*/
+	function makePublicLinkAtPath() {
+		$("#browseDialogArea").html();
+		var path = selectedPath;
+		if (selectedPath == null) {
+			return false;
+		}
+
+		// show the public link dialog
+		var url = "/browse/preparePublicLinkDialog";
+		var params = {
+			absPath : path
+		}
+
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+			fillInPublicLinkDialog(data);
+		});
+		
+	}
+
+	/*
+	*Given the contents of the 'create public link' dialog, 
+	*/
+	function fillInPublicLinkDialog(data) {
+		$("#browseDialogArea").html(data);
+		$("#browseDialogArea").show("slow");
+		//$("#browseDialogArea").dialog({width:500, modal:true});
+	}
+	
 </script>

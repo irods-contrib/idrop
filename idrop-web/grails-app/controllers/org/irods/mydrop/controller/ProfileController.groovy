@@ -38,11 +38,17 @@ class ProfileController {
 	 */
 	def index() {
 		log.info "index()"
-		try {
-			UserProfile userProfile = profileService.retrieveProfile(irodsAccount)
-			render(view:"profileData", model:[userProfile:userProfile])
-		} catch (Exception e) {
-			response.sendError(500,e.message)
+		
+		if (irodsAccount.userName == IRODSAccount.PUBLIC_USERNAME) {
+			render(view:"noProfileData")
+		} else {
+		
+			try {
+				UserProfile userProfile = profileService.retrieveProfile(irodsAccount)
+				render(view:"profileData", model:[userProfile:userProfile])
+			} catch (Exception e) {
+				response.sendError(500,e.message)
+			}
 		}
 	}
 

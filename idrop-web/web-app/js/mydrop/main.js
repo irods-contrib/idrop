@@ -35,11 +35,13 @@ function updateTags() {
 		comment : infoCommentVal
 	}
 
+	showBlockingPanel();
 	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
 			params, null, "#infoUpdateArea", function() {
 				setMessage("Tags and comments updated successfully");
 				refreshTagCloud();
 			});
+	unblockPanel();
 }
 
 /*

@@ -1,3 +1,4 @@
+	<div id="browseDialogArea"><!--  general area to spawn jquery dialogs --></div>
 	<div id="browseToolbar" style="display:block; width:100%;position:relative;">
 				
 		<div id="infoDivPathArea"
@@ -8,7 +9,10 @@
 	</div> <!--  browseToolbar -->
 	<div id="browseMenuDiv" style="display:block; width:100%;position:relative;">
           <g:render template="/common/topToolbar" />
-	</div>
+	</div> 
+	
+	<div id="browseDialogArea"><!--  general area to spawn jquery dialogs --></div>
+	
 		
 	<div id="browser" class="wrapper" style="height:85%;width:100%;clear:both;">
 		<div id="dataTreeView" style="width: 100%; height: 700px; overflow: hidden;">

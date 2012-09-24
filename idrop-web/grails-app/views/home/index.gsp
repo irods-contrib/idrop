@@ -7,6 +7,9 @@
 </head>
 <div id="tabs" class="wrapper clearfix"
 	style="height: 820px; overflow:hidden;">
+	
+	<g:hiddenField name="mode" id="mode" value="${mode}"/>
+	<g:hiddenField name="presetPath" id="presetPath" value="${path}"/>
 
 	<ul>
 		<li><a href="#browseTab"><g:message code="text.browse" /> </a></li>
@@ -70,8 +73,14 @@
 			west__resizable : true
 		});
 
-		retrieveBrowserFirstView("detect","");
-
+		var mode = $("#mode").val();
+		var startPath = $("#presetPath").val();
+		
+		if (mode == null || mode=="") {
+			retrieveBrowserFirstView("detect","");
+		} else {
+			retrieveBrowserFirstView(mode, startPath);
+		}
 		tabs = $("#tabs").tabs({});
 
 		tabs.bind("tabsselect", function(event, ui) {
