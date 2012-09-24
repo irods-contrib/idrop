@@ -321,8 +321,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         }
         
         // set Look and Feel
-        String lookAndFeel = iDropCore.setLookAndFeel();
-        log.info("setting look and feel: {}", lookAndFeel);
+        //String lookAndFeel = iDropCore.setLookAndFeel();
+        //log.info("setting look and feel: {}", lookAndFeel);
 
         if (this.displayMode != 3) {
             buildTargetTree();
