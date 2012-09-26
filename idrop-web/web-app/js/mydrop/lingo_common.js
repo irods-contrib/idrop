@@ -650,12 +650,12 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
  */
 function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
 		divForAjaxError, callbackFunction) {
-
+ 
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
 	}
 
-	try {
+	try {  
 
 		$.get(context + getUrl, parms, function(data, status, xhr) {
 			var continueReq = checkForSessionTimeout(data, xhr);
@@ -663,11 +663,11 @@ function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
 				callbackFunction(data);
 			}
 		}, "json").error(function(xhr, status, error) {
-			setErrorMessage(xhr.responseText);
-			if (divForLoadingGif != null) {
-				$(divForLoadingGif).html("");
+			// continue?
+			var continueReq = checkForSessionTimeout(null, xhr);
+			if (continueReq) {
+				setErrorMessage(xhr.responseText);
 			}
-
 		});
 	} catch (err) {
 		setErrorMessage(err);

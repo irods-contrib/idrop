@@ -22,7 +22,10 @@ Note that the following bug and feature requests are logged in GForge with relat
 * [#950] unable to browse to location message in idrop web tree for new safari/mac
 ** temp catch of icon assignment added as shim in jstree javascript
 
-* #990] update user profile i18n message missing
+* [#990] update user profile i18n message missing
+
+* [#986] hit home in browse tree causes error message when timed out
+** fixed lingo-common method that handles json call to check for continue
 
 ==Features==
 
