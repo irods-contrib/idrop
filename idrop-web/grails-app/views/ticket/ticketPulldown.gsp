@@ -103,13 +103,13 @@
 				
 					<div><!--  pie chart row --> 
 					
-						<div style="width:33%;height:auto;" class="roundedContainer">
+						<div style="width:33%;height:auto;" class="well">
 							<!--  pie chart cell usage -->
 								<div id="ticketUsesChart" style="height:auto;width:auto;"></div>
 								<label><g:message code="text.ticket.uses.count" /></label><br/>${ticket.usesCount}<br/>
 								<label><g:message code="text.ticket.uses.limit" /></label><br/><g:textField id="usesLimit" name="usesLimit" value="${ticket.usesLimit}" />
 						</div>
-						<div style="width:33%;height:auto;" class="roundedContainer">
+						<div style="width:33%;height:auto;" class="well">
 							<!--  pie chart cell write files -->
 							<div id="ticketWriteFilesChart" style="height:auto;width:auto%;" ></div>
 							<label><g:message code="text.ticket.file.count" /></label><br/>${ticket.writeFileCount}<br/>
@@ -117,7 +117,7 @@
 							<g:textField id="writeFileLimit" name="writeFileLimit" value="${ticket.writeFileLimit}" />
 						</div>
 					
-						<div style="width:33%;height:auto;"  class="roundedContainer">
+						<div style="width:33%;height:auto;"  class="well">
 							<!--  pie chart cell write bytes -->
 							<div id="ticketWriteBytesChart" style="height:auto;width:auto;"></div>
 							<label><g:message code="text.ticket.byte.count" /></label><br/>${ticket.writeByteCount}<br/>
@@ -129,26 +129,26 @@
 				</div> <!--  pie chart table end -->
 				
 				<g:if test="${ticket.isDialog}">
-					<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
+					<div id="detailsDialogMenu" 
 							style="float: left, clear :   both; width: 90%;">
 							<button type="button" id="updateTicketDetailButton"
-								class="ui-state-default ui-corner-all" value="update  Ticket"
+								value="update  Ticket"
 								onclick="submitTicketDialog()")><g:message code="default.button.save.label" /></button>
 							<button type="button" id="cancelAddTicketButton"
-								class="ui-state-default ui-corner-all" value="cancelAdd"
+								value="cancelAdd"
 								onclick="closeTicketDialog()")><g:message code="default.button.cancel.label" /></button>
 				</div>
 					
 			</g:if>
 			<g:else>
 			
-				<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
+				<div id="detailsDialogMenu" class="well"
 							style="width: auto;">
 							<button type="button" id="updateTicketPulldownButton"
-								class="ui-state-default ui-corner-all" 
+								
 								onclick="updateTicketFromPulldown()")><g:message code="default.button.save.label" /></button>
 							<button type="button" id="cancelTicketPulldownButton"
-								class="ui-state-default ui-corner-all" 
+								
 								onclick="cancelTicketFromPulldown()")><g:message code="default.button.cancel.label" /></button>
 				</div>
 					

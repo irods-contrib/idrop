@@ -10,14 +10,14 @@
 				<g:textArea name="fileName" id="fileName" value="${fileName}"  />
 				<g:hiddenField name="absPath" id="newFolderDialogAbsPath" value = "${absPath }" />
 				<br />
-				<div id="newFolderDialogToolbar" class="fg-toolbar ui-widget-header">
+				<div id="newFolderDialogToolbar" >
 					<div id="newFolderDialogMenu" class="fg-buttonset fg-buttonset-multi"
 						style="float: left, clear :   both; width: 90%;">
 						<button type="button" id="updateNewFolderButton"
-							class="ui-state-default ui-corner-all" value="update"
+							 value="update"
 							onclick="submitNewFolderDialog()")><g:message code="default.button.update.label" /></button>
 						<button type="button" id="cancelRenameButton"
-							class="ui-state-default ui-corner-all" value="cancelAdd"
+							 value="cancelAdd"
 							onclick="closeNewFolderDialog()")><g:message code="text.cancel" /></button>
 					</div>
 				</div>

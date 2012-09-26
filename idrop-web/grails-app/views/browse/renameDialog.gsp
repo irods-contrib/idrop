@@ -12,14 +12,14 @@
 				<g:textArea name="fileName" id="fileName" value="${fileName}"  />
 				<g:hiddenField name="absPath" id="renameDialogAbsPath" value = "${absPath }" />
 				<br />
-				<div id="renameDialogToolbar" class="fg-toolbar ui-widget-header">
-					<div id="renameDialogMenu" class="fg-buttonset fg-buttonset-multi"
+				<div id="renameDialogToolbar">
+					<div id="renameDialogMenu" 
 						style="float: left, clear :   both; width: 90%;">
 						<button type="button" id="updateRenameButton"
-							class="ui-state-default ui-corner-all" value="update"
+							 value="update"
 							onclick="submitRenameDialog()")><g:message code="default.button.update.label" /></button>
 						<button type="button" id="cancelRenameButton"
-							class="ui-state-default ui-corner-all" value="cancelAdd"
+							 value="cancelAdd"
 							onclick="closeRenameDialog()")><g:message code="text.cancel" /></button>
 					</div>
 				</div>

@@ -28,8 +28,8 @@
 				</div>				
 				<div>
 					<div></div>
-					<div><button type="button" class="ui-state-default ui-corner-all" id="changePassword" value="changePassword" onclick="submitChangePassword()"><g:message code="text.update"/></button>
-					<button type="button" class="ui-state-default ui-corner-all" id="cancelChangePassword" value="cancelChangePassword" onclick="closePasswordDialog()"><g:message code="text.cancel"/></button>
+					<div><button type="button"  id="changePassword" value="changePassword" onclick="submitChangePassword()"><g:message code="text.update"/></button>
+					<button type="button"  id="cancelChangePassword" value="cancelChangePassword" onclick="closePasswordDialog()"><g:message code="text.cancel"/></button>
 					</div>
 				</div>
 	</div>

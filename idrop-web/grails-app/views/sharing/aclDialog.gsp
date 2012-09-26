@@ -26,14 +26,14 @@
 					<!-- div for sharing pick list -->
 				</div>
 				<br/>
-				<div id="detailsDialogToolbar" class="fg-toolbar ui-widget-header">
-					<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
+				<div id="detailsDialogToolbar" class="well">
+					<div id="detailsDialogMenu"
 						style="float: left, clear :   both; width: 90%;">
 						<button type="button" id="updateAclDetailButton"
-							class="ui-state-default ui-corner-all" value="addAcl"
+							value="addAcl"
 							onclick="submitAclDialog()")><g:message code="default.button.save.label" /></button>
 						<button type="button" id="cancelAddAclButton"
-							class="ui-state-default ui-corner-all" value="cancelAdd"
+							 value="cancelAdd"
 							onclick="closeAclAddDialog()")><g:message code="default.button.cancel.label" /></button>
 					</div>
 				</div>

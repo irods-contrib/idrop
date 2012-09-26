@@ -38,30 +38,13 @@
 	
   </script>
 </head>
-<body style="height:100%;overflow:visible;">
+<body style="height:100%;padding-top: 40px;">
  
    <g:render template="/common/topbar"/>
    <div id="defaultDialogDiv"><!-- default for general jquery dialogs --></div>
- 	<div class="container-fluid">
-   
-	     <div class="row-fluid">
-	          <div id="mainDivCol1" class="span10"><!-- PUT MAIN COLUMN 1 CODE HERE -->
-	            <g:layoutBody />
-	          </div>
-	          <div id="secondaryDiv" class="span2"><!-- PUT MAIN COLUMN 2 CODE HERE -->
-		            <g:ifAuthenticated>
-		              <g:render template="/common/secondarymain"/>
-		            </g:ifAuthenticated>
-	      	 </div>
-	    </div>
-
-	 	<div class="row-fluid"><!-- PUT FOOTER CODE HERE -->
-		 	<div class="span12">
-		    	<g:render template="/common/footer" />
-		    </div>
-	 	 </div>
-	 	 
-	 </div>
- 
+   <div class="container-fluid">
+		<g:layoutBody />
+	</div>	    
+	<footer><g:render template="/common/footer" /></footer>      
 </body>
 </html>

@@ -13,7 +13,7 @@
 		<!-- display area lays out info in a main and side column -->
 	<div id="infoDisplayLayout" style="width:100%;height:100%;">
 	
-	<div class="roundedContainer">
+	<div class="well">
 			<image style="float:left;margin-right:10px;" src="<g:resource dir="images" file="folder.png" alt="folder icon" />"/>
 			<h3>${collection.collectionName}</h3>
 	</div>
@@ -80,7 +80,7 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
+					<div><button type="button"  id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
 				</div>
 			</div>
 		</div>

@@ -1,47 +1,33 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><g:layoutTitle default="iDrop-web - iRODS Cloud Browser" /></title>
-<link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'base.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'style.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'layout-default-latest.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'superfish.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'jquery.gritter.css')}" />
-<link rel="stylesheet"
-	href="${resource(dir:'css',file:'reset-fonts-grids.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'start/jquery-ui-1.8.18.custom.css')}" />
+ <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'jqcloud.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'layout-default-latest.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'superfish.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.gritter.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'start/jquery-ui-1.8.18.custom.css')}" />
 
-<link rel="shortcut icon"
-	href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
-<g:layoutHead />
-<g:javascript library="jquery-1.7.1.min" />
-<g:javascript library="jquery-ui-1.8.7.custom.min" />
- <g:javascript library="jquery.hotkeys" />
- <g:javascript library="jquery.jstree" />
-<g:javascript library="jquery.jeditable.mini" />
-<g:javascript library="jquery.dataTables.min" />
-<g:javascript library="mydrop/ticket" />
-<g:javascript library="jquery.i18n.properties-min-1.0.9" />
-<g:javascript library="jqcloud-0.1.6" />
-<g:javascript library="jquery.fileupload-ui" />
-<g:javascript library="jquery.fileupload" />
-<g:javascript library="jquery.media" />
-<g:javascript library="mydrop/lingo_common" />
-<g:javascript library="mydrop/main" />
-<g:javascript library="jquery-ui-13" />
-<g:javascript library="jquery.blockUI" />
-<g:javascript library="jquery.ba-bbq.min" />
-<g:javascript library="jquery.layout.min-1.3.0" />
-<g:javascript library="jquery-ui-13" />
-<g:javascript library="jquery.tools.min" />
-<g:javascript library="mydrop/shopping_cart" />
-<g:javascript library="mydrop/user" />
-<g:javascript library="galleria-1.2.6" />
-<g:javascript library="jquery.gritter.min" />
-<g:javascript library="jquery.opacityrollover" />
-<g:javascript library="superfish" />
+    <link rel="shortcut icon"
+          href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
+  <g:layoutHead />
+  <g:javascript library="jquery-1.7.2.min" />
+ <g:javascript library="jquery-ui-1.8.7.custom.min" />
+  <g:javascript library="bootstrap.min" />
+  
+  <g:javascript library="jquery.i18n.properties-min-1.0.9" />
+  <g:javascript library="mydrop/lingo_common" />
+  <g:javascript library="mydrop/main" />
+  <g:javascript library="jquery-ui-13" />
+  <g:javascript library="jquery.blockUI" />
+  <g:javascript library="jquery.ba-bbq.min" />
+  <g:javascript library="jquery-ui-13" />
+  <g:javascript library="jquery.tools.min" />
+  <g:javascript library="jquery.gritter.min" />
+  <g:javascript library="jquery.opacityrollover" />
 <!--  preserve the application context as a js variable for use in AJAX callbacks -->
 <script type="text/javascript">
 	context = "${request.contextPath}";
@@ -85,11 +71,9 @@
 	
 </script>
 </head>
-<body style="height:100%;">
-<div id="hd"><!-- PUT MASTHEAD CODE HERE -->
+<body>
 <div id="bannercontainer">
 	<!--  image banner -->
-</div>
 </div>
 <div id="bd" style="height:100%;">
 <div id="defaultDialogDiv"><!-- default for general jquery dialogs --></div>

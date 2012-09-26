@@ -1,8 +1,4 @@
-
-
 <div id="browseDetailsMessageArea"></div>
-<div id="infoDialogArea" style="height:0px; "></div>
-
 <div id=browseDetailsDialogArea" style-"height:0px;></div>
 <g:hiddenField id="browseDetailsAbsPath" name="absolutePath"
 					value="${parent.collectionName}" />
@@ -17,7 +13,7 @@
     </div>
     <div id="detailsTopSection" >
       <form id="browseDetailsForm" name="browseDetailsForm">
-        <table cellspacing="0" cellpadding="0" border="0"
+        <table class="table table-striped table-hover" cellspacing="0" cellpadding="0" border="0"
                id="browseDataDetailsTable">
           <thead>
             <tr>
@@ -87,8 +83,19 @@ ${entry.displayDataSize}
                 	"bLengthChange": false,
                 	"bFilter": false,
                 	"iDisplayLength" : 500,
+                	 "sDom": "<'row'<'span10'l><'span8'f>r>t<'row'<'span10'i><'span10'p>>",
+                	 "aoColumns" : [
+                	                { sWidth: '20px' },
+                	                { sWidth: '20px' },
+                	                { sWidth: '120px' },
+                	                { sWidth: '30px' },
+                	                { sWidth: '40px' },
+                	                { sWidth: '40px' }
+                	                
+                	            ],
+                	
                 	"fnInitComplete": function() {
-                		//this.fnAdjustColumnSizing(true);
+                		this.fnAdjustColumnSizing(true);
                 	}
                 	
 
@@ -100,6 +107,12 @@ ${entry.displayDataSize}
                 $("#infoDiv").resize();
                 $("#menuDownload").hide();
         });
+
+        $.extend( $.fn.dataTableExt.oStdClasses, {
+            "sSortAsc": "header headerSortDown",
+            "sSortDesc": "header headerSortUp",
+            "sSortable": "header"
+        } );
 
       
        

@@ -15,14 +15,14 @@
 				<label for="unit"><g:message code="text.unit" />:</label>
 				<g:textField name="unit" value="${unit}"/>
 				<br />
-				<div id="detailsDialogToolbar" class="fg-toolbar ui-widget-header">
-					<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
+				<div id="detailsDialogToolbar" class="well">
+					<div id="detailsDialogMenu" 
 						style="float: left, clear :   both; width: 90%;">
 						<button type="button" id="updateMetadataDetailButton"
-							class="ui-state-default ui-corner-all" value="addMetadata"
+							 value="addMetadata"
 							onclick="submitMetadataDialog()")><g:message code="default.button.update.label" /></button>
 						<button type="button" id="cancelAddMetadataButton"
-							class="ui-state-default ui-corner-all" value="cancelAdd"
+							 value="cancelAdd"
 							onclick="closeMetadataDialog()")><g:message code="text.cancel" /></button>
 					</div>
 				</div>

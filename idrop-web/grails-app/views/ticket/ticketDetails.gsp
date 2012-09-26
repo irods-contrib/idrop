@@ -4,26 +4,26 @@
 <div id="ticketMessageArea"><!--  area for messages --></div>
 
 <div id="ticketDetailsTableArea">
-	<div class="fg-toolbar ui-widget-header" id="ticketDetailsTopSection" >
+	<div class="well" id="ticketDetailsTopSection" >
 		<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
 			style="float: left, clear :   both;">
 			<button type="button" id="addTicketButton"
-				class="ui-state-default ui-corner-all" value="addTicket"
+				 value="addTicket"
 				onclick="prepareTicketDetailsDialog()")>
 				<g:message code="default.button.create.label" />
 			</button>
 			<button type="button" id="editTicketButton"
-				class="ui-state-default ui-corner-all" value="editTicket"
+				 value="editTicket"
 				onclick="editTicketDialog()")>
 				<g:message code="default.button.edit.label" />
 			</button>
 			<button type="button" id="deleteTicketButton"
-				class="ui-state-default ui-corner-all" value="deleteTicket"
+				 value="deleteTicket"
 				onclick="deleteTicket()")>
 				<g:message code="default.button.delete.label" />
 			</button>
 			<button type="button" id="reloadTickets"
-				class="ui-state-default ui-corner-all" value="reloadTickets"
+				 value="reloadTickets"
 				onclick="reloadTickets()")>
 				<g:message code="default.button.reload.label" />
 			</button>

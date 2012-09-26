@@ -1,11 +1,11 @@
 *'''Project''': idrop-web
 *'''Date''': 08/28/2012
-*'''Release Version''': 1.0.1
-*'''git tag''': 1.0.1
+*'''Release Version''': xxxx
+*'''git tag''': 984-idrop-web-redesign
 
 ==News==
 
-This is a release of iDrop web version 1.0.1
+This is a release of iDrop web with the version 2.0 redesign work
 
 
 ==Requirements==
@@ -17,15 +17,9 @@ This is a release of iDrop web version 1.0.1
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
 ==Bug Fixes==
-*  [#959] firefox browse div float error
 
-* [#950] unable to browse to location message in idrop web tree for new safari/mac
-** temp catch of icon assignment added as shim in jstree javascript
 
 ==Features==
-
-* [#922] User Profile Management
-** added profile management tab, including ability to change password by user
-
-* [#962] missing file icon in info view for data objects
-Fixed data object info to include icon and be clearer about file versus collection
+[#984] iDrop web '2.0' redesign effort
+** switched to twitter bootstrap model
+** refactoring and simplification of GUI

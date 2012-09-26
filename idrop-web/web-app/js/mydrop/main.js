@@ -235,6 +235,13 @@ function clickOnPathInCrumbtrail(data) {
 }
 
 /**
+ * Hide all items on the top menu bar
+ */
+function hideAllInactive() {
+	$(".topbarItem").removeClass("active");
+}
+
+/**
  * Hides all but the standard toolbar
  */
 function hideAllToolbars() {

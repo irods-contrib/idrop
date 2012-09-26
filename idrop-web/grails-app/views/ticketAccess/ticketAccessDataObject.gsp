@@ -25,7 +25,6 @@
 				<div>
 					<div style="width:20%;"><label><g:message code="text.actions" />:</label></div>
 					<div><button type="button" id="downloadDataObjectButton"
-								class="ui-state-default ui-corner-all" 
 								onclick="downloadDataObjectButton()")><g:message code="text.download" /></button></div>
 				</div>
 	</div>
