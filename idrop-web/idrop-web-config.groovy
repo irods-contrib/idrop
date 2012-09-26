@@ -24,6 +24,8 @@ environments {
  idrop.config.preset.port="1247"
  idrop.config.preset.zone="someZone"
  idrop.config.preset.resource="someResc"
+ // can be Standard or PAM right now
+ idrop.config.preset.authScheme="Standard"
  */
 
 /*
