@@ -33,6 +33,7 @@ public interface IdropConfigurationService  {
     public static final String ACCOUNT_CACHE_RESOURCE = "irods.account.resource";
     public static final String ACCOUNT_CACHE_USER_NAME = "irods.account.user";
     public static final String ACCOUNT_CACHE_ROOT_DIR = "irods.account.root.dir";
+    public static final String ACCOUNT_CACHE_LOGIN_MODE = "irods.account.login.mode";
     public static final String POLICY_AWARE_PROPERTY = "policy.aware";
     public static final String LOOK_AND_FEEL = "idrop.lookandfeel";
     public static final String TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES = "transferengine.record.successful.files";

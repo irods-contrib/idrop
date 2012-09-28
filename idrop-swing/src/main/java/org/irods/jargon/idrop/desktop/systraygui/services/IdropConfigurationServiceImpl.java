@@ -250,6 +250,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_ROOT_DIR, irodsAccount.getHomeDirectory());
         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_ZONE, irodsAccount.getZone());
         updateConfig(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME, irodsAccount.getUserName());
+        updateConfig(IdropConfigurationService.ACCOUNT_CACHE_LOGIN_MODE, irodsAccount.getAuthenticationScheme().name());
         log.info("config updated");
     }
 
