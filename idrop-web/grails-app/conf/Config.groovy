@@ -32,6 +32,8 @@ environments {
  idrop.config.preset.port="2247"
  idrop.config.preset.zone="lifelibZone"
  idrop.config.preset.resource="lifelibResc1"
+ idrop.config.preset.authScheme="Standard"
+
  */
 
 

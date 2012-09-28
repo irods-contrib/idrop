@@ -63,7 +63,10 @@
 							<div ><label><g:message code="text.zone" />:</label></div>
 							<div><input type="text" class="input-text" name="zone" id="zone" value="${loginCommand.zone}"/></div>
 						</div>
-						
+						<div>
+							<div ><label><g:message code="text.auth.method" />:</label></div>
+							<div><g:select name="authMethod" from="${['Standard', 'PAM']}" value="${loginCommand.authMethod}"/></div>
+						</div>
 				</g:else>
 				
 				<div>
