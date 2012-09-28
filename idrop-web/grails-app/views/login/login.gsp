@@ -49,6 +49,8 @@
 							name="zone" id="zone" value="${loginCommand.zone}"/>
 					   <g:hiddenField
 							name="defaultStorageResource" id="resource" value="${loginCommand.defaultStorageResource}"/>
+							 <g:hiddenField
+							name="authMethod" id="authMethod" value="${loginCommand.authMethod}"/>
 				</g:if>
 				<g:else>
 						<div>

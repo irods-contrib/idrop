@@ -62,6 +62,7 @@ class LoginController {
 		}
 		
 		if (presetAuthScheme) {
+			log.info("preset auth scheme is:${presetAuthScheme}")
 			loginCommand.authMethod = presetAuthScheme
 		}
 
