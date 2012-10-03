@@ -2,7 +2,6 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +19,6 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -64,6 +62,14 @@ public class LoginDialog extends JDialog {
         if (port == null || port.isEmpty()) {
             port = "1247";
         }
+        
+        String mode = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_LOGIN_MODE);
+        if (mode == null || mode.isEmpty()) {
+            mode = IRODSAccount.AuthScheme.STANDARD.name();
+        } else {
+            comboLoginMode.setSelectedItem(mode);
+        }
+        
         txtPort.setText(port);
         String zone = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_ZONE);
         txtZone.setText(zone);
@@ -71,7 +77,7 @@ public class LoginDialog extends JDialog {
         txtResource.setText(resource);
         String username = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_USER_NAME);
         txtUserName.setText(username);
-        hidePortAndResource();
+        hideAdvancedViewFields();
     }
 
     private void loginUsingPreset() {
@@ -85,6 +91,8 @@ public class LoginDialog extends JDialog {
         lblResource.setVisible(false);
         txtResource.setVisible(false);
         chkAdvancedLogin.setVisible(false);
+        lblLoginMode.setVisible(false);
+        comboLoginMode.setVisible(false);
     }
 
     /**
@@ -120,13 +128,7 @@ public class LoginDialog extends JDialog {
                 txtResource.setBackground(Color.red);
             }
         }
-        
-        
-        
-        
-        
-        
-        
+      
         txtUserName.setBackground(Color.white);
         password.setBackground(Color.white);
         if (txtUserName.getText().length() == 0) {
@@ -138,16 +140,8 @@ public class LoginDialog extends JDialog {
         StringBuilder sb = new StringBuilder();
         final IRODSAccount irodsAccount;
         
-        
-        
-        
-        
         try {
             
-            
-            
-          
-
             // validated, now try to log in
             if (idropCore.getIdropConfig().isLoginPreset()) {
                 log.debug("creating account with presets");
@@ -199,7 +193,11 @@ public class LoginDialog extends JDialog {
             MessageManager.showError(this, ex.getMessage(), MessageManager.TITLE_MESSAGE);
             return true;
         }
-
+        
+        if (comboLoginMode.getSelectedItem().toString().equals(IRODSAccount.AuthScheme.PAM.name())) {
+            irodsAccount.setAuthenticationScheme(IRODSAccount.AuthScheme.PAM);
+        } 
+        
         IRODSFileSystem irodsFileSystem = null;
 
         /*
@@ -296,6 +294,8 @@ public class LoginDialog extends JDialog {
         jPanel1 = new javax.swing.JPanel();
         chkAdvancedLogin = new javax.swing.JCheckBox();
         chkGuestLogin = new javax.swing.JCheckBox();
+        lblLoginMode = new javax.swing.JLabel();
+        comboLoginMode = new javax.swing.JComboBox();
         pnlToolbar = new javax.swing.JPanel();
         btnOK = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
@@ -416,8 +416,23 @@ public class LoginDialog extends JDialog {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         pnlLoginInfo.add(jPanel1, gridBagConstraints);
+
+        lblLoginMode.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblLoginMode.setText("Login Mode:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        pnlLoginInfo.add(lblLoginMode, gridBagConstraints);
+
+        comboLoginMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Standard", "PAM" }));
+        comboLoginMode.setToolTipText("Authentication mode used at login");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlLoginInfo.add(comboLoginMode, gridBagConstraints);
 
         getContentPane().add(pnlLoginInfo, java.awt.BorderLayout.CENTER);
 
@@ -454,17 +469,17 @@ public class LoginDialog extends JDialog {
     private void chkAdvancedLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAdvancedLoginActionPerformed
         // TODO add your handling code here:
         if (chkAdvancedLogin.isSelected()) {
-            showPortAndResource();
+            showAdvancedViewFields();
         } else {
-            hidePortAndResource();
+            hideAdvancedViewFields();
         }
     }//GEN-LAST:event_chkAdvancedLoginActionPerformed
 
     private void chkGuestLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkGuestLoginActionPerformed
         if (chkGuestLogin.isSelected()) {
-            hideUserAndPassword();
+            hideForGuestLogin();
         } else {
-            showUserAndPassword();
+            showWhenGuestLogin();
         }
     }//GEN-LAST:event_chkGuestLoginActionPerformed
 
@@ -480,9 +495,11 @@ public class LoginDialog extends JDialog {
     private javax.swing.JButton btnOK;
     private javax.swing.JCheckBox chkAdvancedLogin;
     private javax.swing.JCheckBox chkGuestLogin;
+    private javax.swing.JComboBox comboLoginMode;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblHost;
     private javax.swing.JLabel lblLogin;
+    private javax.swing.JLabel lblLoginMode;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPort;
     private javax.swing.JLabel lblResource;
@@ -498,28 +515,30 @@ public class LoginDialog extends JDialog {
     private javax.swing.JTextField txtZone;
     // End of variables declaration//GEN-END:variables
 
-    private void showPortAndResource() {
+    private void showAdvancedViewFields() {
         txtResource.setVisible(true);
         txtPort.setVisible(true);
         lblPort.setVisible(true);
         lblResource.setVisible(true);
     }
 
-    private void hidePortAndResource() {
+    private void hideAdvancedViewFields() {
         txtResource.setVisible(false);
         txtPort.setVisible(false);
         lblPort.setVisible(false);
         lblResource.setVisible(false);
     }
 
-    private void hideUserAndPassword() {
+    private void hideForGuestLogin() {
         lblUserName.setVisible(false);
         txtUserName.setVisible(false);
         lblPassword.setVisible(false);
         password.setVisible(false);
+         lblLoginMode.setVisible(false);
+        comboLoginMode.setVisible(false);
     }
 
-    private void showUserAndPassword() {
+    private void showWhenGuestLogin() {
         lblUserName.setVisible(true);
         txtUserName.setVisible(true);
         lblPassword.setVisible(true);

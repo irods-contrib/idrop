@@ -34,6 +34,7 @@ class LoginController {
 		def presetPort = grailsApplication.config.idrop.config.preset.port
 		def presetZone = grailsApplication.config.idrop.config.preset.zone
 		def presetResource = grailsApplication.config.idrop.config.preset.resource
+		def presetAuthScheme = grailsApplication.config.idrop.config.preset.authScheme
 
 		response.setHeader("apptimeout","apptimeout")
 
@@ -58,6 +59,11 @@ class LoginController {
 
 		if (presetResource) {
 			loginCommand.defaultStorageResource = presetResource
+		}
+		
+		if (presetAuthScheme) {
+			log.info("preset auth scheme is:${presetAuthScheme}")
+			loginCommand.authMethod = presetAuthScheme
 		}
 
 		render(view:"login", model:[loginCommand:loginCommand])
@@ -124,6 +130,18 @@ class LoginController {
 					loginCommand.zone,
 					resource)
 		}
+		
+		log.info("login mode: ${loginCommand.authMethod}")
+		
+		if (loginCommand.authMethod == "Standard") {
+			irodsAccount.authenticationScheme = IRODSAccount.AuthScheme.STANDARD
+		} else if (loginCommand.authMethod == "PAM") {
+			irodsAccount.authenticationScheme = IRODSAccount.AuthScheme.PAM
+		} else {
+			log.error("authentication scheme invalid", e)
+			response.sendError(500,e.message)
+			return
+		}
 
 		log.info("built irodsAccount:${irodsAccount}")
 
@@ -154,7 +172,6 @@ class LoginController {
 				success = false
 			} else {
 				log.error("authentication service exception", e)
-				log.error("exception in upload transfer", e)
 				response.sendError(500,e.message)
 				return
 			}
@@ -183,10 +200,12 @@ class LoginCommand {
 	String zone
 	int port
 	String defaultStorageResource
+	String authMethod
 
 	static constraints = {
 		host(blank:false)
 		zone(blank:false)
 		port( min:1, max:Integer.MAX_VALUE)
+		authMethod(blank:false)
 	}
 }
