@@ -1745,42 +1745,85 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
 		throw ("no childRelativeName provided, cannot add a node to the tree");
 	}
 
-	var childAbsolutePath = parentAbsolutePath + "/" + childRelativeName;
 
-	// find and open the parent node, then add the child to it
-	splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
-			function(path, dataTree, currentNode) {
+	
+	// handle add under root
+	if (parentAbsolutePath == "/") {
+		
+		var childAbsolutepathUnderRoot = childRelativeName;
 
-				if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
+		// find and open the parent node, then add the child to it
+		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
+				function(path, dataTree, currentNode) {
 
-					// parent node was already loaded, so it makes sense to add
-					// the node to
-					// the parent
+					if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
 
-					var icon = "folder";
-					var state = "closed";
-					var type = "folder";
+						// parent node was already loaded, so it makes sense to add
+						// the node to
+						// the parent
 
-					var attrBuf = new Object();
-					attrBuf.id = childAbsolutePath;
-					attrBuf.rel = type;
-					attrBuf.absPath = childAbsolutePath;
+						var icon = "folder";
+						var state = "closed";
+						var type = "folder";
 
-					var nodeProps = new Object();
-					nodeProps.data = childRelativeName;
-					nodeProps.attr = attrBuf;
-					nodeProps.state = state;
+						var attrBuf = new Object();
+						attrBuf.id = "/" + childAbsolutepathUnderRoot;
+						attrBuf.rel = type;
+						attrBuf.absPath = "/" +  childAbsolutepathUnderRoot;
 
-					$.jstree._reference(dataTree).create_node(currentNode,
-							"inside", nodeProps, null, false);
+						var nodeProps = new Object();
+						nodeProps.data = childAbsolutepathUnderRoot;
+						nodeProps.attr = attrBuf;
+						nodeProps.state = state;
 
-				}
+						$.jstree._reference(dataTree).create_node(currentNode,
+								"inside", nodeProps, null, false);
 
-				// select and open this new node
-				selectTreePathFromIrodsPath(parentAbsolutePath);
+					}
 
-			});
+					// select and open this new node
+					selectTreePathFromIrodsPath(childAbsolutepathUnderRoot);
 
+				});
+
+	} else {
+		
+		var childAbsolutePath = parentAbsolutePath + "/" + childRelativeName;
+
+		// find and open the parent node, then add the child to it
+		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
+				function(path, dataTree, currentNode) {
+
+					if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
+
+						// parent node was already loaded, so it makes sense to add
+						// the node to
+						// the parent
+
+						var icon = "folder";
+						var state = "closed";
+						var type = "folder";
+
+						var attrBuf = new Object();
+						attrBuf.id = childAbsolutePath;
+						attrBuf.rel = type;
+						attrBuf.absPath = childAbsolutePath;
+
+						var nodeProps = new Object();
+						nodeProps.data = childRelativeName;
+						nodeProps.attr = attrBuf;
+						nodeProps.state = state;
+
+						$.jstree._reference(dataTree).create_node(currentNode,
+								"inside", nodeProps, null, false);
+
+					}
+
+					// select and open this new node
+					selectTreePathFromIrodsPath(childAbsolutePath);
+
+				});
+	}
 }
 
 /**
@@ -1954,7 +1997,7 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 	// if called with no params, get the root node, open it, and process the
 	// children
 	if (currentNode == null) {
-		currentNode = $.jstree._reference(dataTree).get_container();
+		currentNode = $.jstree._reference(dataTree).get_container();		
 		var children = $.jstree._reference(dataTree)._get_children(currentNode);
 		currentNode = children[0];
                 // fix for a bug in ie9 that surfaces on initial load, otherwise does infinite recursion...
@@ -1964,6 +2007,14 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
                 } else if (currentNode == undefined) {
                   //  alert("currentNode is undefined");
                     return;
+                }
+                
+                if (path.length == 2) {
+        			if (path[0] == "" && path[1] == "") {
+        				// working under root of tree, add right there
+        				operationToPerform(path, dataTree, currentNode.children[2]);
+        				return false;
+        			}
                 }
                 
 		performOperationAtGivenTreePath(path, currentNode, currentIndex,
