@@ -1,8 +1,10 @@
 package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.UserAO
 
 class LoginController {
 
@@ -144,10 +146,11 @@ class LoginController {
 		}
 
 		log.info("built irodsAccount:${irodsAccount}")
-
+		AuthResponse authResponse
 		try {
-			irodsAccessObjectFactory
+			UserAO userAO = irodsAccessObjectFactory
 					.getUserAO(irodsAccount)
+			authResponse = userAO.irodsCommands.authResponse
 		} catch (JargonException e) {
 			log.error("unable to authenticate, JargonException", e)
 
@@ -182,7 +185,7 @@ class LoginController {
 			render(view:"login", model:[loginCommand:loginCommand])
 			return
 		}
-		session["SPRING_SECURITY_CONTEXT"] = irodsAccount
+		session["SPRING_SECURITY_CONTEXT"] = authResponse.authenticatedIRODSAccount
 		redirect(controller:"home")
 	}
 
