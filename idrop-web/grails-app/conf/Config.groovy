@@ -33,7 +33,6 @@ environments {
  idrop.config.preset.zone="lifelibZone"
  idrop.config.preset.resource="lifelibResc1"
  idrop.config.preset.authScheme="Standard"
-
  */
 
 
@@ -50,7 +49,7 @@ environments {
  idrop.config.idrop.lite.use.applet.dir=false
  */
 
-idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.2-jar-with-dependencies.jar"
+idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.1-jar-with-dependencies.jar"
 idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-release"
 idrop.config.idrop.lite.use.applet.dir=false
 
@@ -155,10 +154,8 @@ grails.validateable.packages = ['org.irods']
 
 // log4j configuration
 log4j = {
-	
-	appenders {
-		'null' name:'stacktrace'
-	}
+
+	appenders { 'null' name:'stacktrace' }
 
 	root {
 		warn()
