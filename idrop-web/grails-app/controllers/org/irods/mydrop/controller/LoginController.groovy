@@ -148,9 +148,8 @@ class LoginController {
 		log.info("built irodsAccount:${irodsAccount}")
 		AuthResponse authResponse
 		try {
-			UserAO userAO = irodsAccessObjectFactory
-					.getUserAO(irodsAccount)
-			authResponse = irodsAccessObjectFactory.irodsSession.currentConnection(irodsAccount).authResponse
+		
+			authResponse = irodsAccessObjectFactory.
 			// close?
 		} catch (JargonException e) {
 			log.error("unable to authenticate, JargonException", e)
