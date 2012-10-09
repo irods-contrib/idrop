@@ -4,7 +4,6 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.irods.jargon.core.pub.UserAO
 
 class LoginController {
 
@@ -62,7 +61,7 @@ class LoginController {
 		if (presetResource) {
 			loginCommand.defaultStorageResource = presetResource
 		}
-		
+
 		if (presetAuthScheme) {
 			log.info("preset auth scheme is:${presetAuthScheme}")
 			loginCommand.authMethod = presetAuthScheme
@@ -132,9 +131,9 @@ class LoginController {
 					loginCommand.zone,
 					resource)
 		}
-		
+
 		log.info("login mode: ${loginCommand.authMethod}")
-		
+
 		if (loginCommand.authMethod == "Standard") {
 			irodsAccount.authenticationScheme = IRODSAccount.AuthScheme.STANDARD
 		} else if (loginCommand.authMethod == "PAM") {
@@ -148,9 +147,7 @@ class LoginController {
 		log.info("built irodsAccount:${irodsAccount}")
 		AuthResponse authResponse
 		try {
-		
-			authResponse = irodsAccessObjectFactory.
-			// close?
+			authResponse = irodsAccessObjectFactory.authenticateIRODSAccount(irodsAccount)
 		} catch (JargonException e) {
 			log.error("unable to authenticate, JargonException", e)
 
