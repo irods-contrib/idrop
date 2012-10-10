@@ -1,6 +1,5 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,12 +17,8 @@ import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.Resource;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
-import org.irods.jargon.core.query.AVUQueryElement;
-import org.irods.jargon.core.query.AVUQueryOperatorEnum;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
-import org.irods.jargon.core.query.JargonQueryException;
 import org.irods.jargon.core.query.MetaDataAndDomainData;
-import org.irods.jargon.core.query.RodsGenQueryEnum;
 import org.irods.jargon.core.rule.IRODSRuleExecResult;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.slf4j.LoggerFactory;
@@ -41,12 +36,6 @@ public class IRODSFileService {
     public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSFileService.class);
     private final IRODSAccount irodsAccount;
     private final IRODSFileSystem irodsFileSystem;
-
-    private IRODSFileService() {
-        irodsAccount = null;
-        irodsFileSystem = null;
-        // not to be invoked, thus private
-    }
 
     public IRODSFileService(final IRODSAccount irodsAccount,
             final IRODSFileSystem irodsFileSystem) throws IdropException {
@@ -230,70 +219,6 @@ public class IRODSFileService {
     }
 
     /**
-     * Method will return a listing of collections with a given metadata value,
-     * in this case the marker attribute for the result of a virus scan.
-     * 
-     * @param parentCollectionAbsolutePath
-     *            <code>String</code> with the absolute path to the parent
-     *            collection.
-     * @return <code>List<MetaDataAndDomainData></code> with the results of the
-     *         query.
-     * @throws IdropException
-     */
-    public List<MetaDataAndDomainData> getVirusStatusForParentCollection(
-            final String parentCollectionAbsolutePath) throws IdropException {
-        return getProcessingResultMetadataForCollection(
-                parentCollectionAbsolutePath,
-                "PolicyDrivenService:PolicyProcessingResultAttribute:VirusScan");
-    }
-
-    /**
-     * Method will return a listing of the marker values for a data object for
-     * fixity check status
-     * 
-     * @param parentCollectionAbsolutePath
-     *            <code>String</code> with the absolute path to the parent
-     *            collection.
-     * @return <code>MetaDataAndDomainData</code> with the results of the query
-     *         or null.
-     * @throws IdropException
-     */
-    public MetaDataAndDomainData getFixityStatusForDataObject(
-            final String parentCollectionAbsolutePath,
-            final String dataObjectName) throws IdropException {
-        List<MetaDataAndDomainData> metaDataList = getProcessingResultMetadataForDataObject(
-                parentCollectionAbsolutePath, dataObjectName, "CHECKSUM%");
-        if (metaDataList.size() > 0) {
-            return metaDataList.get(0);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Method will return a listing of the marker values for a data object for
-     * virus scan status
-     * 
-     * @param parentCollectionAbsolutePath
-     *            <code>String</code> with the absolute path to the parent
-     *            collection.
-     * @return <code>MetaDataAndDomainData</code> with the results of the query
-     *         or null.
-     * @throws IdropException
-     */
-    public MetaDataAndDomainData getVirusStatusForDataObject(
-            final String parentCollectionAbsolutePath,
-            final String dataObjectName) throws IdropException {
-        List<MetaDataAndDomainData> metaDataList = getProcessingResultMetadataForDataObject(
-                parentCollectionAbsolutePath, dataObjectName, "VIRUS_SCAN%");
-        if (metaDataList.size() > 0) {
-            return metaDataList.get(0);
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Get a list of the AVU metadata for the given collection
      * 
      * @param irodsAbsolutePath
@@ -369,131 +294,6 @@ public class IRODSFileService {
             }
         }
 
-    }
-
-    /**
-     * Method will return a listing of collections with a given metadata value,
-     * in this case the marker attribute for the result of a fixity check.
-     * 
-     * @param parentCollectionAbsolutePath
-     *            <code>String</code> with the absolute path to the parent
-     *            collection.
-     * @return <code>List<MetaDataAndDomainData></code> with the results of the
-     *         query.
-     * @throws IdropException
-     */
-    public List<MetaDataAndDomainData> getFixityStatusForParentCollection(
-            final String parentCollectionAbsolutePath) throws IdropException {
-        return getProcessingResultMetadataForCollection(
-                parentCollectionAbsolutePath,
-                "PolicyDrivenService:PolicyProcessingResultAttribute:FixityCheck");
-    }
-
-    public List<MetaDataAndDomainData> getProcessingResultMetadataForCollection(
-            final String parentCollectionAbsolutePath,
-            final String markerAttribute) throws IdropException {
-        if (parentCollectionAbsolutePath == null
-                || parentCollectionAbsolutePath.isEmpty()) {
-            throw new IdropException(
-                    "null or empty parentCollectionAbsolutePath");
-        }
-
-        if (markerAttribute == null || markerAttribute.isEmpty()) {
-            throw new IdropException("null or empty markerAttribute");
-        }
-
-        List<AVUQueryElement> queryElements = new ArrayList<AVUQueryElement>();
-        try {
-            queryElements.add(AVUQueryElement.instanceForValueQuery(
-                    AVUQueryElement.AVUQueryPart.ATTRIBUTE,
-                    AVUQueryOperatorEnum.EQUAL, markerAttribute));
-        } catch (JargonQueryException ex) {
-            Logger.getLogger(IRODSFileService.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            throw new IdropException(ex);
-        }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(RodsGenQueryEnum.COL_COLL_NAME.getName());
-        sb.append(" LIKE ");
-        sb.append("'");
-        sb.append(parentCollectionAbsolutePath);
-        sb.append("%");
-        sb.append("'");
-
-        try {
-            final CollectionAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAO(irodsAccount);
-            return collectionAO.findMetadataValuesByMetadataQueryWithAdditionalWhere(
-                    queryElements, sb.toString(),0);
-        } catch (JargonException ex) {
-            Logger.getLogger(IRODSFileService.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            throw new IdropException("exception processing rule", ex);
-        } catch (JargonQueryException ex) {
-            Logger.getLogger(IRODSFileService.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            throw new IdropException("query exception processing rule", ex);
-        } finally {
-            try {
-                irodsFileSystem.close(irodsAccount);
-            } catch (JargonException ex) {
-                Logger.getLogger(IRODSFileService.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    public List<MetaDataAndDomainData> getProcessingResultMetadataForDataObject(
-            final String parentCollectionAbsolutePath,
-            final String dataObjectName, final String markerAttribute)
-            throws IdropException {
-
-        if (parentCollectionAbsolutePath == null
-                || parentCollectionAbsolutePath.isEmpty()) {
-            throw new IdropException(
-                    "null or empty parentCollectionAbsolutePath");
-        }
-
-        if (dataObjectName == null || dataObjectName.isEmpty()) {
-            throw new IdropException("null or empty dataObjectName");
-        }
-
-        if (markerAttribute == null || markerAttribute.isEmpty()) {
-            throw new IdropException("null or empty markerAttribute");
-        }
-
-        List<AVUQueryElement> queryElements = new ArrayList<AVUQueryElement>();
-        try {
-            queryElements.add(AVUQueryElement.instanceForValueQuery(
-                    AVUQueryElement.AVUQueryPart.ATTRIBUTE,
-                    AVUQueryOperatorEnum.LIKE, markerAttribute));
-        } catch (JargonQueryException ex) {
-            Logger.getLogger(IRODSFileService.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            throw new IdropException(ex);
-        }
-
-        try {
-            final DataObjectAO dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory().getDataObjectAO(irodsAccount);
-            return dataObjectAO.findMetadataValuesForDataObjectUsingAVUQuery(
-                    queryElements, parentCollectionAbsolutePath,
-                    dataObjectName);
-        } catch (JargonException ex) {
-            Logger.getLogger(IRODSFileService.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            throw new IdropException("exception processing rule", ex);
-        } catch (JargonQueryException ex) {
-            Logger.getLogger(IRODSFileService.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            throw new IdropException("query exception processing rule", ex);
-        } finally {
-            try {
-                irodsFileSystem.close(irodsAccount);
-            } catch (JargonException ex) {
-                Logger.getLogger(IRODSFileService.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
     }
 
     /**
