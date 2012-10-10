@@ -1,6 +1,4 @@
-<h2>
-	<g:message code="heading.metadata" />
-</h2>
+ <h3><a ><g:message code="text.metadata" /></a></h3>
 <div id="detailsTopSection">
 
 	<div id="detailsToolbar" class="well">

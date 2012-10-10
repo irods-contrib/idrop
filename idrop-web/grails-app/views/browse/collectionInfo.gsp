@@ -26,61 +26,61 @@
   <g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
   	<li><a href="#tickets" id="ticketTab"><g:message code="text.tickets" /></a></li>
   </g:if>
-  <li><a href="#audit" id="auditTab"><g:message code="text.audit" /></a></li>
+  <li><a href="#audit"  id="auditTab"><g:message code="text.audit" /></a></li>
 </ul>
  
 <div class="tab-content">
   <div class="tab-pane active" id="info">
   
-  	 <h3  id="infoAccordionBasicInfo"><a href="#infoAccordionBasicInfo"><g:message code="text.info" /></a></h3>
+  	 <h3><a ><g:message code="text.info" /></a></h3>
 		
 			<div id="container" style="height:100%;width:100%;">
 				<div>
-					<div style="width:15%;"><label>Created At:</label></div>
+					<div style="width:15%;"><label><g:message code="text.created" />:</label></div>
 					<div>${collection.createdAt}</div>
 				</div>
 				<div>
-					<div><label>Updated At:</label></div>
+					<div><label><g:message code="text.updated" />:</label></div>
 					<div>${collection.modifiedAt}</div>
 				</div>
 				<div>
-					<div><label>Owner:</label></div>
+					<div><label><g:message code="text.owner" />:</label></div>
 					<div>${collection.collectionOwnerName}</div>
 				</div>
 				<div>
-					<div><label>Owner Zone:</label></div>
+					<div><label><g:message code="text.owner.zone" />:</label></div>
 					<div>${collection.collectionOwnerZone}</div>
 				</div>
 				<div>
-					<div><label>Collection Type:</label></div>
+					<div><label><g:message code="text.type" />:</label></div>
 					<div>${collection.specColType}</div>
 				</div>
 				<div>
-					<div><label>Object path:</label></div>
+					<div><label><g:message code="text.object.path" />:</label></div>
 					<div>${collection.objectPath}</div>
 				</div>
 				<div>
-					<div><label>Description:</label></div>
+					<div><label><g:message code="text.description" />:</label></div>
 					<div>${collection.comments}</div>
 				</div>
 				<div>
-					<div><label>Info1:</label></div>
+					<div><label><g:message code="text.info" />1:</label></div>
 					<div>${collection.info1}</div>
 				</div>
 				<div>
-					<div><label>Info2:</label></div>
+					<div><label><g:message code="text.info" />2:</label></div>
 					<div>${collection.info2}</div>
 				</div>
 				
 			</div>
 			<div id="container" style="height:100%;width:100%;">
 				<div>
-					<div><label>Tags:</label></div>
+					<div><label><g:message code="text.tags" />:</label></div>
 					<div><g:textField id="infoTags" name="tags"
 					value="${tags.spaceDelimitedTagsForDomain}" /></div>
 				</div>
 				<div>
-					<div><label>Comment:</label></div>
+					<div><label><g:message code="text.comment" />:</label></div>
 					<div><g:textArea id="infoComment" name="comment" rows="5" cols="80"
 					value="${comment}" /></div>
 				</div>
@@ -92,23 +92,19 @@
   
   </div>
   <div class="tab-pane" id="metadata">
-  	<div id="infoAccordionMetadataInner">
-			</div>
+  	<div id="infoAccordionMetadataInner"></div>
   </div>
   <div class="tab-pane" id="permissions">
-  	<div id="infoAccordionACLInner">
-			</div>
+  	<div id="infoAccordionACLInner"></div>
   </div>
   <g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
-	  <div class="tab-pane" id="tickts">
-				<h3 id="infoAccordionTickets"><a href="#infoAccordionTickets" ><g:message code="text.tickets" /></a></h3>
+	  <div class="tab-pane" id="tickets">
 	   			<div id="infoAccordionTicketsInner">
 				</div>
 		</div>
-		</g:if>
+	</g:if>
    <div class="tab-pane" id="audit">
-   <div id="infoAccordionAuditInner">
-	</div>
+   	<div id="infoAccordionAuditInner"></div>
    </div>
 </div>
 
@@ -147,7 +143,7 @@
 						});
 
 						$('#auditTab').on('shown', function (e) {
-							showAuditView(selectedPath, "#infoAccordionAuditInner");
+							showAuditView(selectedPath, "#infoAccordionAuditInner"); 
 						});
 							
 					});

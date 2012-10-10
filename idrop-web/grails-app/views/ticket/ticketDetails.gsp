@@ -1,4 +1,4 @@
-<h2><g:message code="text.tickets" /></h2>
+ <h3><a ><g:message code="text.tickets" /></a></h3>
 <g:javascript library="jquery.gchart.min" />
 <div id="ticketDialogArea"><!--  area for generating dialogs --></div>
 <div id="ticketMessageArea"><!--  area for messages --></div>

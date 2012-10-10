@@ -1,4 +1,4 @@
-<h2><g:message code="heading.sharing" /></h2>
+ <h3><a ><g:message code="text.permissions" /></a></h3>
 <div id="aclDialogArea"><!--  area for generating dialogs --></div>
 
 <div id="aclDetailsArea">

@@ -1,8 +1,6 @@
 <g:javascript library="mydrop/audit" />
-<h2>
-	<g:message code="heading.audit" />
-</h2>
-<div id="detailsTopSection" class="box">
+<h3><a ><g:message code="text.audit" /></a></h3>
+<div id="detailsTopSection">
 
 	<div id="detailsToolbar" class="fg-toolbar ui-widget-header">
 			<button type="button" id="reloadAuditButton"

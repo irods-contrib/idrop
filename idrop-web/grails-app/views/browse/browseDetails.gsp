@@ -19,10 +19,10 @@
             <tr>
               <th></th>
               <th></th>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Modified date</th>
-              <th>Length</th>
+              <th><g:message code="text.name" /></th>
+              <th><g:message code="text.type" /></th>
+              <th><g:message code="text.modified" /></th>
+              <th><g:message code="text.length" /></th>
             </tr>
           </thead>
           <tbody>
