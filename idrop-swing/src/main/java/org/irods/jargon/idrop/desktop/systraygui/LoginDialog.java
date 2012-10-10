@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.KeyStroke;
 
 import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.connection.auth.AuthResponse;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.UserAO;
@@ -205,9 +206,8 @@ public class LoginDialog extends JDialog {
 
         try {
             irodsFileSystem = idropCore.getIrodsFileSystem();
-            final UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
-            userAO.findByName(irodsAccount.getUserName());
-            idropCore.setIrodsAccount(irodsAccount);
+           AuthResponse authResponse = irodsFileSystem.getIRODSAccessObjectFactory().authenticateIRODSAccount(irodsAccount);
+            idropCore.setIrodsAccount(authResponse.getAuthenticatedIRODSAccount());
             try {
                 idropCore.getIdropConfigurationService().saveLogin(irodsAccount);
             } catch (IdropException ex) {
