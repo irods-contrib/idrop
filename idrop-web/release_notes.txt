@@ -24,6 +24,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 * [#986] hit home in browse tree causes error message when timed out
 ** fixed lingo-common method that handles json call to check for continue
 
+*[#1013] null appended to url path in browse view download links
+
 ==Features==
 [#984] iDrop web '2.0' redesign effort
 ** switched to twitter bootstrap model

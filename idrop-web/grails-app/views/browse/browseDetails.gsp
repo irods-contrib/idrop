@@ -42,7 +42,7 @@
             </g:if> <g:else>
             	
             
-              <g:link url="${context + '/file/download' + entry.formattedAbsolutePath}">
+              <g:link url="${'file/download' + entry.formattedAbsolutePath}">
 ${entry.nodeLabelDisplayValue}
               </g:link>
             </g:else></td>

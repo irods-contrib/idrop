@@ -24,7 +24,6 @@ import org.irods.jargon.transfer.engine.ConfigurationService;
 import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 import org.irods.jargon.transfer.engine.synch.SynchException;
 import org.irods.jargon.transfer.engine.synch.SynchManagerService;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**

@@ -24,6 +24,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Bug Fixes==
 
+*[#1012] error building with IdropFileService missing methods
+
 ==Features==
 
 ==Outstanding Issues==
