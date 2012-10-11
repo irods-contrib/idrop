@@ -7,7 +7,7 @@
 # EPM packager
 
 # define witch idrop-lite applet to use
-IDROP_LITE_APPLET=idrop-lite-1.0.1-SNAPSHOT-jar-with-dependencies.jar
+IDROP_LITE_APPLET=idrop-lite-1.0.2-SNAPSHOT-jar-with-dependencies.jar
 
 # check to make sure mvn, grails, and epm commands are in path
 command -v mvn >/dev/null 2>&1 || { echo "Maven commands must be in PATH to package iDrop Web. Aborting." >&2; exit 1; }
