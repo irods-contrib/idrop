@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'superfish.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.gritter.css')}" />
-    <link rel="stylesheet" href="${resource(dir:'css',file:'start/jquery-ui-1.8.18.custom.css')}" />
-
+    <link rel="stylesheet" href="${resource(dir:'css',file:'overcast/jquery-ui-1.9.0.custom.css')}" />
     <link rel="shortcut icon"
           href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
   <g:layoutHead />

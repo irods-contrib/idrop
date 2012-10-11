@@ -1115,7 +1115,10 @@ function buildAclTableInPlace() {
           	"iDisplayLength" : 500
 
           }
+	  
 	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null, tableParams);
+	
+	  try {
 
 	$('.forSharePermission', dataTable.fnGetNodes()).editable(
 			function(value, settings) {
@@ -1133,6 +1136,9 @@ function buildAclTableInPlace() {
 				'onblur' : 'ignore',
 				'indicator' : 'Saving'
 			});
+	  } catch(e) {
+		  // ignore
+	  }
 }
 
 /**
