@@ -70,10 +70,10 @@ if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" ]] ; then
 	wget $MAVENDOWNLOAD
 
 	# install and setup environment
-	unzip $MAVENFILE.zip
+	unzip $MAVENFILE-bin.zip
 	export M2_HOME=$BUILDDIR/$MAVENFILE
 	export M2=$M2_HOME/bin
-	export $PATH=$M2:$PATH
+	export PATH=$M2:$PATH
 
 	# create the .m2 dir
 	mvn --version > /dev/null 2>&1
@@ -96,7 +96,7 @@ if [[ "$?" != "0" || `echo $GRAILS | awk '{print $1}'` == "no" ]] ; then
 	# install and setup environment
 	unzip $GRAILSFILE.zip
 	export GRAILS_HOME=$BUILDDIR/$GRAILSFILE
-	export $PATH=$GRAILS_HOME/bin:$PATH
+	export PATH=$GRAILS_HOME/bin:$PATH
 
 	# setup proxy if needed
 	if [[ $PROXYHOST ]]; then
