@@ -42,7 +42,7 @@ PROXYPORT=$2
 # setup MAVEN settings file
 UGLYSETTINGSFILESTRING='
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-  mlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                       http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <proxies>
