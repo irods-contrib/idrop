@@ -6,19 +6,127 @@
 # Grails
 # EPM packager
 
-# define witch idrop-lite applet to use
+SCRIPTNAME=`basename $0`
+
+# define which idrop-lite applet to use
 IDROP_LITE_APPLET=idrop-lite-1.0.2-SNAPSHOT-jar-with-dependencies.jar
 
-# check to make sure mvn, grails, and epm commands are in path
-command -v mvn >/dev/null 2>&1 || { echo "Maven commands must be in PATH to package iDrop Web. Aborting." >&2; exit 1; }
+# in case we need to download maven
+MAVENVER=3.0.4
+MAVENFILE=apache-maven-$MAVENVER
+MAVENDOWNLOAD=http://www.apache.org/dyn/closer.cgi/maven/maven-3/$MAVENVER/binaries/$MAVENFILE-bin.zip
 
-command -v grails >/dev/null 2>&1 || { echo "Grails commands must be in PATH to package iDrop Web. Aborting." >&2; exit 1; }
+# in case we need to download grails
+GRAILSVER=2.1.1
+GRAILSFILE=grails-$GRAILSVER
+GRAILSDOWNLOAD=http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/$GRAILSFILE.zip
 
-command -v epm >/dev/null 2>&1 || { echo "EPM commands must be in PATH to package iDrop Web. Aborting." >&2; exit 1; }
+
+# define usage
+USAGE="
+
+Usage: $SCRIPTNAME [<proxy hostname> <proxy portnum>]
+
+Example:
+$SCRIPTNAME www.myhost.com 80
+"
+
+# check for correct num of args
+if [[ $# -gt 0  &&  $# -lt 2 || $# -gt 2 ]]; then
+	echo $USAGE
+	exit 1
+fi
+PROXYHOST=$1
+PROXYPORT=$2
+
+# setup MAVEN settings file
+UGLYSETTINGSFILESTRING='
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  mlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <proxies>
+    <proxy>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>'$PROXYHOST'</host>
+      <port>'$PROXYPORT'</port>
+    </proxy>
+   </proxies>
+</settings>'
+
 
 # get into the correct directory
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $DIR
+BUILDDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $BUILDDIR
+
+
+# check to make sure mvn, grails, and epm commands are in path
+MAVEN=`which mvn`
+if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" ]] ; then
+	echo "Apache Maven required to build project - downloading from $MAVENDOWNLOAD"
+
+	# download maven
+	wget $MAVENDOWNLOAD
+
+	# install and setup environment
+	unzip $MAVENFILE.zip
+	export M2_HOME=$BUILDDIR/$MAVENFILE
+	export M2=$M2_HOME/bin
+	export $PATH=$M2:$PATH
+
+	# create the .m2 dir
+	mvn --version > /dev/null 2>&1
+	
+	# save old maven settings file if one exists
+	mv ~/.m2/settings.xml save_settings.xml > /dev/null 2>&1
+	echo $UGLYSETTINGSFILESTRING > ~/.m2/settings.xml
+else
+	MAVENVERSION=`mvn --version`
+	echo "Detected maven [$MAVEN] version[$MAVENVERSION]"
+fi
+
+GRAILS=`which grails`
+if [[ "$?" != "0" || `echo $GRAILS | awk '{print $1}'` == "no" ]] ; then
+	echo "GRAILS required to build project - downloading from $GRAILSDOWNLOAD"
+
+	# download grails
+	wget $GRAILSDOWNLOAD
+
+	# install and setup environment
+	unzip $GRAILSFILE.zip
+	export GRAILS_HOME=$BUILDDIR/$GRAILSFILE
+	export $PATH=$GRAILS_HOME/bin:$PATH
+
+	# setup proxy if needed
+	if [[ $PROXYHOST ]]; then
+		grails add-proxy idrop_proxy --host=$PROXYHOST --port=PROXYPORT
+		grails set-proxy idrop_proxy
+	fi
+else
+	GRAILSVERSION=`grails --version`
+	echo "Detected grails [$GRAILS] version[$GRAILSVERSION]"
+fi
+
+# now get our version of EPM
+RENCIEPM="epm42-renci.tar.gz"
+rm -rf epm
+rm -f $RENCIEPM
+wget ftp://ftp.renci.org/pub/e-irods/build/$RENCIEPM
+tar -xf RENCIEPM
+cd $BUILDDIR/epm
+echo "Configuring EPM"
+./configure > /dev/null
+if [ "$?" != "0" ]; then
+	exit 1
+fi
+echo "Building EPM"
+if [ "$?" != "0" ]; then
+	exit 1
+fi
+make > /dev/null
+
+cd $BUILDDIR
 
 # build idrop swing first
 echo "Building iDrop Swing ..."
@@ -83,13 +191,13 @@ rm tmp.list
 
 if [ -f "/etc/redhat-release" ]; then # CentOS and RHEL and Fedora
   echo "Running EPM :: Generating RPM"
-  epm -f rpm idrop-web RPM=true idrop-web.list
+  ./epm/epm -f rpm idrop-web RPM=true idrop-web.list
 elif [ -f "/etc/SuSE-release" ]; then # SuSE
   echo "Running EPM :: Generating RPM"
-  epm -f rpm idrop-web RPM=true idrop-web.list
+  ./epm/epm -f rpm idrop-web RPM=true idrop-web.list
 elif [ -f "/etc/lsb-release" ]; then  # Ubuntu
   echo "Running EPM :: Generating DEB"
-  epm -a amd64 -f deb idrop-web DEB=true idrop-web.list
+  ./epm/epm -a amd64 -f deb idrop-web DEB=true idrop-web.list
 elif [ -f "/usr/bin/sw_vers" ]; then  # MacOSX
   echo "TODO: generate package for MacOSX"
 fi
