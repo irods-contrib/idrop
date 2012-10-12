@@ -11,12 +11,12 @@
 				<li id="menuNewFolderDetails"><a href="#newFolderDetails"
 					onclick="newFolderViaBrowseDetailsToolbar()"><g:message
 							code="text.new.folder" /></a></li>
-				<li id="menuRenameDetails"><a href="#renameDetails"
+				<!--  <li id="menuRenameDetails"><a href="#renameDetails"
 					onclick="renameViaBrowseDetailsToolbar()"><g:message
 							code="text.rename" /></a></li>
 				<li id="menuDeleteDetails"><a href="#deleteDetails"
 					onclick="deleteViaBrowseDetailsToolbar()"><g:message
-							code="default.button.delete.label" /></a></li>
+							code="default.button.delete.label" /></a></li>-->
 				
 			</ul></li>
 			<li id="menuFile" class="toolbarMenuItem"><a href="#file"><g:message

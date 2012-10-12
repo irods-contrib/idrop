@@ -28,6 +28,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Features==
 
+[#1023] Update Version class to include build time and POM version 
+
 ==Outstanding Issues==
 
 Please consult [[https://code.renci.org/gf/project/irodsidrop/tracker/]]

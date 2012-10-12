@@ -1,11 +1,11 @@
 *'''Project''': idrop-web
 *'''Date''': 08/28/2012
-*'''Release Version''': 1.0.1
-*'''git tag''': 1.0.1
+*'''Release Version''': 1.0.2 work in progress
+*'''git tag''': xxx
 
 ==News==
 
-This is a release of iDrop web version 1.0.1
+This is a release of iDrop web version 1.0.2
 
 
 ==Requirements==
@@ -36,3 +36,10 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 * [#962] missing file icon in info view for data objects
 Fixed data object info to include icon and be clearer about file versus collection
+
+*[#1023] add Version class in jargon-core
+**Added iDrop web and Jargon version numbers in footer
+
+*Updated Grails version to version 2.1.0
+
+*Removed delete and rename buttons from browse details view
