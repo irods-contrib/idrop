@@ -4,7 +4,6 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.event.ActionEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
