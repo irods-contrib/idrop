@@ -2270,35 +2270,6 @@ function clickOnPathInBrowseDetails(data) {
 			});
 }
 
-/**
- * Close the public link dialog 
- */
-function closePublicLinkDialog() {
-	
-		$("#browseDialogArea").hide("slow");
-		$("#browseDialogArea").html();
-}
-
-/**
- * Grant public (anonymous access) via the public link dialog.  Submit dialog and present the response
- */
-function grantPublicLink() {
-	var path = $("#publicLinkDialogAbsPath").val();
-	showBlockingPanel();
-	if (path == null) {
-		setMessage(jQuery.i18n.prop('msg.path.missing'));
-		unblockPanel();		
-	}
-	
-	var params = {
-			absPath : path
-		}
-	
-	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/browse/updatePublicLinkDialog", params, null, "#browseDialogArea", null, null);
-	unblockPanel();
-
-}
-        
 
 function showOverwriteOptionDialog(message) {
 	/*

@@ -1,15 +1,17 @@
 <div class="well" id="publicLinkDialog">
-	<g:hiddenField name="publicLinkDialogAbsPath"  id="publicLinkDialogAbsPath" value = "${absPath}" />
-	<div style="clear: both;">
+	<g:hiddenField name="publicLinkDialogAbsPath" id="publicLinkDialogAbsPath" value = "${absPath}" />
+	<div>
 			<g:if test="${accessSet == true}">
-			<h1><g:message code="heading.anonymous.access.set" /></h1>
-			<fieldset id="verticalForm">
 			
+				<div class="alert alert-info">
+	 				<g:message code="heading.anonymous.access.set" />
+				</div>
 				
+			<fieldset>
 				<g:textArea name="url" rows="4" columns="200" value="${accessUrlString}"/>
 				<br />
 				<div id="publicLinkDialogMenu" 
-							style="float: right; clear :   both; width: 90%;">
+							class="pull-right">
 							<button type="button" id="cancelPublicLinkButton"
 								 value="cancelPublicLink"
 								onclick="closePublicLinkDialog()")><g:message code="text.cancel" /></button>
@@ -18,12 +20,15 @@
 			</fieldset>
 			</g:if>
 			<g:else>
-			<h1><g:message code="heading.anonymous.access.enable" /></h1>
+				<div class="alert alert-info">
+	 				<g:message code="heading.anonymous.access.enable" />
+				</div>
+				
 				<fieldset>
 					<br />
 					<div id="publicLinkDialogToolbar" >
 						<div id="publicLinkDialogMenu" 
-							style="float: right; clear :   both; width: 90%;">
+							class="pull-right">
 							<button type="button" id="grantLinkButton"
 								 value="grant"
 								onclick="grantPublicLink()")><g:message code="text.grant" /></button>
@@ -32,11 +37,6 @@
 								onclick="closePublicLinkDialog()")><g:message code="text.cancel" /></button>
 						</div>
 					</div>
-					
-					
-					
-					
-					
 				</fieldset>
 			</g:else>
 			
