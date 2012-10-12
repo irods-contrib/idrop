@@ -1461,6 +1461,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jRadioButtonMenuItemMotif = new javax.swing.JRadioButtonMenuItem();
         jRadioButtonMenuItemGTK = new javax.swing.JRadioButtonMenuItem();
         jMenuItemConfig = new javax.swing.JMenuItem();
+        jMenuHelp = new javax.swing.JMenu();
+        jMenuItemAbout = new javax.swing.JMenuItem();
 
         menuItemShowInHierarchy.setText("Show in iRODS");
         menuItemShowInHierarchy.setToolTipText("Show this file or collection in the iRODS hierarchy");
@@ -1770,8 +1772,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         tabInfo.setToolTipText("View basic demographics for a file or collection");
 
-        pnlInfoInner.setMinimumSize(null);
-        pnlInfoInner.setPreferredSize(null);
         pnlInfoInner.setLayout(new java.awt.GridBagLayout());
 
         pnlInfoIcon.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -2519,6 +2519,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         jMenuBar1.add(jMenuTools);
 
+        jMenuHelp.setText("Help");
+
+        jMenuItemAbout.setText("About");
+        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAboutActionPerformed(evt);
+            }
+        });
+        jMenuHelp.add(jMenuItemAbout);
+
+        jMenuBar1.add(jMenuHelp);
+
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -2619,6 +2631,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         displayAndProcessSignOn();
 
     }//GEN-LAST:event_btnManageGridsActionPerformed
+
+    private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
+       AboutDialog aboutDialog = new AboutDialog(this, true);
+       aboutDialog.show();
+    }//GEN-LAST:event_jMenuItemAboutActionPerformed
 
     private void btnShowTransferManagerActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnShowTransferManagerActionPerformed
@@ -3107,6 +3124,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuEdit;
     private javax.swing.JMenu jMenuFile;
+    private javax.swing.JMenu jMenuHelp;
+    private javax.swing.JMenuItem jMenuItemAbout;
     private javax.swing.JMenuItem jMenuItemClose;
     private javax.swing.JMenuItem jMenuItemConfig;
     private javax.swing.JMenuItem jMenuItemExit;
