@@ -1,7 +1,11 @@
- <h3><a ><g:message code="text.permissions" /></a></h3>
+ <h4><g:message code="text.permissions" /></h4>
+
 <div id="aclDialogArea"><!--  area for generating dialogs --></div>
 
 <div id="aclDetailsArea">
+	 <div class="alert alert-info">
+	 <g:message code="heading.permissions" />
+	</div>
 	<div id="detailsTopSection" >
 		<div id="detailsToolbar" class="well">
 			<div id="detailsMenu" 

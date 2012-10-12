@@ -1,4 +1,4 @@
-<div id="ticketPulldownDiv" style="overflow:visible;width:auto;">
+<div id="ticketPulldownDiv" class="alert alert-info">
 			<g:if test="${flash.error}">
                 <script>
                 $(function() { setErrorMessage("${flash.error}"); });
@@ -42,7 +42,7 @@
 					<div>
 						<div style="width:15%;"><label><g:message code="text.ticket.string" />:</label></div>
 						<div><g:textField id="ticketString" name="ticketString" width="20em"
-						value="${ticket.ticketString}" /></div>
+						value="${ticket.ticketString}" placeholder="Enter a ticket key or let iRODS generate one"/></div>
 					</div>
 					<div>
 						<div style="width:15%;"><label><g:message code="text.ticket.type" />:</label></div>
@@ -130,23 +130,22 @@
 				
 				<g:if test="${ticket.isDialog}">
 					<div id="detailsDialogMenu" 
-							style="float: left, clear :   both; width: 90%;">
+							class="pull-right">
 							<button type="button" id="updateTicketDetailButton"
 								value="update  Ticket"
-								onclick="submitTicketDialog()")><g:message code="default.button.save.label" /></button>
+								onclick="submitTicketDialog()")><g:message code="text.update" /></button>
 							<button type="button" id="cancelAddTicketButton"
 								value="cancelAdd"
 								onclick="closeTicketDialog()")><g:message code="default.button.cancel.label" /></button>
 				</div>
-					
 			</g:if>
 			<g:else>
 			
-				<div id="detailsDialogMenu" class="well"
-							style="width: auto;">
+				<div id="detailsDialogMenu" class="well pull-right"
+							>
 							<button type="button" id="updateTicketPulldownButton"
 								
-								onclick="updateTicketFromPulldown()")><g:message code="default.button.save.label" /></button>
+								onclick="updateTicketFromPulldown()")><g:message code="text.update" /></button>
 							<button type="button" id="cancelTicketPulldownButton"
 								
 								onclick="cancelTicketFromPulldown()")><g:message code="default.button.cancel.label" /></button>

@@ -1,12 +1,15 @@
- <h3><a ><g:message code="text.tickets" /></a></h3>
+<h4><g:message code="text.tickets" /></h4>
+ <div id="ticketDialogArea"><!--  area for generating dialogs --></div>
+ <div id="ticketMessageArea"><!--  area for messages --></div>
+
 <g:javascript library="jquery.gchart.min" />
-<div id="ticketDialogArea"><!--  area for generating dialogs --></div>
-<div id="ticketMessageArea"><!--  area for messages --></div>
 
 <div id="ticketDetailsTableArea">
+ 	<div class="alert alert-info">
+ 		<g:message code="heading.tickets" />
+	</div>
 	<div class="well" id="ticketDetailsTopSection" >
-		<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
-			style="float: left, clear :   both;">
+		<div id="detailsMenu"">
 			<button type="button" id="addTicketButton"
 				 value="addTicket"
 				onclick="prepareTicketDetailsDialog()")>

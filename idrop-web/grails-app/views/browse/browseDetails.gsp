@@ -18,7 +18,19 @@
           <thead>
             <tr>
               <th></th>
-              <th></th>
+              <th>
+              
+              <div class="btn-group">
+  				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Action<span class="caret"></span></a>
+ 					 <ul class="dropdown-menu">
+ 					 	<li id="menuAddToCartDetails"><a href="#addAllToCartDetails" onclick="addSelectedToCart()"><g:message code="text.add.all.to.cart" /></a></li>
+						<li id="menuDeleteDetails"><a href="#deleteAllDetails" onclick="deleteSelected()"><g:message code="text.delete.all" /></a></li>
+    						<!-- dropdown menu links -->
+ 					 </ul>
+				</div>
+              
+              
+              </th>
               <th><g:message code="text.name" /></th>
               <th><g:message code="text.type" /></th>
               <th><g:message code="text.modified" /></th>
@@ -85,12 +97,12 @@ ${entry.displayDataSize}
                 	"iDisplayLength" : 500,
                 	 "sDom": "<'row'<'span10'l><'span8'f>r>t<'row'<'span10'i><'span10'p>>",
                 	 "aoColumns" : [
-                	                { sWidth: '20px' },
-                	                { sWidth: '20px' },
-                	                { sWidth: '120px' },
-                	                { sWidth: '30px' },
-                	                { sWidth: '40px' },
-                	                { sWidth: '40px' }
+                	                {'sWidth': '20px', 'bSortable':false},
+                	                {'sWidth': '20px', 'bSortable':false},
+                	                { 'sWidth': '120px' },
+                	                { 'sWidth': '30px' },
+                	                { 'sWidth': '40px' },
+                	                { 'sWidth': '40px' }
                 	                
                 	            ],
                 	

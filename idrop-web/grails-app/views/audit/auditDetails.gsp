@@ -2,19 +2,19 @@
 <h3><a ><g:message code="text.audit" /></a></h3>
 <div id="detailsTopSection">
 
-	<div id="detailsToolbar" class="fg-toolbar ui-widget-header">
+	<div id="detailsToolbar" >
 			<button type="button" id="reloadAuditButton"
-				class="ui-state-default ui-corner-all" value="reloadAudit"
+				value="reloadAudit"
 				onclick="callReloadForAudit()")>
 				<g:message code="default.button.reload.label" />
 			</button>
 			<span id="backwardAuditButton"><button type="button" id="backwardAuditButton"
-				class="ui-state-default ui-corner-all" value="backwardAudit"
+				value="backwardAudit"
 				onclick="backwardAudit()")>
 				<g:message code="text.backwards" />
 			</button></span>
 			<span id="forwardAuditButton"><button type="button" id="forwardAuditButton"
-				class="ui-state-default ui-corner-all" value="forwardAudit"
+				value="forwardAudit"
 				onclick="forwardAudit()")>
 				<g:message code="text.forward" />
 			</button></span>

@@ -53,8 +53,14 @@ function buildTicketTableInPlace() {
 	  tableParams = {"bJQueryUI" : true,
           	"bLengthChange": false,
           	"bFilter": false,
-          	"iDisplayLength" : 500
-
+          	"iDisplayLength" : 500,
+          	 "aoColumns" : [
+        	                {'sWidth': '20px', 'bSortable':false},
+        	                {'sWidth': '20px', 'bSortable':false},
+        	                null,
+        	                null,
+        	                null  
+        	            ]
           }
 	 ticketTable = lcBuildTableInPlace("#ticketDetailsTable", ticketDetailsClick, ".browse_detail_icon", tableParams);
 

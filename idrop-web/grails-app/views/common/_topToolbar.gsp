@@ -11,13 +11,13 @@
 				<li id="menuNewFolderDetails"><a href="#newFolderDetails"
 					onclick="newFolderViaBrowseDetailsToolbar()"><g:message
 							code="text.new.folder" /></a></li>
-				<li id="menuRenameDetails"><a href="#renameDetails"
+				<!--  <li id="menuRenameDetails"><a href="#renameDetails"
 					onclick="renameViaBrowseDetailsToolbar()"><g:message
 							code="text.rename" /></a></li>
 				<li id="menuDeleteDetails"><a href="#deleteDetails"
 					onclick="deleteViaBrowseDetailsToolbar()"><g:message
 							code="default.button.delete.label" /></a></li>
-				
+				-->
 			</ul></li>
 			<li id="menuFile" class="toolbarMenuItem"><a href="#file"><g:message
 					code="text.file" /></a>
@@ -27,11 +27,11 @@
 				<li id="menuNewFolder"><a href="#newFolder"
 					onclick="newFolderViaToolbar()"><g:message
 							code="text.new.folder" /></a></li>
-				<li id="menuRename"><a href="#rename"
+				<!--  <li id="menuRename"><a href="#rename"
 					onclick="renameViaToolbar()"><g:message code="text.rename" /></a></li>
 				<li id="menuDelete"><a href="#delete"
 					onclick="deleteViaToolbar()"><g:message
-							code="default.button.delete.label" /></a></li>
+							code="default.button.delete.label" /></a></li>-->
 			</ul></li>
 			
 		<li id="menuView"><a href="#view"><g:message code="text.view" /></a>
@@ -60,7 +60,7 @@
 			</ul></li>
 
 		<!--  details toolbar -->
-
+		<!-- 
 		<li id="menuUploadDownloadDetails" class="detailsToolbarMenuItem"><a
 			href="#uploadDownloadDetails"><g:message
 					code="text.upload.and.download" /></a>
@@ -84,9 +84,9 @@
 				<ul>
 					<li id="menuToolsDetailsMakePublicLink"><a href="#makePublicLinkDetails" onclick="makePublicLinkAtPath()"><g:message code="text.create.public.link" /></a></li>
 				</ul>
-			</li>
+			</li>-->
 				
-			
+			<!--  
 			<li id="menuBulkActionDetails" class="detailsToolbarMenuItem"><a href="#applyActionToAllDetails"><g:message code="text.apply.to.all"/></a>
 				<ul>
 
@@ -94,6 +94,8 @@
 					<li id="menuDeleteDetails"><a href="#deleteAllDetails" onclick="deleteSelected()"><g:message code="text.delete.all" /></a></li>
 				</ul>
 			</li>
+			
+			-->
 			
 			
 				
@@ -106,6 +108,7 @@
 				</ul>
 			</li>
 		
+		<!-- 
 		<li id="menuUploadDownload" class="toolbarMenuItem"><a
 			href="#uploadDownload"><g:message code="text.upload.and.download" /></a>
 			<ul>
@@ -122,7 +125,7 @@
 								code="text.add.to.cart" /></a></li>
 		
 
-			</ul></li>
+			</ul></li> -->
 		</ul>
 </div>
 

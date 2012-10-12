@@ -1,4 +1,7 @@
-<div id="metadataDialogDiv" class="roundedContainer">
+ <div class="alert alert-info">
+ <g:message code="heading.metadata.details" />
+</div>
+<div id="metadataDialogDiv" >
 	<div id="metadataDialogMessageArea" style="width:90%;">
 		<g:renderErrors bean="${cmd}" />
 	</div>

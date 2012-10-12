@@ -32,7 +32,10 @@
 <div class="tab-content">
   <div class="tab-pane active" id="info">
   
-  	 <h3><a ><g:message code="text.info" /></a></h3>
+  	 <h4><g:message code="text.info" /></h4>
+ 		<div class="alert alert-info">
+ 			<g:message code="heading.info" />
+		</div>
 		
 			<div id="container" style="height:100%;width:100%;">
 				<div>

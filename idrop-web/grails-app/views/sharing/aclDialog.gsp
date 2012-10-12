@@ -1,8 +1,10 @@
-<div id="aclDialogDiv">
+<div class="alert alert-info">
+ <g:message code="heading.enter.user.or.search" />
+</div>
+<div id="aclDialogDiv" class="alert alert-info">
 
-<div class="roundedContainer" style="margin:20px;">
-				<h2 ><g:message code="heading.enter.user.or.search" /></h2>
-				</div>
+
+
 				<form id="userDialogForm" name="userFormForm">
 	
 			<fieldset id="verticalForm">
@@ -16,7 +18,7 @@
 				<g:textField id="userName" name="userName" value="${userName}" />
 				<br/>
 				<button type="button" id="lookUpUserNames"
-							class="ui-state-default ui-corner-all" value="lookUpUserNames"
+							value="lookUpUserNames"
 							onclick="lookUpUserNameFromACLDialogClicked()")><g:message code="text.search" /></button>
 				<br/>
 				
@@ -31,7 +33,7 @@
 						style="float: left, clear :   both; width: 90%;">
 						<button type="button" id="updateAclDetailButton"
 							value="addAcl"
-							onclick="submitAclDialog()")><g:message code="default.button.save.label" /></button>
+							onclick="submitAclDialog()")><g:message code="text.update" /></button>
 						<button type="button" id="cancelAddAclButton"
 							 value="cancelAdd"
 							onclick="closeAclAddDialog()")><g:message code="default.button.cancel.label" /></button>

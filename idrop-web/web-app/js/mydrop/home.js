@@ -1112,7 +1112,13 @@ function buildAclTableInPlace() {
 	  tableParams = {"bJQueryUI" : true,
           	"bLengthChange": false,
           	"bFilter": false,
-          	"iDisplayLength" : 500
+          	"iDisplayLength" : 500,
+          	 "aoColumns" : [
+        	                {'sWidth': '20px', 'bSortable':false},
+        	                { 'sWidth': '30px' },
+        	                { 'sWidth': '40px' }
+        	                
+        	            ]
 
           }
 	  

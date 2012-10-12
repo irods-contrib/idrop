@@ -1,6 +1,26 @@
- <h3><a ><g:message code="text.metadata" /></a></h3>
-<div id="detailsTopSection">
+<h4><g:message code="text.metadata" /></h4>
 
+<g:hiddenField name='metadataDetailsAbsPath' id='metadataDetailsAbsPath' value='${absPath}'/>
+
+	<!-- div for metadata table -->
+</div>
+
+
+<div id="metadataMessageArea">
+	<!--  -->
+</div>
+
+<div id="metadataDialogArea">
+	<!--  area for generating dialogs -->
+</div>
+
+<div id="metadataDetailsArea">
+
+	<div class="alert alert-info">
+			<g:message code="heading.metadata" />
+	</div>
+
+ 
 	<div id="detailsToolbar" class="well">
 		<div id="detailsMenu" 
 			style="float: left, clear :   both;">
@@ -21,19 +41,7 @@
 			</button>
 		</div>
 	</div>
-	<g:hiddenField name='metadataDetailsAbsPath' id='metadataDetailsAbsPath' value='${absPath}'/>
-
-	<div id="metadataMessageArea">
-		<!--  -->
-	</div>
-
-	<div id="metadataDialogArea">
-		<!--  area for generating dialogs -->
-	</div>
-
-	<div id="metadataTableDiv">
-		<!-- div for metadata table -->
-	</div>
+	<div id="metadataTableDiv"><!--  table goes here --></div>
 </div>
 
 <script type="text/javascript">
@@ -44,7 +52,7 @@
 	if (path == null) {
 		path = baseAbsPath;
 	}
-	reloadAclTable(path);
+	
 	
 	$(function() {
 		
