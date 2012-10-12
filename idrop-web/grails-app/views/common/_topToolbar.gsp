@@ -1,105 +1,41 @@
-<div id="topToolbar"
-	style="height: 100%; overflow: visible; margin-left: auto; margin-right: auto;">
+<div id="topToolbar" >
 
-	<ul id="topToolbarMenu" class="sf-menu">
+	<div id="topToolbarMenu" class="btn-toolbar">
 		
-		<li id="menuFileDetails" class="detailsToolbarMenuItem"><a
-			href="#file"><g:message code="text.file" /></a>
-			<ul>
-			<li id="menuRefresh"><a href="#refresh" onclick="refreshTree()"><g:message
-					code="text.refresh" /></a></li>
-				<li id="menuNewFolderDetails"><a href="#newFolderDetails"
-					onclick="newFolderViaBrowseDetailsToolbar()"><g:message
-							code="text.new.folder" /></a></li>
-				<!--  <li id="menuRenameDetails"><a href="#renameDetails"
-					onclick="renameViaBrowseDetailsToolbar()"><g:message
-							code="text.rename" /></a></li>
-				<li id="menuDeleteDetails"><a href="#deleteDetails"
-					onclick="deleteViaBrowseDetailsToolbar()"><g:message
-							code="default.button.delete.label" /></a></li>
-				-->
-			</ul></li>
-			<li id="menuFile" class="toolbarMenuItem"><a href="#file"><g:message
-					code="text.file" /></a>
-			<ul>
-			<li id="menuRefresh"><a href="#refresh" onclick="refreshTree()"><g:message
-					code="text.refresh" /></a></li>
-				<li id="menuNewFolder"><a href="#newFolder"
-					onclick="newFolderViaToolbar()"><g:message
-							code="text.new.folder" /></a></li>
-				<!--  <li id="menuRename"><a href="#rename"
-					onclick="renameViaToolbar()"><g:message code="text.rename" /></a></li>
-				<li id="menuDelete"><a href="#delete"
-					onclick="deleteViaToolbar()"><g:message
-							code="default.button.delete.label" /></a></li>-->
-			</ul></li>
+		<div id="menuFileDetails" class="detailsToolbarMenuItem toolbarMenuItem btn-group">
+			<button id="menuRefresh" onclick="refreshTree()"><img class="icon-refresh"/><g:message
+					code="text.refresh" /></button>
+			<button id="menuNewFolderDetails"
+					onclick="newFolderViaBrowseDetailsToolbar()"><img class="icon-plus-sign"/><g:message
+							code="text.new.folder" /></button>
+
+		</div>
+		
+		<div id="menuView" class="detailsToolbarMenuItem toolbarMenuItem btn-group">
 			
-		<li id="menuView"><a href="#view"><g:message code="text.view" /></a>
-			<ul>
-				<li id="menuBrowseView"><a href="#browseView"
-					onclick="browseView()"><g:message
-							code="text.browse" /></a></li>
-				<li id="menuInfoView"><a href="#infoView" onclick="infoView()"> <g:message code="text.info" /></a></li>
-				<li id="menuSharingView"><a href="#sharingView"
+				<button id="menuBrowseView"
+					onclick="browseView()"><img class="icon-list"/><g:message
+							code="text.browse" /></button>
+				<button id="menuInfoView" onclick="infoView()"><img class="icon-info-sign"/> <g:message code="text.info" /></button>
+				<!--  <button id="menuSharingView" 
 					onclick="sharingView()"><g:message
-							code="text.sharing" /></a></li>
-				<li id="menuMetadataView"><a href="#metadataView"
+							code="text.sharing" /></button>
+				<button id="menuMetadataView"
 					onclick="metadataView()"><g:message
-							code="text.metadata" /></a></li>
-				<li id="menuGalleryView"><a href="#galleryView"
-					onclick="galleryView()"><g:message
-							code="text.gallery" /></a></li>
-				<li id="menuAuditView"><a href="#auditView"
-					onclick="auditView()"><g:message
-							code="text.audit" /></a></li>
+							code="text.metadata" /></button>-->
+				<button id="menuGalleryView"
+					onclick="galleryView()"><img class="icon-picture"/><g:message
+							code="text.gallery" /></button>
+			<!--	<button id="menuAuditView"
+				 	onclick="auditView()"><g:message
+							code="text.audit" /></button>
 				<g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
-				<li id="menuTicketView"><a href="#ticketView"
+				<button id="menuTicketView"
 					onclick="ticketView()"><g:message
-							code="text.tickets" /></a></li>
-				</g:if>
-			</ul></li>
+							code="text.tickets" /></button>
+				</g:if>-->
+		</div>
 
-		<!--  details toolbar -->
-		<!-- 
-		<li id="menuUploadDownloadDetails" class="detailsToolbarMenuItem"><a
-			href="#uploadDownloadDetails"><g:message
-					code="text.upload.and.download" /></a>
-			<ul>
-				<li id="menuUploadDetails"><a href="#uploadDetails"
-					onclick="showBrowseDetailsUploadDialog()"><g:message
-							code="text.upload" /></a></li>
-			
-					<li id="menuBulkUploadDetails" class="idropLiteBulkUpload"><a href="#bulkuploadDetails"
-						onclick="showBrowseDetailsIdropLite()"><g:message
-								code="text.bulk.upload" /></a></li>
-
-					<li id="menuAddToCartDetails"><a href="#addToCartDetails"
-						onclick="addToCartViaBrowseDetailsToolbar()"><g:message
-								code="text.add.to.cart" /></a></li>
-
-			
-			</ul></li>
-			
-			<li id="menuToolsDetails" class="detailsToolbarMenuItem"><a href="#menuToolsDetails"><g:message code="text.tools"/></a>
-				<ul>
-					<li id="menuToolsDetailsMakePublicLink"><a href="#makePublicLinkDetails" onclick="makePublicLinkAtPath()"><g:message code="text.create.public.link" /></a></li>
-				</ul>
-			</li>-->
-				
-			<!--  
-			<li id="menuBulkActionDetails" class="detailsToolbarMenuItem"><a href="#applyActionToAllDetails"><g:message code="text.apply.to.all"/></a>
-				<ul>
-
-					<li id="menuAddToCartDetails"><a href="#addAllToCartDetails" onclick="addSelectedToCart()"><g:message code="text.add.all.to.cart" /></a></li>
-					<li id="menuDeleteDetails"><a href="#deleteAllDetails" onclick="deleteSelected()"><g:message code="text.delete.all" /></a></li>
-				</ul>
-			</li>
-			
-			-->
-			
-			
-				
-			
 	<!--  info toolbar -->
 
 	<li id="menuTools" class="toolbarMenuItem"><a href="#menuToolsD"><g:message code="text.tools"/></a>
@@ -107,25 +43,6 @@
 					<li id="menuToolsMakePublicLink"><a href="#makePublicLink" onclick="makePublicLinkAtPath()"><g:message code="text.create.public.link" /></a></li>
 				</ul>
 			</li>
-		
-		<!-- 
-		<li id="menuUploadDownload" class="toolbarMenuItem"><a
-			href="#uploadDownload"><g:message code="text.upload.and.download" /></a>
-			<ul>
-				<li id="menuUpload"><a href="#upload"
-					onclick="showUploadDialogFromInfoToolbar()"><g:message
-							code="text.upload" /></a></li>
-				<li id="menuDownload"><a href="#download"
-					onclick="downloadAction()"><g:message code="text.download" /></a></li>
-					<li id="menuBulkUpload" class="idropLiteBulkUpload"><a href="#bulkupload"
-						onclick="showIdropLite()"><g:message code="text.bulk.upload" /></a></li>
-
-					<li id="menuAddToCart"><a href="#addToCart"
-						onclick="addToCartViaToolbar()"><g:message
-								code="text.add.to.cart" /></a></li>
-		
-
-			</ul></li> -->
 		</ul>
 </div>
 
@@ -136,7 +53,7 @@
 	$(function() {
 		$(".toolbarMenuItem").hide();
 		$(".detailsToolbarMenuItem").hide();
-		$("ul.sf-menu").superfish();
+		//$("ul.sf-menu").superfish();
 	});
 
 	function setDefaultView(view) {
