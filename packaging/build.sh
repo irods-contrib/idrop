@@ -14,7 +14,7 @@ IDROP_LITE_APPLET=idrop-lite-1.0.2-SNAPSHOT-jar-with-dependencies.jar
 # in case we need to download maven
 MAVENVER=3.0.4
 MAVENFILE=apache-maven-$MAVENVER
-MAVENDOWNLOAD=http://www.apache.org/dyn/closer.cgi/maven/maven-3/$MAVENVER/binaries/$MAVENFILE-bin.tar.gz
+MAVENDOWNLOAD=http://apache.cs.utah.edu/maven/maven-3/$MAVENVER/binaries/$MAVENFILE-bin.zip
 
 # in case we need to download grails
 GRAILSVER=2.1.1
@@ -70,7 +70,7 @@ if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" ]] ; then
 	wget $MAVENDOWNLOAD
 
 	# install and setup environment
-	tar -xf $MAVENFILE-bin.tar.gz
+	unzip $MAVENFILE-bin.zip
 	export M2_HOME=$BUILDDIR/$MAVENFILE
 	export M2=$M2_HOME/bin
 	export PATH=$M2:$PATH
