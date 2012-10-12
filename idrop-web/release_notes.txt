@@ -1,7 +1,7 @@
 *'''Project''': idrop-web
-*'''Date''': 08/28/2012
-*'''Release Version''': 1.0.2 work in progress
-*'''git tag''': xxx
+*'''Date''': 10/23/2012
+*'''Release Version''': 1.0.2-beta1
+*'''git tag''':  1.0.2-beta1
 
 ==News==
 
