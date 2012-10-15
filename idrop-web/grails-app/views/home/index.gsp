@@ -15,14 +15,7 @@
     	<center><h1>iDrop Quick Folders</h1></center>
 	</div>
 </div>
-<div class="row-fluid well">
-	<div class="span3 offset2">
-    	<i class="icon-folder-open"></i> Open folder in browse view
-	</div>
-	<div class="span3 offset1">
-    	<i class="icon-arrow-up"></i> Quick upload in browse view
-	</div>
-</div>
+<g:render template="/common/browseLegend" />
 <div class="row-fluid">
 	<div class="span8 offset2">
 	<table class="table table-striped table-hover">
@@ -37,37 +30,37 @@
   <tbody>
     <tr>
       <td><g:img dir="images" file="folder_icon.png" width="20" height="20"/></td>
-      <td><i class="icon-folder-open"></i><i class="icon-arrow-up"></i></td>
+      <td><i class="icon-folder-open"></i><i class="icon-upload"></i></td>
       <td>Some Name</td>
       <td>Description text</td>
     </tr>
      <tr>
       <td><g:img dir="images" file="folder_icon.png" width="20" height="20"/></td>
-        <td><i class="icon-folder-open"></i><i class="icon-arrow-up"></i></td>
+        <td><i class="icon-folder-open"></i><i class="icon-upload"></i></td>
       <td>Some Name</td>
       <td>Description text</td>
     </tr>
      <tr>
       <td><g:img dir="images" file="folder_icon.png" width="20" height="20"/></td>
-        <td><i class="icon-folder-open"></i><i class="icon-arrow-up"></i></td>
+        <td><i class="icon-folder-open"></i><i class="icon-upload"></i></td>
       <td>Some Name</td>
       <td>Description text</td>
     </tr>
      <tr>
       <td><g:img dir="images" file="folder_icon.png" width="20" height="20"/></td>
-        <td><i class="icon-folder-open"></i><i class="icon-arrow-up"></i></td>
+        <td><i class="icon-folder-open"></i><i class="icon-upload"></i></td>
       <td>Some Name</td>
       <td>Description text</td>
     </tr>
      <tr>
       <td><g:img dir="images" file="folder_icon.png" width="20" height="20"/></td>
-        <td><i class="icon-folder-open"></i><i class="icon-arrow-up"></i></td>
+        <td><i class="icon-folder-open"></i><i class="icon-upload"></i></td>
       <td>Some Name</td>
       <td>Description text</td>
     </tr>
      <tr>
       <td><g:img dir="images" file="folder_icon.png" width="20" height="20"/></td>
-        <td><i class="icon-folder-open"></i><i class="icon-arrow-up"></i></td>
+        <td><i class="icon-folder-open"></i><i class="icon-upload"></i></td>
       <td>Some Name</td>
       <td>Description text</td>
     </tr>

@@ -11,6 +11,12 @@
     <div id="infoDialogArea">
       <!--  no empty divs -->
     </div>
+    <div id="legendAreaContainer">
+    	 <i class="icon-question-sign" id="iconLegend" onmouseover="showLegend()" onmouseout="hideLegend()"/><g:message code="text.action.help" />
+    	<div id="legend" style="display:none;">
+    		<g:render template="/common/browseLegend" />
+    	</div>
+    </div>
     <div id="detailsTopSection" >
       <form id="browseDetailsForm" name="browseDetailsForm">
         <table class="table table-striped table-hover" cellspacing="0" cellpadding="0" border="0"
@@ -19,7 +25,7 @@
             <tr>
               <th></th>
               <th>
-              
+             
               <div class="btn-group">
   				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Action<span class="caret"></span></a>
  					 <ul class="dropdown-menu">
@@ -46,16 +52,17 @@
               </td>
               <td><g:checkBox name="selectDetail"
                             value="${entry.formattedAbsolutePath}" checked="false" />
+                            <g:if test="${entry.objectType.toString() == 'COLLECTION'}"><i class="icon-upload"/></g:if> <g:else><i class="icon-download"/></g:else>
             </td>
             <td class="draggableFile"><g:if
               test="${entry.objectType.toString() == 'COLLECTION'}">
               <a href="#" id="${entry.formattedAbsolutePath}" onclick="clickOnPathInBrowseDetails(this.id)">${entry.nodeLabelDisplayValue}</a>
 
             </g:if> <g:else>
-            	
+            	${entry.nodeLabelDisplayValue}  
             
-              <g:link url="${'file/download' + entry.formattedAbsolutePath}">
-${entry.nodeLabelDisplayValue}
+             <!--  <g:link url="${'file/download' + entry.formattedAbsolutePath}">
+${entry.nodeLabelDisplayValue} --> 
               </g:link>
             </g:else></td>
             <td>
@@ -117,14 +124,24 @@ ${entry.displayDataSize}
         		//alert("building table ");
                 dataTable = lcBuildTableInPlace("#browseDataDetailsTable", browseDetailsClick, ".browse_detail_icon", tableParams);
                 $("#infoDiv").resize();
-                $("#menuDownload").hide();
+                $.extend( $.fn.dataTableExt.oStdClasses, {
+                    "sSortAsc": "header headerSortDown",
+                    "sSortDesc": "header headerSortUp",
+                    "sSortable": "header"
+                } );
         });
 
-        $.extend( $.fn.dataTableExt.oStdClasses, {
-            "sSortAsc": "header headerSortDown",
-            "sSortDesc": "header headerSortUp",
-            "sSortable": "header"
-        } );
+       function showLegend() {
+			$("#legend").show("slow");
+       }
+
+       function hideLegend() {
+			$("#legend").hide("slow");
+      }
+
+
+
+        
 
       
        

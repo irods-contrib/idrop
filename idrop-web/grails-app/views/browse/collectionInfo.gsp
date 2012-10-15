@@ -6,9 +6,10 @@
 
 <div id="idropLiteArea">
 			<!--  area to show idrop lite applet -->
-		</div>
-		<div id="toggleHtmlArea">
-		<div id="infoDialogArea"><!--  no empty divs --></div>
+</div>
+<div id="toggleHtmlArea">
+	<g:render template="/browse/collectionInfoToolbar" />
+	<div id="infoDialogArea"><!--  no empty divs --></div>
 		
 		<!-- display area lays out info in a main and side column -->
 	<div id="infoDisplayLayout" style="width:100%;height:100%;">
