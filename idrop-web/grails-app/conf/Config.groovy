@@ -1,4 +1,3 @@
-
 grails.config.locations = [
 	"file:/etc/idrop-web/idrop-web-config2.groovy"
 ]
@@ -50,7 +49,7 @@ environments {
  idrop.config.idrop.lite.use.applet.dir=false
  */
 
-idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.1-jar-with-dependencies.jar"
+idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.2-jar-with-dependencies.jar"
 idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-release"
 idrop.config.idrop.lite.use.applet.dir=false
 

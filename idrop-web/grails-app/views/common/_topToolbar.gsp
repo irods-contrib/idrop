@@ -2,6 +2,7 @@
 
 	<div id="topToolbarMenu" class="btn-toolbar">
 		
+
 		<div id="menuFileDetails" class="detailsToolbarMenuItem toolbarMenuItem btn-group">
 			<button id="menuRefresh" onclick="refreshTree()"><img class="icon-refresh"/><g:message
 					code="text.refresh" /></button>

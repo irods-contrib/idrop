@@ -1,8 +1,8 @@
 
 *'''Project''': iDrop-lite transfer applet
-*'''Date''': 08/28/2012
-*'''Release Version''': 1.0.1
-*'''git tag''':  1.0.1 
+*'''Date''': 10/23/2012
+*'''Release Version''': 1.0.2-beta1
+*'''git tag''':  1.0.2-beta1
 *'''download jar with dependencies (run java -jar jarname)''':  https://code.renci.org/gf/project/irodsidrop/frs/?action=FrsReleaseBrowse&frs_package_id=4
 
 NOTE: the release notes were not yet in place for this project, going forward bugs and features addressed will be reflected here
@@ -27,6 +27,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#1012] error building with IdropFileService missing methods
 
 ==Features==
+
+[#1023] Update Version class to include build time and POM version 
 
 ==Outstanding Issues==
 
