@@ -2,7 +2,7 @@
 
 	<div id="topToolbarMenu" class="btn-toolbar">
 		
-		<div id="menuFileDetails" class="detailsToolbarMenuItem toolbarMenuItem btn-group">
+		<div id="menuFileDetails" class="btn-group">
 			<button id="menuRefresh" onclick="refreshTree()"><img class="icon-refresh"/><g:message
 					code="text.refresh" /></button>
 			<button id="menuNewFolderDetails"
@@ -11,39 +11,16 @@
 
 		</div>
 		
-		<div id="menuView" class="detailsToolbarMenuItem toolbarMenuItem btn-group">
+		<div id="menuView" class="btn-group">
 			
 				<button id="menuBrowseView"
 					onclick="browseView()"><img class="icon-list"/><g:message
 							code="text.browse" /></button>
 				<button id="menuInfoView" onclick="infoView()"><img class="icon-info-sign"/> <g:message code="text.info" /></button>
-				<!--  <button id="menuSharingView" 
-					onclick="sharingView()"><g:message
-							code="text.sharing" /></button>
-				<button id="menuMetadataView"
-					onclick="metadataView()"><g:message
-							code="text.metadata" /></button>-->
 				<button id="menuGalleryView"
 					onclick="galleryView()"><img class="icon-picture"/><g:message
 							code="text.gallery" /></button>
-			<!--	<button id="menuAuditView"
-				 	onclick="auditView()"><g:message
-							code="text.audit" /></button>
-				<g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
-				<button id="menuTicketView"
-					onclick="ticketView()"><g:message
-							code="text.tickets" /></button>
-				</g:if>-->
 		</div>
-
-	<!--  info toolbar -->
-
-	<li id="menuTools" class="toolbarMenuItem"><a href="#menuToolsD"><g:message code="text.tools"/></a>
-				<ul>
-					<li id="menuToolsMakePublicLink"><a href="#makePublicLink" onclick="makePublicLinkAtPath()"><g:message code="text.create.public.link" /></a></li>
-				</ul>
-			</li>
-		</ul>
 </div>
 
 
@@ -71,15 +48,6 @@
 	}
 
 	/**
-	 * audit view selected
-	 */
-	function auditView() {
-		setDefaultView("audit");
-		showAuditView(selectedPath);
-
-	}
-
-	/**
 	 * browse view selected
 	 */
 	function browseView() {
@@ -94,30 +62,6 @@
 	function infoView() {
 		setDefaultView("info");
 		showInfoView(selectedPath);
-	}
-
-	/**
-	 * Show the sharing (ACL) view
-	 */
-	function sharingView() {
-		setDefaultView("sharing");
-		showSharingView(selectedPath);
-	}
-
-	/**
-	 * Show the metadata (AVU) view
-	 */
-	function metadataView() {
-		setDefaultView("metadata");
-		showMetadataView(selectedPath);
-	}
-
-	/**
-	 * Show the ticket view
-	 */
-	function ticketView() {
-		setDefaultView("ticket");
-		showTicketView(selectedPath);
 	}
 
 	/**
@@ -175,35 +119,6 @@
 	function downloadAction() {
 		var path = $("#infoAbsPath").val();
 		downloadViaToolbar(path);
-	}
-
-	function showBulkShareDialogFromToolbar() {
-		var path = $("#infoAbsPath").val();
-		showBulkShareDialog(path);
-	}
-
-	function showIdropLiteFromToolbar() {
-		var path = $("#infoAbsPath").val();
-		showBulkShareDialog(path);
-	}
-
-	/**
-	 * Show the dialog to allow upload of data using the abs path in the info pane
-	 */
-	function showUploadDialogFromInfoToolbar() {
-		var uploadPath = $("#infoAbsPath").val();
-		if (uploadPath == null) {
-			showErrorMessage("No path was found to upload, application error occurred");
-			return;
-		}
-
-		showUploadDialogUsingPath(uploadPath);
-
-	}
-
-	function sharingSelectedFromToolbar() {
-		var path = $("#infoAbsPath").val();
-		showSharingView(path);
 	}
 
 	/*

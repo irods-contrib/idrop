@@ -30,6 +30,84 @@
 
 
 <script type="text/javascript">
+
+	function cibSetCollectionAsRoot() {
+		var path = $("#infoAbsPath").val();
+		if (path == null) {
+			showErrorMessage("No path was found");
+			return false;
+		}
+
+		setTreeToGivenPath(path);
+
+		
+	}
+
+	/**
+	* Show the uplaod dialog using the hidden path in the info view
+	*/
+	function cibUploadViaBrowser() {
+		var path = $("#infoAbsPath").val();
+		if (path == null) {
+			showErrorMessage("No path was found");
+			return false;
+		}
+
+		showUploadDialogUsingPath(path);
+
+		
+	}
+
+	/**
+	* Launch iDrop lite for bulk uplaod mode
+	*/
+	function cibBulkUploadViaBrowser() {
+		var path = $("#infoAbsPath").val();
+		if (path == null) {
+			showErrorMessage("No path was found");
+			return false;
+		}
+
+		showIdropLiteGivenPath(path, 2);
+	}
+
+	/**
+	* Create a new folder underneath the current directory
+	**/
+	function cibNewFolder() {
+		var path = $("#infoAbsPath").val();
+		if (path == null) {
+			showErrorMessage("No path was found");
+			return false;
+		}
+		newFolderViaToolbarGivenPath(path);
+	}
+
+	/**
+	* Delete the collection currently displayed in the info view
+	*/
+	function cibRenameCollection() {
+		var path = $("#infoAbsPath").val();
+		if (path == null) {
+			showErrorMessage("No path was found");
+			return false;
+		}
+
+		renameViaToolbarGivenPath(path);
+	}
+
 	
+	/**
+	* call delete using the path in the info panel
+	*/
+	function cibDeleteCollection() {
+		var path = $("#infoAbsPath").val();
+		if (path == null) {
+			showErrorMessage("No path was found");
+			return false;
+		}
+
+		deleteViaToolbarGivenPath(path);
+	}
 	
 </script>

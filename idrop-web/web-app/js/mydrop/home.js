@@ -621,27 +621,14 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	    state[ "browseOptionVal"] = browseOptionVal;
 	    $.bbq.pushState( state );
 
-	//alert("call setPathCrumbtrail");
 	setPathCrumbtrail(absPath);
-	//alert("skipped setpathcrumbtrail");
-	//alert("browseOptionVal is:" + browseOptionVal);
-
+	
 	if (browseOptionVal == "browse") {
 		showBrowseView(absPath);
 	} else if (browseOptionVal == "info") {
 		showInfoView(absPath);
 	} else if (browseOptionVal == "gallery") {
 		showGalleryView(absPath);
-	} else if (browseOptionVal == "metadata") {
-		showMetadataView(absPath);
-	} else if (browseOptionVal == "sharing") {
-		showSharingView(absPath);
-	} else if (browseOptionVal == "audit") {
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-				"/audit/auditList?absPath=" + encodeURIComponent(absPath),
-				"#infoDiv", "#infoDiv", null);
-	} else if (browseOptionVal == "ticket") {
-		showTicketView(absPath);
 	}
 }
 
@@ -655,7 +642,6 @@ function showBrowseView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	showBrowseDetailsToolbar();
 	
 	try {
 
@@ -691,8 +677,7 @@ function showAuditView(absPath, targetDiv) {
 	
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
+		
 	} 
 	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
@@ -714,8 +699,6 @@ function showSharingView(absPath, targetDiv) {
 	
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
 	} 
 	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
@@ -737,7 +720,6 @@ function showMetadataView(absPath, targetDiv) {
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
 		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
 	} 
 	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
@@ -757,7 +739,6 @@ function showInfoView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	showDetailsToolbar();
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);
@@ -774,8 +755,6 @@ function showGalleryView(absPath) {
 		absPath = baseAbsPath;
 	}
 	
-	hideAllToolbars();
-
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);
@@ -794,8 +773,6 @@ function showTicketView(absPath, targetDiv) {
 	
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
 	} 
 	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
@@ -1633,6 +1610,7 @@ function closeNewFolderDialog() {
 function submitRenameDialog() {
 	lcClearDivAndDivClass("#renameDialogMessageArea");
 	var absPath = $("#renameDialogAbsPath").val();
+	var parentPath = $("#renameDialogParentPath").val();
 	var newName = $.trim($("#fileName").val());
 	// name must be entered
 	if (newName == null || newName.length == 0) {
@@ -1659,17 +1637,16 @@ function submitRenameDialog() {
 				setMessage("file renamed to:" + xhr.responseText);
 				selectedPath = xhr.responseText;
 				
-				refreshTree();
-				//reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
-				// selectTreePathFromIrodsPath(selectedPath);
-				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath
-						+ "/" + newName);
+				//refreshTree();
+				reloadAndSelectTreePathBasedOnIrodsAbsolutePath(parentPath);
+				//selectTreePathFromIrodsPath(selectedPath);
+				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 				unblockPanel();
 			}).error(function(xhr, status, error) {
-		refreshTree();
-		setErrorMessage(xhr.responseText);
-		unblockPanel();
-	});
+				refreshTree();
+				setErrorMessage(xhr.responseText);
+				unblockPanel();
+			});
 
 }
 
@@ -2163,6 +2140,22 @@ function setTreeToUserHome() {
 	retrieveBrowserFirstView("home", "");
 	
 }
+
+
+/**
+ * set the root of the tree to the given path and reload
+ */
+
+function setTreeToGivenPath(path) {
+
+	if (path == null || path=="") {
+		path = "/";
+	}
+	
+	retrieveBrowserFirstView("path", path);
+	
+}
+
 
 /**
  * Set the root of the tree to the user home directory and reload

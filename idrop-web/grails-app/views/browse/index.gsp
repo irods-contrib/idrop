@@ -36,8 +36,6 @@
 		} else {
 			retrieveBrowserFirstView(mode, startPath);
 		}
-		hideAllInactive();
-		$("#topbarBrowser").addClass("active");
 
 	});
 </script>

@@ -501,6 +501,7 @@ class BrowseController {
 		 */
 
 		IRODSFile targetFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+		String parentPath = targetFile.parent
 
 		log.info("target file obtained")
 		if (!targetFile.exists()) {
@@ -512,7 +513,7 @@ class BrowseController {
 		log.info("target file exists")
 
 		String fileName = targetFile.name
-		render(view:"renameDialog", model:[fileName:fileName, absPath:absPath])
+		render(view:"renameDialog", model:[fileName:fileName, absPath:absPath, parentPath:parentPath])
 	}
 
 
