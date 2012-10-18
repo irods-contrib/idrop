@@ -10,7 +10,7 @@
 			<button id="addToCart" onclick="dibAddToCart()"><img class="icon-shopping-cart"/><g:message
 					code="text.add.to.cart" /></button>			
 		</div>
-		<div id="dataObjectInfoButtonGroup3" class="btn-group">
+		<div id="dataObjectInfoButtonGroup2" class="btn-group">
 			<button id="renameDataObject" onclick="dibRenameFile()"><img class="icon-pencil"/><g:message
 					code="text.rename" /></button>
 			<button id="deleteDataObject" onclick="dibDeleteFile()"><img class="icon-trash"/><g:message
@@ -19,5 +19,42 @@
 </div>
 
 <script type="text/javascript">
+
+function dibDownloadFile() {
+	var path = $("#infoAbsPath").val();
+	if (path == null) {
+		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+		return false;
+	}
+
+	downloadViaToolbarGivenPath(path);
+}
+
+/**
+* Delete the file currently displayed in the info view
+*/
+function dibRenameFile() {
+	var path = $("#infoAbsPath").val();
+	if (path == null) {
+		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+		return false;
+	}
+
+	renameViaToolbarGivenPath(path);
+}
+
+/**
+* call delete using the path in the info panel
+*/
+function dibDeleteFile() {
+	var path = $("#infoAbsPath").val();
+	if (path == null) {
+		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+		return false;
+	}
+
+	deleteViaToolbarGivenPath(path);
+}
+
 		
 </script>

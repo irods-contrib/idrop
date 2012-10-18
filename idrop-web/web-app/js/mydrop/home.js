@@ -438,7 +438,7 @@ function nodeRemoved(event, data) {
 			return false;
 		}
 		setMessage("file deleted:" + id);
-		selectedPqth = xhr.responseText;
+		selectedPath = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
@@ -639,29 +639,27 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
  *            absolute path to browse to
  */
 function showBrowseView(absPath) {
+	
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
 	
-	try {
+	lcShowBusyIconInDiv("#infoDiv");
 
-		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
-				"/browse/displayBrowseGridDetails?absPath="
-						+ encodeURIComponent(absPath),
-				"#infoDiv",
-				function(data) {
-					//alert("data is:" + data);
-					$("#infoDiv").html(data);
-				},
-				function() {
-					setMessage("Unable to browse to location");
+	var jqxhr = $.get(context + "/browse/displayBrowseGridDetails?absPath="
+			+ encodeURIComponent(absPath), null,
+			function(data, status, xhr) {
+			}, "html")
+				.success(function(data, status, xhr) {
+					var continueReq = checkForSessionTimeout(data, xhr);
+					if (!continueReq) {
+						return false;
+					} 
+				
+					$("#infoDiv").html(data);})
+				.error(function(xhr, status, error) {
+					setInfoDivNoData();
 				});
-	} catch (err) {
-		// tree is out of synch, refresh it
-		setMessage("Tree is out of synch, refreshing...");
-		refreshTree();
-	}
-
 }
 
 /**
@@ -685,6 +683,15 @@ function showAuditView(absPath, targetDiv) {
 					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
 
 }
+
+/**
+ * Set a no data message in the div
+ */
+function setInfoDivNoData() {
+	$("#infoDiv").html("<h2>No data to display</h2>");  //FIXME: i18n
+	
+}
+
 
 /**
  * Show the sharing view
@@ -1401,8 +1408,21 @@ function refreshTree() {
  */
 function downloadViaToolbar() {
 	var infoAbsPath = $("#infoAbsPath").val();
-	window.open(context + '/file/download/' + infoAbsPath, '_self');
+	window.open(context + '/file/download' + escape(infoAbsPath), '_self');
 
+}
+
+/**
+ * Do a donwload action with a provided path
+ * @param path
+ */
+function downloadViaToolbarGivenPath(path) {
+	if (path == null) {
+		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+		return false;
+	}
+	
+	window.open(context + '/file/download' + escape(path), '_self');
 }
 
 /**
@@ -1475,7 +1495,7 @@ function deleteViaBrowseDetailsToolbar() {
 function deleteViaToolbarGivenPath(path) {
 
 	if (path == null) {
-		setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to delete"); // FIXME:
+		showErrorMessage(jQuery.i18n.prop("msg.path.missing"));
 		// i18n
 		return false;
 	}
@@ -1489,62 +1509,30 @@ function deleteViaToolbarGivenPath(path) {
 		var params = {
 			absPath : path
 		}
+		
 		var jqxhr = $
 				.post(context + fileDeleteUrl, params,
-						function(data, status, xhr) {
-						}, "html")
+						null, "html")
 				.success(
 						function(returnedData, status, xhr) {
 							var continueReq = checkForSessionTimeout(
 									returnedData, xhr);
+							
 							if (!continueReq) {
 								return false;
 							}
 
-							setMessage("file deleted:" + xhr.responseText);
-
-							$("#infoDiv").html("<h2>File Deleted</h2>");
-
-							/*
-							 * delete the node from the tree, select the parent
-							 * node and update the display to the parent node
-							 */
-							splitPathAndPerformOperationAtGivenTreePath(
-									path,
-									null,
-									null,
-									function(treePath, tree, currentNode) {
-										// get the parent node
-										var parent = $.jstree._reference(
-												dataTree)._get_parent(
-												currentNode);
-										if (parent == null) {
-											refreshTree();
-											return false;
-										}
-										// remove node..
-
-										$.jstree._reference(dataTree)
-												._get_parent(currentNode);
-										// $.jstree._reference(dataTree).remove(
-										// currentNode);
-
-										var parent = $.jstree._reference(
-												dataTree).refresh(parent);
-										selectedPath = xhr.responseText;
-										updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-
-									});
-
+							setMessage("file deleted:" + path);
+							var selectedPath = xhr.responseText;
+							reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 							unblockPanel();
 
 						}).error(function(xhr, status, error) {
-					refreshTree();
-					setErrorMessage(xhr.responseText);
-					unblockPanel();
-				});
+							//refreshTree();
+							setErrorMessage(xhr.responseText);
+							unblockPanel();
+						});
 	}
-
 }
 
 /**
@@ -1835,6 +1823,29 @@ function selectTreePathFromIrodsPath(irodsAbsolutePath) {
 
 }
 
+
+/**
+ * Find the given iRODS absolute path in the tree, clear the children and reload
+ * 
+ * @param path
+ */
+function refreshOpenNodeAtAbsolutePath(path) {
+
+	if (path == null) {
+		throw "No path provided";
+	}
+
+	splitPath = path.split("/");
+
+	performOperationAtGivenTreePath(splitPath, null, null, function(thisPath,
+			dataTree, currentNode) {
+
+		$.jstree._reference(dataTree).refresh(currentNode);
+		$.jstree._reference(dataTree).select_node(currentNode, true);
+
+	});
+}
+
 /**
  * Find the given iRODS absolute path in the tree, clear the children and reload
  * 
@@ -1857,6 +1868,28 @@ function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
 
 	});
 }
+
+/**
+ * Find the given iRODS absolute path in the tree, clear the children and reload, do not select or open
+ * 
+ * @param path
+ */
+function reloadTreePathBasedOnIrodsAbsolutePath(path) {
+
+	if (path == null) {
+		throw "No path provided";
+	}
+
+	splitPath = path.split("/");
+
+	performOperationAtGivenTreePath(splitPath, null, null, function(thisPath,
+			dataTree, currentNode) {
+
+		$.jstree._reference(dataTree).refresh(currentNode);
+
+	});
+}
+
 
 
 /**
@@ -2275,5 +2308,10 @@ function showOverwriteOptionDialog(message) {
 	 * 
 	 * var a = document.createElement('applet'); appletTagDiv.appendChild(a);
 	 */
+	
+	
+}
 
+function z() {
+	
 }

@@ -34,7 +34,7 @@
 	function cibSetCollectionAsRoot() {
 		var path = $("#infoAbsPath").val();
 		if (path == null) {
-			showErrorMessage("No path was found");
+			showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 			return false;
 		}
 
@@ -49,7 +49,7 @@
 	function cibUploadViaBrowser() {
 		var path = $("#infoAbsPath").val();
 		if (path == null) {
-			showErrorMessage("No path was found");
+			showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 			return false;
 		}
 
@@ -64,7 +64,7 @@
 	function cibBulkUploadViaBrowser() {
 		var path = $("#infoAbsPath").val();
 		if (path == null) {
-			showErrorMessage("No path was found");
+			showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 			return false;
 		}
 
@@ -77,7 +77,7 @@
 	function cibNewFolder() {
 		var path = $("#infoAbsPath").val();
 		if (path == null) {
-			showErrorMessage("No path was found");
+			showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 			return false;
 		}
 		newFolderViaToolbarGivenPath(path);
@@ -89,7 +89,7 @@
 	function cibRenameCollection() {
 		var path = $("#infoAbsPath").val();
 		if (path == null) {
-			showErrorMessage("No path was found");
+			showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 			return false;
 		}
 
@@ -103,7 +103,7 @@
 	function cibDeleteCollection() {
 		var path = $("#infoAbsPath").val();
 		if (path == null) {
-			showErrorMessage("No path was found");
+			showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 			return false;
 		}
 

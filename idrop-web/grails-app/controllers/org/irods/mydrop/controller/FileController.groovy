@@ -195,9 +195,16 @@ class FileController {
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(absPath)
 
-		targetFile.delete()
-		log.info("file deleted")
-		render targetFile.getParent()
+		try {
+			targetFile.delete()
+			log.info("file deleted")
+			render(view:"deleteResult", model:[absPath:targetFile.parent])
+			//render targetFile.getParent()
+		} catch (JargonException je) {
+			log.error("exception on delete", je)
+			response.sendError(500,je.message)
+			return
+		}
 	}
 
 	/**

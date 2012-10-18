@@ -8,7 +8,7 @@
 	<!--  area to show idrop lite applet -->
 </div>
 <div id="toggleHtmlArea">
-	<div id="displayArea" style="position:relative;width:100%;height:95%;display:block;">
+	<div id="displayArea">
 		<g:render template="/browse/dataObjectInfoToolbar" />
 		<div id="infoDialogArea"><!--  no empty divs --></div>
 	
@@ -85,7 +85,7 @@
 					<div>${dataObject.checksum}</div>
 				</div>
 				<div>
-					<div><label><g:message code="text.resource.group" />:</label></div>
+					<div><label><g:message code="text.resource" />:</label></div>
 					<div>${dataObject.resourceName}</div>
 				</div>
 				<div>
@@ -112,12 +112,12 @@
 		</div>
 		<div id="container" style="height:100%;width:100%;">
 				<div>
-					<div><label>Tags:</label></div>
+					<div><label><g:message code="text.tags" />:</label></div>
 					<div><g:textField id="infoTags" name="tags"
 					value="${tags.spaceDelimitedTagsForDomain}" /></div>
 				</div>
 				<div>
-					<div><label>Comment:</label></div>
+					<div><label><g:message code="text.comment" />:</label></div>
 					<div><g:textArea id="infoComment" name="comment" rows="5" cols="80"
 					value="${comment}" /></div>
 				</div>
