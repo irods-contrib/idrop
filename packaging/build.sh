@@ -17,7 +17,7 @@ MAVENFILE=apache-maven-$MAVENVER
 MAVENDOWNLOAD=http://apache.cs.utah.edu/maven/maven-3/$MAVENVER/binaries/$MAVENFILE-bin.zip
 
 # in case we need to download grails
-GRAILSVER=2.1.1
+GRAILSVER=2.1.0
 GRAILSFILE=grails-$GRAILSVER
 GRAILSDOWNLOAD=http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/$GRAILSFILE.zip
 
