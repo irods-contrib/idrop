@@ -109,7 +109,7 @@ if [[ "$?" != "0" || `echo $GRAILS | awk '{print $1}'` == "no" ]] ; then
 
 	# setup proxy if needed
 	if [[ $PROXYHOST ]]; then
-		grails add-proxy idrop_proxy --host=$PROXYHOST --port=PROXYPORT
+		grails add-proxy idrop_proxy --host=$PROXYHOST --port=$PROXYPORT
 		grails set-proxy idrop_proxy
 	fi
 else
