@@ -66,6 +66,9 @@ MAVEN=`which mvn`
 if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" ]] ; then
 	echo "Apache Maven required to build project - downloading from $MAVENDOWNLOAD"
 
+	# clean up any old one first
+	rm -rf $MAVENFILE*
+
 	# download maven
 	wget $MAVENDOWNLOAD
 
@@ -89,6 +92,9 @@ fi
 GRAILS=`which grails`
 if [[ "$?" != "0" || `echo $GRAILS | awk '{print $1}'` == "no" ]] ; then
 	echo "GRAILS required to build project - downloading from $GRAILSDOWNLOAD"
+
+	# clean up any old one first
+	rm -rf $GRAILSFILE*
 
 	# download grails
 	wget $GRAILSDOWNLOAD
