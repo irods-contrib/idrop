@@ -81,9 +81,12 @@ if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" ]] ; then
 	# create the .m2 dir
 	mvn --version > /dev/null 2>&1
 	
-	# save old maven settings file if one exists
-	mv ~/.m2/settings.xml save_settings.xml > /dev/null 2>&1
-	echo $UGLYSETTINGSFILESTRING > ~/.m2/settings.xml
+	# if proxy specified set it up in settings.xml
+	if [[ $PROXYHOST ]]; then
+		# save old maven settings file if one exists
+		mv ~/.m2/settings.xml save_settings.xml > /dev/null 2>&1
+		echo $UGLYSETTINGSFILESTRING > ~/.m2/settings.xml
+	fi
 else
 	MAVENVERSION=`mvn --version`
 	echo "Detected maven [$MAVEN] version[$MAVENVERSION]"
