@@ -162,7 +162,12 @@ fi
 echo "Building iDrop Web ..."
 cd ../idrop-web
 grails war idrop-web.war
-# TODO: check return value of grails build??
+RETVAL=$?
+if [ $RETVAL -eq 1 ]; then
+  echo "iDrop Web Build Failed - Exiting"
+  echo "Packaging Failed"
+  exit 1
+fi
 
 #create EPM .list file
 # available from: http://fossies.org/unix/privat/epm-4.2-source.tar.gz
