@@ -26,6 +26,7 @@ import org.irods.jargon.idrop.desktop.systraygui.IRODSTreeContainingComponent;
 import org.irods.jargon.idrop.desktop.systraygui.NewIRODSDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.RenameIRODSDirectoryDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
+import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.netbeans.swing.outline.DefaultOutlineModel;
