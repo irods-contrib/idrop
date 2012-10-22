@@ -17,7 +17,7 @@ MAVENFILE=apache-maven-$MAVENVER
 MAVENDOWNLOAD=http://apache.cs.utah.edu/maven/maven-3/$MAVENVER/binaries/$MAVENFILE-bin.zip
 
 # in case we need to download grails
-GRAILSVER=2.1.1
+GRAILSVER=2.1.0
 GRAILSFILE=grails-$GRAILSVER
 GRAILSDOWNLOAD=http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/$GRAILSFILE.zip
 
@@ -66,6 +66,9 @@ MAVEN=`which mvn`
 if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" ]] ; then
 	echo "Apache Maven required to build project - downloading from $MAVENDOWNLOAD"
 
+	# clean up any old one first
+	rm -rf $MAVENFILE*
+
 	# download maven
 	wget $MAVENDOWNLOAD
 
@@ -78,9 +81,12 @@ if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" ]] ; then
 	# create the .m2 dir
 	mvn --version > /dev/null 2>&1
 	
-	# save old maven settings file if one exists
-	mv ~/.m2/settings.xml save_settings.xml > /dev/null 2>&1
-	echo $UGLYSETTINGSFILESTRING > ~/.m2/settings.xml
+	# if proxy specified set it up in settings.xml
+	if [[ $PROXYHOST ]]; then
+		# save old maven settings file if one exists
+		mv ~/.m2/settings.xml save_settings.xml > /dev/null 2>&1
+		echo $UGLYSETTINGSFILESTRING > ~/.m2/settings.xml
+	fi
 else
 	MAVENVERSION=`mvn --version`
 	echo "Detected maven [$MAVEN] version[$MAVENVERSION]"
@@ -89,6 +95,9 @@ fi
 GRAILS=`which grails`
 if [[ "$?" != "0" || `echo $GRAILS | awk '{print $1}'` == "no" ]] ; then
 	echo "GRAILS required to build project - downloading from $GRAILSDOWNLOAD"
+
+	# clean up any old one first
+	rm -rf $GRAILSFILE*
 
 	# download grails
 	wget $GRAILSDOWNLOAD
@@ -100,7 +109,7 @@ if [[ "$?" != "0" || `echo $GRAILS | awk '{print $1}'` == "no" ]] ; then
 
 	# setup proxy if needed
 	if [[ $PROXYHOST ]]; then
-		grails add-proxy idrop_proxy --host=$PROXYHOST --port=PROXYPORT
+		grails add-proxy idrop_proxy --host=$PROXYHOST --port=$PROXYPORT
 		grails set-proxy idrop_proxy
 	fi
 else
@@ -156,7 +165,12 @@ fi
 echo "Building iDrop Web ..."
 cd ../idrop-web
 grails war idrop-web.war
-# TODO: check return value of grails build??
+RETVAL=$?
+if [ $RETVAL -eq 1 ]; then
+  echo "iDrop Web Build Failed - Exiting"
+  echo "Packaging Failed"
+  exit 1
+fi
 
 #create EPM .list file
 # available from: http://fossies.org/unix/privat/epm-4.2-source.tar.gz
