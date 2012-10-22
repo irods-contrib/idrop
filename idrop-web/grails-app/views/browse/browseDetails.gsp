@@ -35,7 +35,6 @@
  					 </ul>
 				</div>
               
-              
               </th>
               <th><g:message code="text.name" /></th>
               <th><g:message code="text.type" /></th>
@@ -52,9 +51,9 @@
               </td>
               <td><g:checkBox name="selectDetail"
                             value="${entry.formattedAbsolutePath}" checked="false" />
-                            <g:if test="${entry.objectType.toString() == 'COLLECTION'}"><i class="icon-upload"/></g:if> <g:else><i class="icon-download"/></g:else>
+                            <g:if test="${entry.objectType.toString() == 'COLLECTION'}"><img class="icon-info-sign" onclick="infoHere('${entry.formattedAbsolutePath}')"/></g:if> <g:else><img class="icon-info-sign" onclick="infoHere('${entry.formattedAbsolutePath}')"/></g:else>
             </td>
-            <td class="draggableFile"><g:if
+            <td><g:if
               test="${entry.objectType.toString() == 'COLLECTION'}">
               <a href="#" id="${entry.formattedAbsolutePath}" onclick="clickOnPathInBrowseDetails(this.id)">${entry.nodeLabelDisplayValue}</a>
 
@@ -117,7 +116,6 @@ ${entry.displayDataSize}
                 		this.fnAdjustColumnSizing(true);
                 	}
                 	
-
                 }
 
         $(function() {
@@ -140,7 +138,10 @@ ${entry.displayDataSize}
       }
 
 
-
+	function infoHere(path) {
+		setDefaultView("info");
+		selectTreePathFromIrodsPath(path);
+	}
         
 
       
