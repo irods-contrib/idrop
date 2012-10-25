@@ -18,14 +18,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -34,7 +32,6 @@ import javax.swing.tree.TreePath;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.EnvironmentalInfoAO;
-import org.irods.jargon.core.pub.ResourceAO;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.TransferStatus;
@@ -369,6 +366,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 TreePath rootPath = TreeUtils.getPath(currentRoot);
                 TreePath[] currentPaths = irodsTree.getOutlineModel().getTreePathSupport().getExpandedDescendants(rootPath);
                 log.info("expanded paths:{}", currentPaths);
+                int startIdx = irodsTree.getSelectionModel().getMinSelectionIndex();
+                int endIdx = irodsTree.getSelectionModel().getMaxSelectionIndex();
                 scrollIrodsTree.getViewport().removeAll();
                 irodsTree = null;
                 loadNewTree();
@@ -385,6 +384,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         TreePath pathInNew = TreeUtils.getPath(irodsNode);
                         irodsTree.collapsePath(pathInNew);
                         irodsTree.expandPath(pathInNew);
+                        irodsTree.scrollRectToVisible(irodsTree.getPathBounds(treePath));
+                        irodsTree.getSelectionModel().setSelectionInterval(startIdx, endIdx);
                     }
                 }
             }
@@ -1269,7 +1270,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * Call from a swing event queue runnable
      */
-    private void clearProgressBar() {
+    private synchronized void clearProgressBar() {
         lblTransferType.setText("");
         lblCurrentFile.setText("");
         transferStatusProgressBar.setMinimum(0);
@@ -1412,6 +1413,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarRefresh.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 30));
         btnMainToolbarRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarRefreshActionPerformed(evt);
+            }
+        });
         pnlMainToolbarIcons.add(btnMainToolbarRefresh);
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -1625,6 +1631,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void togglePauseTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togglePauseTransferActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_togglePauseTransferActionPerformed
+
+    private void btnMainToolbarRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarRefreshActionPerformed
+        buildTargetTree(false);
+    }//GEN-LAST:event_btnMainToolbarRefreshActionPerformed
 
     /**
      * @param args the command line arguments
