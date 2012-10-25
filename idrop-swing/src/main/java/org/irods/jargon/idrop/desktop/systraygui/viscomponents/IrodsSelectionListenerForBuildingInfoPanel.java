@@ -73,5 +73,6 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements
         }
         log.info("lse: {}", lse);
         idrop.triggerInfoPanelUpdate();
+        idrop.triggerToolbarUpdate();
     }
 }
