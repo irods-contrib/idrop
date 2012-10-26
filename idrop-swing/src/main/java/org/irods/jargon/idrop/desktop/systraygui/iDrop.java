@@ -53,6 +53,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileSystemMo
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.irods.jargon.idrop.finder.FinderDeleteIRODSDialog;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.irods.jargon.transfer.engine.TransferManager.ErrorStatus;
 import org.irods.jargon.transfer.engine.TransferManager.RunningStatus;
@@ -1445,6 +1446,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnMainToolbarDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarDeleteActionPerformed(evt);
+            }
+        });
         pnlMainToolbarIcons.add(btnMainToolbarDelete);
 
         pnlMainToolbar.add(pnlMainToolbarIcons, java.awt.BorderLayout.NORTH);
@@ -1635,6 +1641,37 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void btnMainToolbarRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarRefreshActionPerformed
         buildTargetTree(false);
     }//GEN-LAST:event_btnMainToolbarRefreshActionPerformed
+
+    private void btnMainToolbarDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarDeleteActionPerformed
+        log.info("deleting a node");
+        int[] rows = irodsTree.getSelectedRows();
+        log.debug("selected rows for delete:{}", rows);
+
+        DeleteIRODSDialog deleteDialog;
+
+        if (rows.length == 1) {
+
+            IRODSNode toDelete = (IRODSNode) irodsTree.getValueAt(
+                    rows[0], 0);
+            log.info("deleting a single node: {}", toDelete);
+            deleteDialog = new DeleteIRODSDialog(this, true,
+                    irodsTree, toDelete);
+        } else {
+            List<IRODSNode> nodesToDelete = new ArrayList<IRODSNode>();
+            for (int row : rows) {
+                nodesToDelete.add((IRODSNode) irodsTree.getValueAt(row,
+                        0));
+
+            }
+
+            deleteDialog = new DeleteIRODSDialog(this, true,
+                    irodsTree, nodesToDelete);
+        }
+
+        deleteDialog.setLocation(
+                (int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation().getY() + this.getHeight() / 2));
+        deleteDialog.setVisible(true);
+    }//GEN-LAST:event_btnMainToolbarDeleteActionPerformed
 
     /**
      * @param args the command line arguments
