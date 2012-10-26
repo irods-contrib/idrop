@@ -24,10 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.TreePath;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
@@ -40,6 +43,7 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
+import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
@@ -49,6 +53,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSRowModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSSearchTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.InfoPanelTransferHandler;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
@@ -71,6 +76,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     
     private IDROPCore iDropCore = new IDROPCore();
     private IRODSTree irodsTree = null;
+    private LocalFileTree fileTree = null;
+    private LocalFileSystemModel localFileModel = null;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(iDrop.class);
     private boolean receivedStartupSignal = false;
     private TrayIcon trayIcon = null;
@@ -108,7 +115,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         if (irodsTree == null) {
             buildTargetTree(false);
         }
-
+        
+        setUpLocalFileSelectTree();
+        splitPanelTrees.setDividerLocation(0.0d);
 //        togglePauseTransfer.setSelected(pausedItem.getState());
 //        TransferManager.RunningStatus status = iDropCore.getTransferManager().getRunningStatus();
 //        iDropCore.getIconManager().setRunningStatus(status);
@@ -134,21 +143,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             HeadlessException {
         initComponents();
 //        this.pnlLocalTreeArea.setVisible(false);
-//        this.pnlIrodsInfo.setVisible(false);
-//        this.splitTargetCollections.setResizeWeight(0.8d);
-//        try {
-//            pnlIrodsInfo.setTransferHandler(new InfoPanelTransferHandler(this));
-//        } catch (IdropException ex) {
-//            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-//            throw new IdropRuntimeException(
-//                    "error setting up infoPanelTransferHandler", ex);
-//        }
-
-//        tableSearchResults.setModel(new IRODSSearchTableModel());
-//        MouseListener popupListener = new PopupListener();
-//        // add the listener specifically to the header
-//        tableSearchResults.addMouseListener(popupListener);
-//        tableSearchResults.getTableHeader().addMouseListener(popupListener);
+//       this.pnlIrodsInfo.setVisible(false);
+         this.splitPanelTrees.setResizeWeight(0.8d);
+//          try {
+////            pnlIrodsInfo.setTransferHandler(new InfoPanelTransferHandler(this));
+////        } catch (IdropException ex) {
+////            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+////            throw new IdropRuntimeException(
+////                    "error setting up infoPanelTransferHandler", ex);
+////        }
+//
+////        tableSearchResults.setModel(new IRODSSearchTableModel());
+////        MouseListener popupListener = new PopupListener();
+////        // add the listener specifically to the header
+////        tableSearchResults.addMouseListener(popupListener);
+////        tableSearchResults.getTableHeader().addMouseListener(popupListener);
 
         Toolkit t = getToolkit();
         int width = t.getScreenSize().width;
@@ -557,12 +566,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     public LocalFileTree getFileTree() {
-//        return fileTree;
-        return null;
+        return fileTree;
     }
 
     public void setFileTree(final LocalFileTree fileTree) {
-//        this.fileTree = fileTree;
+        this.fileTree = fileTree;
     }
     
     
@@ -647,6 +655,106 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     public IRODSTree getIrodsTree() {
         return irodsTree;
+    }
+    
+        /**
+     * Set up a JTree that depicts the local file system
+     */
+    private void setUpLocalFileSelectTree() {
+
+        /*
+         * build a list of the roots (e.g. drives on windows systems). If there is only one, use it
+         * as the basis for the file model, otherwise, display an additional panel listing the other
+         * roots, and build the tree for the first drive encountered.
+         */
+
+        if (fileTree != null) {
+            log.info("file tree already initialized");
+            return;
+        }
+
+        log.info("building tree to look at local file system");
+        final iDrop gui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+                initializeLocalFileTreeModel(null);
+                fileTree = new LocalFileTree(localFileModel, gui);
+                listLocalDrives.getSelectionModel().addListSelectionListener(
+                        new ListSelectionListener() {
+
+                            @Override
+                            public void valueChanged(final ListSelectionEvent e) {
+                                if (e.getValueIsAdjusting()) {
+                                    return;
+                                }
+
+                                log.debug("new local file system model");
+                                log.debug("selection event:{}", e);
+                                Object selectedItem = listLocalDrives.getSelectedValue();
+                                initializeLocalFileTreeModelWhenDriveIsSelected(selectedItem);
+
+                            }
+                        });
+                scrollLocalFileTree.setViewportView(fileTree);
+                pnlLocalTreeArea.add(scrollLocalFileTree,
+                        java.awt.BorderLayout.CENTER);
+            }
+        });
+
+    }
+
+    private void initializeLocalFileTreeModelWhenDriveIsSelected(
+            final Object selectedDrive) {
+        if (selectedDrive == null) {
+            log.debug("selected drive is null, use the first one");
+            listLocalDrives.setSelectedIndex(0);
+
+            localFileModel = new LocalFileSystemModel(new LocalFileNode(
+                    new File((String) listLocalDrives.getSelectedValue())));
+
+            fileTree.setModel(localFileModel);
+        } else {
+            log.debug(
+                    "selected drive is not null, create new root based on selection",
+                    selectedDrive);
+            listLocalDrives.setSelectedValue(selectedDrive, true);
+            localFileModel = new LocalFileSystemModel(new LocalFileNode(
+                    new File((String) selectedDrive)));
+            fileTree.setModel(localFileModel);
+
+        }
+
+        scrollLocalDrives.setVisible(true);
+    }
+
+    private void initializeLocalFileTreeModel(final Object selectedDrive) {
+        List<String> roots = LocalFileUtils.listFileRootsForSystem();
+
+        if (roots.isEmpty()) {
+            IdropException ie = new IdropException(
+                    "unable to find any roots on the local file system");
+            log.error("error building roots on local file system", ie);
+            showIdropException(ie);
+            return;
+        } else if (roots.size() == 1) {
+            scrollLocalDrives.setVisible(false);
+            localFileModel = new LocalFileSystemModel(new LocalFileNode(
+                    new File(roots.get(0))));
+
+        } else {
+            DefaultListModel listModel = new DefaultListModel();
+            for (String root : roots) {
+                listModel.addElement(root);
+            }
+
+            listLocalDrives.setModel(listModel);
+
+            scrollLocalDrives.setVisible(true);
+        }
     }
     
     /**
@@ -1337,7 +1445,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         txtMainToolbarSearchTerms = new javax.swing.JTextField();
         btnMainToolbarSearchFiles = new javax.swing.JButton();
         pnlMainIrodsTree = new javax.swing.JPanel();
+        splitPanelTrees = new javax.swing.JSplitPane();
         scrollIrodsTree = new javax.swing.JScrollPane();
+        pnlLocalTreeArea = new javax.swing.JPanel();
+        pnlLocalRoots = new javax.swing.JPanel();
+        scrollLocalDrives = new javax.swing.JScrollPane();
+        listLocalDrives = new javax.swing.JList();
+        pnlDrivesFiller = new javax.swing.JPanel();
+        scrollLocalFileTree = new javax.swing.JScrollPane();
         pnlMainTransferStatus = new javax.swing.JPanel();
         pnlIdropBottom = new javax.swing.JPanel();
         pnlCurrentTransferStatus = new javax.swing.JPanel();
@@ -1485,7 +1600,48 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainIrodsTree.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlMainIrodsTree.setPreferredSize(new java.awt.Dimension(834, 360));
         pnlMainIrodsTree.setLayout(new java.awt.BorderLayout());
-        pnlMainIrodsTree.add(scrollIrodsTree, java.awt.BorderLayout.CENTER);
+
+        splitPanelTrees.setPreferredSize(new java.awt.Dimension(834, 360));
+        splitPanelTrees.setRightComponent(scrollIrodsTree);
+
+        pnlLocalTreeArea.setBackground(new java.awt.Color(153, 255, 102));
+        pnlLocalTreeArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlLocalTreeArea.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlLocalTreeArea.setOpaque(false);
+        pnlLocalTreeArea.setPreferredSize(new java.awt.Dimension(0, 0));
+        pnlLocalTreeArea.setLayout(new java.awt.BorderLayout());
+
+        pnlLocalRoots.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlLocalRoots.setLayout(new java.awt.BorderLayout());
+
+        scrollLocalDrives.setMaximumSize(null);
+        scrollLocalDrives.setMinimumSize(new java.awt.Dimension(0, 0));
+        scrollLocalDrives.setPreferredSize(new java.awt.Dimension(300, 100));
+
+        listLocalDrives.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        listLocalDrives.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listLocalDrives.setMaximumSize(null);
+        listLocalDrives.setPreferredSize(new java.awt.Dimension(150, 200));
+        listLocalDrives.setVisibleRowCount(4);
+        scrollLocalDrives.setViewportView(listLocalDrives);
+
+        pnlLocalRoots.add(scrollLocalDrives, java.awt.BorderLayout.CENTER);
+        pnlLocalRoots.add(pnlDrivesFiller, java.awt.BorderLayout.SOUTH);
+
+        pnlLocalTreeArea.add(pnlLocalRoots, java.awt.BorderLayout.NORTH);
+
+        scrollLocalFileTree.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+        scrollLocalFileTree.setBorder(null);
+        scrollLocalFileTree.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.scrollLocalFileTree.toolTipText")); // NOI18N
+        scrollLocalFileTree.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollLocalFileTree.setMaximumSize(null);
+        scrollLocalFileTree.setMinimumSize(new java.awt.Dimension(0, 0));
+        scrollLocalFileTree.setPreferredSize(new java.awt.Dimension(500, 500));
+        pnlLocalTreeArea.add(scrollLocalFileTree, java.awt.BorderLayout.CENTER);
+
+        splitPanelTrees.setLeftComponent(pnlLocalTreeArea);
+
+        pnlMainIrodsTree.add(splitPanelTrees, java.awt.BorderLayout.CENTER);
 
         pnlMain.add(pnlMainIrodsTree, java.awt.BorderLayout.CENTER);
 
@@ -1728,8 +1884,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JLabel lblTransferFilesCounts;
     private javax.swing.JLabel lblTransferMessage;
     private javax.swing.JLabel lblTransferType;
+    private javax.swing.JList listLocalDrives;
     private javax.swing.JPanel pnlCurrentTransferStatus;
+    private javax.swing.JPanel pnlDrivesFiller;
     private javax.swing.JPanel pnlIdropBottom;
+    private javax.swing.JPanel pnlLocalRoots;
+    private javax.swing.JPanel pnlLocalTreeArea;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlMainIrodsTree;
     private javax.swing.JPanel pnlMainToolbar;
@@ -1740,6 +1900,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JLabel progressIconImageLabel;
     private javax.swing.JProgressBar progressIntraFile;
     private javax.swing.JScrollPane scrollIrodsTree;
+    private javax.swing.JScrollPane scrollLocalDrives;
+    private javax.swing.JScrollPane scrollLocalFileTree;
+    private javax.swing.JSplitPane splitPanelTrees;
     private javax.swing.JToggleButton togglePauseTransfer;
     private javax.swing.JProgressBar transferStatusProgressBar;
     private javax.swing.JTextField txtMainToolbarSearchTerms;
