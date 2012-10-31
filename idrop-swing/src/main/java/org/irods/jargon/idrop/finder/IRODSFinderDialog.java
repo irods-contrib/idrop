@@ -55,6 +55,11 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
         initComponents();
         buildTargetTree();
     }
+    
+    public void enableButtonSelectFolder(boolean state) {
+        this.btnSelectFolder.setEnabled(state);
+    }
+         
 
     /**
      * build the JTree that will depict the iRODS resource
@@ -244,6 +249,8 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
 
         this.selectedAbsolutePath = entry.getFormattedAbsolutePath();
         this.setVisible(false);
+        
+        enableButtonSelectFolder(true);
 
     }//GEN-LAST:event_btnSelectFolderActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

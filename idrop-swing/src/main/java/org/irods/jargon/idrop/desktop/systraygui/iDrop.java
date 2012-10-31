@@ -7,6 +7,7 @@ package org.irods.jargon.idrop.desktop.systraygui;
 import java.awt.AWTException;
 import java.awt.CheckboxMenuItem;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.MenuItem;
@@ -32,6 +33,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.EnvironmentalInfoAO;
@@ -46,6 +48,7 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.FileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
@@ -59,6 +62,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.idrop.finder.FinderDeleteIRODSDialog;
+import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.irods.jargon.transfer.engine.TransferManager.ErrorStatus;
 import org.irods.jargon.transfer.engine.TransferManager.RunningStatus;
@@ -73,7 +77,7 @@ import org.slf4j.LoggerFactory;
  */
 public class iDrop extends javax.swing.JFrame implements ActionListener,
         ItemListener, TransferManagerCallbackListener {
-    
+
     private IDROPCore iDropCore = new IDROPCore();
     private IRODSTree irodsTree = null;
     private LocalFileTree fileTree = null;
@@ -86,7 +90,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private ChangePasswordDialog changePasswordDialog = null;
     private QueueManagerDialog queueManagerDialog = null;
     private boolean formShown = false;
-    
+
     public iDrop(final IDROPCore idropCore) {
 
         if (idropCore == null) {
@@ -103,19 +107,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     public iDrop() {
     }
 
-
     protected void showIdropGui() {
 
         if (scrollIrodsTree == null) {
             buildIdropGuiComponents();
         }
-        
+
         initializeLookAndFeelSelected();
 
         if (irodsTree == null) {
             buildTargetTree(false);
         }
-        
+
         setUpLocalFileSelectTree();
         splitPanelTrees.setDividerLocation(0.0d);
 //        togglePauseTransfer.setSelected(pausedItem.getState());
@@ -132,19 +135,19 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //        setUpAccountGutter();
 
         setVisibleComponentsAtStartup();
-        
+
         enableToolbarButtons(false);
 
         setVisible(true);
 
     }
-    
+
     protected void buildIdropGuiComponents() throws IdropRuntimeException,
             HeadlessException {
         initComponents();
 //        this.pnlLocalTreeArea.setVisible(false);
 //       this.pnlIrodsInfo.setVisible(false);
-         this.splitPanelTrees.setResizeWeight(0.8d);
+        this.splitPanelTrees.setResizeWeight(0.8d);
 //          try {
 ////            pnlIrodsInfo.setTransferHandler(new InfoPanelTransferHandler(this));
 ////        } catch (IdropException ex) {
@@ -181,7 +184,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         final iDrop thisPanel = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
 
@@ -202,12 +204,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Startup exit to set visibility of components in iDrop GUI at startup. Here is where the
-     * initial visible status of components can be specified.
+     * Startup exit to set visibility of components in iDrop GUI at startup.
+     * Here is where the initial visible status of components can be specified.
      */
     private void setVisibleComponentsAtStartup() {
 //        this.btnSetRootCustomTargetTree.setVisible(false);
-
     }
 
     protected void signalIdropCoreReadyAndSplashComplete() {
@@ -225,8 +226,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 iDropCore.getTransferManager().getErrorStatus());
 
     }
-    
-        private void initializeLookAndFeelSelected() {
+
+    private void initializeLookAndFeelSelected() {
         String lookAndFeelChoice = iDropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL);
         if (lookAndFeelChoice == null || lookAndFeelChoice.isEmpty()) {
             lookAndFeelChoice = "System";
@@ -268,7 +269,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
         if (lookAndFeelChoice != null) {
-
 //            if (lookAndFeelChoice.equals("Metal")) {
 //                lookAndFeel = lookAndFeelChoice;
 //                this.jRadioButtonMenuItemMetal.setSelected(true);
@@ -301,13 +301,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //            }
         }
     }
-    
+
     public void buildTargetTree(final boolean reset) {
         log.info("building tree to look at staging resource");
         final iDrop gui = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 gui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -336,7 +335,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
 
             /**
-             * A tree has not been previosly loaded, establish the root (strict ACLs? Login preset?)
+             * A tree has not been previosly loaded, establish the root (strict
+             * ACLs? Login preset?)
              */
             private void loadNewTree() throws JargonException, IdropException {
                 IRODSOutlineModel mdl;
@@ -401,16 +401,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
     }
-    
+
     /**
-     * Method to clear any cached values when an account changes. Some data is cached and lazily
-     * loaded. Rebuilds gui state for new grid.
+     * Method to clear any cached values when an account changes. Some data is
+     * cached and lazily loaded. Rebuilds gui state for new grid.
      */
     public void reinitializeForChangedIRODSAccount() {
         log.info("clearing any cached data associated with the account");
         final iDrop idropGui = this;
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 lastCachedInfoItem = null;
@@ -423,10 +422,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         });
 
     }
-    
+
     /**
-     * Builds the system tray menu and installs the iDrop icon in the system tray. The iDrop GUI is
-     * displayed when the iDrop menu item is selected from the system tray
+     * Builds the system tray menu and installs the iDrop icon in the system
+     * tray. The iDrop GUI is displayed when the iDrop menu item is selected
+     * from the system tray
      */
     protected void createAndShowSystemTray() {
         if (!SystemTray.isSupported()) {
@@ -503,9 +503,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             System.out.println("TrayIcon could not be added.");
         }
     }
-    
+
     /**
-     * Returns an ImageIcon, or null if the path was invalid. FIXME: move to static util
+     * Returns an ImageIcon, or null if the path was invalid. FIXME: move to
+     * static util
      */
     protected static Image createImage(final String path,
             final String description) {
@@ -522,41 +523,41 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * Get the current iRODS login account.
      *
-     * @return
-     * <code>IRODSAccount</code> with the current iRODS connection information.
+     * @return <code>IRODSAccount</code> with the current iRODS connection
+     * information.
      */
     public IRODSAccount getIrodsAccount() {
         synchronized (this) {
             return this.iDropCore.getIrodsAccount();
         }
     }
-    
-        /**
+
+    /**
      * Set the current connection information.
      *
-     * @return
-     * <code>IRODSAccount</code> with the current iRODS connection information.
+     * @return <code>IRODSAccount</code> with the current iRODS connection
+     * information.
      */
     public void setIrodsAccount(final IRODSAccount irodsAccount) {
         synchronized (this) {
             this.iDropCore.setIrodsAccount(irodsAccount);
         }
     }
-    
+
     /**
      * Returns the current iRODS remote tree view component.
      *
-     * @return
-     * <code>JTree</code> visual representation of the remote iRODS resource
+     * @return <code>JTree</code> visual representation of the remote iRODS
+     * resource
      */
     public Outline getTreeStagingResource() {
         return irodsTree;
     }
-    
+
     public IDROPCore getiDropCore() {
         return iDropCore;
     }
-    
+
     public void setBusyCursor() {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     }
@@ -572,11 +573,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     public void setFileTree(final LocalFileTree fileTree) {
         this.fileTree = fileTree;
     }
-    
-    
+
     /**
-     * Set the account information in the gutter, including the available resources on the grid.
-     * Note that this method should be called in the context of a
+     * Set the account information in the gutter, including the available
+     * resources on the grid. Note that this method should be called in the
+     * context of a
      * <code>Runnable</code>
      */
     private void setUpAccountGutter() {
@@ -599,12 +600,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //            throw new IdropRuntimeException("error getting resource list", ex);
 //        }
     }
-    
+
     /**
      * Establish base path (checking if strict acl's are in place.
      *
-     * @return
-     * <code>String</code> with the base path for the tree
+     * @return <code>String</code> with the base path for the tree
      * @throws JargonException
      */
     private synchronized String getBasePath() throws JargonException {
@@ -646,18 +646,19 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         return myBase;
 
     }
-    
+
     /**
-     * Get the JTree component that represents the iRODS file system in the iDrop gui.
+     * Get the JTree component that represents the iRODS file system in the
+     * iDrop gui.
      *
-     * @return
-     * <code>IRODSTree</code> that is the JTree component for the iRODS file system view.
+     * @return <code>IRODSTree</code> that is the JTree component for the iRODS
+     * file system view.
      */
     public IRODSTree getIrodsTree() {
         return irodsTree;
     }
-    
-        /**
+
+    /**
      * Set up a JTree that depicts the local file system
      */
     private void setUpLocalFileSelectTree() {
@@ -677,7 +678,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         final iDrop gui = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
 
@@ -685,7 +685,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 fileTree = new LocalFileTree(localFileModel, gui);
                 listLocalDrives.getSelectionModel().addListSelectionListener(
                         new ListSelectionListener() {
-
                             @Override
                             public void valueChanged(final ListSelectionEvent e) {
                                 if (e.getValueIsAdjusting()) {
@@ -756,7 +755,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             scrollLocalDrives.setVisible(true);
         }
     }
-    
+
     /**
      * Display an error message dialog that indicates an exception has occcurred
      *
@@ -766,7 +765,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         JOptionPane.showMessageDialog(this, idropException.getMessage(),
                 "iDROP Exception", JOptionPane.WARNING_MESSAGE);
     }
-    
+
     /**
      * Utility method to display a dialog with a message.
      *
@@ -776,7 +775,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         final iDrop thisIdropGui = this;
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 JOptionPane.showMessageDialog(thisIdropGui,
@@ -785,7 +783,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
     }
-    
+
     /**
      * Handler for iDrop system tray menu options.
      *
@@ -846,7 +844,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
     }
-    
+
     private boolean showQueueManagerDialog() {
         try {
             if (queueManagerDialog == null) {
@@ -866,7 +864,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         queueManagerDialog.toFront();
         return false;
     }
-    
+
     /**
      * Indicate that the GUI should reflect a paused state
      *
@@ -893,8 +891,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //            this.togglePauseTransfer.setSelected(false);
 //        }
     }
-    
-    
+
     @Override
     public void itemStateChanged(final ItemEvent e) {
 
@@ -915,8 +912,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         }
     }
-    
-    
+
     private void shutdownWithConfirmation() {
         int result = JOptionPane.showConfirmDialog(this,
                 "Shut down iDrop?",
@@ -926,7 +922,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             shutdown();
         }
     }
-    
+
     private void shutdown() {
         try {
             log.info("shut down queue timer");
@@ -939,7 +935,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
         System.exit(0);
     }
-    
+
     /**
      * Update the system tray icon based on the current status.
      *
@@ -947,7 +943,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     public void updateIcon(final String iconFile) {
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
 
@@ -970,17 +965,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
     }
-    
+
     public Object getLastCachedInfoItem() {
         return lastCachedInfoItem;
     }
-    
+
     public void triggerInfoPanelUpdate() throws IdropRuntimeException {
 
         final iDrop idropGui = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -1008,52 +1002,52 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         });
 
     }
-    
+
     // Update state of toolbar buttons when iRODS tree nodes are selected
     public void triggerToolbarUpdate() throws IdropRuntimeException {
 
         final iDrop idropGui = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
 
+                String path = "";
                 IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) getIrodsTree().getModel();
 
+                // first check for selected item in iRODS tree
                 ListSelectionModel selectionModel = getIrodsTree().getSelectionModel();
                 int idx = selectionModel.getLeadSelectionIndex();
                 IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
-                String path = selectedNode.getFullPath();
-                
-                if(idx >= 0) {
-                    enableToolbarButtons(true);
-                    setBreadcrumb(path);
-                }
-                else {
-                    enableToolbarButtons(false);
-                    setBreadcrumb("");
-                }
+                path = selectedNode.getFullPath();
+
+                CollectionAndDataObjectListingEntry irodsObj = (CollectionAndDataObjectListingEntry) selectedNode.getUserObject();
+
+                enableCollectionSelectedButtons(irodsObj.isCollection());
+                enableToolbarButtons(idx >= 0);
+                setBreadcrumb(path);
+
             }
         });
     }
-    
+
     private void enableToolbarButtons(boolean state) {
         btnMainToolbarAddEditMetaData.setEnabled(state);
         btnMainToolbarCopy.setEnabled(state);
         btnMainToolbarDelete.setEnabled(state);
         btnMainToolbarDownload.setEnabled(state);
-        btnMainToolbarRefresh.setEnabled(state);
-        btnMainToolbarSearchFiles.setEnabled(state);
-        btnMainToolbarSettings.setEnabled(state);
         btnMainToolbarSync.setEnabled(state);
-        btnMainToolbarUpload.setEnabled(state);
     }
-    
+
+    private void enableCollectionSelectedButtons(boolean state) {
+        btnMainToolbarUpload.setEnabled(state);
+        btnMainToolbarSearchFiles.setEnabled(state);
+    }
+
     private void setBreadcrumb(String path) {
         lblBreadCrumb.setText(path);
     }
-    
+
     /**
      * Look at the kind of irods node and handle appropriately
      *
@@ -1062,7 +1056,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     public void identifyNodeTypeAndInitializeInfoPanel(final IRODSNode irodsNode)
             throws IdropException {
-
 //        if (!getToggleIrodsDetails().isSelected()) {
 //            return;
 //        }
@@ -1079,9 +1072,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //            buildCollectionFromSelectedIRODSNodeAndGiveToInfoPanel(irodsNode);
 //        }
     }
-    
+
     private void executeDownload(final String downloadPath) {
-        
+
         final iDrop idropGui = this;
 
         idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -1105,7 +1098,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         // now collect all selected nodes
         IRODSFile ifile = null;
-        for (int idx=idxStart; idx<=idxEnd; idx++) {
+        for (int idx = idxStart; idx <= idxEnd; idx++) {
             if (selectionModel.isSelectedIndex(idx)) {
                 try {
                     IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
@@ -1130,19 +1123,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         }
         idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                
+
 
         // default icon, custom title
         int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(),
                 "Confirm a Get ", JOptionPane.YES_NO_OPTION);
-        
+
         idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         if (n == JOptionPane.YES_OPTION) {
-            
+
             // process as a get
             java.awt.EventQueue.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
                     try {
@@ -1173,21 +1165,101 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     }
                 }
             });
-        } 
-        
+        }
+
         idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
-    
-    
+
+    private void executeUpload(final File[] sourceFiles) {
+
+        // first collect selected target path from breadcrumb
+        final String targetPath = lblBreadCrumb.getText();
+
+        final iDrop idropGui = this;
+
+//        final List<File> sourceFiles = new ArrayList<File>();
+//
+//        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//        
+//        TreeSelectionModel selectionModel = getFileTree().getSelectionModel();
+//        LocalFileSystemModel fileSystemModel = (LocalFileSystemModel) idropGui.getFileTree().getModel();
+//
+//        TreePath[] selectionPaths = selectionModel.getSelectionPaths();
+//
+//        LocalFileNode sourceNode;
+//        for (TreePath selectionPath : selectionPaths) {
+//            sourceNode = (LocalFileNode) selectionPath.getLastPathComponent();
+//            sourceFiles.add((File) sourceNode.getUserObject());
+//        }
+
+        if (sourceFiles.length <= 0) {
+            log.error("no source files in transfer");
+            throw new IdropRuntimeException("no source files in transfer");
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        if (sourceFiles.length > 1) {
+            sb.append("Would you like to put multiple files");
+            sb.append(" to iRODS at ");
+            sb.append(targetPath);
+        } else {
+            sb.append("Would you like to put the file  ");
+            sb.append(sourceFiles[0].getAbsolutePath());
+            sb.append(" to iRODS at ");
+            sb.append(targetPath);
+        }
+
+        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+
+        // default icon, custom title
+        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(),
+                "Confirm a Get ", JOptionPane.YES_NO_OPTION);
+
+        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        if (n == JOptionPane.YES_OPTION) {
+
+            // process as a put
+
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+
+                    for (File transferFile : sourceFiles) {
+                        log.info("process a put from source: {}",
+                                transferFile.getAbsolutePath());
+
+                        String localSourceAbsolutePath = transferFile.getAbsolutePath();
+                        String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
+                        log.info("initiating put transfer");
+                        try {
+                            idropGui.getiDropCore().getTransferManager().enqueueAPut(localSourceAbsolutePath,
+                                    targetPath,
+                                    sourceResource,
+                                    idropGui.getIrodsAccount());
+                        } catch (JargonException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LocalFileTree.class.getName()).log(
+                                    java.util.logging.Level.SEVERE, null, ex);
+                            idropGui.showIdropException(ex);
+                        }
+                    }
+                }
+            });
+        }
+
+        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
     /**
      * A transfer confirm dialog
      *
-     * @param sourcePath
-     * <code>String</code> with the source path of the transfer
-     * @param targetPath
-     * <code>String</code> with the target of the transfer
-     * @return
-     * <code>int</code> with the dialog user response.
+     * @param sourcePath <code>String</code> with the source path of the
+     * transfer
+     * @param targetPath <code>String</code> with the target of the transfer
+     * @return <code>int</code> with the dialog user response.
      */
     public int showTransferConfirm(final String sourcePath,
             final String targetPath) {
@@ -1204,8 +1276,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         return n;
     }
-    
-    
+
     /**
      * Status callback per file, or intra-file, from the transfer manager
      *
@@ -1218,7 +1289,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         final iDrop idrop = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
 
@@ -1288,8 +1358,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Implementation of transfer manager callback. The overall status callback represents the start
-     * and completion of a transfer operation
+     * Implementation of transfer manager callback. The overall status callback
+     * represents the start and completion of a transfer operation
      *
      * @param ts
      */
@@ -1300,7 +1370,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         final iDrop idropGui = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
 
@@ -1375,7 +1444,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
     }
-    
+
     /**
      * Call from a swing event queue runnable
      */
@@ -1388,8 +1457,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         transferStatusProgressBar.setString("");
         progressIntraFile.setString("");
     }
-    
-    
+
     @Override
     public synchronized void transferManagerErrorStatusUpdate(
             final ErrorStatus es) {
@@ -1411,11 +1479,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      * Creates new form iDrop2
      */
     /*
-    public iDrop2() {
-        initComponents();
-    }
-    */
-
+     public iDrop2() {
+     initComponents();
+     }
+     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1520,8 +1587,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarUpload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_upload.png"))); // NOI18N
         btnMainToolbarUpload.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarUpload.text")); // NOI18N
         btnMainToolbarUpload.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 28));
+        btnMainToolbarUpload.setEnabled(false);
         btnMainToolbarUpload.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarUpload.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarUpload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarUploadActionPerformed(evt);
+            }
+        });
         pnlMainToolbarIcons.add(btnMainToolbarUpload);
 
         btnMainToolbarRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_refresh.png"))); // NOI18N
@@ -1772,17 +1845,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void btnMainToolbarSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarSettingsActionPerformed
         IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(this, true, iDropCore);
-            idropConfigurationPanel.setLocationRelativeTo(null);
-            idropConfigurationPanel.setVisible(true);
+        idropConfigurationPanel.setLocationRelativeTo(null);
+        idropConfigurationPanel.setVisible(true);
     }//GEN-LAST:event_btnMainToolbarSettingsActionPerformed
 
     private void btnMainToolbarDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarDownloadActionPerformed
         JFileChooser localFileChooser = new JFileChooser();
         localFileChooser.setMultiSelectionEnabled(false);
         localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        localFileChooser.setDialogTitle("Select Download Target");
         int returnVal = localFileChooser.showOpenDialog(this);
         String downloadPath = localFileChooser.getSelectedFile().getAbsolutePath();
-        
+
         executeDownload(downloadPath);
     }//GEN-LAST:event_btnMainToolbarDownloadActionPerformed
 
@@ -1829,6 +1903,55 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         deleteDialog.setVisible(true);
     }//GEN-LAST:event_btnMainToolbarDeleteActionPerformed
 
+    private void btnMainToolbarUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarUploadActionPerformed
+        // only enabled if iRODS collection is selected
+
+        JFileChooser localFileChooser = new JFileChooser();
+        localFileChooser.setMultiSelectionEnabled(true);
+        localFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        localFileChooser.setDialogTitle("Select Files and/or Folders to Upload");
+        int returnVal = localFileChooser.showOpenDialog(this);
+        File files[] = localFileChooser.getSelectedFiles();
+
+        // now start upload
+        if (files != null) {
+            executeUpload(files);
+        } else {
+            // TODO: error dialog here
+        }
+
+
+
+//        String targetPath = null;
+        // open irods folder chooser
+//        try {
+//            IRODSFinderDialog irodsFileSystemChooserView = new IRODSFinderDialog(null, true, iDropCore);
+//            final Toolkit toolkit = Toolkit.getDefaultToolkit();
+//            final Dimension screenSize = toolkit.getScreenSize();
+//            final int x = (screenSize.width - irodsFileSystemChooserView.getWidth()) / 2;
+//            final int y = (screenSize.height - irodsFileSystemChooserView.getHeight()) / 2;
+//            irodsFileSystemChooserView.setLocation(x, y);
+//            irodsFileSystemChooserView.enableButtonSelectFolder(false);
+//            irodsFileSystemChooserView.setTitle("Select Upload Target");
+//            irodsFileSystemChooserView.setVisible(true);
+//            targetPath = irodsFileSystemChooserView.getSelectedAbsolutePath();
+//            irodsFileSystemChooserView.dispose();
+//        } catch (Exception e) {
+//            log.error("exception choosings iRODS file");
+//            throw new IdropRuntimeException("exception choosing irods fie", e);
+//        } finally {
+//            iDropCore.getIrodsFileSystem().closeAndEatExceptions();
+//        }
+//        
+//        // now start upload
+//        if (targetPath != null) {
+//            executeUpload(targetPath);
+//        }
+//        else {
+//            // TODO: error dialog here
+//        }
+
+    }//GEN-LAST:event_btnMainToolbarUploadActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -1907,8 +2030,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JProgressBar transferStatusProgressBar;
     private javax.swing.JTextField txtMainToolbarSearchTerms;
     // End of variables declaration//GEN-END:variables
-
-
 
     @Override
     public CallbackResponse transferAsksWhetherToForceOperation(String irodsAbsolutePath, boolean isCollection) {
