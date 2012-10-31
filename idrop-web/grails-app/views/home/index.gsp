@@ -76,7 +76,6 @@
 		$.ajaxSetup({
 			cache : false
 		});
-		hideAllInactive();
 		$("#topbarHome").addClass("active");
 
 	});

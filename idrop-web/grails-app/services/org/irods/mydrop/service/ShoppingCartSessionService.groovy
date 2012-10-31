@@ -21,6 +21,17 @@ class ShoppingCartSessionService {
 		FileShoppingCart fileShoppingCart = getCartFromSessionAndCreateIfNotThere()
 		fileShoppingCart.addAnItem(new ShoppingCartEntry(irodsFileAbsolutePath))
 	}
+	
+	/**
+	 * Get a count of items in the cart (right now high level items, trying to cut down on queries)
+	 * @return <code>int</code> with count of entries in the cart
+	 */
+	public int getCartItemsCount() {
+		FileShoppingCart fileShoppingCart = getCartFromSession()
+		return fileShoppingCart.shoppingCartEntries.size()
+		
+	}
+	
 
 	/**
 	 * List the contents of the cart as a list of file names

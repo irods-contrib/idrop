@@ -19,8 +19,8 @@
 
 $(function() {
 	loadProfileData();
-	hideAllInactive();
 	$("#topbarPreferences").addClass("active");
+
 
 });
 

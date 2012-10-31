@@ -1202,7 +1202,6 @@ function closeApplet() {
 	$("#toggleHtmlArea").show('slow');
 	$("#toggleHtmlArea").height = "100%";
 	$("#toggleHtmlArea").width = "100%";
-	dataLayout.resizeAll();
 	$("#idropLiteArea").empty();
 	reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 }

@@ -15,6 +15,8 @@
 	var tabs;
 	$(document).ready(function() {
 
+		$("#topbarBrowser").addClass("active");
+
 		$.ajaxSetup({
 			cache : false
 		});
