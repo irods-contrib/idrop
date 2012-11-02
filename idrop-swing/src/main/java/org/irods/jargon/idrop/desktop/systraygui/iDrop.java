@@ -36,6 +36,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.EnvironmentalInfoAO;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
@@ -1047,6 +1048,52 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void setBreadcrumb(String path) {
         lblBreadCrumb.setText(path);
     }
+    
+    private void processSearchRequest() {
+        log.info("do a search for files and collections");
+//        if (comboSearchType.getSelectedIndex() == 0) {
+//            log.info("searching files and collections");
+            searchFilesAndShowSearchResultsTab(txtMainToolbarSearchTerms.getText());
+//        } else if (comboSearchType.getSelectedIndex() == 1) {
+//            log.info("searching by tag value");
+//            searchTagsAndShowSearchResultsTag(txtMainSearch.getText());
+//        } else {
+//            throw new UnsupportedOperationException("not yet implemented");
+//        }
+    }
+    
+    private void searchFilesAndShowSearchResultsTab(final String searchText) {
+        if (searchText.isEmpty()) {
+            this.showMessageFromOperation("please enter text to search on");
+            return;
+        }
+
+        final String searchTerms = searchText.trim();
+        final iDrop idropGui = this;
+
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//
+//                try {
+//                    idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//                    CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = iDropCore.getIRODSAccessObjectFactory().getCollectionAndDataObjectListAndSearchAO(
+//                            iDropCore.getIrodsAccount());
+//                    IRODSSearchTableModel irodsSearchTableModel = new IRODSSearchTableModel(
+//                            collectionAndDataObjectListAndSearchAO.searchCollectionsAndDataObjectsBasedOnName(searchTerms));
+//                    tableSearchResults.setModel(irodsSearchTableModel);
+//                    tabIrodsViews.setSelectedComponent(pnlTabSearch);
+//                } catch (Exception e) {
+//                    idropGui.showIdropException(e);
+//                    return;
+//                } finally {
+//                    iDropCore.closeAllIRODSConnections();
+//                    idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+//                }
+//            }
+//        });
+    }
 
     /**
      * Look at the kind of irods node and handle appropriately
@@ -1538,6 +1585,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(622, 158));
+        setPreferredSize(new java.awt.Dimension(700, 635));
         setSize(new java.awt.Dimension(822, 158));
 
         pnlMain.setMinimumSize(new java.awt.Dimension(622, 158));
@@ -1623,9 +1671,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainToolbarIcons.add(btnMainToolbarAddEditMetaData);
 
         btnMainToolbarCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_replicate.png"))); // NOI18N
+        btnMainToolbarCopy.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarCopy.text")); // NOI18N
+        btnMainToolbarCopy.setActionCommand(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarCopy.actionCommand")); // NOI18N
         btnMainToolbarCopy.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 24));
         btnMainToolbarCopy.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMainToolbarCopy.setLabel(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarCopy.label")); // NOI18N
         btnMainToolbarCopy.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         pnlMainToolbarIcons.add(btnMainToolbarCopy);
 
@@ -1855,9 +1904,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         localFileChooser.setDialogTitle("Select Download Target");
         int returnVal = localFileChooser.showOpenDialog(this);
-        String downloadPath = localFileChooser.getSelectedFile().getAbsolutePath();
-
-        executeDownload(downloadPath);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            String downloadPath = localFileChooser.getSelectedFile().getAbsolutePath();
+            executeDownload(downloadPath);
+        }
     }//GEN-LAST:event_btnMainToolbarDownloadActionPerformed
 
     private void btnShowTransferManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTransferManagerActionPerformed
@@ -1911,16 +1962,17 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         localFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         localFileChooser.setDialogTitle("Select Files and/or Folders to Upload");
         int returnVal = localFileChooser.showOpenDialog(this);
-        File files[] = localFileChooser.getSelectedFiles();
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File files[] = localFileChooser.getSelectedFiles();
 
-        // now start upload
-        if (files != null) {
-            executeUpload(files);
-        } else {
-            // TODO: error dialog here
+            // now start upload
+            if (files != null) {
+                executeUpload(files);
+            } else {
+                // TODO: error dialog here
+            }
         }
-
-
 
 //        String targetPath = null;
         // open irods folder chooser
