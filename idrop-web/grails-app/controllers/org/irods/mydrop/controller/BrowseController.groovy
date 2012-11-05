@@ -776,7 +776,12 @@ class BrowseController {
 		ResourceAO resourceAO = irodsAccessObjectFactory.getResourceAO(irodsAccount)
 		List<String> resources = new ArrayList<String>()
 		resources.add("")
-		resources.addAll(resourceAO.listResourceAndResourceGroupNames())
+		
+		try {
+			resources.addAll(resourceAO.listResourceAndResourceGroupNames())
+		} catch (Exception e) {
+			log.error("error listing resorces...error is muted",e)
+		}
 		render(view:"loginInfo", model:[irodsAccount:irodsAccount, resources:resources])
 	}
 
