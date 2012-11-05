@@ -29,6 +29,11 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1013] null appended to url path in browse view download links
 
+*[#1028] upload mac opera shows javascript exception in idrop web v2
+** added a 'no data available' display in the browse details panel instead of double notifications using the 'growler' pop up.  Errors tend to happen in the tree
+giving a pop-up, and then a secondary error would appear doing an AJAX call to the secondary div to build the details.  Now the tree error will put up the pop-up, and 
+the secondary exception is muted.
+
 ==Features==
 
 * [#922] User Profile Management

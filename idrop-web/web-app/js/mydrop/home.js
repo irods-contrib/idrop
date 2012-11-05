@@ -668,12 +668,9 @@ function showBrowseView(absPath) {
 					$("#infoDiv").html(data);
 				},
 				function() {
-					setMessage("Unable to browse to location");
-				});
+					setInfoDivNoData();				});
 	} catch (err) {
-		// tree is out of synch, refresh it
-		setMessage("Tree is out of synch, refreshing...");
-		refreshTree();
+		setInfoDivNoData();
 	}
 
 }
@@ -695,9 +692,26 @@ function showAuditView(absPath, targetDiv) {
 		hideAllToolbars();
 	} 
 	
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/audit/auditList?absPath="
+				+ encodeURIComponent(absPath),
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(targetDiv).html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+	
+	/*
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/audit/auditList?absPath="
-					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
+					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);*/
 
 }
 
@@ -718,9 +732,27 @@ function showSharingView(absPath, targetDiv) {
 		hideAllToolbars();
 	} 
 	
+	
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(targetDiv).html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+	
+	/*
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
 			targetDiv, targetDiv, null);
+			*/
 }
 
 /**
@@ -740,9 +772,28 @@ function showMetadataView(absPath, targetDiv) {
 		hideAllToolbars();
 	} 
 	
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/metadata/showMetadataDetails?absPath="
+				+ encodeURIComponent(absPath), 
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(targetDiv).html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+	
+	/*
+	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/metadata/showMetadataDetails?absPath="
 					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
+					*/
 	
 }
 
@@ -775,10 +826,28 @@ function showGalleryView(absPath) {
 	}
 	
 	hideAllToolbars();
+	targetDiv = "#infoDiv";
 
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(	"#infoDiv").html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+	/*
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);
+			*/
 }
 
 /**
@@ -798,9 +867,27 @@ function showTicketView(absPath, targetDiv) {
 		hideAllToolbars();
 	} 
 	
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/ticket/index?absPath=" + encodeURIComponent(absPath),
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(	"#infoDiv").html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+	
+	/*
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/ticket/index?absPath=" + encodeURIComponent(absPath),
 			targetDiv, targetDiv, null);
+			*/
 }
 
 
@@ -2286,8 +2373,17 @@ function grantPublicLink() {
 	unblockPanel();
 
 }
-        
 
+
+/**
+ * Set a no data message in the div
+ */
+function setInfoDivNoData() {
+	$("#infoDiv").html("<h2>No data to display</h2>");  //FIXME: i18n
+	
+}
+
+        
 function showOverwriteOptionDialog(message) {
 	/*
 	 * var dialogDiv = $("#efaultDialogDiv"); dialogDiv.html("");
