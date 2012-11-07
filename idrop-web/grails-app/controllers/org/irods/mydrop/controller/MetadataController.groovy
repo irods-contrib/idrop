@@ -106,6 +106,10 @@ class MetadataController {
 				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 				metadata = collectionAO.findMetadataValuesForCollection(retObj.collectionName, 0)
 			}
+			
+			log.info("metadata:${metadata}")
+			
+			
 		} catch (DataNotFoundException dnf) {
 			log.warn "cannot find data for path"
 			flash.message="error.no.data.found"

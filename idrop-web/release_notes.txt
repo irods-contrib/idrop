@@ -1,7 +1,7 @@
 *'''Project''': idrop-web
 *'''Date''': 10/23/2012
-*'''Release Version''': 1.0.2-beta1
-*'''git tag''':  1.0.2-beta1
+*'''Release Version''': 1.0.2-SNAPSHOT
+*'''git tag''':  development branch
 
 ==News==
 
@@ -33,6 +33,9 @@ Note that the following bug and feature requests are logged in GForge with relat
 ** added a 'no data available' display in the browse details panel instead of double notifications using the 'growler' pop up.  Errors tend to happen in the tree
 giving a pop-up, and then a secondary error would appear doing an AJAX call to the secondary div to build the details.  Now the tree error will put up the pop-up, and 
 the secondary exception is muted.
+
+*[#1042] Chinese char set displayes invalid characters 
+**work in progress, adding additional logging
 
 ==Features==
 

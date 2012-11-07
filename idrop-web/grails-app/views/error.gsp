@@ -1,1 +1,1 @@
-${request.'javax.servlet.error.message'}
+<g:message code="error.some.error.occurred" />
