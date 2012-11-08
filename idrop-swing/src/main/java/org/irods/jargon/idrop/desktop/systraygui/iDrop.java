@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.irods.jargon.core.connection.IRODSAccount;
@@ -49,6 +50,7 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.BreadCrumbNavigationPopup;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.FileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
@@ -91,6 +93,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private ChangePasswordDialog changePasswordDialog = null;
     private QueueManagerDialog queueManagerDialog = null;
     private boolean formShown = false;
+    private BasicArrowButton btnBreadCrumbNav;
 
     public iDrop(final IDROPCore idropCore) {
 
@@ -175,6 +178,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             log.warn("no account, exiting");
             System.exit(0);
         }
+        
+        // add breadcrumb navigation button 
+        btnBreadCrumbNav = new BasicArrowButton(BasicArrowButton.SOUTH);
+        btnBreadCrumbNav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBreadCrumbNavActionPerformed(evt);
+            }
+        });
+        pnlBreadCrumbNav.add(btnBreadCrumbNav);
 
 //        userNameLabel.setText("User: "
 //                + getiDropCore().getIrodsAccount().getUserName());
@@ -382,6 +394,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 scrollIrodsTree.getViewport().removeAll();
                 irodsTree = null;
                 loadNewTree();
+                irodsTree.getSelectionModel().setSelectionInterval(0, 0);
                 if (currentPaths != null) {
                     IRODSNode irodsNode = null;
                     TreePath pathOfExpandingNode = null;
@@ -395,8 +408,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         TreePath pathInNew = TreeUtils.getPath(irodsNode);
                         irodsTree.collapsePath(pathInNew);
                         irodsTree.expandPath(pathInNew);
-                        irodsTree.scrollRectToVisible(irodsTree.getPathBounds(treePath));
-                        irodsTree.getSelectionModel().setSelectionInterval(startIdx, endIdx);
+                        java.awt.Rectangle rect = irodsTree.getPathBounds(treePath);
+                        if (rect != null) {
+                            irodsTree.scrollRectToVisible(rect);
+                            irodsTree.getSelectionModel().setSelectionInterval(startIdx, endIdx);
+                        }
                     }
                 }
             }
@@ -1023,10 +1039,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 path = selectedNode.getFullPath();
 
                 CollectionAndDataObjectListingEntry irodsObj = (CollectionAndDataObjectListingEntry) selectedNode.getUserObject();
-
-                enableCollectionSelectedButtons(irodsObj.isCollection());
+                if (irodsObj.isCollection()) {
+                    enableCollectionSelectedButtons(true);
+                    setBreadcrumb(path);
+                }
+                else {
+                    enableCollectionSelectedButtons(false);
+                }
                 enableToolbarButtons(idx >= 0);
-                setBreadcrumb(path);
 
             }
         });
@@ -1555,6 +1575,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarDelete = new javax.swing.JButton();
         pnlMainToolbarSearch = new javax.swing.JPanel();
         lblBreadCrumb = new javax.swing.JLabel();
+        pnlBreadCrumbNav = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         txtMainToolbarSearchTerms = new javax.swing.JTextField();
         btnMainToolbarSearchFiles = new javax.swing.JButton();
@@ -1664,9 +1685,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainToolbarIcons.add(jSeparator1);
 
         btnMainToolbarAddEditMetaData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_editmetadata.png"))); // NOI18N
-        btnMainToolbarAddEditMetaData.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarAddEditMetaData.text")); // NOI18N
         btnMainToolbarAddEditMetaData.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 24));
         btnMainToolbarAddEditMetaData.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarAddEditMetaData.setLabel(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarAddEditMetaData.label")); // NOI18N
         btnMainToolbarAddEditMetaData.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         pnlMainToolbarIcons.add(btnMainToolbarAddEditMetaData);
 
@@ -1697,10 +1718,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainToolbarSearch.setLayout(new javax.swing.BoxLayout(pnlMainToolbarSearch, javax.swing.BoxLayout.LINE_AXIS));
 
         lblBreadCrumb.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblBreadCrumb.text")); // NOI18N
-        lblBreadCrumb.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 10));
+        lblBreadCrumb.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 2));
         lblBreadCrumb.setMaximumSize(new java.awt.Dimension(110, 2000));
         lblBreadCrumb.setMinimumSize(new java.awt.Dimension(0, 0));
         pnlMainToolbarSearch.add(lblBreadCrumb);
+
+        pnlBreadCrumbNav.setMaximumSize(new java.awt.Dimension(20, 20));
+        pnlBreadCrumbNav.setPreferredSize(new java.awt.Dimension(20, 20));
+        pnlMainToolbarSearch.add(pnlBreadCrumbNav);
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         pnlMainToolbarSearch.add(jSeparator2);
@@ -1973,36 +1998,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 // TODO: error dialog here
             }
         }
-
-//        String targetPath = null;
-        // open irods folder chooser
-//        try {
-//            IRODSFinderDialog irodsFileSystemChooserView = new IRODSFinderDialog(null, true, iDropCore);
-//            final Toolkit toolkit = Toolkit.getDefaultToolkit();
-//            final Dimension screenSize = toolkit.getScreenSize();
-//            final int x = (screenSize.width - irodsFileSystemChooserView.getWidth()) / 2;
-//            final int y = (screenSize.height - irodsFileSystemChooserView.getHeight()) / 2;
-//            irodsFileSystemChooserView.setLocation(x, y);
-//            irodsFileSystemChooserView.enableButtonSelectFolder(false);
-//            irodsFileSystemChooserView.setTitle("Select Upload Target");
-//            irodsFileSystemChooserView.setVisible(true);
-//            targetPath = irodsFileSystemChooserView.getSelectedAbsolutePath();
-//            irodsFileSystemChooserView.dispose();
-//        } catch (Exception e) {
-//            log.error("exception choosings iRODS file");
-//            throw new IdropRuntimeException("exception choosing irods fie", e);
-//        } finally {
-//            iDropCore.getIrodsFileSystem().closeAndEatExceptions();
-//        }
-//        
-//        // now start upload
-//        if (targetPath != null) {
-//            executeUpload(targetPath);
-//        }
-//        else {
-//            // TODO: error dialog here
-//        }
-
+    }
+    
+    private void btnBreadCrumbNavActionPerformed(java.awt.event.ActionEvent evt) {
+        
+        BreadCrumbNavigationPopup popup = new BreadCrumbNavigationPopup(this, lblBreadCrumb.getText());
+        java.awt.Point p = btnBreadCrumbNav.getLocation();
+        popup.show(pnlBreadCrumbNav, p.x, p.y + btnBreadCrumbNav.getHeight());
+        
     }//GEN-LAST:event_btnMainToolbarUploadActionPerformed
     /**
      * @param args the command line arguments
@@ -2060,6 +2063,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JLabel lblTransferMessage;
     private javax.swing.JLabel lblTransferType;
     private javax.swing.JList listLocalDrives;
+    private javax.swing.JPanel pnlBreadCrumbNav;
     private javax.swing.JPanel pnlCurrentTransferStatus;
     private javax.swing.JPanel pnlDrivesFiller;
     private javax.swing.JPanel pnlIdropBottom;
