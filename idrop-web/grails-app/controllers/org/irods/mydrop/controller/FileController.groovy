@@ -6,6 +6,7 @@ import grails.converters.*
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.JargonException
+import org.irods.jargon.core.exception.NoResourceDefinedException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataTransferOperations
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
@@ -167,9 +168,12 @@ class FileController {
 			targetFile.setResource(irodsAccount.defaultStorageResource)
 			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 			stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
+		} catch (NoResourceDefinedException nrd) {
+			log.error("no resource defined exception", nrd)
+			response.sendError(500, message(code:"message.no.resource"))
 		} catch (Exception e) {
 			log.error("exception in upload transfer", e)
-			response.sendError(500,e.message)
+			response.sendError(500, message(code:"message.error.in.upload"))
 		} finally {
 			// stream2Stream will close input and output streams
 		}

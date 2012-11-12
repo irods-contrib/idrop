@@ -39,6 +39,12 @@ the secondary exception is muted.
 
 *[#1057] callUpdateTags javascript error
 
+*[#1055] -321000 messages on upload need better message
+**Added a NoResourceDefinedException to the jargon error hierarchy so that interfaces can give sensible feedback to users when no resource is defined
+in an operation and no default rule exists on iRODS.
+
+[#1055] -321000 messages on upload need better message
+**Handle no default resource errors with a user message
 
 ==Features==
 
