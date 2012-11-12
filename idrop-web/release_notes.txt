@@ -37,6 +37,9 @@ the secondary exception is muted.
 *[#1042] Chinese char set displayes invalid characters 
 **work in progress, adding additional logging
 
+*[#1057] callUpdateTags javascript error
+
+
 ==Features==
 
 * [#922] User Profile Management

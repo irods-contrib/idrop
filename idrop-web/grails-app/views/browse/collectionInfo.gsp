@@ -80,7 +80,7 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
+					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="updateTags()">Update Tags</button></div>
 				</div>
 			</div>
 		</div>
@@ -123,11 +123,7 @@
 							});
 					});
 
-					function callUpdateTags() {
-						updateTags();
-					}
-
-
+			
 					/**
 					Update the info for a section in the info accordion based on the provided section id
 					*/
