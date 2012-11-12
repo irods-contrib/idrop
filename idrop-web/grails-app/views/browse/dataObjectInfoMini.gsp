@@ -75,7 +75,7 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="updateTags()">Update Tags</button></div>
+					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="updateTagsFromDataObjectInfoMini()">Update Tags</button></div>
 				</div>
 				<div>
 					<div><label>Created At:</label></div>
