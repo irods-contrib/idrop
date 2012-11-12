@@ -142,9 +142,15 @@ $(function() {
 	
 });
 
-function callUpdateTags() {
-	updateTags();
+
+function updateTagsFromDataObjectInfoMini() {
+	var infoTagsVal = $("#infoTags").val();
+	var infoCommentVal = $("#infoComment").val();
+	var absPathVal = $("#infoAbsPath").val();
+	
+	updateTagsAtPath(absPathVal, infoTagsVal, infoCommentVal);
 }
+
 
 </script>
 <g:if test="${getThumbnail}">

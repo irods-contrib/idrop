@@ -42,7 +42,7 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="updateTags()">Update Tags</button></div>
+					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="updateTagsFromCollectionInfoMini()">Update Tags</button></div>
 				</div>
 				<div>
 					<div><label>Created At:</label></div>
@@ -94,8 +94,12 @@
     <script>
 
 
-function callUpdateTags() {
-	updateTags();
+function updateTagsFromCollectionInfoMini() {
+	var infoTagsVal = $("#infoTags").val();
+	var infoCommentVal = $("#infoComment").val();
+	var absPathVal = $("#infoAbsPath").val();
+	
+	updateTagsAtPath(absPathVal, infoTagsVal, infoCommentVal);
 }
 
 </script>
