@@ -411,7 +411,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         java.awt.Rectangle rect = irodsTree.getPathBounds(treePath);
                         if (rect != null) {
                             irodsTree.scrollRectToVisible(rect);
-                            irodsTree.getSelectionModel().setSelectionInterval(startIdx, endIdx);
+                            //irodsTree.getSelectionModel().setSelectionInterval(startIdx, endIdx);
                         }
                     }
                 }
@@ -1053,15 +1053,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     private void enableToolbarButtons(boolean state) {
-        btnMainToolbarAddEditMetaData.setEnabled(state);
+        btnMainToolbarInfo.setEnabled(state);
         btnMainToolbarCopy.setEnabled(state);
         btnMainToolbarDelete.setEnabled(state);
-        btnMainToolbarDownload.setEnabled(state);
-        btnMainToolbarSync.setEnabled(state);
+        //btnMainToolbarDownload.setEnabled(state);
+        //btnMainToolbarSync.setEnabled(state);
     }
 
     private void enableCollectionSelectedButtons(boolean state) {
-        btnMainToolbarUpload.setEnabled(state);
+        //btnMainToolbarUpload.setEnabled(state);
         btnMainToolbarSearchFiles.setEnabled(state);
     }
 
@@ -1564,15 +1564,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMain = new javax.swing.JPanel();
         pnlMainToolbar = new javax.swing.JPanel();
         pnlMainToolbarIcons = new javax.swing.JPanel();
-        btnMainToolbarSettings = new javax.swing.JButton();
-        btnMainToolbarSync = new javax.swing.JButton();
         btnMainToolbarDownload = new javax.swing.JButton();
         btnMainToolbarUpload = new javax.swing.JButton();
         btnMainToolbarRefresh = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        btnMainToolbarAddEditMetaData = new javax.swing.JButton();
         btnMainToolbarCopy = new javax.swing.JButton();
         btnMainToolbarDelete = new javax.swing.JButton();
+        btnMainToolbarInfo = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+        btnMainToolbarSync = new javax.swing.JButton();
+        btnMainToolbarSettings = new javax.swing.JButton();
         pnlMainToolbarSearch = new javax.swing.JPanel();
         lblBreadCrumb = new javax.swing.JLabel();
         pnlBreadCrumbNav = new javax.swing.JPanel();
@@ -1606,11 +1607,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(622, 158));
-        setPreferredSize(new java.awt.Dimension(700, 635));
         setSize(new java.awt.Dimension(822, 158));
 
         pnlMain.setMinimumSize(new java.awt.Dimension(622, 158));
-        pnlMain.setPreferredSize(new java.awt.Dimension(834, 635));
+        pnlMain.setPreferredSize(new java.awt.Dimension(730, 635));
         pnlMain.setLayout(new java.awt.BorderLayout());
 
         pnlMainToolbar.setMinimumSize(new java.awt.Dimension(622, 131));
@@ -1621,25 +1621,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainToolbarIcons.setMinimumSize(new java.awt.Dimension(622, 90));
         pnlMainToolbarIcons.setPreferredSize(new java.awt.Dimension(622, 90));
         pnlMainToolbarIcons.setLayout(new javax.swing.BoxLayout(pnlMainToolbarIcons, javax.swing.BoxLayout.LINE_AXIS));
-
-        btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_settings.png"))); // NOI18N
-        btnMainToolbarSettings.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSettings.text")); // NOI18N
-        btnMainToolbarSettings.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 28));
-        btnMainToolbarSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMainToolbarSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnMainToolbarSettings.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMainToolbarSettingsActionPerformed(evt);
-            }
-        });
-        pnlMainToolbarIcons.add(btnMainToolbarSettings);
-
-        btnMainToolbarSync.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_synch.png"))); // NOI18N
-        btnMainToolbarSync.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSync.text")); // NOI18N
-        btnMainToolbarSync.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 28));
-        btnMainToolbarSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMainToolbarSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        pnlMainToolbarIcons.add(btnMainToolbarSync);
 
         btnMainToolbarDownload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_download.png"))); // NOI18N
         btnMainToolbarDownload.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarDownload.text")); // NOI18N
@@ -1656,7 +1637,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarUpload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_upload.png"))); // NOI18N
         btnMainToolbarUpload.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarUpload.text")); // NOI18N
         btnMainToolbarUpload.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 28));
-        btnMainToolbarUpload.setEnabled(false);
         btnMainToolbarUpload.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarUpload.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMainToolbarUpload.addActionListener(new java.awt.event.ActionListener() {
@@ -1684,25 +1664,25 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jSeparator1.setPreferredSize(new java.awt.Dimension(34, 60));
         pnlMainToolbarIcons.add(jSeparator1);
 
-        btnMainToolbarAddEditMetaData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_editmetadata.png"))); // NOI18N
-        btnMainToolbarAddEditMetaData.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 24));
-        btnMainToolbarAddEditMetaData.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMainToolbarAddEditMetaData.setLabel(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarAddEditMetaData.label")); // NOI18N
-        btnMainToolbarAddEditMetaData.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        pnlMainToolbarIcons.add(btnMainToolbarAddEditMetaData);
-
         btnMainToolbarCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_replicate.png"))); // NOI18N
         btnMainToolbarCopy.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarCopy.text")); // NOI18N
         btnMainToolbarCopy.setActionCommand(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarCopy.actionCommand")); // NOI18N
         btnMainToolbarCopy.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 24));
         btnMainToolbarCopy.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarCopy.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarCopyActionPerformed(evt);
+            }
+        });
         pnlMainToolbarIcons.add(btnMainToolbarCopy);
 
         btnMainToolbarDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_delete.png"))); // NOI18N
         btnMainToolbarDelete.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarDelete.text_1")); // NOI18N
-        btnMainToolbarDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnMainToolbarDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 20));
         btnMainToolbarDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarDelete.setMaximumSize(new java.awt.Dimension(81, 70));
+        btnMainToolbarDelete.setPreferredSize(new java.awt.Dimension(81, 70));
         btnMainToolbarDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMainToolbarDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1710,6 +1690,45 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         pnlMainToolbarIcons.add(btnMainToolbarDelete);
+
+        btnMainToolbarInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_editmetadata.png"))); // NOI18N
+        btnMainToolbarInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 24));
+        btnMainToolbarInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarInfo.setLabel(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarInfo.label")); // NOI18N
+        btnMainToolbarInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarInfoActionPerformed(evt);
+            }
+        });
+        pnlMainToolbarIcons.add(btnMainToolbarInfo);
+
+        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator3.setMaximumSize(new java.awt.Dimension(34, 60));
+        jSeparator3.setPreferredSize(new java.awt.Dimension(34, 60));
+        pnlMainToolbarIcons.add(jSeparator3);
+
+        btnMainToolbarSync.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_synch.png"))); // NOI18N
+        btnMainToolbarSync.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSync.text")); // NOI18N
+        btnMainToolbarSync.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 28));
+        btnMainToolbarSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        pnlMainToolbarIcons.add(btnMainToolbarSync);
+
+        btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_settings.png"))); // NOI18N
+        btnMainToolbarSettings.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSettings.text")); // NOI18N
+        btnMainToolbarSettings.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnMainToolbarSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarSettings.setMaximumSize(new java.awt.Dimension(58, 70));
+        btnMainToolbarSettings.setMinimumSize(new java.awt.Dimension(58, 70));
+        btnMainToolbarSettings.setPreferredSize(new java.awt.Dimension(58, 70));
+        btnMainToolbarSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarSettingsActionPerformed(evt);
+            }
+        });
+        pnlMainToolbarIcons.add(btnMainToolbarSettings);
 
         pnlMainToolbar.add(pnlMainToolbarIcons, java.awt.BorderLayout.NORTH);
 
@@ -1924,24 +1943,46 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }//GEN-LAST:event_btnMainToolbarSettingsActionPerformed
 
     private void btnMainToolbarDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarDownloadActionPerformed
-        JFileChooser localFileChooser = new JFileChooser();
-        localFileChooser.setMultiSelectionEnabled(false);
-        localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        localFileChooser.setDialogTitle("Select Download Target");
-        int returnVal = localFileChooser.showOpenDialog(this);
+
+        DownloadDialog downloadDialog = new DownloadDialog(this, true,
+                    getIrodsTree(), getFileTree());
+
+        downloadDialog.setLocation(
+                (int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation().getY() + this.getHeight() / 2));
+        downloadDialog.setVisible(true);
         
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            String downloadPath = localFileChooser.getSelectedFile().getAbsolutePath();
-            executeDownload(downloadPath);
-        }
+        
+        // first check to see if a object or collection is selected in the iRODS tree
+        
+
+//        JFileChooser localFileChooser = new JFileChooser();
+//        localFileChooser.setMultiSelectionEnabled(false);
+//        localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        localFileChooser.setDialogTitle("Select Download Target");
+//        int returnVal = localFileChooser.showOpenDialog(this);
+//        
+//        if (returnVal == JFileChooser.APPROVE_OPTION) {
+//            String downloadPath = localFileChooser.getSelectedFile().getAbsolutePath();
+//            executeDownload(downloadPath);
+//        }
     }//GEN-LAST:event_btnMainToolbarDownloadActionPerformed
 
     private void btnShowTransferManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTransferManagerActionPerformed
-        // TODO add your handling code here:
+        showQueueManagerDialog();
     }//GEN-LAST:event_btnShowTransferManagerActionPerformed
 
     private void togglePauseTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togglePauseTransferActionPerformed
-        // TODO add your handling code here:
+        try {
+            if (togglePauseTransfer.isSelected()) {
+                log.info("pausing....");
+                iDropCore.getTransferManager().pause();
+            } else {
+                log.info("resuming queue");
+                iDropCore.getTransferManager().resume();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_togglePauseTransferActionPerformed
 
     private void btnMainToolbarRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarRefreshActionPerformed
@@ -1980,24 +2021,30 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }//GEN-LAST:event_btnMainToolbarDeleteActionPerformed
 
     private void btnMainToolbarUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarUploadActionPerformed
-        // only enabled if iRODS collection is selected
-
-        JFileChooser localFileChooser = new JFileChooser();
-        localFileChooser.setMultiSelectionEnabled(true);
-        localFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        localFileChooser.setDialogTitle("Select Files and/or Folders to Upload");
-        int returnVal = localFileChooser.showOpenDialog(this);
         
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File files[] = localFileChooser.getSelectedFiles();
+        UploadDialog uploadDialog = new UploadDialog(this, true,
+                    getIrodsTree(), getFileTree());
 
-            // now start upload
-            if (files != null) {
-                executeUpload(files);
-            } else {
-                // TODO: error dialog here
-            }
-        }
+        uploadDialog.setLocation(
+                (int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation().getY() + this.getHeight() / 2));
+        uploadDialog.setVisible(true);
+        
+//        JFileChooser localFileChooser = new JFileChooser();
+//        localFileChooser.setMultiSelectionEnabled(true);
+//        localFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+//        localFileChooser.setDialogTitle("Select Files and/or Folders to Upload");
+//        int returnVal = localFileChooser.showOpenDialog(this);
+//        
+//        if (returnVal == JFileChooser.APPROVE_OPTION) {
+//            File files[] = localFileChooser.getSelectedFiles();
+//
+//            // now start upload
+//            if (files != null) {
+//                executeUpload(files);
+//            } else {
+//                // TODO: error dialog here
+//            }
+//        }
     }
     
     private void btnBreadCrumbNavActionPerformed(java.awt.event.ActionEvent evt) {
@@ -2007,6 +2054,19 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         popup.show(pnlBreadCrumbNav, p.x, p.y + btnBreadCrumbNav.getHeight());
         
     }//GEN-LAST:event_btnMainToolbarUploadActionPerformed
+
+    private void btnMainToolbarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarInfoActionPerformed
+        IRODSInfoDialog irodsInfoDialog = new IRODSInfoDialog(this, true,
+                    getIrodsTree());
+
+        irodsInfoDialog.setLocation(
+                (int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation().getY() + this.getHeight() / 2));
+        irodsInfoDialog.setVisible(true);
+    }//GEN-LAST:event_btnMainToolbarInfoActionPerformed
+
+    private void btnMainToolbarCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarCopyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMainToolbarCopyActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -2042,10 +2102,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //        });
 //    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMainToolbarAddEditMetaData;
     private javax.swing.JButton btnMainToolbarCopy;
     private javax.swing.JButton btnMainToolbarDelete;
     private javax.swing.JButton btnMainToolbarDownload;
+    private javax.swing.JButton btnMainToolbarInfo;
     private javax.swing.JButton btnMainToolbarRefresh;
     private javax.swing.JButton btnMainToolbarSearchFiles;
     private javax.swing.JButton btnMainToolbarSettings;
@@ -2056,6 +2116,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel lblBreadCrumb;
     private javax.swing.JLabel lblCurrentFile;
     private javax.swing.JLabel lblTransferByteCounts;
