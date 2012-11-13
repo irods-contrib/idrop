@@ -25,6 +25,14 @@ import org.slf4j.LoggerFactory;
  * @author mikeconway
  */
 public class IRODSFinderDialog extends javax.swing.JDialog {
+    
+    public static enum SelectionType {
+        OBJS_ONLY_SELECTION_MODE,
+        COLLS_ONLY_SELECTION_MODE,
+        OBJS_AND_COLLS_SELECTION_MODE
+    }
+    
+    private SelectionType selectionTypeSetting = SelectionType.COLLS_ONLY_SELECTION_MODE;
 
     private final IDROPCore idropCore;
     private String selectedAbsolutePath = null;
@@ -59,7 +67,10 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
     public void enableButtonSelectFolder(boolean state) {
         this.btnSelectFolder.setEnabled(state);
     }
-         
+      
+    public void setSelectionType(SelectionType selType) {
+        this.selectionTypeSetting = selType;
+    }
 
     /**
      * build the JTree that will depict the iRODS resource
@@ -242,9 +253,11 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
                 idx, 0);
         log.info("selected node:{}", selectedNode);
         CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) selectedNode.getUserObject();
+        if ( this.selectionTypeSetting == SelectionType.COLLS_ONLY_SELECTION_MODE) {
         if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
             MessageManager.showWarning(this, "Please select a directory", MessageManager.TITLE_MESSAGE);
             return;
+        }
         }
 
         this.selectedAbsolutePath = entry.getFormattedAbsolutePath();
