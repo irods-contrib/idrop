@@ -1843,6 +1843,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 throw new IdropRuntimeException("error getting resource list", ex);
             }
         }
+        // check to see if defualt resource editing is allowed
+        String allowEdit = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.IDROP_ENABLE_RESC_EDIT);
+        if (allowEdit != null && allowEdit.equals("false")) {
+            comboPrefsDefaultResource.setEnabled(false);
+        }
     }
 
     protected void updateDetailsForSelectedSynch(int i) {
