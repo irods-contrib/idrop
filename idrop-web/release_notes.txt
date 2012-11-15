@@ -1,5 +1,5 @@
-*'''Project''': idrop-web
-*'''Date''': 08/28/2012
+*'''Project''': idrop-web version 2 
+*'''Date''': xx/xx/xx
 *'''Release Version''': xxxx
 *'''git tag''': 984-idrop-web-redesign
 
@@ -19,5 +19,3 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Features==
 [#984] iDrop web '2.0' redesign effort
-** switched to twitter bootstrap model
-** refactoring and simplification of GUI
