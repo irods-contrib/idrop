@@ -44,6 +44,26 @@ function updateTags() {
 	unblockPanel();
 }
 
+/**
+ * Linked to update tags button on info view, update the tags in iRODS
+ */
+function updateTagsAtPath(path, tags, comment) {
+	
+	var params = {
+		absPath : path,
+		tags : tags,
+		comment : comment
+	}
+
+	showBlockingPanel();
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
+			params, null, null, function() {
+				setMessage("Tags and comments updated successfully");
+				refreshTagCloud();
+			});
+	unblockPanel();
+}
+
 /*
  * Update the information in the tag cloud
  */

@@ -90,7 +90,7 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button"  id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
+					<div><button type="button"  id="updateTags" value="updateTags" onclick="updateTags()">Update Tags</button></div>
 				</div>
 			</div>
   
@@ -123,6 +123,7 @@
 						$("#menuUpload").show();
 						$("#menuBulkUpload").show();
 
+
 						$('#infoTabs a').click(function (e) {
 							  e.preventDefault();
 							  $(this).tab('show');
@@ -151,9 +152,5 @@
 						});
 							
 					});
-
-					function callUpdateTags() {
-						updateTags();
-					}
 
 				</script>

@@ -123,7 +123,7 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
+					<div><button type="button" id="updateTags" value="updateTags" onclick="updateTags()">Update Tags</button></div>
 				</div>
 		</div>
 	</div>

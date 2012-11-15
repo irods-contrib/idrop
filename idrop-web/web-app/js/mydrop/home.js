@@ -678,9 +678,26 @@ function showAuditView(absPath, targetDiv) {
 		
 	} 
 	
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/audit/auditList?absPath="
+				+ encodeURIComponent(absPath),
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(targetDiv).html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+	
+	/*
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/audit/auditList?absPath="
-					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
+					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);*/
 
 }
 
@@ -708,9 +725,27 @@ function showSharingView(absPath, targetDiv) {
 		targetDiv = "#infoDiv";
 	} 
 	
+	
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(targetDiv).html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+	
+	/*
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
 			targetDiv, targetDiv, null);
+			*/
 }
 
 /**
@@ -729,9 +764,28 @@ function showMetadataView(absPath, targetDiv) {
 		// I am not embedded, so manipulate the toolbars
 	} 
 	
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/metadata/showMetadataDetails?absPath="
+				+ encodeURIComponent(absPath), 
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(targetDiv).html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+	
+	/*
+	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/metadata/showMetadataDetails?absPath="
 					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
+					*/
 	
 }
 
@@ -761,10 +815,24 @@ function showGalleryView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
-			"#infoDiv", "#infoDiv", null);
+
+	targetDiv = "#infoDiv";
+
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(	"#infoDiv").html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
 }
 
 /**
@@ -782,9 +850,27 @@ function showTicketView(absPath, targetDiv) {
 		targetDiv = "#infoDiv";
 	} 
 	
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/ticket/index?absPath=" + encodeURIComponent(absPath),
+				targetDiv,
+				function(data) {
+					//alert("data is:" + data);
+					$(	"#infoDiv").html(data);
+				},
+				function() {
+					setInfoDivNoData();				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+	
+	/*
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/ticket/index?absPath=" + encodeURIComponent(absPath),
 			targetDiv, targetDiv, null);
+			*/
 }
 
 
@@ -2295,22 +2381,40 @@ function clickOnPathInBrowseDetails(data) {
 			});
 }
 
-
-function showOverwriteOptionDialog(message) {
-	/*
-	 * var dialogDiv = $("#efaultDialogDiv"); dialogDiv.html("");
-	 * 
-	 * 
-	 * var messageDiv = document.createElement('div'); var message =
-	 * document.createElement('h2'); messageDiv.appendChild(message);
-	 * 
-	 * 
-	 * var a = document.createElement('applet'); appletTagDiv.appendChild(a);
-	 */
+/**
+ * Close the public link dialog 
+ */
+function closePublicLinkDialog() {
 	
-	
+		$("#browseDialogArea").hide("slow");
+		$("#browseDialogArea").html();
 }
 
-function z() {
+/**
+ * Grant public (anonymous access) via the public link dialog.  Submit dialog and present the response
+ */
+function grantPublicLink() {
+	var path = $("#publicLinkDialogAbsPath").val();
+	showBlockingPanel();
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg.path.missing'));
+		unblockPanel();		
+	}
+	
+	var params = {
+			absPath : path
+		}
+	
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/browse/updatePublicLinkDialog", params, null, "#browseDialogArea", null, null);
+	unblockPanel();
+
+}
+
+
+/**
+ * Set a no data message in the div
+ */
+function setInfoDivNoData() {
+	$("#infoDiv").html("<h2>No data to display</h2>");  //FIXME: i18n
 	
 }

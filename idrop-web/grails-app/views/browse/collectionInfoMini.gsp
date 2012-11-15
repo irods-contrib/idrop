@@ -42,7 +42,9 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
+
+					<div><button type="button" id="updateTags" value="updateTags" onclick="updateTagsFromCollectionInfoMini()">Update Tags</button></div>
+
 				</div>
 				<div>
 					<div><label>Created At:</label></div>
@@ -94,8 +96,12 @@
     <script>
 
 
-function callUpdateTags() {
-	updateTags();
+function updateTagsFromCollectionInfoMini() {
+	var infoTagsVal = $("#infoTags").val();
+	var infoCommentVal = $("#infoComment").val();
+	var absPathVal = $("#infoAbsPath").val();
+	
+	updateTagsAtPath(absPathVal, infoTagsVal, infoCommentVal);
 }
 
 </script>
