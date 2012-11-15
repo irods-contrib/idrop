@@ -26,7 +26,7 @@
 		
 			<li id="topbarAccount" class="dropdown">
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-      				<g:message code="text.account" /> ( <span id="accountZoneAndUserDisplay"></span> )<b class="caret"></b></a>
+      				<g:message code="text.account" /> ( <span id="accountZoneAndUserDisplay"><g:accountInfo /></span> )<b class="caret"></b></a>
       				 <ul class="dropdown-menu">
 	      				<g:ifAuthenticated>
 	      					 <li><a href="#" id="logoutButton" onclick="logout()")><g:message code="text.logout" /></a></li>
@@ -49,9 +49,9 @@
 <script>
 	var currentZone = "${irodsAccount?.zone}";
 	var currentUser = "${irodsAccount?.userName}";
-	$(function() {	
-		$("#accountZoneAndUserDisplay").html(currentZone + ":" + currentUser);
-	});
+	//$(function() {	
+		//$("#accountZoneAndUserDisplay").html(currentZone + ":" + currentUser);
+//	});
 	 </g:ifAuthenticated>
 </script>
 
