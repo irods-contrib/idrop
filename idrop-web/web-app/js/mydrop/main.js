@@ -218,3 +218,24 @@ function clickOnPathInCrumbtrail(data) {
 		});
 	}
 }
+
+/**
+ * Show the default storage resource dialog
+ */
+function showDefaultResourceDialog() {	
+	var url = "/login/showDefaultResourceDialog";
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, null, "#defaultDialogDiv", null);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

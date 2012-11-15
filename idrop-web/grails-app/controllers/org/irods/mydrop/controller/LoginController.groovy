@@ -4,6 +4,7 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.ResourceAO
 
 class LoginController {
 
@@ -190,6 +191,34 @@ class LoginController {
 		session["SPRING_SECURITY_CONTEXT"] = null
 		redirect(action:"login")
 	}
+	
+	
+	/**
+	 * FIXME: deprecated
+	 * Show information about the current user/host
+	 */
+	def showLoginBar = {
+		log.info("showLoginBar()")
+		ResourceAO resourceAO = irodsAccessObjectFactory.getResourceAO(irodsAccount)
+		List<String> resources = new ArrayList<String>()
+		resources.add("")
+		resources.addAll(resourceAO.listResourceAndResourceGroupNames())
+		render(view:"loginInfo", model:[irodsAccount:irodsAccount, resources:resources])
+	}
+	
+	/**
+	 * Show a dialog to set the default storage resource
+	 */
+	def showDefaultResourceDialog = {
+		log.info("showLoginBar()")
+		ResourceAO resourceAO = irodsAccessObjectFactory.getResourceAO(irodsAccount)
+		List<String> resources = new ArrayList<String>()
+		resources.add("")
+		resources.addAll(resourceAO.listResourceAndResourceGroupNames())
+		render(view:"loginInfo", model:[irodsAccount:irodsAccount, resources:resources])
+	}
+
+	
 }
 class LoginCommand {
 	boolean useGuestLogin
