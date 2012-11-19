@@ -857,7 +857,7 @@ function showTicketView(absPath, targetDiv) {
 				targetDiv,
 				function(data) {
 					//alert("data is:" + data);
-					$(	"#infoDiv").html(data);
+					$(targetDiv).html(data);
 				},
 				function() {
 					setInfoDivNoData();				});
@@ -865,12 +865,6 @@ function showTicketView(absPath, targetDiv) {
 		setInfoDivNoData();
 	}
 
-	
-	/*
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/ticket/index?absPath=" + encodeURIComponent(absPath),
-			targetDiv, targetDiv, null);
-			*/
 }
 
 

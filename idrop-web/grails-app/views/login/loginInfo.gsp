@@ -1,50 +1,50 @@
-<div id="defaultResourceDialog">
-
-	 <div class="modal-header">
-    		<h3><g:message code="heading.set.resource"/></h3>
-  	</div>
-  	
-  	 <div class="modal-body">
-    		<b><g:message code="text.user" />:</b>${irodsAccount.userName}&nbsp;&nbsp;<b><g:message code="text.zone" />:</b>${irodsAccount.zone}&nbsp;&nbsp;<b><g:message code="text.resource" />:</b><g:select name="defaultStorageResource" id="defaultStorageResource" from="${resources}" value="${irodsAccount.defaultStorageResource}" onchange="topBarDefaultResourceChanged()"/>
-    		
-  	</div>
-
-	<div class="modal-footer">
-		<button type="button" id="cancelSetDefaultResource"
-			 value="cancelAdd"
-			onclick="closeDefaultResourceDialog()")><g:message code="text.cancel" /></button>
-  	</div>
-	
+<head>
+<meta name="layout" content="mainNoSidebar" />
+<g:javascript library="mydrop/home" />
+</head>
+<div class="row-fluid">
+	<div class="span5 offset2">
+		<h4><g:message code="text.change.default.resource.header"/></h4>
+	</div>
 </div>
-
+<div class="row-fluid">
+	<div class="span5 offset2">
+	<form class="form-horizontal">
+  	 		<fieldset>
+  	 			<div class="control-group">
+	  	 			<label  class="control-label"><g:message code="text.user" /></label>
+	  	 			<div class="controls">${irodsAccount.userName}</div>
+  	 			</div>
+  	 			<div class="control-group">
+	  	 			<label  class="control-label"><g:message code="text.zone" /></label>
+	  	 			<div class="controls">${irodsAccount.zone}</div>
+	  	 		</div>
+	  	 		<div class="control-group">
+	  	 			<label  class="control-label"><g:message code="text.resource" /></label>
+    				<div class="controls"><g:select name="defaultStorageResource" id="defaultStorageResource" from="${resources}" value="${irodsAccount.defaultStorageResource}" 
+    				onchange="topBarDefaultResourceChanged()"/></div>
+	  	 		</div>
+  	 	
+    		</fieldset>
+    	</form>
+    </div>
+</div>
 <script>
 
-var defaultResourceDialog;
+
 function topBarDefaultResourceChanged() {
+	//showBlockingPanel();
+	try {
 	var resource = $("#defaultStorageResource").val();
-	if (resource == null) {
-		return false;
+		if (resource == null) {
+			return false;
+		}
+		setDefaultStorageResource(resource);
+		//setMessage(jQuery.i18n.prop('msg_resource_changed'));
+	} finally {
+		//unblockPanel();
 	}
-	setDefaultStorageResource(resource);
-	closeDefaultResourceDialog();
 
 }
-
-	$(function() {
-		defaultResourceDialog = $("#defaultResourceDialog").dialog(
-				{
-					"modal":true,
-					"width":"500px"
-				}
-		);
-	});
-
-	function closeDefaultResourceDialog() {
-		 $("#defaultResourceDialog").dialog("close");
-		$("#defaultDialogDiv").html("");
-		
-	}
-
-	
 
 </script>

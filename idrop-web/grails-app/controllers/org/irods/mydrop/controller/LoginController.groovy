@@ -209,7 +209,7 @@ class LoginController {
 	/**
 	 * Show a dialog to set the default storage resource
 	 */
-	def showDefaultResourceDialog = {
+	def defaultResource = {
 		log.info("showLoginBar()")
 		ResourceAO resourceAO = irodsAccessObjectFactory.getResourceAO(irodsAccount)
 		List<String> resources = new ArrayList<String>()
