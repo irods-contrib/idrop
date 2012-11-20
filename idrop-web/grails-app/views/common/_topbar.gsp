@@ -30,6 +30,7 @@
       				 <ul class="dropdown-menu">
 	      				<g:ifAuthenticated>
 	      					 <li><a href="#" id="logoutButton" onclick="logout()")><g:message code="text.logout" /></a></li>
+	      					  <li><a href="#" id="changePasswordButton"><g:link controller="login" action="changePasswordForm"><g:message code="text.change.password" /></g:link></a></li>
 	      					 <li><a href="#" id="setDefaultResourceButton"><g:link controller="login" action="defaultResource"><g:message code="text.set.default.resource" /></g:link></a></li>
 	      				</g:ifAuthenticated>
       				

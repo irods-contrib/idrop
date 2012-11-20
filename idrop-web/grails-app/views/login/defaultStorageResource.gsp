@@ -4,7 +4,7 @@
 </head>
 <div class="row-fluid">
 	<div class="span5 offset2">
-		<h4><g:message code="text.change.default.resource.header"/></h4>
+		<h4><g:message code="heading.set.resource"/></h4>
 	</div>
 </div>
 <div class="row-fluid">

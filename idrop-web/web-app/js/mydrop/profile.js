@@ -45,7 +45,7 @@ function submitChangePassword() {
 	
 	showBlockingPanel();
 
-	var jqxhr = $.post(context + "/profile/changePassword", formData,
+	var jqxhr = $.post(context + "/login/changePassword", formData,
 			function(data, status, xhr) {
 			}, "html").success(function(data, status, xhr) {
 				var continueReq = checkForSessionTimeout(data, xhr);
