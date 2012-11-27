@@ -396,7 +396,12 @@ public class UploadDialog extends javax.swing.JDialog {
                 
             // assuming most recent first
             for (LocalIRODSTransfer transfer: transfers) {
-                if (transfer.getTransferType() == TransferType.PUT) {
+                // must check to match type, user, host, zone, & port
+                if ((transfer.getTransferType() == TransferType.PUT) && 
+                    (transfer.getTransferUserName().equals(idropGUI.getiDropCore().getIrodsAccount().getUserName())) &&
+                    (transfer.getTransferZone().equals(idropGUI.getiDropCore().getIrodsAccount().getZone())) &&
+                    (transfer.getTransferPort() == idropGUI.getiDropCore().getIrodsAccount().getPort()) &&
+                    (transfer.getTransferHost().equals(idropGUI.getiDropCore().getIrodsAccount().getHost()))) {
                     target = transfer.getIrodsAbsolutePath();
                     break;
                 }
