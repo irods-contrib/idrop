@@ -1295,7 +1295,12 @@ function closeApplet() {
 	$("#toggleHtmlArea").width = "100%";
 	dataLayout.resizeAll();
 	$("#idropLiteArea").empty();
-	reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+	
+	if (selectedPath == "" || selectedPath == null) {
+		// ignore reload tree
+	}  else {
+		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+	}
 }
 
 /**

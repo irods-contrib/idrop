@@ -22,7 +22,7 @@
 <!--  cart table -->
 </div>
 </div>
-<div id="cartAppletDiv">
+<div id="cartAppletDiv"  style="overflow:visible;height:90%;">
 <!--  empty div --></div>
 </div>
 <script type="text/javascript">
