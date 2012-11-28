@@ -42,8 +42,6 @@
 			 </g:ifAuthenticated>
 		
 		</ul>
-   
-    
   </div>
 </div>
  <g:ifAuthenticated>
