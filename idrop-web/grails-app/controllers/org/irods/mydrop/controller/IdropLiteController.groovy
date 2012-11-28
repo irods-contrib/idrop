@@ -61,10 +61,18 @@ class IdropLiteController {
 
 			try {
 				shoppingCartFile = shoppingCartService.serializeShoppingCartAsLoggedInUser(fileShoppingCart, key)
-			} catch (NoResourceDefinedException nrd) {
-				log.error "no default resource found for copy operation"
-				def message = message(code:"message.no.resource")
-				response.sendError(500,message)
+			} catch (Exception e) {
+				if (e.message.indexOf("error creating") > -1) {
+					log.error "no default resource found for copy operation"
+					def message = message(code:"message.no.resource")
+					response.sendError(500,message)
+					return
+				} else {
+					log.error "error serializing shopping cart"
+					def message = message(e.message)
+					response.sendError(500,e.message)
+					return
+					}
 			}
 			log.info("cart serialized to file:${shoppingCartFile}")
 		}

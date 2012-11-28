@@ -255,15 +255,7 @@ function checkOut() {
 						$(idropLiteShoppingCartSelector).removeAttr('style');
 
 					
-					}).error(function(xhr, status, error) {
-				setErrorMessage(xhr.responseText);
-				$("#cartToggleDiv").show('slow');
-				$("#cartToggleDiv").width = "100%";
-				$("#cartToggleDiv").height = "100%";
-				$(idropLiteShoppingCartSelector).hide('slow');
-
-			});
-
+					});
 }
 
 
