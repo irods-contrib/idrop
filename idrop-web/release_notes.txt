@@ -43,7 +43,10 @@ in an operation and no default rule exists on iRODS.
 **Handle no default resource errors with a user message
 
 *[#1077] copy not supplying default storage resource
-**Updated fileController copy and move methods to give a meaningful message when no default storage resource is specifed
+**Updated fileController copy and move methods to give a meaningful message when no default storage resource is specified
+
+*[#1075] no resource defined causes error when serializing shopping cart
+**Added checks and meaningful message when serializing a shopping cart and no defualt resoruce was specified.  This causes an error when serializing the shopping cart file
 
 ==Features==
 

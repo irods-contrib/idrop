@@ -797,6 +797,7 @@ class BrowseController {
 			response.sendError(500,message)
 		}
 		irodsAccount.setDefaultStorageResource(resource)
+		session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 		render "OK"
 	}
 	

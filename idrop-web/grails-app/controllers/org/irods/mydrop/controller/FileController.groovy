@@ -380,11 +380,14 @@ class FileController {
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
+		
+		String defaultResource = irodsAccount.defaultStorageResource
+		log.info("defaultResource:${defaultResource}")
 
 		try {
 			DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
 			log.info("copy ${sourceAbsPath} to ${targetAbsPath}")
-			dataTransferOperations.copy(sourceAbsPath,irodsAccount.defaultStorageResource, targetAbsPath,null, null)
+			dataTransferOperations.copy(sourceAbsPath,defaultResource, targetAbsPath,null, null)
 		} catch (NoResourceDefinedException nrd) {
 			log.error "no default resource found for copy operation"
 			def message = message(code:"message.no.resource")

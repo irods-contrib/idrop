@@ -4,6 +4,7 @@ import grails.converters.*
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
+import org.irods.jargon.core.exception.NoResourceDefinedException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.datautils.datacache.DataCacheServiceFactory
@@ -56,8 +57,15 @@ class IdropLiteController {
 		if (fileShoppingCart) {
 			key = String.valueOf(System.currentTimeMillis())
 			log.info("key:${key}")
-			String shoppingCartFile = shoppingCartService
-					.serializeShoppingCartAsLoggedInUser(fileShoppingCart, key)
+			String shoppingCartFile = ""
+
+			try {
+				shoppingCartFile = shoppingCartService.serializeShoppingCartAsLoggedInUser(fileShoppingCart, key)
+			} catch (NoResourceDefinedException nrd) {
+				log.error "no default resource found for copy operation"
+				def message = message(code:"message.no.resource")
+				response.sendError(500,message)
+			}
 			log.info("cart serialized to file:${shoppingCartFile}")
 		}
 
