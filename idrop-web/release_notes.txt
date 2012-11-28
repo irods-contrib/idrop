@@ -5,7 +5,7 @@
 
 ==News==
 
-This is a beta2 of iDrop web version 1.0.2
+This is a release of iDrop web version 1.0.2
 
 ==Requirements==
 
@@ -33,9 +33,6 @@ Note that the following bug and feature requests are logged in GForge with relat
 giving a pop-up, and then a secondary error would appear doing an AJAX call to the secondary div to build the details.  Now the tree error will put up the pop-up, and 
 the secondary exception is muted.
 
-*[#1042] Chinese char set displayes invalid characters 
-**work in progress, adding additional logging
-
 *[#1057] callUpdateTags javascript error
 
 *[#1055] -321000 messages on upload need better message
@@ -44,6 +41,9 @@ in an operation and no default rule exists on iRODS.
 
 *[#1055] -321000 messages on upload need better message
 **Handle no default resource errors with a user message
+
+*[#1077] copy not supplying default storage resource
+**Updated fileController copy and move methods to give a meaningful message when no default storage resource is specifed
 
 ==Features==
 

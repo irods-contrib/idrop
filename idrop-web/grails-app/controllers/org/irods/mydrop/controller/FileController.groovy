@@ -348,9 +348,16 @@ class FileController {
 			response.sendError(500,message)
 		}
 
-		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-		log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
-		dataTransferOperations.move(sourceAbsPath, targetAbsPath)
+		try {
+			DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+			log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
+			dataTransferOperations.move(sourceAbsPath, targetAbsPath)
+		} catch (NoResourceDefinedException nrd) {
+			log.error "no default resource found for move operation"
+			def message = message(code:"message.no.resource")
+			response.sendError(500,message)
+		}
+
 		render targetAbsPath
 	}
 
@@ -374,9 +381,16 @@ class FileController {
 			response.sendError(500,message)
 		}
 
-		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-		log.info("copy ${sourceAbsPath} to ${targetAbsPath}")
-		dataTransferOperations.copy(sourceAbsPath,"", targetAbsPath,null, false, null) //TODO: resource here?
+		try {
+			DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+			log.info("copy ${sourceAbsPath} to ${targetAbsPath}")
+			dataTransferOperations.copy(sourceAbsPath,irodsAccount.defaultStorageResource, targetAbsPath,null, null)
+		} catch (NoResourceDefinedException nrd) {
+			log.error "no default resource found for copy operation"
+			def message = message(code:"message.no.resource")
+			response.sendError(500,message)
+		}
+
 		render targetAbsPath
 
 	}
