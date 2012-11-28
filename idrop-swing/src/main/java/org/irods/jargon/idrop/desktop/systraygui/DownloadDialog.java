@@ -127,7 +127,7 @@ public class DownloadDialog extends javax.swing.JDialog {
                     // rule out "/"
                     String path = ifile.getAbsolutePath();
                     if ((path != null) && (!path.equals("/"))) {
-                        txtareaDownloadSourceList.append(path);
+                        txtareaDownloadSourceList.append(path  + "\n");
                     }
                 } catch (IdropException ex) {
                     Exceptions.printStackTrace(ex);

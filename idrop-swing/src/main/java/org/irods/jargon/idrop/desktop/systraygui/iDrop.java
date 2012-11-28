@@ -2065,7 +2065,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }//GEN-LAST:event_btnMainToolbarInfoActionPerformed
 
     private void btnMainToolbarCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarCopyActionPerformed
-        // TODO add your handling code here:
+        CopyMoveDialog copyMoveDialog = new CopyMoveDialog(this, true,
+                    getIrodsTree());
+
+        copyMoveDialog.setLocation(
+                (int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation().getY() + this.getHeight() / 2));
+        copyMoveDialog.setVisible(true);
     }//GEN-LAST:event_btnMainToolbarCopyActionPerformed
     /**
      * @param args the command line arguments
