@@ -17,7 +17,7 @@
 	<div id="browser" class="wrapper" style="height:85%;width:100%;clear:both;">
 		<div id="dataTreeView" style="width: 100%; height: 700px; overflow: hidden;">
 						
-			<div id="dataTreeDivWrapper"  class="ui-layout-west" style="width: 25%; height: 100%; position:relative;">
+			<div id="dataTreeDivWrapper"  class="ui-layout-west" style="width: 25%; height: 100%; position:relative;overflow:hidden;">
 				<div id="dataTreeToolbar" style="width:100%; height:3%;display:block;" class="fg-toolbar">
 						
 						<div id="dataTreeMenu" class="fg-buttonset fg-buttonset-multi"

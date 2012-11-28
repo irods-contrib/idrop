@@ -1,8 +1,8 @@
 
 *'''Project''': iDrop-swing- Desktop iRODS transfer manager
-*'''Date''': 11/26/2012
-*'''Release Version''': 1.0.2-beta2
-*'''git tag''':  1.0.2-beta2
+*'''Date''': 11/28/2012
+*'''Release Version''': 1.0.2
+*'''git tag''': 1.0.2
 
 ==News==
 
