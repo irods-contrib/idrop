@@ -1,10 +1,9 @@
-
 *'''Project''': iDrop-lite transfer applet
 *'''Date''': 11/28/2012
 *'''Release Version''': 1.0.2
 *'''git tag''': 1.0.2
 
-NOTE: the release notes were not yet in place for this project, going forward bugs and features addressed will be reflected here
+iDrop lite is an embedded transfer applet
 
 ==News==
 
@@ -31,6 +30,7 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1062] 1.0.2 release activities
 **Added default storage resource to iDrop lite panel
+
 ==Outstanding Issues==
 
 Please consult [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
