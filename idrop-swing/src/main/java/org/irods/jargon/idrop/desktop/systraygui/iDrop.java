@@ -1087,10 +1087,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             this.showMessageFromOperation("please enter text to search on");
             return;
         }
+        SearchResultsDialog searchResultsDialog = new SearchResultsDialog(this, true,
+                    getIrodsTree(), searchText);
 
-        final String searchTerms = searchText.trim();
-        final iDrop idropGui = this;
+        searchResultsDialog.setLocation(
+                (int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation().getY() + this.getHeight() / 2));
+        searchResultsDialog.setVisible(true);
 
+//        final String searchTerms = searchText.trim();
+//        final iDrop idropGui = this;
+//
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //
 //            @Override
@@ -1751,12 +1757,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         txtMainToolbarSearchTerms.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         txtMainToolbarSearchTerms.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.txtMainToolbarSearchTerms.text")); // NOI18N
+        txtMainToolbarSearchTerms.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.txtMainToolbarSearchTerms.toolTipText")); // NOI18N
         txtMainToolbarSearchTerms.setPreferredSize(new java.awt.Dimension(130, 45));
         pnlMainToolbarSearch.add(txtMainToolbarSearchTerms);
 
         btnMainToolbarSearchFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search_files.png"))); // NOI18N
         btnMainToolbarSearchFiles.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSearchFiles.text")); // NOI18N
         btnMainToolbarSearchFiles.setPreferredSize(new java.awt.Dimension(118, 40));
+        btnMainToolbarSearchFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarSearchFilesActionPerformed(evt);
+            }
+        });
         pnlMainToolbarSearch.add(btnMainToolbarSearchFiles);
 
         pnlMainToolbar.add(pnlMainToolbarSearch, java.awt.BorderLayout.SOUTH);
@@ -2072,6 +2084,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 (int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation().getY() + this.getHeight() / 2));
         copyMoveDialog.setVisible(true);
     }//GEN-LAST:event_btnMainToolbarCopyActionPerformed
+
+    private void btnMainToolbarSearchFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarSearchFilesActionPerformed
+        processSearchRequest();
+    }//GEN-LAST:event_btnMainToolbarSearchFilesActionPerformed
     /**
      * @param args the command line arguments
      */
