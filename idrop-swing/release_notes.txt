@@ -1,10 +1,12 @@
 
 *'''Project''': iDrop-swing- Desktop iRODS transfer manager
-*'''Date''': 11/28/2012
-*'''Release Version''': 1.0.2
-*'''git tag''': 1.0.2
+*'''Date''': xx/xx/xx
+*'''Release Version''': 1.0.X
+*'''git tag''': 1.0.X
 
 ==News==
+
+post 1.0.2 release snapshot (work in progress)
 
 This is the iDrop desktop transfer manager client.  iDrop runs in the system tray of your favorite operating system, and can manage transfers between your computer and iRODS, and manage data once in iRODS.
 
@@ -22,13 +24,13 @@ iDrop-swing uses Maven for dependency management.  See the pom.xml file for refe
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
 ==Features==
+*[#1092] add reconnect option to iDrop
+**Added preferences panel option and idrop.properties to set reconnect to 'true'.  Emulates -T option for put/get
 
-*[#870] jargon support for PAM
-** added support for PAM logins
-
-*[#1011] add a dedicated doAuthentication method to irodsAccessObjectFactory
 
 ==Bug Fixes==
+* [#1093] Broken pipe error did not propogate in parallel transfer
+**Minor fixes to better propogate errors to queue manager
 
 ==Outstanding Issues==
 

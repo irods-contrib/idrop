@@ -325,6 +325,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             idropConfig.setProperty(IdropConfigurationService.IRODS_PARALLEL_USE_NIO, String.valueOf(jargonProperties.isUseNIOForParallelTransfers()));
             idropConfig.setProperty(IdropConfigurationService.IRODS_PARALLEL_USE_PARALLEL, String.valueOf(jargonProperties.isUseParallelTransfer()));
             idropConfig.setProperty(IdropConfigurationService.IRODS_PARALLEL_USE_POOL, String.valueOf(jargonProperties.isUseTransferThreadsPool()));
+            idropConfig.setProperty(IdropConfigurationService.IRODS_CONNECTION_RESTART, String.valueOf(jargonProperties.isReconnect()));
         }
     }
 
@@ -352,6 +353,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             newProps.setSendInputStreamBufferSize(idropCore.getIdropConfig().getSendInputStreamBufferSize());
             newProps.setUseParallelTransfer(idropCore.getIdropConfig().isUseParallelTransfers());
             newProps.setUseNIOForParallelTransfers(idropCore.getIdropConfig().isUseNIOForParallelTransfers());
+            newProps.setReconnect(idropCore.getIdropConfig().isConnectionRestart());
 
             idropCore.getIrodsFileSystem().getIrodsSession().setJargonProperties(newProps);
         }
