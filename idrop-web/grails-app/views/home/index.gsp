@@ -16,6 +16,21 @@
 	</div>
 </div>
 <g:render template="/common/browseLegend" />
+
+<div>
+<h2>stuff</h2>
+<a href="#" id="tooltip" rel="tooltop" 	data-original-title="Testing 123!!!"> Sample Text</a>
+
+ <script type="text/javascript">
+    $(document).ready(function () {
+        $("#tooltip").tooltip({ selector: "a" });
+      });
+</script>
+
+
+</div>
+
+
 <div class="row-fluid">
 	<div class="span8 offset2">
 	<table class="table table-striped table-hover">

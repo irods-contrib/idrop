@@ -2,6 +2,7 @@
     <title><g:layoutTitle default="iDrop-web - iRODS Cloud Browser" /></title>
     <link rel="stylesheet" href="${resource(dir:'css',file:'style.css')}" />
    <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap-responsive.min.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'jqcloud.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'layout-default-latest.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.fileupload-ui.css')}" />

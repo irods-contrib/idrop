@@ -35,10 +35,6 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:jargon-ticket:3.2.3-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-profile:3.2.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-tagging:3.2.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		/*compile 'org.springframework.security:spring-security-core:3.0.5.RELEASE'
-		 compile 'org.springframework.security:spring-security-web:3.0.5.RELEASE'
-		 compile 'org.springframework.security:spring-security-config:3.0.5.RELEASE'
-		 compile 'org.springframework:spring-web:3.0.5.RELEASE'*/
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 

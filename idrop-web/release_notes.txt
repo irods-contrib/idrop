@@ -1,25 +1,26 @@
-<<<<<<< HEAD
+
 *'''Project''': idrop-web version 2 
 *'''Date''': xx/xx/xx
 *'''Release Version''': xxxx
 *'''git tag''': 984-idrop-web-redesign
 
-
 ==News==
 
 This is a release of iDrop web with the version 2.0 redesign work
+
 
 ==Requirements==
 
 *idrop-web depends on Java 1.6+
 *idrop-web depends on grails 2.1.1
+<<<<<<< HEAD
 
+=======
 
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
 ==Bug Fixes==
 
-
 ==Features==
+
 [#984] iDrop web '2.0' redesign effort
-**upgrade to grails 2.1.1
