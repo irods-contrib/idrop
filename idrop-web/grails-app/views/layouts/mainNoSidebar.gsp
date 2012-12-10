@@ -38,7 +38,7 @@
 	
   </script>
 </head>
-<body style="height:100%;padding-top: 40px;">
+<body style="height:100%;padding-top: 60px;">
  
    <g:render template="/common/topbar"/>
    <div id="defaultDialogDiv"><!-- default for general jquery dialogs --></div>

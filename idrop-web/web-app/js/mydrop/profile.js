@@ -8,14 +8,17 @@
  */
 function updateUserProfile() {
 
+	/*
 	var params = {
 			nickName : $("#nickName").val(),
 			description : $("#description").val(),
 			email : $("#email").val()
 		}
-
+*/
 		showBlockingPanel();
+		$("#userProfileForm").submit();
 
+		/*
 		var jqxhr = $.post(context + "/profile/updateProfile", params,
 				function(data, status, xhr) {
 				}, "html").success(function(returnedData, status, xhr) {
@@ -30,6 +33,7 @@ function updateUserProfile() {
 			setErrorMessage(xhr.responseText);
 			unblockPanel();
 		});
+		*/
 }
 
 

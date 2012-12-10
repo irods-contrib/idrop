@@ -96,13 +96,13 @@ class ProfileController {
 		 */
 		
 		UserProfile userProfile = profileService.retrieveProfile(irodsAccount)
-		
-		
+		userProfile.userName = irodsAccount.userName
 		userProfile.userProfilePublicFields.nickName = Jsoup.clean(profileCommand.nickName,Whitelist.basic())
 		userProfile.userProfilePublicFields.description = Jsoup.clean(profileCommand.description,Whitelist.basic())
 		userProfile.userProfileProtectedFields.mail = Jsoup.clean(profileCommand.email,Whitelist.basic())
 		userProfile.userProfilePublicFields.givenName = Jsoup.clean(profileCommand.givenName,Whitelist.basic())
-		userProfile.userProfilePublicFields.localityName = Jsoup.clean(profileCommand.lastName,Whitelist.basic())
+		userProfile.userProfilePublicFields.sn = Jsoup.clean(profileCommand.lastName,Whitelist.basic())
+		userProfile.userProfilePublicFields.localityName = Jsoup.clean(profileCommand.city,Whitelist.basic())
 		userProfile.userProfilePublicFields.st = Jsoup.clean(profileCommand.state,Whitelist.basic())
 		userProfile.userProfilePublicFields.description = Jsoup.clean(profileCommand.description,Whitelist.basic())
 		userProfile.userProfilePublicFields.labeledURL = Jsoup.clean(profileCommand.labeledURL,Whitelist.basic())
@@ -115,8 +115,9 @@ class ProfileController {
 		log.info "updating profile...."
 		profileService.updateProfile(irodsAccount, userProfile)
 		log.info "updated"
+		flash.message =  message(code:"message.update.successful")
 		
-		render(view:"profileData", model:[userProfile:userProfile])
+		redirect(view:"index", model:[userProfile:profileCommand])
 		
 	}
 
@@ -140,7 +141,6 @@ class ProfileCommand {
 	String title
 	
 	static constraints = {
-		userName(blank:false)
 		nickName(null:false)
 		givenName( null:false)
 		lastName(null:false)
