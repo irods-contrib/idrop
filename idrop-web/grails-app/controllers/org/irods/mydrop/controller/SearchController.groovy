@@ -3,10 +3,9 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.core.exception.*
 import org.irods.jargon.core.pub.*
-import org.irods.jargon.usertagging.FreeTaggingService
-import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.jargon.usertagging.domain.TagQuerySearchResult
-import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.usertagging.tags.FreeTaggingService
+import org.irods.jargon.usertagging.tags.TaggingServiceFactory
 
 
 class SearchController {

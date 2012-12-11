@@ -5,8 +5,24 @@
 		<div id="collectionInfoButtonGroup1" class="btn-group">
 			<button id="setCollectionAsRoot" onclick="cibSetCollectionAsRoot()"><img class="icon-hand-left"/><g:message
 					code="text.set.as.root" /></button>
-			<button id="starCollection" onclick="cibStarCollection()"><img class="icon-star"/><g:message
+					
+					
+			<g:if  test="${irodsStarredFileOrCollection}">
+				<button id="unstarCollection" onclick="cibUnstarCollection()"><img class="icon-star-empty"/><g:message
+					code="text.unstar" /></button>
+			</g:if>
+			<g:else>
+				<button id="starCollection" onclick="cibStarCollection()"><img class="icon-star"/><g:message
 					code="text.star" /></button>
+			</g:else>
+					
+			
+					
+					
+					
+					
+					
+					
 		</div>
 
 		<div id="collectionInfoButtonGroup2" class="btn-group">

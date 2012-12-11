@@ -2,7 +2,6 @@ package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
-import org.irods.jargon.usertagging.TaggingServiceFactory;
 import org.irods.mydrop.service.ShoppingCartSessionService;
 
 /**

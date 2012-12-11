@@ -4,8 +4,6 @@ package org.irods.mydrop.controller
 import grails.converters.*
 import grails.test.*
 
-import java.util.Properties
-
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.exception.JargonException
@@ -18,11 +16,11 @@ import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.core.query.MetaDataAndDomainData
 import org.irods.jargon.testutils.TestingPropertiesHelper
-import org.irods.jargon.usertagging.FreeTaggingService
-import org.irods.jargon.usertagging.IRODSTaggingService
-import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.jargon.usertagging.domain.IRODSTagGrouping
 import org.irods.jargon.usertagging.domain.IRODSTagValue
+import org.irods.jargon.usertagging.tags.FreeTaggingService
+import org.irods.jargon.usertagging.tags.IRODSTaggingService
+import org.irods.jargon.usertagging.tags.TaggingServiceFactory
 import org.mockito.Matchers
 import org.mockito.Mockito
 

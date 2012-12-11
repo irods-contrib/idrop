@@ -13,10 +13,11 @@ import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.datautils.image.MediaHandlingUtils
 import org.irods.jargon.datautils.sharing.*
 import org.irods.jargon.ticket.TicketDistributionContext
-import org.irods.jargon.usertagging.FreeTaggingService
-import org.irods.jargon.usertagging.IRODSTaggingService
-import org.irods.jargon.usertagging.TaggingServiceFactory
-import org.irods.mydrop.service.ShoppingCartSessionService
+import org.irods.jargon.usertagging.domain.IRODSStarredFileOrCollection
+import org.irods.jargon.usertagging.tags.FreeTaggingService
+import org.irods.jargon.usertagging.tags.IRODSTaggingService
+import org.irods.jargon.usertagging.tags.TaggingServiceFactory
+import org.irods.mydrop.service.StarringService
 
 /**
  * Controller for browser functionality
@@ -27,6 +28,7 @@ class BrowseController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TaggingServiceFactory taggingServiceFactory
+	StarringService starringService
 	IRODSAccount irodsAccount
 	def grailsApplication
 
@@ -344,80 +346,6 @@ class BrowseController {
 		render(view:mav.view, model:mav.model)
 		return
 
-		log.info "fileInfo for absPath: ${absPath}"
-		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def retObj = null
-		// If I cant find any data just put a message up in the display area
-		try {
-			retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-
-			if (!retObj) {
-				log.error "no data found for path ${absPath}"
-				render(view:"noInfo")
-				return
-			}
-		} catch (DataNotFoundException) {
-			render(view:"noInfo")
-			return
-		}
-
-		def isDataObject = retObj instanceof DataObject
-		def getThumbnail = false
-		def renderMedia = false
-
-		log.info "is this a data object? ${isDataObject}"
-
-		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
-		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
-		if (isDataObject) {
-			long maxSize
-			String maxSizeParm = grailsApplication.config.idrop.config.max.thumbnail.size.mb
-			if (maxSizeParm != null) {
-				try {
-					maxSize = Long.valueOf(maxSizeParm) * 1024 * 1024
-				} catch (Exception e) {
-					maxSize = 32 * 1024 * 1024
-				}
-			}
-
-			log.info("data size: ${retObj.dataSize}, max size: ${maxSize}")
-
-			if (retObj.dataSize > maxSize) {
-				log.info("do not render media")
-				renderMedia = false
-			}
-
-			getThumbnail = MediaHandlingUtils.isImageFile(absPath)
-			log.info("getThumbnail? ${getThumbnail}")
-
-			if (!getThumbnail) {
-				renderMedia = MediaHandlingUtils.isMediaFile(absPath)
-				log.info("renderMedia? ${renderMedia}")
-			}
-
-			log.info("getting free tags for data object")
-			def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
-			log.info("rendering as data object: ${retObj}")
-			def commentTag = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(absPath)
-
-			def comment = ""
-			if (commentTag) {
-				comment = commentTag.getTagData()
-			}
-
-			render(view:"dataObjectInfo", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
-		} else {
-			log.info("getting free tags for collection")
-			def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
-			def commentTag = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(absPath)
-
-			def comment = ""
-			if (commentTag) {
-				comment = commentTag.getTagData()
-			}
-			log.info("rendering as collection: ${retObj}")
-			render(view:"collectionInfo", model:[collection:retObj,comment:comment,tags:freeTags,  isDataObject:isDataObject, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
-		}
 	}
 
 	/**
@@ -622,6 +550,11 @@ class BrowseController {
 
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
+		
+		log.info("seeing if this is starred")
+		IRODSStarredFileOrCollection irodsStarredFileOrCollection = starringService.findStarred(irodsAccount, absPath)
+		log.info "starring info:${irodsStarredFileOrCollection}"
+		
 		if (isDataObject) {
 			long maxSize
 			String maxSizeParm = grailsApplication.config.idrop.config.max.thumbnail.size.mb
@@ -659,7 +592,7 @@ class BrowseController {
 			}
 
 			mav.view = "dataObjectInfo"
-			mav.model = [dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
+			mav.model = [dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,irodsStarredFileOrCollection:irodsStarredFileOrCollection,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
 			return mav
 		} else {
 			log.info("getting free tags for collection")
@@ -672,7 +605,7 @@ class BrowseController {
 			}
 			log.info("rendering as collection: ${retObj}")
 			mav.view = "collectionInfo"
-			mav.model = [collection:retObj,comment:comment,tags:freeTags,  isDataObject:isDataObject, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
+			mav.model = [collection:retObj,comment:comment,tags:freeTags,  isDataObject:isDataObject, irodsStarredFileOrCollection:irodsStarredFileOrCollection,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
 			return mav
 
 		}
