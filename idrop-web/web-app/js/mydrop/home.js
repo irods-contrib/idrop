@@ -45,6 +45,7 @@ var deleteBulkActionUrl = '/file/deleteBulkAction';
 var fileRenameUrl = '/file/renameFile';
 var fileMoveUrl = '/file/moveFile';
 var fileCopyUrl = '/file/copyFile';
+var fileStarUrl = '/browse/starFile'
 
 function setTreeViewToHomeDirectory() {
 	alert("view into home directory");
@@ -1667,6 +1668,15 @@ function closeRenameDialog() {
 }
 
 /**
+ * Close the star dialog that would have been opened by pressing the 'rename'
+ * button on the toolbar.
+ */
+function closeStarDialog() {
+	$("#starDialog").dialog('close');
+	$("#starDialog").remove();
+}
+
+/**
  * Close the ne folder dialog that would have been opened by pressing the 'new
  * folder' button on the toolbar.
  */
@@ -2416,4 +2426,38 @@ function grantPublicLink() {
 function setInfoDivNoData() {
 	$("#infoDiv").html("<h2>No data to display</h2>");  //FIXME: i18n
 	
+}
+
+/**
+* Process a star operation requested from the toolbar by processing the
+* submitted dialog
+*/
+function submitStarDialog() {
+	var absPath = $("#absPath").val();
+	var description = $.trim($("#desription").val());
+	
+
+	var params = {
+		absPath : absPath,
+		description : description
+	}
+
+	showBlockingPanel();
+
+	var jqxhr = $.post(context + fileStarUrl, params,
+			function(data, status, xhr) {
+			}, "html").success(
+			function(returnedData, status, xhr) {
+				var continueReq = checkForSessionTimeout(returnedData, xhr);
+				if (!continueReq) {
+					return false;
+				}
+				setMessage(jQuery.i18n.prop('msg_file_starred'));
+				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+				unblockPanel();
+			}).error(function(xhr, status, error) {
+				setErrorMessage(xhr.responseText);
+				unblockPanel();
+			});
+
 }

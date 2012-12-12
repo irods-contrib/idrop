@@ -487,6 +487,25 @@ class BrowseController {
 		String fileName = targetFile.name
 		render(view:"newFolderDialog", model:[absPath:absPath])
 	}
+	
+	/**
+	 * Prepare the 'new folder' dialog
+	 */
+	def prepareStarDialog = {
+		log.info("prepareStarDialog()")
+
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info("abs path:${absPath}")
+
+		
+		render(view:"starDialog", model:[absPath:absPath])
+	}
 
 	
 	/**
@@ -517,6 +536,34 @@ class BrowseController {
 		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)
 			render(view:"noInfo")
+		}
+	}
+	
+	/**
+	 * Set a folder to starred
+	 */
+	def starFile = {
+		log.info("starFolder()")
+		def absPath = params['absPath']
+		if (absPath == null) {
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+		
+		def description = params['description']
+		if (description == null) {
+			def message = message(code:"error.no.description.provided")
+			response.sendError(500,message)
+		}
+
+		try {
+			log.info "starring absPath: ${absPath}"
+			starringService.star(irodsAccount, absPath, description)
+			log.info("star successful")
+			render "OK"
+		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
+			def message = message(code:"error.file.not.found")
+			response.sendError(500,message)
 		}
 	}
 

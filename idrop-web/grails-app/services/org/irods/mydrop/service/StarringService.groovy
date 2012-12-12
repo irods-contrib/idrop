@@ -28,5 +28,29 @@ class StarringService {
 	   return irodsStarringService.findStarredForAbsolutePath(irodsAbsolutePath)
 	   
     }
+   
+   void star(IRODSAccount irodsAccount, String irodsAbsolutePath, String description) throws FileNotFoundException, JargonException {
+	   if (irodsAccount == null) {
+		   throw new IllegalArgumentException("null irodsAccount");
+	   }
+	   
+	   IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	   irodsStarringService.starFileOrCollection(irodsAbsolutePath, description)
+	   
+   }
+   
+   void unStar(IRODSAccount irodsAccount, String irodsAbsolutePath) throws FileNotFoundException, JargonException {
+	   if (irodsAccount == null) {
+		   throw new IllegalArgumentException("null irodsAccount");
+	   }
+	   
+	   IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	   irodsStarringService.unstarFileOrCollection(irodsAbsolutePath)
+	   
+   }
+   
+   
+   
+   
 }
  

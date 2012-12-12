@@ -15,14 +15,7 @@
 				<button id="starCollection" onclick="cibStarCollection()"><img class="icon-star"/><g:message
 					code="text.star" /></button>
 			</g:else>
-					
-			
-					
-					
-					
-					
-					
-					
+
 		</div>
 
 		<div id="collectionInfoButtonGroup2" class="btn-group">
@@ -124,6 +117,32 @@
 		}
 
 		deleteViaToolbarGivenPath(path);
+	}
+
+	/**
+	* Delete the collection currently displayed in the info view
+	*/
+	function cibStarCollection() {
+		var path = $("#infoAbsPath").val();
+		if (path == null) {
+			showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+			return false;
+		}
+
+		if (path == null) {
+			setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to rename"); // FIXME:
+			// i18n
+			return;
+		}
+
+		lcShowBusyIconInDiv("#infoDialogArea");
+		var url = "/browse/prepareStarDialog";
+
+		var params = {
+			absPath : path
+		}
+
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
 	}
 	
 </script>

@@ -3,8 +3,14 @@
 	<div id="dataObjectInfoToolbarMenu" class="btn-toolbar">
 		
 		<div id="dataObjectInfoButtonGroup1" class="btn-group">
-			<button id="starFile" onclick="dibStarFile()"><img class="icon-star"/><g:message
-					code="text.star.file" /></button>
+			<g:if  test="${irodsStarredFileOrCollection}">
+				<button id="unstarCollection" onclick="dibUnstarFile()"><img class="icon-star-empty"/><g:message
+					code="text.unstar" /></button>
+			</g:if>
+			<g:else>
+				<button id="starCollection" onclick="dibStarFile()"><img class="icon-star"/><g:message
+					code="text.star" /></button>
+			</g:else>
 			<button id="downloadFile" onclick="dibDownloadFile()"><img class="icon-download"/><g:message
 					code="text.download" /></button>
 			<button id="addToCart" onclick="dibAddToCart()"><img class="icon-shopping-cart"/><g:message
