@@ -8,11 +8,11 @@
 					
 					
 			<g:if  test="${irodsStarredFileOrCollection}">
-				<button id="unstarCollection" onclick="cibUnstarCollection()"><img class="icon-star-empty"/><g:message
+				<button id="unstarCollection" onclick="cibUnstarCollection()"><img class="icon-star"/><g:message
 					code="text.unstar" /></button>
 			</g:if>
 			<g:else>
-				<button id="starCollection" onclick="cibStarCollection()"><img class="icon-star"/><g:message
+				<button id="starCollection" onclick="cibStarCollection()"><img class="icon-star-empty"/><g:message
 					code="text.star" /></button>
 			</g:else>
 
@@ -120,7 +120,7 @@
 	}
 
 	/**
-	* Delete the collection currently displayed in the info view
+	* favorite, or 'star' the collection currently displayed in the info view
 	*/
 	function cibStarCollection() {
 		var path = $("#infoAbsPath").val();
@@ -130,7 +130,7 @@
 		}
 
 		if (path == null) {
-			setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to rename"); // FIXME:
+			setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to star"); // FIXME:
 			// i18n
 			return;
 		}
@@ -143,6 +143,51 @@
 		}
 
 		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#infoDialogArea", null);
+	}
+
+	/**
+	* unfavorite favorite, or 'star' the collection currently displayed in the info view
+	*/
+	function cibUnstarCollection() {
+		var path = $("#infoAbsPath").val();
+		if (path == null) {
+			showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+			return false;
+		}
+
+		if (path == null) {
+			setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to unstar"); // FIXME:
+			// i18n
+			return;
+		}
+
+		lcShowBusyIconInDiv("#infoDialogArea");
+		var url = "/browse/unstarFile";
+
+		var params = {
+			absPath : path
+		}
+
+		showBlockingPanel();
+
+		var jqxhr = $.post(context + url, params,
+				function(data, status, xhr) {
+				}, "html").success(
+				function(returnedData, status, xhr) {
+					var continueReq = checkForSessionTimeout(returnedData, xhr);
+					if (!continueReq) {
+						return false;
+					}
+					setMessage(jQuery.i18n.prop('msg_file_unstarred'));
+					updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+					closeStarDialog();
+					unblockPanel();
+				}).error(function(xhr, status, error) {
+					setErrorMessage(xhr.responseText);
+					closeStarDialog();
+					unblockPanel();
+				});
+
 	}
 	
 </script>

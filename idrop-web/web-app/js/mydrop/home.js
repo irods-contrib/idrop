@@ -2434,7 +2434,7 @@ function setInfoDivNoData() {
 */
 function submitStarDialog() {
 	var absPath = $("#absPath").val();
-	var description = $.trim($("#desription").val());
+	var description = $.trim($("#description").val());
 	
 
 	var params = {
@@ -2454,9 +2454,11 @@ function submitStarDialog() {
 				}
 				setMessage(jQuery.i18n.prop('msg_file_starred'));
 				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+				closeStarDialog();
 				unblockPanel();
 			}).error(function(xhr, status, error) {
 				setErrorMessage(xhr.responseText);
+				closeStarDialog();
 				unblockPanel();
 			});
 

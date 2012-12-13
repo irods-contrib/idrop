@@ -13,62 +13,54 @@ import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
  *
  */
 class StarringService {
-	
+
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 
 
-   IRODSStarredFileOrCollection findStarred(IRODSAccount irodsAccount, String irodsAbsolutePath) throws FileNotFoundException, JargonException  {
-   		
-	   if (irodsAccount == null) {
-			   throw new IllegalArgumentException("null irodsAccount");
+	IRODSStarredFileOrCollection findStarred(IRODSAccount irodsAccount, String irodsAbsolutePath) throws FileNotFoundException, JargonException  {
+
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount");
 		}
-	   
-	   IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
-	   return irodsStarringService.findStarredForAbsolutePath(irodsAbsolutePath)
-	   
-    }
-   
-   void star(IRODSAccount irodsAccount, String irodsAbsolutePath, String description) throws FileNotFoundException, JargonException {
-	   if (irodsAccount == null) {
-		   throw new IllegalArgumentException("null irodsAccount");
-	   }
-	   
-	   IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
-	   irodsStarringService.starFileOrCollection(irodsAbsolutePath, description)
-	   
-   }
-   
-   void unStar(IRODSAccount irodsAccount, String irodsAbsolutePath) throws FileNotFoundException, JargonException {
-	   if (irodsAccount == null) {
-		   throw new IllegalArgumentException("null irodsAccount");
-	   }
-	   
-	   IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
-	   irodsStarringService.unstarFileOrCollection(irodsAbsolutePath)
-	   
-   }
-   
-   List<IRODSStarredFileOrCollection> listStarredCollections(IRODSAccount irodsAccount, int pagingOffset) throws JargonException {
-	   if (irodsAccount == null) {
-		   throw new IllegalArgumentException("null irodsAccount");
-	   }
-	   
-	   IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
-	   return irodsStarringService.listStarredCollections(pagingOffset)
-   }
-   
-   List<IRODSStarredFileOrCollection> listStarredDataObjects(IRODSAccount irodsAccount, int pagingOffset) throws JargonException {
-	   if (irodsAccount == null) {
-		   throw new IllegalArgumentException("null irodsAccount");
-	   }
-	   
-	   IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
-	   return irodsStarringService.listStarredDataObjects(pagingOffset)
-   }
-   
-   
-   
-   
+
+		IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		return irodsStarringService.findStarredForAbsolutePath(irodsAbsolutePath)
+	}
+
+	void star(IRODSAccount irodsAccount, String irodsAbsolutePath, String description) throws FileNotFoundException, JargonException {
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount");
+		}
+
+		IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		irodsStarringService.starFileOrCollection(irodsAbsolutePath, description)
+	}
+
+	void unStar(IRODSAccount irodsAccount, String irodsAbsolutePath) throws FileNotFoundException, JargonException {
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount");
+		}
+
+		IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		irodsStarringService.unstarFileOrCollection(irodsAbsolutePath)
+	}
+
+	List<IRODSStarredFileOrCollection> listStarredCollections(IRODSAccount irodsAccount, int pagingOffset) throws JargonException {
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount");
+		}
+
+		IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		return irodsStarringService.listStarredCollections(pagingOffset)
+	}
+
+	List<IRODSStarredFileOrCollection> listStarredDataObjects(IRODSAccount irodsAccount, int pagingOffset) throws JargonException {
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount");
+		}
+
+		IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		return irodsStarringService.listStarredDataObjects(pagingOffset)
+	}
 }
- 

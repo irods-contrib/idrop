@@ -48,6 +48,13 @@ table {
 }
 
 
+.setPaddingLeftAndRight {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+
+
 /*
  * jsTree default theme 1.0
  * Supported features: dots/no-dots, icons/no-icons, focused, loading

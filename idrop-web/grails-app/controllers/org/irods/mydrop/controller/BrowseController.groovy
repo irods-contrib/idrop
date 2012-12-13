@@ -543,7 +543,7 @@ class BrowseController {
 	 * Set a folder to starred
 	 */
 	def starFile = {
-		log.info("starFolder()")
+		log.info("starFile()")
 		def absPath = params['absPath']
 		if (absPath == null) {
 			def message = message(code:"error.no.path.provided")
@@ -560,6 +560,28 @@ class BrowseController {
 			log.info "starring absPath: ${absPath}"
 			starringService.star(irodsAccount, absPath, description)
 			log.info("star successful")
+			render "OK"
+		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
+			def message = message(code:"error.file.not.found")
+			response.sendError(500,message)
+		}
+	}
+	
+	/**
+	 * Set a folder to not starred
+	 */
+	def unstarFile = {
+		log.info("unstarFile()")
+		def absPath = params['absPath']
+		if (absPath == null) {
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+		
+		try {
+			log.info "unstarring absPath: ${absPath}"
+			starringService.unStar(irodsAccount, absPath)
+			log.info("unstar successful")
 			render "OK"
 		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
 			def message = message(code:"error.file.not.found")

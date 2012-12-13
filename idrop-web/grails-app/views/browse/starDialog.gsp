@@ -11,7 +11,7 @@
 				${absPath}
 				
 				<label for="description"><g:message code="text.description" />:</label>
-				<g:textArea name="description" value="" rows="5" cols="40"/>
+				<g:textArea name="description" value="" rows="5" cols="50"/>
 				
 				<g:hiddenField name="absPath" id="absPath" value = "${absPath}" />	
 			</fieldset>

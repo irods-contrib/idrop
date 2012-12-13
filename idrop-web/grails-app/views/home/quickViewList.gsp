@@ -12,16 +12,14 @@
 		<g:each in="${listing}" var="entry">
 			<tr>
 				<g:if test="${entry.metadataDomain == MetaDataAndDomainData.MetadataDomain.COLLECTION}">
-					<td><g:img dir="images" file="folder_icon.png" width="20"
-								height="20" /></td>
-					<td><i class="icon-folder-open"></i><i class="icon-upload"></i></td>
+					<td></td>
+					<td><span class="setPaddingLeftAndRight"><i class="icon-folder-open "></i></span><span class="setPaddingLeftAndRight"><i class="icon-upload "></i></span></td>
 					<td>${entry.domainUniqueName}</td> <td>${entry.description}</td>
 				</g:if>
 				<g:else>
-					<td><g:img dir="images" file="file.png" width="20"
-								height="20" /></td>
-					<td><i class="icon-folder-open"></i><i class="icon-downloadload"></i></td>
-					<td>${entry.domainUniqueName}</td> <td>${entry.description}</td>>
+					<td></td>
+					<td><span class="setPaddingLeftAndRight"><i class="icon-folder-open "></i></span><span class="setPaddingLeftAndRight"><i class="icon-download "></i></span></td>
+					<td>${entry.domainUniqueName}</td> <td>${entry.description}</td>
 				</g:else>
 			</tr>
 		</g:each>
