@@ -49,6 +49,24 @@ class StarringService {
 	   
    }
    
+   List<IRODSStarredFileOrCollection> listStarredCollections(IRODSAccount irodsAccount, int pagingOffset) throws JargonException {
+	   if (irodsAccount == null) {
+		   throw new IllegalArgumentException("null irodsAccount");
+	   }
+	   
+	   IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	   return irodsStarringService.listStarredCollections(pagingOffset)
+   }
+   
+   List<IRODSStarredFileOrCollection> listStarredDataObjects(IRODSAccount irodsAccount, int pagingOffset) throws JargonException {
+	   if (irodsAccount == null) {
+		   throw new IllegalArgumentException("null irodsAccount");
+	   }
+	   
+	   IRODSStarringService irodsStarringService = new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	   return irodsStarringService.listStarredDataObjects(pagingOffset)
+   }
+   
    
    
    

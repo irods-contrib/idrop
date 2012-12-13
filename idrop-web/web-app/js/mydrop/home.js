@@ -2461,3 +2461,7 @@ function submitStarDialog() {
 			});
 
 }
+
+function zzz() {
+	
+}

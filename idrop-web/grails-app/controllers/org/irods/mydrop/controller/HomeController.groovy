@@ -2,10 +2,12 @@ package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.utils.MiscIRODSUtils
+import org.irods.mydrop.service.StarringService;
 
 class HomeController {
 
-
+	StarringService starringService
+	
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
@@ -58,6 +60,19 @@ class HomeController {
 
 		render(view:"link", model:[absPath:filePath])
 
+	}
+	
+	def starredCollections() {
+		log.info "starredCollections()"
+		
+		def listing = starringService.listStarredCollections(irodsAccount, 0)
+		render(view:"quickViewList",model:[listing:listing])
+	}
+	
+	def starredDataObjects() {
+		log.info "starredDataObjects()"
+		def listing = starringService.listStarredDataObjects(irodsAccount, 0)
+		render(view:"quickViewList",model:[listing:listing])
 	}
 
 	// FIXME: refactor into jargon-core
