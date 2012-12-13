@@ -21,6 +21,13 @@
 	      					 <li><a href="#" id="searchMetadata" onclick="xxx()")>Search By Metadata</a></li>
       				  </ul>
 			</li>
+			<li id="topbarTools" class="dropdown">
+				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      				<g:message code="text.tools" /><b class="caret"></b></a>
+      				 <ul class="dropdown-menu">
+	      					 <li><a href="${grailsApplication.config.idrop.config.idrop.jnlp}" id="idropDesktop")>iDrop Desktop</a></li>
+      				  </ul>
+			</li>
 					
 		</g:ifAuthenticated>
 		
