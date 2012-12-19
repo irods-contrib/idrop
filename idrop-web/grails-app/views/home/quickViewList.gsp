@@ -13,12 +13,13 @@
 			<tr>
 				<g:if test="${entry.metadataDomain == MetaDataAndDomainData.MetadataDomain.COLLECTION}">
 					<td></td>
-					<td><span class="setPaddingLeftAndRight"><i class="icon-folder-open "></i></span><span class="setPaddingLeftAndRight"><i class="icon-upload "></i></span></td>
+					<td><span class="setPaddingLeftAndRight"><g:link controller="browse" action="index" params="[mode: 'path', absPath: entry.domainUniqueName]"><i class="icon-folder-open "></i></g:link></span>
+					<span class="setPaddingLeftAndRight"><i class="icon-upload " onclick="quickviewUpload('${entry.domainUniqueName}')"></i></span></td>
 					<td>${entry.domainUniqueName}</td> <td>${entry.description}</td>
 				</g:if>
 				<g:else>
 					<td></td>
-					<td><span class="setPaddingLeftAndRight"><i class="icon-folder-open "></i></span><span class="setPaddingLeftAndRight"><i class="icon-download "></i></span></td>
+					<td><span class="setPaddingLeftAndRight"><g:link controller="browse" action="index" params="[mode: 'path', absPath: entry.domainUniqueName]"><i class="icon-folder-open "></i></g:link></span><span class="setPaddingLeftAndRight"><g:link url="${'file/download' + entry.domainUniqueName}"><i class="icon-download "></i></g:link></span></td>
 					<td>${entry.domainUniqueName}</td> <td>${entry.description}</td>
 				</g:else>
 			</tr>
@@ -26,3 +27,19 @@
 	</tbody>
 
 </table>
+<script>
+
+/**
+* Show the uplaod dialog using the hidden path in the info view
+*/
+function quickviewUpload(path) {
+	if (path == null) {
+		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+		return false;
+	}
+
+	showUploadDialogUsingPath(path);
+
+	
+}
+</script>
