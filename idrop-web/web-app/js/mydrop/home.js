@@ -13,13 +13,14 @@
  */
 var dataTree;
 
-
 /**
  * root path (which could be a multi-element path, such as a home directory
  */
 
 var baseAbsPath = "/";
 var baseAbsPathAsArrayOfPathElements;
+var dataTreeView = "";
+var dataTreePath = "";
 
 var browseOptionVal = "browse";
 var selectedPath = null;
@@ -47,20 +48,14 @@ var fileMoveUrl = '/file/moveFile';
 var fileCopyUrl = '/file/copyFile';
 var fileStarUrl = '/browse/starFile'
 
-function setTreeViewToHomeDirectory() {
-	alert("view into home directory");
-}
-
-
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
  * browser request for the root directory.
  * 
- * type is optional, and can either be root, home, or path
- * root - go to root of dir
- * home - go to user home dir
- * path - set provided path as the base path
- * detect - useful for an initial display will choose based on 'strictACL' setting
+ * type is optional, and can either be root, home, or path root - go to root of
+ * dir home - go to user home dir path - set provided path as the base path
+ * detect - useful for an initial display will choose based on 'strictACL'
+ * setting
  * 
  * @return
  */
@@ -69,7 +64,7 @@ function retrieveBrowserFirstView(type, path) {
 		dataTree = null;
 		$("#dataTreeDiv").html("");
 	}
-	
+
 	if (type != null) {
 		if (type == 'root') {
 			path = '';
@@ -88,12 +83,22 @@ function retrieveBrowserFirstView(type, path) {
 		type = "path";
 		path = baseAbsPath;
 	}
+
+	var state = {};
+
+	state["treeView"] = type;
+	state["treeViewPath"] = path;
 	
+	dataTreeView = type;
+	dataTreePath = path;
+	
+	$.bbq.pushState(state);
+
 	var parms = {
-			dir:path,
-			type:type
+		dir : path,
+		type : type
 	}
-	
+
 	if (dataTree == null) {
 		var url = "/browse/ajaxDirectoryListingUnderParent";
 		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, parms,
@@ -116,75 +121,80 @@ function browserFirstViewRetrieved(data) {
 
 	baseAbsPath = data[0].attr.absPath;
 	baseAbsPathAsArrayOfPathElements = baseAbsPath.split("/");
-	dataTree = $("#dataTreeDiv").jstree(
-			{
-				"plugins" : [ "themes", "contextmenu", "json_data", "types",
-						"ui", "crrm", "dnd" ],
-				"core" : {
-					"initially_open" : [ baseAbsPath ]
-				},
-				"json_data" : {
-					"data" : [ data ],
-
-					"progressive_render" : true,
-					"ajax" : {
-						"url" : context
-								+ "/browse/ajaxDirectoryListingUnderParent",
-						"cache" : false,
-						"data" : function(n) {
-							dir = n.attr("id");
-							return "type=list&dir=" + encodeURIComponent(dir);
+	dataTree = $("#dataTreeDiv")
+			.jstree(
+					{
+						"plugins" : [ "themes", "contextmenu", "json_data",
+								"types", "ui", "crrm", "dnd" ],
+						"core" : {
+							"initially_open" : [ baseAbsPath ]
 						},
-						"error" : function(n) {
-							if (n.statusText == "success" || n.statusText == "OK") {
-								// ok
-							} else {
-								setMessage("Unable to browse to location, try refreshing the tree.  You may not have permission to view this directory");
-								return false;
-								//refreshTree();
-							}
-						}
-					}
-				},
-				"contextmenu" : {
+						"json_data" : {
+							"data" : [ data ],
 
-					"items" : customMenu
-				},
-				"types" : {
-					"types" : {
-						"file" : {
-							"valid_children" : "none",
-							"icon" : {
-								"image" : context + "/images/file.png"
+							"progressive_render" : true,
+							"ajax" : {
+								"url" : context
+										+ "/browse/ajaxDirectoryListingUnderParent",
+								"cache" : false,
+								"data" : function(n) {
+									dir = n.attr("id");
+									return "type=list&dir="
+											+ encodeURIComponent(dir);
+								},
+								"error" : function(n) {
+									if (n.statusText == "success"
+											|| n.statusText == "OK") {
+										// ok
+									} else {
+										setMessage("Unable to browse to location, try refreshing the tree.  You may not have permission to view this directory");
+										return false;
+										// refreshTree();
+									}
+								}
 							}
 						},
-						"folder" : {
-							"valid_children" : [ "default", "folder", "file" ],
-							"icon" : {
-								"image" : context + "/images/folder.png"
+						"contextmenu" : {
+
+							"items" : customMenu
+						},
+						"types" : {
+							"types" : {
+								"file" : {
+									"valid_children" : "none",
+									"icon" : {
+										"image" : context + "/images/file.png"
+									}
+								},
+								"folder" : {
+									"valid_children" : [ "default", "folder",
+											"file" ],
+									"icon" : {
+										"image" : context
+												+ "/images/folder.png"
+									}
+								}
 							}
+
+						},
+						"ui" : {
+							"select_limit" : 1,
+							"initially_select" : [ "phtml_2" ]
+						},
+						"dnd" : {
+							"copy_modifier" : "shift"
+						},
+						"themes" : {
+							"theme" : "default",
+							"url" : context + "/css/style.css",
+							"dots" : false,
+							"icons" : true
+						},
+						"crrm" : {
+
 						}
-					}
 
-				},
-				"ui" : {
-					"select_limit" : 1,
-					"initially_select" : [ "phtml_2" ]
-				},
-				"dnd" : {
-					"copy_modifier" : "shift"
-				},
-				"themes" : {
-					"theme" : "default",
-					"url" : context + "/css/style.css",
-					"dots" : false,
-					"icons" : true
-				},
-				"crrm" : {
-
-				}
-
-			});
+					});
 
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
 		nodeSelected(e, data.rslt.obj);
@@ -461,7 +471,7 @@ function nodeRenamed(event, data) {
 
 	var newName = data.rslt.new_name;
 	var prevAbsPath = data.rslt.obj[0].id;
-	
+
 	var params = {
 		prevAbsPath : prevAbsPath,
 		newName : newName
@@ -469,7 +479,6 @@ function nodeRenamed(event, data) {
 
 	showBlockingPanel();
 
-	
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
 			}, "html").success(function(returnedData, status, xhr) {
@@ -477,12 +486,13 @@ function nodeRenamed(event, data) {
 		if (!continueReq) {
 			return false;
 		}
-		
-		//alert("xhr.response:" + xhr.responseText);
-		//alert("new name:" + newName);
+
+		// alert("xhr.response:" + xhr.responseText);
+		// alert("new name:" + newName);
 		var nodeRenamedTo = xhr.responseText + "/" + newName;
-		
-		// safari seems to have a hard time handling rename to self, this check traps that
+
+		// safari seems to have a hard time handling rename to self, this check
+		// traps that
 		if (xhr.responseText == prevAbsPath) {
 			setMessage("Rename ignored, name was not changed");
 		} else {
@@ -494,8 +504,8 @@ function nodeRenamed(event, data) {
 			$.jstree._reference(dataTree).refresh(data.rslt.obj[0]);
 			updateBrowseDetailsForPathBasedOnCurrentModel(nodeRenamedTo);
 		}
-			
-		//reloadAndSelectTreePathBasedOnIrodsAbsolutePath(nodeRenamedTo);
+
+		// reloadAndSelectTreePathBasedOnIrodsAbsolutePath(nodeRenamedTo);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
@@ -535,10 +545,10 @@ function moveFile(sourcePath, targetPath) {
 		}
 		setMessage("file moved to:" + xhr.responseText);
 		selectedPath = targetPath;
-		
+
 		/*
-		 * delete the node from the tree, select the parent
-		 * node and update the display to the parent node
+		 * delete the node from the tree, select the parent node and update the
+		 * display to the parent node
 		 */
 		refreshTree();
 		unblockPanel();
@@ -579,10 +589,10 @@ function copyFile(sourcePath, targetPath) {
 		}
 		setMessage("file copied to:" + xhr.responseText);
 		unblockPanel();
-		
-		//refreshTree();
+
+		// refreshTree();
 		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(targetPath);
-		//updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+		// updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
@@ -611,19 +621,14 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
+
 	if (browseOptionVal == null) {
 		browseOptionVal = "info";
 	}
-	
-	 var state = {};
-	    // Get the id of this tab widget.
-	    state[ "absPath" ] = absPath;
-	    state[ "browseOptionVal"] = browseOptionVal;
-	    $.bbq.pushState( state );
 
-	setPathCrumbtrail(absPath);
 	
+	setPathCrumbtrail(absPath);
+
 	if (browseOptionVal == "browse") {
 		showBrowseView(absPath);
 	} else if (browseOptionVal == "info") {
@@ -640,27 +645,33 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
  *            absolute path to browse to
  */
 function showBrowseView(absPath) {
-	
+
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
 	
+	var state = {};
+	state["absPath"] = absPath;
+	state["browseOptionVal"] = "browse";
+	$.bbq.pushState(state);
+
+
 	lcShowBusyIconInDiv("#infoDiv");
 
-	var jqxhr = $.get(context + "/browse/displayBrowseGridDetails?absPath="
-			+ encodeURIComponent(absPath), null,
+	var jqxhr = $.get(
+			context + "/browse/displayBrowseGridDetails?absPath="
+					+ encodeURIComponent(absPath), null,
 			function(data, status, xhr) {
-			}, "html")
-				.success(function(data, status, xhr) {
-					var continueReq = checkForSessionTimeout(data, xhr);
-					if (!continueReq) {
-						return false;
-					} 
-				
-					$("#infoDiv").html(data);})
-				.error(function(xhr, status, error) {
-					setInfoDivNoData();
-				});
+			}, "html").success(function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+
+		$("#infoDiv").html(data);
+	}).error(function(xhr, status, error) {
+		setInfoDivNoData();
+	});
 }
 
 /**
@@ -673,32 +684,31 @@ function showAuditView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
+
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		
-	} 
-	
+
+	}
+
 	try {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
-				"/audit/auditList?absPath="
-				+ encodeURIComponent(absPath),
-				targetDiv,
-				function(data) {
-					//alert("data is:" + data);
+				"/audit/auditList?absPath=" + encodeURIComponent(absPath),
+				targetDiv, function(data) {
+					// alert("data is:" + data);
 					$(targetDiv).html(data);
-				},
-				function() {
-					setInfoDivNoData();				});
+				}, function() {
+					setInfoDivNoData();
+				});
 	} catch (err) {
 		setInfoDivNoData();
 	}
-	
+
 	/*
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/audit/auditList?absPath="
-					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);*/
+	 * lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+	 * "/audit/auditList?absPath=" + encodeURIComponent(absPath), targetDiv,
+	 * targetDiv, null);
+	 */
 
 }
 
@@ -706,10 +716,9 @@ function showAuditView(absPath, targetDiv) {
  * Set a no data message in the div
  */
 function setInfoDivNoData() {
-	$("#infoDiv").html("<h2>No data to display</h2>");  //FIXME: i18n
-	
-}
+	$("#infoDiv").html("<h2>No data to display</h2>"); // FIXME: i18n
 
+}
 
 /**
  * Show the sharing view
@@ -721,32 +730,31 @@ function showSharingView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
+
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-	} 
-	
-	
+	}
+
 	try {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
-				"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
-				targetDiv,
+				"/sharing/showAclDetails?absPath="
+						+ encodeURIComponent(absPath), targetDiv,
 				function(data) {
-					//alert("data is:" + data);
+					// alert("data is:" + data);
 					$(targetDiv).html(data);
-				},
-				function() {
-					setInfoDivNoData();				});
+				}, function() {
+					setInfoDivNoData();
+				});
 	} catch (err) {
 		setInfoDivNoData();
 	}
-	
+
 	/*
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
-			targetDiv, targetDiv, null);
-			*/
+	 * lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+	 * "/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
+	 * targetDiv, targetDiv, null);
+	 */
 }
 
 /**
@@ -759,37 +767,35 @@ function showMetadataView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
+
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
 		// I am not embedded, so manipulate the toolbars
-	} 
-	
+	}
+
 	try {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
 				"/metadata/showMetadataDetails?absPath="
-				+ encodeURIComponent(absPath), 
-				targetDiv,
+						+ encodeURIComponent(absPath), targetDiv,
 				function(data) {
-					//alert("data is:" + data);
+					// alert("data is:" + data);
 					$(targetDiv).html(data);
-				},
-				function() {
-					setInfoDivNoData();				});
+				}, function() {
+					setInfoDivNoData();
+				});
 	} catch (err) {
 		setInfoDivNoData();
 	}
-	
-	/*
-	
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/metadata/showMetadataDetails?absPath="
-					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
-					*/
-	
-}
 
+	/*
+	 * 
+	 * lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+	 * "/metadata/showMetadataDetails?absPath=" + encodeURIComponent(absPath),
+	 * targetDiv, targetDiv, null);
+	 */
+
+}
 
 /**
  * Show the info view
@@ -801,6 +807,14 @@ function showInfoView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
+	
+	var state = {};
+	state["absPath"] = absPath;
+	state["browseOptionVal"] = "info";
+	$.bbq.pushState(state);
+
+
+	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);
@@ -816,6 +830,13 @@ function showGalleryView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
+	
+	var state = {};
+	state["absPath"] = absPath;
+	state["browseOptionVal"] = "gallery";
+	$.bbq.pushState(state);
+
+
 
 	targetDiv = "#infoDiv";
 
@@ -823,13 +844,12 @@ function showGalleryView(absPath) {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
 				"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
-				targetDiv,
-				function(data) {
-					//alert("data is:" + data);
-					$(	"#infoDiv").html(data);
-				},
-				function() {
-					setInfoDivNoData();				});
+				targetDiv, function(data) {
+					// alert("data is:" + data);
+					$("#infoDiv").html(data);
+				}, function() {
+					setInfoDivNoData();
+				});
 	} catch (err) {
 		setInfoDivNoData();
 	}
@@ -846,28 +866,26 @@ function showTicketView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
+
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-	} 
-	
+	}
+
 	try {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
 				"/ticket/index?absPath=" + encodeURIComponent(absPath),
-				targetDiv,
-				function(data) {
-					//alert("data is:" + data);
+				targetDiv, function(data) {
+					// alert("data is:" + data);
 					$(targetDiv).html(data);
-				},
-				function() {
-					setInfoDivNoData();				});
+				}, function() {
+					setInfoDivNoData();
+				});
 	} catch (err) {
 		setInfoDivNoData();
 	}
 
 }
-
 
 /**
  * Show the dialog to allow upload of data
@@ -1064,7 +1082,6 @@ function showAclDialog(data) {
 	$("#aclDetailsArea").hide("slow");
 	$("#aclDialogArea").html(data).show("slow");
 
-
 }
 
 /**
@@ -1174,42 +1191,47 @@ function reloadAclTable(absPath) {
  * Given an acl details html table, wrap it in a jquery dataTable
  */
 function buildAclTableInPlace() {
-	  tableParams = {"bJQueryUI" : true,
-          	"bLengthChange": false,
-          	"bFilter": false,
-          	"iDisplayLength" : 500,
-          	 "aoColumns" : [
-        	                {'sWidth': '20px', 'bSortable':false},
-        	                { 'sWidth': '30px' },
-        	                { 'sWidth': '40px' }
-        	                
-        	            ]
+	tableParams = {
+		"bJQueryUI" : true,
+		"bLengthChange" : false,
+		"bFilter" : false,
+		"iDisplayLength" : 500,
+		"aoColumns" : [ {
+			'sWidth' : '20px',
+			'bSortable' : false
+		}, {
+			'sWidth' : '30px'
+		}, {
+			'sWidth' : '40px'
+		}
 
-          }
-	  
+		]
+
+	}
+
 	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null, tableParams);
-	
-	  try {
 
-	$('.forSharePermission', dataTable.fnGetNodes()).editable(
-			function(value, settings) {
-				var userName = this.parentNode.getAttribute('id');
-				return aclUpdate(value, settings, userName);
-			}, {
-				"callback" : function(sValue, y) {
-					var aPos = dataTable.fnGetPosition(this);
-					dataTable.fnUpdate(sValue, aPos[0], aPos[1]);
-				},
-				'data' : "{'OWN':'OWN','READ':'READ','WRITE':'WRITE'}",
-				'type' : 'select',
-				'submit' : 'OK',
-				'cancel' : 'Cancel',
-				'onblur' : 'ignore',
-				'indicator' : 'Saving'
-			});
-	  } catch(e) {
-		  // ignore
-	  }
+	try {
+
+		$('.forSharePermission', dataTable.fnGetNodes()).editable(
+				function(value, settings) {
+					var userName = this.parentNode.getAttribute('id');
+					return aclUpdate(value, settings, userName);
+				}, {
+					"callback" : function(sValue, y) {
+						var aPos = dataTable.fnGetPosition(this);
+						dataTable.fnUpdate(sValue, aPos[0], aPos[1]);
+					},
+					'data' : "{'OWN':'OWN','READ':'READ','WRITE':'WRITE'}",
+					'type' : 'select',
+					'submit' : 'OK',
+					'cancel' : 'Cancel',
+					'onblur' : 'ignore',
+					'indicator' : 'Saving'
+				});
+	} catch (e) {
+		// ignore
+	}
 }
 
 /**
@@ -1284,10 +1306,10 @@ function closeApplet() {
 	$("#toggleHtmlArea").height = "100%";
 	$("#toggleHtmlArea").width = "100%";
 	$("#idropLiteArea").empty();
-	
+
 	if (selectedPath == "" || selectedPath == null) {
 		// ignore reload tree
-	}  else {
+	} else {
 		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 	}
 }
@@ -1499,6 +1521,7 @@ function downloadViaToolbar() {
 
 /**
  * Do a donwload action with a provided path
+ * 
  * @param path
  */
 function downloadViaToolbarGivenPath(path) {
@@ -1506,7 +1529,7 @@ function downloadViaToolbarGivenPath(path) {
 		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 		return false;
 	}
-	
+
 	window.open(context + '/file/download' + escape(path), '_self');
 }
 
@@ -1594,15 +1617,14 @@ function deleteViaToolbarGivenPath(path) {
 		var params = {
 			absPath : path
 		}
-		
+
 		var jqxhr = $
-				.post(context + fileDeleteUrl, params,
-						null, "html")
+				.post(context + fileDeleteUrl, params, null, "html")
 				.success(
 						function(returnedData, status, xhr) {
 							var continueReq = checkForSessionTimeout(
 									returnedData, xhr);
-							
+
 							if (!continueReq) {
 								return false;
 							}
@@ -1613,10 +1635,10 @@ function deleteViaToolbarGivenPath(path) {
 							unblockPanel();
 
 						}).error(function(xhr, status, error) {
-							//refreshTree();
-							setErrorMessage(xhr.responseText);
-							unblockPanel();
-						});
+					// refreshTree();
+					setErrorMessage(xhr.responseText);
+					unblockPanel();
+				});
 	}
 }
 
@@ -1710,25 +1732,24 @@ function submitRenameDialog() {
 
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
-			}, "html").success(
-			function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
-				setMessage("file renamed to:" + xhr.responseText);
-				selectedPath = xhr.responseText;
-				
-				//refreshTree();
-				reloadAndSelectTreePathBasedOnIrodsAbsolutePath(parentPath);
-				//selectTreePathFromIrodsPath(selectedPath);
-				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-				unblockPanel();
-			}).error(function(xhr, status, error) {
-				refreshTree();
-				setErrorMessage(xhr.responseText);
-				unblockPanel();
-			});
+			}, "html").success(function(returnedData, status, xhr) {
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		setMessage("file renamed to:" + xhr.responseText);
+		selectedPath = xhr.responseText;
+
+		// refreshTree();
+		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(parentPath);
+		// selectTreePathFromIrodsPath(selectedPath);
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		unblockPanel();
+	}).error(function(xhr, status, error) {
+		refreshTree();
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
 
 }
 
@@ -1751,7 +1772,7 @@ function submitNewFolderDialog() {
 		parent : absPath,
 		name : newName
 	}
-	
+
 	closeNewFolderDialog();
 	showBlockingPanel();
 
@@ -1764,7 +1785,6 @@ function submitNewFolderDialog() {
 		}
 		setMessage("New folder created:" + xhr.responseText);
 		// selectedPath = xhr.responseText;
-		
 
 		// refresh the parent node and open
 		addANodeToTheParentInTheTree(absPath, newName);
@@ -1816,20 +1836,19 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
 		throw ("no childRelativeName provided, cannot add a node to the tree");
 	}
 
-
-	
 	// handle add under root
 	if (parentAbsolutePath == "/") {
-		
+
 		var childAbsolutepathUnderRoot = childRelativeName;
 
 		// find and open the parent node, then add the child to it
-		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
-				function(path, dataTree, currentNode) {
+		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null,
+				null, function(path, dataTree, currentNode) {
 
 					if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
 
-						// parent node was already loaded, so it makes sense to add
+						// parent node was already loaded, so it makes sense to
+						// add
 						// the node to
 						// the parent
 
@@ -1840,7 +1859,7 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
 						var attrBuf = new Object();
 						attrBuf.id = "/" + childAbsolutepathUnderRoot;
 						attrBuf.rel = type;
-						attrBuf.absPath = "/" +  childAbsolutepathUnderRoot;
+						attrBuf.absPath = "/" + childAbsolutepathUnderRoot;
 
 						var nodeProps = new Object();
 						nodeProps.data = childAbsolutepathUnderRoot;
@@ -1858,16 +1877,17 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
 				});
 
 	} else {
-		
+
 		var childAbsolutePath = parentAbsolutePath + "/" + childRelativeName;
 
 		// find and open the parent node, then add the child to it
-		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
-				function(path, dataTree, currentNode) {
+		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null,
+				null, function(path, dataTree, currentNode) {
 
 					if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
 
-						// parent node was already loaded, so it makes sense to add
+						// parent node was already loaded, so it makes sense to
+						// add
 						// the node to
 						// the parent
 
@@ -1908,7 +1928,7 @@ function selectTreePathFromIrodsPath(irodsAbsolutePath) {
 	if (irodsAbsolutePath == null || irodsAbsolutePath.length == 0) {
 		throw "irodsAbsolutePath is missing";
 	}
-	
+
 	if (irodsAbsolutePath == "/") {
 		return false;
 	}
@@ -1916,7 +1936,6 @@ function selectTreePathFromIrodsPath(irodsAbsolutePath) {
 	selectTreePath(irodsAbsolutePath.split("/"), null, null);
 
 }
-
 
 /**
  * Find the given iRODS absolute path in the tree, clear the children and reload
@@ -1964,7 +1983,8 @@ function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
 }
 
 /**
- * Find the given iRODS absolute path in the tree, clear the children and reload, do not select or open
+ * Find the given iRODS absolute path in the tree, clear the children and
+ * reload, do not select or open
  * 
  * @param path
  */
@@ -1983,8 +2003,6 @@ function reloadTreePathBasedOnIrodsAbsolutePath(path) {
 
 	});
 }
-
-
 
 /**
  * Given the tree path in the text box, recursively open the nodes in the tree
@@ -2113,26 +2131,27 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 	// if called with no params, get the root node, open it, and process the
 	// children
 	if (currentNode == null) {
-		currentNode = $.jstree._reference(dataTree).get_container();		
+		currentNode = $.jstree._reference(dataTree).get_container();
 		var children = $.jstree._reference(dataTree)._get_children(currentNode);
 		currentNode = children[0];
-                // fix for a bug in ie9 that surfaces on initial load, otherwise does infinite recursion...
-                if (currentNode == null) {
-                   // alert("currentNode is null");
-                    return;
-                } else if (currentNode == undefined) {
-                  //  alert("currentNode is undefined");
-                    return;
-                }
-                
-                if (path.length == 2) {
-        			if (path[0] == "" && path[1] == "") {
-        				// working under root of tree, add right there
-        				operationToPerform(path, dataTree, currentNode.children[2]);
-        				return false;
-        			}
-                }
-                
+		// fix for a bug in ie9 that surfaces on initial load, otherwise does
+		// infinite recursion...
+		if (currentNode == null) {
+			// alert("currentNode is null");
+			return;
+		} else if (currentNode == undefined) {
+			// alert("currentNode is undefined");
+			return;
+		}
+
+		if (path.length == 2) {
+			if (path[0] == "" && path[1] == "") {
+				// working under root of tree, add right there
+				operationToPerform(path, dataTree, currentNode.children[2]);
+				return false;
+			}
+		}
+
 		performOperationAtGivenTreePath(path, currentNode, currentIndex,
 				operationToPerform);
 		return;
@@ -2191,33 +2210,48 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 				if (currentNode == null) {
 					setMessage("Path not found in tree, please reload");
 					return false;
-				} /*else {
-					if (index == path.length - 1) {
-						end = true;
-					}
-				}*/
+				} /*
+					 * else { if (index == path.length - 1) { end = true; } }
+					 */
 				// }
 			});
 
-	
-	// need to set end to true if current node is a preset dir /x/y/z and matches path
-	
-	if (currentNode != null) { //&& end) {
+	// need to set end to true if current node is a preset dir /x/y/z and
+	// matches path
+
+	if (currentNode != null) { // && end) {
 		operationToPerform(path, dataTree, currentNode);
 	}
 
 }
 
+/**
+ * Process hashChange events through the bbq plug in for back button support for the browser
+ * @param state
+ * @returns {Boolean}
+ */
 function processStateChange(state) {
 	var statePath = state["absPath"];
 	var view = state["browseOptionVal"];
+	var treeView = state["treeView"];
+	var treeViewPath = state["treeViewPath"];
+
+	var tempTreeViewFromGlobal = dataTreeView;
+	var tempTreePathFromGlobal = dataTreePath;
 	
-	if (view == null || statePath == null ) {
-		return false;
+	if (treeView != null) {
+		if (treeView == tempTreeViewFromGlobal && tempTreePathFromGlobal == treeViewPath) {
+			// no alteration of tree view
+		} else {
+			retrieveBrowserFirstView(treeView, treeViewPath);
+			return false;
+		}
 	}
-	
-	
-	if (view != browseOptionVal && statePath == selectedPath) {
+
+	if (view == null && browseOptionVal == "info") {
+		browseOptionVal = "browse";
+		selectTreePathFromIrodsPath(statePath);
+	} else if (view != browseOptionVal && statePath == selectedPath) {
 		// view change only
 		browseOptionVal = view;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
@@ -2227,7 +2261,7 @@ function processStateChange(state) {
 			selectTreePathFromIrodsPath(statePath);
 		}
 	}
-	
+
 }
 
 /**
@@ -2237,27 +2271,26 @@ function setDefaultStorageResource(resource) {
 	if (resource == null) {
 		return false;
 	}
-	
+
 	var params = {
-			resource : resource
+		resource : resource
 	}
 
 	showBlockingPanel();
 
-	var jqxhr = $.post(context + "/browse/setDefautlResourceForAccount", params, "html")
-			.success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
-				setMessage(jQuery.i18n.prop('msg_resource_changed'));
-				unblockPanel();
-			}).error(function(xhr, status, error) {
-				setErrorMessage(xhr.responseText);
-				unblockPanel();
-			});
+	var jqxhr = $.post(context + "/browse/setDefautlResourceForAccount",
+			params, "html").success(function(returnedData, status, xhr) {
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		setMessage(jQuery.i18n.prop('msg_resource_changed'));
+		unblockPanel();
+	}).error(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
 
-	
 }
 
 /**
@@ -2265,9 +2298,8 @@ function setDefaultStorageResource(resource) {
  */
 function setTreeToUserHome() {
 	retrieveBrowserFirstView("home", "");
-	
-}
 
+}
 
 /**
  * set the root of the tree to the given path and reload
@@ -2275,103 +2307,99 @@ function setTreeToUserHome() {
 
 function setTreeToGivenPath(path) {
 
-	if (path == null || path=="") {
+	if (path == null || path == "") {
 		path = "/";
 	}
-	
-	retrieveBrowserFirstView("path", path);
-	
-}
 
+	retrieveBrowserFirstView("path", path);
+
+}
 
 /**
  * Set the root of the tree to the user home directory and reload
  */
 function setTreeToRoot() {
 	retrieveBrowserFirstView("root", "");
-	
+
 }
 
 /* click twistie to open details table info */
 function browseDetailsClick(minMaxIcon) {
 
-		var parentOfIcon = minMaxIcon.parentNode;
+	var parentOfIcon = minMaxIcon.parentNode;
 
-		/*
-		 if (parentOfIcon == null) {
-				alert("parentOfIcon is null!");
-         } else {
-				alert("parentOfIcon is:" + parentOfIcon);
-         }*/
-    
-        var nTr = parentOfIcon.parentNode;
+	/*
+	 * if (parentOfIcon == null) { alert("parentOfIcon is null!"); } else {
+	 * alert("parentOfIcon is:" + parentOfIcon); }
+	 */
 
-         /*
-        if (nTr == null) {
-			alert("nTr is null!");
-        } else {
-			alert("nTr is:" + nTr);
-        }
-        */
+	var nTr = parentOfIcon.parentNode;
 
-        if (minMaxIcon.parentNode.innerHTML.match('circle-minus')) {
-                lcCloseTableNodes(dataTable);
-        } else {
-                try {
-                        browseDataDetailsFunction(minMaxIcon, nTr);
-                } catch (err) {
-                        console.log("error in detailsClick():" + err);
-                }
+	/*
+	 * if (nTr == null) { alert("nTr is null!"); } else { alert("nTr is:" +
+	 * nTr); }
+	 */
 
-        }
+	if (minMaxIcon.parentNode.innerHTML.match('circle-minus')) {
+		lcCloseTableNodes(dataTable);
+	} else {
+		try {
+			browseDataDetailsFunction(minMaxIcon, nTr);
+		} catch (err) {
+			console.log("error in detailsClick():" + err);
+		}
+
+	}
 }
 
-/** called by browseDetailsClick() when it is decided that the details table row should be opened, go 
-to server and get the details.
-*/
+/**
+ * called by browseDetailsClick() when it is decided that the details table row
+ * should be opened, go to server and get the details.
+ */
 function browseDataDetailsFunction(clickedIcon, rowActionIsOn) {
-        /* Open this row */
-        lcCloseTableNodes(dataTable);
-        // nTr points to row and has absPath in id
-        var absPath = $(rowActionIsOn).attr('id');
-        //alert("absPath:" + absPath);
-        var detailsId = "details_" + absPath;
-        var detailsHtmlDiv = "details_html_" + absPath;
-        var buildDetailsLayoutVal = buildDetailsLayout(detailsId);
-        clickedIcon.setAttribute("class", "ui-icon ui-icon-circle-minus");
-        newRowNode = dataTable.fnOpen(rowActionIsOn,
-                        buildDetailsLayoutVal, 'details');
-        newRowNode.setAttribute("id", detailsId);
-        askForBrowseDetailsPulldown(absPath, detailsId)
+	/* Open this row */
+	lcCloseTableNodes(dataTable);
+	// nTr points to row and has absPath in id
+	var absPath = $(rowActionIsOn).attr('id');
+	// alert("absPath:" + absPath);
+	var detailsId = "details_" + absPath;
+	var detailsHtmlDiv = "details_html_" + absPath;
+	var buildDetailsLayoutVal = buildDetailsLayout(detailsId);
+	clickedIcon.setAttribute("class", "ui-icon ui-icon-circle-minus");
+	newRowNode = dataTable.fnOpen(rowActionIsOn, buildDetailsLayoutVal,
+			'details');
+	newRowNode.setAttribute("id", detailsId);
+	askForBrowseDetailsPulldown(absPath, detailsId)
 
 }
 
-/** The table row is being opened, and the query has returned from the server with the data, fill in the table row
-*/
+/**
+ * The table row is being opened, and the query has returned from the server
+ * with the data, fill in the table row
+ */
 function buildDetailsLayout(detailsId) {
-        var td = document.createElement("TD");
-        td.setAttribute("colspan", "4");
+	var td = document.createElement("TD");
+	td.setAttribute("colspan", "4");
 
-        var detailsPulldownDiv = document.createElement("DIV");
-        detailsPulldownDiv.setAttribute("id", detailsId);
-        detailsPulldownDiv.setAttribute("class", "detailsPulldown");
-        var img = document.createElement('IMG');
-        img.setAttribute("src", context + "/images/ajax-loader.gif");
-        detailsPulldownDiv.appendChild(img);
-        td.appendChild(detailsPulldownDiv);
-        return $(td).html();
+	var detailsPulldownDiv = document.createElement("DIV");
+	detailsPulldownDiv.setAttribute("id", detailsId);
+	detailsPulldownDiv.setAttribute("class", "detailsPulldown");
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
+	detailsPulldownDiv.appendChild(img);
+	td.appendChild(detailsPulldownDiv);
+	return $(td).html();
 }
 
 function askForBrowseDetailsPulldown(absPath, detailsId) {
 
-        var url = "/browse/miniInfo";
-        absPath = absPath;
-        var params = {
-                        absPath:absPath
-                }
-	
-        lcSendValueWithParamsAndPlugHtmlInDiv(url, params, ".details",
-                        null);
+	var url = "/browse/miniInfo";
+	absPath = absPath;
+	var params = {
+		absPath : absPath
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, ".details", null);
 
 }
 
@@ -2380,62 +2408,63 @@ function clickOnPathInBrowseDetails(data) {
 		throw new Exception("no absolute path provided");
 	}
 	// show main browse tab
-	 
-	  splitPathAndPerformOperationAtGivenTreePath(data, null,
-				null, function(path, dataTree, currentNode){
 
-		  $.jstree._reference(dataTree).open_node(currentNode);
-		  $.jstree._reference(dataTree).select_node(currentNode, true);
+	splitPathAndPerformOperationAtGivenTreePath(data, null, null, function(
+			path, dataTree, currentNode) {
 
-			});
+		$.jstree._reference(dataTree).open_node(currentNode);
+		$.jstree._reference(dataTree).select_node(currentNode, true);
+
+	});
 }
 
 /**
- * Close the public link dialog 
+ * Close the public link dialog
  */
 function closePublicLinkDialog() {
-	
-		$("#browseDialogArea").hide("slow");
-		$("#browseDialogArea").html();
+
+	$("#browseDialogArea").hide("slow");
+	$("#browseDialogArea").html();
 }
 
 /**
- * Grant public (anonymous access) via the public link dialog.  Submit dialog and present the response
+ * Grant public (anonymous access) via the public link dialog. Submit dialog and
+ * present the response
  */
 function grantPublicLink() {
 	var path = $("#publicLinkDialogAbsPath").val();
 	showBlockingPanel();
 	if (path == null) {
 		setMessage(jQuery.i18n.prop('msg.path.missing'));
-		unblockPanel();		
+		unblockPanel();
 	}
-	
+
 	var params = {
-			absPath : path
-		}
-	
-	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/browse/updatePublicLinkDialog", params, null, "#browseDialogArea", null, null);
+		absPath : path
+	}
+
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(
+			"/browse/updatePublicLinkDialog", params, null,
+			"#browseDialogArea", null, null);
 	unblockPanel();
 
 }
-
 
 /**
  * Set a no data message in the div
  */
 function setInfoDivNoData() {
-	$("#infoDiv").html("<h2>No data to display</h2>");  //FIXME: i18n
-	
+	$("#infoDiv").html("<h2>No data to display</h2>"); // FIXME: i18n
+
 }
 
 /**
-* Process a star operation requested from the toolbar by processing the
-* submitted dialog
-*/
+ * Process a star operation requested from the toolbar by processing the
+ * submitted dialog
+ */
 function submitStarDialog() {
 	var absPath = $("#absPath").val();
 	var description = $.trim($("#description").val());
-	
 
 	var params = {
 		absPath : absPath,
@@ -2446,24 +2475,23 @@ function submitStarDialog() {
 
 	var jqxhr = $.post(context + fileStarUrl, params,
 			function(data, status, xhr) {
-			}, "html").success(
-			function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
-				setMessage(jQuery.i18n.prop('msg_file_starred'));
-				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-				closeStarDialog();
-				unblockPanel();
-			}).error(function(xhr, status, error) {
-				setErrorMessage(xhr.responseText);
-				closeStarDialog();
-				unblockPanel();
-			});
+			}, "html").success(function(returnedData, status, xhr) {
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		setMessage(jQuery.i18n.prop('msg_file_starred'));
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		closeStarDialog();
+		unblockPanel();
+	}).error(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		closeStarDialog();
+		unblockPanel();
+	});
 
 }
 
 function zzz() {
-	
+
 }

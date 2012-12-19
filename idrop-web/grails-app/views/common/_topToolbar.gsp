@@ -40,10 +40,10 @@
 
 		browseOptionVal = view;
 
-		var state = {};
+		//var state = {};
 
-		state["browseOptionVal"] = browseOptionVal;
-		$.bbq.pushState(state);
+		//state["browseOptionVal"] = browseOptionVal;
+		//$.bbq.pushState(state);
 
 	}
 

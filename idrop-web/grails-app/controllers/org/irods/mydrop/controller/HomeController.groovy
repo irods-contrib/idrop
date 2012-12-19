@@ -66,13 +66,22 @@ class HomeController {
 		log.info "starredCollections()"
 		
 		def listing = starringService.listStarredCollections(irodsAccount, 0)
-		render(view:"quickViewList",model:[listing:listing])
+		
+		if (listing.isEmpty()) {
+			render(view:"noInfo")
+		} else {
+			render(view:"quickViewList",model:[listing:listing])
+		}
 	}
 	
 	def starredDataObjects() {
 		log.info "starredDataObjects()"
 		def listing = starringService.listStarredDataObjects(irodsAccount, 0)
-		render(view:"quickViewList",model:[listing:listing])
+		if (listing.isEmpty()) {
+			render(view:"noInfo")
+		} else {
+			render(view:"quickViewList",model:[listing:listing])
+		}
 	}
 
 	// FIXME: refactor into jargon-core
