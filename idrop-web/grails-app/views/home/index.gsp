@@ -12,13 +12,11 @@
 			<!--  nav for table -->
 			<ul class="nav nav-list">
 				<li class="nav-header">Tools</li>
-				<li id="quickUpload" class="quicknav"><a href="#"  onclick="quickUpload()">Quick Upload</a></li>
+				<li id="quickUpload" class="quicknav"><a href="#"  onclick="quickUploadFromHome()">Quick Upload</a></li>
 				<li class="nav-header">Starred</li>
 				<li id="quickStarredFiles" class="quicknav"><a href="#"  onclick="quickViewShowStarredFiles()">Starred Files</a></li>
 				<li id="quickStarredFolders" class="quicknav"><a href="#" onclick="quickViewShowStarredFolders()">Starred Folders</a></li>
 			</ul>
-
-
 		</div>
 		<div id="quickViewListContainer" class="span8"></div>
 	</div>
@@ -34,7 +32,6 @@
 
 	});
 
-
 	function quickViewShowStarredFolders() {
 		resetQuicknav();
 		$("#quickStarredFolders").addClass("active");
@@ -44,7 +41,6 @@
 			}
 		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#quickViewListContainer", null);
 	}
-
 
 	function quickViewShowStarredFiles() {
 		resetQuicknav();
@@ -58,6 +54,13 @@
 
 	function resetQuicknav() {
 		$(".quicknav").removeClass("active");
+	}
+
+	function quickUploadFromHome() {
+		
+		showQuickUploadDialog();
+
+		
 	}
 
 	

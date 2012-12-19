@@ -11,12 +11,12 @@
     <div id="infoDialogArea">
       <!--  no empty divs -->
     </div>
-    <div id="legendAreaContainer">
+    <!--  <div id="legendAreaContainer">
     	 <i class="icon-question-sign" id="iconLegend" onmouseover="showLegend()" onmouseout="hideLegend()"/><g:message code="text.action.help" />
     	<div id="legend" style="display:none;">
     		<g:render template="/common/browseLegend" />
     	</div>
-    </div>
+    </div> -->
     <div id="detailsTopSection" >
       <form id="browseDetailsForm" name="browseDetailsForm">
         <table class="table table-striped table-hover" cellspacing="0" cellpadding="0" border="0"

@@ -15,6 +15,8 @@ import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
+import org.irods.jargon.datautils.uploads.UploadsService
+import org.irods.jargon.datautils.uploads.UploadsServiceImpl
 import org.springframework.web.multipart.MultipartFile
 
 
@@ -118,6 +120,25 @@ class FileController {
 		}
 
 		render(view:"uploadDialog", model:[irodsTargetCollection:irodsTargetCollection])
+	}
+	
+	/**
+	 * Prepare a quick upload dialog to upload a file to the default location using the quick upload service
+	 *
+	 */
+	def prepareQuickUploadDialog = {
+		log.info("prepareQuickUploadDialog")
+		
+		log.info("checking if uploads default directory needs to be created")
+
+		/* here we could do any processing on irods, such as provisioning of metadata fields based on target
+		 * for now, derive info about the target and normalize to a collection (could be a data object)
+		 */
+
+		UploadsService uploadsService = new UploadsServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		IRODSFile uploadsDir = uploadsService.getUploadsDirectory();
+
+		render(view:"quickUploadDialog", model:[irodsTargetCollection:uploadsDir.absolutePath])
 	}
 
 	/**

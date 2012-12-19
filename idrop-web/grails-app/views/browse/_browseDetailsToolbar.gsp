@@ -1,0 +1,2 @@
+<div id="browseDetailsToolbar" >
+</div>

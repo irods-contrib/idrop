@@ -888,6 +888,20 @@ function showTicketView(absPath, targetDiv) {
 }
 
 /**
+ * Show the dialog to allow upload of data in quick upload mode
+ */
+function showQuickUploadDialog() {
+	
+	var url = "/file/prepareQuickUploadDialog";
+	
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, null, "", function(data) {
+		fillInQuickUploadDialog(data);
+	});
+
+}
+
+/**
  * Show the dialog to allow upload of data
  */
 function showUploadDialog() {
@@ -959,6 +973,34 @@ function fillInUploadDialog(data) {
 }
 
 /**
+ * On load of quick upload dialog, this will be called when the pre-set data is
+ * available
+ * 
+ * @param data
+ */
+function fillInQuickUploadDialog(data) {
+
+	if (data == null) {
+		return;
+	}
+
+	$('#uploadDialog').remove();
+
+	var $dialog = $('<div id="uploadDialog"></div>').html(data).dialog({
+		autoOpen : false,
+		modal : true,
+		width : 500,
+		title : 'Upload to iRODS',
+		create : function(event, ui) {
+			initializeQuickUploadDialogAjaxLoader();
+		}
+	});
+
+	$dialog.dialog('open');
+}
+
+
+/**
  * Create the upload dialog for web (http) uploaded.
  */
 function initializeUploadDialogAjaxLoader() {
@@ -1004,6 +1046,47 @@ function initializeUploadDialogAjaxLoader() {
 								reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 								updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 							}
+
+							$('#uploadDialog').dialog('close');
+							$('#uploadDialog').remove();
+
+						},
+						onError : function(event, files, index, xhr, handler) {
+							setErrorMessage(xhr.responseText);
+						}
+					});
+
+}
+
+/**
+ * Create the quick upload dialog for web (http) uploaded.
+ */
+function initializeQuickUploadDialogAjaxLoader() {
+
+	if (fileUploadUI != null) {
+		$("#fileUploadForm").remove;
+	}
+
+	fileUploadUI = $('#uploadForm')
+			.fileUploadUI(
+					{
+						uploadTable : $('#files'),
+						downloadTable : $('#files'),
+
+						buildUploadRow : function(files, index) {
+							$("#upload_message_area").html("");
+							$("#upload_message_area").removeClass();
+							return $('<tr><td>'
+									+ files[index].name
+									+ '<\/td>'
+									+ '<td class="file_upload_progress"><div><\/div><\/td>'
+									+ '<\/tr>');
+						},
+						buildDownloadRow : function(file) {
+							return $('<tr><td>' + file.name + '<\/td><\/tr>');
+						},
+						onComplete : function(event, files, index, xhr, handler) {
+							setMessage("Upload complete");
 
 							$('#uploadDialog').dialog('close');
 							$('#uploadDialog').remove();
