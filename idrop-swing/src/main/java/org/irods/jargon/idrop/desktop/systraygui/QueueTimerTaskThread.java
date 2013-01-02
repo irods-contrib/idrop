@@ -24,6 +24,8 @@ public class QueueTimerTaskThread extends Thread {
          */
         logger.info("creating timer for queue manager");
 
+        // FIXME: conveyor
+        /*
         try {
             QueueSchedulerTimerTask queueTimerTask = new QueueSchedulerTimerTask(
                     iDrop.getiDropCore().getTransferManager(), iDrop);
@@ -33,6 +35,7 @@ public class QueueTimerTaskThread extends Thread {
             logger.error(ex.getMessage());
             System.exit(1);
         }
+        * */
 
     }
 }

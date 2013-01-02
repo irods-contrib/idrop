@@ -199,6 +199,8 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
             // process the drop as a get
 
+              // FIXME: conveyor
+                            /*
             java.awt.EventQueue.invokeLater(new Runnable() {
 
                 @Override
@@ -231,7 +233,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
                     }
                 }
             });
-
+*/
         }
     }
 

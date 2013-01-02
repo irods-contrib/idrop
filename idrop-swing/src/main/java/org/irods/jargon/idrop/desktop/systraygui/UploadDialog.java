@@ -172,6 +172,9 @@ public class UploadDialog extends javax.swing.JDialog {
 
                     String sourceResource = idropGUI.getIrodsAccount().getDefaultStorageResource();
                     log.info("initiating put transfer");
+                    
+                    // FIXME: conveyor
+                    /*
                     try {
                         idropGUI.getiDropCore().getTransferManager().enqueueAPut(transferFile,
                                 targetPath,
@@ -183,6 +186,7 @@ public class UploadDialog extends javax.swing.JDialog {
                                 java.util.logging.Level.SEVERE, null, ex);
                         idropGUI.showIdropException(ex);
                     }
+                    * */
                 }
             }
         });
@@ -391,6 +395,8 @@ public class UploadDialog extends javax.swing.JDialog {
     private void btnUseLastUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUseLastUploadActionPerformed
         String target = "";
         // see if can find some get history in the transfer queue
+        // FIXME: conveyor
+        /*
         try {
             List<LocalIRODSTransfer> transfers = idropGUI.getiDropCore().getTransferManager().getRecentQueue();
                 
@@ -412,6 +418,7 @@ public class UploadDialog extends javax.swing.JDialog {
         if (target != null) {
             txtUploadTarget.setText(target);
         }
+        */
         setUploadButtonState();
     }//GEN-LAST:event_btnUseLastUploadActionPerformed
 

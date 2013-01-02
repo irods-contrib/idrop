@@ -1299,10 +1299,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
             public void run() {
 
 
-                SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+    //FIXME:conveyor                  SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
 
                 try {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    /*
                     List<Synchronization> synchronizations = synchConfigurationService.listAllSynchronizations();
                     SynchConfigTableModel synchConfigTableModel = null;
                     if (jTableSynch == null) {
@@ -1325,7 +1326,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     }
                 } catch (SynchException ex) {
                     log.error("error setting up synchs table", ex);
-                    throw new IdropRuntimeException(ex);
+                    throw new IdropRuntimeException(ex);*/
                 } finally {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
@@ -1408,6 +1409,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 }
                 try {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    // FIXME: conveyor
+                    /*
                     SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
                     log.info("deleting synchronization:{}", synchronization);
 
@@ -1433,6 +1436,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     refreshSynchConfigPanel();
                 } catch (Exception ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
+                    * */
                 } finally {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     idropCore.closeIRODSConnection(
@@ -1507,7 +1511,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 if (isNew) {
                     log.info("adding new synch");
                 }
-
+                
+                // FIXME: conveyor
+                /*
                 SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
 
                 // edits pass, do update
@@ -1537,24 +1543,32 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 synchronization.setDefaultResourceName(irodsAccount.getDefaultStorageResource());
                 synchronization.setCreatedAt(new Date());
                 selectedSynchronization = synchronization;
+                * */
 
                 try {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    
+                    // FIXME: conveyor
+                    
+                    /*
                     if (synchConfigurationService.isSynchRunning(selectedSynchronization)) {
                         MessageManager.showMessage(thisPanel, "Cannot update the synchronization, a synch is currently running", MessageManager.TITLE_MESSAGE);
                         return;
                     }
 
                     idropCore.getIdropConfigurationService().updateSynchronization(synchronization);
+                    */
                     MessageManager.showMessage(thisPanel, "Configuration updated", MessageManager.TITLE_MESSAGE);
                     ListSelectionModel lsm = (ListSelectionModel) thisPanel.getSynchTable().getSelectionModel();
                     SynchConfigTableModel model = (SynchConfigTableModel) thisPanel.getSynchTable().getModel();
 
                     if (isNew) {
-
+                        // FIXME: conveyor
+                        /*
                         List<Synchronization> synchronizations = synchConfigurationService.listAllSynchronizations();
 
                         model.setSynchronizations(synchronizations);
+                        * */
                         model.fireTableDataChanged();
                     } else {
                         if (lsm.isSelectionEmpty()) {
@@ -1567,7 +1581,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                                 if (lsm.isSelectedIndex(i)) {
                                     int modelIdx = thisPanel.getSynchTable().convertRowIndexToModel(i);
 
-                                    model.getSynchronizations().set(modelIdx, synchronization);
+                                    // FIXME: conveyor model.getSynchronizations().set(modelIdx, synchronization);
                                     model.fireTableDataChanged();
                                     break;
                                 }
@@ -1578,11 +1592,12 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                     btnDeleteSynch.setEnabled(true);
                     btnUpdateSynch.setEnabled(true);
                     btnSynchNow.setEnabled(true);
-
+                    /*
                 } catch (IdropException ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
                 } catch (SynchException ex) {
                     MessageManager.showError(thisPanel, ex.getMessage(), MessageManager.TITLE_MESSAGE);
+                    * */
                 } finally {
                     thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     idropCore.closeIRODSConnection(
@@ -1617,6 +1632,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 "Do you want to synchronize now?",
                 JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
+            // FIXME: conveyor
+            /*
             try {
                 SynchManagerService synchConfigurationService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
 
@@ -1629,7 +1646,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 log.error("error starting synch", ex);
                 MessageManager.showError(this, ex.getMessage(), MessageManager.TITLE_MESSAGE);
                 throw new IdropRuntimeException(ex);
-            }
+            }*/
         }
     }
 
@@ -1925,6 +1942,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         JLabel labelToUse = null;
 
+        // FIXME: conveyor
+        /*
         SynchManagerService synchManagerService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
         try {
             boolean isRunning = synchManagerService.isSynchRunning(synchronization);
@@ -1941,6 +1960,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
             log.error("error checking if synch is already running:{}", synchronization, ex);
             throw new IdropRuntimeException("exception checking if synch is already running", ex);
         }
+        * */
 
         pnlSynchIcon.removeAll();
         lblSynchStatus = labelToUse;

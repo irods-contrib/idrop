@@ -16,8 +16,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({ IdropPropertiesHelperTest.class, LocalFileUtilsTest.class,
     FileSystemModelTest.class, IRODSSearchTableModelTest.class,
     LocalFileSystemModelTest.class, MetadataTableModelTest.class,
-    QueueManagerDetailTableModelTest.class, QueueManagerMasterTableModelTest.class, IdropPreDatabaseBootstrapperServiceImplTest.class,IdropConfigurationServiceTest.class
-		 })
+  IdropPreDatabaseBootstrapperServiceImplTest.class,IdropConfigurationServiceTest.class})
 public class AllTests {
 
 }

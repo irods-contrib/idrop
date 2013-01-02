@@ -4,7 +4,7 @@ import java.text.DateFormat;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
+import org.irods.jargon.conveyor.core.ConveyorService;
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
@@ -33,7 +33,7 @@ public class IDROPCore {
         this.irodsFileSystem = irodsFileSystem;
     }
     private IdropConfig idropConfig = null;
-    private TransferManager transferManager = null;
+    private ConveyorService conveyorService = null;
     private IconManager iconManager = null;
     private Timer queueTimer = new Timer();
     private IdropConfigurationService idropConfigurationService = null;
@@ -78,14 +78,6 @@ public class IDROPCore {
 
     public void setIdropConfig(final IdropConfig idropConfig) {
         this.idropConfig = idropConfig;
-    }
-
-    public TransferManager getTransferManager() {
-        return transferManager;
-    }
-
-    public void setTransferManager(final TransferManager transferManager) {
-        this.transferManager = transferManager;
     }
 
     public IconManager getIconManager() {

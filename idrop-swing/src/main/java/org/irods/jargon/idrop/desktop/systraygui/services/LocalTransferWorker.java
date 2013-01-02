@@ -62,9 +62,12 @@ public final class LocalTransferWorker extends SwingWorker {
     @Override
     protected Object doInBackground() throws Exception {
         log.info("initiating transfer");
+            // FIXME: conveyor
+        /*
         transferManager.enqueueAPut(localSourceAbsolutePath,
                 irodsTargetAbsolutePath, targetResource, irodsAccount);
         // return a final transfer status
+        */
         return null;
     }
 

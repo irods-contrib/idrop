@@ -199,6 +199,10 @@ public class ReplicationDialog extends javax.swing.JDialog {
                     }
                 }
 
+                /**
+                 * FIXME: conveyor
+                 */
+                /*
                 try {
                     if (isFile && !foundResource) {
                         log.info("file not yet replicated to resource");
@@ -208,9 +212,12 @@ public class ReplicationDialog extends javax.swing.JDialog {
                         sb.append("/");
                         sb.append(fileName);
                         replicatedCount++;
+                        // FIXME: conveyor
+                        /*
                         idropParentGui.getiDropCore().getTransferManager().enqueueAReplicate(sb.toString(),
                                 checkBox.getText(),
                                 idropParentGui.getIrodsAccount());
+                                
                     } else if (!isFile) {
                         log.info("this is a collection, do the replication");
                         replicatedCount++;
@@ -219,12 +226,14 @@ public class ReplicationDialog extends javax.swing.JDialog {
                                 idropParentGui.getIrodsAccount());
 
                     }
+                    
                 } catch (JargonException ex) {
                     Logger.getLogger(ReplicationDialog.class.getName()).log(
                             Level.SEVERE, null, ex);
                     idropParentGui.showIdropException(ex);
                     return;
                 }
+                */
             }
         }
 

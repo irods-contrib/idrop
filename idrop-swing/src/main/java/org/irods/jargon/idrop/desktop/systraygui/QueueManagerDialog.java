@@ -933,16 +933,20 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     }// GEN-LAST:event_jMenuWarningActionPerformed
 
     private void btnPurgeAllActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPurgeAllActionPerformed
+        // FIXME: conveyor
+        /*
         try {
             iDropParent.getiDropCore().getTransferManager().purgeAllTransfers();
             refreshTableView(viewType);
         } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             iDropParent.showIdropException(ex);
-        }
+        } */
     }// GEN-LAST:event_btnPurgeAllActionPerformed
 
     private void btnPurgeSuccessfulActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPurgeSuccessfulActionPerformed
+      // FIXME: conveyor
+        /*
         try {
             iDropParent.getiDropCore().getTransferManager().purgeSuccessfulTransfers();
             refreshTableView(viewType);
@@ -951,7 +955,7 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
         } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             iDropParent.showIdropException(ex);
-        }
+        } */
     }// GEN-LAST:event_btnPurgeSuccessfulActionPerformed
 
     private void btnDeleteSelectedActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeleteSelectedActionPerformed
@@ -1332,9 +1336,11 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                     btnSynchronization.setEnabled(false);
                 }
                 
+                // FIXME: conveyor
+                /*
                 lblHost.setText(localIRODSTransfer.getTransferHost());
                 lblZone.setText(localIRODSTransfer.getTransferZone());
-                
+                */
                 if (localIRODSTransfer.getTransferStart() != null) {
                     lblTransferStart.setText(dateFormat.format(localIRODSTransfer.getTransferStart()));
                 }
@@ -1470,12 +1476,15 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
     }
     
     private void resetDisplayFieldsAndStatus() {
+        // FIXME: conveyor
+        /*
         try {
             iDropParent.getiDropCore().getTransferManager().resetStatus();
         } catch (Exception ex) {
             Logger.getLogger(QueueManagerDialog.class.getName()).log(Level.SEVERE, null, ex);
             // log and continue...not useful to user
         }
+        * */
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             

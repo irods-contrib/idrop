@@ -10,6 +10,7 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.KeyStroke;
+import org.irods.jargon.core.connection.AuthScheme;
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.auth.AuthResponse;
@@ -64,7 +65,7 @@ public class LoginDialog extends JDialog {
         
         String mode = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.ACCOUNT_CACHE_LOGIN_MODE);
         if (mode == null || mode.isEmpty()) {
-            mode = IRODSAccount.AuthScheme.STANDARD.name();
+            mode = AuthScheme.STANDARD.name();
         } else {
             comboLoginMode.setSelectedItem(mode);
         }
@@ -193,11 +194,10 @@ public class LoginDialog extends JDialog {
             return true;
         }
         
-        if (comboLoginMode.getSelectedItem().toString().equals(IRODSAccount.AuthScheme.PAM.name())) {
-            irodsAccount.setAuthenticationScheme(IRODSAccount.AuthScheme.PAM);
+        if (comboLoginMode.getSelectedItem().toString().equals(AuthScheme.PAM.name())) {
+            irodsAccount.setAuthenticationScheme(AuthScheme.PAM);
         } 
-        
-        
+       
         IRODSFileSystem irodsFileSystem = null;
 
         /*

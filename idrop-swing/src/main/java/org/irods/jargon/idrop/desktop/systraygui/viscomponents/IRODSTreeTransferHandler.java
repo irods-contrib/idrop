@@ -296,6 +296,8 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                         String localSourceAbsolutePath = transferFile.getAbsolutePath();
                         String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
                         log.info("initiating put transfer");
+                            // FIXME: conveyor
+                        /*
                         try {
                             idropGui.getiDropCore().getTransferManager().enqueueAPut(localSourceAbsolutePath,
                                     targetIrodsFileAbsolutePath,
@@ -307,6 +309,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                                     java.util.logging.Level.SEVERE, null, ex);
                             idropGui.showIdropException(ex);
                         }
+                        */
                     }
                 }
             });
@@ -433,7 +436,10 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                     for (File transferFile : sourceFiles) {
                         log.info("initiating put transfer for source file:{}",
                                 transferFile.getAbsolutePath());
+                          // FIXME: conveyor
+                            /*
                         try {
+                              
                             idropGui.getiDropCore().getTransferManager().enqueueAPut(
                                     transferFile.getAbsolutePath(),
                                     targetIrodsFileAbsolutePath,
@@ -445,6 +451,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                                     java.util.logging.Level.SEVERE, null, ex);
                             idropGui.showIdropException(ex);
                         }
+                        */
                     }
                 }
             });

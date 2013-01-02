@@ -233,11 +233,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         receivedStartupSignal = true;
 
+        // FIXME: conveyor
+        /*
         iDropCore.getIconManager().setRunningStatus(
                 iDropCore.getTransferManager().getRunningStatus());
         iDropCore.getIconManager().setErrorStatus(
                 iDropCore.getTransferManager().getErrorStatus());
-
+                */
     }
 
     private void initializeLookAndFeelSelected() {
@@ -491,10 +493,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
          * See if I am in a paused state
          */
 
+        // FIXME: conveyor
+        /*
         if (this.getiDropCore().getTransferManager().getRunningStatus() == TransferManager.RunningStatus.PAUSED) {
             this.setTransferStatePaused();
         }
-
+        */
         logoutItem.addActionListener(this);
         pausedItem.addItemListener(this);
         aboutItem.addActionListener(this);
@@ -863,6 +867,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     private boolean showQueueManagerDialog() {
+        
+        // FIXME: conveyor
+        /*
         try {
             if (queueManagerDialog == null) {
                 queueManagerDialog = new QueueManagerDialog(this,
@@ -879,6 +886,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         queueManagerDialog.setModal(false);
         queueManagerDialog.setVisible(true);
         queueManagerDialog.toFront();
+        */
         return false;
     }
 
@@ -913,7 +921,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     public void itemStateChanged(final ItemEvent e) {
 
         if (e.getItem().equals("Pause")) {
-
+            // FIXME: conveyor
+            /*
             try {
                 if (pausedItem.getState() == true) {
                     log.info("pausing....");
@@ -926,6 +935,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null,
                         ex);
             }
+            */
 
         }
     }
@@ -1206,7 +1216,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         if (n == JOptionPane.YES_OPTION) {
 
+            // FIXME: conveyor
             // process as a get
+            /*
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {
@@ -1238,6 +1250,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     }
                 }
             });
+            */
         }
 
         idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -1294,8 +1307,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         if (n == JOptionPane.YES_OPTION) {
 
+            // FIXME: conveyor
             // process as a put
-
+            /*
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {
@@ -1321,6 +1335,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     }
                 }
             });
+            */
         }
 
         idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -1987,10 +2002,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         try {
             if (togglePauseTransfer.isSelected()) {
                 log.info("pausing....");
-                iDropCore.getTransferManager().pause();
+            
+                    // FIXME: conveyoriDropCore.getTransferManager().pause();
             } else {
                 log.info("resuming queue");
-                iDropCore.getTransferManager().resume();
+                  // FIXME: conveyor  iDropCore.getTransferManager().resume();
             }
         } catch (Exception ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);

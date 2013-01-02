@@ -258,7 +258,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
             log.info("check queue for any jobs for the account, these have the old password.");
             IRODSAccount irodsAccount = idrop.getIrodsAccount();
 
-            idrop.getiDropCore().getTransferManager().updatePassword(irodsAccount, newPassword);
+          //FIXME:conveyor  idrop.getiDropCore().getTransferManager().updatePassword(irodsAccount, newPassword);
             UserAO userAO = idrop.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(idrop.getIrodsAccount());
             userAO.changeAUserPasswordByThatUser(irodsAccount.getUserName(),
                     irodsAccount.getPassword(), newPassword);

@@ -239,7 +239,8 @@ public class InfoPanelTransferHandler extends TransferHandler {
         log.info(
                 "drop of a local file  onto an iRODS data object, will process as a drop on parent collection:{}",
                 dataObject.getCollectionName());
-
+  // FIXME: conveyor
+                            /*
         try {
             log.info("enqueue a put operation");
             idropGui.getiDropCore().getTransferManager().enqueueAPut(
@@ -252,7 +253,7 @@ public class InfoPanelTransferHandler extends TransferHandler {
                     Level.SEVERE, null, ex);
             throw new IdropException("error enqueing put operation", ex);
         }
-
+*/
     }
 
     private void processDropOnCollection(final Collection collection,
@@ -269,6 +270,8 @@ public class InfoPanelTransferHandler extends TransferHandler {
                 "drop of a local file  onto an iRODS collection, will process as a drop on parent collection:{}",
                 collection.getCollectionName());
 
+          // FIXME: conveyor
+                            /*
         try {
             log.info("enqueue a put operation");
             idropGui.getiDropCore().getTransferManager().enqueueAPut(
@@ -281,7 +284,7 @@ public class InfoPanelTransferHandler extends TransferHandler {
                     Level.SEVERE, null, ex);
             throw new IdropException("error enqueing put operation", ex);
         }
-
+*/
     }
 
     /**

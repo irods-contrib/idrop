@@ -297,9 +297,11 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         /*
          * The transfer manager may not have been built the first time this is invoked
          */
+            // FIXME: conveyor
+        /*
         if (idropCore.getTransferManager() != null) {
             idropCore.getTransferManager().getTransferEngineConfigurationProperties().setLogSuccessfulTransfers(idropCore.getIdropConfig().isLogSuccessfulTransfers());
-        }
+        } */
     }
 
     @Override
@@ -390,7 +392,8 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             throw new IllegalArgumentException("null synchConfiguration");
         }
         log.info("synchConfiguration:{}", synchConfiguration);
-        SynchManagerService synchManagerService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+           // FIXME: conveyor SynchManagerService synchManagerService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+       /*
         try {
             synchManagerService.createNewSynchConfiguration(synchConfiguration);
         } catch (ConflictingSynchException cse) {
@@ -399,7 +402,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         } catch (SynchException ex) {
             log.error("error creating synch", ex);
             throw new IdropException("error creating synch", ex);
-        }
+        } */
 
         log.info("synch saved");
 
@@ -423,7 +426,8 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             throw new IllegalArgumentException("null synchConfiguration");
         }
         log.info("synchConfiguration:{}", synchConfiguration);
-        SynchManagerService synchManagerService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+            // FIXME: conveyor
+      /*  SynchManagerService synchManagerService = idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
         try {
             synchManagerService.updateSynchConfiguration(synchConfiguration);
         } catch (ConflictingSynchException cse) {
@@ -433,6 +437,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             log.error("error creating synch", ex);
             throw new IdropException("error creating synch", ex);
         }
+        */
 
         log.info("synch saved");
 

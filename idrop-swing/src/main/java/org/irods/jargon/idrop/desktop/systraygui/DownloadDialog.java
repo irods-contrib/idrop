@@ -153,7 +153,10 @@ public class DownloadDialog extends javax.swing.JDialog {
                         transferFile);
                     log.info("transfer to local file:{}",
                         targetPath);
+                        //FIXME:conveyor  
+                    /*
                     try {
+                      
                         idropGUI.getiDropCore().getTransferManager().enqueueAGet(
                                     transferFile,
                                     targetPath,
@@ -164,6 +167,7 @@ public class DownloadDialog extends javax.swing.JDialog {
                                 java.util.logging.Level.SEVERE, null, ex);
                         idropGUI.showIdropException(ex);
                     }
+                    * */
                 }
             }
         });
@@ -404,6 +408,8 @@ public class DownloadDialog extends javax.swing.JDialog {
     private void btnUseLastDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUseLastDownloadActionPerformed
         String target = "";
         // see if can find some get history in the transfer queue
+            //FIXME:conveyor  
+        /*
         try {
             List<LocalIRODSTransfer> transfers = idropGUI.getiDropCore().getTransferManager().getRecentQueue();
                 
@@ -421,7 +427,7 @@ public class DownloadDialog extends javax.swing.JDialog {
             }
         } catch (JargonException ex) {
                 Exceptions.printStackTrace(ex);
-        }
+        } */
         if (target != null) {
             txtDownloadTarget.setText(target);
         }

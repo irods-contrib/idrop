@@ -18,8 +18,6 @@ import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
-import org.irods.jargon.transfer.engine.TransferManagerImpl;
-import org.irods.jargon.transfer.synch.SynchPeriodicScheduler;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -174,7 +172,8 @@ public class StartupSequencer {
         idropSplashWindow.setStatus("Building transfer engine...", ++count);
 
         log.info("building transfer manager...");
-
+        // FIXME: conveyor
+        /*
         try {
             idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop));
             idropCore.getIdropConfigurationService().updateTransferOptions();
@@ -205,6 +204,7 @@ public class StartupSequencer {
             throw new IdropRuntimeException("error evaluating current queue",
                     ex);
         }
+        */
         sleepABit();
 
         log.info("logged in, now checking for first run...");
@@ -246,6 +246,11 @@ public class StartupSequencer {
         }
 
         idropSplashWindow.setStatus("Starting work queue...", ++count);
+        
+        // FIXME: conveyor
+        
+        /*
+        
         try {
             QueueSchedulerTimerTask queueSchedulerTimerTask = new QueueSchedulerTimerTask(
                     idropCore.getTransferManager(), idrop);
@@ -260,6 +265,7 @@ public class StartupSequencer {
             Logger.getLogger(StartupSequencer.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
+        */
 
         log.info("signal that the startup sequence is complete");
         try {

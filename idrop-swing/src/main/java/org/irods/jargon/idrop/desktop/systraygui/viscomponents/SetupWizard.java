@@ -514,6 +514,8 @@ public class SetupWizard extends javax.swing.JDialog {
 
         // for synch setup, if a synch exists, do not allow setup
         if (currentTab == 2) {
+              // FIXME: conveyor
+                            /*
             try {
                 if (idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService().listAllSynchronizations().size() > 0) {
                     log.info("synch already present, skip");
@@ -526,6 +528,7 @@ public class SetupWizard extends javax.swing.JDialog {
                 log.error("error looking for existing synchs", ex);
                 throw new IdropRuntimeException(ex);
             }
+            */
         }
 
         tabStep = currentTab;
@@ -621,6 +624,8 @@ public class SetupWizard extends javax.swing.JDialog {
                 log.info("retry setup of synch");
             }
         } else {
+           /*
+
             try {
                 log.info("saving synch data");
                 Synchronization synchronization = new Synchronization();
@@ -654,6 +659,7 @@ public class SetupWizard extends javax.swing.JDialog {
                 throw new IdropRuntimeException(ex);
 
             }
+            */
         }
     }
 }

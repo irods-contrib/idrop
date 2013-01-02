@@ -519,17 +519,20 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
             final DataTransferOperations dataTransferOperations,
             final IRODSFile sourceFile, final String targetAbsolutePath)
             throws IdropException {
-        try {
+    
+            // FIXME: conveyor
+            /*
+             *     try {
             idrop.getiDropCore().getTransferManager().enqueueACopy(sourceFile.getAbsolutePath(),
                     sourceFile.getResource(), targetAbsolutePath,
                     idrop.getiDropCore().getIrodsAccount());
-
+                    
         } catch (JargonException ex) {
             Logger.getLogger(MoveOrCopyiRODSDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             throw new IdropException(
-                    "unable to copy file due to JargonException", ex);
-        }
+                    "unable to copy file due to JargonException", ex); 
+        } */
 
         // notifications are done at completion of transfer using status
         // callbacks
