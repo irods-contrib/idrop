@@ -2068,8 +2068,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }//GEN-LAST:event_btnMainToolbarUploadActionPerformed
 
     private void btnMainToolbarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarInfoActionPerformed
-        IRODSInfoDialog irodsInfoDialog = new IRODSInfoDialog(this, true,
-                    getIrodsTree());
+        IRODSInfoDialog irodsInfoDialog = new IRODSInfoDialog(this, true, getIrodsTree());
 
         irodsInfoDialog.setLocation(
                 (int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation().getY() + this.getHeight() / 2));
