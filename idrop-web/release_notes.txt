@@ -49,6 +49,9 @@ in an operation and no default rule exists on iRODS.
 *[#1075] no resource defined causes error when serializing shopping cart
 **Added checks and meaningful message when serializing a shopping cart and no defualt resoruce was specified.  This causes an error when serializing the shopping cart file
 
+*[#1119] Error when updating profile.
+**Added better error trapping in updateUserProfile, this gives better messages but there may still be an underlying issue
+
 ==Features==
 
 * [#922] User Profile Management

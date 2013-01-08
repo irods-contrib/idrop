@@ -63,8 +63,15 @@ class ProfileController {
 		/*
 		 * Massage the params into the user profile
 		 */
-		
-		UserProfile userProfile = profileService.retrieveProfile(irodsAccount)
+		UserProfile userProfile
+		try {
+			 userProfile = profileService.retrieveProfile(irodsAccount)
+		} catch (Exception e) {
+			log.error("error retrieving user profile", e)
+			def message = message("message.cannot.create.profile")
+			response.sendError(500, message)
+			return
+		}
 		
 		if (params['nickName'] == null) {
 			def message = message(code:"default.null.message", args: ['nickName', 'parms'])
@@ -90,7 +97,14 @@ class ProfileController {
 		userProfile.userProfileProtectedFields.mail = email
 		
 		log.info "updating profile...."
-		profileService.updateProfile(irodsAccount, userProfile)
+		try {
+			profileService.updateProfile(irodsAccount, userProfile)
+		} catch (Exception e) {
+			log.error("error updating user profile", e)
+			def message = message("message.cannot.create.profile")
+			response.sendError(500, message)
+			return
+		}
 		log.info "updated"
 		
 		render(view:"profileData", model:[userProfile:userProfile])
