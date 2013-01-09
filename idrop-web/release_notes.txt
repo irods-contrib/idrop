@@ -52,6 +52,9 @@ in an operation and no default rule exists on iRODS.
 *[#1119] Error when updating profile.
 **Added better error trapping in updateUserProfile, this gives better messages but there may still be an underlying issue
 
+*[#1118] iDrop Project Page link is broken
+**Fix footer to properly point to the GForge page
+
 ==Features==
 
 * [#922] User Profile Management
