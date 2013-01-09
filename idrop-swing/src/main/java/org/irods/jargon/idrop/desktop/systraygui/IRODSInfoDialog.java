@@ -6,8 +6,14 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.CardLayout;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.exception.DuplicateDataException;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAOImpl;
@@ -24,6 +30,12 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.usertagging.FreeTaggingService;
+import org.irods.jargon.usertagging.IRODSTaggingService;
+import org.irods.jargon.usertagging.TaggingServiceFactory;
+import org.irods.jargon.usertagging.TaggingServiceFactoryImpl;
+import org.irods.jargon.usertagging.domain.IRODSTagGrouping;
+import org.irods.jargon.usertagging.domain.IRODSTagValue;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -115,6 +127,10 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
             @Override
             public void run() {
                 try {
+                    
+                    TaggingServiceFactory taggingServiceFactory = new TaggingServiceFactoryImpl(irodsFileSystem.getIRODSAccessObjectFactory());
+                    FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount);
+                    IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount);
 
                     if (isCollection()) {
 
@@ -139,59 +155,148 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
                             lblInfoCollectionOwner.setText("");
                         }
 
-                        // don't know how to get collection description
-                        lblInfoCollectionDescription.setText("");
+                        if (collection.getComments() != null) {
+                            lblInfoCollectionDescription.setText(collection.getComments());
+                        } else {
+                            lblInfoCollectionDescription.setText("");
+                        }
 
-                        // don't know how to get collection type
-                        lblInfoCollectionType.setText("");
+                        if (collection.getSpecColType() != null) {
+                            lblInfoCollectionType.setText(collection.getSpecColType().name());
+                        } else {
+                            lblInfoCollectionType.setText("");
+                        }
 
                         if (collection.getCollectionOwnerZone() != null) {
                             lblInfoCollectionOwnerZone.setText(collection.getCollectionOwnerZone());
-                        }
-                        else {
+                        } else {
                             lblInfoCollectionOwnerZone.setText("");
                         }
                         
                         if (collection.getObjectPath() != null) {
                             lblInfoCollectionObjectPath.setText(collection.getObjectPath());
-                        }
-                        else {
+                        } else {
                             lblInfoCollectionObjectPath.setText("");
                         }
                         
                         if (collection.getInfo1() != null) {
                             lblInfoCollectionInfo1.setText(collection.getInfo1());
-                        }
-                        else {
+                        } else {
                             lblInfoCollectionInfo1.setText("");
                         }
                         
                         if (collection.getInfo2() != null) {
                             lblInfoCollectionInfo2.setText(collection.getInfo2());
-                        }
-                        else {
+                        } else {
                             lblInfoCollectionInfo2.setText("");
                         }
+                        
+                        txtInfoTags.setText(freeTaggingService.getTagsForCollectionInFreeTagForm(
+                                selectedObjectFullPath).getSpaceDelimitedTagsForDomain());
+                        IRODSTagValue irodsTagValue = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(
+                                selectedObjectFullPath);
+                        if (irodsTagValue != null) {
+                            textareaInfoComments.append(irodsTagValue.getTagData());
+                        }      
 
-
-                    } else {
+                    } 
+                    else {
 
                         DataObjectAO dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory().getDataObjectAO(irodsAccount);
-                        DataObject dataObject = dataObjectAO.findByAbsolutePath(selectedObjectFullPath);
-
-                        lblInfoObjectSize.setText(FieldFormatHelper.formatFileLength(dataObject.getDataSize()));
-                        lblInfoObjectCreatedDate.setText(dataObject.getCreatedAt().toString());
+                        DataObject dataObject = dataObjectAO.findByAbsolutePath(selectedObjectFullPath);                      
+                        
+                        if (dataObject.getDataSize() >= 0) {
+                            lblInfoObjectSize.setText(FieldFormatHelper.formatFileLength(dataObject.getDataSize()));
+                        } else {
+                            lblInfoObjectSize.setText("");
+                        }
+                        
+                        if (dataObject.getCreatedAt().toString() != null) {
+                            lblInfoObjectCreatedDate.setText(dataObject.getCreatedAt().toString());
+                        } else {
+                            lblInfoObjectCreatedDate.setText("");
+                        }
+                        
+                        if (dataObject.getUpdatedAt().toString() != null) {
+                            lblInfoObjectModifiedDate.setText(dataObject.getUpdatedAt().toString());
+                        } else {
+                            lblInfoObjectCreatedDate.setText("");
+                        }
+                        
+                        if (dataObject.getDataOwnerName() != null) {
+                            lblInfoObjectOwner.setText(dataObject.getDataOwnerName());
+                        } else {
+                            lblInfoObjectOwner.setText("");
+                        }
+                        
+                        if (dataObject.getDataOwnerZone() != null) {
+                            lblInfoObjectOwnerZone.setText(dataObject.getDataOwnerZone());
+                        } else {
+                            lblInfoObjectOwnerZone.setText("");
+                        }
+                        
+                        if (dataObject.getDataPath() != null) {
+                            lblInfoObjectDataPath.setText(dataObject.getDataPath());
+                        } else {
+                            lblInfoObjectDataPath.setText("");
+                        }
+                        
+                        if (dataObject.getResourceGroupName() != null) {
+                            lblInfoObjectResourceGroup.setText(dataObject.getResourceGroupName());
+                        } else {
+                            lblInfoObjectResourceGroup.setText("");
+                        }
+                        
+                        if (dataObject.getChecksum() != null) {
+                            lblInfoObjectChecksum.setText(dataObject.getChecksum());
+                        } else {
+                            lblInfoObjectChecksum.setText("");
+                        }
+                        
+                        if (dataObject.getResourceName() != null) {
+                            lblInfoObjectResource.setText(dataObject.getResourceName());
+                        } else {
+                            lblInfoObjectResource.setText("");
+                        }
+                        
+                        if (dataObject.getDataReplicationNumber() >= 0) {
+                            lblInfoObjectReplicaNumber.setText(Integer.toString(dataObject.getDataReplicationNumber()));
+                        } else {
+                            lblInfoObjectReplicaNumber.setText("");
+                        }
+                        
+                        if (dataObject.getReplicationStatus() != null) {
+                            lblInfoObjectReplicationStatus.setText(dataObject.getReplicationStatus());
+                        } else {
+                            lblInfoObjectReplicationStatus.setText("");
+                        }
+                        
+                        if (dataObject.getDataStatus() != null) {
+                            lblInfoObjectStatus.setText(dataObject.getDataStatus());
+                        } else {
+                            lblInfoObjectStatus.setText("");
+                        }
+                        
+                        if (dataObject.getDataTypeName() != null) {
+                            lblInfoObjectType.setText(dataObject.getDataTypeName());
+                        } else {
+                            lblInfoObjectType.setText("");
+                        }
+                        
+                        if (dataObject.getDataVersion() >= 0) {
+                            lblInfoObjectVersion.setText(Integer.toString(dataObject.getDataVersion()));
+                        } else {
+                            lblInfoObjectVersion.setText("");
+                        }
 
                     }
+                    
+                    // now populate tags and comments
 
                 } catch (FileNotFoundException ex) {
                     Exceptions.printStackTrace(ex);
                 } catch (JargonException ex) {
                     Exceptions.printStackTrace(ex);
-//                } catch (IdropException ex) {
-//                    Logger.getLogger(MetadataViewDialog.class.getName()).log(
-//                            Level.SEVERE, null, ex);
-//                    idropGui.showIdropException(ex);
                 }
             }
         });
@@ -273,7 +378,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -366,6 +470,10 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        pnlCloseBtn = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        btnClose = new javax.swing.JButton();
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -379,9 +487,10 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(565, 700));
+        setPreferredSize(new java.awt.Dimension(560, 720));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 10, 10, 10));
+        jPanel1.setPreferredSize(new java.awt.Dimension(600, 750));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         pnlSelectedObject.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4));
@@ -428,10 +537,12 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
 
         jPanel1.add(pnlSelectedObject, java.awt.BorderLayout.PAGE_START);
 
+        tabbedpanelMain.setPreferredSize(new java.awt.Dimension(600, 867));
+
         pnlInfoTab.setLayout(new java.awt.BorderLayout());
 
         pnlInfoCards.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlInfoCards.setPreferredSize(new java.awt.Dimension(545, 640));
+        pnlInfoCards.setPreferredSize(new java.awt.Dimension(555, 640));
         pnlInfoCards.setLayout(new java.awt.CardLayout());
 
         pnlCollectionInfo.setPreferredSize(new java.awt.Dimension(515, 500));
@@ -546,12 +657,12 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
                 .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel27)
                     .add(lblInfoCollectionInfo2))
-                .addContainerGap(324, Short.MAX_VALUE))
+                .addContainerGap(289, Short.MAX_VALUE))
         );
 
         pnlInfoCards.add(pnlCollectionInfo, "cardCollectionInfo");
 
-        pnlObjectInfo.setPreferredSize(new java.awt.Dimension(523, 530));
+        pnlObjectInfo.setPreferredSize(new java.awt.Dimension(550, 530));
 
         jLabel3.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel3.text")); // NOI18N
 
@@ -716,7 +827,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
                 .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel16)
                     .add(lblInfoObjectVersion))
-                .addContainerGap(316, Short.MAX_VALUE))
+                .addContainerGap(281, Short.MAX_VALUE))
         );
 
         pnlInfoCards.add(pnlObjectInfo, "cardObjectInfo");
@@ -736,6 +847,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
         jScrollPane1.setViewportView(textareaInfoComments);
 
         btnUpdateTagsComments.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnUpdateTagsComments.text")); // NOI18N
+        btnUpdateTagsComments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateTagsCommentsActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout pnlTagsCommentsLayout = new org.jdesktop.layout.GroupLayout(pnlTagsComments);
         pnlTagsComments.setLayout(pnlTagsCommentsLayout);
@@ -989,6 +1105,52 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
 
         jPanel1.add(tabbedpanelMain, java.awt.BorderLayout.CENTER);
 
+        pnlCloseBtn.setPreferredSize(new java.awt.Dimension(589, 35));
+        pnlCloseBtn.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel3.setSize(new java.awt.Dimension(200, 100));
+
+        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 35, Short.MAX_VALUE)
+        );
+
+        pnlCloseBtn.add(jPanel3, java.awt.BorderLayout.WEST);
+
+        btnClose.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnClose.text")); // NOI18N
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(486, Short.MAX_VALUE)
+                .add(btnClose)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel4Layout.createSequentialGroup()
+                .add(0, 6, Short.MAX_VALUE)
+                .add(btnClose))
+        );
+
+        pnlCloseBtn.add(jPanel4, java.awt.BorderLayout.EAST);
+
+        jPanel1.add(pnlCloseBtn, java.awt.BorderLayout.PAGE_END);
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -997,7 +1159,109 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
     private void btnMetadataUpdateCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMetadataUpdateCreateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMetadataUpdateCreateActionPerformed
+
+    private void btnUpdateTagsCommentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateTagsCommentsActionPerformed
+        
+        TaggingServiceFactory taggingServiceFactory = null;;
+        IRODSTagValue irodsTagValue = null;
+        
+        try {
+            taggingServiceFactory = new TaggingServiceFactoryImpl(irodsFileSystem.getIRODSAccessObjectFactory());     
+            FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount);
+            IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount);
+
+            // first update the tags
+            String newTagStr = txtInfoTags.getText();
+            if (newTagStr != null ) { //&& !newTagStr.isEmpty()) {
+
+                // now need to diff against existing tags to see what to add and what to delete
+                String existingTags = null;
+                if (isCollection()) {
+                    existingTags = freeTaggingService.getTagsForCollectionInFreeTagForm(
+                            selectedObjectFullPath).getSpaceDelimitedTagsForDomain();
+                }
+                else {
+                    existingTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(
+                            selectedObjectFullPath).getSpaceDelimitedTagsForDomain();
+                }
+
+                List<String> existingTagList = Arrays.asList(existingTags.split(" "));
+                List<String> newTagsList = Arrays.asList(newTagStr.split(" +"));
+                
+                // find tags to delete and remove them
+                Set<String> tagsToDeleteSet = new HashSet<String>(existingTagList);
+                tagsToDeleteSet.removeAll(newTagsList);
+                String[] tagsToDelete = tagsToDeleteSet.toArray(new String[0]);
+                for (String tag: tagsToDelete) {
+                    if (tag.length() > 0) {
+                    irodsTagValue = new IRODSTagValue(tag, irodsAccount.getUserName());
+                    if (isCollection()) {
+                        irodsTaggingService.deleteTagFromCollection(selectedObjectFullPath, irodsTagValue);
+                    }
+                    else {
+                        irodsTaggingService.deleteTagFromDataObject(selectedObjectFullPath, irodsTagValue);
+                    }
+                    }
+                }
+                
+                // find tags to add
+                Set<String> tagsToAddSet = new HashSet<String>(newTagsList);
+                tagsToAddSet.removeAll(existingTagList);
+                String[] tagsToAdd = tagsToAddSet.toArray(new String[0]);
+                for (String tag: tagsToAdd) {
+                    if (tag.length() > 0) {
+                    irodsTagValue = new IRODSTagValue(tag, irodsAccount.getUserName());
+                    if (isCollection()) {
+                        irodsTaggingService.addTagToCollection(selectedObjectFullPath, irodsTagValue);
+                    }
+                    else {
+                        irodsTaggingService.addTagToCollection(selectedObjectFullPath, irodsTagValue);
+                    }
+                    }
+                }
+            }
+        
+            
+            // now update comments
+            String commentStr = textareaInfoComments.getText();
+            if (commentStr != null && !commentStr.isEmpty()) {
+
+                // update comments
+                irodsTagValue = new IRODSTagValue(commentStr, irodsAccount.getUserName());
+                if (isCollection()) {
+                    irodsTaggingService.checkAndUpdateDescriptionOnCollection(selectedObjectFullPath, irodsTagValue);
+                }
+                else {
+                    irodsTaggingService.checkAndUpdateDescriptionOnDataObject(selectedObjectFullPath, irodsTagValue);
+                }
+            }
+            else {
+                // remove all comments
+                if (isCollection()) {
+                    irodsTagValue = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(selectedObjectFullPath);
+                    irodsTaggingService.deleteDescriptionFromCollection(selectedObjectFullPath, irodsTagValue);
+                }
+                else {
+                    irodsTagValue = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(selectedObjectFullPath);
+                    irodsTaggingService.deleteDescriptionFromDataObject(selectedObjectFullPath, irodsTagValue);
+                }
+            }
+            
+        } catch (JargonException ex) {
+            Exceptions.printStackTrace(ex);
+            JOptionPane.showMessageDialog(
+                    this, "Update of Tags and Comments Failed");
+        }
+        JOptionPane.showMessageDialog(
+                    this, "Tags and Comments Sucessfully Updated", "Update Tags and Comments", JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_btnUpdateTagsCommentsActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnMetadataClear;
     private javax.swing.JButton btnMetadataDelete;
     private javax.swing.JButton btnMetadataUpdateCreate;
@@ -1040,6 +1304,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1071,6 +1337,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblInfoObjectType;
     private javax.swing.JLabel lblInfoObjectVersion;
     private javax.swing.JLabel lblObjectCollection;
+    private javax.swing.JPanel pnlCloseBtn;
     private javax.swing.JPanel pnlCollectionInfo;
     private javax.swing.JPanel pnlInfoCards;
     private javax.swing.JPanel pnlInfoTab;
