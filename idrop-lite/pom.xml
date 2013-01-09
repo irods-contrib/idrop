@@ -4,7 +4,7 @@
     <parent>
         <artifactId>idrop</artifactId>
         <groupId>org.irods</groupId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>1.0.3-SNAPSHOT</version>
     </parent>
     <groupId>org.irods.idrop</groupId>
     <artifactId>idrop-lite</artifactId>

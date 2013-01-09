@@ -475,4 +475,15 @@ public class IdropConfig {
 
         return propInt;
     }
+
+    public boolean isConnectionRestart() {
+          boolean propBoolean = false;
+        String propString = idropProperties.getProperty(IdropConfigurationService.IRODS_CONNECTION_RESTART);
+
+        if (propString != null && propString.equals("true")) {
+            propBoolean = true;
+        }
+
+        return propBoolean;
+    }
 }

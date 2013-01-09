@@ -182,9 +182,10 @@ log4j = {
 
 	info 'org.irods.mydrop'
 	info 'org.irods.jargon'
+
 	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
-	info 'grails.app'
+	warn 'grails.app'
 
 	warn 'org.mortbay.log',
 			'grails.app.controller',

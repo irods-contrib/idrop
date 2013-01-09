@@ -94,8 +94,18 @@ class ProfileController {
 		/*
 		 * Massage the params into the user profile
 		 */
+
 		
-		UserProfile userProfile = profileService.retrieveProfile(irodsAccount)
+		UserProfile userProfile
+		try {
+			 userProfile = profileService.retrieveProfile(irodsAccount)
+		} catch (Exception e) {
+			log.error("error retrieving user profile", e)
+			def message = message("message.cannot.create.profile")
+			response.sendError(500, message)
+			return
+		}
+		
 		userProfile.userName = irodsAccount.userName
 		userProfile.userProfilePublicFields.nickName = Jsoup.clean(profileCommand.nickName,Whitelist.basic())
 		userProfile.userProfilePublicFields.description = Jsoup.clean(profileCommand.description,Whitelist.basic())
@@ -113,7 +123,14 @@ class ProfileController {
 		userProfile.userProfilePublicFields.title = Jsoup.clean(profileCommand.title,Whitelist.basic())
 		
 		log.info "updating profile...."
-		profileService.updateProfile(irodsAccount, userProfile)
+		try {
+			profileService.updateProfile(irodsAccount, userProfile)
+		} catch (Exception e) {
+			log.error("error updating user profile", e)
+			def message = message("message.cannot.create.profile")
+			response.sendError(500, message)
+			return
+		}
 		log.info "updated"
 		flash.message =  message(code:"message.update.successful")
 		
