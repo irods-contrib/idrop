@@ -312,6 +312,22 @@ class BrowseController {
 
 			def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
 			log.debug("retrieved collectionAndDataObjectList: ${entries}")
+			
+			//FIXME: consider promoting to jargon data utils for building and pagingstatus object
+			def isLast = true
+			def firstIndex = 0
+			def lastIndex = 0
+			def totalRecords = 0
+			if (!entries.empty) {
+				isLast = entries.last().lastResult
+				firstIndex = entries.first().count
+				totalRecords = entries.first().totalRecords
+				lastIndex = entries.last().count
+				log.info("last result? ${isLast}")
+				
+			}
+			
+		
 			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
 		} catch (FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)

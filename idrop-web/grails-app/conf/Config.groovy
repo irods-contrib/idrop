@@ -180,7 +180,7 @@ log4j = {
 			'org.hibernate',
 			'net.sf.ehcache.hibernate'
 
-	warn 'org.irods.mydrop'
+	info 'org.irods.mydrop'
 	info 'org.irods.jargon'
 	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
