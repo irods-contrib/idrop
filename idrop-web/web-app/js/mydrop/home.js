@@ -623,7 +623,7 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	}
 
 	if (browseOptionVal == null) {
-		browseOptionVal = "info";
+		browseOptionVal = "browse";
 	}
 
 	
