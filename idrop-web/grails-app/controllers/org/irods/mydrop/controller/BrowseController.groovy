@@ -249,6 +249,7 @@ class BrowseController {
 			if (parent == "") {
 				parent = "/"
 			}
+				
 			// display a root node
 
 			icon = "folder"
@@ -263,6 +264,18 @@ class BrowseController {
 		} else if (pathType == "list") {
 
 			log.info("parent dir for listing provided as:${parent}")
+			
+			def pagingOffset = params['partialStart']
+			def splitMode = params['splitMode']
+			
+			if (pagingOffset == null) {
+				throw new JargonException("missing the partialStart")
+			}
+			
+			if (splitMode == null) {
+				throw new JargonException("missing the splitMode")
+			}
+			
 			def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 			def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
 			log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
@@ -317,19 +330,6 @@ class BrowseController {
 			PagingActions pagingActions = PagingAnalyser.buildPagingActionsFromListOfIRODSDomainObjects(entries, pageSize)
 			log.debug("retrieved collectionAndDataObjectList: ${entries}")
 			log.debug("pagingActions:${pagingActions}")
-			//FIXME: consider promoting to jargon data utils for building and pagingstatus object
-			def isLast = true
-			def firstIndex = 0
-			def lastIndex = 0
-			def totalRecords = 0
-			if (!entries.empty) {
-				isLast = entries.last().lastResult
-				firstIndex = entries.first().count
-				totalRecords = entries.first().totalRecords
-				lastIndex = entries.last().count
-				log.info("last result? ${isLast}")
-				
-			}
 			
 			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0"), pagingActions:pagingActions])
 		} catch (FileNotFoundException fnf) {

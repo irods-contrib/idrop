@@ -1,9 +1,35 @@
 /**
- * Javascript for common elements in main layout template, such as menus,
+* Javascript for common elements in main layout template, such as menus,
  * headers, and footers.
  * 
  * author: Mike Conway - DICE
  */
+
+/**
+ * Information regarding the current file path and 'page' of data for that path being displayed 
+ */
+var baseAbsPath = "/";
+var baseAbsPathAsArrayOfPathElements;
+var displayPage = 1;
+var displayIndex = 0;
+/*
+ * split mode is complicated.  Collections and Data objects are separate things, so there are two queries.  It is possible to encounter situations
+ * where I have to separately page collections and data objects.  One cannot continuously page across collections and data objects unless we come up
+ * with some fancy back end code.  Maybe later, for now, we let the user know and he/she can then decide what to display and page.
+ * 
+ * To help solve this, the idea of a split mode works like this:
+ * 
+ * -I do an initial listing, If I have collections to page then I will need to enter split mode, as I have not 'hit' the data objects yet 
+ * -If I have collections and start on data objects before reaching the end of those, I also enter split mode
+ * 
+ * Split mode will cause an option to appear in the browse grid details where the user chooses to display collections or files, and paging occurs in only that 
+ * domain
+ * 
+ *  n = no split mode
+ * 	c = collection mode
+ * 	d = data object mode
+ */
+var splitMode = 'n'; 
 
 function search() {
 	var searchTerm = $("#searchTerm").val();

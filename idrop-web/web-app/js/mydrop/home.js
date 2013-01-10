@@ -17,8 +17,6 @@ var dataTree;
  * root path (which could be a multi-element path, such as a home directory
  */
 
-var baseAbsPath = "/";
-var baseAbsPathAsArrayOfPathElements;
 var dataTreeView = "";
 var dataTreePath = "";
 
@@ -140,7 +138,8 @@ function browserFirstViewRetrieved(data) {
 								"data" : function(n) {
 									dir = n.attr("id");
 									return "type=list&dir="
-											+ encodeURIComponent(dir);
+											+ encodeURIComponent(dir)
+											+ incorporatePaging(dir);
 								},
 								"error" : function(n) {
 									if (n.statusText == "success"
@@ -249,6 +248,22 @@ function browserFirstViewRetrieved(data) {
 	updateBrowseDetailsForPathBasedOnCurrentModel(baseAbsPath);
 
 }
+
+/**
+ * Add ability to display pages for large collections
+ * @param dir directory being displayed
+ * @returns {String}
+ */
+function incorporatePaging(dir) {
+	if (dir == null) {
+		return "";
+	}
+
+	//alert("incorporate paging:" + dir);
+	return("&partialStart=" + displayIndex + "&splitMode=" + splitMode);
+	
+}
+
 
 /**
  * Handling of actions and format of pop-up menu for browse tree.
