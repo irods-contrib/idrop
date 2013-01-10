@@ -11,6 +11,10 @@
     <div id="infoDialogArea">
       <!--  no empty divs -->
     </div>
+    <!--  render the paging controls if needed -->
+    <g:if test="${pagingActions.paging}">
+    	<g:render template="/browse/browseDetailsToolbar" />
+    </g:if>
    
     <div id="detailsTopSection" >
       <form id="browseDetailsForm" name="browseDetailsForm">
