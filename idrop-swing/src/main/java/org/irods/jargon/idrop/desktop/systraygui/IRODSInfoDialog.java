@@ -6,6 +6,8 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.CardLayout;
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -23,14 +25,17 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.protovalues.FilePermissionEnum;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAOImpl;
 import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
+import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.core.pub.domain.AvuData;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
+import org.irods.jargon.core.pub.domain.User;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
@@ -38,6 +43,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.PermissionsTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.usertagging.FreeTaggingService;
 import org.irods.jargon.usertagging.IRODSTaggingService;
@@ -52,7 +58,7 @@ import org.slf4j.LoggerFactory;
  * @author lisa
  */
 public class IRODSInfoDialog extends javax.swing.JDialog implements
-        ListSelectionListener, DocumentListener {
+        ListSelectionListener, DocumentListener, ActionListener {
 
     private final iDrop idropGUI;
     private final IRODSAccount irodsAccount;
@@ -87,9 +93,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         
         initializeFileInfo();
         initMetadataInfo();
+        initPermissionInfo();
         
         // for now hide clear button
         btnMetadataClear.setVisible(false);
+        btnPermissionsClear.setVisible(false);
     }
 
     private void initSelectedObjectName() {
@@ -314,6 +322,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         if (irodsTagValue != null) {
                             textareaInfoComments.setText(irodsTagValue.getTagData());
                         }
+                        
                     }
 
                 } catch (FileNotFoundException ex) {
@@ -371,14 +380,54 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
+                
+                // set up combobox lists
+                List<User> users = null;
                 dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-//                try {
-//                    
-//                } catch (IdropException ex) {
-//                    Logger.getLogger(MetadataViewDialog.class.getName()).log(
-//                            Level.SEVERE, null, ex);
-//                    idropGUI.showIdropException(ex);
-//                }
+                
+                // this list of ACLs contains permission that are not suppoted?
+                //List<FilePermissionEnum> permissions = FilePermissionEnum.listAllValues();
+                //for (FilePermissionEnum permission: permissions) {
+                    //cbPermissionsPermission.addItem(permission.name());
+                //}
+                // will just do my own for now
+                cbPermissionsPermission.addItem("NONE");
+                cbPermissionsPermission.addItem("READ");;
+                cbPermissionsPermission.addItem("WRITE");
+                cbPermissionsPermission.addItem("OWN");
+                try {
+                    UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
+                    users = userAO.findAll();
+                    cbPermissionsUserName.addItem("NONE");
+                    for (User user: users) {
+                        cbPermissionsUserName.addItem(user.getNameWithZone());
+                    }
+                } catch (JargonException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+                cbPermissionsPermission.addActionListener(dialog);
+                cbPermissionsUserName.addActionListener(dialog);
+                
+                // set up permission table and table model
+                PermissionsTableModel permissionsTableModel = null;
+                try {
+                    if (isCollection()) {
+                        CollectionAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAO(irodsAccount);
+                        permissionsTableModel = new PermissionsTableModel(
+                                collectionAO.listPermissionsForCollection(selectedObjectFullPath));
+                    } else {
+                        DataObjectAO dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory().getDataObjectAO(irodsAccount);
+                        permissionsTableModel = new PermissionsTableModel(
+                                dataObjectAO.listPermissionsForDataObject(selectedObjectFullPath));
+                    }
+                } catch (JargonException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+
+                tablePermissions.setModel(permissionsTableModel);
+                tablePermissions.getSelectionModel().addListSelectionListener(dialog);
+                tablePermissions.validate();
+            
                 dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
@@ -409,7 +458,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         return state;
     }
     
-    private void updateCreateBtnStatus() {
+    private void updateMetadataCreateBtnStatus() {
         // create button should only be enabled when there is no tableMetadata 
         // selection and all text fields are populated
         btnMetadataCreate.setEnabled( 
@@ -418,10 +467,24 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 txtMetadataUnit.getText().length() > 0);
     }
     
-    private void updateDeleteBtnStatus(int selectedRowCount) {
+    private void updateMetadataDeleteBtnStatus(int selectedRowCount) {
         // delete button should only be enabled when there is a tableMetadata selection
         // add all text fields are populated
         btnMetadataDelete.setEnabled(selectedRowCount > 0);
+    }
+    
+    private void updatePermissonsCreateBtnStatus() {
+        // create button should only be enabled when non "None" items
+        // are selected in the permissions combo boxes
+        btnPermissionsCreate.setEnabled( 
+                (!((String)cbPermissionsPermission.getSelectedItem()).equals("NONE")) &&
+                (!((String)cbPermissionsUserName.getSelectedItem()).equals("NONE")));
+    }
+    
+    private void updatePermissionsDeleteBtnStatus(int selectedRowCount) {
+        // delete button should only be enabled when there is a tableMetadata selection
+        // add all text fields are populated
+        btnPermissionsDelete.setEnabled(selectedRowCount > 0);
     }
     
     // ListSelectionListener methods
@@ -434,10 +497,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
             // Metadata Table?
             if (lse.getSource() == tableMetadata.getSelectionModel()) {
                 selectedRowCount = tableMetadata.getSelectedRowCount();
-                updateDeleteBtnStatus(selectedRowCount);
+                updateMetadataDeleteBtnStatus(selectedRowCount);
             }
             else {  // Permissions Table
-
+                selectedRowCount = tablePermissions.getSelectedRowCount();
+                updatePermissionsDeleteBtnStatus(selectedRowCount);
             }
         }     
     }
@@ -446,19 +510,29 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     // DocumentListener Methods
     @Override
     public void insertUpdate(DocumentEvent de) {
-        updateCreateBtnStatus();
+        updateMetadataCreateBtnStatus();
     }
 
     @Override
     public void removeUpdate(DocumentEvent de) {
-        updateCreateBtnStatus();
+        updateMetadataCreateBtnStatus();
     }
 
     @Override
     public void changedUpdate(DocumentEvent de) {
-        updateCreateBtnStatus();
+        updateMetadataCreateBtnStatus();
     }
     // end DocumentListener Methods
+    
+    // ActionListener Methods
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == cbPermissionsPermission ||
+            ae.getSource() == cbPermissionsUserName) {
+            updatePermissonsCreateBtnStatus();
+        }
+    }
+    // end ActionListener Methods
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -551,15 +625,15 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlPermissionsTab = new javax.swing.JPanel();
         pnlPermissionsTable = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tablePermissions = new javax.swing.JTable();
         pnlPermissionEdit = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        cbPermissionsUserName = new javax.swing.JComboBox();
+        cbPermissionsPermission = new javax.swing.JComboBox();
+        btnPermissionsClear = new javax.swing.JButton();
+        btnPermissionsDelete = new javax.swing.JButton();
+        btnPermissionsCreate = new javax.swing.JButton();
         pnlCloseBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -1117,7 +1191,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         pnlPermissionsTable.setLayout(new java.awt.BorderLayout());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tablePermissions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"", ""},
                 {null, null},
@@ -1143,7 +1217,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable2);
+        tablePermissions.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane3.setViewportView(tablePermissions);
 
         pnlPermissionsTable.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
@@ -1155,11 +1230,23 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         jLabel32.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel32.text")); // NOI18N
 
-        jButton1.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jButton1.text")); // NOI18N
+        btnPermissionsClear.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsClear.text")); // NOI18N
 
-        jButton2.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jButton2.text")); // NOI18N
+        btnPermissionsDelete.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsDelete.text")); // NOI18N
+        btnPermissionsDelete.setEnabled(false);
+        btnPermissionsDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPermissionsDeleteActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jButton3.text")); // NOI18N
+        btnPermissionsCreate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsCreate.text")); // NOI18N
+        btnPermissionsCreate.setEnabled(false);
+        btnPermissionsCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPermissionsCreateActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout pnlPermissionEditLayout = new org.jdesktop.layout.GroupLayout(pnlPermissionEdit);
         pnlPermissionEdit.setLayout(pnlPermissionEditLayout);
@@ -1172,16 +1259,16 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                     .add(jLabel32))
                 .add(32, 32, 32)
                 .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jComboBox1, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jComboBox2, 0, 280, Short.MAX_VALUE))
+                    .add(cbPermissionsUserName, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(cbPermissionsPermission, 0, 280, Short.MAX_VALUE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .add(pnlPermissionEditLayout.createSequentialGroup()
                 .addContainerGap(293, Short.MAX_VALUE)
-                .add(jButton1)
+                .add(btnPermissionsClear)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jButton2)
+                .add(btnPermissionsDelete)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jButton3)
+                .add(btnPermissionsCreate)
                 .add(19, 19, 19))
         );
         pnlPermissionEditLayout.setVerticalGroup(
@@ -1190,16 +1277,16 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(45, 45, 45)
                 .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel31)
-                    .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(cbPermissionsUserName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(31, 31, 31)
                 .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel32)
-                    .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(cbPermissionsPermission, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 35, Short.MAX_VALUE)
                 .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jButton1)
-                    .add(jButton2)
-                    .add(jButton3))
+                    .add(btnPermissionsClear)
+                    .add(btnPermissionsDelete)
+                    .add(btnPermissionsCreate))
                 .addContainerGap())
         );
 
@@ -1479,18 +1566,126 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         }
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    private void btnPermissionsDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPermissionsDeleteActionPerformed
+        int selectedRow = tablePermissions.getSelectedRow();
+        String tmpSelectedUser = (String)tablePermissions.getModel().getValueAt(selectedRow, 0);
+        String selectedUser = null;
+        
+        // probably have to remve #zone from user name
+        int idx = tmpSelectedUser.indexOf("#");
+        if (idx >= 0) {
+            selectedUser = tmpSelectedUser.substring(0, idx);
+        }
+        else {
+            selectedUser = tmpSelectedUser;
+        }
+        
+        String theZone = irodsAccount.getZone();
+        
+        try {
+                     
+            if (isCollection()) {
+                CollectionAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAO(irodsAccount);
+                collectionAO.removeAccessPermissionForUser(theZone, selectedObjectFullPath, selectedUser, true);
+            }
+            else {
+                DataObjectAO dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory().getDataObjectAO(irodsAccount);
+                dataObjectAO.removeAccessPermissionsForUser(theZone, selectedObjectFullPath, selectedUser);
+            }
+            
+            // remove this user's entry from table if there is one
+            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
+            PermissionsTableModel tm = (PermissionsTableModel)tablePermissions.getModel();
+            tm.deleteRow(userAO.findByName(tmpSelectedUser));
+            
+            JOptionPane.showMessageDialog(
+                    this, "Permissions Removed Sucessfully", "Remove Permissions", JOptionPane.PLAIN_MESSAGE);
+
+        } catch (JargonException ex) {
+            Exceptions.printStackTrace(ex);
+            JOptionPane.showMessageDialog(
+                    this, "Permission Remove Failed", "Remove Permissions", JOptionPane.PLAIN_MESSAGE);
+        }
+    }//GEN-LAST:event_btnPermissionsDeleteActionPerformed
+
+    private void btnPermissionsCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPermissionsCreateActionPerformed
+        String selectedPermission = (String)cbPermissionsPermission.getSelectedItem();
+        String tmpSelectedUser = (String)cbPermissionsUserName.getSelectedItem();
+        String selectedUser = null;
+        
+        // probably have to remve #zone from user name
+        int idx = tmpSelectedUser.indexOf("#");
+        if (idx >= 0) {
+            selectedUser = tmpSelectedUser.substring(0, idx);
+        }
+        else {
+            selectedUser = tmpSelectedUser;
+        }
+        
+        String theZone = irodsAccount.getZone();
+        
+        try {
+        CollectionAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAO(irodsAccount);
+        DataObjectAO dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory().getDataObjectAO(irodsAccount);
+        
+        if (!selectedPermission.equals("NONE") && !selectedUser.equals("NONE")) {
+            if (selectedPermission.equals("READ")) {             
+                if (isCollection()) {
+                   collectionAO.setAccessPermissionRead(theZone, selectedObjectFullPath, selectedUser, true);
+                }
+                else {
+                   dataObjectAO.setAccessPermissionRead(theZone, selectedObjectFullPath, selectedUser); 
+                }
+            }
+            else
+            if (selectedPermission.equals("WRITE")) {
+                if (isCollection()) {
+                    collectionAO.setAccessPermissionWrite(theZone, selectedObjectFullPath, selectedUser, true);
+                }
+                else {
+                    dataObjectAO.setAccessPermissionWrite(theZone, selectedObjectFullPath, selectedUser);
+                }
+            }
+            else
+            if (selectedPermission.equals("OWN")) {
+               if (isCollection()) {
+                    collectionAO.setAccessPermissionOwn(theZone, selectedObjectFullPath, selectedUser, true);
+                }
+                else {
+                    dataObjectAO.setAccessPermissionOwn(theZone, selectedObjectFullPath, selectedUser);
+                } 
+            }
+            
+            // first remove this user's entry from table if there is one
+            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
+            PermissionsTableModel tm = (PermissionsTableModel)tablePermissions.getModel();
+            tm.deleteRow(userAO.findByName(tmpSelectedUser));
+            
+            // now add to table
+            tm.addRow(userAO.findByName(tmpSelectedUser), FilePermissionEnum.valueOf(selectedPermission));
+            
+            JOptionPane.showMessageDialog(
+                    this, "Permissions Created Sucessfully", "Create Permissions", JOptionPane.PLAIN_MESSAGE);
+        }
+        } catch (JargonException ex) {
+            Exceptions.printStackTrace(ex);
+            JOptionPane.showMessageDialog(
+                    this, "Permission Create Failed", "Create Permissions", JOptionPane.PLAIN_MESSAGE);
+        }
+    }//GEN-LAST:event_btnPermissionsCreateActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnMetadataClear;
     private javax.swing.JButton btnMetadataCreate;
     private javax.swing.JButton btnMetadataDelete;
+    private javax.swing.JButton btnPermissionsClear;
+    private javax.swing.JButton btnPermissionsCreate;
+    private javax.swing.JButton btnPermissionsDelete;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnUpdateTagsComments;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox cbPermissionsPermission;
+    private javax.swing.JComboBox cbPermissionsUserName;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1529,7 +1724,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblInfoCollectionCreatedDate;
     private javax.swing.JLabel lblInfoCollectionDescription;
     private javax.swing.JLabel lblInfoCollectionInfo1;
@@ -1571,6 +1765,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JPanel pnlTagsComments;
     private javax.swing.JTabbedPane tabbedpanelMain;
     private javax.swing.JTable tableMetadata;
+    private javax.swing.JTable tablePermissions;
     private javax.swing.JTextArea textareaInfoComments;
     private javax.swing.JTextField txtInfoTags;
     private javax.swing.JTextField txtMetadataAttribute;
