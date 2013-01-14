@@ -2,7 +2,7 @@
 *'''Project''': idrop-web version 2 
 *'''Date''': xx/xx/xx
 *'''Release Version''': xxxx
-*'''git tag''': 984-idrop-web-redesign
+*'''git tag''': 1134 HIVE integration 
 
 ==News==
 
