@@ -19,7 +19,9 @@ import org.irods.jargon.usertagging.domain.IRODSStarredFileOrCollection
 import org.irods.jargon.usertagging.tags.FreeTaggingService
 import org.irods.jargon.usertagging.tags.IRODSTaggingService
 import org.irods.jargon.usertagging.tags.TaggingServiceFactory
+import org.irods.mydrop.config.ViewState
 import org.irods.mydrop.service.StarringService
+import org.irods.mydrop.service.ViewStateService
 
 /**
  * Controller for browser functionality
@@ -31,7 +33,9 @@ class BrowseController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TaggingServiceFactory taggingServiceFactory
 	StarringService starringService
+	ViewStateService viewStateService
 	IRODSAccount irodsAccount
+	
 	def grailsApplication
 
 	/**
@@ -57,6 +61,8 @@ class BrowseController {
 		log.info ("in index action")
 		def mode = params['mode']
 		def absPath = params['absPath']
+		
+		ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
 
 		if (mode != null) {
 			if (mode == "path") {
@@ -71,7 +77,7 @@ class BrowseController {
 			}
 		}
 
-		render(view: "index", model:[mode:mode,path:absPath])
+		render(view: "index", model:[mode:mode,path:absPath, viewState:viewState])
 	}
 
 	def showBrowseToolbar = {
@@ -170,33 +176,63 @@ class BrowseController {
 
 		// look at the type to decide how to set the root path
 		if (pathType == "detect") {
-			log.info("no parent parm set, detect display as either root or home")
-
-			if (irodsAccount.userName ==  "anonymous") {
-				log.info("user is anonymous, default to view the public directory")
-
-				parent = "/" + irodsAccount.zone + "/home/public"
-
+			
+			/*
+			 * Detect modes means I am being asked to decide what to show, based on things like whether
+			 * strict acl's are enforced.
+			 * 
+			 * If I have a preserved view state, initialize to that
+			 */
+			
+			String rootPath = viewStateService.retrieveRootPath()
+			
+			if (rootPath) {
+				
+				parent = rootPath
+				
+				icon = "folder"
+				state = "closed"
+				type = "folder"
+	
+				def attrBuf = ["id":parent, "rel":type, "absPath":parent]
+	
+				jsonBuff.add(
+						["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+						)
+				
 			} else {
-
-				def isStrict = environmentalInfoAO.isStrictACLs()
-				log.info "is strict?:{isStrict}"
-				if (isStrict) {
-					parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+			
+			
+				log.info("no parent parm set, detect display as either root or home")
+	
+				if (irodsAccount.userName ==  "anonymous") {
+					log.info("user is anonymous, default to view the public directory")
+	
+					parent = "/" + irodsAccount.zone + "/home/public"
+	
 				} else {
-					parent = "/"
+	
+					def isStrict = environmentalInfoAO.isStrictACLs()
+					log.info "is strict?:{isStrict}"
+					if (isStrict) {
+						parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+					} else {
+						parent = "/"
+					}
 				}
+				
+				viewStateService.saveRootPath(parent)
+	
+				icon = "folder"
+				state = "closed"
+				type = "folder"
+	
+				def attrBuf = ["id":parent, "rel":type, "absPath":parent]
+	
+				jsonBuff.add(
+						["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+						)
 			}
-
-			icon = "folder"
-			state = "closed"
-			type = "folder"
-
-			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
-
-			jsonBuff.add(
-					["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
-					)
 
 		} else if (pathType == "root") {
 
@@ -207,6 +243,8 @@ class BrowseController {
 			icon = "folder"
 			state = "closed"
 			type = "folder"
+			
+			viewStateService.saveRootPath(parent)
 
 			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
 
@@ -229,13 +267,14 @@ class BrowseController {
 
 			log.info("setting to home directory:${parent}")
 
-			// display a root node
-			// display a root node
+			// display home node
 
 			icon = "folder"
 			state = "closed"
 			type = "folder"
 
+			viewStateService.saveRootPath(parent)
+			
 			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
 
 			jsonBuff.add(
@@ -255,6 +294,8 @@ class BrowseController {
 			icon = "folder"
 			state = "closed"
 			type = "folder"
+			
+			viewStateService.saveRootPath(parent)
 
 			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
 
@@ -311,6 +352,9 @@ class BrowseController {
 			throw new JargonException("no absolute path passed to the method")
 		}
 		
+		ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
+		viewState.browseView = "browse"
+		
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		try {
 			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
@@ -331,7 +375,7 @@ class BrowseController {
 			log.debug("retrieved collectionAndDataObjectList: ${entries}")
 			log.debug("pagingActions:${pagingActions}")
 			
-			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0"), pagingActions:pagingActions])
+			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0"), viewState:viewState, pagingActions:pagingActions])
 		} catch (FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)
 			render(view:"noInfo")
@@ -360,6 +404,8 @@ class BrowseController {
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
+		
+		viewStateService.saveViewMode("info")
 
 		ViewNameAndModelValues mav = handleInfoLookup(absPath)
 		render(view:mav.view, model:mav.model)
