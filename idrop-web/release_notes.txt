@@ -6,8 +6,7 @@
 
 ==News==
 
-This is a release of iDrop web with the version 2.0 redesign work
-
+Integration of idrop web with the HIVE framework under DataNet
 
 ==Requirements==
 
