@@ -10,6 +10,8 @@
  */
 package org.irods.jargon.idrop.finder;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ListSelectionModel;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
@@ -36,9 +38,14 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
 
     private final IDROPCore idropCore;
     private String selectedAbsolutePath = null;
+    private List<String> selectedAbsolutePaths = null;
 
     public String getSelectedAbsolutePath() {
         return selectedAbsolutePath;
+    }
+    
+    public List<String> getSelectedAbsolutePaths() {
+        return this.selectedAbsolutePaths;
     }
 
     public IDROPCore getIdropCore() {
@@ -138,6 +145,23 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
 
             }
         });
+    }
+    
+    private List<String> findSelectedPaths(ListSelectionModel selectionModel) {
+        List<String> paths = new ArrayList();
+        
+        for(int idx=selectionModel.getMinSelectionIndex(); idx<=selectionModel.getMaxSelectionIndex(); idx++) {
+            
+            if (selectionModel.isSelectedIndex(idx)) {
+                IRODSFinderOutlineModel irodsFileSystemModel = (IRODSFinderOutlineModel) irodsTree.getModel();
+                IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
+                log.info("selected node:{}", selectedNode);
+                CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) selectedNode.getUserObject();
+                paths.add(entry.getFormattedAbsolutePath());
+            }
+        }
+                
+        return paths;
     }
 
     /** This method is called from within the constructor to
@@ -259,8 +283,10 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
             return;
         }
         }
-
+        
         this.selectedAbsolutePath = entry.getFormattedAbsolutePath();
+        
+        this.selectedAbsolutePaths = findSelectedPaths(selectionModel);
         this.setVisible(false);
         
         enableButtonSelectFolder(true);

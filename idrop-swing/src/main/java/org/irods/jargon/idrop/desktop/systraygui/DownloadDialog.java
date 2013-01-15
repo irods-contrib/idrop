@@ -470,10 +470,12 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                 (int)this.getLocation().getX(), (int)this.getLocation().getY());
         irodsFinder.setVisible(true);
         
-        String selectedPath = irodsFinder.getSelectedAbsolutePath();
-        if (selectedPath != null) {
-            DefaultTableModel model = (DefaultTableModel) tblFilesToDownload.getModel();
-            model.addRow(new Object[] {selectedPath});
+        List<String> selectedPaths = irodsFinder.getSelectedAbsolutePaths();
+        for (String selectedPath: selectedPaths) {
+            if (selectedPath != null) {
+                DefaultTableModel model = (DefaultTableModel) tblFilesToDownload.getModel();
+                model.addRow(new Object[] {selectedPath});
+            }
         }
         setDownloadButtonState();
     }//GEN-LAST:event_btnAddDownloadFileActionPerformed
