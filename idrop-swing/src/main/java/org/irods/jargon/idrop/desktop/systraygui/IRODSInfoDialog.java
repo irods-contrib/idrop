@@ -612,6 +612,9 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlMetadataTable = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableMetadata = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        btnMetadataDelete = new javax.swing.JButton();
         pnlMetaDataEdit = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
@@ -621,18 +624,19 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         txtMetadataAttribute = new javax.swing.JTextField();
         txtMetadataValue = new javax.swing.JTextField();
         txtMetadataUnit = new javax.swing.JTextField();
-        btnMetadataDelete = new javax.swing.JButton();
         pnlPermissionsTab = new javax.swing.JPanel();
         pnlPermissionsTable = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablePermissions = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        btnPermissionsDelete = new javax.swing.JButton();
         pnlPermissionEdit = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         cbPermissionsUserName = new javax.swing.JComboBox();
         cbPermissionsPermission = new javax.swing.JComboBox();
         btnPermissionsClear = new javax.swing.JButton();
-        btnPermissionsDelete = new javax.swing.JButton();
         btnPermissionsCreate = new javax.swing.JButton();
         pnlCloseBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -1094,8 +1098,49 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         pnlMetadataTable.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        jPanel5.setPreferredSize(new java.awt.Dimension(568, 44));
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        btnMetadataDelete.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnMetadataDelete.text")); // NOI18N
+        btnMetadataDelete.setActionCommand(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnMetadataDelete.actionCommand")); // NOI18N
+        btnMetadataDelete.setEnabled(false);
+        btnMetadataDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMetadataDeleteActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel6Layout = new org.jdesktop.layout.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 100, Short.MAX_VALUE)
+            .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jPanel6Layout.createSequentialGroup()
+                    .add(8, 8, 8)
+                    .add(btnMetadataDelete)
+                    .addContainerGap(8, Short.MAX_VALUE)))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 40, Short.MAX_VALUE)
+            .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jPanel6Layout.createSequentialGroup()
+                    .add(5, 5, 5)
+                    .add(btnMetadataDelete)
+                    .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jPanel5.add(jPanel6, java.awt.BorderLayout.EAST);
+
+        pnlMetadataTable.add(jPanel5, java.awt.BorderLayout.SOUTH);
+
         pnlMetadataTab.add(pnlMetadataTable, java.awt.BorderLayout.CENTER);
 
+        pnlMetaDataEdit.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlMetaDataEdit.setPreferredSize(new java.awt.Dimension(527, 200));
 
         jLabel28.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel28.text")); // NOI18N
@@ -1125,15 +1170,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         txtMetadataUnit.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.txtMetadataUnit.text")); // NOI18N
 
-        btnMetadataDelete.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnMetadataDelete.text")); // NOI18N
-        btnMetadataDelete.setActionCommand(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnMetadataDelete.actionCommand")); // NOI18N
-        btnMetadataDelete.setEnabled(false);
-        btnMetadataDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMetadataDeleteActionPerformed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout pnlMetaDataEditLayout = new org.jdesktop.layout.GroupLayout(pnlMetaDataEdit);
         pnlMetaDataEdit.setLayout(pnlMetaDataEditLayout);
         pnlMetaDataEditLayout.setHorizontalGroup(
@@ -1148,14 +1184,12 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             .add(jLabel30))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(pnlMetaDataEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(txtMetadataValue)
+                            .add(txtMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, txtMetadataAttribute)
                             .add(txtMetadataUnit)))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlMetaDataEditLayout.createSequentialGroup()
-                        .add(0, 300, Short.MAX_VALUE)
+                        .add(0, 0, Short.MAX_VALUE)
                         .add(btnMetadataClear)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnMetadataDelete)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnMetadataCreate)))
                 .addContainerGap())
@@ -1163,7 +1197,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlMetaDataEditLayout.setVerticalGroup(
             pnlMetaDataEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(pnlMetaDataEditLayout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .add(pnlMetaDataEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel28)
                     .add(txtMetadataAttribute, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -1178,8 +1212,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(23, 23, 23)
                 .add(pnlMetaDataEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnMetadataClear)
-                    .add(btnMetadataCreate)
-                    .add(btnMetadataDelete))
+                    .add(btnMetadataCreate))
                 .addContainerGap())
         );
 
@@ -1222,15 +1255,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         pnlPermissionsTable.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-        pnlPermissionsTab.add(pnlPermissionsTable, java.awt.BorderLayout.CENTER);
+        jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        jPanel7.setPreferredSize(new java.awt.Dimension(568, 44));
+        jPanel7.setLayout(new java.awt.BorderLayout());
 
-        pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
-
-        jLabel31.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel31.text")); // NOI18N
-
-        jLabel32.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel32.text")); // NOI18N
-
-        btnPermissionsClear.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsClear.text")); // NOI18N
+        jPanel8.setPreferredSize(new java.awt.Dimension(100, 44));
 
         btnPermissionsDelete.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsDelete.text")); // NOI18N
         btnPermissionsDelete.setEnabled(false);
@@ -1239,6 +1268,42 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 btnPermissionsDeleteActionPerformed(evt);
             }
         });
+
+        org.jdesktop.layout.GroupLayout jPanel8Layout = new org.jdesktop.layout.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 100, Short.MAX_VALUE)
+            .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jPanel8Layout.createSequentialGroup()
+                    .add(8, 8, 8)
+                    .add(btnPermissionsDelete)
+                    .addContainerGap(8, Short.MAX_VALUE)))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 42, Short.MAX_VALUE)
+            .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jPanel8Layout.createSequentialGroup()
+                    .add(7, 7, 7)
+                    .add(btnPermissionsDelete)
+                    .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jPanel7.add(jPanel8, java.awt.BorderLayout.EAST);
+
+        pnlPermissionsTable.add(jPanel7, java.awt.BorderLayout.SOUTH);
+
+        pnlPermissionsTab.add(pnlPermissionsTable, java.awt.BorderLayout.CENTER);
+
+        pnlPermissionEdit.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
+
+        jLabel31.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel31.text")); // NOI18N
+
+        jLabel32.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel32.text")); // NOI18N
+
+        btnPermissionsClear.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsClear.text")); // NOI18N
 
         btnPermissionsCreate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsCreate.text")); // NOI18N
         btnPermissionsCreate.setEnabled(false);
@@ -1261,13 +1326,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(cbPermissionsUserName, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(cbPermissionsPermission, 0, 280, Short.MAX_VALUE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
             .add(pnlPermissionEditLayout.createSequentialGroup()
-                .addContainerGap(293, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(btnPermissionsClear)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnPermissionsDelete)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(18, 18, 18)
                 .add(btnPermissionsCreate)
                 .add(19, 19, 19))
         );
@@ -1282,10 +1345,9 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel32)
                     .add(cbPermissionsPermission, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 31, Short.MAX_VALUE)
                 .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnPermissionsClear)
-                    .add(btnPermissionsDelete)
                     .add(btnPermissionsCreate))
                 .addContainerGap())
         );
@@ -1721,6 +1783,10 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
