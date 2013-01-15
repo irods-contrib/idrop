@@ -480,11 +480,17 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
 
     private void btnDeleteDownloadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteDownloadFileActionPerformed
 
-        int selectedRow = tblFilesToDownload.getSelectedRow();
-
-        if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) tblFilesToDownload.getModel();
-            model.removeRow(selectedRow);
+        int[] selectedRows = tblFilesToDownload.getSelectedRows();
+        int numRowsSelected = selectedRows.length;
+        
+        // have to remove rows in reverse
+        for(int i=numRowsSelected-1; i>=0; i--) {
+        //for (int selectedRow: selectedRows) {
+            int selectedRow = selectedRows[i];
+            if (selectedRow >= 0) {
+                DefaultTableModel model = (DefaultTableModel) tblFilesToDownload.getModel();
+                model.removeRow(selectedRow);
+            }
         }
     }//GEN-LAST:event_btnDeleteDownloadFileActionPerformed
 

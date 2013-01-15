@@ -529,11 +529,17 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
 
     private void btnDeleteUploadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUploadFileActionPerformed
         
-        int selectedRow = tblFilesToUpload.getSelectedRow();
+        int[] selectedRows = tblFilesToUpload.getSelectedRows();
+        int numRowsSelected = selectedRows.length;
         
-        if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) tblFilesToUpload.getModel();
-            model.removeRow(selectedRow);
+        // have to remove rows in reverse
+        for(int i=numRowsSelected-1; i>=0; i--) {
+        //for (int selectedRow: selectedRows) {
+            int selectedRow = selectedRows[i];
+            if (selectedRow >= 0) {
+                DefaultTableModel model = (DefaultTableModel) tblFilesToUpload.getModel();
+                model.removeRow(selectedRow);
+            }
         }
     }//GEN-LAST:event_btnDeleteUploadFileActionPerformed
 
