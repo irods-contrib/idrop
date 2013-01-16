@@ -1,6 +1,9 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 import org.irods.jargon.core.exception.JargonException;
@@ -18,6 +21,7 @@ import org.slf4j.LoggerFactory;
 public class PermissionsTableModel extends AbstractTableModel {
     
     List<UserFilePermission> permissions;
+    List<UserFilePermission> origPermissions;
     public static org.slf4j.Logger log = LoggerFactory.getLogger(MetadataTableModel.class);
     
     public PermissionsTableModel(List<UserFilePermission> permissions) {
@@ -25,6 +29,7 @@ public class PermissionsTableModel extends AbstractTableModel {
             throw new IdropRuntimeException("null permissions");
         }
         this.permissions = permissions;
+        resetOriginalPermissionList();
     }
 
     @Override
@@ -67,26 +72,21 @@ public class PermissionsTableModel extends AbstractTableModel {
     }
     
     @Override
+    public void setValueAt(Object value, int row, int column) {
+        if(column == 1) {
+            UserFilePermission permission = permissions.get(row);
+            permission.setFilePermissionEnum(FilePermissionEnum.valueOf((String)value));
+            fireTableDataChanged();
+        }
+    }
+    
+    @Override
     public Class<?> getColumnClass(final int columnIndex) {
 
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
-
-        // translate indexes to object values
-        // 0 = user name
-
-        if (columnIndex == 0) {
-            return String.class;
-        }
-
-        // 1 = share permission
-
-        if (columnIndex == 1) {
-            return String.class;
-        }
-
-        throw new IdropRuntimeException("unknown column");
+        return (getValueAt(0, columnIndex).getClass());
     }
     
     @Override
@@ -110,6 +110,11 @@ public class PermissionsTableModel extends AbstractTableModel {
         }
 
         throw new IdropRuntimeException("unknown column");
+    }
+    
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return (column != 0);
     }
     
     public void addRow(User user, FilePermissionEnum permissionEnum) throws JargonException {
@@ -139,6 +144,34 @@ public class PermissionsTableModel extends AbstractTableModel {
                 fireTableDataChanged();
             }
         }
+    }
+    
+     public void deleteRow(int idx) {
+
+        permissions.remove(idx);
+        fireTableDataChanged();
+    }
+    
+    public UserFilePermission[] getPermissionsToDelete() {
+        
+        Set<UserFilePermission> permissionsToDeleteSet = new HashSet<UserFilePermission>(origPermissions);
+        permissionsToDeleteSet.removeAll(permissions);
+        UserFilePermission[] permissionsToDelete = permissionsToDeleteSet.toArray(new UserFilePermission[0]);
+        
+        return permissionsToDelete;
+    }
+    
+    public UserFilePermission[] getPermissionsToAdd() {
+                
+        Set<UserFilePermission> permissionsToAddSet = new HashSet<UserFilePermission>(permissions);
+        permissionsToAddSet.removeAll(origPermissions);
+        UserFilePermission[] permissionsToAdd = permissionsToAddSet.toArray(new UserFilePermission[0]);
+        
+        return permissionsToAdd;
+    }
+    
+    public void resetOriginalPermissionList() {
+        this.origPermissions = new ArrayList(this.permissions);
     }
     
 }

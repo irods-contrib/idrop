@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
@@ -23,6 +24,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableColumn;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.protovalues.FilePermissionEnum;
@@ -36,6 +38,7 @@ import org.irods.jargon.core.pub.domain.AvuData;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.core.pub.domain.User;
+import org.irods.jargon.core.pub.domain.UserFilePermission;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
@@ -97,7 +100,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         
         // for now hide clear button
         btnMetadataClear.setVisible(false);
-        btnPermissionsClear.setVisible(false);
     }
 
     private void initSelectedObjectName() {
@@ -391,22 +393,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                     //cbPermissionsPermission.addItem(permission.name());
                 //}
                 // will just do my own for now
-                cbPermissionsPermission.addItem("NONE");
-                cbPermissionsPermission.addItem("READ");;
-                cbPermissionsPermission.addItem("WRITE");
-                cbPermissionsPermission.addItem("OWN");
-                try {
-                    UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
-                    users = userAO.findAll();
-                    cbPermissionsUserName.addItem("NONE");
-                    for (User user: users) {
-                        cbPermissionsUserName.addItem(user.getNameWithZone());
-                    }
-                } catch (JargonException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-                cbPermissionsPermission.addActionListener(dialog);
-                cbPermissionsUserName.addActionListener(dialog);
+                //cbPermissionsPermission.addItem("NONE");
+                javax.swing.JComboBox tableCombo = new javax.swing.JComboBox();
+                tableCombo.addItem("READ");
+                tableCombo.addItem("WRITE");
+                tableCombo.addItem("OWN");
                 
                 // set up permission table and table model
                 PermissionsTableModel permissionsTableModel = null;
@@ -426,6 +417,9 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
                 tablePermissions.setModel(permissionsTableModel);
                 tablePermissions.getSelectionModel().addListSelectionListener(dialog);
+                TableColumn permissionColumn = tablePermissions.getColumnModel().getColumn(1);
+                permissionColumn.setCellEditor(new DefaultCellEditor(tableCombo));
+                permissionsTableModel.resetOriginalPermissionList();
                 tablePermissions.validate();
             
                 dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -473,18 +467,10 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         btnMetadataDelete.setEnabled(selectedRowCount > 0);
     }
     
-    private void updatePermissonsCreateBtnStatus() {
-        // create button should only be enabled when non "None" items
-        // are selected in the permissions combo boxes
-        btnPermissionsCreate.setEnabled( 
-                (!((String)cbPermissionsPermission.getSelectedItem()).equals("NONE")) &&
-                (!((String)cbPermissionsUserName.getSelectedItem()).equals("NONE")));
-    }
-    
     private void updatePermissionsDeleteBtnStatus(int selectedRowCount) {
-        // delete button should only be enabled when there is a tableMetadata selection
-        // add all text fields are populated
-        btnPermissionsDelete.setEnabled(selectedRowCount > 0);
+        // delete button should only be enabled when there is a tableMetadata or
+        // tablePermissions selection
+        btnDeleteSharePermissions.setEnabled(selectedRowCount > 0);
     }
     
     // ListSelectionListener methods
@@ -527,10 +513,10 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     // ActionListener Methods
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == cbPermissionsPermission ||
-            ae.getSource() == cbPermissionsUserName) {
-            updatePermissonsCreateBtnStatus();
-        }
+//        if (ae.getSource() == cbPermissionsPermission ||
+//            ae.getSource() == cbPermissionsUserName) {
+//            updatePermissonsCreateBtnStatus();
+//        }
     }
     // end ActionListener Methods
     
@@ -630,14 +616,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         tablePermissions = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        btnPermissionsDelete = new javax.swing.JButton();
-        pnlPermissionEdit = new javax.swing.JPanel();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        cbPermissionsUserName = new javax.swing.JComboBox();
-        cbPermissionsPermission = new javax.swing.JComboBox();
-        btnPermissionsClear = new javax.swing.JButton();
-        btnPermissionsCreate = new javax.swing.JButton();
+        btnPermissionsSave = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        btnAddSharePermissions = new javax.swing.JButton();
+        btnDeleteSharePermissions = new javax.swing.JButton();
         pnlCloseBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -1226,7 +1209,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         tablePermissions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", ""},
+                {"", null},
                 {null, null},
                 {null, null},
                 {null, null}
@@ -1236,10 +1219,10 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1261,11 +1244,12 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         jPanel8.setPreferredSize(new java.awt.Dimension(100, 44));
 
-        btnPermissionsDelete.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsDelete.text")); // NOI18N
-        btnPermissionsDelete.setEnabled(false);
-        btnPermissionsDelete.addActionListener(new java.awt.event.ActionListener() {
+        btnPermissionsSave.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsSave.text")); // NOI18N
+        btnPermissionsSave.setActionCommand(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsSave.actionCommand")); // NOI18N
+        btnPermissionsSave.setEnabled(false);
+        btnPermissionsSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPermissionsDeleteActionPerformed(evt);
+                btnPermissionsSaveActionPerformed(evt);
             }
         });
 
@@ -1273,86 +1257,52 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-            .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jPanel8Layout.createSequentialGroup()
-                    .add(8, 8, 8)
-                    .add(btnPermissionsDelete)
-                    .addContainerGap(8, Short.MAX_VALUE)))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .add(btnPermissionsSave)
+                .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 42, Short.MAX_VALUE)
-            .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jPanel8Layout.createSequentialGroup()
-                    .add(7, 7, 7)
-                    .add(btnPermissionsDelete)
-                    .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(btnPermissionsSave)
+                .addContainerGap())
         );
 
         jPanel7.add(jPanel8, java.awt.BorderLayout.EAST);
 
+        jPanel9.setPreferredSize(new java.awt.Dimension(100, 25));
+        jPanel9.setLayout(new java.awt.BorderLayout());
+
+        jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 1));
+
+        btnAddSharePermissions.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddSharePermissions.text")); // NOI18N
+        btnAddSharePermissions.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnAddSharePermissions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSharePermissionsActionPerformed(evt);
+            }
+        });
+        jPanel16.add(btnAddSharePermissions);
+
+        btnDeleteSharePermissions.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnDeleteSharePermissions.text")); // NOI18N
+        btnDeleteSharePermissions.setEnabled(false);
+        btnDeleteSharePermissions.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnDeleteSharePermissions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteSharePermissionsActionPerformed(evt);
+            }
+        });
+        jPanel16.add(btnDeleteSharePermissions);
+
+        jPanel9.add(jPanel16, java.awt.BorderLayout.WEST);
+
+        jPanel7.add(jPanel9, java.awt.BorderLayout.WEST);
+
         pnlPermissionsTable.add(jPanel7, java.awt.BorderLayout.SOUTH);
 
         pnlPermissionsTab.add(pnlPermissionsTable, java.awt.BorderLayout.CENTER);
-
-        pnlPermissionEdit.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
-
-        jLabel31.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel31.text")); // NOI18N
-
-        jLabel32.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel32.text")); // NOI18N
-
-        btnPermissionsClear.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsClear.text")); // NOI18N
-
-        btnPermissionsCreate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnPermissionsCreate.text")); // NOI18N
-        btnPermissionsCreate.setEnabled(false);
-        btnPermissionsCreate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPermissionsCreateActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout pnlPermissionEditLayout = new org.jdesktop.layout.GroupLayout(pnlPermissionEdit);
-        pnlPermissionEdit.setLayout(pnlPermissionEditLayout);
-        pnlPermissionEditLayout.setHorizontalGroup(
-            pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlPermissionEditLayout.createSequentialGroup()
-                .add(45, 45, 45)
-                .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel31)
-                    .add(jLabel32))
-                .add(32, 32, 32)
-                .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(cbPermissionsUserName, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(cbPermissionsPermission, 0, 280, Short.MAX_VALUE))
-                .addContainerGap(96, Short.MAX_VALUE))
-            .add(pnlPermissionEditLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(btnPermissionsClear)
-                .add(18, 18, 18)
-                .add(btnPermissionsCreate)
-                .add(19, 19, 19))
-        );
-        pnlPermissionEditLayout.setVerticalGroup(
-            pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlPermissionEditLayout.createSequentialGroup()
-                .add(45, 45, 45)
-                .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel31)
-                    .add(cbPermissionsUserName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(31, 31, 31)
-                .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel32)
-                    .add(cbPermissionsPermission, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 31, Short.MAX_VALUE)
-                .add(pnlPermissionEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnPermissionsClear)
-                    .add(btnPermissionsCreate))
-                .addContainerGap())
-        );
-
-        pnlPermissionsTab.add(pnlPermissionEdit, java.awt.BorderLayout.SOUTH);
 
         tabbedpanelMain.addTab(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.pnlPermissionsTab.TabConstraints.tabTitle"), pnlPermissionsTab); // NOI18N
 
@@ -1628,126 +1578,159 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         }
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    private void btnPermissionsDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPermissionsDeleteActionPerformed
-        int selectedRow = tablePermissions.getSelectedRow();
-        String tmpSelectedUser = (String)tablePermissions.getModel().getValueAt(selectedRow, 0);
-        String selectedUser = null;
+    private void btnPermissionsSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPermissionsSaveActionPerformed
         
-        // probably have to remve #zone from user name
-        int idx = tmpSelectedUser.indexOf("#");
-        if (idx >= 0) {
-            selectedUser = tmpSelectedUser.substring(0, idx);
-        }
-        else {
-            selectedUser = tmpSelectedUser;
-        }
-        
-        String theZone = irodsAccount.getZone();
+        PermissionsTableModel tm = (PermissionsTableModel)tablePermissions.getModel();
         
         try {
-                     
-            if (isCollection()) {
+            // first get any permissions that were removed
+            UserFilePermission[] permissionsToDelete = tm.getPermissionsToDelete();
+            
+            for (UserFilePermission permission: permissionsToDelete) {
+
+                    if (isCollection()) {
+                        CollectionAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAO(irodsAccount);
+                        collectionAO.removeAccessPermissionForUser(
+                                permission.getUserZone(),
+                                selectedObjectFullPath,
+                                permission.getUserName(),
+                                true);
+                    }
+                    else {
+                        DataObjectAO dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory().getDataObjectAO(irodsAccount);
+                        dataObjectAO.removeAccessPermissionsForUser(
+                                permission.getUserZone(),
+                                selectedObjectFullPath,
+                                permission.getUserName());
+                    }
+            }
+
+            // now add any permissions that were added
+            UserFilePermission[] permissionsToAdd = tm.getPermissionsToAdd();
+
+            for (UserFilePermission permission: permissionsToAdd) {
                 CollectionAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAO(irodsAccount);
-                collectionAO.removeAccessPermissionForUser(theZone, selectedObjectFullPath, selectedUser, true);
-            }
-            else {
                 DataObjectAO dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory().getDataObjectAO(irodsAccount);
-                dataObjectAO.removeAccessPermissionsForUser(theZone, selectedObjectFullPath, selectedUser);
+
+                if (permission.getFilePermissionEnum() == FilePermissionEnum.READ) {
+                    if (isCollection()) {
+                        collectionAO.setAccessPermissionRead(
+                                permission.getUserZone(),
+                                selectedObjectFullPath,
+                                permission.getUserName(),
+                                true);
+                    }
+                    else {
+                        dataObjectAO.setAccessPermissionRead(
+                                permission.getUserZone(),
+                                selectedObjectFullPath,
+                                permission.getUserName());
+                    }
+                }
+                else
+                if (permission.getFilePermissionEnum() == FilePermissionEnum.WRITE) {
+                    if (isCollection()) {
+                        collectionAO.setAccessPermissionWrite(
+                                permission.getUserZone(),
+                                selectedObjectFullPath,
+                                permission.getUserName(),
+                                true);
+                    }
+                    else {
+                        dataObjectAO.setAccessPermissionWrite(
+                                permission.getUserZone(),
+                                selectedObjectFullPath,
+                                permission.getUserName());
+                    }
+                }
+                else
+                if (permission.getFilePermissionEnum() == FilePermissionEnum.OWN) {
+                    if (isCollection()) {
+                        collectionAO.setAccessPermissionOwn(
+                                permission.getUserZone(),
+                                selectedObjectFullPath,
+                                permission.getUserName(),
+                                true);
+                    }
+                    else {
+                        dataObjectAO.setAccessPermissionOwn(
+                                permission.getUserZone(),
+                                selectedObjectFullPath,
+                                permission.getUserName());
+                    }
+                }
+            }
+        
+            if((permissionsToAdd.length > 0) || (permissionsToDelete.length > 0)) {
+                JOptionPane.showMessageDialog(
+                        this, "Permissions Updated Sucessfully", "Update Permissions", JOptionPane.PLAIN_MESSAGE);
             }
             
-            // remove this user's entry from table if there is one
-            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
-            PermissionsTableModel tm = (PermissionsTableModel)tablePermissions.getModel();
-            tm.deleteRow(userAO.findByName(tmpSelectedUser));
-            
-            JOptionPane.showMessageDialog(
-                    this, "Permissions Removed Sucessfully", "Remove Permissions", JOptionPane.PLAIN_MESSAGE);
+            tm.resetOriginalPermissionList();
 
         } catch (JargonException ex) {
-            Exceptions.printStackTrace(ex);
-            JOptionPane.showMessageDialog(
-                    this, "Permission Remove Failed", "Remove Permissions", JOptionPane.PLAIN_MESSAGE);
+                Exceptions.printStackTrace(ex);
+                JOptionPane.showMessageDialog(
+                    this, "Permission Update Failed", "Update Permissions", JOptionPane.PLAIN_MESSAGE);
         }
-    }//GEN-LAST:event_btnPermissionsDeleteActionPerformed
+        
+        btnPermissionsSave.setEnabled(false);
+    }//GEN-LAST:event_btnPermissionsSaveActionPerformed
 
-    private void btnPermissionsCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPermissionsCreateActionPerformed
-        String selectedPermission = (String)cbPermissionsPermission.getSelectedItem();
-        String tmpSelectedUser = (String)cbPermissionsUserName.getSelectedItem();
-        String selectedUser = null;
+    private void btnAddSharePermissionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSharePermissionsActionPerformed
+        AddPermissionsDialog addPermissionsDialog = new AddPermissionsDialog(
+            this, true, irodsFileSystem, irodsAccount);
+
+        addPermissionsDialog.setLocation(
+            (int)this.getLocation().getX(), (int)this.getLocation().getY());
+        addPermissionsDialog.setVisible(true);
+
+        UserFilePermission userFilePermission = addPermissionsDialog.getPermissionToAdd();
         
-        // probably have to remve #zone from user name
-        int idx = tmpSelectedUser.indexOf("#");
-        if (idx >= 0) {
-            selectedUser = tmpSelectedUser.substring(0, idx);
-        }
-        else {
-            selectedUser = tmpSelectedUser;
-        }
-        
-        String theZone = irodsAccount.getZone();
-        
-        try {
-        CollectionAO collectionAO = irodsFileSystem.getIRODSAccessObjectFactory().getCollectionAO(irodsAccount);
-        DataObjectAO dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory().getDataObjectAO(irodsAccount);
-        
-        if (!selectedPermission.equals("NONE") && !selectedUser.equals("NONE")) {
-            if (selectedPermission.equals("READ")) {             
-                if (isCollection()) {
-                   collectionAO.setAccessPermissionRead(theZone, selectedObjectFullPath, selectedUser, true);
-                }
-                else {
-                   dataObjectAO.setAccessPermissionRead(theZone, selectedObjectFullPath, selectedUser); 
-                }
+        // first remove this user's entry from table if there is one
+        if (userFilePermission != null) {
+            try {
+                UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
+                String tableUserName = userFilePermission.getUserName() + "#" + userFilePermission.getUserZone();
+
+                PermissionsTableModel tm = (PermissionsTableModel)tablePermissions.getModel();
+                tm.deleteRow(userAO.findByName(tableUserName));
+
+                // now add to table
+                tm.addRow(userAO.findByName(tableUserName), userFilePermission.getFilePermissionEnum());
+            } catch (JargonException ex) {
+                Exceptions.printStackTrace(ex);
             }
-            else
-            if (selectedPermission.equals("WRITE")) {
-                if (isCollection()) {
-                    collectionAO.setAccessPermissionWrite(theZone, selectedObjectFullPath, selectedUser, true);
-                }
-                else {
-                    dataObjectAO.setAccessPermissionWrite(theZone, selectedObjectFullPath, selectedUser);
-                }
-            }
-            else
-            if (selectedPermission.equals("OWN")) {
-               if (isCollection()) {
-                    collectionAO.setAccessPermissionOwn(theZone, selectedObjectFullPath, selectedUser, true);
-                }
-                else {
-                    dataObjectAO.setAccessPermissionOwn(theZone, selectedObjectFullPath, selectedUser);
-                } 
-            }
-            
-            // first remove this user's entry from table if there is one
-            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
-            PermissionsTableModel tm = (PermissionsTableModel)tablePermissions.getModel();
-            tm.deleteRow(userAO.findByName(tmpSelectedUser));
-            
-            // now add to table
-            tm.addRow(userAO.findByName(tmpSelectedUser), FilePermissionEnum.valueOf(selectedPermission));
-            
-            JOptionPane.showMessageDialog(
-                    this, "Permissions Created Sucessfully", "Create Permissions", JOptionPane.PLAIN_MESSAGE);
+            btnPermissionsSave.setEnabled(true);
         }
-        } catch (JargonException ex) {
-            Exceptions.printStackTrace(ex);
-            JOptionPane.showMessageDialog(
-                    this, "Permission Create Failed", "Create Permissions", JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_btnAddSharePermissionsActionPerformed
+
+    private void btnDeleteSharePermissionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSharePermissionsActionPerformed
+
+        int[] selectedRows = tablePermissions.getSelectedRows();
+        int numRowsSelected = selectedRows.length;
+
+        // have to remove rows in reverse
+        for(int i=numRowsSelected-1; i>=0; i--) {
+            int selectedRow = selectedRows[i];
+            if (selectedRow >= 0) {
+                PermissionsTableModel model = (PermissionsTableModel) tablePermissions.getModel();
+                model.deleteRow(selectedRow);
+                btnPermissionsSave.setEnabled(true);
+            }
         }
-    }//GEN-LAST:event_btnPermissionsCreateActionPerformed
+    }//GEN-LAST:event_btnDeleteSharePermissionsActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddSharePermissions;
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnDeleteSharePermissions;
     private javax.swing.JButton btnMetadataClear;
     private javax.swing.JButton btnMetadataCreate;
     private javax.swing.JButton btnMetadataDelete;
-    private javax.swing.JButton btnPermissionsClear;
-    private javax.swing.JButton btnPermissionsCreate;
-    private javax.swing.JButton btnPermissionsDelete;
+    private javax.swing.JButton btnPermissionsSave;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnUpdateTagsComments;
-    private javax.swing.JComboBox cbPermissionsPermission;
-    private javax.swing.JComboBox cbPermissionsUserName;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1771,8 +1754,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1780,6 +1761,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1787,6 +1769,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1824,7 +1807,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JPanel pnlMetadataTab;
     private javax.swing.JPanel pnlMetadataTable;
     private javax.swing.JPanel pnlObjectInfo;
-    private javax.swing.JPanel pnlPermissionEdit;
     private javax.swing.JPanel pnlPermissionsTab;
     private javax.swing.JPanel pnlPermissionsTable;
     private javax.swing.JPanel pnlSelectedObject;
