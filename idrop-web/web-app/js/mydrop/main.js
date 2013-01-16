@@ -31,21 +31,7 @@ var displayIndex = 0;
  */
 var splitMode = 'n'; 
 
-function search() {
-	var searchTerm = $("#searchTerm").val();
 
-	if (searchTerm == "") {
-		setMessage("Enter a search term");
-		return false;
-	}
-
-	var searchType = $("#searchType").val();
-
-	$('#tabs').tabs({
-		selected : 1
-	}); // activate search results tab
-	prosecuteSearch(searchTerm, searchType);
-}
 
 /**
  * Linked to update tags button on info view, update the tags in iRODS
@@ -90,33 +76,6 @@ function updateTagsAtPath(path, tags, comment) {
 	unblockPanel();
 }
 
-/*
- * Update the information in the tag cloud
- */
-function haveTagCloudData(data) {
-	$("#tagCloudDiv").empty();
-	$("#tagCloudDiv").jQCloud(data, {
-		width : 300,
-		height : 600
-	});
-
-}
-
-function clickInTagCloud(data) {
-	$('#tabs').tabs({
-		selected : 1
-	}); // activate search results tab
-	prosecuteSearch(data, "tag");
-}
-
-function refreshTagCloud() {
-	lcShowBusyIconInDiv("#tagCloudDiv");
-	lcSendValueAndCallbackWithJsonAfterErrorCheck("/tags/tagCloudFormatted",
-			null, "#tagCloudDiv", function(data) {
-				haveTagCloudData(data);
-			});
-
-}
 
 function logout() {
 	window.location = context + "/login/logout";

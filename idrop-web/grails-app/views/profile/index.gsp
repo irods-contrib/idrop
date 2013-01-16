@@ -173,5 +173,13 @@
 </div>
 </dov>
 <script>
-	
+$(document).ready(function() {
+
+		$.ajaxSetup({
+			cache : false
+		});
+		$("#topbarPreferences").addClass("active");
+		quickViewShowStarredFiles();
+
+	});
 </script>
