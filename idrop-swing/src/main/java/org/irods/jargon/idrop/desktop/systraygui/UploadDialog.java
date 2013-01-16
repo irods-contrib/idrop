@@ -99,9 +99,13 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
             try {
                 IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
                 ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
-                // rule out "/"
+                
+                // rule out "/" and choose parent if file is not a directory
                 String path = ifile.getAbsolutePath();
-                if ((ifile.isDirectory()) && (path != null) && (!path.equals("/"))) {
+                if (ifile.isFile()) {
+                    path = ifile.getParent();
+                }
+                if ((path != null) && (!path.equals("/"))) {
                     target = path;
                 }
             } catch (IdropException ex) {

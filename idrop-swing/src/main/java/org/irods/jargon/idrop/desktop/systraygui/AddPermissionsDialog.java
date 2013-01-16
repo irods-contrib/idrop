@@ -6,6 +6,8 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
@@ -49,6 +51,13 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements ActionL
         try {
             UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
             users = userAO.findAll();
+            Collections.sort(users, new Comparator<User>() {
+                @Override
+                public int compare(final User object1, final User object2) {
+                    return object1.getName().compareTo(object2.getName());
+                }
+            } );
+ 
             for (User user: users) {
                 cbPermissionsUserName.addItem(user.getNameWithZone());
             }
