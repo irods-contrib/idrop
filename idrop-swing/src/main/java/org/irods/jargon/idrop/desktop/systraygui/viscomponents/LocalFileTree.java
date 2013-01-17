@@ -89,9 +89,9 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         //this.setCellRenderer(new DefaultTreeCellRenderer());
         setUpTreeMenu();
         setDropMode(javax.swing.DropMode.ON);
-       setCellRenderer(new OwnRenderer());
-       
-
+        setCellRenderer(new OwnRenderer());     
+      
+        
     }
 
     /**
@@ -236,7 +236,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         return matchedChildNode;
 
     }
-
+    
     private void setUpTreeMenu()
     {
         ToolTipManager.sharedInstance().registerComponent(this);

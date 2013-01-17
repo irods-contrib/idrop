@@ -3,8 +3,11 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.core.pub.domain.AvuData;
 
 import org.irods.jargon.core.query.MetaDataAndDomainData;
+import org.irods.jargon.core.query.MetaDataAndDomainData.MetadataDomain;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
@@ -25,33 +28,21 @@ public class MetadataTableModel extends AbstractTableModel {
         }
 
         // translate indexes to object values
-        // 0 = collectionId
+        // 0 = attribute
 
         if (columnIndex == 0) {
             return String.class;
         }
 
-        // 1 = collection abs path
+        // 1 = value
 
         if (columnIndex == 1) {
             return String.class;
         }
 
-        // 2 = attribute
+        // 2 = units
 
         if (columnIndex == 2) {
-            return String.class;
-        }
-
-        // 3 = value
-
-        if (columnIndex == 3) {
-            return String.class;
-        }
-
-        // 4 = units
-
-        if (columnIndex == 4) {
             return String.class;
         }
 
@@ -66,34 +57,22 @@ public class MetadataTableModel extends AbstractTableModel {
 
         // translate indexes to object values
 
-        // 0 = id
+        // 0 = attribute
 
         if (columnIndex == 0) {
-            return "ID";
-        }
-
-        // 1 = abs path
-
-        if (columnIndex == 1) {
-            return "Absolute Path";
-        }
-
-        // 2 = attribute
-
-        if (columnIndex == 2) {
             return "Attribute";
         }
 
-        // 3 = value
+        // 1 = value
 
-        if (columnIndex == 3) {
+        if (columnIndex == 1) {
             return "Value";
         }
 
-        // 4 = units
+        // 2 = units
 
-        if (columnIndex == 4) {
-            return "Units";
+        if (columnIndex == 2) {
+            return "Unit";
         }
 
         throw new IdropRuntimeException("unknown column");
@@ -116,7 +95,7 @@ public class MetadataTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 3;
     }
 
     @Override
@@ -134,37 +113,39 @@ public class MetadataTableModel extends AbstractTableModel {
 
         // translate indexes to object values
 
-        // 0 = id
+        // 0 = attribute
 
         if (columnIndex == 0) {
-            return metadataEntry.getDomainObjectId();
-        }
-
-        // 1 = abs path
-
-        if (columnIndex == 1) {
-            return metadataEntry.getDomainObjectUniqueName();
-        }
-
-        // 2 = attribute
-
-        if (columnIndex == 2) {
             return metadataEntry.getAvuAttribute();
         }
 
-        // 3 = value
+        // 1 = value
 
-        if (columnIndex == 3) {
+        if (columnIndex == 1) {
             return metadataEntry.getAvuValue();
         }
 
-        // 4 = units
+        // 2 = units
 
-        if (columnIndex == 4) {
+        if (columnIndex == 2) {
             return metadataEntry.getAvuUnit();
         }
 
         throw new IdropRuntimeException("unknown column");
 
+    }
+    
+    public void addRow(String absPath, String attr, String value, String unit) throws JargonException {
+        MetaDataAndDomainData metadata = MetaDataAndDomainData.instance(MetadataDomain.DATA, "1", absPath, attr, value, unit);
+        metadataAndDomainData.add(metadata);
+        fireTableDataChanged();
+    }
+    
+    public void deleteRow(String absPath, String attr, String value, String unit, int selectedRow) throws JargonException {
+        MetaDataAndDomainData metadata = MetaDataAndDomainData.instance(MetadataDomain.DATA, "1", absPath, attr, value, unit);
+        //metadataAndDomainData.remove(metadata); //this didn't work ...
+        // but I don't think it should be dome like this ...
+        metadataAndDomainData.remove(selectedRow);
+        fireTableDataChanged();
     }
 }
