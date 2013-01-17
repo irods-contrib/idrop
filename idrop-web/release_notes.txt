@@ -23,7 +23,7 @@ Note that the following bug and feature requests are logged in GForge with relat
 ==Features==
 
 *[#984] iDrop web '2.0' redesign effort
-**Added memory of tree root when navigating away from and back to browse, needs elaboration but is a bit more user friendly
+
 
 
 *[#78] very large collection paging

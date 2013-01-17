@@ -1,4 +1,20 @@
 
+/**
+ * Process hashChange events through the bbq plug in for back button support for the browser
+ * @param state
+ * @returns {Boolean}
+ */
+function processTagSearchStateChange(state) {
+	var tab = state["tab"];
+	var tag = state["tag"];
+	
+	if (tab) {				
+		var selector = '#searchTabs a[href="' +  tab + '"]';
+		$(selector).tab('show');
+	}
+}
+
+
 function clickInTagCloud(data) {
 	$('#tabs').tabs({
 		selected : 1
