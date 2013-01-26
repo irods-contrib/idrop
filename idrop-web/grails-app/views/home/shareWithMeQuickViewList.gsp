@@ -6,7 +6,7 @@
 			<th></th>
 			<th>Action</th>
 			<th>Name</th>
-			<th>Description</th>
+			<th>By User</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -16,12 +16,14 @@
 					<td></td>
 					<td><span class="setPaddingLeftAndRight"><g:link controller="browse" action="index" params="[mode: 'path', absPath: entry.domainUniqueName]"><i class="icon-folder-open "></i></g:link></span>
 					<span class="setPaddingLeftAndRight"><i class="icon-upload " onclick="quickviewUpload('${entry.domainUniqueName}')"></i></span></td>
-					<td>${entry.domainUniqueName}</td> <td>${entry.description}</td>
+					<td>${entry.shareName}</td>
+					<td>${entry.shareOwner}#${entry.shareOwnerZone}</td>
 				</g:if>
 				<g:else>
 					<td></td>
 					<td><span class="setPaddingLeftAndRight"><g:link controller="browse" action="index" params="[mode: 'path', absPath: entry.domainUniqueName]"><i class="icon-folder-open "></i></g:link></span><span class="setPaddingLeftAndRight"><g:link url="${'file/download' + entry.domainUniqueName}"><i class="icon-download "></i></g:link></span></td>
-					<td>${entry.domainUniqueName}</td> <td>${entry.description}</td>
+					<td>${entry.shareName}</td>
+					<td>${entry.shareOwner}#${entry.shareOwnerZone}</td>
 				</g:else>
 			</tr>
 		</g:each>

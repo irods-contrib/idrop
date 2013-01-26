@@ -14,11 +14,13 @@ import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.core.utils.MiscIRODSUtils
+import org.irods.mydrop.service.SharingService
 
 class SharingController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
+	SharingService sharingService
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -405,7 +407,8 @@ class SharingController {
 		render jsonBuff as JSON
 
 	}
-
+	
+	
 	def deleteAcl = {
 		log.info("deleteAcl")
 		log.info(params)
@@ -513,6 +516,8 @@ class SharingController {
 	}
 
 }
+
+
 
 class AclCommand {
 	String absPath
