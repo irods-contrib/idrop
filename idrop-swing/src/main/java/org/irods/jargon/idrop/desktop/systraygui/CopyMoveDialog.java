@@ -356,7 +356,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
                 .add(lblCurrentParent, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(scrollCurrentParent, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 426, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -442,7 +442,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
         pnlBottomLayout.setHorizontalGroup(
             pnlBottomLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(pnlBottomLayout.createSequentialGroup()
-                .add(334, 334, 451)
+                .add(338, 338, 451)
                 .add(btnCancel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnMove)

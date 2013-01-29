@@ -66,10 +66,12 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.idrop.finder.FinderDeleteIRODSDialog;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
+import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.irods.jargon.transfer.engine.TransferManager.ErrorStatus;
 import org.irods.jargon.transfer.engine.TransferManager.RunningStatus;
 import org.irods.jargon.transfer.engine.TransferManagerCallbackListener;
+import org.irods.jargon.transfer.engine.synch.SynchManagerService;
 import org.netbeans.swing.outline.Outline;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
@@ -1734,6 +1736,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarSync.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 28));
         btnMainToolbarSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarSyncActionPerformed(evt);
+            }
+        });
         pnlMainToolbarIcons.add(btnMainToolbarSync);
 
         btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_settings.png"))); // NOI18N
@@ -2084,8 +2091,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }//GEN-LAST:event_btnMainToolbarUploadActionPerformed
 
     private void btnMainToolbarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarInfoActionPerformed
-        IRODSInfoDialog irodsInfoDialog = new IRODSInfoDialog(this, true,
-                    getIrodsTree());
+        IRODSInfoDialog irodsInfoDialog = new IRODSInfoDialog(this, true, getIrodsTree());
 
         irodsInfoDialog.setLocation(
                 (int) (this.getLocation().getX() + this.getWidth() / 2), (int) (this.getLocation().getY() + this.getHeight() / 2));
@@ -2104,6 +2110,33 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void btnMainToolbarSearchFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarSearchFilesActionPerformed
         processSearchRequest();
     }//GEN-LAST:event_btnMainToolbarSearchFilesActionPerformed
+
+    private void btnMainToolbarSyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarSyncActionPerformed
+        log.info("synch now button pressed");
+
+        int result = JOptionPane.showConfirmDialog(this,
+                "Do you want to synchronize now?",
+                "Synchronize",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            try {
+                SynchManagerService synchConfigurationService = iDropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+                List<Synchronization> syncs = synchConfigurationService.listAllSynchronizations();
+                log.info("number of synchronizations to process: {}", syncs.size());
+                for (Synchronization sync: syncs) {
+                    if (synchConfigurationService.isSynchRunning(sync)) {
+                        MessageManager.showMessage(this, "Cannot schedule the synchronization, a synch is currently running", MessageManager.TITLE_MESSAGE);
+                        return;
+                    }   
+                    iDropCore.getTransferManager().enqueueASynch(sync, sync.buildIRODSAccountFromSynchronizationData());
+                }
+            } catch (Exception ex) {
+                log.error("error starting synch", ex);
+                MessageManager.showError(this, ex.getMessage(), MessageManager.TITLE_MESSAGE);
+                throw new IdropRuntimeException(ex);
+            }
+        }
+    }//GEN-LAST:event_btnMainToolbarSyncActionPerformed
     /**
      * @param args the command line arguments
      */
