@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.irods.jargon.idrop.desktop.systraygui.utils;
 
 import java.util.List;
@@ -47,7 +46,6 @@ public class LocalFileUtilsTest {
         List expResult = null;
         List result = LocalFileUtils.listFileRootsForSystem();
         assertNotNull(result);
-       
-    }
 
+    }
 }

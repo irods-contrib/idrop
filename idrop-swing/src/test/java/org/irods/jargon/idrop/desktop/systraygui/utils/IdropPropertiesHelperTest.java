@@ -1,4 +1,3 @@
-
 package org.irods.jargon.idrop.desktop.systraygui.utils;
 
 import java.util.Properties;
@@ -40,10 +39,9 @@ public class IdropPropertiesHelperTest {
     @Test
     public void testLoadIdropProperties() throws Exception {
         IdropPropertiesHelper instance = new IdropPropertiesHelper();
- 
+
         Properties result = instance.loadIdropProperties();
         assertNotNull("idrop.properties not loaded", result);
-   
-    }
 
+    }
 }

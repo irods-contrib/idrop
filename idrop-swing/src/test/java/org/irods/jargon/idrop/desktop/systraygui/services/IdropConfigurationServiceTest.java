@@ -9,9 +9,9 @@ import org.irods.jargon.testutils.filemanip.ScratchFileUtils;
 import org.irods.jargon.transfer.TransferServiceFactoryImpl;
 import org.irods.jargon.transfer.engine.ConfigurationService;
 import org.junit.*;
-  
+
 /**
- *  
+ *
  * @author mikeconway
  */
 public class IdropConfigurationServiceTest {
@@ -22,7 +22,6 @@ public class IdropConfigurationServiceTest {
     private static ScratchFileUtils scratchFileUtils = null;
     private static final String TESTING_SUBDIR = "IdropConfigurationServiceImplTest";
     private static IdropConfigurationService idropConfigurationService;
-    
 
     public IdropConfigurationServiceTest() {
     }
@@ -37,7 +36,7 @@ public class IdropConfigurationServiceTest {
         TransferServiceFactoryImpl transferServiceFactory = new TransferServiceFactoryImpl();
         configurationService = transferServiceFactory.instanceConfigurationService();
     }
-  
+
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
@@ -52,7 +51,6 @@ public class IdropConfigurationServiceTest {
     public void tearDown() {
     }
 
-   
     @Test
     public void testBootstrapConfigurationWhenPropsInDb() throws Exception {
         String testPropKey = "testBootstrapConfigurationWhenPropsInDb";
@@ -64,7 +62,7 @@ public class IdropConfigurationServiceTest {
         Assert.assertNotNull("null props returned", myProps);
         Assert.assertEquals(testPropVal, myProps.get(testPropKey));
     }
-    
+
     @Test
     public void testBootstrapConfigurationWhenPropsInClasspath() throws Exception {
         Properties testProps = new Properties();
@@ -72,8 +70,6 @@ public class IdropConfigurationServiceTest {
         Properties myProps = idropConfigurationService.bootstrapConfigurationAndMergePropertiesFromLocalAndClasspath();
         Assert.assertNotNull("null props returned", myProps);
         Assert.assertFalse("props shold not be empty will be loaded from classpath", myProps.isEmpty());
-         Assert.assertNotNull("should have loaded props from classpath", myProps.get("login.preset"));
+        Assert.assertNotNull("should have loaded props from classpath", myProps.get("login.preset"));
     }
-
-   
 }

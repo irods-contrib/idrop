@@ -20,14 +20,14 @@ import static org.junit.Assert.*;
  * @author mikeconway
  */
 public class IdropPreDatabaseBootstrapperServiceImplTest {
-    
-     private static ConfigurationService configurationService;
+
+    private static ConfigurationService configurationService;
     private static Properties testingProperties = new Properties();
     private static TestingPropertiesHelper testingPropertiesHelper = new TestingPropertiesHelper();
     private static ScratchFileUtils scratchFileUtils = null;
     private static final String TESTING_SUBDIR = "IdropPreDatabaseBootstrapperServiceImplTest";
     private static IdropPreDatabaseBootstrapperService preDatabaseBootstrapperService;
-    
+
     public IdropPreDatabaseBootstrapperServiceImplTest() {
     }
 
@@ -39,7 +39,7 @@ public class IdropPreDatabaseBootstrapperServiceImplTest {
         scratchFileUtils.clearAndReinitializeScratchDirectory(TESTING_SUBDIR);
         preDatabaseBootstrapperService = new IdropPreDatabaseBootstrapperServiceImpl();
     }
-  
+
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
@@ -47,12 +47,12 @@ public class IdropPreDatabaseBootstrapperServiceImplTest {
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
-     @Test
+    @Test
     public void testDetectPriorVersionWhenSet() throws Exception {
         String testIdropSubdir = "testDetectPriorVersionWhenNoPriorVersion";
         String version = "3.1.0";
@@ -61,7 +61,7 @@ public class IdropPreDatabaseBootstrapperServiceImplTest {
         String returnedVersion = preDatabaseBootstrapperService.detectPriorVersion(absPath);
         TestCase.assertEquals("did not get same version I set", version, returnedVersion);
     }
-    
+
     @Test
     public void testDetectPriorVersionWhenNotSet() throws Exception {
         String testIdropSubdir = "testDetectPriorVersionWhenNotSet";
@@ -71,14 +71,14 @@ public class IdropPreDatabaseBootstrapperServiceImplTest {
         String returnedVersion = preDatabaseBootstrapperService.detectPriorVersion(absPath);
         TestCase.assertNull("should not get a version back", returnedVersion);
     }
-    
-     @Test(expected=IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void testStoreVersionNullFile() throws Exception {
-      preDatabaseBootstrapperService.storePriorVersion(null, "xx");
+        preDatabaseBootstrapperService.storePriorVersion(null, "xx");
     }
-     
-     @Test(expected=IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void testStoreVersionBlankVersion() throws Exception {
-      preDatabaseBootstrapperService.storePriorVersion("xx", "");
+        preDatabaseBootstrapperService.storePriorVersion("xx", "");
     }
 }
