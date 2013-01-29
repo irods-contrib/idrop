@@ -2119,7 +2119,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 "Synchronize",
                 JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-            try {
+          /*  try {
                 SynchManagerService synchConfigurationService = iDropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
                 List<Synchronization> syncs = synchConfigurationService.listAllSynchronizations();
                 log.info("number of synchronizations to process: {}", syncs.size());
@@ -2135,7 +2135,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 MessageManager.showError(this, ex.getMessage(), MessageManager.TITLE_MESSAGE);
                 throw new IdropRuntimeException(ex);
             }
+            */
         }
+        
     }//GEN-LAST:event_btnMainToolbarSyncActionPerformed
     /**
      * @param args the command line arguments
