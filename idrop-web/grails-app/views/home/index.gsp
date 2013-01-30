@@ -11,14 +11,16 @@
 		<div class="span2">
 			<!--  nav for table -->
 			<ul class="nav nav-list">
-				<li class="nav-header">Tools</li>
-				<li id="quickUpload" class="quicknav"><a href="#"  onclick="quickUploadFromHome()">Quick upload</a></li>
-				<li class="nav-header">Starred</li>
-				<li id="quickStarredFiles" class="quicknav"><a href="#"  onclick="quickViewShowStarredFiles()">Starred files</a></li>
-				<li id="quickStarredFolders" class="quicknav"><a href="#" onclick="quickViewShowStarredFolders()">Starred folders</a></li>
-				<li class="nav-header">Shared</li>
-				<li id="quickSharedByMeFolders" class="quicknav"><a href="#" onclick="quickViewShowFoldersSharedByMe()">Folders shared by me</a></li>
-				<li id="quickSharedWithMeFolders" class="quicknav"><a href="#" onclick="quickViewShowFoldersSharedWithMe()">Folders shared with me</a></li>
+				<li class="nav-header"><g:message code="text.tools" /></li>
+				<li id="quickUpload" class="quicknav"><a href="#"  onclick="quickUploadFromHome()"><g:message code="text.quick.upload" /></a></li>
+				<li class="nav-header"><g:message code="text.starred" /></li>
+				<li id="quickStarredFiles" class="quicknav"><a href="#"  onclick="quickViewShowStarredFiles()"><g:message code="text.starred.files" /></a></li>
+				<li id="quickStarredFolders" class="quicknav"><a href="#" onclick="quickViewShowStarredFolders()"> <g:message code="text.starred.folders" /></a></li>
+				 <g:if test="${shareSupported}">
+					<li class="nav-header">Shared</li>
+					<li id="quickSharedByMeFolders" class="quicknav"><a href="#" onclick="quickViewShowFoldersSharedByMe()"><g:message code="text.folders.shared.by.me" /></a></li>
+					<li id="quickSharedWithMeFolders" class="quicknav"><a href="#" onclick="quickViewShowFoldersSharedWithMe()"><g:message code="text.folders.shared.with.me" /></a></li>
+				</g:if>
 			</ul>
 		</div>
 		<div id="quickViewListContainer" class="span8"></div>

@@ -205,14 +205,20 @@ function clickOnPathInCrumbtrail(data) {
 
 	// if the id (abs path) length is less then or equal to the absolute path,
 	// then show the root of the tree
+	
+	/* bug!  what if root of tree is below the path...need to reset the tree */
 
 	if (data.length <= baseAbsPath.length) {
-		currentNode = $.jstree._reference(dataTree).get_container();
+		/*currentNode = $.jstree._reference(dataTree).get_container();
 		var children = $.jstree._reference(dataTree)._get_children(currentNode);
 		currentNode = children[0];
 
 		$.jstree._reference(dataTree).open_node(currentNode);
-		$.jstree._reference(dataTree).select_node(currentNode, true);
+		$.jstree._reference(dataTree).select_node(currentNode, true);*/
+		if (data == "") {
+			data = "/";
+		}
+		retrieveBrowserFirstView("path", data);
 	} else {
 
 		splitPathAndPerformOperationAtGivenTreePath(data, null, null, function(

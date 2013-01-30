@@ -27,6 +27,9 @@ class HomeController {
 	def afterInterceptor = { log.debug("closing the session") }
 
 	def index() {
+		log.info("index")
+		boolean shareSupported = sharingService.isSharingSupported(irodsAccount)
+		render(view:"index", model:[shareSupported:shareSupported])
 	}
 
 	/**
@@ -92,6 +95,23 @@ class HomeController {
 	 */
 	def sharedCollectionsByMe() {
 		log.info "sharedCollectionsByMe"
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		if (!sharing) {
+			log.info("no sharing support on this grid")
+			render(view:"noInfo")
+			return
+		}
+		
+		/*
+		 * is sharing configured? 
+		 */
+		if (!sharing) {
+			log.info("no sharing support on this grid")
+			render(view:"noInfo")
+			return
+		}
+				
 		def listing = sharingService.listCollectionsSharedByMe(irodsAccount);
 		if (listing.isEmpty()) {
 			render(view:"noInfo")
@@ -106,7 +126,16 @@ class HomeController {
 	 */
 	def sharedCollectionsWithMe() {
 		log.info "sharedCollectionsByMe"
-		def listing = sharingService.listCollectionsSharedWithMe(irodsAccount);
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		if (!sharing) {
+			log.info("no sharing support on this grid")
+			render(view:"noInfo")
+			return
+		}
+		
+		def listing = sharingService.listCollectionsSharedWithMe(irodsAccount)
+		
 		if (listing.isEmpty()) {
 			render(view:"noInfo")
 		} else {

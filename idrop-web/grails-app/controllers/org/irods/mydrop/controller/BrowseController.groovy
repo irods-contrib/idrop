@@ -63,6 +63,7 @@ class BrowseController {
 		def absPath = params['absPath']
 		
 		ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
+		log.info("viewState:${viewState}")
 
 		if (mode != null) {
 			if (mode == "path") {
@@ -77,7 +78,7 @@ class BrowseController {
 			}
 		}
 
-		render(view: "index", model:[mode:mode,path:absPath, viewState:viewState])
+		render(view: "index", model:[mode:mode,path:absPath,viewState:viewState])
 	}
 
 	def showBrowseToolbar = {

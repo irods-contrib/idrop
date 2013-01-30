@@ -4,9 +4,9 @@
 	<thead>
 		<tr>
 			<th></th>
-			<th>Action</th>
-			<th>Name</th>
-			<th>Description</th>
+			<th><g:message code="text.actions" /></th>
+			<th><g:message code="text.name" /></th>
+			<th><g:message code="text.description" /></th>
 		</tr>
 	</thead>
 	<tbody>

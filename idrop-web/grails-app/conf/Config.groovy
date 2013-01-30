@@ -73,6 +73,8 @@ idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-release/idrop.jnlp"
 idrop.config.use.tickets=true
 idrop.config.max.thumbnail.size.mb=20
 idrop.config.use.userprofile=true
+// do I support sharing? Requires target server to have specific query support and sharing queries loaded from jargon-user-tagging
+idrop.config.use.sharing=true
 
 /*
  * Some properties may be set in an external configuration file, as configured below
@@ -180,8 +182,8 @@ log4j = {
 			'org.hibernate',
 			'net.sf.ehcache.hibernate'
 
-	info 'org.irods.mydrop'
-	info 'org.irods.jargon'
+	//info 'org.irods.mydrop'
+	warn 'org.irods.jargon'
 
 	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
