@@ -177,7 +177,10 @@ class SharingController {
 
 	}
 	
-	def prepareExistingShareDialog = {
+	/**
+	 * SHow a dialog that can edit the share
+	 */
+	def prepareEditShareDialog = {
 		log.info("prepareExistingShareDialog")
 		log.info(params)
 		def absPath = params['absPath']
@@ -204,7 +207,7 @@ class SharingController {
 			}
 		}
 
-		render(view:"sharingPanelWrapper", model:[absPath:absPath, irodsSharedFileOrCollection:irodsSharedFileOrCollection, action:action])
+		render(view:"addShareDialog", model:[absPath:absPath, shareName:irodsSharedFileOrCollection.shareName, action:action])
 	}
 	
 	def processUpdateShareDialog = {
@@ -238,6 +241,7 @@ class SharingController {
 			log.info("adding share:${shareName}")
 			IRODSSharedFileOrCollection irodsSharedFileOrCollection = sharingService.createShare(absPath, shareName, irodsAccount)
 			log.info("rendering new share:${irodsSharedFileOrCollection}")
+			flash.message = message(code:"message.share.update.successful")
 			render(view:"sharingPanelWrapper", model:[absPath:absPath, irodsSharedFileOrCollection:irodsSharedFileOrCollection, action:action])
 
 	}

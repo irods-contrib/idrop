@@ -638,7 +638,7 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	}
 
 	if (browseOptionVal == null) {
-		browseOptionVal = "browse";
+		browseOptionVal = "info";
 	}
 
 	
@@ -2611,19 +2611,44 @@ function addShareAtPath() {
 	});
 }
 
+
+/*
+* Edit the share at the given path
+*/
+function editShareAtPath() {
+	$("#sharingPanelContainingDiv").html();
+	var path = selectedPath;
+	if (selectedPath == null) {
+		return false;
+	}
+
+	// show the public link dialog
+	var url = "/sharing/prepareEditShareDialog";
+	var params = {
+		absPath : path
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+		fillInShareDialog(data);
+	});
+}
+
 /*
 * put content into the share dialog
 */
 function fillInShareDialog(data) {
 
 	$("#sharingPanelContainingDiv").html(data);
-	
+	$("#btnUpdateNamedShare").click(function(e){
+	       e.stopPropagation() 
+	      updateNamedShare();
+	    });  
 }
 
 /**
  * Submit the dialog to add or update a share
  */
-function updateShare() {
+function updateNamedShare() {
 	var path = $("#aclDetailsAbsPath").val();
 	var shareName = $("#shareName").val();
 	showBlockingPanel();
@@ -2637,20 +2662,19 @@ function updateShare() {
 			absPath : path,
 			shareName: shareName
 		}
-	
-	
+		
 	var jqxhr = $.post(context + "/sharing/processUpdateShareDialog", params,
 			function(data, status, xhr) {
-			}, "html").success(function(returnedData, status, xhr) {
-		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		
+		var continueReq = checkForSessionTimeout(data, xhr);
 		if (!continueReq) {
 			return false;
 		}
 		
-		$("#sharingPanelContainingDiv").html(returnedData);
+		$("#sharingPanelContainingDiv").empty().append( data );
 		unblockPanel();
 
-	}).error(function(xhr, status, error) {
+	}).fail(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
 		unblockPanel();
 	});

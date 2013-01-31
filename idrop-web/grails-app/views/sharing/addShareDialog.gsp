@@ -27,7 +27,7 @@
 		</div>
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn" onclick="updateShare()">
+				<button type="button" class="btn" id="btnUpdateNamedShare" onclick="updateNamedShare()">
 					<g:message code="text.update" />
 				</button>
 				<button type="cancel" class="btn">
