@@ -2639,10 +2639,7 @@ function editShareAtPath() {
 function fillInShareDialog(data) {
 
 	$("#sharingPanelContainingDiv").html(data);
-	$("#btnUpdateNamedShare").click(function(e){
-	       e.stopPropagation() 
-	      updateNamedShare();
-	    });  
+	
 }
 
 /**
