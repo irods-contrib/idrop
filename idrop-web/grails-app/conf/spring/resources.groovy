@@ -5,6 +5,9 @@ beans = {
 
 	starringService(org.irods.mydrop.service.StarringService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 	
+	sharingService(org.irods.mydrop.service.SharingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+	
+	
 	browseController(org.irods.mydrop.controller.BrowseController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 		taggingServiceFactory = ref("taggingServiceFactory")

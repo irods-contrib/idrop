@@ -1,7 +1,7 @@
 <div class="alert alert-info">
  <g:message code="heading.enter.user.or.search" />
 </div>
-<div id="aclDialogDiv" class="alert alert-info">
+<div id="aclDialogDiv">
 
 
 

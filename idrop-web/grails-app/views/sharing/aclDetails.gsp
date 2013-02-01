@@ -6,6 +6,9 @@
 	 <div class="alert alert-info">
 	 	<g:message code="heading.permissions" />
 	</div>
+	<div id="sharingPanelContainingDiv">
+		<g:render template="/sharing/sharingPanel" />
+	</div>
 	<div id="detailsTopSection" >
 		<div id="detailsToolbar" class="well btn-toolbar">
 			<div id="detailsMenu">
@@ -26,6 +29,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<g:hiddenField name='aclDetailsAbsPath' id='aclDetailsAbsPath' value='${absPath}'/>
 	<div id="aclTableDiv"><!-- acl user list --></div>
 </div>
@@ -42,70 +46,6 @@
 		reloadAclTable(path);
 	});
 
-	/*
-	* Cause a dialog to appear that has a link for a public path for the current path
-	*/
-	function makePublicLinkAtPath() {
-		$("#aclDialogArea").html();
-		var path = selectedPath;
-		if (selectedPath == null) {
-			return false;
-		}
-
-		// show the public link dialog
-		var url = "/browse/preparePublicLinkDialog";
-		var params = {
-			absPath : path
-		}
-
-		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
-			fillInPublicLinkDialog(data);
-		});
-		
-	}
-
-
-	/**
-	 * Close the public link dialog 
-	 */
-	function closePublicLinkDialog() {
-		
-			$("#aclDialogArea").hide("slow");
-			$("#aclDialogArea").html();
-			var path = $("#publicLinkDialogAbsPath").val();
-			reloadAclTable(path);
-			$("#aclDetailsArea").show("slow");
-	}
-
-	/**
-	 * Grant public (anonymous access) via the public link dialog.  Submit dialog and present the response
-	 */
-	function grantPublicLink() {
-		var path = $("#publicLinkDialogAbsPath").val();
-		showBlockingPanel();
-		if (path == null) {
-			setMessage(jQuery.i18n.prop('msg.path.missing'));
-			unblockPanel();		
-		}
-		
-		var params = {
-				absPath : path
-			}
-		
-		lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/browse/updatePublicLinkDialog", params, null, "#aclDialogArea", null, null);
-		unblockPanel();
-
-	}
-	        
-
-	/*
-	*Given the contents of the 'create public link' dialog, 
-	*/
-	function fillInPublicLinkDialog(data) {
-		$("#aclDetailsArea").hide("slow");
-		$("#aclDialogArea").html(data);
-		$("#aclDialogArea").show("slow");
-	}
 	
 
 	</script>

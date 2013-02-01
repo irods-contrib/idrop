@@ -21,5 +21,3 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Features==
 
-*[#984] iDrop web '2.0' redesign effort
-*[#78] very large collection paging
