@@ -17,7 +17,7 @@
       				<g:message code="text.search" /><b class="caret"></b></a>
       				 <ul class="dropdown-menu">
 	      					 <li><a href="#" id="searchFileName" onclick="xxx()")>Search By File Name</a></li>
-	      					 <li><a href="#" id="searchTag" onclick="xxx()")>Search By Tags</a></li>
+	      					 <li><a href="#" id="searchTag"><g:link controller="tags" action="index"><g:message code="text.tags" /></g:link></li>
 	      					 <li><a href="#" id="searchMetadata" onclick="xxx()")>Search By Metadata</a></li>
       				  </ul>
 			</li>

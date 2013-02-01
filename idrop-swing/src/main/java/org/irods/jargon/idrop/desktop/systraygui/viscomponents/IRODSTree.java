@@ -281,6 +281,28 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
                     m_clickedPath = path;
                 }
             }
+            else if (e.getClickCount() == 2) {
+                int x = e.getX();
+                int y = e.getY();
+                TreePath path = thisTree.getClosestPathForLocation(x, y);
+                
+                IRODSNode inode = null;
+                String fullPath = null;
+                if (path != null) {
+                    Object node = path.getLastPathComponent();
+                    if (node instanceof IRODSNode) {
+                        inode = (IRODSNode) node;
+                        CollectionAndDataObjectListingEntry entry =
+                                (CollectionAndDataObjectListingEntry) inode.getUserObject();
+                        fullPath = entry.getPathOrName();
+                    }                  
+ 
+                    if (fullPath != null) {
+                        idropParentGui.getiDropCore().setBasePath(fullPath);
+                        idropParentGui.buildTargetTree(false);
+                    }
+                }
+            }
         }
 
         @Override
@@ -309,6 +331,8 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 
     @Override
     public void treeWillExpand(final TreeExpansionEvent event)
+            
+        //TODO: Need to make this a swing worker??
             throws ExpandVetoException {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         log.debug("tree expansion event:{}", event);

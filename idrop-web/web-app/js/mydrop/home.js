@@ -638,7 +638,7 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	}
 
 	if (browseOptionVal == null) {
-		browseOptionVal = "browse";
+		browseOptionVal = "info";
 	}
 
 	
@@ -2588,6 +2588,168 @@ function submitStarDialog() {
 		unblockPanel();
 	});
 
+}
+
+/*
+* Cause a dialog to appear that can create a share for this folder
+*/
+function addShareAtPath() {
+	$("#sharingPanelContainingDiv").html();
+	var path = selectedPath;
+	if (selectedPath == null) {
+		return false;
+	}
+
+	// show the public link dialog
+	var url = "/sharing/prepareAddShareDialog";
+	var params = {
+		absPath : path
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+		fillInShareDialog(data);
+	});
+}
+
+
+/*
+* Edit the share at the given path
+*/
+function editShareAtPath() {
+	$("#sharingPanelContainingDiv").html();
+	var path = selectedPath;
+	if (selectedPath == null) {
+		return false;
+	}
+
+	// show the public link dialog
+	var url = "/sharing/prepareEditShareDialog";
+	var params = {
+		absPath : path
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+		fillInShareDialog(data);
+	});
+}
+
+/*
+* put content into the share dialog
+*/
+function fillInShareDialog(data) {
+
+	$("#sharingPanelContainingDiv").html(data);
+	
+}
+
+/**
+ * Submit the dialog to add or update a share
+ */
+function updateNamedShare() {
+	var path = $("#aclDetailsAbsPath").val();
+	var shareName = $("#shareName").val();
+	showBlockingPanel();
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg.path.missing'));
+		unblockPanel();		
+		return false;
+	}
+	
+	var params = {
+			absPath : path,
+			shareName: shareName
+		}
+		
+	var jqxhr = $.post(context + "/sharing/processUpdateShareDialog", params,
+			function(data, status, xhr) {
+		
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		
+		$("#sharingPanelContainingDiv").empty().append( data );
+		unblockPanel();
+
+	}).fail(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
+
+}
+
+/**
+ * Close the add/update share dialog
+ */
+function closeShareDialog() {
+	
+		$("#aclDialogArea").hide("slow");
+		$("#aclDialogArea").html();
+		$("#aclDetailsArea").show("slow");
+}
+
+/*
+* Cause a dialog to appear that has a link for a public path for the current path
+*/
+function makePublicLinkAtPath() {
+	$("#aclDialogArea").html();
+	var path = selectedPath;
+	if (selectedPath == null) {
+		return false;
+	}
+
+	// show the public link dialog
+	var url = "/browse/preparePublicLinkDialog";
+	var params = {
+		absPath : path
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+		fillInACLDialog(data);
+	});
+	
+}
+
+/**
+ * Close the public link dialog 
+ */
+function closePublicLinkDialog() {
+	
+		$("#aclDialogArea").hide("slow");
+		$("#aclDialogArea").html();
+		var path = $("#publicLinkDialogAbsPath").val();
+		reloadAclTable(path);
+		$("#aclDetailsArea").show("slow");
+}
+
+/**
+ * Grant public (anonymous access) via the public link dialog.  Submit dialog and present the response
+ */
+function grantPublicLink() {
+	var path = $("#publicLinkDialogAbsPath").val();
+	showBlockingPanel();
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg.path.missing'));
+		unblockPanel();		
+	}
+	
+	var params = {
+			absPath : path
+		}
+	
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/browse/updatePublicLinkDialog", params, null, "#aclDialogArea", null, null);
+	unblockPanel();
+
+}
+        
+
+/*
+*Given the contents of the 'create public link' dialog, 
+*/
+function fillInACLDialog(data) {
+	$("#aclDetailsArea").hide("slow");
+	$("#aclDialogArea").html(data);
+	$("#aclDialogArea").show("slow");
 }
 
 function zzz() {

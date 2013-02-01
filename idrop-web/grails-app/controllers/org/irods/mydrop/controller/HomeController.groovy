@@ -2,11 +2,13 @@ package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.utils.MiscIRODSUtils
+import org.irods.mydrop.service.SharingService
 import org.irods.mydrop.service.StarringService;
 
 class HomeController {
 
 	StarringService starringService
+	SharingService sharingService
 	
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -25,6 +27,9 @@ class HomeController {
 	def afterInterceptor = { log.debug("closing the session") }
 
 	def index() {
+		log.info("index")
+		boolean shareSupported = sharingService.isSharingSupported(irodsAccount)
+		render(view:"index", model:[shareSupported:shareSupported])
 	}
 
 	/**
@@ -83,6 +88,61 @@ class HomeController {
 			render(view:"quickViewList",model:[listing:listing])
 		}
 	}
+	
+	/**
+	 * Listing of collections shared by me with others
+	 * @return
+	 */
+	def sharedCollectionsByMe() {
+		log.info "sharedCollectionsByMe"
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		if (!sharing) {
+			log.info("no sharing support on this grid")
+			render(view:"noInfo")
+			return
+		}
+		
+		/*
+		 * is sharing configured? 
+		 */
+		if (!sharing) {
+			log.info("no sharing support on this grid")
+			render(view:"noInfo")
+			return
+		}
+				
+		def listing = sharingService.listCollectionsSharedByMe(irodsAccount);
+		if (listing.isEmpty()) {
+			render(view:"noInfo")
+		} else {
+			render(view:"shareQuickViewList",model:[listing:listing])
+		}
+	}
+	
+	/**
+	 * Listing of collections shared by me with others
+	 * @return
+	 */
+	def sharedCollectionsWithMe() {
+		log.info "sharedCollectionsByMe"
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		if (!sharing) {
+			log.info("no sharing support on this grid")
+			render(view:"noInfo")
+			return
+		}
+		
+		def listing = sharingService.listCollectionsSharedWithMe(irodsAccount)
+		
+		if (listing.isEmpty()) {
+			render(view:"noInfo")
+		} else {
+			render(view:"shareWithMeQuickViewList",model:[listing:listing])
+		}
+	}
+	
 
 	// FIXME: refactor into jargon-core
 	private IRODSAccount anonymousIrodsAccountForURIString(String uriString) {

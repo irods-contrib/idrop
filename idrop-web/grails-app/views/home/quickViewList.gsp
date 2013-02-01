@@ -1,11 +1,12 @@
  <%@page import="org.irods.jargon.core.query.MetaDataAndDomainData" %>
+ <%@page import="org.irods.jargon.usertagging.domain.IRODSSharedFileOrCollection" %>
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
 			<th></th>
-			<th>Action</th>
-			<th>Name</th>
-			<th>Description</th>
+			<th><g:message code="text.actions" /></th>
+			<th><g:message code="text.name" /></th>
+			<th><g:message code="text.description" /></th>
 		</tr>
 	</thead>
 	<tbody>

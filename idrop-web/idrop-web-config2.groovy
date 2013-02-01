@@ -41,8 +41,8 @@ environments {
  idrop.config.idrop.lite.use.applet.dir=false
  */
 
-idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.1-SNAPSHOT-jar-with-dependencies.jar"
-idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
+idrop.config.idrop.lite.applet.jar="idrop-lite-2.0.0-SNAPSHOT-jar-with-dependencies.jar"
+idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-snapshot"
 idrop.config.idrop.lite.use.applet.dir=false
 
 /*
@@ -65,4 +65,4 @@ idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
 idrop.config.use.tickets=true
 
 // do I want to display the profile tab and maintain user profile info 
-idrop.config.use.userprofile=false
+idrop.config.use.userprofile=true

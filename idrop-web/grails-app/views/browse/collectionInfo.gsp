@@ -23,7 +23,7 @@
 <ul class="nav nav-tabs" id="infoTabs">
   <li class="active"><a href="#info" id="infoTab"><g:message code="text.info" /></a></li>
   <li><a href="#metadata" id="metadataTab"><g:message code="text.metadata" /></a></li>
-  <li><a href="#permissions" id="permissionTab"><g:message code="text.permissions" /></a></li>
+  <li><a href="#permissions" id="permissionTab"><g:message code="text.sharing" /></a></li>
   <g:if test="${grailsApplication.config.idrop.config.use.tickets==true}">
   	<li><a href="#tickets" id="ticketTab"><g:message code="text.tickets" /></a></li>
   </g:if>

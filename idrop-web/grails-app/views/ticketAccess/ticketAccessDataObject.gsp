@@ -5,7 +5,7 @@
 	style="height: 820px;">
 	<div class="roundedContainer">
 	<h1>Landing page for Data Object</h1>
-	<h2>This ticket allows you to download a file from iRODS that has been shared with you.  Click the button below to download the file to you local file system</h2>
+	<h2>This ticket allows you to download a file from iRODS that has been shared with you.  Click the button below to download the file to your local file system</h2>
 	</div>
 	<div id="container" style="height:auto;width:100%;">
 				<g:hiddenField name='ticketString' id='ticketString' value='${ticketString}'/>

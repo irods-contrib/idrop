@@ -1,5 +1,5 @@
  
-    <table cellspacing="0" cellpadding="0" border="0" id="userListTable">
+    <table class="table table-striped table-hover" cellspacing="0" cellpadding="0" border="0" id="userListTable">
       <thead>
         <tr>
           <th ></th>
@@ -46,6 +46,6 @@
               	userListTable.fnAdjustColumnSizing();
                
         });
-        */
-
+        
+*/
 </script>
