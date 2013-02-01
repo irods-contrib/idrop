@@ -66,3 +66,6 @@ idrop.config.use.tickets=true
 
 // do I want to display the profile tab and maintain user profile info 
 idrop.config.use.userprofile=true
+
+// do I support sharing? Requires target server to have specific query support and sharing queries loaded from jargon-user-tagging
+idrop.config.use.sharing=true
