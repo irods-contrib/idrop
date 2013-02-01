@@ -20,6 +20,7 @@
 	</div>	
 </div>
 
+
 <ul class="nav nav-tabs" id="infoTabs">
   <li class="active"><a href="#info" id="infoTab"><g:message code="text.info" /></a></li>
   <li><a href="#metadata" id="metadataTab"><g:message code="text.metadata" /></a></li>
@@ -28,6 +29,7 @@
   	<li><a href="#tickets" id="ticketTab"><g:message code="text.tickets" /></a></li>
   </g:if>
   <li><a href="#audit"  id="auditTab"><g:message code="text.audit" /></a></li>
+  <li><a href="#hive"  id="hiveTab">hive</a></li>
 </ul>
  
 <div class="tab-content">
@@ -109,6 +111,9 @@
 	</g:if>
    <div class="tab-pane" id="audit">
    	<div id="infoAccordionAuditInner"></div>
+   </div>
+   <div class="tab-pane" id="hive">
+   	<div id="infoAccordionHiveInner"></div>
    </div>
 </div>
 
