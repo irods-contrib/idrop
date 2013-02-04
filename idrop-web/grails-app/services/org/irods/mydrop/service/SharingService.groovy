@@ -123,7 +123,31 @@ class SharingService {
 		irodsSharingService.createShare(irodsAbsolutePath, shareName);
 		return irodsSharingService.findShareByAbsolutePath(irodsAbsolutePath)
 	}
+	
+	/**
+	 * Update the given share to the new share name
+	 * @param irodsAbsolutePath
+	 * @param newShareName
+	 * @param irodsAccount
+	 * @return
+	 * @throws JargonException
+	 */
+	IRODSSharedFileOrCollection updateShare(String irodsAbsolutePath, String newShareName, IRODSAccount irodsAccount) throws JargonException {
+		if (irodsAbsolutePath == null || irodsAbsolutePath.isEmpty()) {
+			throw new IllegalArgumentException("null or empty irodsAbsolutePath")
+		}
+		
+		if (newShareName == null || newShareName.isEmpty()) {
+			throw new IllegalArgumentException("null or empty newShareName")
+		}
 
-
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount");
+		}
+		
+		IRODSSharingService irodsSharingService = new IRODSSharingServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		irodsSharingService.updateShareName(irodsAbsolutePath, newShareName)
+		return irodsSharingService.findShareByAbsolutePath(irodsAbsolutePath)
+	}
     
 }

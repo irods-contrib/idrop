@@ -2600,7 +2600,6 @@ function addShareAtPath() {
 		return false;
 	}
 
-	// show the public link dialog
 	var url = "/sharing/prepareAddShareDialog";
 	var params = {
 		absPath : path
@@ -2622,7 +2621,6 @@ function editShareAtPath() {
 		return false;
 	}
 
-	// show the public link dialog
 	var url = "/sharing/prepareEditShareDialog";
 	var params = {
 		absPath : path
@@ -2648,16 +2646,26 @@ function fillInShareDialog(data) {
 function updateNamedShare() {
 	var path = $("#aclDetailsAbsPath").val();
 	var shareName = $("#shareName").val();
+	var action = $("#action").val();
 	showBlockingPanel();
+	
 	if (path == null) {
 		setMessage(jQuery.i18n.prop('msg.path.missing'));
 		unblockPanel();		
 		return false;
 	}
 	
+	if (action == null) {
+		setErrorMessage(jQuery.i18n.prop('msg.action.missing'));
+		unblockPanel();
+		return false;
+	}
+	
+	
 	var params = {
 			absPath : path,
-			shareName: shareName
+			shareName: shareName,
+			action : action
 		}
 		
 	var jqxhr = $.post(context + "/sharing/processUpdateShareDialog", params,
@@ -2676,6 +2684,25 @@ function updateNamedShare() {
 		unblockPanel();
 	});
 
+}
+
+/**
+ * Close the add/update share dialog by reloading the share info
+ */
+function closeNamedShareDialog() {
+	
+		var path = selectedPath;
+		if (selectedPath == null) {
+			return false;
+		}
+
+		var url = "/sharing/getSharingDialogInfo";
+		var params = {
+			absPath : path
+		}
+
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#sharingPanelContainingDiv", null);
+		
 }
 
 /**

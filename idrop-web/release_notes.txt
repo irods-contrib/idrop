@@ -19,11 +19,10 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Bug Fixes==
 
+* [#1181] fix memory in idrop web2 when changing login
 
 ==Features==
 
 *[#984] iDrop web '2.0' redesign effort
-
-
 
 *[#78] very large collection paging

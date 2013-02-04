@@ -30,7 +30,7 @@
 				<button type="button" class="btn" id="btnUpdateNamedShare" onclick="updateNamedShare()">
 					<g:message code="text.update" />
 				</button>
-				<button type="cancel" class="btn">
+				<button type="button" class="btn" onclick="closeNamedShareDialog()">
 					<g:message code="text.cancel" />
 				</button>
 			</div>

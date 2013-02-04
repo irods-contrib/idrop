@@ -42,6 +42,34 @@ class SharingController {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
 	}
+	
+	def getSharingDialogInfo = {
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request for showAclDetails()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info("showAclDetails for absPath: ${absPath}")
+		
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		log.info("sharing supported:${sharing}")
+		
+		IRODSSharedFileOrCollection irodsSharedFileOrCollection
+		if (sharing) {
+			try {
+				irodsSharedFileOrCollection = sharingService.findShareForPath(absPath, irodsAccount)
+			} catch (JargonException je) {
+				log.warn("sharing does not seem to be supported, probably due to specific query not supported, treat as if sharing is off", je)
+			}
+		}
+		
+		render(view:"sharingPanelWrapper",model:[absPath:absPath, irodsSharedFileOrCollection:irodsSharedFileOrCollection])
+		
+
+	}
 
 	/**
 	 * Load the acl details area, this will show the main form, and subsequently, the table will be loaded via AJAX
@@ -238,9 +266,17 @@ class SharingController {
 				return
 			}
 			
-			log.info("adding share:${shareName}")
-			IRODSSharedFileOrCollection irodsSharedFileOrCollection = sharingService.createShare(absPath, shareName, irodsAccount)
-			log.info("rendering new share:${irodsSharedFileOrCollection}")
+			IRODSSharedFileOrCollection irodsSharedFileOrCollection
+			if (action == "add") {
+				log.info("adding share:${shareName}")
+				 irodsSharedFileOrCollection = sharingService.createShare(absPath, shareName, irodsAccount)
+				log.info("rendering new share:${irodsSharedFileOrCollection}")
+				
+			} else {
+				 irodsSharedFileOrCollection = sharingService.updateShare(absPath, shareName, irodsAccount)
+				log.info("updated share to:${irodsSharedFileOrCollection}")
+			}
+			
 			flash.message = message(code:"message.share.update.successful")
 			render(view:"sharingPanelWrapper", model:[absPath:absPath, irodsSharedFileOrCollection:irodsSharedFileOrCollection, action:action])
 
