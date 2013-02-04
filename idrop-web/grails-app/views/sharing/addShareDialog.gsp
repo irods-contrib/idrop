@@ -5,7 +5,7 @@
 
 	<form class="form-horizontal" id="addShareForm" name="addShareForm"
 		action="">
-		<g:hiddenField name="action" id="action" value="${action }"/>
+		<g:hiddenField name="formAction" id="formAction" value="${formAction}"/>
 		<g:if test="${flash.error}">
 			<script type="text/javascript">
                 $(function() { setErrorMessage("${flash.error}"); });

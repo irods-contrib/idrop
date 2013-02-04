@@ -2631,6 +2631,48 @@ function editShareAtPath() {
 	});
 }
 
+/**
+ * remove a named share
+ */
+function removeShareAtPath() {
+	var path = $("#aclDetailsAbsPath").val();
+	
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg_path_missing'));
+		unblockPanel();		
+		return false;
+	}
+	
+	var params = {
+			absPath : path
+		}
+		
+	var answer = confirm(jQuery.i18n.prop('msg_delete_share')); 
+	
+	if (!answer) {
+		return false;
+	}
+	
+	showBlockingPanel();
+	
+	var jqxhr = $.post(context + "/sharing/removeShare", params,
+			function(data, status, xhr) {
+		
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		
+		$("#sharingPanelContainingDiv").empty().append( data );
+		unblockPanel();
+
+	}).fail(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
+
+}
+
 /*
 * put content into the share dialog
 */
@@ -2646,17 +2688,17 @@ function fillInShareDialog(data) {
 function updateNamedShare() {
 	var path = $("#aclDetailsAbsPath").val();
 	var shareName = $("#shareName").val();
-	var action = $("#action").val();
+	var formAction = $("#formAction").val();
 	showBlockingPanel();
 	
 	if (path == null) {
-		setMessage(jQuery.i18n.prop('msg.path.missing'));
+		setMessage(jQuery.i18n.prop('msg_path_missing'));
 		unblockPanel();		
 		return false;
 	}
 	
-	if (action == null) {
-		setErrorMessage(jQuery.i18n.prop('msg.action.missing'));
+	if (formAction == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_action_missing'));
 		unblockPanel();
 		return false;
 	}
@@ -2665,7 +2707,7 @@ function updateNamedShare() {
 	var params = {
 			absPath : path,
 			shareName: shareName,
-			action : action
+			formAction : formAction
 		}
 		
 	var jqxhr = $.post(context + "/sharing/processUpdateShareDialog", params,
