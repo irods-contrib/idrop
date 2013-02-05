@@ -18,8 +18,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -29,7 +27,6 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.protovalues.FilePermissionEnum;
 import org.irods.jargon.core.pub.CollectionAO;
-import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAOImpl;
 import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
@@ -48,11 +45,11 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.PermissionsTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
-import org.irods.jargon.usertagging.FreeTaggingService;
-import org.irods.jargon.usertagging.IRODSTaggingService;
-import org.irods.jargon.usertagging.TaggingServiceFactory;
-import org.irods.jargon.usertagging.TaggingServiceFactoryImpl;
 import org.irods.jargon.usertagging.domain.IRODSTagValue;
+import org.irods.jargon.usertagging.tags.FreeTaggingService;
+import org.irods.jargon.usertagging.tags.IRODSTaggingService;
+import org.irods.jargon.usertagging.tags.TaggingServiceFactory;
+import org.irods.jargon.usertagging.tags.TaggingServiceFactoryImpl;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -314,7 +311,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             lblInfoObjectVersion.setText(Integer.toString(dataObject.getDataVersion()));
                         } else {
                             lblInfoObjectVersion.setText("");
-                        }
+                        }  
                         
                         // now populate tags and comments for data object
                         txtInfoTags.setText(freeTaggingService.getTagsForDataObjectInFreeTagForm(

@@ -1515,7 +1515,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
                     // initiation not within a synch
                     lblTransferMessage.setText("Processing a " + ts.getTransferType().name() + " operation");
-                }
+                 } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                    // initiation not within a synch
+                    lblTransferMessage.setText("Completed a " + ts.getTransferType().name() + " operation");
+                } 
             }
         });
     }
@@ -1530,6 +1533,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         transferStatusProgressBar.setMaximum(100);
         transferStatusProgressBar.setValue(0);
         transferStatusProgressBar.setString("");
+        progressIntraFile.setString("");
+        progressIntraFile.setMinimum(0);
+        progressIntraFile.setMaximum(0);
+        progressIntraFile.setValue(0);
         progressIntraFile.setString("");
     }
 
