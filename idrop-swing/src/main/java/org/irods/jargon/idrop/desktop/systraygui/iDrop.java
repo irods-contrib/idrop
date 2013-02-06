@@ -1620,9 +1620,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         togglePauseTransfer = new javax.swing.JToggleButton();
         progressIconImageLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(622, 158));
         setSize(new java.awt.Dimension(822, 158));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pnlMain.setMinimumSize(new java.awt.Dimension(622, 158));
         pnlMain.setPreferredSize(new java.awt.Dimension(730, 635));
@@ -2128,6 +2133,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         }
     }//GEN-LAST:event_btnMainToolbarSyncActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.setVisible(false);
+        this.formShown = false;
+    }//GEN-LAST:event_formWindowClosing
     /**
      * @param args the command line arguments
      */
