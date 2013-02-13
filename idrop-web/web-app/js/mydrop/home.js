@@ -20,7 +20,7 @@ var dataTree;
 var dataTreeView = "";
 var dataTreePath = "";
 
-var browseOptionVal = "browse";
+var browseOptionVal = "info";
 var selectedPath = null;
 var selectedNode = null;
 var fileUploadUI = null;
@@ -2515,10 +2515,6 @@ function clickOnPathInBrowseDetails(data) {
 	});
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 024d06d3a330c0d3a787632347ec8748dc930100
 /**
  * Close the public link dialog
  */
