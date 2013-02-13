@@ -6,6 +6,7 @@ import grails.converters.*
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.JargonException
+import org.irods.jargon.core.exception.NoResourceDefinedException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataTransferOperations
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
@@ -14,6 +15,8 @@ import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
+import org.irods.jargon.datautils.uploads.UploadsService
+import org.irods.jargon.datautils.uploads.UploadsServiceImpl
 import org.springframework.web.multipart.MultipartFile
 
 
@@ -118,6 +121,25 @@ class FileController {
 
 		render(view:"uploadDialog", model:[irodsTargetCollection:irodsTargetCollection])
 	}
+	
+	/**
+	 * Prepare a quick upload dialog to upload a file to the default location using the quick upload service
+	 *
+	 */
+	def prepareQuickUploadDialog = {
+		log.info("prepareQuickUploadDialog")
+		
+		log.info("checking if uploads default directory needs to be created")
+
+		/* here we could do any processing on irods, such as provisioning of metadata fields based on target
+		 * for now, derive info about the target and normalize to a collection (could be a data object)
+		 */
+
+		UploadsService uploadsService = new UploadsServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		IRODSFile uploadsDir = uploadsService.getUploadsDirectory();
+
+		render(view:"quickUploadDialog", model:[irodsTargetCollection:uploadsDir.absolutePath])
+	}
 
 	/**
 	 * Process an actual call to upload data to iRODS as a multi-part file
@@ -167,9 +189,12 @@ class FileController {
 			targetFile.setResource(irodsAccount.defaultStorageResource)
 			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 			stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
+		} catch (NoResourceDefinedException nrd) {
+			log.error("no resource defined exception", nrd)
+			response.sendError(500, message(code:"message.no.resource"))
 		} catch (Exception e) {
 			log.error("exception in upload transfer", e)
-			response.sendError(500,e.message)
+			response.sendError(500, message(code:"message.error.in.upload"))
 		} finally {
 			// stream2Stream will close input and output streams
 		}
@@ -351,9 +376,16 @@ class FileController {
 			response.sendError(500,message)
 		}
 
-		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-		log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
-		dataTransferOperations.move(sourceAbsPath, targetAbsPath)
+		try {
+			DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+			log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
+			dataTransferOperations.move(sourceAbsPath, targetAbsPath)
+		} catch (NoResourceDefinedException nrd) {
+			log.error "no default resource found for move operation"
+			def message = message(code:"message.no.resource")
+			response.sendError(500,message)
+		}
+
 		render targetAbsPath
 	}
 
@@ -376,10 +408,20 @@ class FileController {
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
+		
+		String defaultResource = irodsAccount.defaultStorageResource
+		log.info("defaultResource:${defaultResource}")
 
-		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-		log.info("copy ${sourceAbsPath} to ${targetAbsPath}")
-		dataTransferOperations.copy(sourceAbsPath,"", targetAbsPath,null, false, null) //TODO: resource here?
+		try {
+			DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+			log.info("copy ${sourceAbsPath} to ${targetAbsPath}")
+			dataTransferOperations.copy(sourceAbsPath,defaultResource, targetAbsPath,null, null)
+		} catch (NoResourceDefinedException nrd) {
+			log.error "no default resource found for copy operation"
+			def message = message(code:"message.no.resource")
+			response.sendError(500,message)
+		}
+
 		render targetAbsPath
 
 	}

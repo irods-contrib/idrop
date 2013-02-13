@@ -38,13 +38,17 @@
 	
   </script>
 </head>
-<body style="height:100%;padding-top: 40px;">
- 
+<body style="height:100%;padding-top: 60px;">
+ <div id="wrap">
    <g:render template="/common/topbar"/>
    <div id="defaultDialogDiv"><!-- default for general jquery dialogs --></div>
    <div class="container-fluid">
 		<g:layoutBody />
-	</div>	    
-	<footer><g:render template="/common/footer" /></footer>      
+	
+	</div>
+	<div id="push"><!-- for sticky footers --></div> 
+  </div>
+  <footer id="footer"><g:render template="/common/footer" /></footer>    
+	  
 </body>
 </html>

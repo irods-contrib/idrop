@@ -1,25 +1,37 @@
 /**
- * Javascript for common elements in main layout template, such as menus,
+* Javascript for common elements in main layout template, such as menus,
  * headers, and footers.
  * 
  * author: Mike Conway - DICE
  */
 
-function search() {
-	var searchTerm = $("#searchTerm").val();
+/**
+ * Information regarding the current file path and 'page' of data for that path being displayed 
+ */
+var baseAbsPath = "/";
+var baseAbsPathAsArrayOfPathElements;
+var displayPage = 1;
+var displayIndex = 0;
+/*
+ * split mode is complicated.  Collections and Data objects are separate things, so there are two queries.  It is possible to encounter situations
+ * where I have to separately page collections and data objects.  One cannot continuously page across collections and data objects unless we come up
+ * with some fancy back end code.  Maybe later, for now, we let the user know and he/she can then decide what to display and page.
+ * 
+ * To help solve this, the idea of a split mode works like this:
+ * 
+ * -I do an initial listing, If I have collections to page then I will need to enter split mode, as I have not 'hit' the data objects yet 
+ * -If I have collections and start on data objects before reaching the end of those, I also enter split mode
+ * 
+ * Split mode will cause an option to appear in the browse grid details where the user chooses to display collections or files, and paging occurs in only that 
+ * domain
+ * 
+ *  n = no split mode
+ * 	c = collection mode
+ * 	d = data object mode
+ */
+var splitMode = 'n'; 
 
-	if (searchTerm == "") {
-		setMessage("Enter a search term");
-		return false;
-	}
 
-	var searchType = $("#searchType").val();
-
-	$('#tabs').tabs({
-		selected : 1
-	}); // activate search results tab
-	prosecuteSearch(searchTerm, searchType);
-}
 
 /**
  * Linked to update tags button on info view, update the tags in iRODS
@@ -44,33 +56,26 @@ function updateTags() {
 	unblockPanel();
 }
 
-/*
- * Update the information in the tag cloud
+/**
+ * Linked to update tags button on info view, update the tags in iRODS
  */
-function haveTagCloudData(data) {
-	$("#tagCloudDiv").empty();
-	$("#tagCloudDiv").jQCloud(data, {
-		width : 300,
-		height : 600
-	});
+function updateTagsAtPath(path, tags, comment) {
+	
+	var params = {
+		absPath : path,
+		tags : tags,
+		comment : comment
+	}
 
-}
-
-function clickInTagCloud(data) {
-	$('#tabs').tabs({
-		selected : 1
-	}); // activate search results tab
-	prosecuteSearch(data, "tag");
-}
-
-function refreshTagCloud() {
-	lcShowBusyIconInDiv("#tagCloudDiv");
-	lcSendValueAndCallbackWithJsonAfterErrorCheck("/tags/tagCloudFormatted",
-			null, "#tagCloudDiv", function(data) {
-				haveTagCloudData(data);
+	showBlockingPanel();
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
+			params, null, null, function() {
+				setMessage("Tags and comments updated successfully");
+				refreshTagCloud();
 			});
-
+	unblockPanel();
 }
+
 
 function logout() {
 	window.location = context + "/login/logout";
@@ -200,14 +205,20 @@ function clickOnPathInCrumbtrail(data) {
 
 	// if the id (abs path) length is less then or equal to the absolute path,
 	// then show the root of the tree
+	
+	/* bug!  what if root of tree is below the path...need to reset the tree */
 
 	if (data.length <= baseAbsPath.length) {
-		currentNode = $.jstree._reference(dataTree).get_container();
+		/*currentNode = $.jstree._reference(dataTree).get_container();
 		var children = $.jstree._reference(dataTree)._get_children(currentNode);
 		currentNode = children[0];
 
 		$.jstree._reference(dataTree).open_node(currentNode);
-		$.jstree._reference(dataTree).select_node(currentNode, true);
+		$.jstree._reference(dataTree).select_node(currentNode, true);*/
+		if (data == "") {
+			data = "/";
+		}
+		retrieveBrowserFirstView("path", data);
 	} else {
 
 		splitPathAndPerformOperationAtGivenTreePath(data, null, null, function(
@@ -218,3 +229,24 @@ function clickOnPathInCrumbtrail(data) {
 		});
 	}
 }
+
+/**
+ * Show the default storage resource dialog
+ */
+function showDefaultResourceDialog() {	
+	var url = "/login/showDefaultResourceDialog";
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, null, "#defaultDialogDiv", null);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

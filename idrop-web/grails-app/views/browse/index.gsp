@@ -39,5 +39,11 @@
 			retrieveBrowserFirstView(mode, startPath);
 		}
 
+		 $(window).bind( 'hashchange', function(e) {
+			  
+             processStateChange( $.bbq.getState());
+
+		});
+
 	});
 </script>

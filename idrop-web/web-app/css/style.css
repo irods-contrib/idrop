@@ -48,6 +48,32 @@ table {
 }
 
 
+.setPaddingLeftAndRight {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+/*
+* sticky footer stuff see 
+*/
+
+html, body {
+	height: 100%;
+}
+
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -60px;
+}
+#push,
+#footer {
+    height: 60px;
+    clear:both;
+}
+
+
 /*
  * jsTree default theme 1.0
  * Supported features: dots/no-dots, icons/no-icons, focused, loading

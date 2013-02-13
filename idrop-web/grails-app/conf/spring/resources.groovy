@@ -3,9 +3,15 @@ beans = {
 
 	profileService(org.irods.mydrop.service.ProfileService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
+	starringService(org.irods.mydrop.service.StarringService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+	
+	sharingService(org.irods.mydrop.service.SharingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+	
+	
 	browseController(org.irods.mydrop.controller.BrowseController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 		taggingServiceFactory = ref("taggingServiceFactory")
+		starringService = ref("starringService")
 	}
 
 	tagsController(org.irods.mydrop.controller.TagsController) {

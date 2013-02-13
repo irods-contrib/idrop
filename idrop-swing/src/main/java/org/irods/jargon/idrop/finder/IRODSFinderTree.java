@@ -14,8 +14,10 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeModel;
@@ -95,6 +97,19 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
         setUpTreeMenu();
         setDropMode(javax.swing.DropMode.USE_SELECTION);
         this.setRenderDataProvider(new FinderOutlineRenderProvider(this));
+        
+        IRODSFinderTreeSelectionListener treeListener;
+        try {
+            treeListener = new IRODSFinderTreeSelectionListener(
+                    irodsFinderDialog);
+        } catch (IdropException ex) {
+            Logger.getLogger(IRODSFinderTree.class.getName()).log(Level.SEVERE, null,
+                    ex);
+            throw new IdropRuntimeException(
+                    "error initializing selection listener", ex);
+        }
+
+        this.getSelectionModel().addListSelectionListener(treeListener);
     }
 
     /**

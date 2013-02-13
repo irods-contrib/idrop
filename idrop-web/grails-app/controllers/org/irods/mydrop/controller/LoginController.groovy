@@ -4,11 +4,15 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.ResourceAO
+import org.irods.jargon.core.pub.UserAO
+import org.irods.mydrop.service.ViewStateService
 
 class LoginController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
+	ViewStateService viewStateService
 
 	//static allowedMethods = [authenticate:'POST']
 
@@ -66,7 +70,7 @@ class LoginController {
 			log.info("preset auth scheme is:${presetAuthScheme}")
 			loginCommand.authMethod = presetAuthScheme
 		}
-
+		
 		render(view:"login", model:[loginCommand:loginCommand])
 
 	}
@@ -148,6 +152,7 @@ class LoginController {
 		AuthResponse authResponse
 		try {
 			authResponse = irodsAccessObjectFactory.authenticateIRODSAccount(irodsAccount)
+			viewStateService.clearViewState()
 		} catch (JargonException e) {
 			log.error("unable to authenticate, JargonException", e)
 
@@ -190,6 +195,73 @@ class LoginController {
 		session["SPRING_SECURITY_CONTEXT"] = null
 		redirect(action:"login")
 	}
+	
+	
+	/**
+	 * FIXME: deprecated
+	 * Show information about the current user/host
+	 */
+	def showLoginBar = {
+		log.info("showLoginBar()")
+		ResourceAO resourceAO = irodsAccessObjectFactory.getResourceAO(irodsAccount)
+		List<String> resources = new ArrayList<String>()
+		resources.add("")
+		resources.addAll(resourceAO.listResourceAndResourceGroupNames())
+		render(view:"defaultStorageResource", model:[irodsAccount:irodsAccount, resources:resources])
+	}
+	
+	/**
+	 * Show a dialog to set the default storage resource
+	 */
+	def defaultResource = {
+		log.info("showLoginBar()")
+		ResourceAO resourceAO = irodsAccessObjectFactory.getResourceAO(irodsAccount)
+		List<String> resources = new ArrayList<String>()
+		resources.add("")
+		resources.addAll(resourceAO.listResourceAndResourceGroupNames())
+		render(view:"defaultStorageResource", model:[irodsAccount:irodsAccount, resources:resources])
+	}
+	
+	/**
+	 * Show the password change dialog
+	 * @return
+	 */
+	def changePasswordForm() {
+		PasswordCommand cmd = new PasswordCommand()
+		render (view:"passwordChange", model:[irodsAccount:irodsAccount, password:cmd])
+	}
+	
+	/**
+	 * process a password change
+	 * @return
+	 */
+	def changePassword(PasswordCommand cmd) {
+		log.info "passwordChange()"
+		log.info "cmd: ${cmd}"
+
+		/**
+		 * If there is an error send back the view for redisplay with error messages
+		 */
+		if (!cmd.validate()) {
+			log.info("errors in page, returning with error info:${cmd}")
+			flash.error =  message(code:"error.data.error")
+			render (view:"passwordChange", model:[irodsAccount:irodsAccount, password:cmd])
+			return
+		}
+
+		log.info("edits pass")
+		
+		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
+		userAO.changeAUserPasswordByThatUser(irodsAccount.userName, irodsAccount.password, cmd.password)
+		irodsAccount.password = cmd.password
+		log.info("password changed, fixed account in session")
+		flash.message = message(code:"message.password.updated")
+
+		render (view:"passwordChange", model:[irodsAccount:irodsAccount, password:cmd])
+
+	}
+
+	
 }
 class LoginCommand {
 	boolean useGuestLogin
@@ -209,3 +281,19 @@ class LoginCommand {
 		authMethod(blank:false)
 	}
 }
+
+class PasswordCommand {
+	
+		String password
+		String confirmPassword
+	
+		static constraints = {
+			password(blank:false)
+			confirmPassword  validator: {
+				val, obj ->
+				if (!val) return ['error.confirm.password.missing']
+				 if (val != obj.password) return['error.passwords.dont.match']
+			}
+		}
+	}
+	

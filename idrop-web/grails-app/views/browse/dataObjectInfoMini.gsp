@@ -74,7 +74,7 @@
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
+					<div><button type="button" id="updateTags" value="updateTags" onclick="updateTagsFromDataObjectInfoMini()">Update Tags</button></div>
 				</div>
 				<div>
 					<div><label><g:message code="text.created" />:</label></div>
@@ -135,6 +135,16 @@
 	
 </div><!-- table -->
 </div><!--  toggle html area -->
+
+<script>
+
+function updateTagsFromDataObjectInfoMini() {
+	var infoTagsVal = $("#infoTags").val();
+	var infoCommentVal = $("#infoComment").val();
+	var absPathVal = $("#infoAbsPath").val();
+	
+	updateTagsAtPath(absPathVal, infoTagsVal, infoCommentVal);
+}
 
 <g:if test="${getThumbnail}">
 	<script>

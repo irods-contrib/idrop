@@ -19,6 +19,7 @@
 						
 			<div id="dataTreeDivWrapper"  class="ui-layout-west" style="width: 25%; height: 100%; overflow:hidden;">
 				<div id="dataTreeToolbar" style="width:100%; height:4%;display:block; margin:5px;" class="fg-toolbar">
+
 						
 						<div id="dataTreeMenu">
 							<button type="button" id="refreshTreeButton"
@@ -52,3 +53,7 @@
 			</div> <!--  infoDivOuter -->
 		</div> <!--  data tree view -->
 	</div> <!--  browser -->
+	<script>
+		
+
+	</script>

@@ -168,6 +168,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         checkLogSuccessfulTransfer = new javax.swing.JCheckBox();
         checkVerifyChecksumOnTransfer = new javax.swing.JCheckBox();
         checkAllowRerouting = new javax.swing.JCheckBox();
+        checkConnectionRestart = new javax.swing.JCheckBox();
         plnPipelineConfiguration = new javax.swing.JPanel();
         lblIrodsSocketTimeout = new javax.swing.JLabel();
         spinnerIrodsSocketTimeout = new javax.swing.JSpinner();
@@ -456,6 +457,20 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
             }
         });
         pnlTransferManagement.add(checkAllowRerouting);
+
+        checkConnectionRestart.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkConnectionRestart.text")); // NOI18N
+        checkConnectionRestart.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkConnectionRestart.toolTipText")); // NOI18N
+        checkConnectionRestart.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkConnectionRestartItemStateChanged(evt);
+            }
+        });
+        checkConnectionRestart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkConnectionRestartActionPerformed(evt);
+            }
+        });
+        pnlTransferManagement.add(checkConnectionRestart);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1270,6 +1285,29 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
            idropGui.reinitializeForChangedIRODSAccount();
     }//GEN-LAST:event_comboPrefsDefaultResourceActionPerformed
 
+    private void checkConnectionRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkConnectionRestartActionPerformed
+
+
+
+
+
+    }//GEN-LAST:event_checkConnectionRestartActionPerformed
+
+    private void checkConnectionRestartItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkConnectionRestartItemStateChanged
+        boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating connection restart to:{}", isSelected);
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(IdropConfigurationService.IRODS_CONNECTION_RESTART, Boolean.toString(isSelected));
+            idropCore.getIdropConfigurationService().updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }//GEN-LAST:event_checkConnectionRestartItemStateChanged
+
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
     }
@@ -1690,6 +1728,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroupSynchMode;
     private javax.swing.JCheckBox checkAllowParallelTransfers;
     private javax.swing.JCheckBox checkAllowRerouting;
+    private javax.swing.JCheckBox checkConnectionRestart;
     private javax.swing.JCheckBox checkLogSuccessfulTransfer;
     private javax.swing.JCheckBox checkShowFileProgress;
     private javax.swing.JCheckBox checkShowGUI;
@@ -1783,6 +1822,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         spinnerIrodsParallelSocketTimeout.setValue(idropConfig.getIrodsParallelConnectionTimeout());
         spinnerIrodsMaxParallelThreads.setValue(idropConfig.getIrodsParallelTransferMaxThreads());
         checkAllowParallelTransfers.setSelected(idropConfig.isUseParallelTransfers());
+        checkConnectionRestart.setSelected(idropConfig.isConnectionRestart());
         checkUseNIOForParallelTransfers.setSelected(idropConfig.isUseNIOForParallelTransfers());
         txtInternalInputBufferSize.setText(String.valueOf(idropConfig.getInternalInputStreamBufferSize()));
         txtInternalOutputBufferSize.setText(String.valueOf(idropConfig.getInternalOutputStreamBufferSize()));
@@ -1842,6 +1882,11 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 log.error("error getting resource list", ex);
                 throw new IdropRuntimeException("error getting resource list", ex);
             }
+        }
+        // check to see if default resource editing is allowed
+        String allowEdit = idropCore.getIdropConfig().getPropertyForKey(IdropConfigurationService.IDROP_ENABLE_RESC_EDIT);
+        if (allowEdit != null && allowEdit.equals("false")) {
+            comboPrefsDefaultResource.setEnabled(false);
         }
     }
 

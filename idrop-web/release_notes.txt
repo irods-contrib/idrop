@@ -7,25 +7,21 @@
 
 This is a release of iDrop web with the version 2.0 redesign work
 
+
 ==Requirements==
 
 *idrop-web depends on Java 1.6+
-*idrop-web depends on grails 2.0.1
+*idrop-web depends on grails 2.1.1
 
 
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
 ==Bug Fixes==
 
-*[#1028] upload mac opera shows javascript exception in idrop web v2
-** added a 'no data available' display in the browse details panel instead of double notifications using the 'growler' pop up.  Errors tend to happen in the tree
-giving a pop-up, and then a secondary error would appear doing an AJAX call to the secondary div to build the details.  Now the tree error will put up the pop-up, and 
-the secondary exception is muted.
-
-*[#1042] Chinese char set displayes invalid characters 
-**work in progress, adding additional logging
+* [#1181] fix memory in idrop web2 when changing login
 
 ==Features==
-[#984] iDrop web '2.0' redesign effort
-** switched to twitter bootstrap model
-** refactoring and simplification of GUI
+
+*[#984] iDrop web '2.0' redesign effort
+
+*[#78] very large collection paging
