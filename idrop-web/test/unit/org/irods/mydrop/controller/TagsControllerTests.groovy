@@ -5,19 +5,17 @@ package org.irods.mydrop.controller
 import grails.converters.*
 import grails.test.*
 
-import java.util.Properties
-
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.*
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.testutils.TestingPropertiesHelper
-import org.irods.jargon.usertagging.FreeTaggingService
-import org.irods.jargon.usertagging.IRODSTaggingService
-import org.irods.jargon.usertagging.TaggingServiceFactory
-import org.irods.jargon.usertagging.UserTagCloudService
 import org.irods.jargon.usertagging.domain.IRODSTagValue
 import org.irods.jargon.usertagging.domain.UserTagCloudView
+import org.irods.jargon.usertagging.tags.FreeTaggingService
+import org.irods.jargon.usertagging.tags.IRODSTaggingService
+import org.irods.jargon.usertagging.tags.TaggingServiceFactory
+import org.irods.jargon.usertagging.tags.UserTagCloudService
 import org.mockito.Mockito
 
 

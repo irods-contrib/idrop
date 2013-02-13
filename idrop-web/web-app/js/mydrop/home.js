@@ -438,7 +438,7 @@ function nodeRemoved(event, data) {
 			return false;
 		}
 		setMessage("file deleted:" + id);
-		selectedPqth = xhr.responseText;
+		selectedPath = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
@@ -621,27 +621,14 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	    state[ "browseOptionVal"] = browseOptionVal;
 	    $.bbq.pushState( state );
 
-	//alert("call setPathCrumbtrail");
 	setPathCrumbtrail(absPath);
-	//alert("skipped setpathcrumbtrail");
-	//alert("browseOptionVal is:" + browseOptionVal);
-
+	
 	if (browseOptionVal == "browse") {
 		showBrowseView(absPath);
 	} else if (browseOptionVal == "info") {
 		showInfoView(absPath);
 	} else if (browseOptionVal == "gallery") {
 		showGalleryView(absPath);
-	} else if (browseOptionVal == "metadata") {
-		showMetadataView(absPath);
-	} else if (browseOptionVal == "sharing") {
-		showSharingView(absPath);
-	} else if (browseOptionVal == "audit") {
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-				"/audit/auditList?absPath=" + encodeURIComponent(absPath),
-				"#infoDiv", "#infoDiv", null);
-	} else if (browseOptionVal == "ticket") {
-		showTicketView(absPath);
 	}
 }
 
@@ -652,26 +639,28 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
  *            absolute path to browse to
  */
 function showBrowseView(absPath) {
+	
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	showBrowseDetailsToolbar();
 	
-	try {
+	lcShowBusyIconInDiv("#infoDiv");
 
-		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
-				"/browse/displayBrowseGridDetails?absPath="
-						+ encodeURIComponent(absPath),
-				"#infoDiv",
-				function(data) {
-					//alert("data is:" + data);
-					$("#infoDiv").html(data);
-				},
-				function() {
-					setInfoDivNoData();				});
-	} catch (err) {
-		setInfoDivNoData();
-	}
+
+	var jqxhr = $.get(context + "/browse/displayBrowseGridDetails?absPath="
+			+ encodeURIComponent(absPath), null,
+			function(data, status, xhr) {
+			}, "html")
+				.success(function(data, status, xhr) {
+					var continueReq = checkForSessionTimeout(data, xhr);
+					if (!continueReq) {
+						return false;
+					} 
+				
+					$("#infoDiv").html(data);})
+				.error(function(xhr, status, error) {
+					setInfoDivNoData();
+				});
 
 }
 
@@ -688,8 +677,7 @@ function showAuditView(absPath, targetDiv) {
 	
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
+		
 	} 
 	
 	try {
@@ -716,6 +704,15 @@ function showAuditView(absPath, targetDiv) {
 }
 
 /**
+ * Set a no data message in the div
+ */
+function setInfoDivNoData() {
+	$("#infoDiv").html("<h2>No data to display</h2>");  //FIXME: i18n
+	
+}
+
+
+/**
  * Show the sharing view
  * 
  * @param absPath
@@ -728,8 +725,6 @@ function showSharingView(absPath, targetDiv) {
 	
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
 	} 
 	
 	
@@ -769,7 +764,6 @@ function showMetadataView(absPath, targetDiv) {
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
 		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
 	} 
 	
 	try {
@@ -808,7 +802,6 @@ function showInfoView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	showDetailsToolbar();
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);
@@ -843,11 +836,6 @@ function showGalleryView(absPath) {
 		setInfoDivNoData();
 	}
 
-	/*
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
-			"#infoDiv", "#infoDiv", null);
-			*/
 }
 
 /**
@@ -863,8 +851,6 @@ function showTicketView(absPath, targetDiv) {
 	
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
 	} 
 	
 	try {
@@ -1199,10 +1185,19 @@ function buildAclTableInPlace() {
 	  tableParams = {"bJQueryUI" : true,
           	"bLengthChange": false,
           	"bFilter": false,
-          	"iDisplayLength" : 500
+          	"iDisplayLength" : 500,
+          	 "aoColumns" : [
+        	                {'sWidth': '20px', 'bSortable':false},
+        	                { 'sWidth': '30px' },
+        	                { 'sWidth': '40px' }
+        	                
+        	            ]
 
           }
+	  
 	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null, tableParams);
+	
+	  try {
 
 	$('.forSharePermission', dataTable.fnGetNodes()).editable(
 			function(value, settings) {
@@ -1220,6 +1215,9 @@ function buildAclTableInPlace() {
 				'onblur' : 'ignore',
 				'indicator' : 'Saving'
 			});
+	  } catch(e) {
+		  // ignore
+	  }
 }
 
 /**
@@ -1293,7 +1291,6 @@ function closeApplet() {
 	$("#toggleHtmlArea").show('slow');
 	$("#toggleHtmlArea").height = "100%";
 	$("#toggleHtmlArea").width = "100%";
-	dataLayout.resizeAll();
 	$("#idropLiteArea").empty();
 	reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 }
@@ -1499,8 +1496,21 @@ function refreshTree() {
  */
 function downloadViaToolbar() {
 	var infoAbsPath = $("#infoAbsPath").val();
-	window.open(context + '/file/download/' + infoAbsPath, '_self');
+	window.open(context + '/file/download' + escape(infoAbsPath), '_self');
 
+}
+
+/**
+ * Do a donwload action with a provided path
+ * @param path
+ */
+function downloadViaToolbarGivenPath(path) {
+	if (path == null) {
+		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+		return false;
+	}
+	
+	window.open(context + '/file/download' + escape(path), '_self');
 }
 
 /**
@@ -1573,7 +1583,7 @@ function deleteViaBrowseDetailsToolbar() {
 function deleteViaToolbarGivenPath(path) {
 
 	if (path == null) {
-		setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to delete"); // FIXME:
+		showErrorMessage(jQuery.i18n.prop("msg.path.missing"));
 		// i18n
 		return false;
 	}
@@ -1587,62 +1597,30 @@ function deleteViaToolbarGivenPath(path) {
 		var params = {
 			absPath : path
 		}
+		
 		var jqxhr = $
 				.post(context + fileDeleteUrl, params,
-						function(data, status, xhr) {
-						}, "html")
+						null, "html")
 				.success(
 						function(returnedData, status, xhr) {
 							var continueReq = checkForSessionTimeout(
 									returnedData, xhr);
+							
 							if (!continueReq) {
 								return false;
 							}
 
-							setMessage("file deleted:" + xhr.responseText);
-
-							$("#infoDiv").html("<h2>File Deleted</h2>");
-
-							/*
-							 * delete the node from the tree, select the parent
-							 * node and update the display to the parent node
-							 */
-							splitPathAndPerformOperationAtGivenTreePath(
-									path,
-									null,
-									null,
-									function(treePath, tree, currentNode) {
-										// get the parent node
-										var parent = $.jstree._reference(
-												dataTree)._get_parent(
-												currentNode);
-										if (parent == null) {
-											refreshTree();
-											return false;
-										}
-										// remove node..
-
-										$.jstree._reference(dataTree)
-												._get_parent(currentNode);
-										// $.jstree._reference(dataTree).remove(
-										// currentNode);
-
-										var parent = $.jstree._reference(
-												dataTree).refresh(parent);
-										selectedPath = xhr.responseText;
-										updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-
-									});
-
+							setMessage("file deleted:" + path);
+							var selectedPath = xhr.responseText;
+							reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 							unblockPanel();
 
 						}).error(function(xhr, status, error) {
-					refreshTree();
-					setErrorMessage(xhr.responseText);
-					unblockPanel();
-				});
+							//refreshTree();
+							setErrorMessage(xhr.responseText);
+							unblockPanel();
+						});
 	}
-
 }
 
 /**
@@ -1708,6 +1686,7 @@ function closeNewFolderDialog() {
 function submitRenameDialog() {
 	lcClearDivAndDivClass("#renameDialogMessageArea");
 	var absPath = $("#renameDialogAbsPath").val();
+	var parentPath = $("#renameDialogParentPath").val();
 	var newName = $.trim($("#fileName").val());
 	// name must be entered
 	if (newName == null || newName.length == 0) {
@@ -1734,17 +1713,16 @@ function submitRenameDialog() {
 				setMessage("file renamed to:" + xhr.responseText);
 				selectedPath = xhr.responseText;
 				
-				refreshTree();
-				//reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
-				// selectTreePathFromIrodsPath(selectedPath);
-				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath
-						+ "/" + newName);
+				//refreshTree();
+				reloadAndSelectTreePathBasedOnIrodsAbsolutePath(parentPath);
+				//selectTreePathFromIrodsPath(selectedPath);
+				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 				unblockPanel();
 			}).error(function(xhr, status, error) {
-		refreshTree();
-		setErrorMessage(xhr.responseText);
-		unblockPanel();
-	});
+				refreshTree();
+				setErrorMessage(xhr.responseText);
+				unblockPanel();
+			});
 
 }
 
@@ -1933,6 +1911,29 @@ function selectTreePathFromIrodsPath(irodsAbsolutePath) {
 
 }
 
+
+/**
+ * Find the given iRODS absolute path in the tree, clear the children and reload
+ * 
+ * @param path
+ */
+function refreshOpenNodeAtAbsolutePath(path) {
+
+	if (path == null) {
+		throw "No path provided";
+	}
+
+	splitPath = path.split("/");
+
+	performOperationAtGivenTreePath(splitPath, null, null, function(thisPath,
+			dataTree, currentNode) {
+
+		$.jstree._reference(dataTree).refresh(currentNode);
+		$.jstree._reference(dataTree).select_node(currentNode, true);
+
+	});
+}
+
 /**
  * Find the given iRODS absolute path in the tree, clear the children and reload
  * 
@@ -1955,6 +1956,28 @@ function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
 
 	});
 }
+
+/**
+ * Find the given iRODS absolute path in the tree, clear the children and reload, do not select or open
+ * 
+ * @param path
+ */
+function reloadTreePathBasedOnIrodsAbsolutePath(path) {
+
+	if (path == null) {
+		throw "No path provided";
+	}
+
+	splitPath = path.split("/");
+
+	performOperationAtGivenTreePath(splitPath, null, null, function(thisPath,
+			dataTree, currentNode) {
+
+		$.jstree._reference(dataTree).refresh(currentNode);
+
+	});
+}
+
 
 
 /**
@@ -2239,6 +2262,22 @@ function setTreeToUserHome() {
 	
 }
 
+
+/**
+ * set the root of the tree to the given path and reload
+ */
+
+function setTreeToGivenPath(path) {
+
+	if (path == null || path=="") {
+		path = "/";
+	}
+	
+	retrieveBrowserFirstView("path", path);
+	
+}
+
+
 /**
  * Set the root of the tree to the user home directory and reload
  */
@@ -2345,6 +2384,7 @@ function clickOnPathInBrowseDetails(data) {
 			});
 }
 
+
 /**
  * Close the public link dialog 
  */
@@ -2375,6 +2415,7 @@ function grantPublicLink() {
 }
 
 
+
 /**
  * Set a no data message in the div
  */
@@ -2395,5 +2436,10 @@ function showOverwriteOptionDialog(message) {
 	 * 
 	 * var a = document.createElement('applet'); appletTagDiv.appendChild(a);
 	 */
+	
+	
+}
 
+function z() {
+	
 }

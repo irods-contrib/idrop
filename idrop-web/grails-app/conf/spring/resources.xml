@@ -22,7 +22,7 @@
 	</beans:bean>
 	
 	<beans:bean id="taggingServiceFactory"
-		class="org.irods.jargon.usertagging.TaggingServiceFactoryImpl">
+		class="org.irods.jargon.usertagging.tags.TaggingServiceFactoryImpl">
 		<beans:constructor-arg ref="irodsAccessObjectFactory"></beans:constructor-arg>
 	</beans:bean>
 	

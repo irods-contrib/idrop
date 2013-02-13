@@ -20,7 +20,7 @@
 		
 		<div id="normalLoginWrapper">
 		<!--begin-normalLogin-->
-		<div id="normalLoginForm" class="roundedContainer" style="float:left;clear:both;background:grey">
+		<div id="normalLoginForm" class="roundedContainer" style="width:auto;height:auto;margin-top:100px;clear:both;background:grey">
 
 			 <g:form class="normalLogin" id="normalLogin" method="post" controller="login" action="authenticate">
 				

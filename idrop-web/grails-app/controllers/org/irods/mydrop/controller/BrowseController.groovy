@@ -13,10 +13,9 @@ import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.datautils.image.MediaHandlingUtils
 import org.irods.jargon.datautils.sharing.*
 import org.irods.jargon.ticket.TicketDistributionContext
-import org.irods.jargon.usertagging.FreeTaggingService
-import org.irods.jargon.usertagging.IRODSTaggingService
-import org.irods.jargon.usertagging.TaggingServiceFactory
-import org.irods.mydrop.service.ShoppingCartSessionService
+import org.irods.jargon.usertagging.tags.FreeTaggingService
+import org.irods.jargon.usertagging.tags.IRODSTaggingService
+import org.irods.jargon.usertagging.tags.TaggingServiceFactory
 
 /**
  * Controller for browser functionality
@@ -28,7 +27,6 @@ class BrowseController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TaggingServiceFactory taggingServiceFactory
 	IRODSAccount irodsAccount
-	ShoppingCartSessionService shoppingCartSessionService
 	def grailsApplication
 
 	/**
@@ -47,6 +45,33 @@ class BrowseController {
 	def afterInterceptor = {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
+	}
+	
+	
+	def index = {
+		log.info ("in index action")
+		def mode = params['mode']
+		def absPath = params['absPath']
+
+		if (mode != null) {
+			if (mode == "path") {
+				log.info("mode is path, should have an abspath to preset to")
+				if (absPath == null) {
+					def message = message(code:"error.no.path.provided")
+					response.sendError(500,message)
+					return
+				} else {
+					log.info("path is ${absPath}")
+				}
+			}
+		}
+
+		render(view: "index", model:[mode:mode,path:absPath])
+	}
+
+	def showBrowseToolbar = {
+		log.info("showBrowseToolbar")
+		render(view:"browseToolbar")
 	}
 
 	/**
@@ -474,6 +499,7 @@ class BrowseController {
 		 */
 
 		IRODSFile targetFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+		String parentPath = targetFile.parent
 
 		log.info("target file obtained")
 		if (!targetFile.exists()) {
@@ -485,7 +511,7 @@ class BrowseController {
 		log.info("target file exists")
 
 		String fileName = targetFile.name
-		render(view:"renameDialog", model:[fileName:fileName, absPath:absPath])
+		render(view:"renameDialog", model:[fileName:fileName, absPath:absPath, parentPath:parentPath])
 	}
 
 
@@ -533,124 +559,7 @@ class BrowseController {
 		render(view:"newFolderDialog", model:[absPath:absPath])
 	}
 
-	def addFileToCart = {
-		log.info ("addFileToCart")
-		String fileName = params['absPath']
-		if (!fileName) {
-			log.error "no file name in request"
-			def message = message(code:"error.no.path.provided")
-			response.sendError(500,message)
-		}
-
-		log.info("adding ${fileName} to the shopping cart")
-
-		shoppingCartSessionService.addToCart(fileName)
-
-		log.info("shopping cart: ${session.shoppingCart}")
-
-		log.info("file added")
-		render fileName
-	}
-
-	/**
-	 * Display the contents of the 'file cart tab'.  This is a cascading operation, such that the loading of the tab will call the process
-	 * to load the cart contents table.
-	 */
-	def showCartTab = {
-		log.info("showCartTab")
-		render(view:"listCart")
-	}
-
-	/**
-	 * Build the JTable entries for the contents of the shopping cart
-	 */
-	def listCart = {
-		log.info("listCart")
-		List<String> cart = shoppingCartSessionService.listCart()
-		render(view:"cartDetails", model:[cart:cart])
-	}
-
-	/**
-	 * Clear the contents of the shopping cart
-	 */
-	def clearCart = {
-		log.info("clearCart")
-		shoppingCartSessionService.clearCart()
-		render "OK"
-	}
-
-	/**
-	 * Delete the given files from the shopping cart
-	 */
-	def deleteFromCart = {
-		log.info("deleteFromCart")
-		log.info("params: ${params}")
-
-		def filesToDelete = params['selectCart']
-
-		// if nothing selected, just jump out and return a message
-		if (!filesToDelete) {
-			log.info("no files to delete")
-			render "OK"
-			return
-		}
-
-		log.info("filesToDelete: ${filesToDelete}")
-
-		if (filesToDelete instanceof Object[]) {
-			log.debug "is array"
-			filesToDelete.each{
-				log.info "filesToDelete: ${it}"
-				shoppingCartSessionService.deleteFromCart(it)
-			}
-
-		} else {
-			log.debug "not array"
-			log.info "deleting: ${filesToDelete}"
-			shoppingCartSessionService.deleteFromCart(filesToDelete)
-		}
-
-		render "OK"
-	}
-
-
-	/**
-	 * Process a bulk add to cart action based on data input from the browse details form
-	 */
-	def addToCartBulkAction = {
-		log.info("addToCartBulkAction")
-
-		log.info("params: ${params}")
-
-		def filesToAdd = params['selectDetail']
-
-		// if nothing selected, just jump out and return a message
-		if (!filesToAdd) {
-			log.info("no files to add")
-			render "OK"
-			return
-		}
-
-		log.info("filesToAdd: ${filesToAdd}")
-
-
-		if (filesToAdd instanceof Object[]) {
-			log.debug "is array"
-			filesToAdd.each{
-				log.info "filesToAdd: ${it}"
-				shoppingCartSessionService.addToCart(it)
-
-			}
-
-		} else {
-			log.debug "not array"
-			log.info "adding: ${filesToAdd}"
-			shoppingCartSessionService.addToCart(filesToAdd)
-		}
-
-		render "OK"
-	}
-
+	
 	/**
 	 * Show gallery view for given directory
 	 */

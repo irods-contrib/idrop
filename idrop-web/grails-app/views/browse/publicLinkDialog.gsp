@@ -1,42 +1,42 @@
-<div class="roundedContainer" id="publicLinkDialog">
-	<g:hiddenField name="publicLinkDialogAbsPath"  id="publicLinkDialogAbsPath" value = "${absPath}" />
-	<div style="clear: both;">
+<div class="well" id="publicLinkDialog">
+	<g:hiddenField name="publicLinkDialogAbsPath" id="publicLinkDialogAbsPath" value = "${absPath}" />
+	<div>
 			<g:if test="${accessSet == true}">
-			<h1><g:message code="heading.anonymous.access.set" /></h1>
-			<fieldset id="verticalForm">
 			
+				<div class="alert alert-info">
+	 				<g:message code="heading.anonymous.access.set" />
+				</div>
 				
+			<fieldset>
 				<g:textArea name="url" rows="4" columns="200" value="${accessUrlString}"/>
 				<br />
-				<div id="publicLinkDialogMenu" class="fg-buttonset fg-buttonset-multi"
-							style="float: right; clear :   both; width: 90%;">
+				<div id="publicLinkDialogMenu" 
+							class="pull-right">
 							<button type="button" id="cancelPublicLinkButton"
-								class="ui-state-default ui-corner-all" value="cancelPublicLink"
+								 value="cancelPublicLink"
 								onclick="closePublicLinkDialog()")><g:message code="text.cancel" /></button>
 						</div>
 				
 			</fieldset>
 			</g:if>
 			<g:else>
-			<h1><g:message code="heading.anonymous.access.enable" /></h1>
-				<fieldset id="verticalForm">
+				<div class="alert alert-info">
+	 				<g:message code="heading.anonymous.access.enable" />
+				</div>
+				
+				<fieldset>
 					<br />
 					<div id="publicLinkDialogToolbar" >
-						<div id="publicLinkDialogMenu" class="fg-buttonset fg-buttonset-multi"
-							style="float: right; clear :   both; width: 90%;">
+						<div id="publicLinkDialogMenu" 
+							class="pull-right">
 							<button type="button" id="grantLinkButton"
-								class="ui-state-default ui-corner-all" value="grant"
+								 value="grant"
 								onclick="grantPublicLink()")><g:message code="text.grant" /></button>
 							<button type="button" id="cancelPublicLinkButton"
-								class="ui-state-default ui-corner-all" value="cancelPublicLink"
+								 value="cancelPublicLink"
 								onclick="closePublicLinkDialog()")><g:message code="text.cancel" /></button>
 						</div>
 					</div>
-					
-					
-					
-					
-					
 				</fieldset>
 			</g:else>
 			

@@ -38,7 +38,10 @@ class ProfileController {
 	 */
 	def index() {
 		log.info "index()"
-		
+		render(view:"index")	
+	}
+	
+	def loadProfileData() {
 		if (irodsAccount.userName == IRODSAccount.PUBLIC_USERNAME) {
 			render(view:"noProfileData")
 		} else {
@@ -50,6 +53,7 @@ class ProfileController {
 				response.sendError(500,e.message)
 			}
 		}
+		
 	}
 
 	/**

@@ -72,23 +72,8 @@ function refreshTagCloud() {
 
 }
 
-/**
- * Initial display of the user tab information in the sidebar
- */
-function displayUserTab() {
-
-}
-
 function logout() {
 	window.location = context + "/login/logout";
-}
-
-/**
- * On main panel, show the user panel
- */
-function showUserPanel() {
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage("/user/index",
-			"#userDiv", "#userDiv", null);
 }
 
 /**
@@ -232,31 +217,4 @@ function clickOnPathInCrumbtrail(data) {
 
 		});
 	}
-}
-
-/**
- * Hides all but the standard toolbar
- */
-function hideAllToolbars() {
-	$(".toolbarMenuItem").hide();
-	$(".detailsToolbarMenuItem").hide();
-}
-
-/**
- * Show menu appropriate for browse details
- */
-function showBrowseDetailsToolbar() {
-	hideAllToolbars();
-	$(".detailsToolbarMenuItem").show();
-	$(".idropLiteBulkUpload").show();
-	
-}
-
-/**
- * Show menu appropriate for collection or data object details
- */
-function showDetailsToolbar() {
-	hideAllToolbars();
-	$(".toolbarMenuItem").show();
-	
 }

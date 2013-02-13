@@ -21,6 +21,7 @@ var messageClass = "message";
 function checkForSessionTimeout(data, xhr) {
 	var headers = xhr.getAllResponseHeaders();
 	if (headers.indexOf(timeoutHeaderValue) > -1) {
+		alert("session timeout!");
 		window.location = context;
 		return false;
 	} else {
@@ -83,31 +84,17 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
 }
 
 /**
- * Set the specified (by jquery selector) message area message to a given
- * string.
- * 
- * message: the text message to display
- */
-/*function setMessageInArea(messageAreaId, message) {
-	try {
-	$(messageAreaId).html(message);
-	$(messageAreaId).addClass(messageClass);
-	} catch(e) {
-		
-	}
-}*/
-
-
-/**
  * Set the default message area message to a given string. This will be a normal, non-sticky 
  * gritter message
  * 
  * message: the text message to display
  */
 function setMessage(message) {
+	
 	if (message == null || message == "") {
 		message = "An unknown error has occurred";
 	}
+	
 	$.gritter.add({
 		// (string | mandatory) the heading of the notification
 		title: 'iDrop Message',
@@ -144,13 +131,6 @@ function setErrorMessage(message) {
 	});
 
 }
-
-/**
- * Clear global javascript message area
- */
-/*function lcClearMessage() {
-	setMessage();
-}*/
 
 /**
  * Given the result of an AJAX call, inspect the returned data for various types
@@ -296,18 +276,11 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
  */
 function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector, tableParams) {
 	
-	//alert("new table id:" + newTableId);
-	//alert("table params:" + tableParams);
-	
 	if (tableParams == null) {
 		tableParams = {"bJQueryUI" : true}
 	}
-	
-	//$(newTableId).html("hey there");
-	//alert("set hey there");
+
 	var dataTableCreated = $(newTableId).dataTable(tableParams);
-	
-	//alert("table built");
 
 	if (detailsFunction != null) {
 		$(dataIconSelector, dataTableCreated.fnGetNodes()).each(function() {
@@ -317,10 +290,7 @@ function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector, tabl
 		});
 
 	}
-	/*
-	if (dataTableCreated != null) {
-		dataTableCreated.fnAdjustColumnSizing();
-	}*/
+	
 	return dataTableCreated;
 
 }

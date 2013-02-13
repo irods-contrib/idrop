@@ -22,31 +22,7 @@ class HomeController {
 
 	def afterInterceptor = { log.debug("closing the session") }
 
-
-	def index = {
-		log.info ("in home controller index action")
-		def mode = params['mode']
-		def absPath = params['absPath']
-
-		if (mode != null) {
-			if (mode == "path") {
-				log.info("mode is path, should have an abspath to preset to")
-				if (absPath == null) {
-					def message = message(code:"error.no.path.provided")
-					response.sendError(500,message)
-					return
-				} else {
-					log.info("path is ${absPath}")
-				}
-			}
-		}
-
-		render(view: "index", model:[mode:mode,path:absPath])
-	}
-
-	def showBrowseToolbar = {
-		log.info("showBrowseToolbar")
-		render(view:"browseToolbar")
+	def index() {
 	}
 
 	/**

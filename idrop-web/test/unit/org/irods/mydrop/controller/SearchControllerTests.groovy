@@ -2,8 +2,6 @@ package org.irods.mydrop.controller
 
 import grails.test.ControllerUnitTestCase
 
-import java.util.Properties
-
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
@@ -11,9 +9,9 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.IRODSFileSystem
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.testutils.TestingPropertiesHelper
-import org.irods.jargon.usertagging.FreeTaggingService
-import org.irods.jargon.usertagging.TaggingServiceFactory
 import org.irods.jargon.usertagging.domain.TagQuerySearchResult
+import org.irods.jargon.usertagging.tags.FreeTaggingService
+import org.irods.jargon.usertagging.tags.TaggingServiceFactory
 import org.mockito.Mockito
 
 class SearchControllerTests extends ControllerUnitTestCase {
