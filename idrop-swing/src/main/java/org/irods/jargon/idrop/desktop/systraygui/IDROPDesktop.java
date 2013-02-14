@@ -28,14 +28,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author Mike Conway - DICE (www.irods.org)
  */
-public class StartupSequencer {
+public class IDROPDesktop {
 
     /**
      * NOTE this class is in transition!!!!!!
      */
     private iDrop idrop;
     private IDROPCore idropCore;
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(StartupSequencer.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(IDROPDesktop.class);
     public static final int STARTUP_SEQUENCE_PAUSE_INTERVAL = 1000;
 
     public void doStartupSequence() {
@@ -55,7 +55,7 @@ public class StartupSequencer {
         try {
             idropCore.setIrodsFileSystem(IRODSFileSystem.instance());
         } catch (JargonException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
 
@@ -133,7 +133,7 @@ public class StartupSequencer {
                     JOptionPane.OK_OPTION);
             System.exit(1);
         } catch (IdropException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
@@ -142,7 +142,7 @@ public class StartupSequencer {
         try {
             idropCore.getIdropConfigurationService().pushIDROPConfigToJargonAndTransfer();
         } catch (Exception ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
@@ -179,7 +179,7 @@ public class StartupSequencer {
             idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop));
             idropCore.getIdropConfigurationService().updateTransferOptions();
         } catch (JargonException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException("error creating transferManager",
                     ex);
@@ -200,7 +200,7 @@ public class StartupSequencer {
                 idropSplashWindow.toFront();
             }
         } catch (JargonException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException("error evaluating current queue",
                     ex);
@@ -257,7 +257,7 @@ public class StartupSequencer {
             idropCore.setQueueTimer(timer);
 
         } catch (IdropException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
 
@@ -271,7 +271,7 @@ public class StartupSequencer {
             idropSplashWindow.setVisible(false);
             idropSplashWindow = null;
         } catch (Exception e) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, e);
 
             throw new IdropRuntimeException("error starting idrop gui", e);
@@ -313,7 +313,7 @@ public class StartupSequencer {
             idropPreBootstrapperService.storePriorVersion(derivedConfigHomeDirectory, currentVersion);
 
         } catch (IdropException ex) {
-            Logger.getLogger(StartupSequencer.class.getName()).log(
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
@@ -337,7 +337,7 @@ public class StartupSequencer {
      * @param args the command line arguments
      */
     public static void main(final String args[]) throws InterruptedException {
-        StartupSequencer startupSequencer = new StartupSequencer();
+        IDROPDesktop startupSequencer = new IDROPDesktop();
         try {
             startupSequencer.doStartupSequence();
         } catch (Exception e) {

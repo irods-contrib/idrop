@@ -20,7 +20,7 @@ var dataTree;
 var dataTreeView = "";
 var dataTreePath = "";
 
-var browseOptionVal = "browse";
+var browseOptionVal = "info";
 var selectedPath = null;
 var selectedNode = null;
 var fileUploadUI = null;
@@ -673,6 +673,7 @@ function showBrowseView(absPath) {
 
 	lcShowBusyIconInDiv("#infoDiv");
 
+
 	var jqxhr = $.get(
 			context + "/browse/displayBrowseGridDetails?absPath="
 					+ encodeURIComponent(absPath), null,
@@ -846,13 +847,11 @@ function showGalleryView(absPath) {
 		absPath = baseAbsPath;
 	}
 	
+
 	var state = {};
 	state["absPath"] = absPath;
 	state["browseOptionVal"] = "gallery";
 	$.bbq.pushState(state);
-
-
-
 	targetDiv = "#infoDiv";
 
 	try {
@@ -2600,7 +2599,6 @@ function addShareAtPath() {
 		return false;
 	}
 
-	// show the public link dialog
 	var url = "/sharing/prepareAddShareDialog";
 	var params = {
 		absPath : path
@@ -2622,7 +2620,6 @@ function editShareAtPath() {
 		return false;
 	}
 
-	// show the public link dialog
 	var url = "/sharing/prepareEditShareDialog";
 	var params = {
 		absPath : path
@@ -2631,6 +2628,48 @@ function editShareAtPath() {
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
 		fillInShareDialog(data);
 	});
+}
+
+/**
+ * remove a named share
+ */
+function removeShareAtPath() {
+	var path = $("#aclDetailsAbsPath").val();
+	
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg_path_missing'));
+		unblockPanel();		
+		return false;
+	}
+	
+	var params = {
+			absPath : path
+		}
+		
+	var answer = confirm(jQuery.i18n.prop('msg_delete_share')); 
+	
+	if (!answer) {
+		return false;
+	}
+	
+	showBlockingPanel();
+	
+	var jqxhr = $.post(context + "/sharing/removeShare", params,
+			function(data, status, xhr) {
+		
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		
+		$("#sharingPanelContainingDiv").empty().append( data );
+		unblockPanel();
+
+	}).fail(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
+
 }
 
 /*
@@ -2648,16 +2687,26 @@ function fillInShareDialog(data) {
 function updateNamedShare() {
 	var path = $("#aclDetailsAbsPath").val();
 	var shareName = $("#shareName").val();
+	var formAction = $("#formAction").val();
 	showBlockingPanel();
+	
 	if (path == null) {
-		setMessage(jQuery.i18n.prop('msg.path.missing'));
+		setMessage(jQuery.i18n.prop('msg_path_missing'));
 		unblockPanel();		
 		return false;
 	}
 	
+	if (formAction == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_action_missing'));
+		unblockPanel();
+		return false;
+	}
+	
+	
 	var params = {
 			absPath : path,
-			shareName: shareName
+			shareName: shareName,
+			formAction : formAction
 		}
 		
 	var jqxhr = $.post(context + "/sharing/processUpdateShareDialog", params,
@@ -2676,6 +2725,25 @@ function updateNamedShare() {
 		unblockPanel();
 	});
 
+}
+
+/**
+ * Close the add/update share dialog by reloading the share info
+ */
+function closeNamedShareDialog() {
+	
+		var path = selectedPath;
+		if (selectedPath == null) {
+			return false;
+		}
+
+		var url = "/sharing/getSharingDialogInfo";
+		var params = {
+			absPath : path
+		}
+
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#sharingPanelContainingDiv", null);
+		
 }
 
 /**

@@ -6,11 +6,13 @@ import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.ResourceAO
 import org.irods.jargon.core.pub.UserAO
+import org.irods.mydrop.service.ViewStateService
 
 class LoginController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
+	ViewStateService viewStateService
 
 	//static allowedMethods = [authenticate:'POST']
 
@@ -68,7 +70,7 @@ class LoginController {
 			log.info("preset auth scheme is:${presetAuthScheme}")
 			loginCommand.authMethod = presetAuthScheme
 		}
-
+		
 		render(view:"login", model:[loginCommand:loginCommand])
 
 	}
@@ -150,6 +152,7 @@ class LoginController {
 		AuthResponse authResponse
 		try {
 			authResponse = irodsAccessObjectFactory.authenticateIRODSAccount(irodsAccount)
+			viewStateService.clearViewState()
 		} catch (JargonException e) {
 			log.error("unable to authenticate, JargonException", e)
 

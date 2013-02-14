@@ -16,9 +16,9 @@
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
       				<g:message code="text.search" /><b class="caret"></b></a>
       				 <ul class="dropdown-menu">
-	      					 <li><a href="#" id="searchFileName" onclick="xxx()")>Search By File Name</a></li>
+	      					<!--  <li><a href="#" id="searchFileName" onclick="xxx()")>Search By File Name</a></li>  -->
 	      					 <li><a href="#" id="searchTag"><g:link controller="tags" action="index"><g:message code="text.tags" /></g:link></li>
-	      					 <li><a href="#" id="searchMetadata" onclick="xxx()")>Search By Metadata</a></li>
+	      					<!--  <li><a href="#" id="searchMetadata" onclick="xxx()")>Search By Metadata</a></li>  -->
       				  </ul>
 			</li>
 			<li id="topbarTools" class="dropdown">

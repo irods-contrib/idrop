@@ -311,7 +311,7 @@ class BrowseController {
 			def splitMode = params['splitMode']
 			
 			if (pagingOffset == null) {
-				throw new JargonException("missing the partialStart")
+				pagingOffset = 0;
 			}
 			
 			if (splitMode == null) {

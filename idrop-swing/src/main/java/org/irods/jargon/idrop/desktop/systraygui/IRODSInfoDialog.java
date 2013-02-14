@@ -311,7 +311,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             lblInfoObjectVersion.setText(Integer.toString(dataObject.getDataVersion()));
                         } else {
                             lblInfoObjectVersion.setText("");
-                        }
+                        }  
                         
                         // now populate tags and comments for data object
                         txtInfoTags.setText(freeTaggingService.getTagsForDataObjectInFreeTagForm(

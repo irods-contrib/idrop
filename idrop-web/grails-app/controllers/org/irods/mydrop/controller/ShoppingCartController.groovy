@@ -5,46 +5,46 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
 import org.irods.mydrop.service.ShoppingCartSessionService;
 
 /**
-* Controller for shopping cart functionality
-* @author Mike Conway - DICE (www.irods.org)
-*/
+ * Controller for shopping cart functionality
+ * @author Mike Conway - DICE (www.irods.org)
+ */
 
 class ShoppingCartController {
-	
-	   IRODSAccessObjectFactory irodsAccessObjectFactory
-	   IRODSAccount irodsAccount
-	   ShoppingCartSessionService shoppingCartSessionService
-	   def grailsApplication
-   
-	   /**
-		* Interceptor grabs IRODSAccount from the SecurityContextHolder
-		*/
-	   def beforeInterceptor = [action:this.&auth]
-   
-	   def auth() {
-		   if(!session["SPRING_SECURITY_CONTEXT"]) {
-			   redirect(controller:"login", action:"login")
-			   return false
-		   }
-		   irodsAccount = session["SPRING_SECURITY_CONTEXT"]
-	   }
-   
-	   def afterInterceptor = {
-		   log.debug("closing the session")
-		   irodsAccessObjectFactory.closeSession()
-	   }
-	   
-	   
-	   /**
-		* Show the cart main view
-		*/
-	   def index = {
-		   log.info("index")
-		   render(view:"index")
-	   }
-	   
-	   
-    /**
+
+	IRODSAccessObjectFactory irodsAccessObjectFactory
+	IRODSAccount irodsAccount
+	ShoppingCartSessionService shoppingCartSessionService
+	def grailsApplication
+
+	/**
+	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
+	 */
+	def beforeInterceptor = [action:this.&auth]
+
+	def auth() {
+		if(!session["SPRING_SECURITY_CONTEXT"]) {
+			redirect(controller:"login", action:"login")
+			return false
+		}
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
+	}
+
+	def afterInterceptor = {
+		log.debug("closing the session")
+		irodsAccessObjectFactory.closeSession()
+	}
+
+
+	/**
+	 * Show the cart main view
+	 */
+	def index = {
+		log.info("index")
+		render(view:"index")
+	}
+
+
+	/**
 	 * Build the JTable entries for the contents of the shopping cart
 	 */
 	def listCart = {
@@ -94,6 +94,19 @@ class ShoppingCartController {
 		}
 
 		render "OK"
+	}
+
+	/**
+	 * Add one file to the cart
+	 */
+	def addFileToCart = {
+		log.info("addFileToCart")
+		def absPath = params['absPath']
+
+		log.info("absPath: ${absPath}")
+		shoppingCartSessionService.addToCart(absPath)
+
+		render absPath
 	}
 
 

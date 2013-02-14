@@ -4,6 +4,7 @@
 *'''Release Version''': xxxx
 *'''git tag''': 1134 HIVE integration 
 
+
 ==News==
 
 Integration of idrop web with the HIVE framework under DataNet
@@ -17,7 +18,6 @@ Integration of idrop web with the HIVE framework under DataNet
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
 ==Bug Fixes==
-
 
 ==Features==
 

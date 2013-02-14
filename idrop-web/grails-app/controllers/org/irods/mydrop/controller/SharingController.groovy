@@ -4,6 +4,7 @@ package org.irods.mydrop.controller
 import grails.converters.JSON
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.protovalues.FilePermissionEnum
 import org.irods.jargon.core.pub.CollectionAO
@@ -41,6 +42,34 @@ class SharingController {
 	def afterInterceptor = {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
+	}
+	
+	def getSharingDialogInfo = {
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request for showAclDetails()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info("showAclDetails for absPath: ${absPath}")
+		
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		log.info("sharing supported:${sharing}")
+		
+		IRODSSharedFileOrCollection irodsSharedFileOrCollection
+		if (sharing) {
+			try {
+				irodsSharedFileOrCollection = sharingService.findShareForPath(absPath, irodsAccount)
+			} catch (JargonException je) {
+				log.warn("sharing does not seem to be supported, probably due to specific query not supported, treat as if sharing is off", je)
+			}
+		}
+		
+		render(view:"sharingPanelWrapper",model:[absPath:absPath, irodsSharedFileOrCollection:irodsSharedFileOrCollection])
+		
+
 	}
 
 	/**
@@ -161,7 +190,7 @@ class SharingController {
 		log.info("prepareAddShareDialog")
 		log.info(params)
 		def absPath = params['absPath']
-		def action = "add"
+		def formAction = "add"
 		
 		if (!absPath) {
 			log.error "no absPath in request for prepareAclDialog()"
@@ -173,7 +202,7 @@ class SharingController {
 		log.info("absPath:${absPath}")
 		
 		def shareName = ""
-		render(view:"addShareDialog", model:[absPath:absPath, shareName:shareName, action:action])
+		render(view:"addShareDialog", model:[absPath:absPath, shareName:shareName, formAction:formAction])
 
 	}
 	
@@ -184,7 +213,7 @@ class SharingController {
 		log.info("prepareExistingShareDialog")
 		log.info(params)
 		def absPath = params['absPath']
-		def action = "update"
+		def formAction = "update"
 		
 		if (!absPath) {
 			log.error "no absPath in request for prepareExistingShareDialog()"
@@ -207,7 +236,7 @@ class SharingController {
 			}
 		}
 
-		render(view:"addShareDialog", model:[absPath:absPath, shareName:irodsSharedFileOrCollection.shareName, action:action])
+		render(view:"addShareDialog", model:[absPath:absPath, shareName:irodsSharedFileOrCollection.shareName, formAction:formAction])
 	}
 	
 	def processUpdateShareDialog = {
@@ -216,7 +245,7 @@ class SharingController {
 			log.info(params)
 			def absPath = params['absPath']
 			def shareName = params['shareName']
-			def action = params['action']
+			String formAction = params['formAction']
 			
 			if (!absPath) {
 				log.error "no absPath in request for prepareAclDialog()"
@@ -225,7 +254,7 @@ class SharingController {
 				return
 			}
 			
-			if (!action) {
+			if (!formAction) {
 				log.error "no action in request for prepareAclDialog()"
 				def message = message(code:"error.no.action")
 				response.sendError(500,message)
@@ -234,17 +263,53 @@ class SharingController {
 			
 			if (!shareName) {
 				flash.message = message(code:"error.no.share.name")
-				render(view:"addShareDialog", model:[absPath:absPath, action:action, shareName:shareName])
+				render(view:"addShareDialog", model:[absPath:absPath, formAction:formAction, shareName:shareName])
 				return
 			}
 			
-			log.info("adding share:${shareName}")
-			IRODSSharedFileOrCollection irodsSharedFileOrCollection = sharingService.createShare(absPath, shareName, irodsAccount)
-			log.info("rendering new share:${irodsSharedFileOrCollection}")
+			log.info("checking action to see if add or update, current action is ${formAction}")
+			IRODSSharedFileOrCollection irodsSharedFileOrCollection
+			if (formAction == "add") {
+				log.info("adding share:${shareName}")
+				try {
+					 irodsSharedFileOrCollection = sharingService.createShare(absPath, shareName, irodsAccount)
+					log.info("rendering new share:${irodsSharedFileOrCollection}")
+				} catch(DataNotFoundException e) {
+					def message = message(code:"error.duplicate.share")
+					response.sendError(500,message)
+					return
+				}
+				
+			} else {
+				 irodsSharedFileOrCollection = sharingService.updateShare(absPath, shareName, irodsAccount)
+				log.info("updated share to:${irodsSharedFileOrCollection}")
+			}
+			
 			flash.message = message(code:"message.share.update.successful")
-			render(view:"sharingPanelWrapper", model:[absPath:absPath, irodsSharedFileOrCollection:irodsSharedFileOrCollection, action:action])
+			render(view:"sharingPanelWrapper", model:[absPath:absPath, irodsSharedFileOrCollection:irodsSharedFileOrCollection, formAction:formAction])
 
 	}
+	
+	/**
+	 * Remove a share at a given absolute path
+	 */
+	def removeShare = {
+		
+				log.info("removeShare")
+				log.info(params)
+				def absPath = params['absPath']
+				
+				if (!absPath) {
+					log.error "no absPath in request for removeShare()"
+					def message = message(code:"error.no.path.provided")
+					response.sendError(500,message)
+					return
+				}
+				
+				flash.message = message(code:"message.share.delete.successful")
+				sharingService.deleteShare(absPath, irodsAccount)
+				redirect(action: "getSharingDialogInfo",  params: [absPath: absPath])
+		}
 	
 
 	def processAddAclDialog = {

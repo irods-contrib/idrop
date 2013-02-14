@@ -66,10 +66,12 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.idrop.finder.FinderDeleteIRODSDialog;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
+import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.engine.TransferManager;
 import org.irods.jargon.transfer.engine.TransferManager.ErrorStatus;
 import org.irods.jargon.transfer.engine.TransferManager.RunningStatus;
 import org.irods.jargon.transfer.engine.TransferManagerCallbackListener;
+import org.irods.jargon.transfer.engine.synch.SynchManagerService;
 import org.netbeans.swing.outline.Outline;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
@@ -1513,7 +1515,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
                     // initiation not within a synch
                     lblTransferMessage.setText("Processing a " + ts.getTransferType().name() + " operation");
-                }
+                 } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                    // initiation not within a synch
+                    lblTransferMessage.setText("Completed a " + ts.getTransferType().name() + " operation");
+                } 
             }
         });
     }
@@ -1528,6 +1533,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         transferStatusProgressBar.setMaximum(100);
         transferStatusProgressBar.setValue(0);
         transferStatusProgressBar.setString("");
+        progressIntraFile.setString("");
+        progressIntraFile.setMinimum(0);
+        progressIntraFile.setMaximum(0);
+        progressIntraFile.setValue(0);
         progressIntraFile.setString("");
     }
 
@@ -1611,9 +1620,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         togglePauseTransfer = new javax.swing.JToggleButton();
         progressIconImageLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(622, 158));
         setSize(new java.awt.Dimension(822, 158));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pnlMain.setMinimumSize(new java.awt.Dimension(622, 158));
         pnlMain.setPreferredSize(new java.awt.Dimension(730, 635));
@@ -1719,6 +1733,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarSync.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 28));
         btnMainToolbarSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarSyncActionPerformed(evt);
+            }
+        });
         pnlMainToolbarIcons.add(btnMainToolbarSync);
 
         btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_settings.png"))); // NOI18N
@@ -2087,6 +2106,38 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void btnMainToolbarSearchFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarSearchFilesActionPerformed
         processSearchRequest();
     }//GEN-LAST:event_btnMainToolbarSearchFilesActionPerformed
+
+    private void btnMainToolbarSyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarSyncActionPerformed
+        log.info("synch now button pressed");
+
+        int result = JOptionPane.showConfirmDialog(this,
+                "Do you want to synchronize now?",
+                "Synchronize",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            try {
+                SynchManagerService synchConfigurationService = iDropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+                List<Synchronization> syncs = synchConfigurationService.listAllSynchronizations();
+                log.info("number of synchronizations to process: {}", syncs.size());
+                for (Synchronization sync: syncs) {
+                    if (synchConfigurationService.isSynchRunning(sync)) {
+                        MessageManager.showMessage(this, "Cannot schedule the synchronization, a synch is currently running", MessageManager.TITLE_MESSAGE);
+                        return;
+                    }   
+                    iDropCore.getTransferManager().enqueueASynch(sync, sync.buildIRODSAccountFromSynchronizationData());
+                }
+            } catch (Exception ex) {
+                log.error("error starting synch", ex);
+                MessageManager.showError(this, ex.getMessage(), MessageManager.TITLE_MESSAGE);
+                throw new IdropRuntimeException(ex);
+            }
+        }
+    }//GEN-LAST:event_btnMainToolbarSyncActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.setVisible(false);
+        this.formShown = false;
+    }//GEN-LAST:event_formWindowClosing
     /**
      * @param args the command line arguments
      */

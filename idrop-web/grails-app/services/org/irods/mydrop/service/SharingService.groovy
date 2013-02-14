@@ -123,7 +123,58 @@ class SharingService {
 		irodsSharingService.createShare(irodsAbsolutePath, shareName);
 		return irodsSharingService.findShareByAbsolutePath(irodsAbsolutePath)
 	}
+	
+	/**
+	 * Update the given share to the new share name
+	 * @param irodsAbsolutePath
+	 * @param newShareName
+	 * @param irodsAccount
+	 * @return
+	 * @throws JargonException
+	 */
+	IRODSSharedFileOrCollection updateShare(String irodsAbsolutePath, String newShareName, IRODSAccount irodsAccount) throws JargonException {
+		if (irodsAbsolutePath == null || irodsAbsolutePath.isEmpty()) {
+			throw new IllegalArgumentException("null or empty irodsAbsolutePath")
+		}
+		
+		if (newShareName == null || newShareName.isEmpty()) {
+			throw new IllegalArgumentException("null or empty newShareName")
+		}
 
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount");
+		}
+		
+		IRODSSharingService irodsSharingService = new IRODSSharingServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		irodsSharingService.updateShareName(irodsAbsolutePath, newShareName)
+		return irodsSharingService.findShareByAbsolutePath(irodsAbsolutePath)
+	}
+	
+	/**
+	 * Delete the share at the given path
+	 * @param irodsAbsolutePath
+	 * @param irodsAccount
+	 * @return
+	 * @throws JargonException
+	 */
+	void deleteShare(String irodsAbsolutePath, IRODSAccount irodsAccount) throws JargonException {
+		
+		log.info("deleteShare()")
+		if (irodsAbsolutePath == null || irodsAbsolutePath.isEmpty()) {
+			throw new IllegalArgumentException("null or empty irodsAbsolutePath")
+		}
+		
 
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount");
+		}
+		
+		
+		log.info("share to delete:${irodsAbsolutePath}")
+		IRODSSharingService irodsSharingService = new IRODSSharingServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		irodsSharingService.removeShare(irodsAbsolutePath)
+		log.info("share removed")
+	}
+	
     
 }

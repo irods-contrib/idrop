@@ -20,6 +20,15 @@ class ViewStateService {
 	}
 	
 	/**
+	 * clear the view state
+	 
+	 */
+	public void clearViewState() {
+		getSession().viewState = null
+		
+	}
+	
+	/**
 	 * Store the root Path
 	 * @param path
 	 * @return
