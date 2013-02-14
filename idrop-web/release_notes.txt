@@ -18,7 +18,10 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Bug Fixes==
 
-* [#1181] fix memory in idrop web2 when changing login
+*[#1181] fix memory in idrop web2 when changing login
+
+*[#1205] error accessing tickets (-80600) on srbbrick15
+**more gracefully handle ticket errors in display
 
 ==Features==
 

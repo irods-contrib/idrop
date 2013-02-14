@@ -31,6 +31,29 @@ function checkForSessionTimeout(data, xhr) {
 }
 
 /**
+ * Display the given text as an html alert div inside the given selector
+ * @param message
+ * @param targetDiv
+ * @returns {Boolean}
+ */
+function displayMessageAsBootstrapAlert(message, targetDiv) {
+	
+	if (message == null || message == "") {
+		message = "Unknown message, please specify";
+	}
+	
+	if (targetDiv == null || targetDiv == "") {
+		return false;
+	}
+	
+	var divTag = document.createElement("div");
+	$(divTag).addClass('alert');
+	$(divTag).html(message);
+	$(targetDiv).html(divTag);
+	
+}
+
+/**
  * FIXME: remove..this is dumb check HTML coming back from an AJAX call for an
  * indication of an error, and if an error is found, then set the message in the
  * div using the given id. Then the appropriate exception will be thrown.
