@@ -192,7 +192,7 @@ class LoginController {
 	}
 
 	def logout = {
-		session["SPRING_SECURITY_CONTEXT"] = null
+		session.invalidate()
 		redirect(action:"login")
 	}
 	
