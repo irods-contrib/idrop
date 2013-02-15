@@ -5,8 +5,10 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.war.file = "target/${appName}.war"
 grails.project.dependency.resolution = {
 	// inherit Grails' default dependencies
-	inherits("global") { // uncomment to disable ehcace
-		excludes 'ehcache'}
+	inherits("global") {
+		// uncomment to disable ehcace
+		excludes 'validation-api','stax-api', 'xml-apis', 'xalan', 'xml-apis-ext', 'sl4j-log4j12', 'sl4j'
+	}
 	log "warn" // LOG level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 	repositories {
 		// uncomment the below to enable remote dependency resolution
@@ -18,6 +20,7 @@ grails.project.dependency.resolution = {
 		mavenRepo "http://download.java.net/maven/2/"
 		mavenRepo "http://repository.jboss.com/maven2/"
 		mavenRepo "http://ci-dev.renci.org/nexus/content/repositories/release"
+		mavenRepo "http://repo.aduna-software.org/maven2/releases"
 		mavenRepo "http://ci-dev.renci.org/nexus/content/repositories/snapshots"
 		grailsPlugins()
 		grailsHome()
@@ -27,16 +30,19 @@ grails.project.dependency.resolution = {
 		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		test 'org.mockito:mockito-all:1.8.1'
 		compile 'commons-io:commons-io:2.1'
+		compile 'info.aduna.commons:aduna-commons-lang:2.3'
 		provided 'junit:junit:4.8.1'
 		compile ('org.irods.jargon:jargon-core:3.3.0-SNAPSHOT') { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-data-utils:3.3.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-ticket:3.3.0-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-profile:3.3.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-tagging:3.3.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ([name:"stax-api"])}
+
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 
-		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
+		//compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 
 	}
 }

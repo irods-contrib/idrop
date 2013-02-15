@@ -4,10 +4,10 @@ beans = {
 	profileService(org.irods.mydrop.service.ProfileService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 	starringService(org.irods.mydrop.service.StarringService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
-	
+
 	sharingService(org.irods.mydrop.service.SharingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
-	
-	
+
+
 	browseController(org.irods.mydrop.controller.BrowseController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 		taggingServiceFactory = ref("taggingServiceFactory")
@@ -22,6 +22,11 @@ beans = {
 	searchController(org.irods.mydrop.controller.SearchController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 		taggingServiceFactory = ref("taggingServiceFactory")
+	}
+
+	hiveController(org.irods.mydrop.controller.HiveController) {
+		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+		vocabularyService = ref("vocabularyService")
 	}
 
 	metadataController(org.irods.mydrop.controller.MetadataController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
@@ -44,10 +49,18 @@ beans = {
 	auditController(org.irods.mydrop.controller.AuditController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 	profileController(org.irods.mydrop.controller.ProfileController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
-	
-	shoppingCartController(org.irods.mydrop.controller.ShoppingCartController) {
-		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+
+	shoppingCartController(org.irods.mydrop.controller.ShoppingCartController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
+	hiveConfiguration(org.irods.jargon.hive.container.HiveConfiguration) { hiveConfigLocation = "/Users/mikeconway/temp/hive-data/hive.properties" }
+
+	hiveContainer(org.irods.jargon.hive.container.HiveContainerImpl) { bean ->
+		hiveConfiguration = ref("hiveConfiguration")
+		bean.initMethod = 'init'
+		bean.destroyMethod = 'shutdown'
 	}
+
+	vocabularyService(org.irods.jargon.hive.service.VocabularyServiceImpl) { hiveContainer = ref("hiveContainer") }
 
 
 }

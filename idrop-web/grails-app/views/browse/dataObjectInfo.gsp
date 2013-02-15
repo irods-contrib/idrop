@@ -45,7 +45,7 @@
 	  	<li><a href="#tickets" id="ticketTab"><g:message code="text.tickets" /></a></li>
 	  </g:if>
 	  <li><a href="#audit"  id="auditTab"><g:message code="text.audit" /></a></li>
-	  <li><a href="#hive"  id="hiveTab">hive</a></li>
+	  <li><a href="#hive"  id="hiveTab"><g:message code="text.hive" /></a></li>
 	</ul>
 	
 	<div class="tab-content">
@@ -183,6 +183,10 @@
 
 		$('#auditTab').on('shown', function (e) {
 			showAuditView(selectedPath, "#infoAccordionAuditInner"); 
+		});
+
+		$('#hiveTab').on('shown', function (e) {
+			showHiveView(selectedPath, "#infoAccordionHiveInner"); 
 		});
 			
 	});

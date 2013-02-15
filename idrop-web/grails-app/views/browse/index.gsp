@@ -1,6 +1,7 @@
 <head>
 	<meta name="layout" content="mainNoSidebar" />
 	<g:javascript library="mydrop/home" />
+	<g:javascript library="mydrop/hive" />
 	<g:javascript library="mydrop/metadata" />
 </head>
 <div class="wrapper clearfix"
