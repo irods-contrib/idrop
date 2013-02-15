@@ -64,6 +64,12 @@ class BrowseController {
 		
 		ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
 		log.info("viewState:${viewState}")
+		
+		
+		if (viewState) {
+			mode = "path"
+			absPath = viewState.rootPath
+		}
 
 		if (mode != null) {
 			if (mode == "path") {
@@ -185,11 +191,11 @@ class BrowseController {
 			 * If I have a preserved view state, initialize to that
 			 */
 			
-			String rootPath = viewStateService.retrieveRootPath()
+			ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
 			
-			if (rootPath) {
+			if (viewState.rootPath) {
 				
-				parent = rootPath
+				parent = viewState.rootPath
 				
 				icon = "folder"
 				state = "closed"
@@ -353,8 +359,7 @@ class BrowseController {
 			throw new JargonException("no absolute path passed to the method")
 		}
 		
-		ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
-		viewState.browseView = "browse"
+		ViewState viewState = viewStateService.saveViewModeAndSelectedPath("browse", absPath)
 		
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		try {
@@ -406,7 +411,7 @@ class BrowseController {
 			throw new JargonException("no absolute path passed to the method")
 		}
 		
-		viewStateService.saveViewMode("info")
+		viewStateService.saveViewModeAndSelectedPath("info", absPath)
 
 		ViewNameAndModelValues mav = handleInfoLookup(absPath)
 		render(view:mav.view, model:mav.model)
@@ -583,6 +588,8 @@ class BrowseController {
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
+		
+		viewStateService.saveViewModeAndSelectedPath("gallery", absPath)
 
 		try {
 			log.info "galleryView for absPath: ${absPath}"

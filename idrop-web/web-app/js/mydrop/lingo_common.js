@@ -361,8 +361,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 		throw ("no get url for call");
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", +context + "/images/ajax-loader.gif");
+	showBlockingPanel();
 
 	$(resultDiv).html(img);
 
@@ -373,6 +372,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 			if (continueReq) {
 				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 			}
+			unblockPanel();
 
 		}, "html").error(function(xhr, status, error) {
 			resultDiv.html("");
@@ -386,6 +386,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 		} catch(err) {
 			// ignore
 		}
+		unblockPanel();
 		setErrorMessage(err);
 	}
 
@@ -401,10 +402,7 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 		throw ("no get url for call");
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(resultDiv).html(img);
+	showBlockingPanel();
 
 	try {
 
@@ -413,9 +411,11 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 			if (continueReq) {
 				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 			}
+			unblockPanel();
 		}, "html").error(function(xhr, status, error) {
 			$(resultDiv).html("");
 			setErrorMessage(xhr.responseText);
+			unblockPanel();
 		});
 
 	} catch (err) {
@@ -426,6 +426,7 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 		} catch(err) {
 			// ignore
 		}
+		unblockPanel();
 		setErrorMessage(err);
 		// console.log("javascript error:" + err);
 	}
@@ -444,10 +445,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 		return;
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(divForLoadingGif).html(img);
+	showBlockingPanel();
 
 	try {
 
@@ -462,11 +460,13 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 					$(divForLoadingGif).html(data);
 				
 				}
+				unblockPanel();
 			}
 		}, "html").error(function(xhr, status, error) {
 			
 			$(divForLoadingGif).html("");
 			setErrorMessage(xhr.responseText);
+			unblockPanel();
 		});
 
 	} catch (err) {
@@ -475,6 +475,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 		} catch(err) {
 			// ignore
 		}
+		unblockPanel();
 		setErrorMessage(err);
 		// console.log("javascript error:" + err);
 	}
@@ -493,11 +494,8 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 		return;
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(divForLoadingGif).html(img);
-
+	showBlockingPanel();
+	
 	try {
 
 		$.get(context + getUrl, function(data, status, xhr) {
@@ -512,6 +510,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 				
 				}
 			}
+			unblockPanel();
 		}, "html").error(function(xhr, status, error) {
 			
 			try {
@@ -519,11 +518,13 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 			} catch(err) {
 				// ignore
 			}
+			unblockPanel();
 			setErrorMessage(xhr.responseText);
 		});
 
 	} catch (err) {
 		$(divForLoadingGif).html(""); 
+		unblockPanel();
 		
 		if (err.indexOf("Runtime") > -1) {
 			err = "Unable to view data, this may be a permissions issue";
@@ -547,11 +548,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(getUrl,
 		return;
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(divForLoadingGif).html(img);
-
+		showBlockingPanel();
 		$.get(context + getUrl, function(data, status, xhr) {
 			var continueReq = checkForSessionTimeout(data, xhr);
 			if (continueReq) {
@@ -562,6 +559,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(getUrl,
 					$(divForLoadingGif).html(data);
 				}
 			}
+			unblockPanel();
 		}, "html").error(function(xhr, status, error) {
 			$(divForLoadingGif).html("");
 			if (errorHandlingFunction == null) {
@@ -569,6 +567,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(getUrl,
 			} else {
 				errorHandlingFunction();
 			}
+			unblockPanel();
 			
 		});
 
@@ -600,11 +599,7 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 		throw ("no post url for call");
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(divForLoadingGif).html(img);
-
+	showBlockingPanel();
 	try {
 
 		$.post(context + postUrl, params, function(data, status, xhr) {
@@ -618,11 +613,13 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 					$(divForLoadingGif).html(data);
 				}
 			}
+			unblockPanel();
 		}, "html").error(function(xhr, status, error) {
 			if (divForLoadingGif != null) {
 				$(divForLoadingGif).html("");
 			}
 			setErrorMessage(xhr.responseText);
+			unblockPanel();
 
 		});
 
@@ -633,6 +630,7 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 			// ignore
 		}
 		setErrorMessage(err);
+		unblockPanel();
 	}
 
 }
@@ -656,11 +654,9 @@ function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
 				callbackFunction(data);
 			}
 		}, "json").error(function(xhr, status, error) {
-			// continue?
-			var continueReq = checkForSessionTimeout(null, xhr);
-			if (continueReq) {
+			
 				setErrorMessage(xhr.responseText);
-			}
+			
 		});
 	} catch (err) {
 		setErrorMessage(err);
