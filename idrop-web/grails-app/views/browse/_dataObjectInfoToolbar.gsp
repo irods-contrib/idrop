@@ -13,7 +13,7 @@
 			</g:else>
 			<button id="downloadFile" onclick="dibDownloadFile()"><img class="icon-download"/><g:message
 					code="text.download" /></button>
-			<button id="addToCart" onclick="dibAddToCart()"><img class="icon-shopping-cart"/><g:message
+			<button id="addToCart" onclick="addToCartViaToolbar()"><img class="icon-shopping-cart"/><g:message
 					code="text.add.to.cart" /></button>			
 		</div>
 		<div id="dataObjectInfoButtonGroup2" class="btn-group">

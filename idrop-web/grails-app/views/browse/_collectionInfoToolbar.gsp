@@ -19,7 +19,7 @@
 		</div>
 
 		<div id="collectionInfoButtonGroup2" class="btn-group">
-			<button id="addCollectionToCart" onclick="cibAddToCart()"><img class="icon-shopping-cart"/><g:message
+			<button id="addCollectionToCart" onclick="addToCartViaToolbar()"><img class="icon-shopping-cart"/><g:message
 					code="text.add.to.cart" /></button>
 			<button id="uploadViaBrowser" onclick="cibUploadViaBrowser()"><img class="icon-upload"/><g:message
 					code="text.upload" /></button>

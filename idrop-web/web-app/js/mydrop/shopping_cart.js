@@ -40,7 +40,7 @@ function addToCartGivenPath(absPath) {
 		absPath : absPath
 	}
 	
-	lcShowBusyIconInDiv("#cartTableDiv");
+	showBlockingPanel();
 
 	var jqxhr = $.post(context + addToCartUrl, params, "html").success(
 			function(returnedData, status, xhr) {
@@ -49,11 +49,14 @@ function addToCartGivenPath(absPath) {
 					return false;
 				}
 				setMessage("file added to cart:" + xhr.responseText);
-				refreshCartFiles();
+				unblockPanel();
+
 			})
 			
 			.error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
+		unblockPanel();
+
 	});
 }
 

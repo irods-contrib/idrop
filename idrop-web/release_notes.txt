@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 
 *'''Project''': idrop-web version 2 
 *'''Date''': 02/11/2013
 *'''Release Version''': 2.0.0-beta1
 *'''git tag''': 2.0.0-beta1
+=======
+*'''Project''': idrop-web
+*'''Date''': 02/13/2013
+*'''Release Version''': 2.0.0-beta1
+*'''git tag''':  2.0.0-beta1
+>>>>>>> a0b1644912dcc14325344b3e988b0c27d146d32a
 
 ==News==
 
@@ -19,7 +26,16 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Bug Fixes==
 
-* [#1181] fix memory in idrop web2 when changing login
+*[#1181] fix memory in idrop web2 when changing login
+
+*[#1205] error accessing tickets (-80600) on srbbrick15
+**more gracefully handle ticket errors in display
+
+*[#1204] cleanup initial view (should be info)
+**Added re-initialization of tree location when returning back to the Browse tab from elsewhere, or on a reload
+
+*[#1119] Error when updating profile.
+**Better error trapping when an exception occurs updating the profile
 
 ==Features==
 

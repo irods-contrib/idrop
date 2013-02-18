@@ -6,7 +6,9 @@
 <div class="wrapper clearfix"
 	style="height: 820px; overflow:hidden;">
 	<g:hiddenField name="mode" id="mode" value="${mode}"/>
-	<g:hiddenField name="presetPath" id="presetPath" value="${path}"/>
+	<g:hiddenField name="viewStateBrowseOptionVal" id="viewStateBrowseOptionVal" value="${viewState.browseView}"/>
+	<g:hiddenField name="presetPath" id="presetPath" value="${viewState.rootPath}"/>
+	<g:hiddenField id="viewStateSelectedPath" name="viewStateSelectedPath" value="${viewState.selectedPath}"/>
 	<g:render template="/browse/browseTabContent" />
 	
 </div> 
@@ -31,12 +33,15 @@
 		});
 
 		var mode = $("#mode").val();
-		var startPath = $("#presetPath").val();
+		browseOptionVal = $("#viewStateBrowseOptionVal").val();
+		dataTreePath = $("#presetPath").val();
+		var thisSelectedPath = $("#viewStateSelectedPath").val();
+
 		
 		if (mode == null || mode=="") {
-			retrieveBrowserFirstView("detect","");
+			retrieveBrowserFirstView("detect","", thisSelectedPath);
 		} else {
-			retrieveBrowserFirstView(mode, startPath);
+			retrieveBrowserFirstView(mode, dataTreePath, thisSelectedPath);
 		}
 
 		 $(window).bind( 'hashchange', function(e) {

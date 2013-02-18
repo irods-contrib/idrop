@@ -30,14 +30,18 @@ function reloadTicketTable(absPath) {
 	var jqxhr = $.get(context + ticketTableUrl, params,
 			function(data, status, xhr) {
 				$('#ticketTableDiv').html(data);
-			}, "html").error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-	}).success(function(data, status, xhr) {
-		var continueReq = checkForSessionTimeout(data, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		buildTicketTableInPlace();
+			}, "html")
+			.error(function(xhr, status, error) {
+				var message = jQuery.i18n.prop('msg_ticket_error');
+				displayMessageAsBootstrapAlert(message, "#infoAccordionTicketsInner");
+				 setErrorMessage(xhr.responseText);
+			}).success(function(data, status, xhr) {
+				var continueReq = checkForSessionTimeout(data, xhr);
+				if (!continueReq) {
+					return false;
+					buildTicketTableInPlace();
+			}
+			
 	});
 	
 }
@@ -149,7 +153,7 @@ function reloadTickets() {
 }
 
 /**
- * Show ticket details dailog area
+ * Show ticket details dialog area
  * 
  * @param create -
  *            is this a create or edit
