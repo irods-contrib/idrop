@@ -29,6 +29,9 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#1119] Error when updating profile.
 **Better error trapping when an exception occurs updating the profile
 
+*[#1157] fix ticket landing pages and error pages
+**Put ticket landing pages under profile, fixed ticket table formatting  
+
 ==Features==
 
 *[#984] iDrop web '2.0' redesign effort

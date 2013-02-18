@@ -27,22 +27,23 @@ function reloadTicketTable(absPath) {
 		absPath : absPath
 	}
 
+	showBlockingPanel();
+
 	var jqxhr = $.get(context + ticketTableUrl, params,
 			function(data, status, xhr) {
 				$('#ticketTableDiv').html(data);
+				var continueReq = checkForSessionTimeout(data, xhr);
+				if (!continueReq) {
+					return false;
+				}
+				buildTicketTableInPlace();
 			}, "html")
 			.error(function(xhr, status, error) {
 				var message = jQuery.i18n.prop('msg_ticket_error');
 				displayMessageAsBootstrapAlert(message, "#infoAccordionTicketsInner");
 				 setErrorMessage(xhr.responseText);
-			}).success(function(data, status, xhr) {
-				var continueReq = checkForSessionTimeout(data, xhr);
-				if (!continueReq) {
-					return false;
-					buildTicketTableInPlace();
-			}
-			
-	});
+				 unblockPanel();
+			});
 	
 }
 
@@ -67,6 +68,7 @@ function buildTicketTableInPlace() {
         	            ]
           }
 	 ticketTable = lcBuildTableInPlace("#ticketDetailsTable", ticketDetailsClick, ".browse_detail_icon", tableParams);
+	  unblockPanel();
 
 	return ticketTable;
 }

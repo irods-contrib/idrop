@@ -2168,11 +2168,15 @@ function selectTreePath(path, currentNode, currentIndex) {
 		
 		// see if this node should be selected by comparing paths
 		
-		var currentId = currentNode[0].id;
-		var idPath = currentId.split("/");
-		if (path.length == idPath.length) {
-			$.jstree._reference(dataTree).select_node(currentNode, true);
+		if (currentNode != null && currentNode[0] != null && currentNode[0].id != null) {
+			var currentId = currentNode[0].id;
+			var idPath = currentId.split("/");
+			if (path.length == idPath.length) {
+				$.jstree._reference(dataTree).select_node(currentNode, true);
+			}
 		}
+		
+		
 		
 	});
 }
