@@ -39,7 +39,7 @@
       				<g:message code="text.account" /> <g:ifAuthenticated> <g:ifNotGuestAccount>( <span id="accountZoneAndUserDisplay"><g:accountInfo /></span> )<b class="caret"></b> </g:ifNotGuestAccount></g:ifAuthenticated></a>
       				 <ul class="dropdown-menu">
 	      				<g:ifAuthenticated>
-	      					 <li><a href="#" id="logoutButton" onclick="logout()")><g:message code="text.logout" /></a></li>
+	      					 <li><g:link controller="login" action="logout"><g:message code="text.logout" /></g:link></li>
 	      					 <g:ifNotGuestAccount>
 	      					  	<li><a href="#" id="changePasswordButton"><g:link controller="login" action="changePasswordForm"><g:message code="text.change.password" /></g:link></a></li>
 	      					 </g:ifNotGuestAccount>

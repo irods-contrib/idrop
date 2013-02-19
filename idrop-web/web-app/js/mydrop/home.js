@@ -76,7 +76,7 @@ function retrieveBrowserFirstView(type, path, pathSelectedInTree) {
 		} else if (type == 'detect') {
 			path = "";
 		} else {
-			throw "invalid type parameter";
+			throw "invalid type parameter:" + type;
 		}
 	} else {
 		type = "path";
