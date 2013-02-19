@@ -223,7 +223,14 @@ class BrowseController {
 	
 				} else {
 	
-					def isStrict = environmentalInfoAO.isStrictACLs()
+					def isStrict;
+					try {
+						isStrict = environmentalInfoAO.isStrictACLs()
+					} catch (JargonException je) {
+						log.warn("error getting rule info for strict acl's currently overheaded see idrop bug [#1219] error on intiial display centos6")
+						isStrict = false
+					}
+					
 					log.info "is strict?:{isStrict}"
 					if (isStrict) {
 						parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
