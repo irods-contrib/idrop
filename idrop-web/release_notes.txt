@@ -1,15 +1,8 @@
-<<<<<<< HEAD
 
-*'''Project''': idrop-web version 2 
-*'''Date''': 02/11/2013
-*'''Release Version''': 2.0.0-beta1
-*'''git tag''': 2.0.0-beta1
-=======
 *'''Project''': idrop-web
 *'''Date''': 02/13/2013
 *'''Release Version''': 2.0.0-beta1
 *'''git tag''':  2.0.0-beta1
->>>>>>> a0b1644912dcc14325344b3e988b0c27d146d32a
 
 ==News==
 
@@ -39,6 +32,9 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1157] fix ticket landing pages and error pages
 **Put ticket landing pages under profile, fixed ticket table formatting  
+
+*[#957] error deleting from public subdir when guest
+**Added better trapping of catNoAccessException and a clean message to user for operations that fail due to no access
 
 ==Features==
 
