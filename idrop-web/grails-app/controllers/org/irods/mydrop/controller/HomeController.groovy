@@ -1,6 +1,7 @@
 package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.SpecificQueryException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.utils.MiscIRODSUtils
 import org.irods.mydrop.service.SharingService
@@ -118,11 +119,17 @@ class HomeController {
 			return
 		}
 				
-		def listing = sharingService.listCollectionsSharedByMe(irodsAccount);
-		if (listing.isEmpty()) {
-			render(view:"noInfo")
-		} else {
-			render(view:"shareQuickViewList",model:[listing:listing])
+		try {
+			def listing = sharingService.listCollectionsSharedByMe(irodsAccount);
+			if (listing.isEmpty()) {
+				render(view:"noInfo")
+			} else {
+				render(view:"shareQuickViewList",model:[listing:listing])
+			}
+		} catch (SpecificQueryException e) {
+			log.error "speific query exception", e
+			def message = message(code:"error.no.specific.query")
+			response.sendError(500,message)
 		}
 	}
 	
@@ -140,13 +147,20 @@ class HomeController {
 			return
 		}
 		
-		def listing = sharingService.listCollectionsSharedWithMe(irodsAccount)
-		
-		if (listing.isEmpty()) {
-			render(view:"noInfo")
-		} else {
-			render(view:"shareWithMeQuickViewList",model:[listing:listing])
+		try {
+			def listing = sharingService.listCollectionsSharedWithMe(irodsAccount)
+			if (listing.isEmpty()) {
+				render(view:"noInfo")
+			} else {
+				render(view:"shareWithMeQuickViewList",model:[listing:listing])
+			}
+		} catch (SpecificQueryException e) {
+			log.error "speific query exception", e
+			def message = message(code:"error.no.specific.query")
+			response.sendError(500,message)
 		}
+		
+		
 	}
 	
 
