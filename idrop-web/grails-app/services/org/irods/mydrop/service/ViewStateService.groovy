@@ -33,13 +33,14 @@ class ViewStateService {
 	 * @param path
 	 * @return
 	 */
-	public void saveRootPath(String path) {
+	public ViewState saveRootPath(String path) {
 		if (path == null) {
 			throw new IllegalArgumentException("null path")
 		}
 		
 		ViewState viewState = getViewStateFromSessionAndCreateIfNotThere()
 		viewState.rootPath = path
+		return viewState
 		
 	}
 	
@@ -50,6 +51,22 @@ class ViewStateService {
 	public String retrieveViewMode() {
 		ViewState viewState = getViewStateFromSessionAndCreateIfNotThere()
 		return viewState.browseView
+	}
+	
+	/**
+	 * Save a path for later retrieval
+	 * @param absolutePath
+	 */
+	public ViewState saveSelectedPath(String absolutePath) {
+		
+		
+		if (absolutePath == null) {
+			throw new IllegalArgumentException("null absolutePath")
+		}
+		
+		ViewState viewState = getViewStateFromSessionAndCreateIfNotThere()
+		viewState.selectedPath = absolutePath
+		return viewState
 	}
 	
 	/**
@@ -73,12 +90,13 @@ class ViewStateService {
 		return viewState
 	}
 	
-	public void saveViewMode(String viewMode) {
+	public ViewState saveViewMode(String viewMode) {
 		if (viewMode == null) {
 			throw new IllegalArgumentException("null viewMode")
 		}
 		ViewState viewState = getViewStateFromSessionAndCreateIfNotThere()
 		viewState.browseView = viewMode
+		return viewState
 	}
 	
 

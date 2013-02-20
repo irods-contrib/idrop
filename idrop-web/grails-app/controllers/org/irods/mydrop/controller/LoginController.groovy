@@ -13,6 +13,12 @@ class LoginController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 	ViewStateService viewStateService
+	
+	def afterInterceptor = {
+		//log.debug("closing the session")
+		//irodsAccessObjectFactory.closeSession()
+	}
+
 
 	//static allowedMethods = [authenticate:'POST']
 

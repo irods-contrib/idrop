@@ -63,25 +63,26 @@ function retrieveBrowserFirstView(type, path, pathSelectedInTree) {
 		dataTree = null;
 		$("#dataTreeDiv").html("");
 	}
-
-	if (type != null) {
-		if (type == 'root') {
-			path = '';
-		} else if (type == 'home') {
-			path = "";
-		} else if (type == "path") {
-			if (path == null || path == "") {
-				path = baseAbsPath;
-			}
-		} else if (type == 'detect') {
-			path = "";
-		} else {
-			throw "invalid type parameter:" + type;
-		}
-	} else {
-		type = "path";
-		path = baseAbsPath;
+	
+	// with no type, go into detect mode and show the root
+	if (type == null || type == "") {
+		type = "detect";
 	}
+	
+	if (type == 'root') {
+		path = '';
+	} else if (type == 'home') {
+		path = "";
+	} else if (type == "path") {
+		if (path == null || path == "") {
+			path = baseAbsPath;
+		}
+	} else if (type == 'detect') {
+		path = "";
+	} else {
+		throw "invalid type parameter:" + type;
+	}
+
 
 	var state = {};
 
@@ -201,6 +202,8 @@ function browserFirstViewRetrieved(data) {
 	$("#dataTreeDiv").bind("loaded.jstree", function(e, data) {
 		if (requestedSelectedPath) {
 			selectTreePathFromIrodsPath(requestedSelectedPath);
+		} else {
+			
 		}
 	});
 	
@@ -2653,7 +2656,7 @@ function addShareAtPath() {
 */
 function editShareAtPath() {
 	$("#sharingPanelContainingDiv").html();
-	var path = selectedPath;
+	var path = $("#infoAbsPath").val();
 	if (selectedPath == null) {
 		return false;
 	}

@@ -1,14 +1,16 @@
 package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.utils.MiscIRODSUtils
 import org.irods.mydrop.service.SharingService
-import org.irods.mydrop.service.StarringService;
+import org.irods.mydrop.service.StarringService
 
 class HomeController {
 
 	StarringService starringService
 	SharingService sharingService
+	IRODSAccessObjectFactory irodsAccessObjectFactory
 	
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -24,7 +26,11 @@ class HomeController {
 		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
 
-	def afterInterceptor = { log.debug("closing the session") }
+	def afterInterceptor = { 
+		log.debug("closing the session")
+		irodsAccessObjectFactory.closeSession()
+		
+	}
 
 	def index() {
 		log.info("index")

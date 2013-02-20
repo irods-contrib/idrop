@@ -82,6 +82,19 @@ class BrowseController {
 				return
 			} else {
 				log.info("path is ${absPath}")
+				viewState = viewStateService.saveRootPath(absPath)
+				
+				/*
+				 * Decide what to do about the selected path, such that a path we set as root might need to wipe out the previous selected path.
+				 * 
+				 * Keep the selected path if the new root is shorter than the selected path and it contains the path
+				 */
+				
+				if (viewState.selectedPath.indexOf(viewState.rootPath) == -1) {
+					log.info("getting rid of selected path, not under new root path")
+					viewState = viewStateService.saveSelectedPath("")
+				}
+				
 			}
 		}
 
