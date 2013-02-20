@@ -194,6 +194,8 @@ function updateTicketFromPulldown() {
 		return false;
 	}
 	
+        showBlockingPanel();
+
 	lcShowBusyIconInDiv("#ticketPulldownDiv");
 
 	var jqxhr = $.post(context + ticketUpdateUrl, formData,
@@ -205,10 +207,12 @@ function updateTicketFromPulldown() {
 				} 
 				
 	$(".ticketDetails").html(data);
+        unblockPanel();
 				
 	}).error(function(xhr, status, error) {
 		reloadTicketTable(selectedPath);
 		setErrorMessage(xhr.responseText);
+                unblockPanel();
 	});
 }
 

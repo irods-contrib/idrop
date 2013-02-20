@@ -698,6 +698,8 @@ function showBrowseView(absPath) {
 	$.bbq.pushState(state);
 
 
+        showBlockingPanel();
+
 	lcShowBusyIconInDiv("#infoDiv");
 
 
@@ -712,9 +714,11 @@ function showBrowseView(absPath) {
 		}
 
 		$("#infoDiv").html(data);
+                unblockPanel();
 	}).error(function(xhr, status, error) {
 		setInfoDivNoData();
-	});
+                unblockPanel();
+    });
 }
 
 /**
