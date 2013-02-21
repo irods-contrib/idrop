@@ -29,3 +29,28 @@ function showHiveView(absPath, targetDiv) {
 	}
 
 }
+
+function selectVocabularies(){
+	var formData = $("#hiveVocabularyForm").serializeArray();
+	if (formData == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_no_ticket_data'));
+		return false;
+	}
+	
+	lcShowBusyIconInDiv("#hivePanelInner");
+
+	var jqxhr = $.post(context + "/hive/showTreeForSelectedVocabularies", formData,
+			function(data, status, xhr) {
+			}, "html").success(function(data, status, xhr) {
+				var continueReq = checkForSessionTimeout(data, xhr);
+				if (!continueReq) {
+					return false;
+				} 
+				
+	$("#hivePanelInner").html(data);
+				
+	}).error(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+	});
+	
+}

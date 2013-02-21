@@ -37,4 +37,9 @@ class HiveController {
 		List<String> vocabs = vocabularyService.getAllVocabularyNames()
 		render(view:"vocabList", model:[vocabs:vocabs])
 	}
+	
+	def showTreeForSelectedVocabularies(){
+		render(view:"conceptBrowser")
+	}
+	
 }
