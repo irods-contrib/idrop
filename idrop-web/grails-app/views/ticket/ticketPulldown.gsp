@@ -1,4 +1,4 @@
-<div id="ticketPulldownDiv" class="alert alert-info">
+<div id="ticketPulldownDiv" class="">
 			<g:if test="${flash.error}">
                 <script>
                 $(function() { setErrorMessage("${flash.error}"); });

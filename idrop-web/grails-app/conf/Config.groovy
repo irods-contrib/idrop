@@ -187,7 +187,7 @@ log4j = {
 
 	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
-	warn 'grails.app'
+	debug 'grails.app'
 
 	warn 'org.mortbay.log',
 			'grails.app.controller',

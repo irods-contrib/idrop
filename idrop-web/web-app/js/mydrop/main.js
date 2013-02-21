@@ -31,8 +31,6 @@ var displayIndex = 0;
  */
 var splitMode = 'n'; 
 
-
-
 /**
  * Linked to update tags button on info view, update the tags in iRODS
  */
@@ -74,11 +72,6 @@ function updateTagsAtPath(path, tags, comment) {
 				refreshTagCloud();
 			});
 	unblockPanel();
-}
-
-
-function logout() {
-	window.location = context + "/login/logout";
 }
 
 /**

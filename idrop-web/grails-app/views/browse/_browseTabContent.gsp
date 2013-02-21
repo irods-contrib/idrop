@@ -13,6 +13,7 @@
 	
 	<div id="browseDialogArea"><!--  general area to spawn jquery dialogs --></div>
 	
+	
 		
 	<div id="browser" class="wrapper" style="height:85%;width:100%;clear:both;overflow:hidden;">
 		<div id="dataTreeView" style="width: 100%; height: 700px; overflow: hidden;">

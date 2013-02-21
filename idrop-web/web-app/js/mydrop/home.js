@@ -22,6 +22,7 @@ var dataTreePath = "";
 
 var browseOptionVal = "info";
 var selectedPath = null;
+var requestedSelectedPath = null;
 var selectedNode = null;
 var fileUploadUI = null;
 var aclDialogMessageSelector = "#aclDialogMessageArea";
@@ -57,30 +58,31 @@ var fileStarUrl = '/browse/starFile'
  * 
  * @return
  */
-function retrieveBrowserFirstView(type, path) {
+function retrieveBrowserFirstView(type, path, pathSelectedInTree) {
 	if (dataTree != null) {
 		dataTree = null;
 		$("#dataTreeDiv").html("");
 	}
-
-	if (type != null) {
-		if (type == 'root') {
-			path = '';
-		} else if (type == 'home') {
-			path = "";
-		} else if (type == "path") {
-			if (path == null || path == "") {
-				path = baseAbsPath;
-			}
-		} else if (type == 'detect') {
-			path = "";
-		} else {
-			throw "invalid type parameter";
-		}
-	} else {
-		type = "path";
-		path = baseAbsPath;
+	
+	// with no type, go into detect mode and show the root
+	if (type == null || type == "") {
+		type = "detect";
 	}
+	
+	if (type == 'root') {
+		path = '';
+	} else if (type == 'home') {
+		path = "";
+	} else if (type == "path") {
+		if (path == null || path == "") {
+			path = baseAbsPath;
+		}
+	} else if (type == 'detect') {
+		path = "";
+	} else {
+		throw "invalid type parameter:" + type;
+	}
+
 
 	var state = {};
 
@@ -89,6 +91,7 @@ function retrieveBrowserFirstView(type, path) {
 	
 	dataTreeView = type;
 	dataTreePath = path;
+	requestedSelectedPath = pathSelectedInTree;
 	
 	$.bbq.pushState(state);
 
@@ -194,7 +197,17 @@ function browserFirstViewRetrieved(data) {
 						}
 
 					});
-
+	
+    
+	$("#dataTreeDiv").bind("loaded.jstree", function(e, data) {
+		if (requestedSelectedPath) {
+			selectTreePathFromIrodsPath(requestedSelectedPath);
+		} else {
+			
+		}
+	});
+	
+		    
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
 		nodeSelected(e, data.rslt.obj);
 	});
@@ -245,7 +258,22 @@ function browserFirstViewRetrieved(data) {
 
 	});
 
-	updateBrowseDetailsForPathBasedOnCurrentModel(baseAbsPath);
+	/*
+	 * selected path is set if a node in the tree was selected by user. If it's there it's a selection, so show that path in the tree
+	 * 
+	 * if the selected path is not there, see if I am asking for a particular path to be revealed, this is passed by the index.gsp for
+	 * the browse view and is used to initialize the requestedSelectedPath.  In this case, select the path by finding it in the tree,
+	 * causing the browse view to also be updated
+	 * 
+	 * otherwise, just use the root of the tree as the initial selection
+	 */
+	if (selectedPath) {
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+	} else if (requestedSelectedPath) {
+		// wait and do this after the tree loads, look at above function bound to load event
+	} else {
+		updateBrowseDetailsForPathBasedOnCurrentModel(baseAbsPath);
+	}
 
 }
 
@@ -637,11 +665,10 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 		absPath = baseAbsPath;
 	}
 
-	if (browseOptionVal == null) {
+	if (browseOptionVal == null || browseOptionVal == "") {
 		browseOptionVal = "info";
 	}
 
-	
 	setPathCrumbtrail(absPath);
 
 	if (browseOptionVal == "browse") {
@@ -671,6 +698,8 @@ function showBrowseView(absPath) {
 	$.bbq.pushState(state);
 
 
+        showBlockingPanel();
+
 	lcShowBusyIconInDiv("#infoDiv");
 
 
@@ -685,9 +714,11 @@ function showBrowseView(absPath) {
 		}
 
 		$("#infoDiv").html(data);
+                unblockPanel();
 	}).error(function(xhr, status, error) {
 		setInfoDivNoData();
-	});
+                unblockPanel();
+    });
 }
 
 /**
@@ -2018,7 +2049,7 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
  * Given an iRODS absolute path to a node, find and select that node
  * 
  * @param irodsAbsolutePath
- *            irods absolute path
+ *            irods absolute path is a string with a path, in the form /a/path/to/something
  */
 function selectTreePathFromIrodsPath(irodsAbsolutePath) {
 
@@ -2029,8 +2060,10 @@ function selectTreePathFromIrodsPath(irodsAbsolutePath) {
 	if (irodsAbsolutePath == "/") {
 		return false;
 	}
+	
+	var splitPath = irodsAbsolutePath.split("/");
 
-	selectTreePath(irodsAbsolutePath.split("/"), null, null);
+	selectTreePath(splitPath, null, null);
 
 }
 
@@ -2139,7 +2172,19 @@ function selectTreePath(path, currentNode, currentIndex) {
 	performOperationAtGivenTreePath(path, null, null, function(path, dataTree,
 			currentNode) {
 		$.jstree._reference(dataTree).open_node(currentNode);
-		$.jstree._reference(dataTree).select_node(currentNode, true);
+		
+		// see if this node should be selected by comparing paths
+		
+		if (currentNode != null && currentNode[0] != null && currentNode[0].id != null) {
+			var currentId = currentNode[0].id;
+			var idPath = currentId.split("/");
+			if (path.length == idPath.length) {
+				$.jstree._reference(dataTree).select_node(currentNode, true);
+			}
+		}
+		
+		
+		
 	});
 }
 
@@ -2305,7 +2350,7 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 						currentNode);
 				currentNode = getPathInNode(children, value);
 				if (currentNode == null) {
-					setMessage("Path not found in tree, please reload");
+					//setMessage("Path not found in tree, please reload");
 					return false;
 				} /*
 					 * else { if (index == path.length - 1) { end = true; } }
@@ -2345,8 +2390,8 @@ function processStateChange(state) {
 		}
 	}
 
-	if (view == null && browseOptionVal == "info") {
-		browseOptionVal = "browse";
+	if (statePath && view == null && browseOptionVal == "info") {
+		browseOptionVal = "info";
 		selectTreePathFromIrodsPath(statePath);
 	} else if (view != browseOptionVal && statePath == selectedPath) {
 		// view change only
@@ -2615,7 +2660,7 @@ function addShareAtPath() {
 */
 function editShareAtPath() {
 	$("#sharingPanelContainingDiv").html();
-	var path = selectedPath;
+	var path = $("#infoAbsPath").val();
 	if (selectedPath == null) {
 		return false;
 	}

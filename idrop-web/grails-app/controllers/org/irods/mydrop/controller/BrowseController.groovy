@@ -64,19 +64,40 @@ class BrowseController {
 		
 		ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
 		log.info("viewState:${viewState}")
-
-		if (mode != null) {
-			if (mode == "path") {
-				log.info("mode is path, should have an abspath to preset to")
-				if (absPath == null) {
-					def message = message(code:"error.no.path.provided")
-					response.sendError(500,message)
-					return
-				} else {
-					log.info("path is ${absPath}")
-				}
+		
+		if (mode == null && absPath == null) {
+			log.info("coming in with no params for mode or path, check view state and use the mode and path there (if they exist)")
+			absPath = viewState.rootPath
+			if (absPath) {
+				log.info("i have a previous abspath in the view state, so use that path and set mode to 'path' too: ${absPath}")
+				mode = "path"
 			}
 		}
+				
+		if (mode == "path") {
+			log.info("mode is path, should have an abspath to preset to")
+			if (absPath == null) {
+				def message = message(code:"error.no.path.provided")
+				response.sendError(500,message)
+				return
+			} else {
+				log.info("path is ${absPath}")
+				viewState = viewStateService.saveRootPath(absPath)
+				
+				/*
+				 * Decide what to do about the selected path, such that a path we set as root might need to wipe out the previous selected path.
+				 * 
+				 * Keep the selected path if the new root is shorter than the selected path and it contains the path
+				 */
+				
+				if (viewState.selectedPath.indexOf(viewState.rootPath) == -1) {
+					log.info("getting rid of selected path, not under new root path")
+					viewState = viewStateService.saveSelectedPath("")
+				}
+				
+			}
+		}
+
 
 		render(view: "index", model:[mode:mode,path:absPath,viewState:viewState])
 	}
@@ -185,11 +206,13 @@ class BrowseController {
 			 * If I have a preserved view state, initialize to that
 			 */
 			
-			String rootPath = viewStateService.retrieveRootPath()
+			log.info("path type is detect")
 			
-			if (rootPath) {
+			ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
+			
+			if (viewState.rootPath) {
 				
-				parent = rootPath
+				parent = viewState.rootPath
 				
 				icon = "folder"
 				state = "closed"
@@ -213,7 +236,14 @@ class BrowseController {
 	
 				} else {
 	
-					def isStrict = environmentalInfoAO.isStrictACLs()
+					def isStrict;
+					try {
+						isStrict = environmentalInfoAO.isStrictACLs()
+					} catch (JargonException je) {
+						log.warn("error getting rule info for strict acl's currently overheaded see idrop bug [#1219] error on intiial display centos6")
+						isStrict = false
+					}
+					
 					log.info "is strict?:{isStrict}"
 					if (isStrict) {
 						parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
@@ -353,8 +383,7 @@ class BrowseController {
 			throw new JargonException("no absolute path passed to the method")
 		}
 		
-		ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
-		viewState.browseView = "browse"
+		ViewState viewState = viewStateService.saveViewModeAndSelectedPath("browse", absPath)
 		
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		try {
@@ -406,7 +435,7 @@ class BrowseController {
 			throw new JargonException("no absolute path passed to the method")
 		}
 		
-		viewStateService.saveViewMode("info")
+		viewStateService.saveViewModeAndSelectedPath("info", absPath)
 
 		ViewNameAndModelValues mav = handleInfoLookup(absPath)
 		render(view:mav.view, model:mav.model)
@@ -583,6 +612,8 @@ class BrowseController {
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
+		
+		viewStateService.saveViewModeAndSelectedPath("gallery", absPath)
 
 		try {
 			log.info "galleryView for absPath: ${absPath}"

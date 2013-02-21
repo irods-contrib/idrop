@@ -29,7 +29,7 @@
 
                     jQuery.i18n.properties({
                               name:'messages', 
-                              path:'js/bundles/', 
+                              path:context + '/js/bundles/', 
                               mode:'both'
                           });
 		  

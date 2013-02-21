@@ -4,6 +4,7 @@ package org.irods.mydrop.controller
 import grails.converters.JSON
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.CatNoAccessException
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.protovalues.FilePermissionEnum
@@ -117,7 +118,11 @@ class SharingController {
 		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)
 			render(view:"/browse/noInfo")
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		}
+
 	}
 
 	def renderAclDetailsTable = {
@@ -150,6 +155,10 @@ class SharingController {
 				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 				acls = collectionAO.listPermissionsForCollection(retObj.collectionName)
 			}
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+
 		} catch (Exception je){
 			log.error("exception getting acl data ${je}", je)
 			response.sendError(500,je.getMessage())
@@ -278,7 +287,12 @@ class SharingController {
 					def message = message(code:"error.duplicate.share")
 					response.sendError(500,message)
 					return
+				} catch (CatNoAccessException e) {
+					log.error("no access error", e)
+					response.sendError(500, message(code:"message.no.access"))
+					return
 				}
+	
 				
 			} else {
 				 irodsSharedFileOrCollection = sharingService.updateShare(absPath, shareName, irodsAccount)
@@ -307,7 +321,12 @@ class SharingController {
 				}
 				
 				flash.message = message(code:"message.share.delete.successful")
-				sharingService.deleteShare(absPath, irodsAccount)
+				try {
+					sharingService.deleteShare(absPath, irodsAccount)
+				} catch (CatNoAccessException e) {
+					log.error("no access error", e)
+					response.sendError(500, message(code:"message.no.access"))
+				}
 				redirect(action: "getSharingDialogInfo",  params: [absPath: absPath])
 		}
 	
@@ -376,6 +395,9 @@ class SharingController {
 					log.info "add user to data object"
 					try {
 						updateACLValueForDataObject(theZone,absPath, acl, theUserName, dataObjectAO)
+					} catch (CatNoAccessException e) {
+						log.error("no access error", e)
+						response.sendError(500, message(code:"message.no.access"))
 					} catch (Exception e) {
 						log.error("Exception during acl processing", e)
 						response.sendError(500,e.message)
@@ -386,6 +408,9 @@ class SharingController {
 					log.info("add user to collection")
 					try {
 						updateACLValueForCollection(theZone,absPath, acl, theUserName, collectionAO)
+					} catch (CatNoAccessException e) {
+						log.error("no access error", e)
+						response.sendError(500, message(code:"message.no.access"))
 					} catch (Exception e) {
 						log.error("Exception during acl processing", e)
 						response.sendError(500,e.message)
@@ -403,6 +428,9 @@ class SharingController {
 				log.info "add user to data object"
 				try {
 					updateACLValueForDataObject(theZone,absPath, acl, theUserName, dataObjectAO)
+				} catch (CatNoAccessException e) {
+					log.error("no access error", e)
+					response.sendError(500, message(code:"message.no.access"))
 				} catch (Exception e) {
 					log.error("Exception during acl processing", e)
 					response.sendError(500,e.message)
@@ -413,6 +441,9 @@ class SharingController {
 				log.info("add user to collection")
 				try {
 					updateACLValueForCollection(theZone,absPath, acl, theUserName, collectionAO)
+				} catch (CatNoAccessException e) {
+					log.error("no access error", e)
+					response.sendError(500, message(code:"message.no.access"))
 				} catch (Exception e) {
 					log.error("Exception during acl processing", e)
 					response.sendError(500,e.message)
@@ -509,6 +540,7 @@ class SharingController {
 		def theZone = MiscIRODSUtils.getZoneInUserName(cmd.userName)
 
 
+		try {
 		if (isDataObject) {
 			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
 
@@ -542,6 +574,10 @@ class SharingController {
 				response.sendError(500,errorMessage)
 				return
 			}
+		}
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		}
 
 		log.info("acl set successfully")
@@ -618,27 +654,32 @@ class SharingController {
 
 		log.info("aclsToDelete: ${aclsToDelete}")
 
-		if (aclsToDelete instanceof Object[]) {
-			log.debug "is array"
-			aclsToDelete.each{
-				log.info "selectedAcl: ${it}"
+		try {
+			if (aclsToDelete instanceof Object[]) {
+				log.debug "is array"
+				aclsToDelete.each{
+					log.info "selectedAcl: ${it}"
+					if (isDataObject) {
+						log.info "delete as data object"
+						deleteAclForDataObject(absPath, it, dataObjectAO)
+					} else {
+						deleteAclForCollection(absPath, it, collectionAO)
+					}
+				}
+	
+			} else {
+				log.debug "not array"
+				log.info "deleting: ${aclsToDelete}"
 				if (isDataObject) {
 					log.info "delete as data object"
-					deleteAclForDataObject(absPath, it, dataObjectAO)
+					deleteAclForDataObject(absPath, aclsToDelete, dataObjectAO)
 				} else {
-					deleteAclForCollection(absPath, it, collectionAO)
+					deleteAclForCollection(absPath, aclsToDelete, collectionAO)
 				}
 			}
-
-		} else {
-			log.debug "not array"
-			log.info "deleting: ${aclsToDelete}"
-			if (isDataObject) {
-				log.info "delete as data object"
-				deleteAclForDataObject(absPath, aclsToDelete, dataObjectAO)
-			} else {
-				deleteAclForCollection(absPath, aclsToDelete, collectionAO)
-			}
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		}
 
 		render "OK"

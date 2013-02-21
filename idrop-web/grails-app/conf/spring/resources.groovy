@@ -60,6 +60,11 @@ beans = {
 		bean.destroyMethod = 'shutdown'
 	}
 
+	homeController(org.irods.mydrop.controller.HomeController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
+
+	shoppingCartController(org.irods.mydrop.controller.ShoppingCartController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
 	vocabularyService(org.irods.jargon.hive.service.VocabularyServiceImpl) { hiveContainer = ref("hiveContainer") }
 
 

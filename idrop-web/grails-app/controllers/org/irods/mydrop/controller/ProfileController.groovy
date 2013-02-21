@@ -101,8 +101,8 @@ class ProfileController {
 			 userProfile = profileService.retrieveProfile(irodsAccount)
 		} catch (Exception e) {
 			log.error("error retrieving user profile", e)
-			def message = message("message.cannot.create.profile")
-			response.sendError(500, message)
+			flash.error =  e.message
+			render(view:"index", model:[userProfile:profileCommand])
 			return
 		}
 		
@@ -127,10 +127,11 @@ class ProfileController {
 			profileService.updateProfile(irodsAccount, userProfile)
 		} catch (Exception e) {
 			log.error("error updating user profile", e)
-			def message = message("message.cannot.create.profile")
-			response.sendError(500, message)
+			flash.error =  e.message
+			render(view:"index", model:[userProfile:profileCommand])
 			return
 		}
+		
 		log.info "updated"
 		flash.message =  message(code:"message.update.successful")
 		
