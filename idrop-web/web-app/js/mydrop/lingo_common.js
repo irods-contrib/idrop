@@ -222,7 +222,7 @@ function checkAjaxResultForError(resultHtml) {
  *  		jquery selector for detail icon, or null
  */
 function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
-		detailsFunction, detailsIconSelector) {
+		detailsFunction, detailsIconSelector, tableParams) {
 
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
@@ -238,7 +238,7 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
 		$.get(context + getUrl, params, function(data, status, xhr) {
 			var continueReq = checkForSessionTimeout(data, xhr);
 			if (continueReq) {
-				lcBuildTable(data, tableDiv, newTableId, detailsFunction, detailsIconSelector);
+				lcBuildTable(data, tableDiv, newTableId, detailsFunction, detailsIconSelector, tableParams);
 			}
 		}, "html");
 
@@ -267,11 +267,14 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
  * @return - DataTable that was created
  */
 function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
-		dataIconSelector) {
+		dataIconSelector, tableParams) {
 	$(tableDiv).html(data);
-	var dataTableCreated = $(newTableId).dataTable({
-		"bJQueryUI" : true
-	});
+	
+	if (tableParams == null) {
+		tableParams = {"bJQueryUI" : false}
+	}
+	
+	var dataTableCreated = $(newTableId).dataTable(tableParams);
 	
 	dataTableCreated.fnAdjustColumnSizing();
 	

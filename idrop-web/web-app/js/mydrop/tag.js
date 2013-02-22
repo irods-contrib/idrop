@@ -1,19 +1,19 @@
-
 /**
- * Process hashChange events through the bbq plug in for back button support for the browser
+ * Process hashChange events through the bbq plug in for back button support for
+ * the browser
+ * 
  * @param state
  * @returns {Boolean}
  */
 function processTagSearchStateChange(state) {
 	var tab = state["tab"];
 	var tag = state["tag"];
-	
-	if (tab) {				
-		var selector = '#searchTabs a[href="' +  tab + '"]';
+
+	if (tab) {
+		var selector = '#searchTabs a[href="' + tab + '"]';
 		$(selector).tab('show');
 	}
 }
-
 
 function clickInTagCloud(data) {
 	$('#tabs').tabs({
@@ -40,44 +40,20 @@ function searchWithTag(data) {
 		setErrorMessage(jQuery.i18n.prop('msg_search_missing'));
 		return false;
 	}
-	
+
 	var params = {
-			searchTerm : data,
-			searchType : "tag"
-		}
-
+		searchTerm : data,
+		searchType : "tag"
+	}
 	
-	showBlockingPanel();
+	var tableParams = {"bJQueryUI" : false, "bFilter" : false, "iDisplayLength":"5000"}
 
-	// do search
-	
-	var jqxhr = $.post(context + "/search/search", params,
-			function(data, status, xhr) {
-			}, "html").success(function(returnedData, status, xhr) {
-		var continueReq = checkForSessionTimeout(returnedData, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		
-		// populate search results
-		
-		// show result tab
-		$('#searchTabs a[href="#resultsTab"]').tab('show');
-		
-		
-		$("#resultsTabInner").html(returnedData);
-		
-		
-		unblockPanel();
-
-	}).error(function(xhr, status, error) {
-		
-		setErrorMessage(xhr.responseText);
-		unblockPanel();
-	});
+	// show result tab
+	$('#searchTabs a[href="#resultsTab"]').tab('show');
+	lcSendValueAndBuildTable("/search/search", params, "#resultsTabInner",
+			"#searchResultTable", searchDetailsClick, ".search-detail-icon", tableParams);
 
 }
-
 
 /*
  * Update the information in the tag cloud
@@ -88,5 +64,7 @@ function haveTagCloudData(data) {
 		width : 800,
 		height : 600
 	});
+	
+	
 
 }

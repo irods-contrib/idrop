@@ -1,6 +1,6 @@
 /**
 
- * Javascript for search page, processing the search table
+= * Javascript for search page, processing the search table
  * 
  * author: Mike Conway - DICE
  */
