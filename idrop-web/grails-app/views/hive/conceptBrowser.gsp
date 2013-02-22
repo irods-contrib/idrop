@@ -10,10 +10,11 @@
 		<tbody>
 			<g:each in="${listOfPreferedLabels}" var="preferedLabels">
 				<tr>
+					<td><g:checkBox name="selectedLabel" value="preferedLabels" checked="false" />
+					</td>
 					<td>
 						${preferedLabels}
 					</td>
-					<br>
 				</tr>
 			</g:each>
 		</tbody>
@@ -24,10 +25,4 @@
 			</tr>
 		</tfoot>
 	</table>
-
-
-
-
-
-
 </div>
