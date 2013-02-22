@@ -52,7 +52,9 @@ beans = {
 
 	shoppingCartController(org.irods.mydrop.controller.ShoppingCartController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
-	hiveConfiguration(org.irods.jargon.hive.container.HiveConfiguration) { hiveConfigLocation = "C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties" }
+	//"/Users/mikeconway/temp/hive-data/hive.properties"
+	//"C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties"
+	hiveConfiguration(org.irods.jargon.hive.container.HiveConfiguration) { hiveConfigLocation = "/Users/mikeconway/temp/hive-data/hive.properties" }
 
 	hiveContainer(org.irods.jargon.hive.container.HiveContainerImpl) { bean ->
 		hiveConfiguration = ref("hiveConfiguration")

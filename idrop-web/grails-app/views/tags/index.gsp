@@ -1,6 +1,10 @@
 <head>
 <meta name="layout" content="mainNoSidebar" />
 <g:javascript library="mydrop/tag" />
+<g:javascript library="mydrop/search" />
+<g:javascript library="mydrop/home" />
+
+
 </head>
 <button type="button" id="refreshTags" name="refreshTags"
 	onclick="refreshTagCloudButtonClicked()">
