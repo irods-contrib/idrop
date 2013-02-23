@@ -120,36 +120,5 @@
 		var path = $("#infoAbsPath").val();
 		downloadViaToolbar(path);
 	}
-
-	/*
-	* Cause a dialog to appear that has a link for a public path for the current path
-	*/
-	function makePublicLinkAtPath() {
-		$("#browseDialogArea").html();
-		var path = selectedPath;
-		if (selectedPath == null) {
-			return false;
-		}
-
-		// show the public link dialog
-		var url = "/browse/preparePublicLinkDialog";
-		var params = {
-			absPath : path
-		}
-
-		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
-			fillInPublicLinkDialog(data);
-		});
-		
-	}
-
-	/*
-	*Given the contents of the 'create public link' dialog, 
-	*/
-	function fillInPublicLinkDialog(data) {
-		$("#browseDialogArea").html(data);
-		$("#browseDialogArea").show("slow");
-		//$("#browseDialogArea").dialog({width:500, modal:true});
-	}
 	
 </script>

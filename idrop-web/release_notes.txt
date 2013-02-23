@@ -42,6 +42,10 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#1220] shares in home page on servers w/o specific query still show errors
 **Added new SpecificQueryException in jargon and tolerate this error in the show shares functions on the home page with a user friendly message
 
+*[#1238] public link dialog shows up in wrong place
+
+
+
 ==Features==
 
 *[#984] iDrop web '2.0' redesign effort

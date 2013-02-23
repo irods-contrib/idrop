@@ -8,7 +8,10 @@
 				</div>
 				
 			<fieldset>
-				<g:textArea name="url" rows="4" columns="200" value="${accessUrlString}"/>
+				
+				<span id="url"><a target="_blank" href="${accessUrlString}">${accessUrlString}</a></span>
+				
+				
 				<br />
 				<div id="publicLinkDialogMenu" 
 							class="pull-right">
