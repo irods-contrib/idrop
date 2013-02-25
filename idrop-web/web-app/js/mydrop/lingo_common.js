@@ -411,9 +411,11 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 
 		$.get(context + getUrl, params, function(data, status, xhr) {
 			var continueReq = checkForSessionTimeout(data, xhr);
-			if (continueReq) {
-				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
+			if (!continueReq) {
+				return false;
 			}
+			
+			lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 			unblockPanel();
 		}, "html").error(function(xhr, status, error) {
 			$(resultDiv).html("");
