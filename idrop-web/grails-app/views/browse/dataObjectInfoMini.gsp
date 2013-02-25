@@ -146,6 +146,8 @@ function updateTagsFromDataObjectInfoMini() {
 	updateTagsAtPath(absPathVal, infoTagsVal, infoCommentVal);
 }
 
+</script>
+
 <g:if test="${getThumbnail}">
 	<script>
 

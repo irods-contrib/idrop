@@ -44,6 +44,7 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1238] public link dialog shows up in wrong place
 
+*[#1221] twistie broken on search results
 
 
 ==Features==

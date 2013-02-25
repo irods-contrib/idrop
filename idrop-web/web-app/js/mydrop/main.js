@@ -189,6 +189,52 @@ function showDefaultResourceDialog() {
 }
 
 
+/**
+ * Linked to update tags button on info view, update the tags in iRODS
+ */
+function updateTags() {
+	var infoTagsVal = $("#infoTags").val();
+	var infoCommentVal = $("#infoComment").val();
+	var absPathVal = $("#infoAbsPath").val();
+
+	var params = {
+		absPath : absPathVal,
+		tags : infoTagsVal,
+		comment : infoCommentVal
+	}
+
+	showBlockingPanel();
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
+			params, null, "#infoUpdateArea", function() {
+				setMessage("Tags and comments updated successfully");
+				refreshTagCloud();
+			});
+	unblockPanel();
+}
+
+/**
+ * Linked to update tags button on info view, update the tags in iRODS
+ */
+function updateTagsAtPath(path, tags, comment) {
+	
+	var params = {
+		absPath : path,
+		tags : tags,
+		comment : comment
+	}
+
+	showBlockingPanel();
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/tags/updateTags",
+			params, null, null, function() {
+				setMessage("Tags and comments updated successfully");
+				refreshTagCloud();
+			});
+	unblockPanel();
+}
+
+
+
+
 
 
 
