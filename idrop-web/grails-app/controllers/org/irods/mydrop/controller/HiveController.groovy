@@ -1,7 +1,5 @@
 package org.irods.mydrop.controller
 
-import java.util.List;
-
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.hive.service.VocabularyService
@@ -20,13 +18,12 @@ class HiveController {
 	def beforeInterceptor = [action:this.&auth]
 
 	def auth() {
-		/*
-		 if(!session["SPRING_SECURITY_CONTEXT"]) {
-		 redirect(controller:"login", action:"login")
-		 return false
-		 }
-		 irodsAccount = session["SPRING_SECURITY_CONTEXT"]
-		 */
+
+		if(!session["SPRING_SECURITY_CONTEXT"]) {
+			redirect(controller:"login", action:"login")
+			return false
+		}
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
 
 
@@ -41,22 +38,22 @@ class HiveController {
 		List<String> vocabs = vocabularyService.getAllVocabularyNames()
 		render(view:"vocabList", model:[vocabs:vocabs])
 	}
-	
-
-	 def showTreeForSelectedVocabularies(){
-	 log.info("getting first set of concepts")
-	 List<ConceptProxy> subTopConcept = vocabularyService.getSubTopConcept(params['selectedVocab'].toString().toLowerCase() , "A" , true)
-	 //params['selectedVocab']
-	 int sizeOfSubTopConcept = subTopConcept.size()
-	 List<String> listOfPreferedLabels = new ArrayList<String>()
-	 for (ConceptProxy concept : subTopConcept){
-		 listOfPreferedLabels.add(concept.preLabel)
-	 }
-	 render(view:"conceptBrowser", model:[listOfPreferedLabels:listOfPreferedLabels])
- }
 
 
-	
+	def showTreeForSelectedVocabularies(){
+		log.info("getting first set of concepts")
+		List<ConceptProxy> subTopConcept = vocabularyService.getSubTopConcept(params['selectedVocab'].toString().toLowerCase() , "A" , true)
+		//params['selectedVocab']
+		int sizeOfSubTopConcept = subTopConcept.size()
+		List<String> listOfPreferedLabels = new ArrayList<String>()
+		for (ConceptProxy concept : subTopConcept){
+			listOfPreferedLabels.add(concept.preLabel)
+		}
+		render(view:"conceptBrowser", model:[listOfPreferedLabels:listOfPreferedLabels])
+	}
+
+
+
 	def deleteSelectedVocabularies = {
 		log.info("deleteSelectedVocabularies")
 
@@ -91,8 +88,8 @@ class HiveController {
 		render "OK"
 	}
 
-	
-	
-	
-	
+
+
+
+
 }
