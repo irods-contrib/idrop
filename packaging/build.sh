@@ -121,7 +121,7 @@ fi
 RENCIEPM="epm42-renci.tar.gz"
 rm -rf epm
 rm -f $RENCIEPM
-wget ftp://ftp.renci.org/pub/e-irods/build/$RENCIEPM
+wget ftp://ftp.renci.org/pub/eirods/build/$RENCIEPM
 tar -xf $RENCIEPM
 cd $BUILDDIR/epm
 echo "Configuring EPM"
