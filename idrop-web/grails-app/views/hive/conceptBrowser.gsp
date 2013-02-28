@@ -1,4 +1,4 @@
-<div>
+<div id="selector">
 	<table cellspacing="0" cellpadding="0" border="0"
 		id="vocabFirstConceptTable" class="table table-striped table-hover">
 		<thead>
@@ -9,14 +9,22 @@
 		</thead>
 		<tbody>
 			<g:each in="${listOfPreferedLabels}" var="preferedLabels">
+					<li>
+						<g:checkBox name="selectedLabel" value="preferedLabels" checked="false" />
+						<a> ${preferedLabels} </a>
+					</li>
+			</g:each>
+<!--		
+ 			<g:each in="${listOfPreferedLabels}" var="preferedLabels">
 				<tr>
 					<td><g:checkBox name="selectedLabel" value="preferedLabels" checked="false" />
 					</td>
-					<td>
+						<td>
 						${preferedLabels}
-					</td>
+						</td>
 				</tr>
 			</g:each>
+ -->
 		</tbody>
 		<tfoot>
 			<tr>
