@@ -9,7 +9,7 @@
 SCRIPTNAME=`basename $0`
 
 # define which idrop-lite applet to use
-IDROP_LITE_APPLET=idrop-lite-1.0.2-SNAPSHOT-jar-with-dependencies.jar
+IDROP_LITE_APPLET=idrop-lite-1.0.3-SNAPSHOT-jar-with-dependencies.jar
 
 # in case we need to download maven
 MAVENVER=3.0.4
@@ -17,7 +17,7 @@ MAVENFILE=apache-maven-$MAVENVER
 MAVENDOWNLOAD=http://apache.cs.utah.edu/maven/maven-3/$MAVENVER/binaries/$MAVENFILE-bin.zip
 
 # in case we need to download grails
-GRAILSVER=2.1.0
+GRAILSVER=2.1.1
 GRAILSFILE=grails-$GRAILSVER
 GRAILSDOWNLOAD=http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/$GRAILSFILE.zip
 
@@ -121,7 +121,7 @@ fi
 RENCIEPM="epm42-renci.tar.gz"
 rm -rf epm
 rm -f $RENCIEPM
-wget ftp://ftp.renci.org/pub/e-irods/build/$RENCIEPM
+wget ftp://ftp.renci.org/pub/eirods/build/$RENCIEPM
 tar -xf $RENCIEPM
 cd $BUILDDIR/epm
 echo "Configuring EPM"
@@ -198,7 +198,7 @@ cp -r ../../idrop-swing/target/jnlp/* idrop-web-extras
 rm -f idrop-web.war
 cd ..
 
-mkepmlist -u idropweb -g idropweb --prefix /var/lib/idrop-web idrop-web > idrop-web.list
+./epm/mkepmlist -u idropweb -g idropweb --prefix /var/lib/idrop-web idrop-web > idrop-web.list
 sed 's/\$/$$/g' idrop-web.list > tmp.list
 cat idrop-web.list.template tmp.list > idrop-web.list
 rm tmp.list
