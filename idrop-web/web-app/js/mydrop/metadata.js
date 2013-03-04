@@ -75,6 +75,8 @@ function prepareMetadataDialog(data) {
 		setErrorMessage("No path is selected, metadata cannot be entered");
 		return;
 	}
+	
+	$("#metadataDetailsArea").hide("slow");
 
 	var url = "/metadata/prepareMetadataDialog";
 	var params = {
@@ -156,7 +158,8 @@ function submitMetadataDialog() {
  */
 function closeMetadataDialog() {
 	$("#metadataDialogArea").fadeOut('slow', new function() {
-		$("#metadataDialogArea").html("")
+		$("#metadataDialogArea").html("");
+		$("#metadataDetailsArea").show("slow");
 	});
 }
 
@@ -284,7 +287,14 @@ function buildMetadataTableInPlace() {
 	  tableParams = {"bJQueryUI" : true,
           	"bLengthChange": false,
           	"bFilter": false,
-          	"iDisplayLength" : 500
+          	"iDisplayLength" : 500,
+          	 "aoColumns" : [
+        	                {'sWidth': '20px', 'bSortable':false},
+        	                null,
+        	                null,
+        	                null
+        	            ]
+
 
           }
 	var metaDataTable = lcBuildTableInPlace("#metaDataDetailsTable", null, null, tableParams);

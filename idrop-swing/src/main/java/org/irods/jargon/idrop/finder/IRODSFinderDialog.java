@@ -10,6 +10,8 @@
  */
 package org.irods.jargon.idrop.finder;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ListSelectionModel;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
@@ -25,12 +27,25 @@ import org.slf4j.LoggerFactory;
  * @author mikeconway
  */
 public class IRODSFinderDialog extends javax.swing.JDialog {
+    
+    public static enum SelectionType {
+        OBJS_ONLY_SELECTION_MODE,
+        COLLS_ONLY_SELECTION_MODE,
+        OBJS_AND_COLLS_SELECTION_MODE
+    }
+    
+    private SelectionType selectionTypeSetting = SelectionType.COLLS_ONLY_SELECTION_MODE;
 
     private final IDROPCore idropCore;
     private String selectedAbsolutePath = null;
+    private List<String> selectedAbsolutePaths = null;
 
     public String getSelectedAbsolutePath() {
         return selectedAbsolutePath;
+    }
+    
+    public List<String> getSelectedAbsolutePaths() {
+        return this.selectedAbsolutePaths;
     }
 
     public IDROPCore getIdropCore() {
@@ -54,6 +69,14 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
         this.idropCore = idropCore;
         initComponents();
         buildTargetTree();
+    }
+    
+    public void enableButtonSelectFolder(boolean state) {
+        this.btnSelectFolder.setEnabled(state);
+    }
+      
+    public void setSelectionType(SelectionType selType) {
+        this.selectionTypeSetting = selType;
     }
 
     /**
@@ -122,6 +145,23 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
 
             }
         });
+    }
+    
+    private List<String> findSelectedPaths(ListSelectionModel selectionModel) {
+        List<String> paths = new ArrayList();
+        
+        for(int idx=selectionModel.getMinSelectionIndex(); idx<=selectionModel.getMaxSelectionIndex(); idx++) {
+            
+            if (selectionModel.isSelectedIndex(idx)) {
+                IRODSFinderOutlineModel irodsFileSystemModel = (IRODSFinderOutlineModel) irodsTree.getModel();
+                IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
+                log.info("selected node:{}", selectedNode);
+                CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) selectedNode.getUserObject();
+                paths.add(entry.getFormattedAbsolutePath());
+            }
+        }
+                
+        return paths;
     }
 
     /** This method is called from within the constructor to
@@ -237,13 +277,19 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
                 idx, 0);
         log.info("selected node:{}", selectedNode);
         CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) selectedNode.getUserObject();
+        if ( this.selectionTypeSetting == SelectionType.COLLS_ONLY_SELECTION_MODE) {
         if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
             MessageManager.showWarning(this, "Please select a directory", MessageManager.TITLE_MESSAGE);
             return;
         }
-
+        }
+        
         this.selectedAbsolutePath = entry.getFormattedAbsolutePath();
+        
+        this.selectedAbsolutePaths = findSelectedPaths(selectionModel);
         this.setVisible(false);
+        
+        enableButtonSelectFolder(true);
 
     }//GEN-LAST:event_btnSelectFolderActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

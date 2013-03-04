@@ -27,18 +27,23 @@ function reloadTicketTable(absPath) {
 		absPath : absPath
 	}
 
+	showBlockingPanel();
+
 	var jqxhr = $.get(context + ticketTableUrl, params,
 			function(data, status, xhr) {
 				$('#ticketTableDiv').html(data);
-			}, "html").error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-	}).success(function(data, status, xhr) {
-		var continueReq = checkForSessionTimeout(data, xhr);
-		if (!continueReq) {
-			return false;
-		}
-		buildTicketTableInPlace();
-	});
+				var continueReq = checkForSessionTimeout(data, xhr);
+				if (!continueReq) {
+					return false;
+				}
+				buildTicketTableInPlace();
+			}, "html")
+			.error(function(xhr, status, error) {
+				var message = jQuery.i18n.prop('msg_ticket_error');
+				displayMessageAsBootstrapAlert(message, "#infoAccordionTicketsInner");
+				 setErrorMessage(xhr.responseText);
+				 unblockPanel();
+			});
 	
 }
 
@@ -53,10 +58,17 @@ function buildTicketTableInPlace() {
 	  tableParams = {"bJQueryUI" : true,
           	"bLengthChange": false,
           	"bFilter": false,
-          	"iDisplayLength" : 500
-
+          	"iDisplayLength" : 500,
+          	 "aoColumns" : [
+        	                {'sWidth': '20px', 'bSortable':false},
+        	                {'sWidth': '20px', 'bSortable':false},
+        	                null,
+        	                null,
+        	                null  
+        	            ]
           }
 	 ticketTable = lcBuildTableInPlace("#ticketDetailsTable", ticketDetailsClick, ".browse_detail_icon", tableParams);
+	  unblockPanel();
 
 	return ticketTable;
 }
@@ -143,7 +155,7 @@ function reloadTickets() {
 }
 
 /**
- * Show ticket details dailog area
+ * Show ticket details dialog area
  * 
  * @param create -
  *            is this a create or edit
@@ -182,6 +194,8 @@ function updateTicketFromPulldown() {
 		return false;
 	}
 	
+        showBlockingPanel();
+
 	lcShowBusyIconInDiv("#ticketPulldownDiv");
 
 	var jqxhr = $.post(context + ticketUpdateUrl, formData,
@@ -193,10 +207,12 @@ function updateTicketFromPulldown() {
 				} 
 				
 	$(".ticketDetails").html(data);
+        unblockPanel();
 				
 	}).error(function(xhr, status, error) {
 		reloadTicketTable(selectedPath);
 		setErrorMessage(xhr.responseText);
+                unblockPanel();
 	});
 }
 

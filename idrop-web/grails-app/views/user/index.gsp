@@ -1,6 +1,6 @@
 <div id="userTopSection" class="box" style="height:8%;">
 <div id="userPopupDialogArea"><!-- empty div for user popup dialogs --></div>
-  <div id="searchMenu" class="fg-buttonset fg-buttonset-multi"
+  <div id="searchMenu" 
        style="float: left, clear:both; margin: 5px;">
 
     <label for=""><g:message code="heading.user.search" /></label>
@@ -11,7 +11,7 @@
 
     <input id="userSearchTerm" type="text" name="userSearchTerm" />
     <button type="button" id="searchUser"
-            class="ui-state-default ui-corner-all" value="searchUser"
+             value="searchUser"
             onclick="searchUsers()")>
             <g:message code="text.search" />
     </button>   
