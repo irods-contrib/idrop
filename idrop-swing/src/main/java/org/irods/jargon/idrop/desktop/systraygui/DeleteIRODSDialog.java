@@ -71,7 +71,22 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
         this.deletedNodes = deletedNodes;
         this.deletedNode = null;
         initialize();
-        txtAreaFileToDelete.setText("multiple selections");
+        int deletedNodesCount = deletedNodes.size();
+        for(int idx=0; idx<deletedNodesCount; idx++) {
+            CollectionAndDataObjectListingEntry entry = 
+                    (CollectionAndDataObjectListingEntry) deletedNodes.get(idx).getUserObject();
+            if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
+                txtAreaFileToDelete.append(entry.getPathOrName());
+            } else {
+                txtAreaFileToDelete.append(entry.getParentPath());
+                txtAreaFileToDelete.append("/");
+                txtAreaFileToDelete.append(entry.getPathOrName());
+            }
+            if (idx < deletedNodesCount-1 ) {
+                txtAreaFileToDelete.append("\n");
+            }
+        }
+        //txtAreaFileToDelete.setText("multiple selections");
     }
 
     private void initialize() {

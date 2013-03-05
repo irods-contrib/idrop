@@ -11,12 +11,17 @@ import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.utils.IRODSUriUtils
 import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.datautils.image.MediaHandlingUtils
+import org.irods.jargon.datautils.pagination.PagingActions
+import org.irods.jargon.datautils.pagination.PagingAnalyser
 import org.irods.jargon.datautils.sharing.*
 import org.irods.jargon.ticket.TicketDistributionContext
-import org.irods.jargon.usertagging.FreeTaggingService
-import org.irods.jargon.usertagging.IRODSTaggingService
-import org.irods.jargon.usertagging.TaggingServiceFactory
-import org.irods.mydrop.service.ShoppingCartSessionService
+import org.irods.jargon.usertagging.domain.IRODSStarredFileOrCollection
+import org.irods.jargon.usertagging.tags.FreeTaggingService
+import org.irods.jargon.usertagging.tags.IRODSTaggingService
+import org.irods.jargon.usertagging.tags.TaggingServiceFactory
+import org.irods.mydrop.config.ViewState
+import org.irods.mydrop.service.StarringService
+import org.irods.mydrop.service.ViewStateService
 
 /**
  * Controller for browser functionality
@@ -27,8 +32,10 @@ class BrowseController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	TaggingServiceFactory taggingServiceFactory
+	StarringService starringService
+	ViewStateService viewStateService
 	IRODSAccount irodsAccount
-	ShoppingCartSessionService shoppingCartSessionService
+	
 	def grailsApplication
 
 	/**
@@ -47,6 +54,57 @@ class BrowseController {
 	def afterInterceptor = {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
+	}
+	
+	
+	def index = {
+		log.info ("in index action")
+		def mode = params['mode']
+		def absPath = params['absPath']
+		
+		ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
+		log.info("viewState:${viewState}")
+		
+		if (mode == null && absPath == null) {
+			log.info("coming in with no params for mode or path, check view state and use the mode and path there (if they exist)")
+			absPath = viewState.rootPath
+			if (absPath) {
+				log.info("i have a previous abspath in the view state, so use that path and set mode to 'path' too: ${absPath}")
+				mode = "path"
+			}
+		}
+				
+		if (mode == "path") {
+			log.info("mode is path, should have an abspath to preset to")
+			if (absPath == null) {
+				def message = message(code:"error.no.path.provided")
+				response.sendError(500,message)
+				return
+			} else {
+				log.info("path is ${absPath}")
+				viewState = viewStateService.saveRootPath(absPath)
+				
+				/*
+				 * Decide what to do about the selected path, such that a path we set as root might need to wipe out the previous selected path.
+				 * 
+				 * Keep the selected path if the new root is shorter than the selected path and it contains the path
+				 */
+				
+				if (viewState.selectedPath.indexOf(viewState.rootPath) == -1) {
+					log.info("getting rid of selected path, not under new root path")
+					viewState = viewStateService.saveSelectedPath("")
+				}
+				
+			}
+		}
+
+
+		render(view: "index", model:[mode:mode,path:absPath,viewState:viewState])
+	}
+
+	def showBrowseToolbar = {
+		log.info("showBrowseToolbar")
+		render(view:"browseToolbar")
 	}
 
 	/**
@@ -140,33 +198,72 @@ class BrowseController {
 
 		// look at the type to decide how to set the root path
 		if (pathType == "detect") {
-			log.info("no parent parm set, detect display as either root or home")
-
-			if (irodsAccount.userName ==  "anonymous") {
-				log.info("user is anonymous, default to view the public directory")
-
-				parent = "/" + irodsAccount.zone + "/home/public"
-
+			
+			/*
+			 * Detect modes means I am being asked to decide what to show, based on things like whether
+			 * strict acl's are enforced.
+			 * 
+			 * If I have a preserved view state, initialize to that
+			 */
+			
+			log.info("path type is detect")
+			
+			ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
+			
+			if (viewState.rootPath) {
+				
+				parent = viewState.rootPath
+				
+				icon = "folder"
+				state = "closed"
+				type = "folder"
+	
+				def attrBuf = ["id":parent, "rel":type, "absPath":parent]
+	
+				jsonBuff.add(
+						["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+						)
+				
 			} else {
-
-				def isStrict = environmentalInfoAO.isStrictACLs()
-				log.info "is strict?:{isStrict}"
-				if (isStrict) {
-					parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+			
+			
+				log.info("no parent parm set, detect display as either root or home")
+	
+				if (irodsAccount.userName ==  "anonymous") {
+					log.info("user is anonymous, default to view the public directory")
+	
+					parent = "/" + irodsAccount.zone + "/home/public"
+	
 				} else {
-					parent = "/"
+	
+					def isStrict;
+					try {
+						isStrict = environmentalInfoAO.isStrictACLs()
+					} catch (JargonException je) {
+						log.warn("error getting rule info for strict acl's currently overheaded see idrop bug [#1219] error on intiial display centos6")
+						isStrict = false
+					}
+					
+					log.info "is strict?:{isStrict}"
+					if (isStrict) {
+						parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
+					} else {
+						parent = "/"
+					}
 				}
+				
+				viewStateService.saveRootPath(parent)
+	
+				icon = "folder"
+				state = "closed"
+				type = "folder"
+	
+				def attrBuf = ["id":parent, "rel":type, "absPath":parent]
+	
+				jsonBuff.add(
+						["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+						)
 			}
-
-			icon = "folder"
-			state = "closed"
-			type = "folder"
-
-			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
-
-			jsonBuff.add(
-					["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
-					)
 
 		} else if (pathType == "root") {
 
@@ -177,6 +274,8 @@ class BrowseController {
 			icon = "folder"
 			state = "closed"
 			type = "folder"
+			
+			viewStateService.saveRootPath(parent)
 
 			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
 
@@ -199,13 +298,14 @@ class BrowseController {
 
 			log.info("setting to home directory:${parent}")
 
-			// display a root node
-			// display a root node
+			// display home node
 
 			icon = "folder"
 			state = "closed"
 			type = "folder"
 
+			viewStateService.saveRootPath(parent)
+			
 			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
 
 			jsonBuff.add(
@@ -219,11 +319,14 @@ class BrowseController {
 			if (parent == "") {
 				parent = "/"
 			}
+				
 			// display a root node
 
 			icon = "folder"
 			state = "closed"
 			type = "folder"
+			
+			viewStateService.saveRootPath(parent)
 
 			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
 
@@ -233,6 +336,18 @@ class BrowseController {
 		} else if (pathType == "list") {
 
 			log.info("parent dir for listing provided as:${parent}")
+			
+			def pagingOffset = params['partialStart']
+			def splitMode = params['splitMode']
+			
+			if (pagingOffset == null) {
+				pagingOffset = 0;
+			}
+			
+			if (splitMode == null) {
+				throw new JargonException("missing the splitMode")
+			}
+			
 			def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 			def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
 			log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
@@ -268,6 +383,8 @@ class BrowseController {
 			throw new JargonException("no absolute path passed to the method")
 		}
 		
+		ViewState viewState = viewStateService.saveViewModeAndSelectedPath("browse", absPath)
+		
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		try {
 			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
@@ -283,8 +400,12 @@ class BrowseController {
 			}
 
 			def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
+			int pageSize = irodsAccessObjectFactory.jargonProperties.maxFilesAndDirsQueryMax
+			PagingActions pagingActions = PagingAnalyser.buildPagingActionsFromListOfIRODSDomainObjects(entries, pageSize)
 			log.debug("retrieved collectionAndDataObjectList: ${entries}")
-			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
+			log.debug("pagingActions:${pagingActions}")
+			
+			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0"), viewState:viewState, pagingActions:pagingActions])
 		} catch (FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)
 			render(view:"noInfo")
@@ -313,85 +434,13 @@ class BrowseController {
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
+		
+		viewStateService.saveViewModeAndSelectedPath("info", absPath)
 
 		ViewNameAndModelValues mav = handleInfoLookup(absPath)
 		render(view:mav.view, model:mav.model)
 		return
 
-		log.info "fileInfo for absPath: ${absPath}"
-		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-		def retObj = null
-		// If I cant find any data just put a message up in the display area
-		try {
-			retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-
-			if (!retObj) {
-				log.error "no data found for path ${absPath}"
-				render(view:"noInfo")
-				return
-			}
-		} catch (DataNotFoundException) {
-			render(view:"noInfo")
-			return
-		}
-
-		def isDataObject = retObj instanceof DataObject
-		def getThumbnail = false
-		def renderMedia = false
-
-		log.info "is this a data object? ${isDataObject}"
-
-		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
-		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
-		if (isDataObject) {
-			long maxSize
-			String maxSizeParm = grailsApplication.config.idrop.config.max.thumbnail.size.mb
-			if (maxSizeParm != null) {
-				try {
-					maxSize = Long.valueOf(maxSizeParm) * 1024 * 1024
-				} catch (Exception e) {
-					maxSize = 32 * 1024 * 1024
-				}
-			}
-
-			log.info("data size: ${retObj.dataSize}, max size: ${maxSize}")
-
-			if (retObj.dataSize > maxSize) {
-				log.info("do not render media")
-				renderMedia = false
-			}
-
-			getThumbnail = MediaHandlingUtils.isImageFile(absPath)
-			log.info("getThumbnail? ${getThumbnail}")
-
-			if (!getThumbnail) {
-				renderMedia = MediaHandlingUtils.isMediaFile(absPath)
-				log.info("renderMedia? ${renderMedia}")
-			}
-
-			log.info("getting free tags for data object")
-			def freeTags = freeTaggingService.getTagsForDataObjectInFreeTagForm(absPath)
-			log.info("rendering as data object: ${retObj}")
-			def commentTag = irodsTaggingService.getDescriptionOnDataObjectForLoggedInUser(absPath)
-
-			def comment = ""
-			if (commentTag) {
-				comment = commentTag.getTagData()
-			}
-
-			render(view:"dataObjectInfo", model:[dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
-		} else {
-			log.info("getting free tags for collection")
-			def freeTags = freeTaggingService.getTagsForCollectionInFreeTagForm(absPath)
-			def commentTag = irodsTaggingService.getDescriptionOnCollectionForLoggedInUser(absPath)
-
-			def comment = ""
-			if (commentTag) {
-				comment = commentTag.getTagData()
-			}
-			log.info("rendering as collection: ${retObj}")
-			render(view:"collectionInfo", model:[collection:retObj,comment:comment,tags:freeTags,  isDataObject:isDataObject, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")])
-		}
 	}
 
 	/**
@@ -474,6 +523,7 @@ class BrowseController {
 		 */
 
 		IRODSFile targetFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(absPath)
+		String parentPath = targetFile.parent
 
 		log.info("target file obtained")
 		if (!targetFile.exists()) {
@@ -485,7 +535,7 @@ class BrowseController {
 		log.info("target file exists")
 
 		String fileName = targetFile.name
-		render(view:"renameDialog", model:[fileName:fileName, absPath:absPath])
+		render(view:"renameDialog", model:[fileName:fileName, absPath:absPath, parentPath:parentPath])
 	}
 
 
@@ -532,125 +582,27 @@ class BrowseController {
 		String fileName = targetFile.name
 		render(view:"newFolderDialog", model:[absPath:absPath])
 	}
+	
+	/**
+	 * Prepare the 'new folder' dialog
+	 */
+	def prepareStarDialog = {
+		log.info("prepareStarDialog()")
 
-	def addFileToCart = {
-		log.info ("addFileToCart")
-		String fileName = params['absPath']
-		if (!fileName) {
-			log.error "no file name in request"
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
 
-		log.info("adding ${fileName} to the shopping cart")
+		log.info("abs path:${absPath}")
 
-		shoppingCartSessionService.addToCart(fileName)
-
-		log.info("shopping cart: ${session.shoppingCart}")
-
-		log.info("file added")
-		render fileName
+		
+		render(view:"starDialog", model:[absPath:absPath])
 	}
 
-	/**
-	 * Display the contents of the 'file cart tab'.  This is a cascading operation, such that the loading of the tab will call the process
-	 * to load the cart contents table.
-	 */
-	def showCartTab = {
-		log.info("showCartTab")
-		render(view:"listCart")
-	}
-
-	/**
-	 * Build the JTable entries for the contents of the shopping cart
-	 */
-	def listCart = {
-		log.info("listCart")
-		List<String> cart = shoppingCartSessionService.listCart()
-		render(view:"cartDetails", model:[cart:cart])
-	}
-
-	/**
-	 * Clear the contents of the shopping cart
-	 */
-	def clearCart = {
-		log.info("clearCart")
-		shoppingCartSessionService.clearCart()
-		render "OK"
-	}
-
-	/**
-	 * Delete the given files from the shopping cart
-	 */
-	def deleteFromCart = {
-		log.info("deleteFromCart")
-		log.info("params: ${params}")
-
-		def filesToDelete = params['selectCart']
-
-		// if nothing selected, just jump out and return a message
-		if (!filesToDelete) {
-			log.info("no files to delete")
-			render "OK"
-			return
-		}
-
-		log.info("filesToDelete: ${filesToDelete}")
-
-		if (filesToDelete instanceof Object[]) {
-			log.debug "is array"
-			filesToDelete.each{
-				log.info "filesToDelete: ${it}"
-				shoppingCartSessionService.deleteFromCart(it)
-			}
-
-		} else {
-			log.debug "not array"
-			log.info "deleting: ${filesToDelete}"
-			shoppingCartSessionService.deleteFromCart(filesToDelete)
-		}
-
-		render "OK"
-	}
-
-
-	/**
-	 * Process a bulk add to cart action based on data input from the browse details form
-	 */
-	def addToCartBulkAction = {
-		log.info("addToCartBulkAction")
-
-		log.info("params: ${params}")
-
-		def filesToAdd = params['selectDetail']
-
-		// if nothing selected, just jump out and return a message
-		if (!filesToAdd) {
-			log.info("no files to add")
-			render "OK"
-			return
-		}
-
-		log.info("filesToAdd: ${filesToAdd}")
-
-
-		if (filesToAdd instanceof Object[]) {
-			log.debug "is array"
-			filesToAdd.each{
-				log.info "filesToAdd: ${it}"
-				shoppingCartSessionService.addToCart(it)
-
-			}
-
-		} else {
-			log.debug "not array"
-			log.info "adding: ${filesToAdd}"
-			shoppingCartSessionService.addToCart(filesToAdd)
-		}
-
-		render "OK"
-	}
-
+	
 	/**
 	 * Show gallery view for given directory
 	 */
@@ -660,6 +612,8 @@ class BrowseController {
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
+		
+		viewStateService.saveViewModeAndSelectedPath("gallery", absPath)
 
 		try {
 			log.info "galleryView for absPath: ${absPath}"
@@ -679,6 +633,56 @@ class BrowseController {
 		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)
 			render(view:"noInfo")
+		}
+	}
+	
+	/**
+	 * Set a folder to starred
+	 */
+	def starFile = {
+		log.info("starFile()")
+		def absPath = params['absPath']
+		if (absPath == null) {
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+		
+		def description = params['description']
+		if (description == null) {
+			def message = message(code:"error.no.description.provided")
+			response.sendError(500,message)
+		}
+
+		try {
+			log.info "starring absPath: ${absPath}"
+			starringService.star(irodsAccount, absPath, description)
+			log.info("star successful")
+			render "OK"
+		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
+			def message = message(code:"error.file.not.found")
+			response.sendError(500,message)
+		}
+	}
+	
+	/**
+	 * Set a folder to not starred
+	 */
+	def unstarFile = {
+		log.info("unstarFile()")
+		def absPath = params['absPath']
+		if (absPath == null) {
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+		
+		try {
+			log.info "unstarring absPath: ${absPath}"
+			starringService.unStar(irodsAccount, absPath)
+			log.info("unstar successful")
+			render "OK"
+		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
+			def message = message(code:"error.file.not.found")
+			response.sendError(500,message)
 		}
 	}
 
@@ -712,6 +716,11 @@ class BrowseController {
 
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
+		
+		log.info("seeing if this is starred")
+		IRODSStarredFileOrCollection irodsStarredFileOrCollection = starringService.findStarred(irodsAccount, absPath)
+		log.info "starring info:${irodsStarredFileOrCollection}"
+		
 		if (isDataObject) {
 			long maxSize
 			String maxSizeParm = grailsApplication.config.idrop.config.max.thumbnail.size.mb
@@ -749,7 +758,7 @@ class BrowseController {
 			}
 
 			mav.view = "dataObjectInfo"
-			mav.model = [dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
+			mav.model = [dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,irodsStarredFileOrCollection:irodsStarredFileOrCollection,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
 			return mav
 		} else {
 			log.info("getting free tags for collection")
@@ -762,7 +771,7 @@ class BrowseController {
 			}
 			log.info("rendering as collection: ${retObj}")
 			mav.view = "collectionInfo"
-			mav.model = [collection:retObj,comment:comment,tags:freeTags,  isDataObject:isDataObject, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
+			mav.model = [collection:retObj,comment:comment,tags:freeTags,  isDataObject:isDataObject, irodsStarredFileOrCollection:irodsStarredFileOrCollection,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
 			return mav
 
 		}

@@ -188,4 +188,23 @@ public class IRODSNode extends DefaultMutableTreeNode {
     public boolean isHasMore() {
         return hasMore;
     }
+    
+    /**
+     * Return full path of this node
+     * 
+     * @return <code>String</code> of nodes full path
+     * 
+     */
+    public String getFullPath() {
+        String fullPath = "";
+        CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) this.getUserObject();
+        if (entry.isCollection()) {
+           fullPath = entry.getPathOrName();
+        }
+        else {
+           fullPath = entry.getParentPath() + "/" + entry.getPathOrName();
+        }
+        return fullPath;
+    }
+    
 }

@@ -1,73 +1,54 @@
+
 *'''Project''': idrop-web
-*'''Date''': 11/26/12
-*'''Release Version''': 1.0.2
-*'''git tag''':  1.0.2
+*'''Date''': 03/04/2013
+*'''Release Version''': 2.0.0
+*'''git tag''':  2.0.0
 
 ==News==
 
-This is a release of iDrop web version 1.0.2.  This is a terminal feature release of the 1.0 iDrop Suite.  Further feature development will 
-occur in iDrop 2.0.
+This is a release of iDrop web with the version 2.0 redesign work Phase I (GUI redesign)
+
 
 ==Requirements==
 
 *idrop-web depends on Java 1.6+
 *idrop-web depends on grails 2.1.1
 
+
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
 ==Bug Fixes==
 
-*[#959] firefox browse div float error
+*[#1181] fix memory in idrop web2 when changing login
 
-* [#950] unable to browse to location message in idrop web tree for new safari/mac
-**temp catch of icon assignment added as shim in jstree javascript
+*[#1205] error accessing tickets (-80600) on srbbrick15
+**more gracefully handle ticket errors in display
 
-*[#990] update user profile i18n message missing
-
-*[#986] hit home in browse tree causes error message when timed out
-**fixed lingo-common method that handles json call to check for continue
-
-*[#1013] null appended to url path in browse view download links
-
-*[#1028] upload mac opera shows javascript exception in idrop web v2
-**added a 'no data available' display in the browse details panel instead of double notifications using the 'growler' pop up.  Errors tend to happen in the tree
-giving a pop-up, and then a secondary error would appear doing an AJAX call to the secondary div to build the details.  Now the tree error will put up the pop-up, and 
-the secondary exception is muted.
-
-*[#1057] callUpdateTags javascript error
-
-*[#1055] -321000 messages on upload need better message
-**Added a NoResourceDefinedException to the jargon error hierarchy so that interfaces can give sensible feedback to users when no resource is defined
-in an operation and no default rule exists on iRODS.
-
-*[#1055] -321000 messages on upload need better message
-**Handle no default resource errors with a user message
-
-*[#1077] copy not supplying default storage resource
-**Updated fileController copy and move methods to give a meaningful message when no default storage resource is specified
-
-*[#1075] no resource defined causes error when serializing shopping cart
-**Added checks and meaningful message when serializing a shopping cart and no defualt resoruce was specified.  This causes an error when serializing the shopping cart file
+*[#1204] cleanup initial view (should be info)
+**Added re-initialization of tree location when returning back to the Browse tab from elsewhere, or on a reload
 
 *[#1119] Error when updating profile.
-**Added better error trapping in updateUserProfile, this gives better messages but there may still be an underlying issue
+**Better error trapping when an exception occurs updating the profile
 
-*[#1118] iDrop Project Page link is broken
-**Fix footer to properly point to the GForge page
+*[#1157] fix ticket landing pages and error pages
+**Put ticket landing pages under profile, fixed ticket table formatting  
+
+*[#957] error deleting from public subdir when guest
+**Added better trapping of catNoAccessException and a clean message to user for operations that fail due to no access
+
+*[#1225] download link for data info broken
+**Fix download link for data object info, now uses same javascript method as download button.  Link would render funny with extended path info
+
+*[#1220] shares in home page on servers w/o specific query still show errors
+**Added new SpecificQueryException in jargon and tolerate this error in the show shares functions on the home page with a user friendly message
+
+*[#1238] public link dialog shows up in wrong place
+
+*[#1221] twistie broken on search results
+
 
 ==Features==
 
-* [#922] User Profile Management
-**added profile management tab, including ability to change password by user
+*[#984] iDrop web '2.0' redesign effort
 
-*[#962] missing file icon in info view for data objects
-Fixed data object info to include icon and be clearer about file versus collection
-
-*[#1023] add Version class in jargon-core
-**Added iDrop web and Jargon version numbers in footer
-
- *[#1062] 1.0.2 release activities
-**Updated Grails version to version 2.1.1
-**Minor shopping cart layout issues
-
-*Removed delete and rename buttons from browse details view
+*[#78] very large collection paging

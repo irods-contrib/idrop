@@ -25,24 +25,14 @@ grails.project.dependency.resolution = {
 	}
 	dependencies {
 		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		//test 'org.irods.jargon:jargon-test:3.1.3-SNAPSHOT'
 		test 'org.mockito:mockito-all:1.8.1'
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
-		compile ('org.irods.jargon:jargon-core:3.2.1.4-SNAPSHOT')  {
-			
-				excludes "org.bouncycastle"
-			
-		}
-		//compile 'org.irods.jargon:jargon-security:3.2.0-SNAPSHOT'
-		compile ('org.irods.jargon:jargon-data-utils:3.2.1.4-SNAPSHOT')  
-		compile ('org.irods.jargon:jargon-ticket:3.2.1.4-SNAPSHOT')  
-		compile ('org.irods.jargon:jargon-user-profile:3.2.1.4-SNAPSHOT') 
-		compile ('org.irods.jargon:jargon-user-tagging:3.2.1.4-SNAPSHOT') 
-		/*compile 'org.springframework.security:spring-security-core:3.0.5.RELEASE'
-		 compile 'org.springframework.security:spring-security-web:3.0.5.RELEASE'
-		 compile 'org.springframework.security:spring-security-config:3.0.5.RELEASE'
-		 compile 'org.springframework:spring-web:3.0.5.RELEASE'*/
+		compile ('org.irods.jargon:jargon-core:3.3.0') { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-data-utils:3.3.0')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ticket:3.3.0')   { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-profile:3.3.0')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-tagging:3.3.0')  { excludes ([group:'org.jglobus'])}
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 

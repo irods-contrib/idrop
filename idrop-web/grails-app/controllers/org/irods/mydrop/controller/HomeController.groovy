@@ -1,11 +1,19 @@
 package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.OperationNotSupportedByThisServerException
+import org.irods.jargon.core.exception.SpecificQueryException
+import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.utils.MiscIRODSUtils
+import org.irods.mydrop.service.SharingService
+import org.irods.mydrop.service.StarringService
 
 class HomeController {
 
-
+	StarringService starringService
+	SharingService sharingService
+	IRODSAccessObjectFactory irodsAccessObjectFactory
+	
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
@@ -20,33 +28,16 @@ class HomeController {
 		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
 
-	def afterInterceptor = { log.debug("closing the session") }
-
-
-	def index = {
-		log.info ("in home controller index action")
-		def mode = params['mode']
-		def absPath = params['absPath']
-
-		if (mode != null) {
-			if (mode == "path") {
-				log.info("mode is path, should have an abspath to preset to")
-				if (absPath == null) {
-					def message = message(code:"error.no.path.provided")
-					response.sendError(500,message)
-					return
-				} else {
-					log.info("path is ${absPath}")
-				}
-			}
-		}
-
-		render(view: "index", model:[mode:mode,path:absPath])
+	def afterInterceptor = { 
+		log.debug("closing the session")
+		irodsAccessObjectFactory.closeSession()
+		
 	}
 
-	def showBrowseToolbar = {
-		log.info("showBrowseToolbar")
-		render(view:"browseToolbar")
+	def index() {
+		log.info("index")
+		boolean shareSupported = sharingService.isSharingSupported(irodsAccount)
+		render(view:"index", model:[shareSupported:shareSupported])
 	}
 
 	/**
@@ -83,6 +74,104 @@ class HomeController {
 		render(view:"link", model:[absPath:filePath])
 
 	}
+	
+	def starredCollections() {
+		log.info "starredCollections()"
+		
+		def listing = starringService.listStarredCollections(irodsAccount, 0)
+		
+		if (listing.isEmpty()) {
+			render(view:"noInfo")
+		} else {
+			render(view:"quickViewList",model:[listing:listing])
+		}
+	}
+	
+	def starredDataObjects() {
+		log.info "starredDataObjects()"
+		def listing = starringService.listStarredDataObjects(irodsAccount, 0)
+		if (listing.isEmpty()) {
+			render(view:"noInfo")
+		} else {
+			render(view:"quickViewList",model:[listing:listing])
+		}
+	}
+	
+	/**
+	 * Listing of collections shared by me with others
+	 * @return
+	 */
+	def sharedCollectionsByMe() {
+		log.info "sharedCollectionsByMe"
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		if (!sharing) {
+			log.info("no sharing support on this grid")
+			render(view:"noInfo")
+			return
+		}
+		
+		/*
+		 * is sharing configured? 
+		 */
+		if (!sharing) {
+			log.info("no sharing support on this grid")
+			render(view:"noInfo")
+			return
+		}
+				
+		try {
+			def listing = sharingService.listCollectionsSharedByMe(irodsAccount);
+			if (listing.isEmpty()) {
+				render(view:"noInfo")
+			} else {
+				render(view:"shareQuickViewList",model:[listing:listing])
+			}
+		} catch (SpecificQueryException e) {
+			log.error "speific query exception", e
+			def message = message(code:"error.no.specific.query")
+			response.sendError(500,message)
+		} catch (OperationNotSupportedByThisServerException e) {
+			log.error "speific query exception", e
+			def message = message(code:"error.no.specific.query")
+			response.sendError(500,message)
+		}
+	}
+	
+	/**
+	 * Listing of collections shared by me with others
+	 * @return
+	 */
+	def sharedCollectionsWithMe() {
+		log.info "sharedCollectionsByMe"
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		if (!sharing) {
+			log.info("no sharing support on this grid")
+			render(view:"noInfo")
+			return
+		}
+		
+		try {
+			def listing = sharingService.listCollectionsSharedWithMe(irodsAccount)
+			if (listing.isEmpty()) {
+				render(view:"noInfo")
+			} else {
+				render(view:"shareWithMeQuickViewList",model:[listing:listing])
+			}
+		} catch (SpecificQueryException e) {
+			log.error "speific query exception", e
+			def message = message(code:"error.no.specific.query")
+			response.sendError(500,message)
+		}  catch (OperationNotSupportedByThisServerException e) {
+			log.error "speific query exception", e
+			def message = message(code:"error.no.specific.query")
+			response.sendError(500,message)
+		}
+		
+		
+	}
+	
 
 	// FIXME: refactor into jargon-core
 	private IRODSAccount anonymousIrodsAccountForURIString(String uriString) {

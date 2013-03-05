@@ -13,29 +13,30 @@
 	
 	<div id="browseDialogArea"><!--  general area to spawn jquery dialogs --></div>
 	
+	
 		
-	<div id="browser" class="wrapper" style="height:85%;width:100%;clear:both;">
+	<div id="browser" class="wrapper" style="height:85%;width:100%;clear:both;overflow:hidden;">
 		<div id="dataTreeView" style="width: 100%; height: 700px; overflow: hidden;">
 						
-			<div id="dataTreeDivWrapper"  class="ui-layout-west" style="width: 25%; height: 100%; position:relative;overflow:hidden;">
-				<div id="dataTreeToolbar" style="width:100%; height:3%;display:block;" class="fg-toolbar">
+			<div id="dataTreeDivWrapper"  class="ui-layout-west" style="width: 25%; height: 100%; overflow:hidden;">
+				<div id="dataTreeToolbar" style="width:100%; height:4%;display:block; margin:5px;" class="fg-toolbar">
+
 						
-						<div id="dataTreeMenu" class="fg-buttonset fg-buttonset-multi"
-							style="float: left; clear : both; display:block; overflow:hidden;">
+						<div id="dataTreeMenu">
 							<button type="button" id="refreshTreeButton"
-								class="ui-state-default ui-corner-left" value="refreshTreeButton"
+								 value="refreshTreeButton"
 								onclick="refreshTree()")>
-								<g:img dir="images" file="arrow-refresh.png" width="16" height="16"/>
+								<img class="icon-refresh"/>
 							</button>
 							<button type="button" id="homeTreeButton"
-								class="ui-state-default" value="homeTreeButton"
+								
 								onclick="setTreeToUserHome()")>
-								<g:img dir="images" file="go-home-4.png" width="16" height="16"/>
+								<img class="icon-home"/>
 							</button>
 								<button type="button" id="rootTreeButton"
-								class="ui-state-default ui-corner-right" value="rootTreeButton"
+								 value="rootTreeButton"
 								onclick="setTreeToRoot()")>
-								<g:img dir="images" file="go-parent-folder.png" width="16" height="16"/>
+								<img class="icon-arrow-up"/>
 							</button>
 						</div> <!--  dataTreeMenu -->
 						
@@ -53,3 +54,7 @@
 			</div> <!--  infoDivOuter -->
 		</div> <!--  data tree view -->
 	</div> <!--  browser -->
+	<script>
+		
+
+	</script>

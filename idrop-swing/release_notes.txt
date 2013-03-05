@@ -1,12 +1,12 @@
 
 *'''Project''': iDrop-swing- Desktop iRODS transfer manager
-*'''Date''': xx/xx/xx
-*'''Release Version''': 1.0.X
-*'''git tag''': 1.0.X
+*'''Date''': 03/04/2013
+*'''Release Version''': 2.0.0
+*'''git tag''': 2.0.0
 
 ==News==
 
-post 1.0.2 release snapshot (work in progress)
+Release of new iDrop 2 web and desktop (phase I) development
 
 This is the iDrop desktop transfer manager client.  iDrop runs in the system tray of your favorite operating system, and can manage transfers between your computer and iRODS, and manage data once in iRODS.
 
@@ -27,6 +27,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#1092] add reconnect option to iDrop
 **Added preferences panel option and idrop.properties to set reconnect to 'true'.  Emulates -T option for put/get
 
+[#983] iDrop swing '2.0' development
+**Phase I of iDrop swing GUI redesign effort.  This collaboration with iPlant is a GUI refactoring and redesign phase.
 
 ==Bug Fixes==
 * [#1093] Broken pipe error did not propogate in parallel transfer

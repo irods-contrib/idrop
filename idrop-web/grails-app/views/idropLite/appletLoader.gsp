@@ -1,6 +1,6 @@
-<div id="appletMenu" class="fg-buttonset fg-buttonset-single" style="float:right">
+<div id="appletMenu" class="pull-right">
 			<button type="button" id="toggleMenuButton"
-				class="ui-state-default ui-corner-all" value="closeIdropApplet"
+				value="closeIdropApplet"
 				onclick="closeApplet()")>Close iDrop Lite</button>
 </div>
 <div id="appletLoadDiv">

@@ -26,7 +26,6 @@
 				<div>
 					<div style="width:20%;"><label><g:message code="text.actions" />:</label></div>
 					<div><button type="button" id="uploadToCollectionButton"
-								class="ui-state-default ui-corner-all" 
 								onclick="uploadToCollectionButton()")><g:message code="text.upload" /></button></div>
 				</div>
 	</div>

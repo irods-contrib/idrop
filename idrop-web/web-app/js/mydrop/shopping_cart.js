@@ -3,12 +3,12 @@
  * 
  * author: Mike Conway - DICE
  */
-var addToCartUrl = '/browse/addFileToCart';
-var showCartUrl = '/browse/showCartTab';
-var listCartUrl = '/browse/listCart';
-var clearCartUrl = '/browse/clearCart';
-var deleteCartUrl = '/browse/deleteFromCart';
-var addToCartBulkActionUrl = '/browse/addToCartBulkAction';
+var addToCartUrl = '/shoppingCart/addFileToCart';
+var showCartUrl = '/shoppingCart/showCartTab';
+var listCartUrl = '/shoppingCart/listCart';
+var clearCartUrl = '/shoppingCart/clearCart';
+var deleteCartUrl = '/shoppingCart/deleteFromCart';
+var addToCartBulkActionUrl = '/shoppingCart/addToCartBulkAction';
 var checkOutCartUrl = '/idropLite/shoppingCartAppletLoader';
 var idropLiteShoppingCartSelector = "#cartAppletDiv";
 
@@ -40,7 +40,7 @@ function addToCartGivenPath(absPath) {
 		absPath : absPath
 	}
 	
-	lcShowBusyIconInDiv("#cartTableDiv");
+	showBlockingPanel();
 
 	var jqxhr = $.post(context + addToCartUrl, params, "html").success(
 			function(returnedData, status, xhr) {
@@ -49,11 +49,14 @@ function addToCartGivenPath(absPath) {
 					return false;
 				}
 				setMessage("file added to cart:" + xhr.responseText);
-				refreshCartFiles();
+				unblockPanel();
+
 			})
 			
 			.error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
+		unblockPanel();
+
 	});
 }
 
@@ -152,8 +155,7 @@ function closeShoppingCartApplet() {
  * Check out the shopping cart as the logged in user, this will launch iDrop lite in shopping cart mode
  */
 function checkOut() {
-	// close the idrop lite area in the browse details area if that was opened for bulk upload, you cannot run 2 idrop lites
-	closeApplet();
+	
 	// first hide cart details table
 	$("#cartToggleDiv").hide('slow');
 	$("#cartToggleDiv").width = "0%";

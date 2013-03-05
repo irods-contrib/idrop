@@ -1,7 +1,7 @@
 <g:form name="ticketTableForm" action="" id="ticketTableForm">
 	<table cellspacing="0" cellpadding="0" border="0"
-		id="ticketDetailsTable" style="width: 100%;">
-		<thead>
+		id="ticketDetailsTable" style="width: 100%;" class="table table-striped table-hover" >
+		<thead>       
 			<tr>
 				<th></th>
 				<th></th>
