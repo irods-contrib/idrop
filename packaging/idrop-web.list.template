@@ -74,7 +74,9 @@ fi
 
 # create a service account for tomcat
 # determine if the service account already exists
+set +e
 USER=$$( grep $OS_TOMCAT_ACCT /etc/passwd )
+set -e
 if [ -n "$$USER" ];
 then
   echo "WARNING :: Service Account $OS_TOMCAT_ACCT Already Exists."
@@ -88,7 +90,9 @@ chown -R $$ACCT:$$ACCT ${TOMCAT_HOME_DIR}
 
 # create a service account for idrop-web 
 # determine if the service account already exists
+set +e
 USER=$$( grep $OS_IDROP_ACCT /etc/passwd )
+set -e
 if [ -n "$$USER" ];
 then
  echo "WARNING :: Service Account $OS_IDROP_ACCT Already Exists"
@@ -104,7 +108,9 @@ END_PREINSTALL
 %preinstall << END_PREINSTALL
 # create a service account for idrop-web 
 # determine if the service account already exists
+set +e
 USER=$$( grep $OS_IDROP_ACCT /etc/passwd )
+set -e
 if [ -n "$$USER" ];
 then
  echo "WARNING :: Service Account $OS_IDROP_ACCT Already Exists"
@@ -127,7 +133,9 @@ END_PREINSTALL
 
 # start tomcat
 echo "INFO :: Starting Tomcat ..."
+set +e
 su -p -s /bin/sh $OS_TOMCAT_ACCT ${TOMCAT_HOME_DIR}/bin/startup.sh
+set -e
 
 # wait until the tomcat conf/Catalina/localhost folder is created
 # or timeout after about 10 seconds
@@ -177,11 +185,15 @@ END_POSTINSTALL
 %postinstall << END_POSTINSTALL
 
 # if not already running - start tomcat
+set +e
 RESULT=$$(ps ax | grep -v grep | grep -i tomcat)
+set -e
 if [ -n "$$RESULT" ];
 then
   echo "INFO :: Starting Tomcat ..."
-  /usr/sbin/service ${TOMCAT_VER} start
+  set +e
+  /usr/sbin/service ${TOMCAT_VER} restart
+  set -e
 fi
 
 # wait until the tomcat conf/Catalina/localhost folder is created
@@ -237,18 +249,24 @@ END_POSTINSTALL
 %if RPM
 %preremove << END_PREREMOVE
 # first check to make sure idrop-web is not logged in.
+set +e
 USER=$$( who | grep $OS_IDROP_ACCT )
+set -e
 if [ -n "$$USER" ]; then
   echo "${OS_IDROP_ACCT} is currently logged in. Aborting."
   exit 1
 fi
 
 # stop tomcat if RPM
+set +e
 RESULT=$$(ps ax | grep -v grep | grep -i $OS_TOMCAT_ACCT )
+set -e
 if [ -n "$$RESULT" ];
 then
  echo "INFO :: Stopping Tomcat ..."
+ set +e
  su -p -s /bin/sh $OS_TOMCAT_ACCT ${TOMCAT_HOME_DIR}/bin/shutdown.sh
+ set -e
 fi
 
 # remove iptables entries related to idropweb install
@@ -262,7 +280,9 @@ END_PREREMOVE
 %elseif DEB
 %preremove << END_PREREMOVE
 # first check to make sure idrop-web is not logged in.
+set +e
 USER=$$( who | grep $OS_IDROP_ACCT )
+set -e
 if [ -n "$$USER" ]; then
   echo "${OS_IDROP_ACCT} is currently logged in. Aborting."
   exit 1
@@ -285,7 +305,9 @@ END_PREREMOVE
 
 # remove idropweb service account
 echo "INFO: :: Removing iDrop Web Service Account: ${OS_IDROP_ACCT} ..."
+set +e
 USER=$$( grep $OS_IDROP_ACCT /etc/passwd )
+set -e
 if [ -n "$$USER" ];
 then
  /usr/sbin/userdel -r $OS_IDROP_ACCT
@@ -296,7 +318,9 @@ fi
 # clean up tomcat install if this is RPM
 # remove tomcat service account
 echo "INFO: :: Removing iDrop Web Tomcat Service Account: ${OS_TOMCAT_ACCT} ..."
+set +e
 USER=$$( grep $OS_TOMCAT_ACCT /etc/passwd )
+set -e
 if [ -n "$$USER" ];
 then
  /usr/sbin/userdel -r $OS_TOMCAT_ACCT
@@ -310,7 +334,9 @@ END_POSTREMOVE
 
 # remove idropweb service account
 echo "INFO: :: Removing iDrop Web Service Account: ${OS_IDROP_ACCT} ..."
+set +e
 USER=$$( grep $OS_IDROP_ACCT /etc/passwd )
+set -e
 if [ -n "$$USER" ];
 then
  /usr/sbin/userdel -r $OS_IDROP_ACCT
