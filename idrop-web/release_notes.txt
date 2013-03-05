@@ -1,12 +1,12 @@
 
 *'''Project''': idrop-web
-*'''Date''': 02/13/2013
-*'''Release Version''': 2.0.0-beta1
-*'''git tag''':  2.0.0-beta1
+*'''Date''': 03/04/2013
+*'''Release Version''': 2.0.0
+*'''git tag''':  2.0.0
 
 ==News==
 
-This is a beta release of iDrop web with the version 2.0 redesign work
+This is a release of iDrop web with the version 2.0 redesign work Phase I (GUI redesign)
 
 
 ==Requirements==

@@ -1,12 +1,12 @@
 
 *'''Project''': iDrop-swing- Desktop iRODS transfer manager
-*'''Date''': 02/11/2013
-*'''Release Version''': 2.0.0-beta1
-*'''git tag''': 2.0.0-beta1
+*'''Date''': 03/04/2013
+*'''Release Version''': 2.0.0
+*'''git tag''': 2.0.0
 
 ==News==
 
-Beta release of new iDrop 2 web and desktop (phase I) development
+Release of new iDrop 2 web and desktop (phase I) development
 
 This is the iDrop desktop transfer manager client.  iDrop runs in the system tray of your favorite operating system, and can manage transfers between your computer and iRODS, and manage data once in iRODS.
 
