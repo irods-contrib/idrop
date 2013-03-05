@@ -1,7 +1,7 @@
 *'''Project''': iDrop-lite transfer applet
-*'''Date''': 02/11/2013
-*'''Release Version''': 2.0.0-beta1
-*'''git tag''': 2.0.0-beta1
+*'''Date''': 
+*'''Release Version''': 2.0.2
+*'''git tag''': 
 
 iDrop lite is an embedded transfer applet
 
@@ -22,14 +22,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Bug Fixes==
 
-*[#1012] error building with IdropFileService missing methods
 
 ==Features==
-
-*[#1023] Update Version class to include build time and POM version 
-
-*[#1062] default storage resource visibility
-**Added default storage resource to iDrop lite panel
 
 ==Outstanding Issues==
 
