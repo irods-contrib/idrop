@@ -1,4 +1,3 @@
-
 *'''Project''': idrop-web version 2 
 *'''Date''': xx/xx/xx
 *'''Release Version''': xxxx
