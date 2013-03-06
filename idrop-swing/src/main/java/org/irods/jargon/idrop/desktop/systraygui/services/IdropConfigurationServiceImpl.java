@@ -6,6 +6,12 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.irods.jargon.conveyor.basic.BasicConveyorBootstrapperImpl;
+import org.irods.jargon.conveyor.basic.ConveyorBootstrapConfiguration;
+import org.irods.jargon.conveyor.core.ConfigurationService;
+import org.irods.jargon.conveyor.core.ConveyorBootstrapper;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.ConveyorService;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.connection.SettableJargonProperties;
@@ -17,13 +23,10 @@ import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.TransferEngineException;
-import org.irods.jargon.transfer.TransferServiceFactoryImpl;
 import org.irods.jargon.transfer.dao.domain.ConfigurationProperty;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
-import org.irods.jargon.transfer.engine.ConfigurationService;
-import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
-import org.irods.jargon.transfer.engine.synch.SynchException;
-import org.irods.jargon.transfer.engine.synch.SynchManagerService;
+
+
 import org.slf4j.LoggerFactory;
 
 /**
@@ -58,8 +61,12 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 
         log.info("getting config service via factory");
         try {
-            TransferServiceFactoryImpl transferServiceFactory = new TransferServiceFactoryImpl();
-            this.configurationService = transferServiceFactory.instanceConfigurationService();
+           
+            ConveyorBootstrapConfiguration conveyorBootstrapConfiguration = new ConveyorBootstrapConfiguration();
+            ConveyorBootstrapper conveyorBootstrapper = new BasicConveyorBootstrapperImpl(conveyorBootstrapConfiguration);
+            ConveyorService conveyorService = conveyorBootstrapper.bootstrap();
+            this.configurationService = conveyorService.getConfigurationService();
+            idropCore.setConveyorService(conveyorService);
 
         } catch (Exception ex) {
             Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,7 +179,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         try {
             Properties databaseProperties = configurationService.exportProperties();
             databaseProperties.store(new FileOutputStream(sb.toString()), null);
-        } catch (TransferEngineException ex) {
+        } catch (ConveyorExecutionException ex) {
             Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new IdropException("exception exporting final properties", ex);
         } catch (IOException ioe) {
@@ -215,7 +222,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             log.debug("props from file:{}", properties);
             try {
                 configurationService.importProperties(properties);
-            } catch (TransferEngineException ex) {
+            } catch (ConveyorExecutionException ex) {
                 Logger.getLogger(IdropConfigurationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 throw new IdropException(
                         "unable to import properties into database", ex);
@@ -388,7 +395,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     }
 
     @Override
-    public void createNewSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException {
+    public void createNewSynchronization(final Synchronization synchConfiguration) throws IdropException{
         log.info("saveSynchronization()");
         if (synchConfiguration == null) {
             throw new IllegalArgumentException("null synchConfiguration");
@@ -422,7 +429,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     }
 
     @Override
-    public synchronized void updateSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException {
+    public synchronized void updateSynchronization(final Synchronization synchConfiguration) throws IdropException {
         log.info("updateSynchronization()");
         if (synchConfiguration == null) {
             throw new IllegalArgumentException("null synchConfiguration");

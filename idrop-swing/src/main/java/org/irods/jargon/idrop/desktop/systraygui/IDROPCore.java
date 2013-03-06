@@ -34,11 +34,20 @@ public class IDROPCore {
     }
     private IdropConfig idropConfig = null;
     private ConveyorService conveyorService = null;
+
     private IconManager iconManager = null;
     private Timer queueTimer = new Timer();
     private IdropConfigurationService idropConfigurationService = null;
     private final DateFormat dateFormat = DateFormat.getDateTimeInstance();
     private String basePath = null;
+    
+    public ConveyorService getConveyorService() {
+        return conveyorService;
+    }
+
+    public void setConveyorService(ConveyorService conveyorService) {
+        this.conveyorService = conveyorService;
+    }
 
     public synchronized String getBasePath() {
         return basePath;
