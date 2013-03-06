@@ -9,7 +9,7 @@
 SCRIPTNAME=`basename $0`
 
 # define which idrop-lite applet to use
-IDROP_LITE_APPLET=idrop-lite-1.0.3-SNAPSHOT-jar-with-dependencies.jar
+IDROP_LITE_APPLET=idrop-lite-2.0.0-SNAPSHOT-jar-with-dependencies.jar
 
 # in case we need to download maven
 MAVENVER=3.0.4
