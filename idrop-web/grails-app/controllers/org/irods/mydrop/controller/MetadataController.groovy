@@ -3,6 +3,7 @@ package org.irods.mydrop.controller
 import grails.converters.JSON
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.CatNoAccessException
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.DuplicateDataException
 import org.irods.jargon.core.exception.JargonException
@@ -74,7 +75,11 @@ class MetadataController {
 		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)
 			render(view:"/browse/noInfo")
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		}
+
 	}
 
 	/**
@@ -106,9 +111,17 @@ class MetadataController {
 				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 				metadata = collectionAO.findMetadataValuesForCollection(retObj.collectionName, 0)
 			}
+			
+			log.info("metadata:${metadata}")
+			
+			
 		} catch (DataNotFoundException dnf) {
 			log.warn "cannot find data for path"
 			flash.message="error.no.data.found"
+		} catch (CatNoAccessException e) {
+		log.error("no access error", e)
+		response.sendError(500, message(code:"message.no.access"))
+
 		} catch (Exception e) {
 			log.warn "cannot find data for path"
 			flash.message="error.no.data.found"
@@ -196,7 +209,11 @@ class MetadataController {
 				def errorMessage = message(code:"error.duplicate.metadata")
 				response.sendError(500,errorMessage)
 				return
-			}
+			} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+		}
+
 
 			log.info("avu set successfully")
 			jsonData['response'] =responseData
@@ -246,6 +263,10 @@ class MetadataController {
 					CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 					collectionAO.modifyAVUMetadata(cmd.absPath, currentAvuData, newAvuData)
 				}
+			} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+
 			} catch (Exception e) {
 				log.error("exception updating metadata:${e}")
 				response.sendError(500,e.message)
@@ -301,40 +322,47 @@ class MetadataController {
 
 		AvuData avuValue
 
-		if (attributesToDelete instanceof Object[] || attributesToDelete instanceof List) {
-			log.debug "is array"
-			int i = 0
-			attributesToDelete.each{
-				log.info "avusToDelete: ${it} has index ${i}"
-
-				def thisAttr = ((List) attributesToDelete).get(i)
-				def thisVal = ((List) valuesToDelete).get(i)
-				def thisUnit = ((List) unitsToDelete).get(i)
-
-				avuValue = new AvuData(thisAttr,thisVal,thisUnit)
-				log.info("avuValue: ${avuValue}")
-
+		try {
+			if (attributesToDelete instanceof Object[] || attributesToDelete instanceof List) {
+				log.debug "is array"
+				int i = 0
+				attributesToDelete.each{
+					log.info "avusToDelete: ${it} has index ${i}"
+	
+					def thisAttr = ((List) attributesToDelete).get(i)
+					def thisVal = ((List) valuesToDelete).get(i)
+					def thisUnit = ((List) unitsToDelete).get(i)
+	
+					avuValue = new AvuData(thisAttr,thisVal,thisUnit)
+					log.info("avuValue: ${avuValue}")
+	
+					if (isDataObject) {
+						log.info "delete as data object"
+						deleteAvuForDataObject(absPath, avuValue, dataObjectAO)
+					} else {
+						deleteAvuForCollection(absPath, avuValue, collectionAO)
+					}
+	
+					i++
+				}
+	
+			} else {
+				log.debug "not array"
+				log.info "deleting: ${attributesToDelete}"
+				avuValue = new AvuData(attributesToDelete, valuesToDelete, unitsToDelete)
 				if (isDataObject) {
 					log.info "delete as data object"
 					deleteAvuForDataObject(absPath, avuValue, dataObjectAO)
 				} else {
 					deleteAvuForCollection(absPath, avuValue, collectionAO)
 				}
-
-				i++
 			}
+		} catch (CatNoAccessException e) {
+		log.error("no access error", e)
+		response.sendError(500, message(code:"message.no.access"))
+		return
+	}
 
-		} else {
-			log.debug "not array"
-			log.info "deleting: ${attributesToDelete}"
-			avuValue = new AvuData(attributesToDelete, valuesToDelete, unitsToDelete)
-			if (isDataObject) {
-				log.info "delete as data object"
-				deleteAvuForDataObject(absPath, avuValue, dataObjectAO)
-			} else {
-				deleteAvuForCollection(absPath, avuValue, collectionAO)
-			}
-		}
 
 		render "OK"
 

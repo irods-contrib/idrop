@@ -45,7 +45,6 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.PermissionsTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
-
 import org.irods.jargon.usertagging.domain.IRODSTagValue;
 import org.irods.jargon.usertagging.tags.FreeTaggingService;
 import org.irods.jargon.usertagging.tags.IRODSTaggingService;
@@ -312,7 +311,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             lblInfoObjectVersion.setText(Integer.toString(dataObject.getDataVersion()));
                         } else {
                             lblInfoObjectVersion.setText("");
-                        }
+                        }  
                         
                         // now populate tags and comments for data object
                         txtInfoTags.setText(freeTaggingService.getTagsForDataObjectInFreeTagForm(

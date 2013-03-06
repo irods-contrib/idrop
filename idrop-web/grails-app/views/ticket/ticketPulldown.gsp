@@ -1,4 +1,4 @@
-<div id="ticketPulldownDiv" style="overflow:visible;width:auto;">
+<div id="ticketPulldownDiv" class="">
 			<g:if test="${flash.error}">
                 <script>
                 $(function() { setErrorMessage("${flash.error}"); });
@@ -42,7 +42,7 @@
 					<div>
 						<div style="width:15%;"><label><g:message code="text.ticket.string" />:</label></div>
 						<div><g:textField id="ticketString" name="ticketString" width="20em"
-						value="${ticket.ticketString}" /></div>
+						value="${ticket.ticketString}" placeholder="Enter a ticket key or let iRODS generate one"/></div>
 					</div>
 					<div>
 						<div style="width:15%;"><label><g:message code="text.ticket.type" />:</label></div>
@@ -103,13 +103,13 @@
 				
 					<div><!--  pie chart row --> 
 					
-						<div style="width:33%;height:auto;" class="roundedContainer">
+						<div style="width:33%;height:auto;" class="well">
 							<!--  pie chart cell usage -->
 								<div id="ticketUsesChart" style="height:auto;width:auto;"></div>
 								<label><g:message code="text.ticket.uses.count" /></label><br/>${ticket.usesCount}<br/>
 								<label><g:message code="text.ticket.uses.limit" /></label><br/><g:textField id="usesLimit" name="usesLimit" value="${ticket.usesLimit}" />
 						</div>
-						<div style="width:33%;height:auto;" class="roundedContainer">
+						<div style="width:33%;height:auto;" class="well">
 							<!--  pie chart cell write files -->
 							<div id="ticketWriteFilesChart" style="height:auto;width:auto%;" ></div>
 							<label><g:message code="text.ticket.file.count" /></label><br/>${ticket.writeFileCount}<br/>
@@ -117,7 +117,7 @@
 							<g:textField id="writeFileLimit" name="writeFileLimit" value="${ticket.writeFileLimit}" />
 						</div>
 					
-						<div style="width:33%;height:auto;"  class="roundedContainer">
+						<div style="width:33%;height:auto;"  class="well">
 							<!--  pie chart cell write bytes -->
 							<div id="ticketWriteBytesChart" style="height:auto;width:auto;"></div>
 							<label><g:message code="text.ticket.byte.count" /></label><br/>${ticket.writeByteCount}<br/>
@@ -129,26 +129,25 @@
 				</div> <!--  pie chart table end -->
 				
 				<g:if test="${ticket.isDialog}">
-					<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
-							style="float: left, clear :   both; width: 90%;">
+					<div id="detailsDialogMenu" 
+							class="pull-right">
 							<button type="button" id="updateTicketDetailButton"
-								class="ui-state-default ui-corner-all" value="update  Ticket"
-								onclick="submitTicketDialog()")><g:message code="default.button.save.label" /></button>
+								value="update  Ticket"
+								onclick="submitTicketDialog()")><g:message code="text.update" /></button>
 							<button type="button" id="cancelAddTicketButton"
-								class="ui-state-default ui-corner-all" value="cancelAdd"
+								value="cancelAdd"
 								onclick="closeTicketDialog()")><g:message code="default.button.cancel.label" /></button>
 				</div>
-					
 			</g:if>
 			<g:else>
 			
-				<div id="detailsDialogMenu" class="fg-buttonset fg-buttonset-multi"
-							style="width: auto;">
+				<div id="detailsDialogMenu" class="well pull-right"
+							>
 							<button type="button" id="updateTicketPulldownButton"
-								class="ui-state-default ui-corner-all" 
-								onclick="updateTicketFromPulldown()")><g:message code="default.button.save.label" /></button>
+								
+								onclick="updateTicketFromPulldown()")><g:message code="text.update" /></button>
 							<button type="button" id="cancelTicketPulldownButton"
-								class="ui-state-default ui-corner-all" 
+								
 								onclick="cancelTicketFromPulldown()")><g:message code="default.button.cancel.label" /></button>
 				</div>
 					

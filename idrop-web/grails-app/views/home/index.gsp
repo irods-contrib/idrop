@@ -1,97 +1,92 @@
 <head>
-<meta name="layout" content="main" />
+<meta name="layout" content="mainNoSidebar" />
 <g:javascript library="mydrop/home" />
-<g:javascript library="mydrop/search" />
-<g:javascript library="mydrop/metadata" />
-<g:javascript library="mydrop/profile" />
 </head>
-<div id="tabs" class="wrapper clearfix"
-	style="height: 820px; overflow:hidden;">
-	
-	<g:hiddenField name="mode" id="mode" value="${mode}"/>
-	<g:hiddenField name="presetPath" id="presetPath" value="${path}"/>
+<div>
 
-	<ul>
-		<li><a href="#browseTab"><g:message code="text.browse" /> </a></li>
-		<li><a href="#searchTab"><g:message code="text.search" /> </a></li>
-		<g:if test="${grailsApplication.config.idrop.config.use.userprofile==true}">
-			<li><a href="#profileTab"><g:message code="text.profile" /> </a></li>
-		</g:if>
-	</ul>
-	
-
-	<div id="browseTab" style="height:100%;">
-		<g:render template="/browse/browseTabContent" />
-	</div><!--  browse tab -->
-		
-	<div id="searchTab">
-	
-		<div id="searchDivOuter"
-			style="display: block; width: 95%; height: 90%; position: relative; overflow: hidden;"
-			class="ui-layout-center">
-			<!--  this will be filled in with the search results table -->
-			<div id="searchTableDiv"
-				style="width: 100%; height: 100%; overflow: auto;">
-				<h2>
-					<g:message code="heading.no.search.yet" />
-				</h2>
-			</div> <!--  searchTableDiv -->
-		</div> <!--  searchDivOuter -->
-	</div> <!--  search tab -->
-
-	<g:if test="${grailsApplication.config.idrop.config.use.userprofile==true}">
-		<div id="profileTab" style="height:100%;overflow:hidden;">
-			<g:render template="/profile/profileTabContent" />
-		</div><!--  profile tab -->
-	</g:if>
-		
-
-</div> <!--  tabs -->
+	<div id="uploadDialog">
+		<!--  target div for creating upload dialogs -->
+	</div>
+	<div class="row-fluid">
+		<div class="span2">
+			<!--  nav for table -->
+			<ul class="nav nav-list">
+				<li class="nav-header"><g:message code="text.tools" /></li>
+				<li id="quickUpload" class="quicknav"><a href="#"  onclick="quickUploadFromHome()"><g:message code="text.quick.upload" /></a></li>
+				<li class="nav-header"><g:message code="text.starred" /></li>
+				<li id="quickStarredFiles" class="quicknav"><a href="#"  onclick="quickViewShowStarredFiles()"><g:message code="text.starred.files" /></a></li>
+				<li id="quickStarredFolders" class="quicknav"><a href="#" onclick="quickViewShowStarredFolders()"> <g:message code="text.starred.folders" /></a></li>
+				 <g:if test="${shareSupported}">
+					<li class="nav-header">Shared</li>
+					<li id="quickSharedByMeFolders" class="quicknav"><a href="#" onclick="quickViewShowFoldersSharedByMe()"><g:message code="text.folders.shared.by.me" /></a></li>
+					<li id="quickSharedWithMeFolders" class="quicknav"><a href="#" onclick="quickViewShowFoldersSharedWithMe()"><g:message code="text.folders.shared.with.me" /></a></li>
+				</g:if>
+			</ul>
+		</div>
+		<div id="quickViewListContainer" class="span8"></div>
+	</div>
+</div>
 <script type="text/javascript">
-	var dataLayout;
-	var tabs;
-	var globalMessageArea = "#javascript_message_area";
 	$(document).ready(function() {
 
 		$.ajaxSetup({
 			cache : false
 		});
-
-		menuShown = false;
-		$("#secondaryDiv").hide('slow');
-		$("#secondaryDiv").width = "0%";
-		menuShown = false;
-		$("#mainDiv").width = "100%";
-		$("#mainDivCol1").width = "100%";
-		$("#mainDivCol1").removeClass();
-		$("#infoDiv").resize();
-
-		dataLayout = $("#dataTreeView").layout({
-			applyDefaultStyles : false,
-			size : "auto",
-			west__minSize : 150,
-			west__resizable : true
-		});
-
-		var mode = $("#mode").val();
-		var startPath = $("#presetPath").val();
-		
-		if (mode == null || mode=="") {
-			retrieveBrowserFirstView("detect","");
-		} else {
-			retrieveBrowserFirstView(mode, startPath);
-		}
-		tabs = $("#tabs").tabs({});
-
-		tabs.bind("tabsselect", function(event, ui) {
-
-			var state = {};
-			// Get the id of this tab widget.
-			//alert(ui.tab.hash);
-			state["#tabs"] = ui.tab.hash;
-			$.bbq.pushState(state);
-
-		});
+		$("#topbarHome").addClass("active");
+		quickViewShowStarredFiles();
 
 	});
+
+	function quickViewShowStarredFolders() {
+		resetQuicknav();
+		$("#quickStarredFolders").addClass("active");
+		var url = "/home/starredCollections";
+		var params = {
+				
+			}
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#quickViewListContainer", null);
+	}
+
+	function quickViewShowStarredFiles() {
+		resetQuicknav();
+		$("#quickStarredFiles").addClass("active");
+		var url = "/home/starredDataObjects";
+		var params = {
+				
+			}
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#quickViewListContainer", null);
+	}
+
+	function quickViewShowFoldersSharedByMe() {
+		resetQuicknav();
+		$("#quickSharedByMeFolders").addClass("active");
+		var url = "/home/sharedCollectionsByMe";
+		var params = {
+				
+			}
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#quickViewListContainer", null);
+	}
+
+	function quickViewShowFoldersSharedWithMe() {
+		resetQuicknav();
+		$("#quickSharedWithMeFolders").addClass("active");
+		var url = "/home/sharedCollectionsWithMe";
+		var params = {
+				
+			}
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#quickViewListContainer", null);
+	}
+
+	function resetQuicknav() {
+		$(".quicknav").removeClass("active");
+	}
+
+	function quickUploadFromHome() {
+		
+		showQuickUploadDialog();
+
+		
+	}
+
+	
 </script>

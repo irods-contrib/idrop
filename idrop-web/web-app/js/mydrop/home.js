@@ -13,16 +13,16 @@
  */
 var dataTree;
 
-
 /**
  * root path (which could be a multi-element path, such as a home directory
  */
 
-var baseAbsPath = "/";
-var baseAbsPathAsArrayOfPathElements;
+var dataTreeView = "";
+var dataTreePath = "";
 
-var browseOptionVal = "browse";
+var browseOptionVal = "info";
 var selectedPath = null;
+var requestedSelectedPath = null;
 var selectedNode = null;
 var fileUploadUI = null;
 var aclDialogMessageSelector = "#aclDialogMessageArea";
@@ -45,54 +45,61 @@ var deleteBulkActionUrl = '/file/deleteBulkAction';
 var fileRenameUrl = '/file/renameFile';
 var fileMoveUrl = '/file/moveFile';
 var fileCopyUrl = '/file/copyFile';
-
-function setTreeViewToHomeDirectory() {
-	alert("view into home directory");
-}
-
+var fileStarUrl = '/browse/starFile'
 
 /**
  * Initialize the tree control for the first view by issuing an ajax directory
  * browser request for the root directory.
  * 
- * type is optional, and can either be root, home, or path
- * root - go to root of dir
- * home - go to user home dir
- * path - set provided path as the base path
- * detect - useful for an initial display will choose based on 'strictACL' setting
+ * type is optional, and can either be root, home, or path root - go to root of
+ * dir home - go to user home dir path - set provided path as the base path
+ * detect - useful for an initial display will choose based on 'strictACL'
+ * setting
  * 
  * @return
  */
-function retrieveBrowserFirstView(type, path) {
+function retrieveBrowserFirstView(type, path, pathSelectedInTree) {
 	if (dataTree != null) {
 		dataTree = null;
 		$("#dataTreeDiv").html("");
 	}
 	
-	if (type != null) {
-		if (type == 'root') {
-			path = '';
-		} else if (type == 'home') {
-			path = "";
-		} else if (type == "path") {
-			if (path == null || path == "") {
-				path = baseAbsPath;
-			}
-		} else if (type == 'detect') {
-			path = "";
-		} else {
-			throw "invalid type parameter";
+	// with no type, go into detect mode and show the root
+	if (type == null || type == "") {
+		type = "detect";
+	}
+	
+	if (type == 'root') {
+		path = '';
+	} else if (type == 'home') {
+		path = "";
+	} else if (type == "path") {
+		if (path == null || path == "") {
+			path = baseAbsPath;
 		}
+	} else if (type == 'detect') {
+		path = "";
 	} else {
-		type = "path";
-		path = baseAbsPath;
+		throw "invalid type parameter:" + type;
 	}
+
+
+	var state = {};
+
+	state["treeView"] = type;
+	state["treeViewPath"] = path;
 	
+	dataTreeView = type;
+	dataTreePath = path;
+	requestedSelectedPath = pathSelectedInTree;
+	
+	$.bbq.pushState(state);
+
 	var parms = {
-			dir:path,
-			type:type
+		dir : path,
+		type : type
 	}
-	
+
 	if (dataTree == null) {
 		var url = "/browse/ajaxDirectoryListingUnderParent";
 		lcSendValueAndCallbackWithJsonAfterErrorCheck(url, parms,
@@ -115,76 +122,92 @@ function browserFirstViewRetrieved(data) {
 
 	baseAbsPath = data[0].attr.absPath;
 	baseAbsPathAsArrayOfPathElements = baseAbsPath.split("/");
-	dataTree = $("#dataTreeDiv").jstree(
-			{
-				"plugins" : [ "themes", "contextmenu", "json_data", "types",
-						"ui", "crrm", "dnd" ],
-				"core" : {
-					"initially_open" : [ baseAbsPath ]
-				},
-				"json_data" : {
-					"data" : [ data ],
-
-					"progressive_render" : true,
-					"ajax" : {
-						"url" : context
-								+ "/browse/ajaxDirectoryListingUnderParent",
-						"cache" : false,
-						"data" : function(n) {
-							dir = n.attr("id");
-							return "type=list&dir=" + encodeURIComponent(dir);
+	dataTree = $("#dataTreeDiv")
+			.jstree(
+					{
+						"plugins" : [ "themes", "contextmenu", "json_data",
+								"types", "ui", "crrm", "dnd" ],
+						"core" : {
+							"initially_open" : [ baseAbsPath ]
 						},
-						"error" : function(n) {
-							if (n.statusText == "success" || n.statusText == "OK") {
-								// ok
-							} else {
-								setMessage("Unable to browse to location, try refreshing the tree.  You may not have permission to view this directory");
-								return false;
-								//refreshTree();
-							}
-						}
-					}
-				},
-				"contextmenu" : {
+						"json_data" : {
+							"data" : [ data ],
 
-					"items" : customMenu
-				},
-				"types" : {
-					"types" : {
-						"file" : {
-							"valid_children" : "none",
-							"icon" : {
-								"image" : context + "/images/file.png"
+							"progressive_render" : true,
+							"ajax" : {
+								"url" : context
+										+ "/browse/ajaxDirectoryListingUnderParent",
+								"cache" : false,
+								"data" : function(n) {
+									dir = n.attr("id");
+									return "type=list&dir="
+											+ encodeURIComponent(dir)
+											+ incorporatePaging(dir);
+								},
+								"error" : function(n) {
+									if (n.statusText == "success"
+											|| n.statusText == "OK") {
+										// ok
+									} else {
+										setMessage("Unable to browse to location, try refreshing the tree.  You may not have permission to view this directory");
+										return false;
+										// refreshTree();
+									}
+								}
 							}
 						},
-						"folder" : {
-							"valid_children" : [ "default", "folder", "file" ],
-							"icon" : {
-								"image" : context + "/images/folder.png"
+						"contextmenu" : {
+
+							"items" : customMenu
+						},
+						"types" : {
+							"types" : {
+								"file" : {
+									"valid_children" : "none",
+									"icon" : {
+										"image" : context + "/images/file.png"
+									}
+								},
+								"folder" : {
+									"valid_children" : [ "default", "folder",
+											"file" ],
+									"icon" : {
+										"image" : context
+												+ "/images/folder.png"
+									}
+								}
 							}
+
+						},
+						"ui" : {
+							"select_limit" : 1,
+							"initially_select" : [ "phtml_2" ]
+						},
+						"dnd" : {
+							"copy_modifier" : "shift"
+						},
+						"themes" : {
+							"theme" : "default",
+							"url" : context + "/css/style.css",
+							"dots" : false,
+							"icons" : true
+						},
+						"crrm" : {
+
 						}
-					}
 
-				},
-				"ui" : {
-					"select_limit" : 1,
-					"initially_select" : [ "phtml_2" ]
-				},
-				"dnd" : {
-					"copy_modifier" : "shift"
-				},
-				"themes" : {
-					"theme" : "default",
-					"url" : context + "/css/style.css",
-					"dots" : false,
-					"icons" : true
-				},
-				"crrm" : {
-
-				}
-
-			});
-
+					});
+	
+    
+	$("#dataTreeDiv").bind("loaded.jstree", function(e, data) {
+		if (requestedSelectedPath) {
+			selectTreePathFromIrodsPath(requestedSelectedPath);
+		} else {
+			
+		}
+	});
+	
+		    
 	$("#dataTreeDiv").bind("select_node.jstree", function(e, data) {
 		nodeSelected(e, data.rslt.obj);
 	});
@@ -235,9 +258,40 @@ function browserFirstViewRetrieved(data) {
 
 	});
 
-	updateBrowseDetailsForPathBasedOnCurrentModel(baseAbsPath);
+	/*
+	 * selected path is set if a node in the tree was selected by user. If it's there it's a selection, so show that path in the tree
+	 * 
+	 * if the selected path is not there, see if I am asking for a particular path to be revealed, this is passed by the index.gsp for
+	 * the browse view and is used to initialize the requestedSelectedPath.  In this case, select the path by finding it in the tree,
+	 * causing the browse view to also be updated
+	 * 
+	 * otherwise, just use the root of the tree as the initial selection
+	 */
+	if (selectedPath) {
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+	} else if (requestedSelectedPath) {
+		// wait and do this after the tree loads, look at above function bound to load event
+	} else {
+		updateBrowseDetailsForPathBasedOnCurrentModel(baseAbsPath);
+	}
 
 }
+
+/**
+ * Add ability to display pages for large collections
+ * @param dir directory being displayed
+ * @returns {String}
+ */
+function incorporatePaging(dir) {
+	if (dir == null) {
+		return "";
+	}
+
+	//alert("incorporate paging:" + dir);
+	return("&partialStart=" + displayIndex + "&splitMode=" + splitMode);
+	
+}
+
 
 /**
  * Handling of actions and format of pop-up menu for browse tree.
@@ -438,7 +492,7 @@ function nodeRemoved(event, data) {
 			return false;
 		}
 		setMessage("file deleted:" + id);
-		selectedPqth = xhr.responseText;
+		selectedPath = xhr.responseText;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
@@ -460,7 +514,7 @@ function nodeRenamed(event, data) {
 
 	var newName = data.rslt.new_name;
 	var prevAbsPath = data.rslt.obj[0].id;
-	
+
 	var params = {
 		prevAbsPath : prevAbsPath,
 		newName : newName
@@ -468,7 +522,6 @@ function nodeRenamed(event, data) {
 
 	showBlockingPanel();
 
-	
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
 			}, "html").success(function(returnedData, status, xhr) {
@@ -476,12 +529,13 @@ function nodeRenamed(event, data) {
 		if (!continueReq) {
 			return false;
 		}
-		
-		//alert("xhr.response:" + xhr.responseText);
-		//alert("new name:" + newName);
+
+		// alert("xhr.response:" + xhr.responseText);
+		// alert("new name:" + newName);
 		var nodeRenamedTo = xhr.responseText + "/" + newName;
-		
-		// safari seems to have a hard time handling rename to self, this check traps that
+
+		// safari seems to have a hard time handling rename to self, this check
+		// traps that
 		if (xhr.responseText == prevAbsPath) {
 			setMessage("Rename ignored, name was not changed");
 		} else {
@@ -493,8 +547,8 @@ function nodeRenamed(event, data) {
 			$.jstree._reference(dataTree).refresh(data.rslt.obj[0]);
 			updateBrowseDetailsForPathBasedOnCurrentModel(nodeRenamedTo);
 		}
-			
-		//reloadAndSelectTreePathBasedOnIrodsAbsolutePath(nodeRenamedTo);
+
+		// reloadAndSelectTreePathBasedOnIrodsAbsolutePath(nodeRenamedTo);
 		unblockPanel();
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
@@ -534,10 +588,10 @@ function moveFile(sourcePath, targetPath) {
 		}
 		setMessage("file moved to:" + xhr.responseText);
 		selectedPath = targetPath;
-		
+
 		/*
-		 * delete the node from the tree, select the parent
-		 * node and update the display to the parent node
+		 * delete the node from the tree, select the parent node and update the
+		 * display to the parent node
 		 */
 		refreshTree();
 		unblockPanel();
@@ -578,10 +632,10 @@ function copyFile(sourcePath, targetPath) {
 		}
 		setMessage("file copied to:" + xhr.responseText);
 		unblockPanel();
-		
-		//refreshTree();
+
+		// refreshTree();
 		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(targetPath);
-		//updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
+		// updateBrowseDetailsForPathBasedOnCurrentModel(targetPath);
 
 	}).error(function(xhr, status, error) {
 		setErrorMessage(xhr.responseText);
@@ -610,21 +664,12 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
-	if (browseOptionVal == null) {
+
+	if (browseOptionVal == null || browseOptionVal == "") {
 		browseOptionVal = "info";
 	}
-	
-	 var state = {};
-	    // Get the id of this tab widget.
-	    state[ "absPath" ] = absPath;
-	    state[ "browseOptionVal"] = browseOptionVal;
-	    $.bbq.pushState( state );
 
-	//alert("call setPathCrumbtrail");
 	setPathCrumbtrail(absPath);
-	//alert("skipped setpathcrumbtrail");
-	//alert("browseOptionVal is:" + browseOptionVal);
 
 	if (browseOptionVal == "browse") {
 		showBrowseView(absPath);
@@ -632,16 +677,6 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 		showInfoView(absPath);
 	} else if (browseOptionVal == "gallery") {
 		showGalleryView(absPath);
-	} else if (browseOptionVal == "metadata") {
-		showMetadataView(absPath);
-	} else if (browseOptionVal == "sharing") {
-		showSharingView(absPath);
-	} else if (browseOptionVal == "audit") {
-		lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-				"/audit/auditList?absPath=" + encodeURIComponent(absPath),
-				"#infoDiv", "#infoDiv", null);
-	} else if (browseOptionVal == "ticket") {
-		showTicketView(absPath);
 	}
 }
 
@@ -652,30 +687,38 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
  *            absolute path to browse to
  */
 function showBrowseView(absPath) {
+
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	showBrowseDetailsToolbar();
 	
-	try {
+	var state = {};
+	state["absPath"] = absPath;
+	state["browseOptionVal"] = "browse";
+	$.bbq.pushState(state);
 
-		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
-				"/browse/displayBrowseGridDetails?absPath="
-						+ encodeURIComponent(absPath),
-				"#infoDiv",
-				function(data) {
-					//alert("data is:" + data);
-					$("#infoDiv").html(data);
-				},
-				function() {
-					setMessage("Unable to browse to location");
-				});
-	} catch (err) {
-		// tree is out of synch, refresh it
-		setMessage("Tree is out of synch, refreshing...");
-		refreshTree();
-	}
 
+        showBlockingPanel();
+
+	lcShowBusyIconInDiv("#infoDiv");
+
+
+	var jqxhr = $.get(
+			context + "/browse/displayBrowseGridDetails?absPath="
+					+ encodeURIComponent(absPath), null,
+			function(data, status, xhr) {
+			}, "html").success(function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+
+		$("#infoDiv").html(data);
+                unblockPanel();
+	}).error(function(xhr, status, error) {
+		setInfoDivNoData();
+                unblockPanel();
+    });
 }
 
 /**
@@ -688,16 +731,39 @@ function showAuditView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
+
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
-	} 
-	
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/audit/auditList?absPath="
-					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
+
+	}
+
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/audit/auditList?absPath=" + encodeURIComponent(absPath),
+				targetDiv, function(data) {
+					// alert("data is:" + data);
+					$(targetDiv).html(data);
+				}, function() {
+					setInfoDivNoData();
+				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+	/*
+	 * lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+	 * "/audit/auditList?absPath=" + encodeURIComponent(absPath), targetDiv,
+	 * targetDiv, null);
+	 */
+
+}
+
+/**
+ * Set a no data message in the div
+ */
+function setInfoDivNoData() {
+	$("#infoDiv").html("<h2>No data to display</h2>"); // FIXME: i18n
 
 }
 
@@ -711,16 +777,31 @@ function showSharingView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
+
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
-	} 
-	
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
-			targetDiv, targetDiv, null);
+	}
+
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/sharing/showAclDetails?absPath="
+						+ encodeURIComponent(absPath), targetDiv,
+				function(data) {
+					// alert("data is:" + data);
+					$(targetDiv).html(data);
+				}, function() {
+					setInfoDivNoData();
+				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+	/*
+	 * lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+	 * "/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
+	 * targetDiv, targetDiv, null);
+	 */
 }
 
 /**
@@ -733,19 +814,35 @@ function showMetadataView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
+
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
 		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
-	} 
-	
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/metadata/showMetadataDetails?absPath="
-					+ encodeURIComponent(absPath), targetDiv, targetDiv, null);
-	
-}
+	}
 
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/metadata/showMetadataDetails?absPath="
+						+ encodeURIComponent(absPath), targetDiv,
+				function(data) {
+					// alert("data is:" + data);
+					$(targetDiv).html(data);
+				}, function() {
+					setInfoDivNoData();
+				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+	/*
+	 * 
+	 * lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
+	 * "/metadata/showMetadataDetails?absPath=" + encodeURIComponent(absPath),
+	 * targetDiv, targetDiv, null);
+	 */
+
+}
 
 /**
  * Show the info view
@@ -757,7 +854,14 @@ function showInfoView(absPath) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	showDetailsToolbar();
+	
+	var state = {};
+	state["absPath"] = absPath;
+	state["browseOptionVal"] = "info";
+	$.bbq.pushState(state);
+
+
+	
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/browse/fileInfo?absPath=" + encodeURIComponent(absPath),
 			"#infoDiv", "#infoDiv", null);
@@ -774,11 +878,27 @@ function showGalleryView(absPath) {
 		absPath = baseAbsPath;
 	}
 	
-	hideAllToolbars();
 
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
-			"#infoDiv", "#infoDiv", null);
+	var state = {};
+	state["absPath"] = absPath;
+	state["browseOptionVal"] = "gallery";
+	$.bbq.pushState(state);
+	targetDiv = "#infoDiv";
+
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/browse/galleryView?absPath=" + encodeURIComponent(absPath),
+				targetDiv, function(data) {
+					// alert("data is:" + data);
+					$("#infoDiv").html(data);
+				}, function() {
+					setInfoDivNoData();
+				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
 }
 
 /**
@@ -791,18 +911,40 @@ function showTicketView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
 	}
-	
+
 	if (targetDiv == null) {
 		targetDiv = "#infoDiv";
-		// I am not embedded, so manipulate the toolbars
-		hideAllToolbars();
-	} 
-	
-	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-			"/ticket/index?absPath=" + encodeURIComponent(absPath),
-			targetDiv, targetDiv, null);
+	}
+
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/ticket/index?absPath=" + encodeURIComponent(absPath),
+				targetDiv, function(data) {
+					// alert("data is:" + data);
+					$(targetDiv).html(data);
+				}, function() {
+					setInfoDivNoData();
+				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
 }
 
+/**
+ * Show the dialog to allow upload of data in quick upload mode
+ */
+function showQuickUploadDialog() {
+	
+	var url = "/file/prepareQuickUploadDialog";
+	
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, null, "", function(data) {
+		fillInQuickUploadDialog(data);
+	});
+
+}
 
 /**
  * Show the dialog to allow upload of data
@@ -876,6 +1018,34 @@ function fillInUploadDialog(data) {
 }
 
 /**
+ * On load of quick upload dialog, this will be called when the pre-set data is
+ * available
+ * 
+ * @param data
+ */
+function fillInQuickUploadDialog(data) {
+
+	if (data == null) {
+		return;
+	}
+
+	$('#uploadDialog').remove();
+
+	var $dialog = $('<div id="uploadDialog"></div>').html(data).dialog({
+		autoOpen : false,
+		modal : true,
+		width : 500,
+		title : 'Upload to iRODS',
+		create : function(event, ui) {
+			initializeQuickUploadDialogAjaxLoader();
+		}
+	});
+
+	$dialog.dialog('open');
+}
+
+
+/**
  * Create the upload dialog for web (http) uploaded.
  */
 function initializeUploadDialogAjaxLoader() {
@@ -921,6 +1091,47 @@ function initializeUploadDialogAjaxLoader() {
 								reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 								updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 							}
+
+							$('#uploadDialog').dialog('close');
+							$('#uploadDialog').remove();
+
+						},
+						onError : function(event, files, index, xhr, handler) {
+							setErrorMessage(xhr.responseText);
+						}
+					});
+
+}
+
+/**
+ * Create the quick upload dialog for web (http) uploaded.
+ */
+function initializeQuickUploadDialogAjaxLoader() {
+
+	if (fileUploadUI != null) {
+		$("#fileUploadForm").remove;
+	}
+
+	fileUploadUI = $('#uploadForm')
+			.fileUploadUI(
+					{
+						uploadTable : $('#files'),
+						downloadTable : $('#files'),
+
+						buildUploadRow : function(files, index) {
+							$("#upload_message_area").html("");
+							$("#upload_message_area").removeClass();
+							return $('<tr><td>'
+									+ files[index].name
+									+ '<\/td>'
+									+ '<td class="file_upload_progress"><div><\/div><\/td>'
+									+ '<\/tr>');
+						},
+						buildDownloadRow : function(file) {
+							return $('<tr><td>' + file.name + '<\/td><\/tr>');
+						},
+						onComplete : function(event, files, index, xhr, handler) {
+							setMessage("Upload complete");
 
 							$('#uploadDialog').dialog('close');
 							$('#uploadDialog').remove();
@@ -998,7 +1209,6 @@ function prepareAclDialog(isNew) {
 function showAclDialog(data) {
 	$("#aclDetailsArea").hide("slow");
 	$("#aclDialogArea").html(data).show("slow");
-
 
 }
 
@@ -1109,30 +1319,47 @@ function reloadAclTable(absPath) {
  * Given an acl details html table, wrap it in a jquery dataTable
  */
 function buildAclTableInPlace() {
-	  tableParams = {"bJQueryUI" : true,
-          	"bLengthChange": false,
-          	"bFilter": false,
-          	"iDisplayLength" : 500
+	tableParams = {
+		"bJQueryUI" : true,
+		"bLengthChange" : false,
+		"bFilter" : false,
+		"iDisplayLength" : 500,
+		"aoColumns" : [ {
+			'sWidth' : '20px',
+			'bSortable' : false
+		}, {
+			'sWidth' : '30px'
+		}, {
+			'sWidth' : '40px'
+		}
 
-          }
+		]
+
+	}
+
 	dataTable = lcBuildTableInPlace("#aclDetailsTable", null, null, tableParams);
 
-	$('.forSharePermission', dataTable.fnGetNodes()).editable(
-			function(value, settings) {
-				var userName = this.parentNode.getAttribute('id');
-				return aclUpdate(value, settings, userName);
-			}, {
-				"callback" : function(sValue, y) {
-					var aPos = dataTable.fnGetPosition(this);
-					dataTable.fnUpdate(sValue, aPos[0], aPos[1]);
-				},
-				'data' : "{'OWN':'OWN','READ':'READ','WRITE':'WRITE'}",
-				'type' : 'select',
-				'submit' : 'OK',
-				'cancel' : 'Cancel',
-				'onblur' : 'ignore',
-				'indicator' : 'Saving'
-			});
+	try {
+
+		$('.forSharePermission', dataTable.fnGetNodes()).editable(
+				function(value, settings) {
+					var userName = this.parentNode.getAttribute('id');
+					return aclUpdate(value, settings, userName);
+				}, {
+					"callback" : function(sValue, y) {
+						var aPos = dataTable.fnGetPosition(this);
+						dataTable.fnUpdate(sValue, aPos[0], aPos[1]);
+					},
+					'data' : "{'OWN':'OWN','READ':'READ','WRITE':'WRITE'}",
+					'type' : 'select',
+					'submit' : 'OK',
+					'cancel' : 'Cancel',
+					'onblur' : 'ignore',
+					'indicator' : 'Saving'
+				});
+	} catch (e) {
+		// ignore
+	}
 }
 
 /**
@@ -1206,9 +1433,13 @@ function closeApplet() {
 	$("#toggleHtmlArea").show('slow');
 	$("#toggleHtmlArea").height = "100%";
 	$("#toggleHtmlArea").width = "100%";
-	dataLayout.resizeAll();
 	$("#idropLiteArea").empty();
-	reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+
+	if (selectedPath == "" || selectedPath == null) {
+		// ignore reload tree
+	} else {
+		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
+	}
 }
 
 /**
@@ -1412,8 +1643,22 @@ function refreshTree() {
  */
 function downloadViaToolbar() {
 	var infoAbsPath = $("#infoAbsPath").val();
-	window.open(context + '/file/download/' + infoAbsPath, '_self');
+	window.open(context + '/file/download' + escape(infoAbsPath), '_self');
 
+}
+
+/**
+ * Do a donwload action with a provided path
+ * 
+ * @param path
+ */
+function downloadViaToolbarGivenPath(path) {
+	if (path == null) {
+		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+		return false;
+	}
+
+	window.open(context + '/file/download' + escape(path), '_self');
 }
 
 /**
@@ -1486,7 +1731,7 @@ function deleteViaBrowseDetailsToolbar() {
 function deleteViaToolbarGivenPath(path) {
 
 	if (path == null) {
-		setErrorMessage("No path was selected, use the tree to select an iRODS collection or file to delete"); // FIXME:
+		showErrorMessage(jQuery.i18n.prop("msg.path.missing"));
 		// i18n
 		return false;
 	}
@@ -1500,62 +1745,29 @@ function deleteViaToolbarGivenPath(path) {
 		var params = {
 			absPath : path
 		}
+
 		var jqxhr = $
-				.post(context + fileDeleteUrl, params,
-						function(data, status, xhr) {
-						}, "html")
+				.post(context + fileDeleteUrl, params, null, "html")
 				.success(
 						function(returnedData, status, xhr) {
 							var continueReq = checkForSessionTimeout(
 									returnedData, xhr);
+
 							if (!continueReq) {
 								return false;
 							}
 
-							setMessage("file deleted:" + xhr.responseText);
-
-							$("#infoDiv").html("<h2>File Deleted</h2>");
-
-							/*
-							 * delete the node from the tree, select the parent
-							 * node and update the display to the parent node
-							 */
-							splitPathAndPerformOperationAtGivenTreePath(
-									path,
-									null,
-									null,
-									function(treePath, tree, currentNode) {
-										// get the parent node
-										var parent = $.jstree._reference(
-												dataTree)._get_parent(
-												currentNode);
-										if (parent == null) {
-											refreshTree();
-											return false;
-										}
-										// remove node..
-
-										$.jstree._reference(dataTree)
-												._get_parent(currentNode);
-										// $.jstree._reference(dataTree).remove(
-										// currentNode);
-
-										var parent = $.jstree._reference(
-												dataTree).refresh(parent);
-										selectedPath = xhr.responseText;
-										updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
-
-									});
-
+							setMessage("file deleted:" + path);
+							var selectedPath = xhr.responseText;
+							reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
 							unblockPanel();
 
 						}).error(function(xhr, status, error) {
-					refreshTree();
+					// refreshTree();
 					setErrorMessage(xhr.responseText);
 					unblockPanel();
 				});
 	}
-
 }
 
 /**
@@ -1606,6 +1818,15 @@ function closeRenameDialog() {
 }
 
 /**
+ * Close the star dialog that would have been opened by pressing the 'rename'
+ * button on the toolbar.
+ */
+function closeStarDialog() {
+	$("#starDialog").dialog('close');
+	$("#starDialog").remove();
+}
+
+/**
  * Close the ne folder dialog that would have been opened by pressing the 'new
  * folder' button on the toolbar.
  */
@@ -1621,6 +1842,7 @@ function closeNewFolderDialog() {
 function submitRenameDialog() {
 	lcClearDivAndDivClass("#renameDialogMessageArea");
 	var absPath = $("#renameDialogAbsPath").val();
+	var parentPath = $("#renameDialogParentPath").val();
 	var newName = $.trim($("#fileName").val());
 	// name must be entered
 	if (newName == null || newName.length == 0) {
@@ -1638,22 +1860,20 @@ function submitRenameDialog() {
 
 	var jqxhr = $.post(context + fileRenameUrl, params,
 			function(data, status, xhr) {
-			}, "html").success(
-			function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
-				setMessage("file renamed to:" + xhr.responseText);
-				selectedPath = xhr.responseText;
-				
-				refreshTree();
-				//reloadAndSelectTreePathBasedOnIrodsAbsolutePath(selectedPath);
-				// selectTreePathFromIrodsPath(selectedPath);
-				updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath
-						+ "/" + newName);
-				unblockPanel();
-			}).error(function(xhr, status, error) {
+			}, "html").success(function(returnedData, status, xhr) {
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		setMessage("file renamed to:" + xhr.responseText);
+		selectedPath = xhr.responseText;
+
+		// refreshTree();
+		reloadAndSelectTreePathBasedOnIrodsAbsolutePath(parentPath);
+		// selectTreePathFromIrodsPath(selectedPath);
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		unblockPanel();
+	}).error(function(xhr, status, error) {
 		refreshTree();
 		setErrorMessage(xhr.responseText);
 		unblockPanel();
@@ -1680,7 +1900,7 @@ function submitNewFolderDialog() {
 		parent : absPath,
 		name : newName
 	}
-	
+
 	closeNewFolderDialog();
 	showBlockingPanel();
 
@@ -1693,7 +1913,6 @@ function submitNewFolderDialog() {
 		}
 		setMessage("New folder created:" + xhr.responseText);
 		// selectedPath = xhr.responseText;
-		
 
 		// refresh the parent node and open
 		addANodeToTheParentInTheTree(absPath, newName);
@@ -1745,20 +1964,19 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
 		throw ("no childRelativeName provided, cannot add a node to the tree");
 	}
 
-
-	
 	// handle add under root
 	if (parentAbsolutePath == "/") {
-		
+
 		var childAbsolutepathUnderRoot = childRelativeName;
 
 		// find and open the parent node, then add the child to it
-		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
-				function(path, dataTree, currentNode) {
+		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null,
+				null, function(path, dataTree, currentNode) {
 
 					if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
 
-						// parent node was already loaded, so it makes sense to add
+						// parent node was already loaded, so it makes sense to
+						// add
 						// the node to
 						// the parent
 
@@ -1769,7 +1987,7 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
 						var attrBuf = new Object();
 						attrBuf.id = "/" + childAbsolutepathUnderRoot;
 						attrBuf.rel = type;
-						attrBuf.absPath = "/" +  childAbsolutepathUnderRoot;
+						attrBuf.absPath = "/" + childAbsolutepathUnderRoot;
 
 						var nodeProps = new Object();
 						nodeProps.data = childAbsolutepathUnderRoot;
@@ -1787,16 +2005,17 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
 				});
 
 	} else {
-		
+
 		var childAbsolutePath = parentAbsolutePath + "/" + childRelativeName;
 
 		// find and open the parent node, then add the child to it
-		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null, null,
-				function(path, dataTree, currentNode) {
+		splitPathAndPerformOperationAtGivenTreePath(parentAbsolutePath, null,
+				null, function(path, dataTree, currentNode) {
 
 					if ($.jstree._reference(dataTree)._is_loaded(currentNode)) {
 
-						// parent node was already loaded, so it makes sense to add
+						// parent node was already loaded, so it makes sense to
+						// add
 						// the node to
 						// the parent
 
@@ -1830,20 +2049,44 @@ function addANodeToTheParentInTheTree(parentAbsolutePath, childRelativeName) {
  * Given an iRODS absolute path to a node, find and select that node
  * 
  * @param irodsAbsolutePath
- *            irods absolute path
+ *            irods absolute path is a string with a path, in the form /a/path/to/something
  */
 function selectTreePathFromIrodsPath(irodsAbsolutePath) {
 
 	if (irodsAbsolutePath == null || irodsAbsolutePath.length == 0) {
 		throw "irodsAbsolutePath is missing";
 	}
-	
+
 	if (irodsAbsolutePath == "/") {
 		return false;
 	}
+	
+	var splitPath = irodsAbsolutePath.split("/");
 
-	selectTreePath(irodsAbsolutePath.split("/"), null, null);
+	selectTreePath(splitPath, null, null);
 
+}
+
+/**
+ * Find the given iRODS absolute path in the tree, clear the children and reload
+ * 
+ * @param path
+ */
+function refreshOpenNodeAtAbsolutePath(path) {
+
+	if (path == null) {
+		throw "No path provided";
+	}
+
+	splitPath = path.split("/");
+
+	performOperationAtGivenTreePath(splitPath, null, null, function(thisPath,
+			dataTree, currentNode) {
+
+		$.jstree._reference(dataTree).refresh(currentNode);
+		$.jstree._reference(dataTree).select_node(currentNode, true);
+
+	});
 }
 
 /**
@@ -1869,6 +2112,27 @@ function reloadAndSelectTreePathBasedOnIrodsAbsolutePath(path) {
 	});
 }
 
+/**
+ * Find the given iRODS absolute path in the tree, clear the children and
+ * reload, do not select or open
+ * 
+ * @param path
+ */
+function reloadTreePathBasedOnIrodsAbsolutePath(path) {
+
+	if (path == null) {
+		throw "No path provided";
+	}
+
+	splitPath = path.split("/");
+
+	performOperationAtGivenTreePath(splitPath, null, null, function(thisPath,
+			dataTree, currentNode) {
+
+		$.jstree._reference(dataTree).refresh(currentNode);
+
+	});
+}
 
 /**
  * Given the tree path in the text box, recursively open the nodes in the tree
@@ -1908,7 +2172,19 @@ function selectTreePath(path, currentNode, currentIndex) {
 	performOperationAtGivenTreePath(path, null, null, function(path, dataTree,
 			currentNode) {
 		$.jstree._reference(dataTree).open_node(currentNode);
-		$.jstree._reference(dataTree).select_node(currentNode, true);
+		
+		// see if this node should be selected by comparing paths
+		
+		if (currentNode != null && currentNode[0] != null && currentNode[0].id != null) {
+			var currentId = currentNode[0].id;
+			var idPath = currentId.split("/");
+			if (path.length == idPath.length) {
+				$.jstree._reference(dataTree).select_node(currentNode, true);
+			}
+		}
+		
+		
+		
 	});
 }
 
@@ -1997,26 +2273,27 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 	// if called with no params, get the root node, open it, and process the
 	// children
 	if (currentNode == null) {
-		currentNode = $.jstree._reference(dataTree).get_container();		
+		currentNode = $.jstree._reference(dataTree).get_container();
 		var children = $.jstree._reference(dataTree)._get_children(currentNode);
 		currentNode = children[0];
-                // fix for a bug in ie9 that surfaces on initial load, otherwise does infinite recursion...
-                if (currentNode == null) {
-                   // alert("currentNode is null");
-                    return;
-                } else if (currentNode == undefined) {
-                  //  alert("currentNode is undefined");
-                    return;
-                }
-                
-                if (path.length == 2) {
-        			if (path[0] == "" && path[1] == "") {
-        				// working under root of tree, add right there
-        				operationToPerform(path, dataTree, currentNode.children[2]);
-        				return false;
-        			}
-                }
-                
+		// fix for a bug in ie9 that surfaces on initial load, otherwise does
+		// infinite recursion...
+		if (currentNode == null) {
+			// alert("currentNode is null");
+			return;
+		} else if (currentNode == undefined) {
+			// alert("currentNode is undefined");
+			return;
+		}
+
+		if (path.length == 2) {
+			if (path[0] == "" && path[1] == "") {
+				// working under root of tree, add right there
+				operationToPerform(path, dataTree, currentNode.children[2]);
+				return false;
+			}
+		}
+
 		performOperationAtGivenTreePath(path, currentNode, currentIndex,
 				operationToPerform);
 		return;
@@ -2073,35 +2350,50 @@ function performOperationAtGivenTreePath(path, currentNode, currentIndex,
 						currentNode);
 				currentNode = getPathInNode(children, value);
 				if (currentNode == null) {
-					setMessage("Path not found in tree, please reload");
+					//setMessage("Path not found in tree, please reload");
 					return false;
-				} /*else {
-					if (index == path.length - 1) {
-						end = true;
-					}
-				}*/
+				} /*
+					 * else { if (index == path.length - 1) { end = true; } }
+					 */
 				// }
 			});
 
-	
-	// need to set end to true if current node is a preset dir /x/y/z and matches path
-	
-	if (currentNode != null) { //&& end) {
+	// need to set end to true if current node is a preset dir /x/y/z and
+	// matches path
+
+	if (currentNode != null) { // && end) {
 		operationToPerform(path, dataTree, currentNode);
 	}
 
 }
 
+/**
+ * Process hashChange events through the bbq plug in for back button support for the browser
+ * @param state
+ * @returns {Boolean}
+ */
 function processStateChange(state) {
 	var statePath = state["absPath"];
 	var view = state["browseOptionVal"];
+	var treeView = state["treeView"];
+	var treeViewPath = state["treeViewPath"];
+
+	var tempTreeViewFromGlobal = dataTreeView;
+	var tempTreePathFromGlobal = dataTreePath;
 	
-	if (view == null || statePath == null ) {
-		return false;
+	if (treeView != null) {
+		if (treeView == tempTreeViewFromGlobal && tempTreePathFromGlobal == treeViewPath) {
+			// no alteration of tree view
+		} else {
+			retrieveBrowserFirstView(treeView, treeViewPath);
+			return false;
+		}
 	}
-	
-	
-	if (view != browseOptionVal && statePath == selectedPath) {
+
+	if (statePath && view == null && browseOptionVal == "info") {
+		browseOptionVal = "info";
+		selectTreePathFromIrodsPath(statePath);
+	} else if (view != browseOptionVal && statePath == selectedPath) {
 		// view change only
 		browseOptionVal = view;
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
@@ -2111,7 +2403,7 @@ function processStateChange(state) {
 			selectTreePathFromIrodsPath(statePath);
 		}
 	}
-	
+
 }
 
 /**
@@ -2121,27 +2413,26 @@ function setDefaultStorageResource(resource) {
 	if (resource == null) {
 		return false;
 	}
-	
+
 	var params = {
-			resource : resource
+		resource : resource
 	}
 
 	showBlockingPanel();
 
-	var jqxhr = $.post(context + "/browse/setDefautlResourceForAccount", params, "html")
-			.success(function(returnedData, status, xhr) {
-				var continueReq = checkForSessionTimeout(returnedData, xhr);
-				if (!continueReq) {
-					return false;
-				}
-				setMessage(jQuery.i18n.prop('msg_resource_changed'));
-				unblockPanel();
-			}).error(function(xhr, status, error) {
-				setErrorMessage(xhr.responseText);
-				unblockPanel();
-			});
+	var jqxhr = $.post(context + "/browse/setDefautlResourceForAccount",
+			params, "html").success(function(returnedData, status, xhr) {
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		setMessage(jQuery.i18n.prop('msg_resource_changed'));
+		unblockPanel();
+	}).error(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
 
-	
 }
 
 /**
@@ -2149,7 +2440,21 @@ function setDefaultStorageResource(resource) {
  */
 function setTreeToUserHome() {
 	retrieveBrowserFirstView("home", "");
-	
+
+}
+
+/**
+ * set the root of the tree to the given path and reload
+ */
+
+function setTreeToGivenPath(path) {
+
+	if (path == null || path == "") {
+		path = "/";
+	}
+
+	retrieveBrowserFirstView("path", path);
+
 }
 
 /**
@@ -2157,89 +2462,86 @@ function setTreeToUserHome() {
  */
 function setTreeToRoot() {
 	retrieveBrowserFirstView("root", "");
-	
+
 }
 
 /* click twistie to open details table info */
 function browseDetailsClick(minMaxIcon) {
 
-		var parentOfIcon = minMaxIcon.parentNode;
+	var parentOfIcon = minMaxIcon.parentNode;
 
-		/*
-		 if (parentOfIcon == null) {
-				alert("parentOfIcon is null!");
-         } else {
-				alert("parentOfIcon is:" + parentOfIcon);
-         }*/
-    
-        var nTr = parentOfIcon.parentNode;
+	/*
+	 * if (parentOfIcon == null) { alert("parentOfIcon is null!"); } else {
+	 * alert("parentOfIcon is:" + parentOfIcon); }
+	 */
 
-         /*
-        if (nTr == null) {
-			alert("nTr is null!");
-        } else {
-			alert("nTr is:" + nTr);
-        }
-        */
+	var nTr = parentOfIcon.parentNode;
 
-        if (minMaxIcon.parentNode.innerHTML.match('circle-minus')) {
-                lcCloseTableNodes(dataTable);
-        } else {
-                try {
-                        browseDataDetailsFunction(minMaxIcon, nTr);
-                } catch (err) {
-                        console.log("error in detailsClick():" + err);
-                }
+	/*
+	 * if (nTr == null) { alert("nTr is null!"); } else { alert("nTr is:" +
+	 * nTr); }
+	 */
 
-        }
+	if (minMaxIcon.parentNode.innerHTML.match('circle-minus')) {
+		lcCloseTableNodes(dataTable);
+	} else {
+		try {
+			browseDataDetailsFunction(minMaxIcon, nTr);
+		} catch (err) {
+			console.log("error in detailsClick():" + err);
+		}
+
+	}
 }
 
-/** called by browseDetailsClick() when it is decided that the details table row should be opened, go 
-to server and get the details.
-*/
+/**
+ * called by browseDetailsClick() when it is decided that the details table row
+ * should be opened, go to server and get the details.
+ */
 function browseDataDetailsFunction(clickedIcon, rowActionIsOn) {
-        /* Open this row */
-        lcCloseTableNodes(dataTable);
-        // nTr points to row and has absPath in id
-        var absPath = $(rowActionIsOn).attr('id');
-        //alert("absPath:" + absPath);
-        var detailsId = "details_" + absPath;
-        var detailsHtmlDiv = "details_html_" + absPath;
-        var buildDetailsLayoutVal = buildDetailsLayout(detailsId);
-        clickedIcon.setAttribute("class", "ui-icon ui-icon-circle-minus");
-        newRowNode = dataTable.fnOpen(rowActionIsOn,
-                        buildDetailsLayoutVal, 'details');
-        newRowNode.setAttribute("id", detailsId);
-        askForBrowseDetailsPulldown(absPath, detailsId)
+	/* Open this row */
+	lcCloseTableNodes(dataTable);
+	// nTr points to row and has absPath in id
+	var absPath = $(rowActionIsOn).attr('id');
+	// alert("absPath:" + absPath);
+	var detailsId = "details_" + absPath;
+	var detailsHtmlDiv = "details_html_" + absPath;
+	var buildDetailsLayoutVal = buildDetailsLayout(detailsId);
+	clickedIcon.setAttribute("class", "ui-icon ui-icon-circle-minus");
+	newRowNode = dataTable.fnOpen(rowActionIsOn, buildDetailsLayoutVal,
+			'details');
+	newRowNode.setAttribute("id", detailsId);
+	askForBrowseDetailsPulldown(absPath, detailsId)
 
 }
 
-/** The table row is being opened, and the query has returned from the server with the data, fill in the table row
-*/
+/**
+ * The table row is being opened, and the query has returned from the server
+ * with the data, fill in the table row
+ */
 function buildDetailsLayout(detailsId) {
-        var td = document.createElement("TD");
-        td.setAttribute("colspan", "4");
+	var td = document.createElement("TD");
+	td.setAttribute("colspan", "4");
 
-        var detailsPulldownDiv = document.createElement("DIV");
-        detailsPulldownDiv.setAttribute("id", detailsId);
-        detailsPulldownDiv.setAttribute("class", "detailsPulldown");
-        var img = document.createElement('IMG');
-        img.setAttribute("src", context + "/images/ajax-loader.gif");
-        detailsPulldownDiv.appendChild(img);
-        td.appendChild(detailsPulldownDiv);
-        return $(td).html();
+	var detailsPulldownDiv = document.createElement("DIV");
+	detailsPulldownDiv.setAttribute("id", detailsId);
+	detailsPulldownDiv.setAttribute("class", "detailsPulldown");
+	var img = document.createElement('IMG');
+	img.setAttribute("src", context + "/images/ajax-loader.gif");
+	detailsPulldownDiv.appendChild(img);
+	td.appendChild(detailsPulldownDiv);
+	return $(td).html();
 }
 
 function askForBrowseDetailsPulldown(absPath, detailsId) {
 
-        var url = "/browse/miniInfo";
-        absPath = absPath;
-        var params = {
-                        absPath:absPath
-                }
-	
-        lcSendValueWithParamsAndPlugHtmlInDiv(url, params, ".details",
-                        null);
+	var url = "/browse/miniInfo";
+	absPath = absPath;
+	var params = {
+		absPath : absPath
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, ".details", null);
 
 }
 
@@ -2248,14 +2550,277 @@ function clickOnPathInBrowseDetails(data) {
 		throw new Exception("no absolute path provided");
 	}
 	// show main browse tab
-	 
-	  splitPathAndPerformOperationAtGivenTreePath(data, null,
-				null, function(path, dataTree, currentNode){
 
-		  $.jstree._reference(dataTree).open_node(currentNode);
-		  $.jstree._reference(dataTree).select_node(currentNode, true);
+	splitPathAndPerformOperationAtGivenTreePath(data, null, null, function(
+			path, dataTree, currentNode) {
 
-			});
+		$.jstree._reference(dataTree).open_node(currentNode);
+		$.jstree._reference(dataTree).select_node(currentNode, true);
+
+	});
+}
+
+/**
+ * Close the public link dialog
+ */
+function closePublicLinkDialog() {
+
+	$("#browseDialogArea").hide("slow");
+	$("#browseDialogArea").html();
+}
+
+/**
+ * Grant public (anonymous access) via the public link dialog. Submit dialog and
+ * present the response
+ */
+function grantPublicLink() {
+	var path = $("#publicLinkDialogAbsPath").val();
+	showBlockingPanel();
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg.path.missing'));
+		unblockPanel();
+	}
+
+	var params = {
+		absPath : path
+	}
+
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(
+			"/browse/updatePublicLinkDialog", params, null,
+			"#browseDialogArea", null, null);
+	unblockPanel();
+
+}
+
+/**
+ * Set a no data message in the div
+ */
+function setInfoDivNoData() {
+	$("#infoDiv").html("<h2>No data to display</h2>"); // FIXME: i18n
+
+}
+
+/**
+ * Process a star operation requested from the toolbar by processing the
+ * submitted dialog
+ */
+function submitStarDialog() {
+	var absPath = $("#absPath").val();
+	var description = $.trim($("#description").val());
+
+	var params = {
+		absPath : absPath,
+		description : description
+	}
+
+	showBlockingPanel();
+
+	var jqxhr = $.post(context + fileStarUrl, params,
+			function(data, status, xhr) {
+			}, "html").success(function(returnedData, status, xhr) {
+		var continueReq = checkForSessionTimeout(returnedData, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		setMessage(jQuery.i18n.prop('msg_file_starred'));
+		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
+		closeStarDialog();
+		unblockPanel();
+	}).error(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		closeStarDialog();
+		unblockPanel();
+	});
+
+}
+
+/*
+* Cause a dialog to appear that can create a share for this folder
+*/
+function addShareAtPath() {
+	$("#sharingPanelContainingDiv").html();
+	var path = selectedPath;
+	if (selectedPath == null) {
+		return false;
+	}
+
+	var url = "/sharing/prepareAddShareDialog";
+	var params = {
+		absPath : path
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+		fillInShareDialog(data);
+	});
+}
+
+
+/*
+* Edit the share at the given path
+*/
+function editShareAtPath() {
+	$("#sharingPanelContainingDiv").html();
+	var path = $("#infoAbsPath").val();
+	if (selectedPath == null) {
+		return false;
+	}
+
+	var url = "/sharing/prepareEditShareDialog";
+	var params = {
+		absPath : path
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+		fillInShareDialog(data);
+	});
+}
+
+/**
+ * remove a named share
+ */
+function removeShareAtPath() {
+	var path = $("#aclDetailsAbsPath").val();
+	
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg_path_missing'));
+		unblockPanel();		
+		return false;
+	}
+	
+	var params = {
+			absPath : path
+		}
+		
+	var answer = confirm(jQuery.i18n.prop('msg_delete_share')); 
+	
+	if (!answer) {
+		return false;
+	}
+	
+	showBlockingPanel();
+	
+	var jqxhr = $.post(context + "/sharing/removeShare", params,
+			function(data, status, xhr) {
+		
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		
+		$("#sharingPanelContainingDiv").empty().append( data );
+		unblockPanel();
+
+	}).fail(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
+
+}
+
+/*
+* put content into the share dialog
+*/
+function fillInShareDialog(data) {
+
+	$("#sharingPanelContainingDiv").html(data);
+	
+}
+
+/**
+ * Submit the dialog to add or update a share
+ */
+function updateNamedShare() {
+	var path = $("#aclDetailsAbsPath").val();
+	var shareName = $("#shareName").val();
+	var formAction = $("#formAction").val();
+	showBlockingPanel();
+	
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg_path_missing'));
+		unblockPanel();		
+		return false;
+	}
+	
+	if (formAction == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_action_missing'));
+		unblockPanel();
+		return false;
+	}
+	
+	
+	var params = {
+			absPath : path,
+			shareName: shareName,
+			formAction : formAction
+		}
+		
+	var jqxhr = $.post(context + "/sharing/processUpdateShareDialog", params,
+			function(data, status, xhr) {
+		
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		
+		$("#sharingPanelContainingDiv").empty().append( data );
+		unblockPanel();
+
+	}).fail(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
+
+}
+
+/**
+ * Close the add/update share dialog by reloading the share info
+ */
+function closeNamedShareDialog() {
+	
+		var path = selectedPath;
+		if (selectedPath == null) {
+			return false;
+		}
+
+		var url = "/sharing/getSharingDialogInfo";
+		var params = {
+			absPath : path
+		}
+
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#sharingPanelContainingDiv", null);
+		
+}
+
+/**
+ * Close the add/update share dialog
+ */
+function closeShareDialog() {
+	
+		$("#aclDialogArea").hide("slow");
+		$("#aclDialogArea").html();
+		$("#aclDetailsArea").show("slow");
+}
+
+/*
+* Cause a dialog to appear that has a link for a public path for the current path
+*/
+function makePublicLinkAtPath() {
+	$("#aclDialogArea").html();
+	var path = selectedPath;
+	if (selectedPath == null) {
+		return false;
+	}
+
+	// show the public link dialog
+	var url = "/browse/preparePublicLinkDialog";
+	var params = {
+		absPath : path
+	}
+
+	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
+		fillInACLDialog(data);
+	});
+	
 }
 
 /**
@@ -2263,8 +2828,11 @@ function clickOnPathInBrowseDetails(data) {
  */
 function closePublicLinkDialog() {
 	
-		$("#browseDialogArea").hide("slow");
-		$("#browseDialogArea").html();
+		$("#aclDialogArea").hide("slow");
+		$("#aclDialogArea").html();
+		var path = $("#publicLinkDialogAbsPath").val();
+		reloadAclTable(path);
+		$("#aclDetailsArea").show("slow");
 }
 
 /**
@@ -2282,22 +2850,21 @@ function grantPublicLink() {
 			absPath : path
 		}
 	
-	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/browse/updatePublicLinkDialog", params, null, "#browseDialogArea", null, null);
+	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/browse/updatePublicLinkDialog", params, null, "#aclDialogArea", null, null);
 	unblockPanel();
 
 }
         
 
-function showOverwriteOptionDialog(message) {
-	/*
-	 * var dialogDiv = $("#efaultDialogDiv"); dialogDiv.html("");
-	 * 
-	 * 
-	 * var messageDiv = document.createElement('div'); var message =
-	 * document.createElement('h2'); messageDiv.appendChild(message);
-	 * 
-	 * 
-	 * var a = document.createElement('applet'); appletTagDiv.appendChild(a);
-	 */
+/*
+*Given the contents of the 'create public link' dialog, 
+*/
+function fillInACLDialog(data) {
+	$("#aclDetailsArea").hide("slow");
+	$("#aclDialogArea").html(data);
+	$("#aclDialogArea").show("slow");
+}
+
+function zzz() {
 
 }

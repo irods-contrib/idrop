@@ -21,12 +21,36 @@ var messageClass = "message";
 function checkForSessionTimeout(data, xhr) {
 	var headers = xhr.getAllResponseHeaders();
 	if (headers.indexOf(timeoutHeaderValue) > -1) {
+		alert("session timeout!");
 		window.location = context;
 		return false;
 	} else {
 		return true;
 	}
 
+}
+
+/**
+ * Display the given text as an html alert div inside the given selector
+ * @param message
+ * @param targetDiv
+ * @returns {Boolean}
+ */
+function displayMessageAsBootstrapAlert(message, targetDiv) {
+	
+	if (message == null || message == "") {
+		message = "Unknown message, please specify";
+	}
+	
+	if (targetDiv == null || targetDiv == "") {
+		return false;
+	}
+	
+	var divTag = document.createElement("div");
+	$(divTag).addClass('alert');
+	$(divTag).html(message);
+	$(targetDiv).html(divTag);
+	
 }
 
 /**
@@ -83,31 +107,17 @@ function checkAjaxResultForErrorAndDisplayInGivenArea(resultHtml, messageAreaId)
 }
 
 /**
- * Set the specified (by jquery selector) message area message to a given
- * string.
- * 
- * message: the text message to display
- */
-/*function setMessageInArea(messageAreaId, message) {
-	try {
-	$(messageAreaId).html(message);
-	$(messageAreaId).addClass(messageClass);
-	} catch(e) {
-		
-	}
-}*/
-
-
-/**
  * Set the default message area message to a given string. This will be a normal, non-sticky 
  * gritter message
  * 
  * message: the text message to display
  */
 function setMessage(message) {
+	
 	if (message == null || message == "") {
 		message = "An unknown error has occurred";
 	}
+	
 	$.gritter.add({
 		// (string | mandatory) the heading of the notification
 		title: 'iDrop Message',
@@ -144,13 +154,6 @@ function setErrorMessage(message) {
 	});
 
 }
-
-/**
- * Clear global javascript message area
- */
-/*function lcClearMessage() {
-	setMessage();
-}*/
 
 /**
  * Given the result of an AJAX call, inspect the returned data for various types
@@ -219,7 +222,7 @@ function checkAjaxResultForError(resultHtml) {
  *  		jquery selector for detail icon, or null
  */
 function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
-		detailsFunction, detailsIconSelector) {
+		detailsFunction, detailsIconSelector, tableParams) {
 
 	if (getUrl.length == 0) {
 		throw ("no get url for call");
@@ -235,7 +238,7 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
 		$.get(context + getUrl, params, function(data, status, xhr) {
 			var continueReq = checkForSessionTimeout(data, xhr);
 			if (continueReq) {
-				lcBuildTable(data, tableDiv, newTableId, detailsFunction, detailsIconSelector);
+				lcBuildTable(data, tableDiv, newTableId, detailsFunction, detailsIconSelector, tableParams);
 			}
 		}, "html");
 
@@ -264,11 +267,14 @@ function lcSendValueAndBuildTable(getUrl, params, tableDiv, newTableId,
  * @return - DataTable that was created
  */
 function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
-		dataIconSelector) {
+		dataIconSelector, tableParams) {
 	$(tableDiv).html(data);
-	var dataTableCreated = $(newTableId).dataTable({
-		"bJQueryUI" : true
-	});
+	
+	if (tableParams == null) {
+		tableParams = {"bJQueryUI" : false}
+	}
+	
+	var dataTableCreated = $(newTableId).dataTable(tableParams);
 	
 	dataTableCreated.fnAdjustColumnSizing();
 	
@@ -296,18 +302,11 @@ function lcBuildTable(data, tableDiv, newTableId, detailsFunction,
  */
 function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector, tableParams) {
 	
-	//alert("new table id:" + newTableId);
-	//alert("table params:" + tableParams);
-	
 	if (tableParams == null) {
 		tableParams = {"bJQueryUI" : true}
 	}
-	
-	//$(newTableId).html("hey there");
-	//alert("set hey there");
+
 	var dataTableCreated = $(newTableId).dataTable(tableParams);
-	
-	//alert("table built");
 
 	if (detailsFunction != null) {
 		$(dataIconSelector, dataTableCreated.fnGetNodes()).each(function() {
@@ -317,10 +316,7 @@ function lcBuildTableInPlace(newTableId, detailsFunction, dataIconSelector, tabl
 		});
 
 	}
-	/*
-	if (dataTableCreated != null) {
-		dataTableCreated.fnAdjustColumnSizing();
-	}*/
+	
 	return dataTableCreated;
 
 }
@@ -368,8 +364,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 		throw ("no get url for call");
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", +context + "/images/ajax-loader.gif");
+	showBlockingPanel();
 
 	$(resultDiv).html(img);
 
@@ -380,6 +375,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 			if (continueReq) {
 				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
 			}
+			unblockPanel();
 
 		}, "html").error(function(xhr, status, error) {
 			resultDiv.html("");
@@ -393,6 +389,7 @@ function lcSendValueAndPlugHtmlInDiv(getUrl, resultDiv, context,
 		} catch(err) {
 			// ignore
 		}
+		unblockPanel();
 		setErrorMessage(err);
 	}
 
@@ -408,21 +405,22 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 		throw ("no get url for call");
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(resultDiv).html(img);
+	showBlockingPanel();
 
 	try {
 
 		$.get(context + getUrl, params, function(data, status, xhr) {
 			var continueReq = checkForSessionTimeout(data, xhr);
-			if (continueReq) {
-				lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
+			if (!continueReq) {
+				return false;
 			}
+			
+			lcFillInDivWithHtml(data, resultDiv, postLoadFunction);
+			unblockPanel();
 		}, "html").error(function(xhr, status, error) {
 			$(resultDiv).html("");
 			setErrorMessage(xhr.responseText);
+			unblockPanel();
 		});
 
 	} catch (err) {
@@ -433,6 +431,7 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 		} catch(err) {
 			// ignore
 		}
+		unblockPanel();
 		setErrorMessage(err);
 		// console.log("javascript error:" + err);
 	}
@@ -451,10 +450,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 		return;
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(divForLoadingGif).html(img);
+	showBlockingPanel();
 
 	try {
 
@@ -469,11 +465,13 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 					$(divForLoadingGif).html(data);
 				
 				}
+				unblockPanel();
 			}
 		}, "html").error(function(xhr, status, error) {
 			
 			$(divForLoadingGif).html("");
 			setErrorMessage(xhr.responseText);
+			unblockPanel();
 		});
 
 	} catch (err) {
@@ -482,6 +480,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheck(getUrl, divForAjaxError,
 		} catch(err) {
 			// ignore
 		}
+		unblockPanel();
 		setErrorMessage(err);
 		// console.log("javascript error:" + err);
 	}
@@ -500,11 +499,8 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 		return;
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(divForLoadingGif).html(img);
-
+	showBlockingPanel();
+	
 	try {
 
 		$.get(context + getUrl, function(data, status, xhr) {
@@ -519,6 +515,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 				
 				}
 			}
+			unblockPanel();
 		}, "html").error(function(xhr, status, error) {
 			
 			try {
@@ -526,11 +523,13 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(getUrl, divFor
 			} catch(err) {
 				// ignore
 			}
+			unblockPanel();
 			setErrorMessage(xhr.responseText);
 		});
 
 	} catch (err) {
 		$(divForLoadingGif).html(""); 
+		unblockPanel();
 		
 		if (err.indexOf("Runtime") > -1) {
 			err = "Unable to view data, this may be a permissions issue";
@@ -554,11 +553,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(getUrl,
 		return;
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(divForLoadingGif).html(img);
-
+		showBlockingPanel();
 		$.get(context + getUrl, function(data, status, xhr) {
 			var continueReq = checkForSessionTimeout(data, xhr);
 			if (continueReq) {
@@ -569,6 +564,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(getUrl,
 					$(divForLoadingGif).html(data);
 				}
 			}
+			unblockPanel();
 		}, "html").error(function(xhr, status, error) {
 			$(divForLoadingGif).html("");
 			if (errorHandlingFunction == null) {
@@ -576,6 +572,7 @@ function lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(getUrl,
 			} else {
 				errorHandlingFunction();
 			}
+			unblockPanel();
 			
 		});
 
@@ -607,11 +604,7 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 		throw ("no post url for call");
 	}
 
-	var img = document.createElement('IMG');
-	img.setAttribute("src", context + "/images/ajax-loader.gif");
-
-	$(divForLoadingGif).html(img);
-
+	showBlockingPanel();
 	try {
 
 		$.post(context + postUrl, params, function(data, status, xhr) {
@@ -625,11 +618,13 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 					$(divForLoadingGif).html(data);
 				}
 			}
+			unblockPanel();
 		}, "html").error(function(xhr, status, error) {
 			if (divForLoadingGif != null) {
 				$(divForLoadingGif).html("");
 			}
 			setErrorMessage(xhr.responseText);
+			unblockPanel();
 
 		});
 
@@ -640,6 +635,7 @@ function lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(postUrl, params,
 			// ignore
 		}
 		setErrorMessage(err);
+		unblockPanel();
 	}
 
 }
@@ -663,11 +659,9 @@ function lcSendValueAndCallbackWithJsonAfterErrorCheck(getUrl, parms,
 				callbackFunction(data);
 			}
 		}, "json").error(function(xhr, status, error) {
-			// continue?
-			var continueReq = checkForSessionTimeout(null, xhr);
-			if (continueReq) {
+			
 				setErrorMessage(xhr.responseText);
-			}
+			
 		});
 	} catch (err) {
 		setErrorMessage(err);

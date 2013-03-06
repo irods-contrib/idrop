@@ -1,23 +1,35 @@
-<h2><g:message code="heading.sharing" /></h2>
+<h4><g:message code="text.permissions" /></h4>
+
 <div id="aclDialogArea"><!--  area for generating dialogs --></div>
 
 <div id="aclDetailsArea">
+	 <div class="alert alert-info">
+	 	<g:message code="heading.permissions" />
+	</div>
+	<div id="sharingPanelContainingDiv">
+		<g:render template="/sharing/sharingPanel" />
+	</div>
 	<div id="detailsTopSection" >
-		<div id="detailsToolbar" class="fg-toolbar ui-widget-header">
-			<div id="detailsMenu" class="fg-buttonset fg-buttonset-multi"
-				style="float: left, clear: both;">
-				<button type="button" id="addAclButton"
-					class="ui-state-default ui-corner-all" value="addAcl"
-					onclick="prepareAclDialog()")><g:message code="default.button.create.label" /></button>
-				<button type="button" id="deleteAclButton"
-					class="ui-state-default ui-corner-all" value="deleteAcl"
-					onclick="deleteAcl()")><g:message code="default.button.delete.label" /></button>
-				<button type="button" id="reloadAclButton"
-					class="ui-state-default ui-corner-all" value="reloadAcl"
-					onclick="reloadAclTable(selectedPath)")><g:message code="default.button.reload.label" /></button>
+		<div id="detailsToolbar" class="well btn-toolbar">
+			<div id="detailsMenu">
+				<div class="btn-group">
+					<button type="button" id="addAclButton"
+						value="addAcl"
+						onclick="prepareAclDialog()")><g:message code="default.button.create.label" /></button>
+					<button type="button" id="deleteAclButton"
+						 value="deleteAcl"
+						onclick="deleteAcl()")><g:message code="default.button.delete.label" /></button>
+					<button type="button" id="reloadAclButton"
+						value="reloadAcl"
+						onclick="reloadAclTable(selectedPath)")><g:message code="default.button.reload.label" /></button>
+				</div>
+				<div class="btn-group">
+					<button onclick="makePublicLinkAtPath()"><g:message code="text.create.public.link" /></button>
+				</div>
 			</div>
 		</div>
 	</div>
+	
 	<g:hiddenField name='aclDetailsAbsPath' id='aclDetailsAbsPath' value='${absPath}'/>
 	<div id="aclTableDiv"><!-- acl user list --></div>
 </div>
@@ -33,5 +45,7 @@
 		}
 		reloadAclTable(path);
 	});
+
+	
 
 	</script>

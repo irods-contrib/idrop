@@ -1,6 +1,6 @@
 /**
 
- * Javascript for search page, processing the search table
+= * Javascript for search page, processing the search table
  * 
  * author: Mike Conway - DICE
  */
@@ -76,7 +76,7 @@ function buildSearchLayout(detailsId) {
 
 function askForSearchDetailsPulldown(absPath, detailsId) {
 	
-	var url = "/browse/fileInfo";
+	var url = "/browse/miniInfo";
 	var params = {
 			absPath:absPath
 		}

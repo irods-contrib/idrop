@@ -4,6 +4,8 @@ package org.irods.mydrop.controller
 import grails.converters.JSON
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.CatNoAccessException
+import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.protovalues.FilePermissionEnum
 import org.irods.jargon.core.pub.CollectionAO
@@ -14,11 +16,15 @@ import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.core.utils.MiscIRODSUtils
+import org.irods.jargon.usertagging.domain.IRODSSharedFileOrCollection
+import org.irods.mydrop.service.SharingService
 
 class SharingController {
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
+	SharingService sharingService
+	def grailsApplication
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -38,6 +44,34 @@ class SharingController {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
 	}
+	
+	def getSharingDialogInfo = {
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request for showAclDetails()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info("showAclDetails for absPath: ${absPath}")
+		
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		log.info("sharing supported:${sharing}")
+		
+		IRODSSharedFileOrCollection irodsSharedFileOrCollection
+		if (sharing) {
+			try {
+				irodsSharedFileOrCollection = sharingService.findShareForPath(absPath, irodsAccount)
+			} catch (JargonException je) {
+				log.warn("sharing does not seem to be supported, probably due to specific query not supported, treat as if sharing is off", je)
+			}
+		}
+		
+		render(view:"sharingPanelWrapper",model:[absPath:absPath, irodsSharedFileOrCollection:irodsSharedFileOrCollection])
+		
+
+	}
 
 	/**
 	 * Load the acl details area, this will show the main form, and subsequently, the table will be loaded via AJAX
@@ -52,6 +86,19 @@ class SharingController {
 		}
 
 		log.info("showAclDetails for absPath: ${absPath}")
+		
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		log.info("sharing supported:${sharing}")
+		
+		IRODSSharedFileOrCollection irodsSharedFileOrCollection
+		if (sharing) {
+			try {
+				irodsSharedFileOrCollection = sharingService.findShareForPath(absPath, irodsAccount)
+			} catch (JargonException je) {
+				log.warn("sharing does not seem to be supported, probably due to specific query not supported, treat as if sharing is off", je)
+			}
+		}
 
 		try {
 			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
@@ -67,12 +114,15 @@ class SharingController {
 					getThumbnail = true
 				}
 			}
-
-			render(view:"aclDetails",model:[retObj:retObj, isDataObject:isDataObject, absPath:absPath, getThumbnail:getThumbnail])
+			render(view:"aclDetails",model:[retObj:retObj, isDataObject:isDataObject, absPath:absPath, getThumbnail:getThumbnail, irodsSharedFileOrCollection:irodsSharedFileOrCollection])
 		} catch (org.irods.jargon.core.exception.FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)
 			render(view:"/browse/noInfo")
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		}
+
 	}
 
 	def renderAclDetailsTable = {
@@ -105,6 +155,10 @@ class SharingController {
 				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 				acls = collectionAO.listPermissionsForCollection(retObj.collectionName)
 			}
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+
 		} catch (Exception je){
 			log.error("exception getting acl data ${je}", je)
 			response.sendError(500,je.getMessage())
@@ -137,6 +191,145 @@ class SharingController {
 		render(view:"aclDialog", model:[absPath:absPath, userName:userName, userPermissionEnum:FilePermissionEnum.listAllValues(), isCreate:isCreate])
 
 	}
+	
+	/**
+	 * Create a dialog element for adding a share
+	 */
+	def prepareAddShareDialog = {
+		log.info("prepareAddShareDialog")
+		log.info(params)
+		def absPath = params['absPath']
+		def formAction = "add"
+		
+		if (!absPath) {
+			log.error "no absPath in request for prepareAclDialog()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+			return
+		}
+		
+		log.info("absPath:${absPath}")
+		
+		def shareName = ""
+		render(view:"addShareDialog", model:[absPath:absPath, shareName:shareName, formAction:formAction])
+
+	}
+	
+	/**
+	 * SHow a dialog that can edit the share
+	 */
+	def prepareEditShareDialog = {
+		log.info("prepareExistingShareDialog")
+		log.info(params)
+		def absPath = params['absPath']
+		def formAction = "update"
+		
+		if (!absPath) {
+			log.error "no absPath in request for prepareExistingShareDialog()"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+			return
+		}
+		
+		log.info("absPath:${absPath}")
+		
+		boolean sharing = sharingService.isSharingSupported(irodsAccount)
+		log.info("sharing supported:${sharing}")
+		
+		IRODSSharedFileOrCollection irodsSharedFileOrCollection
+		if (sharing) {
+			try {
+				irodsSharedFileOrCollection = sharingService.findShareForPath(absPath, irodsAccount)
+			} catch (JargonException je) {
+				log.warn("sharing does not seem to be supported, probably due to specific query not supported, treat as if sharing is off", je)
+			}
+		}
+
+		render(view:"addShareDialog", model:[absPath:absPath, shareName:irodsSharedFileOrCollection.shareName, formAction:formAction])
+	}
+	
+	def processUpdateShareDialog = {
+	
+			log.info("processUpdateShareDialog")
+			log.info(params)
+			def absPath = params['absPath']
+			def shareName = params['shareName']
+			String formAction = params['formAction']
+			
+			if (!absPath) {
+				log.error "no absPath in request for prepareAclDialog()"
+				def message = message(code:"error.no.path.provided")
+				response.sendError(500,message)
+				return
+			}
+			
+			if (!formAction) {
+				log.error "no action in request for prepareAclDialog()"
+				def message = message(code:"error.no.action")
+				response.sendError(500,message)
+				return
+			}
+			
+			if (!shareName) {
+				flash.message = message(code:"error.no.share.name")
+				render(view:"addShareDialog", model:[absPath:absPath, formAction:formAction, shareName:shareName])
+				return
+			}
+			
+			log.info("checking action to see if add or update, current action is ${formAction}")
+			IRODSSharedFileOrCollection irodsSharedFileOrCollection
+			if (formAction == "add") {
+				log.info("adding share:${shareName}")
+				try {
+					 irodsSharedFileOrCollection = sharingService.createShare(absPath, shareName, irodsAccount)
+					log.info("rendering new share:${irodsSharedFileOrCollection}")
+				} catch(DataNotFoundException e) {
+					def message = message(code:"error.duplicate.share")
+					response.sendError(500,message)
+					return
+				} catch (CatNoAccessException e) {
+					log.error("no access error", e)
+					response.sendError(500, message(code:"message.no.access"))
+					return
+				}
+	
+				
+			} else {
+				 irodsSharedFileOrCollection = sharingService.updateShare(absPath, shareName, irodsAccount)
+				log.info("updated share to:${irodsSharedFileOrCollection}")
+			}
+			
+			flash.message = message(code:"message.share.update.successful")
+			render(view:"sharingPanelWrapper", model:[absPath:absPath, irodsSharedFileOrCollection:irodsSharedFileOrCollection, formAction:formAction])
+
+	}
+	
+	/**
+	 * Remove a share at a given absolute path
+	 */
+	def removeShare = {
+		
+				log.info("removeShare")
+				log.info(params)
+				def absPath = params['absPath']
+				
+				if (!absPath) {
+					log.error "no absPath in request for removeShare()"
+					def message = message(code:"error.no.path.provided")
+					response.sendError(500,message)
+					return
+				}
+				
+				flash.message = message(code:"message.share.delete.successful")
+				try {
+					sharingService.deleteShare(absPath, irodsAccount)
+				} catch (CatNoAccessException e) {
+					log.error("no access error", e)
+					response.sendError(500, message(code:"message.no.access"))
+				}
+				redirect(action: "getSharingDialogInfo",  params: [absPath: absPath])
+		}
+	
 
 	def processAddAclDialog = {
 		log.info("processAddAclDialog")
@@ -202,6 +395,9 @@ class SharingController {
 					log.info "add user to data object"
 					try {
 						updateACLValueForDataObject(theZone,absPath, acl, theUserName, dataObjectAO)
+					} catch (CatNoAccessException e) {
+						log.error("no access error", e)
+						response.sendError(500, message(code:"message.no.access"))
 					} catch (Exception e) {
 						log.error("Exception during acl processing", e)
 						response.sendError(500,e.message)
@@ -212,6 +408,9 @@ class SharingController {
 					log.info("add user to collection")
 					try {
 						updateACLValueForCollection(theZone,absPath, acl, theUserName, collectionAO)
+					} catch (CatNoAccessException e) {
+						log.error("no access error", e)
+						response.sendError(500, message(code:"message.no.access"))
 					} catch (Exception e) {
 						log.error("Exception during acl processing", e)
 						response.sendError(500,e.message)
@@ -229,6 +428,9 @@ class SharingController {
 				log.info "add user to data object"
 				try {
 					updateACLValueForDataObject(theZone,absPath, acl, theUserName, dataObjectAO)
+				} catch (CatNoAccessException e) {
+					log.error("no access error", e)
+					response.sendError(500, message(code:"message.no.access"))
 				} catch (Exception e) {
 					log.error("Exception during acl processing", e)
 					response.sendError(500,e.message)
@@ -239,6 +441,9 @@ class SharingController {
 				log.info("add user to collection")
 				try {
 					updateACLValueForCollection(theZone,absPath, acl, theUserName, collectionAO)
+				} catch (CatNoAccessException e) {
+					log.error("no access error", e)
+					response.sendError(500, message(code:"message.no.access"))
 				} catch (Exception e) {
 					log.error("Exception during acl processing", e)
 					response.sendError(500,e.message)
@@ -335,6 +540,7 @@ class SharingController {
 		def theZone = MiscIRODSUtils.getZoneInUserName(cmd.userName)
 
 
+		try {
 		if (isDataObject) {
 			DataObjectAO dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
 
@@ -368,6 +574,10 @@ class SharingController {
 				response.sendError(500,errorMessage)
 				return
 			}
+		}
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		}
 
 		log.info("acl set successfully")
@@ -405,7 +615,8 @@ class SharingController {
 		render jsonBuff as JSON
 
 	}
-
+	
+	
 	def deleteAcl = {
 		log.info("deleteAcl")
 		log.info(params)
@@ -443,27 +654,32 @@ class SharingController {
 
 		log.info("aclsToDelete: ${aclsToDelete}")
 
-		if (aclsToDelete instanceof Object[]) {
-			log.debug "is array"
-			aclsToDelete.each{
-				log.info "selectedAcl: ${it}"
+		try {
+			if (aclsToDelete instanceof Object[]) {
+				log.debug "is array"
+				aclsToDelete.each{
+					log.info "selectedAcl: ${it}"
+					if (isDataObject) {
+						log.info "delete as data object"
+						deleteAclForDataObject(absPath, it, dataObjectAO)
+					} else {
+						deleteAclForCollection(absPath, it, collectionAO)
+					}
+				}
+	
+			} else {
+				log.debug "not array"
+				log.info "deleting: ${aclsToDelete}"
 				if (isDataObject) {
 					log.info "delete as data object"
-					deleteAclForDataObject(absPath, it, dataObjectAO)
+					deleteAclForDataObject(absPath, aclsToDelete, dataObjectAO)
 				} else {
-					deleteAclForCollection(absPath, it, collectionAO)
+					deleteAclForCollection(absPath, aclsToDelete, collectionAO)
 				}
 			}
-
-		} else {
-			log.debug "not array"
-			log.info "deleting: ${aclsToDelete}"
-			if (isDataObject) {
-				log.info "delete as data object"
-				deleteAclForDataObject(absPath, aclsToDelete, dataObjectAO)
-			} else {
-				deleteAclForCollection(absPath, aclsToDelete, collectionAO)
-			}
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		}
 
 		render "OK"
@@ -513,6 +729,8 @@ class SharingController {
 	}
 
 }
+
+
 
 class AclCommand {
 	String absPath

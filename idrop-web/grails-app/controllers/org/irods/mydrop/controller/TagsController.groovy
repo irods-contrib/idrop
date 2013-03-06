@@ -6,12 +6,12 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.io.IRODSFile
-import org.irods.jargon.usertagging.FreeTaggingService
-import org.irods.jargon.usertagging.IRODSTaggingService
-import org.irods.jargon.usertagging.TaggingServiceFactory
-import org.irods.jargon.usertagging.UserTagCloudService
 import org.irods.jargon.usertagging.domain.IRODSTagValue
 import org.irods.jargon.usertagging.domain.UserTagCloudView
+import org.irods.jargon.usertagging.tags.FreeTaggingService
+import org.irods.jargon.usertagging.tags.IRODSTaggingService
+import org.irods.jargon.usertagging.tags.TaggingServiceFactory
+import org.irods.jargon.usertagging.tags.UserTagCloudService
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
 

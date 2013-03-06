@@ -8,13 +8,12 @@
 	<!--  area to show idrop lite applet -->
 </div>
 <div id="toggleHtmlArea">
-	<div id="displayArea" style="position:relative;width:100%;height:95%;display:block;">
-
+	<div id="displayArea" >
 	<div id="infoDialogArea"><!--  no empty divs --></div>
 	
 	
 	<!-- display area lays out info in a main and side column -->
-	<div id="infoDisplayLayout" style="display:table;width:100%;height:100%;">
+	<div id="infoDisplayLayout">
 	
 	
 	
@@ -28,11 +27,11 @@
 		
 				
 				<div >
-					<div><label>File Name:</label></div>
+					<div><label><g:message code="text.file.name" />:</label></div>
 					<div style="overflow:auto;"><g:link url="${'file/download' + dataObject.absolutePath}">${dataObject.dataName}</g:link></div>
 				</div>
 				<div>
-					<div style="width:20%;"><label>Parent Collection:</label></div>
+					<div style="width:20%;"><label><g:message code="text.parent" />:</label></div>
 					<div style="overflow:auto;">${dataObject.collectionName}</div>
 				</div>
 			</div>
@@ -60,73 +59,73 @@
 			<div id="container" style="height:100%;width:100%;">
 		
 				<div >
-					<div style="width:20%;"><label>Size:</label></div>
+					<div style="width:20%;"><label><g:message code="text.length" />:</label></div>
 					<div>${dataObject.displayDataSize}</div>
 				</div>
 				<div>
-					<div><label>Tags:</label></div>
+					<div><label><g:message code="text.tags" />:</label></div>
 					<div><g:textField id="infoTags" name="tags"
 					value="${tags.spaceDelimitedTagsForDomain}" /></div>
 				</div>
 				<div>
-					<div><label>Comment:</label></div>
+					<div><label><g:message code="text.comment" />:</label></div>
 					<div><g:textArea id="infoComment" name="comment" rows="5" cols="80"
 					value="${comment}" /></div>
 				</div>
 				<div>
 					<div></div>
-					<div><button type="button" class="ui-state-default ui-corner-all" id="updateTags" value="updateTags" onclick="callUpdateTags()">Update Tags</button></div>
+					<div><button type="button" id="updateTags" value="updateTags" onclick="updateTagsFromDataObjectInfoMini()">Update Tags</button></div>
 				</div>
 				<div>
-					<div><label>Created At:</label></div>
+					<div><label><g:message code="text.created" />:</label></div>
 					<div>${dataObject.createdAt}</div>
 				</div>
 				<div>
-					<div><label>Updated At:</label></div>
+					<div><label><g:message code="text.modified" />:</label></div>
 					<div>${dataObject.updatedAt}</div>
 				</div>
 				<div>
-					<div><label>Owner:</label></div>
+					<div><label><g:message code="text.owner" />:</label></div>
 					<div>${dataObject.dataOwnerName}</div>
 				</div>
 				<div>
-					<div><label>Owner Zone:</label></div>
+					<div><label><g:message code="text.owner.zone" />:</label></div>
 					<div>${dataObject.dataOwnerZone}</div>
 				</div>
 				<div>
-					<div><label>Data Path:</label></div>
+					<div><label><g:message code="text.data.path" />:</label></div>
 					<div style="overflow:auto;"><span class="longText">${dataObject.dataPath}</span></div>
 				</div>
 				<div>
-					<div><label>Resource Group:</label></div>
+					<div><label><g:message code="text.resource.group" />:</label></div>
 					<div>${dataObject.resourceGroupName}</div>
 				</div>
 				<div>
-					<div><label>Checksum:</label></div>
+					<div><label><g:message code="text.checksum" />:</label></div>
 					<div>${dataObject.checksum}</div>
 				</div>
 				<div>
-					<div><label>Resource:</label></div>
+					<div><label><g:message code="text.resource" />:</label></div>
 					<div>${dataObject.resourceName}</div>
 				</div>
 				<div>
-					<div><label>Replica Number:</label></div>
+					<div><label><g:message code="text.replica.number" />:</label></div>
 					<div>${dataObject.dataReplicationNumber}</div>
 				</div>
 				<div>
-					<div><label>Replication Status:</label></div>
+					<div><label><g:message code="text.replication.status" />:</label></div>
 					<div>${dataObject.replicationStatus}</div>
 				</div>
 				<div>
-					<div><label>Status:</label></div>
+					<div><label><g:message code="text.status" />:</label></div>
 					<div>${dataObject.dataStatus}</div>
 				</div>
 				<div>
-					<div><label>Type:</label></div>
+					<div><label><g:message code="text.type" />:</label></div>
 					<div>${dataObject.dataTypeName}</div>
 				</div>
 				<div>
-					<div><label>Version:</label></div>
+					<div><label><g:message code="text.version" />:</label></div>
 					<div>${dataObject.dataVersion}</div>
 				</div>
 			</div>
@@ -138,15 +137,17 @@
 </div><!--  toggle html area -->
 
 <script>
-$(function() {
-	
-});
 
-function callUpdateTags() {
-	updateTags();
+function updateTagsFromDataObjectInfoMini() {
+	var infoTagsVal = $("#infoTags").val();
+	var infoCommentVal = $("#infoComment").val();
+	var absPathVal = $("#infoAbsPath").val();
+	
+	updateTagsAtPath(absPathVal, infoTagsVal, infoCommentVal);
 }
 
 </script>
+
 <g:if test="${getThumbnail}">
 	<script>
 

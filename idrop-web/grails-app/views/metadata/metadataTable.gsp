@@ -1,6 +1,6 @@
 <g:form name="metadataDetailsForm" action="" id="metadataDetailsForm">
 	<table cellspacing="0" cellpadding="0" border="0"
-		id="metaDataDetailsTable" style="width: 100%;">
+		id="metaDataDetailsTable" class="table table-striped table-hover"  style="width: 100%;">
 		<thead>
 			<tr>
 				<th></th>

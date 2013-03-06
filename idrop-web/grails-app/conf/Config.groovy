@@ -1,6 +1,5 @@
-
 grails.config.locations = [
-	"file:/etc/idrop-web/idrop-web-config.groovy"
+	"file:/etc/idrop-web/idrop-web-config2.groovy"
 ]
 
 /*
@@ -19,7 +18,8 @@ environments {
 	 production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
 	 production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
 	 production {  grails.serverURL = "http://www.irods.org" } */2
-	production {  grails.serverURL = "http://edit.your.server.info.in.your.etc.file.or.update.the.groovy.config" }
+	production {
+		grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test { grails.serverURL = "http://localhost:8080/${appName}" }
 }
@@ -72,7 +72,9 @@ idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-release/idrop.jnlp"
 // do I support tickets? This determies whether the ticket feature is available via the interface, it also requires ticket support in iRODS itself (version 3.1+)
 idrop.config.use.tickets=true
 idrop.config.max.thumbnail.size.mb=20
-idrop.config.use.userprofile=false
+idrop.config.use.userprofile=true
+// do I support sharing? Requires target server to have specific query support and sharing queries loaded from jargon-user-tagging
+idrop.config.use.sharing=true
 
 /*
  * Some properties may be set in an external configuration file, as configured below
@@ -180,11 +182,12 @@ log4j = {
 			'org.hibernate',
 			'net.sf.ehcache.hibernate'
 
-	warn 'org.irods.mydrop'
-	info 'org.irods.jargon'
+	//info 'org.irods.mydrop'
+	debug 'org.irods.jargon'
+
 	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
-	info 'grails.app'
+	debug 'grails.app'
 
 	warn 'org.mortbay.log',
 			'grails.app.controller',

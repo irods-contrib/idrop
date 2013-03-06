@@ -1391,7 +1391,6 @@ public class QueueManagerDialog extends javax.swing.JDialog implements ListSelec
                 
                 lblTransferType1.setText(localIRODSTransfer.getTransferType().toString());
                 
-                
                 lblCountSoFar.setText(String.valueOf(localIRODSTransfer.getTotalFilesTransferredSoFar()));
                 lblCountOutOf.setText(String.valueOf(localIRODSTransfer.getTotalFilesCount()));
                 lblTransferFilesCounts.setText("Files: " + localIRODSTransfer.getTotalFilesTransferredSoFar() + " / " + localIRODSTransfer.getTotalFilesCount());

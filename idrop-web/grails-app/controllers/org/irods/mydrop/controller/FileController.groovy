@@ -4,8 +4,10 @@ package org.irods.mydrop.controller
 import grails.converters.*
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.CatNoAccessException
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.exception.JargonException
+import org.irods.jargon.core.exception.NoResourceDefinedException
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataTransferOperations
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
@@ -14,6 +16,8 @@ import org.irods.jargon.core.pub.domain.DataObject
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
+import org.irods.jargon.datautils.uploads.UploadsService
+import org.irods.jargon.datautils.uploads.UploadsServiceImpl
 import org.springframework.web.multipart.MultipartFile
 
 
@@ -68,18 +72,23 @@ class FileController {
 		log.info("iRODS path for file is: ${fullPath}")
 
 
-		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
-		IRODSFileInputStream irodsFileInputStream = irodsFileFactory.instanceIRODSFileInputStream(fullPath)
-		IRODSFile irodsFile = irodsFileFactory.instanceIRODSFile(fullPath)
-		def length =  irodsFile.length()
-		log.info("file length = ${length}")
-		log.info("opened input stream")
-
-		response.setContentType("application/octet-stream")
-		response.setContentLength((int) length)
-		response.setHeader("Content-disposition", "attachment;filename=\"${irodsFile.name}\"")
-
-		response.outputStream << irodsFileInputStream // Performing a binary stream copy
+		try {
+			IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+			IRODSFileInputStream irodsFileInputStream = irodsFileFactory.instanceIRODSFileInputStream(fullPath)
+			IRODSFile irodsFile = irodsFileFactory.instanceIRODSFile(fullPath)
+			def length =  irodsFile.length()
+			log.info("file length = ${length}")
+			log.info("opened input stream")
+	
+			response.setContentType("application/octet-stream")
+			response.setContentLength((int) length)
+			response.setHeader("Content-disposition", "attachment;filename=\"${irodsFile.name}\"")
+	
+			response.outputStream << irodsFileInputStream // Performing a binary stream copy
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+		}
 
 	}
 
@@ -117,6 +126,25 @@ class FileController {
 		}
 
 		render(view:"uploadDialog", model:[irodsTargetCollection:irodsTargetCollection])
+	}
+	
+	/**
+	 * Prepare a quick upload dialog to upload a file to the default location using the quick upload service
+	 *
+	 */
+	def prepareQuickUploadDialog = {
+		log.info("prepareQuickUploadDialog")
+		
+		log.info("checking if uploads default directory needs to be created")
+
+		/* here we could do any processing on irods, such as provisioning of metadata fields based on target
+		 * for now, derive info about the target and normalize to a collection (could be a data object)
+		 */
+
+		UploadsService uploadsService = new UploadsServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		IRODSFile uploadsDir = uploadsService.getUploadsDirectory();
+
+		render(view:"quickUploadDialog", model:[irodsTargetCollection:uploadsDir.absolutePath])
 	}
 
 	/**
@@ -167,9 +195,15 @@ class FileController {
 			targetFile.setResource(irodsAccount.defaultStorageResource)
 			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 			stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
+		} catch (NoResourceDefinedException nrd) {
+			log.error("no resource defined exception", nrd)
+			response.sendError(500, message(code:"message.no.resource"))
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		} catch (Exception e) {
 			log.error("exception in upload transfer", e)
-			response.sendError(500,e.message)
+			response.sendError(500, message(code:"message.error.in.upload"))
 		} finally {
 			// stream2Stream will close input and output streams
 		}
@@ -195,9 +229,18 @@ class FileController {
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(absPath)
 
-		targetFile.delete()
-		log.info("file deleted")
-		render targetFile.getParent()
+		try {
+			targetFile.delete()
+			log.info("file deleted")
+			render(view:"deleteResult", model:[absPath:targetFile.parent])
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+		} catch (JargonException je) {
+			log.error("exception on delete", je)
+			response.sendError(500,je.message)
+			return
+		}
 	}
 
 	/**
@@ -266,19 +309,25 @@ class FileController {
 
 		newFolderName = newFolderName.trim()
 
-		log.info("name for create folder:${newFolderName}")
-		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
-		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(parent + "/" + newFolderName)
+		try {
+			log.info("name for create folder:${newFolderName}")
+			IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+			IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(parent + "/" + newFolderName)
+	
+			if (targetFile.exists()) {
+				log.error "no name in request"
+				def message = message(code:"error.duplicate.file")
+				response.sendError(500,message)
+			}
+	
+			targetFile.mkdirs()
+			log.info("file created:${targetFile.absolutePath}")
+			render targetFile.getAbsolutePath()
+		} catch (CatNoAccessException e) {
+		log.error("no access error", e)
+		response.sendError(500, message(code:"message.no.access"))
+	}
 
-		if (targetFile.exists()) {
-			log.error "no name in request"
-			def message = message(code:"error.duplicate.file")
-			response.sendError(500,message)
-		}
-
-		targetFile.mkdirs()
-		log.info("file created:${targetFile.absolutePath}")
-		render targetFile.getAbsolutePath()
 	}
 
 	/**
@@ -317,11 +366,16 @@ class FileController {
 			render prevFile.absolutePath
 			return
 		}
+		try {
+			prevFile.renameTo(newFile)
+	
+			// return the parent, which will be reloaded
+			render newFile.parent
+		} catch (CatNoAccessException e) {
+		log.error("no access error", e)
+		response.sendError(500, message(code:"message.no.access"))
+		}
 
-		prevFile.renameTo(newFile)
-
-		// return the parent, which will be reloaded
-		render newFile.parent
 	}
 
 	/**
@@ -344,9 +398,19 @@ class FileController {
 			response.sendError(500,message)
 		}
 
-		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-		log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
-		dataTransferOperations.move(sourceAbsPath, targetAbsPath)
+		try {
+			DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+			log.info("moving ${sourceAbsPath} to ${targetAbsPath}")
+			dataTransferOperations.move(sourceAbsPath, targetAbsPath)
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+		} catch (NoResourceDefinedException nrd) {
+			log.error "no default resource found for move operation"
+			def message = message(code:"message.no.resource")
+			response.sendError(500,message)
+		}
+
 		render targetAbsPath
 	}
 
@@ -369,10 +433,24 @@ class FileController {
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
+		
+		String defaultResource = irodsAccount.defaultStorageResource
+		log.info("defaultResource:${defaultResource}")
 
-		DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-		log.info("copy ${sourceAbsPath} to ${targetAbsPath}")
-		dataTransferOperations.copy(sourceAbsPath,"", targetAbsPath,null, false, null) //TODO: resource here?
+		try {
+			DataTransferOperations dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+			log.info("copy ${sourceAbsPath} to ${targetAbsPath}")
+			dataTransferOperations.copy(sourceAbsPath,defaultResource, targetAbsPath,null, null)
+		} catch (NoResourceDefinedException nrd) {
+			log.error "no default resource found for copy operation"
+			def message = message(code:"message.no.resource")
+			response.sendError(500,message)
+		}  catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+		}
+
+
 		render targetAbsPath
 
 	}

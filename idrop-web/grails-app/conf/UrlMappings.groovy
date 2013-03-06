@@ -11,7 +11,7 @@ class UrlMappings {
 		"/$controller/$action?/$id?"{ constraints {
 				// apply constraints here
 			} }
-
+		
 		"/file/**" (controller:"file", action:"index"){
 			name = { request.requestURI }
 		}

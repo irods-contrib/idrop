@@ -1,11 +1,9 @@
-
 *'''Project''': iDrop-lite transfer applet
-*'''Date''': 10/23/2012
-*'''Release Version''': 1.0.2-beta1
-*'''git tag''':  1.0.2-beta1
-*'''download jar with dependencies (run java -jar jarname)''':  https://code.renci.org/gf/project/irodsidrop/frs/?action=FrsReleaseBrowse&frs_package_id=4
+*'''Date''': 
+*'''Release Version''': 2.0.2
+*'''git tag''': 
 
-NOTE: the release notes were not yet in place for this project, going forward bugs and features addressed will be reflected here
+iDrop lite is an embedded transfer applet
 
 ==News==
 
@@ -24,11 +22,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Bug Fixes==
 
-*[#1012] error building with IdropFileService missing methods
 
 ==Features==
-
-[#1023] Update Version class to include build time and POM version 
 
 ==Outstanding Issues==
 
