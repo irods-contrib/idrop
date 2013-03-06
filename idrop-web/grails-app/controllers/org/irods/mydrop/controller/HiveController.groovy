@@ -33,63 +33,90 @@ class HiveController {
 	}
 
 
+	/**
+	 * Sbow initial HIVE view, which should reflect the selected set of vocabularies, and show a list of all vocabularies 
+	 * @return
+	 */
 	def index() {
 		log.info("getting vocab names")
 		List<String> vocabs = vocabularyService.getAllVocabularyNames()
 		render(view:"vocabList", model:[vocabs:vocabs])
 	}
 
+	/**
+	 * Show the concept browser given the selected vocabularies
+	 * @return
+	 */
+	def conceptBrowser() {
+		log.info("conceptBrowser")
+		log.info(params)
+		def selected = params['selectedVocab']
+		def vocabs = []
 
-	def showTreeForSelectedVocabularies(){
-		log.info("getting first set of concepts")
-		List<ConceptProxy> subTopConcept = vocabularyService.getSubTopConcept(params['selectedVocab'].toString().toLowerCase() , "A" , true)
-		//params['selectedVocab']
-		int sizeOfSubTopConcept = subTopConcept.size()
-		List<String> listOfPreferedLabels = new ArrayList<String>()
-		for (ConceptProxy concept : subTopConcept){
-			listOfPreferedLabels.add(concept.preLabel)
-		}
-		render(view:"conceptBrowser", model:[listOfPreferedLabels:listOfPreferedLabels])
-	}
-
-
-
-	def deleteSelectedVocabularies = {
-		log.info("deleteSelectedVocabularies")
-
-		log.info("params: ${params}")
-
-		def vocabulariesToDelete = params['selectedVocab']
-
-		// if nothing selected, just jump out and return a message
-		if (!ticketsToDelete) {
-			log.info("no vocabularies to delete")
-			render "OK"
+		if (!selected) {
+			log.info("no vocabs to display")
+			render(view:"conceptBrowser", model:[vocabs:vocabs])
 			return
 		}
 
-		//TicketAdminService ticketAdminService = ticketServiceFactory.instanceTicketAdminService(irodsAccount)
-
-		log.info("vocabularies: ${vocabulariesToDelete}")
-		if (vocabulariesToDelete instanceof Object[]) {
-			log.debug "is array"
-			vocabulariesToDelete.each{
-				log.info "vocabulariesToDelete: ${it}"
-				//ticketAdminService.deleteTicket(it)
-				//log.info("deleted:${it}")
-			}
+		if (selected instanceof Object[] || selected instanceof List) {
+			log.info "is array"
+			vocabs = selected
 		} else {
-			log.debug "not array"
-			log.info "deleting: ${vocabulariesToDelete}..."
-			//ticketAdminService.deleteTicket(ticketsToDelete)
-			//log.info("deleted:${ticketsToDelete}")
+			vocabs.add(selected)
 		}
-
-		render "OK"
+		
+		render(view:"conceptBrowser", model:[vocabs:vocabs])
 	}
 
 
+		def showTreeForSelectedVocabularies(){
+			log.info("getting first set of concepts")
+			List<ConceptProxy> subTopConcept = vocabularyService.getSubTopConcept(params['selectedVocab'].toString().toLowerCase() , "A" , true)
+			//params['selectedVocab']
+			int sizeOfSubTopConcept = subTopConcept.size()
+			List<String> listOfPreferedLabels = new ArrayList<String>()
+			for (ConceptProxy concept : subTopConcept){
+				listOfPreferedLabels.add(concept.preLabel)
+			}
+			render(view:"vocabListing", model:[listOfPreferedLabels:listOfPreferedLabels])
+		}
 
 
 
-}
+		def deleteSelectedVocabularies = {
+			log.info("deleteSelectedVocabularies")
+
+			log.info("params: ${params}")
+
+			def vocabulariesToDelete = params['selectedVocab']
+
+			// if nothing selected, just jump out and return a message
+			if (!ticketsToDelete) {
+				log.info("no vocabularies to delete")
+				render "OK"
+				return
+			}
+
+			log.info("vocabularies: ${vocabulariesToDelete}")
+			if (vocabulariesToDelete instanceof Object[]) {
+				log.debug "is array"
+				vocabulariesToDelete.each{
+					log.info "vocabulariesToDelete: ${it}"
+					//ticketAdminService.deleteTicket(it)
+					//log.info("deleted:${it}")
+				}
+			} else {
+				log.debug "not array"
+				log.info "deleting: ${vocabulariesToDelete}..."
+
+			}
+
+			render "OK"
+		}
+
+
+
+
+
+	}

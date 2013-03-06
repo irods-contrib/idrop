@@ -37,6 +37,7 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:jargon-ticket:3.3.2-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-profile:3.3.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-tagging:3.3.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ([name:"stax-api"])}
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 

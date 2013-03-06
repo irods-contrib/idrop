@@ -1,11 +1,3 @@
-<div class="well ">
-	<div class="pull-left">
-		<g:img dir="images" file="Hive_Logo.png" width="80" height="40" />
-	</div>
-	<div>
-		<g:message code="heading.hive" />
-	</div>
-</div>
 
 <div>
 	<div id="hivePanelInner">
