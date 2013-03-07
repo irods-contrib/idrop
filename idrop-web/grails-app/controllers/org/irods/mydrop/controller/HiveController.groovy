@@ -1,11 +1,9 @@
 package org.irods.mydrop.controller
 
-import java.util.List;
-
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.hive.service.VocabularyService
-import org.irods.mydrop.hive.VocabularySelection;
+import org.irods.mydrop.hive.VocabularySelection
 import org.irods.mydrop.service.HiveService
 import org.unc.hive.client.ConceptProxy
 
@@ -38,27 +36,19 @@ class HiveController {
 	}
 
 	/**
-	 * Show a selection of available HIVE voabularies
+	 * Update with the selected vocabularies
 	 * @return
 	 */
-	def vocabSelection() {
-		log.info("vocabSelection")
+	def selectVocabularies() {
+		log.info("selectVocabularies")
+		log.info(params)
+		def selected = params['selectedVocab']
+		// TODO: list versus object
+		hiveService.selectVocabularies(selected)
 
-		log.info("getting vocab names")
-		List<String> vocabs = vocabularyService.getAllVocabularyNames()
-		HiveService hiveService= new HiveService()
-		List<VocabularySelection> vocabularySelections = hiveService.retrieveVocabularySelectionListing() 
-		boolean isAnyVocabularySelected = false
-		vocabularySelections.each {
-			if (it.selected==true) {
-				isAnyVocabularySelected=true
-			}
-		}
-		if (isAnyVocabularySelected==false)
-			render(view:"vocabSelectionList", model:[vocabs:vocabs])
-		else 
-			chain(action:"conceptBrowser")
-	
+		chain(action:"index")
+
+
 	}
 
 
@@ -69,11 +59,21 @@ class HiveController {
 	def index() {
 		log.info("index")
 
-		// if vocabs already selected show concept
-
 		log.info("getting vocab names")
 		List<String> vocabs = vocabularyService.getAllVocabularyNames()
-		render(view:"vocabSelectionList", model:[vocabs:vocabs])
+		HiveService hiveService= new HiveService()
+		List<VocabularySelection> vocabularySelections = hiveService.retrieveVocabularySelectionListing()
+		boolean isAnyVocabularySelected = false
+		vocabularySelections.each {
+			if (it.selected==true) {
+				isAnyVocabularySelected=true
+			}
+		}
+		if (isAnyVocabularySelected==false) {
+			render(view:"vocabSelectionList", model:[vocabs:vocabs])
+		} else {
+			chain(action:"conceptBrowser")
+		}
 	}
 
 	/**
@@ -84,7 +84,6 @@ class HiveController {
 		log.info("conceptBrowser")
 		log.info(params)
 
-		def selected = params['selectedVocab']
 		def indexLetter = params['indexLetter']
 		def parentTerm = params['parentTerm']
 		/*def vocabularies = params['vocabularies']
@@ -98,9 +97,7 @@ class HiveController {
 			parentTerm = ""
 		}
 
-		if (!selected) {
-			response.sendError(500, message(code:"default.null.message",args:"${ ['selected'] }" ))
-		}
+		
 
 		/*
 		 if (!vocabularies) {
@@ -116,7 +113,7 @@ class HiveController {
 		//params['selectedVocab']
 
 		//render(view:"conceptBrowser", model:[concepts:concepts])
-		render(view:"conceptBrowser", model:[vocabs:selected])
+		render(view:"conceptBrowser", model:[])
 	}
 
 

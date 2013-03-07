@@ -64,7 +64,7 @@ function selectVocabularies(){
 	
 	lcShowBusyIconInDiv("#hivePanelInner");
 
-	var jqxhr = $.post(context + "/hive/conceptBrowser", formData,
+	var jqxhr = $.post(context + "/hive/selectVocabularies", formData,
 			function(data, status, xhr) {
 			}, "html").success(function(data, status, xhr) {
 				var continueReq = checkForSessionTimeout(data, xhr);
