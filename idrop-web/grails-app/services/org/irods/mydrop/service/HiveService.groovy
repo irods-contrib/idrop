@@ -42,8 +42,10 @@ class HiveService {
 
 		List<VocabularySelection> vocabularySelections = new ArrayList<VocabularySelection>()
 
-		hiveState.vocabularies.each{
-
+		hiveState.vocabularySelections.each{
+			if (hiveState.selectedVocabularies.contains(it))
+				vocabularySelections.boolean=selected
+				
 			//check to see if it is in the hive state selected vocabularies table
 
 			// add an entry to VocabularySelection for all vocabs and set boolean if selected
