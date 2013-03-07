@@ -42,23 +42,17 @@ class HiveService {
 
 		def vocabularySelections = new ArrayList<VocabularySelection>()
 
-		//check to see if it is in the hive state selected vocabularies table
-
 		hiveState.vocabularies.each{
-			def contained = false
-			def vocabTerm = it
-			hiveState.selectedVocabularies.each {
-				if (it == vocabTerm) {
-					contained = true
-					return true
-				}
+			//check to see if it is in the hive state selected vocabularies table
+			def vocabularySelection = new VocabularySelection()
+			if (hiveState.selectedVocabularies.contains(it)) {
+				vocabularySelection.selected = true
 			}
 
 			// add an entry to VocabularySelection for all vocabs and set boolean if selected
-			def selection = new VocabularySelection();
-			selection.selected = contained
-			selection.vocabularyName = vocabTerm
-			vocabularySelections.add(selection)
+
+			vocabularySelection.vocabularyName = it
+			vocabularySelections.add(vocabularySelection)
 		}
 
 		return vocabularySelections
