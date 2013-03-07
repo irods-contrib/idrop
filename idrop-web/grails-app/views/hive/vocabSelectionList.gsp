@@ -1,6 +1,8 @@
 
-<div>
-	<div id="hivePanelInner">
+<div class="container-fluid">
+
+	<div class="row-fluid" id="hivePanelInner">
+		<div class="offset3 span6">
 		<form name="hiveVocabularyForm" id="hiveVocabularyForm">
 			<table cellspacing="0" cellpadding="0" border="0" id="hiveVocabTable"
 				class="table table-striped table-hover">
@@ -30,13 +32,16 @@
 					</tr>
 				</tfoot>
 			</table>
-			<div id="detailsDialogMenu" class="pull-right">
+		</form>
+		</div>
+	</div>
+	<div id="detailsDialogMenu" class="row-fluid">
+		<div class="offset5 span1">
 				<button type="button" id="updateVocabularyButton"
 					value="update" onclick="selectVocabularies()">
 					<g:message code="text.update" />
 				</button>
-			</div>
-
-		</form>
+			
+		</div>
 	</div>
 </div>
