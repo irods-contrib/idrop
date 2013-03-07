@@ -15,7 +15,7 @@ class HiveService {
 	 * Retrieve a <code>VocabularySelection</code> that holds all HIVE vocabularies, and indicates which one is selected
 	 * @return
 	 */
-	
+
 	public HiveState retrieveHiveState() {
 		HiveState hiveState = session[HIVE_STATE]
 		if (!hiveState) {
@@ -29,7 +29,7 @@ class HiveService {
 	public storeHiveState(HiveState hiveState) {
 		session[HIVE_STATE] = hiveState
 	}
-	
+
 	public List<VocabularySelection> retrieveVocabularySelectionListing() {
 		log.info("retrieveVocabularySelectionListing")
 		HiveState hiveState = this.retrieveHiveState()
@@ -42,10 +42,14 @@ class HiveService {
 
 		List<VocabularySelection> vocabularySelections = new ArrayList<VocabularySelection>()
 
-		vocabularies.each{
-			// see if the vocabulary term is selected by looking at HiveState selected vocabularies
+		hiveState.vocabularies.each{
 
+			//check to see if it is in the hive state selected vocabularies table
+
+			// add an entry to VocabularySelection for all vocabs and set boolean if selected
 
 		}
+
+		return vocabularySelections
 	}
 }
