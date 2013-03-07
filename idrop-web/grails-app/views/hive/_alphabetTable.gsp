@@ -5,8 +5,7 @@
 					<a href="#A">A</a>
 				</div></td>
 			<td><div class="hyperlink">
-					<a href="#B">B</a>
-				</div></td>
+					<a href="#B">B</a></div></td>
 			<td><div class="hyperlink">
 					<a href="#C">C</a>
 				</div></td>
