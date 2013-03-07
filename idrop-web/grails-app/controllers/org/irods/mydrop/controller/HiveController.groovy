@@ -3,6 +3,8 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.hive.service.VocabularyService
+import org.irods.mydrop.service.HiveService
+import org.irods.mydrop.service.HiveStateService
 import org.unc.hive.client.ConceptProxy
 
 
@@ -11,6 +13,8 @@ class HiveController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 	VocabularyService vocabularyService
+	HiveStateService hiveStateService
+	HiveService hiveService
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
@@ -32,15 +36,34 @@ class HiveController {
 		irodsAccessObjectFactory.closeSession()
 	}
 
+	/**
+	 * Show a selection of available HIVE voabularies
+	 * @return
+	 */
+	def vocabSelection() {
+		log.info("vocabSelection")
+
+		log.info("getting vocab names")
+		List<String> vocabs = vocabularyService.getAllVocabularyNames()
+		render(view:"vocabSelectionList", model:[vocabs:vocabs])
+	}
+
 
 	/**
 	 * Sbow initial HIVE view, which should reflect the selected set of vocabularies, and show a list of all vocabularies 
 	 * @return
 	 */
 	def index() {
+		log.info("index")
+
+
+
+
+
+
 		log.info("getting vocab names")
 		List<String> vocabs = vocabularyService.getAllVocabularyNames()
-		render(view:"vocabList", model:[vocabs:vocabs])
+		render(view:"vocabSelectionList", model:[vocabs:vocabs])
 	}
 
 	/**
@@ -50,73 +73,77 @@ class HiveController {
 	def conceptBrowser() {
 		log.info("conceptBrowser")
 		log.info(params)
+
 		def selected = params['selectedVocab']
-		def vocabs = []
+		def vocabularies = params['vocabularies']
+		def parentTerm = params['parentTerm']
+		def indexLetter = params['indexLetter']
+
+		if (!indexLetter) {
+			indexLetter = 'A'
+		}
+
+		if (!parentTerm) {
+			parentTerm = ""
+		}
 
 		if (!selected) {
-			log.info("no vocabs to display")
-			render(view:"conceptBrowser", model:[vocabs:vocabs])
-			return
+			response.sendError(500, message(code:"default.null.message",args:"${ ['selected'] }" ))
 		}
 
-		if (selected instanceof Object[] || selected instanceof List) {
-			log.info "is array"
-			vocabs = selected
-		} else {
-			vocabs.add(selected)
+		if (!vocabularies) {
+			response.sendError(500, message(code:"default.null.message",args:"${ ['vocabularies'] }" ))
 		}
-		
+
+		List<ConceptProxy> concepts
+
+		if (!parentTerm) {
+			concepts = vocabularyService.getSubTopConcept(selected.toString().toLowerCase() , indexLetter , true)
+		} else {
+
+			// get the child concepts for the parent term provided
+		}
+
+		//params['selectedVocab']
+
+		render(view:"conceptBrowser", model:[concepts:concepts])
 		render(view:"conceptBrowser", model:[vocabs:vocabs])
 	}
 
 
-		def showTreeForSelectedVocabularies(){
-			log.info("getting first set of concepts")
-			List<ConceptProxy> subTopConcept = vocabularyService.getSubTopConcept(params['selectedVocab'].toString().toLowerCase() , "A" , true)
-			//params['selectedVocab']
-			int sizeOfSubTopConcept = subTopConcept.size()
-			List<String> listOfPreferedLabels = new ArrayList<String>()
-			for (ConceptProxy concept : subTopConcept){
-				listOfPreferedLabels.add(concept.preLabel)
-			}
-			render(view:"vocabListing", model:[listOfPreferedLabels:listOfPreferedLabels])
+	def showTermsInVocabulary(){
+		log.info("showTermsInVocabulary")
+		log.info("params:${params}")
+
+		def selectedVocab = params['selectedVocab'].toString().toLowerCase()
+		def parentTerm = params['parentTerm']
+		def indexLetter = params['indexLetter']
+
+		if (!indexLetter) {
+			indexLetter = 'A'
 		}
 
-
-
-		def deleteSelectedVocabularies = {
-			log.info("deleteSelectedVocabularies")
-
-			log.info("params: ${params}")
-
-			def vocabulariesToDelete = params['selectedVocab']
-
-			// if nothing selected, just jump out and return a message
-			if (!ticketsToDelete) {
-				log.info("no vocabularies to delete")
-				render "OK"
-				return
-			}
-
-			log.info("vocabularies: ${vocabulariesToDelete}")
-			if (vocabulariesToDelete instanceof Object[]) {
-				log.debug "is array"
-				vocabulariesToDelete.each{
-					log.info "vocabulariesToDelete: ${it}"
-					//ticketAdminService.deleteTicket(it)
-					//log.info("deleted:${it}")
-				}
-			} else {
-				log.debug "not array"
-				log.info "deleting: ${vocabulariesToDelete}..."
-
-			}
-
-			render "OK"
+		if (!selectedVocab) {
+			response.sendError(500, message(code:"default.null.message",args:"${ ['selectedVocab'] }" ))
 		}
 
+		/*
+		 * This works now for top level concepts
+		 */
 
+		List<ConceptProxy> concepts
 
+		if (!parentTerm) {
 
+			concepts = vocabularyService.getSubTopConcept(params['selectedVocab'].toString().toLowerCase() , indexLetter , true)
+		} else {
 
+			// get the child concepts for the parent term provided
+		}
+
+		//params['selectedVocab']
+
+		render(view:"vocabTermsListing", model:[concepts:concepts])
 	}
+}
+
