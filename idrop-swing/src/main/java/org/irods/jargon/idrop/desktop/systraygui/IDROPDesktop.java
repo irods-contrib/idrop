@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.idrop.desktop.systraygui.services.*;
@@ -18,6 +19,7 @@ import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -151,6 +153,36 @@ public class IDROPDesktop {
 
         log.info("logging in in splash background thread");
         idropSplashWindow.setStatus("Logging in...", ++count);
+        try {
+            // check to see if need to set up initial pass phrase
+            if (idropCore.getConveyorService().isPreviousPassPhraseStored()) {
+                // ask for pass phrase
+                final PassPhraseDialog passPhraseDialog = new PassPhraseDialog(null, true, idropCore);
+                Toolkit tk = idrop.getToolkit();
+                int x = (tk.getScreenSize().width - passPhraseDialog.getWidth()) / 2;
+                int y = (tk.getScreenSize().height - passPhraseDialog.getHeight()) / 2;
+                passPhraseDialog.setLocation(x, y);
+                idropSplashWindow.toBack();
+                passPhraseDialog.toFront();
+                passPhraseDialog.setVisible(true);
+            
+            }
+            else {
+                // initialize pass phrase
+                final InitialPassPhraseDialog initialPassPhraseDialog = new InitialPassPhraseDialog(null, true, idropCore);
+                Toolkit tk = idrop.getToolkit();
+                int x = (tk.getScreenSize().width - initialPassPhraseDialog.getWidth()) / 2;
+                int y = (tk.getScreenSize().height - initialPassPhraseDialog.getHeight()) / 2;
+                initialPassPhraseDialog.setLocation(x, y);
+                idropSplashWindow.toBack();
+                initialPassPhraseDialog.toFront();
+                initialPassPhraseDialog.setVisible(true);
+            }
+        } catch (ConveyorExecutionException ex) {
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            throw new IdropRuntimeException(ex);
+        }
 
         final LoginDialog loginDialog = new LoginDialog(null, idropCore);
         Toolkit tk = idrop.getToolkit();
