@@ -1,6 +1,6 @@
 *'''Project''': iDrop-lite transfer applet
 *'''Date''': 
-*'''Release Version''':  [#1258] allow idrop lite to run as a stand-alone app
+*'''Release Version''':  
 *'''git tag''': 
 
 iDrop lite is an embedded transfer applet
