@@ -6,18 +6,33 @@ import org.irods.mydrop.hive.VocabularySelection
 
 class HiveService {
 
-	HiveStateService hiveStateService
 	VocabularyService vocabularyService
 
 	static transactional = false
+	static HIVE_STATE = "HiveState"
 
 	/**
 	 * Retrieve a <code>VocabularySelection</code> that holds all HIVE vocabularies, and indicates which one is selected
 	 * @return
 	 */
+	
+	public HiveState retrieveHiveState() {
+		HiveState hiveState = session[HIVE_STATE]
+		if (!hiveState) {
+			hiveState = new HiveState()
+			session[HIVE_STATE] = hiveState
+		}
+
+		return hiveState
+	}
+
+	public storeHiveState(HiveState hiveState) {
+		session[HIVE_STATE] = hiveState
+	}
+	
 	public List<VocabularySelection> retrieveVocabularySelectionListing() {
 		log.info("retrieveVocabularySelectionListing")
-		HiveState hiveState = hiveStateService.retrieveHiveState()
+		HiveState hiveState = this.retrieveHiveState()
 
 		if(hiveState.vocabularies.size == 0) {
 			log.info("attempting to retrieve vocabs")

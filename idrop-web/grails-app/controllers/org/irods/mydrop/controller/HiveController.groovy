@@ -4,7 +4,6 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.hive.service.VocabularyService
 import org.irods.mydrop.service.HiveService
-import org.irods.mydrop.service.HiveStateService
 import org.unc.hive.client.ConceptProxy
 
 
@@ -13,7 +12,6 @@ class HiveController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 	VocabularyService vocabularyService
-	HiveStateService hiveStateService
 	HiveService hiveService
 
 	/**
