@@ -1,8 +1,11 @@
 package org.irods.mydrop.controller
 
+import java.util.List;
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.hive.service.VocabularyService
+import org.irods.mydrop.hive.VocabularySelection;
 import org.irods.mydrop.service.HiveService
 import org.unc.hive.client.ConceptProxy
 
@@ -43,7 +46,19 @@ class HiveController {
 
 		log.info("getting vocab names")
 		List<String> vocabs = vocabularyService.getAllVocabularyNames()
-		render(view:"vocabSelectionList", model:[vocabs:vocabs])
+		HiveService hiveService= new HiveService()
+		List<VocabularySelection> vocabularySelections = hiveService.retrieveVocabularySelectionListing() 
+		boolean isAnyVocabularySelected = false
+		vocabularySelections.each {
+			if (it.selected==true) {
+				isAnyVocabularySelected=true
+			}
+		}
+		if (isAnyVocabularySelected==false)
+			render(view:"vocabSelectionList", model:[vocabs:vocabs])
+		else 
+			chain(action:"conceptBrowser")
+	
 	}
 
 
