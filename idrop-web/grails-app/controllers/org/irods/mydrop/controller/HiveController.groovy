@@ -56,10 +56,7 @@ class HiveController {
 	def index() {
 		log.info("index")
 
-
-
-
-
+		// if vocabs already selected show concept
 
 		log.info("getting vocab names")
 		List<String> vocabs = vocabularyService.getAllVocabularyNames()
@@ -75,9 +72,10 @@ class HiveController {
 		log.info(params)
 
 		def selected = params['selectedVocab']
-		def vocabularies = params['vocabularies']
-		def parentTerm = params['parentTerm']
 		def indexLetter = params['indexLetter']
+		def parentTerm = params['parentTerm']
+		/*def vocabularies = params['vocabularies']
+		 */
 
 		if (!indexLetter) {
 			indexLetter = 'A'
@@ -91,23 +89,21 @@ class HiveController {
 			response.sendError(500, message(code:"default.null.message",args:"${ ['selected'] }" ))
 		}
 
-		if (!vocabularies) {
-			response.sendError(500, message(code:"default.null.message",args:"${ ['vocabularies'] }" ))
-		}
-
-		List<ConceptProxy> concepts
-
-		if (!parentTerm) {
-			concepts = vocabularyService.getSubTopConcept(selected.toString().toLowerCase() , indexLetter , true)
-		} else {
-
-			// get the child concepts for the parent term provided
-		}
-
+		/*
+		 if (!vocabularies) {
+		 response.sendError(500, message(code:"default.null.message",args:"${ ['vocabularies'] }" ))
+		 }
+		 List<ConceptProxy> concepts
+		 if (!parentTerm) {
+		 concepts = vocabularyService.getSubTopConcept(selected.toString().toLowerCase() , indexLetter , true)
+		 } else {
+		 // get the child concepts for the parent term provided
+		 }
+		 */
 		//params['selectedVocab']
 
-		render(view:"conceptBrowser", model:[concepts:concepts])
-		render(view:"conceptBrowser", model:[vocabs:vocabs])
+		//render(view:"conceptBrowser", model:[concepts:concepts])
+		render(view:"conceptBrowser", model:[vocabs:selected])
 	}
 
 

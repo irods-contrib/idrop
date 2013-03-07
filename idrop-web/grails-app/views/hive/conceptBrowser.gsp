@@ -1,40 +1,47 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span6">
-			<ul id="conceptBrowserVocabTabs" class="nav nav-tabs">
-				<g:each in="${vocabs}" var="vocab">
-					<li><a href="${'#' + vocab}" id="${vocab}">${vocab}</a></li>
-				</g:each>
-			</ul>
-			<div class="tab-content">
-					<g:each in="${vocabs}" var="vocab">
-						<div class="tab-pane" id="tab_${vocab}"></div>
-					</g:each>
-			</div>
-			<div class="span6">
-				<!--selected item content-->
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span10 offset1 well">current</div>
+				</div>
+				<div class="row-fluid" id="conceptBrowserNarrower">
+					<div class="span10 offset1 well">children</div>
+				</div>
+				<div class="row-fluid" id="conceptBrowserNarrowerLetters">
+					<div class="span10 offset1 well"><g:render template="/hive/alphabetTable" />
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
-<script>
-	function loadFirstConceptBrowserVocabTab() {
-		$('#conceptBrowserVocabTabs a:first').tab('show');
-	}
+		<div class="span6">
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span10 offset1 well">parent</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span10 offset1 well">related</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			function loadFirstConceptBrowserVocabTab() {
+				$('#conceptBrowserVocabTabs a:first').tab('show');
+			}
 
-	$(function() {
-		$('#conceptBrowserVocabTabs a').click(function(e) {
-			e.preventDefault();
-			alert(this);
-			$(this).tab('show');
-		});
+			$(function() {
+				$('#conceptBrowserVocabTabs a').click(function(e) {
+					e.preventDefault();
+					alert(this);
+					$(this).tab('show');
+				});
 
-		$('#conceptBrowserVocabTabs a').on('shown', function (e) {
-			e.preventDefault();
-			alert(this);
-			
-		});
+				$('#conceptBrowserVocabTabs a').on('shown', function(e) {
+					e.preventDefault();
+					alert(this);
 
-		loadFirstConceptBrowserVocabTab();
-	});
-</script>
+				});
+
+				loadFirstConceptBrowserVocabTab();
+			});
+		</script>
