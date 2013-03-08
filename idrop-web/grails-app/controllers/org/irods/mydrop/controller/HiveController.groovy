@@ -91,7 +91,7 @@ class HiveController {
 		log.info(params)
 
 		def indexLetter = params['indexLetter']
-		def targetUri = params['targetUri']
+		def targetUri = params['targetURI']
 		/*def vocabularies = params['vocabularies']
 		 */
 
@@ -125,7 +125,6 @@ class HiveController {
 			conceptProxy = hiveService.getTopLevelConceptProxyForVocabulary(currentVocab)
 			
 		}
-
 
 		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy])
 	}

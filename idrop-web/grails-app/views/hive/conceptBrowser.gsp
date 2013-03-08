@@ -97,6 +97,9 @@
 				alert("show vocabulary selection listing to rechoose");
 			}
 
+			/**
+			* Pivot the concept browser to the new term
+			*/
 			function processSelectOfTermAsCurrent(termUri) {
 				if (termUri == null || termUri == "") {
 					setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
@@ -104,6 +107,7 @@
 				}
 
 				alert("new uri is:" + termUri);
+				browseToUri(termUri);
 			}
 
 			$(function() {

@@ -54,6 +54,31 @@ function getVocabularyListing(vocabularyName, parentTerm, targetDiv) {
 	
 }
 
+/**
+ * Set the concept browser view to the given uri
+ * @param uri
+ * @returns
+ */
+function browseToUri(uri) {
+	if (uri == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_no_uri'));
+	}
+	
+	var params = {
+			targetURI : uri
+		}
+
+	try {
+		
+		 lcSendValueWithParamsAndPlugHtmlInDiv("/hive/conceptBrowser", params, "#infoDiv",
+					null);
+
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+}
+
 
 function selectVocabularies(){
 	var formData = $("#hiveVocabularyForm").serializeArray();
