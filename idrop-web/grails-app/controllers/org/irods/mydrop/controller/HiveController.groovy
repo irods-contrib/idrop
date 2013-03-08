@@ -113,6 +113,7 @@ class HiveController {
 			conceptProxy = hiveService.getConceptByUri(targetUri)
 		} else if (hiveState.currentConceptURI) {
 			log.info("have a current uri, redisplay this information:${hiveState.currentConceptURI}")
+			conceptProxy = hiveService.getConceptByUri(hiveState.currentConceptURI)
 		} else {
 			// no current or desired uri, select the top level of the current vocabulary
 			def currentVocab = hiveService.getCurrentVocabularySelection()

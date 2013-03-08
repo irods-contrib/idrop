@@ -73,7 +73,7 @@ class HiveService {
 			throw new IllegalArgumentException("not able to split namespace and local part from uri")
 		}
 
-		def namespace = uri.substring(0, poundIdx)
+		def namespace = uri.substring(0, poundIdx + 1)
 		def localPart = uri.substring(poundIdx + 1).trim()
 		log.info("namespace: ${namespace} local: ${localPart}")
 
