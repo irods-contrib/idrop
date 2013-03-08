@@ -34,9 +34,9 @@
 					</div>
 				</g:if>
 				<g:else>
-					<div class="row-fluid">
+					<!-- <div class="row-fluid">
 						<div class="span10 offset1 well">at top level...</div>
-					</div>
+					</div> -->
 				</g:else>
 				<div class="row-fluid" id="conceptBrowserNarrower">
 					<div class="span10 offset1 well">
@@ -50,7 +50,7 @@
 							<tbody>
 
 								<g:each in="${conceptProxy.narrower.keySet()}" var="key">
-									<tr id="${conceptProxy.narrower.get(key)}">
+									<tr id="${conceptProxy.narrower.get(key)}" onclick="processSelectOfTermAsCurrent('${conceptProxy.narrower.get(key)}')">
 										<td>
 											${key}
 										</td>
@@ -95,6 +95,15 @@
 			 */
 			function processShowSelectionListing() {
 				alert("show vocabulary selection listing to rechoose");
+			}
+
+			function processSelectOfTermAsCurrent(termUri) {
+				if (termUri == null || termUri == "") {
+					setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+					return false;
+				}
+
+				alert("new uri is:" + termUri);
 			}
 
 			$(function() {

@@ -81,7 +81,7 @@ class HiveController {
 			forward(action:"conceptBrowser", model:[hiveState:hiveState,vocabs:vocabularies])
 		}
 	}
-
+	
 	/**
 	 * Show the concept browser given the selected vocabularies
 	 * @return
@@ -110,6 +110,7 @@ class HiveController {
 		
 		if (targetUri) {
 			log.info("have target uri, make this the current:${targetUri}")
+			conceptProxy = hiveService.getConceptByUri(targetUri)
 		} else if (hiveState.currentConceptURI) {
 			log.info("have a current uri, redisplay this information:${hiveState.currentConceptURI}")
 		} else {
@@ -124,7 +125,6 @@ class HiveController {
 			conceptProxy = hiveService.getTopLevelConceptProxyForVocabulary(currentVocab)
 			
 		}
-
 
 
 		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy])

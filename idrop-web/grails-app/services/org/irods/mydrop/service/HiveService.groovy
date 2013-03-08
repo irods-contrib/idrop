@@ -8,6 +8,7 @@ import org.irods.mydrop.hive.VocabularySelection
 import org.springframework.web.context.request.RequestContextHolder
 import org.unc.hive.client.ConceptProxy
 
+
 class HiveService {
 
 	VocabularyService vocabularyService
@@ -53,6 +54,36 @@ class HiveService {
 
 		log.info("picked current as:${current}")
 		return current
+	}
+
+	/**
+	 * Pivot the concept browser with the given URI as the new 'current'
+	 * @param uri
+	 * @return
+	 */
+	public ConceptProxy getConceptByUri(final String uri) {
+		log.info("getConceptByUri()")
+		if (uri == null || uri == "") {
+			throw new IllegalArgumentException("null or empty uri")
+		}
+
+		//TODO:make this a utility in jargon-hive?
+		int poundIdx = uri.indexOf('#')
+		if (poundIdx == -1) {
+			throw new IllegalArgumentException("not able to split namespace and local part from uri")
+		}
+
+		def namespace = poundIdx.substring(0, poundIdx)
+		def localPart = poundIdx.substring(poundIdx + 1).trim()
+		log.info("namespace: ${namespace} local: ${localpart}")
+
+		ConceptProxy proxy = vocabularyService.getConceptByURI(namespace, localPart)
+		def hiveState = retrieveHiveState()
+		hiveState.currentConceptLabel = proxy.preLabel
+		hiveState.currentConceptURI = proxy.URI
+		log.info("have proxy, current lable is now ${proxy.preLabel} at uri: ${proxy.URI}")
+		return proxy
+
 	}
 
 	/**
