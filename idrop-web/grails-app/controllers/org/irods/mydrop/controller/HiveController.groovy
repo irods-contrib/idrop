@@ -43,14 +43,14 @@ class HiveController {
 		log.info(params)
 		def selected = params['selectedVocab']
 		// TODO: list versus object
-		
+
 		if (selected instanceof Object[]) {
 			// ok
 		} else {
 			selected = [selected]
 		}
-		
-		
+
+
 		hiveService.selectVocabularies(selected)
 
 		forward(action:"index")
@@ -66,7 +66,7 @@ class HiveController {
 	def index() {
 		log.info("index")
 
-		
+		def vocabularies = hiveService.retrieveVocabularySelectionListing()
 		def hiveState = hiveService.retrieveHiveState()
 		if (hiveState.vocabularies.size() == 0) {
 			log.info("no HIVE vocabularies configured")
@@ -74,12 +74,11 @@ class HiveController {
 			render(view:"noVocabularies")
 			return
 		}
-		
-		
+
 		if (hiveService.areVocabulariesSelected()==false) {
-			render(view:"vocabSelectionList", model:[vocabs:hiveService.retrieveVocabularySelectionListing()])
+			render(view:"vocabSelectionList", model:[vocabs:vocabularies])
 		} else {
-			forward(action:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing()])
+			forward(action:"conceptBrowser", model:[hiveState:hiveState,vocabs:vocabularies])
 		}
 	}
 
@@ -103,14 +102,14 @@ class HiveController {
 		if (!targetUri) {
 			targetUri = ""
 		}
-		
-		def hiveState = hiveService.retrieveHiveState()
-		
-		
-		
-		
 
-		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(),children:])
+		def hiveState = hiveService.retrieveHiveState()
+
+
+
+
+
+		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing()])
 	}
 
 
