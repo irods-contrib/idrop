@@ -86,7 +86,7 @@ class HiveController {
 		if (isAnyVocabularySelected==false) {
 			render(view:"vocabSelectionList", model:[vocabs:vocabularySelections])
 		} else {
-			forward(action:"conceptBrowser")
+			forward(action:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:vocabularySelections])
 		}
 	}
 

@@ -73,6 +73,10 @@ html, body {
     clear:both;
 }
 
+.pad-around {
+	margin:10px;	
+}
+
 
 /*
  * jsTree default theme 1.0
