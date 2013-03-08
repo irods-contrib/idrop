@@ -3,7 +3,6 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.hive.service.VocabularyService
-import org.irods.mydrop.hive.VocabularySelection
 import org.irods.mydrop.service.HiveService
 import org.unc.hive.client.ConceptProxy
 
@@ -67,8 +66,7 @@ class HiveController {
 	def index() {
 		log.info("index")
 
-		log.info("getting vocab names")
-		List<VocabularySelection> vocabularySelections = hiveService.retrieveVocabularySelectionListing()
+		
 		def hiveState = hiveService.retrieveHiveState()
 		if (hiveState.vocabularies.size() == 0) {
 			log.info("no HIVE vocabularies configured")
@@ -77,16 +75,11 @@ class HiveController {
 			return
 		}
 		
-		boolean isAnyVocabularySelected = false
-		vocabularySelections.each {
-			if (it.selected==true) {
-				isAnyVocabularySelected=true
-			}
-		}
-		if (isAnyVocabularySelected==false) {
-			render(view:"vocabSelectionList", model:[vocabs:vocabularySelections])
+		
+		if (hiveService.areVocabulariesSelected()==false) {
+			render(view:"vocabSelectionList", model:[vocabs:hiveService.retrieveVocabularySelectionListing()])
 		} else {
-			forward(action:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:vocabularySelections])
+			forward(action:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing()])
 		}
 	}
 
@@ -99,7 +92,7 @@ class HiveController {
 		log.info(params)
 
 		def indexLetter = params['indexLetter']
-		def parentTerm = params['parentTerm']
+		def targetUri = params['targetUri']
 		/*def vocabularies = params['vocabularies']
 		 */
 
@@ -107,27 +100,13 @@ class HiveController {
 			indexLetter = 'A'
 		}
 
-		if (!parentTerm) {
-			parentTerm = ""
+		if (!targetUri) {
+			targetUri = ""
 		}
-
 		
+		def hiveState = hiveService.retrieveHiveState()
 
-		/*
-		 if (!vocabularies) {
-		 response.sendError(500, message(code:"default.null.message",args:"${ ['vocabularies'] }" ))
-		 }
-		 List<ConceptProxy> concepts
-		 if (!parentTerm) {
-		 concepts = vocabularyService.getSubTopConcept(selected.toString().toLowerCase() , indexLetter , true)
-		 } else {
-		 // get the child concepts for the parent term provided
-		 }
-		 */
-		//params['selectedVocab']
-
-		//render(view:"conceptBrowser", model:[concepts:concepts])
-		render(view:"conceptBrowser", model:[])
+		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing()])
 	}
 
 

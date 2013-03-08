@@ -48,9 +48,30 @@ class HiveService {
 		}
 	}
 
+	/**
+	 * See if any vocabularies are currently selected
+	 * @return
+	 */
+	public boolean areVocabulariesSelected() {
+		boolean isAnyVocabularySelected = false
+		log.info("getting vocab names")
+		List<VocabularySelection> vocabularySelections = retrieveVocabularySelectionListing()
+		vocabularySelections.each {
+			if (it.selected==true) {
+				isAnyVocabularySelected=true
+			}
+		}
+		return isAnyVocabularySelected
+	}
 
 
-
+	/**
+	 * Retrieve a list of all vocabularies in a form that indicates the selected state of each vocabulary.
+	 * <p/>
+	 * Calling this method will also provision the complete list of available vocabularies from hive if they 
+	 * are not currently persisted in the HiveState
+	 * @return
+	 */
 	public List<VocabularySelection> retrieveVocabularySelectionListing() {
 		log.info("retrieveVocabularySelectionListing")
 
