@@ -105,8 +105,12 @@ class HiveController {
 		}
 		
 		def hiveState = hiveService.retrieveHiveState()
+		
+		
+		
+		
 
-		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing()])
+		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(),children:])
 	}
 
 

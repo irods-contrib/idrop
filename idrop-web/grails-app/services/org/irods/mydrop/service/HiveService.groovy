@@ -6,6 +6,7 @@ import org.irods.jargon.hive.service.VocabularyService
 import org.irods.mydrop.hive.HiveState
 import org.irods.mydrop.hive.VocabularySelection
 import org.springframework.web.context.request.RequestContextHolder
+import org.unc.hive.client.ConceptProxy
 
 class HiveService {
 
@@ -33,6 +34,49 @@ class HiveService {
 	public storeHiveState(HiveState hiveState) {
 		getSession()[HIVE_STATE] = hiveState
 	}
+
+	/**
+	 * Find the current selected vocabulary, if none is set, pick the first selected vocabulary as current
+	 * @return current vocabulary, or blank if none can be decided
+	 */
+	public String getCurrentVocabularySelection() {
+		log.info("getTopLevelConceptProxyForVocabulary")
+		def hiveState = retrieveHiveState()
+		def current = hiveState.currentVocabulary
+
+		if (current == "") {
+			log.info("no current set, look at selected vocabs and pick first one")
+			if (hiveState.selectedVocabularies.size() > 0) {
+				current = hiveState.selectedVocabularies[0]
+			}
+		}
+
+		log.info("picked current as:${current}")
+		return current
+	}
+
+	public ConceptProxy getTopLevelConceptProxyForVocabulary(final String vocabularyName) {
+		log.info("getTopLevelConceptProxyForVocabulary")
+
+		def current = ""
+
+		if (vocabularyName == null || vocabularyName == "") {
+			log.info("no vocab selected, try and find current in hiveState")
+			current = getCurrentVocabularySelection()
+			log.info("found ${current}")
+		}
+
+		if (current == "") {
+			return null
+		}
+
+		// have a current vocab, get a list of concept proxies for the vocab under a default concept proxy
+
+
+
+
+	}
+
 
 	public void selectVocabularies(List<String> vocabularyNames) {
 		log.info("selectVocabularies")
