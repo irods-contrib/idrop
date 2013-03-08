@@ -4,7 +4,6 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.hive.service.VocabularyService
 import org.irods.mydrop.service.HiveService
-import org.unc.hive.client.ConceptProxy
 
 
 class HiveController {
@@ -83,6 +82,33 @@ class HiveController {
 	}
 	
 	/**
+	 * Set the concept browser to display the top level of the given vocabulary
+	 * @return
+	 */
+	def resetConceptBrowser() {
+		log.info("resetConceptBrowser")
+		log.info(params)
+		
+		def vocabulary = params['vocabulary']
+		def hiveState = hiveService.retrieveHiveState()
+		
+		if (!vocabulary) {
+			vocabulary = hiveState.currentVocabulary
+		}
+		
+		if (!vocabulary) {
+			log.error("no vocabulary is selected or possible to select")
+				response.sendError(500, message(code:"error.no.vocabulary.selected" ))
+				return
+		}
+		
+		hiveService.getTopLevelConceptProxyForVocabulary(vocabulary)
+		forward(action:"conceptBrowser")
+	
+		
+	}
+	
+	/**
 	 * Show the concept browser given the selected vocabularies
 	 * @return
 	 */
@@ -130,41 +156,5 @@ class HiveController {
 		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy])
 	}
 
-
-	def showTermsInVocabulary(){
-		log.info("showTermsInVocabulary")
-		log.info("params:${params}")
-
-		def selectedVocab = params['selectedVocab'].toString().toLowerCase()
-		def parentTerm = params['parentTerm']
-		def indexLetter = params['indexLetter']
-
-		if (!indexLetter) {
-			indexLetter = 'A'
-		}
-
-		if (!selectedVocab) {
-			response.sendError(500, message(code:"default.null.message",args:"${ ['selectedVocab'] }" ))
-			return
-		}
-
-		/*
-		 * This works now for top level concepts
-		 */
-
-		List<ConceptProxy> concepts
-
-		if (!parentTerm) {
-
-			concepts = vocabularyService.getSubTopConcept(params['selectedVocab'].toString().toLowerCase() , indexLetter , true)
-		} else {
-
-			// get the child concepts for the parent term provided
-		}
-
-		//params['selectedVocab']
-
-		render(view:"vocabTermsListing", model:[concepts:concepts])
-	}
 }
 
