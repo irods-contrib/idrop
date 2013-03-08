@@ -73,9 +73,9 @@ class HiveService {
 			throw new IllegalArgumentException("not able to split namespace and local part from uri")
 		}
 
-		def namespace = poundIdx.substring(0, poundIdx)
-		def localPart = poundIdx.substring(poundIdx + 1).trim()
-		log.info("namespace: ${namespace} local: ${localpart}")
+		def namespace = uri.substring(0, poundIdx)
+		def localPart = uri.substring(poundIdx + 1).trim()
+		log.info("namespace: ${namespace} local: ${localPart}")
 
 		ConceptProxy proxy = vocabularyService.getConceptByURI(namespace, localPart)
 		def hiveState = retrieveHiveState()
