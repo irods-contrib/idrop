@@ -28,11 +28,37 @@
 	<div class="row-fluid">
 		<div class="span6">
 			<div class="container-fluid">
-				<div class="row-fluid">
-					<div class="span10 offset1 well">current</div>
-				</div>
+				<g:if test="${!conceptProxy.topLevel}">
+					<div class="row-fluid">
+						<div class="span10 offset1 well">current</div>
+					</div>
+				</g:if>
+				<g:else>
+					<div class="row-fluid">
+						<div class="span10 offset1 well">at top level...</div>
+					</div>
+				</g:else>
 				<div class="row-fluid" id="conceptBrowserNarrower">
-					<div class="span10 offset1 well">children</div>
+					<div class="span10 offset1 well">
+						<table cellspacing="0" cellpadding="0" border="0"
+							id="hiveVocabTable" class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<g:each in="${conceptProxy.narrower.keySet()}" var="key">
+									<tr id="${conceptProxy.narrower.get(key)}">
+										<td>
+											${key}
+										</td>
+									</tr>
+								</g:each>
+							</tbody>
+						</table>
+					</div>
 				</div>
 				<div class="row-fluid" id="conceptBrowserNarrowerLetters">
 					<div class="span10 offset1 well">
@@ -65,12 +91,11 @@
 			}
 
 			/**
-			* page level action to show the vocabulary selection form for reselection
-			*/
+			 * page level action to show the vocabulary selection form for reselection
+			 */
 			function processShowSelectionListing() {
 				alert("show vocabulary selection listing to rechoose");
 			}
-			
 
 			$(function() {
 

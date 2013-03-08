@@ -104,12 +104,30 @@ class HiveController {
 		}
 
 		def hiveState = hiveService.retrieveHiveState()
+		def conceptProxy
+		
+		log.info("getting concept proxy for display...")
+		
+		if (targetUri) {
+			log.info("have target uri, make this the current:${targetUri}")
+		} else if (hiveState.currentConceptURI) {
+			log.info("have a current uri, redisplay this information:${hiveState.currentConceptURI}")
+		} else {
+			// no current or desired uri, select the top level of the current vocabulary
+			def currentVocab = hiveService.getCurrentVocabularySelection()
+			if(!currentVocab) {
+				log.error("no vocabulary is selected or possible to select")
+				response.sendError(500, message(code:"error.no.vocabulary.selected" ))
+				return
+			}
+			log.info("getting top level for:${currentVocab}")
+			conceptProxy = hiveService.getTopLevelConceptProxyForVocabulary(currentVocab)
+			
+		}
 
 
 
-
-
-		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing()])
+		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy])
 	}
 
 
@@ -127,6 +145,7 @@ class HiveController {
 
 		if (!selectedVocab) {
 			response.sendError(500, message(code:"default.null.message",args:"${ ['selectedVocab'] }" ))
+			return
 		}
 
 		/*

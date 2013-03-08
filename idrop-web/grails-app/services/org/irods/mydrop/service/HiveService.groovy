@@ -55,6 +55,13 @@ class HiveService {
 		return current
 	}
 
+	/**
+	 * Get the top level set of concepts for the given vocabulary, this resets the hiveState to the top of the
+	 * given vocabulary 
+	 * @param vocabularyName <code>String</code> with the vocabulary name.  If blank, the current vocabulary in the
+	 * hive state will be used
+	 * @return
+	 */
 	public ConceptProxy getTopLevelConceptProxyForVocabulary(final String vocabularyName) {
 		log.info("getTopLevelConceptProxyForVocabulary")
 
@@ -64,6 +71,8 @@ class HiveService {
 			log.info("no vocab selected, try and find current in hiveState")
 			current = getCurrentVocabularySelection()
 			log.info("found ${current}")
+		} else {
+			current = vocabularyName
 		}
 
 		if (current == "") {
@@ -71,9 +80,12 @@ class HiveService {
 		}
 
 		// have a current vocab, get a list of concept proxies for the vocab under a default concept proxy
-
-
-
+		def hiveState = retrieveHiveState()
+		hiveState.currentConceptLabel = ""
+		hiveState.currentConceptURI = ""
+		hiveState.currentVocabulary = current
+		log.info("getting top concept proxy for vocabulary:${current}, will set hiveState to top of this vocab")
+		return vocabularyService.getConceptProxyForTopOfVocabulary(vocabularyName, "", true)
 
 	}
 
