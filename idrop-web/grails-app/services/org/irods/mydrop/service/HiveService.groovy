@@ -49,19 +49,19 @@ class HiveService {
 	}
 
 
+
+
 	public List<VocabularySelection> retrieveVocabularySelectionListing() {
 		log.info("retrieveVocabularySelectionListing")
 
 		def vocabularySelections = new ArrayList<VocabularySelection>()
 		synchronized(this) {
 			HiveState hiveState = this.retrieveHiveState()
-			if(hiveState.vocabularies.size == 0) {
+			if(hiveState.vocabularies.size() == 0) {
 				log.info("attempting to retrieve vocabs")
-				hiveState.vocabularies = vocabularyService.allVocabularyNames()
+				hiveState.vocabularies = vocabularyService.getAllVocabularyNames()
 				log.info("retrieved all vocabs:${hiveState.vocabularies}")
 			}
-
-
 
 			hiveState.vocabularies.each{
 				//check to see if it is in the hive state selected vocabularies table

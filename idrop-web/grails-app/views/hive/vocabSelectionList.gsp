@@ -1,7 +1,7 @@
 
-<div class="container-fluid">
+<div id="hivePanelInner" class="container-fluid">
 
-	<div class="row-fluid" id="hivePanelInner">
+	<div class="row-fluid" >
 		<div class="offset3 span6">
 		<form name="hiveVocabularyForm" id="hiveVocabularyForm">
 			<table cellspacing="0" cellpadding="0" border="0" id="hiveVocabTable"
@@ -15,11 +15,11 @@
 				<tbody>
 
 					<g:each in="${vocabs}" var="vocab">
-						<tr id="${vocab}">
-							<td><g:checkBox name="selectedVocab" value="${vocab}"
-									checked="false" /></td>
+						<tr id="${vocab.vocabularyName}">
+							<td><g:checkBox name="selectedVocab" value="${vocab.vocabularyName}"
+									checked="${vocab.selected}" /></td>
 							<td>
-								${vocab}
+								${vocab.vocabularyName}
 							</td>
 						</tr>
 					</g:each>

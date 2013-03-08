@@ -44,9 +44,17 @@ class HiveController {
 		log.info(params)
 		def selected = params['selectedVocab']
 		// TODO: list versus object
+		
+		if (selected instanceof Object[]) {
+			// ok
+		} else {
+			selected = [selected]
+		}
+		
+		
 		hiveService.selectVocabularies(selected)
 
-		chain(action:"index")
+		forward(action:"index")
 
 
 	}
@@ -60,9 +68,15 @@ class HiveController {
 		log.info("index")
 
 		log.info("getting vocab names")
-		List<String> vocabs = vocabularyService.getAllVocabularyNames()
-		HiveService hiveService= new HiveService()
 		List<VocabularySelection> vocabularySelections = hiveService.retrieveVocabularySelectionListing()
+		def hiveState = hiveService.retrieveHiveState()
+		if (hiveState.vocabularies.size() == 0) {
+			log.info("no HIVE vocabularies configured")
+			//TODO: create this view
+			render(view:"noVocabularies")
+			return
+		}
+		
 		boolean isAnyVocabularySelected = false
 		vocabularySelections.each {
 			if (it.selected==true) {
@@ -70,9 +84,9 @@ class HiveController {
 			}
 		}
 		if (isAnyVocabularySelected==false) {
-			render(view:"vocabSelectionList", model:[vocabs:vocabs])
+			render(view:"vocabSelectionList", model:[vocabs:vocabularySelections])
 		} else {
-			chain(action:"conceptBrowser")
+			forward(action:"conceptBrowser")
 		}
 	}
 
