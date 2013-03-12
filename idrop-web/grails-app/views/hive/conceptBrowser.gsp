@@ -42,12 +42,11 @@
 											:
 										</h6>
 									</div>
-
 								</div>
+
 								<div class="row-fluid">
 									<div class="offset1 span8">
-										<em>
-											${conceptProxy.preLabel}
+										<em> ${conceptProxy.preLabel}
 										</em>
 									</div>
 								</div>
@@ -62,12 +61,10 @@
 								<g:each in="${conceptProxy.altLabel}" var="altLabel">
 									<div class="row-fluid">
 										<div class="offset1 span8">
-											<em>
-												${altLabel}
+											<em> ${altLabel}
 											</em>
 										</div>
 									</div>
-
 								</g:each>
 								<div class="row-fluid">
 									<div class="span3">
@@ -79,28 +76,26 @@
 								</div>
 								<div class="row-fluid">
 									<div class="offset1 span8">
-										<em>
-											${conceptProxy.URI}
+										<em> ${conceptProxy.URI}
 										</em>
 									</div>
 								</div>
-							</div>
-							<div class="row-fluid">
+								<div class="row-fluid">
 								<div class="offset1 span11">
 									<div class="btn-group pad-around">
-											<button type="button" class="btn  btn-inverse"
-												id="btnViewInSKOS"
-												onclick="processViewInSKOS('${conceptProxy.origin}','${conceptProxy.URI}')">
-												<g:message code="text.view.in.skos" />
-											</button>
-											<button type="button" class="btn  btn-inverse"
-												id="btnApplyTerm"
-												onclick="processApplyHiveTerm('${conceptProxy.origin}','${conceptProxy.URI}')">
-												<g:message code="text.apply.hive.term" />
-											</button>
+										<button type="button" class="btn  btn-inverse"
+											id="btnViewInSKOS"
+											onclick="processViewInSKOS('${conceptProxy.origin}','${conceptProxy.URI}')">
+											<g:message code="text.view.in.skos" />
+										</button>
+										<button type="button" class="btn  btn-inverse"
+											id="btnApplyTerm"
+											onclick="processApplyHiveTerm('${conceptProxy.origin}','${conceptProxy.URI}')">
+											<g:message code="text.apply.hive.term" />
+										</button>
 									</div>
 								</div>
-							</div>
+							</div>							
 						</div>
 					</div>
 			</div>
@@ -223,7 +218,15 @@
 			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
 			return false;
 		}
-		resetVocabulary(vocabName);
+
+		var absPath = $("#infoAbsPath").val();
+
+		if (absPath == null) {
+			setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
+			return false;
+		}
+
+		resetVocabulary(vocabName, absPath);
 	}
 
 	/**
@@ -242,12 +245,19 @@
 			return false;
 		}
 
-		browseToUri(termUri);
+		var absPath = $("#infoAbsPath").val();
+
+		if (absPath == null) {
+			setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
+			return false;
+		}
+
+		browseToUri(termUri, absPath);
 	}
 
 	/**
-	* handle pressing the view in skos button
-	*/
+	 * handle pressing the view in skos button
+	 */
 	function processViewInSKOS(vocabulary, termUri) {
 		if (termUri == null || termUri == "") {
 			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
@@ -257,12 +267,13 @@
 			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
 			return false;
 		}
-		alert("to be implemented, view as SKOS term:" + termUri + " from vocabulary:" + vocabulary);
+		alert("to be implemented, view as SKOS term:" + termUri
+				+ " from vocabulary:" + vocabulary);
 	}
 
 	/**
-	* handle pressing the apply term button
-	*/
+	 * handle pressing the apply term button
+	 */
 	function processApplyHiveTerm(vocabulary, termUri) {
 		if (termUri == null || termUri == "") {
 			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
@@ -272,7 +283,16 @@
 			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
 			return false;
 		}
-		alert("to be implemented, apply the term:" + termUri + " from vocabulary:" + vocabulary);
+
+		var absPath = $("#infoAbsPath").val();
+
+		if (absPath == null) {
+			setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
+			return false;
+		}
+
+		alert("to be implemented, apply the term:" + termUri
+				+ " from vocabulary:" + vocabulary);
 	}
 
 	$(function() {

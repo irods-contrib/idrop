@@ -40,6 +40,16 @@ class HiveController {
 	def selectVocabularies() {
 		log.info("selectVocabularies")
 		log.info(params)
+		
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info "absPath: ${absPath}"
+		
 		def selected = params['selectedVocab']
 		// TODO: list versus object
 
@@ -52,7 +62,7 @@ class HiveController {
 
 		hiveService.selectVocabularies(selected)
 
-		forward(action:"index")
+		forward(action:"index", model:[absPath:absPath])
 
 
 	}
@@ -64,6 +74,17 @@ class HiveController {
 	 */
 	def index() {
 		log.info("index")
+		
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+			return
+		}
+
+		log.info "absPath: ${absPath}"
+
 
 		def vocabularies = hiveService.retrieveVocabularySelectionListing()
 		def hiveState = hiveService.retrieveHiveState()
@@ -77,7 +98,7 @@ class HiveController {
 		if (hiveService.areVocabulariesSelected()==false) {
 			render(view:"vocabSelectionList", model:[vocabs:vocabularies])
 		} else {
-			forward(action:"conceptBrowser", model:[hiveState:hiveState,vocabs:vocabularies])
+			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies])
 		}
 	}
 	
@@ -88,6 +109,15 @@ class HiveController {
 	def resetConceptBrowser() {
 		log.info("resetConceptBrowser")
 		log.info(params)
+		
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info "absPath: ${absPath}"
 		
 		def vocabulary = params['vocabulary']
 		def hiveState = hiveService.retrieveHiveState()
@@ -103,7 +133,7 @@ class HiveController {
 		}
 		
 		hiveService.getTopLevelConceptProxyForVocabulary(vocabulary)
-		forward(action:"conceptBrowser")
+		forward(action:"conceptBrowser",model:[absPath:absPath])
 	
 		
 	}
@@ -115,6 +145,15 @@ class HiveController {
 	def conceptBrowser() {
 		log.info("conceptBrowser")
 		log.info(params)
+		
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info "absPath: ${absPath}"
 
 		def indexLetter = params['indexLetter']
 		def targetUri = params['targetURI']
@@ -153,7 +192,7 @@ class HiveController {
 			
 		}
 
-		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy])
+		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy, absPath:absPath])
 	}
 
 }
