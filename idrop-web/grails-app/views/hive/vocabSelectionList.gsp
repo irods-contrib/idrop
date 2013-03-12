@@ -9,7 +9,7 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>Vocabulary</th>
+						<th><g:message code="text.vocabulary" /></th>
 					</tr>
 				</thead>
 				<tbody>
