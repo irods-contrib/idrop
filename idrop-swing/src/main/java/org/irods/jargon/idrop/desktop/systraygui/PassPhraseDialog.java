@@ -18,6 +18,7 @@ import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
 public class PassPhraseDialog extends javax.swing.JDialog {
 
     private IDROPCore idropCore;
+    private boolean validated = false;
     
     /**
      * Creates new form PassPhraseDialog
@@ -38,6 +39,10 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         txtAreaWelcomeLabel.setFont(UIManager.getFont("Label.font"));      
         txtAreaWelcomeLabel.setWrapStyleWord(true);  
         txtAreaWelcomeLabel.setLineWrap(true);
+    }
+    
+    public boolean isValidated() {
+        return this.validated;
     }
 
 
@@ -125,7 +130,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
                 btnOkayActionPerformed(evt);
             }
         });
-        jPanel5.add(btnOkay, java.awt.BorderLayout.WEST);
+        jPanel5.add(btnOkay, java.awt.BorderLayout.EAST);
 
         btnCancel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.text")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -133,7 +138,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel5.add(btnCancel, java.awt.BorderLayout.EAST);
+        jPanel5.add(btnCancel, java.awt.BorderLayout.WEST);
 
         jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
 
@@ -179,6 +184,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         
         JOptionPane.showMessageDialog(
             this, "Pass phrase validated successfully", "Validate Pass Phrase", JOptionPane.INFORMATION_MESSAGE);
+        this.validated = true;
         
         this.dispose();
     }//GEN-LAST:event_btnOkayActionPerformed

@@ -19,6 +19,7 @@ import org.openide.util.Exceptions;
 public class InitialPassPhraseDialog extends javax.swing.JDialog {
 
     private IDROPCore idropCore;
+    private boolean validated = false;
     /**
      * Creates new form InitialPassPhraseDialog
      */
@@ -38,6 +39,10 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         txtAreaWelcomeLabel.setFont(UIManager.getFont("Label.font"));      
         txtAreaWelcomeLabel.setWrapStyleWord(true);  
         txtAreaWelcomeLabel.setLineWrap(true);
+    }
+    
+    public boolean isValidated() {
+        return this.validated;
     }
 
     /**
@@ -60,8 +65,8 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        btnOkay = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        btnOkay = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.title")); // NOI18N
@@ -126,21 +131,21 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        btnOkay.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnOkay.text")); // NOI18N
-        btnOkay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOkayActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnOkay, java.awt.BorderLayout.WEST);
-
         btnCancel.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnCancel.text")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel5.add(btnCancel, java.awt.BorderLayout.EAST);
+        jPanel5.add(btnCancel, java.awt.BorderLayout.WEST);
+
+        btnOkay.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnOkay.text")); // NOI18N
+        btnOkay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkayActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnOkay, java.awt.BorderLayout.EAST);
 
         jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
 
@@ -187,6 +192,7 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         
         JOptionPane.showMessageDialog(
             this, "Pass phrase created successfully", "Initialize Pass Phrase", JOptionPane.INFORMATION_MESSAGE);
+        this.validated = true;
         this.dispose();
     }//GEN-LAST:event_btnOkayActionPerformed
 

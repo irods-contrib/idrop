@@ -153,6 +153,7 @@ public class IDROPDesktop {
 
         log.info("logging in in splash background thread");
         idropSplashWindow.setStatus("Logging in...", ++count);
+        boolean validated = false;
         try {
             // check to see if need to set up initial pass phrase
             if (idropCore.getConveyorService().isPreviousPassPhraseStored()) {
@@ -165,6 +166,7 @@ public class IDROPDesktop {
                 idropSplashWindow.toBack();
                 passPhraseDialog.toFront();
                 passPhraseDialog.setVisible(true);
+                validated = passPhraseDialog.isValidated();
             
             }
             else {
@@ -177,11 +179,26 @@ public class IDROPDesktop {
                 idropSplashWindow.toBack();
                 initialPassPhraseDialog.toFront();
                 initialPassPhraseDialog.setVisible(true);
+                validated = initialPassPhraseDialog.isValidated();
             }
         } catch (ConveyorExecutionException ex) {
             Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
+        }
+        
+        if (validated) {
+            final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, idropCore);
+            Toolkit tk = idrop.getToolkit();
+            int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
+            int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
+            gridMemoryDialog.setLocation(x, y);
+            //idropSplashWindow.toBack();
+            gridMemoryDialog.toFront();
+            gridMemoryDialog.setVisible(true);
+        }
+        else {
+            // what?
         }
 
         final LoginDialog loginDialog = new LoginDialog(null, idropCore);
