@@ -155,22 +155,15 @@ public class GridInfoTableModel extends AbstractTableModel {
     
     public void addRow(IRODSAccount irodsAccount) throws JargonException {
         GridAccount gridAccount = new GridAccount();
-        String userName = irodsAccount.getUserName();
-        String host = irodsAccount.getHost();
-        int port = irodsAccount.getPort();
-        String zone = irodsAccount.getZone();
         
-        if ((userName == null) || (userName.isEmpty()) ||
-            (host == null) || (host.isEmpty()) ||
-            (port <= 0) ||
-            (zone == null) || zone.isEmpty()) {
+        if (! isIrodsAccountValid(irodsAccount)) {
             throw new JargonException("invalid grid account parameters");
         }
         
-        gridAccount.setUserName(userName);
-        gridAccount.setHost(host);
-        gridAccount.setPort(port);
-        gridAccount.setZone(zone);
+        gridAccount.setUserName(irodsAccount.getUserName());
+        gridAccount.setHost(irodsAccount.getHost());
+        gridAccount.setPort(irodsAccount.getPort());
+        gridAccount.setZone(irodsAccount.getZone());
         
         gridAccounts.add(gridAccount);
         
@@ -180,6 +173,47 @@ public class GridInfoTableModel extends AbstractTableModel {
     public void deleteRow(int selectedRow) throws JargonException {
         gridAccounts.remove(selectedRow);
         fireTableDataChanged();
+    }
+    
+    public void deleteRow(IRODSAccount irodsAccount) throws JargonException {
+        
+        if (! isIrodsAccountValid(irodsAccount)) {
+            throw new JargonException("invalid grid account parameters");
+        }
+        
+        int idx = 0;
+        for (GridAccount acct: gridAccounts) {
+            if ((irodsAccount.getUserName().equals(acct.getUserName()) &&
+                (irodsAccount.getHost().equals(acct.getHost())) &&
+                (irodsAccount.getPort() == acct.getPort()) &&
+                (irodsAccount.getZone().equals(acct.getZone())))) {
+                
+                gridAccounts.remove(idx);
+                break;
+            }
+            idx++;
+        }
+
+        fireTableDataChanged();
+    }
+    
+    private boolean isIrodsAccountValid(IRODSAccount irodsAccount) {
+        
+        String user = irodsAccount.getUserName();
+        String host = irodsAccount.getHost();
+        int port = irodsAccount.getPort();
+        String zone = irodsAccount.getZone();
+        
+        if ((user == null) || (user.isEmpty()) ||
+            (host == null) || (host.isEmpty()) ||
+            (port <= 0) ||
+            (zone == null) || zone.isEmpty()) {
+            
+            return false;
+        }
+        else {
+            return true;
+        }
     }
     
 }

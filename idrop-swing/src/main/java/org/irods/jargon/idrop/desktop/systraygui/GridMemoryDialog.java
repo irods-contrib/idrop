@@ -13,6 +13,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.GridAccountService;
+import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.GridInfoTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
@@ -63,12 +65,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                 try {
                     GridAccountService gridAccountService = idropCore.getConveyorService().getGridAccountService();
                     List<GridAccount> gridAccounts = null;
-//                    try {
-                        gridAccounts = gridAccountService.findAll();
-                        // set up grid info table and table model
-//                    } catch (ConveyorExecutionException ex) {
-//                        Exceptions.printStackTrace(ex);
-//                    }
+                    gridAccounts = gridAccountService.findAll();
 
                     GridInfoTableModel gridInfoTableModel = new GridInfoTableModel(gridAccounts);
 
@@ -78,35 +75,26 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                 } catch (ConveyorExecutionException ex) {
                     Exceptions.printStackTrace(ex);
                 }
-                    
-//                } catch (IdropException ex) {
-//                    Logger.getLogger(MetadataViewDialog.class.getName()).log(
-//                            Level.SEVERE, null, ex);
-//                    idropGUI.showIdropException(ex);
-//                }
                 
                 dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
     }
     
+    private void updateGridInfoDeleteBtnStatus(int selectedRowCount) {
+        // delete button should only be enabled when there is a tableGridInfo selection
+        btnDeleteGridInfo.setEnabled(selectedRowCount > 0);
+    }
+    
     // ListSelectionListener methods
     @Override
     public void valueChanged(ListSelectionEvent lse) {
-//        int selectedRowCount = 0;
-//        
-//        if (!lse.getValueIsAdjusting()) {
-//            // determine which table is selected
-//            // Metadata Table?
-//            if (lse.getSource() == tableMetadata.getSelectionModel()) {
-//                selectedRowCount = tableMetadata.getSelectedRowCount();
-//                updateMetadataDeleteBtnStatus(selectedRowCount);
-//            }
-//            else {  // Permissions Table
-//                selectedRowCount = tablePermissions.getSelectedRowCount();
-//                updatePermissionsDeleteBtnStatus(selectedRowCount);
-//            }
-//        } 
+        int selectedRowCount = 0;
+        
+        if (!lse.getValueIsAdjusting()) {
+            selectedRowCount = tableGridInfo.getSelectedRowCount();
+            updateGridInfoDeleteBtnStatus(selectedRowCount);
+        } 
     }
     // end ListSelectionListener methods
     
@@ -282,47 +270,46 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddGridInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGridInfoActionPerformed
-//        AddPermissionsDialog addPermissionsDialog = new AddPermissionsDialog(
-//            this, true, irodsFileSystem, irodsAccount);
-//
-//        addPermissionsDialog.setLocation(
-//            (int)this.getLocation().getX(), (int)this.getLocation().getY());
-//        addPermissionsDialog.setVisible(true);
-//
-//        UserFilePermission userFilePermission = addPermissionsDialog.getPermissionToAdd();
-//
-//        // first remove this user's entry from table if there is one
-//        if (userFilePermission != null) {
-//            try {
-//                UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory().getUserAO(irodsAccount);
-//                String tableUserName = userFilePermission.getUserName() + "#" + userFilePermission.getUserZone();
-//
-//                PermissionsTableModel tm = (PermissionsTableModel)tableGridInfo.getModel();
-//                tm.deleteRow(userAO.findByName(tableUserName));
-//
-//                // now add to table
-//                tm.addRow(userAO.findByName(tableUserName), userFilePermission.getFilePermissionEnum());
-//            } catch (JargonException ex) {
-//                Exceptions.printStackTrace(ex);
-//            }
-//            btnPermissionsSave.setEnabled(true);
-//        }
+        CreateGridInfoDialog createGridInfoDialog = new CreateGridInfoDialog(
+            null, true, idropCore);
+
+        createGridInfoDialog.setLocation(
+            (int)this.getLocation().getX(), (int)this.getLocation().getY());
+        createGridInfoDialog.setVisible(true);
+
+        IRODSAccount irodsAccount = createGridInfoDialog.getGridInfo();
+
+        // first remove this user's entry from table if there is one
+        if (irodsAccount != null) {
+            try {
+                GridInfoTableModel tm = (GridInfoTableModel)tableGridInfo.getModel();
+                tm.deleteRow(irodsAccount);
+
+                // now add to table
+                tm.addRow(irodsAccount);
+            } catch (JargonException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
     }//GEN-LAST:event_btnAddGridInfoActionPerformed
 
     private void btnDeleteGridInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteGridInfoActionPerformed
-//
-//        int[] selectedRows = tableGridInfo.getSelectedRows();
-//        int numRowsSelected = selectedRows.length;
-//
-//        // have to remove rows in reverse
-//        for(int i=numRowsSelected-1; i>=0; i--) {
-//            int selectedRow = selectedRows[i];
-//            if (selectedRow >= 0) {
-//                PermissionsTableModel model = (PermissionsTableModel) tableGridInfo.getModel();
-//                model.deleteRow(selectedRow);
-//                btnPermissionsSave.setEnabled(true);
-//            }
-//        }
+
+        int[] selectedRows = tableGridInfo.getSelectedRows();
+        int numRowsSelected = selectedRows.length;
+
+        // have to remove rows in reverse
+        for(int i=numRowsSelected-1; i>=0; i--) {
+            int selectedRow = selectedRows[i];
+            if (selectedRow >= 0) {
+                try {
+                    GridInfoTableModel model = (GridInfoTableModel) tableGridInfo.getModel();
+                    model.deleteRow(selectedRow);
+                } catch (JargonException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        }
     }//GEN-LAST:event_btnDeleteGridInfoActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
