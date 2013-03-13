@@ -7,7 +7,6 @@ beans = {
 
 	sharingService(org.irods.mydrop.service.SharingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
-
 	browseController(org.irods.mydrop.controller.BrowseController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 		taggingServiceFactory = ref("taggingServiceFactory")
@@ -69,5 +68,8 @@ beans = {
 
 	vocabularyService(org.irods.jargon.hive.service.VocabularyServiceImpl) { hiveContainer = ref("hiveContainer") }
 
+	hiveService(org.irods.mydrop.service.HiveService) {
+		vocabularyService = ref("vocabularyService")
+		irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 }

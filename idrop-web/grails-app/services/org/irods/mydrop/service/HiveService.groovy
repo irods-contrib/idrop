@@ -2,6 +2,16 @@ package org.irods.mydrop.service
 
 import javax.servlet.http.HttpSession
 
+import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.JargonException
+import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
+import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.domain.ObjStat
+import org.irods.jargon.core.query.MetaDataAndDomainData.MetadataDomain
+import org.irods.jargon.hive.irods.HiveVocabularyEntry
+import org.irods.jargon.hive.irods.IRODSHiveService
+import org.irods.jargon.hive.irods.IRODSHiveServiceImpl
+import org.irods.jargon.hive.irods.exception.IRODSHiveException
 import org.irods.jargon.hive.service.VocabularyService
 import org.irods.mydrop.hive.HiveState
 import org.irods.mydrop.hive.VocabularySelection
@@ -12,6 +22,7 @@ import org.unc.hive.client.ConceptProxy
 class HiveService {
 
 	VocabularyService vocabularyService
+	IRODSAccessObjectFactory irodsAccessObjectFactory
 
 	static transactional = false
 	static scope = "session"
@@ -57,14 +68,98 @@ class HiveService {
 	}
 
 	/**
+	 * Add the given term as iRODS metadata, returning the <code>ConceptProxy</code> that represents the new term
+	 * @param uri <code>String</code> with the URI for the vocabulary term
+	 * @param irodsAbsolutePath <code>String</code> with the absolute path to the iRODS file or collection
+	 * @param vocabulary <code>String</code> with the vocabulary name that contains the given term
+	 * @param irodsAccount {@link IRODSAccount} representing the server connection
+	 * @return {@link ConceptProxy} with information on the term just added to iRODS
+	 * @throws FileNotFoundException
+	 * @throws IRODSHiveException
+	 */
+	public ConceptProxy applyVocabularyTerm(final String uri, final String irodsAbsolutePath, final String vocabulary, final String comment, final IRODSAccount irodsAccount)
+	throws FileNotFoundException, IRODSHiveException {
+
+		log.info("applyVocabularyTerm()")
+
+		if (uri == null || uri == "") {
+			throw new IllegalArgumentException("null or empty uri")
+		}
+
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		if (irodsAbsolutePath == null || irodsAbsolutePath == "") {
+			throw new IllegalArgumentException("null or empty irodsAbsolutePath")
+		}
+
+		if (vocabulary == null || vocabulary == "") {
+			throw new IllegalArgumentException("null or empty vocabulary")
+		}
+
+		if (comment == null ) {
+			throw new IllegalArgumentException("null comment")
+		}
+
+		try {
+
+			ConceptProxy conceptProxy = getConceptByUri(uri, irodsAbsolutePath, irodsAccount)
+
+			if (conceptProxy.selected) {
+				log.info("shows already selected, ignore")
+				return
+			}
+
+			IRODSHiveService irodsHiveService = new IRODSHiveServiceImpl(irodsAccessObjectFactory, irodsAccount)
+			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+			ObjStat objStat = collectionAndDataObjectListAndSearchAO.retrieveObjectStatForPath(irodsAbsolutePath)
+			HiveVocabularyEntry hiveVocabularyEntry = new HiveVocabularyEntry()
+			hiveVocabularyEntry.domainObjectUniqueName = irodsAbsolutePath
+			hiveVocabularyEntry.preferredLabel = conceptProxy.preLabel
+			hiveVocabularyEntry.termURI = conceptProxy.URI
+			hiveVocabularyEntry.vocabularyName = conceptProxy.origin.toLowerCase()
+			hiveVocabularyEntry.comment = comment
+
+			if (objStat.isSomeTypeOfCollection()) {
+				hiveVocabularyEntry.setMetadataDomain(MetadataDomain.COLLECTION)
+			} else {
+				hiveVocabularyEntry.setMetadataDomain(MetadataDomain.DATA)
+			}
+
+			log.info("getting ready to add vocabulary entry:${hiveVocabularyEntry}")
+			irodsHiveService.saveOrUpdateVocabularyTerm(hiveVocabularyEntry)
+			log.info("added vocabulary entry")
+
+			conceptProxy.selected = true
+			return conceptProxy
+		} catch (FileNotFoundException fnf) {
+			log.error("file not found exception for path");
+			throw fnf
+		} catch (JargonException je) {
+			log.error("Jargon exeption occurred saving metadata", je)
+			throw new IRODSHiveException("exception in HIVE processing", je)
+		}
+	}
+
+
+	/**
 	 * Pivot the concept browser with the given URI as the new 'current'
 	 * @param uri
 	 * @return
 	 */
-	public ConceptProxy getConceptByUri(final String uri) {
+	public ConceptProxy getConceptByUri(final String uri, final String irodsAbsolutePath, final IRODSAccount irodsAccount) {
 		log.info("getConceptByUri()")
 		if (uri == null || uri == "") {
 			throw new IllegalArgumentException("null or empty uri")
+		}
+
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		if (irodsAbsolutePath == null || irodsAbsolutePath == "") {
+			throw new IllegalArgumentException("null or empty irodsAbsolutePath")
 		}
 
 		//TODO:make this a utility in jargon-hive?
@@ -78,6 +173,8 @@ class HiveService {
 		log.info("namespace: ${namespace} local: ${localPart}")
 
 		ConceptProxy proxy = vocabularyService.getConceptByURI(namespace, localPart)
+		augmentConceptProxyWithIRODSInfo(proxy,irodsAbsolutePath, irodsAccount)
+
 		def hiveState = retrieveHiveState()
 		hiveState.currentConceptLabel = proxy.preLabel
 		hiveState.currentConceptURI = proxy.URI
@@ -93,8 +190,17 @@ class HiveService {
 	 * hive state will be used
 	 * @return
 	 */
-	public ConceptProxy getTopLevelConceptProxyForVocabulary(final String vocabularyName) {
+	public ConceptProxy getTopLevelConceptProxyForVocabulary(final String vocabularyName, final String irodsAbsolutePath, final IRODSAccount irodsAccount) {
 		log.info("getTopLevelConceptProxyForVocabulary")
+
+		if (irodsAccount == null) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		if (irodsAbsolutePath == null || irodsAbsolutePath == "") {
+			throw new IllegalArgumentException("null or empty irodsAbsolutePath")
+		}
+
 
 		def current = ""
 
@@ -116,7 +222,35 @@ class HiveService {
 		hiveState.currentConceptURI = ""
 		hiveState.currentVocabulary = current
 		log.info("getting top concept proxy for vocabulary:${current}, will set hiveState to top of this vocab")
-		return vocabularyService.getConceptProxyForTopOfVocabulary(vocabularyName, "", true)
+		def conceptProxy = vocabularyService.getConceptProxyForTopOfVocabulary(vocabularyName, "", true)
+		augmentConceptProxyWithIRODSInfo(conceptProxy,irodsAbsolutePath, irodsAccount)
+		return conceptProxy
+
+	}
+
+	void augmentConceptProxyWithIRODSInfo(final ConceptProxy conceptProxy, final String irodsAbsolutePath, final IRODSAccount irodsAccount) throws FileNotFoundException, IRODSHiveException {
+		log.info("augmentConceptProxyWithIRODSInfo")
+
+		if (!conceptProxy) {
+			throw new IllegalArgumentException("missing conceptProxy")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("missing irodsAccount")
+		}
+
+		log.info("conceptProxy:${conceptProxy}")
+
+		IRODSHiveService irodsHiveService = new IRODSHiveServiceImpl(irodsAccessObjectFactory, irodsAccount)
+
+		if (conceptProxy.URI) {
+			log.info("have uri, looking up iRODS data ${conceptProxy.URI}")
+			def hiveVocabularyEntry = irodsHiveService.findHiveVocabularyEntryForPathAndURI(irodsAbsolutePath, conceptProxy.URI)
+			if (hiveVocabularyEntry) {
+				log.info("set selected, found entry:${hiveVocabularyEntry}")
+				conceptProxy.selected = true
+			}
+		}
 
 	}
 

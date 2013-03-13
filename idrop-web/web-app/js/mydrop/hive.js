@@ -26,6 +26,100 @@ function showHiveView(absPath, targetDiv) {
 }
 
 /**
+ * Apply the term, this actually throws up the dialog to entry a comment before the actual update occurs
+ * @param absPath
+ * @param vocabulary
+ * @param uri
+ * @returns {Boolean}
+ */
+function applyHiveTerm(absPath, vocabulary, uri) {
+	
+	if (absPath == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
+		return false;
+	}
+	
+	if (vocabulary == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_no_vocabulary'));
+		return false;
+	}
+	
+	if (uri == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_uri_missing'));
+		return false;
+	}
+	
+	var params = {
+			absPath : absPath,
+			vocabulary : vocabulary,
+			uri : uri
+		}
+
+		lcSendValueWithParamsAndPlugHtmlInDiv("/hive/hiveUpdateDialog", params, "", function(data) {
+			showHiveDetailsDialog(data);
+		});
+
+}
+
+function updateHiveTerm(absPath, vocabulary, uri, comment)  {
+	
+	if (uri == null || uri == "") {
+		setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+		return false;
+	}
+	
+	if (vocabulary == null || vocabulary == "") {
+		setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+		return false;
+	}
+
+	if (absPath == null || absPath == "") {
+		setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
+		return false;
+	}
+	
+	if (comment == null) {
+		comment = "";
+	}
+	
+    showBlockingPanel();
+    
+    params = {
+    		uri:uri,
+    		absPath:absPath,
+    		vocabulary:vocabulary,
+    		comment:comment
+    }
+
+
+	var jqxhr = $.post(context + "/hive/applyHiveTerm", params,
+			function(data, status, xhr) {
+			}, "html").success(function(data, status, xhr) {
+				var continueReq = checkForSessionTimeout(data, xhr);
+				if (!continueReq) {
+					return false;
+				} 
+				$("#conceptBrowserDialog").html("").hide("slow");
+				$("#conceptBrowserMain").html(data).show("slow");
+				setMessage(jQuery.i18n.prop('msg_update_successful'));
+				unblockPanel();
+				
+	}).error(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+        unblockPanel();
+	});
+}
+
+/**
+ * Hide the concept browser view and show the hive detaisl view
+ * @param data
+ */
+function showHiveDetailsDialog(data) {
+	$("#conceptBrowserMain").hide("slow");
+	$("#conceptBrowserDialog").html(data).show("slow");
+}
+
+/**
  * Set the concept browser view to the given uri
  * 
  * @param uri
@@ -101,7 +195,7 @@ function resetVocabulary(vocabulary, absPath) {
 
 }
 
-function selectVocabularies(absPath) {
+function selectVocabularies() {
 	var formData = $("#hiveVocabularyForm").serializeArray();
 	if (formData == null) {
 		setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
