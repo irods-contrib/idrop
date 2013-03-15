@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
-import org.openide.util.Exceptions;
 
 /**
  *
@@ -28,6 +27,10 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         this.idropCore = idropCore;
         initComponents();
         makeTextAreaLikeLabel();
+        
+        // make the okay button defulat so you can just enter
+        // pass phrase and hit return
+        this.getRootPane().setDefaultButton(btnOkay);
     }
     
     private void makeTextAreaLikeLabel() {

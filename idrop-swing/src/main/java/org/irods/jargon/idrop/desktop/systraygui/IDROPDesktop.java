@@ -197,18 +197,16 @@ public class IDROPDesktop {
             gridMemoryDialog.toFront();
             gridMemoryDialog.setVisible(true);
         }
-        else {
-            // what?
-        }
 
-        final LoginDialog loginDialog = new LoginDialog(null, idropCore);
-        Toolkit tk = idrop.getToolkit();
-        int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
-        int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;
-        loginDialog.setLocation(x, y);
-        idropSplashWindow.toBack();
-        loginDialog.toFront();
-        loginDialog.setVisible(true);
+
+//        final LoginDialog loginDialog = new LoginDialog(null, idropCore);
+//        Toolkit tk = idrop.getToolkit();
+//        int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
+//        int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;
+//        loginDialog.setLocation(x, y);
+//        idropSplashWindow.toBack();
+//        loginDialog.toFront();
+//        loginDialog.setVisible(true);
 
         if (idropCore.getIrodsAccount() == null) {
             log.warn("no login account, exiting");

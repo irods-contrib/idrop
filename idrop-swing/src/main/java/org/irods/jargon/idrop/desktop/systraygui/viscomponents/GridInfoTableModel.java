@@ -28,27 +28,28 @@ public class GridInfoTableModel extends AbstractTableModel {
         }
 
         // translate indexes to object values
-        // 0 = user name
+
+        // 0 = host
 
         if (columnIndex == 0) {
             return String.class;
         }
 
-        // 1 = host
+        // 2 = port - Mike says we don't need this
 
+//        if (columnIndex == 2) {
+//            return int.class;
+//        }
+        
+        // 1 = zone
+        
         if (columnIndex == 1) {
             return String.class;
         }
-
-        // 2 = port
+        
+        // 2 = user name
 
         if (columnIndex == 2) {
-            return int.class;
-        }
-        
-        // 3 = zone
-        
-        if (columnIndex == 3) {
             return String.class;
         }
 
@@ -63,28 +64,28 @@ public class GridInfoTableModel extends AbstractTableModel {
 
         // translate indexes to object values
 
-        // 0 = attribute
+        // 0 = Host
 
         if (columnIndex == 0) {
-            return "User Name";
-        }
-
-        // 1 = value
-
-        if (columnIndex == 1) {
             return "Host";
         }
 
-        // 2 = units
+        // 2 = Port
 
-        if (columnIndex == 2) {
-            return "Port";
+//        if (columnIndex == 2) {
+//            return "Port";
+//        }
+        
+        // 1 = Zone
+
+        if (columnIndex == 1) {
+            return "Zone";
         }
         
-        // 3 = zone
+         // 2 = User
 
-        if (columnIndex == 3) {
-            return "Zone";
+        if (columnIndex == 2) {
+            return "User Name";
         }
 
         throw new IdropRuntimeException("unknown column");
@@ -107,7 +108,7 @@ public class GridInfoTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 3;
     }
 
     @Override
@@ -125,28 +126,28 @@ public class GridInfoTableModel extends AbstractTableModel {
 
         // translate indexes to object values
 
-        // 0 = user name
+        // 0 = host
 
         if (columnIndex == 0) {
-            return gridAccount.getUserName();
-        }
-
-        // 1 = host
-
-        if (columnIndex == 1) {
             return gridAccount.getHost();
         }
 
         // 2 = port
 
-        if (columnIndex == 2) {
-            return gridAccount.getPort();
+//        if (columnIndex == 2) {
+//            return gridAccount.getPort();
+//        }
+        
+        // 1 = zone
+
+        if (columnIndex == 1) {
+            return gridAccount.getZone();
         }
         
-        // 3 = zone
+        // 2 = user name
 
-        if (columnIndex == 3) {
-            return gridAccount.getZone();
+        if (columnIndex == 2) {
+            return gridAccount.getUserName();
         }
 
         throw new IdropRuntimeException("unknown column");
@@ -162,8 +163,10 @@ public class GridInfoTableModel extends AbstractTableModel {
         
         gridAccount.setUserName(irodsAccount.getUserName());
         gridAccount.setHost(irodsAccount.getHost());
-        gridAccount.setPort(irodsAccount.getPort());
+//        gridAccount.setPort(irodsAccount.getPort());
         gridAccount.setZone(irodsAccount.getZone());
+//        gridAccount.setPassword(irodsAccount.getPassword());
+//        gridAccount.setDefaultResource(irodsAccount.getDefaultStorageResource());
         
         gridAccounts.add(gridAccount);
         
@@ -185,7 +188,7 @@ public class GridInfoTableModel extends AbstractTableModel {
         for (GridAccount acct: gridAccounts) {
             if ((irodsAccount.getUserName().equals(acct.getUserName()) &&
                 (irodsAccount.getHost().equals(acct.getHost())) &&
-                (irodsAccount.getPort() == acct.getPort()) &&
+                //(irodsAccount.getPort() == acct.getPort()) &&
                 (irodsAccount.getZone().equals(acct.getZone())))) {
                 
                 gridAccounts.remove(idx);
@@ -201,12 +204,12 @@ public class GridInfoTableModel extends AbstractTableModel {
         
         String user = irodsAccount.getUserName();
         String host = irodsAccount.getHost();
-        int port = irodsAccount.getPort();
+        //int port = irodsAccount.getPort();
         String zone = irodsAccount.getZone();
         
         if ((user == null) || (user.isEmpty()) ||
             (host == null) || (host.isEmpty()) ||
-            (port <= 0) ||
+            //(port <= 0) ||
             (zone == null) || zone.isEmpty()) {
             
             return false;
@@ -214,6 +217,10 @@ public class GridInfoTableModel extends AbstractTableModel {
         else {
             return true;
         }
+    }
+    
+    public GridAccount getRow(int row) {
+        return this.gridAccounts.get(row);
     }
     
 }

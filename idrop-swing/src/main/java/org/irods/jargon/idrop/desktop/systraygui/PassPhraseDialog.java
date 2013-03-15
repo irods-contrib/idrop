@@ -4,12 +4,15 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import org.irods.jargon.conveyor.core.ConveyorBusyException;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -28,6 +31,10 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         this.idropCore = idropCore;
         initComponents();
         makeTextAreaLikeLabel();
+        
+        // make the okay button defulat so you can just enter
+        // pass phrase and hit return
+        this.getRootPane().setDefaultButton(btnOkay);
     }
     
     private void makeTextAreaLikeLabel() {
@@ -152,6 +159,34 @@ public class PassPhraseDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnForgotPassPhraseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgotPassPhraseActionPerformed
+        int ans = JOptionPane.showConfirmDialog(
+            this,
+            "In order to reset your pass phrase, all of your saved grid account information will be removed.\nAre you sure you wish to procede?",
+            "Reset Pass Phrase",
+            JOptionPane.YES_NO_OPTION);
+        
+        if ( ans == JOptionPane.YES_OPTION) {
+            
+            try {
+                // first clear out everything
+                idropCore.getConveyorService().getGridAccountService().resetPassPhraseAndAccounts();
+            } catch (ConveyorBusyException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (ConveyorExecutionException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            
+            // now start up initial pass phrase dialog to create new pass phrase
+            final InitialPassPhraseDialog initialPassPhraseDialog = new InitialPassPhraseDialog(null, true, idropCore);
+                Toolkit tk = getToolkit();
+                int x = (tk.getScreenSize().width - initialPassPhraseDialog.getWidth()) / 2;
+                int y = (tk.getScreenSize().height - initialPassPhraseDialog.getHeight()) / 2;
+                initialPassPhraseDialog.setLocation(x, y);
+                initialPassPhraseDialog.toFront();
+                initialPassPhraseDialog.setVisible(true);
+                validated = initialPassPhraseDialog.isValidated();
+        }
+        
         this.dispose();
     }//GEN-LAST:event_btnForgotPassPhraseActionPerformed
 
@@ -167,7 +202,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         }
 
         try {
-            idropCore.getConveyorService().validatePassPhrase(passPhrase);
+            idropCore.getConveyorService().getGridAccountService().validatePassPhrase(passPhrase);
         } catch (PassPhraseInvalidException ex) {
             Logger.getLogger(IDROPDesktop.class.getName()).log(
                     Level.SEVERE, null, ex);
@@ -182,8 +217,8 @@ public class PassPhraseDialog extends javax.swing.JDialog {
             return;
         }
         
-        JOptionPane.showMessageDialog(
-            this, "Pass phrase validated successfully", "Validate Pass Phrase", JOptionPane.INFORMATION_MESSAGE);
+//        JOptionPane.showMessageDialog(
+//            this, "Pass phrase validated successfully", "Validate Pass Phrase", JOptionPane.INFORMATION_MESSAGE);
         this.validated = true;
         
         this.dispose();

@@ -4,9 +4,12 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.conveyor.core.GridAccountService;
+import org.irods.jargon.core.connection.AuthScheme;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
 import org.openide.util.Exceptions;
@@ -26,11 +29,16 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
     public CreateGridInfoDialog(java.awt.Frame parent, boolean modal, IDROPCore idropCore) {
         super(parent, modal);
         initComponents();
+        initAuthSchemesCombo();
         this.idropCore = idropCore;
     }
     
     public IRODSAccount getGridInfo() {
         return this.gridInfo;
+    }
+    
+    private void initAuthSchemesCombo() {
+        cbAuthScheme.setModel(new DefaultComboBoxModel(AuthScheme.values()));
     }
 
     /**
@@ -57,6 +65,13 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         txtPassword = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
         txtDefaultResource = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtInitialPath = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        cbAuthScheme = new javax.swing.JComboBox();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textareaComment = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -163,6 +178,51 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(txtDefaultResource, gridBagConstraints);
 
+        jLabel7.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel7.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel7, gridBagConstraints);
+
+        txtInitialPath.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtInitialPath.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel1.add(txtInitialPath, gridBagConstraints);
+
+        jLabel8.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel8.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel8, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel1.add(cbAuthScheme, gridBagConstraints);
+
+        jLabel9.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel9.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel9, gridBagConstraints);
+
+        textareaComment.setColumns(20);
+        textareaComment.setRows(5);
+        jScrollPane1.setViewportView(textareaComment);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel1.add(jScrollPane1, gridBagConstraints);
+
         jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 1, 4, 1));
@@ -201,12 +261,16 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
 
-        String host = txtHost.getText();
-        int port = Integer.valueOf(txtPort.getText()).intValue();
-        String zone = txtZone.getText();
-        String user = txtUser.getText();
-        String passwd = txtPassword.getText();
-        String defaultResc = txtDefaultResource.getText();
+        String host = txtHost.getText().trim();
+        String strPort = txtPort.getText().trim();
+        int port=0;
+        if ((strPort != null) && (!strPort.isEmpty())) {
+            port = Integer.valueOf(strPort).intValue();
+        }
+        String zone = txtZone.getText().trim();
+        String user = txtUser.getText().trim();
+        String passwd = txtPassword.getText().trim();
+        String defaultResc = txtDefaultResource.getText().trim();
         StringBuilder homeBuilder = new StringBuilder();
         homeBuilder.append("/");
         homeBuilder.append(zone);
@@ -218,36 +282,88 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         try {
             gridInfo = IRODSAccount.instance(host, port, user, passwd, homeBuilder.toString(), zone, defaultResc);
         } catch (JargonException ex) {
-            Exceptions.printStackTrace(ex);
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Please enter grid account information. Host, port, zone, and user name are required.",
+                    "Create Grid Account", JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Please enter grid account information. Host, port, zone, and user name are required.",
+                    "Create Grid Account", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        
         
         GridAccountService gridAccountService = idropCore.getConveyorService().getGridAccountService();
         try {
             gridAccountService.addOrUpdateGridAccountBasedOnIRODSAccount(gridInfo);
         } catch (PassPhraseInvalidException ex) {
+            gridInfo = null;
             Exceptions.printStackTrace(ex);
+            // TODO: add error message here?
         } catch (ConveyorExecutionException ex) {
+            gridInfo = null;
             Exceptions.printStackTrace(ex);
+            // TODO: add error message here?
         }
+        
+        // now add initial path (collection) to gridaccount
+        if ((txtInitialPath.getText() != null) && (!txtInitialPath.getText().isEmpty())) {
+            try {
+                gridAccountService.findGridAccountByIRODSAccount(gridInfo).setDefaultPath(txtInitialPath.getText().trim());
+            } catch (ConveyorExecutionException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        
+        // now add authorization scheme to gridaccount
+        AuthScheme scheme = (AuthScheme) cbAuthScheme.getSelectedItem();
+        if ((scheme != null) && (!(scheme.getTextValue().isEmpty()))) {
+            try {
+                gridAccountService.findGridAccountByIRODSAccount(gridInfo).setAuthScheme(scheme);
+            } catch (ConveyorExecutionException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        
+        // now add comment to gridaccount
+        if ((textareaComment.getText() != null) || (!textareaComment.getText().isEmpty())) {
+            try {
+                gridAccountService.findGridAccountByIRODSAccount(gridInfo).setComment(textareaComment.getText().trim());
+            } catch (ConveyorExecutionException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        
+        this.dispose();
     }//GEN-LAST:event_btnOKActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
+    private javax.swing.JComboBox cbAuthScheme;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea textareaComment;
     private javax.swing.JTextField txtDefaultResource;
     private javax.swing.JTextField txtHost;
+    private javax.swing.JTextField txtInitialPath;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPort;
     private javax.swing.JTextField txtUser;
