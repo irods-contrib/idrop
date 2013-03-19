@@ -193,7 +193,6 @@ public class IDROPDesktop {
             int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
             int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
             gridMemoryDialog.setLocation(x, y);
-            //idropSplashWindow.toBack();
             gridMemoryDialog.toFront();
             gridMemoryDialog.setVisible(true);
         }

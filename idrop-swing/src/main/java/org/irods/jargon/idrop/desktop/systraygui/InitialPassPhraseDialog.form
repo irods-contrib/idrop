@@ -7,7 +7,7 @@
       <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="InitialPassPhraseDialog.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
     </Property>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[590, 220]"/>
+      <Dimension value="[470, 220]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -36,7 +36,7 @@
           </Border>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[0, 90]"/>
+          <Dimension value="[0, 96]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -57,6 +57,9 @@
             <Property name="rows" type="int" value="5"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="InitialPassPhraseDialog.txtAreaWelcomeLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[470, 90]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -95,13 +98,10 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtPassPhrase">
+        <Component class="javax.swing.JPasswordField" name="txtPassPhrase">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="InitialPassPhraseDialog.txtPassPhrase.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-            </Property>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[300, 28]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -122,13 +122,10 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtVerifyPassPhrase">
+        <Component class="javax.swing.JPasswordField" name="txtVerifyPassPhrase">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="InitialPassPhraseDialog.txtVerifyPassPhrase.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-            </Property>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[300, 28]"/>
             </Property>
           </Properties>
           <Constraints>

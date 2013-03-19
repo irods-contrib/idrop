@@ -67,7 +67,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         txtAreaWelcomeLabel = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtPassPhrase = new javax.swing.JTextField();
+        txtPassPhrase = new javax.swing.JPasswordField();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -77,10 +77,10 @@ public class PassPhraseDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(535, 200));
+        setPreferredSize(new java.awt.Dimension(410, 200));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 14, 4, 14));
-        jPanel1.setPreferredSize(new java.awt.Dimension(0, 70));
+        jPanel1.setPreferredSize(new java.awt.Dimension(0, 90));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         txtAreaWelcomeLabel.setEditable(false);
@@ -100,16 +100,15 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.weightx = 0.1;
         jPanel2.add(jLabel1, gridBagConstraints);
 
         txtPassPhrase.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.txtPassPhrase.text")); // NOI18N
-        txtPassPhrase.setPreferredSize(new java.awt.Dimension(400, 28));
+        txtPassPhrase.setPreferredSize(new java.awt.Dimension(300, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.6;
+        gridBagConstraints.weightx = 0.1;
         jPanel2.add(txtPassPhrase, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -171,9 +170,15 @@ public class PassPhraseDialog extends javax.swing.JDialog {
                 // first clear out everything
                 idropCore.getConveyorService().getGridAccountService().resetPassPhraseAndAccounts();
             } catch (ConveyorBusyException ex) {
-                Exceptions.printStackTrace(ex);
+                Logger.getLogger(PassPhraseDialog.class.getName()).log(
+                    Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(
+                    this, "Reset of pass phrase failed", "Reset Pass Phrase", JOptionPane.ERROR_MESSAGE);
             } catch (ConveyorExecutionException ex) {
-                Exceptions.printStackTrace(ex);
+                Logger.getLogger(PassPhraseDialog.class.getName()).log(
+                    Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(
+                    this, "Reset of pass phrase failed", "Reset Pass Phrase", JOptionPane.ERROR_MESSAGE);
             }
             
             // now start up initial pass phrase dialog to create new pass phrase
@@ -204,13 +209,13 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         try {
             idropCore.getConveyorService().getGridAccountService().validatePassPhrase(passPhrase);
         } catch (PassPhraseInvalidException ex) {
-            Logger.getLogger(IDROPDesktop.class.getName()).log(
+            Logger.getLogger(PassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     this, "Pass phrase is invalid, Please try again.", "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         } catch (ConveyorExecutionException ex) {
-            Logger.getLogger(IDROPDesktop.class.getName()).log(
+            Logger.getLogger(PassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     this, "Validation of pass phrase failed", "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
@@ -235,6 +240,6 @@ public class PassPhraseDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTextArea txtAreaWelcomeLabel;
-    private javax.swing.JTextField txtPassPhrase;
+    private javax.swing.JPasswordField txtPassPhrase;
     // End of variables declaration//GEN-END:variables
 }

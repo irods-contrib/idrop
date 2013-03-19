@@ -62,9 +62,9 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         txtAreaWelcomeLabel = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtPassPhrase = new javax.swing.JTextField();
+        txtPassPhrase = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
-        txtVerifyPassPhrase = new javax.swing.JTextField();
+        txtVerifyPassPhrase = new javax.swing.JPasswordField();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -73,10 +73,10 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(590, 220));
+        setPreferredSize(new java.awt.Dimension(470, 220));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 14, 4, 14));
-        jPanel1.setPreferredSize(new java.awt.Dimension(0, 90));
+        jPanel1.setPreferredSize(new java.awt.Dimension(0, 96));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         txtAreaWelcomeLabel.setEditable(false);
@@ -84,6 +84,7 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         txtAreaWelcomeLabel.setColumns(20);
         txtAreaWelcomeLabel.setRows(5);
         txtAreaWelcomeLabel.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.txtAreaWelcomeLabel.text")); // NOI18N
+        txtAreaWelcomeLabel.setPreferredSize(new java.awt.Dimension(470, 90));
         jPanel1.add(txtAreaWelcomeLabel, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
@@ -99,7 +100,6 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         jPanel2.add(jLabel1, gridBagConstraints);
 
         txtPassPhrase.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.txtPassPhrase.text")); // NOI18N
-        txtPassPhrase.setPreferredSize(new java.awt.Dimension(300, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -115,7 +115,6 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         jPanel2.add(jLabel2, gridBagConstraints);
 
         txtVerifyPassPhrase.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.txtVerifyPassPhrase.text")); // NOI18N
-        txtVerifyPassPhrase.setPreferredSize(new java.awt.Dimension(300, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -180,13 +179,13 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         try {
             idropCore.getConveyorService().validatePassPhrase(passPhrase);
         } catch (PassPhraseInvalidException ex) {
-            Logger.getLogger(IDROPDesktop.class.getName()).log(
+            Logger.getLogger(InitialPassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     this, "Pass phrase format is invalid, Please try again.", "Initialize Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         } catch (ConveyorExecutionException ex) {
-            Logger.getLogger(IDROPDesktop.class.getName()).log(
+            Logger.getLogger(InitialPassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     this, "Creation of pass phrase failed", "Initialize Pass Phrase", JOptionPane.ERROR_MESSAGE);
@@ -211,7 +210,7 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTextArea txtAreaWelcomeLabel;
-    private javax.swing.JTextField txtPassPhrase;
-    private javax.swing.JTextField txtVerifyPassPhrase;
+    private javax.swing.JPasswordField txtPassPhrase;
+    private javax.swing.JPasswordField txtVerifyPassPhrase;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,6 +5,9 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +51,8 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         this.idropCore = idropCore;
         makeTextAreaLikeLabel();
         initGridInfoTable();
+        
+        this.getRootPane().setDefaultButton(btnLogin);
     }
     
     private void makeTextAreaLikeLabel() {
@@ -63,7 +68,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     
     private void initGridInfoTable() {
         this.dialog = this;
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {      
             @Override
             public void run() {
                 dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -78,8 +83,27 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                     tableGridInfo.getSelectionModel().addListSelectionListener(dialog);
                     tableGridInfo.validate();
                 } catch (ConveyorExecutionException ex) {
-                    Exceptions.printStackTrace(ex);
+                    Logger.getLogger(GridMemoryDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
                 }
+                
+                tableGridInfo.addMouseListener(new MouseAdapter() {  
+                    public void mouseClicked(MouseEvent evt) {  
+                        if (evt.getClickCount() == 2) {  
+                            Point pnt = evt.getPoint();  
+                            int row = tableGridInfo.rowAtPoint(pnt);
+                            GridInfoTableModel model = (GridInfoTableModel) tableGridInfo.getModel();
+                            GridAccount gridTableData = (GridAccount)model.getRow(row);
+                            GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
+                            EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
+                                null, true, idropCore, gridAccount);
+
+                            editGridInfoDialog.setLocation(
+                                (int)dialog.getLocation().getX(), (int)dialog.getLocation().getY());
+                            editGridInfoDialog.setVisible(true);
+                        }    
+                    }  
+                });
                 
                 dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
@@ -99,99 +123,115 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     
     private boolean processLogin() {
         
-        StringBuilder sb = new StringBuilder();
         IRODSAccount irodsAccount = null;
         GridAccount loginAccount = null;
-        
-        // TODO: This seems a bit clumsy - get grid info from table, convert to
-        // irods account to find grid account and then convert to irods acount to login??
-        // perhaps change GridInfoTableModel to IRODSAccount raher than GridAccount
         
         // get selected grid account
         GridInfoTableModel tm = (GridInfoTableModel)tableGridInfo.getModel();
         int row = tableGridInfo.getSelectedRow();
-        GridAccount gridAccount = tm.getRow(row);
-        if ( gridAccount != null) {
+        GridAccount gridTableData = tm.getRow(row);
+        loginAccount = getStoredGridAccountFromGridTableData(gridTableData);
+
+        if (loginAccount != null) {
             try {
-                irodsAccount = IRODSAccount.instance(gridAccount.getHost(), 0,
-                        gridAccount.getUserName(), new String(), new String(),
-                        gridAccount.getZone(), new String());
-            } catch (JargonException ex) {
-                Exceptions.printStackTrace(ex);
+                irodsAccount = idropCore.getConveyorService().getGridAccountService().irodsAccountForGridAccount(loginAccount);
+            } catch (ConveyorExecutionException ex) {
+                Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                                 null, ex);         
+                MessageManager.showError(this, "Cannot retrieve irods account from selected grid account", "Login Error");
+            }
+
+            AuthScheme scheme = loginAccount.getAuthScheme();
+            if ((scheme != null) && (scheme.equals(AuthScheme.PAM.name()))) {
+                irodsAccount.setAuthenticationScheme(AuthScheme.PAM);
+            } 
+
+            IRODSFileSystem irodsFileSystem = null;
+
+            /*
+             * getting userAO will attempt the login
+             */
+
+            try {
+                irodsFileSystem = idropCore.getIrodsFileSystem();
+                   AuthResponse authResponse = irodsFileSystem.getIRODSAccessObjectFactory().authenticateIRODSAccount(irodsAccount);
+                    idropCore.setIrodsAccount(authResponse.getAuthenticatedIRODSAccount());
+                    try {
+                        idropCore.getIdropConfigurationService().saveLogin(irodsAccount);
+                    } catch (IdropException ex) {
+                        throw new IdropRuntimeException("error saving irodsAccount", ex);
+                    }
+                    this.dispose();
+                } catch (JargonException ex) {
+                    if (ex.getMessage().indexOf("Connection refused") > -1) {
+                        Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                                null, ex);
+                        MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
+
+                        return false;
+                    } else if (ex.getMessage().indexOf("Connection reset") > -1) {
+                        Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                                null, ex);
+                        MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
+
+                        return false;
+                    } else if (ex.getMessage().indexOf("io exception opening socket") > -1) {
+                        Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                                null, ex);
+                        MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
+
+                        return false;
+                    } else {
+                        Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                                null, ex);
+                        MessageManager.showError(this, "login error - unable to log in, or invalid user id", "Login Error");
+
+                        return false;
+                    }
+                } finally {
+                    if (irodsFileSystem != null) {
+                        irodsFileSystem.closeAndEatExceptions();
+                }
             }
         }
-        try {
-            loginAccount = 
-                    idropCore.getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(irodsAccount);
-        } catch (ConveyorExecutionException ex) {
-            Exceptions.printStackTrace(ex);
+        else {
+            MessageManager.showError(this, "Cannot connect to the server, is grid account valid?", "Login Error");
+            return false;
         }
         
-        StringBuilder homeBuilder = new StringBuilder();
-        homeBuilder.append("/");
-        homeBuilder.append(gridAccount.getZone());
-        homeBuilder.append("/home/");
-        homeBuilder.append(gridAccount.getUserName());
-        try {
-            irodsAccount = idropCore.getConveyorService().getGridAccountService().irodsAccountForGridAccount(loginAccount);
-        } catch (ConveyorExecutionException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-        
-        AuthScheme scheme = gridAccount.getAuthScheme();
-        if ((scheme != null) && (scheme.equals(AuthScheme.PAM.name()))) {
-            irodsAccount.setAuthenticationScheme(AuthScheme.PAM);
-        } 
-           
-        IRODSFileSystem irodsFileSystem = null;
-    
-        /*
-         * getting userAO will attempt the login
-         */
-    
-        try {
-            irodsFileSystem = idropCore.getIrodsFileSystem();
-               AuthResponse authResponse = irodsFileSystem.getIRODSAccessObjectFactory().authenticateIRODSAccount(irodsAccount);
-                idropCore.setIrodsAccount(authResponse.getAuthenticatedIRODSAccount());
-                try {
-                    idropCore.getIdropConfigurationService().saveLogin(irodsAccount);
-                } catch (IdropException ex) {
-                    throw new IdropRuntimeException("error saving irodsAccount", ex);
-                }
-                this.dispose();
-            } catch (JargonException ex) {
-                if (ex.getMessage().indexOf("Connection refused") > -1) {
-                    Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
-                            null, ex);
-                    MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
-    
-                    return true;
-                } else if (ex.getMessage().indexOf("Connection reset") > -1) {
-                    Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
-                            null, ex);
-                    MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
-    
-                    return true;
-                } else if (ex.getMessage().indexOf("io exception opening socket") > -1) {
-                    Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
-                            null, ex);
-                    MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
-    
-                    return true;
-                } else {
-                    Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
-                            null, ex);
-                    MessageManager.showError(this, "login error - unable to log in, or invalid user id", "Login Error");
-    
-                    return true;
-                }
-            } finally {
-                if (irodsFileSystem != null) {
-                    irodsFileSystem.closeAndEatExceptions();
-            }
-            }
-        return false;
+        return true;
     }
+    
+    // Use the Grid Account data retrieved from the GridInfoTable to retrieve
+    // the full record from the DB
+    GridAccount getStoredGridAccountFromGridTableData(GridAccount gridTableData) {
+        IRODSAccount irodsAccount = null;
+        GridAccount storedGridAccount = null;
+        
+        if ( gridTableData != null) {
+            try {
+                irodsAccount = IRODSAccount.instance(gridTableData.getHost(), 0,
+                        gridTableData.getUserName(), new String(), new String(),
+                        gridTableData.getZone(), new String());
+            } catch (JargonException ex) {
+                Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                MessageManager.showError(this, "Cannot retrieve grid account information", "Retrieve Grid Account Information");
+            }
+            
+            try {
+                storedGridAccount = 
+                        idropCore.getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(irodsAccount);
+            } catch (ConveyorExecutionException ex) {
+                Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                        null, ex);         
+                MessageManager.showError(this, "Cannot retrieve grid account information", "Retrieve Grid Account Information");
+            }
+        }
+        
+        return storedGridAccount; 
+    }
+    
     
     // ListSelectionListener methods
     @Override
@@ -396,7 +436,9 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                 // now add to table
                 tm.addRow(irodsAccount);
             } catch (JargonException ex) {
-                Exceptions.printStackTrace(ex);
+                Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                MessageManager.showError(this, "Addition of grid account failed", "Create Grid Account");
             }
         }
     }//GEN-LAST:event_btnAddGridInfoActionPerformed
@@ -427,9 +469,13 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                             model.deleteRow(selectedRow);
 
                         } catch (ConveyorBusyException ex) {
-                            Exceptions.printStackTrace(ex);
+                            Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                                null, ex);
+                            MessageManager.showError(this, "Transfer for this grid account is currently in progess.\nPlease try again later.", "Delete Grid Account");
                         } catch (ConveyorExecutionException ex) {
-                            Exceptions.printStackTrace(ex);
+                            Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                                null, ex);
+                            MessageManager.showError(this, "Deletion of grid account failed", "Delete Grid Account");
                         }
 
                     } catch (JargonException ex) {
@@ -441,8 +487,9 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     }//GEN-LAST:event_btnDeleteGridInfoActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        processLogin();
-        this.dispose();
+        if(processLogin()) {
+            this.dispose();
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

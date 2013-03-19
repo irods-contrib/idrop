@@ -204,9 +204,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
                 IRODSAccount savedAccount = iDropCore.getIrodsAccount();
                 iDropCore.setIrodsAccount(null);
-                LoginDialog loginDialog = new LoginDialog(null, iDropCore);
-                loginDialog.setLocationRelativeTo(null);
-                loginDialog.setVisible(true);
+                
+//                LoginDialog loginDialog = new LoginDialog(null, iDropCore);
+//                loginDialog.setLocationRelativeTo(null);
+//                loginDialog.setVisible(true);
+                
+                final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, iDropCore);
+                Toolkit tk = getToolkit();
+                int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
+                int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
+                gridMemoryDialog.setLocation(x, y);
+                gridMemoryDialog.toFront();
+                gridMemoryDialog.setVisible(true);
 
                 if (iDropCore.getIrodsAccount() == null) {
                     log.warn("no account, reverting");
