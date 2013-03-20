@@ -173,7 +173,8 @@ public class PassPhraseDialog extends javax.swing.JDialog {
                 Logger.getLogger(PassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
-                    this, "Reset of pass phrase failed", "Reset Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                    this, "Reset of pass phrase failed.\nTransfer for this grid account is currently in progess.\nPlease try again later.",
+                    "Reset Pass Phrase", JOptionPane.ERROR_MESSAGE);
             } catch (ConveyorExecutionException ex) {
                 Logger.getLogger(PassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
