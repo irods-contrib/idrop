@@ -209,13 +209,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //                loginDialog.setLocationRelativeTo(null);
 //                loginDialog.setVisible(true);
                 
-                final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, iDropCore);
+                final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, iDropCore, thisPanel);
                 Toolkit tk = getToolkit();
                 int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
                 int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
                 gridMemoryDialog.setLocation(x, y);
                 gridMemoryDialog.toFront();
                 gridMemoryDialog.setVisible(true);
+                // can't seem to get a wait cursor to work here
+                thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
                 if (iDropCore.getIrodsAccount() == null) {
                     log.warn("no account, reverting");
@@ -223,10 +225,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } else {
                     thisPanel.reinitializeForChangedIRODSAccount();
                 }
+                thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
     }
-
+    
     /**
      * Startup exit to set visibility of components in iDrop GUI at startup.
      * Here is where the initial visible status of components can be specified.
@@ -846,7 +849,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         } else if (e.getActionCommand().equals("Change Password")) {
 
             if (changePasswordDialog == null) {
-                changePasswordDialog = new ChangePasswordDialog(this, null, true);
+                changePasswordDialog = new ChangePasswordDialog(null, true, this, iDropCore.getIrodsAccount());
                 int x = (toolkit.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
                 int y = (toolkit.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
                 changePasswordDialog.setLocation(x, y);

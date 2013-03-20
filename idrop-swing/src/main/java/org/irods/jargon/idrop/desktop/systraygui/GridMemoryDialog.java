@@ -39,16 +39,18 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         ListSelectionListener {
     
     private GridMemoryDialog dialog;
-    private IDROPCore idropCore;
+    private final IDROPCore idropCore;
+    private final iDrop idrop;
     public static org.slf4j.Logger log = LoggerFactory.getLogger(MetadataTableModel.class);
 
     /**
      * Creates new form GridMemoryDialog
      */
-    public GridMemoryDialog(java.awt.Frame parent, boolean modal, IDROPCore idropCore) {
+    public GridMemoryDialog(java.awt.Frame parent, boolean modal, final IDROPCore idropCore, final iDrop idrop) {
         super(parent, modal);
         initComponents();
         this.idropCore = idropCore;
+        this.idrop = idrop;
         makeTextAreaLikeLabel();
         initGridInfoTable();
         
@@ -96,7 +98,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                             GridAccount gridTableData = (GridAccount)model.getRow(row);
                             GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
                             EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
-                                null, true, idropCore, gridAccount);
+                                null, true, idropCore, gridAccount, idrop);
 
                             editGridInfoDialog.setLocation(
                                 (int)dialog.getLocation().getX(), (int)dialog.getLocation().getY());
@@ -126,6 +128,8 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         IRODSAccount irodsAccount = null;
         GridAccount loginAccount = null;
         
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        
         // get selected grid account
         GridInfoTableModel tm = (GridInfoTableModel)tableGridInfo.getModel();
         int row = tableGridInfo.getSelectedRow();
@@ -136,9 +140,11 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
             try {
                 irodsAccount = idropCore.getConveyorService().getGridAccountService().irodsAccountForGridAccount(loginAccount);
             } catch (ConveyorExecutionException ex) {
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
                                  null, ex);         
                 MessageManager.showError(this, "Cannot retrieve irods account from selected grid account", "Login Error");
+                return false;
             }
 
             AuthScheme scheme = loginAccount.getAuthScheme();
@@ -159,6 +165,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                     try {
                         idropCore.getIdropConfigurationService().saveLogin(irodsAccount);
                     } catch (IdropException ex) {
+                        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         throw new IdropRuntimeException("error saving irodsAccount", ex);
                     }
                     this.dispose();
@@ -189,6 +196,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                         return false;
                     }
                 } finally {
+                    this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     if (irodsFileSystem != null) {
                         irodsFileSystem.closeAndEatExceptions();
                 }
@@ -196,9 +204,11 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         }
         else {
             MessageManager.showError(this, "Cannot connect to the server, is grid account valid?", "Login Error");
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             return false;
         }
         
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         return true;
     }
     
@@ -231,7 +241,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         
         return storedGridAccount; 
     }
-    
+     
     
     // ListSelectionListener methods
     @Override

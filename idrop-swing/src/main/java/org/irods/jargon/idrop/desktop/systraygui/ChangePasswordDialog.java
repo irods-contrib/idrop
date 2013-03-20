@@ -10,10 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.GridAccountService;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.transfer.exception.CannotUpdateTransferInProgressException;
+import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -24,15 +27,36 @@ import org.slf4j.LoggerFactory;
 public class ChangePasswordDialog extends javax.swing.JDialog {
 
     private final iDrop idrop;
+    private final IRODSAccount irodsAccount;
+    private String newPsswd = null;
     public static org.slf4j.Logger log = LoggerFactory.getLogger(ChangePasswordDialog.class);
 
     /** Creates new form PreferencesDialog */
-    public ChangePasswordDialog(final iDrop idrop, final JDialog parent, final boolean modal) {
+    public ChangePasswordDialog(final JDialog parent, final boolean modal, iDrop idrop, IRODSAccount irodsAccount) {
         super(parent, modal);
         this.idrop = idrop;
+        this.irodsAccount = irodsAccount;
         initComponents();
         setUpPasswordPanel();
+        
+        this.getRootPane().setDefaultButton(btnUpdatePassword);
     }
+    
+    
+    public String getNewPassword() {
+        return this.newPsswd;
+    }
+    
+    // check to see if given irods account is the one currently logged in
+    private boolean isLoggedInIrodsAccount(IRODSAccount acct) {
+
+        return  ((idrop.getIrodsAccount().getHost().equals(acct.getHost())) &&
+            (idrop.getIrodsAccount().getPort() == acct.getPort()) &&
+            (idrop.getIrodsAccount().getZone().equals(acct.getZone())) &&
+            (idrop.getIrodsAccount().getUserName().equals(acct.getUserName())));
+        
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,38 +85,37 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         passwdNewPassword = new javax.swing.JPasswordField();
         lblConfirmPassword = new javax.swing.JLabel();
         passwdConfirmPassword = new javax.swing.JPasswordField();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         pnlPasswordButtons = new javax.swing.JPanel();
-        btnUpdatePassword = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        btnUpdatePassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("iDrop - Change Password");
         setAlwaysOnTop(true);
-        setMinimumSize(new java.awt.Dimension(551, 400));
+        setMinimumSize(new java.awt.Dimension(250, 150));
+        setPreferredSize(new java.awt.Dimension(350, 250));
 
         pnlCurrentGrid.setLayout(new java.awt.GridBagLayout());
 
-        lblHostLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblHostLabel.text")); // NOI18N
+        lblHostLabel.setText("Host: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlCurrentGrid.add(lblHostLabel, gridBagConstraints);
-
-        lblHost.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblHost.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentGrid.add(lblHost, gridBagConstraints);
 
-        lblPortLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblPortLabel.text")); // NOI18N
+        lblPortLabel.setText("Port: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlCurrentGrid.add(lblPortLabel, gridBagConstraints);
-
-        lblPort.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblPort.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -100,15 +123,13 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentGrid.add(lblPort, gridBagConstraints);
 
-        lblZoneLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblZoneLabel.text")); // NOI18N
+        lblZoneLabel.setText("Zone: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlCurrentGrid.add(lblZoneLabel, gridBagConstraints);
-
-        lblZone.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblZone.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -116,15 +137,13 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentGrid.add(lblZone, gridBagConstraints);
 
-        lblResourceLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblResourceLabel.text")); // NOI18N
+        lblResourceLabel.setText("Default Resource: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlCurrentGrid.add(lblResourceLabel, gridBagConstraints);
-
-        lblResource.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblResource.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -132,15 +151,13 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentGrid.add(lblResource, gridBagConstraints);
 
-        lblUserNameLabel.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblUserNameLabel.text")); // NOI18N
+        lblUserNameLabel.setText("User Name: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlCurrentGrid.add(lblUserNameLabel, gridBagConstraints);
-
-        lblUserName.setText(org.openide.util.NbBundle.getMessage(ChangePasswordDialog.class, "IDROPConfigurationPanel.lblUserName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -177,15 +194,18 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlPasswords.add(passwdConfirmPassword, gridBagConstraints);
 
-        btnUpdatePassword.setMnemonic('P');
-        btnUpdatePassword.setText("Update Password");
-        btnUpdatePassword.setToolTipText("Change the current password to the new values");
-        btnUpdatePassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdatePasswordActionPerformed(evt);
-            }
-        });
-        pnlPasswordButtons.add(btnUpdatePassword);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlCurrentGrid.add(pnlPasswords, gridBagConstraints);
+
+        getContentPane().add(pnlCurrentGrid, java.awt.BorderLayout.CENTER);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(jPanel2, java.awt.BorderLayout.WEST);
 
         btnCancel.setMnemonic('c');
         btnCancel.setText("Cancel");
@@ -197,20 +217,19 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         });
         pnlPasswordButtons.add(btnCancel);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        pnlPasswords.add(pnlPasswordButtons, gridBagConstraints);
+        btnUpdatePassword.setMnemonic('P');
+        btnUpdatePassword.setText("Update Password");
+        btnUpdatePassword.setToolTipText("Change the current password to the new values");
+        btnUpdatePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdatePasswordActionPerformed(evt);
+            }
+        });
+        pnlPasswordButtons.add(btnUpdatePassword);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        pnlCurrentGrid.add(pnlPasswords, gridBagConstraints);
+        jPanel1.add(pnlPasswordButtons, java.awt.BorderLayout.EAST);
 
-        getContentPane().add(pnlCurrentGrid, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -221,7 +240,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
 
     private void btnUpdatePasswordActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdatePasswordActionPerformed
-
+        
         log.info("changing password, doing edits first");
         initializePasswordColors();
 
@@ -235,7 +254,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
 
         if (passwdNewPassword.getPassword().length == 0
                 || passwdConfirmPassword.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(idrop,
+            JOptionPane.showMessageDialog(this,
                     "New or confirm password is missing");
             return;
         }
@@ -254,22 +273,54 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         }
 
         log.info("edits pass, updating password");
+        
         try {
             log.info("check queue for any jobs for the account, these have the old password.");
-            IRODSAccount irodsAccount = idrop.getIrodsAccount();
+//            IRODSAccount irodsAccount = idrop.getIrodsAccount();
 
           //FIXME:conveyor  idrop.getiDropCore().getTransferManager().updatePassword(irodsAccount, newPassword);
-            UserAO userAO = idrop.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(idrop.getIrodsAccount());
+            UserAO userAO = idrop.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(irodsAccount);
             userAO.changeAUserPasswordByThatUser(irodsAccount.getUserName(),
                     irodsAccount.getPassword(), newPassword);
-            log.info("password changed, resetting iRODS Account");
+            log.info("password changed, resetting iRODS Account and grid account");
+            
             IRODSAccount newAccount = new IRODSAccount(irodsAccount.getHost(),
                     irodsAccount.getPort(), irodsAccount.getUserName(),
                     newPassword, irodsAccount.getHomeDirectory(),
                     irodsAccount.getZone(),
                     irodsAccount.getDefaultStorageResource());
-            idrop.setIrodsAccount(newAccount);
-            idrop.reinitializeForChangedIRODSAccount();
+            newAccount.setAuthenticationScheme(irodsAccount.getAuthenticationScheme());
+            
+            // now update password in grid account
+            try {
+                idrop.getiDropCore().getConveyorService().getGridAccountService().addOrUpdateGridAccountBasedOnIRODSAccount(newAccount);
+                // use this when Mike adds comment to addOrUpdateGridAccountBasedOnIRODSAccount()
+                // gridAccountService.addOrUpdateGridAccountBasedOnIRODSAccount(gridInfo, comment);
+            } catch (PassPhraseInvalidException ex) {
+                Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Update of grid account failed. Pass phrase is invalid.",
+                    "Change Password", JOptionPane.ERROR_MESSAGE);
+            } catch (ConveyorExecutionException ex) {
+                Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Update of grid account failed.",
+                    "Change Password", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            // may be different actions for dialog depending if launched from iDrop or Edit Grid dialog
+            // don't do this if not logged in yet
+            // also may be changing password for account not currently in use!
+            if ((idrop.getIrodsAccount() != null) && (isLoggedInIrodsAccount(newAccount))) {
+                idrop.setIrodsAccount(newAccount);
+                idrop.reinitializeForChangedIRODSAccount();
+            }
+            
+            this.newPsswd = newPassword;
             JOptionPane.showMessageDialog(this, "Password was changed");
 
         } catch (CannotUpdateTransferInProgressException ex) {
@@ -281,14 +332,16 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
             Logger.getLogger(ChangePasswordDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
         } finally {
-            idrop.getiDropCore().closeIRODSConnection(
-                    idrop.getiDropCore().getIrodsAccount());
+            if (idrop.getIrodsAccount() != null) {
+                idrop.getiDropCore().closeIRODSConnection(
+                        idrop.getiDropCore().getIrodsAccount());
+            }
             this.dispose();
         }
     }// GEN-LAST:event_btnUpdatePasswordActionPerformed
 
     private void setUpPasswordPanel() {
-        IRODSAccount account = idrop.getIrodsAccount();
+        IRODSAccount account = irodsAccount;
         lblHost.setText(account.getHost());
         lblPort.setText(String.valueOf(account.getPort()));
         lblZone.setText(account.getZone());
@@ -304,6 +357,8 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnUpdatePassword;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblConfirmPassword;
     private javax.swing.JLabel lblHost;
     private javax.swing.JLabel lblHostLabel;
