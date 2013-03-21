@@ -6,10 +6,11 @@
 		<form name="hiveVocabularyForm" id="hiveVocabularyForm">
 			<table cellspacing="0" cellpadding="0" border="0" id="hiveVocabTable"
 				class="table table-striped table-hover">
+				<g:hiddenField name="absPath" id="absPath" value="${absPath	}"/>
 				<thead>
 					<tr>
 						<th></th>
-						<th>Vocabulary</th>
+						<th><g:message code="text.vocabulary" /></th>
 					</tr>
 				</thead>
 				<tbody>

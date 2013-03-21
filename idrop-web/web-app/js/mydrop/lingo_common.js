@@ -427,7 +427,7 @@ function lcSendValueWithParamsAndPlugHtmlInDiv(getUrl, params, resultDiv,
 		// FIXME: console traces are not good for IE - mcc
 		// console.trace();
 		try {
-			$(resultDiv).html(""); // FIXME: some sort of error icon?
+			$(resultDiv).html(""); 
 		} catch(err) {
 			// ignore
 		}
