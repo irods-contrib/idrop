@@ -220,28 +220,21 @@ function selectVocabularies() {
 
 }
 
-function searchConcept() {
+function searchConcept(searchedConcept) {
 	var formData = $("#searchConceptForm").serializeArray();
 	if (formData == null) {
 		setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
 		return false;
 	}
-	
+
 	lcShowBusyIconInDiv("#searchConceptForm");
 
-	var jqxhr = $.post(context + "/hive/searchConcept", formData,
-			function(data, status, xhr) {
-			}, "html").success(function(data, status, xhr) {
-		var continueReq = checkForSessionTimeout(data, xhr);
-		if (!continueReq) {
-			return false;
+	try {
+		var params = {
+			searchedConcept : searchedConcept
 		}
-
-		$("#searchConceptForm").html(data);
-
-	}).error(function(xhr, status, error) {
-		setErrorMessage(xhr.responseText);
-	});
+	
+	lcSendValueWithParamsAndPlugHtmlInDiv("/hive/conceptBrowser", params,"#infoAccordionHiveInner", null);
 }
 
 function setHiveNoData() {

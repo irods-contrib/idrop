@@ -27,7 +27,7 @@
 		<div id="searchConceptForm">
 			<g:form id="searchConceptForm" action="search" method="get">
             <g:textField name="searchConcept" value="${params.searchedConcept}"/>
-            <button type="button" class="btn" id="searchConcept" value="update" onclick="processSearchHiveConcept()">
+            <button type="button" class="btn" id="searchConcept" value="update" onclick="processSearchHiveConcept('${params.searchedConcept}')">
             <g:message code="text.search"/>
 			</button>
         	</g:form>
@@ -305,8 +305,8 @@
 		
 	}
 
-	function processSearchHiveConcept() {
-		searchConcept();
+	function processSearchHiveConcept(searchedConcept) {
+		searchConcept(searchedConcept);
 	}
 
 	$(function() {
