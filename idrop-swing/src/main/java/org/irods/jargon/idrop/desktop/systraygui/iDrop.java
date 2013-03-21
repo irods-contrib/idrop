@@ -486,6 +486,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         MenuItem aboutItem = new MenuItem("About");
         MenuItem iDropItem = new MenuItem("iDrop");
         MenuItem preferencesItem = new MenuItem("Preferences");
+        MenuItem changePassPhraseItem = new MenuItem("Change Pass Phrase");
         MenuItem changePasswordItem = new MenuItem("Change Password");
 
         iDropItem.addActionListener(this);
@@ -502,6 +503,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         currentItem.addActionListener(this);
         preferencesItem.addActionListener(this);
         changePasswordItem.addActionListener(this);
+        changePassPhraseItem.addActionListener(this);
 
         /*
          * See if I am in a paused state
@@ -521,6 +523,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         popup.add(aboutItem);
         popup.add(iDropItem);
         popup.add(preferencesItem);
+        popup.add(changePassPhraseItem);
         popup.add(changePasswordItem);
         popup.addSeparator();
         popup.add(currentItem);
@@ -846,6 +849,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(this, true, iDropCore);
             idropConfigurationPanel.setLocationRelativeTo(null);
             idropConfigurationPanel.setVisible(true);
+        
+        } else if (e.getActionCommand().equals("Change Pass Phrase")) {
+            ChangePassPhraseDialog changePassPhraseDialog = new ChangePassPhraseDialog(this, true, iDropCore);
+            int x = (toolkit.getScreenSize().width - changePassPhraseDialog.getWidth()) / 2;
+            int y = (toolkit.getScreenSize().height - changePassPhraseDialog.getHeight()) / 2;
+            changePassPhraseDialog.setLocation(x, y);
+            changePassPhraseDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Change Password")) {
 
             if (changePasswordDialog == null) {

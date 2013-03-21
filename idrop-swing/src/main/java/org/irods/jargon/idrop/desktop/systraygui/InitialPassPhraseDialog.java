@@ -167,13 +167,13 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         // make sure pass phrase is entered
         if ((passPhrase == null) || (passPhrase.length() <= 0)) {
             JOptionPane.showMessageDialog(
-                    this, "Please enter a pass phrase", "Verify Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                    this, "Please enter a pass phrase.", "Initialize Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
         // check to make sure pass phrases match
         if (! passPhrase.equals(txtVerifyPassPhrase.getText())) {
             JOptionPane.showMessageDialog(
-                    this, "Pass phrases do not match. Please try again", "Verify Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                    this, "Pass phrases do not match. Please try again.", "Initialize Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
@@ -182,18 +182,18 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
             Logger.getLogger(InitialPassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
-                    this, "Pass phrase format is invalid, Please try again.", "Initialize Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                    this, "Pass phrase format is invalid. Please try again.", "Initialize Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         } catch (ConveyorExecutionException ex) {
             Logger.getLogger(InitialPassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
-                    this, "Creation of pass phrase failed", "Initialize Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                    this, "Creation of pass phrase failed.", "Initialize Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         JOptionPane.showMessageDialog(
-            this, "Pass phrase created successfully", "Initialize Pass Phrase", JOptionPane.INFORMATION_MESSAGE);
+            this, "Pass phrase created successfully.", "Initialize Pass Phrase", JOptionPane.INFORMATION_MESSAGE);
         this.validated = true;
         this.dispose();
     }//GEN-LAST:event_btnOkayActionPerformed

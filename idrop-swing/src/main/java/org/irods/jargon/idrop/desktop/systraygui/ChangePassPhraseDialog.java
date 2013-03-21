@@ -26,6 +26,8 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.idropCore = idropCore;
+        
+        this.getRootPane().setDefaultButton(btnOkay);
     }
 
     /**
@@ -152,19 +154,19 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
 
         if ((currentPassPhrase == null) || (currentPassPhrase.length() <= 0)) {
             JOptionPane.showMessageDialog(
-                this, "Please enter the current pass phrase", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                this, "Please enter the current pass phrase.", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         if ((newPassPhrase == null) || (newPassPhrase.length() <= 0)) {
             JOptionPane.showMessageDialog(
-                this, "Please enter a new pass phrase", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                this, "Please enter a new pass phrase.", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         if ((confirmNewPassPhrase == null) || (confirmNewPassPhrase.length() <= 0)) {
             JOptionPane.showMessageDialog(
-                this, "Please confirm the new pass phrase", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                this, "Please confirm the new pass phrase.", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -181,14 +183,14 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
             Logger.getLogger(InitialPassPhraseDialog.class.getName()).log(
                 Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
-                this, "Update of pass phrase failed", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                this, "Update of pass phrase failed.", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         // check to make sure pass phrases match
         if (! newPassPhrase.equals(confirmNewPassPhrase)) {
             JOptionPane.showMessageDialog(
-                this, "Pass phrases do not match. Please try again", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                this, "Pass phrases do not match. Please try again.", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
@@ -204,16 +206,16 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
             Logger.getLogger(InitialPassPhraseDialog.class.getName()).log(
                 Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
-                this, "Update of pass phrase failed. Pass phrase is invalid", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                this, "Update of pass phrase failed. Pass phrase is invalid.", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
         } catch (ConveyorExecutionException ex) {
             Logger.getLogger(InitialPassPhraseDialog.class.getName()).log(
                 Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
-                this, "Update of pass phrase failed", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                this, "Update of pass phrase failed.", "Change Pass Phrase", JOptionPane.ERROR_MESSAGE);
         }
 
         JOptionPane.showMessageDialog(
-            this, "Pass phrase updated successfully", "Change Pass Phrase", JOptionPane.INFORMATION_MESSAGE);
+            this, "Pass phrase updated successfully.", "Change Pass Phrase", JOptionPane.INFORMATION_MESSAGE);
 
         this.dispose();
     }//GEN-LAST:event_btnOkayActionPerformed

@@ -179,7 +179,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
                 Logger.getLogger(PassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
-                    this, "Reset of pass phrase failed", "Reset Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                    this, "Reset of pass phrase failed.", "Reset Pass Phrase", JOptionPane.ERROR_MESSAGE);
             }
             
             // now start up initial pass phrase dialog to create new pass phrase
@@ -203,7 +203,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         // make sure pass phrase is entered
         if ((passPhrase == null) || (passPhrase.length() <= 0)) {
             JOptionPane.showMessageDialog(
-                    this, "Please enter a pass phrase", "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                    this, "Please enter a pass phrase.", "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -213,18 +213,16 @@ public class PassPhraseDialog extends javax.swing.JDialog {
             Logger.getLogger(PassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
-                    this, "Pass phrase is invalid, Please try again.", "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                    this, "Pass phrase is invalid. Please try again.", "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         } catch (ConveyorExecutionException ex) {
             Logger.getLogger(PassPhraseDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
-                    this, "Validation of pass phrase failed", "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
+                    this, "Validation of pass phrase failed.", "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-//        JOptionPane.showMessageDialog(
-//            this, "Pass phrase validated successfully", "Validate Pass Phrase", JOptionPane.INFORMATION_MESSAGE);
         this.validated = true;
         
         this.dispose();

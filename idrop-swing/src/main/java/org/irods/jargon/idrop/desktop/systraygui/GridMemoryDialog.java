@@ -143,7 +143,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                 this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
                                  null, ex);         
-                MessageManager.showError(this, "Cannot retrieve irods account from selected grid account", "Login Error");
+                MessageManager.showError(this, "Cannot retrieve irods account from selected grid account.", "Login Error");
                 return false;
             }
 
@@ -191,7 +191,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                     } else {
                         Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
                                 null, ex);
-                        MessageManager.showError(this, "login error - unable to log in, or invalid user id", "Login Error");
+                        MessageManager.showError(this, "Login error - unable to log in, or invalid user id.", "Login Error");
 
                         return false;
                     }
@@ -226,7 +226,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
             } catch (JargonException ex) {
                 Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
                             null, ex);
-                MessageManager.showError(this, "Cannot retrieve grid account information", "Retrieve Grid Account Information");
+                MessageManager.showError(this, "Cannot retrieve grid account information.", "Retrieve Grid Account Information");
             }
             
             try {
@@ -235,7 +235,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
             } catch (ConveyorExecutionException ex) {
                 Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
                         null, ex);         
-                MessageManager.showError(this, "Cannot retrieve grid account information", "Retrieve Grid Account Information");
+                MessageManager.showError(this, "Cannot retrieve grid account information.", "Retrieve Grid Account Information");
             }
         }
         
@@ -285,6 +285,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         textAreaInfo = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.title")); // NOI18N
         setPreferredSize(new java.awt.Dimension(580, 350));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(580, 230));
@@ -448,7 +449,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
             } catch (JargonException ex) {
                 Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
                             null, ex);
-                MessageManager.showError(this, "Addition of grid account failed", "Create Grid Account");
+                MessageManager.showError(this, "Addition of grid account failed.", "Create Grid Account");
             }
         }
     }//GEN-LAST:event_btnAddGridInfoActionPerformed
@@ -485,7 +486,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                         } catch (ConveyorExecutionException ex) {
                             Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
                                 null, ex);
-                            MessageManager.showError(this, "Deletion of grid account failed", "Delete Grid Account");
+                            MessageManager.showError(this, "Deletion of grid account failed.", "Delete Grid Account");
                         }
 
                     } catch (JargonException ex) {

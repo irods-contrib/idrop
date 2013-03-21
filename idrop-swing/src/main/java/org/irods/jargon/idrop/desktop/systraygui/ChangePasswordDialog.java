@@ -92,7 +92,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         btnUpdatePassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("iDrop - Change Password");
+        setTitle("iDrop: Change Password");
         setAlwaysOnTop(true);
         setMinimumSize(new java.awt.Dimension(250, 150));
         setPreferredSize(new java.awt.Dimension(350, 250));
@@ -268,7 +268,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
             passwdNewPassword.setBackground(Color.red);
             passwdConfirmPassword.setBackground(Color.red);
             JOptionPane.showMessageDialog(this,
-                    "New and confirm password do not match");
+                    "New and confirm passwords do not match");
             return;
         }
 
@@ -282,7 +282,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
             UserAO userAO = idrop.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(irodsAccount);
             userAO.changeAUserPasswordByThatUser(irodsAccount.getUserName(),
                     irodsAccount.getPassword(), newPassword);
-            log.info("password changed, resetting iRODS Account and grid account");
+            log.info("password changed, resetting iRODS Account and grid account.");
             
             IRODSAccount newAccount = new IRODSAccount(irodsAccount.getHost(),
                     irodsAccount.getPort(), irodsAccount.getUserName(),
@@ -326,7 +326,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         } catch (CannotUpdateTransferInProgressException ex) {
             JOptionPane.showMessageDialog(
                     this,
-                    "Transfers for this account are pending, this account can not be changed until completed and purged");
+                    "Transfers for this account are pending, this account can not be changed until completed and purged.");
             return;
         } catch (JargonException ex) {
             Logger.getLogger(ChangePasswordDialog.class.getName()).log(
