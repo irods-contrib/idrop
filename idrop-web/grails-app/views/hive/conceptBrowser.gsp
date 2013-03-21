@@ -12,7 +12,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="offset 1 span9">
+		<div class="offset1 span9">
 			<div class="btn-group pad-around" data-toggle="buttons-radio">
 				<g:each in="${hiveState.selectedVocabularies}"
 					var="selectedVocabulary">
@@ -27,7 +27,8 @@
 		<div id="searchConceptForm">
 			<g:form id="searchConceptForm" action="search" method="get">
             <g:textField name="searchConcept" value="${params.searchedConcept}"/>
-            <button type="button" id="searchConcept" value="update" onclick="searchConcept()">
+            <button type="button" class="btn" id="searchConcept" value="update" onclick="processSearchHiveConcept()">
+            <g:message code="text.search"/>
 			</button>
         	</g:form>
 		</div>
@@ -302,6 +303,10 @@
 
 		applyHiveTerm(absPath, vocabulary, termUri);
 		
+	}
+
+	function processSearchHiveConcept() {
+		searchConcept();
 	}
 
 	$(function() {
