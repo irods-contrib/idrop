@@ -24,6 +24,13 @@
 				</g:each>
 			</div>
 		</div>
+		<div id="searchConceptForm">
+			<g:form id="searchConceptForm" action="search" method="get">
+            <g:textField name="searchConcept" value="${params.searchedConcept}"/>
+            <button type="button" id="searchConcept" value="update" onclick="searchConcept()">
+			</button>
+        	</g:form>
+		</div>
 	</div>
 	<div class="row-fluid">
 		<div class="span6">

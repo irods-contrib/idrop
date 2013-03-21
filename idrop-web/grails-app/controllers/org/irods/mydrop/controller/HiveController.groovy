@@ -302,5 +302,26 @@ class HiveController {
 		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy, absPath:absPath])
 	}
 
+	def searchConcept(){
+		log.info("searchConcept")
+		log.info(params.searchedConcept)
+		
+		def searchResult
+		def hiveState = hiveService.retrieveHiveState()
+		def listOfOpenedVocabularies = hiveState.selectedVocabularies
+		def searchedConcept = params['searchedConcept'] //I have to name the concept which is being searched as param searchedConcept
+		if (!searchedConcept) {
+			log.info("nothing to search for!")
+		}
+		else {
+			searchResult = hiveService.searchConcept(searchedConcept , listOfOpenedVocabularies) 
+			if (!searchConcept){
+				log.info("nothing was found for the searched term")
+			}
+			render (view:"conceptSearch", model:[searchResult:searchResult])
+		}	
+			
+	}
+	
 }
 
