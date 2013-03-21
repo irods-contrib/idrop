@@ -111,6 +111,30 @@ function selectVocabularies() {
 
 }
 
+function searchConcept() {
+	var formData = $("#searchConceptForm").serializeArray();
+	if (formData == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+		return false;
+	}
+	
+	lcShowBusyIconInDiv("#searchConceptForm");
+
+	var jqxhr = $.post(context + "/hive/searchConcept", formData,
+			function(data, status, xhr) {
+			}, "html").success(function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+
+		$("#searchConceptForm").html(data);
+
+	}).error(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+	});
+}
+
 function setHiveNoData() {
 	$("#infoAccordionHiveInner").html("No data to display");
 }

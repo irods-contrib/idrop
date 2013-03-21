@@ -13,7 +13,6 @@
 					</tr>
 				</thead>
 				<tbody>
-
 					<g:each in="${vocabs}" var="vocab">
 						<tr id="${vocab.vocabularyName}">
 							<td><g:checkBox name="selectedVocab" value="${vocab.vocabularyName}"
@@ -23,7 +22,6 @@
 							</td>
 						</tr>
 					</g:each>
-
 				</tbody>
 				<tfoot>
 					<tr>
