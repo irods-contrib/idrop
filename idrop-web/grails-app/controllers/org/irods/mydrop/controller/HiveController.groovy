@@ -309,7 +309,7 @@ class HiveController {
 		def searchResult
 		def hiveState = hiveService.retrieveHiveState()
 		def listOfOpenedVocabularies = hiveState.selectedVocabularies
-		def searchedConcept = params['searchedConcept'] //I have to name the concept which is being searched as param searchedConcept
+		def searchedConcept = params['searchedConcept'] 
 		if (!searchedConcept) {
 			log.info("nothing to search for!")
 		}
