@@ -227,12 +227,10 @@ function setHiveNoData() {
 
 function searchConcept(searchedConcept) {
 
-	try {
 		var params = {
 			searchedConcept : searchedConcept
 		}
-	}
-	
+
 	lcSendValueWithParamsAndPlugHtmlInDiv("/hive/searchConcept", params,
 			"#infoAccordionHiveInner", null);
 
