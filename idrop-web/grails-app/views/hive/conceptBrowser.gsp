@@ -24,13 +24,21 @@
 				</g:each>
 			</div>
 		</div>
-		<div id="searchConceptForm">
-			<g:form id="searchConceptForm" action="search" method="get">
-            <g:textField name="searchConcept" id="searchConceptTerm" value="${params.searchedConcept}"/>
-            <button type="button" class="btn" id="searchConcept" value="update" onclick="processSearchHiveConcept()">
-            <g:message code="text.search"/>
-			</button>
-        	</g:form>
+		<div class="row-fluid ">
+			<div class="span5 offset1" id="searchConceptForm">
+				<g:form id="searchConceptForm" action="search" method="get">
+					<g:textField name="searchConcept" id="searchConceptTerm"
+						value="${params.searchedConcept}" />
+					<button type="button" class="btn" id="searchConcept" value="update"
+						onclick="processSearchHiveConcept()">
+						<g:message code="text.search" />
+					</button>
+				</g:form>
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid ">
+		<div class="span12 alert" id="searchConceptResults">
 		</div>
 	</div>
 	<div class="row-fluid">
@@ -95,27 +103,23 @@
 								<div class="row-fluid">
 									<div class="offset1 span11">
 										<div class="btn-group pad-around">
-											<button type="button" class="btn"
-												id="btnViewInSKOS"
+											<button type="button" class="btn" id="btnViewInSKOS"
 												onclick="processViewInSKOS('${conceptProxy.origin}','${conceptProxy.URI}')">
 												<g:message code="text.view.in.skos" />
 											</button>
 
 											<g:if test="${conceptProxy.selected}">
-											<button type="button" class="btn"
-													id="btnEditTerm"
+												<button type="button" class="btn" id="btnEditTerm"
 													onclick="processEditHiveTerm('${conceptProxy.origin}','${conceptProxy.URI}')">
 													<g:message code="text.edit" />
 												</button>
-												<button type="button" class="btn"
-													id="btnRemoveTerm"
+												<button type="button" class="btn" id="btnRemoveTerm"
 													onclick="processRemoveHiveTerm('${conceptProxy.origin}','${conceptProxy.URI}')">
 													<g:message code="text.delete" />
 												</button>
 											</g:if>
 											<g:else>
-												<button type="button" class="btn"
-													id="btnApplyTerm"
+												<button type="button" class="btn" id="btnApplyTerm"
 													onclick="processApplyHiveTerm('${conceptProxy.origin}','${conceptProxy.URI}')">
 													<g:message code="text.apply.hive.term" />
 												</button>
@@ -147,7 +151,7 @@
 				<div class="row-fluid" id="conceptBrowserNarrower">
 					<g:render template="/hive/narrowerTable" />
 				</div>
-				
+
 			</div>
 		</div>
 		<div class="span6">
@@ -218,8 +222,7 @@
 		</div>
 	</div>
 </div>
-<div id="conceptBrowserDialog">
-</div>
+<div id="conceptBrowserDialog"></div>
 <script>
 	/**
 	 * page level action signals to select a new vocabulary
@@ -302,7 +305,7 @@
 		}
 
 		applyHiveTerm(absPath, vocabulary, termUri);
-		
+
 	}
 
 	function processSearchHiveConcept() {

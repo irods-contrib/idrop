@@ -232,7 +232,7 @@ function searchConcept(searchedConcept) {
 		}
 
 	lcSendValueWithParamsAndPlugHtmlInDiv("/hive/searchConcept", params,
-			"#infoAccordionHiveInner", null);
+			"#searchConceptResults", null);
 
 }
 
