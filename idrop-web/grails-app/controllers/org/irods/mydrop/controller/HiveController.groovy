@@ -314,7 +314,7 @@ class HiveController {
 			log.info("nothing to search for!")
 		}
 		else {
-			searchResult = hiveService.searchConcept(searchedConcept , listOfOpenedVocabularies) 
+			searchResult = vocabularyService.searchConcept(searchedConcept , listOfOpenedVocabularies) 
 			if (!searchConcept){
 				log.info("nothing was found for the searched term")
 			}
