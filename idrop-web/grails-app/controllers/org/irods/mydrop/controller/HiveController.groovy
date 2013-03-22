@@ -14,7 +14,7 @@ class HiveController {
 	IRODSAccount irodsAccount
 	VocabularyService vocabularyService
 	HiveService hiveService
-	
+
 	static allowedMethods = [applyHiveTerm:'POST']
 
 	/**
@@ -44,7 +44,7 @@ class HiveController {
 	def selectVocabularies() {
 		log.info("selectVocabularies")
 		log.info(params)
-		
+
 		def absPath = params['absPath']
 		if (absPath == null) {
 			log.error "no absPath in request"
@@ -53,7 +53,7 @@ class HiveController {
 		}
 
 		log.info "absPath: ${absPath}"
-		
+
 		def selected = params['selectedVocab']
 		// TODO: list versus object
 
@@ -78,7 +78,7 @@ class HiveController {
 	 */
 	def index() {
 		log.info("index")
-		
+
 		def absPath = params['absPath']
 		if (absPath == null) {
 			log.error "no absPath in request"
@@ -105,7 +105,7 @@ class HiveController {
 			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies])
 		}
 	}
-	
+
 	/**
 	 * Set the concept browser to display the top level of the given vocabulary
 	 * @return
@@ -113,7 +113,7 @@ class HiveController {
 	def resetConceptBrowser() {
 		log.info("resetConceptBrowser")
 		log.info(params)
-		
+
 		def absPath = params['absPath']
 		if (absPath == null) {
 			log.error "no absPath in request"
@@ -122,26 +122,26 @@ class HiveController {
 		}
 
 		log.info "absPath: ${absPath}"
-		
+
 		def vocabulary = params['vocabulary']
 		def hiveState = hiveService.retrieveHiveState()
-		
+
 		if (!vocabulary) {
 			vocabulary = hiveState.currentVocabulary
 		}
-		
+
 		if (!vocabulary) {
 			log.error("no vocabulary is selected or possible to select")
-				response.sendError(500, message(code:"error.no.vocabulary.selected" ))
-				return
+			response.sendError(500, message(code:"error.no.vocabulary.selected" ))
+			return
 		}
-		
+
 		hiveService.getTopLevelConceptProxyForVocabulary(vocabulary, absPath, irodsAccount)
 		forward(action:"conceptBrowser",model:[absPath:absPath])
-	
-		
+
+
 	}
-	
+
 	/**
 	 * Build hive update dialog based on the provided path and vocabulary information
 	 * @return
@@ -149,7 +149,7 @@ class HiveController {
 	def hiveUpdateDialog() {
 		log.info("hiveUpdateDialog")
 		log.info(params)
-		
+
 		def absPath = params['absPath']
 		if (absPath == null || absPath == "") {
 			log.error "no absPath in request"
@@ -169,7 +169,7 @@ class HiveController {
 		}
 
 		log.info "targetUri: ${targetUri}"
-		
+
 		def vocabulary = params['vocabulary']
 		if (vocabulary == null || vocabulary == "") {
 			log.error "no vocabulary in request"
@@ -177,7 +177,7 @@ class HiveController {
 			response.sendError(500,message)
 			return
 		}
-		
+
 
 		log.info "vocabulary: ${vocabulary}"
 		try {
@@ -189,7 +189,7 @@ class HiveController {
 			response.sendError(500,he.message)
 		}
 	}
-	
+
 	/**
 	 * Add a term to iRODS
 	 * @return
@@ -197,7 +197,7 @@ class HiveController {
 	def applyHiveTerm() {
 		log.info("applyHiveTerm")
 		log.info(params)
-		
+
 		def absPath = params['absPath']
 		if (absPath == null || absPath == "") {
 			log.error "no absPath in request"
@@ -217,7 +217,7 @@ class HiveController {
 		}
 
 		log.info "targetUri: ${targetUri}"
-		
+
 		def vocabulary = params['vocabulary']
 		if (vocabulary == null || vocabulary == "") {
 			log.error "no vocabulary in request"
@@ -227,13 +227,13 @@ class HiveController {
 		}
 
 		log.info "vocabulary: ${vocabulary}"
-		
-		
+
+
 		def comment = params['comment']
 		if (vocabulary == null) {
 			comment = "";
 		}
-		
+
 		log.info("adding hive vocbulary term")
 		def conceptProxy = hiveService.applyVocabularyTerm(targetUri, absPath, vocabulary, comment, irodsAccount)
 		log.info("term added, new concept proxy:${conceptProxy}")
@@ -241,7 +241,7 @@ class HiveController {
 		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy, absPath:absPath])
 
 	}
-	
+
 	/**
 	 * Show the concept browser given the selected vocabularies
 	 * @return
@@ -249,7 +249,7 @@ class HiveController {
 	def conceptBrowser() {
 		log.info("conceptBrowser")
 		log.info(params)
-		
+
 		def absPath = params['absPath']
 		if (absPath == null) {
 			log.error "no absPath in request"
@@ -274,9 +274,9 @@ class HiveController {
 
 		def hiveState = hiveService.retrieveHiveState()
 		def conceptProxy
-		
+
 		log.info("getting concept proxy for display...")
-		
+
 		if (targetUri) {
 			log.info("have target uri, make this the current:${targetUri}")
 			conceptProxy = hiveService.getConceptByUri(targetUri, absPath, irodsAccount)
@@ -293,11 +293,11 @@ class HiveController {
 			}
 			log.info("getting top level for:${currentVocab}")
 			conceptProxy = hiveService.getTopLevelConceptProxyForVocabulary(currentVocab, absPath, irodsAccount)
-			
+
 		}
-		
-		
-		
+
+
+
 
 		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy, absPath:absPath])
 	}
@@ -305,23 +305,19 @@ class HiveController {
 	def searchConcept(){
 		log.info("searchConcept")
 		log.info(params.searchedConcept)
-		
+
 		def searchResult
 		def hiveState = hiveService.retrieveHiveState()
-		def listOfOpenedVocabularies = hiveState.selectedVocabularies
-		def searchedConcept = params['searchedConcept'] 
+		def searchedConcept = params['searchedConcept']
 		if (!searchedConcept) {
 			log.info("nothing to search for!")
 		}
 		else {
-			searchResult = vocabularyService.searchConcept(searchedConcept , listOfOpenedVocabularies) 
-			if (!searchConcept){
-				log.info("nothing was found for the searched term")
-			}
+			searchResult = vocabularyService.searchConcept(searchedConcept , hiveState.obtainListOfSelectedVocabularies())
 			render (view:"conceptSearch", model:[searchResult:searchResult])
-		}	
-			
+		}
+
 	}
-	
+
 }
 

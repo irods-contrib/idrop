@@ -12,21 +12,25 @@ class HiveState {
 	 * all vocabularies in HIVE
 	 */
 	String[] vocabularies = []
-	
+
 	/**
 	 * all vocabularies in HIVE that have been selected as being of interest 
 	 */
 	String[] selectedVocabularies = []
-	
+
 	/**
 	 * Current vocabulary in view
 	 */
 	String currentVocabulary = ""
-	
+
 	/**
 	 * Current concept that is being worked with
 	 */
 	String currentConceptLabel = ""
 	String currentConceptURI = ""
-	
+
+	public List<String> obtainListOfSelectedVocabularies() {
+		List<String> vocabs = new ArrayList<String>()
+		selectedVocabularies.each{ vocabs.add(it) }
+	}
 }
