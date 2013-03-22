@@ -314,7 +314,7 @@ class HiveController {
 		}
 		else {
 			searchResult = vocabularyService.searchConcept(searchedConcept , hiveState.obtainListOfSelectedVocabularies())
-			render (view:"conceptSearch", model:[searchResult:searchResult])
+			render (view:"conceptSearch", model:[searchResult:searchResult , searchedConcept:searchedConcept])
 		}
 
 	}
