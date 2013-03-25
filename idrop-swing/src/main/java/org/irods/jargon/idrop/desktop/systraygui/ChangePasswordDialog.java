@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
  * 
  * @author mikeconway
  */
+
+// This dialog is meant to change only the iRODS account
+// password - not a grid account password
 public class ChangePasswordDialog extends javax.swing.JDialog {
 
     private final iDrop idrop;
@@ -92,7 +95,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         btnUpdatePassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("iDrop: Change Password");
+        setTitle("iDrop: Change iRODS Password");
         setAlwaysOnTop(true);
         setMinimumSize(new java.awt.Dimension(250, 150));
         setPreferredSize(new java.awt.Dimension(350, 250));
@@ -282,7 +285,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
             UserAO userAO = idrop.getiDropCore().getIrodsFileSystem().getIRODSAccessObjectFactory().getUserAO(irodsAccount);
             userAO.changeAUserPasswordByThatUser(irodsAccount.getUserName(),
                     irodsAccount.getPassword(), newPassword);
-            log.info("password changed, resetting iRODS Account and grid account.");
+            log.info("password changed, resetting iRODS Account");
             
             IRODSAccount newAccount = new IRODSAccount(irodsAccount.getHost(),
                     irodsAccount.getPort(), irodsAccount.getUserName(),
@@ -291,34 +294,34 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                     irodsAccount.getDefaultStorageResource());
             newAccount.setAuthenticationScheme(irodsAccount.getAuthenticationScheme());
             
-            // now update password in grid account
-            try {
-                idrop.getiDropCore().getConveyorService().getGridAccountService().addOrUpdateGridAccountBasedOnIRODSAccount(newAccount);
-                // use this when Mike adds comment to addOrUpdateGridAccountBasedOnIRODSAccount()
-                // gridAccountService.addOrUpdateGridAccountBasedOnIRODSAccount(gridInfo, comment);
-            } catch (PassPhraseInvalidException ex) {
-                Logger.getLogger(EditGridInfoDialog.class.getName()).log(
-                        Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Update of grid account failed. Pass phrase is invalid.",
-                    "Change Password", JOptionPane.ERROR_MESSAGE);
-            } catch (ConveyorExecutionException ex) {
-                Logger.getLogger(EditGridInfoDialog.class.getName()).log(
-                        Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Update of grid account failed.",
-                    "Change Password", JOptionPane.ERROR_MESSAGE);
-            }
+            // now update password in grid account - discussion with Mike 3/22/12 - do not do this here too
+//            try {
+//                idrop.getiDropCore().getConveyorService().getGridAccountService().addOrUpdateGridAccountBasedOnIRODSAccount(newAccount);
+//                // use this when Mike adds comment to addOrUpdateGridAccountBasedOnIRODSAccount()
+//                // gridAccountService.addOrUpdateGridAccountBasedOnIRODSAccount(gridInfo, comment);
+//            } catch (PassPhraseInvalidException ex) {
+//                Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+//                        Level.SEVERE, null, ex);
+//                JOptionPane.showMessageDialog(
+//                    this,
+//                    "Update of grid account failed. Pass phrase is invalid.",
+//                    "Change Password", JOptionPane.ERROR_MESSAGE);
+//            } catch (ConveyorExecutionException ex) {
+//                Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+//                        Level.SEVERE, null, ex);
+//                JOptionPane.showMessageDialog(
+//                    this,
+//                    "Update of grid account failed.",
+//                    "Change Password", JOptionPane.ERROR_MESSAGE);
+//            }
             
             // may be different actions for dialog depending if launched from iDrop or Edit Grid dialog
             // don't do this if not logged in yet
             // also may be changing password for account not currently in use!
-            if ((idrop.getIrodsAccount() != null) && (isLoggedInIrodsAccount(newAccount))) {
+            //if ((idrop.getIrodsAccount() != null) && (isLoggedInIrodsAccount(newAccount))) {
                 idrop.setIrodsAccount(newAccount);
                 idrop.reinitializeForChangedIRODSAccount();
-            }
+            //}
             
             this.newPsswd = newPassword;
             JOptionPane.showMessageDialog(this, "Password was changed");

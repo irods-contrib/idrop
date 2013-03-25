@@ -209,7 +209,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //                loginDialog.setLocationRelativeTo(null);
 //                loginDialog.setVisible(true);
                 
-                final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, iDropCore, thisPanel);
+                final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, iDropCore, savedAccount);
                 Toolkit tk = getToolkit();
                 int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
                 int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
@@ -487,13 +487,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         MenuItem iDropItem = new MenuItem("iDrop");
         MenuItem preferencesItem = new MenuItem("Preferences");
         MenuItem changePassPhraseItem = new MenuItem("Change Pass Phrase");
-        MenuItem changePasswordItem = new MenuItem("Change Password");
+        MenuItem changePasswordItem = new MenuItem("Change iRODS Password");
 
         iDropItem.addActionListener(this);
 
         MenuItem currentItem = new MenuItem("Show Current and Past Activity");
 
-        MenuItem logoutItem = new MenuItem("Logout");
+        MenuItem logoutItem = new MenuItem("Grid Accounts");
 
         pausedItem = new CheckboxMenuItem("Pause");
 
@@ -834,7 +834,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         if (e.getActionCommand().equals("Exit")) {
             shutdownWithConfirmation();
-        } else if (e.getActionCommand().equals("Logout")) {
+        } else if (e.getActionCommand().equals("Grid Accounts")) {
             log.info("logging out to log in to a new grid");
 
             displayAndProcessSignOn();

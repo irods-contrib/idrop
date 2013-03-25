@@ -188,7 +188,7 @@ public class IDROPDesktop {
         }
         
         if (validated) {
-            final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, idropCore, idrop);
+            final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, idropCore, null);
             Toolkit tk = idrop.getToolkit();
             int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
             int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;

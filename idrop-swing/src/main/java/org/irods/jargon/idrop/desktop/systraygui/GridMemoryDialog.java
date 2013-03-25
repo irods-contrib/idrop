@@ -40,19 +40,23 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     
     private GridMemoryDialog dialog;
     private final IDROPCore idropCore;
-    private final iDrop idrop;
+//    private final iDrop idrop;
+    private final IRODSAccount savedAccount;
     public static org.slf4j.Logger log = LoggerFactory.getLogger(MetadataTableModel.class);
 
     /**
      * Creates new form GridMemoryDialog
      */
-    public GridMemoryDialog(java.awt.Frame parent, boolean modal, final IDROPCore idropCore, final iDrop idrop) {
+//    public GridMemoryDialog(java.awt.Frame parent, boolean modal, final IDROPCore idropCore, final iDrop idrop) {
+    public GridMemoryDialog(java.awt.Frame parent, boolean modal, final IDROPCore idropCore, final IRODSAccount savedAccount) {
         super(parent, modal);
         initComponents();
         this.idropCore = idropCore;
-        this.idrop = idrop;
+//        this.idrop = idrop;
+        this.savedAccount = savedAccount;
         makeTextAreaLikeLabel();
         initGridInfoTable();
+        setLoginInfoLabel();
         
         this.getRootPane().setDefaultButton(btnLogin);
     }
@@ -98,7 +102,8 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                             GridAccount gridTableData = (GridAccount)model.getRow(row);
                             GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
                             EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
-                                null, true, idropCore, gridAccount, idrop);
+//                                null, true, idropCore, gridAccount, idrop);
+                                  null, true, idropCore, gridAccount);
 
                             editGridInfoDialog.setLocation(
                                 (int)dialog.getLocation().getX(), (int)dialog.getLocation().getY());
@@ -122,6 +127,26 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         btnLogin.setEnabled(selectedRowCount > 0);
     }
     
+    private void setLoginInfoLabel() {
+        
+        StringBuilder loginMsg = new StringBuilder();
+        if (savedAccount != null) {
+            // make label with host:zone:user name
+            loginMsg.append(lblLoginInfo.getText());
+            loginMsg.append(savedAccount.getHost());
+            loginMsg.append(" : ");
+            loginMsg.append(savedAccount.getZone());
+            loginMsg.append(" : ");
+            loginMsg.append(savedAccount.getUserName());
+        } 
+        else {
+            // make label with not logged in
+            loginMsg.append(lblLoginInfo.getText());
+            loginMsg.append("Not logged in.");
+        }
+        
+        lblLoginInfo.setText(loginMsg.toString());
+    }   
     
     private boolean processLogin() {
         
@@ -160,45 +185,45 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
             try {
                 irodsFileSystem = idropCore.getIrodsFileSystem();
-                   AuthResponse authResponse = irodsFileSystem.getIRODSAccessObjectFactory().authenticateIRODSAccount(irodsAccount);
-                    idropCore.setIrodsAccount(authResponse.getAuthenticatedIRODSAccount());
-                    try {
-                        idropCore.getIdropConfigurationService().saveLogin(irodsAccount);
-                    } catch (IdropException ex) {
-                        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                        throw new IdropRuntimeException("error saving irodsAccount", ex);
-                    }
-                    this.dispose();
-                } catch (JargonException ex) {
-                    if (ex.getMessage().indexOf("Connection refused") > -1) {
-                        Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                                null, ex);
-                        MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
-
-                        return false;
-                    } else if (ex.getMessage().indexOf("Connection reset") > -1) {
-                        Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                                null, ex);
-                        MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
-
-                        return false;
-                    } else if (ex.getMessage().indexOf("io exception opening socket") > -1) {
-                        Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                                null, ex);
-                        MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
-
-                        return false;
-                    } else {
-                        Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                                null, ex);
-                        MessageManager.showError(this, "Login error - unable to log in, or invalid user id.", "Login Error");
-
-                        return false;
-                    }
-                } finally {
+                AuthResponse authResponse = irodsFileSystem.getIRODSAccessObjectFactory().authenticateIRODSAccount(irodsAccount);
+                idropCore.setIrodsAccount(authResponse.getAuthenticatedIRODSAccount());
+                try {
+                    idropCore.getIdropConfigurationService().saveLogin(irodsAccount);
+                } catch (IdropException ex) {
                     this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    if (irodsFileSystem != null) {
-                        irodsFileSystem.closeAndEatExceptions();
+                    throw new IdropRuntimeException("error saving irodsAccount", ex);
+                }
+                this.dispose();
+            } catch (JargonException ex) {
+                if (ex.getMessage().indexOf("Connection refused") > -1) {
+                    Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                    MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
+
+                    return false;
+                } else if (ex.getMessage().indexOf("Connection reset") > -1) {
+                    Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                    MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
+
+                    return false;
+                } else if (ex.getMessage().indexOf("io exception opening socket") > -1) {
+                    Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                    MessageManager.showError(this, "Cannot connect to the server, is it down?", "Login Error");
+
+                    return false;
+                } else {
+                    Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                    MessageManager.showError(this, "Login error - unable to log in, or invalid user id.", "Login Error");
+
+                    return false;
+                }
+            } finally {
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                if (irodsFileSystem != null) {
+                    irodsFileSystem.closeAndEatExceptions();
                 }
             }
         }
@@ -278,6 +303,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         btnDeleteGridInfo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
+        lblLoginInfo = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
@@ -358,20 +384,17 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         jPanel2.setPreferredSize(new java.awt.Dimension(609, 50));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel6.setPreferredSize(new java.awt.Dimension(40, 46));
+        jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 2, 6, 1));
+        jPanel6.setPreferredSize(new java.awt.Dimension(392, 46));
+        jPanel6.setLayout(new java.awt.BorderLayout());
 
-        org.jdesktop.layout.GroupLayout jPanel6Layout = new org.jdesktop.layout.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 40, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 46, Short.MAX_VALUE)
-        );
+        lblLoginInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.lblLoginInfo.text")); // NOI18N
+        lblLoginInfo.setPreferredSize(new java.awt.Dimension(100, 46));
+        jPanel6.add(lblLoginInfo, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel6, java.awt.BorderLayout.WEST);
+
+        jPanel10.setPreferredSize(new java.awt.Dimension(175, 46));
 
         btnCancel.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.text_1")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -379,6 +402,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                 btnCancelActionPerformed(evt);
             }
         });
+        jPanel10.add(btnCancel);
 
         btnLogin.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.text")); // NOI18N
         btnLogin.setEnabled(false);
@@ -387,29 +411,9 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                 btnLoginActionPerformed(evt);
             }
         });
+        jPanel10.add(btnLogin);
 
-        org.jdesktop.layout.GroupLayout jPanel10Layout = new org.jdesktop.layout.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap(372, Short.MAX_VALUE)
-                .add(btnCancel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnLogin)
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
-                .add(jPanel10Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnCancel)
-                    .add(btnLogin))
-                .addContainerGap())
-        );
-
-        jPanel2.add(jPanel10, java.awt.BorderLayout.CENTER);
+        jPanel2.add(jPanel10, java.awt.BorderLayout.EAST);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
 
@@ -522,6 +526,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblLoginInfo;
     private javax.swing.JPanel pnlGridInfoTable;
     private javax.swing.JTable tableGridInfo;
     private javax.swing.JTextArea textAreaInfo;

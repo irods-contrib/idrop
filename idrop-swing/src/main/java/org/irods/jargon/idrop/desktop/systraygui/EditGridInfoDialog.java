@@ -25,7 +25,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
     
     private GridAccount gridAccount = null;
     private final IDROPCore idropCore;
-    private final iDrop idrop;
+//    private final iDrop idrop;
 
     /**
      * Creates new form EditGridInfoDialog
@@ -33,14 +33,14 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
     public EditGridInfoDialog(java.awt.Frame parent,
             boolean modal,
             final IDROPCore idropCore,
-            final GridAccount gridAccount,
-            final iDrop idrop) {
+            final GridAccount gridAccount) {
+//            final iDrop idrop) {
         
         super(parent, modal);
         initComponents();
         this.gridAccount = gridAccount;
         this.idropCore = idropCore;
-        this.idrop = idrop;
+//        this.idrop = idrop;
         populateGridAccountInfo();
         initAuthSchemesCombo();
         this.getRootPane().setDefaultButton(btnOK);
@@ -63,6 +63,28 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         String user = gridAccount.getUserName();
         if (user != null) {
             lblUser.setText(user);
+        }
+        
+        // need to get plain test password
+        GridAccountService gridAccountService = idropCore.getConveyorService().getGridAccountService();
+        IRODSAccount irodAccountForPswd = null;
+        String pswd = null;
+        try {
+            irodAccountForPswd = gridAccountService.irodsAccountForGridAccount(gridAccount);
+        } catch (ConveyorExecutionException ex) {
+            Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(
+                this,
+                "Could not retrieve stored password for this account.",
+                "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+        }
+        if (irodAccountForPswd != null) {
+            pswd = irodAccountForPswd.getPassword();
+        }
+        if (pswd != null) {
+            txtPassword.setText(pswd);
+            txtVerifyPassword.setText(pswd);
         }
         
         String defResc = gridAccount.getDefaultResource();
@@ -98,6 +120,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         }
         String zone = this.gridAccount.getZone();
         String user = this.gridAccount.getUserName();
+        String password = txtPassword.getText().trim();
+        String verifyPassword = txtVerifyPassword.getText().trim();
         String defaultResc = txtDefaultResource.getText().trim();
         String initialPath = txtInitialPath.getText().trim();
         if ((txtInitialPath.getText() == null) || (txtInitialPath.getText().isEmpty())) {
@@ -109,23 +133,34 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
             initialPath = homeBuilder.toString();
         }
         
+        // check to make sure passwords match
+        if (! password.equals(verifyPassword)) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Passwords do not match. Please try again.",
+                "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+            return acct;
+        }
+        
         GridAccountService gridAccountService = idropCore.getConveyorService().getGridAccountService();
         
         // need to do this to retrieve plain text password
         IRODSAccount irodAccountForPswd = null;
-        try {
-            irodAccountForPswd = gridAccountService.irodsAccountForGridAccount(gridAccount);
-        } catch (ConveyorExecutionException ex) {
-            Logger.getLogger(EditGridInfoDialog.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(
-                this,
-                "Update of grid account failed. Could not store password.",
-                "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
-        }
+        
+        // not needed if collecting password from form
+//        try {
+//            irodAccountForPswd = gridAccountService.irodsAccountForGridAccount(gridAccount);
+//        } catch (ConveyorExecutionException ex) {
+//            Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+//                    Level.SEVERE, null, ex);
+//            JOptionPane.showMessageDialog(
+//                this,
+//                "Update of grid account failed. Could not store password.",
+//                "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+//        }
         
         try {
-            acct = IRODSAccount.instance(host, port, user, irodAccountForPswd.getPassword(), initialPath, zone, defaultResc);
+            acct = IRODSAccount.instance(host, port, user, password, initialPath, zone, defaultResc);
         } catch (JargonException ex) {
             JOptionPane.showMessageDialog(
                 this,
@@ -148,6 +183,31 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         
         return acct;
     }
+    
+//    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+//        IRODSAccount acct = createIRODSAccountFromForm();
+//        if (acct != null) {
+//            ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, true, idrop, acct);
+//            changePasswordDialog.setLocation(
+//                        (int)this.getLocation().getX(), (int)this.getLocation().getY());
+//            changePasswordDialog.setVisible(true);
+//            
+//            // need to put new password in gridAccount in case OK button is now pressed in this dialog
+//            String newPasswd = changePasswordDialog.getNewPassword();
+//            if (newPasswd != null) {
+//                acct.setPassword(newPasswd);
+//                try {
+//                this.gridAccount = 
+//                        idropCore.getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(acct);
+//            } catch (ConveyorExecutionException ex) {
+//                Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+//                        null, ex);         
+//                MessageManager.showError(this, "Cannot retrieve grid account information", "Change Password");
+//            }
+//            }
+//        }
+//
+//    } 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -178,23 +238,26 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textareaComment = new javax.swing.JTextArea();
+        txtPassword = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtVerifyPassword = new javax.swing.JPasswordField();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
-        btnChangePassword = new javax.swing.JButton();
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(430, 400));
+        setPreferredSize(new java.awt.Dimension(430, 460));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel2.setPreferredSize(new java.awt.Dimension(394, 358));
+        jPanel2.setPreferredSize(new java.awt.Dimension(394, 406));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 4, 10));
-        jPanel1.setPreferredSize(new java.awt.Dimension(382, 310));
+        jPanel1.setPreferredSize(new java.awt.Dimension(382, 370));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel1.text")); // NOI18N
@@ -264,7 +327,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         jLabel6.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel6.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel6, gridBagConstraints);
 
@@ -272,41 +335,41 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         txtDefaultResource.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(txtDefaultResource, gridBagConstraints);
 
         jLabel7.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel7.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel7, gridBagConstraints);
 
         txtInitialPath.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtInitialPath.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(txtInitialPath, gridBagConstraints);
 
         jLabel8.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel8.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel8, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(cbAuthScheme, gridBagConstraints);
 
         jLabel9.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel9.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel9, gridBagConstraints);
 
@@ -318,10 +381,40 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(jScrollPane1, gridBagConstraints);
+
+        txtPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtPassword.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(txtPassword, gridBagConstraints);
+
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel5.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel5, gridBagConstraints);
+
+        jLabel10.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel10.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel10, gridBagConstraints);
+
+        txtVerifyPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtVerifyPassword.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(txtVerifyPassword, gridBagConstraints);
 
         jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -330,7 +423,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         jPanel3.setLayout(new java.awt.BorderLayout());
         jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
 
-        jPanel5.setPreferredSize(new java.awt.Dimension(330, 39));
+        jPanel5.setPreferredSize(new java.awt.Dimension(190, 39));
 
         btnCancel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnCancel.text")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -339,14 +432,6 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
             }
         });
         jPanel5.add(btnCancel);
-
-        btnChangePassword.setLabel(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnChangePassword.label")); // NOI18N
-        btnChangePassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChangePasswordActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnChangePassword);
 
         btnOK.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOK.text")); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {
@@ -409,43 +494,19 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnOKActionPerformed
 
-    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
-        IRODSAccount acct = createIRODSAccountFromForm();
-        if (acct != null) {
-            ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, true, idrop, acct);
-            changePasswordDialog.setLocation(
-                        (int)this.getLocation().getX(), (int)this.getLocation().getY());
-            changePasswordDialog.setVisible(true);
-            
-            // need to put new password in gridAccount in case OK button is now pressed in this dialog
-            String newPasswd = changePasswordDialog.getNewPassword();
-            if (newPasswd != null) {
-                acct.setPassword(newPasswd);
-                try {
-                this.gridAccount = 
-                        idropCore.getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(acct);
-            } catch (ConveyorExecutionException ex) {
-                Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                        null, ex);         
-                MessageManager.showError(this, "Cannot retrieve grid account information", "Change Password");
-            }
-            }
-        }
-
-    }//GEN-LAST:event_btnChangePasswordActionPerformed
-
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnChangePassword;
     private javax.swing.JButton btnOK;
     private javax.swing.JComboBox cbAuthScheme;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -462,6 +523,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea textareaComment;
     private javax.swing.JTextField txtDefaultResource;
     private javax.swing.JTextField txtInitialPath;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPort;
+    private javax.swing.JPasswordField txtVerifyPassword;
     // End of variables declaration//GEN-END:variables
 }
