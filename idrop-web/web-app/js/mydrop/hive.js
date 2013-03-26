@@ -7,7 +7,6 @@
 function showHiveView(absPath, targetDiv) {
 	if (absPath == null) {
 		absPath = baseAbsPath;
-		return false;
 	}
 
 	try {
@@ -100,7 +99,8 @@ function updateHiveTerm(absPath, vocabulary, uri, comment)  {
 					return false;
 				} 
 				$("#conceptBrowserDialog").html("").hide("slow");
-				$("#conceptBrowserMain").html(data).show("slow");
+				$("#conceptBrowserPivotContainer").html(data);
+				$("#conceptBrowserMain").show("slow");
 				setMessage(jQuery.i18n.prop('msg_update_successful'));
 				unblockPanel();
 				
@@ -143,8 +143,8 @@ function browseToUri(uri, absPath) {
 			absPath : absPath
 		}
 
-		lcSendValueWithParamsAndPlugHtmlInDiv("/hive/conceptBrowser", params,
-				"#infoAccordionHiveInner", null);
+		lcSendValueWithParamsAndPlugHtmlInDiv("/hive/conceptBrowserPivotView", params,
+				"#conceptBrowserPivotContainer", null);
 
 	} catch (err) {
 		setErrorMessage(err);
@@ -183,8 +183,8 @@ function resetVocabulary(vocabulary, absPath) {
 			}
 		}
 		lcSendValueWithParamsAndPlugHtmlInDiv("/hive/resetConceptBrowser",
-				params, "#infoAccordionHiveInner", function(data) {
-					$("#infoAccordionHiveInner").html(data);
+				params, "#conceptBrowserPivotContainer", function(data) {
+					$("#conceptBrowserPivotContainer").html(data);
 				}, function() {
 					setHiveNoData();
 				});

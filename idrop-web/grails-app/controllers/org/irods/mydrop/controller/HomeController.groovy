@@ -13,7 +13,7 @@ class HomeController {
 	StarringService starringService
 	SharingService sharingService
 	IRODSAccessObjectFactory irodsAccessObjectFactory
-	
+
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
@@ -28,10 +28,9 @@ class HomeController {
 		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
 	}
 
-	def afterInterceptor = { 
+	def afterInterceptor = {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
-		
 	}
 
 	def index() {
@@ -65,28 +64,30 @@ class HomeController {
 		log.info("irodsFilePath:${filePath}")
 		String zone = MiscIRODSUtils.getZoneInPath(filePath)
 		log.info("zone:${zone}")
-		IRODSAccount irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
-		session["SPRING_SECURITY_CONTEXT"] = irodsAccount
-		/*
-		 * Need to figure out how to signal interface to 'reset' to new account and path?  
-		 */
+
+		log.info("checking to see if logged in, if already logged in, use that credential, otherwise, do an anonymous login")
+
+		if (!irodsAccount) {
+			IRODSAccount irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
+			session["SPRING_SECURITY_CONTEXT"] = irodsAccount
+		}
 
 		render(view:"link", model:[absPath:filePath])
 
 	}
-	
+
 	def starredCollections() {
 		log.info "starredCollections()"
-		
+
 		def listing = starringService.listStarredCollections(irodsAccount, 0)
-		
+
 		if (listing.isEmpty()) {
 			render(view:"noInfo")
 		} else {
 			render(view:"quickViewList",model:[listing:listing])
 		}
 	}
-	
+
 	def starredDataObjects() {
 		log.info "starredDataObjects()"
 		def listing = starringService.listStarredDataObjects(irodsAccount, 0)
@@ -96,21 +97,21 @@ class HomeController {
 			render(view:"quickViewList",model:[listing:listing])
 		}
 	}
-	
+
 	/**
 	 * Listing of collections shared by me with others
 	 * @return
 	 */
 	def sharedCollectionsByMe() {
 		log.info "sharedCollectionsByMe"
-		
+
 		boolean sharing = sharingService.isSharingSupported(irodsAccount)
 		if (!sharing) {
 			log.info("no sharing support on this grid")
 			render(view:"noInfo")
 			return
 		}
-		
+
 		/*
 		 * is sharing configured? 
 		 */
@@ -119,7 +120,7 @@ class HomeController {
 			render(view:"noInfo")
 			return
 		}
-				
+
 		try {
 			def listing = sharingService.listCollectionsSharedByMe(irodsAccount);
 			if (listing.isEmpty()) {
@@ -137,21 +138,21 @@ class HomeController {
 			response.sendError(500,message)
 		}
 	}
-	
+
 	/**
 	 * Listing of collections shared by me with others
 	 * @return
 	 */
 	def sharedCollectionsWithMe() {
 		log.info "sharedCollectionsByMe"
-		
+
 		boolean sharing = sharingService.isSharingSupported(irodsAccount)
 		if (!sharing) {
 			log.info("no sharing support on this grid")
 			render(view:"noInfo")
 			return
 		}
-		
+
 		try {
 			def listing = sharingService.listCollectionsSharedWithMe(irodsAccount)
 			if (listing.isEmpty()) {
@@ -168,10 +169,10 @@ class HomeController {
 			def message = message(code:"error.no.specific.query")
 			response.sendError(500,message)
 		}
-		
-		
+
+
 	}
-	
+
 
 	// FIXME: refactor into jargon-core
 	private IRODSAccount anonymousIrodsAccountForURIString(String uriString) {

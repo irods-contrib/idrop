@@ -3,6 +3,7 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.hive.service.VocabularyService
+import org.irods.mydrop.controller.utils.ViewNameAndModelValues
 import org.irods.mydrop.service.HiveService
 
 import edu.unc.ils.mrc.hive.HiveException
@@ -137,8 +138,7 @@ class HiveController {
 		}
 
 		hiveService.getTopLevelConceptProxyForVocabulary(vocabulary, absPath, irodsAccount)
-		forward(action:"conceptBrowser",model:[absPath:absPath])
-
+		forward(action:"conceptBrowserPivotView",model:[absPath:absPath])
 
 	}
 
@@ -238,16 +238,16 @@ class HiveController {
 		def conceptProxy = hiveService.applyVocabularyTerm(targetUri, absPath, vocabulary, comment, irodsAccount)
 		log.info("term added, new concept proxy:${conceptProxy}")
 		def hiveState = hiveService.retrieveHiveState()
-		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy, absPath:absPath])
+		render(view:"conceptBrowserTermsOnly", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy, absPath:absPath])
 
 	}
 
 	/**
-	 * Show the concept browser given the selected vocabularies
+	 * Show the full concept browser view
 	 * @return
 	 */
 	def conceptBrowser() {
-		log.info("conceptBrowser")
+		log.info("conceptBrowserFull()")
 		log.info(params)
 
 		def absPath = params['absPath']
@@ -261,8 +261,41 @@ class HiveController {
 
 		def indexLetter = params['indexLetter']
 		def targetUri = params['targetURI']
-		/*def vocabularies = params['vocabularies']
-		 */
+
+
+		def mav = conceptBrowserViewBuilder(true, absPath, indexLetter, targetUri)
+		render (view:mav.view, model:mav.model)
+	}
+
+	def conceptBrowserPivotView() {
+		log.info("conceptBrowserPivotView()")
+		log.info(params)
+
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info "absPath: ${absPath}"
+
+		def indexLetter = params['indexLetter']
+		def targetUri = params['targetURI']
+		def mav = conceptBrowserViewBuilder(false, absPath, indexLetter, targetUri)
+		render (view:mav.view, model:mav.model)
+	}
+
+	/**
+	 * Show the concept browser given the selected vocabularies
+	 * @return
+	 */
+	private ViewNameAndModelValues conceptBrowserViewBuilder( full,  absPath,  indexLetter,  targetUri) {
+		log.info("conceptBrowserViewBuilder")
+
+
+		def hiveState = hiveService.retrieveHiveState()
+		def conceptProxy
 
 		if (!indexLetter) {
 			indexLetter = 'A'
@@ -271,9 +304,6 @@ class HiveController {
 		if (!targetUri) {
 			targetUri = ""
 		}
-
-		def hiveState = hiveService.retrieveHiveState()
-		def conceptProxy
 
 		log.info("getting concept proxy for display...")
 
@@ -296,10 +326,16 @@ class HiveController {
 
 		}
 
+		ViewNameAndModelValues modelAndView = new ViewNameAndModelValues()
+		def modelMap = [hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy, absPath:absPath]
+		modelAndView.model = modelMap
+		if (full) {
+			modelAndView.view = "conceptBrowser"
+		} else {
+			modelAndView.view = "conceptBrowserTermsOnly"
+		}
 
-
-
-		render(view:"conceptBrowser", model:[hiveState:hiveState,vocabularySelections:hiveService.retrieveVocabularySelectionListing(), conceptProxy:conceptProxy, absPath:absPath])
+		return modelAndView
 	}
 
 	def searchConcept(){
