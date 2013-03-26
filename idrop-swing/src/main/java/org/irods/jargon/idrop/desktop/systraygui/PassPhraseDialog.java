@@ -192,6 +192,10 @@ public class PassPhraseDialog extends javax.swing.JDialog {
                 initialPassPhraseDialog.setVisible(true);
                 validated = initialPassPhraseDialog.isValidated();
         }
+        else {
+            // answer was No so just return
+            return;
+        }
         
         this.dispose();
     }//GEN-LAST:event_btnForgotPassPhraseActionPerformed
