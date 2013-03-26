@@ -1,27 +1,41 @@
 
 <div id="hivePanelInner" class="container-fluid">
-	<div class="row-fluid">
-		<div class="offset1 span10">
-			<div class="row-fluid">
-				<div class="span10 offset1 well">
-					<div class="container-fluid">
-						Searched Term : ${searchedConcept}
-						<table class="table table-striped">
-							<tr>
-								<th>Found Terms</th>
-								<th>Vocabulary</th>
-								<g:each in="${searchResult.preLabel}" var="preLabel">
-									<tr>
-									<th>${preLabel}</th>
-									<th>${searchResult.origin}</th>
-									</tr>
-								</g:each>
-							</tr>
-						</table>
-					</div>
-				</div>
+	<g:if test="${searchResult}">
+		<div class="row-fluid">
+			<div class="span10 offset1">
+				<button type="button" class="btn" data-toggle="collapse" data-target="#searchResultCollapseArea">Show/Hide Results</button>
 			</div>
 		</div>
-	</div>
+		</g:if>
+		<div class="row-fluid " id="searchResultCollapseArea">
+			<div class="span10 offset1 well">
+				<div class="well">
+					
+				
+					<table class="table table-striped">
+					<caption>Search Result</caption>
+						<thead>
+							<tr>
+							<th>Found Terms</th>
+							<th>Vocabulary</th>
+							</tr>
+						</thead>
+							<g:each in="${searchResult}" var="result">
+								<tr>
+									<td>
+										<span onclick="processSelectOfTermAsCurrent('${result.URI}')">${result.preLabel}</span>
+									</td>
+									<td>
+										${result.origin}
+									</td>
+								</tr>
+							</g:each>
+						</tr>
+						 </tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
 
 </div>

@@ -91,9 +91,9 @@
 					</div>
 				</g:if>
 				<g:else>
-					<!-- <div class="row-fluid">
-						<div class="span10 offset1 well">at top level...</div>
-					</div> -->
+					<div class="row-fluid">
+						<div class="span10 offset1 well"><em>Select terms or search to navigate and find descriptions for your data...</em></div>
+					</div> 
 				</g:else>
 				<div class="row-fluid">
 					<div class="span10 offset2">
