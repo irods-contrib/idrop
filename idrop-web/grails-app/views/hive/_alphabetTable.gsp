@@ -1,7 +1,7 @@
 <table cellspacing="0">
 	<tbody>
 		<tr>
-			<td><a href="#A">A</a></td>
+			<td><a href="#A" onclick="setLetter('A')">A</a></td>
 			<td><a href="#B">B</a></td>
 			<td><a href="#C">C</a></td>
 			<td><a href="#D">D</a></td>

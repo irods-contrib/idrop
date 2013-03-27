@@ -102,11 +102,13 @@
 						</h5>
 					</div>
 				</div>
-				<div class="row-fluid" id="conceptBrowserNarrowerLetters">
-					<div class="span10 offset1 well">
-						<g:render template="/hive/alphabetTable" />
+				<g:if test="${conceptProxy.isTopLevel()}">
+					<div class="row-fluid" id="conceptBrowserNarrowerLetters">
+						<div class="span10 offset1 well">
+							<g:render template="/hive/alphabetTable" />
+						</div>
 					</div>
-				</div>
+				</g:if>
 				<div class="row-fluid" id="conceptBrowserNarrower">
 					<g:render template="/hive/narrowerTable" />
 				</div>
