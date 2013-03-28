@@ -322,8 +322,8 @@ class HiveController {
 				return
 			}
 			log.info("getting top level for:${currentVocab}")
-			conceptProxy = hiveService.getTopLevelConceptProxyForVocabulary(currentVocab, absPath, irodsAccount)
-
+			conceptProxy = hiveService.getTopLevelConceptProxyForVocabulary(currentVocab, absPath, irodsAccount, indexLetter)
+	
 		}
 
 		ViewNameAndModelValues modelAndView = new ViewNameAndModelValues()

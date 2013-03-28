@@ -111,7 +111,7 @@ function updateHiveTerm(absPath, vocabulary, uri, comment)  {
 }
 
 /**
- * Hide the concept browser view and show the hive detaisl view
+ * Hide the concept browser view and show the hive details view
  * @param data
  */
 function showHiveDetailsDialog(data) {
@@ -224,6 +224,22 @@ function setHiveNoData() {
 	$("#infoAccordionHiveInner").html("No data to display");
 }
 
+function setLetter (indexLetter) {
+	var absPath = $("#infoAbsPath").val();
+
+	if (absPath == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
+		return false;
+	}
+	
+	var params = {
+		indexLetter:indexLetter,
+		absPath:absPath
+	}
+	
+	lcSendValueWithParamsAndPlugHtmlInDiv("/hive/conceptBrowserPivotView", params, "#conceptBrowserPivotContainer", null);
+	
+}
 
 function searchConcept(searchedConcept) {
 

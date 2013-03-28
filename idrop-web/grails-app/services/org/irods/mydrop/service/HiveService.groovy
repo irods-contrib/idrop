@@ -190,7 +190,7 @@ class HiveService {
 	 * hive state will be used
 	 * @return
 	 */
-	public ConceptProxy getTopLevelConceptProxyForVocabulary(final String vocabularyName, final String irodsAbsolutePath, final IRODSAccount irodsAccount) {
+	public ConceptProxy getTopLevelConceptProxyForVocabulary(final String vocabularyName, final String irodsAbsolutePath, final IRODSAccount irodsAccount, final indexLetter) {
 		log.info("getTopLevelConceptProxyForVocabulary")
 
 		if (irodsAccount == null) {
@@ -222,7 +222,7 @@ class HiveService {
 		hiveState.currentConceptURI = ""
 		hiveState.currentVocabulary = current
 		log.info("getting top concept proxy for vocabulary:${current}, will set hiveState to top of this vocab")
-		def conceptProxy = vocabularyService.getConceptProxyForTopOfVocabulary(vocabularyName, "", true)
+		def conceptProxy = vocabularyService.getConceptProxyForTopOfVocabulary(vocabularyName, indexLetter , true)
 		augmentConceptProxyWithIRODSInfo(conceptProxy,irodsAbsolutePath, irodsAccount)
 		return conceptProxy
 
