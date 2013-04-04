@@ -136,8 +136,8 @@ class HiveController {
 			response.sendError(500, message(code:"error.no.vocabulary.selected" ))
 			return
 		}
-
-		hiveService.getTopLevelConceptProxyForVocabulary(vocabulary, absPath, irodsAccount)
+		def indexLetter = 'A'
+		hiveService.getTopLevelConceptProxyForVocabulary(vocabulary, absPath, irodsAccount,indexLetter)
 		forward(action:"conceptBrowserPivotView",model:[absPath:absPath])
 
 	}
