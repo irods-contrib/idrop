@@ -29,7 +29,7 @@
 		<div class="span5 offset1" id="searchConceptForm">
 			<g:form id="searchConceptForm" action="search" method="get">
 				<g:textField name="searchConcept" id="searchConceptTerm"
-					value="${params.searchedConcept}" />
+					value="${params.searchedConcept}" onkeydown="if (event.keyCode == 13) processSearchHiveConcept()"/>
 				<button type="button" class="btn" id="searchConcept" value="update"
 					onclick="processSearchHiveConcept()">
 					<g:message code="text.search" />
