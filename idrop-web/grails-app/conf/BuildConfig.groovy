@@ -41,6 +41,7 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:jargon-hive-irods:1.0-SNAPSHOT') { excludes ([name:"stax-api"])}
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
+		compile 'org.perf4j:perf4j:0.9.13'
 
 		//compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 

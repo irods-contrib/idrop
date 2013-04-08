@@ -29,7 +29,9 @@
   	<li><a href="#tickets" id="ticketTab"><g:message code="text.tickets" /></a></li>
   </g:if>
   <li><a href="#audit"  id="auditTab"><g:message code="text.audit" /></a></li>
+  <g:if test="${grailsApplication.config.idrop.use.hive==true}">
   <li><a href="#hive"  id="hiveTab"><g:message code="text.hive" /></a></li>
+  </g:if>
 </ul>
  
 <div class="tab-content">
@@ -112,9 +114,11 @@
    <div class="tab-pane" id="audit">
    	<div id="infoAccordionAuditInner"></div>
    </div>
+   <g:if test="${grailsApplication.config.idrop.use.hive==true}">
    <div class="tab-pane" id="hive">
    	<div id="infoAccordionHiveInner"></div>
    </div>
+   </g:if>
 </div>
 
 </div><!--  toggle html area -->

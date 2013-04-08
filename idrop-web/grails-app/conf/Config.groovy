@@ -18,8 +18,7 @@ environments {
 	 production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
 	 production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
 	 production {  grails.serverURL = "http://www.irods.org" } */2
-	production {
-		grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
+	production { grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test { grails.serverURL = "http://localhost:8080/${appName}" }
 }
@@ -152,6 +151,19 @@ grails.logging.jul.usebridge = true
 grails.spring.bean.packages = []
 grails.validateable.packages = ['org.irods']
 
+//*************************************************************************
+// HIVE configuration
+
+// do I want to use HIVE features?
+idrop.use.hive=true
+
+// where is the hive configuration
+hive.config.location='/Users/mikeconway/temp/hive-data/hive.properties'
+
+// do I want to show HIVE search?  Enter fuseki server address in this case
+hive.fuseki.address=''
+
+//*************************************************************************
 // set per-environment serverURL stem for creating absolute links
 
 // log4j configuration
