@@ -107,7 +107,7 @@
 			return false;
 		}
 		alert("to be implemented, view as SKOS term:" + termUri
-				+ " from vocabulary:" + vocabulary);
+				+ " from vocabulary:" + vocabulary );
 	}
 
 	/**
