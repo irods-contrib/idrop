@@ -17,7 +17,7 @@ environments {
 	/*production {  grails.serverURL = "http://lifetime-library.ils.unc.edu/${appName}" }
 	 production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
 	 production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
-	 production {  grails.serverURL = "http://www.irods.org" } */2
+	 production {  grails.serverURL = "http://www.irods.org" } */
 	production { grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test { grails.serverURL = "http://localhost:8080/${appName}" }
