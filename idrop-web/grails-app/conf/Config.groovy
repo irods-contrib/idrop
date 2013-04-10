@@ -158,7 +158,9 @@ grails.validateable.packages = ['org.irods']
 idrop.use.hive=true
 
 // where is the hive configuration
-hive.config.location='/Users/mikeconway/temp/hive-data/hive.properties'
+//"C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties"
+//"/Users/mikeconway/temp/hive-data/hive.properties"
+hive.config.location='C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties'
 
 // do I want to show HIVE search?  Enter fuseki server address in this case
 hive.fuseki.address=''
