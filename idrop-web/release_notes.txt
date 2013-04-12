@@ -20,3 +20,6 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 
 ==Features==
+
+*[#1345] upgrade grails to 2.2.1 for hive work
+** upgraded to grails 2.2.1
