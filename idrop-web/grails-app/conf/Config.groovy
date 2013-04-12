@@ -162,8 +162,6 @@ idrop.use.hive=true
 //"/Users/mikeconway/temp/hive-data/hive.properties"
 hive.config.location="/Users/mikeconway/temp/hive-data/hive.properties"
 
-// do I want to show HIVE search?  Enter fuseki server address in this case
-hive.fuseki.address=''
 
 //*************************************************************************
 // set per-environment serverURL stem for creating absolute links

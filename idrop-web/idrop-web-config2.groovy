@@ -69,3 +69,18 @@ idrop.config.use.userprofile=true
 
 // do I support sharing? Requires target server to have specific query support and sharing queries loaded from jargon-user-tagging
 idrop.config.use.sharing=true
+
+
+//*************************************************************************
+// HIVE configuration
+
+// do I want to use HIVE features?
+idrop.use.hive=true
+
+// where is the hive configuration
+//"C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties"
+//"/Users/mikeconway/temp/hive-data/hive.properties"
+hive.config.location="/Users/mikeconway/temp/hive-data/hive.properties"
+
+
+//*************************************************************************
