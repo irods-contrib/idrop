@@ -11,11 +11,15 @@ Integration of idrop web with the HIVE framework under DataNet
 ==Requirements==
 
 *idrop-web depends on Java 1.6+
-*idrop-web depends on grails 2.1.1
-
+*idrop-web depends on grails 2.2.1
 
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
 ==Bug Fixes==
 
+
+
 ==Features==
+
+*[#1345] upgrade grails to 2.2.1 for hive work
+** upgraded to grails 2.2.1
