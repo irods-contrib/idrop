@@ -1,4 +1,3 @@
-
 *'''Project''': idrop-web
 *'''Date''': 02/13/2013
 *'''Release Version''': 2.0.1-SNAPSHOT
