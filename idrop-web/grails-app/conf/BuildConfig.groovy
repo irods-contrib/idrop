@@ -8,7 +8,7 @@ grails.project.dependency.resolution = {
 	inherits("global") {
 		// uncomment to disable ehcace
 		//excludes 'validation-api','stax-api', 'xml-apis', 'xalan', 'xml-apis-ext', 'sl4j-log4j12', 'sl4j'
-		excludes 'validation-api','sl4j-log4j12', 'sl4j'
+		excludes   'xalan', 'xml-apis-ext','xml-apis', 'validation-api','sl4j-log4j12', 'sl4j', 'gwt-user'
 	}
 	log "warn" // LOG level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 	repositories {
@@ -31,18 +31,20 @@ grails.project.dependency.resolution = {
 		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		test 'org.mockito:mockito-all:1.8.1'
 		compile 'commons-io:commons-io:2.1'
-		compile 'info.aduna.commons:aduna-commons-lang:2.3'
 		provided 'junit:junit:4.8.1'
 		compile ('org.irods.jargon:jargon-core:3.3.2-SNAPSHOT') { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-data-utils:3.3.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-ticket:3.3.2-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-profile:3.3.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-tagging:3.3.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ([name:"stax-api"])}
+		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ("stax-api","xml-apis", "xercesImpl")}
 		compile ('org.irods.jargon:jargon-hive-irods:1.0-SNAPSHOT') { excludes ([name:"stax-api"])}
+		compile('com.google.gwt:gwt-servlet:2.4.0') 
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
-		compile 'org.perf4j:perf4j:0.9.13'
+		//compile 'xml-apis:xml-apis:1.4.01'
+		compile 'xerces:xercesImpl:2.9.1'
+
 
 		//compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 

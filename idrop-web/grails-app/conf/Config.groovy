@@ -160,7 +160,7 @@ idrop.use.hive=true
 // where is the hive configuration
 //"C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties"
 //"/Users/mikeconway/temp/hive-data/hive.properties"
-hive.config.location="/Users/mikeconway/temp/hive-data/hive.properties"
+hive.config.location='/usr/local/hive-data/hive.properties'
 
 
 //*************************************************************************
