@@ -7,7 +7,8 @@ grails.project.dependency.resolution = {
 	// inherit Grails' default dependencies
 	inherits("global") {
 		// uncomment to disable ehcace
-		excludes 'validation-api','stax-api', 'xml-apis', 'xalan', 'xml-apis-ext', 'sl4j-log4j12', 'sl4j'
+		//excludes 'validation-api','stax-api', 'xml-apis', 'xalan', 'xml-apis-ext', 'sl4j-log4j12', 'sl4j'
+		excludes 'validation-api','sl4j-log4j12', 'sl4j'
 	}
 	log "warn" // LOG level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 	repositories {
