@@ -3,7 +3,7 @@
     <groupId>org.irods</groupId>
     <artifactId>idrop</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.0</version>
+    <version>2.0.1-SNAPSHOT</version>
     <name>iRODS iDrop</name>
     <description>iRODS iDrop - personal web and desktop grid access clients</description>
     <url>https://code.renci.org/gf/project/irodsidrop/</url>
@@ -161,12 +161,12 @@
                 <artifactId>org-netbeans-swing-outline</artifactId>
                 <version>${netbeans.version}</version>
             </dependency>
-             <dependency>
+            <dependency>
                 <groupId>org.netbeans.api</groupId>
                 <artifactId>org-openide-util</artifactId>
                 <version>${netbeans.version}</version>
             </dependency>
-              <dependency>
+            <dependency>
                 <groupId>org.netbeans.api</groupId>
                 <artifactId>org-openide-awt</artifactId>
                 <version>${netbeans.version}</version>
@@ -184,12 +184,12 @@
             <dependency>
                 <groupId>org.irods.jargon.transfer</groupId>
                 <artifactId>jargon-transfer-dao-spring</artifactId>
-                 <version>${jargon.version}</version>
+                <version>${jargon.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.irods.jargon.transfer</groupId>
                 <artifactId>jargon-transfer-engine</artifactId>
-                 <version>${jargon.version}</version>
+                <version>${jargon.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.irods.jargon</groupId>
@@ -275,7 +275,7 @@
                 <version>${spring.core.version}</version>
                 <type>jar</type>
             </dependency>
-           <!--  <dependency>
+            <!--  <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring.core.version}</version>
@@ -342,11 +342,11 @@
             <artifactId>jargon-core</artifactId>
             <scope>compile</scope>
         </dependency>   
-         <dependency>
-                <groupId>org.netbeans.api</groupId>
-                <artifactId>org-openide-util</artifactId>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util</artifactId>
             <scope>compile</scope>
-            </dependency>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -410,7 +410,7 @@
         </profile>
     </profiles>
     <modules>
+        <module>idrop-lite</module>
         <module>idrop-swing</module>
-         <module>idrop-lite</module>
     </modules>
 </project>
