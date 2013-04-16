@@ -6,6 +6,7 @@
 
 ==News==
 
+Release of new iDrop 2 web and desktop (phase I) development
 
 This is the iDrop desktop transfer manager client.  iDrop runs in the system tray of your favorite operating system, and can manage transfers between your computer and iRODS, and manage data once in iRODS.
 
@@ -26,6 +27,11 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ==Bug Fixes==
 
+
+*[#1340] allow switching of resource by default
+
+*[#1268] XML Parse Exception in idrop.jnlp
+**added jnlp template and improved jnlp file consistency and structure
 
 ==Outstanding Issues==
 

@@ -161,12 +161,12 @@
                 <artifactId>org-netbeans-swing-outline</artifactId>
                 <version>${netbeans.version}</version>
             </dependency>
-             <dependency>
+            <dependency>
                 <groupId>org.netbeans.api</groupId>
                 <artifactId>org-openide-util</artifactId>
                 <version>${netbeans.version}</version>
             </dependency>
-              <dependency>
+            <dependency>
                 <groupId>org.netbeans.api</groupId>
                 <artifactId>org-openide-awt</artifactId>
                 <version>${netbeans.version}</version>
@@ -270,7 +270,7 @@
                 <version>${spring.core.version}</version>
                 <type>jar</type>
             </dependency>
-           <!--  <dependency>
+            <!--  <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring.core.version}</version>
@@ -337,11 +337,11 @@
             <artifactId>jargon-core</artifactId>
             <scope>compile</scope>
         </dependency>   
-         <dependency>
-                <groupId>org.netbeans.api</groupId>
-                <artifactId>org-openide-util</artifactId>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util</artifactId>
             <scope>compile</scope>
-            </dependency>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -405,7 +405,6 @@
         </profile>
     </profiles>
     <modules>
-        <module>idrop-swing</module>
-         <module>idrop-lite</module>
+        <module>idrop-lite</module>
     </modules>
 </project>
