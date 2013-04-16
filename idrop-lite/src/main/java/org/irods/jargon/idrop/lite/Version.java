@@ -1,5 +1,5 @@
 package org.irods.jargon.idrop.lite;
 public final class Version {
- public static String VERSION="2.0.0";
- public static String BUILD_TIME="20130411-1603";
+ public static String VERSION="2.0.1-SNAPSHOT";
+ public static String BUILD_TIME="20130416-1436";
 }
