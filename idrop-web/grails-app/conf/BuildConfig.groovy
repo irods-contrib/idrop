@@ -3,6 +3,8 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 grails.project.war.file = "target/${appName}.war"
+
+
 grails.project.dependency.resolution = {
 	// inherit Grails' default dependencies
 	inherits("global") {
@@ -42,11 +44,14 @@ grails.project.dependency.resolution = {
 		compile('com.google.gwt:gwt-servlet:2.4.0') 
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
-		//compile 'xml-apis:xml-apis:1.4.01'
 		compile 'xerces:xercesImpl:2.9.1'
 
-
-		//compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
+	}
+	
+	plugins {
+		runtime ":hibernate:$grailsVersion"
+		
+		build ":tomcat:$grailsVersion"
 
 	}
 }
