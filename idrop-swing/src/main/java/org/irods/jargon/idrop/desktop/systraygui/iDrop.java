@@ -93,7 +93,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private Object lastCachedInfoItem = null;
     private CheckboxMenuItem pausedItem = null;
     private ChangePasswordDialog changePasswordDialog = null;
-    private QueueManagerDialog queueManagerDialog = null;
     private boolean formShown = false;
     private BasicArrowButton btnBreadCrumbNav;
 

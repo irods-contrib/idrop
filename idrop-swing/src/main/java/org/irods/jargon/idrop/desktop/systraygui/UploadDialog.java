@@ -32,7 +32,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileSystemMo
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
-import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
+import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;

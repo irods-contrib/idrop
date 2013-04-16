@@ -64,7 +64,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
            
             ConveyorBootstrapConfiguration conveyorBootstrapConfiguration = new ConveyorBootstrapConfiguration();
             ConveyorBootstrapper conveyorBootstrapper = new BasicConveyorBootstrapperImpl(conveyorBootstrapConfiguration);
-            ConveyorService conveyorService = conveyorBootstrapper.bootstrap();
+            ConveyorService conveyorService = conveyorBootstrapper.bootstrap(idropCore.getIRODSAccessObjectFactory());
             this.configurationService = conveyorService.getConfigurationService();
             idropCore.setConveyorService(conveyorService);
 
