@@ -41,16 +41,17 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:jargon-user-tagging:3.3.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ("stax-api","xml-apis", "xercesImpl")}
 		compile ('org.irods.jargon:jargon-hive-irods:1.0-SNAPSHOT') { excludes ([name:"stax-api"])}
-		compile('com.google.gwt:gwt-servlet:2.4.0') 
+		compile('com.google.gwt:gwt-servlet:2.4.0')
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 		compile 'xerces:xercesImpl:2.9.1'
+	
 
 	}
-	
+
 	plugins {
 		runtime ":hibernate:$grailsVersion"
-		
+
 		build ":tomcat:$grailsVersion"
 
 	}
