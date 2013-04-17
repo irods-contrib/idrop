@@ -1,9 +1,7 @@
 <head>
 <meta name="layout" content="mainNoSidebar" />
 <g:javascript library="mydrop/search" />
-<g:javascript library="mydrop/hive" />
-
-
+<g:javascript library="mydrop/hivequery" />
 </head>
 
 <ul class="nav nav-tabs" id="searchTabs">
@@ -15,11 +13,10 @@
 	<div class="tab-pane active" id="hiveQueryTab">
 		<g:render template="/sparqlQuery/hiveQueryForm" />
 	</div>
-	<div class="tab-pane"  id="resultsTab">
-	<div id="resultsTabInner">
-		Search Results here
-	</div>
-		
+	<div class="tab-pane" id="resultsTab">
+		<div id="resultsTabInner">Results Here...
+		</div>
+
 	</div>
 
 </div>
@@ -32,23 +29,21 @@
 		});
 		$("#topbarSearch").addClass("active");
 
-		$('#searchTabs a').click(function (e) {
+		$('#searchTabs a').click(function(e) {
 
-			  e.preventDefault();
-			  $(this).tab('show');
-			  var state = {};
-			  var tabId = this.hash
-			  state["tab"] = tabId;
-			  $.bbq.pushState(state);
+			e.preventDefault();
+			$(this).tab('show');
+			var state = {};
+			var tabId = this.hash
+			state["tab"] = tabId;
+			$.bbq.pushState(state);
 		});
 
-		 $(window).bind( 'hashchange', function(e) {
-             //processTagSearchStateChange( $.bbq.getState());
+		$(window).bind('hashchange', function(e) {
+			//processTagSearchStateChange( $.bbq.getState());
 		});
 
-		  $(window).trigger( 'hashchange' );
-	
+		$(window).trigger('hashchange');
+
 	});
-
-	
 </script>
