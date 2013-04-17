@@ -253,5 +253,21 @@ function searchConcept(searchedConcept) {
 }
 
 
+function hiveQueryByTerm(searchTerm) {
+	if (!searchTerm) {
+		setErrorMessage(jQuery.i18n.prop('msg_search_missing'));
+		return false;
+	}
+	
+	var params = {
+			uri:searchTerm
+		}
+	
+	lcSendValueWithParamsAndPlugHtmlInDiv("/sparqlQuery/searchByTerm", params, "#resultsTabInner", null);
+	$('#searchTabs a[href="#resultsTab"]').tab('show');
+	
+	
+}
+
 
 

@@ -1,7 +1,7 @@
 <head>
 <meta name="layout" content="mainNoSidebar" />
 <g:javascript library="mydrop/search" />
-<g:javascript library="mydrop/home" />
+<g:javascript library="mydrop/hive" />
 
 
 </head>
@@ -43,7 +43,7 @@
 		});
 
 		 $(window).bind( 'hashchange', function(e) {
-             processTagSearchStateChange( $.bbq.getState());
+             //processTagSearchStateChange( $.bbq.getState());
 		});
 
 		  $(window).trigger( 'hashchange' );

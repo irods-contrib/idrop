@@ -160,12 +160,13 @@ idrop.use.hive=true
 // where is the hive configuration
 //"C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties"
 //"/Users/mikeconway/temp/hive-data/hive.properties"
-hive.config.location='/usr/local/hive-data/hive.properties'
+//"/usr/local/hive-data/hive.properties"
+hive.config.location='/Users/mikeconway/temp/hive-data/hive.properties'
 
 // do I support sparql queries?
 idrop.hive.query=true
 // what is the context for REST HIVE queries
-hive.query.context='http://localhost:8081/hive-query-rest'
+hive.query.context='http://localhost:8081/hive-query-rest-1.0-SNAPSHOT/'
 
 //*************************************************************************
 // set per-environment serverURL stem for creating absolute links
