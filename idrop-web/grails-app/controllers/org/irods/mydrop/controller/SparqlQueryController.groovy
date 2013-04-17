@@ -58,7 +58,7 @@ class SparqlQueryController {
 		def context = grailsApplication.config.hive.query.context
 
 		def RestBuilder rest = new RestBuilder()
-		def resp = rest.get(context + "preparedQuery/allForVocabularyTerm?vocabUri=http://www.fao.org/aos/agrovoc&termId=c_28638")
+		def resp = rest.get(context + "preparedQuery/allForVocabularyTerm?vocabUri=http://www.fao.org/aos/agrovoc&termId=c_6399")
 		render resp.body
 
 	}

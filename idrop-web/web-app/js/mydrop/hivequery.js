@@ -46,6 +46,8 @@ function processHiveQueryResults(data) {
 	
 	html += "<tbody>";
 	
+	if (myObject.results != null && myObject.results.bindings != null) {
+	
 	$.each(myObject.results.bindings, function(index, value) {
 
 		html += "<tr><td><span class=\"setPaddingLeftAndRight\">";
@@ -74,6 +76,7 @@ function processHiveQueryResults(data) {
 	}
 			
 	); 
+}
 	
 	html += "</tbody><tfoot><tr><td></td><td></td><td></td></tr></tfoot></table>";
 	
