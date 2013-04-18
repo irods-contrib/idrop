@@ -1,0 +1,8 @@
+ PREFIX irods:       <http://www.irods.org/ontologies/2013/2/iRODS.owl#> 
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+SELECT ?x ?y
+WHERE { 
+
+?x  irods:correspondingConcept ?y
+
+}

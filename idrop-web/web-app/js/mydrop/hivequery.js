@@ -31,6 +31,37 @@ function hiveQueryByTerm(searchTerm) {
 	
 }
 
+function hiveQueryByRelatedTerm(searchTerm) {
+	if (!searchTerm) {
+		setErrorMessage(jQuery.i18n.prop('msg_search_missing'));
+		return false;
+	}
+	
+	var params = {
+			uri:searchTerm
+		}
+	
+	var getUrl = "/sparqlQuery/searchByRelatedTerm";
+	
+	$.get(context + getUrl, params, function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		
+		processHiveQueryResults(data);
+		unblockPanel();
+		$('#searchTabs a[href="#resultsTab"]').tab('show');
+	}, "html").error(function(xhr, status, error) {
+		$(resultDiv).html("");
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
+	
+	
+	
+}
+
 function processHiveQueryResults(data) {
 	
 	if (data == null || data == '') {
@@ -84,6 +115,36 @@ function processHiveQueryResults(data) {
 	$("#resultsTabInner").html(html);
 
 
+}
+
+function hiveQuerySparqlReturnNewWindow(searchTerm) {
+	if (!searchTerm) {
+		setErrorMessage(jQuery.i18n.prop('msg_search_missing'));
+		return false;
+	}
+	
+	var params = {
+			query:searchTerm
+		}
+	
+	var getUrl = "/sparqlQuery/searchSparql";
+	$("#resultsTabInner").html("");
+	
+	$.post(context + getUrl, params, function(data, status, xhr) {
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		
+		$("#resultsTabInner").html(data);
+		unblockPanel();
+		$('#searchTabs a[href="#resultsTab"]').tab('show');
+	}, "html").error(function(xhr, status, error) {
+		$(resultDiv).html("");
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
+	
 }
 
 /*
