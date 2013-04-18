@@ -42,7 +42,7 @@ function processHiveQueryResults(data) {
 	
 	// build first part of result table...
 	
-	var html = "<table id=\"searchResultTable\" class=\"table table-striped table-hover\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><thead><tr><th></th><th>iRODS Name</th><th>VocabularyInfo</th></tr></thead>";
+	var html = "<table id=\"searchResultTable\" class=\"table table-striped table-hover\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><thead><tr><th></th><th>iRODS Path</th><th>VocabularyInfo</th></tr></thead>";
 	
 	html += "<tbody>";
 	
@@ -50,10 +50,11 @@ function processHiveQueryResults(data) {
 	
 	$.each(myObject.results.bindings, function(index, value) {
 
-		html += "<tr><td><span class=\"setPaddingLeftAndRight\">";
+		html += "<tr><td>";
 		
 		if (value.infoLink != null && value.infoLink.value != null) {
-			html += "<a href='" + value.infoLink.value + "'><i class=\"icon-folder\"></i></a>";
+			//html += "<a href='" + value.infoLink.value + "'><i class=\"icon-folder-open\"></i></a>";
+			html += "<a href='" + context + "/browse/index?mode=path&absPath=" + encodeURIComponent(value.absPath.value) +"'><i class=\"icon-folder-open\"></i></a>";
 		}
 		
 		if (value.weblink != null && value.weblink.value != null) {
@@ -61,9 +62,9 @@ function processHiveQueryResults(data) {
 		}
 		
 		
-		html += "</span></td><td>"; 
+		html += "</td><td>"; 
 			
-		html += value.x.value;
+		html += value.absPath.value;
 		html += "</td><td>";
 		
 		if (value.y != null && value.y.value != null) {

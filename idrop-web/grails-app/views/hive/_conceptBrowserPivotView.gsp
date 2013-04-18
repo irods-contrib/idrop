@@ -55,24 +55,10 @@
 								</div>
 								<div class="row-fluid">
 									<div class="offset1 span8">
-										<em> ${conceptProxy.URI}
-										</em>
+										<small> ${conceptProxy.URI}</small>
 									</div>
 								</div>
-								<div class="row-fluid">
-									<div class="span3">
-										<h6>
-											<g:message code="text.uri" />
-											:
-										</h6>
-									</div>
-								</div>
-								<div class="row-fluid">
-									<div class="offset1 span8">
-										<em> ${conceptProxy.SKOSCode}
-										</em>
-									</div>
-								</div>
+								
 								<div class="row-fluid">
 									<div class="offset1 span11">
 										<div class="btn-group pad-around">

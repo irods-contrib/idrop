@@ -1,23 +1,22 @@
-
 <div id="hivePanelInner" class="container-fluid">
 	<g:if test="${searchResult}">
 		<div class="row-fluid">
 			<div class="span10 offset1">
-				<button type="button" class="btn" data-toggle="collapse" data-target="#searchResultCollapseArea">Show/Hide Results</button>
+				<button type="button" class="btn" data-toggle="collapse" data-target="#searchResultCollapseArea"><g:message code="text.show.hide.results" /></button>
 			</div>
 		</div>
 		</g:if>
-		<div class="row-fluid " id="searchResultCollapseArea">
+		<div class="row-fluid " id="searchResultCollapseArea" class="collapse">
 			<div class="span10 offset1 well">
 				<div class="well">
 					
 				
 					<table class="table table-striped">
-					<caption>Search Result</caption>
+					<caption><g:message code="text.search.result" /></caption>
 						<thead>
 							<tr>
-							<th>Found Terms</th>
-							<th>Vocabulary</th>
+							<th><g:message code="text.term" /></th>
+							<th><g:message code="text.vocabulary" /></th>
 							</tr>
 						</thead>
 							<g:each in="${searchResult}" var="result">

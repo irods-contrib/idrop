@@ -16,6 +16,8 @@
 			<td><a href="#M" onclick="setLetter('M')">M</a></td>
 			<td><a href="#N" onclick="setLetter('N')">N</a></td>
 			<td><a href="#O" onclick="setLetter('O')">O</a></td>
+		</tr>
+		<tr>
 			<td><a href="#P" onclick="setLetter('P')">P</a></td>
 			<td><a href="#Q" onclick="setLetter('Q')">Q</a></td>
 			<td><a href="#R" onclick="setLetter('R')">R</a></td>
@@ -28,6 +30,9 @@
 			<td><a href="#Y" onclick="setLetter('Y')">Y</a></td>
 			<td><a href="#Z" onclick="setLetter('Z')">Z</a></td>
 			<td><a href="#[0-9]" onclick="setLetter('A')">#</a></td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
 		</tr>
 	</tbody>
 </table>

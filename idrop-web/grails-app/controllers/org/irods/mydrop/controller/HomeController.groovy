@@ -68,6 +68,7 @@ class HomeController {
 		log.info("checking to see if logged in, if already logged in, use that credential, otherwise, do an anonymous login")
 
 		if (!irodsAccount) {
+			log.info("I am not logged in, so create an anonymous account")
 			IRODSAccount irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
 			session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 		}
