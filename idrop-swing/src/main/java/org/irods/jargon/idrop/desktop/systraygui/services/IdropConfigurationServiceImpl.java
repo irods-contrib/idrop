@@ -353,7 +353,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             newProps.setSendInputStreamBufferSize(idropCore.getIdropConfig().getSendInputStreamBufferSize());
             newProps.setUseParallelTransfer(idropCore.getIdropConfig().isUseParallelTransfers());
             newProps.setUseNIOForParallelTransfers(idropCore.getIdropConfig().isUseNIOForParallelTransfers());
-            newProps.setReconnect(idropCore.getIdropConfig().isConnectionRestart());
+            //newProps.setReconnect(idropCore.getIdropConfig().isConnectionRestart());
 
             idropCore.getIrodsFileSystem().getIrodsSession().setJargonProperties(newProps);
         }
