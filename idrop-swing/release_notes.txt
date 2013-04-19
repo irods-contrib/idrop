@@ -38,6 +38,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1268] XML Parse Exception in idrop.jnlp
 **added jnlp template and improved jnlp file consistency and structure
+*[#1250] jargon/idrop performance testing and optimization for 3.3.2
+**Fix pom.xml for missing reference to idrop-swing module
 
 ==Outstanding Issues==
 
