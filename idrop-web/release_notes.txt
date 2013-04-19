@@ -46,9 +46,12 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1221] twistie broken on search results
 
-
 ==Features==
 
 *[#984] iDrop web '2.0' redesign effort
 
 *[#78] very large collection paging
+
+*[#1345] upgrade grails to 2.2.1
+**Upgrade to grails 2.2.1 and related cleanups to make it easier to work with
+**Move plug-in defs to BuildConfig.groovy
