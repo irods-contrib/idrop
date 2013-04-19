@@ -11,6 +11,7 @@ function hiveQueryByTerm(searchTerm) {
 		}
 	
 	var getUrl = "/sparqlQuery/searchByTerm";
+	 showBlockingPanel();
 	
 	$.get(context + getUrl, params, function(data, status, xhr) {
 		var continueReq = checkForSessionTimeout(data, xhr);
@@ -42,6 +43,7 @@ function hiveQueryByRelatedTerm(searchTerm) {
 		}
 	
 	var getUrl = "/sparqlQuery/searchByRelatedTerm";
+	 showBlockingPanel();
 	
 	$.get(context + getUrl, params, function(data, status, xhr) {
 		var continueReq = checkForSessionTimeout(data, xhr);
@@ -68,6 +70,8 @@ function processHiveQueryResults(data) {
 		$("#resultsTabInner").html("");
 		setErrorMessage(jQuery.i18n.prop('msg_search_unsuccessful'))
 	}
+	
+	 showBlockingPanel();
 	
 	var myObject = $.parseJSON(data);
 	
@@ -113,6 +117,7 @@ function processHiveQueryResults(data) {
 	html += "</tbody><tfoot><tr><td></td><td></td><td></td></tr></tfoot></table>";
 	
 	$("#resultsTabInner").html(html);
+	unblockPanel();
 
 
 }
@@ -129,6 +134,7 @@ function hiveQuerySparqlReturnNewWindow(searchTerm) {
 	
 	var getUrl = "/sparqlQuery/searchSparql";
 	$("#resultsTabInner").html("");
+	 showBlockingPanel();
 	
 	$.post(context + getUrl, params, function(data, status, xhr) {
 		var continueReq = checkForSessionTimeout(data, xhr);
