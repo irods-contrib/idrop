@@ -31,6 +31,9 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#1062] default storage resource visibility
 **Added default storage resource to iDrop lite panel
 
+*[#1250] jargon/idrop performance testing and optimization for 3.3.2
+**Added code for new caching protocol manager and other fixes
+
 ==Outstanding Issues==
 
 Please consult [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
