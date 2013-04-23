@@ -317,6 +317,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
 
         log.info("creating idropCore...");
         iDropCore = new iDropLiteCore();
+        iDropCore.setIrodsFileSystem(irodsFileSystem);
         
         if (!processLogin()) {
             return false;

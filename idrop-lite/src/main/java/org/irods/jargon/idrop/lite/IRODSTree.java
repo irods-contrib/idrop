@@ -92,6 +92,7 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
         setTransferHandler(new IRODSTreeTransferHandler(idropParentGui,
                 "selectionModel"));
         setDropMode(javax.swing.DropMode.USE_SELECTION);
+        this.setRenderDataProvider(new OutlineRenderProvider(this));
 
         setUpTreeMenu();
         IrodsSelectionListenerForBuildingInfoPanel treeListener;
