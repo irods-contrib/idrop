@@ -49,6 +49,7 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
+import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.BreadCrumbNavigationPopup;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.FileSystemModel;
@@ -649,7 +650,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } else {
                     // look up the strict acl setting for the server, if strict acl, home the person in their user directory
                     EnvironmentalInfoAO environmentalInfoAO = this.getiDropCore().getIRODSAccessObjectFactory().getEnvironmentalInfoAO(getiDropCore().getIrodsAccount());
-                    boolean isStrict = environmentalInfoAO.isStrictACLs();
+                  
+                    // overhead for  [#1362] apparent start-up errors idrop checking for strict acls
+                    
+                    boolean isStrict = false;
+                    
+                    try {
+                     isStrict = environmentalInfoAO.isStrictACLs();
+                    } catch (JargonException je) {
+                        log.error("error checking is strict, warn and set to false");
+                        MessageUtil.showWarning(this, "Error checking if strict ACLS, assuming not strict", "");
+                    }
+                     
                     log.info("is strict?:{}", isStrict);
 
                     if (isStrict) {
