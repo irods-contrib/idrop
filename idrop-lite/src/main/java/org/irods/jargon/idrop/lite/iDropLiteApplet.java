@@ -346,6 +346,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             }
             this.irodsAccount = this.getiDropCore().getIrodsAccount();
         } else if (!processLogin()) {
+
             return false;
         }
 
@@ -1306,7 +1307,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             log.info("creating a shared (cached) temp account connection");
             this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
             TempPasswordCachingProtocolManager manager = new TempPasswordCachingProtocolManager(
-                    irodsAccount);
+                    irodsAccount, this.getiDropCore().getIrodsFileSystem().getIrodsSession(), this.getiDropCore().getIrodsFileSystem().getIrodsProtocolManager());
             irodsFileSystem = new IRODSFileSystem(manager);
             log.info("irodsFileSystem updated to utilize cache");
 

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -39,6 +40,7 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.EnvironmentalInfoAO;
+import org.irods.jargon.core.pub.ResourceAO;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.TransferStatus;
@@ -49,6 +51,7 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
+import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.BreadCrumbNavigationPopup;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.FileSystemModel;
@@ -138,7 +141,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //            setUpTransferPanel(false);
 //        }
 //
-//        setUpAccountGutter();
+        setUpAccountGutter();
 
         setVisibleComponentsAtStartup();
 
@@ -606,18 +609,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //        /*
 //         * Get a list of storage resources on this host
 //         */
-//        try {
-//            ResourceAO resourceAO = this.getiDropCore().getIRODSAccessObjectFactory().getResourceAO(this.getIrodsAccount());
-//            log.info("getting a list of all resources in the zone");
-//            List<String> resources = new ArrayList<String>();
-//            resources.add("");
-//            resources.addAll(resourceAO.listResourceAndResourceGroupNames());
-//            comboDefaultResource.setModel(new DefaultComboBoxModel(resources.toArray()));
-//            comboDefaultResource.setSelectedItem(this.getIrodsAccount().getDefaultStorageResource());
-//        } catch (JargonException ex) {
-//            log.error("error getting resource list", ex);
-//            throw new IdropRuntimeException("error getting resource list", ex);
-//        }
+        try {
+            ResourceAO resourceAO = this.getiDropCore().getIRODSAccessObjectFactory().getResourceAO(this.getIrodsAccount());
+            log.info("getting a list of all resources in the zone");
+            List<String> resources = new ArrayList<String>();
+            resources.add("");
+            resources.addAll(resourceAO.listResourceAndResourceGroupNames());
+            cbIrodsResource.setModel(new DefaultComboBoxModel(resources.toArray()));
+            cbIrodsResource.setSelectedItem(this.getIrodsAccount().getDefaultStorageResource());
+        } catch (JargonException ex) {
+            log.error("error getting resource list", ex);
+            throw new IdropRuntimeException("error getting resource list", ex);
+        }
     }
 
     /**
@@ -649,7 +652,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } else {
                     // look up the strict acl setting for the server, if strict acl, home the person in their user directory
                     EnvironmentalInfoAO environmentalInfoAO = this.getiDropCore().getIRODSAccessObjectFactory().getEnvironmentalInfoAO(getiDropCore().getIrodsAccount());
-                    boolean isStrict = environmentalInfoAO.isStrictACLs();
+                  
+                    // overhead for  [#1362] apparent start-up errors idrop checking for strict acls
+                    
+                    boolean isStrict = false;
+                    
+                    try {
+                     isStrict = environmentalInfoAO.isStrictACLs();
+                    } catch (JargonException je) {
+                        log.error("error checking is strict, warn and set to false");
+                        MessageUtil.showWarning(this, "Error checking if strict ACLS, assuming not strict", "");
+                    }
+                     
                     log.info("is strict?:{}", isStrict);
 
                     if (isStrict) {
@@ -1604,6 +1618,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         listLocalDrives = new javax.swing.JList();
         pnlDrivesFiller = new javax.swing.JPanel();
         scrollLocalFileTree = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        cbIrodsResource = new javax.swing.JComboBox();
+        jPanel3 = new javax.swing.JPanel();
         pnlMainTransferStatus = new javax.swing.JPanel();
         pnlIdropBottom = new javax.swing.JPanel();
         pnlCurrentTransferStatus = new javax.swing.JPanel();
@@ -1622,6 +1641,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(622, 158));
+        setPreferredSize(new java.awt.Dimension(730, 670));
         setSize(new java.awt.Dimension(822, 158));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -1630,7 +1650,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         });
 
         pnlMain.setMinimumSize(new java.awt.Dimension(622, 158));
-        pnlMain.setPreferredSize(new java.awt.Dimension(730, 635));
+        pnlMain.setPreferredSize(new java.awt.Dimension(730, 670));
         pnlMain.setLayout(new java.awt.BorderLayout());
 
         pnlMainToolbar.setMinimumSize(new java.awt.Dimension(622, 131));
@@ -1795,7 +1815,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMain.add(pnlMainToolbar, java.awt.BorderLayout.NORTH);
 
         pnlMainIrodsTree.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlMainIrodsTree.setPreferredSize(new java.awt.Dimension(834, 360));
+        pnlMainIrodsTree.setPreferredSize(new java.awt.Dimension(834, 395));
         pnlMainIrodsTree.setLayout(new java.awt.BorderLayout());
 
         splitPanelTrees.setPreferredSize(new java.awt.Dimension(834, 360));
@@ -1840,6 +1860,30 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlMainIrodsTree.add(splitPanelTrees, java.awt.BorderLayout.CENTER);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        jPanel1.setPreferredSize(new java.awt.Dimension(100, 35));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.jLabel1.text")); // NOI18N
+        jPanel2.add(jLabel1, java.awt.BorderLayout.WEST);
+
+        cbIrodsResource.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbIrodsResource.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbIrodsResourceActionPerformed(evt);
+            }
+        });
+        jPanel2.add(cbIrodsResource, java.awt.BorderLayout.EAST);
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.WEST);
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(400, 35));
+        jPanel1.add(jPanel3, java.awt.BorderLayout.EAST);
+
+        pnlMainIrodsTree.add(jPanel1, java.awt.BorderLayout.SOUTH);
+
         pnlMain.add(pnlMainIrodsTree, java.awt.BorderLayout.CENTER);
 
         pnlMainTransferStatus.setPreferredSize(new java.awt.Dimension(835, 120));
@@ -1850,7 +1894,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlIdropBottom.setMinimumSize(new java.awt.Dimension(166, 66));
         pnlIdropBottom.setLayout(new java.awt.BorderLayout());
 
-        pnlCurrentTransferStatus.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        pnlCurrentTransferStatus.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
         pnlCurrentTransferStatus.setPreferredSize(new java.awt.Dimension(62, 62));
         pnlCurrentTransferStatus.setLayout(new java.awt.GridBagLayout());
 
@@ -2138,6 +2182,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         this.setVisible(false);
         this.formShown = false;
     }//GEN-LAST:event_formWindowClosing
+
+    private void cbIrodsResourceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbIrodsResourceActionPerformed
+        String newResource = (String) cbIrodsResource.getSelectedItem();
+        this.getiDropCore().getIrodsAccount().setDefaultStorageResource(newResource);
+    }//GEN-LAST:event_cbIrodsResourceActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -2183,7 +2232,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JButton btnMainToolbarSync;
     private javax.swing.JButton btnMainToolbarUpload;
     private javax.swing.JButton btnShowTransferManager;
+    private javax.swing.JComboBox cbIrodsResource;
     private javax.swing.JToolBar idropProgressPanelToolbar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

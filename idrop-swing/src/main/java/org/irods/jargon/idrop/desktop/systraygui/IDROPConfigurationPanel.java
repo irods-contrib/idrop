@@ -58,6 +58,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private Synchronization selectedSynchronization = null;
     private DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance();
     private final iDrop idropGui;
+    private boolean initializing = true;
 
     /**
      * Creates new form IDROPConfigurationPanel
@@ -1282,7 +1283,12 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private void comboPrefsDefaultResourceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPrefsDefaultResourceActionPerformed
            String newResource = (String)comboPrefsDefaultResource.getSelectedItem();
            idropCore.getIrodsAccount().setDefaultStorageResource(newResource);
-           idropGui.reinitializeForChangedIRODSAccount();
+           if (! initializing) {
+                idropGui.reinitializeForChangedIRODSAccount();
+           }
+           else { 
+               initializing = false;         
+           }
     }//GEN-LAST:event_comboPrefsDefaultResourceActionPerformed
 
     private void checkConnectionRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkConnectionRestartActionPerformed
