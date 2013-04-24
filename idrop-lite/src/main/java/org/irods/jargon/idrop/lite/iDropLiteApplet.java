@@ -1522,6 +1522,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         // Make the application shut down when the user clicks
         // on the close button.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
 
         // Set the size of the frame.
         // To pack the frame as tightly as possible
