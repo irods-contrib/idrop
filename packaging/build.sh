@@ -52,6 +52,12 @@ UGLYSETTINGSFILESTRING='
       <host>'$PROXYHOST'</host>
       <port>'$PROXYPORT'</port>
     </proxy>
+    <proxy>
+      <active>true</active>
+      <protocol>ftp</protocol>
+      <host>'$PROXYHOST'</host>
+      <port>'$PROXYPORT'</port>
+    </proxy>
    </proxies>
 </settings>'
 
