@@ -250,6 +250,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
 
         receivedStartupSignal = true;
+        
+        
 
         // FIXME: conveyor
         /*
@@ -2315,6 +2317,5 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     public void signalUnhandledConveyorException(Exception excptn) {
         log.error("exception is occurring in conveyor framework", excptn);
         MessageManager.showError(this, excptn.getMessage(), MessageManager.TITLE_MESSAGE);
-    
     }
 }
