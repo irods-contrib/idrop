@@ -125,8 +125,6 @@ public class IDROPDesktop {
             log.info("config properties derived...");
             idropCore.setIdropConfig(new IdropConfig(derivedProperties));
             idropCore.getIdropConfig().setUpLogging();
-            idropConfigurationService.updateConfig(IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES, "true");
-            int x =2;
 
         } catch (IdropAlreadyRunningException are) {
             log.error("idrop is already running, shutting down");
@@ -148,8 +146,6 @@ public class IDROPDesktop {
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
-        
-        idropCore.getConveyorService().registerCallbackListener(idrop);
 
         log.info("setting initial look and feel");
         LookAndFeelManager laf = new LookAndFeelManager(idropCore);
@@ -221,40 +217,6 @@ public class IDROPDesktop {
 
         idropSplashWindow.setStatus("Building transfer engine...", ++count);
 
-        log.info("building transfer manager...");
-        // FIXME: conveyor
-        /*
-        try {
-            idropCore.setTransferManager(new TransferManagerImpl(idropCore.getIrodsFileSystem(), idrop));
-            idropCore.getIdropConfigurationService().updateTransferOptions();
-        } catch (JargonException ex) {
-            Logger.getLogger(IDROPDesktop.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("error creating transferManager",
-                    ex);
-        }
-
-        try {
-            List<LocalIRODSTransfer> currentQueue = idropCore.getTransferManager().getCurrentQueue();
-
-            if (!currentQueue.isEmpty()) {
-                idropSplashWindow.toBack();
-                int result = JOptionPane.showConfirmDialog((Component) null,
-                        "Transfers are waiting to process, restart transfer?",
-                        "iDrop Transfers in Progress",
-                        JOptionPane.OK_CANCEL_OPTION);
-                if (result == JOptionPane.CANCEL_OPTION) {
-                    idropCore.getTransferManager().pause();
-                }
-                idropSplashWindow.toFront();
-            }
-        } catch (JargonException ex) {
-            Logger.getLogger(IDROPDesktop.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            throw new IdropRuntimeException("error evaluating current queue",
-                    ex);
-        }
-        */
         sleepABit();
 
         log.info("logged in, now checking for first run...");
