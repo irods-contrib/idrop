@@ -36,6 +36,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import org.irods.jargon.conveyor.core.ConveyorCallbackListener;
+import org.irods.jargon.conveyor.core.QueueStatus;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
@@ -84,7 +86,7 @@ import org.slf4j.LoggerFactory;
  * @author Lisa Stillwell
  */
 public class iDrop extends javax.swing.JFrame implements ActionListener,
-        ItemListener, TransferManagerCallbackListener {
+        ItemListener, ConveyorCallbackListener {
 
     private IDROPCore iDropCore = new IDROPCore();
     private IRODSTree irodsTree = null;
@@ -1590,23 +1592,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         progressIntraFile.setString("");
     }
 
-    @Override
-    public synchronized void transferManagerErrorStatusUpdate(
-            final ErrorStatus es) {
-        iDropCore.getIconManager().setErrorStatus(es);
-    }
-
-    @Override
-    public synchronized void transferManagerRunningStatusUpdate(
-            final RunningStatus rs) {
-        iDropCore.getIconManager().setRunningStatus(rs);
-        if (rs == RunningStatus.PAUSED) {
-            this.setTransferStatePaused();
-        } else {
-            this.setTransferStateUnpaused();
-        }
-    }
-
     /**
      * Creates new form iDrop2
      */
@@ -2315,5 +2300,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     @Override
     public CallbackResponse transferAsksWhetherToForceOperation(String irodsAbsolutePath, boolean isCollection) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setQueueStatus(QueueStatus qs) {
+   iDropCore.getIconManager().setRunningStatus(qs.getRunningStatus());
+        if (qs.getRunningStatus() == QueueStatus.RunningStatus.PAUSED) {
+            this.setTransferStatePaused();
+        } else {
+            this.setTransferStateUnpaused();
+        }    }
+
+    @Override
+    public void signalUnhandledConveyorException(Exception excptn) {
+        log.error("exception is occurring in conveyor framework", excptn);
+        MessageManager.showError(this, excptn.getMessage(), MessageManager.TITLE_MESSAGE);
+    
     }
 }

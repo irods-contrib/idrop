@@ -1,5 +1,6 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
+import org.irods.jargon.conveyor.core.QueueStatus;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.transfer.engine.TransferManager;
 
@@ -10,8 +11,8 @@ import org.irods.jargon.transfer.engine.TransferManager;
  */
 public class IconManager {
 
-    private TransferManager.ErrorStatus errorStatus = null;
-    private TransferManager.RunningStatus runningStatus = null;
+    private QueueStatus.ErrorStatus errorStatus = null;
+    private QueueStatus.RunningStatus runningStatus = null;
     private final iDrop idropGui;
 
     public IconManager(final iDrop idropClient) {
@@ -19,28 +20,28 @@ public class IconManager {
     }
 
     public synchronized void setErrorStatus(
-            final TransferManager.ErrorStatus errorStatus) {
+            final QueueStatus.ErrorStatus errorStatus) {
         this.errorStatus = errorStatus;
         updateIcon();
     }
 
     public synchronized void setRunningStatus(
-            final TransferManager.RunningStatus runningStatus) {
+            final QueueStatus.RunningStatus runningStatus) {
         this.runningStatus = runningStatus;
         updateIcon();
     }
 
     private void updateIcon() {
         String iconFile = "";
-        if (runningStatus == TransferManager.RunningStatus.PAUSED) {
+        if (runningStatus == QueueStatus.RunningStatus.PAUSED) {
             iconFile = "images/media-playback-pause-3.png";
-        } else if (errorStatus == TransferManager.ErrorStatus.ERROR) {
+        } else if (errorStatus == QueueStatus.ErrorStatus.ERROR) {
             iconFile = "images/dialog-error-3.png";
-        } else if (errorStatus == TransferManager.ErrorStatus.WARNING) {
+        } else if (errorStatus == QueueStatus.ErrorStatus.WARNING) {
             iconFile = "images/dialog-warning.png";
-        } else if (runningStatus == TransferManager.RunningStatus.IDLE) {
+        } else if (runningStatus == QueueStatus.RunningStatus.IDLE) {
             iconFile = "images/dialog-ok-2.png";
-        } else if (runningStatus == TransferManager.RunningStatus.PROCESSING) {
+        } else if (runningStatus == QueueStatus.RunningStatus.RUNNING) {
             iconFile = "images/system-run-5.png";
         } else {
             iconFile = "images/dialog-ok-2.png";
