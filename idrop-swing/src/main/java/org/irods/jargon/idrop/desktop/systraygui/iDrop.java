@@ -46,6 +46,7 @@ import org.irods.jargon.core.pub.ResourceAO;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.TransferStatus;
+import org.irods.jargon.core.transfer.TransferStatusCallbackListener;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
@@ -53,7 +54,6 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
-import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.BreadCrumbNavigationPopup;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.FileSystemModel;
@@ -1591,6 +1591,23 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         progressIntraFile.setValue(0);
         progressIntraFile.setString("");
     }
+
+//    @Override
+//    public synchronized void transferManagerErrorStatusUpdate(
+//            final ErrorStatus es) {
+//        iDropCore.getIconManager().setErrorStatus(es);
+//    }
+//
+//    @Override
+//    public synchronized void transferManagerRunningStatusUpdate(
+//            final RunningStatus rs) {
+//        iDropCore.getIconManager().setRunningStatus(rs);
+//        if (rs == RunningStatus.PAUSED) {
+//            this.setTransferStatePaused();
+//        } else {
+//            this.setTransferStateUnpaused();
+//        }
+//    }
 
     /**
      * Creates new form iDrop2

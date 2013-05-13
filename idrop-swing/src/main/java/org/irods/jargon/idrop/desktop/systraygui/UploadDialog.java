@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.ListSelectionModel;
@@ -20,6 +21,10 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.QueueManagerService;
+import org.irods.jargon.conveyor.core.ConveyorService;
+import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
@@ -185,20 +190,19 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
                     String sourceResource = idropGUI.getIrodsAccount().getDefaultStorageResource();
                     log.info("initiating put transfer");
                     
-                    // FIXME: conveyor
-                    /*
                     try {
-                        idropGUI.getiDropCore().getTransferManager().enqueueAPut(transferFile,
+                            QueueManagerService qms = idropGUI.getiDropCore().getConveyorService().getQueueManagerService();
+                            qms.processTransfer(
                                 targetPath,
-                                sourceResource,
-                                idropGUI.getIrodsAccount());
-                    } catch (JargonException ex) {
+                                transferFile,
+                                idropGUI.getiDropCore().getIrodsAccount(),
+                                TransferType.PUT);
+                    } catch (ConveyorExecutionException ex) {
                         java.util.logging.Logger.getLogger(
                                 LocalFileTree.class.getName()).log(
                                 java.util.logging.Level.SEVERE, null, ex);
                         idropGUI.showIdropException(ex);
                     }
-                    * */
                 }
             }
         });

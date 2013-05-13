@@ -14,6 +14,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.QueueManagerService;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
@@ -152,6 +154,20 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                         transferFile);
                     log.info("transfer to local file:{}",
                         targetPath);
+                    
+                    try {
+                        QueueManagerService qms = idropGUI.getiDropCore().getConveyorService().getQueueManagerService();
+                        qms.processTransfer(
+                            transferFile,
+                            targetPath,
+                            idropGUI.getiDropCore().getIrodsAccount(),
+                            TransferType.GET);
+                    } catch (ConveyorExecutionException ex) {
+                        java.util.logging.Logger.getLogger(
+                                LocalFileTree.class.getName()).log(
+                                java.util.logging.Level.SEVERE, null, ex);
+                        idropGUI.showIdropException(ex);
+                    }
                         //FIXME:conveyor  
                     /*
                     try {

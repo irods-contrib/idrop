@@ -125,6 +125,8 @@ public class IDROPDesktop {
             log.info("config properties derived...");
             idropCore.setIdropConfig(new IdropConfig(derivedProperties));
             idropCore.getIdropConfig().setUpLogging();
+            idropConfigurationService.updateConfig(IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES, "true");
+            int x =2;
 
         } catch (IdropAlreadyRunningException are) {
             log.error("idrop is already running, shutting down");
@@ -146,6 +148,8 @@ public class IDROPDesktop {
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
+        
+        idropCore.getConveyorService().registerCallbackListener(idrop);
 
         log.info("setting initial look and feel");
         LookAndFeelManager laf = new LookAndFeelManager(idropCore);
