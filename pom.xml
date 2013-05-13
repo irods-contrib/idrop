@@ -406,5 +406,6 @@
     </profiles>
     <modules>
         <module>idrop-lite</module>
+         <module>idrop-swing</module>
     </modules>
 </project>
