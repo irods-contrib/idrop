@@ -157,7 +157,8 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                     
                     try {
                         QueueManagerService qms = idropGUI.getiDropCore().getConveyorService().getQueueManagerService();
-                        qms.processTransfer(
+                        
+                        qms.enqueueTransferOperation(
                             transferFile,
                             targetPath,
                             idropGUI.getiDropCore().getIrodsAccount(),

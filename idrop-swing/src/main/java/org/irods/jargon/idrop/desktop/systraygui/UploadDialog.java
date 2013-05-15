@@ -192,7 +192,7 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
                     
                     try {
                             QueueManagerService qms = idropGUI.getiDropCore().getConveyorService().getQueueManagerService();
-                            qms.processTransfer(
+                            qms.enqueueTransferOperation(
                                 targetPath,
                                 transferFile,
                                 idropGUI.getiDropCore().getIrodsAccount(),
@@ -337,7 +337,6 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
 
         jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 10, 1));
         jPanel10.setPreferredSize(new java.awt.Dimension(100, 40));
-        jPanel10.setSize(new java.awt.Dimension(100, 32));
         jPanel10.setLayout(new java.awt.BorderLayout());
 
         jPanel11.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
