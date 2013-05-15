@@ -2,9 +2,7 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Component;
 import java.awt.Toolkit;
-import java.util.List;
 import java.util.Properties;
-import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -18,8 +16,6 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transfer.dao.domain.Transfer;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
