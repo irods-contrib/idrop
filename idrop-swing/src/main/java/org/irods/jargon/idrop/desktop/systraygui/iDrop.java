@@ -34,6 +34,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.tree.TreePath;
 import org.irods.jargon.conveyor.core.ConveyorCallbackListener;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.ConveyorExecutorService.RunningStatus;
 import org.irods.jargon.conveyor.core.QueueStatus;
 import org.irods.jargon.core.connection.IRODSAccount;
@@ -86,6 +87,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private ChangePasswordDialog changePasswordDialog = null;
     private boolean formShown = false;
     private BasicArrowButton btnBreadCrumbNav;
+    private TransferManagerDialog transferManagerDialog = null;
     
     public iDrop(final IDROPCore idropCore) {
         
@@ -894,25 +896,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     
     private boolean showQueueManagerDialog() {
 
-        // FIXME: conveyor
-        /*
-         try {
-         if (queueManagerDialog == null) {
-         queueManagerDialog = new QueueManagerDialog(this,
-         iDropCore.getTransferManager(),
-         QueueManagerDialog.ViewType.RECENT);
-         } else {
-         queueManagerDialog.refreshTableView(QueueManagerDialog.ViewType.RECENT);
+        try {
+             if (transferManagerDialog == null) {
+                transferManagerDialog = new TransferManagerDialog(this);
+             } else {
+                transferManagerDialog.refreshTableView();
+             }
+         } catch (ConveyorExecutionException ex) {
+             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+             this.showIdropException(ex);
+             return true;
          }
-         } catch (IdropException ex) {
-         Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-         this.showIdropException(ex);
-         return true;
-         }
-         queueManagerDialog.setModal(false);
-         queueManagerDialog.setVisible(true);
-         queueManagerDialog.toFront();
-         */
+             transferManagerDialog.setModal(false);
+             transferManagerDialog.setVisible(true);
+             transferManagerDialog.toFront();
+             
         return false;
     }
 
