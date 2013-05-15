@@ -4,8 +4,7 @@
  */
 package org.irods.jargon.idrop.desktop.unittest;
 
-import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServiceTest;
-import org.irods.jargon.idrop.desktop.systraygui.services.IdropPreDatabaseBootstrapperServiceImplTest;
+
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelperTest;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtilsTest;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.*;
@@ -16,8 +15,7 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({IdropPropertiesHelperTest.class, LocalFileUtilsTest.class,
     FileSystemModelTest.class, IRODSSearchTableModelTest.class,
-    LocalFileSystemModelTest.class, MetadataTableModelTest.class,
-    IdropPreDatabaseBootstrapperServiceImplTest.class, IdropConfigurationServiceTest.class})
+    LocalFileSystemModelTest.class, MetadataTableModelTest.class})
 
 public class AllTests {
 }

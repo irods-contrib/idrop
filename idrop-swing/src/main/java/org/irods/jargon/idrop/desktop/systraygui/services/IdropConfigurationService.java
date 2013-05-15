@@ -6,7 +6,6 @@ import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
-import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 
 /**
  * 
@@ -89,9 +88,9 @@ public interface IdropConfigurationService  {
      * @throws IdropException
      * @throws ConflictingSynchException 
      */
-    void createNewSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException;
+    void createNewSynchronization(final Synchronization synchConfiguration) throws IdropException;
 
-    void updateSynchronization(final Synchronization synchConfiguration) throws IdropException, ConflictingSynchException;
+    void updateSynchronization(final Synchronization synchConfiguration) throws IdropException;
 
     /**
      * Cause the transfer options using in the transfer engine to be updated

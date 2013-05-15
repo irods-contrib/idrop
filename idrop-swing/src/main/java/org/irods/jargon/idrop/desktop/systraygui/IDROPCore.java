@@ -16,7 +16,6 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
 
 public class IDROPCore {
