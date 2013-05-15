@@ -2,9 +2,7 @@ package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import org.irods.jargon.conveyor.core.ConveyorExecutorService.ErrorStatus;
 import org.irods.jargon.conveyor.core.ConveyorExecutorService.RunningStatus;
-import org.irods.jargon.conveyor.core.QueueStatus;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
-import org.irods.jargon.transfer.engine.TransferManager;
 
 /**
  * Manager of icons for the system gui based on the status.

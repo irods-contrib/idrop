@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
-import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -15,12 +14,12 @@ import org.slf4j.LoggerFactory;
  */
 public class QueueSchedulerTimerTask extends TimerTask {
 
-    private final TransferManager transferManager;
-    private final iDrop idropGui;
+    //private final TransferManager transferManager;
+   // private final iDrop idropGui;
     public final static long EVERY_10_MINUTES = 1000 * 60 * 10;
     public final static long EVERY_30_SECONDS = 1000 * 30;
     private final org.slf4j.Logger log = LoggerFactory.getLogger(QueueSchedulerTimerTask.class);
-
+/*
     public QueueSchedulerTimerTask(final TransferManager transferManager,
             final iDrop idropGui) throws IdropException {
         super();
@@ -36,12 +35,13 @@ public class QueueSchedulerTimerTask extends TimerTask {
         this.transferManager = transferManager;
         this.idropGui = idropGui;
 
-    }
+    } */
 
     @Override
     public void run() {
         log.info("timer task running");
 
+        /*
         if (transferManager.isPaused()) {
             log.info("timer is paused");
             return;
@@ -49,13 +49,13 @@ public class QueueSchedulerTimerTask extends TimerTask {
 
         try {
             log.info("***** timer queue asking transfer manager to process next");
-            transferManager.processNextInQueueIfIdle();
-        } catch (JargonException ex) {
+           // transferManager.processNextInQueueIfIdle();
+        } catch (ConveyorExecutionException ex) {
             Logger.getLogger(QueueSchedulerTimerTask.class.getName()).log(
                     Level.SEVERE, null, ex);
             idropGui.showIdropException(ex);
             return;
         }
-
+*/
     }
 }

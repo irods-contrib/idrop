@@ -62,7 +62,6 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileSystemMo
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transfer.engine.synch.SynchManagerService;
 
 import org.netbeans.swing.outline.Outline;
 import org.openide.util.Exceptions;
