@@ -1,12 +1,6 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.idrop.desktop.systraygui.iDrop;
-import org.irods.jargon.idrop.exceptions.IdropException;
 import org.slf4j.LoggerFactory;
 
 /**
