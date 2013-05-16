@@ -902,14 +902,19 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
              } else {
                 transferManagerDialog.refreshTableView();
              }
-         } catch (ConveyorExecutionException ex) {
+        } catch (ConveyorExecutionException ex) {
              Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
              this.showIdropException(ex);
              return true;
-         }
-             transferManagerDialog.setModal(false);
-             transferManagerDialog.setVisible(true);
-             transferManagerDialog.toFront();
+        }
+        
+        Toolkit tk = getToolkit();
+        int x = (tk.getScreenSize().width - transferManagerDialog.getWidth()) / 2;
+        int y = (tk.getScreenSize().height - transferManagerDialog.getHeight()) / 2;
+        transferManagerDialog.setLocation(x, y);
+        transferManagerDialog.setModal(false);
+        transferManagerDialog.setVisible(true);
+        transferManagerDialog.toFront();
              
         return false;
     }

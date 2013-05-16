@@ -6,28 +6,36 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.Date;
 import java.util.List;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.Transfer;
+import org.irods.jargon.transfer.dao.domain.TransferAttempt;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author lisa
  */
-public class TransferManagerTableModel extends DefaultTableModel {
+public class TransferManagerTableModel extends AbstractTableModel { //extends DefaultTableModel {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(TransferManagerTableModel.class);
     private List<Transfer> transfers = null;
+    private final IDROPCore idropCore;
 
     public TransferManagerTableModel(
+            IDROPCore idropCore,
             final List<Transfer> transfers) {
         if (transfers == null) {
             throw new IdropRuntimeException("null transfers");
         }
 
         this.transfers = transfers;
+        this.idropCore = idropCore;
     }
     
     @Override
@@ -67,6 +75,12 @@ public class TransferManagerTableModel extends DefaultTableModel {
         // 4 = target path
 
         if (columnIndex == 4) {
+            return String.class;
+        }
+        
+        // 5 = summary
+
+        if (columnIndex == 5) {
             return String.class;
         }
 
@@ -110,6 +124,12 @@ public class TransferManagerTableModel extends DefaultTableModel {
         if (columnIndex == 4) {
             return "Destination";
         }
+        
+        // 5 = summary
+
+        if (columnIndex == 5) {
+            return "Summary";
+        }
 
         throw new IdropRuntimeException("unknown column");
     }
@@ -126,7 +146,7 @@ public class TransferManagerTableModel extends DefaultTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -137,7 +157,7 @@ public class TransferManagerTableModel extends DefaultTableModel {
             throw new IdropRuntimeException("row unavailable, out of bounds");
         }
 
-        if (columnIndex >= getColumnCount()) {
+        if (columnIndex > getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
         }
 
@@ -217,6 +237,49 @@ public class TransferManagerTableModel extends DefaultTableModel {
                     break;
             }
             return path;
+        }
+        
+        // 5 = summary
+        
+        if (columnIndex == 5) {
+            
+            StringBuilder summary = new StringBuilder();
+            try {
+                TransferAttempt attempt = null;
+                Transfer transferWithChildren = idropCore.getConveyorService().getQueueManagerService().initializeGivenTransferByLoadingChildren(transfer);
+                TransferAttempt attempts[] = new TransferAttempt[transferWithChildren.getTransferAttempts().size()];
+		attempts = transferWithChildren.getTransferAttempts().toArray(attempts);
+                
+                // get last attempt
+                int numOfAttempts = attempts.length;
+                if (numOfAttempts > 0) {
+                    attempt = attempts[numOfAttempts - 1];
+                    summary.append("Completed transfer of ");
+                    summary.append(attempt.getTotalFilesTransferredSoFar());
+                    summary.append(" out of ");
+                    summary.append(attempt.getTotalFilesCount());
+                    summary.append(" files, in ");
+                    summary.append(numOfAttempts);
+                    if (numOfAttempts == 1) {
+                        summary.append(" attempt.");
+                    }
+                    else {
+                        summary.append(" attempts.");
+                    }
+                }
+                    
+            } catch (ConveyorExecutionException ex) {
+                Exceptions.printStackTrace(ex); // FIXME: do somethin else here
+            }
+            finally {
+                return summary.toString();
+            }
+        }
+        
+        // 6 = transfer id
+
+        if (columnIndex == 6) {
+            return transfer.getId();
         }
 
         throw new IdropRuntimeException("unknown column");
