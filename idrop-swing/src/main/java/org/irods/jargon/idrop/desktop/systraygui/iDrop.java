@@ -899,6 +899,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         try {
              if (transferManagerDialog == null) {
                 transferManagerDialog = new TransferManagerDialog(this);
+                Toolkit tk = getToolkit();
+                int x = (tk.getScreenSize().width - transferManagerDialog.getWidth()) / 2;
+                int y = (tk.getScreenSize().height - transferManagerDialog.getHeight()) / 2;
+                transferManagerDialog.setLocation(x, y);
+                transferManagerDialog.setModal(false);
              } else {
                 transferManagerDialog.refreshTableView();
              }
@@ -908,13 +913,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
              return true;
         }
         
-        Toolkit tk = getToolkit();
-        int x = (tk.getScreenSize().width - transferManagerDialog.getWidth()) / 2;
-        int y = (tk.getScreenSize().height - transferManagerDialog.getHeight()) / 2;
-        transferManagerDialog.setLocation(x, y);
-        transferManagerDialog.setModal(false);
         transferManagerDialog.setVisible(true);
-        transferManagerDialog.toFront();
+        //transferManagerDialog.toFront();
              
         return false;
     }
@@ -1579,6 +1579,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         progressIntraFile.setMaximum(0);
         progressIntraFile.setValue(0);
         progressIntraFile.setString("");
+    }
+    
+    public void closeTransferManagerDialog() {
+        this.transferManagerDialog = null;
     }
     
     /**

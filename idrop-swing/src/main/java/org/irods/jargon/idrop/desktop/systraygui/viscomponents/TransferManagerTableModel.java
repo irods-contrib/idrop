@@ -65,22 +65,28 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
         if (columnIndex == 2) {
             return String.class;
         }
-
-        // 3 = source path
+        
+        // 3 = grid account zone
 
         if (columnIndex == 3) {
             return String.class;
         }
 
-        // 4 = target path
+        // 4 = source path
 
         if (columnIndex == 4) {
             return String.class;
         }
-        
-        // 5 = summary
+
+        // 5 = target path
 
         if (columnIndex == 5) {
+            return String.class;
+        }
+        
+        // 6 = summary
+
+        if (columnIndex == 6) {
             return String.class;
         }
 
@@ -112,22 +118,28 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
         if (columnIndex == 2) {
             return "Operation";
         }
-
-        // 3 = source path
+        
+        // 3 = grid account zone
 
         if (columnIndex == 3) {
+            return "Zone";
+        }
+
+        // 4 = source path
+
+        if (columnIndex == 4) {
             return "Source";
         }
 
-        // 4 = target path
+        // 5 = target path
 
-        if (columnIndex == 4) {
+        if (columnIndex == 5) {
             return "Destination";
         }
         
-        // 5 = summary
+        // 6 = summary
 
-        if (columnIndex == 5) {
+        if (columnIndex == 6) {
             return "Summary";
         }
 
@@ -146,7 +158,7 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
 
     @Override
     public int getColumnCount() {
-        return 6;
+        return 7;
     }
 
     @Override
@@ -182,11 +194,17 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
         if (columnIndex == 2) {
             return transfer.getTransferType().name();
         }
+        
+        // 3 = grid account zone
 
-        // 3 = source path
+        if (columnIndex == 3) {
+            return transfer.getGridAccount().getZone();
+        }
+
+        // 4 = source path
 
         String path = null;
-        if (columnIndex == 3) {
+        if (columnIndex == 4) {
             switch (transfer.getTransferType()) {
                 case GET:
                     path = IDropUtils.abbreviateFileName(transfer.getIrodsAbsolutePath());
@@ -211,8 +229,8 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
             return path;
         }
 
-        // 4 = target path
-        if (columnIndex == 4) {
+        // 5 = target path
+        if (columnIndex == 5) {
             switch (transfer.getTransferType()) {
                 case GET:
                     path = IDropUtils.abbreviateFileName(transfer.getLocalAbsolutePath());
@@ -239,9 +257,9 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
             return path;
         }
         
-        // 5 = summary
+        // 6 = summary
         
-        if (columnIndex == 5) {
+        if (columnIndex == 6) {
             
             StringBuilder summary = new StringBuilder();
             try {
@@ -276,9 +294,9 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
             }
         }
         
-        // 6 = transfer id
+        // 7 = transfer id
 
-        if (columnIndex == 6) {
+        if (columnIndex == 7) {
             return transfer.getId();
         }
 
@@ -298,6 +316,14 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
         }
 
         return transfers.get(rowIndex);
+    }
+    
+    public synchronized List<Transfer> getTransfers() {
+        return this.transfers;
+    }
+    
+    public synchronized void setTransfers(List<Transfer> transfers) {
+        this.transfers = transfers;
     }
     
 }
