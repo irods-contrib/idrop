@@ -184,7 +184,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     
     private void enableTransferSpecificButtons() {
         // toggle 
-        btnTransferInfo.setEnabled(!btnTransferInfo.isEnabled());
+        btnTransferInfo.setEnabled(tblTransfers.getSelectedRow() != -1);
     }
     
     @Override
