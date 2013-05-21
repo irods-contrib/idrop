@@ -6,15 +6,20 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Cursor;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.irods.jargon.conveyor.core.ConveyorBusyException;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferManagerTableModel;
@@ -27,7 +32,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author lisa
  */
-public class TransferManagerDialog extends javax.swing.JDialog implements ActionListener {
+// public class TransferManagerDialog extends javax.swing.JDialog implements ActionListener {
+public class TransferManagerDialog extends javax.swing.JDialog implements ListSelectionListener {
     
     public static org.slf4j.Logger log = LoggerFactory.getLogger(TransferManagerTableModel.class);
     private Transfer selectedTableObject = null;
@@ -51,6 +57,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements Action
     public final void refreshTableView() {
         
         final TransferManagerDialog tmd = this;
+        
+        log.info("refreshing transfer table");
           
         java.awt.EventQueue.invokeLater(new Runnable() {
             
@@ -60,11 +68,33 @@ public class TransferManagerDialog extends javax.swing.JDialog implements Action
                 tmd.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 
                 try {
+                    int matchingRowForSelected = -1;
                     List<Transfer> transfers = idropCore.getConveyorService().getQueueManagerService().listAllTransfersInQueue();
+                        
                     TransferManagerTableModel model = (TransferManagerTableModel)tblTransfers.getModel();
                     model.setTransfers(transfers);
                     model.fireTableDataChanged();
                     tblTransfers.revalidate();
+                    
+                    if (selectedTableObject != null) {
+                        // previously selected table, refresh display, first, selecting same row
+
+                        Transfer transfer;
+                        for (int i = 0; i < tblTransfers.getModel().getRowCount(); i++) {
+                            transfer = model.getTransferAtRow(i);
+                            if (transfer.getId() == selectedTableObject.getId()) {
+                                matchingRowForSelected = i;
+                                break;
+                            }
+                        }
+                        
+                        if (matchingRowForSelected != -1) {
+                            int selectedRowIndex = tblTransfers.convertRowIndexToView(matchingRowForSelected);
+                            if (selectedRowIndex != -1) {
+                                tblTransfers.setRowSelectionInterval(selectedRowIndex, selectedRowIndex);
+                            }
+                        }
+                    }
                 } catch (ConveyorExecutionException ex) {
                     log.error("exception updating transfer table", ex);
                     MessageManager.showError(tmd, ex.getMessage(), MessageManager.TITLE_MESSAGE);
@@ -73,43 +103,6 @@ public class TransferManagerDialog extends javax.swing.JDialog implements Action
                 }
                 
             }
-            
-//            private void updateDetailsWithSelectedTable() throws Exception {
-//                log.info("refreshing transfer table");
-//                
-//                idropCore.getConveyorService().getQueueManagerService().listAllTransfersInQueue();
-//                List<Transfer> transferQueue = null;
-//                
-//                transferQueue = idropCore.getConveyorService().getQueueManagerService().listAllTransfersInQueue();
-//                
-//                //queueManagerDialog.getLblHeader().setText("Current transfer queue");
-//               
-//                
-//                if (transferQueue != null) {
-//                    tblTransfers.setModel(new TransferManagerTableModel(idropCore, transferQueue));
-//                    int matchingRowForSelected = -1;
-//                    
-//                    if (selectedTableObject != null) {
-//                        // previously selected table, refresh display, first, selecting same row
-//
-//                        Transfer transfer;
-//                        for (int i = 0; i < tblTransfers.getModel().getRowCount(); i++) {
-//                            transfer = transferTableModel.getTransferAtRow(i);
-//                            if (transfer.getId() == selectedTableObject.getId()) {
-//                                matchingRowForSelected = i;
-//                                break;
-//                            }
-//                        }
-//                        
-//                        if (matchingRowForSelected != -1) {
-//                            int selectedRowIndex = tblTransfers.convertRowIndexToView(matchingRowForSelected);
-//                            if (selectedRowIndex != -1) {
-//                                tblTransfers.setRowSelectionInterval(selectedRowIndex, selectedRowIndex);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
         });
         
     }
@@ -130,73 +123,96 @@ public class TransferManagerDialog extends javax.swing.JDialog implements Action
         tblTransfers.getColumnModel().getColumn(6).setPreferredWidth(280);
       
         final TransferManagerDialog tmd = this;
+        
+        tblTransfers.getSelectionModel().addListSelectionListener(this);
     
-        tblTransfers.addMouseMotionListener(new MouseMotionAdapter(){
-            public void mouseMoved(MouseEvent e)
-            {
-                JTable table = (JTable) e.getSource();
-                Point point = e.getPoint();
-                int row = table.rowAtPoint(point);
-                row = table.convertRowIndexToModel(row);
-                showPopup(e, row);
-            }
-            
-            public void showPopup(MouseEvent e, int row) {
-                List<TransferAttempt> attempts = null;
-                
-                JTable table = (JTable) e.getSource();
-                // get id hidden in last column of table
-                long transferID = (Long)table.getModel().getValueAt(row, 7);
-                try {
-                    Transfer transfer = idropCore.getConveyorService().getQueueManagerService().findTransferByTransferId(transferID);
-                    Transfer transferWithChildren = idropCore.getConveyorService().getQueueManagerService().initializeGivenTransferByLoadingChildren(transfer);
-                    attempts = transferWithChildren.getTransferAttempts();
-                    tmd.currentAttempts = attempts;
-                   
-                } catch (ConveyorExecutionException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-                
-                if (attempts.size() > 0) {
-                    JPopupMenu popup = new JPopupMenu();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM, d, yyyy : h:mm:ss a");
-                    int count =1;
-
-                    for ( TransferAttempt attempt: attempts) {
-
-                        StringBuilder menuText = new StringBuilder();
-                        menuText.append(count);
-                        menuText.append(") Transfer attempt start time: ");
-                        menuText.append(dateFormat.format(attempt.getAttemptStart()));
-                        menuText.append(",  Status: ");
-                        menuText.append(attempt.getAttemptStatus());
-                        menuText.append("  - Details ...");
-                        JMenuItem menuItem = new JMenuItem(menuText.toString());
-                        menuItem.addActionListener(tmd);
-                        popup.add(menuItem);
-                        count++;
-
-                    }
-
-                    popup.show(e.getComponent(), e.getX()+2, e.getY()+2);
-                }
-            }
-
-        });
+//        tblTransfers.addMouseMotionListener(new MouseMotionAdapter(){
+//            
+//          Take out hover dropdown menu for now ...
+//            public void mouseMoved(MouseEvent e)
+//            {
+//                JTable table = (JTable) e.getSource();
+//                Point point = e.getPoint();
+//                int row = table.rowAtPoint(point);
+//                row = table.convertRowIndexToModel(row);
+//                showPopup(e, row);
+//            }
+//            
+//            public void showPopup(MouseEvent e, int row) {
+//                List<TransferAttempt> attempts = null;
+//                
+//                JTable table = (JTable) e.getSource();
+//                // get id hidden in last column of table
+//                long transferID = (Long)table.getModel().getValueAt(row, 7);
+//                try {
+//                    Transfer transfer = idropCore.getConveyorService().getQueueManagerService().findTransferByTransferId(transferID);
+//                    Transfer transferWithChildren = idropCore.getConveyorService().getQueueManagerService().initializeGivenTransferByLoadingChildren(transfer);
+//                    attempts = transferWithChildren.getTransferAttempts();
+//                    tmd.currentAttempts = attempts;
+//                   
+//                } catch (ConveyorExecutionException ex) {
+//                    Exceptions.printStackTrace(ex);
+//                }
+//                
+//                if (attempts.size() > 0) {
+//                    JPopupMenu popup = new JPopupMenu();
+//                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM, d, yyyy : h:mm:ss a");
+//                    int count =1;
+//
+//                    for ( TransferAttempt attempt: attempts) {
+//
+//                        StringBuilder menuText = new StringBuilder();
+//                        menuText.append(count);
+//                        menuText.append(") Transfer attempt start time: ");
+//                        menuText.append(dateFormat.format(attempt.getAttemptStart()));
+//                        menuText.append(",  Status: ");
+//                        menuText.append(attempt.getAttemptStatus());
+//                        menuText.append("  - Details ...");
+//                        JMenuItem menuItem = new JMenuItem(menuText.toString());
+//                        menuItem.addActionListener(tmd);
+//                        popup.add(menuItem);
+//                        count++;
+//
+//                    }
+//
+//                    popup.show(e.getComponent(), e.getX()+2, e.getY()+2);
+//                }
+//            }
+//
+//        });
+    }
+    
+    private void enableTransferSpecificButtons() {
+        // toggle 
+        btnTransferInfo.setEnabled(!btnTransferInfo.isEnabled());
     }
     
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        
-        // get selected attempt
-        if ( currentAttempts != null) {
-            String strIdx = ae.getActionCommand().split("[)]")[0];
-            int index = Integer.parseInt(strIdx);
-            TransferAttempt selectedAttempt = currentAttempts.get(index-1);
+    public void valueChanged(ListSelectionEvent lse) {
+        if ( !lse.getValueIsAdjusting() ) {
+           // enable appropriate buttons
+            enableTransferSpecificButtons();
             
-            // now show details dialog for transfer attempt
-        }    
+           // save selected row transfer object
+            int selectedRow = lse.getFirstIndex();
+            selectedRow = tblTransfers.convertRowIndexToModel(selectedRow);
+            TransferManagerTableModel model = (TransferManagerTableModel)tblTransfers.getModel();
+            this.selectedTableObject = model.getTransferAtRow(selectedRow);
+        }
     }
+    
+//    @Override
+//    public void actionPerformed(ActionEvent ae) {
+//        
+//        // get selected attempt
+//        if ( currentAttempts != null) {
+//            String strIdx = ae.getActionCommand().split("[)]")[0];
+//            int index = Integer.parseInt(strIdx);
+//            TransferAttempt selectedAttempt = currentAttempts.get(index-1);
+//            
+//            // now show details dialog for transfer attempt
+//        }    
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -213,6 +229,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements Action
         tblTransfers = new javax.swing.JTable();
         pnlButtons = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        btnTransferInfo = new javax.swing.JButton();
         btnPurgeAll = new javax.swing.JButton();
         btnPurgeSuccessful = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
@@ -229,6 +246,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements Action
         pnlTable.setLayout(new java.awt.BorderLayout());
 
         tblTransfers.setAutoCreateRowSorter(true);
+        tblTransfers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblTransfers);
 
         pnlTable.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -237,6 +255,15 @@ public class TransferManagerDialog extends javax.swing.JDialog implements Action
 
         pnlButtons.setPreferredSize(new java.awt.Dimension(799, 40));
         pnlButtons.setLayout(new java.awt.BorderLayout());
+
+        btnTransferInfo.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.text")); // NOI18N
+        btnTransferInfo.setEnabled(false);
+        btnTransferInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransferInfoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnTransferInfo);
 
         btnPurgeAll.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.text")); // NOI18N
         btnPurgeAll.addActionListener(new java.awt.event.ActionListener() {
@@ -300,12 +327,23 @@ public class TransferManagerDialog extends javax.swing.JDialog implements Action
         refreshTableView();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    private void btnTransferInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferInfoActionPerformed
+        TransferInfoDialog transferInfoDialog = new TransferInfoDialog(this, selectedTableObject, idropCore);
+        Toolkit tk = getToolkit();
+        int x = (tk.getScreenSize().width - transferInfoDialog.getWidth()) / 2;
+        int y = (tk.getScreenSize().height - transferInfoDialog.getHeight()) / 2;
+        transferInfoDialog.setLocation(x, y);
+        transferInfoDialog.setModal(true);  
+        transferInfoDialog.setVisible(true);
+    }//GEN-LAST:event_btnTransferInfoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntClose;
     private javax.swing.JButton btnPurgeAll;
     private javax.swing.JButton btnPurgeSuccessful;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnTransferInfo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
