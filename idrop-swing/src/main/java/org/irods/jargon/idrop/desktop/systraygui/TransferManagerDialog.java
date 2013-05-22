@@ -195,9 +195,11 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
             
            // save selected row transfer object
             int selectedRow = lse.getFirstIndex();
-            selectedRow = tblTransfers.convertRowIndexToModel(selectedRow);
-            TransferManagerTableModel model = (TransferManagerTableModel)tblTransfers.getModel();
-            this.selectedTableObject = model.getTransferAtRow(selectedRow);
+            if (selectedRow >=0) {
+                selectedRow = tblTransfers.convertRowIndexToModel(selectedRow);
+                TransferManagerTableModel model = (TransferManagerTableModel)tblTransfers.getModel();
+                this.selectedTableObject = model.getTransferAtRow(selectedRow);
+            }
         }
     }
     

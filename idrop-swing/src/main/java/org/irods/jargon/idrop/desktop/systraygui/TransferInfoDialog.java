@@ -387,7 +387,6 @@ public class TransferInfoDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlMain = new javax.swing.JPanel();
         pnlTransferInfo = new javax.swing.JPanel();
@@ -409,10 +408,10 @@ public class TransferInfoDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(540, 600));
+        setPreferredSize(new java.awt.Dimension(540, 630));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 4, 8, 4));
-        pnlMain.setPreferredSize(new java.awt.Dimension(530, 600));
+        pnlMain.setPreferredSize(new java.awt.Dimension(530, 630));
         pnlMain.setLayout(new java.awt.BorderLayout());
 
         pnlTransferInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 0, 6, 0));
@@ -439,7 +438,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlMain.add(pnlTransferInfo, java.awt.BorderLayout.NORTH);
 
         pnlTransferAttempt.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 6, 2));
-        pnlTransferAttempt.setPreferredSize(new java.awt.Dimension(520, 600));
+        pnlTransferAttempt.setPreferredSize(new java.awt.Dimension(520, 630));
         pnlTransferAttempt.setRequestFocusEnabled(false);
         pnlTransferAttempt.setLayout(new java.awt.BorderLayout());
 
