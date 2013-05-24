@@ -263,25 +263,20 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        pnlMain = new javax.swing.JPanel();
+        pnlTargetLocations = new javax.swing.JPanel();
+        lblUploadTargetLocation = new javax.swing.JLabel();
         txtUploadTarget = new javax.swing.JTextField();
-        jPanel8 = new javax.swing.JPanel();
         btnBrowseUploadTarget = new javax.swing.JButton();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
         btnUseIrodsHome = new javax.swing.JButton();
         btnUseLastUpload = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
+        pnlFilesToUpload = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrollPanelFilesToUpload = new javax.swing.JScrollPane();
         tblFilesToUpload = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        pnlBottomButtons = new javax.swing.JPanel();
         btnAddUploadFile = new javax.swing.JButton();
         btnDeleteUploadFile = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -293,46 +288,38 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
         setTitle(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.title")); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 400));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
-        jPanel1.setPreferredSize(new java.awt.Dimension(600, 400));
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
+        pnlMain.setPreferredSize(new java.awt.Dimension(600, 400));
+        pnlMain.setLayout(new java.awt.BorderLayout());
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel4.setPreferredSize(new java.awt.Dimension(945, 76));
-        jPanel4.setLayout(new java.awt.BorderLayout());
+        pnlTargetLocations.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlTargetLocations.setPreferredSize(new java.awt.Dimension(945, 76));
+        pnlTargetLocations.setLayout(new java.awt.GridBagLayout());
 
-        jPanel9.setPreferredSize(new java.awt.Dimension(100, 32));
-        jPanel9.setLayout(new java.awt.BorderLayout());
-
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.jLabel1.text")); // NOI18N
-        jPanel7.add(jLabel1);
+        lblUploadTargetLocation.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.lblUploadTargetLocation.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTargetLocations.add(lblUploadTargetLocation, gridBagConstraints);
 
         txtUploadTarget.setEditable(false);
+        txtUploadTarget.setColumns(100);
         txtUploadTarget.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.txtUploadTarget.text")); // NOI18N
-        txtUploadTarget.setPreferredSize(new java.awt.Dimension(200, 28));
+        txtUploadTarget.setMinimumSize(new java.awt.Dimension(200, 20));
         txtUploadTarget.setRequestFocusEnabled(false);
-        jPanel7.add(txtUploadTarget);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTargetLocations.add(txtUploadTarget, gridBagConstraints);
 
-        jPanel9.add(jPanel7, java.awt.BorderLayout.WEST);
-
-        btnBrowseUploadTarget.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnBrowseUploadTarget.text")); // NOI18N
+        btnBrowseUploadTarget.setLabel(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnBrowseUploadTarget.label")); // NOI18N
         btnBrowseUploadTarget.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBrowseUploadTargetActionPerformed(evt);
             }
         });
-        jPanel8.add(btnBrowseUploadTarget);
-
-        jPanel9.add(jPanel8, java.awt.BorderLayout.EAST);
-
-        jPanel4.add(jPanel9, java.awt.BorderLayout.NORTH);
-
-        jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 10, 1));
-        jPanel10.setPreferredSize(new java.awt.Dimension(100, 40));
-        jPanel10.setSize(new java.awt.Dimension(100, 32));
-        jPanel10.setLayout(new java.awt.BorderLayout());
-
-        jPanel11.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        pnlTargetLocations.add(btnBrowseUploadTarget, gridBagConstraints);
 
         btnUseIrodsHome.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUseIrodsHome.text")); // NOI18N
         btnUseIrodsHome.addActionListener(new java.awt.event.ActionListener() {
@@ -340,7 +327,11 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
                 btnUseIrodsHomeActionPerformed(evt);
             }
         });
-        jPanel11.add(btnUseIrodsHome);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlTargetLocations.add(btnUseIrodsHome, gridBagConstraints);
 
         btnUseLastUpload.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUseLastUpload.text")); // NOI18N
         btnUseLastUpload.addActionListener(new java.awt.event.ActionListener() {
@@ -348,22 +339,22 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
                 btnUseLastUploadActionPerformed(evt);
             }
         });
-        jPanel11.add(btnUseLastUpload);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlTargetLocations.add(btnUseLastUpload, gridBagConstraints);
 
-        jPanel10.add(jPanel11, java.awt.BorderLayout.EAST);
+        pnlMain.add(pnlTargetLocations, java.awt.BorderLayout.NORTH);
 
-        jPanel4.add(jPanel10, java.awt.BorderLayout.SOUTH);
-
-        jPanel1.add(jPanel4, java.awt.BorderLayout.NORTH);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 4, 1, 4));
-        jPanel5.setPreferredSize(new java.awt.Dimension(462, 250));
-        jPanel5.setLayout(new java.awt.BorderLayout());
+        pnlFilesToUpload.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 4, 1, 4));
+        pnlFilesToUpload.setPreferredSize(new java.awt.Dimension(462, 250));
+        pnlFilesToUpload.setLayout(new java.awt.BorderLayout());
 
         jLabel2.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.jLabel2.text")); // NOI18N
-        jPanel5.add(jLabel2, java.awt.BorderLayout.PAGE_START);
+        pnlFilesToUpload.add(jLabel2, java.awt.BorderLayout.NORTH);
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(454, 190));
+        scrollPanelFilesToUpload.setPreferredSize(new java.awt.Dimension(454, 190));
 
         tblFilesToUpload.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -388,40 +379,42 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblFilesToUpload);
+        scrollPanelFilesToUpload.setViewportView(tblFilesToUpload);
 
-        jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        pnlFilesToUpload.add(scrollPanelFilesToUpload, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(100, 25));
-        jPanel3.setLayout(new java.awt.BorderLayout());
-
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 1));
+        pnlBottomButtons.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlBottomButtons.setLayout(new java.awt.GridBagLayout());
 
         btnAddUploadFile.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnAddUploadFile.text")); // NOI18N
-        btnAddUploadFile.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnAddUploadFile.setMargin(null);
+        btnAddUploadFile.setMaximumSize(null);
+        btnAddUploadFile.setMinimumSize(null);
+        btnAddUploadFile.setPreferredSize(null);
+        btnAddUploadFile.setRequestFocusEnabled(false);
         btnAddUploadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddUploadFileActionPerformed(evt);
             }
         });
-        jPanel6.add(btnAddUploadFile);
+        pnlBottomButtons.add(btnAddUploadFile, new java.awt.GridBagConstraints());
 
         btnDeleteUploadFile.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnDeleteUploadFile.text")); // NOI18N
-        btnDeleteUploadFile.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnDeleteUploadFile.setMaximumSize(null);
+        btnDeleteUploadFile.setMinimumSize(null);
+        btnDeleteUploadFile.setPreferredSize(null);
         btnDeleteUploadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteUploadFileActionPerformed(evt);
             }
         });
-        jPanel6.add(btnDeleteUploadFile);
+        pnlBottomButtons.add(btnDeleteUploadFile, new java.awt.GridBagConstraints());
 
-        jPanel3.add(jPanel6, java.awt.BorderLayout.WEST);
+        pnlFilesToUpload.add(pnlBottomButtons, java.awt.BorderLayout.SOUTH);
 
-        jPanel5.add(jPanel3, java.awt.BorderLayout.SOUTH);
+        pnlMain.add(pnlFilesToUpload, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(jPanel5, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
@@ -555,21 +548,15 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
     private javax.swing.JButton btnUploadNow;
     private javax.swing.JButton btnUseIrodsHome;
     private javax.swing.JButton btnUseLastUpload;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblUploadTargetLocation;
+    private javax.swing.JPanel pnlBottomButtons;
+    private javax.swing.JPanel pnlFilesToUpload;
+    private javax.swing.JPanel pnlMain;
+    private javax.swing.JPanel pnlTargetLocations;
+    private javax.swing.JScrollPane scrollPanelFilesToUpload;
     private javax.swing.JTable tblFilesToUpload;
     private javax.swing.JTextField txtUploadTarget;
     // End of variables declaration//GEN-END:variables

@@ -214,30 +214,23 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        pnlDownloadFileContainer = new javax.swing.JPanel();
+        lblFilesHeader = new javax.swing.JLabel();
+        scrollPanelFilesToDownload = new javax.swing.JScrollPane();
         tblFilesToDownload = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel16 = new javax.swing.JPanel();
+        pnlAddDelete = new javax.swing.JPanel();
         btnAddDownloadFile = new javax.swing.JButton();
         btnDeleteDownloadFile = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtDownloadTarget = new javax.swing.JTextField();
-        jPanel12 = new javax.swing.JPanel();
         btnBrowseDownloadTarget = new javax.swing.JButton();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        jPanel14 = new javax.swing.JPanel();
         btnUseLocaLHome = new javax.swing.JButton();
         btnUseLastDownload = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
+        pnlUploadDownloadButtons = new javax.swing.JPanel();
         btnDownloadNow = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -249,12 +242,12 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 350));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 4, 1, 4));
-        jPanel3.setPreferredSize(new java.awt.Dimension(303, 250));
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        pnlDownloadFileContainer.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 4, 1, 4));
+        pnlDownloadFileContainer.setPreferredSize(new java.awt.Dimension(303, 250));
+        pnlDownloadFileContainer.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.jLabel2.text")); // NOI18N
-        jPanel3.add(jLabel2, java.awt.BorderLayout.NORTH);
+        lblFilesHeader.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.lblFilesHeader.text")); // NOI18N
+        pnlDownloadFileContainer.add(lblFilesHeader, java.awt.BorderLayout.NORTH);
 
         tblFilesToDownload.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -279,60 +272,56 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblFilesToDownload);
+        scrollPanelFilesToDownload.setViewportView(tblFilesToDownload);
 
-        jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        pnlDownloadFileContainer.add(scrollPanelFilesToDownload, java.awt.BorderLayout.CENTER);
 
-        jPanel6.setPreferredSize(new java.awt.Dimension(100, 25));
-        jPanel6.setLayout(new java.awt.BorderLayout());
-
-        jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 1));
+        pnlAddDelete.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlAddDelete.setLayout(new java.awt.GridBagLayout());
 
         btnAddDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnAddDownloadFile.text")); // NOI18N
-        btnAddDownloadFile.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnAddDownloadFile.setMaximumSize(null);
+        btnAddDownloadFile.setMinimumSize(null);
+        btnAddDownloadFile.setPreferredSize(null);
         btnAddDownloadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddDownloadFileActionPerformed(evt);
             }
         });
-        jPanel16.add(btnAddDownloadFile);
+        pnlAddDelete.add(btnAddDownloadFile, new java.awt.GridBagConstraints());
 
         btnDeleteDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDeleteDownloadFile.text")); // NOI18N
-        btnDeleteDownloadFile.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnDeleteDownloadFile.setMaximumSize(null);
+        btnDeleteDownloadFile.setMinimumSize(null);
+        btnDeleteDownloadFile.setPreferredSize(null);
         btnDeleteDownloadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteDownloadFileActionPerformed(evt);
             }
         });
-        jPanel16.add(btnDeleteDownloadFile);
+        pnlAddDelete.add(btnDeleteDownloadFile, new java.awt.GridBagConstraints());
 
-        jPanel6.add(jPanel16, java.awt.BorderLayout.WEST);
+        pnlDownloadFileContainer.add(pnlAddDelete, java.awt.BorderLayout.SOUTH);
 
-        jPanel3.add(jPanel6, java.awt.BorderLayout.SOUTH);
-
-        jPanel1.add(jPanel3, java.awt.BorderLayout.NORTH);
+        jPanel1.add(pnlDownloadFileContainer, java.awt.BorderLayout.NORTH);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel4.setPreferredSize(new java.awt.Dimension(240, 76));
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        jPanel9.setPreferredSize(new java.awt.Dimension(600, 32));
-        jPanel9.setLayout(new java.awt.BorderLayout());
-
-        jPanel11.setPreferredSize(new java.awt.Dimension(400, 40));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.jLabel1.text")); // NOI18N
-        jPanel11.add(jLabel1);
+        jPanel4.add(jLabel1, new java.awt.GridBagConstraints());
 
         txtDownloadTarget.setEditable(false);
+        txtDownloadTarget.setColumns(200);
         txtDownloadTarget.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.txtDownloadTarget.text")); // NOI18N
-        txtDownloadTarget.setPreferredSize(new java.awt.Dimension(220, 28));
+        txtDownloadTarget.setMaximumSize(new java.awt.Dimension(200, 20));
+        txtDownloadTarget.setMinimumSize(null);
+        txtDownloadTarget.setPreferredSize(new java.awt.Dimension(200, 20));
         txtDownloadTarget.setRequestFocusEnabled(false);
-        jPanel11.add(txtDownloadTarget);
-
-        jPanel9.add(jPanel11, java.awt.BorderLayout.WEST);
-
-        jPanel12.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(txtDownloadTarget, gridBagConstraints);
 
         btnBrowseDownloadTarget.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnBrowseDownloadTarget.text")); // NOI18N
         btnBrowseDownloadTarget.addActionListener(new java.awt.event.ActionListener() {
@@ -340,21 +329,7 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                 btnBrowseDownloadTargetActionPerformed(evt);
             }
         });
-        jPanel12.add(btnBrowseDownloadTarget);
-
-        jPanel9.add(jPanel12, java.awt.BorderLayout.EAST);
-
-        jPanel4.add(jPanel9, java.awt.BorderLayout.NORTH);
-
-        jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 10, 1));
-        jPanel10.setPreferredSize(new java.awt.Dimension(600, 40));
-        jPanel10.setLayout(new java.awt.BorderLayout());
-
-        jPanel13.setPreferredSize(new java.awt.Dimension(100, 40));
-        jPanel10.add(jPanel13, java.awt.BorderLayout.WEST);
-
-        jPanel14.setPreferredSize(new java.awt.Dimension(430, 40));
-        jPanel14.setRequestFocusEnabled(false);
+        jPanel4.add(btnBrowseDownloadTarget, new java.awt.GridBagConstraints());
 
         btnUseLocaLHome.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnUseLocaLHome.text")); // NOI18N
         btnUseLocaLHome.addActionListener(new java.awt.event.ActionListener() {
@@ -362,7 +337,11 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                 btnUseLocaLHomeActionPerformed(evt);
             }
         });
-        jPanel14.add(btnUseLocaLHome);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(btnUseLocaLHome, gridBagConstraints);
 
         btnUseLastDownload.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnUseLastDownload.text")); // NOI18N
         btnUseLastDownload.addActionListener(new java.awt.event.ActionListener() {
@@ -370,17 +349,17 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                 btnUseLastDownloadActionPerformed(evt);
             }
         });
-        jPanel14.add(btnUseLastDownload);
-
-        jPanel10.add(jPanel14, java.awt.BorderLayout.EAST);
-
-        jPanel4.add(jPanel10, java.awt.BorderLayout.SOUTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(btnUseLastDownload, gridBagConstraints);
 
         jPanel1.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
 
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        pnlUploadDownloadButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnDownloadNow.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDownloadNow.text")); // NOI18N
         btnDownloadNow.setEnabled(false);
@@ -389,7 +368,7 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                 btnDownloadNowActionPerformed(evt);
             }
         });
-        jPanel15.add(btnDownloadNow);
+        pnlUploadDownloadButtons.add(btnDownloadNow);
 
         btnCancel.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnCancel.text")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -397,11 +376,9 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel15.add(btnCancel);
+        pnlUploadDownloadButtons.add(btnCancel);
 
-        jPanel2.add(jPanel15, java.awt.BorderLayout.EAST);
-
-        getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlUploadDownloadButtons, java.awt.BorderLayout.SOUTH);
 
         getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.AccessibleContext.accessibleName")); // NOI18N
 
@@ -514,21 +491,13 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
     private javax.swing.JButton btnUseLastDownload;
     private javax.swing.JButton btnUseLocaLHome;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblFilesHeader;
+    private javax.swing.JPanel pnlAddDelete;
+    private javax.swing.JPanel pnlDownloadFileContainer;
+    private javax.swing.JPanel pnlUploadDownloadButtons;
+    private javax.swing.JScrollPane scrollPanelFilesToDownload;
     private javax.swing.JTable tblFilesToDownload;
     private javax.swing.JTextField txtDownloadTarget;
     // End of variables declaration//GEN-END:variables

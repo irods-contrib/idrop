@@ -310,13 +310,21 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.setLayout(new java.awt.GridBagLayout());
 
         lblHost.setText("Host:");
+        lblHost.setMaximumSize(new java.awt.Dimension(40, 14));
+        lblHost.setMinimumSize(new java.awt.Dimension(30, 14));
+        lblHost.setPreferredSize(null);
+        lblHost.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         pnlLoginInfo.add(lblHost, gridBagConstraints);
 
         txtHost.setColumns(30);
         txtHost.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlLoginInfo.add(txtHost, gridBagConstraints);
@@ -324,16 +332,15 @@ public class LoginDialog extends JDialog {
         lblPort.setText("Port:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         pnlLoginInfo.add(lblPort, gridBagConstraints);
 
-        txtPort.setColumns(8);
+        txtPort.setColumns(30);
         txtPort.setText("1247");
-        txtPort.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlLoginInfo.add(txtPort, gridBagConstraints);
@@ -341,7 +348,7 @@ public class LoginDialog extends JDialog {
         lblZone.setText("Zone:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlLoginInfo.add(lblZone, gridBagConstraints);
 
@@ -349,7 +356,7 @@ public class LoginDialog extends JDialog {
         txtZone.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlLoginInfo.add(txtZone, gridBagConstraints);
@@ -357,14 +364,14 @@ public class LoginDialog extends JDialog {
         lblResource.setText("Resource:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlLoginInfo.add(lblResource, gridBagConstraints);
 
         txtResource.setColumns(30);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlLoginInfo.add(txtResource, gridBagConstraints);
@@ -372,7 +379,7 @@ public class LoginDialog extends JDialog {
         lblUserName.setText("User Name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlLoginInfo.add(lblUserName, gridBagConstraints);
 
@@ -380,7 +387,7 @@ public class LoginDialog extends JDialog {
         txtUserName.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlLoginInfo.add(txtUserName, gridBagConstraints);
@@ -388,7 +395,7 @@ public class LoginDialog extends JDialog {
         lblPassword.setText("Password:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlLoginInfo.add(lblPassword, gridBagConstraints);
 
@@ -396,7 +403,7 @@ public class LoginDialog extends JDialog {
         password.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlLoginInfo.add(password, gridBagConstraints);
@@ -420,21 +427,21 @@ public class LoginDialog extends JDialog {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         pnlLoginInfo.add(jPanel1, gridBagConstraints);
 
         lblLoginMode.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblLoginMode.setText("Login Mode:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         pnlLoginInfo.add(lblLoginMode, gridBagConstraints);
 
         comboLoginMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Standard", "PAM" }));
         comboLoginMode.setToolTipText("Authentication mode used at login");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlLoginInfo.add(comboLoginMode, gridBagConstraints);
 
