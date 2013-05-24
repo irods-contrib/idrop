@@ -48,6 +48,7 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1439] iDrop 2.0.1 release small cleanups and fixes
 **Nicer display when no files/folders to display in home page
+**Gallery and browse view now configurable option in config.groovy
 
 ==Features==
 

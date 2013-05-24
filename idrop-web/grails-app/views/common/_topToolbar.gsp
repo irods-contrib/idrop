@@ -12,14 +12,17 @@
 		</div>
 		
 		<div id="menuView" class="btn-group">
-			
-				<button id="menuBrowseView"
-					onclick="browseView()"><img class="icon-list"/><g:message
-							code="text.browse" /></button>
+				<g:if test="${grailsApplication.config.idrop.config.use.browse.view==true}">
+					<button id="menuBrowseView"
+						onclick="browseView()"><img class="icon-list"/><g:message
+								code="text.browse" /></button>
+				</g:if>
 				<button id="menuInfoView" onclick="infoView()"><img class="icon-info-sign"/> <g:message code="text.info" /></button>
-				<button id="menuGalleryView"
-					onclick="galleryView()"><img class="icon-picture"/><g:message
-							code="text.gallery" /></button>
+				<g:if test="${grailsApplication.config.idrop.config.use.gallery.view==true}">
+					<button id="menuGalleryView"
+						onclick="galleryView()"><img class="icon-picture"/><g:message
+								code="text.gallery" /></button>
+				</g:if>
 		</div>
 </div>
 
