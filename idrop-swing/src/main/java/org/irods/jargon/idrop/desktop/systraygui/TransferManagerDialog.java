@@ -25,6 +25,8 @@ import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferManagerTableModel;
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
+import org.irods.jargon.transfer.dao.domain.TransferStateEnum;
+import org.irods.jargon.transfer.dao.domain.TransferStatusEnum;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +84,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
                         Transfer transfer;
                         for (int i = 0; i < tblTransfers.getModel().getRowCount(); i++) {
                             transfer = model.getTransferAtRow(i);
-                            if (transfer.getId() == selectedTableObject.getId()) {
+                            if (transfer.getId().longValue() == selectedTableObject.getId().longValue()) {
                                 matchingRowForSelected = i;
                                 break;
                             }
@@ -183,23 +185,32 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     }
     
     private void enableTransferSpecificButtons() {
-        // toggle 
-        btnTransferInfo.setEnabled(tblTransfers.getSelectedRow() != -1);
+        boolean isRowSelected = (tblTransfers.getSelectedRow() != -1);
+        
+        // enable/disable info button if row in table is selected/deselected 
+        btnTransferInfo.setEnabled(isRowSelected);
+        
+        // enable delete, resubmit buttons if row is selected and transfer status is not PROCESSING
+        btnRemoveSelected.setEnabled(isRowSelected &&
+                (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
+        btnRestartSelected.setEnabled(isRowSelected &&
+                (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
     }
     
     @Override
     public void valueChanged(ListSelectionEvent lse) {
         if ( !lse.getValueIsAdjusting() ) {
-           // enable appropriate buttons
-            enableTransferSpecificButtons();
             
            // save selected row transfer object
-            int selectedRow = lse.getFirstIndex();
+            int selectedRow = tblTransfers.getSelectedRow();
             if (selectedRow >=0) {
                 selectedRow = tblTransfers.convertRowIndexToModel(selectedRow);
                 TransferManagerTableModel model = (TransferManagerTableModel)tblTransfers.getModel();
                 this.selectedTableObject = model.getTransferAtRow(selectedRow);
             }
+            
+            // enable appropriate buttons
+            enableTransferSpecificButtons();
         }
     }
     
@@ -234,6 +245,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnTransferInfo = new javax.swing.JButton();
         btnPurgeAll = new javax.swing.JButton();
         btnPurgeSuccessful = new javax.swing.JButton();
+        btnRemoveSelected = new javax.swing.JButton();
+        btnRestartSelected = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         bntClose = new javax.swing.JButton();
@@ -277,6 +290,24 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnPurgeSuccessful.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.text")); // NOI18N
         jPanel1.add(btnPurgeSuccessful);
+
+        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.text")); // NOI18N
+        btnRemoveSelected.setEnabled(false);
+        btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveSelectedActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRemoveSelected);
+
+        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.text")); // NOI18N
+        btnRestartSelected.setEnabled(false);
+        btnRestartSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestartSelectedActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRestartSelected);
 
         btnRefresh.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.text")); // NOI18N
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -339,12 +370,45 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         transferInfoDialog.setVisible(true);
     }//GEN-LAST:event_btnTransferInfoActionPerformed
 
+    private void btnRemoveSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveSelectedActionPerformed
+        if (selectedTableObject != null) {
+            try {
+            idropCore.getConveyorService().getQueueManagerService().deleteTransferFromQueue(selectedTableObject);
+            } catch (ConveyorBusyException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (ConveyorExecutionException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            refreshTableView();
+        }
+    }//GEN-LAST:event_btnRemoveSelectedActionPerformed
+
+    private void btnRestartSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestartSelectedActionPerformed
+        if (selectedTableObject != null) {
+            try {
+                idropCore.getConveyorService().getQueueManagerService().enqueueRestartOfTransferOperation(selectedTableObject.getId());
+            } catch (ConveyorBusyException ex) {
+                log.error("Error restarting transfer: {}", ex.getMessage());
+                MessageManager.showError(this,
+                    "Transfer Queue Manager is currently busy. Please try again later.",
+                    MessageManager.TITLE_MESSAGE);
+            } catch (ConveyorExecutionException ex) {
+                String msg = "Error restarting transfer. Transfer may have already completed.";
+                log.error(msg + " {}", ex.getMessage());
+                MessageManager.showError(this, msg, MessageManager.TITLE_MESSAGE);
+            }
+            refreshTableView();
+        }
+    }//GEN-LAST:event_btnRestartSelectedActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntClose;
     private javax.swing.JButton btnPurgeAll;
     private javax.swing.JButton btnPurgeSuccessful;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnRemoveSelected;
+    private javax.swing.JButton btnRestartSelected;
     private javax.swing.JButton btnTransferInfo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

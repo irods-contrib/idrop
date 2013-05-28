@@ -172,7 +172,9 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptInfo.add(label, gridBagConstraints);
 
         label = new javax.swing.JLabel();
-        label.setText(dateFormat.format(attempt.getAttemptEnd()));
+        if (attempt.getAttemptEnd() != null) {
+            label.setText(dateFormat.format(attempt.getAttemptEnd()));
+        }
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
