@@ -1,6 +1,5 @@
 package org.irods.jargon.idrop.finder;
 
-import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -14,24 +13,17 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
-import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
-import org.irods.jargon.idrop.desktop.systraygui.DeleteIRODSDialog;
 import org.irods.jargon.idrop.desktop.systraygui.IRODSTreeContainingComponent;
-import org.irods.jargon.idrop.desktop.systraygui.NewIRODSDirectoryDialog;
-import org.irods.jargon.idrop.desktop.systraygui.RenameIRODSDirectoryDialog;
-import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSRowModel;
-import org.irods.jargon.idrop.desktop.systraygui.viscomponents.OutlineRenderProvider;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.netbeans.swing.outline.DefaultOutlineModel;
@@ -46,287 +38,312 @@ import org.slf4j.LoggerFactory;
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
-        TreeExpansionListener, IRODSTreeContainingComponent {
+		TreeExpansionListener, IRODSTreeContainingComponent {
 
-    public IRODSFinderDialog irodsFinderDialog = null;
-    public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSFinderTree.class);
-    protected JPopupMenu m_popup = null;
-    protected Action m_action;
-    protected TreePath m_clickedPath;
-    protected IRODSFinderTree thisTree;
-    private boolean refreshingTree = false;
-    TreePathSupport tps;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5427906936453797960L;
+	public IRODSFinderDialog irodsFinderDialog = null;
+	public static org.slf4j.Logger log = LoggerFactory
+			.getLogger(IRODSFinderTree.class);
+	protected JPopupMenu m_popup = null;
+	protected Action m_action;
+	protected TreePath m_clickedPath;
+	protected IRODSFinderTree thisTree;
+	private boolean refreshingTree = false;
+	TreePathSupport tps;
 
-    public boolean isRefreshingTree() {
-        synchronized (this) {
-            return refreshingTree;
-        }
-    }
+	@Override
+	public boolean isRefreshingTree() {
+		synchronized (this) {
+			return refreshingTree;
+		}
+	}
 
-    public void setRefreshingTree(final boolean refreshingTree) {
-        synchronized (this) {
-            this.refreshingTree = refreshingTree;
-        }
-    }
+	public void setRefreshingTree(final boolean refreshingTree) {
+		synchronized (this) {
+			this.refreshingTree = refreshingTree;
+		}
+	}
 
-    public IRODSFinderTree(final TreeModel newModel,final IRODSFinderDialog irodsFinderDialog) {
-        super();
+	public IRODSFinderTree(final TreeModel newModel,
+			final IRODSFinderDialog irodsFinderDialog) {
+		super();
 
-        OutlineModel mdl = DefaultOutlineModel.createOutlineModel(newModel,
-                new IRODSRowModel(), true, "File System");
-        this.irodsFinderDialog = irodsFinderDialog;
-        tps = new TreePathSupport(mdl, this.getLayoutCache());
+		OutlineModel mdl = DefaultOutlineModel.createOutlineModel(newModel,
+				new IRODSRowModel(), true, "File System");
+		this.irodsFinderDialog = irodsFinderDialog;
+		tps = new TreePathSupport(mdl, getLayoutCache());
 
-        tps.addTreeExpansionListener(this);
-        tps.addTreeWillExpandListener(this);
-        initializeMenusAndListeners();
-    }
+		tps.addTreeExpansionListener(this);
+		tps.addTreeWillExpandListener(this);
+		initializeMenusAndListeners();
+	}
 
-    public IRODSFinderTree() {
-        super();
-    }
+	public IRODSFinderTree() {
+		super();
+	}
 
-    public IRODSFinderTree(final IRODSFinderDialog irodsFinderDialog) {
-        super();
-        this.irodsFinderDialog = irodsFinderDialog;
-        initializeMenusAndListeners();
-    }
+	public IRODSFinderTree(final IRODSFinderDialog irodsFinderDialog) {
+		super();
+		this.irodsFinderDialog = irodsFinderDialog;
+		initializeMenusAndListeners();
+	}
 
-    private void initializeMenusAndListeners() {
-        setDragEnabled(true);
-        setUpTreeMenu();
-        setDropMode(javax.swing.DropMode.USE_SELECTION);
-        this.setRenderDataProvider(new FinderOutlineRenderProvider(this));
-        
-        IRODSFinderTreeSelectionListener treeListener;
-        try {
-            treeListener = new IRODSFinderTreeSelectionListener(
-                    irodsFinderDialog);
-        } catch (IdropException ex) {
-            Logger.getLogger(IRODSFinderTree.class.getName()).log(Level.SEVERE, null,
-                    ex);
-            throw new IdropRuntimeException(
-                    "error initializing selection listener", ex);
-        }
+	private void initializeMenusAndListeners() {
+		setDragEnabled(true);
+		setUpTreeMenu();
+		setDropMode(javax.swing.DropMode.USE_SELECTION);
+		setRenderDataProvider(new FinderOutlineRenderProvider(this));
 
-        this.getSelectionModel().addListSelectionListener(treeListener);
-    }
+		IRODSFinderTreeSelectionListener treeListener;
+		try {
+			treeListener = new IRODSFinderTreeSelectionListener(
+					irodsFinderDialog);
+		} catch (IdropException ex) {
+			Logger.getLogger(IRODSFinderTree.class.getName()).log(Level.SEVERE,
+					null, ex);
+			throw new IdropRuntimeException(
+					"error initializing selection listener", ex);
+		}
 
-    /**
-     * Set up context sensitive tree menu
-     */
-    private void setUpTreeMenu() {
-        thisTree = this;
-       
-        m_popup = new JPopupMenu();
-        m_action = new AbstractAction() {
+		getSelectionModel().addListSelectionListener(treeListener);
+	}
 
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                if (m_clickedPath == null) {
-                    return;
-                }
+	/**
+	 * Set up context sensitive tree menu
+	 */
+	private void setUpTreeMenu() {
+		thisTree = this;
 
-                if (thisTree.isExpanded(m_clickedPath)) {
-                    thisTree.collapsePath(m_clickedPath);
-                } else {
-                    thisTree.expandPath(m_clickedPath);
-                }
-            }
-        };
+		m_popup = new JPopupMenu();
+		m_action = new AbstractAction() {
 
-        m_popup.add(m_action);
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				if (m_clickedPath == null) {
+					return;
+				}
 
-        Action newAction = new AbstractAction("New Folder") {
+				if (thisTree.isExpanded(m_clickedPath)) {
+					thisTree.collapsePath(m_clickedPath);
+				} else {
+					thisTree.expandPath(m_clickedPath);
+				}
+			}
+		};
 
-            @Override
-            public void actionPerformed(final ActionEvent e) {
+		m_popup.add(m_action);
 
-                log.info("adding new node");
+		Action newAction = new AbstractAction("New Folder") {
 
-                IRODSNode parent = (IRODSNode) m_clickedPath.getLastPathComponent();
-                log.info("parent of new node is: {}", parent);
-                CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) parent.getUserObject();
-                if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
-                    JOptionPane.showMessageDialog(
-                            thisTree,
-                            "The selected item is not a folder, cannot create a new directory",
-                            "Info", JOptionPane.INFORMATION_MESSAGE);
-                    log.info("new folder not created, the selected parent is not a collection");
-                    return;
-                }
-                // show a dialog asking for the new directory name...
-              
-                FinderNewIRODSDirectoryDialog newDirectoryDialog = new FinderNewIRODSDirectoryDialog(
-                        irodsFinderDialog, true, dataEntry.getPathOrName(),
-                        thisTree, parent);
-                newDirectoryDialog.setLocation(
-                        (int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog.getWidth() / 2), (int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog.getHeight() / 2));
-                newDirectoryDialog.setVisible(true);
-               
-            }
-        };
-        m_popup.add(newAction);
+			@Override
+			public void actionPerformed(final ActionEvent e) {
 
-        m_popup.addSeparator();
+				log.info("adding new node");
 
-        Action a1 = new AbstractAction("Delete") {
+				IRODSNode parent = (IRODSNode) m_clickedPath
+						.getLastPathComponent();
+				log.info("parent of new node is: {}", parent);
+				CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) parent
+						.getUserObject();
+				if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
+					JOptionPane
+							.showMessageDialog(
+									thisTree,
+									"The selected item is not a folder, cannot create a new directory",
+									"Info", JOptionPane.INFORMATION_MESSAGE);
+					log.info("new folder not created, the selected parent is not a collection");
+					return;
+				}
+				// show a dialog asking for the new directory name...
 
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                log.info("deleting a node");
-                int[] rows = thisTree.getSelectedRows();
-                log.debug("selected rows for delete:{}", rows);
+				FinderNewIRODSDirectoryDialog newDirectoryDialog = new FinderNewIRODSDirectoryDialog(
+						irodsFinderDialog, true, dataEntry.getPathOrName(),
+						thisTree, parent);
+				newDirectoryDialog
+						.setLocation(
+								(int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog
+										.getWidth() / 2),
+								(int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog
+										.getHeight() / 2));
+				newDirectoryDialog.setVisible(true);
 
-               
-                FinderDeleteIRODSDialog deleteDialog;
+			}
+		};
+		m_popup.add(newAction);
 
-                if (rows.length == 1) {
+		m_popup.addSeparator();
 
-                    IRODSNode toDelete = (IRODSNode) thisTree.getValueAt(
-                            rows[0], 0);
-                    log.info("deleting a single node: {}", toDelete);
-                 
-                    deleteDialog = new FinderDeleteIRODSDialog(irodsFinderDialog, true,
-                            thisTree, toDelete);
-                } else {
-                    List<IRODSNode> nodesToDelete = new ArrayList<IRODSNode>();
-                    for (int row : rows) {
-                        nodesToDelete.add((IRODSNode) thisTree.getValueAt(row,
-                                0));
+		Action a1 = new AbstractAction("Delete") {
 
-                    }
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				log.info("deleting a node");
+				int[] rows = thisTree.getSelectedRows();
+				log.debug("selected rows for delete:{}", rows);
 
-                    deleteDialog = new FinderDeleteIRODSDialog(irodsFinderDialog, true,
-                            thisTree, nodesToDelete);
-                }
+				FinderDeleteIRODSDialog deleteDialog;
 
-                deleteDialog.setLocation(
-                        (int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog.getWidth() / 2), (int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog.getHeight() / 2));
-                deleteDialog.setVisible(true);
-                  
-            }
-        };
+				if (rows.length == 1) {
 
-        m_popup.add(a1);
-        Action a2 = new AbstractAction("Rename") {
+					IRODSNode toDelete = (IRODSNode) thisTree.getValueAt(
+							rows[0], 0);
+					log.info("deleting a single node: {}", toDelete);
 
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                log.info("renaming node");
+					deleteDialog = new FinderDeleteIRODSDialog(
+							irodsFinderDialog, true, thisTree, toDelete);
+				} else {
+					List<IRODSNode> nodesToDelete = new ArrayList<IRODSNode>();
+					for (int row : rows) {
+						nodesToDelete.add((IRODSNode) thisTree.getValueAt(row,
+								0));
 
-                IRODSNode toRename = (IRODSNode) m_clickedPath.getLastPathComponent();
-                log.info("node to rename  is: {}", toRename);
-                CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) toRename.getUserObject();
+					}
 
-                // dialog uses absolute path, so munge it for files
-                StringBuilder sb = new StringBuilder();
-                if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
-                    sb.append(dataEntry.getPathOrName());
-                } else {
-                    sb.append(dataEntry.getParentPath());
-                    sb.append('/');
-                    sb.append(dataEntry.getPathOrName());
-                }
+					deleteDialog = new FinderDeleteIRODSDialog(
+							irodsFinderDialog, true, thisTree, nodesToDelete);
+				}
 
-                // show a dialog asking for the new directory name...
-                FinderRenameIRODSDirectoryDialog renameDialog = new FinderRenameIRODSDirectoryDialog(
-                        irodsFinderDialog, true, sb.toString(), thisTree, toRename);
-                renameDialog.setLocation(
-                        (int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog.getWidth() / 2), (int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog.getHeight() / 2));
-                renameDialog.setVisible(true);
-            }
-        };
-        m_popup.add(a2);
-        thisTree.add(m_popup);
-        thisTree.addMouseListener(new PopupTrigger());
+				deleteDialog
+						.setLocation(
+								(int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog
+										.getWidth() / 2),
+								(int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog
+										.getHeight() / 2));
+				deleteDialog.setVisible(true);
 
-    }
+			}
+		};
 
-    @Override
-    public void treeExpanded(final TreeExpansionEvent event) {
-    }
+		m_popup.add(a1);
+		Action a2 = new AbstractAction("Rename") {
 
-    @Override
-    public void treeCollapsed(final TreeExpansionEvent event) {
-    }
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				log.info("renaming node");
 
-    class PopupTrigger extends MouseAdapter {
+				IRODSNode toRename = (IRODSNode) m_clickedPath
+						.getLastPathComponent();
+				log.info("node to rename  is: {}", toRename);
+				CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) toRename
+						.getUserObject();
 
-        @Override
-        public void mouseReleased(final MouseEvent e) {
-            if (e.isPopupTrigger()) {
-                int x = e.getX();
-                int y = e.getY();
+				// dialog uses absolute path, so munge it for files
+				StringBuilder sb = new StringBuilder();
+				if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
+					sb.append(dataEntry.getPathOrName());
+				} else {
+					sb.append(dataEntry.getParentPath());
+					sb.append('/');
+					sb.append(dataEntry.getPathOrName());
+				}
 
-                TreePath path = thisTree.getClosestPathForLocation(x, y);
-                if (path != null) {
-                    if (thisTree.isExpanded(path)) {
-                        m_action.putValue(Action.NAME, "Collapse");
-                    } else {
-                        m_action.putValue(Action.NAME, "Expand");
-                    }
-                    m_popup.show(thisTree, x, y);
-                    m_clickedPath = path;
-                }
-            }
-        }
+				// show a dialog asking for the new directory name...
+				FinderRenameIRODSDirectoryDialog renameDialog = new FinderRenameIRODSDirectoryDialog(
+						irodsFinderDialog, true, sb.toString(), thisTree,
+						toRename);
+				renameDialog
+						.setLocation(
+								(int) (irodsFinderDialog.getLocation().getX() + irodsFinderDialog
+										.getWidth() / 2),
+								(int) (irodsFinderDialog.getLocation().getY() + irodsFinderDialog
+										.getHeight() / 2));
+				renameDialog.setVisible(true);
+			}
+		};
+		m_popup.add(a2);
+		thisTree.add(m_popup);
+		thisTree.addMouseListener(new PopupTrigger());
 
-        @Override
-        public void mousePressed(final MouseEvent e) {
-            if (e.isPopupTrigger()) {
-                int x = e.getX();
-                int y = e.getY();
-                TreePath path = thisTree.getClosestPathForLocation(x, y);
-                if (path != null) {
-                    if (thisTree.isExpanded(path)) {
-                        m_action.putValue(Action.NAME, "Collapse");
-                    } else {
-                        m_action.putValue(Action.NAME, "Expand");
-                    }
-                    m_popup.show(thisTree, x, y);
-                    m_clickedPath = path;
-                }
-            }
-        }
-    }
+	}
 
-    @Override
-    public void treeWillCollapse(final TreeExpansionEvent event)
-            throws ExpandVetoException {
-    }
+	@Override
+	public void treeExpanded(final TreeExpansionEvent event) {
+	}
 
-    @Override
-    public void treeWillExpand(final TreeExpansionEvent event)
-            throws ExpandVetoException {
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        log.debug("tree expansion event:{}", event);
-        IRODSNode expandingNode = (IRODSNode) event.getPath().getLastPathComponent();
-        // If I am refreshing the tree, then do not close the connection after
-        // each load. It will be closed in the thing
-        // doing the refreshing
-        try {
-            expandingNode.lazyLoadOfChildrenOfThisNode(!isRefreshingTree());
-        } catch (IdropException ex) {
-            Logger.getLogger(IRODSFinderTree.class.getName()).log(Level.SEVERE, null,
-                    ex);
-            throw new IdropRuntimeException("error expanding irodsNode");
-        } finally {
-            setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        }
-    }
+	@Override
+	public void treeCollapsed(final TreeExpansionEvent event) {
+	}
 
-    public void highlightPath(final TreePath pathToHighlight) {
-        final IRODSFinderTree highlightTree = this;
-        java.awt.EventQueue.invokeLater(new Runnable() {
+	class PopupTrigger extends MouseAdapter {
 
-            @Override
-            public void run() {
-                highlightTree.collapsePath(pathToHighlight);
-                highlightTree.expandPath(pathToHighlight);
-                // highlightTree.sc
-                // highlightTree.scrollPathToVisible(pathToHighlight);
-            }
-        });
-    }
+		@Override
+		public void mouseReleased(final MouseEvent e) {
+			if (e.isPopupTrigger()) {
+				int x = e.getX();
+				int y = e.getY();
+
+				TreePath path = thisTree.getClosestPathForLocation(x, y);
+				if (path != null) {
+					if (thisTree.isExpanded(path)) {
+						m_action.putValue(Action.NAME, "Collapse");
+					} else {
+						m_action.putValue(Action.NAME, "Expand");
+					}
+					m_popup.show(thisTree, x, y);
+					m_clickedPath = path;
+				}
+			}
+		}
+
+		@Override
+		public void mousePressed(final MouseEvent e) {
+			if (e.isPopupTrigger()) {
+				int x = e.getX();
+				int y = e.getY();
+				TreePath path = thisTree.getClosestPathForLocation(x, y);
+				if (path != null) {
+					if (thisTree.isExpanded(path)) {
+						m_action.putValue(Action.NAME, "Collapse");
+					} else {
+						m_action.putValue(Action.NAME, "Expand");
+					}
+					m_popup.show(thisTree, x, y);
+					m_clickedPath = path;
+				}
+			}
+		}
+	}
+
+	@Override
+	public void treeWillCollapse(final TreeExpansionEvent event)
+			throws ExpandVetoException {
+	}
+
+	@Override
+	public void treeWillExpand(final TreeExpansionEvent event)
+			throws ExpandVetoException {
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		log.debug("tree expansion event:{}", event);
+		IRODSNode expandingNode = (IRODSNode) event.getPath()
+				.getLastPathComponent();
+		// If I am refreshing the tree, then do not close the connection after
+		// each load. It will be closed in the thing
+		// doing the refreshing
+		try {
+			expandingNode.lazyLoadOfChildrenOfThisNode(!isRefreshingTree());
+		} catch (IdropException ex) {
+			Logger.getLogger(IRODSFinderTree.class.getName()).log(Level.SEVERE,
+					null, ex);
+			throw new IdropRuntimeException("error expanding irodsNode");
+		} finally {
+			setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		}
+	}
+
+	public void highlightPath(final TreePath pathToHighlight) {
+		final IRODSFinderTree highlightTree = this;
+		java.awt.EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				highlightTree.collapsePath(pathToHighlight);
+				highlightTree.expandPath(pathToHighlight);
+				// highlightTree.sc
+				// highlightTree.scrollPathToVisible(pathToHighlight);
+			}
+		});
+	}
 }

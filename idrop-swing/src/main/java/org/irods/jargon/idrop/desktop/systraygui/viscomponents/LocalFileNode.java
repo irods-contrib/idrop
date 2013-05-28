@@ -14,85 +14,91 @@ import org.slf4j.LoggerFactory;
  */
 public class LocalFileNode extends DefaultMutableTreeNode {
 
-    private boolean cached = false;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4794712272149211548L;
+	private boolean cached = false;
 
-    public boolean isCached() {
-        return cached;
-    }
-    public static org.slf4j.Logger log = LoggerFactory.getLogger(LocalFileNode.class);
+	public boolean isCached() {
+		return cached;
+	}
 
-    public LocalFileNode(final File file) {
-        super(file);
-    }
+	public static org.slf4j.Logger log = LoggerFactory
+			.getLogger(LocalFileNode.class);
 
-    @Override
-    public boolean isLeaf() {
-        File thisFile = (File) this.getUserObject();
-        return thisFile.isFile();
-    }
+	public LocalFileNode(final File file) {
+		super(file);
+	}
 
-    public void lazyLoadOfChildrenOfThisNode() {
+	@Override
+	public boolean isLeaf() {
+		File thisFile = (File) getUserObject();
+		return thisFile.isFile();
+	}
 
-        if (cached) {
-            log.debug("already cached");
-            return;
-        }
+	public void lazyLoadOfChildrenOfThisNode() {
 
-        log.debug("lazily loading children of:{}", this);
-        File parentFile = (File) this.getUserObject();
-        File[] childFiles = parentFile.listFiles();
+		if (cached) {
+			log.debug("already cached");
+			return;
+		}
 
-        if (childFiles != null) {
-            for (File file : childFiles) {
-                this.insert(new LocalFileNode(file), this.getChildCount());
-            }
-        }
+		log.debug("lazily loading children of:{}", this);
+		File parentFile = (File) getUserObject();
+		File[] childFiles = parentFile.listFiles();
 
-        cached = true;
+		if (childFiles != null) {
+			for (File file : childFiles) {
+				insert(new LocalFileNode(file), getChildCount());
+			}
+		}
 
-    }
+		cached = true;
 
-    @Override
-    public void insert(final MutableTreeNode arg0, final int arg1) {
-        super.insert(arg0, arg1);
-    }
+	}
 
-    public void forceReloadOfChildrenOfThisNode() {
-        cached = false;
-        this.removeAllChildren();
-    }
+	@Override
+	public void insert(final MutableTreeNode arg0, final int arg1) {
+		super.insert(arg0, arg1);
+	}
 
-    @Override
-    public String toString() {
-        File localFile = (File) this.getUserObject();
-        String returnedString = "";
+	public void forceReloadOfChildrenOfThisNode() {
+		cached = false;
+		removeAllChildren();
+	}
 
-        if (localFile.getName().equals("")) {
-            returnedString = "/";
-        } else {
-            returnedString = localFile.getName();
-        }
-        // log.debug("name for node is: {}", returnedString);
-        return returnedString;
-    }
+	@Override
+	public String toString() {
+		File localFile = (File) getUserObject();
+		String returnedString = "";
 
-    @Override
-    public int hashCode() {
-        return this.getUserObject().hashCode();
-    }
+		if (localFile.getName().equals("")) {
+			returnedString = "/";
+		} else {
+			returnedString = localFile.getName();
+		}
+		// log.debug("name for node is: {}", returnedString);
+		return returnedString;
+	}
 
-    @Override
-    public boolean equals(final Object obj) {
+	@Override
+	public int hashCode() {
+		return getUserObject().hashCode();
+	}
 
-        if (!(obj instanceof LocalFileNode)) {
-            return false;
-        }
+	@Override
+	public boolean equals(final Object obj) {
 
-        LocalFileNode comparableAsNode = (LocalFileNode) obj;
+		if (!(obj instanceof LocalFileNode)) {
+			return false;
+		}
 
-        File thisFile = (File) getUserObject();
-        File thatFile = (File) comparableAsNode.getUserObject();
+		LocalFileNode comparableAsNode = (LocalFileNode) obj;
 
-        return thisFile.getAbsolutePath().equals(thatFile.getAbsolutePath());
-    }
+		File thisFile = (File) getUserObject();
+		File thatFile = (File) comparableAsNode.getUserObject();
+
+		return thisFile.getAbsolutePath().equals(thatFile.getAbsolutePath());
+	}
 }

@@ -22,79 +22,81 @@ import org.slf4j.LoggerFactory;
  */
 public class IRODSTreeTransferable implements Transferable, ClipboardOwner {
 
-    private List<File> files;
-    private IRODSTree stagingViewTree;
-    public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTreeTransferable.class);
-    public static DataFlavor irodsTreeDataFlavor = null;
+	private List<File> files;
+	private IRODSTree stagingViewTree;
+	public static org.slf4j.Logger log = LoggerFactory
+			.getLogger(IRODSTreeTransferable.class);
+	public static DataFlavor irodsTreeDataFlavor = null;
 
-    static {
-        try {
+	static {
+		try {
 
-            irodsTreeDataFlavor = new DataFlavor(
-                    org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferable.class,
-                    "Local phymove");
-        } catch (Exception e) {
-            log.error("error creating transferrable", e);
-        }
-    }
+			irodsTreeDataFlavor = new DataFlavor(
+					org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTreeTransferable.class,
+					"Local phymove");
+		} catch (Exception e) {
+			log.error("error creating transferrable", e);
+		}
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("staging view tree transferrable:");
-        if (files == null) {
-            sb.append("\n  files is null!");
-        }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("staging view tree transferrable:");
+		if (files == null) {
+			sb.append("\n  files is null!");
+		}
 
-        for (File file : files) {
-            sb.append("\n   file:");
-            sb.append(file.getAbsolutePath());
-        }
+		for (File file : files) {
+			sb.append("\n   file:");
+			sb.append(file.getAbsolutePath());
+		}
 
-        return sb.toString();
+		return sb.toString();
 
-    }
+	}
 
-    IRODSTreeTransferable(final List<File> transferFiles,
-            final IRODSTree stagingViewTree) {
+	IRODSTreeTransferable(final List<File> transferFiles,
+			final IRODSTree stagingViewTree) {
 
-        if (transferFiles == null) {
-            throw new IllegalArgumentException("null files");
-        }
+		if (transferFiles == null) {
+			throw new IllegalArgumentException("null files");
+		}
 
-        if (stagingViewTree == null) {
-            throw new IllegalArgumentException("null stagingViewTree");
-        }
-        this.files = transferFiles;
-        this.stagingViewTree = stagingViewTree;
+		if (stagingViewTree == null) {
+			throw new IllegalArgumentException("null stagingViewTree");
+		}
+		files = transferFiles;
+		this.stagingViewTree = stagingViewTree;
 
-    }
+	}
 
-    @Override
-    public DataFlavor[] getTransferDataFlavors() {
-        log.debug("getting data flavors from idrop series (will be a list with one irods file for file or collection");
-        return new DataFlavor[]{DataFlavor.javaFileListFlavor,
-                    irodsTreeDataFlavor};
-    }
+	@Override
+	public DataFlavor[] getTransferDataFlavors() {
+		log.debug("getting data flavors from idrop series (will be a list with one irods file for file or collection");
+		return new DataFlavor[] { DataFlavor.javaFileListFlavor,
+				irodsTreeDataFlavor };
+	}
 
-    @Override
-    public boolean isDataFlavorSupported(final DataFlavor flavor) {
-        return (flavor.equals(DataFlavor.javaFileListFlavor) || flavor.equals(irodsTreeDataFlavor));
-    }
+	@Override
+	public boolean isDataFlavorSupported(final DataFlavor flavor) {
+		return (flavor.equals(DataFlavor.javaFileListFlavor) || flavor
+				.equals(irodsTreeDataFlavor));
+	}
 
-    @Override
-    public Object getTransferData(final DataFlavor flavor)
-            throws UnsupportedFlavorException, IOException {
-        log.info("getting files from transfer data:{}", files);
-        if (!isDataFlavorSupported(flavor)) {
-            throw new UnsupportedFlavorException(flavor);
-        }
+	@Override
+	public Object getTransferData(final DataFlavor flavor)
+			throws UnsupportedFlavorException, IOException {
+		log.info("getting files from transfer data:{}", files);
+		if (!isDataFlavorSupported(flavor)) {
+			throw new UnsupportedFlavorException(flavor);
+		}
 
-        return files;
-    }
+		return files;
+	}
 
-    @Override
-    public void lostOwnership(final Clipboard clpbrd, final Transferable t) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public void lostOwnership(final Clipboard clpbrd, final Transferable t) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }
