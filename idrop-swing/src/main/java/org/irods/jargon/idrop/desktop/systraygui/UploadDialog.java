@@ -113,27 +113,7 @@ public class UploadDialog extends javax.swing.JDialog implements
 				Exceptions.printStackTrace(ex);
 			}
 		}
-		// else {
-		//
-		// // next see if can find some put history in the transfer queue
-		// // manager and use that target location
-		// // next see if can find some get history in the transfer queue
-		// try {
-		// List<LocalIRODSTransfer> transfers =
-		// idropGUI.getiDropCore().getTransferManager().getRecentQueue();
-		//
-		// // assuming most recent first
-		// for (LocalIRODSTransfer transfer: transfers) {
-		// if (transfer.getTransferType() == TransferType.PUT) {
-		// target = transfer.getIrodsAbsolutePath();
-		// break;
-		// }
-		// }
-		// } catch (JargonException ex) {
-		// Exceptions.printStackTrace(ex);
-		// }
-		// }
-
+		
 		txtUploadTarget.setText(target);
 	}
 
