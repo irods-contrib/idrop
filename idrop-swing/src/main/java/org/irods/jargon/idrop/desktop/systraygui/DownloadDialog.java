@@ -16,7 +16,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
-import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
@@ -24,7 +23,6 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
-import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.irods.jargon.transfer.dao.domain.TransferType;
@@ -80,23 +78,7 @@ public class DownloadDialog extends javax.swing.JDialog implements ListSelection
                 target = targetPath.getAbsolutePath();
             }
         }
-//        else {
-//            // next see if can find some get history in the transfer queue
-//            try {
-//                List<LocalIRODSTransfer> transfers = idropGUI.getiDropCore().getTransferManager().getRecentQueue();
-//                
-//                // assuming most recent first
-//                for (LocalIRODSTransfer transfer: transfers) {
-//                    if (transfer.getTransferType() == TransferType.GET) {
-//                        target = transfer.getLocalAbsolutePath();
-//                        break;
-//                    }
-//                }
-//            } catch (JargonException ex) {
-//                Exceptions.printStackTrace(ex);
-//            }
-//        }
-        
+
        txtDownloadTarget.setText(target);
     }
     
