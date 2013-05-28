@@ -39,13 +39,13 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:jargon-ticket:3.3.2-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-profile:3.3.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-tagging:3.3.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ("stax-api","xml-apis", "xercesImpl")}
-		compile ('org.irods.jargon:jargon-hive-irods:1.0-SNAPSHOT') { excludes ([name:"stax-api"])}
+		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ("stax-api","xml-apis", "xercesImpl", "aduna-commons-lang")}
+		compile ('org.irods.jargon:jargon-hive-irods:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang")}
 		compile('com.google.gwt:gwt-servlet:2.4.0')
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 		compile 'xerces:xercesImpl:2.9.1'
-	
+
 
 	}
 

@@ -323,7 +323,7 @@ class HiveController {
 			}
 			log.info("getting top level for:${currentVocab}")
 			conceptProxy = hiveService.getTopLevelConceptProxyForVocabulary(currentVocab, absPath, irodsAccount, indexLetter)
-	
+
 		}
 
 		ViewNameAndModelValues modelAndView = new ViewNameAndModelValues()
@@ -334,6 +334,8 @@ class HiveController {
 		} else {
 			modelAndView.view = "conceptBrowserTermsOnly"
 		}
+		log.info("concept proxy:${conceptProxy}")
+		log.info("skosCode:${conceptProxy.SKOSCode}")
 
 		return modelAndView
 	}

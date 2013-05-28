@@ -58,7 +58,6 @@
 										<small> ${conceptProxy.URI}</small>
 									</div>
 								</div>
-								
 								<div class="row-fluid">
 									<div class="offset1 span11">
 										<div class="btn-group pad-around">
