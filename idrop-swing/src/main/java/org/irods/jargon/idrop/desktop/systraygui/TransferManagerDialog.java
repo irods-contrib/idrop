@@ -190,10 +190,12 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         // enable/disable info button if row in table is selected/deselected 
         btnTransferInfo.setEnabled(isRowSelected);
         
-        // enable delete, resubmit buttons if row is selected and transfer status is not PROCESSING
+        // enable delete, restart, resubmit buttons if row is selected and transfer status is not PROCESSING
         btnRemoveSelected.setEnabled(isRowSelected &&
                 (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
         btnRestartSelected.setEnabled(isRowSelected &&
+                (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
+        btnResubmitSelected.setEnabled(isRowSelected &&
                 (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
     }
     
@@ -243,17 +245,23 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         pnlButtons = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         btnTransferInfo = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         btnPurgeAll = new javax.swing.JButton();
         btnPurgeSuccessful = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
         btnRemoveSelected = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         btnRestartSelected = new javax.swing.JButton();
+        btnResubmitSelected = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
         btnRefresh = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         bntClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(990, 440));
+        setMinimumSize(new java.awt.Dimension(800, 74));
+        setPreferredSize(new java.awt.Dimension(980, 440));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 4, 4, 4));
         pnlMain.setLayout(new java.awt.BorderLayout());
@@ -271,6 +279,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         pnlButtons.setPreferredSize(new java.awt.Dimension(799, 40));
         pnlButtons.setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(830, 39));
+
         btnTransferInfo.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.text")); // NOI18N
         btnTransferInfo.setEnabled(false);
         btnTransferInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -279,6 +289,9 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
             }
         });
         jPanel1.add(btnTransferInfo);
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator1);
 
         btnPurgeAll.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.text")); // NOI18N
         btnPurgeAll.addActionListener(new java.awt.event.ActionListener() {
@@ -291,6 +304,9 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnPurgeSuccessful.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.text")); // NOI18N
         jPanel1.add(btnPurgeSuccessful);
 
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator2);
+
         btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.text")); // NOI18N
         btnRemoveSelected.setEnabled(false);
         btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
@@ -300,6 +316,15 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         });
         jPanel1.add(btnRemoveSelected);
 
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.text")); // NOI18N
+        btnCancel.setEnabled(false);
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel);
+
         btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.text")); // NOI18N
         btnRestartSelected.setEnabled(false);
         btnRestartSelected.addActionListener(new java.awt.event.ActionListener() {
@@ -308,6 +333,18 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
             }
         });
         jPanel1.add(btnRestartSelected);
+
+        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.text")); // NOI18N
+        btnResubmitSelected.setEnabled(false);
+        btnResubmitSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResubmitSelectedActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnResubmitSelected);
+
+        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator3);
 
         btnRefresh.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.text")); // NOI18N
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -401,18 +438,45 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         }
     }//GEN-LAST:event_btnRestartSelectedActionPerformed
 
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnResubmitSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResubmitSelectedActionPerformed
+        if (selectedTableObject != null) {
+            try {
+                idropCore.getConveyorService().getQueueManagerService().enqueueResubmitOfTransferOperation(selectedTableObject.getId());
+            } catch (ConveyorBusyException ex) {
+                log.error("Error resubmitting transfer: {}", ex.getMessage());
+                MessageManager.showError(this,
+                    "Transfer Queue Manager is currently busy. Please try again later.",
+                    MessageManager.TITLE_MESSAGE);
+            } catch (ConveyorExecutionException ex) {
+                String msg = "Error resubmitting transfer. Transfer may have already completed.";
+                log.error(msg + " {}", ex.getMessage());
+                MessageManager.showError(this, msg, MessageManager.TITLE_MESSAGE);
+            }
+            refreshTableView();
+        }
+    }//GEN-LAST:event_btnResubmitSelectedActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntClose;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnPurgeAll;
     private javax.swing.JButton btnPurgeSuccessful;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRemoveSelected;
     private javax.swing.JButton btnRestartSelected;
+    private javax.swing.JButton btnResubmitSelected;
     private javax.swing.JButton btnTransferInfo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPanel pnlButtons;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlTable;
