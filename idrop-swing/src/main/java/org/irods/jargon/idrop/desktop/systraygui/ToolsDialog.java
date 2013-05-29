@@ -14,6 +14,7 @@ import org.irods.jargon.datautils.tree.FileTreeDiffUtilityImpl;
 import org.irods.jargon.datautils.tree.FileTreeModel;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffViewData;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileNode;
@@ -54,7 +55,6 @@ public class ToolsDialog extends javax.swing.JDialog {
         setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         setName("ToolsDialog"); // NOI18N
         setResizable(false);
-        setType(java.awt.Window.Type.POPUP);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
         pnlButtons.setLayout(new java.awt.GridBagLayout());
@@ -155,6 +155,12 @@ public class ToolsDialog extends javax.swing.JDialog {
         try {
             FileTreeModel diffModel = fileTreeDiffUtility.generateDiffLocalToIRODS(localFile, irodsAbsPath, 0L, 0L);
             log.info("diffModel:{}", diffModel);
+            DiffViewData diffViewData = new DiffViewData();
+            diffViewData.setFileTreeModel(diffModel);
+            diffViewData.setIrodsAbsolutePath(irodsAbsPath);
+            diffViewData.setLocalAbsolutePath(localAbsPath);
+            DiffViewDialog diffViewDialog = new DiffViewDialog(this.idropGui, true, diffViewData);
+            diffViewDialog.setVisible(true);
         } catch (JargonException ex) {
              log.error("Error generating diff", ex);
             MessageUtil.showError(this, "An error occurred generating the diff:\n" + ex.getMessage(), MessageUtil.ERROR_MESSAGE);

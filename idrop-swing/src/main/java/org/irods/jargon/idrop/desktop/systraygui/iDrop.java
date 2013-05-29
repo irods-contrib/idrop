@@ -1456,7 +1456,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 2;
         pnlMainToolbarIcons.add(btnMainToolbarTools, gridBagConstraints);
@@ -1506,7 +1506,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainToolbarIcons.add(btnMainToolbarDelete, gridBagConstraints);
 
         btnMainToolbarInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_editmetadata.png"))); // NOI18N
-        btnMainToolbarInfo.setBorder(null);
+        btnMainToolbarInfo.setBorderPainted(false);
         btnMainToolbarInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarInfo.setLabel(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarInfo.label")); // NOI18N
         btnMainToolbarInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -1563,6 +1563,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMainToolbarIcons.add(btnMainToolbarSettings, gridBagConstraints);
 
         btnMainToolbarSearchFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search_files.png"))); // NOI18N
