@@ -1449,6 +1449,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarTools.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTools.toolTipText")); // NOI18N
         btnMainToolbarTools.setBorder(null);
         btnMainToolbarTools.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarTools.setMargin(null);
+        btnMainToolbarTools.setMaximumSize(null);
+        btnMainToolbarTools.setMinimumSize(null);
+        btnMainToolbarTools.setPreferredSize(null);
         btnMainToolbarTools.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMainToolbarTools.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1506,6 +1510,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainToolbarIcons.add(btnMainToolbarDelete, gridBagConstraints);
 
         btnMainToolbarInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_editmetadata.png"))); // NOI18N
+        btnMainToolbarInfo.setBorder(null);
         btnMainToolbarInfo.setBorderPainted(false);
         btnMainToolbarInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarInfo.setLabel(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarInfo.label")); // NOI18N
@@ -1534,6 +1539,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarSync.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSync.text")); // NOI18N
         btnMainToolbarSync.setBorder(null);
         btnMainToolbarSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarSync.setMargin(null);
+        btnMainToolbarSync.setMaximumSize(null);
+        btnMainToolbarSync.setMinimumSize(null);
+        btnMainToolbarSync.setPreferredSize(null);
         btnMainToolbarSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMainToolbarSync.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1550,9 +1559,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarSettings.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSettings.text")); // NOI18N
         btnMainToolbarSettings.setBorder(null);
         btnMainToolbarSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMainToolbarSettings.setMaximumSize(new java.awt.Dimension(58, 70));
-        btnMainToolbarSettings.setMinimumSize(new java.awt.Dimension(58, 70));
-        btnMainToolbarSettings.setPreferredSize(new java.awt.Dimension(58, 70));
+        btnMainToolbarSettings.setMargin(null);
+        btnMainToolbarSettings.setMaximumSize(null);
+        btnMainToolbarSettings.setMinimumSize(null);
+        btnMainToolbarSettings.setPreferredSize(null);
         btnMainToolbarSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMainToolbarSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1562,8 +1572,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMainToolbarIcons.add(btnMainToolbarSettings, gridBagConstraints);
 
         btnMainToolbarSearchFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search_files.png"))); // NOI18N

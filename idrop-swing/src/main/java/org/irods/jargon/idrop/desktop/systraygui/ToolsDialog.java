@@ -4,11 +4,13 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import java.awt.Cursor;
 import java.io.File;
 import javax.swing.ListSelectionModel;
 import javax.swing.tree.TreePath;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
+import org.irods.jargon.datautils.tree.DiffTreePostProcessor;
 import org.irods.jargon.datautils.tree.FileTreeDiffUtility;
 import org.irods.jargon.datautils.tree.FileTreeDiffUtilityImpl;
 import org.irods.jargon.datautils.tree.FileTreeModel;
@@ -122,10 +124,10 @@ public class ToolsDialog extends javax.swing.JDialog {
                 .getModel();
         ListSelectionModel selectionModel = idropGui.getIrodsTree().getSelectionModel();
         int idx = selectionModel.getLeadSelectionIndex();
-         IRODSFile ifile = null;
+        IRODSFile ifile = null;
         // make sure there is a selected node
         if (idx >= 0) {
-           
+
             try {
                 IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
                         .getValueAt(idx, 0);
@@ -150,10 +152,13 @@ public class ToolsDialog extends javax.swing.JDialog {
         log.info("local path for diff:{}", localAbsPath);
         log.info("irods path for diff:{}", irodsAbsPath);
         this.dispose();
-        
-        FileTreeDiffUtility fileTreeDiffUtility = new FileTreeDiffUtilityImpl(idropGui.getiDropCore().getIrodsAccount(),idropGui.getiDropCore().getIRODSAccessObjectFactory());
+        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        FileTreeDiffUtility fileTreeDiffUtility = new FileTreeDiffUtilityImpl(idropGui.getiDropCore().getIrodsAccount(), idropGui.getiDropCore().getIRODSAccessObjectFactory());
         try {
             FileTreeModel diffModel = fileTreeDiffUtility.generateDiffLocalToIRODS(localFile, irodsAbsPath, 0L, 0L);
+            DiffTreePostProcessor postProcessor = new DiffTreePostProcessor();
+            postProcessor.postProcessFileTreeModel(diffModel);
+
             log.info("diffModel:{}", diffModel);
             DiffViewData diffViewData = new DiffViewData();
             diffViewData.setFileTreeModel(diffModel);
@@ -162,12 +167,15 @@ public class ToolsDialog extends javax.swing.JDialog {
             DiffViewDialog diffViewDialog = new DiffViewDialog(this.idropGui, true, diffViewData);
             diffViewDialog.setVisible(true);
         } catch (JargonException ex) {
-             log.error("Error generating diff", ex);
+            log.error("Error generating diff", ex);
             MessageUtil.showError(this, "An error occurred generating the diff:\n" + ex.getMessage(), MessageUtil.ERROR_MESSAGE);
             this.dispose();
+        } finally {
+            idropGui.setCursor(Cursor
+                    .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
-        
-        
+
+
 
 
     }//GEN-LAST:event_btnToolbarDiffActionPerformed
