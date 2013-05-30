@@ -13,40 +13,40 @@ import org.irods.jargon.idrop.exceptions.IdropException;
  */
 public class IdropPropertiesHelper {
 
-    public static final String LOGIN_PRESET = "login.preset";
-    public static final String LOGIN_PRESET_HOST = "login.preset.host";
-    public static final String LOGIN_PRESET_PORT = "login.preset.port";
-    public static final String LOGIN_PRESET_ZONE = "login.preset.zone";
-    public static final String LOGIN_PRESET_RESOURCE = "login.preset.resource";
-    
-    public static final String ADVANCED_VIEW_PROPERTY = "advanced.view";
-    public static final String TRANSFER_DATABASE_NAME = "transfer.database";
-    public static final String ROLLING_LOG_LEVEL = "rolling.log.level";
+	public static final String LOGIN_PRESET = "login.preset";
+	public static final String LOGIN_PRESET_HOST = "login.preset.host";
+	public static final String LOGIN_PRESET_PORT = "login.preset.port";
+	public static final String LOGIN_PRESET_ZONE = "login.preset.zone";
+	public static final String LOGIN_PRESET_RESOURCE = "login.preset.resource";
 
-    /**
-     * Load the default iDrop properties file
-     * 
-     * @return
-     * @throws IdropException
-     */
-    public Properties loadIdropProperties() throws IdropException {
-        ClassLoader loader = this.getClass().getClassLoader();
-        InputStream in = loader.getResourceAsStream("idrop.properties");
-        Properties properties = new Properties();
+	public static final String ADVANCED_VIEW_PROPERTY = "advanced.view";
+	public static final String TRANSFER_DATABASE_NAME = "transfer.database";
+	public static final String ROLLING_LOG_LEVEL = "rolling.log.level";
 
-        try {
-            properties.load(in);
-        } catch (IOException ioe) {
-            throw new IdropException("error loading idrop properties", ioe);
-        } finally {
-            try {
-                in.close();
-            } catch (Exception e) {
-                // ignore
-            }
-        }
+	/**
+	 * Load the default iDrop properties file
+	 * 
+	 * @return
+	 * @throws IdropException
+	 */
+	public Properties loadIdropProperties() throws IdropException {
+		ClassLoader loader = this.getClass().getClassLoader();
+		InputStream in = loader.getResourceAsStream("idrop.properties");
+		Properties properties = new Properties();
 
-        return properties;
-    }
+		try {
+			properties.load(in);
+		} catch (IOException ioe) {
+			throw new IdropException("error loading idrop properties", ioe);
+		} finally {
+			try {
+				in.close();
+			} catch (Exception e) {
+				// ignore
+			}
+		}
+
+		return properties;
+	}
 
 }

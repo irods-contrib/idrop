@@ -5,18 +5,23 @@ package org.irods.jargon.idrop.exceptions;
  */
 public class IdropRuntimeException extends RuntimeException {
 
-    public IdropRuntimeException(final Throwable cause) {
-        super(cause);
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8562374621379778140L;
 
-    public IdropRuntimeException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
+	public IdropRuntimeException(final Throwable cause) {
+		super(cause);
+	}
 
-    public IdropRuntimeException(final String message) {
-        super(message);
-    }
+	public IdropRuntimeException(final String message, final Throwable cause) {
+		super(message, cause);
+	}
 
-    public IdropRuntimeException() {
-    }
+	public IdropRuntimeException(final String message) {
+		super(message);
+	}
+
+	public IdropRuntimeException() {
+	}
 }

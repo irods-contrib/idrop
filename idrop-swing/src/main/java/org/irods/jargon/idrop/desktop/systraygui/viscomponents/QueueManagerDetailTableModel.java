@@ -15,173 +15,178 @@ import org.irods.jargon.transfer.dao.domain.LocalIRODSTransferItem;
  */
 public class QueueManagerDetailTableModel extends AbstractTableModel {
 
-    private final List<LocalIRODSTransferItem> localIRODSTransferItems;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8862016835795120731L;
+	private final List<LocalIRODSTransferItem> localIRODSTransferItems;
 
-    @Override
-    public Class<?> getColumnClass(final int columnIndex) {
+	@Override
+	public Class<?> getColumnClass(final int columnIndex) {
 
-        if (columnIndex >= getColumnCount()) {
-            throw new IdropRuntimeException("column unavailable, out of bounds");
-        }
+		if (columnIndex >= getColumnCount()) {
+			throw new IdropRuntimeException("column unavailable, out of bounds");
+		}
 
-        // translate indexes to object values
+		// translate indexes to object values
 
-        // 0 = isError
+		// 0 = isError
 
-        if (columnIndex == 0) {
-            return Boolean.class;
-        }
+		if (columnIndex == 0) {
+			return Boolean.class;
+		}
 
-        // 1 = message
+		// 1 = message
 
-        if (columnIndex == 1) {
-            return String.class;
-        }
+		if (columnIndex == 1) {
+			return String.class;
+		}
 
-        // 2 = isFile
+		// 2 = isFile
 
-        if (columnIndex == 2) {
-            return Boolean.class;
-        }
+		if (columnIndex == 2) {
+			return Boolean.class;
+		}
 
-        // 3 = source
+		// 3 = source
 
-        if (columnIndex == 3) {
-            return String.class;
-        }
+		if (columnIndex == 3) {
+			return String.class;
+		}
 
-        // 4 = target
+		// 4 = target
 
-        if (columnIndex == 4) {
-            return String.class;
-        }
+		if (columnIndex == 4) {
+			return String.class;
+		}
 
-        // 5 = date
+		// 5 = date
 
-        if (columnIndex == 5) {
-            return Date.class;
-        }
+		if (columnIndex == 5) {
+			return Date.class;
+		}
 
-        throw new IdropRuntimeException("unknown column");
-    }
+		throw new IdropRuntimeException("unknown column");
+	}
 
-    @Override
-    public String getColumnName(final int columnIndex) {
-        if (columnIndex >= getColumnCount()) {
-            throw new IdropRuntimeException("column unavailable, out of bounds");
-        }
+	@Override
+	public String getColumnName(final int columnIndex) {
+		if (columnIndex >= getColumnCount()) {
+			throw new IdropRuntimeException("column unavailable, out of bounds");
+		}
 
-        // 0 = isError
+		// 0 = isError
 
-        if (columnIndex == 0) {
-            return "Error";
-        }
+		if (columnIndex == 0) {
+			return "Error";
+		}
 
-        // 1 = message
+		// 1 = message
 
-        if (columnIndex == 1) {
-            return "Message";
-        }
+		if (columnIndex == 1) {
+			return "Message";
+		}
 
-        // 2 = isFile
+		// 2 = isFile
 
-        if (columnIndex == 2) {
-            return "File";
-        }
+		if (columnIndex == 2) {
+			return "File";
+		}
 
-        // 3 = source
+		// 3 = source
 
-        if (columnIndex == 3) {
-            return "Source";
-        }
+		if (columnIndex == 3) {
+			return "Source";
+		}
 
-        // 4 = target
+		// 4 = target
 
-        if (columnIndex == 4) {
-            return "Destination";
-        }
+		if (columnIndex == 4) {
+			return "Destination";
+		}
 
-        // 5 = date
+		// 5 = date
 
-        if (columnIndex == 5) {
-            return "Transfer Date";
-        }
+		if (columnIndex == 5) {
+			return "Transfer Date";
+		}
 
-        throw new IdropRuntimeException("unknown column");
-    }
+		throw new IdropRuntimeException("unknown column");
+	}
 
-    public QueueManagerDetailTableModel(
-            final List<LocalIRODSTransferItem> localIRODSTransferItems) {
-        if (localIRODSTransferItems == null) {
-            throw new IdropRuntimeException("null localIRODSTransfer");
-        }
+	public QueueManagerDetailTableModel(
+			final List<LocalIRODSTransferItem> localIRODSTransferItems) {
+		if (localIRODSTransferItems == null) {
+			throw new IdropRuntimeException("null localIRODSTransfer");
+		}
 
-        this.localIRODSTransferItems = localIRODSTransferItems;
+		this.localIRODSTransferItems = localIRODSTransferItems;
 
-    }
+	}
 
-    @Override
-    public int getRowCount() {
-        return localIRODSTransferItems.size();
-    }
+	@Override
+	public int getRowCount() {
+		return localIRODSTransferItems.size();
+	}
 
-    @Override
-    public int getColumnCount() {
-        return 6;
-    }
+	@Override
+	public int getColumnCount() {
+		return 6;
+	}
 
-    @Override
-    public Object getValueAt(final int rowIndex, final int columnIndex) {
+	@Override
+	public Object getValueAt(final int rowIndex, final int columnIndex) {
 
-        if (rowIndex >= getRowCount()) {
-            throw new IdropRuntimeException("row unavailable, out of bounds");
-        }
+		if (rowIndex >= getRowCount()) {
+			throw new IdropRuntimeException("row unavailable, out of bounds");
+		}
 
-        if (columnIndex >= getColumnCount()) {
-            throw new IdropRuntimeException("column unavailable, out of bounds");
-        }
+		if (columnIndex >= getColumnCount()) {
+			throw new IdropRuntimeException("column unavailable, out of bounds");
+		}
 
-        LocalIRODSTransferItem localIRODSTransferItem = localIRODSTransferItems.get(rowIndex);
+		LocalIRODSTransferItem localIRODSTransferItem = localIRODSTransferItems
+				.get(rowIndex);
 
-        // translate indexes to object values
+		// translate indexes to object values
 
-        // 0 = isError
+		// 0 = isError
 
-        if (columnIndex == 0) {
-            return localIRODSTransferItem.isError();
-        }
+		if (columnIndex == 0) {
+			return localIRODSTransferItem.isError();
+		}
 
-        // 1 = message
+		// 1 = message
 
-        if (columnIndex == 1) {
-            return localIRODSTransferItem.getErrorMessage();
-        }
+		if (columnIndex == 1) {
+			return localIRODSTransferItem.getErrorMessage();
+		}
 
-        // 2 = isFile
+		// 2 = isFile
 
-        if (columnIndex == 2) {
-            return localIRODSTransferItem.isFile();
-        }
+		if (columnIndex == 2) {
+			return localIRODSTransferItem.isFile();
+		}
 
-        // 3 = source
+		// 3 = source
 
-        if (columnIndex == 3) {
-            return localIRODSTransferItem.getSourceFileAbsolutePath();
-        }
+		if (columnIndex == 3) {
+			return localIRODSTransferItem.getSourceFileAbsolutePath();
+		}
 
-        // 4 = target
+		// 4 = target
 
-        if (columnIndex == 4) {
-            return localIRODSTransferItem.getTargetFileAbsolutePath();
-        }
+		if (columnIndex == 4) {
+			return localIRODSTransferItem.getTargetFileAbsolutePath();
+		}
 
-        // 5 = date
+		// 5 = date
 
-        if (columnIndex == 5) {
-            return localIRODSTransferItem.getTransferredAt();
-        }
+		if (columnIndex == 5) {
+			return localIRODSTransferItem.getTransferredAt();
+		}
 
-        throw new IdropRuntimeException("unknown column");
+		throw new IdropRuntimeException("unknown column");
 
-    }
+	}
 }

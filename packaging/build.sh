@@ -17,7 +17,7 @@ MAVENFILE=apache-maven-$MAVENVER
 MAVENDOWNLOAD=http://apache.cs.utah.edu/maven/maven-3/$MAVENVER/binaries/$MAVENFILE-bin.zip
 
 # in case we need to download grails
-GRAILSVER=2.1.1
+GRAILSVER=2.2.1
 GRAILSFILE=grails-$GRAILSVER
 GRAILSDOWNLOAD=http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/$GRAILSFILE.zip
 
@@ -49,6 +49,12 @@ UGLYSETTINGSFILESTRING='
     <proxy>
       <active>true</active>
       <protocol>http</protocol>
+      <host>'$PROXYHOST'</host>
+      <port>'$PROXYPORT'</port>
+    </proxy>
+    <proxy>
+      <active>true</active>
+      <protocol>ftp</protocol>
       <host>'$PROXYHOST'</host>
       <port>'$PROXYPORT'</port>
     </proxy>

@@ -1,8 +1,9 @@
 
 *'''Project''': iDrop-swing- Desktop iRODS transfer manager
-*'''Date''': 02/11/2013
-*'''Release Version''': 2.0.1-SNAPSHOT
+*'''Date''': 
+*'''Release Version''': development branch
 *'''git tag''': 
+
 
 ==News==
 
@@ -24,6 +25,14 @@ iDrop-swing uses Maven for dependency management.  See the pom.xml file for refe
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
 ==Features==
+*[#1092] add reconnect option to iDrop
+**Added preferences panel option and idrop.properties to set reconnect to 'true'.  Emulates -T option for put/get
+
+*[#983] iDrop swing '2.0' development
+**Phase I of iDrop swing GUI redesign effort.  This collaboration with iPlant is a GUI refactoring and redesign phase.
+
+*[#1441] add diff view to idrop
+**Added a tools menu and a diff view dialog to compare local and iRODS directories, viewing differences
 
 ==Bug Fixes==
 

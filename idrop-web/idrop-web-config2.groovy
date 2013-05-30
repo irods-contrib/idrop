@@ -69,3 +69,9 @@ idrop.config.use.userprofile=true
 
 // do I support sharing? Requires target server to have specific query support and sharing queries loaded from jargon-user-tagging
 idrop.config.use.sharing=true
+
+// do I want to show the gallery view?
+idrop.config.use.gallery.view=false
+
+// do I want to show the browse view?
+idrop.config.use.browse.view=false

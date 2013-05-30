@@ -18,8 +18,7 @@ environments {
 	 production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
 	 production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
 	 production {  grails.serverURL = "http://www.irods.org" } */2
-	production {
-		grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
+	production { grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test { grails.serverURL = "http://localhost:8080/${appName}" }
 }
@@ -76,6 +75,10 @@ idrop.config.use.userprofile=true
 // do I support sharing? Requires target server to have specific query support and sharing queries loaded from jargon-user-tagging
 idrop.config.use.sharing=true
 
+// do I want to show the gallery view?
+idrop.config.use.gallery.view=false
+// do I want to show the browse view?
+idrop.config.use.browse.view=true
 /*
  * Some properties may be set in an external configuration file, as configured below
  */
