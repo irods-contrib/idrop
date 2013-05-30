@@ -267,30 +267,21 @@ public class DiffViewDialog extends javax.swing.JDialog {
         FileTreeDiffEntry entry = (FileTreeDiffEntry) node.getUserObject();
 
         log.info("entry:{}", entry);
-/*
+
         if (entry.getDiffType() == DiffType.LEFT_HAND_PLUS) {
             log.info("schedule a put");
-            try {
+         
                 idropGui.getiDropCore()
                         .getTransferManager()
                         .enqueueAPut(
                         entry.getCollectionAndDataObjectListingEntry(),
-                        targetIrodsFileAbsolutePath,
-                        idropGui.getIrodsAccount().getd,
+                        "",
+                        idropGui.getIrodsAccount().getDefaultStorageResource(),
                         idropGui.getIrodsAccount());
-            } catch (JargonException ex) {
-                java.util.logging.Logger.getLogger(
-                        LocalFileTree.class.getName()).log(
-                        java.util.logging.Level.SEVERE, null, ex);
-                idropGui.showIdropException(ex);
-            }
-
+            
 
 
         }
-
-*/
-
 
 
     }//GEN-LAST:event_btnResolveActionPerformed
