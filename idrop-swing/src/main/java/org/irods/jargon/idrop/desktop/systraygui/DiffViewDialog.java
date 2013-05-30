@@ -4,6 +4,7 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import javax.swing.ToolTipManager;
 import org.irods.jargon.datautils.tree.FileTreeModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffTreeCustomRenderer;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffViewData;
@@ -146,6 +147,8 @@ public class DiffViewDialog extends javax.swing.JDialog {
         this.lblLocalAbsPath.setText(diffViewData.getLocalAbsolutePath());
         DiffTreeCustomRenderer renderer = new DiffTreeCustomRenderer();
         treeDiff.setCellRenderer(renderer);
+        ToolTipManager.sharedInstance().registerComponent(treeDiff);
+
     }
 
     public DiffViewData getDiffViewData() {

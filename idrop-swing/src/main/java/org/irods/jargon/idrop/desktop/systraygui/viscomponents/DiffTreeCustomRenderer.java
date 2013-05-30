@@ -24,16 +24,17 @@ public class DiffTreeCustomRenderer extends DefaultTreeCellRenderer {
             boolean leaf,
             int row,
             boolean hasFocus) {
-        // Allow the original renderer to set up the label
-        Component c = super.getTreeCellRendererComponent(
-                tree, value, selected,
-                expanded, leaf, row,
-                hasFocus);
-
+        
         FileTreeNode fileTreeNode = (FileTreeNode) value;
         FileTreeDiffEntry diffEntry = (FileTreeDiffEntry) fileTreeNode.getUserObject();
         StringBuilder sb = new StringBuilder();
         sb.append(diffEntry.getCollectionAndDataObjectListingEntry().getNodeLabelDisplayValue());
+        
+          // Allow the original renderer to set up the label
+        Component c = super.getTreeCellRendererComponent(
+                tree, value, selected,
+                expanded, diffEntry.getCollectionAndDataObjectListingEntry().isDataObject(), row,
+                hasFocus);
 
 
         if (diffEntry.isCountAsDiff()) {
@@ -67,5 +68,5 @@ public class DiffTreeCustomRenderer extends DefaultTreeCellRenderer {
         return c;
     }
     private Color diffForeground = Color.RED;
-    private Color diffChildForeground = Color.CYAN;
+    private Color diffChildForeground = Color.BLUE;
 }
