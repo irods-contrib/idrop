@@ -4,12 +4,19 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import java.awt.Color;
 import javax.swing.ToolTipManager;
+import javax.swing.tree.TreeSelectionModel;
+import org.irods.jargon.core.exception.JargonException;
+import org.irods.jargon.datautils.tree.FileTreeDiffEntry;
+import org.irods.jargon.datautils.tree.FileTreeDiffEntry.DiffType;
 import org.irods.jargon.datautils.tree.FileTreeModel;
+import org.irods.jargon.datautils.tree.FileTreeNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffTreeCustomRenderer;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffViewData;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.slf4j.LoggerFactory;
-     
+
 /**
  *
  * @author Mike
@@ -25,6 +32,9 @@ public class DiffViewDialog extends javax.swing.JDialog {
     public DiffViewDialog(final iDrop parent, final boolean modal, final DiffViewData diffViewData) {
         super(parent, modal);
         initComponents();
+        btnResolve.setVisible(false);
+        btnResolveGet.setVisible(false);
+        btnResolvePut.setVisible(false);
         idropGui = parent;
         this.diffViewData = diffViewData;
         this.fileTreeModel = diffViewData.getFileTreeModel();
@@ -51,13 +61,25 @@ public class DiffViewDialog extends javax.swing.JDialog {
         pnlCenter = new javax.swing.JPanel();
         scrollPaneDiff = new javax.swing.JScrollPane();
         treeDiff = new javax.swing.JTree();
+        pnlSelectionInfo = new javax.swing.JPanel();
+        lblSelectedPathLabel = new javax.swing.JLabel();
+        lblSelectedPath = new javax.swing.JLabel();
+        lblDescriptionOfDiffInfo = new javax.swing.JLabel();
+        btnResolve = new javax.swing.JButton();
+        lblSuggestedResolution = new javax.swing.JLabel();
+        btnResolveGet = new javax.swing.JButton();
+        btnResolvePut = new javax.swing.JButton();
         pnlBottom = new javax.swing.JPanel();
+        pnlUploadDownloadButtons = new javax.swing.JPanel();
+        btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.title")); // NOI18N
         setModal(true);
         setName("DiffViewDialog"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
+        pnlTop.setPreferredSize(null);
         pnlTop.setLayout(new java.awt.GridBagLayout());
 
         lblDiffResult.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblDiffResult.text")); // NOI18N
@@ -99,25 +121,109 @@ public class DiffViewDialog extends javax.swing.JDialog {
 
         getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
 
-        pnlCenter.setLayout(new java.awt.GridLayout());
+        pnlCenter.setLayout(new java.awt.BorderLayout());
 
         treeDiff.setModel(this.getFileTreeModel());
+        treeDiff.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                treeDiffValueChanged(evt);
+            }
+        });
         scrollPaneDiff.setViewportView(treeDiff);
 
-        pnlCenter.add(scrollPaneDiff);
+        pnlCenter.add(scrollPaneDiff, java.awt.BorderLayout.CENTER);
+
+        pnlSelectionInfo.setLayout(new java.awt.GridBagLayout());
+
+        lblSelectedPathLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblSelectedPathLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(lblSelectedPathLabel, gridBagConstraints);
+
+        lblSelectedPath.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblSelectedPath.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlSelectionInfo.add(lblSelectedPath, gridBagConstraints);
+
+        lblDescriptionOfDiffInfo.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblDescriptionOfDiffInfo.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(lblDescriptionOfDiffInfo, gridBagConstraints);
+
+        btnResolve.setMnemonic('r');
+        btnResolve.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolve.text")); // NOI18N
+        btnResolve.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolve.toolTipText")); // NOI18N
+        btnResolve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResolveActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(btnResolve, gridBagConstraints);
+
+        lblSuggestedResolution.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblSuggestedResolution.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(lblSuggestedResolution, gridBagConstraints);
+
+        btnResolveGet.setMnemonic('g');
+        btnResolveGet.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveGet.text")); // NOI18N
+        btnResolveGet.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveGet.toolTipText")); // NOI18N
+        btnResolveGet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResolveGetActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(btnResolveGet, gridBagConstraints);
+
+        btnResolvePut.setMnemonic('p');
+        btnResolvePut.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolvePut.text")); // NOI18N
+        btnResolvePut.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolvePut.toolTipText")); // NOI18N
+        btnResolvePut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResolvePutActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(btnResolvePut, gridBagConstraints);
+
+        pnlCenter.add(pnlSelectionInfo, java.awt.BorderLayout.SOUTH);
 
         getContentPane().add(pnlCenter, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout pnlBottomLayout = new javax.swing.GroupLayout(pnlBottom);
-        pnlBottom.setLayout(pnlBottomLayout);
-        pnlBottomLayout.setHorizontalGroup(
-            pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 671, Short.MAX_VALUE)
-        );
-        pnlBottomLayout.setVerticalGroup(
-            pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        pnlBottom.setLayout(new java.awt.GridLayout());
+
+        pnlUploadDownloadButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnOK.setMnemonic('o');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnOK.text")); // NOI18N
+        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnOK.toolTipText")); // NOI18N
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        pnlUploadDownloadButtons.add(btnOK);
+
+        pnlBottom.add(pnlUploadDownloadButtons);
 
         getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
@@ -126,15 +232,87 @@ public class DiffViewDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnOKActionPerformed
+
+    private void treeDiffValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeDiffValueChanged
+
+        log.info("value changed:{}", evt);
+        FileTreeNode node = (FileTreeNode) treeDiff.getLastSelectedPathComponent();
+        log.info("selected node:{}", node);
+
+        if (node == null) //Nothing is selected.     
+        {
+            return;
+        }
+
+        setDiffTypeDescriptionBasedOnNode((FileTreeDiffEntry) node.getUserObject());
+
+    }//GEN-LAST:event_treeDiffValueChanged
+
+    private void btnResolveGetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolveGetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResolveGetActionPerformed
+
+    private void btnResolvePutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolvePutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResolvePutActionPerformed
+
+    private void btnResolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolveActionPerformed
+
+        log.info("btnResolveActionPerformed()");
+        FileTreeNode node = (FileTreeNode) treeDiff.getLastSelectedPathComponent();
+        log.info("selected node:{}", node);
+        FileTreeDiffEntry entry = (FileTreeDiffEntry) node.getUserObject();
+
+        log.info("entry:{}", entry);
+/*
+        if (entry.getDiffType() == DiffType.LEFT_HAND_PLUS) {
+            log.info("schedule a put");
+            try {
+                idropGui.getiDropCore()
+                        .getTransferManager()
+                        .enqueueAPut(
+                        entry.getCollectionAndDataObjectListingEntry(),
+                        targetIrodsFileAbsolutePath,
+                        idropGui.getIrodsAccount().getd,
+                        idropGui.getIrodsAccount());
+            } catch (JargonException ex) {
+                java.util.logging.Logger.getLogger(
+                        LocalFileTree.class.getName()).log(
+                        java.util.logging.Level.SEVERE, null, ex);
+                idropGui.showIdropException(ex);
+            }
+
+
+
+        }
+
+*/
+
+
+
+    }//GEN-LAST:event_btnResolveActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOK;
+    private javax.swing.JButton btnResolve;
+    private javax.swing.JButton btnResolveGet;
+    private javax.swing.JButton btnResolvePut;
+    private javax.swing.JLabel lblDescriptionOfDiffInfo;
     private javax.swing.JLabel lblDiffResult;
     private javax.swing.JLabel lblIrodsPath;
     private javax.swing.JLabel lblIrodsPathLabel;
     private javax.swing.JLabel lblLocalAbsPath;
     private javax.swing.JLabel lblLocalAbsPathLabel;
+    private javax.swing.JLabel lblSelectedPath;
+    private javax.swing.JLabel lblSelectedPathLabel;
+    private javax.swing.JLabel lblSuggestedResolution;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlCenter;
+    private javax.swing.JPanel pnlSelectionInfo;
     private javax.swing.JPanel pnlTop;
+    private javax.swing.JPanel pnlUploadDownloadButtons;
     private javax.swing.JScrollPane scrollPaneDiff;
     private javax.swing.JTree treeDiff;
     // End of variables declaration//GEN-END:variables
@@ -148,6 +326,7 @@ public class DiffViewDialog extends javax.swing.JDialog {
         DiffTreeCustomRenderer renderer = new DiffTreeCustomRenderer();
         treeDiff.setCellRenderer(renderer);
         ToolTipManager.sharedInstance().registerComponent(treeDiff);
+        treeDiff.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
     }
 
@@ -158,8 +337,70 @@ public class DiffViewDialog extends javax.swing.JDialog {
     public void setDiffViewData(DiffViewData diffViewData) {
         this.diffViewData = diffViewData;
     }
-    
+
     public FileTreeModel getFileTreeModel() {
         return this.fileTreeModel;
+    }
+
+    private void setDiffTypeDescriptionBasedOnNode(final FileTreeDiffEntry diffEntry) {
+        if (diffEntry == null) {
+            return;
+        }
+
+        lblSelectedPath.setText(diffEntry.getCollectionAndDataObjectListingEntry().getFormattedAbsolutePath());
+        StringBuilder sb = new StringBuilder();
+
+        if (diffEntry.getDiffType() == DiffType.DIRECTORY_NO_DIFF) {
+            sb.append("No diffs detected at this directory");
+            if (diffEntry.getCountOfDiffsInChildren() > 0) {
+                sb.append("...there are ");
+                sb.append(diffEntry.getCountOfDiffsInChildren());
+                sb.append(" diffs detected in children of this directory");
+                lblDescriptionOfDiffInfo.setForeground(Color.BLUE);
+            } else {
+                lblDescriptionOfDiffInfo.setForeground(Color.BLACK);
+            }
+            btnResolve.setVisible(false);
+            btnResolveGet.setVisible(false);
+            btnResolvePut.setVisible(false);
+            lblSuggestedResolution.setText("");
+            lblDescriptionOfDiffInfo.setText(sb.toString());
+        } else if (diffEntry.getDiffType() == DiffType.FILE_NAME_DIR_NAME_COLLISION) {
+            lblDescriptionOfDiffInfo.setForeground(Color.RED);
+            lblDescriptionOfDiffInfo.setText("A data object name collided with a collection name");
+            lblSuggestedResolution.setText("This diff must be manually managed using the iDrop GUI");
+            btnResolve.setVisible(false);
+            btnResolveGet.setVisible(false);
+            btnResolvePut.setVisible(false);
+        } else if (diffEntry.getDiffType() == DiffType.FILE_OUT_OF_SYNCH) {
+            lblDescriptionOfDiffInfo.setForeground(Color.RED);
+            lblDescriptionOfDiffInfo.setText("A file is out of synch");
+            lblSuggestedResolution.setText("This file may be either uploaded or downloaded, overwriting the existing data");
+            btnResolve.setVisible(false);
+            btnResolveGet.setVisible(true);
+            btnResolvePut.setVisible(true);
+        } else if (diffEntry.getDiffType() == DiffType.LEFT_HAND_PLUS) {
+            lblDescriptionOfDiffInfo.setForeground(Color.RED);
+            lblDescriptionOfDiffInfo.setText("The local file or collection does not exist in iRODS");
+            lblSuggestedResolution.setText("Selecting the file or collection will upload to iRODS");
+            btnResolve.setVisible(true);
+            btnResolveGet.setVisible(false);
+            btnResolvePut.setVisible(false);
+        } else if (diffEntry.getDiffType() == DiffType.RIGHT_HAND_PLUS) {
+            lblDescriptionOfDiffInfo.setForeground(Color.RED);
+            lblDescriptionOfDiffInfo.setText("The iRODS file or collection does not exist in the local directory");
+            lblSuggestedResolution.setText("Selecting the file or collection will download from iRODS");
+            btnResolve.setVisible(true);
+            btnResolveGet.setVisible(false);
+            btnResolvePut.setVisible(false);
+        } else {
+            lblDescriptionOfDiffInfo.setForeground(Color.RED);
+            lblDescriptionOfDiffInfo.setText(diffEntry.getDiffType().toString());
+            lblSuggestedResolution.setText("Diff must be manually resolved");
+            btnResolve.setVisible(false);
+            btnResolveGet.setVisible(false);
+            btnResolvePut.setVisible(false);
+        }
+
     }
 }
