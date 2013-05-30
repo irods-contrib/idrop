@@ -12,9 +12,11 @@ import org.irods.jargon.datautils.tree.FileTreeDiffEntry;
 import org.irods.jargon.datautils.tree.FileTreeDiffEntry.DiffType;
 import org.irods.jargon.datautils.tree.FileTreeModel;
 import org.irods.jargon.datautils.tree.FileTreeNode;
+import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffTreeCustomRenderer;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffViewData;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -270,17 +272,23 @@ public class DiffViewDialog extends javax.swing.JDialog {
 
         if (entry.getDiffType() == DiffType.LEFT_HAND_PLUS) {
             log.info("schedule a put");
-         
+            try {         
                 idropGui.getiDropCore()
                         .getTransferManager()
                         .enqueueAPut(
-                        entry.getCollectionAndDataObjectListingEntry(),
-                        "",
+                        entry.getCollectionAndDataObjectListingEntry().getFormattedAbsolutePath(),
+                        entry.getAbsPathOppositeFile(),
                         idropGui.getIrodsAccount().getDefaultStorageResource(),
                         idropGui.getIrodsAccount());
-            
-
-
+            } catch (JargonException ex) {
+                 log.error("error checking is strict, warn and set to false");
+                        MessageUtil
+                                .showWarning(
+                                this,
+                                ex.getMessage(),
+                                "");
+            }
+           
         }
 
 
