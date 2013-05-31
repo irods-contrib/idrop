@@ -197,6 +197,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
                 (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
         btnResubmitSelected.setEnabled(isRowSelected &&
                 (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
+        btnCancel.setEnabled(isRowSelected);
     }
     
     @Override
@@ -439,7 +440,21 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     }//GEN-LAST:event_btnRestartSelectedActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+         if (selectedTableObject != null) {
+            try {
+                idropCore.getConveyorService().getQueueManagerService().cancelTransfer(selectedTableObject.getId());
+            } catch (ConveyorBusyException ex) {
+                log.error("Error restarting transfer: {}", ex.getMessage());
+                MessageManager.showError(this,
+                    "Transfer Queue Manager is currently busy. Please try again later.",
+                    MessageManager.TITLE_MESSAGE);
+            } catch (ConveyorExecutionException ex) {
+                String msg = "Error cancelling transfer. ";
+                log.error(msg + " {}", ex.getMessage());
+                MessageManager.showError(this, msg, MessageManager.TITLE_MESSAGE);
+            }
+            refreshTableView();
+        }
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnResubmitSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResubmitSelectedActionPerformed
