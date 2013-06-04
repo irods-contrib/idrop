@@ -335,7 +335,7 @@ class HiveController {
 			modelAndView.view = "conceptBrowserTermsOnly"
 		}
 		log.info("concept proxy:${conceptProxy}")
-		log.info("skosCode:${conceptProxy.SKOSCode}")
+		log.info("skosCode:${conceptProxy.skosCode}")
 
 		return modelAndView
 	}
