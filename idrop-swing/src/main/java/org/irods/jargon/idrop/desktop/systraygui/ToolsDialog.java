@@ -8,6 +8,7 @@ import java.awt.Cursor;
 import java.io.File;
 import javax.swing.ListSelectionModel;
 import javax.swing.tree.TreePath;
+import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.datautils.tree.DiffTreePostProcessor;
@@ -102,12 +103,12 @@ public class ToolsDialog extends javax.swing.JDialog {
         LocalFileNode selectedFileNode = (LocalFileNode) idropGui.getFileTree()
                 .getSelectionPath().getLastPathComponent();
         File targetPath = (File) selectedFileNode.getUserObject();
-        String localAbsPath = targetPath.getAbsolutePath();
-        File localFile = new File(localAbsPath);
+        final String localAbsPath = targetPath.getAbsolutePath();
+        final File localFile = new File(localAbsPath);
 
         // look for iRODS absolute path for the right hand side of the diff
 
-        IRODSFileService irodsFS = null;
+        IRODSFileService irodsFS;
         try {
             irodsFS = new IRODSFileService(idropGui.getiDropCore()
                     .getIrodsAccount(), idropGui.getiDropCore()
@@ -117,20 +118,24 @@ public class ToolsDialog extends javax.swing.JDialog {
             log.error("cannot create irods file service", ex);
             MessageUtil.showError(this, "Cannot create iRODS file Service, see exception log", MessageUtil.ERROR_MESSAGE);
             this.dispose();
+            return;
         }
 
-        String irodsAbsPath = "";
+        final String irodsAbsPath;
         IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) idropGui.getIrodsTree()
                 .getModel();
         ListSelectionModel selectionModel = idropGui.getIrodsTree().getSelectionModel();
         int idx = selectionModel.getLeadSelectionIndex();
-        IRODSFile ifile = null;
+        IRODSFile ifile;
         // make sure there is a selected node
         if (idx >= 0) {
 
             try {
                 IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
                         .getValueAt(idx, 0);
+                if (selectedNode == null) {
+                    return;
+                }
                 ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
 
                 // rule out "/" and choose parent if file is not a directory
@@ -140,40 +145,60 @@ public class ToolsDialog extends javax.swing.JDialog {
                 }
                 if ((path != null) && (!path.equals("/"))) {
                     irodsAbsPath = path;
+                } else {
+                    irodsAbsPath = "/";
                 }
+                log.info("irods path for diff:{}", ifile.getAbsolutePath());
             } catch (IdropException ex) {
-                Exceptions.printStackTrace(ex);
+                MessageUtil.showError(this, ex.getMessage(), MessageUtil.ERROR_MESSAGE);
+                this.dispose();
+                return;
             }
         } else {
             MessageUtil.showError(this, "An iRODS path needs to be selected to do a diff", MessageUtil.ERROR_MESSAGE);
             this.dispose();
+            return;
         }
+
+        final ToolsDialog thisDialog = this;
 
         log.info("local path for diff:{}", localAbsPath);
-        log.info("irods path for diff:{}", irodsAbsPath);
-        this.dispose();
-        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        FileTreeDiffUtility fileTreeDiffUtility = new FileTreeDiffUtilityImpl(idropGui.getiDropCore().getIrodsAccount(), idropGui.getiDropCore().getIRODSAccessObjectFactory());
-        try {
-            FileTreeModel diffModel = fileTreeDiffUtility.generateDiffLocalToIRODS(localFile, irodsAbsPath, 0L, 0L);
-            DiffTreePostProcessor postProcessor = new DiffTreePostProcessor();
-            postProcessor.postProcessFileTreeModel(diffModel);
 
-            log.info("diffModel:{}", diffModel);
-            DiffViewData diffViewData = new DiffViewData();
-            diffViewData.setFileTreeModel(diffModel);
-            diffViewData.setIrodsAbsolutePath(irodsAbsPath);
-            diffViewData.setLocalAbsolutePath(localAbsPath);
-            DiffViewDialog diffViewDialog = new DiffViewDialog(this.idropGui, true, diffViewData);
-            diffViewDialog.setVisible(true);
-        } catch (JargonException ex) {
-            log.error("Error generating diff", ex);
-            MessageUtil.showError(this, "An error occurred generating the diff:\n" + ex.getMessage(), MessageUtil.ERROR_MESSAGE);
-            this.dispose();
-        } finally {
-            idropGui.setCursor(Cursor
-                    .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        }
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+
+                thisDialog.dispose();
+                idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                FileTreeDiffUtility fileTreeDiffUtility = new FileTreeDiffUtilityImpl(idropGui.getiDropCore().getIrodsAccount(), idropGui.getiDropCore().getIRODSAccessObjectFactory());
+                try {
+                    FileTreeModel diffModel = fileTreeDiffUtility.generateDiffLocalToIRODS(localFile, irodsAbsPath, 0L, 0L);
+                    DiffTreePostProcessor postProcessor = new DiffTreePostProcessor();
+                    postProcessor.postProcessFileTreeModel(diffModel);
+
+                    log.info("diffModel:{}", diffModel);
+                    DiffViewData diffViewData = new DiffViewData();
+                    diffViewData.setFileTreeModel(diffModel);
+                    diffViewData.setIrodsAbsolutePath(irodsAbsPath);
+                    diffViewData.setLocalAbsolutePath(localAbsPath);
+                    DiffViewDialog diffViewDialog = new DiffViewDialog(thisDialog.idropGui, true, diffViewData);
+                    diffViewDialog.setVisible(true);
+                } catch (JargonException ex) {
+                    log.error("Error generating diff", ex);
+                    MessageUtil.showError(thisDialog, "An error occurred generating the diff:\n" + ex.getMessage(), MessageUtil.ERROR_MESSAGE);
+                    thisDialog.dispose();
+                } finally {
+                    idropGui.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
+        });
+
+
+
+
 
 
 
