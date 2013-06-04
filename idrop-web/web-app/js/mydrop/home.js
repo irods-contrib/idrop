@@ -797,11 +797,6 @@ function showSharingView(absPath, targetDiv) {
 		setInfoDivNoData();
 	}
 
-	/*
-	 * lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
-	 * "/sharing/showAclDetails?absPath=" + encodeURIComponent(absPath),
-	 * targetDiv, targetDiv, null);
-	 */
 }
 
 /**

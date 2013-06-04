@@ -35,7 +35,7 @@ class BrowseController {
 	StarringService starringService
 	ViewStateService viewStateService
 	IRODSAccount irodsAccount
-	
+
 	def grailsApplication
 
 	/**
@@ -55,16 +55,16 @@ class BrowseController {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
 	}
-	
-	
+
+
 	def index = {
 		log.info ("in index action")
 		def mode = params['mode']
 		def absPath = params['absPath']
-		
+
 		ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
 		log.info("viewState:${viewState}")
-		
+
 		if (mode == null && absPath == null) {
 			log.info("coming in with no params for mode or path, check view state and use the mode and path there (if they exist)")
 			absPath = viewState.rootPath
@@ -73,7 +73,7 @@ class BrowseController {
 				mode = "path"
 			}
 		}
-				
+
 		if (mode == "path") {
 			log.info("mode is path, should have an abspath to preset to")
 			if (absPath == null) {
@@ -83,18 +83,17 @@ class BrowseController {
 			} else {
 				log.info("path is ${absPath}")
 				viewState = viewStateService.saveRootPath(absPath)
-				
+
 				/*
 				 * Decide what to do about the selected path, such that a path we set as root might need to wipe out the previous selected path.
 				 * 
 				 * Keep the selected path if the new root is shorter than the selected path and it contains the path
 				 */
-				
+
 				if (viewState.selectedPath.indexOf(viewState.rootPath) == -1) {
 					log.info("getting rid of selected path, not under new root path")
 					viewState = viewStateService.saveSelectedPath("")
 				}
-				
 			}
 		}
 
@@ -198,44 +197,44 @@ class BrowseController {
 
 		// look at the type to decide how to set the root path
 		if (pathType == "detect") {
-			
+
 			/*
 			 * Detect modes means I am being asked to decide what to show, based on things like whether
 			 * strict acl's are enforced.
 			 * 
 			 * If I have a preserved view state, initialize to that
 			 */
-			
+
 			log.info("path type is detect")
-			
+
 			ViewState viewState = viewStateService.getViewStateFromSessionAndCreateIfNotThere()
-			
+
 			if (viewState.rootPath) {
-				
+
 				parent = viewState.rootPath
-				
+
 				icon = "folder"
 				state = "closed"
 				type = "folder"
-	
+
 				def attrBuf = ["id":parent, "rel":type, "absPath":parent]
-	
+
 				jsonBuff.add(
 						["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
 						)
-				
+
 			} else {
-			
-			
+
+
 				log.info("no parent parm set, detect display as either root or home")
-	
+
 				if (irodsAccount.userName ==  "anonymous") {
 					log.info("user is anonymous, default to view the public directory")
-	
+
 					parent = "/" + irodsAccount.zone + "/home/public"
-	
+
 				} else {
-	
+
 					def isStrict;
 					try {
 						isStrict = environmentalInfoAO.isStrictACLs()
@@ -243,7 +242,7 @@ class BrowseController {
 						log.warn("error getting rule info for strict acl's currently overheaded see idrop bug [#1219] error on intiial display centos6")
 						isStrict = false
 					}
-					
+
 					log.info "is strict?:{isStrict}"
 					if (isStrict) {
 						parent = "/" + irodsAccount.zone + "/home/" + irodsAccount.userName
@@ -251,15 +250,15 @@ class BrowseController {
 						parent = "/"
 					}
 				}
-				
+
 				viewStateService.saveRootPath(parent)
-	
+
 				icon = "folder"
 				state = "closed"
 				type = "folder"
-	
+
 				def attrBuf = ["id":parent, "rel":type, "absPath":parent]
-	
+
 				jsonBuff.add(
 						["data": parent,"attr":attrBuf, "state":state,"icon":icon, "type":type]
 						)
@@ -274,7 +273,7 @@ class BrowseController {
 			icon = "folder"
 			state = "closed"
 			type = "folder"
-			
+
 			viewStateService.saveRootPath(parent)
 
 			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
@@ -305,7 +304,7 @@ class BrowseController {
 			type = "folder"
 
 			viewStateService.saveRootPath(parent)
-			
+
 			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
 
 			jsonBuff.add(
@@ -319,13 +318,13 @@ class BrowseController {
 			if (parent == "") {
 				parent = "/"
 			}
-				
+
 			// display a root node
 
 			icon = "folder"
 			state = "closed"
 			type = "folder"
-			
+
 			viewStateService.saveRootPath(parent)
 
 			def attrBuf = ["id":parent, "rel":type, "absPath":parent]
@@ -336,18 +335,18 @@ class BrowseController {
 		} else if (pathType == "list") {
 
 			log.info("parent dir for listing provided as:${parent}")
-			
+
 			def pagingOffset = params['partialStart']
 			def splitMode = params['splitMode']
-			
+
 			if (pagingOffset == null) {
 				pagingOffset = 0;
 			}
-			
+
 			if (splitMode == null) {
 				throw new JargonException("missing the splitMode")
 			}
-			
+
 			def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
 			def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
 			log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
@@ -382,9 +381,9 @@ class BrowseController {
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
-		
+
 		ViewState viewState = viewStateService.saveViewModeAndSelectedPath("browse", absPath)
-		
+
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		try {
 			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
@@ -404,7 +403,7 @@ class BrowseController {
 			PagingActions pagingActions = PagingAnalyser.buildPagingActionsFromListOfIRODSDomainObjects(entries, pageSize)
 			log.debug("retrieved collectionAndDataObjectList: ${entries}")
 			log.debug("pagingActions:${pagingActions}")
-			
+
 			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0"), viewState:viewState, pagingActions:pagingActions])
 		} catch (FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)
@@ -434,7 +433,7 @@ class BrowseController {
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
-		
+
 		viewStateService.saveViewModeAndSelectedPath("info", absPath)
 
 		ViewNameAndModelValues mav = handleInfoLookup(absPath)
@@ -582,7 +581,7 @@ class BrowseController {
 		String fileName = targetFile.name
 		render(view:"newFolderDialog", model:[absPath:absPath])
 	}
-	
+
 	/**
 	 * Prepare the 'new folder' dialog
 	 */
@@ -598,11 +597,11 @@ class BrowseController {
 
 		log.info("abs path:${absPath}")
 
-		
+
 		render(view:"starDialog", model:[absPath:absPath])
 	}
 
-	
+
 	/**
 	 * Show gallery view for given directory
 	 */
@@ -612,7 +611,7 @@ class BrowseController {
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
-		
+
 		viewStateService.saveViewModeAndSelectedPath("gallery", absPath)
 
 		try {
@@ -635,7 +634,7 @@ class BrowseController {
 			render(view:"noInfo")
 		}
 	}
-	
+
 	/**
 	 * Set a folder to starred
 	 */
@@ -646,7 +645,7 @@ class BrowseController {
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
-		
+
 		def description = params['description']
 		if (description == null) {
 			def message = message(code:"error.no.description.provided")
@@ -663,7 +662,7 @@ class BrowseController {
 			response.sendError(500,message)
 		}
 	}
-	
+
 	/**
 	 * Set a folder to not starred
 	 */
@@ -674,7 +673,7 @@ class BrowseController {
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
-		
+
 		try {
 			log.info "unstarring absPath: ${absPath}"
 			starringService.unStar(irodsAccount, absPath)
@@ -716,11 +715,15 @@ class BrowseController {
 
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
-		
+		IRODSStarredFileOrCollection irodsStarredFileOrCollection;
 		log.info("seeing if this is starred")
-		IRODSStarredFileOrCollection irodsStarredFileOrCollection = starringService.findStarred(irodsAccount, absPath)
+		try {
+			irodsStarredFileOrCollection = starringService.findStarred(irodsAccount, absPath)
+		} catch (SpecificQueryException sqe) {
+			irodsStarredFileOrCollection = null
+		}
 		log.info "starring info:${irodsStarredFileOrCollection}"
-		
+
 		if (isDataObject) {
 			long maxSize
 			String maxSizeParm = grailsApplication.config.idrop.config.max.thumbnail.size.mb
@@ -785,7 +788,7 @@ class BrowseController {
 		ResourceAO resourceAO = irodsAccessObjectFactory.getResourceAO(irodsAccount)
 		List<String> resources = new ArrayList<String>()
 		resources.add("")
-		
+
 		try {
 			resources.addAll(resourceAO.listResourceAndResourceGroupNames())
 		} catch (Exception e) {
@@ -809,7 +812,7 @@ class BrowseController {
 		session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 		render "OK"
 	}
-	
+
 	/**
 	 * Create the contents of a 'public link' dialog that will either display a url to copy, or create the appropriate ACL alterations
 	 * to support such a public link
@@ -817,43 +820,43 @@ class BrowseController {
 	def preparePublicLinkDialog = {
 		def absPath = params['absPath']
 		if (absPath == null) {
-				log.error "no file name in request"
+			log.error "no file name in request"
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
-		
+
 		// see if anonymous already has access
 		AnonymousAccessService anonymousAccessService = new AnonymousAccessServiceImpl(irodsAccessObjectFactory, irodsAccount)
-		 
+
 		boolean accessSet = anonymousAccessService.isAnonymousAccessSetUp(absPath)
 		URI irodsUri = IRODSUriUtils.buildURIForAnAccountWithNoUserInformationIncluded(irodsAccount, absPath)
 		String irodsUriPath = irodsUri.toString()
 		String accessUrlString = buildAnonymousAccessUrl(irodsUriPath)
 		render(view:"publicLinkDialog", model:[absPath:absPath, accessSet:accessSet, accessUrlString:accessUrlString])
 
-	}	
-	
+	}
+
 	def updatePublicLinkDialog = {
 		def absPath = params['absPath']
 		if (absPath == null) {
-				log.error "no file name in request"
+			log.error "no file name in request"
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
-		
+
 		// see if anonymous already has access
 		AnonymousAccessService anonymousAccessService = new AnonymousAccessServiceImpl(irodsAccessObjectFactory, irodsAccount)
 		try {
 			log.info("adding anonymous access...")
 			anonymousAccessService.permitAnonymousToFileOrCollectionSettingCollectionAndDataObjectProperties(absPath, FilePermissionEnum.READ, null)
 			log.info("add successful, link generated")
-			} catch (JargonException je) {
+		} catch (JargonException je) {
 			log.error("unable to update anonymous access", je)
 			def message = message(code:"error.unable.to.add.anonymous.access")
 			response.sendError(500,message)
 			return
 		}
-		
+
 		URI irodsUri = IRODSUriUtils.buildURIForAnAccountWithNoUserInformationIncluded(irodsAccount, absPath)
 		String irodsUriPath = irodsUri.toString()
 		String accessUrlString = buildAnonymousAccessUrl(irodsUriPath)
@@ -861,7 +864,7 @@ class BrowseController {
 		boolean accessSet = true
 		render(view:"publicLinkDialog", model:[absPath:absPath, accessSet:accessSet, accessUrlString:accessUrlString])
 	}
-	
+
 	/**
 	 * Build a url that will set up anonymous access to the given file
 	 * @return
@@ -871,10 +874,10 @@ class BrowseController {
 		String grailsServerURL =  grailsApplication.config.grails.serverURL
 		log.info("server URL for context: ${grailsServerURL}")
 		grailsServerURL = grailsServerURL  + "/home/link?irodsURI=" + URLEncoder.encode(irodsUriString, grailsApplication.config.grails.views.gsp.encoding)
-		return grailsServerURL	
+		return grailsServerURL
 	}
-	
-	
+
+
 }
 
 class ViewNameAndModelValues {
