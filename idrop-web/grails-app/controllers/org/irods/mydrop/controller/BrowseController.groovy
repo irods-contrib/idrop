@@ -717,8 +717,13 @@ class BrowseController {
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
 
+		IRODSStarredFileOrCollection irodsStarredFileOrCollection;
 		log.info("seeing if this is starred")
-		IRODSStarredFileOrCollection irodsStarredFileOrCollection = starringService.findStarred(irodsAccount, absPath)
+		try {
+			irodsStarredFileOrCollection = starringService.findStarred(irodsAccount, absPath)
+		} catch (SpecificQueryException sqe) {
+			irodsStarredFileOrCollection = null
+		}
 		log.info "starring info:${irodsStarredFileOrCollection}"
 
 		if (isDataObject) {

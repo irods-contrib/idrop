@@ -12,7 +12,9 @@ package org.irods.jargon.idrop.finder;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.ListSelectionModel;
+
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
@@ -23,284 +25,315 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * @author mikeconway
  */
 public class IRODSFinderDialog extends javax.swing.JDialog {
-    
-    public static enum SelectionType {
-        OBJS_ONLY_SELECTION_MODE,
-        COLLS_ONLY_SELECTION_MODE,
-        OBJS_AND_COLLS_SELECTION_MODE
-    }
-    
-    private SelectionType selectionTypeSetting = SelectionType.COLLS_ONLY_SELECTION_MODE;
 
-    private final IDROPCore idropCore;
-    private String selectedAbsolutePath = null;
-    private List<String> selectedAbsolutePaths = null;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -650660923688757395L;
 
-    public String getSelectedAbsolutePath() {
-        return selectedAbsolutePath;
-    }
-    
-    public List<String> getSelectedAbsolutePaths() {
-        return this.selectedAbsolutePaths;
-    }
+	public static enum SelectionType {
+		OBJS_ONLY_SELECTION_MODE, COLLS_ONLY_SELECTION_MODE, OBJS_AND_COLLS_SELECTION_MODE
+	}
 
-    public IDROPCore getIdropCore() {
-        return idropCore;
-    }
+	private SelectionType selectionTypeSetting = SelectionType.COLLS_ONLY_SELECTION_MODE;
 
-    public IRODSFinderTree getIrodsTree() {
-        return irodsTree;
-    }
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(IRODSFinderDialog.class);
-    private IRODSFinderTree irodsTree = null;
+	private final IDROPCore idropCore;
+	private String selectedAbsolutePath = null;
+	private List<String> selectedAbsolutePaths = null;
 
-    /** Creates new form IRODSFinderDialog */
-    public IRODSFinderDialog(java.awt.Frame parent, boolean modal, IDROPCore idropCore) {
-        super(parent, modal);
+	public String getSelectedAbsolutePath() {
+		return selectedAbsolutePath;
+	}
 
-        if (idropCore == null) {
-            throw new IllegalArgumentException("null idropCore");
-        }
+	public List<String> getSelectedAbsolutePaths() {
+		return selectedAbsolutePaths;
+	}
 
-        this.idropCore = idropCore;
-        initComponents();
-        buildTargetTree();
-    }
-    
-    public void enableButtonSelectFolder(boolean state) {
-        this.btnSelectFolder.setEnabled(state);
-    }
-      
-    public void setSelectionType(SelectionType selType) {
-        this.selectionTypeSetting = selType;
-    }
+	public IDROPCore getIdropCore() {
+		return idropCore;
+	}
 
-    /**
-     * build the JTree that will depict the iRODS resource
-     */
-    public void buildTargetTree() {
-        log.info("building tree to look at staging resource");
-        final IRODSFinderDialog gui = this;
+	public IRODSFinderTree getIrodsTree() {
+		return irodsTree;
+	}
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
+	private static final org.slf4j.Logger log = LoggerFactory
+			.getLogger(IRODSFinderDialog.class);
+	private IRODSFinderTree irodsTree = null;
 
-            @Override
-            public void run() {
+	/** Creates new form IRODSFinderDialog */
+	public IRODSFinderDialog(final java.awt.Frame parent, final boolean modal,
+			final IDROPCore idropCore) {
+		super(parent, modal);
 
+		if (idropCore == null) {
+			throw new IllegalArgumentException("null idropCore");
+		}
 
-                CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
+		this.idropCore = idropCore;
+		initComponents();
+		buildTargetTree();
+	}
 
-                if (idropCore.getIdropConfig().isLoginPreset()) {
-                    log.info("using policy preset home directory");
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("/");
-                    sb.append(idropCore.getIrodsAccount().getZone());
-                    sb.append("/");
-                    sb.append("home");
-                    root.setParentPath(sb.toString());
-                    root.setPathOrName(idropCore.getIrodsAccount().getHomeDirectory());
-                } else {
-                    log.info("using root path, no login preset");
-                    root.setPathOrName("/");
-                }
+	public void enableButtonSelectFolder(final boolean state) {
+		btnSelectFolder.setEnabled(state);
+	}
 
-                root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
+	public void setSelectionType(final SelectionType selType) {
+		selectionTypeSetting = selType;
+	}
 
-                log.info("building new iRODS tree");
-                try {
-                    if (irodsTree == null) {
-                        irodsTree = new IRODSFinderTree(gui);
-                        IRODSNode rootNode = new IRODSNode(root,
-                                idropCore.getIrodsAccount(), idropCore.getIrodsFileSystem(), irodsTree);
-                        irodsTree.setRefreshingTree(true);
-                    }
-                    IRODSNode rootNode = new IRODSNode(root, idropCore.getIrodsAccount(),
-                            idropCore.getIrodsFileSystem(), irodsTree);
+	/**
+	 * build the JTree that will depict the iRODS resource
+	 */
+	public void buildTargetTree() {
+		log.info("building tree to look at staging resource");
+		final IRODSFinderDialog gui = this;
 
-                    IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
-                            rootNode, idropCore.getIrodsAccount());
-                    IRODSFinderOutlineModel mdl = new IRODSFinderOutlineModel(idropCore, irodsTree,
-                            irodsFileSystemModel, new IRODSRowModel(), true,
-                            "File System");
-                    irodsTree.setModel(mdl);
+		java.awt.EventQueue.invokeLater(new Runnable() {
 
+			@Override
+			public void run() {
 
-                } catch (Exception ex) {
-                    log.error("exception building finder tree", ex);
-                    throw new IdropRuntimeException(ex);
-                } finally {
-                    idropCore.getIrodsFileSystem().closeAndEatExceptions(
-                            idropCore.getIrodsAccount());
-                }
+				CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
 
-                scrollIrodsTree.setViewportView(irodsTree);
-                scrollIrodsTree.validate();
-                gui.validate();
+				if (idropCore.getIdropConfig().isLoginPreset()) {
+					log.info("using policy preset home directory");
+					StringBuilder sb = new StringBuilder();
+					sb.append("/");
+					sb.append(idropCore.getIrodsAccount().getZone());
+					sb.append("/");
+					sb.append("home");
+					root.setParentPath(sb.toString());
+					root.setPathOrName(idropCore.getIrodsAccount()
+							.getHomeDirectory());
+				} else {
+					log.info("using root path, no login preset");
+					root.setPathOrName("/");
+				}
 
-                irodsTree.setRefreshingTree(false);
+				root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
 
-            }
-        });
-    }
-    
-    private List<String> findSelectedPaths(ListSelectionModel selectionModel) {
-        List<String> paths = new ArrayList();
-        
-        for(int idx=selectionModel.getMinSelectionIndex(); idx<=selectionModel.getMaxSelectionIndex(); idx++) {
-            
-            if (selectionModel.isSelectedIndex(idx)) {
-                IRODSFinderOutlineModel irodsFileSystemModel = (IRODSFinderOutlineModel) irodsTree.getModel();
-                IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
-                log.info("selected node:{}", selectedNode);
-                CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) selectedNode.getUserObject();
-                paths.add(entry.getFormattedAbsolutePath());
-            }
-        }
-                
-        return paths;
-    }
+				log.info("building new iRODS tree");
+				try {
+					if (irodsTree == null) {
+						irodsTree = new IRODSFinderTree(gui);
+						new IRODSNode(root, idropCore.getIrodsAccount(),
+								idropCore.getIrodsFileSystem(), irodsTree);
+						irodsTree.setRefreshingTree(true);
+					}
+					IRODSNode rootNode = new IRODSNode(root, idropCore
+							.getIrodsAccount(), idropCore.getIrodsFileSystem(),
+							irodsTree);
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+					IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
+							rootNode, idropCore.getIrodsAccount());
+					IRODSFinderOutlineModel mdl = new IRODSFinderOutlineModel(
+							idropCore, irodsTree, irodsFileSystemModel,
+							new IRODSRowModel(), true, "File System");
+					irodsTree.setModel(mdl);
 
-        topPanel = new javax.swing.JPanel();
-        treePanel = new javax.swing.JPanel();
-        pnlIrodsTreeToolbar = new javax.swing.JPanel();
-        btnRefreshTargetTree = new javax.swing.JButton();
-        pnlIrodsTreeMaster = new javax.swing.JPanel();
-        scrollIrodsTree = new javax.swing.JScrollPane();
-        bottomPanel = new javax.swing.JPanel();
-        btnCancel = new javax.swing.JButton();
-        btnSelectFolder = new javax.swing.JButton();
+				} catch (Exception ex) {
+					log.error("exception building finder tree", ex);
+					throw new IdropRuntimeException(ex);
+				} finally {
+					idropCore.getIrodsFileSystem().closeAndEatExceptions(
+							idropCore.getIrodsAccount());
+				}
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setModal(true);
+				scrollIrodsTree.setViewportView(irodsTree);
+				scrollIrodsTree.validate();
+				gui.validate();
 
-        org.jdesktop.layout.GroupLayout topPanelLayout = new org.jdesktop.layout.GroupLayout(topPanel);
-        topPanel.setLayout(topPanelLayout);
-        topPanelLayout.setHorizontalGroup(
-            topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 593, Short.MAX_VALUE)
-        );
-        topPanelLayout.setVerticalGroup(
-            topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 484, Short.MAX_VALUE)
-        );
+				irodsTree.setRefreshingTree(false);
 
-        getContentPane().add(topPanel, java.awt.BorderLayout.CENTER);
+			}
+		});
+	}
 
-        treePanel.setLayout(new java.awt.BorderLayout());
+	private List<String> findSelectedPaths(
+			final ListSelectionModel selectionModel) {
+		List<String> paths = new ArrayList();
 
-        btnRefreshTargetTree.setMnemonic('r');
-        btnRefreshTargetTree.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnRefreshTargetTree.text")); // NOI18N
-        btnRefreshTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnRefreshTargetTree.toolTipText")); // NOI18N
-        btnRefreshTargetTree.setFocusable(false);
-        btnRefreshTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnRefreshTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnRefreshTargetTree.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshTargetTreeActionPerformed(evt);
-            }
-        });
-        pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
+		for (int idx = selectionModel.getMinSelectionIndex(); idx <= selectionModel
+				.getMaxSelectionIndex(); idx++) {
 
-        treePanel.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
+			if (selectionModel.isSelectedIndex(idx)) {
+				IRODSFinderOutlineModel irodsFileSystemModel = (IRODSFinderOutlineModel) irodsTree
+						.getModel();
+				IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
+						.getValueAt(idx, 0);
+				log.info("selected node:{}", selectedNode);
+				CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) selectedNode
+						.getUserObject();
+				paths.add(entry.getFormattedAbsolutePath());
+			}
+		}
 
-        pnlIrodsTreeMaster.setLayout(new java.awt.BorderLayout());
+		return paths;
+	}
 
-        scrollIrodsTree.setMinimumSize(null);
-        scrollIrodsTree.setPreferredSize(null);
-        pnlIrodsTreeMaster.add(scrollIrodsTree, java.awt.BorderLayout.CENTER);
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
 
-        treePanel.add(pnlIrodsTreeMaster, java.awt.BorderLayout.CENTER);
+		topPanel = new javax.swing.JPanel();
+		treePanel = new javax.swing.JPanel();
+		pnlIrodsTreeToolbar = new javax.swing.JPanel();
+		btnRefreshTargetTree = new javax.swing.JButton();
+		pnlIrodsTreeMaster = new javax.swing.JPanel();
+		scrollIrodsTree = new javax.swing.JScrollPane();
+		bottomPanel = new javax.swing.JPanel();
+		btnCancel = new javax.swing.JButton();
+		btnSelectFolder = new javax.swing.JButton();
 
-        getContentPane().add(treePanel, java.awt.BorderLayout.PAGE_START);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setModal(true);
 
-        btnCancel.setMnemonic('c');
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnCancel.text")); // NOI18N
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        bottomPanel.add(btnCancel);
+		org.jdesktop.layout.GroupLayout topPanelLayout = new org.jdesktop.layout.GroupLayout(
+				topPanel);
+		topPanel.setLayout(topPanelLayout);
+		topPanelLayout.setHorizontalGroup(topPanelLayout.createParallelGroup(
+				org.jdesktop.layout.GroupLayout.LEADING).add(0, 593,
+				Short.MAX_VALUE));
+		topPanelLayout.setVerticalGroup(topPanelLayout.createParallelGroup(
+				org.jdesktop.layout.GroupLayout.LEADING).add(0, 484,
+				Short.MAX_VALUE));
 
-        btnSelectFolder.setMnemonic('s');
-        btnSelectFolder.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnSelectFolder.text")); // NOI18N
-        btnSelectFolder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelectFolderActionPerformed(evt);
-            }
-        });
-        bottomPanel.add(btnSelectFolder);
+		getContentPane().add(topPanel, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+		treePanel.setLayout(new java.awt.BorderLayout());
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+		btnRefreshTargetTree.setMnemonic('r');
+		btnRefreshTargetTree.setText(org.openide.util.NbBundle.getMessage(
+				IRODSFinderDialog.class,
+				"IRODSFinderDialog.btnRefreshTargetTree.text")); // NOI18N
+		btnRefreshTargetTree.setToolTipText(org.openide.util.NbBundle
+				.getMessage(IRODSFinderDialog.class,
+						"IRODSFinderDialog.btnRefreshTargetTree.toolTipText")); // NOI18N
+		btnRefreshTargetTree.setFocusable(false);
+		btnRefreshTargetTree
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		btnRefreshTargetTree
+				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		btnRefreshTargetTree
+				.addActionListener(new java.awt.event.ActionListener() {
+					@Override
+					public void actionPerformed(
+							final java.awt.event.ActionEvent evt) {
+						btnRefreshTargetTreeActionPerformed(evt);
+					}
+				});
+		pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
 
-    private void btnRefreshTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshTargetTreeActionPerformed
-        buildTargetTree();
-    }//GEN-LAST:event_btnRefreshTargetTreeActionPerformed
+		treePanel.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        this.selectedAbsolutePath = null;
-        this.setVisible(false);
-    }//GEN-LAST:event_btnCancelActionPerformed
+		pnlIrodsTreeMaster.setLayout(new java.awt.BorderLayout());
 
-    private void btnSelectFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectFolderActionPerformed
+		scrollIrodsTree.setMinimumSize(null);
+		scrollIrodsTree.setPreferredSize(null);
+		pnlIrodsTreeMaster.add(scrollIrodsTree, java.awt.BorderLayout.CENTER);
 
-        IRODSFinderOutlineModel irodsFileSystemModel = (IRODSFinderOutlineModel) irodsTree.getModel();
+		treePanel.add(pnlIrodsTreeMaster, java.awt.BorderLayout.CENTER);
 
+		getContentPane().add(treePanel, java.awt.BorderLayout.PAGE_START);
 
-        ListSelectionModel selectionModel = irodsTree.getSelectionModel();
-        int idx = selectionModel.getLeadSelectionIndex();
+		btnCancel.setMnemonic('c');
+		btnCancel.setText(org.openide.util.NbBundle.getMessage(
+				IRODSFinderDialog.class, "IRODSFinderDialog.btnCancel.text")); // NOI18N
+		btnCancel.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(final java.awt.event.ActionEvent evt) {
+				btnCancelActionPerformed(evt);
+			}
+		});
+		bottomPanel.add(btnCancel);
 
-        if (idx == -1) {
-            MessageManager.showWarning(this, "Please select a directory", MessageManager.TITLE_MESSAGE);
-            return;
+		btnSelectFolder.setMnemonic('s');
+		btnSelectFolder.setText(org.openide.util.NbBundle.getMessage(
+				IRODSFinderDialog.class,
+				"IRODSFinderDialog.btnSelectFolder.text")); // NOI18N
+		btnSelectFolder.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(final java.awt.event.ActionEvent evt) {
+				btnSelectFolderActionPerformed(evt);
+			}
+		});
+		bottomPanel.add(btnSelectFolder);
 
-        }
+		getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
 
-        // use first selection for info
-        IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(
-                idx, 0);
-        log.info("selected node:{}", selectedNode);
-        CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) selectedNode.getUserObject();
-        if ( this.selectionTypeSetting == SelectionType.COLLS_ONLY_SELECTION_MODE) {
-        if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
-            MessageManager.showWarning(this, "Please select a directory", MessageManager.TITLE_MESSAGE);
-            return;
-        }
-        }
-        
-        this.selectedAbsolutePath = entry.getFormattedAbsolutePath();
-        
-        this.selectedAbsolutePaths = findSelectedPaths(selectionModel);
-        this.setVisible(false);
-        
-        enableButtonSelectFolder(true);
+		pack();
+	}// </editor-fold>//GEN-END:initComponents
 
-    }//GEN-LAST:event_btnSelectFolderActionPerformed
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel bottomPanel;
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnRefreshTargetTree;
-    private javax.swing.JButton btnSelectFolder;
-    private javax.swing.JPanel pnlIrodsTreeMaster;
-    private javax.swing.JPanel pnlIrodsTreeToolbar;
-    private javax.swing.JScrollPane scrollIrodsTree;
-    private javax.swing.JPanel topPanel;
-    private javax.swing.JPanel treePanel;
-    // End of variables declaration//GEN-END:variables
+	private void btnRefreshTargetTreeActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshTargetTreeActionPerformed
+		buildTargetTree();
+	}// GEN-LAST:event_btnRefreshTargetTreeActionPerformed
+
+	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
+		selectedAbsolutePath = null;
+		setVisible(false);
+	}// GEN-LAST:event_btnCancelActionPerformed
+
+	private void btnSelectFolderActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSelectFolderActionPerformed
+
+		IRODSFinderOutlineModel irodsFileSystemModel = (IRODSFinderOutlineModel) irodsTree
+				.getModel();
+
+		ListSelectionModel selectionModel = irodsTree.getSelectionModel();
+		int idx = selectionModel.getLeadSelectionIndex();
+
+		if (idx == -1) {
+			MessageManager.showWarning(this, "Please select a directory",
+					MessageManager.TITLE_MESSAGE);
+			return;
+
+		}
+
+		// use first selection for info
+		IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(
+				idx, 0);
+		log.info("selected node:{}", selectedNode);
+		CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) selectedNode
+				.getUserObject();
+		if (selectionTypeSetting == SelectionType.COLLS_ONLY_SELECTION_MODE) {
+			if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT) {
+				MessageManager.showWarning(this, "Please select a directory",
+						MessageManager.TITLE_MESSAGE);
+				return;
+			}
+		}
+
+		selectedAbsolutePath = entry.getFormattedAbsolutePath();
+
+		selectedAbsolutePaths = findSelectedPaths(selectionModel);
+		setVisible(false);
+
+		enableButtonSelectFolder(true);
+
+	}// GEN-LAST:event_btnSelectFolderActionPerformed
+		// Variables declaration - do not modify//GEN-BEGIN:variables
+
+	private javax.swing.JPanel bottomPanel;
+	private javax.swing.JButton btnCancel;
+	private javax.swing.JButton btnRefreshTargetTree;
+	private javax.swing.JButton btnSelectFolder;
+	private javax.swing.JPanel pnlIrodsTreeMaster;
+	private javax.swing.JPanel pnlIrodsTreeToolbar;
+	private javax.swing.JScrollPane scrollIrodsTree;
+	private javax.swing.JPanel topPanel;
+	private javax.swing.JPanel treePanel;
+	// End of variables declaration//GEN-END:variables
 }
