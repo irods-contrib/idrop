@@ -36,9 +36,6 @@ import org.slf4j.LoggerFactory;
  */
 public class IRODSTreeTransferHandler extends TransferHandler {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6898535370470093766L;
 
 	@Override
