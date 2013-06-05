@@ -370,4 +370,5 @@ public class InfoPanelTransferHandler extends TransferHandler {
         log.info("drop from desktop processed");
 
     }
+
 }

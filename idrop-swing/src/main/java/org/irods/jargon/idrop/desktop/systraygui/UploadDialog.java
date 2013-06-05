@@ -5,26 +5,17 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Cursor;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
 import javax.swing.JFileChooser;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.QueueManagerService;
-import org.irods.jargon.conveyor.core.ConveyorService;
-import org.irods.jargon.core.connection.IRODSAccount;
+
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
@@ -32,144 +23,131 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
-import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileNode;
-import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
-import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * @author lisa
  */
-public class UploadDialog extends javax.swing.JDialog implements ListSelectionListener {
-    
-    iDrop idropGUI;
-    IRODSTree irodsTree;
-    LocalFileTree localFileTree;
-    public static org.slf4j.Logger log = LoggerFactory.getLogger(IRODSTree.class);
+public class UploadDialog extends javax.swing.JDialog implements
+		ListSelectionListener {
 
-    /**
-     * Creates new form UploadDialog
-     */
-    public UploadDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-    }
-    
-    public UploadDialog(final iDrop parent, final boolean modal,
-            final IRODSTree irodsTree,
-            final LocalFileTree localFileTree) {
-        super(parent, modal);
-        initComponents();
-        
-        this.idropGUI = parent;
-        this.irodsTree = irodsTree;
-        this.localFileTree = localFileTree;
-        this.btnDeleteUploadFile.setEnabled(false);
-        tblFilesToUpload.getSelectionModel().addListSelectionListener(this);
-        
-        initUploadTarget();
-//        initSourcesFiles();
-        setUploadButtonState();
-    }
-    
-    private void initUploadTarget() {
-        
-        String target = "";
-        
-        //check for selected collection to use for upload target
-        // get iRODS File Service
-        IRODSFileService irodsFS = null;
-        try {
-            irodsFS = new IRODSFileService(idropGUI.getiDropCore().getIrodsAccount(),
-                    idropGUI.getiDropCore().getIrodsFileSystem());
-        } catch (Exception ex) {
-            //JOptionPane.showMessageDialog(this, "Cannot access iRODS file system for get.");
-            log.error("cannot create irods file service");
-            return;
-        }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -635863371072845882L;
+	iDrop idropGUI;
+	IRODSTree irodsTree;
+	LocalFileTree localFileTree;
+	public static org.slf4j.Logger log = LoggerFactory
+			.getLogger(IRODSTree.class);
 
-        IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree.getModel();
-        ListSelectionModel selectionModel = irodsTree.getSelectionModel();
-        int idx = selectionModel.getLeadSelectionIndex();
+	/**
+	 * Creates new form UploadDialog
+	 */
+	public UploadDialog(final java.awt.Frame parent, final boolean modal) {
+		super(parent, modal);
+		initComponents();
+	}
 
-        // make sure there is a selected node
-        if (idx >= 0) {
-            IRODSFile ifile = null;
-            try {
-                IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
-                ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
-                
-                // rule out "/" and choose parent if file is not a directory
-                String path = ifile.getAbsolutePath();
-                if (ifile.isFile()) {
-                    path = ifile.getParent();
-                }
-                if ((path != null) && (!path.equals("/"))) {
-                    target = path;
-                }
-            } catch (IdropException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        } 
-//        else {
-//
-//        // next see if can find some put history in the transfer queue
-//        // manager and use that target location       
-//            // next see if can find some get history in the transfer queue
-//            try {
-//                List<LocalIRODSTransfer> transfers = idropGUI.getiDropCore().getTransferManager().getRecentQueue();
-//                
-//                // assuming most recent first
-//                for (LocalIRODSTransfer transfer: transfers) {
-//                    if (transfer.getTransferType() == TransferType.PUT) {
-//                        target = transfer.getIrodsAbsolutePath();
-//                        break;
-//                    }
-//                }
-//            } catch (JargonException ex) {
-//                Exceptions.printStackTrace(ex);
-//            }
-//        }
-        
-       txtUploadTarget.setText(target);
-    }
-    
-    
-    // seems to be impossible to preselect files in filechooser component
-    // don't do this for now
-//    private void initSourcesFiles() {
-//        
-//        //check for selected files and/or folders to upload     
-//        TreeSelectionModel selectionModel = localFileTree.getSelectionModel();
-//        LocalFileSystemModel fileSystemModel = (LocalFileSystemModel) localFileTree.getModel();
-//
-//        TreePath[] selectionPaths = selectionModel.getSelectionPaths();
-//
-//        // now select these paths in the file chooser
-//        if ( selectionPaths != null) {
-//            LocalFileNode sourceNode;
-//            for (TreePath selectionPath : selectionPaths) {
-//                sourceNode = (LocalFileNode) selectionPath.getLastPathComponent();
-//                File file = (File) sourceNode.getUserObject();
-//                //txtareaUploadSourceList.append(file.getAbsolutePath() + "\n");
-//                localChooser.setSelectedFile(file);
-//            }
-//        }
-//        
-//    }
-    
-    private void setUploadButtonState() {
-        btnUploadNow.setEnabled(((txtUploadTarget.getText().length() > 0) &&
-                                 (tblFilesToUpload.getModel().getRowCount() > 0)));
-    }
-    
-    
+	public UploadDialog(final iDrop parent, final boolean modal,
+			final IRODSTree irodsTree, final LocalFileTree localFileTree) {
+		super(parent, modal);
+		initComponents();
+
+		idropGUI = parent;
+		this.irodsTree = irodsTree;
+		this.localFileTree = localFileTree;
+		btnDeleteUploadFile.setEnabled(false);
+		tblFilesToUpload.getSelectionModel().addListSelectionListener(this);
+
+		initUploadTarget();
+		// initSourcesFiles();
+		setUploadButtonState();
+	}
+
+	private void initUploadTarget() {
+
+		String target = "";
+
+		// check for selected collection to use for upload target
+		// get iRODS File Service
+		IRODSFileService irodsFS = null;
+		try {
+			irodsFS = new IRODSFileService(idropGUI.getiDropCore()
+					.getIrodsAccount(), idropGUI.getiDropCore()
+					.getIrodsFileSystem());
+		} catch (Exception ex) {
+			// JOptionPane.showMessageDialog(this,
+			// "Cannot access iRODS file system for get.");
+			log.error("cannot create irods file service");
+			return;
+		}
+
+		IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
+				.getModel();
+		ListSelectionModel selectionModel = irodsTree.getSelectionModel();
+		int idx = selectionModel.getLeadSelectionIndex();
+
+		// make sure there is a selected node
+		if (idx >= 0) {
+			IRODSFile ifile = null;
+			try {
+				IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
+						.getValueAt(idx, 0);
+				ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
+
+				// rule out "/" and choose parent if file is not a directory
+				String path = ifile.getAbsolutePath();
+				if (ifile.isFile()) {
+					path = ifile.getParent();
+				}
+				if ((path != null) && (!path.equals("/"))) {
+					target = path;
+				}
+			} catch (IdropException ex) {
+				Exceptions.printStackTrace(ex);
+			}
+		}
+		
+		txtUploadTarget.setText(target);
+	}
+
+	// seems to be impossible to preselect files in filechooser component
+	// don't do this for now
+	// private void initSourcesFiles() {
+	//
+	// //check for selected files and/or folders to upload
+	// TreeSelectionModel selectionModel = localFileTree.getSelectionModel();
+	// LocalFileSystemModel fileSystemModel = (LocalFileSystemModel)
+	// localFileTree.getModel();
+	//
+	// TreePath[] selectionPaths = selectionModel.getSelectionPaths();
+	//
+	// // now select these paths in the file chooser
+	// if ( selectionPaths != null) {
+	// LocalFileNode sourceNode;
+	// for (TreePath selectionPath : selectionPaths) {
+	// sourceNode = (LocalFileNode) selectionPath.getLastPathComponent();
+	// File file = (File) sourceNode.getUserObject();
+	// //txtareaUploadSourceList.append(file.getAbsolutePath() + "\n");
+	// localChooser.setSelectedFile(file);
+	// }
+	// }
+	//
+	// }
+
+	private void setUploadButtonState() {
+		btnUploadNow
+				.setEnabled(((txtUploadTarget.getText().length() > 0) && (tblFilesToUpload
+						.getModel().getRowCount() > 0)));
+	}
+
     private void executeUpload() {
         
         idropGUI.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -212,84 +190,81 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
     
     
     private String[] getFilesToUpload() {
-        
-        int numFiles = 0;
-        DefaultTableModel model = (DefaultTableModel) tblFilesToUpload.getModel();
-        numFiles = model.getRowCount();
-        String[] filesToUpload = new String[numFiles];
-        
-        for (int i=0; i<numFiles; i++) {
-            filesToUpload[i] = (String) model.getValueAt(i, 0);
-        }
-        
-        return filesToUpload;
-    }
-    
-    private void setFilesToUpload(File[] files) {
-        
-        DefaultTableModel model = (DefaultTableModel) tblFilesToUpload.getModel();
-        
-        for(int i=0; i<files.length; i++) {
-            String filePath = files[i].getAbsolutePath();
-            model.addRow(new Object[] {filePath});
-        }
-    }
-    
-    
-    @Override
-    public void valueChanged(ListSelectionEvent lse) {
-        if (lse.getValueIsAdjusting() == false) {
-            btnDeleteUploadFile.setEnabled(tblFilesToUpload.getSelectedRow() >= 0);
-        }
-    }
-    
-//    private void btnBrowseUploadSourceActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-//        
-//        JFileChooser localFileChooser = new JFileChooser();
-//        localFileChooser.setMultiSelectionEnabled(true);
-//        localFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-//        localFileChooser.setDialogTitle("Select Files and Collections to Upload");
-//        localFileChooser.setLocation(
-//                (int)this.getLocation().getX(), (int)this.getLocation().getY());
-//        int returnVal = localFileChooser.showOpenDialog(this);
-//
-//        if (returnVal == JFileChooser.APPROVE_OPTION) {
-//            File uploadFiles[] = localFileChooser.getSelectedFiles();
-//            for (File uploadFile: uploadFiles) {
-//                txtareaUploadSourceList.append(uploadFile.getAbsolutePath() + "\n");
-//            }
-//            setUploadButtonState();
-//        }
-//    }  
 
+		int numFiles = 0;
+		DefaultTableModel model = (DefaultTableModel) tblFilesToUpload
+				.getModel();
+		numFiles = model.getRowCount();
+		String[] filesToUpload = new String[numFiles];
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+		for (int i = 0; i < numFiles; i++) {
+			filesToUpload[i] = (String) model.getValueAt(i, 0);
+		}
+
+		return filesToUpload;
+	}
+
+	private void setFilesToUpload(final File[] files) {
+
+		DefaultTableModel model = (DefaultTableModel) tblFilesToUpload
+				.getModel();
+
+		for (File file : files) {
+			String filePath = file.getAbsolutePath();
+			model.addRow(new Object[] { filePath });
+		}
+	}
+
+	@Override
+	public void valueChanged(final ListSelectionEvent lse) {
+		if (lse.getValueIsAdjusting() == false) {
+			btnDeleteUploadFile
+					.setEnabled(tblFilesToUpload.getSelectedRow() >= 0);
+		}
+	}
+
+	// private void
+	// btnBrowseUploadSourceActionPerformed(java.awt.event.ActionEvent evt) {
+	//
+	// JFileChooser localFileChooser = new JFileChooser();
+	// localFileChooser.setMultiSelectionEnabled(true);
+	// localFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+	// localFileChooser.setDialogTitle("Select Files and Collections to Upload");
+	// localFileChooser.setLocation(
+	// (int)this.getLocation().getX(), (int)this.getLocation().getY());
+	// int returnVal = localFileChooser.showOpenDialog(this);
+	//
+	// if (returnVal == JFileChooser.APPROVE_OPTION) {
+	// File uploadFiles[] = localFileChooser.getSelectedFiles();
+	// for (File uploadFile: uploadFiles) {
+	// txtareaUploadSourceList.append(uploadFile.getAbsolutePath() + "\n");
+	// }
+	// setUploadButtonState();
+	// }
+	// }
+
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
+	// <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        pnlMain = new javax.swing.JPanel();
+        pnlTargetLocations = new javax.swing.JPanel();
+        lblUploadTargetLocation = new javax.swing.JLabel();
         txtUploadTarget = new javax.swing.JTextField();
-        jPanel8 = new javax.swing.JPanel();
-        btnBrowseUploadTarget = new javax.swing.JButton();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
         btnUseIrodsHome = new javax.swing.JButton();
         btnUseLastUpload = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
+        pnlFilesToUpload = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrollPanelFilesToUpload = new javax.swing.JScrollPane();
         tblFilesToUpload = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        pnlBottomButtons = new javax.swing.JPanel();
         btnAddUploadFile = new javax.swing.JButton();
         btnDeleteUploadFile = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -301,45 +276,32 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
         setTitle(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.title")); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 400));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
-        jPanel1.setPreferredSize(new java.awt.Dimension(600, 400));
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
+        pnlMain.setPreferredSize(new java.awt.Dimension(600, 400));
+        pnlMain.setLayout(new java.awt.BorderLayout());
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel4.setPreferredSize(new java.awt.Dimension(945, 76));
-        jPanel4.setLayout(new java.awt.BorderLayout());
+        pnlTargetLocations.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlTargetLocations.setPreferredSize(new java.awt.Dimension(945, 76));
+        pnlTargetLocations.setLayout(new java.awt.GridBagLayout());
 
-        jPanel9.setPreferredSize(new java.awt.Dimension(100, 32));
-        jPanel9.setLayout(new java.awt.BorderLayout());
-
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.jLabel1.text")); // NOI18N
-        jPanel7.add(jLabel1);
+        lblUploadTargetLocation.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.lblUploadTargetLocation.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTargetLocations.add(lblUploadTargetLocation, gridBagConstraints);
 
         txtUploadTarget.setEditable(false);
+        txtUploadTarget.setColumns(100);
         txtUploadTarget.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.txtUploadTarget.text")); // NOI18N
-        txtUploadTarget.setPreferredSize(new java.awt.Dimension(200, 28));
-        txtUploadTarget.setRequestFocusEnabled(false);
-        jPanel7.add(txtUploadTarget);
-
-        jPanel9.add(jPanel7, java.awt.BorderLayout.WEST);
-
-        btnBrowseUploadTarget.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnBrowseUploadTarget.text")); // NOI18N
-        btnBrowseUploadTarget.addActionListener(new java.awt.event.ActionListener() {
+        txtUploadTarget.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtUploadTarget.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBrowseUploadTargetActionPerformed(evt);
             }
         });
-        jPanel8.add(btnBrowseUploadTarget);
-
-        jPanel9.add(jPanel8, java.awt.BorderLayout.EAST);
-
-        jPanel4.add(jPanel9, java.awt.BorderLayout.NORTH);
-
-        jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 10, 1));
-        jPanel10.setPreferredSize(new java.awt.Dimension(100, 40));
-        jPanel10.setLayout(new java.awt.BorderLayout());
-
-        jPanel11.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        pnlTargetLocations.add(txtUploadTarget, gridBagConstraints);
 
         btnUseIrodsHome.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUseIrodsHome.text")); // NOI18N
         btnUseIrodsHome.addActionListener(new java.awt.event.ActionListener() {
@@ -347,7 +309,11 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
                 btnUseIrodsHomeActionPerformed(evt);
             }
         });
-        jPanel11.add(btnUseIrodsHome);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlTargetLocations.add(btnUseIrodsHome, gridBagConstraints);
 
         btnUseLastUpload.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUseLastUpload.text")); // NOI18N
         btnUseLastUpload.addActionListener(new java.awt.event.ActionListener() {
@@ -355,22 +321,22 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
                 btnUseLastUploadActionPerformed(evt);
             }
         });
-        jPanel11.add(btnUseLastUpload);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlTargetLocations.add(btnUseLastUpload, gridBagConstraints);
 
-        jPanel10.add(jPanel11, java.awt.BorderLayout.EAST);
+        pnlMain.add(pnlTargetLocations, java.awt.BorderLayout.NORTH);
 
-        jPanel4.add(jPanel10, java.awt.BorderLayout.SOUTH);
-
-        jPanel1.add(jPanel4, java.awt.BorderLayout.NORTH);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 4, 1, 4));
-        jPanel5.setPreferredSize(new java.awt.Dimension(462, 250));
-        jPanel5.setLayout(new java.awt.BorderLayout());
+        pnlFilesToUpload.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 4, 1, 4));
+        pnlFilesToUpload.setPreferredSize(new java.awt.Dimension(462, 250));
+        pnlFilesToUpload.setLayout(new java.awt.BorderLayout());
 
         jLabel2.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.jLabel2.text")); // NOI18N
-        jPanel5.add(jLabel2, java.awt.BorderLayout.PAGE_START);
+        pnlFilesToUpload.add(jLabel2, java.awt.BorderLayout.NORTH);
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(454, 190));
+        scrollPanelFilesToUpload.setPreferredSize(new java.awt.Dimension(454, 190));
 
         tblFilesToUpload.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -395,40 +361,42 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblFilesToUpload);
+        scrollPanelFilesToUpload.setViewportView(tblFilesToUpload);
 
-        jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        pnlFilesToUpload.add(scrollPanelFilesToUpload, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(100, 25));
-        jPanel3.setLayout(new java.awt.BorderLayout());
-
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 1));
+        pnlBottomButtons.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlBottomButtons.setLayout(new java.awt.GridBagLayout());
 
         btnAddUploadFile.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnAddUploadFile.text")); // NOI18N
-        btnAddUploadFile.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnAddUploadFile.setMargin(null);
+        btnAddUploadFile.setMaximumSize(null);
+        btnAddUploadFile.setMinimumSize(null);
+        btnAddUploadFile.setPreferredSize(null);
+        btnAddUploadFile.setRequestFocusEnabled(false);
         btnAddUploadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddUploadFileActionPerformed(evt);
             }
         });
-        jPanel6.add(btnAddUploadFile);
+        pnlBottomButtons.add(btnAddUploadFile, new java.awt.GridBagConstraints());
 
         btnDeleteUploadFile.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnDeleteUploadFile.text")); // NOI18N
-        btnDeleteUploadFile.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnDeleteUploadFile.setMaximumSize(null);
+        btnDeleteUploadFile.setMinimumSize(null);
+        btnDeleteUploadFile.setPreferredSize(null);
         btnDeleteUploadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteUploadFileActionPerformed(evt);
             }
         });
-        jPanel6.add(btnDeleteUploadFile);
+        pnlBottomButtons.add(btnDeleteUploadFile, new java.awt.GridBagConstraints());
 
-        jPanel3.add(jPanel6, java.awt.BorderLayout.WEST);
+        pnlFilesToUpload.add(pnlBottomButtons, java.awt.BorderLayout.SOUTH);
 
-        jPanel5.add(jPanel3, java.awt.BorderLayout.SOUTH);
+        pnlMain.add(pnlFilesToUpload, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(jPanel5, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
@@ -456,132 +424,142 @@ public class UploadDialog extends javax.swing.JDialog implements ListSelectionLi
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBrowseUploadTargetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseUploadTargetActionPerformed
+	private void btnBrowseUploadTargetActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrowseUploadTargetActionPerformed
 
-        IRODSFinderDialog irodsFinder = new IRODSFinderDialog(
-            idropGUI, false, idropGUI.getiDropCore());
-        irodsFinder.setTitle("Select iRODS Collection Upload Target");
-        irodsFinder.setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
-        irodsFinder.setLocation(
-                (int)this.getLocation().getX(), (int)this.getLocation().getY());
-        irodsFinder.setVisible(true);
+		IRODSFinderDialog irodsFinder = new IRODSFinderDialog(idropGUI, false,
+				idropGUI.getiDropCore());
+		irodsFinder.setTitle("Select iRODS Collection Upload Target");
+		irodsFinder
+				.setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
+		irodsFinder.setLocation((int) this.getLocation().getX(), (int) this
+				.getLocation().getY());
+		irodsFinder.setVisible(true);
 
-        String selectedPath = irodsFinder.getSelectedAbsolutePath();
-        if (selectedPath != null) {
-            txtUploadTarget.setText(selectedPath);
-        }
-        setUploadButtonState();
-    }//GEN-LAST:event_btnBrowseUploadTargetActionPerformed
+		String selectedPath = irodsFinder.getSelectedAbsolutePath();
+		if (selectedPath != null) {
+			txtUploadTarget.setText(selectedPath);
+		}
+		setUploadButtonState();
+	}// GEN-LAST:event_btnBrowseUploadTargetActionPerformed
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
+	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
+		dispose();
+	}// GEN-LAST:event_btnCancelActionPerformed
 
-    private void btnUploadNowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadNowActionPerformed
-        executeUpload();
-        this.dispose();
-    }//GEN-LAST:event_btnUploadNowActionPerformed
+	private void btnUploadNowActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUploadNowActionPerformed
+		executeUpload();
+		dispose();
+	}// GEN-LAST:event_btnUploadNowActionPerformed
 
-    private void btnUseIrodsHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUseIrodsHomeActionPerformed
-        String target = "";
-        if (idropGUI.getiDropCore().getIrodsAccount().isAnonymousAccount()) {   
-            target = MiscIRODSUtils.computePublicDirectory(idropGUI.getiDropCore().getIrodsAccount());
-        } else {
-            target = MiscIRODSUtils.computeHomeDirectoryForIRODSAccount(idropGUI.getiDropCore().getIrodsAccount());
-        }
-        if (target != null) {
-            txtUploadTarget.setText(target);
-        }
-        setUploadButtonState();
-    }//GEN-LAST:event_btnUseIrodsHomeActionPerformed
+	private void btnUseIrodsHomeActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUseIrodsHomeActionPerformed
+		String target = "";
+		if (idropGUI.getiDropCore().getIrodsAccount().isAnonymousAccount()) {
+			target = MiscIRODSUtils.computePublicDirectory(idropGUI
+					.getiDropCore().getIrodsAccount());
+		} else {
+			target = MiscIRODSUtils
+					.computeHomeDirectoryForIRODSAccount(idropGUI
+							.getiDropCore().getIrodsAccount());
+		}
+		if (target != null) {
+			txtUploadTarget.setText(target);
+		}
+		setUploadButtonState();
+	}// GEN-LAST:event_btnUseIrodsHomeActionPerformed
 
-    private void btnUseLastUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUseLastUploadActionPerformed
-        String target = "";
-        // see if can find some get history in the transfer queue
-        // FIXME: conveyor
-        /*
-        try {
-            List<LocalIRODSTransfer> transfers = idropGUI.getiDropCore().getTransferManager().getRecentQueue();
-                
-            // assuming most recent first
-            for (LocalIRODSTransfer transfer: transfers) {
-                // must check to match type, user, host, zone, & port
-                if ((transfer.getTransferType() == TransferType.PUT) && 
-                    (transfer.getTransferUserName().equals(idropGUI.getiDropCore().getIrodsAccount().getUserName())) &&
-                    (transfer.getTransferZone().equals(idropGUI.getiDropCore().getIrodsAccount().getZone())) &&
-                    (transfer.getTransferPort() == idropGUI.getiDropCore().getIrodsAccount().getPort()) &&
-                    (transfer.getTransferHost().equals(idropGUI.getiDropCore().getIrodsAccount().getHost()))) {
-                    target = transfer.getIrodsAbsolutePath();
-                    break;
-                }
-            }
-        } catch (JargonException ex) {
-                Exceptions.printStackTrace(ex);
-        }
-        if (target != null) {
-            txtUploadTarget.setText(target);
-        }
-        */
-        setUploadButtonState();
-    }//GEN-LAST:event_btnUseLastUploadActionPerformed
+	private void btnUseLastUploadActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUseLastUploadActionPerformed
+		String target = "";
+		// see if can find some get history in the transfer queue
+                /* FIXME: conveyor
+		try {
+			List<LocalIRODSTransfer> transfers = idropGUI.getiDropCore()
+					.getTransferManager().getRecentQueue();
 
-    private void btnAddUploadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUploadFileActionPerformed
-        JFileChooser localFileChooser = new JFileChooser();
-        localFileChooser.setMultiSelectionEnabled(true);
-        localFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        localFileChooser.setDialogTitle("Select Files to Upload");
-        localFileChooser.setLocation(
-                (int)this.getLocation().getX(), (int)this.getLocation().getY());
-        int returnVal = localFileChooser.showOpenDialog(this);
-        
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File[] filesToUpload = localFileChooser.getSelectedFiles();
-            setFilesToUpload(filesToUpload);
-            setUploadButtonState();
-        }
-    }//GEN-LAST:event_btnAddUploadFileActionPerformed
+			// assuming most recent first
+			for (LocalIRODSTransfer transfer : transfers) {
+				// must check to match type, user, host, zone, & port
+				if ((transfer.getTransferType() == TransferType.PUT)
+						&& (transfer.getTransferUserName()
+								.equals(idropGUI.getiDropCore()
+										.getIrodsAccount().getUserName()))
+						&& (transfer.getTransferZone().equals(idropGUI
+								.getiDropCore().getIrodsAccount().getZone()))
+						&& (transfer.getTransferPort() == idropGUI
+								.getiDropCore().getIrodsAccount().getPort())
+						&& (transfer.getTransferHost().equals(idropGUI
+								.getiDropCore().getIrodsAccount().getHost()))) {
+					target = transfer.getIrodsAbsolutePath();
+					break;
+				}
+			}
+		} catch (JargonException ex) {
+			Exceptions.printStackTrace(ex);
+		}*/
+		if (target != null) {
+			txtUploadTarget.setText(target);
+		}
+		setUploadButtonState();
+	}// GEN-LAST:event_btnUseLastUploadActionPerformed
 
-    private void btnDeleteUploadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUploadFileActionPerformed
-        
-        int[] selectedRows = tblFilesToUpload.getSelectedRows();
-        int numRowsSelected = selectedRows.length;
-        
-        // have to remove rows in reverse
-        for(int i=numRowsSelected-1; i>=0; i--) {
-        //for (int selectedRow: selectedRows) {
-            int selectedRow = selectedRows[i];
-            if (selectedRow >= 0) {
-                DefaultTableModel model = (DefaultTableModel) tblFilesToUpload.getModel();
-                model.removeRow(selectedRow);
-            }
-        }
-    }//GEN-LAST:event_btnDeleteUploadFileActionPerformed
+	private void btnAddUploadFileActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAddUploadFileActionPerformed
+		JFileChooser localFileChooser = new JFileChooser();
+		localFileChooser.setMultiSelectionEnabled(true);
+		localFileChooser
+				.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		localFileChooser.setDialogTitle("Select Files to Upload");
+		localFileChooser.setLocation((int) this.getLocation().getX(),
+				(int) this.getLocation().getY());
+		int returnVal = localFileChooser.showOpenDialog(this);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File[] filesToUpload = localFileChooser.getSelectedFiles();
+			setFilesToUpload(filesToUpload);
+			setUploadButtonState();
+		}
+	}// GEN-LAST:event_btnAddUploadFileActionPerformed
+
+	private void btnDeleteUploadFileActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeleteUploadFileActionPerformed
+
+		int[] selectedRows = tblFilesToUpload.getSelectedRows();
+		int numRowsSelected = selectedRows.length;
+
+		// have to remove rows in reverse
+		for (int i = numRowsSelected - 1; i >= 0; i--) {
+			// for (int selectedRow: selectedRows) {
+			int selectedRow = selectedRows[i];
+			if (selectedRow >= 0) {
+				DefaultTableModel model = (DefaultTableModel) tblFilesToUpload
+						.getModel();
+				model.removeRow(selectedRow);
+			}
+		}
+	}// GEN-LAST:event_btnDeleteUploadFileActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUploadFile;
-    private javax.swing.JButton btnBrowseUploadTarget;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDeleteUploadFile;
     private javax.swing.JButton btnUploadNow;
     private javax.swing.JButton btnUseIrodsHome;
     private javax.swing.JButton btnUseLastUpload;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblUploadTargetLocation;
+    private javax.swing.JPanel pnlBottomButtons;
+    private javax.swing.JPanel pnlFilesToUpload;
+    private javax.swing.JPanel pnlMain;
+    private javax.swing.JPanel pnlTargetLocations;
+    private javax.swing.JScrollPane scrollPanelFilesToUpload;
     private javax.swing.JTable tblFilesToUpload;
     private javax.swing.JTextField txtUploadTarget;
     // End of variables declaration//GEN-END:variables
 
 }
+

@@ -5,9 +5,9 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 /**
- *
+ * 
  * @author mikeconway
  */
 public interface IDROPGui {
-    IDROPCore getiDropCore();
+	IDROPCore getiDropCore();
 }

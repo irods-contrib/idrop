@@ -5,7 +5,6 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.irods.jargon.conveyor.core.ConveyorService;
-
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
@@ -17,6 +16,7 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
+
 
 public class IDROPCore {
 
@@ -244,4 +244,5 @@ public class IDROPCore {
         }
 
     }
+
 }

@@ -1,6 +1,7 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
 import java.util.Properties;
+
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.exception.JargonException;

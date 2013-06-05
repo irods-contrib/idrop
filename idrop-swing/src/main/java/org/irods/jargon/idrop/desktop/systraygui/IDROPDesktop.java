@@ -5,11 +5,18 @@ import java.awt.Toolkit;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSFileSystem;
-import org.irods.jargon.idrop.desktop.systraygui.services.*;
+import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServiceImpl;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropPreDatabaseBootstrapperService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropPreDatabaseBootstrapperServiceImpl;
+import org.irods.jargon.idrop.desktop.systraygui.services.QueueSchedulerTimerTask;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
@@ -19,9 +26,9 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bootstrapping class for iDrop, load config, create necessary services, and start the appropriate
- * GUI components
- *
+ * Bootstrapping class for iDrop, load config, create necessary services, and
+ * start the appropriate GUI components
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IDROPDesktop {
@@ -359,4 +366,5 @@ public class IDROPDesktop {
             System.exit(1);
         }
     }
+
 }

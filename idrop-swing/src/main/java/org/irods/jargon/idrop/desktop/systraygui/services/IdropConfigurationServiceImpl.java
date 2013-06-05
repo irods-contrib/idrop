@@ -1,6 +1,8 @@
 package org.irods.jargon.idrop.desktop.systraygui.services;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Set;
@@ -12,6 +14,7 @@ import org.irods.jargon.conveyor.core.ConfigurationService;
 import org.irods.jargon.conveyor.core.ConveyorBootstrapper;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.ConveyorService;
+
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.connection.SettableJargonProperties;
@@ -29,9 +32,9 @@ import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.slf4j.LoggerFactory;
 
 /**
- * Manage configuration information. This service will initialize and manage configuration
- * information from iDrop
- *
+ * Manage configuration information. This service will initialize and manage
+ * configuration information from iDrop
+ * 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IdropConfigurationServiceImpl implements IdropConfigurationService {
@@ -452,4 +455,5 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     }
 
    
+
 }

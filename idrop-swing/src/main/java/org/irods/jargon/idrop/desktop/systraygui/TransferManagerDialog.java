@@ -375,7 +375,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     }// </editor-fold>//GEN-END:initComponents
 
     private void bntCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntCloseActionPerformed
-        idropGui.closeTransferManagerDialog();
+        idropGui.closeTransferManagerDialog(); 
         this.dispose();
     }//GEN-LAST:event_bntCloseActionPerformed
 

@@ -8,15 +8,13 @@ package org.irods.jargon.idrop.desktop.systraygui;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import org.irods.jargon.conveyor.core.ConveyorExecutionException;
-import org.irods.jargon.conveyor.core.GridAccountService;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.transfer.exception.CannotUpdateTransferInProgressException;
-import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -380,4 +378,5 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
     private javax.swing.JPanel pnlPasswordButtons;
     private javax.swing.JPanel pnlPasswords;
     // End of variables declaration//GEN-END:variables
+
 }

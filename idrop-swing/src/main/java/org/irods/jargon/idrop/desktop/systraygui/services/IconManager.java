@@ -15,9 +15,10 @@ public class IconManager {
     private RunningStatus runningStatus = null;
     private final iDrop idropGui;
 
-    public IconManager(final iDrop idropClient) {
-        this.idropGui = idropClient;
-    }
+
+	public IconManager(final iDrop idropClient) {
+		idropGui = idropClient;
+	}
 
     public synchronized void setErrorStatus(
             final ErrorStatus errorStatus) {
@@ -48,4 +49,5 @@ public class IconManager {
         }
         idropGui.updateIcon(iconFile);
     }
+
 }

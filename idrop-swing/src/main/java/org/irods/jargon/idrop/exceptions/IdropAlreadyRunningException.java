@@ -7,20 +7,24 @@ package org.irods.jargon.idrop.exceptions;
  */
 public class IdropAlreadyRunningException extends IdropException {
 
-    public IdropAlreadyRunningException() {
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2435686638718255181L;
 
-    
-    public IdropAlreadyRunningException(final String message) {
-        super(message);
-    }
+	public IdropAlreadyRunningException() {
+	}
 
-    public IdropAlreadyRunningException(final String message,
-            final Throwable cause) {
-        super(message, cause);
-    }
+	public IdropAlreadyRunningException(final String message) {
+		super(message);
+	}
 
-    public IdropAlreadyRunningException(final Throwable cause) {
-        super(cause);
-    }
+	public IdropAlreadyRunningException(final String message,
+			final Throwable cause) {
+		super(message, cause);
+	}
+
+	public IdropAlreadyRunningException(final Throwable cause) {
+		super(cause);
+	}
 }

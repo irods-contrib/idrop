@@ -37,4 +37,5 @@ public class RefreshQueueManagerTimerTask extends TimerTask {
     public void run() {
 //        queueManagerDialog.refreshTableView(queueManagerDialog.getViewType());
     }
+
 }

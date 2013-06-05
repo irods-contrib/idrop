@@ -1,4 +1,3 @@
-
 /*
  * IDROPConfigurationPanel.java
  *
@@ -14,8 +13,18 @@ import java.awt.event.ItemEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import org.irods.jargon.core.connection.DefaultPropertiesJargonConfig;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.JargonProperties;
@@ -29,11 +38,12 @@ import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import org.irods.jargon.transfer.dao.domain.FrequencyType;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
 import org.irods.jargon.transfer.dao.domain.SynchronizationType;
+
 import org.slf4j.LoggerFactory;
 
 /**
  * Tools/Preferences dialog to set preferences
- *
+ * 
  * @author mikeconway
  */
 public class IDROPConfigurationPanel extends javax.swing.JDialog {
@@ -1547,7 +1557,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {
         log.info("logging out to log in to a new grid");
-
+        // FIXME: redo do show grid account dialog
+        /*
         final IDROPConfigurationPanel thisPanel = this;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1569,8 +1580,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 }
 //                refreshAccountData();
             }
-        });
-
+        });*/
     }
 
     private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1846,37 +1856,38 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlSynchIcon.validate();
 
     }
+
 }
 
 class SynchListSelectionHandler implements ListSelectionListener {
 
-    private final IDROPConfigurationPanel idropConfigurationPanel;
+	private final IDROPConfigurationPanel idropConfigurationPanel;
 
-    SynchListSelectionHandler(IDROPConfigurationPanel configurationPanel) {
-        this.idropConfigurationPanel = configurationPanel;
-    }
+	SynchListSelectionHandler(final IDROPConfigurationPanel configurationPanel) {
+		idropConfigurationPanel = configurationPanel;
+	}
 
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
+	@Override
+	public void valueChanged(final ListSelectionEvent e) {
 
-        if (e.getValueIsAdjusting() == true) {
-            return;
-        }
+		if (e.getValueIsAdjusting() == true) {
+			return;
+		}
 
-        ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+		ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 
-        if (lsm.isSelectionEmpty()) {
-            return;
-        } else {
-            // Find out which indexes are selected.
-            int minIndex = lsm.getMinSelectionIndex();
-            int maxIndex = lsm.getMaxSelectionIndex();
-            for (int i = minIndex; i <= maxIndex; i++) {
-                if (lsm.isSelectedIndex(i)) {
-                    idropConfigurationPanel.updateDetailsForSelectedSynch(i);
-                }
-            }
-        }
+		if (lsm.isSelectionEmpty()) {
+			return;
+		} else {
+			// Find out which indexes are selected.
+			int minIndex = lsm.getMinSelectionIndex();
+			int maxIndex = lsm.getMaxSelectionIndex();
+			for (int i = minIndex; i <= maxIndex; i++) {
+				if (lsm.isSelectedIndex(i)) {
+					idropConfigurationPanel.updateDetailsForSelectedSynch(i);
+				}
+			}
+		}
 
-    }
+	}
 }

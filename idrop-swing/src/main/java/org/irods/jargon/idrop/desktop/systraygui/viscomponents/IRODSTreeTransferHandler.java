@@ -25,8 +25,6 @@ import org.irods.jargon.core.pub.io.IRODSFileFactory;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.MoveOrCopyiRODSDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
-import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
-import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
@@ -519,4 +517,5 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                 (int) (idropGui.getLocation().getY() + idropGui.getHeight() / 2));
         moveIRODSFileOrDirectoryDialog.setVisible(true);
     }
+
 }
