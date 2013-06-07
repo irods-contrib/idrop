@@ -26,17 +26,17 @@
 							<button type="button" id="refreshTreeButton"
 								 value="refreshTreeButton"
 								onclick="refreshTree()")>
-								<img class="icon-refresh"/>
+								<i class="icon-refresh"></i>
 							</button>
 							<button type="button" id="homeTreeButton"
 								
 								onclick="setTreeToUserHome()")>
-								<img class="icon-home"/>
+								<i class="icon-home"></i>
 							</button>
 								<button type="button" id="rootTreeButton"
 								 value="rootTreeButton"
 								onclick="setTreeToRoot()")>
-								<img class="icon-arrow-up"/>
+								<i class="icon-arrow-up"></i>
 							</button>
 						</div> <!--  dataTreeMenu -->
 						
