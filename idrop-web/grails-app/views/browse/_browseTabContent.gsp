@@ -13,8 +13,6 @@
 	
 	<div id="browseDialogArea"><!--  general area to spawn jquery dialogs --></div>
 	
-	
-		
 	<div id="browser" class="wrapper" style="height:85%;width:100%;clear:both;overflow:hidden;">
 		<div id="dataTreeView" style="width: 100%; height: 700px; overflow: hidden;">
 						
@@ -48,7 +46,7 @@
 			<div id="infoDivOuter" style="display: block; width: 75%; height: 100%; position: relative; overflow: auto;"
 							class="ui-layout-center">
 		
-				<div id="infoDiv" style=""><h2><g:message code="browse.page.prompt" /></h2>
+				<div id="infoDiv" class=""><h2><g:message code="browse.page.prompt" /></h2>
 				</div> <!--  infoDiv -->
 			
 			</div> <!--  infoDivOuter -->
