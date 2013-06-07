@@ -149,7 +149,7 @@ function browserFirstViewRetrieved(data) {
 											|| n.statusText == "OK") {
 										// ok
 									} else {
-										setMessage("Unable to browse to location, try refreshing the tree.  You may not have permission to view this directory");
+										setMessage(n.responseText);
 										return false;
 										// refreshTree();
 									}
