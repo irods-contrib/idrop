@@ -4,22 +4,22 @@
 		
 		<div id="dataObjectInfoButtonGroup1" class="btn-group">
 			<g:if  test="${irodsStarredFileOrCollection}">
-				<button id="unstarDataObject" onclick="dibUnstarFile()"><img class="icon-star"/><g:message
+				<button id="unstarDataObject" onclick="dibUnstarFile()"><i class="icon-star"></i><g:message
 					code="text.unstar" /></button>
 			</g:if>
 			<g:else>
-				<button id="starDataobject" onclick="dibStarFile()"><img class="icon-star-empty"/><g:message
+				<button id="starDataobject" onclick="dibStarFile()"><i class="icon-star-empty"></i><g:message
 					code="text.star.file" /></button>
 			</g:else>
-			<button id="downloadFile" onclick="dibDownloadFile()"><img class="icon-download"/><g:message
+			<button id="downloadFile" onclick="dibDownloadFile()"><i class="icon-download"></i><g:message
 					code="text.download" /></button>
-			<button id="addToCart" onclick="addToCartViaToolbar()"><img class="icon-shopping-cart"/><g:message
+			<button id="addToCart" onclick="addToCartViaToolbar()"><i class="icon-shopping-cart"></i><g:message
 					code="text.add.to.cart" /></button>			
 		</div>
 		<div id="dataObjectInfoButtonGroup2" class="btn-group">
-			<button id="renameDataObject" onclick="dibRenameFile()"><img class="icon-pencil"/><g:message
+			<button id="renameDataObject" onclick="dibRenameFile()"><i class="icon-pencil"></i><g:message
 					code="text.rename" /></button>
-			<button id="deleteDataObject" onclick="dibDeleteFile()"><img class="icon-trash"/><g:message
+			<button id="deleteDataObject" onclick="dibDeleteFile()"><i class="icon-trash"></i><g:message
 					code="text.delete" /></button>
 		</div>
 </div>
