@@ -45,7 +45,19 @@
 
 		<div class="tab-content">
 			<div class="tab-pane active" id="info">
-				<div class="container-fluid">
+				<div class="container">
+					<div class="row">
+						<div class="span12">
+							<h4>
+								<g:message code="text.info" />
+							</h4>
+						</div>
+					</div>
+					<div class="row alert alert-info">
+						<div class="span12">
+							<g:message code="heading.info" />
+						</div>
+					</div>
 
 					<div class="row" id="infoThumbnailLoadArea">
 						<div class="span12">
@@ -62,7 +74,8 @@
 
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.length" />:</label>
+							<strong><g:message code="text.length" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.displayDataSize}
@@ -71,7 +84,8 @@
 
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.created" />:</label>
+							<strong><g:message code="text.created" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.createdAt}
@@ -79,7 +93,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.modified" />:</label>
+							<strong><g:message code="text.modified" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.updatedAt}
@@ -87,7 +102,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.owner" />:</label>
+							<strong><g:message code="text.owner" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.dataOwnerName}
@@ -95,7 +111,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.owner.zone" />:</label>
+							<strong><g:message code="text.owner.zone" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.dataOwnerZone}
@@ -103,7 +120,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.data.path" />:</label>
+							<strong><g:message code="text.data.path" />
+							:</strong>
 						</div>
 						<div class="span10 longText" style="overflow: auto;">
 							${dataObject.dataPath}
@@ -111,7 +129,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.resource.group" />:</label>
+							<strong><g:message code="text.resource.group" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.resourceGroupName}
@@ -119,7 +138,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.checksum" />:</label>
+							<strong><g:message code="text.checksum" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.checksum}
@@ -127,7 +147,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.resource" />:</label>
+							<strong><g:message code="text.resource" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.resourceName}
@@ -135,7 +156,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.replica.number" />:</label>
+							<strong><g:message code="text.replica.number" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.dataReplicationNumber}
@@ -143,7 +165,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.replication.status" />:</label>
+							<strong><g:message code="text.replication.status" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.replicationStatus}
@@ -151,7 +174,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.status" />:</label>
+							<strong><g:message code="text.status" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.dataStatus}
@@ -159,7 +183,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.type" />:</label>
+							<strong><g:message code="text.type" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.dataTypeName}
@@ -167,7 +192,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.version" />:</label>
+							<strong><g:message code="text.version" />
+							:</strong>
 						</div>
 						<div class="span10">
 							${dataObject.dataVersion}
@@ -176,7 +202,8 @@
 
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.tags" />:</label>
+							<strong><g:message code="text.tags" />
+							:</strong>
 						</div>
 						<div class="span10">
 							<g:textField id="infoTags" name="tags"
@@ -185,7 +212,8 @@
 					</div>
 					<div class="row">
 						<div class="span2">
-							<label><g:message code="text.comment" />:</label>
+							<strong><g:message code="text.comment" />
+							:</strong>
 						</div>
 						<div class="span10">
 							<g:textArea id="infoComment" name="comment" rows="5" cols="80"
@@ -196,7 +224,7 @@
 						<div class="span2"></div>
 						<div class="span10">
 							<button type="button" id="updateTags" value="updateTags"
-								onclick="updateTags()">Update Tags</button>
+								onclick="updateTags()"><g:message code="text.update.tags" /></button>
 						</div>
 					</div>
 
