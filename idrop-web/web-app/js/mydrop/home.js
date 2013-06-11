@@ -1652,7 +1652,41 @@ function downloadViaToolbarGivenPath(path) {
 		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 		return false;
 	}
+	
+	showBlockingPanel();
 
+	var params = {
+		absPath : path
+	}
+
+	var jqxhr = $
+			.post(context + "/file/screenForDownloadRights", params, null, "html")
+			.success(
+					function(returnedData, status, xhr) {
+						var continueReq = checkForSessionTimeout(
+								returnedData, xhr);
+
+						if (!continueReq) {
+							return false;
+						}
+
+						unblockPanel();
+						doActualDownload(path);
+						
+
+					}).error(function(xhr, status, error) {
+						setErrorMessage(xhr.responseText);
+						unblockPanel();
+			});
+}
+
+function doActualDownload(path) {
+	
+	if (path == null) {
+		setErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+		return false;
+	}
+	
 	window.open(context + '/file/download' + escape(path), '_self');
 }
 

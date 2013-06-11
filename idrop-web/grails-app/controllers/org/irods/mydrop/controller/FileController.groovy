@@ -79,11 +79,11 @@ class FileController {
 			def length =  irodsFile.length()
 			log.info("file length = ${length}")
 			log.info("opened input stream")
-	
+
 			response.setContentType("application/octet-stream")
 			response.setContentLength((int) length)
 			response.setHeader("Content-disposition", "attachment;filename=\"${irodsFile.name}\"")
-	
+
 			response.outputStream << irodsFileInputStream // Performing a binary stream copy
 		} catch (CatNoAccessException e) {
 			log.error("no access error", e)
@@ -127,14 +127,14 @@ class FileController {
 
 		render(view:"uploadDialog", model:[irodsTargetCollection:irodsTargetCollection])
 	}
-	
+
 	/**
 	 * Prepare a quick upload dialog to upload a file to the default location using the quick upload service
 	 *
 	 */
 	def prepareQuickUploadDialog = {
 		log.info("prepareQuickUploadDialog")
-		
+
 		log.info("checking if uploads default directory needs to be created")
 
 		/* here we could do any processing on irods, such as provisioning of metadata fields based on target
@@ -313,20 +313,20 @@ class FileController {
 			log.info("name for create folder:${newFolderName}")
 			IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 			IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(parent + "/" + newFolderName)
-	
+
 			if (targetFile.exists()) {
 				log.error "no name in request"
 				def message = message(code:"error.duplicate.file")
 				response.sendError(500,message)
 			}
-	
+
 			targetFile.mkdirs()
 			log.info("file created:${targetFile.absolutePath}")
 			render targetFile.getAbsolutePath()
 		} catch (CatNoAccessException e) {
-		log.error("no access error", e)
-		response.sendError(500, message(code:"message.no.access"))
-	}
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+		}
 
 	}
 
@@ -368,12 +368,12 @@ class FileController {
 		}
 		try {
 			prevFile.renameTo(newFile)
-	
+
 			// return the parent, which will be reloaded
 			render newFile.parent
 		} catch (CatNoAccessException e) {
-		log.error("no access error", e)
-		response.sendError(500, message(code:"message.no.access"))
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		}
 
 	}
@@ -414,6 +414,44 @@ class FileController {
 		render targetAbsPath
 	}
 
+	/**
+	 * Do a check for access rights to a file at a given path, if it exists, is a data object, and the user has read access, return "OK", otherwise
+	 * throw an appropriate exception
+	 */
+	def screenForDownloadRights = {
+		log.info("screenForDownloadRights")
+
+		String sourceAbsPath = params['absPath']
+		if (!sourceAbsPath) {
+			log.error "no source path in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		log.info("getting file for path:${sourceAbsPath}")
+		IRODSFile irodsFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(sourceAbsPath)
+		if (!irodsFile.exists()) {
+			log.error "file does not exist"
+			def message = message(code:"error.file.not.found")
+			response.sendError(500,message)
+		}
+
+		if (!irodsFile.isFile()) {
+			log.error "not a file"
+			def message = message(code:"error.file.not.found")
+			response.sendError(500,message)
+		}
+
+		if (!irodsFile.canRead()) {
+			log.error "no access to file"
+			def message = message(code:"error.no.access.permission")
+			response.sendError(500,message)
+		}
+
+		render "OK"
+
+	}
+
 	/** 
 	 * Copy a file in iRODS
 	 */
@@ -433,7 +471,7 @@ class FileController {
 			def message = message(code:"error.no.path.provided")
 			response.sendError(500,message)
 		}
-		
+
 		String defaultResource = irodsAccount.defaultStorageResource
 		log.info("defaultResource:${defaultResource}")
 
