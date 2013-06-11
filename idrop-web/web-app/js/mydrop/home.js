@@ -2656,7 +2656,9 @@ function addShareAtPath() {
 function editShareAtPath() {
 	$("#sharingPanelContainingDiv").html();
 	var path = $("#infoAbsPath").val();
-	if (selectedPath == null) {
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg_path_missing'));
+		unblockPanel();		
 		return false;
 	}
 
