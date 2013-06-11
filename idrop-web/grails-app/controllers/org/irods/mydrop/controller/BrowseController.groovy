@@ -98,7 +98,7 @@ class BrowseController {
 		}
 
 
-		render(view: "index", model:[mode:mode,path:absPath,viewState:viewState])
+		render(view: "index", model:[mode:mode,path:absPath,viewState:viewState,irodsAccount:irodsAccount])
 	}
 
 	def showBrowseToolbar = {

@@ -17,6 +17,6 @@
 			return false;
 		}
 		baseAbsPath = escape(baseAbsPath);
-		window.location.href = context + "/home/index?mode=path&absPath=" + baseAbsPath;
+		window.location.href = context + "/browse/index?mode=path&absPath=" + baseAbsPath;
 	});
 </script>

@@ -2564,28 +2564,6 @@ function closePublicLinkDialog() {
 	$("#browseDialogArea").html();
 }
 
-/**
- * Grant public (anonymous access) via the public link dialog. Submit dialog and
- * present the response
- */
-function grantPublicLink() {
-	var path = $("#publicLinkDialogAbsPath").val();
-	showBlockingPanel();
-	if (path == null) {
-		setMessage(jQuery.i18n.prop('msg.path.missing'));
-		unblockPanel();
-	}
-
-	var params = {
-		absPath : path
-	}
-
-	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(
-			"/browse/updatePublicLinkDialog", params, null,
-			"#browseDialogArea", null, null);
-	unblockPanel();
-
-}
 
 /**
  * Set a no data message in the div
@@ -2817,7 +2795,6 @@ function makePublicLinkAtPath() {
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
 		fillInACLDialog(data);
 	});
-	
 }
 
 /**
@@ -2847,12 +2824,23 @@ function grantPublicLink() {
 			absPath : path
 		}
 	
-	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/browse/updatePublicLinkDialog", params, null, "#aclDialogArea", null, null);
-	unblockPanel();
+	var jqxhr = $.get(context + "/browse/updatePublicLinkDialog", params,
+			function(data, status, xhr) {
+		
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		
+		$("#publicLinkDialog").empty().append( data );
+		unblockPanel();
 
+	}).fail(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
 }
         
-
 /*
 *Given the contents of the 'create public link' dialog, 
 */
@@ -2862,6 +2850,3 @@ function fillInACLDialog(data) {
 	$("#aclDialogArea").show("slow");
 }
 
-function zzz() {
-
-}

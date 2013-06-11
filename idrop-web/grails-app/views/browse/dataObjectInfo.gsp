@@ -33,7 +33,7 @@
 			<li><a href="#metadata" id="metadataTab"><g:message
 						code="text.metadata" /></a></li>
 			<li><a href="#permissions" id="permissionTab"><g:message
-						code="text.permissions" /></a></li>
+						code="text.sharing" /></a></li>
 			<g:if
 				test="${grailsApplication.config.idrop.config.use.tickets==true}">
 				<li><a href="#tickets" id="ticketTab"><g:message
