@@ -56,6 +56,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 **Lots of cleanups of html and styles as a result of ie testing on win8
 **Fix of login screen rendering on ie
 
+*[#1312] fix public link access to not override account if alread logged in
+
 ==Features==
 
 *[#984] iDrop web '2.0' redesign effort

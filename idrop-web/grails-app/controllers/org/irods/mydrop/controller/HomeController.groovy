@@ -65,14 +65,19 @@ class HomeController {
 		log.info("irodsFilePath:${filePath}")
 		String zone = MiscIRODSUtils.getZoneInPath(filePath)
 		log.info("zone:${zone}")
-		IRODSAccount irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
-		session["SPRING_SECURITY_CONTEXT"] = irodsAccount
+
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
+		if (irodsAccount == null) {
+			log.info("no account set up, create an anonymous login")
+			irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
+			session["SPRING_SECURITY_CONTEXT"] = irodsAccount
+		}
+
 		/*
 		 * Need to figure out how to signal interface to 'reset' to new account and path?  
 		 */
 
 		render(view:"link", model:[absPath:filePath])
-
 	}
 
 	def starredCollections() {
