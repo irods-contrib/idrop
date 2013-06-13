@@ -17,11 +17,8 @@ environments {
 	/*production {  grails.serverURL = "http://lifetime-library.ils.unc.edu/${appName}" }
 	 production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
 	 production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
-<<<<<<< HEAD
 	 production {  grails.serverURL = "http://www.irods.org" } */
-=======
-	 production {  grails.serverURL = "http://www.irods.org" } */2
->>>>>>> development
+
 	production { grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test { grails.serverURL = "http://localhost:8080/${appName}" }
@@ -170,7 +167,7 @@ idrop.use.hive=true
 //"/Users/mikeconway/temp/hive-data/hive.properties"
 //"/usr/local/hive-data/hive.properties"
 //hive.config.location='/Users/mikeconway/temp/hive-data/hive.properties'
-hive.config.location='/Users/mikeconway/temp/hive-data/hive.properties'
+hive.config.location='/Users/zhangle/temp/hive-data/hive.properties'
 // do I support sparql queries?
 idrop.hive.query=true
 // what is the context for REST HIVE queries

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 *'''Project''': idrop-web version 2 
 *'''Date''': xx/xx/xx
 *'''Release Version''': xxxx
@@ -13,47 +12,13 @@ Integration of idrop web with the HIVE framework under DataNet
 
 *idrop-web depends on Java 1.6+
 *idrop-web depends on grails 2.2.1
-=======
-*'''Project''': idrop-web
-*'''Date''': 03/04/2013
-*'''Release Version''': 2.0.XXX
-*'''git tag''':  2.0.XXX
-
-==News==
-
-This is a maintenance release of iDrop web2 and the iDrop suite
-
-==Requirements==
-
-*idrop-web depends on Java 1.6+
-*idrop-web depends on grails 2.2.1
-
->>>>>>> development
 
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
 ==Bug Fixes==
 
 
-*[#1439] iDrop 2.0.1 release small cleanups and fixes
-**Nicer display when no files/folders to display in home page
-**Gallery and browse view now configurable option in config.groovy
-
 ==Features==
-
-<<<<<<< HEAD
-*[#1345] upgrade grails to 2.2.1 for hive work
-** upgraded to grails 2.2.1
 
 *[1131] adding HIVE integration 
 **Added rest client support via http://grails.org/plugin/rest-client-builder
-=======
-
-*[#984] iDrop web '2.0' redesign effort
-
-*[#78] very large collection paging
-
-*[#1345] upgrade grails to 2.2.1
-**Upgrade to grails 2.2.1 and related cleanups to make it easier to work with
-**Move plug-in defs to BuildConfig.groovy
->>>>>>> development

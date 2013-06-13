@@ -81,30 +81,22 @@ class HomeController {
 	def starredCollections() {
 		log.info "starredCollections()"
 
-<<<<<<< HEAD
-		def listing = starringService.listStarredCollections(irodsAccount, 0)
+			try {
+				def listing = starringService.listStarredCollections(irodsAccount, 0)
 
-		if (listing.isEmpty()) {
-			render(view:"noInfo")
-		} else {
-			render(view:"quickViewList",model:[listing:listing])
-=======
-		try {
-			def listing = starringService.listStarredCollections(irodsAccount, 0)
-
-			if (listing.isEmpty()) {
-				render(view:"noInfo")
-			} else {
-				render(view:"quickViewList",model:[listing:listing])
+				if (listing.isEmpty()) {
+					render(view:"noInfo")
+				} else {
+					render(view:"quickViewList",model:[listing:listing])
+				}
+			} catch (SpecificQueryException sqe) {
+				log.error("error in specific query", sqe)
+				render(view:"noSupport")
+			} catch (JargonException je) {
+				log.error("jargon exception", je)
+				response.sendError(500,je.message)
 			}
-		} catch (SpecificQueryException sqe) {
-			log.error("error in specific query", sqe)
-			render(view:"noSupport")
-		} catch (JargonException je) {
-			log.error("jargon exception", je)
-			response.sendError(500,je.message)
->>>>>>> development
-		}
+		
 	}
 
 	def starredDataObjects() {
@@ -139,7 +131,6 @@ class HomeController {
 			return
 		}
 
-<<<<<<< HEAD
 		/*
 		 * is sharing configured? 
 		 */
@@ -148,8 +139,6 @@ class HomeController {
 			render(view:"noInfo")
 			return
 		}
-=======
->>>>>>> development
 
 		try {
 			def listing = sharingService.listCollectionsSharedByMe(irodsAccount);
@@ -201,11 +190,6 @@ class HomeController {
 			log.error("jargon exception", je)
 			response.sendError(500,je.message)
 		}
-<<<<<<< HEAD
-
-
-=======
->>>>>>> development
 	}
 
 

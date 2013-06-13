@@ -146,4 +146,9 @@
 	$(function() {
 
 	});
+
+	function changeTextColor(id) {
+		var element = document.getElementById(id);
+		element.style.color = "#005580";
+	}
 </script>

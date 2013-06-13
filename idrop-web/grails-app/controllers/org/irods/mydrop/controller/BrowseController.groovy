@@ -716,11 +716,9 @@ class BrowseController {
 
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
-<<<<<<< HEAD
 
-=======
+
 		IRODSStarredFileOrCollection irodsStarredFileOrCollection;
->>>>>>> development
 		log.info("seeing if this is starred")
 		try {
 			irodsStarredFileOrCollection = starringService.findStarred(irodsAccount, absPath)
@@ -881,12 +879,5 @@ class BrowseController {
 		grailsServerURL = grailsServerURL  + "/home/link?irodsURI=" + URLEncoder.encode(irodsUriString, grailsApplication.config.grails.views.gsp.encoding)
 		return grailsServerURL
 	}
-<<<<<<< HEAD
-=======
-
-
-}
->>>>>>> development
-
 
 }
