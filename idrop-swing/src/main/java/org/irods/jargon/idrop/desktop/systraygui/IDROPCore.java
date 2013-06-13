@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
@@ -21,227 +20,233 @@ import org.slf4j.LoggerFactory;
 
 public class IDROPCore {
 
-    private IRODSAccount irodsAccount = null;
-    private IRODSFileSystem irodsFileSystem = null;
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(IDROPCore.class);
+	private IRODSAccount irodsAccount = null;
+	private IRODSFileSystem irodsFileSystem = null;
+	private static final org.slf4j.Logger log = LoggerFactory
+			.getLogger(IDROPCore.class);
 
-    public IRODSFileSystem getIrodsFileSystem() {
-        return irodsFileSystem;
-    }
+	public IRODSFileSystem getIrodsFileSystem() {
+		return irodsFileSystem;
+	}
 
-    public void setIrodsFileSystem(final IRODSFileSystem irodsFileSystem) {
-        this.irodsFileSystem = irodsFileSystem;
-    }
-    private IdropConfig idropConfig = null;
-    private TransferManager transferManager = null;
-    private IconManager iconManager = null;
-    private Timer queueTimer = new Timer();
-    private IdropConfigurationService idropConfigurationService = null;
-    private final DateFormat dateFormat = DateFormat.getDateTimeInstance();
-    private String basePath = null;
+	public void setIrodsFileSystem(final IRODSFileSystem irodsFileSystem) {
+		this.irodsFileSystem = irodsFileSystem;
+	}
 
-    public synchronized String getBasePath() {
-        return basePath;
-    }
+	private IdropConfig idropConfig = null;
+	private TransferManager transferManager = null;
+	private IconManager iconManager = null;
+	private Timer queueTimer = new Timer();
+	private IdropConfigurationService idropConfigurationService = null;
+	private final DateFormat dateFormat = DateFormat.getDateTimeInstance();
+	private String basePath = null;
 
-    public synchronized void setBasePath(String basePath) {
-        this.basePath = basePath;
-    }
-   
-    public DateFormat getDateFormat() {
-        return dateFormat;
-    }
+	public synchronized String getBasePath() {
+		return basePath;
+	}
 
-    public IdropConfigurationService getIdropConfigurationService() {
-        return idropConfigurationService;
-    }
+	public synchronized void setBasePath(final String basePath) {
+		this.basePath = basePath;
+	}
 
-    public void setIdropConfigurationService(IdropConfigurationService idropConfigurationService) {
-        this.idropConfigurationService = idropConfigurationService;
-    }
+	public DateFormat getDateFormat() {
+		return dateFormat;
+	}
 
-    public IDROPCore() {
-        super();
-    }
+	public IdropConfigurationService getIdropConfigurationService() {
+		return idropConfigurationService;
+	}
 
-    public IRODSAccount getIrodsAccount() {
-        return irodsAccount;
-    }
+	public void setIdropConfigurationService(
+			final IdropConfigurationService idropConfigurationService) {
+		this.idropConfigurationService = idropConfigurationService;
+	}
 
-    public void setIrodsAccount(final IRODSAccount irodsAccount) {
-        this.irodsAccount = irodsAccount;
-    }
+	public IDROPCore() {
+		super();
+	}
 
-    public IdropConfig getIdropConfig() {
-        return idropConfig;
-    }
+	public IRODSAccount getIrodsAccount() {
+		return irodsAccount;
+	}
 
-    public void setIdropConfig(final IdropConfig idropConfig) {
-        this.idropConfig = idropConfig;
-    }
+	public void setIrodsAccount(final IRODSAccount irodsAccount) {
+		this.irodsAccount = irodsAccount;
+	}
 
-    public TransferManager getTransferManager() {
-        return transferManager;
-    }
+	public IdropConfig getIdropConfig() {
+		return idropConfig;
+	}
 
-    public void setTransferManager(final TransferManager transferManager) {
-        this.transferManager = transferManager;
-    }
+	public void setIdropConfig(final IdropConfig idropConfig) {
+		this.idropConfig = idropConfig;
+	}
 
-    public IconManager getIconManager() {
-        return iconManager;
-    }
+	public TransferManager getTransferManager() {
+		return transferManager;
+	}
 
-    public void setIconManager(final IconManager iconManager) {
-        this.iconManager = iconManager;
-    }
+	public void setTransferManager(final TransferManager transferManager) {
+		this.transferManager = transferManager;
+	}
 
-    public Timer getQueueTimer() {
-        return queueTimer;
-    }
+	public IconManager getIconManager() {
+		return iconManager;
+	}
 
-    public void setQueueTimer(final Timer queueTimer) {
-        this.queueTimer = queueTimer;
-    }
+	public void setIconManager(final IconManager iconManager) {
+		this.iconManager = iconManager;
+	}
 
-    /**
-     * Handy method that delegates the process of getting an
-     * <code>IRODSAccessObjectFactory</code>.
-     * 
-     * @return {@link IRODSAccessObjectFactory}
-     */
-    public IRODSAccessObjectFactory getIRODSAccessObjectFactory() {
-        if (irodsFileSystem == null) {
-            throw new IdropRuntimeException(
-                    "No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
-        }
-        try {
-            return irodsFileSystem.getIRODSAccessObjectFactory();
-        } catch (JargonException ex) {
-            Logger.getLogger(IDROPCore.class.getName()).log(Level.SEVERE, null,
-                    ex);
-            throw new IdropRuntimeException(
-                    "exception getting IRODSAccessObjectFactory");
-        }
-    }
+	public Timer getQueueTimer() {
+		return queueTimer;
+	}
 
-    /**
-     * Method to close any iRODS connections in the current thread. This
-     * delegates to the <code>IRODSFileSystem</code>.
-     */
-    public void closeAllIRODSConnections() {
-        if (irodsFileSystem == null) {
-            throw new IdropRuntimeException(
-                    "No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
-        }
-        irodsFileSystem.closeAndEatExceptions();
-    }
+	public void setQueueTimer(final Timer queueTimer) {
+		this.queueTimer = queueTimer;
+	}
 
-    /**
-     * Method to close iRODS connection denoted by the logged in
-     * <code>IRODSAccount</code>.
-     */
-    public void closeIRODSConnectionForLoggedInAccount() {
-        if (irodsFileSystem == null) {
-            throw new IdropRuntimeException(
-                    "No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
-        }
-        irodsFileSystem.closeAndEatExceptions(irodsAccount);
-    }
+	/**
+	 * Handy method that delegates the process of getting an
+	 * <code>IRODSAccessObjectFactory</code>.
+	 * 
+	 * @return {@link IRODSAccessObjectFactory}
+	 */
+	public IRODSAccessObjectFactory getIRODSAccessObjectFactory() {
+		if (irodsFileSystem == null) {
+			throw new IdropRuntimeException(
+					"No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
+		}
+		try {
+			return irodsFileSystem.getIRODSAccessObjectFactory();
+		} catch (JargonException ex) {
+			Logger.getLogger(IDROPCore.class.getName()).log(Level.SEVERE, null,
+					ex);
+			throw new IdropRuntimeException(
+					"exception getting IRODSAccessObjectFactory");
+		}
+	}
 
-    /**
-     * Method to close iRODS connection denoted by the given
-     * <code>IRODSAccount</code> in the current thread. This delegates to the
-     * <code>IRODSFileSystem</code>.
-     */
-    public void closeIRODSConnection(final IRODSAccount irodsAccount) {
-        if (irodsFileSystem == null) {
-            throw new IdropRuntimeException(
-                    "No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
-        }
-        irodsFileSystem.closeAndEatExceptions(irodsAccount);
-    }
+	/**
+	 * Method to close any iRODS connections in the current thread. This
+	 * delegates to the <code>IRODSFileSystem</code>.
+	 */
+	public void closeAllIRODSConnections() {
+		if (irodsFileSystem == null) {
+			throw new IdropRuntimeException(
+					"No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
+		}
+		irodsFileSystem.closeAndEatExceptions();
+	}
 
-    /**
-     * Get the <code>IRODSFileFactory</code> for the given account
-     * 
-     * @return {@link IRODSFileFactory} associated with the account currently
-     *         logged in
-     */
-    public IRODSFileFactory getIRODSFileFactory(final IRODSAccount irodsAccount) {
-        if (irodsFileSystem == null) {
-            throw new IdropRuntimeException(
-                    "No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
-        }
-        if (irodsAccount == null) {
-            throw new IdropRuntimeException(
-                    "No IRODSAccount set, cannot obtain the IRODSAccessObjectFactory");
-        }
-        try {
-            return irodsFileSystem.getIRODSFileFactory(irodsAccount);
-        } catch (JargonException ex) {
-            Logger.getLogger(IDROPCore.class.getName()).log(Level.SEVERE, null,
-                    ex);
-            throw new IdropRuntimeException(
-                    "Exception getting iRODS file factory", ex);
-        }
+	/**
+	 * Method to close iRODS connection denoted by the logged in
+	 * <code>IRODSAccount</code>.
+	 */
+	public void closeIRODSConnectionForLoggedInAccount() {
+		if (irodsFileSystem == null) {
+			throw new IdropRuntimeException(
+					"No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
+		}
+		irodsFileSystem.closeAndEatExceptions(irodsAccount);
+	}
 
-    }
+	/**
+	 * Method to close iRODS connection denoted by the given
+	 * <code>IRODSAccount</code> in the current thread. This delegates to the
+	 * <code>IRODSFileSystem</code>.
+	 */
+	public void closeIRODSConnection(final IRODSAccount irodsAccount) {
+		if (irodsFileSystem == null) {
+			throw new IdropRuntimeException(
+					"No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
+		}
+		irodsFileSystem.closeAndEatExceptions(irodsAccount);
+	}
 
-    /**
-     * Get the <code>IRODSFileFactory</code> for the current logged-in account.
-     * 
-     * @return {@link IRODSFileFactory} associated with the account currently
-     *         logged in
-     */
-    public IRODSFileFactory getIRODSFileFactoryForLoggedInAccount() {
-        if (irodsFileSystem == null) {
-            throw new IdropRuntimeException(
-                    "No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
-        }
-        if (irodsAccount == null) {
-            throw new IdropRuntimeException(
-                    "No IRODSAccount set, cannot obtain the IRODSAccessObjectFactory");
-        }
-        try {
-            return irodsFileSystem.getIRODSFileFactory(irodsAccount);
-        } catch (JargonException ex) {
-            Logger.getLogger(IDROPCore.class.getName()).log(Level.SEVERE, null,
-                    ex);
-            throw new IdropRuntimeException(
-                    "Exception getting iRODS file factory", ex);
-        }
+	/**
+	 * Get the <code>IRODSFileFactory</code> for the given account
+	 * 
+	 * @return {@link IRODSFileFactory} associated with the account currently
+	 *         logged in
+	 */
+	public IRODSFileFactory getIRODSFileFactory(final IRODSAccount irodsAccount) {
+		if (irodsFileSystem == null) {
+			throw new IdropRuntimeException(
+					"No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
+		}
+		if (irodsAccount == null) {
+			throw new IdropRuntimeException(
+					"No IRODSAccount set, cannot obtain the IRODSAccessObjectFactory");
+		}
+		try {
+			return irodsFileSystem.getIRODSFileFactory(irodsAccount);
+		} catch (JargonException ex) {
+			Logger.getLogger(IDROPCore.class.getName()).log(Level.SEVERE, null,
+					ex);
+			throw new IdropRuntimeException(
+					"Exception getting iRODS file factory", ex);
+		}
 
-    }
+	}
 
-    /**
-     * Based on the configuration, get the default directory used in iDrop based on the current login
-     * @return 
-     */
-    public IRODSFile getDefaultDirectory() {
-        String root = null;
-        if (getIdropConfig().isLoginPreset()) {
-            log.info("using policy preset home directory");
-            StringBuilder sb = new StringBuilder();
-            sb.append("/");
-            sb.append(getIrodsAccount().getZone());
-            sb.append("/");
-            sb.append("home");
-            root = sb.toString();
-        } else {
-            log.info("using root path, no login preset");
-            root = "/";
-        }
-        IRODSFile newFile;
-        try {
-            newFile = getIRODSFileFactoryForLoggedInAccount().instanceIRODSFile(root);
-            return newFile;
-        } catch (Exception ex) {
-            log.error("error creating file", ex);
-            throw new IdropRuntimeException("error creating file", ex);
-        } finally {
-            this.closeIRODSConnectionForLoggedInAccount();
-        }
+	/**
+	 * Get the <code>IRODSFileFactory</code> for the current logged-in account.
+	 * 
+	 * @return {@link IRODSFileFactory} associated with the account currently
+	 *         logged in
+	 */
+	public IRODSFileFactory getIRODSFileFactoryForLoggedInAccount() {
+		if (irodsFileSystem == null) {
+			throw new IdropRuntimeException(
+					"No IRODSFileSystem set, cannot obtain the IRODSAccessObjectFactory");
+		}
+		if (irodsAccount == null) {
+			throw new IdropRuntimeException(
+					"No IRODSAccount set, cannot obtain the IRODSAccessObjectFactory");
+		}
+		try {
+			return irodsFileSystem.getIRODSFileFactory(irodsAccount);
+		} catch (JargonException ex) {
+			Logger.getLogger(IDROPCore.class.getName()).log(Level.SEVERE, null,
+					ex);
+			throw new IdropRuntimeException(
+					"Exception getting iRODS file factory", ex);
+		}
 
-    }
+	}
+
+	/**
+	 * Based on the configuration, get the default directory used in iDrop based
+	 * on the current login
+	 * 
+	 * @return
+	 */
+	public IRODSFile getDefaultDirectory() {
+		String root = null;
+		if (getIdropConfig().isLoginPreset()) {
+			log.info("using policy preset home directory");
+			StringBuilder sb = new StringBuilder();
+			sb.append("/");
+			sb.append(getIrodsAccount().getZone());
+			sb.append("/");
+			sb.append("home");
+			root = sb.toString();
+		} else {
+			log.info("using root path, no login preset");
+			root = "/";
+		}
+		IRODSFile newFile;
+		try {
+			newFile = getIRODSFileFactoryForLoggedInAccount()
+					.instanceIRODSFile(root);
+			return newFile;
+		} catch (Exception ex) {
+			log.error("error creating file", ex);
+			throw new IdropRuntimeException("error creating file", ex);
+		} finally {
+			closeIRODSConnectionForLoggedInAccount();
+		}
+
+	}
 }

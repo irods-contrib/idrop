@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
-import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 
+import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.slf4j.LoggerFactory;
@@ -17,238 +17,255 @@ import org.slf4j.LoggerFactory;
  */
 public class QueueManagerMasterTableModel extends DefaultTableModel {
 
-    public static org.slf4j.Logger log = LoggerFactory.getLogger(QueueManagerMasterTableModel.class);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8214956143407628030L;
+	public static org.slf4j.Logger log = LoggerFactory
+			.getLogger(QueueManagerMasterTableModel.class);
 
-    @Override
-    public Class<?> getColumnClass(final int columnIndex) {
+	@Override
+	public Class<?> getColumnClass(final int columnIndex) {
 
-        if (columnIndex >= getColumnCount()) {
-            throw new IdropRuntimeException("column unavailable, out of bounds");
-        }
+		if (columnIndex >= getColumnCount()) {
+			throw new IdropRuntimeException("column unavailable, out of bounds");
+		}
 
-        // translate indexes to object values
+		// translate indexes to object values
 
-        // 0 = start date
+		// 0 = start date
 
-        if (columnIndex == 0) {
-            return Date.class;
-        }
+		if (columnIndex == 0) {
+			return Date.class;
+		}
 
-        // 1 = status
+		// 1 = status
 
-        if (columnIndex == 1) {
-            return String.class;
-        }
+		if (columnIndex == 1) {
+			return String.class;
+		}
 
-        // 2 = state
+		// 2 = state
 
-        if (columnIndex == 2) {
-            return String.class;
-        }
+		if (columnIndex == 2) {
+			return String.class;
+		}
 
-        // 3 = global error
+		// 3 = global error
 
-        if (columnIndex == 3) {
-            return String.class;
-        }
+		if (columnIndex == 3) {
+			return String.class;
+		}
 
-        // source
+		// source
 
-        if (columnIndex == 4) {
-            return String.class;
-        }
+		if (columnIndex == 4) {
+			return String.class;
+		}
 
-        // 5 = target path
+		// 5 = target path
 
-        if (columnIndex == 5) {
-            return String.class;
-        }
+		if (columnIndex == 5) {
+			return String.class;
+		}
 
-        throw new IdropRuntimeException("unknown column");
-    }
+		throw new IdropRuntimeException("unknown column");
+	}
 
-    @Override
-    public String getColumnName(final int columnIndex) {
-        if (columnIndex >= getColumnCount()) {
-            throw new IdropRuntimeException("column unavailable, out of bounds");
-        }
+	@Override
+	public String getColumnName(final int columnIndex) {
+		if (columnIndex >= getColumnCount()) {
+			throw new IdropRuntimeException("column unavailable, out of bounds");
+		}
 
-        // translate indexes to object values
+		// translate indexes to object values
 
-        // 0 = start date
+		// 0 = start date
 
-        if (columnIndex == 0) {
-            return "Start Date";
-        }
+		if (columnIndex == 0) {
+			return "Start Date";
+		}
 
-        // 1 = status
+		// 1 = status
 
-        if (columnIndex == 1) {
-            return "Status";
-        }
+		if (columnIndex == 1) {
+			return "Status";
+		}
 
-        // 2 = state
+		// 2 = state
 
-        if (columnIndex == 2) {
-            return "Error Status";
-        }
+		if (columnIndex == 2) {
+			return "Error Status";
+		}
 
-        // 3 = Type
+		// 3 = Type
 
-        if (columnIndex == 3) {
-            return "Operation";
-        }
+		if (columnIndex == 3) {
+			return "Operation";
+		}
 
-        // 5 = local path
+		// 5 = local path
 
-        if (columnIndex == 4) {
-            return "Source";
-        }
+		if (columnIndex == 4) {
+			return "Source";
+		}
 
-        // 6 = target path
+		// 6 = target path
 
-        if (columnIndex == 5) {
-            return "Destination";
-        }
+		if (columnIndex == 5) {
+			return "Destination";
+		}
 
-        throw new IdropRuntimeException("unknown column");
-    }
-    private List<LocalIRODSTransfer> localIRODSTransfers = null;
+		throw new IdropRuntimeException("unknown column");
+	}
 
-    public QueueManagerMasterTableModel(
-            final List<LocalIRODSTransfer> localIRODSTransfers) {
-        if (localIRODSTransfers == null) {
-            throw new IdropRuntimeException("null localIRODSTransfers");
-        }
+	private List<LocalIRODSTransfer> localIRODSTransfers = null;
 
-        this.localIRODSTransfers = localIRODSTransfers;
-    }
+	public QueueManagerMasterTableModel(
+			final List<LocalIRODSTransfer> localIRODSTransfers) {
+		if (localIRODSTransfers == null) {
+			throw new IdropRuntimeException("null localIRODSTransfers");
+		}
 
-    @Override
-    public synchronized int getRowCount() {
-        if (localIRODSTransfers == null) {
-            return 0;
-        } else {
-            return localIRODSTransfers.size();
-        }
-    }
+		this.localIRODSTransfers = localIRODSTransfers;
+	}
 
-    @Override
-    public int getColumnCount() {
-        return 6;
-    }
+	@Override
+	public synchronized int getRowCount() {
+		if (localIRODSTransfers == null) {
+			return 0;
+		} else {
+			return localIRODSTransfers.size();
+		}
+	}
 
-    @Override
-    public synchronized Object getValueAt(final int rowIndex,
-            final int columnIndex) {
+	@Override
+	public int getColumnCount() {
+		return 6;
+	}
 
-        if (rowIndex >= getRowCount()) {
-            throw new IdropRuntimeException("row unavailable, out of bounds");
-        }
+	@Override
+	public synchronized Object getValueAt(final int rowIndex,
+			final int columnIndex) {
 
-        if (columnIndex >= getColumnCount()) {
-            throw new IdropRuntimeException("column unavailable, out of bounds");
-        }
+		if (rowIndex >= getRowCount()) {
+			throw new IdropRuntimeException("row unavailable, out of bounds");
+		}
 
-        LocalIRODSTransfer localIRODSTransfer = localIRODSTransfers.get(rowIndex);
+		if (columnIndex >= getColumnCount()) {
+			throw new IdropRuntimeException("column unavailable, out of bounds");
+		}
 
-        // translate indexes to object values
+		LocalIRODSTransfer localIRODSTransfer = localIRODSTransfers
+				.get(rowIndex);
 
-        // 0 = start date
+		// translate indexes to object values
 
-        if (columnIndex == 0) {
-            return localIRODSTransfer.getTransferStart();
-        }
+		// 0 = start date
 
-        // 1 = status
+		if (columnIndex == 0) {
+			return localIRODSTransfer.getTransferStart();
+		}
 
-        if (columnIndex == 1) {
-            return localIRODSTransfer.getTransferState().name();
-        }
+		// 1 = status
 
-        // 2 = state
+		if (columnIndex == 1) {
+			return localIRODSTransfer.getTransferState().name();
+		}
 
-        if (columnIndex == 2) {
-            return localIRODSTransfer.getTransferStatus().name();
-        }
+		// 2 = state
 
-        // 3 =operation
+		if (columnIndex == 2) {
+			return localIRODSTransfer.getTransferStatus().name();
+		}
 
-        if (columnIndex == 3) {
-            return localIRODSTransfer.getTransferType().name();
-        }
+		// 3 =operation
 
-        // 4 = source path
+		if (columnIndex == 3) {
+			return localIRODSTransfer.getTransferType().name();
+		}
 
-        String path = null;
-        if (columnIndex == 4) {
-            switch (localIRODSTransfer.getTransferType()) {
-                case GET:
-                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getIrodsAbsolutePath());
-                    break;
-                case PUT:
-                case REPLICATE:
-                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getLocalAbsolutePath());
-                    break;
-                case COPY:
-                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getLocalAbsolutePath());
-                    break;
-                case SYNCH:
-                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getLocalAbsolutePath());
-                    break;
-                default:
-                    log.error(
-                            "unable to build details for transfer with transfer type of:{}",
-                            localIRODSTransfer.getTransferType());
-                    path = "";
-                    break;
-            }
-            return path;
-        }
+		// 4 = source path
 
-        // 5 = target path
-        if (columnIndex == 5) {
-            switch (localIRODSTransfer.getTransferType()) {
-                case GET:
-                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getLocalAbsolutePath());
-                    break;
-                case PUT:
-                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getIrodsAbsolutePath());
-                    break;
-                case REPLICATE:
-                    path = "";
-                    break;
-                       case COPY:
-                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getIrodsAbsolutePath());
-                    break;
-                case SYNCH:
-                    path = IDropUtils.abbreviateFileName(localIRODSTransfer.getIrodsAbsolutePath()); // FIXME: should really be a get/put at transfer item level
-                    break;
-                default:
-                    log.error(
-                            "unable to build details for transfer with transfer type of:{}",
-                            localIRODSTransfer.getTransferType());
-                    path = "";
-                    break;
-            }
-            return path;
-        }
+		String path = null;
+		if (columnIndex == 4) {
+			switch (localIRODSTransfer.getTransferType()) {
+			case GET:
+				path = IDropUtils.abbreviateFileName(localIRODSTransfer
+						.getIrodsAbsolutePath());
+				break;
+			case PUT:
+			case REPLICATE:
+				path = IDropUtils.abbreviateFileName(localIRODSTransfer
+						.getLocalAbsolutePath());
+				break;
+			case COPY:
+				path = IDropUtils.abbreviateFileName(localIRODSTransfer
+						.getLocalAbsolutePath());
+				break;
+			case SYNCH:
+				path = IDropUtils.abbreviateFileName(localIRODSTransfer
+						.getLocalAbsolutePath());
+				break;
+			default:
+				log.error(
+						"unable to build details for transfer with transfer type of:{}",
+						localIRODSTransfer.getTransferType());
+				path = "";
+				break;
+			}
+			return path;
+		}
 
-        throw new IdropRuntimeException("unknown column");
+		// 5 = target path
+		if (columnIndex == 5) {
+			switch (localIRODSTransfer.getTransferType()) {
+			case GET:
+				path = IDropUtils.abbreviateFileName(localIRODSTransfer
+						.getLocalAbsolutePath());
+				break;
+			case PUT:
+				path = IDropUtils.abbreviateFileName(localIRODSTransfer
+						.getIrodsAbsolutePath());
+				break;
+			case REPLICATE:
+				path = "";
+				break;
+			case COPY:
+				path = IDropUtils.abbreviateFileName(localIRODSTransfer
+						.getIrodsAbsolutePath());
+				break;
+			case SYNCH:
+				path = IDropUtils.abbreviateFileName(localIRODSTransfer
+						.getIrodsAbsolutePath()); // FIXME: should really be a
+													// get/put at transfer item
+													// level
+				break;
+			default:
+				log.error(
+						"unable to build details for transfer with transfer type of:{}",
+						localIRODSTransfer.getTransferType());
+				path = "";
+				break;
+			}
+			return path;
+		}
 
-    }
+		throw new IdropRuntimeException("unknown column");
 
-    public synchronized LocalIRODSTransfer getTransferAtRow(final int rowIndex) {
-        if (localIRODSTransfers == null) {
-            log.warn("attempt to access a null model");
-            return null;
-        }
+	}
 
-        if (rowIndex >= localIRODSTransfers.size()) {
-            log.warn("attempt to access a row that does not exist");
-            return null;
-        }
+	public synchronized LocalIRODSTransfer getTransferAtRow(final int rowIndex) {
+		if (localIRODSTransfers == null) {
+			log.warn("attempt to access a null model");
+			return null;
+		}
 
-        return localIRODSTransfers.get(rowIndex);
-    }
+		if (rowIndex >= localIRODSTransfers.size()) {
+			log.warn("attempt to access a row that does not exist");
+			return null;
+		}
+
+		return localIRODSTransfers.get(rowIndex);
+	}
 }

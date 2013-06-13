@@ -1,6 +1,7 @@
 package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.exception.OperationNotSupportedByThisServerException
 import org.irods.jargon.core.exception.SpecificQueryException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
@@ -80,22 +81,47 @@ class HomeController {
 	def starredCollections() {
 		log.info "starredCollections()"
 
+<<<<<<< HEAD
 		def listing = starringService.listStarredCollections(irodsAccount, 0)
 
 		if (listing.isEmpty()) {
 			render(view:"noInfo")
 		} else {
 			render(view:"quickViewList",model:[listing:listing])
+=======
+		try {
+			def listing = starringService.listStarredCollections(irodsAccount, 0)
+
+			if (listing.isEmpty()) {
+				render(view:"noInfo")
+			} else {
+				render(view:"quickViewList",model:[listing:listing])
+			}
+		} catch (SpecificQueryException sqe) {
+			log.error("error in specific query", sqe)
+			render(view:"noSupport")
+		} catch (JargonException je) {
+			log.error("jargon exception", je)
+			response.sendError(500,je.message)
+>>>>>>> development
 		}
 	}
 
 	def starredDataObjects() {
 		log.info "starredDataObjects()"
-		def listing = starringService.listStarredDataObjects(irodsAccount, 0)
-		if (listing.isEmpty()) {
-			render(view:"noInfo")
-		} else {
-			render(view:"quickViewList",model:[listing:listing])
+		try {
+			def listing = starringService.listStarredDataObjects(irodsAccount, 0)
+			if (listing.isEmpty()) {
+				render(view:"noInfo")
+			} else {
+				render(view:"quickViewList",model:[listing:listing])
+			}
+		} catch (SpecificQueryException sqe) {
+			log.error("error in specific query", sqe)
+			render(view:"noSupport")
+		} catch (JargonException je) {
+			log.error("jargon exception", je)
+			response.sendError(500,je.message)
 		}
 	}
 
@@ -109,10 +135,11 @@ class HomeController {
 		boolean sharing = sharingService.isSharingSupported(irodsAccount)
 		if (!sharing) {
 			log.info("no sharing support on this grid")
-			render(view:"noInfo")
+			render(view:"noSupport")
 			return
 		}
 
+<<<<<<< HEAD
 		/*
 		 * is sharing configured? 
 		 */
@@ -121,6 +148,8 @@ class HomeController {
 			render(view:"noInfo")
 			return
 		}
+=======
+>>>>>>> development
 
 		try {
 			def listing = sharingService.listCollectionsSharedByMe(irodsAccount);
@@ -129,14 +158,15 @@ class HomeController {
 			} else {
 				render(view:"shareQuickViewList",model:[listing:listing])
 			}
-		} catch (SpecificQueryException e) {
-			log.error "speific query exception", e
-			def message = message(code:"error.no.specific.query")
-			response.sendError(500,message)
-		} catch (OperationNotSupportedByThisServerException e) {
-			log.error "speific query exception", e
-			def message = message(code:"error.no.specific.query")
-			response.sendError(500,message)
+		} catch (SpecificQueryException sqe) {
+			log.error("error in specific query", sqe)
+			render(view:"noSupport")
+		} catch (OperationNotSupportedByThisServerException sqe) {
+			log.error("error in specific query", sqe)
+			render(view:"noSupport")
+		} catch (JargonException je) {
+			log.error("jargon exception", je)
+			response.sendError(500,je.message)
 		}
 	}
 
@@ -150,7 +180,7 @@ class HomeController {
 		boolean sharing = sharingService.isSharingSupported(irodsAccount)
 		if (!sharing) {
 			log.info("no sharing support on this grid")
-			render(view:"noInfo")
+			render(view:"noSupport")
 			return
 		}
 
@@ -161,17 +191,21 @@ class HomeController {
 			} else {
 				render(view:"shareWithMeQuickViewList",model:[listing:listing])
 			}
-		} catch (SpecificQueryException e) {
-			log.error "speific query exception", e
-			def message = message(code:"error.no.specific.query")
-			response.sendError(500,message)
-		}  catch (OperationNotSupportedByThisServerException e) {
-			log.error "speific query exception", e
-			def message = message(code:"error.no.specific.query")
-			response.sendError(500,message)
+		} catch (SpecificQueryException sqe) {
+			log.error("error in specific query", sqe)
+			render(view:"noSupport")
+		} catch (OperationNotSupportedByThisServerException sqe) {
+			log.error("error in specific query", sqe)
+			render(view:"noSupport")
+		} catch (JargonException je) {
+			log.error("jargon exception", je)
+			response.sendError(500,je.message)
 		}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> development
 	}
 
 

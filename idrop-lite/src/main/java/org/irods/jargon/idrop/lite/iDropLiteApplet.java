@@ -346,6 +346,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             }
             this.irodsAccount = this.getiDropCore().getIrodsAccount();
         } else if (!processLogin()) {
+
             return false;
         }
 
@@ -1306,7 +1307,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
             log.info("creating a shared (cached) temp account connection");
             this.irodsAccount = new IRODSAccount(host, port, user, tempPswd, absPath, zone, defaultStorageResource);
             TempPasswordCachingProtocolManager manager = new TempPasswordCachingProtocolManager(
-                    irodsAccount);
+                    irodsAccount, this.getiDropCore().getIrodsFileSystem().getIrodsSession(), this.getiDropCore().getIrodsFileSystem().getIrodsProtocolManager());
             irodsFileSystem = new IRODSFileSystem(manager);
             log.info("irodsFileSystem updated to utilize cache");
 
@@ -1521,6 +1522,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
         // Make the application shut down when the user clicks
         // on the close button.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
 
         // Set the size of the frame.
         // To pack the frame as tightly as possible

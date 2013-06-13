@@ -716,9 +716,17 @@ class BrowseController {
 
 		FreeTaggingService freeTaggingService = taggingServiceFactory.instanceFreeTaggingService(irodsAccount)
 		IRODSTaggingService irodsTaggingService = taggingServiceFactory.instanceIrodsTaggingService(irodsAccount)
+<<<<<<< HEAD
 
+=======
+		IRODSStarredFileOrCollection irodsStarredFileOrCollection;
+>>>>>>> development
 		log.info("seeing if this is starred")
-		IRODSStarredFileOrCollection irodsStarredFileOrCollection = starringService.findStarred(irodsAccount, absPath)
+		try {
+			irodsStarredFileOrCollection = starringService.findStarred(irodsAccount, absPath)
+		} catch (SpecificQueryException sqe) {
+			irodsStarredFileOrCollection = null
+		}
 		log.info "starring info:${irodsStarredFileOrCollection}"
 
 		if (isDataObject) {
@@ -873,6 +881,12 @@ class BrowseController {
 		grailsServerURL = grailsServerURL  + "/home/link?irodsURI=" + URLEncoder.encode(irodsUriString, grailsApplication.config.grails.views.gsp.encoding)
 		return grailsServerURL
 	}
+<<<<<<< HEAD
+=======
+
+
+}
+>>>>>>> development
 
 
 }
