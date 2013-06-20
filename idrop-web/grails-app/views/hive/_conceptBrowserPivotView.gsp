@@ -61,8 +61,8 @@
 								<div class="row-fluid">
 									<div class="offset1 span11">
 										<div class="btn-group pad-around">
-											<button type="button" class="btn" id="btnViewInSKOS"
-												onclick="processViewInSKOS('${conceptProxy.origin}','${conceptProxy.URI}')">
+											<button type="button" class="btn" id="btnViewInSKOS" onclick="processViewInSKOS('${conceptProxy.origin}','${conceptProxy.URI}')">
+												
 												<g:message code="text.view.in.skos" />
 											</button>
 
@@ -137,7 +137,9 @@
 
 								<g:each in="${conceptProxy.broader.keySet()}" var="key">
 									<tr id="${conceptProxy.broader.get(key)}"
-										onclick="processSelectOfTermAsCurrent('${conceptProxy.broader.get(key)}')">
+										onclick="processSelectOfTermAsCurrent('${conceptProxy.broader.get(key)}')"
+										onmouseover="changeTextColor('${conceptProxy.broader.get(key)}')"
+										onmouseout="changeTextColorBack('${conceptProxy.broader.get(key)}')">
 										<td>
 											${key}
 										</td>
@@ -168,7 +170,9 @@
 
 								<g:each in="${conceptProxy.related.keySet()}" var="key">
 									<tr id="${conceptProxy.related.get(key)}"
-										onclick="processSelectOfTermAsCurrent('${conceptProxy.related.get(key)}')">
+										onclick="processSelectOfTermAsCurrent('${conceptProxy.related.get(key)}')"
+										onmouseover="changeTextColor('${conceptProxy.related.get(key)}')"
+										onmouseout="changeTextColorBack('${conceptProxy.related.get(key)}')">
 										<td>
 											${key}
 										</td>

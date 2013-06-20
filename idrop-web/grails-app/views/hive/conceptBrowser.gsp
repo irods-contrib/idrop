@@ -2,16 +2,30 @@
 	<div class="row-fluid " id="conceptBrowserVocabularyToolbar">
 		<div class="span2">
 			<div class="btn-group pad-around">
-				<button type="button" class="btn btn-primary"
-					id="showSelectionListing" onclick="processShowSelectionListing()">
+				<a href="#myModal" role="button" class="btn btn-primary"
+					id="showSelectionListing" onclick="processShowSelectionListing()" data-goggle="modal">
 					<g:message code="text.choose.vocabularies" />
-				</button>
+				</a>
+				<div id="myModal" class="modal hide fade" tabindex="－100" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+						<h3 id="myModalLabel">Vocabulary List</h3>
+					</div>
+					<div class="modal-body">
+						<button class="btn btn-primary">Save changes</button>
+					</div>
+					<div class="modal-footer">
+						<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+						<button class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
 				<button type="button" class="btn btn-primary" id="backToTop"
 					onclick="processVocabularySelection()">
 					<g:message code="text.back.to.top" />
 				</button>
-			</div>
+			</div>	
 		</div>
+		
 		<div class="offset1 span9">
 			<div class="btn-group pad-around" data-toggle="buttons-radio">
 				<g:each in="${hiveState.selectedVocabularies}"
@@ -21,17 +35,26 @@
 						onclick="processVocabularySelection('${selectedVocabulary}')">
 						${selectedVocabulary}
 					</button>
+					<button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="#"><i class="icon-refresh"></i>Refresh</a></li>
+						<li><a href="#"><i class="icon-trash"></i>Delete</a></li>
+						<li class="divider"></li>
+						<li><a href="#">Make Admin</a></li>
+					</ul>
 				</g:each>
 			</div>
 		</div>
-	</div>
+	</div>	
 	<div class="row-fluid " id="conceptBrowserSearchForm">
 		<div class="span5 offset1" id="searchConceptForm">
 			<g:form id="searchConceptForm" action="search" method="get">
 				<g:textField name="searchConcept" id="searchConceptTerm"
 					value="${params.searchedConcept}" onkeydown="if (event.keyCode == 13) processSearchHiveConcept()"/>
 				<button type="button" class="btn" id="searchConcept" value="update"
-					onclick="processSearchHiveConcept()">
+					onclick="processSearchHiveConcept()"><i class="icon-search"></i>
 					<g:message code="text.search" />
 				</button>
 			</g:form>
@@ -72,7 +95,8 @@
 	 * page level action to show the vocabulary selection form for reselection
 	 */
 	function processShowSelectionListing() {
-		alert("show vocabulary selection listing to rechoose");
+		<%--alert("show vocabulary selection listing to rechoose");--%>
+		$('#myModal').modal()
 	}
 
 	/**
@@ -98,6 +122,7 @@
 	 * handle pressing the view in skos button
 	 */
 	function processViewInSKOS(vocabulary, termUri) {
+		
 		if (termUri == null || termUri == "") {
 			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
 			return false;
@@ -106,8 +131,14 @@
 			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
 			return false;
 		}
-		alert("to be implemented, view as SKOS term:" + termUri
-				+ " from vocabulary:" + vocabulary );
+		<%--alert("to be implemented, view as SKOS term:" + termUri
+				+ " from vocabulary:" + vocabulary );--%>
+		$('#btnViewInSKOS').popover({
+			placement:'top',
+			title:vocabulary,
+			content:'Term URI: ' + termUri
+		});
+			
 	}
 
 	/**
@@ -149,6 +180,11 @@
 
 	function changeTextColor(id) {
 		var element = document.getElementById(id);
-		element.style.color = "#005580";
+		element.style.color = "#FF8000";
+	}
+
+	function changeTextColorBack(id) {
+		var element = document.getElementById(id);
+		element.style.color = "#333333";
 	}
 </script>

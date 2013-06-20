@@ -11,7 +11,8 @@
 			<g:each in="${conceptProxy.narrower.keySet()}" var="key">
 				<tr id="${conceptProxy.narrower.get(key)}"
 					onclick="processSelectOfTermAsCurrent('${conceptProxy.narrower.get(key)}')"
-					onmouseover="changeTextColor('${conceptProxy.narrower.get(key)}')">
+					onmouseover="changeTextColor('${conceptProxy.narrower.get(key)}')"
+					onmouseout="changeTextColorBack('${conceptProxy.narrower.get(key)}')">
 					<td>
 						${key}
 					</td>

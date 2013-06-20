@@ -69,6 +69,7 @@ a:focus {
 a:hover,
 a:active {
   outline: 0;
+  color:
 }
 sub,
 sup {
@@ -4261,7 +4262,7 @@ a.thumbnail:hover {
   left: 0;
   z-index: 1010;
   display: none;
-  width: 236px;
+  width: 336px;
   padding: 1px;
   background-color: #ffffff;
   -webkit-background-clip: padding-box;
@@ -4302,6 +4303,7 @@ a.thumbnail:hover {
 }
 .popover-content {
   padding: 9px 14px;
+  font-size: 70%;
 }
 .popover-content p,
 .popover-content ul,
