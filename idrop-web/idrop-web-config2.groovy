@@ -89,4 +89,3 @@ hive.config.location="/Users/mikeconway/temp/hive-data/hive.properties"
 
 
 //*************************************************************************
-
