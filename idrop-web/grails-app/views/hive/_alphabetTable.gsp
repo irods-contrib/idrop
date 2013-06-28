@@ -1,4 +1,4 @@
-<table cellspacing="0">
+<table class="table-alpha">
 	<tbody>
 		<tr>
 			<td><a href="#A" onclick="setLetter('A')">A</a></td>

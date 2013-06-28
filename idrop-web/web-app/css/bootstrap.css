@@ -822,11 +822,15 @@ a.badge:hover {
 .btn-mini .badge {
   top: 0;
 }
-table {
+table, .table-alpha{
   max-width: 100%;
   background-color: transparent;
   border-collapse: collapse;
   border-spacing: 0;
+}
+.table-alpha {
+  border-collapse: separate;
+  border-spacing: 7px;
 }
 .table {
   width: 100%;

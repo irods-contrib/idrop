@@ -2,7 +2,7 @@
 	<g:if test="${searchResult}">
 		<div class="row-fluid">
 			<div class="span10 offset1">
-				<button type="button" class="btn" data-toggle="collapse" data-target="#searchResultCollapseArea"><g:message code="text.show.hide.results" /></button>
+				<button type="button" class="btn btn-link" data-toggle="collapse" data-target="#searchResultCollapseArea"><g:message code="text.show.hide.results" /></button>
 			</div>
 		</div>
 		</g:if>
@@ -12,15 +12,15 @@
 					
 				
 					<table class="table table-striped">
-					<caption><g:message code="text.search.result" /></caption>
+					<h3><g:message code="text.search.result" /></h3>
 						<thead>
-							<tr>
+							<tr style="color:#0088CC">
 							<th><g:message code="text.term" /></th>
 							<th><g:message code="text.vocabulary" /></th>
 							</tr>
 						</thead>
 							<g:each in="${searchResult}" var="result">
-								<tr>
+								<tr id="${result.preLabel}" onmouseover="changeTextColor('${result.preLabel}')" onmouseout="changeTextColorBack('${result.preLabel}')">
 									<td>
 										<span onclick="processSelectOfTermAsCurrent('${result.URI}')">${result.preLabel}</span>
 									</td>

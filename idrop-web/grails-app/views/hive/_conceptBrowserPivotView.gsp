@@ -16,7 +16,7 @@
 							<div class="container-fluid">
 								<div class="row-fluid">
 									<div class="span3">
-										<h6>
+										<h6 style="color:#0088CC">
 											<g:message code="text.preferred.label" />
 											:
 										</h6>
@@ -31,7 +31,7 @@
 								</div>
 								<div class="row-fluid">
 									<div class="span3">
-										<h6>
+										<h6 style="color:#0088CC">
 											<g:message code="text.alternate.labels" />
 											:
 										</h6>
@@ -47,7 +47,7 @@
 								</g:each>
 								<div class="row-fluid">
 									<div class="span3">
-										<h6>
+										<h6 style="color:#0088CC">
 											<g:message code="text.uri" />
 											:
 										</h6>
@@ -94,13 +94,7 @@
 						<div class="span10 offset1 well"><em>Select terms or search to navigate and find descriptions for your data...</em></div>
 					</div> 
 				</g:else>
-				<div class="row-fluid">
-					<div class="span10 offset2">
-						<h5>
-							<g:message code="text.narrower.terms" />
-						</h5>
-					</div>
-				</div>
+
 				<g:if test="${conceptProxy.isTopLevel()}">
 					<div class="row-fluid" id="conceptBrowserNarrowerLetters">
 						<div class="span10 offset1 well">
@@ -108,6 +102,13 @@
 						</div>
 					</div>
 				</g:if>
+				<div class="row-fluid">
+					<div class="span10 offset2">
+						<h5>
+							<g:message code="text.narrower.terms" />
+						</h5>
+					</div>
+				</div>
 				<div class="row-fluid" id="conceptBrowserNarrower">
 					<g:render template="/hive/narrowerTable" />
 				</div>
