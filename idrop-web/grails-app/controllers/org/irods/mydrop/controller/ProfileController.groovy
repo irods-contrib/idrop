@@ -2,7 +2,6 @@ package org.irods.mydrop.controller
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.userprofile.UserProfile
 import org.irods.mydrop.service.ProfileService
 import org.jsoup.Jsoup
@@ -41,7 +40,7 @@ class ProfileController {
 		if (irodsAccount.userName == IRODSAccount.PUBLIC_USERNAME) {
 			render(view:"noProfileData")
 		} else {
-		
+
 			try {
 				UserProfile userProfile = profileService.retrieveProfile(irodsAccount)
 				ProfileCommand profileCommand = new ProfileCommand()
@@ -59,53 +58,53 @@ class ProfileController {
 				profileCommand.postOfficeBox = Jsoup.clean(userProfile.userProfilePublicFields.postOfficeBox,Whitelist.basic())
 				profileCommand.telephoneNumber = Jsoup.clean(userProfile.userProfilePublicFields.telephoneNumber,Whitelist.basic())
 				profileCommand.title = Jsoup.clean(userProfile.userProfilePublicFields.title,Whitelist.basic())
-				
+
 				render(view:"index", model:[userProfile:profileCommand])
 			} catch (Exception e) {
+				log.error("eception retrieving or creating user profile", e)
 				response.sendError(500,e.message)
 			}
 		}
-		
 	}
-	
+
 
 	/**
 	 * Update the profile
 	 * @return
 	 */
 	def updateProfile(ProfileCommand profileCommand) {
-		
+
 		log.info("updateProfile")
 		log.info "profileCommand: ${profileCommand}"
-		
-				/**
-				 * If there is an error send back the view for redisplay with error messages
-				 */
-				if (!profileCommand.validate()) {
-					log.info("errors in page, returning with error info")
-					flash.error =  message(code:"error.data.error")
-					render(view:"index", model:[userProfile:profileCommand])
-					return
-				}
-		
-				log.info("edits pass")
-		
+
+		/**
+		 * If there is an error send back the view for redisplay with error messages
+		 */
+		if (!profileCommand.validate()) {
+			log.info("errors in page, returning with error info")
+			flash.error =  message(code:"error.data.error")
+			render(view:"index", model:[userProfile:profileCommand])
+			return
+		}
+
+		log.info("edits pass")
+
 
 		/*
 		 * Massage the params into the user profile
 		 */
 
-		
+
 		UserProfile userProfile
 		try {
-			 userProfile = profileService.retrieveProfile(irodsAccount)
+			userProfile = profileService.retrieveProfile(irodsAccount)
 		} catch (Exception e) {
 			log.error("error retrieving user profile", e)
 			flash.error =  e.message
 			render(view:"index", model:[userProfile:profileCommand])
 			return
 		}
-		
+
 		userProfile.userName = irodsAccount.userName
 		userProfile.userProfilePublicFields.nickName = Jsoup.clean(profileCommand.nickName,Whitelist.basic())
 		userProfile.userProfilePublicFields.description = Jsoup.clean(profileCommand.description,Whitelist.basic())
@@ -121,7 +120,7 @@ class ProfileController {
 		userProfile.userProfilePublicFields.postOfficeBox = Jsoup.clean(profileCommand.postOfficeBox,Whitelist.basic())
 		userProfile.userProfilePublicFields.telephoneNumber = Jsoup.clean(profileCommand.telephoneNumber,Whitelist.basic())
 		userProfile.userProfilePublicFields.title = Jsoup.clean(profileCommand.title,Whitelist.basic())
-		
+
 		log.info "updating profile...."
 		try {
 			profileService.updateProfile(irodsAccount, userProfile)
@@ -131,15 +130,12 @@ class ProfileController {
 			render(view:"index", model:[userProfile:profileCommand])
 			return
 		}
-		
+
 		log.info "updated"
 		flash.message =  message(code:"message.update.successful")
-		
-		redirect(view:"index", model:[userProfile:profileCommand])
-		
-	}
 
-	
+		redirect(view:"index", model:[userProfile:profileCommand])
+	}
 }
 
 class ProfileCommand {
@@ -157,7 +153,7 @@ class ProfileCommand {
 	String postOfficeBox
 	String telephoneNumber
 	String title
-	
+
 	static constraints = {
 		nickName(null:false)
 		givenName( null:false)
@@ -169,7 +165,7 @@ class ProfileCommand {
 		labeledURL(null:false)
 		postalAddress(null:false)
 		postalCode(null:false)
-		postOfficeBox(null:false) 
+		postOfficeBox(null:false)
 		telephoneNumber(null:false)
 		title(null:false)
 	}

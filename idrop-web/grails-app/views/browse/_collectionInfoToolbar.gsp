@@ -3,36 +3,36 @@
 	<div id="collectionInfoToolbarMenu" class="btn-toolbar">
 		
 		<div id="collectionInfoButtonGroup1" class="btn-group">
-			<button id="setCollectionAsRoot" onclick="cibSetCollectionAsRoot()"><img class="icon-hand-left"/><g:message
+			<button id="setCollectionAsRoot" onclick="cibSetCollectionAsRoot()"><i class="icon-hand-left"></i><g:message
 					code="text.set.as.root" /></button>
 					
 					
 			<g:if  test="${irodsStarredFileOrCollection}">
-				<button id="unstarCollection" onclick="cibUnstarCollection()"><img class="icon-star"/><g:message
+				<button id="unstarCollection" onclick="cibUnstarCollection()"><i class="icon-star"></i><g:message
 					code="text.unstar" /></button>
 			</g:if>
 			<g:else>
-				<button id="starCollection" onclick="cibStarCollection()"><img class="icon-star-empty"/><g:message
+				<button id="starCollection" onclick="cibStarCollection()"><i class="icon-star-empty"></i><g:message
 					code="text.star" /></button>
 			</g:else>
 
 		</div>
 
 		<div id="collectionInfoButtonGroup2" class="btn-group">
-			<button id="addCollectionToCart" onclick="addToCartViaToolbar()"><img class="icon-shopping-cart"/><g:message
+			<button id="addCollectionToCart" onclick="addToCartViaToolbar()"><i class="icon-shopping-cart"></i><g:message
 					code="text.add.to.cart" /></button>
-			<button id="uploadViaBrowser" onclick="cibUploadViaBrowser()"><img class="icon-upload"/><g:message
+			<button id="uploadViaBrowser" onclick="cibUploadViaBrowser()"><i class="icon-upload"></i><g:message
 					code="text.upload" /></button>
-			<button id="bulkUploadViaBrowser" onclick="cibBulkUploadViaBrowser()"><img class="icon-upload"/><g:message
+			<button id="bulkUploadViaBrowser" onclick="cibBulkUploadViaBrowser()"><i class="icon-upload"></i><g:message
 					code="text.bulk.upload" /></button>
 			
 		</div>
 		<div id="collectionInfoButtonGroup3" class="btn-group">
-			<button id="newCollection" onclick="cibNewFolder()"><img class="icon-plus-sign"/><g:message
+			<button id="newCollection" onclick="cibNewFolder()"><i class="icon-plus-sign"></i><g:message
 					code="text.new.folder" /></button>
-			<button id="renameCollection" onclick="cibRenameCollection()"><img class="icon-pencil"/><g:message
+			<button id="renameCollection" onclick="cibRenameCollection()"><i class="icon-pencil"></i><g:message
 					code="text.rename" /></button>
-			<button id="deleteCollection" onclick="cibDeleteCollection()"><img class="icon-trash"/><g:message
+			<button id="deleteCollection" onclick="cibDeleteCollection()"><i class="icon-trash"></i><g:message
 					code="text.delete" /></button>
 		</div>
 </div>
