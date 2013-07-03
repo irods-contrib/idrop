@@ -73,3 +73,6 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1475] login form discombobulated on ie later versions
 **Fix layout markup for login form for better cross-browser compatability
+
+*[#1556] up/download performance of idrop web
+**Use enhanced Stream2StreamAO stream copy methods for upload/download

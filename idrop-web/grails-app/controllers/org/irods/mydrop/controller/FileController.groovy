@@ -71,7 +71,6 @@ class FileController {
 		fullPath = fullPath.substring(idx + parseStringLength)
 		log.info("iRODS path for file is: ${fullPath}")
 
-
 		try {
 			IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 			IRODSFileInputStream irodsFileInputStream = irodsFileFactory.instanceIRODSFileInputStream(fullPath)
@@ -84,7 +83,13 @@ class FileController {
 			response.setContentLength((int) length)
 			response.setHeader("Content-disposition", "attachment;filename=\"${irodsFile.name}\"")
 
-			response.outputStream << irodsFileInputStream // Performing a binary stream copy
+			//response.outputStream << irodsFileInputStream // Performing a binary stream copy
+
+			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
+			def stats = stream2Stream
+					.streamToStreamCopyUsingStandardIO(irodsFileInputStream, response.outputStream)
+			log.info("transferStats:${stats}")
+
 		} catch (CatNoAccessException e) {
 			log.error("no access error", e)
 			response.sendError(500, message(code:"message.no.access"))
@@ -194,7 +199,8 @@ class FileController {
 			IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, name)
 			targetFile.setResource(irodsAccount.defaultStorageResource)
 			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
-			stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
+			def transferStats = stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
+			log.info("transferStats:${transferStats}")
 		} catch (NoResourceDefinedException nrd) {
 			log.error("no resource defined exception", nrd)
 			response.sendError(500, message(code:"message.no.resource"))
