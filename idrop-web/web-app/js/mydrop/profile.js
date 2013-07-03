@@ -41,10 +41,11 @@ function updateUserProfile() {
  * load the profile details information
  */
 function loadProfileData() {
-	var targetDiv = "#profileDataArea";
+	/*var targetDiv = "#profileDataArea";
 	lcSendValueAndCallbackHtmlAfterErrorCheckPreserveMessage(
 			"/profile/loadProfileData",
-			targetDiv, targetDiv, null);
+			targetDiv, targetDiv, null);*/
+	 window.location=context + '/profile/index';
 }
 
 

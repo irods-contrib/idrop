@@ -149,7 +149,7 @@ function browserFirstViewRetrieved(data) {
 											|| n.statusText == "OK") {
 										// ok
 									} else {
-										setMessage("Unable to browse to location, try refreshing the tree.  You may not have permission to view this directory");
+										setMessage(n.responseText);
 										return false;
 										// refreshTree();
 									}
@@ -1652,7 +1652,41 @@ function downloadViaToolbarGivenPath(path) {
 		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 		return false;
 	}
+	
+	showBlockingPanel();
 
+	var params = {
+		absPath : path
+	}
+
+	var jqxhr = $
+			.post(context + "/file/screenForDownloadRights", params, null, "html")
+			.success(
+					function(returnedData, status, xhr) {
+						var continueReq = checkForSessionTimeout(
+								returnedData, xhr);
+
+						if (!continueReq) {
+							return false;
+						}
+
+						unblockPanel();
+						doActualDownload(path);
+						
+
+					}).error(function(xhr, status, error) {
+						setErrorMessage(xhr.responseText);
+						unblockPanel();
+			});
+}
+
+function doActualDownload(path) {
+	
+	if (path == null) {
+		setErrorMessage(jQuery.i18n.prop('msg.path.missing'));
+		return false;
+	}
+	
 	window.open(context + '/file/download' + escape(path), '_self');
 }
 
@@ -2564,28 +2598,6 @@ function closePublicLinkDialog() {
 	$("#browseDialogArea").html();
 }
 
-/**
- * Grant public (anonymous access) via the public link dialog. Submit dialog and
- * present the response
- */
-function grantPublicLink() {
-	var path = $("#publicLinkDialogAbsPath").val();
-	showBlockingPanel();
-	if (path == null) {
-		setMessage(jQuery.i18n.prop('msg.path.missing'));
-		unblockPanel();
-	}
-
-	var params = {
-		absPath : path
-	}
-
-	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck(
-			"/browse/updatePublicLinkDialog", params, null,
-			"#browseDialogArea", null, null);
-	unblockPanel();
-
-}
 
 /**
  * Set a no data message in the div
@@ -2656,7 +2668,9 @@ function addShareAtPath() {
 function editShareAtPath() {
 	$("#sharingPanelContainingDiv").html();
 	var path = $("#infoAbsPath").val();
-	if (selectedPath == null) {
+	if (path == null) {
+		setMessage(jQuery.i18n.prop('msg_path_missing'));
+		unblockPanel();		
 		return false;
 	}
 
@@ -2815,7 +2829,6 @@ function makePublicLinkAtPath() {
 	lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "", function(data) {
 		fillInACLDialog(data);
 	});
-	
 }
 
 /**
@@ -2845,12 +2858,23 @@ function grantPublicLink() {
 			absPath : path
 		}
 	
-	lcSendValueViaPostAndCallbackHtmlAfterErrorCheck("/browse/updatePublicLinkDialog", params, null, "#aclDialogArea", null, null);
-	unblockPanel();
+	var jqxhr = $.get(context + "/browse/updatePublicLinkDialog", params,
+			function(data, status, xhr) {
+		
+		var continueReq = checkForSessionTimeout(data, xhr);
+		if (!continueReq) {
+			return false;
+		}
+		
+		$("#publicLinkDialog").empty().append( data );
+		unblockPanel();
 
+	}).fail(function(xhr, status, error) {
+		setErrorMessage(xhr.responseText);
+		unblockPanel();
+	});
 }
         
-
 /*
 *Given the contents of the 'create public link' dialog, 
 */
@@ -2860,6 +2884,3 @@ function fillInACLDialog(data) {
 	$("#aclDialogArea").show("slow");
 }
 
-function zzz() {
-
-}

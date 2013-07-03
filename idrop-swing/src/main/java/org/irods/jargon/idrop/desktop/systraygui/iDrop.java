@@ -32,7 +32,6 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.tree.TreePath;
 import org.irods.jargon.conveyor.core.ConveyorCallbackListener;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;

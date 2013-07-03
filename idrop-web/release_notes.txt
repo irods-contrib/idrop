@@ -22,6 +22,17 @@ Note that the following bug and feature requests are logged in GForge with relat
 **Nicer display when no files/folders to display in home page
 **Gallery and browse view now configurable option in config.groovy
 
+*[#1462] Fix profile to tolerate no 'protected profile read/write' group, it will still write the profile but will not set permissions to that missing group
+
+*[#1475] ie fixes for 2.0.1
+**Lots of cleanups of html and styles as a result of ie testing on win8
+**Fix of login screen rendering on ie
+
+*[#1312] fix public link access to not override account if alread logged in
+
+*[#715] check access before download
+**Check file access and verify is a data object before doing a download, displaying a nicer error message
+
 ==Features==
 
 
@@ -32,3 +43,9 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#1345] upgrade grails to 2.2.1
 **Upgrade to grails 2.2.1 and related cleanups to make it easier to work with
 **Move plug-in defs to BuildConfig.groovy
+
+*[#1475] login form discombobulated on ie later versions
+**Fix layout markup for login form for better cross-browser compatability
+
+*[#1556] up/download performance of idrop web
+**Use enhanced Stream2StreamAO stream copy methods for upload/download

@@ -3,18 +3,49 @@
 <head>
 <title>iDrop-web - iRODS Personal Cloud"</title>
 <meta name="layout" content="basic" />
+<style type="text/css">
+/* Override some defaults */
+html,body {
+	background-color: #eee;
+}
+
+body {
+	padding-top: 40px;
+}
+
+.container {
+	width: 600px;
+}
+
+/* The white background content wrapper */
+.container>.content {
+	background-color: #fff;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+}
+
+.login-form {
+	margin-left: 65px;
+}
+
+legend {
+	margin-right: -50px;
+	font-weight: bold;
+	color: #404040;
+}
+</style>
 </head>
 
-<div class="row-fluid">
-	<div class="span5 offset4">
-		<div id="normalLoginForm" class="well">
-
-			<g:form id="normalLogin" method="post" controller="login"
-				action="authenticate">
-
-
-				<g:hiddenField name="usePresets" id="usePresets"
-					value="${loginCommand.usePresets}" />
+<body>
+	<div class="container">
+		<div class="row-fluid content">
+			<div class="span12">
 				<g:hasErrors bean="${loginCommand}">
 					<div class="alert alert-error">
 						<ul>
@@ -24,127 +55,96 @@
 						</ul>
 					</div>
 				</g:hasErrors>
+			</div>
+			<div class="span12">
 
-				<div id="container" style="height: auto; width: auto;">
+				<g:form id="normalLogin" method="post" controller="login"
+					action="authenticate" class="loginForm">
+					<g:hiddenField name="usePresets" id="usePresets"
+						value="${loginCommand.usePresets}" />
+					<fieldset>
+						<legend>
+							<g:message code="message.login" />
+						</legend>
 
-					<g:if test="${loginCommand.usePresets}">
 
-						<g:hiddenField name="host" id="host" value="${loginCommand.host}" />
-						<g:hiddenField name="port" id="port" value="${loginCommand.port}" />
-						<g:hiddenField name="zone" id="zone" value="${loginCommand.zone}" />
-						<g:hiddenField name="defaultStorageResource" id="resource"
-							value="${loginCommand.defaultStorageResource}" />
-						<g:hiddenField name="authMethod" id="authMethod"
-							value="${loginCommand.authMethod}" />
-					</g:if>
-					<g:else>
-						<div>
-							<div style="width: 30%;">
-								<label><g:message code="text.host" />:</label>
-							</div>
-							<div>
-								<input type="text" class="input-text" name="host" id="host"
-									value="${loginCommand.host}" />
-							</div>
-						</div>
-						<div>
-							<div>
-								<label><g:message code="text.port" />:</label>
-							</div>
-							<div>
-								<input type="text" class="input-text" name="port" id="port"
-									value="${loginCommand.port}" />
-							</div>
-						</div>
-						<div>
-							<div>
-								<label><g:message code="text.zone" />:</label>
-							</div>
-							<div>
-								<input type="text" class="input-text" name="zone" id="zone"
-									value="${loginCommand.zone}" />
-							</div>
-						</div>
-						<div>
-							<div>
-								<label><g:message code="text.auth.method" />:</label>
-							</div>
-							<div>
-								<g:select name="authMethod" from="${['Standard', 'PAM']}"
-									value="${loginCommand.authMethod}" />
-							</div>
-						</div>
-					</g:else>
 
-					<div>
-						<div>
-							<label><g:message code="text.guest.login" />:</label>
-						</div>
-						<div>
-							<g:checkBox name="useGuestLogin" id="useGuestLogin"
-								value="${loginCommand.useGuestLogin}"
-								onclick="toggleGuestLogin()" />
-						</div>
-					</div>
+						<g:if test="${loginCommand.usePresets}">
 
-					<div class="userLoginData">
-						<div>
-							<label><g:message code="text.user" />:</label>
-						</div>
-						<div>
-							<input type="text" class="input-text" name="user" id="user"
-								value="${loginCommand.user}" />
-						</div>
-					</div>
-					<div class="userLoginData">
-						<div>
-							<label><g:message code="text.password" />:</label>
-						</div>
-						<div>
-							<input type="password" class="input-text" name="password"
-								id="password" value="${loginCommand.password}" />
-						</div>
-					</div>
+							<g:hiddenField name="host" id="host" value="${loginCommand.host}" />
+							<g:hiddenField name="port" id="port" value="${loginCommand.port}" />
+							<g:hiddenField name="zone" id="zone" value="${loginCommand.zone}" />
+							<g:hiddenField name="defaultStorageResource" id="resource"
+								value="${loginCommand.defaultStorageResource}" />
+							<g:hiddenField name="authMethod" id="authMethod"
+								value="${loginCommand.authMethod}" />
+						</g:if>
+						<g:else>
 
-					</span>
-					<div>
-						<div></div>
-						<div>
-							<button id="login" name="login"
-								style="margin-left: 150px; margin-top: 20px; margin-bottom: 20px;">
-								<g:message code="text.login" />
-							</button>
-						</div>
-					</div>
-					<g:if test="${!loginCommand.usePresets}">
-						<div>
+							<label><g:message code="text.host" />:</label>
+
+							<input type="text" class="input-text" name="host" id="host"
+								value="${loginCommand.host}" />
+
+							<label><g:message code="text.port" />:</label>
+
+							<input type="text" class="input-text" name="port" id="port"
+								value="${loginCommand.port}" />
+
+							<label><g:message code="text.zone" />:</label>
+
+							<input type="text" class="input-text" name="zone" id="zone"
+								value="${loginCommand.zone}" />
+
+							<label><g:message code="text.auth.method" />:</label>
+
+							<g:select name="authMethod" from="${['Standard', 'PAM']}"
+								value="${loginCommand.authMethod}" />
+						</g:else>
+
+
+						<label><g:message code="text.guest.login" />:</label>
+
+						<g:checkBox name="useGuestLogin" id="useGuestLogin"
+							value="${loginCommand.useGuestLogin}"
+							onclick="toggleGuestLogin()" />
+
+
+						<label><g:message code="text.user" />:</label> <input type="text"
+							class="input-text" name="user" id="user"
+							value="${loginCommand.user}" /> <label><g:message
+								code="text.password" />:</label> <input type="password"
+							class="input-text" name="password" id="password"
+							value="${loginCommand.password}" />
+
+						<button id="login" name="login"
+							style="margin-left: 150px; margin-top: 20px; margin-bottom: 20px;" type="submit">
+							<g:message code="text.login" />
+						</button>
+
+						<g:if test="${!loginCommand.usePresets}">
 							<div>
-								<label><g:message code="text.resource" />:</label>
+								<div>
+									<label><g:message code="text.resource" />:</label>
+								</div>
+								<div>
+									<input type="text" class="input-text" name="resource"
+										id="resource" value="${loginCommand.defaultStorageResource}" />
+									<stong> <g:message code="text.optional" /> <strong></strong>
+									</stong>
+								</div>
 							</div>
-							<div>
-								<input type="text" class="input-text" name="resource"
-									id="resource" value="${loginCommand.defaultStorageResource}" />
-								<stong>
-								<g:message code="text.optional" />
-								</strong>
-							</div>
-						</div>
-					</g:if>
-				</div>
-				<!-- container div -->
+						</g:if>
+					</fieldset>
+				</g:form>
 
-			</g:form>
+				<!--end-normalLogin-->
+			</div>
 
-			<!--end-normalLogin-->
 		</div>
 
 	</div>
-
-</div>
-</div>
-</div>
-</html>
-<script>
+	<script type="text/javascript">
 	$(function() {
 		toggleGuestLogin();
 
@@ -160,6 +160,9 @@
 		}
 	}
 </script>
+</body>
+</html>
+
 
 
 

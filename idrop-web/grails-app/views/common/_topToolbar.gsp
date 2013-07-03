@@ -3,10 +3,10 @@
 	<div id="topToolbarMenu" class="btn-toolbar">
 		
 		<div id="menuFileDetails" class="btn-group">
-			<button id="menuRefresh" onclick="refreshTree()"><img class="icon-refresh"/><g:message
+			<button id="menuRefresh" onclick="refreshTree()"><i class="icon-refresh"></i><g:message
 					code="text.refresh" /></button>
 			<button id="menuNewFolderDetails"
-					onclick="newFolderViaBrowseDetailsToolbar()"><img class="icon-plus-sign"/><g:message
+					onclick="newFolderViaBrowseDetailsToolbar()"><i class="icon-plus-sign"></i><g:message
 							code="text.new.folder" /></button>
 
 		</div>
@@ -14,13 +14,13 @@
 		<div id="menuView" class="btn-group">
 				<g:if test="${grailsApplication.config.idrop.config.use.browse.view==true}">
 					<button id="menuBrowseView"
-						onclick="browseView()"><img class="icon-list"/><g:message
+						onclick="browseView()"><i class="icon-list"></i><g:message
 								code="text.browse" /></button>
 				</g:if>
-				<button id="menuInfoView" onclick="infoView()"><img class="icon-info-sign"/> <g:message code="text.info" /></button>
+				<button id="menuInfoView" onclick="infoView()"><i class="icon-info-sign"></i> <g:message code="text.info" /></button>
 				<g:if test="${grailsApplication.config.idrop.config.use.gallery.view==true}">
 					<button id="menuGalleryView"
-						onclick="galleryView()"><img class="icon-picture"/><g:message
+						onclick="galleryView()"><i class="icon-picture"></i><g:message
 								code="text.gallery" /></button>
 				</g:if>
 		</div>
