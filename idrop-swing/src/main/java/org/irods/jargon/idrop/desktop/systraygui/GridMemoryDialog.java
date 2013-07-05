@@ -296,9 +296,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         jScrollPane3 = new javax.swing.JScrollPane();
         tableGridInfo = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        jPanel16 = new javax.swing.JPanel();
         btnAddGridInfo = new javax.swing.JButton();
         btnDeleteGridInfo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -328,50 +326,34 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
         jPanel7.setPreferredSize(new java.awt.Dimension(568, 40));
-        jPanel7.setLayout(new java.awt.BorderLayout());
-
-        jPanel8.setPreferredSize(new java.awt.Dimension(100, 44));
-
-        org.jdesktop.layout.GroupLayout jPanel8Layout = new org.jdesktop.layout.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 36, Short.MAX_VALUE)
-        );
-
-        jPanel7.add(jPanel8, java.awt.BorderLayout.EAST);
 
         jPanel9.setPreferredSize(new java.awt.Dimension(100, 25));
-        jPanel9.setLayout(new java.awt.BorderLayout());
-
-        jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 1));
+        jPanel9.setLayout(new java.awt.GridBagLayout());
 
         btnAddGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGridInfo.text")); // NOI18N
-        btnAddGridInfo.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnAddGridInfo.setMaximumSize(null);
+        btnAddGridInfo.setMinimumSize(null);
+        btnAddGridInfo.setPreferredSize(null);
         btnAddGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddGridInfoActionPerformed(evt);
             }
         });
-        jPanel16.add(btnAddGridInfo);
+        jPanel9.add(btnAddGridInfo, new java.awt.GridBagConstraints());
 
         btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGridInfo.text")); // NOI18N
         btnDeleteGridInfo.setEnabled(false);
-        btnDeleteGridInfo.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnDeleteGridInfo.setMaximumSize(null);
+        btnDeleteGridInfo.setMinimumSize(null);
+        btnDeleteGridInfo.setPreferredSize(null);
         btnDeleteGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteGridInfoActionPerformed(evt);
             }
         });
-        jPanel16.add(btnDeleteGridInfo);
+        jPanel9.add(btnDeleteGridInfo, new java.awt.GridBagConstraints());
 
-        jPanel9.add(jPanel16, java.awt.BorderLayout.WEST);
-
-        jPanel7.add(jPanel9, java.awt.BorderLayout.WEST);
+        jPanel7.add(jPanel9);
 
         pnlGridInfoTable.add(jPanel7, java.awt.BorderLayout.SOUTH);
 
@@ -518,12 +500,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     private javax.swing.JButton btnLogin;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblLoginInfo;

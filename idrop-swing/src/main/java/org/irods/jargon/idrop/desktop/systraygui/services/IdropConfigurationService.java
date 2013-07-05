@@ -57,6 +57,7 @@ public interface IdropConfigurationService  {
      public static final String IRODS_IO_GET_BUFFER_SIZE = "jargon.get.buffer.size";
      public static final String IRODS_CONNECTION_RESTART = "transfer.reconnect";
       public static final String IDROP_ENABLE_RESC_EDIT = "idrop.settings.enable_default_resc_edit";
+      
     Properties bootstrapConfigurationAndMergePropertiesFromLocalAndClasspath() throws IdropException;
 
     /**
