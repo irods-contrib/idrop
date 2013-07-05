@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import org.irods.jargon.conveyor.core.ConveyorBusyException;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
-import org.openide.util.Exceptions;
 
 /**
  *

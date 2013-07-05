@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.QueueManagerService;
 
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
@@ -26,12 +28,13 @@ import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.MoveOrCopyiRODSDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.slf4j.LoggerFactory;
 
 /**
  * Transfer handler to handle import/export from the IRODSTree that handles the
  * Swing JTree depicting the iRODS file system
- * 
+ *
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSTreeTransferHandler extends TransferHandler {
@@ -102,9 +105,9 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                     return true;
                 }
             } else {
-                 // copy
-                    processCopyGesture(transferable, targetNode);
-                    return true;
+                // copy
+                processCopyGesture(transferable, targetNode);
+                return true;
             }
         }
 
@@ -283,7 +286,6 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             // process the drop as a put
 
             java.awt.EventQueue.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
 
@@ -294,20 +296,19 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                         String localSourceAbsolutePath = transferFile.getAbsolutePath();
                         String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
                         log.info("initiating put transfer");
-                            // FIXME: conveyor
-                        /*
-                        try {
-                            idropGui.getiDropCore().getTransferManager().enqueueAPut(localSourceAbsolutePath,
+                       try {
+                            QueueManagerService qms = idropGui.getiDropCore().getConveyorService().getQueueManagerService();
+                            qms.enqueueTransferOperation(
                                     targetIrodsFileAbsolutePath,
-                                    sourceResource,
-                                    idropGui.getIrodsAccount());
-                        } catch (JargonException ex) {
+                                    transferFile.getAbsolutePath(),
+                                    idropGui.getiDropCore().getIrodsAccount(),
+                                    TransferType.PUT);
+                        } catch (ConveyorExecutionException ex) {
                             java.util.logging.Logger.getLogger(
                                     LocalFileTree.class.getName()).log(
                                     java.util.logging.Level.SEVERE, null, ex);
                             idropGui.showIdropException(ex);
                         }
-                        */
                     }
                 }
             });
@@ -427,29 +428,28 @@ public class IRODSTreeTransferHandler extends TransferHandler {
             // process the drop as a put
 
             java.awt.EventQueue.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
 
                     for (File transferFile : sourceFiles) {
                         log.info("initiating put transfer for source file:{}",
                                 transferFile.getAbsolutePath());
-                          // FIXME: conveyor
-                            /*
+
+
                         try {
-                              
-                            idropGui.getiDropCore().getTransferManager().enqueueAPut(
-                                    transferFile.getAbsolutePath(),
+                            QueueManagerService qms = idropGui.getiDropCore().getConveyorService().getQueueManagerService();
+                            qms.enqueueTransferOperation(
                                     targetIrodsFileAbsolutePath,
-                                    sourceResource,
-                                    idropGui.getIrodsAccount());
-                        } catch (JargonException ex) {
+                                    transferFile.getAbsolutePath(),
+                                    idropGui.getiDropCore().getIrodsAccount(),
+                                    TransferType.PUT);
+                        } catch (ConveyorExecutionException ex) {
                             java.util.logging.Logger.getLogger(
                                     LocalFileTree.class.getName()).log(
                                     java.util.logging.Level.SEVERE, null, ex);
                             idropGui.showIdropException(ex);
                         }
-                        */
+
                     }
                 }
             });
@@ -517,5 +517,4 @@ public class IRODSTreeTransferHandler extends TransferHandler {
                 (int) (idropGui.getLocation().getY() + idropGui.getHeight() / 2));
         moveIRODSFileOrDirectoryDialog.setVisible(true);
     }
-
 }

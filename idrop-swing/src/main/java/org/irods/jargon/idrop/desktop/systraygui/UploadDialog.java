@@ -6,7 +6,6 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Cursor;
 import java.io.File;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.ListSelectionModel;
@@ -16,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.QueueManagerService;
 
-import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;

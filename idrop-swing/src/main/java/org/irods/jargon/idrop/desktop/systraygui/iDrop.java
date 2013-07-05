@@ -1405,12 +1405,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 if (ts.getTransferState() == TransferStatus.TransferState.FAILURE) {
                     // an error occurs, stop the transfer
                     log.error("error occurred in transfer: {}", ts);
-                    if (ts.getTransferException() == null) {
-                        idrop.showMessageFromOperation("An error occurred in the transfer, this transfer will be cancelled");
-                    } else {
-                        idrop.showIdropException(ts.getTransferException());
-                    }
-                    
+                 
                 } else if (ts.isIntraFileStatusReport()) {
                     
                     log.debug("transferred so far:{}", ts.getBytesTransfered());

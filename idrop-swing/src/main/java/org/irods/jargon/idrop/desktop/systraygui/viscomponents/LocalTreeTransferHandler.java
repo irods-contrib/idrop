@@ -20,16 +20,17 @@ import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreePath;
 
 import org.apache.commons.io.FileUtils;
-import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.pub.io.IRODSFile;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.QueueManagerService;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.slf4j.LoggerFactory;
 
 /**
  * A transfer handler for the local file tree
- * 
+ *
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class LocalTreeTransferHandler extends TransferHandler {
@@ -199,47 +200,30 @@ public class LocalTreeTransferHandler extends TransferHandler {
 
             // process the drop as a get
 
-              // FIXME: conveyor
-                            /*
-            java.awt.EventQueue.invokeLater(new Runnable() {
+            try {
+                QueueManagerService qms = idropGui.getiDropCore().getConveyorService().getQueueManagerService();
 
-                @Override
-                public void run() {
-                    try {
-                        for (File transferFile : sourceFiles) {
+                for (File transferFile : sourceFiles) {
 
-                            if (transferFile instanceof IRODSFile) {
-                                log.info(
-                                        "initiating a transfer of iRODS file:{}",
-                                        transferFile.getAbsolutePath());
-                                log.info("transfer to local file:{}",
-                                        tempTargetLocalFileAbsolutePath);
-                                idropGui.getiDropCore().getTransferManager().enqueueAGet(
-                                        transferFile.getAbsolutePath(),
-                                        tempTargetLocalFileAbsolutePath,
-                                        "", idropGui.getIrodsAccount());
-                            } else {
-                                log.info(
-                                        "process a local to local move with source...not yet implemented : {}",
-                                        transferFile.getAbsolutePath());
-                            }
-                        }
-                    } catch (JargonException ex) {
-                        java.util.logging.Logger.getLogger(
-                                LocalFileTree.class.getName()).log(
-                                java.util.logging.Level.SEVERE, null, ex);
-                        idropGui.showIdropException(ex);
-                        throw new IdropRuntimeException(ex);
-                    }
+                    qms.enqueueTransferOperation(
+                            transferFile.getAbsolutePath(),
+                            tempTargetLocalFileAbsolutePath,
+                            idropGui.getiDropCore().getIrodsAccount(),
+                            TransferType.GET);
                 }
-            });
-*/
+
+            } catch (ConveyorExecutionException ex) {
+                java.util.logging.Logger.getLogger(
+                        LocalFileTree.class.getName()).log(
+                        java.util.logging.Level.SEVERE, null, ex);
+                idropGui.showIdropException(ex);
+            }
         }
     }
 
     /**
      * Drop from local file tree onto local file tree for copy/move operation
-     * 
+     *
      * @param transferable
      * @param parent
      */
@@ -349,5 +333,4 @@ public class LocalTreeTransferHandler extends TransferHandler {
             final int i) {
         super.exportDone(jc, t, i);
     }
-
 }

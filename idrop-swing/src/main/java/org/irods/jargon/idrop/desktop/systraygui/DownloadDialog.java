@@ -163,21 +163,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
                                 java.util.logging.Level.SEVERE, null, ex);
                         idropGUI.showIdropException(ex);
                     }
-                        //FIXME:conveyor  
-                    /*
-                    try {
-                      
-                        idropGUI.getiDropCore().getTransferManager().enqueueAGet(
-                                    transferFile,
-                                    targetPath,
-                                    "", idropGUI.getIrodsAccount());
-                    } catch (JargonException ex) {
-                        java.util.logging.Logger.getLogger(
-                                LocalFileTree.class.getName()).log(
-                                java.util.logging.Level.SEVERE, null, ex);
-                        idropGUI.showIdropException(ex);
-                    }
-                    * */
+                     
                 }
             }
         });
