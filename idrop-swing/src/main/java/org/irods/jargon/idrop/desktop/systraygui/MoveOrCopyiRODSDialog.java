@@ -17,6 +17,8 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.tree.TreePath;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.QueueManagerService;
 
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.exception.JargonFileOrCollAlreadyExistsException;
@@ -26,8 +28,11 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.irods.jargon.transfer.dao.domain.Transfer;
+import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -525,21 +530,22 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
             final DataTransferOperations dataTransferOperations,
             final IRODSFile sourceFile, final String targetAbsolutePath)
             throws IdropException {
-    
-            // FIXME: conveyor
-            /*
-             *     try {
-            idrop.getiDropCore().getTransferManager().enqueueACopy(sourceFile.getAbsolutePath(),
-                    sourceFile.getResource(), targetAbsolutePath,
-                    idrop.getiDropCore().getIrodsAccount());
-                    
-        } catch (JargonException ex) {
-            Logger.getLogger(MoveOrCopyiRODSDialog.class.getName()).log(
-                    Level.SEVERE, null, ex);
-            throw new IdropException(
-                    "unable to copy file due to JargonException", ex); 
-        } */
-
+        
+           log.info("initiating put transfer");
+                       try {
+                            QueueManagerService qms = idrop.getiDropCore().getConveyorService().getQueueManagerService();
+                            Transfer transfer = new Transfer();
+                            transfer.setTransferType(TransferType.COPY);
+                            transfer.setIrodsAbsolutePath(sourceFile.getAbsolutePath());
+                            transfer.setLocalAbsolutePath(targetAbsolutePath);
+                            qms.enqueueTransferOperation(transfer, idrop.getIrodsAccount());
+                        } catch (ConveyorExecutionException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LocalFileTree.class.getName()).log(
+                                    java.util.logging.Level.SEVERE, null, ex);
+                            idrop.showIdropException(ex);
+                        }
+  
         // notifications are done at completion of transfer using status
         // callbacks
     }
