@@ -5,6 +5,7 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
     private final Transfer transfer;
     private List<TransferAttempt> transferAttempts = null;
     private final IDROPCore idropCore;
+    private String fileDetailsTitle;
 
     /**
      * Creates new form TransferInfoDialog
@@ -53,6 +55,15 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         
         lblTransferFrom.setText(fromPath);
         lblTransferTo.setText(toPath);
+        
+        // also build string for later use
+        StringBuilder sb = new StringBuilder();
+        sb.append(transfer.getTransferType().toString());
+        sb.append( " Transfer from ");
+        sb.append(fromPath);
+        sb.append(" to ");
+        sb.append(toPath);
+        fileDetailsTitle = sb.toString();
         
         // initialize transfer attempts
         try {
@@ -406,6 +417,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlButtons = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        btnShowFiles = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -466,13 +478,13 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlButtons.setPreferredSize(new java.awt.Dimension(595, 35));
         pnlButtons.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(400, 50));
+        jPanel2.setPreferredSize(new java.awt.Dimension(300, 50));
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 400, Short.MAX_VALUE)
+            .add(0, 300, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -481,7 +493,15 @@ public class TransferInfoDialog extends javax.swing.JDialog {
 
         pnlButtons.add(jPanel2, java.awt.BorderLayout.WEST);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(100, 112));
+        jPanel3.setPreferredSize(new java.awt.Dimension(250, 112));
+
+        btnShowFiles.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.btnShowFiles.text")); // NOI18N
+        btnShowFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowFilesActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnShowFiles);
 
         btnClose.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.btnClose.text")); // NOI18N
         btnClose.addActionListener(new java.awt.event.ActionListener() {
@@ -506,8 +526,21 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
 
+    private void btnShowFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowFilesActionPerformed
+        TransferFileListDialog transferFileListDialog = new TransferFileListDialog(
+                    this, transfer.getId(), idropCore);
+        Toolkit tk = getToolkit();
+        int x = (tk.getScreenSize().width - transferFileListDialog.getWidth()) / 2;
+        int y = (tk.getScreenSize().height - transferFileListDialog.getHeight()) / 2;
+        transferFileListDialog.setLocation(x, y);
+        transferFileListDialog.setTitle(this.fileDetailsTitle);
+        transferFileListDialog.setModal(true);  
+        transferFileListDialog.setVisible(true);
+    }//GEN-LAST:event_btnShowFilesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnShowFiles;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
