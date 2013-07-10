@@ -200,16 +200,6 @@ public class IDROPDesktop {
             gridMemoryDialog.setVisible(true);
         }
 
-
-//        final LoginDialog loginDialog = new LoginDialog(null, idropCore);
-//        Toolkit tk = idrop.getToolkit();
-//        int x = (tk.getScreenSize().width - loginDialog.getWidth()) / 2;
-//        int y = (tk.getScreenSize().height - loginDialog.getHeight()) / 2;
-//        loginDialog.setLocation(x, y);
-//        idropSplashWindow.toBack();
-//        loginDialog.toFront();
-//        loginDialog.setVisible(true);
-
         if (idropCore.getIrodsAccount() == null) {
             log.warn("no login account, exiting");
             System.exit(0);
@@ -262,26 +252,6 @@ public class IDROPDesktop {
 
         idropSplashWindow.setStatus("Starting work queue...", ++count);
         
-        // FIXME: conveyor
-        
-        /*
-        
-        try {
-            QueueSchedulerTimerTask queueSchedulerTimerTask = new QueueSchedulerTimerTask(
-                    idropCore.getTransferManager(), idrop);
-            SynchPeriodicScheduler synchPeriodicScheduler = new SynchPeriodicScheduler(idropCore.getTransferManager(), idropCore.getIRODSAccessObjectFactory());
-            Timer timer = new Timer();
-            timer.scheduleAtFixedRate(queueSchedulerTimerTask, 10000, 120000);
-            timer.scheduleAtFixedRate(synchPeriodicScheduler, 10000, 30000);
-
-            idropCore.setQueueTimer(timer);
-
-        } catch (IdropException ex) {
-            Logger.getLogger(IDROPDesktop.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        }
-        */
-
         log.info("signal that the startup sequence is complete");
         try {
             try {
