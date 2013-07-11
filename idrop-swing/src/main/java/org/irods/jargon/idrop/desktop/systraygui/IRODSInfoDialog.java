@@ -6,6 +6,7 @@ package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.CardLayout;
 import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;

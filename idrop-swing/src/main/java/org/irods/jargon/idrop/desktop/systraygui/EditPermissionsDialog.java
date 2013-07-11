@@ -4,16 +4,14 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.JOptionPane;
-
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.protovalues.FilePermissionEnum;
+import org.irods.jargon.core.protovalues.UserTypeEnum;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
@@ -21,92 +19,81 @@ import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.core.pub.domain.User;
 import org.irods.jargon.core.pub.domain.UserFilePermission;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.PermissionsTableModel;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author lisa
  */
-public class AddPermissionsDialog extends javax.swing.JDialog implements
-        ActionListener {
+public class EditPermissionsDialog extends javax.swing.JDialog {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 764249725877953976L;
     private final IRODSFileSystem irodsFileSystem;
     private final IRODSAccount irodsAccount;
     private final boolean isCollection;
+    private final int selectedRow;
     private final String selectedObjectFullPath;
     private final PermissionsTableModel tableModel;
-    private UserFilePermission permissionToAdd = null;
+    private final UserFilePermission permissionToUpdate;
     public static org.slf4j.Logger log = LoggerFactory
             .getLogger(EditMetaDataDialog.class);
-
+    
     /**
-     * Creates new form AddPermissionsDialog
+     * Creates new form EditPermissionsDialog
      */
-    public AddPermissionsDialog(final javax.swing.JDialog parent,
+    public EditPermissionsDialog(final javax.swing.JDialog parent,
             final boolean modal,
+            int selectedRow,
             String selectedObjectFullPath,
+            UserFilePermission permissionToUpdate,
             boolean isCollection,
             final IRODSFileSystem irodsFileSystem,
             final IRODSAccount irodsAccount,
             PermissionsTableModel model) {
-
+        
         super(parent, modal);
         initComponents();
-
+        
         this.irodsFileSystem = irodsFileSystem;
         this.irodsAccount = irodsAccount;
+        this.selectedRow = selectedRow;
         this.isCollection = isCollection;
         this.selectedObjectFullPath = selectedObjectFullPath;
         this.tableModel = model;
-
+        this.permissionToUpdate = permissionToUpdate;
+        
+        initData();
+    }
+    
+    private void initData() {
+        
         cbPermissionsPermission.addItem("READ");
         cbPermissionsPermission.addItem("WRITE");
         cbPermissionsPermission.addItem("OWN");
-
-        List<User> users = null;
-        try {
-            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
-                    .getUserAO(irodsAccount);
-            users = userAO.findAll();
-            Collections.sort(users, new Comparator<User>() {
-                @Override
-                public int compare(final User object1, final User object2) {
-                    return object1.getName().compareTo(object2.getName());
-                }
-            });
-
-            for (User user : users) {
-                cbPermissionsUserName.addItem(user.getNameWithZone());
-            }
-        } catch (JargonException ex) {
-            log.error("cannot retrieve irods users list", ex);
-            JOptionPane.showMessageDialog(this, "Cannot retrieve list of iRODS users",
-                    "Add Permissions", JOptionPane.PLAIN_MESSAGE);
-        }
-        cbPermissionsPermission.addActionListener(this);
-        cbPermissionsUserName.addActionListener(this);
-
-        updateAddButtonStatus();
-    }
-
-    private void updateAddButtonStatus() {
-        btnPermissionsAdd
-                .setEnabled((cbPermissionsUserName.getSelectedIndex() >= 0)
-                && (cbPermissionsPermission.getSelectedIndex() >= 0));
-    }
-
-    public UserFilePermission getPermissionToAdd() {
-        return permissionToAdd;
-    }
-
-    @Override
-    public void actionPerformed(final ActionEvent ae) {
-        updateAddButtonStatus();
+        
+//        List<User> users = null;
+//        try {
+//            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
+//                    .getUserAO(irodsAccount);
+//            users = userAO.findAll();
+//            Collections.sort(users, new Comparator<User>() {
+//                @Override
+//                public int compare(final User object1, final User object2) {
+//                    return object1.getName().compareTo(object2.getName());
+//                }
+//            });
+//
+//            for (User user : users) {
+//                cbPermissionsUserName.addItem(user.getNameWithZone());
+//            }
+//        } catch (JargonException ex) {
+//            log.error("cannot retrieve irods users list", ex);
+//            JOptionPane.showMessageDialog(this, "Cannot retrieve list of iRODS users",
+//                    "Edit Permissions", JOptionPane.PLAIN_MESSAGE);
+//        }
+        
+//        cbPermissionsUserName.setSelectedItem(permissionToUpdate.getNameWithZone());
+        lblUserName.setText(permissionToUpdate.getNameWithZone());
+        cbPermissionsPermission.setSelectedItem(permissionToUpdate.getFilePermissionEnum().toString());
     }
 
     /**
@@ -115,7 +102,6 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -123,18 +109,17 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         pnlPermissionEdit = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
-        cbPermissionsUserName = new javax.swing.JComboBox();
+        lblUserName = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         cbPermissionsPermission = new javax.swing.JComboBox();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnPermissionsCancel = new javax.swing.JButton();
-        btnPermissionsAdd = new javax.swing.JButton();
+        btnPermissionsUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.title")); // NOI18N
-        setBackground(java.awt.Color.white);
+        setTitle(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.title")); // NOI18N
         setPreferredSize(new java.awt.Dimension(460, 180));
 
         pnlMain.setLayout(new java.awt.BorderLayout());
@@ -143,17 +128,17 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
         pnlPermissionEdit.setLayout(new java.awt.BorderLayout());
 
-        jLabel31.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.jLabel31.text")); // NOI18N
+        jLabel31.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.jLabel31.text")); // NOI18N
         jLabel31.setPreferredSize(new java.awt.Dimension(120, 16));
         jPanel3.add(jLabel31);
 
-        cbPermissionsUserName.setMinimumSize(new java.awt.Dimension(60, 27));
-        cbPermissionsUserName.setPreferredSize(new java.awt.Dimension(260, 27));
-        jPanel3.add(cbPermissionsUserName);
+        lblUserName.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.lblUserName.text")); // NOI18N
+        lblUserName.setPreferredSize(new java.awt.Dimension(260, 16));
+        jPanel3.add(lblUserName);
 
         pnlPermissionEdit.add(jPanel3, java.awt.BorderLayout.NORTH);
 
-        jLabel32.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.jLabel32.text")); // NOI18N
+        jLabel32.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.jLabel32.text")); // NOI18N
         jLabel32.setPreferredSize(new java.awt.Dimension(120, 16));
         jPanel4.add(jLabel32);
 
@@ -171,7 +156,7 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 34));
         jPanel2.setRequestFocusEnabled(false);
 
-        btnPermissionsCancel.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.btnPermissionsCancel.text")); // NOI18N
+        btnPermissionsCancel.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnPermissionsCancel.text")); // NOI18N
         btnPermissionsCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPermissionsCancelActionPerformed(evt);
@@ -179,15 +164,14 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         });
         jPanel2.add(btnPermissionsCancel);
 
-        btnPermissionsAdd.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.btnPermissionsAdd.text")); // NOI18N
-        btnPermissionsAdd.setActionCommand(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.btnPermissionsAdd.actionCommand")); // NOI18N
-        btnPermissionsAdd.setEnabled(false);
-        btnPermissionsAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnPermissionsUpdate.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnPermissionsUpdate.text")); // NOI18N
+        btnPermissionsUpdate.setActionCommand(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnPermissionsUpdate.actionCommand")); // NOI18N
+        btnPermissionsUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPermissionsAddActionPerformed(evt);
+                btnPermissionsUpdateActionPerformed(evt);
             }
         });
-        jPanel2.add(btnPermissionsAdd);
+        jPanel2.add(btnPermissionsUpdate);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.EAST);
 
@@ -198,13 +182,14 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPermissionsAddActionPerformed(
-            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsAddActionPerformed
+    private void btnPermissionsCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPermissionsCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnPermissionsCancelActionPerformed
 
+    private void btnPermissionsUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPermissionsUpdateActionPerformed
         String selectedPermission = (String) cbPermissionsPermission
                 .getSelectedItem();
-        String tmpSelectedUser = (String) cbPermissionsUserName
-                .getSelectedItem();
+        String tmpSelectedUser = lblUserName.getText();
         String selectedUser = null;
 
         // probably have to remove #zone from user name
@@ -214,16 +199,24 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         } else {
             selectedUser = tmpSelectedUser;
         }
+        
+        // set updated permission type
+        UserFilePermission newPermission = new UserFilePermission(
+                        permissionToUpdate.getUserName(),
+                        permissionToUpdate.getUserId(),
+			FilePermissionEnum.valueOf(selectedPermission),
+			permissionToUpdate.getUserType(),
+                        permissionToUpdate.getUserZone());
 
         try {
-            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
-                    .getUserAO(irodsAccount);
-            User user = userAO.findByName(tmpSelectedUser);
-
-            permissionToAdd = new UserFilePermission(selectedUser,
-                    user.getId(),
-                    FilePermissionEnum.valueOf(selectedPermission),
-                    user.getUserType(), user.getZone());
+//            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
+//                    .getUserAO(irodsAccount);
+//            User user = userAO.findByName(tmpSelectedUser);
+//
+//            UserFilePermission newPermission = new UserFilePermission(selectedUser,
+//                    user.getId(),
+//                    FilePermissionEnum.valueOf(selectedPermission),
+//                    user.getUserType(), user.getZone());
             CollectionAO collectionAO = irodsFileSystem
                     .getIRODSAccessObjectFactory().getCollectionAO(
                     irodsAccount);
@@ -231,74 +224,70 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
                     .getIRODSAccessObjectFactory().getDataObjectAO(
                     irodsAccount);
 
-            if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.READ) {
+            if (newPermission.getFilePermissionEnum() == FilePermissionEnum.READ) {
                 if (isCollection) {
                     collectionAO.setAccessPermissionRead(
-                            permissionToAdd.getUserZone(),
+                            newPermission.getUserZone(),
                             selectedObjectFullPath,
-                            permissionToAdd.getUserName(), true);
+                            newPermission.getUserName(), true);
                 } else {
                     dataObjectAO.setAccessPermissionRead(
-                            permissionToAdd.getUserZone(),
+                            newPermission.getUserZone(),
                             selectedObjectFullPath,
-                            permissionToAdd.getUserName());
+                            newPermission.getUserName());
                 }
-            } else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.WRITE) {
+            } else if (newPermission.getFilePermissionEnum() == FilePermissionEnum.WRITE) {
                 if (isCollection) {
                     collectionAO.setAccessPermissionWrite(
-                            permissionToAdd.getUserZone(),
+                            newPermission.getUserZone(),
                             selectedObjectFullPath,
-                            permissionToAdd.getUserName(), true);
+                            newPermission.getUserName(), true);
                 } else {
                     dataObjectAO.setAccessPermissionWrite(
-                            permissionToAdd.getUserZone(),
+                            newPermission.getUserZone(),
                             selectedObjectFullPath,
-                            permissionToAdd.getUserName());
+                            newPermission.getUserName());
                 }
-            } else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.OWN) {
+            } else if (newPermission.getFilePermissionEnum() == FilePermissionEnum.OWN) {
                 if (isCollection) {
                     collectionAO.setAccessPermissionOwn(
-                            permissionToAdd.getUserZone(),
+                            newPermission.getUserZone(),
                             selectedObjectFullPath,
-                            permissionToAdd.getUserName(), true);
+                            newPermission.getUserName(), true);
                 } else {
                     dataObjectAO.setAccessPermissionOwn(
-                            permissionToAdd.getUserZone(),
+                            newPermission.getUserZone(),
                             selectedObjectFullPath,
-                            permissionToAdd.getUserName());
+                            newPermission.getUserName());
                 }
             }
             
-            tableModel.addRow(user, permissionToAdd.getFilePermissionEnum());
+            tableModel.updateRow(selectedRow, newPermission);
             
             JOptionPane.showMessageDialog(this,
-                "Permission Added Successfully",
-                "Add Permissions", JOptionPane.PLAIN_MESSAGE);
+                "Permission Updated Successfully",
+                "Update Permissions", JOptionPane.PLAIN_MESSAGE);
             
         } catch (JargonException ex) {
-            log.error("cannot add permissions", ex);
-            JOptionPane.showMessageDialog(this, "Permission Add Failed",
-                    "Add Permissions", JOptionPane.PLAIN_MESSAGE);
+            log.error("cannot update permissions", ex);
+            JOptionPane.showMessageDialog(this, "Permission Update Failed",
+                    "Update Permissions", JOptionPane.PLAIN_MESSAGE);
         }
-
+        
         this.dispose();
-    }// GEN-LAST:event_btnPermissionsAddActionPerformed
+    }//GEN-LAST:event_btnPermissionsUpdateActionPerformed
 
-    private void btnPermissionsCancelActionPerformed(
-            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsCancelActionPerformed
-        dispose();
-    }// GEN-LAST:event_btnPermissionsCancelActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnPermissionsAdd;
     private javax.swing.JButton btnPermissionsCancel;
+    private javax.swing.JButton btnPermissionsUpdate;
     private javax.swing.JComboBox cbPermissionsPermission;
-    private javax.swing.JComboBox cbPermissionsUserName;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel lblUserName;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlPermissionEdit;
     // End of variables declaration//GEN-END:variables
