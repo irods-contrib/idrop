@@ -33,9 +33,6 @@ import org.slf4j.LoggerFactory;
  */
 public class IDROPDesktop {
 
-    /**
-     * NOTE this class is in transition!!!!!!
-     */
     private iDrop idrop;
     private IDROPCore idropCore;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(IDROPDesktop.class);
