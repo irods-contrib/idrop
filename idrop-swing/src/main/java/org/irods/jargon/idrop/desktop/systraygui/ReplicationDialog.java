@@ -11,90 +11,100 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JCheckBox;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.QueueManagerService;
 
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.domain.Resource;
+import static org.irods.jargon.idrop.desktop.systraygui.MoveOrCopyiRODSDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.transfer.dao.domain.Transfer;
+import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.slf4j.LoggerFactory;
 
 /**
  * Dialog that displays the replication state of data objects, and can enqueue a
  * replication operation on a data object or a collection (recursive).
- * 
+ *
  * @author mikeconway
  */
 public class ReplicationDialog extends javax.swing.JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1125925865121672751L;
-	private final iDrop idropParentGui;
-	private final String seriesAbsolutePath;
-	private final String fileName;
-	private final boolean isFile;
-	private List<JCheckBox> boxes = new ArrayList<JCheckBox>();
-	public static org.slf4j.Logger log = LoggerFactory
-			.getLogger(ReplicationDialog.class);
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1125925865121672751L;
+    private final iDrop idropParentGui;
+    private final String seriesAbsolutePath;
+    private final String fileName;
+    private final boolean isFile;
+    private List<JCheckBox> boxes = new ArrayList<JCheckBox>();
+    public static org.slf4j.Logger log = LoggerFactory
+            .getLogger(ReplicationDialog.class);
 
-	/** Creates new form ReplicationDialog for a collection */
-	public ReplicationDialog(final iDrop idropParentGui, final boolean modal,
-			final String seriesAbsolutePath) {
-		super(idropParentGui, modal);
-		initComponents();
-		this.idropParentGui = idropParentGui;
-		this.seriesAbsolutePath = seriesAbsolutePath;
-		fileName = "";
-		isFile = false;
-		lblFileName.setText("Replicate contents of:" + seriesAbsolutePath);
-		setUpDialog();
-	}
+    /**
+     * Creates new form ReplicationDialog for a collection
+     */
+    public ReplicationDialog(final iDrop idropParentGui, final boolean modal,
+            final String seriesAbsolutePath) {
+        super(idropParentGui, modal);
+        initComponents();
+        this.idropParentGui = idropParentGui;
+        this.seriesAbsolutePath = seriesAbsolutePath;
+        fileName = "";
+        isFile = false;
+        lblFileName.setText("Replicate contents of:" + seriesAbsolutePath);
+        setUpDialog();
+    }
 
-	/** Creates new form ReplicationDialog for a file */
-	public ReplicationDialog(final iDrop idropParentGui, final boolean modal,
-			final String fileAbsolutePath, final String fileName) {
-		super(idropParentGui, modal);
-		initComponents();
-		this.idropParentGui = idropParentGui;
-		seriesAbsolutePath = fileAbsolutePath;
-		this.fileName = fileName;
-		isFile = true;
-		lblFileName.setText("Replicate:" + fileName);
-		setUpDialog();
-	}
+    /**
+     * Creates new form ReplicationDialog for a file
+     */
+    public ReplicationDialog(final iDrop idropParentGui, final boolean modal,
+            final String fileAbsolutePath, final String fileName) {
+        super(idropParentGui, modal);
+        initComponents();
+        this.idropParentGui = idropParentGui;
+        seriesAbsolutePath = fileAbsolutePath;
+        this.fileName = fileName;
+        isFile = true;
+        lblFileName.setText("Replicate:" + fileName);
+        setUpDialog();
+    }
 
-	private List<Resource> buildCurrentResourcesList() throws IdropException {
-		// if a file, then see if it's already on the resc, otherwise add a
-		// replicate
-		// if this is a file, list current resources for this data object
-		List<Resource> currentResources = null;
-		if (isFile) {
-			IRODSFileService irodsFileService;
-			try {
-				irodsFileService = new IRODSFileService(
-						idropParentGui.getIrodsAccount(), idropParentGui
-								.getiDropCore().getIrodsFileSystem());
-				currentResources = irodsFileService.getResourcesForDataObject(
-						seriesAbsolutePath, fileName);
-			} catch (IdropException ex) {
-				Logger.getLogger(ReplicationDialog.class.getName()).log(
-						Level.SEVERE, null, ex);
-				throw new IdropException(ex);
-			}
-		} else {
-			currentResources = new ArrayList<Resource>();
-		}
-		return currentResources;
-	}
+    private List<Resource> buildCurrentResourcesList() throws IdropException {
+        // if a file, then see if it's already on the resc, otherwise add a
+        // replicate
+        // if this is a file, list current resources for this data object
+        List<Resource> currentResources = null;
+        if (isFile) {
+            IRODSFileService irodsFileService;
+            try {
+                irodsFileService = new IRODSFileService(
+                        idropParentGui.getIrodsAccount(), idropParentGui
+                        .getiDropCore().getIrodsFileSystem());
+                currentResources = irodsFileService.getResourcesForDataObject(
+                        seriesAbsolutePath, fileName);
+            } catch (IdropException ex) {
+                Logger.getLogger(ReplicationDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+                throw new IdropException(ex);
+            }
+        } else {
+            currentResources = new ArrayList<Resource>();
+        }
+        return currentResources;
+    }
 
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-	@SuppressWarnings("unchecked")
-	// <editor-fold defaultstate="collapsed"
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed"
 	// desc="Generated Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
 
@@ -205,11 +215,9 @@ public class ReplicationDialog extends javax.swing.JDialog {
                     }
                 }
 
-                /**
-                 * FIXME: conveyor
-                 */
-                /*
                 try {
+                    QueueManagerService qms = idropParentGui.getiDropCore().getConveyorService().getQueueManagerService();
+                    Transfer transfer = new Transfer();
                     if (isFile && !foundResource) {
                         log.info("file not yet replicated to resource");
 
@@ -218,28 +226,35 @@ public class ReplicationDialog extends javax.swing.JDialog {
                         sb.append("/");
                         sb.append(fileName);
                         replicatedCount++;
-                        // FIXME: conveyor
-                        /*
-                        idropParentGui.getiDropCore().getTransferManager().enqueueAReplicate(sb.toString(),
-                                checkBox.getText(),
-                                idropParentGui.getIrodsAccount());
-                                
+
+
+
+                        transfer.setTransferType(TransferType.REPLICATE);
+                        transfer.setResourceName(checkBox.getText());
+                        transfer.setIrodsAbsolutePath(sb.toString());
+
                     } else if (!isFile) {
                         log.info("this is a collection, do the replication");
                         replicatedCount++;
-                        idropParentGui.getiDropCore().getTransferManager().enqueueAReplicate(seriesAbsolutePath,
-                                checkBox.getText(),
-                                idropParentGui.getIrodsAccount());
+
+
+
+                        transfer.setTransferType(TransferType.REPLICATE);
+                        transfer.setIrodsAbsolutePath(seriesAbsolutePath);
+                        transfer.setResourceName(checkBox.getText());
 
                     }
-                    
-                } catch (JargonException ex) {
+
+                    qms.enqueueTransferOperation(transfer, idropParentGui.getIrodsAccount());
+
+
+                } catch (Exception ex) {
                     Logger.getLogger(ReplicationDialog.class.getName()).log(
                             Level.SEVERE, null, ex);
                     idropParentGui.showIdropException(ex);
                     return;
                 }
-                */
+
             }
         }
 
@@ -247,7 +262,6 @@ public class ReplicationDialog extends javax.swing.JDialog {
 
         // now dispose
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 if (replicationsDone > 0) {
@@ -266,7 +280,6 @@ public class ReplicationDialog extends javax.swing.JDialog {
 
     private void setUpDialog() {
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 try {
@@ -316,7 +329,6 @@ public class ReplicationDialog extends javax.swing.JDialog {
         });
 
     }
-
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btnCancel;
 

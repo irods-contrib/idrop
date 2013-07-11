@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
@@ -24,6 +25,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
+import org.irods.jargon.conveyor.core.QueueManagerService;
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.CatNoAccessException;
@@ -37,8 +39,10 @@ import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.core.pub.domain.AvuData;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
+import org.irods.jargon.core.pub.domain.Resource;
 import org.irods.jargon.core.pub.domain.UserFilePermission;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
+import static org.irods.jargon.idrop.desktop.systraygui.ReplicationDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
@@ -47,6 +51,8 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.PermissionsTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.transfer.dao.domain.Transfer;
+import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.irods.jargon.usertagging.domain.IRODSTagValue;
 import org.irods.jargon.usertagging.tags.FreeTaggingService;
 import org.irods.jargon.usertagging.tags.IRODSTaggingService;
@@ -685,6 +691,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         jPanel16 = new javax.swing.JPanel();
         btnAddSharePermissions = new javax.swing.JButton();
         btnDeleteSharePermissions = new javax.swing.JButton();
+        pnlReplication = new javax.swing.JPanel();
+        scrollReplicationResources = new javax.swing.JScrollPane();
+        pnlReplicationResources = new javax.swing.JPanel();
+        pnlReplicaionTools = new javax.swing.JPanel();
+        btnReplicate = new javax.swing.JButton();
         pnlCloseBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -703,7 +714,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(560, 720));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 10, 10, 10));
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 750));
@@ -735,7 +745,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(lblInfoObjectName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                     .add(lblInfoObjectParent, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(342, Short.MAX_VALUE))
         );
         pnlSelectedObjectLayout.setVerticalGroup(
             pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -979,7 +989,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             .add(lblInfoObjectStatus, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(lblInfoObjectType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(lblInfoObjectVersion, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(342, Short.MAX_VALUE))
         );
         pnlObjectInfoLayout.setVerticalGroup(
             pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1080,7 +1090,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jLabel17)
                             .add(jLabel18))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 92, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 371, Short.MAX_VALUE)
                         .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(txtInfoTags)
                             .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE))
@@ -1231,11 +1241,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             .add(jLabel30))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(pnlMetaDataEditLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(txtMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                            .add(txtMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE)
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, txtMetadataAttribute)
                             .add(txtMetadataUnit)))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlMetaDataEditLayout.createSequentialGroup()
-                        .add(0, 432, Short.MAX_VALUE)
+                        .add(0, 711, Short.MAX_VALUE)
                         .add(btnMetadataClear)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnMetadataCreate)))
@@ -1370,6 +1380,28 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         tabbedpanelMain.addTab(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.pnlPermissionsTab.TabConstraints.tabTitle"), pnlPermissionsTab); // NOI18N
 
+        pnlReplication.setLayout(new java.awt.BorderLayout());
+
+        pnlReplicationResources.setLayout(new java.awt.GridLayout(0, 1));
+        scrollReplicationResources.setViewportView(pnlReplicationResources);
+
+        pnlReplication.add(scrollReplicationResources, java.awt.BorderLayout.CENTER);
+
+        pnlReplicaionTools.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnReplicate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnReplicate.text")); // NOI18N
+        btnReplicate.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnReplicate.toolTipText")); // NOI18N
+        btnReplicate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReplicateActionPerformed(evt);
+            }
+        });
+        pnlReplicaionTools.add(btnReplicate);
+
+        pnlReplication.add(pnlReplicaionTools, java.awt.BorderLayout.SOUTH);
+
+        tabbedpanelMain.addTab(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.pnlReplication.TabConstraints.tabTitle"), pnlReplication); // NOI18N
+
         jPanel1.add(tabbedpanelMain, java.awt.BorderLayout.CENTER);
 
         pnlCloseBtn.setPreferredSize(new java.awt.Dimension(589, 35));
@@ -1432,6 +1464,96 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnReplicateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReplicateActionPerformed
+         List<Resource> currentResources;
+        int replicatedCount = 0;
+        // build a list of the current resources, if a data object, will be used
+        // to decide what to replicate
+        try {
+            currentResources = buildCurrentResourcesList();
+        } catch (IdropException ex) {
+            Logger.getLogger(ReplicationDialog.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            idrop.showIdropException(ex);
+            return;
+        }
+
+        for (JCheckBox checkBox : boxes) {
+            if (checkBox.isSelected()) {
+                log.info("getting ready to replicate:{}", checkBox.getText());
+
+                boolean foundResource = false;
+                for (Resource currentResource : currentResources) {
+                    if (currentResource.getName().equals(checkBox.getText())) {
+                        foundResource = true;
+                        break;
+                    }
+                }
+
+                try {
+                    QueueManagerService qms = this.idropGUI.getiDropCore().getConveyorService().getQueueManagerService();
+                    Transfer transfer = new Transfer();
+                    if (isFile && !foundResource) {
+                        log.info("file not yet replicated to resource");
+
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(seriesAbsolutePath);
+                        sb.append("/");
+                        sb.append(fileName);
+                        replicatedCount++;
+
+
+
+                        transfer.setTransferType(TransferType.REPLICATE);
+                        transfer.setResourceName(checkBox.getText());
+                        transfer.setIrodsAbsolutePath(sb.toString());
+
+                    } else if (!isFile) {
+                        log.info("this is a collection, do the replication");
+                        replicatedCount++;
+
+
+
+                        transfer.setTransferType(TransferType.REPLICATE);
+                        transfer.setIrodsAbsolutePath(seriesAbsolutePath);
+                        transfer.setResourceName(checkBox.getText());
+
+                    }
+
+                    qms.enqueueTransferOperation(transfer, this.idropGUI.getIrodsAccount());
+
+
+                } catch (Exception ex) {
+                    Logger.getLogger(ReplicationDialog.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                    this.idropGUI.showIdropException(ex);
+                    return;
+                }
+
+            }
+        }
+
+        final int replicationsDone = replicatedCount;
+            final iDrop gui = idropGUI;
+
+        // now dispose
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                if (replicationsDone > 0) {
+                    gui.showMessageFromOperation("Replication has been placed into the queue for processing");
+                } else {
+                    gui.showMessageFromOperation("Nothing to replicate");
+
+                }
+
+            }
+        });
+
+        this.dispose();
+
+    }//GEN-LAST:event_btnReplicateActionPerformed
 
 	private void btnMetadataCreateActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMetadataCreateActionPerformed
@@ -1841,6 +1963,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JButton btnMetadataDelete;
     private javax.swing.JButton btnPermissionsSave;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnReplicate;
     private javax.swing.JButton btnUpdateTagsComments;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1920,8 +2043,12 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JPanel pnlObjectInfo;
     private javax.swing.JPanel pnlPermissionsTab;
     private javax.swing.JPanel pnlPermissionsTable;
+    private javax.swing.JPanel pnlReplicaionTools;
+    private javax.swing.JPanel pnlReplication;
+    private javax.swing.JPanel pnlReplicationResources;
     private javax.swing.JPanel pnlSelectedObject;
     private javax.swing.JPanel pnlTagsComments;
+    private javax.swing.JScrollPane scrollReplicationResources;
     private javax.swing.JTabbedPane tabbedpanelMain;
     private javax.swing.JTable tableMetadata;
     private javax.swing.JTable tablePermissions;
