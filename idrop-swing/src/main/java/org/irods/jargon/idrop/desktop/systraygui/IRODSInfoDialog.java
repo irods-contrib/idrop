@@ -9,6 +9,7 @@ import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -78,10 +79,14 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 	private String selectedObjectName;
 	private String selectedObjectParent;
 	private final IRODSFileSystem irodsFileSystem;
+            private  boolean isFile;
+
 	private final IRODSTree irodsTree;
 	private IRODSInfoDialog dialog;
 	public static org.slf4j.Logger log = LoggerFactory
 			.getLogger(IRODSTree.class);
+            private List<JCheckBox> boxes = new ArrayList<JCheckBox>();
+
 
 	// private final String fileName;
 
@@ -174,6 +179,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
 					if (isCollection()) {
 
+                                                isFile = false;
 						CollectionAO collectionAO = irodsFileSystem
 								.getIRODSAccessObjectFactory().getCollectionAO(
 										irodsAccount);
@@ -256,7 +262,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 						}
 
 					} else {
-
+                                                isFile = true;
 						DataObjectAO dataObjectAO = irodsFileSystem
 								.getIRODSAccessObjectFactory().getDataObjectAO(
 										irodsAccount);
@@ -764,6 +770,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         jPanel1.add(pnlSelectedObject, java.awt.BorderLayout.PAGE_START);
 
         tabbedpanelMain.setPreferredSize(new java.awt.Dimension(600, 867));
+        tabbedpanelMain.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                tabbedpanelMainComponentShown(evt);
+            }
+        });
 
         pnlInfoTab.setLayout(new java.awt.BorderLayout());
 
@@ -1380,6 +1391,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         tabbedpanelMain.addTab(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.pnlPermissionsTab.TabConstraints.tabTitle"), pnlPermissionsTab); // NOI18N
 
+        pnlReplication.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                pnlReplicationComponentShown(evt);
+            }
+        });
         pnlReplication.setLayout(new java.awt.BorderLayout());
 
         pnlReplicationResources.setLayout(new java.awt.GridLayout(0, 1));
@@ -1475,7 +1491,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         } catch (IdropException ex) {
             Logger.getLogger(ReplicationDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
-            idrop.showIdropException(ex);
+            idropGUI.showIdropException(ex);
             return;
         }
 
@@ -1498,9 +1514,9 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         log.info("file not yet replicated to resource");
 
                         StringBuilder sb = new StringBuilder();
-                        sb.append(seriesAbsolutePath);
+                        sb.append(selectedObjectParent);
                         sb.append("/");
-                        sb.append(fileName);
+                        sb.append(selectedObjectName);
                         replicatedCount++;
 
 
@@ -1516,7 +1532,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
 
                         transfer.setTransferType(TransferType.REPLICATE);
-                        transfer.setIrodsAbsolutePath(seriesAbsolutePath);
+                        transfer.setIrodsAbsolutePath(selectedObjectParent);
                         transfer.setResourceName(checkBox.getText());
 
                     }
@@ -1555,7 +1571,93 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
     }//GEN-LAST:event_btnReplicateActionPerformed
 
-	private void btnMetadataCreateActionPerformed(
+    private void tabbedpanelMainComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabbedpanelMainComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabbedpanelMainComponentShown
+
+    private void pnlReplicationComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlReplicationComponentShown
+       setUpReplicationData();
+    }//GEN-LAST:event_pnlReplicationComponentShown
+
+	
+    
+     private void setUpReplicationData() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    IRODSFileService irodsFileService = new IRODSFileService(
+                            idropGUI.getIrodsAccount(), idropGUI.getiDropCore().getIrodsFileSystem());
+                    List<Resource> resources = irodsFileService.getResources();
+                    boxes = new ArrayList<JCheckBox>();
+
+                    // if this is a file, list current resources for this data
+                    // object
+                    List<Resource> currentResources = buildCurrentResourcesList();
+
+                    for (Resource resource : resources) {
+                        JCheckBox rescBox = new JCheckBox();
+                        rescBox.setText(resource.getName());
+
+                        // if this resource is already replicated, a checkbox is
+                        // initialized for that resource
+
+                        for (Resource dataObjectResource : currentResources) {
+                            if (dataObjectResource.getName().equals(
+                                    resource.getName())) {
+                                log.debug(
+                                        "resource already replicates data object:{}",
+                                        resource);
+                                rescBox.setSelected(true);
+                                break;
+                            }
+                        }
+
+                        boxes.add(rescBox);
+                    }
+
+                    for (JCheckBox checkBox : boxes) {
+                        pnlReplicationResources.add(checkBox);
+                    }
+
+                    scrollReplicationResources.validate();
+
+                } catch (IdropException ex) {
+                    Logger.getLogger(ReplicationDialog.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                    idropGUI.showIdropException(ex);
+                    return;
+                }
+            }
+        });
+
+    }
+    
+      private List<Resource> buildCurrentResourcesList() throws IdropException {
+        // if a file, then see if it's already on the resc, otherwise add a
+        // replicate
+        // if this is a file, list current resources for this data object
+        List<Resource> currentResources = null;
+        if (isFile) {
+            IRODSFileService irodsFileService;
+            try {
+                irodsFileService = new IRODSFileService(
+                        idropGUI.getIrodsAccount(), idropGUI
+                        .getiDropCore().getIrodsFileSystem());
+                currentResources = irodsFileService.getResourcesForDataObject(
+                        selectedObjectParent, selectedObjectName);
+            } catch (IdropException ex) {
+                Logger.getLogger(ReplicationDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+                throw new IdropException(ex);
+            }
+        } else {
+            currentResources = new ArrayList<Resource>();
+        }
+        return currentResources;
+    }
+    
+    private void btnMetadataCreateActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMetadataCreateActionPerformed
 		AvuData avuData;
 		CollectionAO collectionAO;
