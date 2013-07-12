@@ -285,6 +285,7 @@
 		});
 
 	});
+	</script>
 	
 	<g:if test="${getThumbnail}">
 		<script type="text/javascript">
