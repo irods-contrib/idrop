@@ -37,7 +37,7 @@
 		</div>
 	</div>	
 	<div class="row-fluid " id="conceptBrowserSearchForm">
-		<div class="span5 offset1" id="searchConceptForm">
+		<div class="span5 offset1" style="margin-left: 10px" id="searchConceptForm">
 			<g:form id="searchConceptForm" action="search" method="get">
 				<g:textField name="searchConcept" id="searchConceptTerm"
 					value="${params.searchedConcept}" onkeydown="if (event.keyCode == 13) processSearchHiveConcept()"/>
@@ -182,10 +182,11 @@
 			title:vocabulary,
 			content:'Term URI: ' + termUri
 		});--%>
-		$('#btnViewInSKOS').popover({
+		
+		<%--$('#btnViewInSKOS').popover({
 			placement:'top',
 			title:vocabulary,
-			content:'Term URI: ' + termUri,
+			content:skosCode,
 			trigger:'manual'
 		}).click(function(evt){
 			evt.stopPropagation();
@@ -194,8 +195,24 @@
 
 		$('div').click(function(){
 			$('#btnViewInSKOS').popover('hide');
-		});
-			
+		});--%>
+
+		$('#skosCodeModal').dialog({
+			height:550,
+			width:630,
+			modal:true
+
+			});
+
+		$('#skosCodeModal').css({
+			display:'block'
+			});	
+
+		var element = document.getElementById('skosCodeArea');
+		element.style.display = '';
+		element.style.fontSize = "small";
+		element.style.height = "510px";
+		element.style.width = "580px";
 	}
 
 	/**
@@ -231,9 +248,6 @@
 		searchConcept(searchedConcept);
 	}
 
-	$(function() {
-
-	});
 
 	function changeTextColor(id) {
 		var element = document.getElementById(id);

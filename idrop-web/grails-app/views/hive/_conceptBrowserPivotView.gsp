@@ -61,11 +61,13 @@
 								<div class="row-fluid">
 									<div class="offset1 span11">
 										<div class="btn-group pad-around">
-											<button type="button" class="btn" id="btnViewInSKOS" onclick="processViewInSKOS('${conceptProxy.origin}','${conceptProxy.URI}')">
-												
+											<div id="skosCodeModal" title="View SKOS Code">
+												<p><textarea id="skosCodeArea" style="display:none">${conceptProxy.skosCode}</textarea></p>
+											</div>
+											<button role="button" class="btn" id="btnViewInSKOS" 
+											onclick='processViewInSKOS("${conceptProxy.origin}","${conceptProxy.URI}")'>
 												<g:message code="text.view.in.skos" />
 											</button>
-
 											<g:if test="${conceptProxy.selected}">
 												<button type="button" class="btn" id="btnEditTerm"
 													onclick="processEditHiveTerm('${conceptProxy.origin}','${conceptProxy.URI}')">
@@ -126,7 +128,7 @@
 				</div>
 				<div class="row-fluid" id="conceptBrowserBroader">
 					<div class="span10 offset1 well">
-						<table cellspacing="0" cellpadding="0" border="0"
+						<table cellspacing="0" cellpadding="0" border="0" style="margin-top:0px"
 							id="hiveVocabBroaderTable"
 							class="table table-striped table-hover">
 							<thead>
@@ -159,7 +161,7 @@
 				</div>
 				<div class="row-fluid" id="conceptBrowserRelated">
 					<div class="span10 offset1 well">
-						<table cellspacing="0" cellpadding="0" border="0"
+						<table cellspacing="0" cellpadding="0" border="0" style="margin-top:0px"
 							id="conceptBrowserRelatedTable"
 							class="table table-striped table-hover">
 							<thead>
@@ -173,7 +175,8 @@
 									<tr id="${conceptProxy.related.get(key)}"
 										onclick="processSelectOfTermAsCurrent('${conceptProxy.related.get(key)}')"
 										onmouseover="changeTextColor('${conceptProxy.related.get(key)}')"
-										onmouseout="changeTextColorBack('${conceptProxy.related.get(key)}')">
+										onmouseout="changeTextColorBack('${conceptProxy.related.get(key)}')"
+										>
 										<td>
 											${key}
 										</td>

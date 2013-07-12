@@ -1,5 +1,5 @@
 <div class="span10 offset1 well">
-	<table cellspacing="0" cellpadding="0" border="0" id="hiveVocabTable"
+	<table cellspacing="0" cellpadding="0" border="0" style="margin-top:0px" id="hiveVocabTable"
 		class="table table-striped table-hover">
 		<thead>
 			<tr>
