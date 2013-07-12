@@ -41,7 +41,7 @@
 	<div class="tab-content" style="width: 100%;">
 		<div class="tab-pane active" id="info">
 
-			<div class="container-fluid">
+			<div class="container">
 				<div class="row">
 					<div class="span12">
 						<h4>
@@ -56,7 +56,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.created" />:</label>
+						<strong><g:message code="text.created" />:</strong>
 					</div>
 					<div class="span10">
 						${collection.createdAt}
@@ -64,7 +64,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.updated" />:</label>
+					<strong><g:message code="text.updated" />:</strong>
 					</div>
 					<div class="span10">
 						${collection.modifiedAt}
@@ -72,7 +72,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.owner" />:</label>
+					<strong><g:message code="text.owner" />:</strong>
 					</div>
 					<div class="span10">
 						${collection.collectionOwnerName}
@@ -80,7 +80,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.owner.zone" />:</label>
+						<strong><g:message code="text.owner.zone" />:</strong>
 					</div>
 					<div class="span10">
 						${collection.collectionOwnerZone}
@@ -88,7 +88,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.type" />:</label>
+						<strong><g:message code="text.type" />:</strong>
 					</div>
 					<div class="span10">
 						${collection.specColType}
@@ -96,7 +96,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.object.path" />:</label>
+						<strong><g:message code="text.object.path" />:</strong>
 					</div>
 					<div class="span10">
 						${collection.objectPath}
@@ -104,7 +104,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.description" />:</label>
+					<strong><g:message code="text.description" />:</strong>
 					</div>
 					<div class="span10">
 						${collection.comments}
@@ -112,7 +112,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.info" />1:</label>
+					<strong><g:message code="text.info" />1:</strong>
 					</div>
 					<div class="span10">
 						${collection.info1}
@@ -120,7 +120,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.info" />2:</label>
+					<strong><g:message code="text.info" />2:</strong>
 					</div>
 					<div class="span10">
 						${collection.info2}
@@ -129,7 +129,7 @@
 
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.tags" />:</label>
+						<strong><g:message code="text.tags" />:</strong>
 					</div>
 					<div class="span10">
 						<g:textField id="infoTags" name="tags"
@@ -138,7 +138,7 @@
 				</div>
 				<div class="row">
 					<div class="span2">
-						<label><g:message code="text.comment" />:</label>
+					<strong><g:message code="text.comment" />:</strong>
 					</div>
 					<div class="span10">
 						<g:textArea id="infoComment" name="comment" rows="5" cols="80"
@@ -149,7 +149,7 @@
 					<div class="span2"></div>
 					<div class="span10">
 						<button type="button" id="updateTags" value="updateTags"
-							onclick="updateTags()">Update Tags</button>
+							onclick="updateTags()"><g:message code="text.update.tags" /></button>
 					</div>
 				</div>
 			</div>

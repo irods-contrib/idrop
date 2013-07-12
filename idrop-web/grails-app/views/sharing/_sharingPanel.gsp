@@ -15,7 +15,7 @@
 				<div class="btn-group">
 					<g:if
 						test="${grailsApplication.config.idrop.config.use.sharing==true && irodsSharedFileOrCollection != null}">
-						<button onclick="editShareAtPath()">
+						<button type="button" onclick="editShareAtPath()">
 							<g:message code="text.edit.share" />
 						</button>
 						<button onclick="removeShareAtPath()">

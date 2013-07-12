@@ -57,6 +57,11 @@ Note that the following bug and feature requests are logged in GForge with relat
 **Fix of login screen rendering on ie
 **Upgrade to grails 2.2.3
 
+*[#1312] fix public link access to not override account if alread logged in
+
+*[#715] check access before download
+**Check file access and verify is a data object before doing a download, displaying a nicer error message
+
 ==Features==
 
 *[#984] iDrop web '2.0' redesign effort
@@ -69,3 +74,6 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1475] login form discombobulated on ie later versions
 **Fix layout markup for login form for better cross-browser compatability
+
+*[#1556] up/download performance of idrop web
+**Use enhanced Stream2StreamAO stream copy methods for upload/download

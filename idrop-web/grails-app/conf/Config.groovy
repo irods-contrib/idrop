@@ -186,7 +186,7 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	//info 'org.irods.mydrop'
-	debug 'org.irods.jargon'
+	info 'org.irods.jargon'
 
 	warn 'org.irods.jargon.spring.security'
 	warn 'org.springframework'
