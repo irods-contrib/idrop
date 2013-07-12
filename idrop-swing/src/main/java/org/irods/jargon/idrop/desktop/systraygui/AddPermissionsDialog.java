@@ -100,9 +100,9 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
                 && (cbPermissionsPermission.getSelectedIndex() >= 0));
     }
 
-    public UserFilePermission getPermissionToAdd() {
-        return permissionToAdd;
-    }
+//    public UserFilePermission getPermissionToAdd() {
+//        return permissionToAdd;
+//    }
 
     @Override
     public void actionPerformed(final ActionEvent ae) {
