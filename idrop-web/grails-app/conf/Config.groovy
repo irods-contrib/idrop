@@ -166,8 +166,8 @@ idrop.use.hive=true
 //"C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties"
 //"/Users/mikeconway/temp/hive-data/hive.properties"
 //"/usr/local/hive-data/hive.properties"
-//hive.config.location='/Users/mikeconway/temp/hive-data/hive.properties'
-hive.config.location='/Users/zhangle/temp/hive-data/hive.properties'
+hive.config.location='/Users/mikeconway/temp/hive-data/hive.properties'
+//hive.config.location='/Users/zhangle/temp/hive-data/hive.properties'
 // do I support sparql queries?
 idrop.hive.query=true
 // what is the context for REST HIVE queries
