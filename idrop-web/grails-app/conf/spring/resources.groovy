@@ -49,6 +49,7 @@ beans = {
 
 	profileController(org.irods.mydrop.controller.ProfileController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
+
 	shoppingCartController(org.irods.mydrop.controller.ShoppingCartController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 	//"/Users/mikeconway/temp/hive-data/hive.properties"
@@ -63,6 +64,7 @@ beans = {
 
 	homeController(org.irods.mydrop.controller.HomeController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
+	ruleController(org.irods.mydrop.controller.RuleController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 	shoppingCartController(org.irods.mydrop.controller.ShoppingCartController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 

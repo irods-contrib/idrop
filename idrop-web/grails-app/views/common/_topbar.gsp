@@ -32,6 +32,7 @@
       				<g:message code="text.tools" /><b class="caret"></b></a>
       				 <ul class="dropdown-menu">
 	      					 <li><a href="${grailsApplication.config.idrop.config.idrop.jnlp}" id="idropDesktop")>iDrop Desktop</a></li>
+	      					  <li id="topbarRule" class="topbarItem"><g:link controller="rule" action="index">User Rules</g:link></li>
       				  </ul>
 			</li>
 					

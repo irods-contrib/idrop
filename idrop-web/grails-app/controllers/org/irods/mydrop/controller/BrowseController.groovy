@@ -99,7 +99,7 @@ class BrowseController {
 		}
 
 
-		render(view: "index", model:[mode:mode,path:absPath,viewState:viewState])
+		render(view: "index", model:[mode:mode,path:absPath,viewState:viewState,irodsAccount:irodsAccount])
 	}
 
 	def showBrowseToolbar = {
@@ -349,26 +349,36 @@ class BrowseController {
 			}
 
 			def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-			def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
-			log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
-			collectionAndDataObjectList.each {
+
+			try {
+
+				def collectionAndDataObjectList = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(parent)
+				log.debug("retrieved collectionAndDataObjectList: ${collectionAndDataObjectList}")
+				collectionAndDataObjectList.each {
 
 
-				if (it.isDataObject()) {
-					icon = "../images/file.png"
-					state = "open"
-					type = "file"
-				} else {
-					icon = "folder"
-					state = "closed"
-					type = "folder"
+					if (it.isDataObject()) {
+						icon = "../images/file.png"
+						state = "open"
+						type = "file"
+					} else {
+						icon = "folder"
+						state = "closed"
+						type = "folder"
+					}
+
+					def attrBuf = ["id":it.formattedAbsolutePath, "rel":type, "absPath":it.formattedAbsolutePath]
+
+					jsonBuff.add(
+							["data": it.nodeLabelDisplayValue,"attr":attrBuf, "state":state,"icon":icon, "type":type]
+							)
 				}
-
-				def attrBuf = ["id":it.formattedAbsolutePath, "rel":type, "absPath":it.formattedAbsolutePath]
-
-				jsonBuff.add(
-						["data": it.nodeLabelDisplayValue,"attr":attrBuf, "state":state,"icon":icon, "type":type]
-						)
+			} catch (ZoneUnavailableException e) {
+				log.error("zone unavailable exception", e)
+				response.sendError(500, message(code:"message.zone.unavailable"))
+			} catch (JargonException e) {
+				log.error("jargon exception", e)
+				response.sendError(500, e.message)
 			}
 		} else {
 			throw new JargonException("invalid path type:${pathType}")

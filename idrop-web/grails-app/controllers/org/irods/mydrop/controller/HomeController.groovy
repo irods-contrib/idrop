@@ -66,37 +66,39 @@ class HomeController {
 		String zone = MiscIRODSUtils.getZoneInPath(filePath)
 		log.info("zone:${zone}")
 
-		log.info("checking to see if logged in, if already logged in, use that credential, otherwise, do an anonymous login")
-
-		if (!irodsAccount) {
-			log.info("I am not logged in, so create an anonymous account")
-			IRODSAccount irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
+		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
+		if (irodsAccount == null) {
+			log.info("no account set up, create an anonymous login")
+			irodsAccount = anonymousIrodsAccountForURIString(mungedIRODSURI)
 			session["SPRING_SECURITY_CONTEXT"] = irodsAccount
 		}
 
-		render(view:"link", model:[absPath:filePath])
+		/*
+		 * Need to figure out how to signal interface to 'reset' to new account and path?  
+		 */
 
+		render(view:"link", model:[absPath:filePath])
 	}
 
 	def starredCollections() {
 		log.info "starredCollections()"
 
-			try {
-				def listing = starringService.listStarredCollections(irodsAccount, 0)
+		try {
+			def listing = starringService.listStarredCollections(irodsAccount, 0)
 
-				if (listing.isEmpty()) {
-					render(view:"noInfo")
-				} else {
-					render(view:"quickViewList",model:[listing:listing])
-				}
-			} catch (SpecificQueryException sqe) {
-				log.error("error in specific query", sqe)
-				render(view:"noSupport")
-			} catch (JargonException je) {
-				log.error("jargon exception", je)
-				response.sendError(500,je.message)
+			if (listing.isEmpty()) {
+				render(view:"noInfo")
+			} else {
+				render(view:"quickViewList",model:[listing:listing])
 			}
-		
+		} catch (SpecificQueryException sqe) {
+			log.error("error in specific query", sqe)
+			render(view:"noSupport")
+		} catch (JargonException je) {
+			log.error("jargon exception", je)
+			response.sendError(500,je.message)
+		}
+
 	}
 
 	def starredDataObjects() {
@@ -141,7 +143,7 @@ class HomeController {
 		}
 
 		try {
-			def listing = sharingService.listCollectionsSharedByMe(irodsAccount);
+			def listing = sharingService.listCollectionsSharedByMe(irodsAccount)
 			if (listing.isEmpty()) {
 				render(view:"noInfo")
 			} else {
