@@ -30,10 +30,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.tree.TreePath;
 
 import org.irods.jargon.core.connection.IRODSAccount;
@@ -94,7 +92,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private ChangePasswordDialog changePasswordDialog = null;
     private QueueManagerDialog queueManagerDialog = null;
     private boolean formShown = false;
-    private BasicArrowButton btnBreadCrumbNav;
 
     public iDrop(final IDROPCore idropCore) {
 
@@ -155,15 +152,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             System.exit(0);
         }
 
-        // add breadcrumb navigation button
-        btnBreadCrumbNav = new BasicArrowButton(SwingConstants.SOUTH);
-        btnBreadCrumbNav.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                btnBreadCrumbNavActionPerformed(evt);
-            }
-        });
-        pnlBreadCrumbNav.add(btnBreadCrumbNav);
+
 
 
     }
@@ -1330,6 +1319,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jPopupMenu1 = new javax.swing.JPopupMenu();
         pnlMain = new javax.swing.JPanel();
         pnlMainToolbarIcons = new javax.swing.JPanel();
+        btnMainToolbarTree = new javax.swing.JButton();
         btnMainToolbarDownload = new javax.swing.JButton();
         btnMainToolbarUpload = new javax.swing.JButton();
         btnMainToolbarRefresh = new javax.swing.JButton();
@@ -1396,6 +1386,24 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainToolbarIcons.setPreferredSize(new java.awt.Dimension(1121, 120));
         pnlMainToolbarIcons.setLayout(new java.awt.GridBagLayout());
 
+        btnMainToolbarTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_tree.png"))); // NOI18N
+        btnMainToolbarTree.setMnemonic('t');
+        btnMainToolbarTree.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTree.text")); // NOI18N
+        btnMainToolbarTree.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTree.toolTipText")); // NOI18N
+        btnMainToolbarTree.setBorder(null);
+        btnMainToolbarTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarTreeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 2;
+        pnlMainToolbarIcons.add(btnMainToolbarTree, gridBagConstraints);
+
         btnMainToolbarDownload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_download.png"))); // NOI18N
         btnMainToolbarDownload.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarDownload.text")); // NOI18N
         btnMainToolbarDownload.setBorder(null);
@@ -1407,7 +1415,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 2;
         pnlMainToolbarIcons.add(btnMainToolbarDownload, gridBagConstraints);
@@ -1423,7 +1431,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 2;
         pnlMainToolbarIcons.add(btnMainToolbarUpload, gridBagConstraints);
@@ -1450,9 +1458,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarTools.setBorder(null);
         btnMainToolbarTools.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarTools.setMargin(null);
-        btnMainToolbarTools.setMaximumSize(null);
-        btnMainToolbarTools.setMinimumSize(null);
-        btnMainToolbarTools.setPreferredSize(null);
         btnMainToolbarTools.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMainToolbarTools.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1460,7 +1465,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 2;
         pnlMainToolbarIcons.add(btnMainToolbarTools, gridBagConstraints);
@@ -1472,6 +1477,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         pnlMainToolbarIcons.add(jSeparator1, gridBagConstraints);
 
         btnMainToolbarCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_replicate.png"))); // NOI18N
@@ -1486,7 +1492,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 2;
         pnlMainToolbarIcons.add(btnMainToolbarCopy, gridBagConstraints);
@@ -1504,7 +1510,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 2;
         pnlMainToolbarIcons.add(btnMainToolbarDelete, gridBagConstraints);
@@ -1521,7 +1527,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 2;
         pnlMainToolbarIcons.add(btnMainToolbarInfo, gridBagConstraints);
@@ -1531,7 +1537,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jSeparator3.setMinimumSize(new java.awt.Dimension(34, 60));
         jSeparator3.setPreferredSize(new java.awt.Dimension(34, 60));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 1;
         pnlMainToolbarIcons.add(jSeparator3, gridBagConstraints);
 
@@ -1540,9 +1546,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarSync.setBorder(null);
         btnMainToolbarSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarSync.setMargin(null);
-        btnMainToolbarSync.setMaximumSize(null);
-        btnMainToolbarSync.setMinimumSize(null);
-        btnMainToolbarSync.setPreferredSize(null);
         btnMainToolbarSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMainToolbarSync.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1550,7 +1553,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 2;
         pnlMainToolbarIcons.add(btnMainToolbarSync, gridBagConstraints);
@@ -1560,9 +1563,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarSettings.setBorder(null);
         btnMainToolbarSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarSettings.setMargin(null);
-        btnMainToolbarSettings.setMaximumSize(null);
-        btnMainToolbarSettings.setMinimumSize(null);
-        btnMainToolbarSettings.setPreferredSize(null);
         btnMainToolbarSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMainToolbarSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1570,7 +1570,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 1;
         pnlMainToolbarIcons.add(btnMainToolbarSettings, gridBagConstraints);
 
@@ -1585,7 +1585,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -1597,7 +1597,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         txtMainToolbarSearchTerms.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.txtMainToolbarSearchTerms.toolTipText")); // NOI18N
         txtMainToolbarSearchTerms.setMinimumSize(new java.awt.Dimension(100, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridx = 13;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMainToolbarIcons.add(txtMainToolbarSearchTerms, gridBagConstraints);
@@ -1870,6 +1870,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         toolsDialog.setVisible(true);
     }//GEN-LAST:event_btnMainToolbarToolsActionPerformed
 
+    private void btnMainToolbarTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarTreeActionPerformed
+         BreadCrumbNavigationPopup popup = new BreadCrumbNavigationPopup(this,
+                lblBreadCrumb.getText());
+        java.awt.Point p = btnMainToolbarTree.getLocation();
+        popup.show(pnlBreadCrumbNav, p.x, p.y + btnMainToolbarTree.getHeight());
+    }//GEN-LAST:event_btnMainToolbarTreeActionPerformed
+
     private void btnMainToolbarSettingsActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarSettingsActionPerformed
         IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(
@@ -1960,16 +1967,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     }
 
-    private void btnBreadCrumbNavActionPerformed(
-            final java.awt.event.ActionEvent evt) {
-
-        BreadCrumbNavigationPopup popup = new BreadCrumbNavigationPopup(this,
-                lblBreadCrumb.getText());
-        java.awt.Point p = btnBreadCrumbNav.getLocation();
-        popup.show(pnlBreadCrumbNav, p.x, p.y + btnBreadCrumbNav.getHeight());
-
-    }// GEN-LAST:event_btnMainToolbarUploadActionPerformed
-
     private void btnMainToolbarInfoActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarInfoActionPerformed
         IRODSInfoDialog irodsInfoDialog = new IRODSInfoDialog(this, true,
@@ -2049,6 +2046,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JButton btnMainToolbarSettings;
     private javax.swing.JButton btnMainToolbarSync;
     private javax.swing.JButton btnMainToolbarTools;
+    private javax.swing.JButton btnMainToolbarTree;
     private javax.swing.JButton btnMainToolbarUpload;
     private javax.swing.JButton btnShowTransferManager;
     private javax.swing.JComboBox cbIrodsResource;

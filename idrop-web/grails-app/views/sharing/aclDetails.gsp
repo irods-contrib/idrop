@@ -15,13 +15,13 @@
 				<div class="btn-group">
 					<button type="button" id="addAclButton"
 						value="addAcl"
-						onclick="prepareAclDialog()")><g:message code="default.button.create.label" /></button>
+						onclick="prepareAclDialog()"><g:message code="default.button.create.label" /></button>
 					<button type="button" id="deleteAclButton"
 						 value="deleteAcl"
-						onclick="deleteAcl()")><g:message code="default.button.delete.label" /></button>
+						onclick="deleteAcl()"> <g:message code="default.button.delete.label" /> </button>
 					<button type="button" id="reloadAclButton"
 						value="reloadAcl"
-						onclick="reloadAclTable(selectedPath)")><g:message code="default.button.reload.label" /></button>
+						onclick="reloadAclTable(selectedPath)"><g:message code="default.button.reload.label" /></button>
 				</div>
 				<div class="btn-group">
 					<button onclick="makePublicLinkAtPath()"><g:message code="text.create.public.link" /></button>
