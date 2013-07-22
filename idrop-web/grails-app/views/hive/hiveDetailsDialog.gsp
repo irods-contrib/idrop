@@ -30,13 +30,15 @@
 			</g:form>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<div class="row-fluid" style="margin-left:25px">
 		<div class="span2 offset5">
-			<button type="button" class="btn  btn-inverse"
+			<button type="button" class="btn  btn-primary" style="margin-left:60px"
 				onclick="processUpdateVocabulary('${absPath}', '${conceptProxy.origin}', '${conceptProxy.URI}')">
 				<g:message code="text.update" />
 			</button>
-			<button type="button" class="btn  btn-inverse"
+		</div>
+		<div class="span2 offset0" style="margin-left:15px">
+			<button type="button" class="btn  btn-inverse" 
 				onclick="processCancelUpdateVocabulary()">
 				<g:message code="text.cancel" />
 			</button>

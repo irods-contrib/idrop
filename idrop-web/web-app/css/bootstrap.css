@@ -821,12 +821,19 @@ a.badge:hover {
 .btn-mini .badge {
   top: 0;
 }
-table {
+table{
   max-width: 100%;
   background-color: transparent;
-  border-collapse: collapse;
-  border-spacing: 0;
+  border-collapse: seperate;
+  border-spacing: 5;
 }
+
+.table-alpha{
+  background-color: transparent;
+  border-collapse: seperate;
+  border-spacing: 7px;
+}
+
 .table {
   width: 100%;
   margin-bottom: 20px;
@@ -1088,7 +1095,7 @@ table [class*=span],
   background-color: #c4e3f3;
 }
 form {
-  margin: 0 0 20px;
+  margin: 10px 0 20px;
 }
 fieldset {
   padding: 0;
@@ -1149,7 +1156,7 @@ input[type="color"],
   display: inline-block;
   height: 20px;
   padding: 4px 6px;
-  margin-bottom: 9px;
+  /* margin-bottom: 9px; */
   font-size: 14px;
   line-height: 20px;
   color: #555555;

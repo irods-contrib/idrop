@@ -39,7 +39,7 @@
 	<div class="row-fluid " id="conceptBrowserSearchForm">
 		<div class="span5 offset1" style="margin-left: 10px" id="searchConceptForm">
 			<g:form id="searchConceptForm" action="search" method="get">
-				<g:textField name="searchConcept" id="searchConceptTerm"
+				<g:textField name="searchConcept" id="searchConceptTerm" 
 					value="${params.searchedConcept}" onkeydown="if (event.keyCode == 13) processSearchHiveConcept()"/>
 				<button type="button" class="btn" id="searchConcept" value="update"
 					onclick="processSearchHiveConcept()"><i class="icon-search"></i>

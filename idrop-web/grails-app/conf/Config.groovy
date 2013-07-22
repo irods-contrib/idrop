@@ -80,6 +80,9 @@ idrop.config.use.sharing=true
 idrop.config.use.gallery.view=false
 // do I want to show the browse view?
 idrop.config.use.browse.view=true
+
+// do I want to show the selected terms for uploaded file?
+idrop.config.use.terms=true
 /*
  * Some properties may be set in an external configuration file, as configured below
  */
@@ -166,7 +169,7 @@ idrop.use.hive=true
 //"C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties"
 //"/Users/mikeconway/temp/hive-data/hive.properties"
 //"/usr/local/hive-data/hive.properties"
-hive.config.location='/Users/mikeconway/temp/hive-data/hive.properties'
+hive.config.location='/Users/zhangle/temp/hive-data/hive.properties'
 //hive.config.location='/Users/zhangle/temp/hive-data/hive.properties'
 // do I support sparql queries?
 idrop.hive.query=true
