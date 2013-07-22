@@ -93,6 +93,11 @@ class HiveController {
 
 		def vocabularies = hiveService.retrieveVocabularySelectionListing()
 		def hiveState = hiveService.retrieveHiveState()
+
+		// def selectedTerms = hiveService.retrieveSelectedTermsForPath(absPath)
+
+
+
 		if (hiveState.vocabularies.size() == 0) {
 			log.info("no HIVE vocabularies configured")
 			//TODO: create this view
@@ -103,7 +108,7 @@ class HiveController {
 		if (hiveService.areVocabulariesSelected()==false) {
 			render(view:"vocabSelectionList", model:[vocabs:vocabularies,absPath:absPath])
 		} else {
-			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies])
+			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies])  // add selectedTerms to the model
 		}
 	}
 
@@ -231,7 +236,7 @@ class HiveController {
 
 		def comment = params['comment']
 		if (vocabulary == null) {
-			comment = "";
+			comment = ""
 		}
 
 		log.info("adding hive vocbulary term")
