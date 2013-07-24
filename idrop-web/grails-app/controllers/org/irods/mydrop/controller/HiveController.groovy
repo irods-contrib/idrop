@@ -74,7 +74,7 @@ class HiveController {
 
 
 	/**
-	 * Sbow initial HIVE view, which should reflect the selected set of vocabularies, and show a list of all vocabularies 
+	 * Show initial HIVE view, which should reflect the selected set of vocabularies, and show a list of all vocabularies 
 	 * @return
 	 */
 	def index() {
@@ -94,7 +94,7 @@ class HiveController {
 		def vocabularies = hiveService.retrieveVocabularySelectionListing()
 		def hiveState = hiveService.retrieveHiveState()
 
-		// def selectedTerms = hiveService.retrieveSelectedTermsForPath(absPath)
+		def selectedTerms = hiveService.retrieveSelectedTermsForPath(absPath, irodsAccount)
 
 
 
@@ -104,11 +104,15 @@ class HiveController {
 			render(view:"noVocabularies")
 			return
 		}
+		
+		if(selectedTerms.size() == 0) {
+			log.info("no applied terms for path: ${absPath}")
+		}
 
 		if (hiveService.areVocabulariesSelected()==false) {
 			render(view:"vocabSelectionList", model:[vocabs:vocabularies,absPath:absPath])
 		} else {
-			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies])  // add selectedTerms to the model
+			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies,selectedTerms:selectedTerms])  // add selectedTerms to the model
 		}
 	}
 
@@ -357,6 +361,7 @@ class HiveController {
 		}
 		else {
 			searchResult = vocabularyService.searchConcept(searchedConcept , hiveState.obtainListOfSelectedVocabularies())
+			log.info("search results: ${searchResult}")
 			render (view:"conceptSearch", model:[searchResult:searchResult , searchedConcept:searchedConcept])
 		}
 

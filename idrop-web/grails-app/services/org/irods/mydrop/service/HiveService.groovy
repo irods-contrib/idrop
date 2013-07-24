@@ -321,8 +321,34 @@ class HiveService {
 		}
 		return vocabularySelections
 	}
+	
+	public List<HiveVocabularyEntry> retrieveSelectedTermsForPath(String absPath, final IRODSAccount irodsAccount) {
+		log.info("retrieveSelectedTermsForPath")
+		
+		if(!absPath) {
+			throw new IllegalArgumentException("missing absPath")
+		}
+		
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("missing irodsAccount")
+		}
+		
+		def selectedTerms = new ArrayList<HiveVocabularyEntry>()
+		
+		IRODSHiveService irodsHiveService = new IRODSHiveServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		selectedTerms = irodsHiveService.listVocabularyTermsForIRODSAbsolutePath(absPath);
+		
+		if(selectedTerms) {
+			log.info("Selected terms retrieved")
+		}
+		
+		return selectedTerms
+		
+	}
 
 	private HttpSession getSession() {
 		return RequestContextHolder.currentRequestAttributes().getSession()
 	}
+	
+
 }

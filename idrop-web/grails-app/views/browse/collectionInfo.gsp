@@ -39,12 +39,7 @@
 		<g:if test="${grailsApplication.config.idrop.use.hive==true}">
 			<li><a href="#hive" id="hiveTab"><g:message code="text.hive" /></a></li>
 		</g:if>
-		
-		
-			<li><a href="selectedTerm" id="selectedTermTab"><g:message code="text.selected.term" /></a></li>
-		
 	</ul>
-
 
 	<div class="tab-content" style="width: 100%;">
 		<div class="tab-pane active" id="info">
