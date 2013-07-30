@@ -90,7 +90,6 @@ class HiveController {
 
 		log.info "absPath: ${absPath}"
 
-
 		def vocabularies = hiveService.retrieveVocabularySelectionListing()
 		def hiveState = hiveService.retrieveHiveState()
 
@@ -193,6 +192,7 @@ class HiveController {
 			def conceptProxy = hiveService.getConceptByUri(targetUri, absPath, irodsAccount)
 			log.info("got concept proxy:${conceptProxy}")
 			render(view:"hiveDetailsDialog", model:[conceptProxy:conceptProxy, absPath:absPath])
+			log.info("updated the hiveDetailsDialog")
 		} catch (HiveException he) {
 			log.error("hive exception getting concept proxy",he)
 			response.sendError(500,he.message)
@@ -365,6 +365,52 @@ class HiveController {
 			render (view:"conceptSearch", model:[searchResult:searchResult , searchedConcept:searchedConcept])
 		}
 
+	}
+	
+	def deleteSelectedItem() {
+		log.info("deleteSelectedItem")
+		
+		def uri = params['uri']
+		if (uri == null || uri == "") {
+			log.error "no uri for terms to be deleted is provided"
+			def message = message(code:"error.no.uri.provided")
+			response.sendError(500, message)
+			return
+			
+		}
+		
+		log.info(params.uri)
+		
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request"
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+			return
+		}
+
+		log.info "absPath: ${absPath}"
+		
+		def deleted = hiveService.deleteSelectedTermsForPathAndURI(absPath, uri, irodsAccount)
+		
+		if (!deleted) {
+			log.info("deleted failed")
+		} else {
+		
+			def selectedTerms = hiveService.retrieveSelectedTermsForPath(absPath, irodsAccount)
+			log.info("selected terms: ${selectedTerms}")
+			
+			if(selectedTerms.size() == 0) {
+				log.info("no applied terms for path: ${absPath}")
+			} else {
+
+	
+				render(view:"_selectedTermList", model:[absPath:absPath,selectedTerms:selectedTerms])  // add selectedTerms to the model		
+					
+			}
+		}
+
+		
 	}
 
 }

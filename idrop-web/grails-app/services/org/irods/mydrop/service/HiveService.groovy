@@ -345,6 +345,31 @@ class HiveService {
 		return selectedTerms
 		
 	}
+	
+	public boolean deleteSelectedTermsForPathAndURI(String absPath, String URI, final IRODSAccount irodsAccount) {
+		log.info("deleteSelectedTermsForPathAndURI")
+		
+		if(!absPath) {
+			throw new IllegalArgumentException("missing absPath")
+		}
+		
+		if(!URI) {
+			throw new IllegalArgumentException("missing URI for selected term to be delete")
+		}
+		
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("missing irodsAccount")
+		}
+		
+		def deleted = false
+		
+		IRODSHiveService irodsHiveService = new IRODSHiveServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		irodsHiveService.deleteVocabularyEntryForPathAndURI(absPath, URI)
+		deleted = true
+		
+		return deleted
+		
+	}
 
 	private HttpSession getSession() {
 		return RequestContextHolder.currentRequestAttributes().getSession()

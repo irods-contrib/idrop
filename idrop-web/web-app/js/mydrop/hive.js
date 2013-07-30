@@ -251,6 +251,29 @@ function searchConcept(searchedConcept) {
 			"#searchConceptResults", null);
 
 }
+
+function deleteAppliedItem(uri, absPath) {
+	
+	if (absPath == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
+		return false;
+	}
+
+	if (uri == null) {
+		setErrorMessage(jQuery.i18n.prop('msg_uri_missing'));
+		return false;
+	} else {
+		console.log(uri);
+	}
+	
+	var params = {
+			uri : uri,
+			absPath : absPath
+		}
 		
+	lcSendValueWithParamsAndPlugHtmlInDiv("/hive/deleteSelectedItem", params,
+			"#appliedTermList", null);
+	
+}
 
 

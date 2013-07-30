@@ -48,46 +48,15 @@
 			</g:form>
 		</div>
 	</div>
-	<g:if test="${selectedTerms}">
-		<div class="row-fluid">
-			<div class="span10 offset1">
-				<button type="button" class="btn btn-link" style="display:block" data-toggle="collapse" data-target="#appliedTermsCollapseArea"><g:message code="text.show.hide.applied.terms" /></button>
+		
+	<div class="container-fluid">
+		<div class="row-fluid" id="appliedTermList">
+			<div class="span12">
+				<g:render template="/hive/selectedTermList" />
 			</div>
-		</div>
-	</g:if>
-	<div class="row-fluid " id="appliedTermsCollapseArea" class="collapse">
-			<div class="span10 offset1 well">
-				<div class="well">
-					<table class="table table-striped">
-					<h3><g:message code="text.applied.terms" /></h3>
-						<thead>
-							<tr style="color:#0088CC">
-							<th><g:message code="text.term" /></th>
-							<th><g:message code="text.vocabulary" /></th>
-							<th><g:message code="text.comment" /></th>
-							</tr>
-						</thead>
-							<g:each in="${selectedTerms}" var="term">
-								<tr id="${term.preferredLabel}" onmouseover="changeTextColor('${term.preferredLabel}')" onmouseout="changeTextColorBack('${term.preferredLabel}')">
-									<td>
-										<span onclick="processSelectOfTermAsCurrent('${term.termURI}')">${term.preferredLabel}</span>
-									</td>
-									<td>
-										${term.vocabularyName}
-									</td>
-									<td>
-										${term.comment}
-									</td>
-								</tr>
-							</g:each>
-						</tr>
-						 </tbody>
-					</table>
-				</div>
-			</div>
-
-		</div>
-	
+	    </div>
+    </div>
+		
 	<div class="container-fluid">
 		<div class="row-fluid ">
 			<div class="span12" id="searchConceptResults"></div>
@@ -275,8 +244,58 @@
 			return false;
 		}
 
+		console.log("processApplyHiveTerm", vocabulary, termUri);
 		applyHiveTerm(absPath, vocabulary, termUri);
 
+	}
+
+	function processEditHiveTerm(vocabulary,termUri) {
+		if (termUri == null || termUri == "") {
+			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+			return false;
+		}
+		if (vocabulary == null || vocabulary == "") {
+			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+			return false;
+		}
+
+		var absPath = $("#infoAbsPath").val();
+
+		if (absPath == null) {
+			setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
+			return false;
+		}
+
+		console.log("processEditHiveTerm", vocabulary, termUri);
+		applyHiveTerm(absPath, vocabulary, termUri);
+
+	}
+
+	function processRemoveHiveTerm(vocabulary,termUri) {
+		if (!confirm('Are you sure you want to delete?')) {
+			setMessage("Delete cancelled"); // FIXME:i18n
+			return;
+		}
+
+		if (termUri == null || termUri == "") {
+			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+			return false;
+		}
+		if (vocabulary == null || vocabulary == "") {
+			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+			return false;
+		}
+
+		var absPath = $("#infoAbsPath").val();
+
+		if (absPath == null) {
+			setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
+			return false;
+		}
+
+		console.log("processRemoveHiveTerm", vocabulary, termUri,absPath);
+		deleteAppliedItem(termUri, absPath);
+		
 	}
 
 	function processSearchHiveConcept() {
@@ -298,4 +317,35 @@
 		var element = document.getElementById(id);
 		element.style.color = "#333333";
 	}
+
+	<%--function deleteSelectedTerms(id) {
+		console.log(id,"deleteSelectedTerms()");
+		$(id).remove();
+	}
+
+	$('td.delete a.deleteTerm').on('click', function(e) {  
+		console.log("delete selected term");
+	    e.preventDefault();
+	    $(this).parents('tr').remove();
+	});--%>
+
+	function deleteSelectedTerms(id,termUri) {
+		if (!confirm('Are you sure you want to delete?')) {
+			setMessage("Delete cancelled"); // FIXME:i18n
+			return;
+		}
+
+		if (termUri == null || termUri == "") {
+			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+			return false;
+		}
+
+		console.log(id,termUri,"deleteSelectedTerms()");
+		
+		var absPath = $("#infoAbsPath").val();
+		var row = document.getElementById(id);
+		row.parentNode.removeChild(row);
+
+		deleteAppliedItem(termUri, absPath);
+	} 
 </script>
