@@ -31,7 +31,7 @@ $TOMCAT_STARTED=false
 # these tomcat vars used for tomcat install on rpm systems
 $TOMCAT_EXTRACT_DIR=/var/lib
 $TOMCAT_VER=6
-$TOMCAT_VER_DOT=0.35
+$TOMCAT_VER_DOT=0.37
 $TOMCAT_FILE=apache-tomcat-${TOMCAT_VER}.${TOMCAT_VER_DOT}
 $TOMCAT_ARC_FILE=${TOMCAT_FILE}.tar.gz
 $TOMCAT_HTTP_HOST=http://apache.mirrors.pair.com/tomcat/tomcat-${TOMCAT_VER}/v${TOMCAT_VER}.${TOMCAT_VER_DOT}/bin/
