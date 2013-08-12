@@ -12,7 +12,7 @@ SCRIPTNAME=`basename $0`
 IDROP_LITE_APPLET=idrop-lite-2.0.0-SNAPSHOT-jar-with-dependencies.jar
 
 # in case we need to download maven
-MAVENVER=3.0.4
+MAVENVER=3.0.5
 MAVENFILE=apache-maven-$MAVENVER
 MAVENDOWNLOAD=http://apache.cs.utah.edu/maven/maven-3/$MAVENVER/binaries/$MAVENFILE-bin.zip
 
