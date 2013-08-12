@@ -69,8 +69,9 @@ cd $BUILDDIR
 
 # check to make sure mvn, grails, and epm commands are in path
 MAVEN=`which mvn`
-if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" ]] ; then
-	echo "Apache Maven required to build project - downloading from $MAVENDOWNLOAD"
+MAVEN=`mvn --version | grep "Maven" | awk '{print $3}'`
+if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" || `mvn --version | grep "Maven" | awk '{print $3}'` < "$MAVENVER" ]] ; then
+	echo "Apache Maven $MAVENVER required to build project - downloading from $MAVENDOWNLOAD"
 
 	# clean up any old one first
 	rm -rf $MAVENFILE*
@@ -86,7 +87,7 @@ if [[ "$?" != "0" || `echo $MAVEN | awk '{print $1}'` == "no" ]] ; then
 
 	# create the .m2 dir
 	mvn --version > /dev/null 2>&1
-	
+
 	# if proxy specified set it up in settings.xml
 	if [[ $PROXYHOST ]]; then
 		# save old maven settings file if one exists
