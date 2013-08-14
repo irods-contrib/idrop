@@ -8,5 +8,6 @@
 <g:layoutHead />
 <g:javascript library="jquery-1.10.2.min" />
 <g:javascript library="bootstrap.min" />
+<g:javascript library="bootstrap.glyphicons" />
 <g:javascript library="angular.min" />
 
