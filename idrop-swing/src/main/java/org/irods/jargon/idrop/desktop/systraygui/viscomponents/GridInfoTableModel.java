@@ -220,6 +220,9 @@ public class GridInfoTableModel extends AbstractTableModel {
     }
     
     public GridAccount getRow(int row) {
+        if (row < 0) {
+            return null;
+        }
         return this.gridAccounts.get(row);
     }
     

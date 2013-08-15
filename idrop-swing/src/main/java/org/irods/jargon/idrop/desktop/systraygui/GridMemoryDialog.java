@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 public class GridMemoryDialog extends javax.swing.JDialog implements
         ListSelectionListener {
-    
+
     private GridMemoryDialog dialog;
     private final IDROPCore idropCore;
 //    private final iDrop idrop;
@@ -54,13 +54,13 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         this.idropCore = idropCore;
 //        this.idrop = idrop;
         this.savedAccount = savedAccount;
-        initGridInfoTable();        
+        initGridInfoTable();
         this.getRootPane().setDefaultButton(btnLogin);
     }
-    
+
     private void initGridInfoTable() {
         this.dialog = this;
-        java.awt.EventQueue.invokeLater(new Runnable() {      
+        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -76,58 +76,64 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                     tableGridInfo.validate();
                 } catch (ConveyorExecutionException ex) {
                     Logger.getLogger(GridMemoryDialog.class.getName()).log(
-                        Level.SEVERE, null, ex);
+                            Level.SEVERE, null, ex);
                 }
-                
-                tableGridInfo.addMouseListener(new MouseAdapter() {  
-                    public void mouseClicked(MouseEvent evt) {  
-                        if (evt.getClickCount() == 2) {  
+
+                tableGridInfo.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent evt) {
+                        if (evt.getClickCount() == 2) {
                             log.info("processing as edit");
-                            Point pnt = evt.getPoint();  
+                            Point pnt = evt.getPoint();
                             int row = tableGridInfo.rowAtPoint(pnt);
+                            if (row < 0) {
+                                return;
+                            }
+
                             GridInfoTableModel model = (GridInfoTableModel) tableGridInfo.getModel();
-                            GridAccount gridTableData = (GridAccount)model.getRow(row);
+                            GridAccount gridTableData = (GridAccount) model.getRow(row);
                             GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
                             EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
-//                                null, true, idropCore, gridAccount, idrop);
-                                  null, true, idropCore, gridAccount);
+                                    //                                null, true, idropCore, gridAccount, idrop);
+                                    null, true, idropCore, gridAccount);
 
                             editGridInfoDialog.setLocation(
-                                (int)dialog.getLocation().getX(), (int)dialog.getLocation().getY());
+                                    (int) dialog.getLocation().getX(), (int) dialog.getLocation().getY());
                             editGridInfoDialog.setVisible(true);
-                        } else {
-                            log.info("process as login");
-                            processLogin();
                         }
-                    }  
+                    }
                 });
-                
+
                 dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
     }
-    
+
     private void updateGridInfoDeleteBtnStatus(int selectedRowCount) {
         // delete button should only be enabled when there is a tableGridInfo selection
         btnDeleteGridInfo.setEnabled(selectedRowCount > 0);
     }
-    
+
     private void updateLoginBtnStatus(int selectedRowCount) {
         // delete button should only be enabled when there is a tableGridInfo selection
         btnLogin.setEnabled(selectedRowCount > 0);
         btnEdit.setEnabled(selectedRowCount > 0);
     }
-    
+
     private boolean processLogin() {
-        
+
         IRODSAccount irodsAccount = null;
         GridAccount loginAccount = null;
-        
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        
-        // get selected grid account
-        GridInfoTableModel tm = (GridInfoTableModel)tableGridInfo.getModel();
+
         int row = tableGridInfo.getSelectedRow();
+        if (row < 0) {
+            return false;
+        }
+
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        // get selected grid account
+        GridInfoTableModel tm = (GridInfoTableModel) tableGridInfo.getModel();
+
         GridAccount gridTableData = tm.getRow(row);
         loginAccount = getStoredGridAccountFromGridTableData(gridTableData);
 
@@ -137,7 +143,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
             } catch (ConveyorExecutionException ex) {
                 this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                                 null, ex);         
+                        null, ex);
                 MessageManager.showError(this, "Cannot retrieve irods account from selected grid account.", "Login Error");
                 return false;
             }
@@ -145,7 +151,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
             AuthScheme scheme = loginAccount.getAuthScheme();
             if ((scheme != null) && (scheme.equals(AuthScheme.PAM.name()))) {
                 irodsAccount.setAuthenticationScheme(AuthScheme.PAM);
-            } 
+            }
 
             IRODSFileSystem irodsFileSystem = null;
 
@@ -159,6 +165,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                 idropCore.setIrodsAccount(authResponse.getAuthenticatedIRODSAccount());
                 try {
                     idropCore.getIdropConfigurationService().saveLogin(irodsAccount);
+                    idropCore.setIrodsAccount(irodsAccount);
                 } catch (IdropException ex) {
                     this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     throw new IdropRuntimeException("error saving irodsAccount", ex);
@@ -196,61 +203,58 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                     irodsFileSystem.closeAndEatExceptions();
                 }
             }
-        }
-        else {
+        } else {
             MessageManager.showError(this, "Cannot connect to the server, is grid account valid?", "Login Error");
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             return false;
         }
-        
+
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         return true;
     }
-    
+
     // Use the Grid Account data retrieved from the GridInfoTable to retrieve
     // the full record from the DB
     GridAccount getStoredGridAccountFromGridTableData(GridAccount gridTableData) {
         IRODSAccount irodsAccount = null;
         GridAccount storedGridAccount = null;
-        
-        if ( gridTableData != null) {
+
+        if (gridTableData != null) {
             try {
                 irodsAccount = IRODSAccount.instance(gridTableData.getHost(), 0,
                         gridTableData.getUserName(), new String(), new String(),
                         gridTableData.getZone(), new String());
             } catch (JargonException ex) {
                 Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                            null, ex);
+                        null, ex);
                 MessageManager.showError(this, "Cannot retrieve grid account information.", "Retrieve Grid Account Information");
             }
-            
+
             try {
-                storedGridAccount = 
+                storedGridAccount =
                         idropCore.getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(irodsAccount);
             } catch (ConveyorExecutionException ex) {
                 Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                        null, ex);         
+                        null, ex);
                 MessageManager.showError(this, "Cannot retrieve grid account information.", "Retrieve Grid Account Information");
             }
         }
-        
-        return storedGridAccount; 
+
+        return storedGridAccount;
     }
-     
-    
+
     // ListSelectionListener methods
     @Override
     public void valueChanged(ListSelectionEvent lse) {
         int selectedRowCount = 0;
-        
+
         if (!lse.getValueIsAdjusting()) {
             selectedRowCount = tableGridInfo.getSelectedRowCount();
             updateGridInfoDeleteBtnStatus(selectedRowCount);
             updateLoginBtnStatus(selectedRowCount);
-        } 
+        }
     }
     // end ListSelectionListener methods
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -382,10 +386,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
     private void btnAddGridInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGridInfoActionPerformed
         CreateGridInfoDialog createGridInfoDialog = new CreateGridInfoDialog(
-            null, true, idropCore);
+                null, true, idropCore);
 
         createGridInfoDialog.setLocation(
-            (int)this.getLocation().getX(), (int)this.getLocation().getY());
+                (int) this.getLocation().getX(), (int) this.getLocation().getY());
         createGridInfoDialog.setVisible(true);
 
         IRODSAccount irodsAccount = createGridInfoDialog.getGridInfo();
@@ -393,14 +397,14 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         // first remove this user's entry from table if there is one
         if (irodsAccount != null) {
             try {
-                GridInfoTableModel tm = (GridInfoTableModel)tableGridInfo.getModel();
+                GridInfoTableModel tm = (GridInfoTableModel) tableGridInfo.getModel();
                 tm.deleteRow(irodsAccount);
 
                 // now add to table
                 tm.addRow(irodsAccount);
             } catch (JargonException ex) {
                 Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                            null, ex);
+                        null, ex);
                 MessageManager.showError(this, "Addition of grid account failed.", "Create Grid Account");
             }
         }
@@ -412,32 +416,32 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                 "Are you sure you want to delete a grid account?",
                 "Delete Grid Account",
                 JOptionPane.YES_NO_OPTION);
-        
+
         if (ans == JOptionPane.YES_OPTION) {
-        
+
             int[] selectedRows = tableGridInfo.getSelectedRows();
             int numRowsSelected = selectedRows.length;
 
             // have to remove rows in reverse
-            for(int i=numRowsSelected-1; i>=0; i--) {
+            for (int i = numRowsSelected - 1; i >= 0; i--) {
                 int selectedRow = selectedRows[i];
                 if (selectedRow >= 0) {
                     try {
                         GridInfoTableModel model = (GridInfoTableModel) tableGridInfo.getModel();
                         try {
                             // delete grid account from service
-                            idropCore.getConveyorService().getGridAccountService().deleteGridAccount((GridAccount)model.getRow(selectedRow));
+                            idropCore.getConveyorService().getGridAccountService().deleteGridAccount((GridAccount) model.getRow(selectedRow));
 
                             // then remove from table
                             model.deleteRow(selectedRow);
 
                         } catch (ConveyorBusyException ex) {
                             Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                                null, ex);
+                                    null, ex);
                             MessageManager.showError(this, "Transfer for this grid account is currently in progess.\nPlease try again later.", "Delete Grid Account");
                         } catch (ConveyorExecutionException ex) {
                             Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-                                null, ex);
+                                    null, ex);
                             MessageManager.showError(this, "Deletion of grid account failed.", "Delete Grid Account");
                         }
 
@@ -450,7 +454,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     }//GEN-LAST:event_btnDeleteGridInfoActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        if(processLogin()) {
+        if (processLogin()) {
             this.dispose();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -460,24 +464,23 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-                            int row = tableGridInfo.getSelectedRow();
-                            
-                            if (row == -1) {
-                                MessageManager.showWarning(this, "No grid selected, please select a grid");
-                            }
-                            
-                            GridInfoTableModel model = (GridInfoTableModel) tableGridInfo.getModel();
-                            GridAccount gridTableData = (GridAccount)model.getRow(row);
-                            GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
-                            EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
-//                                null, true, idropCore, gridAccount, idrop);
-                                  null, true, idropCore, gridAccount);
+        int row = tableGridInfo.getSelectedRow();
 
-                            editGridInfoDialog.setLocation(
-                                (int)dialog.getLocation().getX(), (int)dialog.getLocation().getY());
-                            editGridInfoDialog.setVisible(true);
+        if (row == -1) {
+            MessageManager.showWarning(this, "No grid selected, please select a grid");
+        }
+
+        GridInfoTableModel model = (GridInfoTableModel) tableGridInfo.getModel();
+        GridAccount gridTableData = (GridAccount) model.getRow(row);
+        GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
+        EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
+                //                                null, true, idropCore, gridAccount, idrop);
+                null, true, idropCore, gridAccount);
+
+        editGridInfoDialog.setLocation(
+                (int) dialog.getLocation().getX(), (int) dialog.getLocation().getY());
+        editGridInfoDialog.setVisible(true);
     }//GEN-LAST:event_btnEditActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddGridInfo;
     private javax.swing.JButton btnCancel;
@@ -492,5 +495,4 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     private javax.swing.JPanel pnlGridInfoTable;
     private javax.swing.JTable tableGridInfo;
     // End of variables declaration//GEN-END:variables
-
 }
