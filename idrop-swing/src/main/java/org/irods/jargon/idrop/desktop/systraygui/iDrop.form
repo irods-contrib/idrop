@@ -131,7 +131,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -169,7 +169,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -207,7 +207,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -245,7 +245,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -253,6 +253,22 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JToolBar$Separator" name="jSeparator1">
+            </Component>
+            <Component class="javax.swing.Box$Filler" name="filler15">
+              <Properties>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[2, 32767]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[2, 0]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[5, 0]"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalStrut"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="btnNewFolder">
               <Properties>
@@ -289,7 +305,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -330,7 +346,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -368,7 +384,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -378,7 +394,7 @@
             <Component class="javax.swing.JButton" name="btnMainToolbarInfo">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_194_circle_question_mark.png"/>
+                  <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"/>
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
@@ -407,7 +423,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[25, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -425,7 +441,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -466,7 +482,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -504,7 +520,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -532,6 +548,22 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMainToolbarSyncActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.Box$Filler" name="filler14">
+              <Properties>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[2, 32767]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[2, 0]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[5, 0]"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalStrut"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="btnMainToolbarQueueMgr">
               <Properties>
@@ -565,7 +597,7 @@
                   <Dimension value="[2, 0]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[2, 0]"/>
+                  <Dimension value="[5, 0]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -594,6 +626,22 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMainToolbarGridsActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.Box$Filler" name="filler13">
+              <Properties>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[2, 32767]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[2, 0]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[5, 0]"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalStrut"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

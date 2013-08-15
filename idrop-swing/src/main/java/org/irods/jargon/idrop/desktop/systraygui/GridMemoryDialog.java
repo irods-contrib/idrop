@@ -298,7 +298,6 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         flowLayout1.setAlignOnBaseline(true);
         jPanel7.setLayout(flowLayout1);
 
-        jPanel9.setPreferredSize(null);
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
         btnAddGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
@@ -334,9 +333,6 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         pnlActions.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
         pnlActions.setLayout(new java.awt.GridBagLayout());
-
-        pnlActionsButtons.setMinimumSize(null);
-        pnlActionsButtons.setPreferredSize(null);
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
         btnCancel.setMnemonic('C');

@@ -383,6 +383,14 @@ public class IdropConfig {
 		return idropProperties
 				.getProperty(IdropConfigurationService.DEVICE_NAME);
 	}
+        
+        /**
+         * Get the maximum number of errors that will be tolerated before a transfer is abandoned
+         * @return 
+         */
+        public int getMaxTransferErrors() {
+		return getIntForKey(IdropConfigurationService.MAX_TRANSFER_ERRORS);
+	}
 
 	/**
 	 * Should the startup wizard be shown

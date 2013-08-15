@@ -402,6 +402,9 @@ public class TransferInfoDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         pnlMain = new javax.swing.JPanel();
+        pnlTop = new javax.swing.JPanel();
+        toolBatTop = new javax.swing.JToolBar();
+        btnShowFiles = new javax.swing.JButton();
         pnlTransferInfo = new javax.swing.JPanel();
         lblTransferType = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -415,9 +418,6 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlScrollableTransferAttempts = new javax.swing.JPanel();
         pnlButtons = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        btnShowFiles = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -427,6 +427,25 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 4, 8, 4));
         pnlMain.setPreferredSize(new java.awt.Dimension(530, 630));
         pnlMain.setLayout(new java.awt.BorderLayout());
+
+        pnlTop.setLayout(new java.awt.BorderLayout());
+
+        toolBatTop.setRollover(true);
+
+        btnShowFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
+        btnShowFiles.setMnemonic('i');
+        btnShowFiles.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.btnShowFiles.text")); // NOI18N
+        btnShowFiles.setFocusable(false);
+        btnShowFiles.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnShowFiles.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnShowFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowFilesActionPerformed(evt);
+            }
+        });
+        toolBatTop.add(btnShowFiles);
+
+        pnlTop.add(toolBatTop, java.awt.BorderLayout.NORTH);
 
         pnlTransferInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 0, 6, 0));
         pnlTransferInfo.setPreferredSize(new java.awt.Dimension(172, 50));
@@ -449,7 +468,9 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         lblTransferTo.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.lblTransferTo.text")); // NOI18N
         pnlTransferInfo.add(lblTransferTo);
 
-        pnlMain.add(pnlTransferInfo, java.awt.BorderLayout.NORTH);
+        pnlTop.add(pnlTransferInfo, java.awt.BorderLayout.CENTER);
+
+        pnlMain.add(pnlTop, java.awt.BorderLayout.NORTH);
 
         pnlTransferAttempt.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 6, 2));
         pnlTransferAttempt.setPreferredSize(new java.awt.Dimension(520, 630));
@@ -476,48 +497,24 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlTransferAttempt.add(pnlTransferAttemptInfo, java.awt.BorderLayout.CENTER);
 
         pnlButtons.setPreferredSize(new java.awt.Dimension(595, 35));
-        pnlButtons.setLayout(new java.awt.BorderLayout());
+        pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(300, 50));
-
-        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 300, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 35, Short.MAX_VALUE)
-        );
-
-        pnlButtons.add(jPanel2, java.awt.BorderLayout.WEST);
-
-        jPanel3.setPreferredSize(new java.awt.Dimension(250, 112));
-
-        btnShowFiles.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.btnShowFiles.text")); // NOI18N
-        btnShowFiles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShowFilesActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnShowFiles);
-
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_198_ok.png"))); // NOI18N
+        btnClose.setMnemonic('o');
         btnClose.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.btnClose.text")); // NOI18N
+        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.btnClose.toolTipText")); // NOI18N
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
             }
         });
-        jPanel3.add(btnClose);
-
-        pnlButtons.add(jPanel3, java.awt.BorderLayout.EAST);
+        pnlButtons.add(btnClose);
 
         pnlTransferAttempt.add(pnlButtons, java.awt.BorderLayout.SOUTH);
 
         pnlMain.add(pnlTransferAttempt, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(pnlMain, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -545,8 +542,6 @@ public class TransferInfoDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTransferFrom;
     private javax.swing.JLabel lblTransferTo;
@@ -554,8 +549,10 @@ public class TransferInfoDialog extends javax.swing.JDialog {
     private javax.swing.JPanel pnlButtons;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlScrollableTransferAttempts;
+    private javax.swing.JPanel pnlTop;
     private javax.swing.JPanel pnlTransferAttempt;
     private javax.swing.JPanel pnlTransferAttemptInfo;
     private javax.swing.JPanel pnlTransferInfo;
+    private javax.swing.JToolBar toolBatTop;
     // End of variables declaration//GEN-END:variables
 }

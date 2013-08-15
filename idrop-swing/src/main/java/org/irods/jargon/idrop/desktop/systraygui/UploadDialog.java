@@ -267,8 +267,8 @@ public class UploadDialog extends javax.swing.JDialog implements
         btnDeleteUploadFile = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        btnUploadNow = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        btnUploadNow = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.title")); // NOI18N
@@ -334,7 +334,7 @@ public class UploadDialog extends javax.swing.JDialog implements
         jLabel2.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.jLabel2.text")); // NOI18N
         pnlFilesToUpload.add(jLabel2, java.awt.BorderLayout.NORTH);
 
-        scrollPanelFilesToUpload.setPreferredSize(new java.awt.Dimension(454, 190));
+        scrollPanelFilesToUpload.setPreferredSize(null);
 
         tblFilesToUpload.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -363,10 +363,14 @@ public class UploadDialog extends javax.swing.JDialog implements
 
         pnlFilesToUpload.add(scrollPanelFilesToUpload, java.awt.BorderLayout.CENTER);
 
-        pnlBottomButtons.setPreferredSize(new java.awt.Dimension(100, 25));
-        pnlBottomButtons.setLayout(new java.awt.GridBagLayout());
+        pnlBottomButtons.setMinimumSize(null);
+        pnlBottomButtons.setPreferredSize(null);
+        pnlBottomButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
+        btnAddUploadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
+        btnAddUploadFile.setMnemonic('+');
         btnAddUploadFile.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnAddUploadFile.text")); // NOI18N
+        btnAddUploadFile.setToolTipText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnAddUploadFile.toolTipText")); // NOI18N
         btnAddUploadFile.setMargin(null);
         btnAddUploadFile.setMaximumSize(null);
         btnAddUploadFile.setMinimumSize(null);
@@ -377,9 +381,13 @@ public class UploadDialog extends javax.swing.JDialog implements
                 btnAddUploadFileActionPerformed(evt);
             }
         });
-        pnlBottomButtons.add(btnAddUploadFile, new java.awt.GridBagConstraints());
+        pnlBottomButtons.add(btnAddUploadFile);
 
+        btnDeleteUploadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnDeleteUploadFile.setMnemonic('-');
         btnDeleteUploadFile.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnDeleteUploadFile.text")); // NOI18N
+        btnDeleteUploadFile.setToolTipText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnDeleteUploadFile.toolTipText")); // NOI18N
+        btnDeleteUploadFile.setMargin(null);
         btnDeleteUploadFile.setMaximumSize(null);
         btnDeleteUploadFile.setMinimumSize(null);
         btnDeleteUploadFile.setPreferredSize(null);
@@ -388,7 +396,7 @@ public class UploadDialog extends javax.swing.JDialog implements
                 btnDeleteUploadFileActionPerformed(evt);
             }
         });
-        pnlBottomButtons.add(btnDeleteUploadFile, new java.awt.GridBagConstraints());
+        pnlBottomButtons.add(btnDeleteUploadFile);
 
         pnlFilesToUpload.add(pnlBottomButtons, java.awt.BorderLayout.SOUTH);
 
@@ -398,7 +406,21 @@ public class UploadDialog extends javax.swing.JDialog implements
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel12.add(btnCancel);
+
+        btnUploadNow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_415_disk_open.png"))); // NOI18N
+        btnUploadNow.setMnemonic('u');
         btnUploadNow.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUploadNow.text")); // NOI18N
+        btnUploadNow.setToolTipText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUploadNow.toolTipText")); // NOI18N
         btnUploadNow.setEnabled(false);
         btnUploadNow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -406,14 +428,6 @@ public class UploadDialog extends javax.swing.JDialog implements
             }
         });
         jPanel12.add(btnUploadNow);
-
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnCancel.text")); // NOI18N
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        jPanel12.add(btnCancel);
 
         jPanel2.add(jPanel12, java.awt.BorderLayout.EAST);
 

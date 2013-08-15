@@ -240,23 +240,34 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     private void initComponents() {
 
         pnlMain = new javax.swing.JPanel();
+        toolBarTop = new javax.swing.JToolBar();
+        btnTransferInfo = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnPurgeAll = new javax.swing.JButton();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnPurgeSuccessful = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        jSeparator2 = new javax.swing.JToolBar.Separator();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnRemoveSelected = new javax.swing.JButton();
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnCancel = new javax.swing.JButton();
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnRestartSelected = new javax.swing.JButton();
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnResubmitSelected = new javax.swing.JButton();
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        jSeparator3 = new javax.swing.JToolBar.Separator();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnRefresh = new javax.swing.JButton();
+        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         pnlTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTransfers = new javax.swing.JTable();
-        pnlButtons = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        btnTransferInfo = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        btnPurgeAll = new javax.swing.JButton();
-        btnPurgeSuccessful = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
-        btnRemoveSelected = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
-        btnRestartSelected = new javax.swing.JButton();
-        btnResubmitSelected = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JSeparator();
-        btnRefresh = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        pnlBottom = new javax.swing.JPanel();
         bntClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -266,6 +277,138 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 4, 4, 4));
         pnlMain.setLayout(new java.awt.BorderLayout());
+
+        toolBarTop.setFloatable(false);
+        toolBarTop.setRollover(true);
+
+        btnTransferInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
+        btnTransferInfo.setMnemonic('i');
+        btnTransferInfo.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.text")); // NOI18N
+        btnTransferInfo.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.toolTipText")); // NOI18N
+        btnTransferInfo.setEnabled(false);
+        btnTransferInfo.setFocusable(false);
+        btnTransferInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnTransferInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnTransferInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransferInfoActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnTransferInfo);
+        toolBarTop.add(filler1);
+        toolBarTop.add(jSeparator1);
+        toolBarTop.add(filler2);
+
+        btnPurgeAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_207_remove_2.png"))); // NOI18N
+        btnPurgeAll.setMnemonic('a');
+        btnPurgeAll.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.text")); // NOI18N
+        btnPurgeAll.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.toolTipText")); // NOI18N
+        btnPurgeAll.setFocusable(false);
+        btnPurgeAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPurgeAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPurgeAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPurgeAllActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnPurgeAll);
+        toolBarTop.add(filler3);
+
+        btnPurgeSuccessful.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_207_remove_2.png"))); // NOI18N
+        btnPurgeSuccessful.setMnemonic('x');
+        btnPurgeSuccessful.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.text")); // NOI18N
+        btnPurgeSuccessful.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.toolTipText")); // NOI18N
+        btnPurgeSuccessful.setFocusable(false);
+        btnPurgeSuccessful.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPurgeSuccessful.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBarTop.add(btnPurgeSuccessful);
+        toolBarTop.add(filler4);
+        toolBarTop.add(jSeparator2);
+        toolBarTop.add(filler5);
+
+        btnRemoveSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnRemoveSelected.setMnemonic('d');
+        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.text")); // NOI18N
+        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.toolTipText")); // NOI18N
+        btnRemoveSelected.setEnabled(false);
+        btnRemoveSelected.setFocusable(false);
+        btnRemoveSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRemoveSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveSelectedActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnRemoveSelected);
+        toolBarTop.add(filler6);
+
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_175_stop.png"))); // NOI18N
+        btnCancel.setMnemonic('l');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setEnabled(false);
+        btnCancel.setFocusable(false);
+        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnCancel);
+        toolBarTop.add(filler7);
+
+        btnRestartSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_085_repeat.png"))); // NOI18N
+        btnRestartSelected.setMnemonic('t');
+        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.text")); // NOI18N
+        btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.toolTipText")); // NOI18N
+        btnRestartSelected.setEnabled(false);
+        btnRestartSelected.setFocusable(false);
+        btnRestartSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRestartSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRestartSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestartSelectedActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnRestartSelected);
+        toolBarTop.add(filler8);
+
+        btnResubmitSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_434_redo.png"))); // NOI18N
+        btnResubmitSelected.setMnemonic('b');
+        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.text")); // NOI18N
+        btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.toolTipText")); // NOI18N
+        btnResubmitSelected.setEnabled(false);
+        btnResubmitSelected.setFocusable(false);
+        btnResubmitSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnResubmitSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnResubmitSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResubmitSelectedActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnResubmitSelected);
+        toolBarTop.add(filler9);
+        toolBarTop.add(jSeparator3);
+        toolBarTop.add(filler10);
+
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
+        btnRefresh.setMnemonic('f');
+        btnRefresh.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.text")); // NOI18N
+        btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.toolTipText")); // NOI18N
+        btnRefresh.setFocusable(false);
+        btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnRefresh);
+        toolBarTop.add(filler11);
+        toolBarTop.add(filler13);
+
+        pnlMain.add(toolBarTop, java.awt.BorderLayout.NORTH);
 
         pnlTable.setLayout(new java.awt.BorderLayout());
 
@@ -277,97 +420,23 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         pnlMain.add(pnlTable, java.awt.BorderLayout.CENTER);
 
-        pnlButtons.setPreferredSize(new java.awt.Dimension(799, 40));
-        pnlButtons.setLayout(new java.awt.BorderLayout());
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(830, 39));
-
-        btnTransferInfo.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.text")); // NOI18N
-        btnTransferInfo.setEnabled(false);
-        btnTransferInfo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTransferInfoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnTransferInfo);
-
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel1.add(jSeparator1);
-
-        btnPurgeAll.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.text")); // NOI18N
-        btnPurgeAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPurgeAllActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnPurgeAll);
-
-        btnPurgeSuccessful.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.text")); // NOI18N
-        jPanel1.add(btnPurgeSuccessful);
-
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel1.add(jSeparator2);
-
-        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.text")); // NOI18N
-        btnRemoveSelected.setEnabled(false);
-        btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveSelectedActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnRemoveSelected);
-
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.text")); // NOI18N
-        btnCancel.setEnabled(false);
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnCancel);
-
-        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.text")); // NOI18N
-        btnRestartSelected.setEnabled(false);
-        btnRestartSelected.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRestartSelectedActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnRestartSelected);
-
-        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.text")); // NOI18N
-        btnResubmitSelected.setEnabled(false);
-        btnResubmitSelected.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResubmitSelectedActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnResubmitSelected);
-
-        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel1.add(jSeparator3);
-
-        btnRefresh.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.text")); // NOI18N
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnRefresh);
-
-        pnlButtons.add(jPanel1, java.awt.BorderLayout.CENTER);
-
+        bntClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        bntClose.setMnemonic('l');
         bntClose.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.bntClose.text")); // NOI18N
+        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.bntClose.toolTipText")); // NOI18N
+        bntClose.setFocusable(false);
+        bntClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bntClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         bntClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bntCloseActionPerformed(evt);
             }
         });
-        jPanel2.add(bntClose);
+        pnlBottom.add(bntClose);
 
-        pnlButtons.add(jPanel2, java.awt.BorderLayout.EAST);
-
-        pnlMain.add(pnlButtons, java.awt.BorderLayout.SOUTH);
+        pnlMain.add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
         getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
@@ -486,16 +555,27 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     private javax.swing.JButton btnRestartSelected;
     private javax.swing.JButton btnResubmitSelected;
     private javax.swing.JButton btnTransferInfo;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
+    private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler13;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
+    private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JPanel pnlButtons;
+    private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlTable;
     private javax.swing.JTable tblTransfers;
+    private javax.swing.JToolBar toolBarTop;
     // End of variables declaration//GEN-END:variables
 
 }
