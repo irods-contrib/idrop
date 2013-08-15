@@ -54,22 +54,8 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         this.idropCore = idropCore;
 //        this.idrop = idrop;
         this.savedAccount = savedAccount;
-        makeTextAreaLikeLabel();
-        initGridInfoTable();
-        setLoginInfoLabel();
-        
+        initGridInfoTable();        
         this.getRootPane().setDefaultButton(btnLogin);
-    }
-    
-    private void makeTextAreaLikeLabel() {
-        
-        textAreaInfo.setEditable(false);  
-        textAreaInfo.setCursor(null);  
-        textAreaInfo.setOpaque(false);  
-        textAreaInfo.setFocusable(false);  
-        textAreaInfo.setFont(UIManager.getFont("Label.font"));      
-        textAreaInfo.setWrapStyleWord(true);  
-        textAreaInfo.setLineWrap(true);
     }
     
     private void initGridInfoTable() {
@@ -125,28 +111,8 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     private void updateLoginBtnStatus(int selectedRowCount) {
         // delete button should only be enabled when there is a tableGridInfo selection
         btnLogin.setEnabled(selectedRowCount > 0);
+        btnEdit.setEnabled(selectedRowCount > 0);
     }
-    
-    private void setLoginInfoLabel() {
-        
-        StringBuilder loginMsg = new StringBuilder();
-        if (savedAccount != null) {
-            // make label with host:zone:user name
-            loginMsg.append(lblLoginInfo.getText());
-            loginMsg.append(savedAccount.getHost());
-            loginMsg.append(" : ");
-            loginMsg.append(savedAccount.getZone());
-            loginMsg.append(" : ");
-            loginMsg.append(savedAccount.getUserName());
-        } 
-        else {
-            // make label with not logged in
-            loginMsg.append(lblLoginInfo.getText());
-            loginMsg.append("Not logged in.");
-        }
-        
-        lblLoginInfo.setText(loginMsg.toString());
-    }   
     
     private boolean processLogin() {
         
@@ -290,8 +256,8 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
         pnlGridInfoTable = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableGridInfo = new javax.swing.JTable();
@@ -299,21 +265,15 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         jPanel9 = new javax.swing.JPanel();
         btnAddGridInfo = new javax.swing.JButton();
         btnDeleteGridInfo = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        lblLoginInfo = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
+        pnlActions = new javax.swing.JPanel();
+        pnlActionsButtons = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        textAreaInfo = new javax.swing.JTextArea();
+        btnEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.title")); // NOI18N
         setPreferredSize(new java.awt.Dimension(580, 350));
-
-        jPanel1.setPreferredSize(new java.awt.Dimension(580, 230));
-        jPanel1.setLayout(new java.awt.BorderLayout());
 
         pnlGridInfoTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
         pnlGridInfoTable.setPreferredSize(new java.awt.Dimension(600, 150));
@@ -326,14 +286,19 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
         jPanel7.setPreferredSize(new java.awt.Dimension(568, 40));
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT);
+        flowLayout1.setAlignOnBaseline(true);
+        jPanel7.setLayout(flowLayout1);
 
-        jPanel9.setPreferredSize(new java.awt.Dimension(100, 25));
+        jPanel9.setPreferredSize(null);
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
+        btnAddGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
+        btnAddGridInfo.setMnemonic('+');
         btnAddGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGridInfo.text")); // NOI18N
+        btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGridInfo.toolTipText")); // NOI18N
         btnAddGridInfo.setMaximumSize(null);
         btnAddGridInfo.setMinimumSize(null);
-        btnAddGridInfo.setPreferredSize(null);
         btnAddGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddGridInfoActionPerformed(evt);
@@ -341,11 +306,11 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         });
         jPanel9.add(btnAddGridInfo, new java.awt.GridBagConstraints());
 
+        btnDeleteGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnDeleteGridInfo.setMnemonic('-');
         btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGridInfo.text")); // NOI18N
+        btnDeleteGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGridInfo.toolTipText")); // NOI18N
         btnDeleteGridInfo.setEnabled(false);
-        btnDeleteGridInfo.setMaximumSize(null);
-        btnDeleteGridInfo.setMinimumSize(null);
-        btnDeleteGridInfo.setPreferredSize(null);
         btnDeleteGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteGridInfoActionPerformed(evt);
@@ -357,59 +322,56 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         pnlGridInfoTable.add(jPanel7, java.awt.BorderLayout.SOUTH);
 
-        jPanel1.add(pnlGridInfoTable, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlGridInfoTable, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        pnlActions.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
+        pnlActions.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
-        jPanel2.setMinimumSize(new java.awt.Dimension(180, 50));
-        jPanel2.setPreferredSize(new java.awt.Dimension(609, 50));
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        pnlActionsButtons.setMinimumSize(null);
+        pnlActionsButtons.setPreferredSize(null);
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 2, 6, 1));
-        jPanel6.setPreferredSize(new java.awt.Dimension(392, 46));
-        jPanel6.setLayout(new java.awt.BorderLayout());
-
-        lblLoginInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.lblLoginInfo.text")); // NOI18N
-        lblLoginInfo.setPreferredSize(new java.awt.Dimension(100, 46));
-        jPanel6.add(lblLoginInfo, java.awt.BorderLayout.CENTER);
-
-        jPanel2.add(jPanel6, java.awt.BorderLayout.WEST);
-
-        jPanel10.setPreferredSize(new java.awt.Dimension(175, 46));
-
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('C');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.text_1")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel10.add(btnCancel);
+        pnlActionsButtons.add(btnCancel);
 
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_198_ok.png"))); // NOI18N
+        btnLogin.setMnemonic('L');
         btnLogin.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.text")); // NOI18N
+        btnLogin.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.toolTipText")); // NOI18N
         btnLogin.setEnabled(false);
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
             }
         });
-        jPanel10.add(btnLogin);
+        pnlActionsButtons.add(btnLogin);
 
-        jPanel2.add(jPanel10, java.awt.BorderLayout.EAST);
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_030_pencil.png"))); // NOI18N
+        btnEdit.setMnemonic('E');
+        btnEdit.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.text")); // NOI18N
+        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.toolTipText")); // NOI18N
+        btnEdit.setEnabled(false);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        pnlActionsButtons.add(btnEdit);
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.weightx = 0.9;
+        pnlActions.add(pnlActionsButtons, gridBagConstraints);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 10, 10));
-        jPanel3.setPreferredSize(new java.awt.Dimension(609, 70));
-        jPanel3.setLayout(new java.awt.BorderLayout());
-
-        textAreaInfo.setBackground(new java.awt.Color(238, 238, 238));
-        textAreaInfo.setColumns(20);
-        textAreaInfo.setRows(5);
-        textAreaInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.textAreaInfo.text")); // NOI18N
-        jPanel3.add(textAreaInfo, java.awt.BorderLayout.PAGE_START);
-
-        getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(pnlActions, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -493,23 +455,38 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+                            int row = tableGridInfo.getSelectedRow();
+                            
+                            if (row == -1) {
+                                MessageManager.showWarning(this, "No grid selected, please select a grid");
+                            }
+                            
+                            GridInfoTableModel model = (GridInfoTableModel) tableGridInfo.getModel();
+                            GridAccount gridTableData = (GridAccount)model.getRow(row);
+                            GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
+                            EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
+//                                null, true, idropCore, gridAccount, idrop);
+                                  null, true, idropCore, gridAccount);
+
+                            editGridInfoDialog.setLocation(
+                                (int)dialog.getLocation().getX(), (int)dialog.getLocation().getY());
+                            editGridInfoDialog.setVisible(true);
+    }//GEN-LAST:event_btnEditActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddGridInfo;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDeleteGridInfo;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnLogin;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel lblLoginInfo;
+    private javax.swing.JPanel pnlActions;
+    private javax.swing.JPanel pnlActionsButtons;
     private javax.swing.JPanel pnlGridInfoTable;
     private javax.swing.JTable tableGridInfo;
-    private javax.swing.JTextArea textAreaInfo;
     // End of variables declaration//GEN-END:variables
 
 }
