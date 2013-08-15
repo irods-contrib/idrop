@@ -82,6 +82,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                 tableGridInfo.addMouseListener(new MouseAdapter() {  
                     public void mouseClicked(MouseEvent evt) {  
                         if (evt.getClickCount() == 2) {  
+                            log.info("processing as edit");
                             Point pnt = evt.getPoint();  
                             int row = tableGridInfo.rowAtPoint(pnt);
                             GridInfoTableModel model = (GridInfoTableModel) tableGridInfo.getModel();
@@ -94,7 +95,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
                             editGridInfoDialog.setLocation(
                                 (int)dialog.getLocation().getX(), (int)dialog.getLocation().getY());
                             editGridInfoDialog.setVisible(true);
-                        }    
+                        } else {
+                            log.info("process as login");
+                            processLogin();
+                        }
                     }  
                 });
                 
