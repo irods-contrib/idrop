@@ -45,6 +45,7 @@ import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
+import static org.irods.jargon.idrop.desktop.systraygui.UploadDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 
@@ -183,8 +184,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 }
                 thisPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
-
-          
         });
     }
 
@@ -1672,6 +1671,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarRefresh = new javax.swing.JButton();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(2, 0), new java.awt.Dimension(2, 32767));
         jSeparator1 = new javax.swing.JToolBar.Separator();
+        btnNewFolder = new javax.swing.JButton();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(2, 0), new java.awt.Dimension(2, 32767));
         btnMainToolbarCopy = new javax.swing.JButton();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(2, 0), new java.awt.Dimension(2, 32767));
@@ -1816,6 +1816,22 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jToolBar1.add(btnMainToolbarRefresh);
         jToolBar1.add(filler4);
         jToolBar1.add(jSeparator1);
+
+        btnNewFolder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_145_folder_plus.png"))); // NOI18N
+        btnNewFolder.setMnemonic('n');
+        btnNewFolder.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnNewFolder.text")); // NOI18N
+        btnNewFolder.setActionCommand(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnNewFolder.actionCommand")); // NOI18N
+        btnNewFolder.setBorder(null);
+        btnNewFolder.setFocusable(false);
+        btnNewFolder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNewFolder.setMargin(null);
+        btnNewFolder.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNewFolder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewFolderActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnNewFolder);
         jToolBar1.add(filler5);
 
         btnMainToolbarCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_318_more_items.png"))); // NOI18N
@@ -2396,9 +2412,58 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }//GEN-LAST:event_btnMainToolbarQueueMgrActionPerformed
 
     private void btnMainToolbarGridsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarGridsActionPerformed
-      showGridManagerDialog(this.getIrodsAccount());
-            
+        showGridManagerDialog(this.getIrodsAccount());
+
     }//GEN-LAST:event_btnMainToolbarGridsActionPerformed
+
+    private void btnNewFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewFolderActionPerformed
+        // show a dialog asking for the new directory name...
+
+        IRODSFileService irodsFS = null;
+      
+        IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
+                .getModel();
+        ListSelectionModel selectionModel = irodsTree.getSelectionModel();
+        int idx = selectionModel.getLeadSelectionIndex();
+
+        // make sure there is a selected node
+        if (idx >= 0) {
+            try {
+                 irodsFS = new IRODSFileService(getiDropCore()
+                .getIrodsAccount(), getiDropCore()
+                .getIrodsFileSystem());
+                IRODSFile ifile = null;
+                IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
+                        .getValueAt(idx, 0);
+                ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
+
+                // rule out "/" and choose parent if file is not a directory
+                String path = ifile.getAbsolutePath();
+                if (ifile.isFile()) {
+                    path = ifile.getParent();
+                    selectedNode = (IRODSNode) selectedNode.getParent();
+                }
+
+                NewIRODSDirectoryDialog newDirectoryDialog = new NewIRODSDirectoryDialog(
+                        this, true, path,
+                        this.getIrodsTree(), selectedNode);
+                newDirectoryDialog
+                        .setLocation(
+                        (int) (this.getLocation().getX() + this
+                        .getWidth() / 2), (int) (this
+                        .getLocation().getY() + this
+                        .getHeight() / 2));
+                newDirectoryDialog.setVisible(true);
+            } catch (Exception e) {
+                log.error("exception creating new folder", e);
+                MessageManager.showError(this, e.getMessage());
+            }
+
+
+        } else {
+            MessageManager.showWarning(this, "Please select a parent folder in the tree");
+        }
+    }//GEN-LAST:event_btnNewFolderActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMainToolbarCopy;
     private javax.swing.JButton btnMainToolbarDelete;
@@ -2412,6 +2477,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JButton btnMainToolbarTools;
     private javax.swing.JButton btnMainToolbarTree;
     private javax.swing.JButton btnMainToolbarUpload;
+    private javax.swing.JButton btnNewFolder;
     private javax.swing.JComboBox cbIrodsResource;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
@@ -2471,16 +2537,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     public void closeTransferManagerDialog() {
         this.transferManagerDialog = null;
     }
-    
-      private void showGridManagerDialog(IRODSAccount savedAccount) throws HeadlessException {
 
-                final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, iDropCore, savedAccount);
-                Toolkit tk = getToolkit();
-                int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
-                int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
-                gridMemoryDialog.setLocation(x, y);
-                gridMemoryDialog.toFront();
-                gridMemoryDialog.setVisible(true);
-                reinitializeForChangedIRODSAccount();
-            }
+    private void showGridManagerDialog(IRODSAccount savedAccount) throws HeadlessException {
+
+        final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, iDropCore, savedAccount);
+        Toolkit tk = getToolkit();
+        int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
+        int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
+        gridMemoryDialog.setLocation(x, y);
+        gridMemoryDialog.toFront();
+        gridMemoryDialog.setVisible(true);
+        reinitializeForChangedIRODSAccount();
+    }
 }
