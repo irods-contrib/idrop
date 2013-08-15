@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -993,6 +994,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 Image newIcon = createImage(iconFile, "icon");
 
                 trayIcon.setImage(newIcon);
+                ImageIcon icon = new ImageIcon();
+                icon.setImage(newIcon);
+                lblStatusIcon.setIcon(icon);
 
             }
         });
@@ -1728,6 +1732,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblUserName = new javax.swing.JLabel();
         lblResource = new javax.swing.JLabel();
         cbIrodsResource = new javax.swing.JComboBox();
+        filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
+        pnlStatus = new javax.swing.JPanel();
+        lblStatusIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(622, 158));
@@ -1990,7 +1997,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         splitPanelTrees.setDividerLocation(150);
         splitPanelTrees.setAutoscrolls(true);
         splitPanelTrees.setLastDividerLocation(200);
-        splitPanelTrees.setMinimumSize(null);
         splitPanelTrees.setPreferredSize(new java.awt.Dimension(834, 360));
 
         scrollIrodsTree.setBorder(null);
@@ -2201,6 +2207,18 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.gridwidth = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlIdropGutter.add(cbIrodsResource, gridBagConstraints);
+        pnlIdropGutter.add(filler16, new java.awt.GridBagConstraints());
+
+        pnlStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        lblStatusIcon.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblStatusIcon.text_1")); // NOI18N
+        pnlStatus.add(lblStatusIcon);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlIdropGutter.add(pnlStatus, gridBagConstraints);
 
         pnlMainTransferStatus.add(pnlIdropGutter, java.awt.BorderLayout.CENTER);
 
@@ -2492,6 +2510,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.Box.Filler filler13;
     private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler15;
+    private javax.swing.Box.Filler filler16;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
@@ -2513,6 +2532,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JLabel lblHost;
     private javax.swing.JLabel lblHostLabel;
     private javax.swing.JLabel lblResource;
+    private javax.swing.JLabel lblStatusIcon;
     private javax.swing.JLabel lblTransferByteCounts;
     private javax.swing.JLabel lblTransferFilesCounts;
     private javax.swing.JLabel lblTransferMessage;
@@ -2532,6 +2552,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JPanel pnlMainIrodsTree;
     private javax.swing.JPanel pnlMainToolbarIcons;
     private javax.swing.JPanel pnlMainTransferStatus;
+    private javax.swing.JPanel pnlStatus;
     private javax.swing.JPanel pnlTransferOptions;
     private javax.swing.JLabel progressIconImageLabel;
     private javax.swing.JProgressBar progressIntraFile;
