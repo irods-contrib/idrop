@@ -287,7 +287,12 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         pnlGridInfoTable.setPreferredSize(new java.awt.Dimension(600, 150));
         pnlGridInfoTable.setLayout(new java.awt.BorderLayout());
 
-        tableGridInfo.setPreferredSize(new java.awt.Dimension(100, 64));
+        jScrollPane3.setMinimumSize(null);
+        jScrollPane3.setPreferredSize(null);
+
+        tableGridInfo.setMaximumSize(null);
+        tableGridInfo.setMinimumSize(null);
+        tableGridInfo.setPreferredSize(null);
         jScrollPane3.setViewportView(tableGridInfo);
 
         pnlGridInfoTable.add(jScrollPane3, java.awt.BorderLayout.CENTER);
