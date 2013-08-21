@@ -57,11 +57,15 @@ class HiveController {
 
 		def selected = params['selectedVocab']
 		// TODO: list versus object
+		
+		log.info "vocab list: ${selected}"
 
 		if (selected instanceof Object[]) {
 			// ok
+			log.info "yes, selected is instance of Object[]"
 		} else {
-			selected = [selected]
+//			selected = [selected]
+			log.info "selected = [selected]"
 		}
 
 
@@ -91,6 +95,7 @@ class HiveController {
 		log.info "absPath: ${absPath}"
 
 		def vocabularies = hiveService.retrieveVocabularySelectionListing()
+		def currentVocab = hiveService.getCurrentVocabularySelection()
 		def hiveState = hiveService.retrieveHiveState()
 
 		def selectedTerms = hiveService.retrieveSelectedTermsForPath(absPath, irodsAccount)
@@ -111,7 +116,7 @@ class HiveController {
 		if (hiveService.areVocabulariesSelected()==false) {
 			render(view:"vocabSelectionList", model:[vocabs:vocabularies,absPath:absPath])
 		} else {
-			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies,selectedTerms:selectedTerms])  // add selectedTerms to the model
+			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies,selectedTerms:selectedTerms,currentVocab:currentVocab])  // add selectedTerms to the model
 		}
 	}
 
@@ -133,11 +138,15 @@ class HiveController {
 		log.info "absPath: ${absPath}"
 
 		def vocabulary = params['vocabulary']
+		log.info "vocabulary selected: ${vocabulary}"
 		def hiveState = hiveService.retrieveHiveState()
+		def vocab = hiveState.currentVocabulary
+		log.info "currentVocabulary: ${vocabulary}"
 
-		if (!vocabulary) {
-			vocabulary = hiveState.currentVocabulary
-		}
+//		if (!vocabulary) {
+//			vocabulary = hiveState.currentVocabulary
+//			
+//		}
 
 		if (!vocabulary) {
 			log.error("no vocabulary is selected or possible to select")
@@ -147,6 +156,7 @@ class HiveController {
 		def indexLetter = 'A'
 		hiveService.getTopLevelConceptProxyForVocabulary(vocabulary, absPath, irodsAccount,indexLetter)
 		forward(action:"conceptBrowserPivotView",model:[absPath:absPath])
+		forward(action:"conceptBrowser", model:[currentVocab:vocab])
 
 	}
 

@@ -8,9 +8,7 @@
 		</g:if>
 		<div class="row-fluid " id="searchResultCollapseArea" class="collapse">
 			<div class="span10 offset1 well">
-				<div class="well">
-					
-				
+				<div class="well">			
 					<table class="table table-striped">
 					<h3><g:message code="text.search.result" /></h3>
 						<thead>

@@ -236,6 +236,7 @@ function setLetter (indexLetter) {
 		indexLetter:indexLetter,
 		absPath:absPath
 	}
+	console.log("setLetter()");
 	
 	lcSendValueWithParamsAndPlugHtmlInDiv("/hive/conceptBrowserPivotView", params, "#conceptBrowserPivotContainer", null);
 	

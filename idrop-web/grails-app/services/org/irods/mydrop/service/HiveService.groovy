@@ -66,6 +66,30 @@ class HiveService {
 		log.info("picked current as:${current}")
 		return current
 	}
+	
+	public void setCurrentVocabulary(String vocabName) {
+		log.info("set current vocabulary as:" + vocabName)
+		
+		def current = ""
+		
+		if(vocabName == null || vocabName.isEmpty()) {
+			log.info("no vocab selected, try and find current in hiveState")
+			current = getCurrentVocabularySelection()
+			log.info("found ${current}")
+		} else{
+			current = vocabName
+		}
+		
+		
+		log.info("set hiveState with current vocabulary")
+		
+		def hiveState = retrieveHiveState()
+		hiveState.currentConceptLabel = ""
+		hiveState.currentConceptURI = ""
+		hiveState.currentVocabulary = current
+		
+		
+	}
 
 	/**
 	 * Add the given term as iRODS metadata, returning the <code>ConceptProxy</code> that represents the new term
@@ -173,6 +197,7 @@ class HiveService {
 		log.info("namespace: ${namespace} local: ${localPart}")
 
 		ConceptProxy proxy = vocabularyService.getConceptByURI(namespace, localPart)
+		log.info("vacabulary name of term is ${proxy.origin}")
 		augmentConceptProxyWithIRODSInfo(proxy,irodsAbsolutePath, irodsAccount)
 
 		def hiveState = retrieveHiveState()
@@ -254,8 +279,8 @@ class HiveService {
 
 	}
 
-
-	public void selectVocabularies(List<String> vocabularyNames) {
+	
+	public void selectVocabularies(String[] vocabularyNames) {
 		log.info("selectVocabularies")
 
 		if (vocabularyNames == null) {
@@ -265,6 +290,8 @@ class HiveService {
 		synchronized(this) {
 			def hiveState = retrieveHiveState()
 			hiveState.selectedVocabularies = vocabularyNames
+			hiveState.currentVocabulary = vocabularyNames[0]
+			log.info("currentVocabulary: " + hiveState.currentVocabulary)
 			// later be smart about clearing selected vocab and current term
 		}
 	}

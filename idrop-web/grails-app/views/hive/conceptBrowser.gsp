@@ -15,24 +15,39 @@
 		</div>
 		
 		<div class="offset1 span9">
-			<div class="btn-group pad-around" data-toggle="buttons-radio">
+			<div class="btn-toolbar">
+			<div class="btn-group" data-toggle="buttons-radio">
 				<g:each in="${hiveState.selectedVocabularies}"
 					var="selectedVocabulary">
-					<button type="button" class="btn  btn-inverse"
-						id="${selectedVocabulary}"
-						onclick="processVocabularySelection('${selectedVocabulary}')">
-						${selectedVocabulary}
-					</button>
-					<button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a href="#"><i class="icon-refresh"></i>Refresh</a></li>
-						<li><a href="#"><i class="icon-trash"></i>Delete</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Make Admin</a></li>
-					</ul>
+					<div class="btn-group pad-around">
+						<g:if test="${currentVocab.equals(selectedVocabulary)}">
+							<button type="button" class="btn btn-mini btn-warning vocab-btn"
+								id="${selectedVocabulary}"
+								onclick="processVocabularySelection('${selectedVocabulary}')">
+								${selectedVocabulary}
+							</button>
+					<%-- 	<button class="btn btn-mini btn-inverse dropdown-toggle" data-toggle="dropdown" style="margin-right:10px" >
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#"><i class="icon-refresh"></i>Refresh</a></li>
+								<li><a href="#"><i class="icon-trash"></i>Delete</a></li>
+								<li class="divider"></li>
+								<li><a href="#">Make Admin</a></li>
+							</ul>--%>
+						</g:if>
+						<g:else>
+							<button type="button" class="btn btn-mini btn-inverse btn-vocab"
+								id="${selectedVocabulary}"
+								onclick="processVocabularySelection('${selectedVocabulary}')">
+								${selectedVocabulary}
+							</button>
+						
+						
+						</g:else>
+					</div>
 				</g:each>
+			</div>
 			</div>
 		</div>
 	</div>	
@@ -50,6 +65,7 @@
 	</div>
 		
 	<div class="container-fluid">
+
 		<div class="row-fluid" id="appliedTermList">
 			<div class="span12">
 				<g:render template="/hive/selectedTermList" />
@@ -105,7 +121,7 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-						<button class="btn btn-primary" data-dismiss="modal">Save changes</button>
+						<button class="btn btn-primary" data-dismiss="modal" onclick="selectVocabularies()"><g:message code="text.update" /></button>
 					</div>
 				</div>
 
@@ -126,6 +142,12 @@
 			setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
 			return false;
 		}
+		
+	 	$(".vocab-btn").removeClass("btn btn-mini btn-warning vocab-btn").addClass("btn btn-mini btn-inverse vocab-btn");
+	 	console.log("change class");
+
+		var element = document.getElementById(vocabName);
+		element.className = "btn btn-mini btn-warning vocab-btn";
 
 		resetVocabulary(vocabName, absPath);
 	}
@@ -180,9 +202,10 @@
 			return false;
 		}
 		if (vocabulary == null || vocabulary == "") {
-			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
-			return false;
+			<%--setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
+			return false;--%>
 		}
+
 		<%--alert("to be implemented, view as SKOS term:" + termUri
 				+ " from vocabulary:" + vocabulary );
 		
@@ -209,13 +232,14 @@
 		$('#skosCodeModal').dialog({
 			height:550,
 			width:630,
-			modal:true
+			modal:true,
+
+			close: function(e) {
+				$(this).empty();
+	<%--		$(this).dislog('destroy');--%>
+			}
 
 			});
-
-		$('#skosCodeModal').css({
-			display:'block'
-			});	
 
 		var element = document.getElementById('skosCodeArea');
 		element.style.display = '';
@@ -228,13 +252,15 @@
 	 * handle pressing the apply term button
 	 */
 	function processApplyHiveTerm(vocabulary, termUri) {
+		console.log("processApplyHiveTerm", vocabulary, termUri);
+		
 		if (termUri == null || termUri == "") {
 			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
 			return false;
 		}
 		if (vocabulary == null || vocabulary == "") {
 			setErrorMessage(jQuery.i18n.prop('msg_no_form_data'));
-			return false;
+			<%--return false;--%>
 		}
 
 		var absPath = $("#infoAbsPath").val();
@@ -244,7 +270,7 @@
 			return false;
 		}
 
-		console.log("processApplyHiveTerm", vocabulary, termUri);
+		
 		applyHiveTerm(absPath, vocabulary, termUri);
 
 	}
@@ -348,4 +374,6 @@
 
 		deleteAppliedItem(termUri, absPath);
 	} 
+
+	$('#appliedTermsCollapseArea').collapse("hide");
 </script>

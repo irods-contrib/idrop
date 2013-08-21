@@ -1,15 +1,14 @@
 <div id="SelectedTermInner" class="container-fluid">
 	<div class="row-fluid">
 		<div class="span10 offset1">
-			<button type="button" class="btn btn-link" style="display:block" data-toggle="collapse" data-target="#appliedTermsCollapseArea"><g:message code="text.show.hide.applied.terms" /></button>
+			<button type="button" class="btn btn-link" data-toggle="collapse" data-target="#appliedTermsCollapseArea"><g:message code="text.show.hide.applied.terms" /></button>
 		</div>
-	</div>
-	
-	<div class="row-fluid " id="appliedTermsCollapseArea" class="collapse">
+	</div>	
+	<div class="row-fluid " id="appliedTermsCollapseArea">
 		<div class="span10 offset1 well">
 			<div class="well">
 				<table class="table table-striped">
-					<h3><g:message code="text.applied.terms" /></h3>
+					<h3><g:message code="text.applied.terms"/></h3>
 						<thead>
 							<tr style="color:#0088CC">
 							<th><g:message code="text.term" /></th>

@@ -47,6 +47,7 @@ grails.project.dependency.resolution = {
 		compile 'xerces:xercesImpl:2.9.1'
 		compile('com.google.gwt:gwt-servlet:2.4.0')
 		compile('org.openrdf.sesame:sesame-sail-nativerdf:2.2.4')
+		compile('org.irods.jargon:hive-core:1.0-SNAPSHOT')
 
 
 	}
