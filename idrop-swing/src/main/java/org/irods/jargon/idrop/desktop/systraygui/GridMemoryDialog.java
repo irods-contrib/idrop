@@ -273,11 +273,11 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         jPanel9 = new javax.swing.JPanel();
         btnAddGridInfo = new javax.swing.JButton();
         btnDeleteGridInfo = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
         pnlActions = new javax.swing.JPanel();
         pnlActionsButtons = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.title")); // NOI18N
@@ -288,7 +288,6 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         pnlGridInfoTable.setLayout(new java.awt.BorderLayout());
 
         jScrollPane3.setMinimumSize(null);
-        jScrollPane3.setPreferredSize(null);
 
         tableGridInfo.setMaximumSize(null);
         tableGridInfo.setMinimumSize(null);
@@ -305,12 +304,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
-        btnAddGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
+        btnAddGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_006_user_add.png"))); // NOI18N
         btnAddGridInfo.setMnemonic('+');
         btnAddGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGridInfo.text")); // NOI18N
         btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGridInfo.toolTipText")); // NOI18N
-        btnAddGridInfo.setMaximumSize(null);
-        btnAddGridInfo.setMinimumSize(null);
         btnAddGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddGridInfoActionPerformed(evt);
@@ -318,7 +315,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         });
         jPanel9.add(btnAddGridInfo, new java.awt.GridBagConstraints());
 
-        btnDeleteGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnDeleteGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_007_user_remove.png"))); // NOI18N
         btnDeleteGridInfo.setMnemonic('-');
         btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGridInfo.text")); // NOI18N
         btnDeleteGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGridInfo.toolTipText")); // NOI18N
@@ -329,6 +326,18 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
             }
         });
         jPanel9.add(btnDeleteGridInfo, new java.awt.GridBagConstraints());
+
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_030_pencil.png"))); // NOI18N
+        btnEdit.setMnemonic('E');
+        btnEdit.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.text")); // NOI18N
+        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.toolTipText")); // NOI18N
+        btnEdit.setEnabled(false);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        jPanel9.add(btnEdit, new java.awt.GridBagConstraints());
 
         jPanel7.add(jPanel9);
 
@@ -350,7 +359,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         });
         pnlActionsButtons.add(btnCancel);
 
-        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_198_ok.png"))); // NOI18N
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_204_unlock.png"))); // NOI18N
         btnLogin.setMnemonic('L');
         btnLogin.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.text")); // NOI18N
         btnLogin.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.toolTipText")); // NOI18N
@@ -361,18 +370,6 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
             }
         });
         pnlActionsButtons.add(btnLogin);
-
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_030_pencil.png"))); // NOI18N
-        btnEdit.setMnemonic('E');
-        btnEdit.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.text")); // NOI18N
-        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.toolTipText")); // NOI18N
-        btnEdit.setEnabled(false);
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-        pnlActionsButtons.add(btnEdit);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
