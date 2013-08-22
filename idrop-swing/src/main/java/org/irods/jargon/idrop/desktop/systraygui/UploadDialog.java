@@ -334,8 +334,6 @@ public class UploadDialog extends javax.swing.JDialog implements
         jLabel2.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.jLabel2.text")); // NOI18N
         pnlFilesToUpload.add(jLabel2, java.awt.BorderLayout.NORTH);
 
-        scrollPanelFilesToUpload.setPreferredSize(null);
-
         tblFilesToUpload.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -363,8 +361,6 @@ public class UploadDialog extends javax.swing.JDialog implements
 
         pnlFilesToUpload.add(scrollPanelFilesToUpload, java.awt.BorderLayout.CENTER);
 
-        pnlBottomButtons.setMinimumSize(null);
-        pnlBottomButtons.setPreferredSize(null);
         pnlBottomButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         btnAddUploadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
