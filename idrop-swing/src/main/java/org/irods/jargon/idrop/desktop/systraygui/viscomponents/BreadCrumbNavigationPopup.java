@@ -178,6 +178,7 @@ public class BreadCrumbNavigationPopup extends javax.swing.JPopupMenu {
     private void btnGoRootTargetTreeActionPerformed(
             final java.awt.event.ActionEvent evt) {
         idropGUI.getiDropCore().setBasePath("/");
+        
         idropGUI.buildTargetTree(false);
         setVisible(false);
     }

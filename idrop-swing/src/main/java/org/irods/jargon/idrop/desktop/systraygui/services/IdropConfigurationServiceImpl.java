@@ -364,6 +364,13 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
             newProps.setSendInputStreamBufferSize(idropCore.getIdropConfig().getSendInputStreamBufferSize());
             newProps.setUseParallelTransfer(idropCore.getIdropConfig().isUseParallelTransfers());
             newProps.setUseNIOForParallelTransfers(idropCore.getIdropConfig().isUseNIOForParallelTransfers());
+            
+            /*
+             * Default to handling of strict acls (assume public dir and user home paths)
+             * 
+             */
+            
+            newProps.setDefaultToPublicIfNothingUnderRootWhenListing(true);
             //newProps.setReconnect(idropCore.getIdropConfig().isConnectionRestart());
 
             idropCore.getIrodsFileSystem().getIrodsSession().setJargonProperties(newProps);

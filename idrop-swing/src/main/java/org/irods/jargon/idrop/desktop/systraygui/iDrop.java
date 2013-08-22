@@ -296,6 +296,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } catch (Exception ex) {
                     Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
                             null, ex);
+                    MessageManager.showError(gui, ex.getMessage());
                     throw new IdropRuntimeException(ex);
                 } finally {
                     getiDropCore().getIrodsFileSystem().closeAndEatExceptions(
@@ -343,8 +344,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
              */
             private void reloadExistingTree() throws IdropException,
                     JargonException {
+                
                 IRODSNode currentRoot = (IRODSNode) irodsTree.getOutlineModel()
                         .getRoot();
+               
                 log.debug("current tree root:{}", currentRoot);
                 TreePath rootPath = TreeUtils.getPath(currentRoot);
                 TreePath[] currentPaths = irodsTree.getOutlineModel()
