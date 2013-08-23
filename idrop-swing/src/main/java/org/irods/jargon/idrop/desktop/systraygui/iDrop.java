@@ -343,10 +343,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
              */
             private void reloadExistingTree() throws IdropException,
                     JargonException {
-                
+
                 IRODSNode currentRoot = (IRODSNode) irodsTree.getOutlineModel()
                         .getRoot();
-               
+
                 log.debug("current tree root:{}", currentRoot);
                 TreePath rootPath = TreeUtils.getPath(currentRoot);
                 TreePath[] currentPaths = irodsTree.getOutlineModel()
@@ -1480,7 +1480,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
         pnlMainToolbarIcons = new javax.swing.JPanel();
         lblBreadCrumb = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
@@ -2060,10 +2059,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }//GEN-LAST:event_btnMainToolbarToolsActionPerformed
 
     private void btnMainToolbarTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarTreeActionPerformed
-        BreadCrumbNavigationPopup popup = new BreadCrumbNavigationPopup(this,
-                lblBreadCrumb.getText());
-        java.awt.Point p = btnMainToolbarTree.getLocation();
-        popup.show(pnlBreadCrumbNav, p.x, p.y + btnMainToolbarTree.getHeight());
+        NavPopupDialog navDialog = new NavPopupDialog(this, true);
+        navDialog.setLocation(
+                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
+                .getLocation().getY() + getHeight() / 2));
+        navDialog.setVisible(true);
     }//GEN-LAST:event_btnMainToolbarTreeActionPerformed
 
     private void btnMainToolbarSettingsActionPerformed(
@@ -2263,7 +2263,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         // show a dialog asking for the new directory name...
 
         IRODSFileService irodsFS = null;
-      
+
         IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
                 .getModel();
         ListSelectionModel selectionModel = irodsTree.getSelectionModel();
@@ -2272,9 +2272,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         // make sure there is a selected node
         if (idx >= 0) {
             try {
-                 irodsFS = new IRODSFileService(getiDropCore()
-                .getIrodsAccount(), getiDropCore()
-                .getIrodsFileSystem());
+                irodsFS = new IRODSFileService(getiDropCore()
+                        .getIrodsAccount(), getiDropCore()
+                        .getIrodsFileSystem());
                 IRODSFile ifile = null;
                 IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
                         .getValueAt(idx, 0);
@@ -2307,6 +2307,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             MessageManager.showWarning(this, "Please select a parent folder in the tree");
         }
     }//GEN-LAST:event_btnNewFolderActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMainToolbarCopy;
     private javax.swing.JButton btnMainToolbarDelete;
@@ -2342,7 +2343,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;

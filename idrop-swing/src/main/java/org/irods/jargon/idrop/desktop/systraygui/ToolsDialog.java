@@ -58,16 +58,20 @@ public class ToolsDialog extends javax.swing.JDialog {
         setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         setName("ToolsDialog"); // NOI18N
         setResizable(false);
+        setType(java.awt.Window.Type.POPUP);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
         pnlButtons.setLayout(new java.awt.GridBagLayout());
 
-        btnToolbarDiff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_diff.png"))); // NOI18N
+        btnToolbarDiff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_428_git_compare.png"))); // NOI18N
         btnToolbarDiff.setMnemonic('D');
         btnToolbarDiff.setText(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.btnToolbarDiff.text")); // NOI18N
         btnToolbarDiff.setToolTipText(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.btnToolbarDiff.toolTipText")); // NOI18N
         btnToolbarDiff.setBorder(null);
         btnToolbarDiff.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnToolbarDiff.setMaximumSize(null);
+        btnToolbarDiff.setMinimumSize(null);
+        btnToolbarDiff.setPreferredSize(null);
         btnToolbarDiff.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnToolbarDiff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,6 +81,7 @@ public class ToolsDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlButtons.add(btnToolbarDiff, gridBagConstraints);
