@@ -60,7 +60,7 @@ public class BreadCrumbNavigationPopup extends javax.swing.JPopupMenu {
         javax.swing.JToolBar toolbarIrodsTree = new javax.swing.JToolBar();
         javax.swing.JButton btnGoHomeTargetTree = new javax.swing.JButton();
         javax.swing.JButton btnGoRootTargetTree = new javax.swing.JButton();
-        javax.swing.JButton btnSetRootCustomTargetTree = new javax.swing.JButton();
+        //javax.swing.JButton btnSetRootCustomTargetTree = new javax.swing.JButton();
 
         pnlToolbar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1,
                 1, 1));
@@ -121,7 +121,7 @@ public class BreadCrumbNavigationPopup extends javax.swing.JPopupMenu {
         });
         toolbarIrodsTree.add(btnGoRootTargetTree);
 
-        /*
+       /*
         btnSetRootCustomTargetTree.setIcon(new javax.swing.ImageIcon(getClass()
                 .getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_233_direction.png"))); // NOI18N
         btnSetRootCustomTargetTree.setMnemonic('c');
@@ -147,8 +147,8 @@ public class BreadCrumbNavigationPopup extends javax.swing.JPopupMenu {
             }
         });
         toolbarIrodsTree.add(btnSetRootCustomTargetTree);
-        * */
-
+        
+*/
         pnlToolbar.add(toolbarIrodsTree);
 
         setBackground(btnGoHomeTargetTree.getBackground());

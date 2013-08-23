@@ -46,7 +46,6 @@ import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
-import static org.irods.jargon.idrop.desktop.systraygui.UploadDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 
@@ -1149,190 +1148,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //        }
     }
 
-    private void executeDownload(final String downloadPath) {
-
-        final iDrop idropGui = this;
-
-        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-        IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) getIrodsTree().getModel();
-
-        ListSelectionModel selectionModel = getIrodsTree().getSelectionModel();
-        int idxStart = selectionModel.getMinSelectionIndex();
-        int idxEnd = selectionModel.getMaxSelectionIndex();
-        final List<File> sourceFiles = new ArrayList<File>();
-
-        // get iRODS File Service
-        IRODSFileService irodsFS = null;
-        try {
-            irodsFS = new IRODSFileService(iDropCore.getIrodsAccount(), iDropCore.getIrodsFileSystem());
-        } catch (Exception ex) {
-            //JOptionPane.showMessageDialog(this, "Cannot access iRODS file system for get.");
-            log.error("cannot create irods file service");
-            return;
-        }
-
-        // now collect all selected nodes
-        IRODSFile ifile = null;
-        for (int idx = idxStart; idx <= idxEnd; idx++) {
-            if (selectionModel.isSelectedIndex(idx)) {
-                try {
-                    IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
-                    ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
-                    sourceFiles.add((File) ifile);
-                } catch (IdropException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-            }
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        if (sourceFiles.size() == 1) {
-            sb.append("Would you like to copy the remote file ");
-            sb.append(sourceFiles.get(0).getAbsolutePath());
-            sb.append(" to ");
-            sb.append(downloadPath);
-        } else {
-            sb.append("Would you like to copy multiple files to ");
-            sb.append(downloadPath);
-
-        }
-        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
-
-        // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(),
-                "Confirm a Get ", JOptionPane.YES_NO_OPTION);
-
-        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-        if (n == JOptionPane.YES_OPTION) {
-            // FIXME: conveyor
-            // process as a get
-            /*
-             java.awt.EventQueue.invokeLater(new Runnable() {
-             @Override
-             public void run() {
-             try {
-             for (File transferFile : sourceFiles) {
-
-             if (transferFile instanceof IRODSFile) {
-             log.info(
-             "initiating a transfer of iRODS file:{}",
-             transferFile.getAbsolutePath());
-             log.info("transfer to local file:{}",
-             downloadPath);
-             idropGui.getiDropCore().getTransferManager().enqueueAGet(
-             transferFile.getAbsolutePath(),
-             downloadPath,
-             "", idropGui.getIrodsAccount());
-             } else {
-             log.info(
-             "process a local to local move with source...not yet implemented : {}",
-             transferFile.getAbsolutePath());
-             }
-             }
-             } catch (JargonException ex) {
-             java.util.logging.Logger.getLogger(
-             LocalFileTree.class.getName()).log(
-             java.util.logging.Level.SEVERE, null, ex);
-             idropGui.showIdropException(ex);
-             throw new IdropRuntimeException(ex);
-             }
-             }
-             });
-             */
-        }
-
-        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    }
-
-    private void executeUpload(final File[] sourceFiles) {
-
-        // first collect selected target path from breadcrumb
-        final String targetPath = lblBreadCrumb.getText();
-
-        final iDrop idropGui = this;
-
-//        final List<File> sourceFiles = new ArrayList<File>();
-//
-//        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-//        
-//        TreeSelectionModel selectionModel = getFileTree().getSelectionModel();
-//        LocalFileSystemModel fileSystemModel = (LocalFileSystemModel) idropGui.getFileTree().getModel();
-//
-//        TreePath[] selectionPaths = selectionModel.getSelectionPaths();
-//
-//        LocalFileNode sourceNode;
-//        for (TreePath selectionPath : selectionPaths) {
-//            sourceNode = (LocalFileNode) selectionPath.getLastPathComponent();
-//            sourceFiles.add((File) sourceNode.getUserObject());
-//        }
-
-        if (sourceFiles.length <= 0) {
-            log.error("no source files in transfer");
-            throw new IdropRuntimeException("no source files in transfer");
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        if (sourceFiles.length > 1) {
-            sb.append("Would you like to put multiple files");
-            sb.append(" to iRODS at ");
-            sb.append(targetPath);
-        } else {
-            sb.append("Would you like to put the file  ");
-            sb.append(sourceFiles[0].getAbsolutePath());
-            sb.append(" to iRODS at ");
-            sb.append(targetPath);
-        }
-
-        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
-
-        // default icon, custom title
-        int n = JOptionPane.showConfirmDialog(idropGui, sb.toString(),
-                "Confirm a Get ", JOptionPane.YES_NO_OPTION);
-
-        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-        if (n == JOptionPane.YES_OPTION) {
-            // FIXME: conveyor
-            // process as a put
-            /*
-             java.awt.EventQueue.invokeLater(new Runnable() {
-             @Override
-             public void run() {
-
-             for (File transferFile : sourceFiles) {
-             log.info("process a put from source: {}",
-             transferFile.getAbsolutePath());
-
-             String localSourceAbsolutePath = transferFile.getAbsolutePath();
-             String sourceResource = idropGui.getIrodsAccount().getDefaultStorageResource();
-             log.info("initiating put transfer");
-             try {
-             idropGui.getiDropCore().getTransferManager().enqueueAPut(localSourceAbsolutePath,
-             targetPath,
-             sourceResource,
-             idropGui.getIrodsAccount());
-             } catch (JargonException ex) {
-             java.util.logging.Logger.getLogger(
-             LocalFileTree.class.getName()).log(
-             java.util.logging.Level.SEVERE, null, ex);
-             idropGui.showIdropException(ex);
-             }
-             }
-             }
-             });
-             */
-        }
-
-        idropGui.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
-    }
-
     /**
      * A transfer confirm dialog
      *
@@ -1755,7 +1570,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblBreadCrumb.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 2));
         lblBreadCrumb.setMaximumSize(new java.awt.Dimension(8000, 25));
         lblBreadCrumb.setMinimumSize(new java.awt.Dimension(400, 20));
-        lblBreadCrumb.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -1988,6 +1802,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnlMainToolbarIcons.add(pnlBreadCrumbNav, gridBagConstraints);
 
         getContentPane().add(pnlMainToolbarIcons, java.awt.BorderLayout.NORTH);

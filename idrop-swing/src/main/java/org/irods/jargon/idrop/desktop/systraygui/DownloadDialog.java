@@ -374,7 +374,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
         getContentPane().add(pnlFileSection, java.awt.BorderLayout.CENTER);
 
         pnlUploadDownloadButtons.setMinimumSize(new java.awt.Dimension(200, 80));
-        pnlUploadDownloadButtons.setPreferredSize(new java.awt.Dimension(300, 60));
+        pnlUploadDownloadButtons.setPreferredSize(null);
         pnlUploadDownloadButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
