@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -54,7 +53,6 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
-import org.irods.jargon.idrop.desktop.systraygui.viscomponents.BreadCrumbNavigationPopup;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
@@ -66,7 +64,6 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.netbeans.swing.outline.Outline;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -324,8 +321,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     root.setParentPath(baseFile.getParent());
                     root.setPathOrName(baseFile.getAbsolutePath());
                     root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
+                    getiDropCore().setBasePath(baseFile.getParent());
+                    
                 }
-
+                
                 irodsTree = new IRODSTree(gui);
                 IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
                         getiDropCore().getIrodsFileSystem(), irodsTree);
@@ -1078,10 +1077,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     }
 
-    private void setBreadcrumb(final String path) {
-        lblBreadCrumb.setText(path);
-    }
-
     private void searchFilesAndShowSearchResultsTab(final String searchText) {
         if (searchText.isEmpty()) {
             showMessageFromOperation("please enter text to search on");
@@ -1481,7 +1476,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         java.awt.GridBagConstraints gridBagConstraints;
 
         pnlMainToolbarIcons = new javax.swing.JPanel();
-        lblBreadCrumb = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         btnMainToolbarTree = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
@@ -1564,17 +1558,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainToolbarIcons.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         pnlMainToolbarIcons.setFocusTraversalPolicyProvider(true);
         pnlMainToolbarIcons.setLayout(new java.awt.GridBagLayout());
-
-        lblBreadCrumb.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblBreadCrumb.text")); // NOI18N
-        lblBreadCrumb.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 2));
-        lblBreadCrumb.setMaximumSize(new java.awt.Dimension(8000, 25));
-        lblBreadCrumb.setMinimumSize(new java.awt.Dimension(400, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMainToolbarIcons.add(lblBreadCrumb, gridBagConstraints);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -2346,7 +2329,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JLabel lblBreadCrumb;
     private javax.swing.JLabel lblCurrentFile;
     private javax.swing.JLabel lblHost;
     private javax.swing.JLabel lblHostLabel;

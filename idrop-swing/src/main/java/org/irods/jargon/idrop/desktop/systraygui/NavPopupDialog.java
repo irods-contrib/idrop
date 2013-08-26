@@ -4,9 +4,11 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
-import java.util.Arrays;
 import java.util.Vector;
-import javax.swing.JMenuItem;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,8 @@ public class NavPopupDialog extends javax.swing.JDialog {
     public NavPopupDialog(final iDrop parent, final boolean modal) {
         super(parent, modal);
         initComponents();
+
+
         idropGui = parent;
         buildPathTable(idropGui.getiDropCore().getBasePath());
     }
@@ -206,20 +210,14 @@ public class NavPopupDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnGoRootTargetTreeActionPerformed
 
     private void btnSetCustomRootTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetCustomRootTargetTreeActionPerformed
-        // TODO add your handling code here:
 
         String selectedRoot = txtCustomPath.getText();
-
         if (selectedRoot == null || selectedRoot.isEmpty()) {
             MessageManager.showWarning(this, "Please enter a custom path");
             return;
         }
+        useCustomPath(selectedRoot);
 
-        idropGui.getiDropCore().setBasePath(selectedRoot);
-        idropGui.buildTargetTree(false);
-        buildPathTable(selectedRoot);
-
-        setVisible(false);
     }//GEN-LAST:event_btnSetCustomRootTargetTreeActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGoHomeTargetTree;
@@ -235,13 +233,90 @@ public class NavPopupDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtCustomPath;
     // End of variables declaration//GEN-END:variables
 
+    public JTable getTblBreadcrumbs() {
+        return tblBreadcrumbs;
+    }
+
     private void buildPathTable(final String path) {
-      /*   String[] paths = path.split("/");
-         Vector<Object> strVector = new Vector<Object>(Arrays.asList(paths));
-         Vector<Object> objVector = new Vector<Object>();
-         DefaultTableModel newModel = new DefaultTableModel(strVector, objVector);
-         tblBreadcrumbs.setModel(newModel);
-         newModel.fireTableDataChanged();
-         * */
+
+        final NavPopupDialog popup = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                String[] paths = path.split("/");
+                Vector<Object> strVector = new Vector<Object>();
+                Vector<Object> objVector = new Vector<Object>();
+                strVector.add("");
+
+                for (String pathElement : paths) {
+                    if (!pathElement.isEmpty()) {
+                        Vector pathVector = new Vector();
+                        pathVector.add(pathElement);
+                        objVector.add(pathVector);
+                    }
+                }
+                DefaultTableModel newModel = new DefaultTableModel(objVector, strVector);
+
+                tblBreadcrumbs.setModel(newModel);
+
+                ListSelectionModel listSelectionModel = tblBreadcrumbs.getSelectionModel();
+                listSelectionModel.addListSelectionListener(new PathSelectionHandler(newModel, popup));
+                tblBreadcrumbs.setSelectionModel(listSelectionModel);
+
+                newModel.fireTableDataChanged();
+            }
+        });
+    }
+
+    protected void useCustomPath(String selectedRoot) {
+
+        idropGui.getiDropCore().setBasePath(selectedRoot);
+        idropGui.buildTargetTree(false);
+        buildPathTable(selectedRoot);
+        setVisible(false);
+    }
+}
+
+class PathSelectionHandler implements ListSelectionListener {
+
+    private DefaultTableModel tableModel;
+    private NavPopupDialog popup;
+
+    PathSelectionHandler(DefaultTableModel tableModel, NavPopupDialog popup) {
+        this.tableModel = tableModel;
+        this.popup = popup;
+    }
+
+    public void valueChanged(ListSelectionEvent e) {
+        ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+
+        int firstIndex = e.getFirstIndex();
+        int lastIndex = e.getLastIndex();
+        boolean isAdjusting = e.getValueIsAdjusting();
+
+        if (isAdjusting) {
+            return;
+        }
+
+        if (!lsm.isSelectionEmpty()) {
+            
+            // Find out which indexes are selected.
+            int minIndex = lsm.getMinSelectionIndex();
+            // get the selected row index, and build the path from the 0 path forward
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i <= minIndex; i++) {
+                sb.append("/");
+                sb.append(tableModel.getValueAt(i, 0));
+            }
+
+            String path = sb.toString();
+            if (path.isEmpty()) {
+                path = "/";
+            }
+
+            popup.useCustomPath(path);
+        }
     }
 }
