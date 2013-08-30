@@ -202,8 +202,8 @@ function checkOut() {
 						a.setAttribute('code', dataJSON.appletCode);
 						a.setAttribute('codebase', dataJSON.appletUrl);
 						a.setAttribute('archive', dataJSON.archive);
-						a.setAttribute('width', 350);
-						a.setAttribute('height', 250);
+						a.setAttribute('width', 800);
+						a.setAttribute('height', 600);
 						var p = document.createElement('param');
 						p.setAttribute('name', 'mode');
 						p.setAttribute('value', dataJSON.mode);

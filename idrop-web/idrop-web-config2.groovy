@@ -12,7 +12,7 @@
  */
 environments {
 	
-	 production {  grails.serverURL = "http://my.server.name/idrop-web" } 
+	 production {  grails.serverURL = "http://localhost:8080/idrop-web2" } 
 	 
 }
 

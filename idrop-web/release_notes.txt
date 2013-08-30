@@ -35,6 +35,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#715] check access before download
 **Check file access and verify is a data object before doing a download, displaying a nicer error message
 
+*[#1668] “iDrop Error Message Executing action [screenForDownloadRights] of controller [org.irods.mydrop.controller.FileController] caused exception: Runtime error executing action”
+
 ==Features==
 
 

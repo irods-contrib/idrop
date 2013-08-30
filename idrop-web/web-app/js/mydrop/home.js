@@ -666,7 +666,7 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	}
 
 	if (browseOptionVal == null || browseOptionVal == "") {
-		browseOptionVal = "info";
+		browseOptionVal = "browse";
 	}
 
 	setPathCrumbtrail(absPath);
@@ -1553,7 +1553,7 @@ function showIdropLiteGivenPath(path, displayMode) {
 						// 'http://iren-web.renci.org/idrop-web/applet');//dataJSON.appletUrl);
 						a.setAttribute('codebase', dataJSON.appletUrl);
 						a.setAttribute('archive', dataJSON.archive);
-						a.setAttribute('width', 700);
+						a.setAttribute('width', 800);
 						a.setAttribute('height', 600);
 						var p = document.createElement('param');
 						p.setAttribute('name', 'mode');
