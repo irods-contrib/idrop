@@ -200,15 +200,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         receivedStartupSignal = true;
 
-
-
-        // FIXME: conveyor
-        /*
-         iDropCore.getIconManager().setRunningStatus(
-         iDropCore.getTransferManager().getRunningStatus());
-         iDropCore.getIconManager().setErrorStatus(
-         iDropCore.getTransferManager().getErrorStatus());
-         */
     }
 
     private void initializeLookAndFeelSelected() {
@@ -379,8 +370,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                                 .getPathBounds(treePath);
                         if (rect != null) {
                             irodsTree.scrollRectToVisible(rect);
-                            // irodsTree.getSelectionModel().setSelectionInterval(startIdx,
-                            // endIdx);
+                     
                         }
                     }
                 }
@@ -400,8 +390,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             public void run() {
                 lastCachedInfoItem = null;
                 idropGui.buildTargetTree(true);
-                // idropGui.toggleIrodsDetails.setSelected(false);
-                // handleInfoPanelShowOrHide();
+             
                 getiDropCore().setBasePath(null);
                 setUpAccountGutter();
             }
@@ -1118,30 +1107,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //        });
     }
 
-    /**
-     * Look at the kind of irods node and handle appropriately
-     *
-     * @param irodsNode
-     * @throws IdropException
-     */
-    public void identifyNodeTypeAndInitializeInfoPanel(final IRODSNode irodsNode)
-            throws IdropException {
-//        if (!getToggleIrodsDetails().isSelected()) {
-//            return;
-//        }
-//
-//        if (irodsNode == null) {
-//            return;
-//        }
-//
-//        if (irodsNode.isLeaf()) {
-//            log.info("selected node is a leaf, get a data object");
-//            buildDataObjectFromSelectedIRODSNodeAndGiveToInfoPanel(irodsNode);
-//        } else {
-//            log.info("selected node is a collection, get a collection object");
-//            buildCollectionFromSelectedIRODSNodeAndGiveToInfoPanel(irodsNode);
-//        }
-    }
+
 
     /**
      * A transfer confirm dialog
@@ -1448,22 +1414,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         MessageManager.showError(this, excptn.getMessage(), MessageManager.TITLE_MESSAGE);
     }
 
-//    @Override
-//    public synchronized void transferManagerErrorStatusUpdate(
-//            final ErrorStatus es) {
-//        iDropCore.getIconManager().setErrorStatus(es);
-//    }
-//
-//    @Override
-//    public synchronized void transferManagerRunningStatusUpdate(
-//            final RunningStatus rs) {
-//        iDropCore.getIconManager().setRunningStatus(rs);
-//        if (rs == RunningStatus.PAUSED) {
-//            this.setTransferStatePaused();
-//        } else {
-//            this.setTransferStateUnpaused();
-//        }
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -2077,20 +2027,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 .getLocation().getY() + getHeight() / 2));
         downloadDialog.setVisible(true);
 
-
-        // first check to see if a object or collection is selected in the iRODS tree
-
-
-//        JFileChooser localFileChooser = new JFileChooser();
-//        localFileChooser.setMultiSelectionEnabled(false);
-//        localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//        localFileChooser.setDialogTitle("Select Download Target");
-//        int returnVal = localFileChooser.showOpenDialog(this);
-//        
-//        if (returnVal == JFileChooser.APPROVE_OPTION) {
-//            String downloadPath = localFileChooser.getSelectedFile().getAbsolutePath();
-//            executeDownload(downloadPath);
-//        }
     }//GEN-LAST:event_btnMainToolbarDownloadActionPerformed
 
     private void togglePauseTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togglePauseTransferActionPerformed
@@ -2159,22 +2095,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 .getLocation().getY() + getHeight() / 2));
         uploadDialog.setVisible(true);
 
-//        JFileChooser localFileChooser = new JFileChooser();
-//        localFileChooser.setMultiSelectionEnabled(true);
-//        localFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-//        localFileChooser.setDialogTitle("Select Files and/or Folders to Upload");
-//        int returnVal = localFileChooser.showOpenDialog(this);
-//        
-//        if (returnVal == JFileChooser.APPROVE_OPTION) {
-//            File files[] = localFileChooser.getSelectedFiles();
-//
-//            // now start upload
-//            if (files != null) {
-//                executeUpload(files);
-//            } else {
-//                // TODO: error dialog here
-//            }
-//        }
+
     }
 
     private void btnMainToolbarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarInfoActionPerformed
