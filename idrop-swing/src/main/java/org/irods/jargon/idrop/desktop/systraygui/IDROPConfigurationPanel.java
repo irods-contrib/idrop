@@ -76,7 +76,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 		initComponents();
 		initWithConfigData();
 	}
-
+        
 	private boolean checkIfSynchChanged() throws IdropRuntimeException {
 		// compare data and update synch first if necessary
 
