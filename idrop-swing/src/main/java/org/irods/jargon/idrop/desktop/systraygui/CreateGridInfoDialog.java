@@ -75,8 +75,6 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         textareaComment = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnOK = new javax.swing.JButton();
 
@@ -87,6 +85,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 4, 10));
+        jPanel1.setMinimumSize(null);
+        jPanel1.setPreferredSize(null);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel1.text")); // NOI18N
@@ -228,27 +228,31 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 1, 4, 1));
-        jPanel3.setPreferredSize(new java.awt.Dimension(100, 60));
-        jPanel3.setLayout(new java.awt.BorderLayout());
-        jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
+        jPanel3.setMinimumSize(null);
+        jPanel3.setPreferredSize(null);
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('C');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel5.add(btnCancel);
+        jPanel3.add(btnCancel);
 
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('O');
         btnOK.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnOK.text")); // NOI18N
+        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnOK.toolTipText")); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);
             }
         });
-        jPanel5.add(btnOK);
-
-        jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
+        jPanel3.add(btnOK);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
@@ -358,8 +362,6 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea textareaComment;
     private javax.swing.JTextField txtDefaultResource;

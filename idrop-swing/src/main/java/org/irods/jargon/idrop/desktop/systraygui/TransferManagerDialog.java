@@ -568,9 +568,9 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlTable;

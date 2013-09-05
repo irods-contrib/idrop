@@ -138,111 +138,88 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-		lblTitle = new javax.swing.JLabel();
-		pnlFolderData = new javax.swing.JPanel();
-		pnlCurrentParent = new javax.swing.JPanel();
-		lblCurrentFolder = new java.awt.Label();
-		scrollFileToDelete = new javax.swing.JScrollPane();
-		txtAreaFileToDelete = new javax.swing.JTextArea();
-		pnlBottom = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnOK = new javax.swing.JButton();
+        lblTitle = new javax.swing.JLabel();
+        pnlFolderData = new javax.swing.JPanel();
+        pnlCurrentParent = new javax.swing.JPanel();
+        lblCurrentFolder = new java.awt.Label();
+        scrollFileToDelete = new javax.swing.JScrollPane();
+        txtAreaFileToDelete = new javax.swing.JTextArea();
+        pnlBottom = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnOK = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-		lblTitle.setText("Please hit OK to delete the following file/folder from iRODS");
-		getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
+        lblTitle.setText("Please hit OK to delete the following file/folder from iRODS");
+        getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
-		pnlFolderData.setLayout(new java.awt.GridLayout(0, 1));
+        pnlFolderData.setLayout(new java.awt.GridLayout(0, 1));
 
-		lblCurrentFolder.setText("File/folder to delete:");
+        lblCurrentFolder.setText("File/folder to delete:");
 
-		txtAreaFileToDelete.setColumns(20);
-		txtAreaFileToDelete.setEditable(false);
-		txtAreaFileToDelete.setLineWrap(true);
-		txtAreaFileToDelete.setRows(5);
-		scrollFileToDelete.setViewportView(txtAreaFileToDelete);
+        txtAreaFileToDelete.setEditable(false);
+        txtAreaFileToDelete.setColumns(20);
+        txtAreaFileToDelete.setLineWrap(true);
+        txtAreaFileToDelete.setRows(5);
+        scrollFileToDelete.setViewportView(txtAreaFileToDelete);
 
-		org.jdesktop.layout.GroupLayout pnlCurrentParentLayout = new org.jdesktop.layout.GroupLayout(
-				pnlCurrentParent);
-		pnlCurrentParent.setLayout(pnlCurrentParentLayout);
-		pnlCurrentParentLayout
-				.setHorizontalGroup(pnlCurrentParentLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(org.jdesktop.layout.GroupLayout.TRAILING,
-								pnlCurrentParentLayout
-										.createSequentialGroup()
-										.addContainerGap(40, Short.MAX_VALUE)
-										.add(lblCurrentFolder,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(scrollFileToDelete,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												413,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-										.addContainerGap()));
-		pnlCurrentParentLayout
-				.setVerticalGroup(pnlCurrentParentLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(pnlCurrentParentLayout
-								.createSequentialGroup()
-								.add(pnlCurrentParentLayout
-										.createParallelGroup(
-												org.jdesktop.layout.GroupLayout.LEADING)
-										.add(pnlCurrentParentLayout
-												.createSequentialGroup()
-												.add(35, 35, 35)
-												.add(lblCurrentFolder,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-														org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-										.add(pnlCurrentParentLayout
-												.createSequentialGroup()
-												.add(22, 22, 22)
-												.add(scrollFileToDelete,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-														org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-								.addContainerGap(
-										org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)));
+        org.jdesktop.layout.GroupLayout pnlCurrentParentLayout = new org.jdesktop.layout.GroupLayout(pnlCurrentParent);
+        pnlCurrentParent.setLayout(pnlCurrentParentLayout);
+        pnlCurrentParentLayout.setHorizontalGroup(
+            pnlCurrentParentLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlCurrentParentLayout.createSequentialGroup()
+                .addContainerGap(72, Short.MAX_VALUE)
+                .add(lblCurrentFolder, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(scrollFileToDelete, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 413, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnlCurrentParentLayout.setVerticalGroup(
+            pnlCurrentParentLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlCurrentParentLayout.createSequentialGroup()
+                .add(pnlCurrentParentLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(pnlCurrentParentLayout.createSequentialGroup()
+                        .add(35, 35, 35)
+                        .add(lblCurrentFolder, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(pnlCurrentParentLayout.createSequentialGroup()
+                        .add(22, 22, 22)
+                        .add(scrollFileToDelete, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-		pnlFolderData.add(pnlCurrentParent);
+        pnlFolderData.add(pnlCurrentParent);
 
-		getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
 
-		pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		btnCancel.setText("Cancel");
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnCancel);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
+        btnCancel.setToolTipText("Cancel the delete action");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnCancel);
 
-		btnOK.setText("OK");
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnOK);
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('o');
+        btnOK.setToolTipText("Delete the files and collections");
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnOK);
 
-		getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
@@ -258,27 +235,17 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
 		}
 
 	}// GEN-LAST:event_btnOKActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnCancel;
-
-	private javax.swing.JButton btnOK;
-
-	private java.awt.Label lblCurrentFolder;
-
-	private javax.swing.JLabel lblTitle;
-
-	private javax.swing.JPanel pnlBottom;
-
-	private javax.swing.JPanel pnlCurrentParent;
-
-	private javax.swing.JPanel pnlFolderData;
-
-	private javax.swing.JScrollPane scrollFileToDelete;
-
-	private javax.swing.JTextArea txtAreaFileToDelete;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
+    private java.awt.Label lblCurrentFolder;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlCurrentParent;
+    private javax.swing.JPanel pnlFolderData;
+    private javax.swing.JScrollPane scrollFileToDelete;
+    private javax.swing.JTextArea txtAreaFileToDelete;
+    // End of variables declaration//GEN-END:variables
 	private void processDelete() throws IdropException {
 		log.info("delete folder named:{}", txtAreaFileToDelete.getText());
 		final DeleteIRODSDialog thisDialog = this;

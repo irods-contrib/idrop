@@ -42,79 +42,78 @@ public class AboutDialog extends javax.swing.JDialog {
 
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		jLabel1 = new javax.swing.JLabel();
-		lblJargonVersionLabel = new javax.swing.JLabel();
-		lblJargonVersion = new javax.swing.JLabel();
-		btnOK = new javax.swing.JButton();
-		lblIdropVersionLabel = new javax.swing.JLabel();
-		lblIdropVersion = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblJargonVersionLabel = new javax.swing.JLabel();
+        lblJargonVersion = new javax.swing.JLabel();
+        btnOK = new javax.swing.JButton();
+        lblIdropVersionLabel = new javax.swing.JLabel();
+        lblIdropVersion = new javax.swing.JLabel();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("iDROP - About");
-		setMinimumSize(new java.awt.Dimension(600, 400));
-		getContentPane().setLayout(new java.awt.GridBagLayout());
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("iDROP - About");
+        setMinimumSize(new java.awt.Dimension(600, 400));
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
-		jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-		jLabel1.setText("iDROP - the iRODS Cloud Browser");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.gridwidth = 4;
-		gridBagConstraints.insets = new java.awt.Insets(0, 0, 14, 0);
-		getContentPane().add(jLabel1, gridBagConstraints);
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel1.setText("iDrop Desktop Transfer Manager");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 14, 0);
+        getContentPane().add(jLabel1, gridBagConstraints);
 
-		lblJargonVersionLabel.setText("Jargon Version:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 4;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
-		getContentPane().add(lblJargonVersionLabel, gridBagConstraints);
+        lblJargonVersionLabel.setText("Jargon Version:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
+        getContentPane().add(lblJargonVersionLabel, gridBagConstraints);
 
-		lblJargonVersion.setText("jLabel2");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 4;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
-		getContentPane().add(lblJargonVersion, gridBagConstraints);
+        lblJargonVersion.setText("jLabel2");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
+        getContentPane().add(lblJargonVersion, gridBagConstraints);
 
-		btnOK.setMnemonic('O');
-		btnOK.setText("OK");
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKPressed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 6;
-		gridBagConstraints.insets = new java.awt.Insets(12, 0, 0, 0);
-		getContentPane().add(btnOK, gridBagConstraints);
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('O');
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKPressed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(12, 0, 0, 0);
+        getContentPane().add(btnOK, gridBagConstraints);
 
-		lblIdropVersionLabel.setText("iDrop Version:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 5;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
-		getContentPane().add(lblIdropVersionLabel, gridBagConstraints);
+        lblIdropVersionLabel.setText("iDrop Version:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
+        getContentPane().add(lblIdropVersionLabel, gridBagConstraints);
 
-		lblIdropVersion.setText("jLabel2");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 5;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
-		getContentPane().add(lblIdropVersion, gridBagConstraints);
+        lblIdropVersion.setText("jLabel2");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
+        getContentPane().add(lblIdropVersion, gridBagConstraints);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnOKPressed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKPressed
 		disposeOfAbout();
@@ -148,12 +147,12 @@ public class AboutDialog extends javax.swing.JDialog {
 
 	}
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton btnOK;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel lblIdropVersion;
-	private javax.swing.JLabel lblIdropVersionLabel;
-	private javax.swing.JLabel lblJargonVersion;
-	private javax.swing.JLabel lblJargonVersionLabel;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOK;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblIdropVersion;
+    private javax.swing.JLabel lblIdropVersionLabel;
+    private javax.swing.JLabel lblJargonVersion;
+    private javax.swing.JLabel lblJargonVersionLabel;
+    // End of variables declaration//GEN-END:variables
 }

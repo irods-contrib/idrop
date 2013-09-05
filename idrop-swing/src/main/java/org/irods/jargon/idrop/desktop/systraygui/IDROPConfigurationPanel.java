@@ -140,20 +140,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         buttonGroupSynchMode = new javax.swing.ButtonGroup();
-        pnlTop = new javax.swing.JPanel();
-        pnlCenter = new javax.swing.JPanel();
-        tabConfig = new javax.swing.JTabbedPane();
-        pnlConfigIdrop = new javax.swing.JPanel();
-        checkShowGUI = new javax.swing.JCheckBox();
-        checkShowFileProgress = new javax.swing.JCheckBox();
-        pnlConfigTransfers = new javax.swing.JPanel();
-        pnlTransferManagement = new javax.swing.JPanel();
-        checkLogSuccessfulTransfer = new javax.swing.JCheckBox();
-        checkVerifyChecksumOnTransfer = new javax.swing.JCheckBox();
-        checkAllowRerouting = new javax.swing.JCheckBox();
-        checkConnectionRestart = new javax.swing.JCheckBox();
-        lblMaxTransferErrors = new javax.swing.JLabel();
-        spinnerMaxTransferErrors = new javax.swing.JSpinner();
         pnlConfigSynch = new javax.swing.JPanel();
         pnlConfigSynchListing = new javax.swing.JPanel();
         pnlSynchRefresh = new javax.swing.JPanel();
@@ -187,6 +173,20 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         btnNewSynch = new javax.swing.JButton();
         btnUpdateSynch = new javax.swing.JButton();
         btnSynchNow = new javax.swing.JButton();
+        pnlTop = new javax.swing.JPanel();
+        pnlCenter = new javax.swing.JPanel();
+        tabConfig = new javax.swing.JTabbedPane();
+        pnlConfigIdrop = new javax.swing.JPanel();
+        checkShowGUI = new javax.swing.JCheckBox();
+        checkShowFileProgress = new javax.swing.JCheckBox();
+        pnlConfigTransfers = new javax.swing.JPanel();
+        pnlTransferManagement = new javax.swing.JPanel();
+        checkLogSuccessfulTransfer = new javax.swing.JCheckBox();
+        checkVerifyChecksumOnTransfer = new javax.swing.JCheckBox();
+        checkAllowRerouting = new javax.swing.JCheckBox();
+        checkConnectionRestart = new javax.swing.JCheckBox();
+        lblMaxTransferErrors = new javax.swing.JLabel();
+        spinnerMaxTransferErrors = new javax.swing.JSpinner();
         pnlPipelineConfiguration = new javax.swing.JPanel();
         plnPipelineConfigurationDetails = new javax.swing.JPanel();
         lblIrodsSocketTimeout = new javax.swing.JLabel();
@@ -220,156 +220,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         btnApplyPipelineConfig = new javax.swing.JButton();
         pnlBottom = new javax.swing.JPanel();
         btnOK = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.title")); // NOI18N
-
-        org.jdesktop.layout.GroupLayout pnlTopLayout = new org.jdesktop.layout.GroupLayout(pnlTop);
-        pnlTop.setLayout(pnlTopLayout);
-        pnlTopLayout.setHorizontalGroup(
-            pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 1067, Short.MAX_VALUE)
-        );
-        pnlTopLayout.setVerticalGroup(
-            pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
-
-        pnlConfigIdrop.setLayout(new java.awt.GridBagLayout());
-
-        checkShowGUI.setMnemonic('s');
-        checkShowGUI.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowGUI.text")); // NOI18N
-        checkShowGUI.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowGUI.toolTipText")); // NOI18N
-        checkShowGUI.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                checkShowGUIItemStateChanged(evt);
-            }
-        });
-        checkShowGUI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkShowGUIActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlConfigIdrop.add(checkShowGUI, gridBagConstraints);
-
-        checkShowFileProgress.setMnemonic('w');
-        checkShowFileProgress.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowFileProgress.text")); // NOI18N
-        checkShowFileProgress.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowFileProgress.toolTipText")); // NOI18N
-        checkShowFileProgress.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                checkShowFileProgressItemStateChanged(evt);
-            }
-        });
-        checkShowFileProgress.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkShowFileProgressActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlConfigIdrop.add(checkShowFileProgress, gridBagConstraints);
-
-        tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigIdrop.TabConstraints.tabTitle"), pnlConfigIdrop); // NOI18N
-
-        pnlTransferManagement.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlTransferManagement.border.title"))); // NOI18N
-        pnlTransferManagement.setLayout(new java.awt.GridBagLayout());
-
-        checkLogSuccessfulTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkLogSuccessfulTransfer.text")); // NOI18N
-        checkLogSuccessfulTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkLogSuccessfulTransfer.toolTipText")); // NOI18N
-        checkLogSuccessfulTransfer.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                checkLogSuccessfulTransferItemStateChanged(evt);
-            }
-        });
-        checkLogSuccessfulTransfer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkLogSuccessfulTransferActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlTransferManagement.add(checkLogSuccessfulTransfer, gridBagConstraints);
-
-        checkVerifyChecksumOnTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkVerifyChecksumOnTransfer.text")); // NOI18N
-        checkVerifyChecksumOnTransfer.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                checkVerifyChecksumOnTransferItemStateChanged(evt);
-            }
-        });
-        checkVerifyChecksumOnTransfer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkVerifyChecksumOnTransferActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlTransferManagement.add(checkVerifyChecksumOnTransfer, gridBagConstraints);
-
-        checkAllowRerouting.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkAllowRerouting.text")); // NOI18N
-        checkAllowRerouting.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkAllowRerouting.toolTipText")); // NOI18N
-        checkAllowRerouting.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                checkAllowReroutingItemStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlTransferManagement.add(checkAllowRerouting, gridBagConstraints);
-
-        checkConnectionRestart.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkConnectionRestart.text")); // NOI18N
-        checkConnectionRestart.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkConnectionRestart.toolTipText")); // NOI18N
-        checkConnectionRestart.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                checkConnectionRestartItemStateChanged(evt);
-            }
-        });
-        checkConnectionRestart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkConnectionRestartActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlTransferManagement.add(checkConnectionRestart, gridBagConstraints);
-
-        lblMaxTransferErrors.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaxTransferErrors.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        pnlTransferManagement.add(lblMaxTransferErrors, gridBagConstraints);
-
-        spinnerMaxTransferErrors.setModel(new javax.swing.SpinnerNumberModel(0, 0, 600, 10));
-        spinnerMaxTransferErrors.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.spinnerMaxTransferErrors.toolTipText")); // NOI18N
-        spinnerMaxTransferErrors.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spinnerMaxTransferErrorsStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlTransferManagement.add(spinnerMaxTransferErrors, gridBagConstraints);
-
-        pnlConfigTransfers.add(pnlTransferManagement);
-
-        tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigTransfers.TabConstraints.tabTitle"), pnlConfigTransfers); // NOI18N
 
         pnlConfigSynch.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -615,7 +465,155 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         pnlConfigSynch.add(pnlConfigSynchDetails, java.awt.BorderLayout.SOUTH);
 
-        tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigSynch.TabConstraints.tabTitle"), pnlConfigSynch); // NOI18N
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.title")); // NOI18N
+
+        org.jdesktop.layout.GroupLayout pnlTopLayout = new org.jdesktop.layout.GroupLayout(pnlTop);
+        pnlTop.setLayout(pnlTopLayout);
+        pnlTopLayout.setHorizontalGroup(
+            pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 1067, Short.MAX_VALUE)
+        );
+        pnlTopLayout.setVerticalGroup(
+            pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 0, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
+
+        pnlConfigIdrop.setLayout(new java.awt.GridBagLayout());
+
+        checkShowGUI.setMnemonic('s');
+        checkShowGUI.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowGUI.text")); // NOI18N
+        checkShowGUI.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowGUI.toolTipText")); // NOI18N
+        checkShowGUI.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkShowGUIItemStateChanged(evt);
+            }
+        });
+        checkShowGUI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkShowGUIActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlConfigIdrop.add(checkShowGUI, gridBagConstraints);
+
+        checkShowFileProgress.setMnemonic('w');
+        checkShowFileProgress.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowFileProgress.text")); // NOI18N
+        checkShowFileProgress.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkShowFileProgress.toolTipText")); // NOI18N
+        checkShowFileProgress.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkShowFileProgressItemStateChanged(evt);
+            }
+        });
+        checkShowFileProgress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkShowFileProgressActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlConfigIdrop.add(checkShowFileProgress, gridBagConstraints);
+
+        tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigIdrop.TabConstraints.tabTitle"), pnlConfigIdrop); // NOI18N
+
+        pnlTransferManagement.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlTransferManagement.border.title"))); // NOI18N
+        pnlTransferManagement.setLayout(new java.awt.GridBagLayout());
+
+        checkLogSuccessfulTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkLogSuccessfulTransfer.text")); // NOI18N
+        checkLogSuccessfulTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkLogSuccessfulTransfer.toolTipText")); // NOI18N
+        checkLogSuccessfulTransfer.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkLogSuccessfulTransferItemStateChanged(evt);
+            }
+        });
+        checkLogSuccessfulTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkLogSuccessfulTransferActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferManagement.add(checkLogSuccessfulTransfer, gridBagConstraints);
+
+        checkVerifyChecksumOnTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkVerifyChecksumOnTransfer.text")); // NOI18N
+        checkVerifyChecksumOnTransfer.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkVerifyChecksumOnTransferItemStateChanged(evt);
+            }
+        });
+        checkVerifyChecksumOnTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkVerifyChecksumOnTransferActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferManagement.add(checkVerifyChecksumOnTransfer, gridBagConstraints);
+
+        checkAllowRerouting.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkAllowRerouting.text")); // NOI18N
+        checkAllowRerouting.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkAllowRerouting.toolTipText")); // NOI18N
+        checkAllowRerouting.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkAllowReroutingItemStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferManagement.add(checkAllowRerouting, gridBagConstraints);
+
+        checkConnectionRestart.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkConnectionRestart.text")); // NOI18N
+        checkConnectionRestart.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkConnectionRestart.toolTipText")); // NOI18N
+        checkConnectionRestart.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkConnectionRestartItemStateChanged(evt);
+            }
+        });
+        checkConnectionRestart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkConnectionRestartActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferManagement.add(checkConnectionRestart, gridBagConstraints);
+
+        lblMaxTransferErrors.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaxTransferErrors.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTransferManagement.add(lblMaxTransferErrors, gridBagConstraints);
+
+        spinnerMaxTransferErrors.setModel(new javax.swing.SpinnerNumberModel(0, 0, 600, 10));
+        spinnerMaxTransferErrors.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.spinnerMaxTransferErrors.toolTipText")); // NOI18N
+        spinnerMaxTransferErrors.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerMaxTransferErrorsStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferManagement.add(spinnerMaxTransferErrors, gridBagConstraints);
+
+        pnlConfigTransfers.add(pnlTransferManagement);
+
+        tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigTransfers.TabConstraints.tabTitle"), pnlConfigTransfers); // NOI18N
 
         plnPipelineConfigurationDetails.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.plnPipelineConfigurationDetails.border.title"))); // NOI18N
         plnPipelineConfigurationDetails.setLayout(new java.awt.GridBagLayout());

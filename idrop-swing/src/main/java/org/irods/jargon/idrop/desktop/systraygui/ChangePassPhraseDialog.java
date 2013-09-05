@@ -116,7 +116,10 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -124,7 +127,10 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
         });
         jPanel5.add(btnCancel, java.awt.BorderLayout.WEST);
 
+        btnOkay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOkay.setMnemonic('O');
         btnOkay.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnOkay.text")); // NOI18N
+        btnOkay.setToolTipText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnOkay.toolTipText")); // NOI18N
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOkayActionPerformed(evt);

@@ -83,7 +83,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private TrayIcon trayIcon = null;
     private Object lastCachedInfoItem = null;
     private CheckboxMenuItem pausedItem = null;
-    private ChangePasswordDialog changePasswordDialog = null;
     private boolean formShown = false;
     private TransferManagerDialog transferManagerDialog = null;
 
@@ -429,7 +428,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         MenuItem iDropItem = new MenuItem("iDrop");
         MenuItem preferencesItem = new MenuItem("Preferences");
         MenuItem changePassPhraseItem = new MenuItem("Change Pass Phrase");
-        MenuItem changePasswordItem = new MenuItem("Change iRODS Password");
 
         iDropItem.addActionListener(this);
 
@@ -444,7 +442,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         exitItem.addActionListener(this);
         currentItem.addActionListener(this);
         preferencesItem.addActionListener(this);
-        changePasswordItem.addActionListener(this);
         changePassPhraseItem.addActionListener(this);
 
         /*
@@ -467,7 +464,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         popup.add(iDropItem);
         popup.add(preferencesItem);
         popup.add(changePassPhraseItem);
-        popup.add(changePasswordItem);
         popup.addSeparator();
         popup.add(currentItem);
         popup.addSeparator();
@@ -836,15 +832,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             int y = (toolkit.getScreenSize().height - changePassPhraseDialog.getHeight()) / 2;
             changePassPhraseDialog.setLocation(x, y);
             changePassPhraseDialog.setVisible(true);
-        } else if (e.getActionCommand().equals("Change Password")) {
-
-            if (changePasswordDialog == null) {
-                changePasswordDialog = new ChangePasswordDialog(null, true, this, iDropCore.getIrodsAccount());
-                int x = (toolkit.getScreenSize().width - changePasswordDialog.getWidth()) / 2;
-                int y = (toolkit.getScreenSize().height - changePasswordDialog.getHeight()) / 2;
-                changePasswordDialog.setLocation(x, y);
-            }
-            changePasswordDialog.setVisible(true);
 
         } else if (e.getActionCommand().equals("Show Current and Past Activity")) {
 
@@ -1425,6 +1412,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        btnMainToolbarSync = new javax.swing.JButton();
+        togglePauseTransfer = new javax.swing.JToggleButton();
         pnlMainToolbarIcons = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         btnMainToolbarTree = new javax.swing.JButton();
@@ -1451,7 +1440,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
         btnMainToolbarSettings = new javax.swing.JButton();
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-        btnMainToolbarSync = new javax.swing.JButton();
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
         btnMainToolbarQueueMgr = new javax.swing.JButton();
         filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
@@ -1482,7 +1470,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblTransferByteCounts = new javax.swing.JLabel();
         pnlTransferOptions = new javax.swing.JPanel();
         idropProgressPanelToolbar = new javax.swing.JToolBar();
-        togglePauseTransfer = new javax.swing.JToggleButton();
         progressIconImageLabel = new javax.swing.JLabel();
         pnlIdropGutter = new javax.swing.JPanel();
         lblHostLabel = new javax.swing.JLabel();
@@ -1496,6 +1483,32 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
         pnlStatus = new javax.swing.JPanel();
         lblStatusIcon = new javax.swing.JLabel();
+
+        btnMainToolbarSync.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_457_transfer.png"))); // NOI18N
+        btnMainToolbarSync.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSync.text")); // NOI18N
+        btnMainToolbarSync.setBorder(null);
+        btnMainToolbarSync.setFocusable(false);
+        btnMainToolbarSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarSync.setMargin(null);
+        btnMainToolbarSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarSyncActionPerformed(evt);
+            }
+        });
+
+        togglePauseTransfer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_174_pause.png"))); // NOI18N
+        togglePauseTransfer.setMnemonic('p');
+        togglePauseTransfer.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.text")); // NOI18N
+        togglePauseTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.toolTipText")); // NOI18N
+        togglePauseTransfer.setFocusable(false);
+        togglePauseTransfer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        togglePauseTransfer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        togglePauseTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                togglePauseTransferActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(622, 158));
@@ -1673,20 +1686,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         });
         jToolBar1.add(btnMainToolbarSettings);
         jToolBar1.add(filler11);
-
-        btnMainToolbarSync.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_457_transfer.png"))); // NOI18N
-        btnMainToolbarSync.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSync.text")); // NOI18N
-        btnMainToolbarSync.setBorder(null);
-        btnMainToolbarSync.setFocusable(false);
-        btnMainToolbarSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMainToolbarSync.setMargin(null);
-        btnMainToolbarSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnMainToolbarSync.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMainToolbarSyncActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnMainToolbarSync);
         jToolBar1.add(filler14);
 
         btnMainToolbarQueueMgr.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_136_cogwheel.png"))); // NOI18N
@@ -1885,21 +1884,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         idropProgressPanelToolbar.setFloatable(false);
         idropProgressPanelToolbar.setRollover(true);
-
-        togglePauseTransfer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_174_pause.png"))); // NOI18N
-        togglePauseTransfer.setMnemonic('p');
-        togglePauseTransfer.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.text")); // NOI18N
-        togglePauseTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.toolTipText")); // NOI18N
-        togglePauseTransfer.setFocusable(false);
-        togglePauseTransfer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        togglePauseTransfer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        togglePauseTransfer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                togglePauseTransferActionPerformed(evt);
-            }
-        });
-        idropProgressPanelToolbar.add(togglePauseTransfer);
-
         pnlTransferOptions.add(idropProgressPanelToolbar);
         pnlTransferOptions.add(progressIconImageLabel);
 
@@ -2034,6 +2018,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         try {
             if (togglePauseTransfer.isSelected()) {
                 log.info("pausing....");
+               
 
                 // FIXME: conveyoriDropCore.getTransferManager().pause();
             } else {

@@ -458,7 +458,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                     tableMetadata.validate();
 
                 } catch (IdropException ex) {
-                    Logger.getLogger(MetadataViewDialog.class.getName()).log(
+                    Logger.getLogger(IRODSInfoDialog.class.getName()).log(
                             Level.SEVERE, null, ex);
                     idropGUI.showIdropException(ex);
                 }
@@ -633,6 +633,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        pnlReplication = new javax.swing.JPanel();
+        scrollReplicationResources = new javax.swing.JScrollPane();
+        pnlReplicationResources = new javax.swing.JPanel();
+        pnlReplicaionTools = new javax.swing.JPanel();
+        btnReplicate = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         pnlSelectedObject = new javax.swing.JPanel();
         lblObjectCollection = new javax.swing.JLabel();
@@ -711,11 +716,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         jPanel7 = new javax.swing.JPanel();
         btnAddSharePermissions = new javax.swing.JButton();
         btnDeleteSharePermissions = new javax.swing.JButton();
-        pnlReplication = new javax.swing.JPanel();
-        scrollReplicationResources = new javax.swing.JScrollPane();
-        pnlReplicationResources = new javax.swing.JPanel();
-        pnlReplicaionTools = new javax.swing.JPanel();
-        btnReplicate = new javax.swing.JButton();
         pnlCloseBtn = new javax.swing.JPanel();
         btnRefresh = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
@@ -730,6 +730,34 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(0, 100, Short.MAX_VALUE)
         );
+
+        pnlReplication.setEnabled(false);
+        pnlReplication.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                pnlReplicationComponentShown(evt);
+            }
+        });
+        pnlReplication.setLayout(new java.awt.BorderLayout());
+
+        pnlReplicationResources.setLayout(new java.awt.GridLayout(0, 1));
+        scrollReplicationResources.setViewportView(pnlReplicationResources);
+
+        pnlReplication.add(scrollReplicationResources, java.awt.BorderLayout.CENTER);
+
+        pnlReplicaionTools.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnReplicate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_464_server_plus.png"))); // NOI18N
+        btnReplicate.setMnemonic('p');
+        btnReplicate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnReplicate.text")); // NOI18N
+        btnReplicate.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnReplicate.toolTipText")); // NOI18N
+        btnReplicate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReplicateActionPerformed(evt);
+            }
+        });
+        pnlReplicaionTools.add(btnReplicate);
+
+        pnlReplication.add(pnlReplicaionTools, java.awt.BorderLayout.SOUTH);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -1253,7 +1281,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlPermissionsTable.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
-        jPanel7.setMinimumSize(null);
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         btnAddSharePermissions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
@@ -1291,39 +1318,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         tabbedpanelMain.addTab(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.pnlPermissionsTab.TabConstraints.tabTitle"), pnlPermissionsTab); // NOI18N
 
-        pnlReplication.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                pnlReplicationComponentShown(evt);
-            }
-        });
-        pnlReplication.setLayout(new java.awt.BorderLayout());
-
-        pnlReplicationResources.setLayout(new java.awt.GridLayout(0, 1));
-        scrollReplicationResources.setViewportView(pnlReplicationResources);
-
-        pnlReplication.add(scrollReplicationResources, java.awt.BorderLayout.CENTER);
-
-        pnlReplicaionTools.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-        btnReplicate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_464_server_plus.png"))); // NOI18N
-        btnReplicate.setMnemonic('p');
-        btnReplicate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnReplicate.text")); // NOI18N
-        btnReplicate.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnReplicate.toolTipText")); // NOI18N
-        btnReplicate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReplicateActionPerformed(evt);
-            }
-        });
-        pnlReplicaionTools.add(btnReplicate);
-
-        pnlReplication.add(pnlReplicaionTools, java.awt.BorderLayout.SOUTH);
-
-        tabbedpanelMain.addTab(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.pnlReplication.TabConstraints.tabTitle"), pnlReplication); // NOI18N
-
         jPanel1.add(tabbedpanelMain, java.awt.BorderLayout.CENTER);
 
-        pnlCloseBtn.setMinimumSize(null);
-        pnlCloseBtn.setPreferredSize(null);
         pnlCloseBtn.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
@@ -1370,7 +1366,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         try {
             currentResources = buildCurrentResourcesList();
         } catch (IdropException ex) {
-            Logger.getLogger(ReplicationDialog.class.getName()).log(
+            Logger.getLogger(IRODSInfoDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             idropGUI.showIdropException(ex);
             return;
@@ -1422,7 +1418,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
 
                 } catch (Exception ex) {
-                    Logger.getLogger(ReplicationDialog.class.getName()).log(
+                    Logger.getLogger(IRODSInfoDialog.class.getName()).log(
                             Level.SEVERE, null, ex);
                     this.idropGUI.showIdropException(ex);
                     return;
@@ -1586,7 +1582,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                     scrollReplicationResources.validate();
 
                 } catch (IdropException ex) {
-                    Logger.getLogger(ReplicationDialog.class.getName()).log(
+                    Logger.getLogger(IRODSInfoDialog.class.getName()).log(
                             Level.SEVERE, null, ex);
                     idropGUI.showIdropException(ex);
                     return;
@@ -1610,7 +1606,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 currentResources = irodsFileService.getResourcesForDataObject(
                         selectedObjectParent, selectedObjectName);
             } catch (IdropException ex) {
-                Logger.getLogger(ReplicationDialog.class.getName()).log(
+                Logger.getLogger(IRODSInfoDialog.class.getName()).log(
                         Level.SEVERE, null, ex);
                 throw new IdropException(ex);
             }

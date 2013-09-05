@@ -496,7 +496,8 @@ public class TransferInfoDialog extends javax.swing.JDialog {
 
         pnlTransferAttempt.add(pnlTransferAttemptInfo, java.awt.BorderLayout.CENTER);
 
-        pnlButtons.setPreferredSize(new java.awt.Dimension(595, 35));
+        pnlButtons.setMinimumSize(null);
+        pnlButtons.setPreferredSize(null);
         pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_198_ok.png"))); // NOI18N

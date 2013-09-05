@@ -111,9 +111,7 @@ public class AddMetadataDialog extends javax.swing.JDialog implements DocumentLi
         txtValue = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtUnit = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
+        pnlBottom = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
 
@@ -152,7 +150,7 @@ public class AddMetadataDialog extends javax.swing.JDialog implements DocumentLi
                     .add(txtUnit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(txtValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(txtAttribute, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -169,52 +167,39 @@ public class AddMetadataDialog extends javax.swing.JDialog implements DocumentLi
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel3)
                     .add(txtUnit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jPanel4.setPreferredSize(new java.awt.Dimension(100, 40));
-
-        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 40, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
-
-        jPanel5.setPreferredSize(new java.awt.Dimension(200, 40));
-
-        btnCancel.setLabel(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.btnCancel.label")); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel5.add(btnCancel);
+        pnlBottom.add(btnCancel);
 
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnAdd.setMnemonic('O');
         btnAdd.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.btnAdd.text")); // NOI18N
+        btnAdd.setToolTipText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.btnAdd.toolTipText")); // NOI18N
         btnAdd.setEnabled(false);
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
-        jPanel5.add(btnAdd);
+        pnlBottom.add(btnAdd);
 
-        jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
-
-        getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -266,9 +251,7 @@ public class AddMetadataDialog extends javax.swing.JDialog implements DocumentLi
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel pnlBottom;
     private javax.swing.JTextField txtAttribute;
     private javax.swing.JTextField txtUnit;
     private javax.swing.JTextField txtValue;
