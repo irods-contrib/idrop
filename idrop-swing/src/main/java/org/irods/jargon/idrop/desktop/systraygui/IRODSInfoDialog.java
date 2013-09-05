@@ -47,7 +47,7 @@ import org.irods.jargon.core.pub.domain.Resource;
 import org.irods.jargon.core.pub.domain.UserFilePermission;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.query.MetaDataAndDomainData;
-import static org.irods.jargon.idrop.desktop.systraygui.ReplicationDialog.log;
+import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
@@ -67,454 +67,455 @@ import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author lisa
  */
 public class IRODSInfoDialog extends javax.swing.JDialog implements
-		ListSelectionListener, ActionListener {
+        ListSelectionListener, ActionListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -943089734580790199L;
-	private final iDrop idropGUI;
-	private final IRODSAccount irodsAccount;
-	private String selectedObjectFullPath;
-	private String selectedObjectName;
-	private String selectedObjectParent;
-	private final IRODSFileSystem irodsFileSystem;
-            private  boolean isFile;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -943089734580790199L;
+    private final iDrop idropGUI;
+    private final IRODSAccount irodsAccount;
+    private String selectedObjectFullPath;
+    private String selectedObjectName;
+    private String selectedObjectParent;
+    private final IRODSFileSystem irodsFileSystem;
+    private boolean isFile;
+    private final IRODSTree irodsTree;
+    private IRODSInfoDialog dialog;
+    public static org.slf4j.Logger log = LoggerFactory
+            .getLogger(IRODSTree.class);
+    private List<JCheckBox> boxes = new ArrayList<JCheckBox>();
 
-	private final IRODSTree irodsTree;
-	private IRODSInfoDialog dialog;
-	public static org.slf4j.Logger log = LoggerFactory
-			.getLogger(IRODSTree.class);
-            private List<JCheckBox> boxes = new ArrayList<JCheckBox>();
+    // private final String fileName;
+    /**
+     * Creates new form IRODSInfoDialog
+     */
+    // public IRODSInfoDialog(java.awt.Frame parent, boolean modal) {
+    // super(parent, modal);
+    // initComponents();
+    // }
+    public IRODSInfoDialog(final iDrop parent, final boolean modal,
+            final IRODSTree irodsTree) {
 
+        super(parent, modal);
+        idropGUI = parent;
+        irodsAccount = idropGUI.getiDropCore().getIrodsAccount();
+        irodsFileSystem = idropGUI.getiDropCore().getIrodsFileSystem();
+        this.irodsTree = irodsTree;
+        initSelectedObjectName();
+        initComponents();
 
-	// private final String fileName;
+        selectInfoCard();
 
-	/**
-	 * Creates new form IRODSInfoDialog
-	 */
-	// public IRODSInfoDialog(java.awt.Frame parent, boolean modal) {
-	// super(parent, modal);
-	// initComponents();
-	// }
-	public IRODSInfoDialog(final iDrop parent, final boolean modal,
-			final IRODSTree irodsTree) {
+        initializeFileInfo();
+        initMetadataInfo();
+        initPermissionInfo();
 
-		super(parent, modal);
-		idropGUI = parent;
-		irodsAccount = idropGUI.getiDropCore().getIrodsAccount();
-		irodsFileSystem = idropGUI.getiDropCore().getIrodsFileSystem();
-		this.irodsTree = irodsTree;
-		initSelectedObjectName();
-		initComponents();
+    }
 
-		selectInfoCard();
+    private void initSelectedObjectName() {
 
-		initializeFileInfo();
-		initMetadataInfo();
-		initPermissionInfo();
+        IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
+                .getModel();
+        ListSelectionModel selectionModel = irodsTree.getSelectionModel();
+        int idxStart = selectionModel.getMinSelectionIndex();
 
-	}
+        IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(
+                idxStart, 0);
+        selectedObjectFullPath = selectedNode.getFullPath();
+        String objectPath[] = selectedObjectFullPath.split("/");
+        selectedObjectName = objectPath[objectPath.length - 1];
+        IRODSNode pNode = (IRODSNode) selectedNode.getParent();
+        selectedObjectParent = pNode.getFullPath();
+    }
 
-	private void initSelectedObjectName() {
+    private void selectInfoCard() {
 
-		try {
-			new IRODSFileService(idropGUI.getiDropCore().getIrodsAccount(),
-					idropGUI.getiDropCore().getIrodsFileSystem());
-		} catch (Exception ex) {
-			log.error("cannot create irods file service");
-			return;
-		}
+        CardLayout cl = (CardLayout) (pnlInfoCards.getLayout());
+        if (isCollection()) {
+            lblObjectCollection.setText("Collection:");
+            cl.show(pnlInfoCards, "cardCollectionInfo");
+        } else {
+            lblObjectCollection.setText("Object:");
+            cl.show(pnlInfoCards, "cardObjectInfo");
+        }
 
-		IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
-				.getModel();
-		ListSelectionModel selectionModel = irodsTree.getSelectionModel();
-		int idxStart = selectionModel.getMinSelectionIndex();
+        // also populate header
+        if (selectedObjectName != null) {
+            lblInfoObjectName.setText(MiscIRODSUtils.abbreviateFileName(selectedObjectName));
+            lblInfoObjectName.setToolTipText(selectedObjectName);
+        }
+        if (selectedObjectParent != null) {
+            lblInfoObjectParent.setText(MiscIRODSUtils.abbreviateFileName(selectedObjectParent));
+                        lblInfoObjectParent.setToolTipText(selectedObjectParent);
 
-		IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(
-				idxStart, 0);
-		selectedObjectFullPath = selectedNode.getFullPath();
-		String objectPath[] = selectedObjectFullPath.split("/");
-		selectedObjectName = objectPath[objectPath.length - 1];
-		IRODSNode pNode = (IRODSNode) selectedNode.getParent();
-		selectedObjectParent = pNode.getFullPath();
-	}
+        }
+    }
 
-	private void selectInfoCard() {
+    private void initializeFileInfo() {
+        dialog = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                try {
 
-		CardLayout cl = (CardLayout) (pnlInfoCards.getLayout());
-		if (isCollection()) {
-			lblObjectCollection.setText("Collection:");
-			cl.show(pnlInfoCards, "cardCollectionInfo");
-		} else {
-			lblObjectCollection.setText("Object:");
-			cl.show(pnlInfoCards, "cardObjectInfo");
-		}
+                    TaggingServiceFactory taggingServiceFactory = new TaggingServiceFactoryImpl(
+                            irodsFileSystem.getIRODSAccessObjectFactory());
+                    FreeTaggingService freeTaggingService = taggingServiceFactory
+                            .instanceFreeTaggingService(irodsAccount);
+                    IRODSTaggingService irodsTaggingService = taggingServiceFactory
+                            .instanceIrodsTaggingService(irodsAccount);
 
-		// also populate header
-		if (selectedObjectName != null) {
-			lblInfoObjectName.setText(selectedObjectName);
-		}
-		if (selectedObjectParent != null) {
-			lblInfoObjectParent.setText(selectedObjectParent);
-		}
-	}
+                    if (isCollection()) {
 
-	private void initializeFileInfo() {
-		dialog = this;
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				try {
+                        isFile = false;
+                        CollectionAO collectionAO = irodsFileSystem
+                                .getIRODSAccessObjectFactory().getCollectionAO(
+                                irodsAccount);
+                        Collection collection = collectionAO
+                                .findByAbsolutePath(selectedObjectFullPath);
 
-					TaggingServiceFactory taggingServiceFactory = new TaggingServiceFactoryImpl(
-							irodsFileSystem.getIRODSAccessObjectFactory());
-					FreeTaggingService freeTaggingService = taggingServiceFactory
-							.instanceFreeTaggingService(irodsAccount);
-					IRODSTaggingService irodsTaggingService = taggingServiceFactory
-							.instanceIrodsTaggingService(irodsAccount);
-
-					if (isCollection()) {
-
-                                                isFile = false;
-						CollectionAO collectionAO = irodsFileSystem
-								.getIRODSAccessObjectFactory().getCollectionAO(
-										irodsAccount);
-						Collection collection = collectionAO
-								.findByAbsolutePath(selectedObjectFullPath);
-
-						if (collection.getCreatedAt().toString() != null) {
-							lblInfoCollectionCreatedDate.setText(collection
-									.getCreatedAt().toString());
-						} else {
-							lblInfoCollectionCreatedDate.setText("");
-						}
-
-						if (collection.getModifiedAt().toString() != null) {
-							lblInfoCollectionModifiedDate.setText(collection
-									.getModifiedAt().toString());
-						} else {
-							lblInfoCollectionModifiedDate.setText("");
-						}
-
-						if (collection.getCollectionOwnerName() != null) {
-							lblInfoCollectionOwner.setText(collection
-									.getCollectionOwnerName());
-						} else {
-							lblInfoCollectionOwner.setText("");
-						}
-
-						if (collection.getComments() != null) {
-							lblInfoCollectionDescription.setText(collection
-									.getComments());
-						} else {
-							lblInfoCollectionDescription.setText("");
-						}
-
-						if (collection.getSpecColType() != null) {
-							lblInfoCollectionType.setText(collection
-									.getSpecColType().name());
-						} else {
-							lblInfoCollectionType.setText("");
-						}
-
-						if (collection.getCollectionOwnerZone() != null) {
-							lblInfoCollectionOwnerZone.setText(collection
-									.getCollectionOwnerZone());
-						} else {
-							lblInfoCollectionOwnerZone.setText("");
-						}
-
-						if (collection.getObjectPath() != null) {
-							lblInfoCollectionObjectPath.setText(collection
-									.getObjectPath());
-						} else {
-							lblInfoCollectionObjectPath.setText("");
-						}
-
-						if (collection.getInfo1() != null) {
-							lblInfoCollectionInfo1.setText(collection
-									.getInfo1());
-						} else {
-							lblInfoCollectionInfo1.setText("");
-						}
-
-						if (collection.getInfo2() != null) {
-							lblInfoCollectionInfo2.setText(collection
-									.getInfo2());
-						} else {
-							lblInfoCollectionInfo2.setText("");
-						}
-
-						// now populate tags and comments for collection
-						txtInfoTags.setText(freeTaggingService
-								.getTagsForCollectionInFreeTagForm(
-										selectedObjectFullPath)
-								.getSpaceDelimitedTagsForDomain());
-						IRODSTagValue irodsTagValue = irodsTaggingService
-								.getDescriptionOnCollectionForLoggedInUser(selectedObjectFullPath);
-						if (irodsTagValue != null) {
-							textareaInfoComments.setText(irodsTagValue
-									.getTagData());
-						}
-
-					} else {
-                                                isFile = true;
-						DataObjectAO dataObjectAO = irodsFileSystem
-								.getIRODSAccessObjectFactory().getDataObjectAO(
-										irodsAccount);
-						DataObject dataObject = dataObjectAO
-								.findByAbsolutePath(selectedObjectFullPath);
-
-						if (dataObject.getDataSize() >= 0) {
-							lblInfoObjectSize.setText(FieldFormatHelper
-									.formatFileLength(dataObject.getDataSize()));
-						} else {
-							lblInfoObjectSize.setText("");
-						}
-
-						if (dataObject.getCreatedAt().toString() != null) {
-							lblInfoObjectCreatedDate.setText(dataObject
-									.getCreatedAt().toString());
-						} else {
-							lblInfoObjectCreatedDate.setText("");
-						}
-
-						if (dataObject.getUpdatedAt().toString() != null) {
-							lblInfoObjectModifiedDate.setText(dataObject
-									.getUpdatedAt().toString());
-						} else {
-							lblInfoObjectCreatedDate.setText("");
-						}
-
-						if (dataObject.getDataOwnerName() != null) {
-							lblInfoObjectOwner.setText(dataObject
-									.getDataOwnerName());
-						} else {
-							lblInfoObjectOwner.setText("");
-						}
-
-						if (dataObject.getDataOwnerZone() != null) {
-							lblInfoObjectOwnerZone.setText(dataObject
-									.getDataOwnerZone());
-						} else {
-							lblInfoObjectOwnerZone.setText("");
-						}
-
-						if (dataObject.getDataPath() != null) {
-							lblInfoObjectDataPath.setText(dataObject
-									.getDataPath());
-						} else {
-							lblInfoObjectDataPath.setText("");
-						}
-
-						if (dataObject.getResourceGroupName() != null) {
-							lblInfoObjectResourceGroup.setText(dataObject
-									.getResourceGroupName());
-						} else {
-							lblInfoObjectResourceGroup.setText("");
-						}
-
-						if (dataObject.getChecksum() != null) {
-							lblInfoObjectChecksum.setText(dataObject
-									.getChecksum());
-						} else {
-							lblInfoObjectChecksum.setText("");
-						}
-
-						if (dataObject.getResourceName() != null) {
-							lblInfoObjectResource.setText(dataObject
-									.getResourceName());
-						} else {
-							lblInfoObjectResource.setText("");
-						}
-
-						if (dataObject.getDataReplicationNumber() >= 0) {
-							lblInfoObjectReplicaNumber.setText(Integer
-									.toString(dataObject
-											.getDataReplicationNumber()));
-						} else {
-							lblInfoObjectReplicaNumber.setText("");
-						}
-
-						if (dataObject.getReplicationStatus() != null) {
-							lblInfoObjectReplicationStatus.setText(dataObject
-									.getReplicationStatus());
-						} else {
-							lblInfoObjectReplicationStatus.setText("");
-						}
-
-						if (dataObject.getDataStatus() != null) {
-							lblInfoObjectStatus.setText(dataObject
-									.getDataStatus());
-						} else {
-							lblInfoObjectStatus.setText("");
-						}
-
-						if (dataObject.getDataTypeName() != null) {
-							lblInfoObjectType.setText(dataObject
-									.getDataTypeName());
-						} else {
-							lblInfoObjectType.setText("");
-						}
-
-						if (dataObject.getDataVersion() >= 0) {
-							lblInfoObjectVersion.setText(Integer
-									.toString(dataObject.getDataVersion()));
-						} else {
-							lblInfoObjectVersion.setText("");
-						}
-
-						// now populate tags and comments for data object
-						txtInfoTags.setText(freeTaggingService
-								.getTagsForDataObjectInFreeTagForm(
-										selectedObjectFullPath)
-								.getSpaceDelimitedTagsForDomain());
-						IRODSTagValue irodsTagValue = irodsTaggingService
-								.getDescriptionOnDataObjectForLoggedInUser(selectedObjectFullPath);
-						if (irodsTagValue != null) {
-							textareaInfoComments.setText(irodsTagValue
-									.getTagData());
-						}
-
-					}
-
-				} catch (FileNotFoundException ex) {
-					Exceptions.printStackTrace(ex);
-				} catch (JargonException ex) {
-					Exceptions.printStackTrace(ex);
-				}
-
-				dialog.setCursor(Cursor
-						.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			}
-		});
-	}
-
-	private void initMetadataInfo() {
-		dialog = this;
-		
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    try {
-                        // set up metadata table and table model
-                        IRODSFileService irodsFileService = new IRODSFileService(
-                                irodsAccount, irodsFileSystem);
-                        MetadataTableModel metadataTableModel;
-
-                        if (isCollection()) {
-                            metadataTableModel = new MetadataTableModel(
-                                    irodsFileService
-                                    .getMetadataForCollection(selectedObjectFullPath));
+                        if (collection.getCreatedAt().toString() != null) {
+                            lblInfoCollectionCreatedDate.setText(collection
+                                    .getCreatedAt().toString());
                         } else {
-                            metadataTableModel = new MetadataTableModel(
-                                    irodsFileService.getMetadataForDataObject(
-                                    selectedObjectParent,
-                                    selectedObjectName));
+                            lblInfoCollectionCreatedDate.setText("");
                         }
-                        tableMetadata.setModel(metadataTableModel);
-                        tableMetadata.getSelectionModel().addListSelectionListener(
-                                dialog);
-                        tableMetadata.addMouseListener(new MouseAdapter() {
-                            public void mouseClicked(MouseEvent evt) {
-                                if (evt.getClickCount() == 2) {
-                                    Point pnt = evt.getPoint();
-                                    int row = tableMetadata.rowAtPoint(pnt);
-                                    MetadataTableModel model = (MetadataTableModel) tableMetadata.getModel();
-                                    MetaDataAndDomainData metaDataAndDomainData = (MetaDataAndDomainData) model.getRow(row);
-                                    AvuData avuData = new AvuData();
-                                    String attr = metaDataAndDomainData.getAvuAttribute();
-                                    avuData.setAttribute(attr);
-                                    String value = metaDataAndDomainData.getAvuValue();
-                                    avuData.setValue(value);
-                                    String unit = metaDataAndDomainData.getAvuUnit();
-                                    avuData.setUnit(unit);
 
-                                    EditMetaDataDialog editMetaDataDialog = new EditMetaDataDialog(
-                                            null,
-                                            true,
-                                            row,
-                                            selectedObjectFullPath,
-                                            avuData,
-                                            isCollection(),
-                                            irodsFileSystem,
-                                            irodsAccount,
-                                            model);
+                        if (collection.getModifiedAt().toString() != null) {
+                            lblInfoCollectionModifiedDate.setText(collection
+                                    .getModifiedAt().toString());
+                        } else {
+                            lblInfoCollectionModifiedDate.setText("");
+                        }
 
-                                    editMetaDataDialog.setLocation(
-                                            (int) dialog.getLocation().getX(), (int) dialog.getLocation().getY());
-                                    editMetaDataDialog.setVisible(true);
-                                }
-                            }
-                        });
-                        tableMetadata.validate();
+                        if (collection.getCollectionOwnerName() != null) {
+                            lblInfoCollectionOwner.setText(collection
+                                    .getCollectionOwnerName());
+                        } else {
+                            lblInfoCollectionOwner.setText("");
+                        }
 
-                    } catch (IdropException ex) {
-                        Logger.getLogger(MetadataViewDialog.class.getName()).log(
-                                Level.SEVERE, null, ex);
-                        idropGUI.showIdropException(ex);
+                        if (collection.getComments() != null) {
+                            lblInfoCollectionDescription.setText(collection
+                                    .getComments());
+                        } else {
+                            lblInfoCollectionDescription.setText("");
+                        }
+
+                        if (collection.getSpecColType() != null) {
+                            lblInfoCollectionType.setText(collection
+                                    .getSpecColType().name());
+                        } else {
+                            lblInfoCollectionType.setText("");
+                        }
+
+                        if (collection.getCollectionOwnerZone() != null) {
+                            lblInfoCollectionOwnerZone.setText(collection
+                                    .getCollectionOwnerZone());
+                        } else {
+                            lblInfoCollectionOwnerZone.setText("");
+                        }
+
+                        if (collection.getObjectPath() != null) {
+                            lblInfoCollectionObjectPath.setText(MiscIRODSUtils.abbreviateFileName(collection
+                                    .getObjectPath()));
+                              lblInfoCollectionObjectPath.setToolTipText(collection.getObjectPath());
+                           
+                        } else {
+                            lblInfoCollectionObjectPath.setText("");
+                                                          lblInfoCollectionObjectPath.setToolTipText(collection.getObjectPath());
+
+                        }
+                        
+                        
+
+                        if (collection.getInfo1() != null) {
+                            lblInfoCollectionInfo1.setText(collection
+                                    .getInfo1());
+                        } else {
+                            lblInfoCollectionInfo1.setText("");
+                        }
+
+                        if (collection.getInfo2() != null) {
+                            lblInfoCollectionInfo2.setText(collection
+                                    .getInfo2());
+                        } else {
+                            lblInfoCollectionInfo2.setText("");
+                        }
+
+                        // now populate tags and comments for collection
+                        txtInfoTags.setText(freeTaggingService
+                                .getTagsForCollectionInFreeTagForm(
+                                selectedObjectFullPath)
+                                .getSpaceDelimitedTagsForDomain());
+                        IRODSTagValue irodsTagValue = irodsTaggingService
+                                .getDescriptionOnCollectionForLoggedInUser(selectedObjectFullPath);
+                        if (irodsTagValue != null) {
+                            textareaInfoComments.setText(irodsTagValue
+                                    .getTagData());
+                        }
+
+                    } else {
+                        isFile = true;
+                        DataObjectAO dataObjectAO = irodsFileSystem
+                                .getIRODSAccessObjectFactory().getDataObjectAO(
+                                irodsAccount);
+                        DataObject dataObject = dataObjectAO
+                                .findByAbsolutePath(selectedObjectFullPath);
+
+                        if (dataObject.getDataSize() >= 0) {
+                            lblInfoObjectSize.setText(FieldFormatHelper
+                                    .formatFileLength(dataObject.getDataSize()));
+                        } else {
+                            lblInfoObjectSize.setText("");
+                        }
+
+                        if (dataObject.getCreatedAt().toString() != null) {
+                            lblInfoObjectCreatedDate.setText(dataObject
+                                    .getCreatedAt().toString());
+                        } else {
+                            lblInfoObjectCreatedDate.setText("");
+                        }
+
+                        if (dataObject.getUpdatedAt().toString() != null) {
+                            lblInfoObjectModifiedDate.setText(dataObject
+                                    .getUpdatedAt().toString());
+                        } else {
+                            lblInfoObjectCreatedDate.setText("");
+                        }
+
+                        if (dataObject.getDataOwnerName() != null) {
+                            lblInfoObjectOwner.setText(dataObject
+                                    .getDataOwnerName());
+                        } else {
+                            lblInfoObjectOwner.setText("");
+                        }
+
+                        if (dataObject.getDataOwnerZone() != null) {
+                            lblInfoObjectOwnerZone.setText(dataObject
+                                    .getDataOwnerZone());
+                        } else {
+                            lblInfoObjectOwnerZone.setText("");
+                        }
+
+                        if (dataObject.getDataPath() != null) {
+                            lblInfoObjectDataPath.setText(MiscIRODSUtils.abbreviateFileName(dataObject
+                                    .getDataPath()));
+                             lblInfoObjectDataPath.setToolTipText(dataObject
+                                    .getDataPath());
+                        } else {
+                            lblInfoObjectDataPath.setText("");
+                             lblInfoObjectDataPath.setToolTipText("");
+                        }
+
+                        if (dataObject.getResourceGroupName() != null) {
+                            lblInfoObjectResourceGroup.setText(dataObject
+                                    .getResourceGroupName());
+                        } else {
+                            lblInfoObjectResourceGroup.setText("");
+                        }
+
+                        if (dataObject.getChecksum() != null) {
+                            lblInfoObjectChecksum.setText(dataObject
+                                    .getChecksum());
+                        } else {
+                            lblInfoObjectChecksum.setText("");
+                        }
+
+                        if (dataObject.getResourceName() != null) {
+                            lblInfoObjectResource.setText(dataObject
+                                    .getResourceName());
+                        } else {
+                            lblInfoObjectResource.setText("");
+                        }
+
+                        if (dataObject.getDataReplicationNumber() >= 0) {
+                            lblInfoObjectReplicaNumber.setText(Integer
+                                    .toString(dataObject
+                                    .getDataReplicationNumber()));
+                        } else {
+                            lblInfoObjectReplicaNumber.setText("");
+                        }
+
+                        if (dataObject.getReplicationStatus() != null) {
+                            lblInfoObjectReplicationStatus.setText(dataObject
+                                    .getReplicationStatus());
+                        } else {
+                            lblInfoObjectReplicationStatus.setText("");
+                        }
+
+                        if (dataObject.getDataStatus() != null) {
+                            lblInfoObjectStatus.setText(dataObject
+                                    .getDataStatus());
+                        } else {
+                            lblInfoObjectStatus.setText("");
+                        }
+
+                        if (dataObject.getDataTypeName() != null) {
+                            lblInfoObjectType.setText(dataObject
+                                    .getDataTypeName());
+                        } else {
+                            lblInfoObjectType.setText("");
+                        }
+
+                        if (dataObject.getDataVersion() >= 0) {
+                            lblInfoObjectVersion.setText(Integer
+                                    .toString(dataObject.getDataVersion()));
+                        } else {
+                            lblInfoObjectVersion.setText("");
+                        }
+
+                        // now populate tags and comments for data object
+                        txtInfoTags.setText(freeTaggingService
+                                .getTagsForDataObjectInFreeTagForm(
+                                selectedObjectFullPath)
+                                .getSpaceDelimitedTagsForDomain());
+                        IRODSTagValue irodsTagValue = irodsTaggingService
+                                .getDescriptionOnDataObjectForLoggedInUser(selectedObjectFullPath);
+                        if (irodsTagValue != null) {
+                            textareaInfoComments.setText(irodsTagValue
+                                    .getTagData());
+                        }
+
                     }
 
-                    dialog.setCursor(Cursor
-                            .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                } catch (FileNotFoundException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (JargonException ex) {
+                    Exceptions.printStackTrace(ex);
                 }
-            });
-	}
 
-	private void initPermissionInfo() {
-            dialog = this;
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                @Override
-		public void run() {
+                dialog.setCursor(Cursor
+                        .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+    }
 
-                    dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+    private void initMetadataInfo() {
+        dialog = this;
 
-                    // this list of ACLs contains permission that are not suppoted?
-                    // List<FilePermissionEnum> permissions =
-                    // FilePermissionEnum.listAllValues();
-                    // for (FilePermissionEnum permission: permissions) {
-                    // cbPermissionsPermission.addItem(permission.name());
-                    // }
-                    // will just do my own for now
-                    // cbPermissionsPermission.addItem("NONE");
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                try {
+                    // set up metadata table and table model
+                    IRODSFileService irodsFileService = new IRODSFileService(
+                            irodsAccount, irodsFileSystem);
+                    MetadataTableModel metadataTableModel;
+
+                    if (isCollection()) {
+                        metadataTableModel = new MetadataTableModel(
+                                irodsFileService
+                                .getMetadataForCollection(selectedObjectFullPath));
+                    } else {
+                        metadataTableModel = new MetadataTableModel(
+                                irodsFileService.getMetadataForDataObject(
+                                selectedObjectParent,
+                                selectedObjectName));
+                    }
+                    tableMetadata.setModel(metadataTableModel);
+                    tableMetadata.getSelectionModel().addListSelectionListener(
+                            dialog);
+                    tableMetadata.addMouseListener(new MouseAdapter() {
+                        public void mouseClicked(MouseEvent evt) {
+                            if (evt.getClickCount() == 2) {
+                                Point pnt = evt.getPoint();
+                                int row = tableMetadata.rowAtPoint(pnt);
+                                MetadataTableModel model = (MetadataTableModel) tableMetadata.getModel();
+                                MetaDataAndDomainData metaDataAndDomainData = (MetaDataAndDomainData) model.getRow(row);
+                                AvuData avuData = new AvuData();
+                                String attr = metaDataAndDomainData.getAvuAttribute();
+                                avuData.setAttribute(attr);
+                                String value = metaDataAndDomainData.getAvuValue();
+                                avuData.setValue(value);
+                                String unit = metaDataAndDomainData.getAvuUnit();
+                                avuData.setUnit(unit);
+
+                                EditMetaDataDialog editMetaDataDialog = new EditMetaDataDialog(
+                                        null,
+                                        true,
+                                        row,
+                                        selectedObjectFullPath,
+                                        avuData,
+                                        isCollection(),
+                                        irodsFileSystem,
+                                        irodsAccount,
+                                        model);
+
+                                editMetaDataDialog.setLocation(
+                                        (int) dialog.getLocation().getX(), (int) dialog.getLocation().getY());
+                                editMetaDataDialog.setVisible(true);
+                            }
+                        }
+                    });
+                    tableMetadata.validate();
+
+                } catch (IdropException ex) {
+                    Logger.getLogger(MetadataViewDialog.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                    idropGUI.showIdropException(ex);
+                }
+
+                dialog.setCursor(Cursor
+                        .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+    }
+
+    private void initPermissionInfo() {
+        dialog = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+                // this list of ACLs contains permission that are not suppoted?
+                // List<FilePermissionEnum> permissions =
+                // FilePermissionEnum.listAllValues();
+                // for (FilePermissionEnum permission: permissions) {
+                // cbPermissionsPermission.addItem(permission.name());
+                // }
+                // will just do my own for now
+                // cbPermissionsPermission.addItem("NONE");
 //				javax.swing.JComboBox tableCombo = new javax.swing.JComboBox();
 //				tableCombo.addItem("READ");
 //				tableCombo.addItem("WRITE");
 //				tableCombo.addItem("OWN");
 
-                    // set up permission table and table model
-                    PermissionsTableModel permissionsTableModel = null;
-                    try {
-                        if (isCollection()) {
-                            CollectionAO collectionAO = irodsFileSystem
+                // set up permission table and table model
+                PermissionsTableModel permissionsTableModel = null;
+                try {
+                    if (isCollection()) {
+                        CollectionAO collectionAO = irodsFileSystem
                                 .getIRODSAccessObjectFactory().getCollectionAO(
                                 irodsAccount);
-                            permissionsTableModel = new PermissionsTableModel(
+                        permissionsTableModel = new PermissionsTableModel(
                                 collectionAO
                                 .listPermissionsForCollection(selectedObjectFullPath));
-                        } else {
+                    } else {
                         DataObjectAO dataObjectAO = irodsFileSystem
                                 .getIRODSAccessObjectFactory().getDataObjectAO(
                                 irodsAccount);
                         permissionsTableModel = new PermissionsTableModel(
                                 dataObjectAO
                                 .listPermissionsForDataObject(selectedObjectFullPath));
-                        }
-                    } catch (JargonException ex) {
-                        Exceptions.printStackTrace(ex);
                     }
+                } catch (JargonException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
 
-                    tablePermissions.setModel(permissionsTableModel);
-                    tablePermissions.getSelectionModel().addListSelectionListener(
+                tablePermissions.setModel(permissionsTableModel);
+                tablePermissions.getSelectionModel().addListSelectionListener(
                         dialog);
-                    tablePermissions.addMouseListener(new MouseAdapter() {
+                tablePermissions.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent evt) {
                         if (evt.getClickCount() == 2) {
                             Point pnt = evt.getPoint();
@@ -523,112 +524,111 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             UserFilePermission userFilePermission = (UserFilePermission) model.getRow(row);
 
                             EditPermissionsDialog editPermissionsDialog = new EditPermissionsDialog(
-                                        dialog,
-                                        true,
-                                        row,
-                                        selectedObjectFullPath,
-                                        userFilePermission,
-                                        isCollection(),
-                                        irodsFileSystem,
-                                        irodsAccount,
-                                        model);
+                                    dialog,
+                                    true,
+                                    row,
+                                    selectedObjectFullPath,
+                                    userFilePermission,
+                                    isCollection(),
+                                    irodsFileSystem,
+                                    irodsAccount,
+                                    model);
 
                             editPermissionsDialog.setLocation(
                                     (int) dialog.getLocation().getX(), (int) dialog.getLocation().getY());
                             editPermissionsDialog.setVisible(true);
                         }
                     }
-                    });
+                });
 //                  TableColumn permissionColumn = tablePermissions
 //                        .getColumnModel().getColumn(1);
 //                  permissionColumn
 //                        .setCellEditor(new DefaultCellEditor(tableCombo));
 //                  permissionsTableModel.resetOriginalPermissionList();
-                    tablePermissions.validate();
+                tablePermissions.validate();
 
-                    dialog.setCursor(Cursor
+                dialog.setCursor(Cursor
                         .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-            });
-	}
+            }
+        });
+    }
 
-	private boolean isCollection() {
+    private boolean isCollection() {
 
-		boolean state = false;
-		CollectionAndDataObjectListingEntry entry = null;
+        boolean state = false;
+        CollectionAndDataObjectListingEntry entry = null;
 
-		// perhaps should throw exception if these vital member variables are
-		// null
-		if ((selectedObjectFullPath != null) && (irodsFileSystem != null)
-				&& (irodsAccount != null)) {
-			CollectionAndDataObjectListAndSearchAOImpl collectionAndDataObjectListAndSearchAOImpl;
-			try {
-				collectionAndDataObjectListAndSearchAOImpl = (CollectionAndDataObjectListAndSearchAOImpl) irodsFileSystem
-						.getIRODSAccessObjectFactory()
-						.getCollectionAndDataObjectListAndSearchAO(irodsAccount);
-				entry = collectionAndDataObjectListAndSearchAOImpl
-						.getCollectionAndDataObjectListingEntryAtGivenAbsolutePath(selectedObjectFullPath);
-			} catch (JargonException ex) {
-				// TODO: respond correctly here
-				Exceptions.printStackTrace(ex);
-			}
+        // perhaps should throw exception if these vital member variables are
+        // null
+        if ((selectedObjectFullPath != null) && (irodsFileSystem != null)
+                && (irodsAccount != null)) {
+            CollectionAndDataObjectListAndSearchAOImpl collectionAndDataObjectListAndSearchAOImpl;
+            try {
+                collectionAndDataObjectListAndSearchAOImpl = (CollectionAndDataObjectListAndSearchAOImpl) irodsFileSystem
+                        .getIRODSAccessObjectFactory()
+                        .getCollectionAndDataObjectListAndSearchAO(irodsAccount);
+                entry = collectionAndDataObjectListAndSearchAOImpl
+                        .getCollectionAndDataObjectListingEntryAtGivenAbsolutePath(selectedObjectFullPath);
+            } catch (JargonException ex) {
+                // TODO: respond correctly here
+                Exceptions.printStackTrace(ex);
+            }
 
-			state = entry.isCollection();
-		}
+            state = entry.isCollection();
+        }
 
-		return state;
-	}
+        return state;
+    }
 
-	private void updateMetadataDeleteBtnStatus(final int selectedRowCount) {
-		// delete button should only be enabled when there is a tableMetadata
-		// selection
-		// add all text fields are populated
-		btnDeleteMetadata.setEnabled(selectedRowCount > 0);
-	}
+    private void updateMetadataDeleteBtnStatus(final int selectedRowCount) {
+        // delete button should only be enabled when there is a tableMetadata
+        // selection
+        // add all text fields are populated
+        btnDeleteMetadata.setEnabled(selectedRowCount > 0);
+    }
 
-	private void updatePermissionsDeleteBtnStatus(final int selectedRowCount) {
-		// delete button should only be enabled when there is a tableMetadata or
-		// tablePermissions selection
-		btnDeleteSharePermissions.setEnabled(selectedRowCount > 0);
-	}
+    private void updatePermissionsDeleteBtnStatus(final int selectedRowCount) {
+        // delete button should only be enabled when there is a tableMetadata or
+        // tablePermissions selection
+        btnDeleteSharePermissions.setEnabled(selectedRowCount > 0);
+    }
 
-	// ListSelectionListener methods
-	@Override
-	public void valueChanged(final ListSelectionEvent lse) {
-		int selectedRowCount = 0;
+    // ListSelectionListener methods
+    @Override
+    public void valueChanged(final ListSelectionEvent lse) {
+        int selectedRowCount = 0;
 
-		if (!lse.getValueIsAdjusting()) {
-			// determine which table is selected
-			// Metadata Table?
-			if (lse.getSource() == tableMetadata.getSelectionModel()) {
-				selectedRowCount = tableMetadata.getSelectedRowCount();
-				updateMetadataDeleteBtnStatus(selectedRowCount);
-			} else { // Permissions Table
-				selectedRowCount = tablePermissions.getSelectedRowCount();
-				updatePermissionsDeleteBtnStatus(selectedRowCount);
-			}
-		}
-	}
+        if (!lse.getValueIsAdjusting()) {
+            // determine which table is selected
+            // Metadata Table?
+            if (lse.getSource() == tableMetadata.getSelectionModel()) {
+                selectedRowCount = tableMetadata.getSelectedRowCount();
+                updateMetadataDeleteBtnStatus(selectedRowCount);
+            } else { // Permissions Table
+                selectedRowCount = tablePermissions.getSelectedRowCount();
+                updatePermissionsDeleteBtnStatus(selectedRowCount);
+            }
+        }
+    }
 
-	// end ListSelectionListener methods
-	// ActionListener Methods
-	@Override
-	public void actionPerformed(final ActionEvent ae) {
-		// if (ae.getSource() == cbPermissionsPermission ||
-		// ae.getSource() == cbPermissionsUserName) {
-		// updatePermissonsCreateBtnStatus();
-		// }
-	}
+    // end ListSelectionListener methods
+    // ActionListener Methods
+    @Override
+    public void actionPerformed(final ActionEvent ae) {
+        // if (ae.getSource() == cbPermissionsPermission ||
+        // ae.getSource() == cbPermissionsUserName) {
+        // updatePermissonsCreateBtnStatus();
+        // }
+    }
 
-	// end ActionListener Methods
-
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-	@SuppressWarnings("unchecked")
-	// <editor-fold defaultstate="collapsed"
+    // end ActionListener Methods
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -702,9 +702,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         jScrollPane2 = new javax.swing.JScrollPane();
         tableMetadata = new javax.swing.JTable();
         jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jPanel17 = new javax.swing.JPanel();
         btnAddMetadata = new javax.swing.JButton();
         btnDeleteMetadata = new javax.swing.JButton();
         pnlPermissionsTab = new javax.swing.JPanel();
@@ -712,9 +709,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         jScrollPane3 = new javax.swing.JScrollPane();
         tablePermissions = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jPanel16 = new javax.swing.JPanel();
         btnAddSharePermissions = new javax.swing.JButton();
         btnDeleteSharePermissions = new javax.swing.JButton();
         pnlReplication = new javax.swing.JPanel();
@@ -723,10 +717,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlReplicaionTools = new javax.swing.JPanel();
         btnReplicate = new javax.swing.JButton();
         pnlCloseBtn = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        btnClose = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -771,7 +763,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(lblInfoObjectName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                     .add(lblInfoObjectParent, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(346, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         pnlSelectedObjectLayout.setVerticalGroup(
             pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -784,7 +776,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(lblInfoObjectParent))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanel1.add(pnlSelectedObject, java.awt.BorderLayout.PAGE_START);
@@ -914,7 +906,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel27)
                     .add(lblInfoCollectionInfo2))
-                .addContainerGap(289, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pnlInfoCards.add(pnlCollectionInfo, "cardCollectionInfo");
@@ -1020,7 +1012,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             .add(lblInfoObjectStatus, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(lblInfoObjectType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(lblInfoObjectVersion, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(330, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         pnlObjectInfoLayout.setVerticalGroup(
             pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1084,7 +1076,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel16)
                     .add(lblInfoObjectVersion))
-                .addContainerGap(281, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pnlInfoCards.add(pnlObjectInfo, "cardObjectInfo");
@@ -1121,7 +1113,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jLabel17)
                             .add(jLabel18))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 345, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 83, Short.MAX_VALUE)
                         .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(txtInfoTags)
                             .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE))
@@ -1188,50 +1180,36 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
         jPanel10.setPreferredSize(new java.awt.Dimension(568, 44));
-        jPanel10.setLayout(new java.awt.BorderLayout());
+        jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jPanel11.setPreferredSize(new java.awt.Dimension(100, 44));
-
-        org.jdesktop.layout.GroupLayout jPanel11Layout = new org.jdesktop.layout.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 40, Short.MAX_VALUE)
-        );
-
-        jPanel10.add(jPanel11, java.awt.BorderLayout.EAST);
-
-        jPanel12.setPreferredSize(new java.awt.Dimension(100, 25));
-        jPanel12.setLayout(new java.awt.BorderLayout());
-
-        jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 1));
-
+        btnAddMetadata.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
+        btnAddMetadata.setMnemonic('+');
         btnAddMetadata.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddMetadata.text")); // NOI18N
-        btnAddMetadata.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnAddMetadata.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddMetadata.toolTipText")); // NOI18N
+        btnAddMetadata.setMaximumSize(null);
+        btnAddMetadata.setMinimumSize(null);
+        btnAddMetadata.setPreferredSize(null);
         btnAddMetadata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddMetadataActionPerformed(evt);
             }
         });
-        jPanel17.add(btnAddMetadata);
+        jPanel10.add(btnAddMetadata);
 
+        btnDeleteMetadata.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnDeleteMetadata.setMnemonic('-');
         btnDeleteMetadata.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnDeleteMetadata.text")); // NOI18N
+        btnDeleteMetadata.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnDeleteMetadata.toolTipText")); // NOI18N
         btnDeleteMetadata.setEnabled(false);
-        btnDeleteMetadata.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnDeleteMetadata.setMaximumSize(null);
+        btnDeleteMetadata.setMinimumSize(null);
+        btnDeleteMetadata.setPreferredSize(null);
         btnDeleteMetadata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteMetadataActionPerformed(evt);
             }
         });
-        jPanel17.add(btnDeleteMetadata);
-
-        jPanel12.add(jPanel17, java.awt.BorderLayout.WEST);
-
-        jPanel10.add(jPanel12, java.awt.BorderLayout.WEST);
+        jPanel10.add(btnDeleteMetadata);
 
         pnlMetadataTable.add(jPanel10, java.awt.BorderLayout.SOUTH);
 
@@ -1275,51 +1253,37 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlPermissionsTable.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
-        jPanel7.setPreferredSize(new java.awt.Dimension(568, 44));
-        jPanel7.setLayout(new java.awt.BorderLayout());
+        jPanel7.setMinimumSize(null);
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jPanel8.setPreferredSize(new java.awt.Dimension(100, 44));
-
-        org.jdesktop.layout.GroupLayout jPanel8Layout = new org.jdesktop.layout.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 40, Short.MAX_VALUE)
-        );
-
-        jPanel7.add(jPanel8, java.awt.BorderLayout.EAST);
-
-        jPanel9.setPreferredSize(new java.awt.Dimension(100, 25));
-        jPanel9.setLayout(new java.awt.BorderLayout());
-
-        jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 1));
-
+        btnAddSharePermissions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
+        btnAddSharePermissions.setMnemonic('+');
         btnAddSharePermissions.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddSharePermissions.text")); // NOI18N
-        btnAddSharePermissions.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnAddSharePermissions.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddSharePermissions.toolTipText")); // NOI18N
+        btnAddSharePermissions.setMaximumSize(null);
+        btnAddSharePermissions.setMinimumSize(null);
+        btnAddSharePermissions.setPreferredSize(null);
         btnAddSharePermissions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddSharePermissionsActionPerformed(evt);
             }
         });
-        jPanel16.add(btnAddSharePermissions);
+        jPanel7.add(btnAddSharePermissions);
 
+        btnDeleteSharePermissions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnDeleteSharePermissions.setMnemonic('-');
         btnDeleteSharePermissions.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnDeleteSharePermissions.text")); // NOI18N
+        btnDeleteSharePermissions.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnDeleteSharePermissions.toolTipText")); // NOI18N
         btnDeleteSharePermissions.setEnabled(false);
-        btnDeleteSharePermissions.setPreferredSize(new java.awt.Dimension(22, 24));
+        btnDeleteSharePermissions.setMaximumSize(null);
+        btnDeleteSharePermissions.setMinimumSize(null);
+        btnDeleteSharePermissions.setPreferredSize(null);
         btnDeleteSharePermissions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteSharePermissionsActionPerformed(evt);
             }
         });
-        jPanel16.add(btnDeleteSharePermissions);
-
-        jPanel9.add(jPanel16, java.awt.BorderLayout.WEST);
-
-        jPanel7.add(jPanel9, java.awt.BorderLayout.WEST);
+        jPanel7.add(btnDeleteSharePermissions);
 
         pnlPermissionsTable.add(jPanel7, java.awt.BorderLayout.SOUTH);
 
@@ -1341,6 +1305,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         pnlReplicaionTools.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
+        btnReplicate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_464_server_plus.png"))); // NOI18N
+        btnReplicate.setMnemonic('p');
         btnReplicate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnReplicate.text")); // NOI18N
         btnReplicate.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnReplicate.toolTipText")); // NOI18N
         btnReplicate.addActionListener(new java.awt.event.ActionListener() {
@@ -1356,59 +1322,38 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         jPanel1.add(tabbedpanelMain, java.awt.BorderLayout.CENTER);
 
-        pnlCloseBtn.setPreferredSize(new java.awt.Dimension(589, 35));
-        pnlCloseBtn.setLayout(new java.awt.BorderLayout());
+        pnlCloseBtn.setMinimumSize(null);
+        pnlCloseBtn.setPreferredSize(null);
+        pnlCloseBtn.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(100, 40));
-
-        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 35, Short.MAX_VALUE)
-        );
-
-        pnlCloseBtn.add(jPanel3, java.awt.BorderLayout.WEST);
-
-        btnClose.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnClose.text")); // NOI18N
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
-            }
-        });
-
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
+        btnRefresh.setMnemonic('r');
         btnRefresh.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnRefresh.text")); // NOI18N
+        btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnRefresh.toolTipText")); // NOI18N
+        btnRefresh.setMaximumSize(null);
+        btnRefresh.setMinimumSize(null);
+        btnRefresh.setPreferredSize(null);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshActionPerformed(evt);
             }
         });
+        pnlCloseBtn.add(btnRefresh);
 
-        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(417, Short.MAX_VALUE)
-                .add(btnRefresh)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnClose)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel4Layout.createSequentialGroup()
-                .add(0, 6, Short.MAX_VALUE)
-                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnClose)
-                    .add(btnRefresh)))
-        );
-
-        pnlCloseBtn.add(jPanel4, java.awt.BorderLayout.EAST);
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnClose.setMnemonic('c');
+        btnClose.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.text")); // NOI18N
+        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.toolTipText")); // NOI18N
+        btnClose.setMaximumSize(null);
+        btnClose.setMinimumSize(null);
+        btnClose.setName(""); // NOI18N
+        btnClose.setPreferredSize(null);
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        pnlCloseBtn.add(btnClose);
 
         jPanel1.add(pnlCloseBtn, java.awt.BorderLayout.PAGE_END);
 
@@ -1418,7 +1363,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReplicateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReplicateActionPerformed
-         List<Resource> currentResources;
+        List<Resource> currentResources;
         int replicatedCount = 0;
         // build a list of the current resources, if a data object, will be used
         // to decide what to replicate
@@ -1487,7 +1432,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         }
 
         final int replicationsDone = replicatedCount;
-            final iDrop gui = idropGUI;
+        final iDrop gui = idropGUI;
 
         // now dispose
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1512,7 +1457,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     }//GEN-LAST:event_tabbedpanelMainComponentShown
 
     private void pnlReplicationComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlReplicationComponentShown
-       setUpReplicationData();
+        setUpReplicationData();
     }//GEN-LAST:event_pnlReplicationComponentShown
 
     private void btnAddMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMetadataActionPerformed
@@ -1534,7 +1479,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     }//GEN-LAST:event_btnAddMetadataActionPerformed
 
     private void btnDeleteMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMetadataActionPerformed
-        
+
         if ((JOptionPane.showConfirmDialog(this,
                 "Are you sure you wish to delete the selected metadata?",
                 "Delete Metadata",
@@ -1562,7 +1507,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                     value = (String) tableMetadata.getValueAt(selectedRow, 1);
                     unit = (String) tableMetadata.getValueAt(selectedRow, 2);
                     avuData = new AvuData(attr, value, unit);
-                                
+
                     if (isCollection()) {
                         collectionAO = irodsFileSystem
                                 .getIRODSAccessObjectFactory().getCollectionAO(
@@ -1599,9 +1544,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         }
     }//GEN-LAST:event_btnDeleteMetadataActionPerformed
 
-	
-    
-     private void setUpReplicationData() {
+    private void setUpReplicationData() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -1652,8 +1595,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         });
 
     }
-    
-      private List<Resource> buildCurrentResourcesList() throws IdropException {
+
+    private List<Resource> buildCurrentResourcesList() throws IdropException {
         // if a file, then see if it's already on the resc, otherwise add a
         // replicate
         // if this is a file, list current resources for this data object
@@ -1676,251 +1619,251 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         }
         return currentResources;
     }
-    
+
     private void btnMetadataCreateActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMetadataCreateActionPerformed
-	}// GEN-LAST:event_btnMetadataCreateActionPerformed
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMetadataCreateActionPerformed
+    }// GEN-LAST:event_btnMetadataCreateActionPerformed
 
-	private void btnUpdateTagsCommentsActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateTagsCommentsActionPerformed
+    private void btnUpdateTagsCommentsActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateTagsCommentsActionPerformed
 
-		TaggingServiceFactory taggingServiceFactory = null;
-		;
-		IRODSTagValue irodsTagValue = null;
+        TaggingServiceFactory taggingServiceFactory = null;
+        ;
+        IRODSTagValue irodsTagValue = null;
 
-		try {
-			taggingServiceFactory = new TaggingServiceFactoryImpl(
-					irodsFileSystem.getIRODSAccessObjectFactory());
-			FreeTaggingService freeTaggingService = taggingServiceFactory
-					.instanceFreeTaggingService(irodsAccount);
-			IRODSTaggingService irodsTaggingService = taggingServiceFactory
-					.instanceIrodsTaggingService(irodsAccount);
+        try {
+            taggingServiceFactory = new TaggingServiceFactoryImpl(
+                    irodsFileSystem.getIRODSAccessObjectFactory());
+            FreeTaggingService freeTaggingService = taggingServiceFactory
+                    .instanceFreeTaggingService(irodsAccount);
+            IRODSTaggingService irodsTaggingService = taggingServiceFactory
+                    .instanceIrodsTaggingService(irodsAccount);
 
-			// first update the tags
-			String newTagStr = txtInfoTags.getText();
-			if (newTagStr != null) { // && !newTagStr.isEmpty()) {
+            // first update the tags
+            String newTagStr = txtInfoTags.getText();
+            if (newTagStr != null) { // && !newTagStr.isEmpty()) {
 
-				// now need to diff against existing tags to see what to add and
-				// what to delete
-				String existingTags = null;
-				if (isCollection()) {
-					existingTags = freeTaggingService
-							.getTagsForCollectionInFreeTagForm(
-									selectedObjectFullPath)
-							.getSpaceDelimitedTagsForDomain();
-				} else {
-					existingTags = freeTaggingService
-							.getTagsForDataObjectInFreeTagForm(
-									selectedObjectFullPath)
-							.getSpaceDelimitedTagsForDomain();
-				}
+                // now need to diff against existing tags to see what to add and
+                // what to delete
+                String existingTags = null;
+                if (isCollection()) {
+                    existingTags = freeTaggingService
+                            .getTagsForCollectionInFreeTagForm(
+                            selectedObjectFullPath)
+                            .getSpaceDelimitedTagsForDomain();
+                } else {
+                    existingTags = freeTaggingService
+                            .getTagsForDataObjectInFreeTagForm(
+                            selectedObjectFullPath)
+                            .getSpaceDelimitedTagsForDomain();
+                }
 
-				List<String> existingTagList = Arrays.asList(existingTags
-						.split(" "));
-				List<String> newTagsList = Arrays.asList(newTagStr.split(" +"));
+                List<String> existingTagList = Arrays.asList(existingTags
+                        .split(" "));
+                List<String> newTagsList = Arrays.asList(newTagStr.split(" +"));
 
-				// find tags to delete and remove them
-				Set<String> tagsToDeleteSet = new HashSet<String>(
-						existingTagList);
-				tagsToDeleteSet.removeAll(newTagsList);
-				String[] tagsToDelete = tagsToDeleteSet.toArray(new String[0]);
-				for (String tag : tagsToDelete) {
-					if (tag.length() > 0) {
-						irodsTagValue = new IRODSTagValue(tag,
-								irodsAccount.getUserName());
-						if (isCollection()) {
-							irodsTaggingService.deleteTagFromCollection(
-									selectedObjectFullPath, irodsTagValue);
-						} else {
-							irodsTaggingService.deleteTagFromDataObject(
-									selectedObjectFullPath, irodsTagValue);
-						}
-					}
-				}
+                // find tags to delete and remove them
+                Set<String> tagsToDeleteSet = new HashSet<String>(
+                        existingTagList);
+                tagsToDeleteSet.removeAll(newTagsList);
+                String[] tagsToDelete = tagsToDeleteSet.toArray(new String[0]);
+                for (String tag : tagsToDelete) {
+                    if (tag.length() > 0) {
+                        irodsTagValue = new IRODSTagValue(tag,
+                                irodsAccount.getUserName());
+                        if (isCollection()) {
+                            irodsTaggingService.deleteTagFromCollection(
+                                    selectedObjectFullPath, irodsTagValue);
+                        } else {
+                            irodsTaggingService.deleteTagFromDataObject(
+                                    selectedObjectFullPath, irodsTagValue);
+                        }
+                    }
+                }
 
-				// find tags to add
-				Set<String> tagsToAddSet = new HashSet<String>(newTagsList);
-				tagsToAddSet.removeAll(existingTagList);
-				String[] tagsToAdd = tagsToAddSet.toArray(new String[0]);
+                // find tags to add
+                Set<String> tagsToAddSet = new HashSet<String>(newTagsList);
+                tagsToAddSet.removeAll(existingTagList);
+                String[] tagsToAdd = tagsToAddSet.toArray(new String[0]);
 
-				for (String tag : tagsToAdd) {
-					if (tag.length() > 0) {
-						irodsTagValue = new IRODSTagValue(tag,
-								irodsAccount.getUserName());
-						if (isCollection()) {
-							irodsTaggingService.addTagToCollection(
-									selectedObjectFullPath, irodsTagValue);
-						} else {
-							irodsTaggingService.addTagToDataObject(
-									selectedObjectFullPath, irodsTagValue);
-						}
-					}
-				}
-			}
+                for (String tag : tagsToAdd) {
+                    if (tag.length() > 0) {
+                        irodsTagValue = new IRODSTagValue(tag,
+                                irodsAccount.getUserName());
+                        if (isCollection()) {
+                            irodsTaggingService.addTagToCollection(
+                                    selectedObjectFullPath, irodsTagValue);
+                        } else {
+                            irodsTaggingService.addTagToDataObject(
+                                    selectedObjectFullPath, irodsTagValue);
+                        }
+                    }
+                }
+            }
 
-			// now update comments
-			String commentStr = textareaInfoComments.getText();
-			if (commentStr != null && !commentStr.isEmpty()) {
+            // now update comments
+            String commentStr = textareaInfoComments.getText();
+            if (commentStr != null && !commentStr.isEmpty()) {
 
-				// update comments
-				irodsTagValue = new IRODSTagValue(commentStr,
-						irodsAccount.getUserName());
-				if (isCollection()) {
-					irodsTaggingService.checkAndUpdateDescriptionOnCollection(
-							selectedObjectFullPath, irodsTagValue);
-				} else {
-					irodsTaggingService.checkAndUpdateDescriptionOnDataObject(
-							selectedObjectFullPath, irodsTagValue);
-				}
-			} else {
-				// remove all comments
-				if (isCollection()) {
-					irodsTagValue = irodsTaggingService
-							.getDescriptionOnCollectionForLoggedInUser(selectedObjectFullPath);
-					if (irodsTagValue != null) {
-						irodsTaggingService.deleteDescriptionFromCollection(
-								selectedObjectFullPath, irodsTagValue);
-					}
-				} else {
-					irodsTagValue = irodsTaggingService
-							.getDescriptionOnDataObjectForLoggedInUser(selectedObjectFullPath);
-					if (irodsTagValue != null) {
-						irodsTaggingService.deleteDescriptionFromDataObject(
-								selectedObjectFullPath, irodsTagValue);
-					}
-				}
-			}
+                // update comments
+                irodsTagValue = new IRODSTagValue(commentStr,
+                        irodsAccount.getUserName());
+                if (isCollection()) {
+                    irodsTaggingService.checkAndUpdateDescriptionOnCollection(
+                            selectedObjectFullPath, irodsTagValue);
+                } else {
+                    irodsTaggingService.checkAndUpdateDescriptionOnDataObject(
+                            selectedObjectFullPath, irodsTagValue);
+                }
+            } else {
+                // remove all comments
+                if (isCollection()) {
+                    irodsTagValue = irodsTaggingService
+                            .getDescriptionOnCollectionForLoggedInUser(selectedObjectFullPath);
+                    if (irodsTagValue != null) {
+                        irodsTaggingService.deleteDescriptionFromCollection(
+                                selectedObjectFullPath, irodsTagValue);
+                    }
+                } else {
+                    irodsTagValue = irodsTaggingService
+                            .getDescriptionOnDataObjectForLoggedInUser(selectedObjectFullPath);
+                    if (irodsTagValue != null) {
+                        irodsTaggingService.deleteDescriptionFromDataObject(
+                                selectedObjectFullPath, irodsTagValue);
+                    }
+                }
+            }
 
-			JOptionPane.showMessageDialog(this,
-					"Tags and Comments Sucessfully Updated",
-					"Update Tags and Comments", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Tags and Comments Sucessfully Updated",
+                    "Update Tags and Comments", JOptionPane.PLAIN_MESSAGE);
 
-		} catch (CatNoAccessException cna) {
-			log.error("no access to collection for tagging", cna);
-			JOptionPane.showMessageDialog(this,
-					"Insufficient privilages to update this data");
+        } catch (CatNoAccessException cna) {
+            log.error("no access to collection for tagging", cna);
+            JOptionPane.showMessageDialog(this,
+                    "Insufficient privilages to update this data");
 
-		} catch (JargonException ex) {
-			Exceptions.printStackTrace(ex);
-			JOptionPane.showMessageDialog(this,
-					"Update of Tags and Comments Failed");
-		}
-	}// GEN-LAST:event_btnUpdateTagsCommentsActionPerformed
+        } catch (JargonException ex) {
+            Exceptions.printStackTrace(ex);
+            JOptionPane.showMessageDialog(this,
+                    "Update of Tags and Comments Failed");
+        }
+    }// GEN-LAST:event_btnUpdateTagsCommentsActionPerformed
 
-	private void btnCloseActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCloseActionPerformed
-		dispose();
-	}// GEN-LAST:event_btnCloseActionPerformed
+    private void btnCloseActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCloseActionPerformed
+        dispose();
+    }// GEN-LAST:event_btnCloseActionPerformed
 
-	private void btnMetadataClearActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMetadataClearActionPerformed
-	}// GEN-LAST:event_btnMetadataClearActionPerformed
+    private void btnMetadataClearActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMetadataClearActionPerformed
+    }// GEN-LAST:event_btnMetadataClearActionPerformed
 
-	private void btnMetadataDeleteActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMetadataDeleteActionPerformed
-	}// GEN-LAST:event_btnMetadataDeleteActionPerformed
+    private void btnMetadataDeleteActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMetadataDeleteActionPerformed
+    }// GEN-LAST:event_btnMetadataDeleteActionPerformed
 
-	private void btnRefreshActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshActionPerformed
+    private void btnRefreshActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshActionPerformed
 
-		if (tabbedpanelMain.getSelectedComponent() == pnlInfoTab) {
-			initializeFileInfo();
-		} else if (tabbedpanelMain.getSelectedComponent() == pnlMetadataTab) {
-			initMetadataInfo();
-		} else { // permissions tab
-			initPermissionInfo();
-		}
-	}// GEN-LAST:event_btnRefreshActionPerformed
+        if (tabbedpanelMain.getSelectedComponent() == pnlInfoTab) {
+            initializeFileInfo();
+        } else if (tabbedpanelMain.getSelectedComponent() == pnlMetadataTab) {
+            initMetadataInfo();
+        } else { // permissions tab
+            initPermissionInfo();
+        }
+    }// GEN-LAST:event_btnRefreshActionPerformed
 
-	private void btnPermissionsSaveActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsSaveActionPerformed
-	}// GEN-LAST:event_btnPermissionsSaveActionPerformed
+    private void btnPermissionsSaveActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsSaveActionPerformed
+    }// GEN-LAST:event_btnPermissionsSaveActionPerformed
 
-	private void btnAddSharePermissionsActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAddSharePermissionsActionPerformed
-            
-            PermissionsTableModel model = (PermissionsTableModel) tablePermissions.getModel();
+    private void btnAddSharePermissionsActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAddSharePermissionsActionPerformed
 
-            AddPermissionsDialog addPermissionsDialog = new AddPermissionsDialog(
-                    this,
-                    true,
-                    selectedObjectFullPath,
-                    isCollection(),
-                    irodsFileSystem,
-                    irodsAccount,
-                    model);
+        PermissionsTableModel model = (PermissionsTableModel) tablePermissions.getModel();
 
-            addPermissionsDialog.setLocation((int) this.getLocation().getX(),
-                    (int) this.getLocation().getY());
-            addPermissionsDialog.setVisible(true);
+        AddPermissionsDialog addPermissionsDialog = new AddPermissionsDialog(
+                this,
+                true,
+                selectedObjectFullPath,
+                isCollection(),
+                irodsFileSystem,
+                irodsAccount,
+                model);
+
+        addPermissionsDialog.setLocation((int) this.getLocation().getX(),
+                (int) this.getLocation().getY());
+        addPermissionsDialog.setVisible(true);
 
 //            UserFilePermission userFilePermission = addPermissionsDialog
 //                    .getPermissionToAdd();
-	}// GEN-LAST:event_btnAddSharePermissionsActionPerformed
+    }// GEN-LAST:event_btnAddSharePermissionsActionPerformed
 
-	private void btnDeleteSharePermissionsActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeleteSharePermissionsActionPerformed
+    private void btnDeleteSharePermissionsActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeleteSharePermissionsActionPerformed
 
-            int[] selectedRows = tablePermissions.getSelectedRows();
-            int numRowsSelected = selectedRows.length;
+        int[] selectedRows = tablePermissions.getSelectedRows();
+        int numRowsSelected = selectedRows.length;
 
-            String msg1 = "Are you sure you wish to delete the selected permission?";
-            String msg2 = "Permission Deleted Successfully";
-            if (selectedRows.length > 1) {
-                msg1 = "Are you sure you wish to delete the selected permissions?";
-                msg2 = "Permissions Deleted Successfully";
-            }
+        String msg1 = "Are you sure you wish to delete the selected permission?";
+        String msg2 = "Permission Deleted Successfully";
+        if (selectedRows.length > 1) {
+            msg1 = "Are you sure you wish to delete the selected permissions?";
+            msg2 = "Permissions Deleted Successfully";
+        }
 
-            if ((JOptionPane.showConfirmDialog(this,
-                    msg1,
-                    "Delete Metadata",
-                    JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
+        if ((JOptionPane.showConfirmDialog(this,
+                msg1,
+                "Delete Metadata",
+                JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
 
-                PermissionsTableModel model = (PermissionsTableModel) tablePermissions
-                        .getModel();
-                try {
-                    // first remove from iRODS
-                    for (int selectedRow : selectedRows) {
+            PermissionsTableModel model = (PermissionsTableModel) tablePermissions
+                    .getModel();
+            try {
+                // first remove from iRODS
+                for (int selectedRow : selectedRows) {
 
-                        UserFilePermission permission = model.getRow(selectedRow);
+                    UserFilePermission permission = model.getRow(selectedRow);
 
-                        if (isCollection()) {
-                            CollectionAO collectionAO = irodsFileSystem
-                                    .getIRODSAccessObjectFactory().getCollectionAO(
-                                    irodsAccount);
-                            collectionAO.removeAccessPermissionForUser(
-                                    permission.getUserZone(), selectedObjectFullPath,
-                                    permission.getUserName(), true);
-                        } else {
-                            DataObjectAO dataObjectAO = irodsFileSystem
-                                    .getIRODSAccessObjectFactory().getDataObjectAO(
-                                    irodsAccount);
-                            dataObjectAO.removeAccessPermissionsForUser(
-                                    permission.getUserZone(), selectedObjectFullPath,
-                                    permission.getUserName());
-                        }
+                    if (isCollection()) {
+                        CollectionAO collectionAO = irodsFileSystem
+                                .getIRODSAccessObjectFactory().getCollectionAO(
+                                irodsAccount);
+                        collectionAO.removeAccessPermissionForUser(
+                                permission.getUserZone(), selectedObjectFullPath,
+                                permission.getUserName(), true);
+                    } else {
+                        DataObjectAO dataObjectAO = irodsFileSystem
+                                .getIRODSAccessObjectFactory().getDataObjectAO(
+                                irodsAccount);
+                        dataObjectAO.removeAccessPermissionsForUser(
+                                permission.getUserZone(), selectedObjectFullPath,
+                                permission.getUserName());
                     }
-
-                    // now remove from table
-                    // have to remove rows in reverse
-                    for (int i = numRowsSelected - 1; i >= 0; i--) {
-                        int selectedRow = selectedRows[i];
-                        if (selectedRow >= 0) {
-    //                    PermissionsTableModel model = (PermissionsTableModel) tablePermissions
-    //                            .getModel();
-                            model.deleteRow(selectedRow);
-    //                        btnPermissionsSave.setEnabled(true);
-                        }
-                    }
-
-                    JOptionPane.showMessageDialog(this,
-                            msg2,
-                            "Delete Permission", JOptionPane.PLAIN_MESSAGE);
-                } catch (JargonException ex) {
-                    log.error("permission delete failed", ex);
-                    JOptionPane.showMessageDialog(this, "Permission Delete Failed",
-                            "Delete Permission", JOptionPane.PLAIN_MESSAGE);
                 }
+
+                // now remove from table
+                // have to remove rows in reverse
+                for (int i = numRowsSelected - 1; i >= 0; i--) {
+                    int selectedRow = selectedRows[i];
+                    if (selectedRow >= 0) {
+                        //                    PermissionsTableModel model = (PermissionsTableModel) tablePermissions
+                        //                            .getModel();
+                        model.deleteRow(selectedRow);
+                        //                        btnPermissionsSave.setEnabled(true);
+                    }
+                }
+
+                JOptionPane.showMessageDialog(this,
+                        msg2,
+                        "Delete Permission", JOptionPane.PLAIN_MESSAGE);
+            } catch (JargonException ex) {
+                log.error("permission delete failed", ex);
+                JOptionPane.showMessageDialog(this, "Permission Delete Failed",
+                        "Delete Permission", JOptionPane.PLAIN_MESSAGE);
             }
-	}// GEN-LAST:event_btnDeleteSharePermissionsActionPerformed
+        }
+    }// GEN-LAST:event_btnDeleteSharePermissionsActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddMetadata;
     private javax.swing.JButton btnAddSharePermissions;
@@ -1958,16 +1901,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
