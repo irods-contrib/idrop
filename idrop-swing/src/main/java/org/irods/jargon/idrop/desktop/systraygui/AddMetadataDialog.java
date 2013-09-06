@@ -231,15 +231,19 @@ public class AddMetadataDialog extends javax.swing.JDialog implements DocumentLi
                         avuData.getAttribute(),
                         avuData.getValue(),
                         avuData.getUnit());
+            
+              JOptionPane.showMessageDialog(this,
+                        "Metadata Added Successfully",
+                        "Add Metadata", JOptionPane.PLAIN_MESSAGE);
+            
         } catch (JargonException ex) {
             log.error("cannot add metadata", ex);
             JOptionPane.showMessageDialog(this, "Metadata Add Failed",
                     "Add Metadata", JOptionPane.PLAIN_MESSAGE);
+            
         }
         
-        JOptionPane.showMessageDialog(this,
-                        "Metadata Added Successfully",
-                        "Add Metadata", JOptionPane.PLAIN_MESSAGE);
+      
 
         this.dispose();
     }//GEN-LAST:event_btnAddActionPerformed
