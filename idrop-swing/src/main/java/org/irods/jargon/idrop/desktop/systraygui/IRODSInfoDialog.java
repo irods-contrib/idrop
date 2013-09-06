@@ -760,6 +760,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlReplication.add(pnlReplicaionTools, java.awt.BorderLayout.SOUTH);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 10, 10, 10));
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 750));

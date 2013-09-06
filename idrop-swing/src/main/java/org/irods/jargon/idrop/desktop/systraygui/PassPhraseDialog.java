@@ -77,7 +77,8 @@ public class PassPhraseDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(410, 200));
+        setMinimumSize(null);
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 14, 4, 14));
         jPanel1.setPreferredSize(new java.awt.Dimension(0, 90));
@@ -93,6 +94,8 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 14, 4, 14));
+        jPanel2.setMinimumSize(null);
+        jPanel2.setPreferredSize(new java.awt.Dimension(300, 200));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.jLabel1.text")); // NOI18N

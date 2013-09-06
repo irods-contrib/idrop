@@ -281,7 +281,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(580, 350));
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
         pnlGridInfoTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
         pnlGridInfoTable.setPreferredSize(new java.awt.Dimension(600, 150));

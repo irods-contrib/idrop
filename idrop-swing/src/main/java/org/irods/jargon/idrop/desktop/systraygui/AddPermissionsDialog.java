@@ -132,8 +132,7 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.title")); // NOI18N
-        setBackground(java.awt.Color.white);
-        setPreferredSize(new java.awt.Dimension(460, 180));
+        setPreferredSize(new java.awt.Dimension(300, 200));
 
         pnlMain.setLayout(new java.awt.BorderLayout());
 
@@ -176,8 +175,6 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         pnlMain.add(pnlPermissionEdit, java.awt.BorderLayout.CENTER);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 6, 1));
-        jPanel1.setMinimumSize(null);
-        jPanel1.setPreferredSize(null);
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnPermissionsCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N

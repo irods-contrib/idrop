@@ -467,6 +467,10 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.title")); // NOI18N
+        setMinimumSize(null);
+        setPreferredSize(new java.awt.Dimension(1000, 600));
+
+        pnlTop.setMinimumSize(null);
 
         org.jdesktop.layout.GroupLayout pnlTopLayout = new org.jdesktop.layout.GroupLayout(pnlTop);
         pnlTop.setLayout(pnlTopLayout);
@@ -481,6 +485,14 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
 
+        pnlCenter.setMinimumSize(null);
+        pnlCenter.setPreferredSize(null);
+
+        tabConfig.setMinimumSize(null);
+        tabConfig.setPreferredSize(null);
+
+        pnlConfigIdrop.setMinimumSize(null);
+        pnlConfigIdrop.setPreferredSize(null);
         pnlConfigIdrop.setLayout(new java.awt.GridBagLayout());
 
         checkShowGUI.setMnemonic('s');
@@ -523,7 +535,12 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigIdrop.TabConstraints.tabTitle"), pnlConfigIdrop); // NOI18N
 
+        pnlConfigTransfers.setMinimumSize(null);
+        pnlConfigTransfers.setPreferredSize(null);
+
         pnlTransferManagement.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlTransferManagement.border.title"))); // NOI18N
+        pnlTransferManagement.setMinimumSize(null);
+        pnlTransferManagement.setPreferredSize(null);
         pnlTransferManagement.setLayout(new java.awt.GridBagLayout());
 
         checkLogSuccessfulTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.checkLogSuccessfulTransfer.text")); // NOI18N
@@ -615,7 +632,12 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigTransfers.TabConstraints.tabTitle"), pnlConfigTransfers); // NOI18N
 
+        pnlPipelineConfiguration.setMinimumSize(null);
+        pnlPipelineConfiguration.setPreferredSize(null);
+
         plnPipelineConfigurationDetails.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.plnPipelineConfigurationDetails.border.title"))); // NOI18N
+        plnPipelineConfigurationDetails.setMinimumSize(null);
+        plnPipelineConfigurationDetails.setPreferredSize(null);
         plnPipelineConfigurationDetails.setLayout(new java.awt.GridBagLayout());
 
         lblIrodsSocketTimeout.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblIrodsSocketTimeout.text")); // NOI18N
@@ -882,6 +904,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         getContentPane().add(pnlCenter, java.awt.BorderLayout.CENTER);
 
+        pnlBottom.setMinimumSize(null);
+        pnlBottom.setPreferredSize(null);
         pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N

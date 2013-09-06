@@ -240,7 +240,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(600, 420));
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
         pnlFileSection.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
         pnlFileSection.setPreferredSize(new java.awt.Dimension(600, 350));
@@ -280,8 +280,6 @@ public class DownloadDialog extends javax.swing.JDialog implements
 
         pnlDownloadFileContainer.add(scrollPanelFilesToDownload, java.awt.BorderLayout.CENTER);
 
-        pnlAddDelete.setMinimumSize(null);
-        pnlAddDelete.setPreferredSize(null);
         pnlAddDelete.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         btnAddDownloadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
@@ -312,7 +310,6 @@ public class DownloadDialog extends javax.swing.JDialog implements
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel4.setName(""); // NOI18N
-        jPanel4.setPreferredSize(null);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.jLabel1.text")); // NOI18N
@@ -374,7 +371,6 @@ public class DownloadDialog extends javax.swing.JDialog implements
         getContentPane().add(pnlFileSection, java.awt.BorderLayout.CENTER);
 
         pnlUploadDownloadButtons.setMinimumSize(new java.awt.Dimension(200, 80));
-        pnlUploadDownloadButtons.setPreferredSize(null);
         pnlUploadDownloadButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N

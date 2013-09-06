@@ -55,14 +55,11 @@ public class NavPopupDialog extends javax.swing.JDialog {
         tblBreadcrumbs = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(300, 200));
 
-        pnlBreadcrumbPopupContent.setMinimumSize(null);
-        pnlBreadcrumbPopupContent.setPreferredSize(null);
         pnlBreadcrumbPopupContent.setLayout(new java.awt.GridBagLayout());
 
         toolbarBreadcrumb.setRollover(true);
-        toolbarBreadcrumb.setMinimumSize(null);
-        toolbarBreadcrumb.setPreferredSize(null);
 
         btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
         btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoHomeTargetTree.text")); // NOI18N
@@ -120,8 +117,6 @@ public class NavPopupDialog extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnlBreadcrumbPopupContent.add(toolbarBreadcrumb, gridBagConstraints);
 
-        scrollBreadcrumbs.setPreferredSize(null);
-
         tblBreadcrumbs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
@@ -148,6 +143,8 @@ public class NavPopupDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tblBreadcrumbs.setMinimumSize(null);
+        tblBreadcrumbs.setPreferredSize(null);
         tblBreadcrumbs.setShowVerticalLines(false);
         scrollBreadcrumbs.setViewportView(tblBreadcrumbs);
 

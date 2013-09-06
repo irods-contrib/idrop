@@ -136,7 +136,7 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements DocumentL
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(450, 220));
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
@@ -169,7 +169,7 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements DocumentL
                     .add(txtUnit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(txtValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(txtAttribute, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -186,7 +186,7 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements DocumentL
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel3)
                     .add(txtUnit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -212,7 +212,10 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements DocumentL
 
         jPanel5.setPreferredSize(new java.awt.Dimension(200, 40));
 
-        btnCancel.setLabel(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnCancel.label")); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -220,7 +223,9 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements DocumentL
         });
         jPanel5.add(btnCancel);
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnUpdate.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnUpdate.text")); // NOI18N
+        btnUpdate.setToolTipText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnUpdate.toolTipText")); // NOI18N
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);

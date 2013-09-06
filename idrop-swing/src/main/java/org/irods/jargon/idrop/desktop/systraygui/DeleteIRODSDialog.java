@@ -143,8 +143,6 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
 
         lblTitle = new javax.swing.JLabel();
         pnlFolderData = new javax.swing.JPanel();
-        pnlCurrentParent = new javax.swing.JPanel();
-        lblCurrentFolder = new java.awt.Label();
         scrollFileToDelete = new javax.swing.JScrollPane();
         txtAreaFileToDelete = new javax.swing.JTextArea();
         pnlBottom = new javax.swing.JPanel();
@@ -156,41 +154,18 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
         lblTitle.setText("Please hit OK to delete the following file/folder from iRODS");
         getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
+        pnlFolderData.setPreferredSize(new java.awt.Dimension(300, 200));
         pnlFolderData.setLayout(new java.awt.GridLayout(0, 1));
-
-        lblCurrentFolder.setText("File/folder to delete:");
 
         txtAreaFileToDelete.setEditable(false);
         txtAreaFileToDelete.setColumns(20);
         txtAreaFileToDelete.setLineWrap(true);
         txtAreaFileToDelete.setRows(5);
+        txtAreaFileToDelete.setMinimumSize(null);
+        txtAreaFileToDelete.setPreferredSize(null);
         scrollFileToDelete.setViewportView(txtAreaFileToDelete);
 
-        org.jdesktop.layout.GroupLayout pnlCurrentParentLayout = new org.jdesktop.layout.GroupLayout(pnlCurrentParent);
-        pnlCurrentParent.setLayout(pnlCurrentParentLayout);
-        pnlCurrentParentLayout.setHorizontalGroup(
-            pnlCurrentParentLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlCurrentParentLayout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
-                .add(lblCurrentFolder, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(scrollFileToDelete, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 413, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        pnlCurrentParentLayout.setVerticalGroup(
-            pnlCurrentParentLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlCurrentParentLayout.createSequentialGroup()
-                .add(pnlCurrentParentLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(pnlCurrentParentLayout.createSequentialGroup()
-                        .add(35, 35, 35)
-                        .add(lblCurrentFolder, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(pnlCurrentParentLayout.createSequentialGroup()
-                        .add(22, 22, 22)
-                        .add(scrollFileToDelete, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        pnlFolderData.add(pnlCurrentParent);
+        pnlFolderData.add(scrollFileToDelete);
 
         getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
 
@@ -238,10 +213,8 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
-    private java.awt.Label lblCurrentFolder;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlBottom;
-    private javax.swing.JPanel pnlCurrentParent;
     private javax.swing.JPanel pnlFolderData;
     private javax.swing.JScrollPane scrollFileToDelete;
     private javax.swing.JTextArea txtAreaFileToDelete;

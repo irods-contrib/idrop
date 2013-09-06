@@ -54,7 +54,7 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(450, 220));
+        setPreferredSize(new java.awt.Dimension(300, 200));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 14, 4, 14));
         jPanel2.setLayout(new java.awt.GridBagLayout());

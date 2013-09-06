@@ -168,9 +168,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 										targetAbsolutePath);
 							}
 						} catch (JargonFileOrCollAlreadyExistsException ex) {
-							Logger.getLogger(
-									MoveOrCopyiRODSDialog.class.getName()).log(
-									Level.SEVERE, null, ex);
+							log.error("Coll already exists", ex);
 							filesThatHadOverwriteError.add(irodsFile);
 						} catch (JargonException je) {
 							if (je.getMessage().indexOf("-834000") > -1
@@ -200,9 +198,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 								}
 							} catch (JargonFileOrCollAlreadyExistsException ex) {
 								// FIXME: fix in jargon core to differentiate!
-								Logger.getLogger(
-										MoveOrCopyiRODSDialog.class.getName())
-										.log(Level.SEVERE, null, ex);
+								log.error("coll already exists", ex);
 								filesThatHadOverwriteError.add(irodsFile);
 							} catch (JargonException je) {
 								if (je.getMessage().indexOf("-834000") > -1
@@ -310,8 +306,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 			// idropGUI.getiDropCore().getIrodsAccount());
 
 		} catch (JargonException ex) {
-			Logger.getLogger(MoveOrCopyiRODSDialog.class.getName()).log(
-					Level.SEVERE, null, ex);
+			log.error("jargon exception", ex);
 			throw new IdropException(
 					"unable to copy file due to JargonException", ex);
 		}
@@ -346,7 +341,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(590, 260));
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
         pnlFolderData.setPreferredSize(new java.awt.Dimension(540, 240));
         pnlFolderData.setLayout(new java.awt.BorderLayout());

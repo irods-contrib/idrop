@@ -82,224 +82,102 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		lblTitle = new javax.swing.JLabel();
-		pnlFolderData = new javax.swing.JPanel();
-		pnlCurrentParent = new javax.swing.JPanel();
-		lblCurrentParent = new java.awt.Label();
-		lblNewDiretoryName = new java.awt.Label();
-		txtCurrentFolder = new javax.swing.JTextField();
-		txtNewFolder = new javax.swing.JTextField();
-		pnlBottom = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnOK = new javax.swing.JButton();
+        lblTitle = new javax.swing.JLabel();
+        pnlFolderData = new javax.swing.JPanel();
+        lblCurrentParent = new java.awt.Label();
+        lblNewDiretoryName = new java.awt.Label();
+        txtCurrentFolder = new javax.swing.JTextField();
+        txtNewFolder = new javax.swing.JTextField();
+        pnlBottom = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnOK = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("iDrop - Rename local file or directory");
-		setName("NewParentDialog"); // NOI18N
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("iDrop - Rename local file or directory");
+        setMinimumSize(new java.awt.Dimension(600, 300));
+        setName("NewParentDialog"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
-		lblTitle.setText("Please enter a new name for the file or collection");
+        lblTitle.setText("Please enter a new name for the file or collection");
+        getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
-		lblCurrentParent.setText("Current name:");
+        pnlFolderData.setMinimumSize(null);
+        pnlFolderData.setPreferredSize(null);
+        pnlFolderData.setLayout(new java.awt.GridBagLayout());
 
-		lblNewDiretoryName.setText("New name:");
+        lblCurrentParent.setText("Current name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(59, 116, 0, 0);
+        pnlFolderData.add(lblCurrentParent, gridBagConstraints);
 
-		txtCurrentFolder.setColumns(50);
-		txtCurrentFolder.setEditable(false);
-		txtCurrentFolder
-				.setToolTipText("A name for the new folder underneath the displayed parent");
-		txtCurrentFolder.setFocusable(false);
+        lblNewDiretoryName.setText("New name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 132, 60, 0);
+        pnlFolderData.add(lblNewDiretoryName, gridBagConstraints);
+        lblNewDiretoryName.getAccessibleContext().setAccessibleName("New directory name:");
 
-		txtNewFolder.setColumns(50);
-		txtNewFolder
-				.setToolTipText("A name for the new folder underneath the displayed parent");
+        txtCurrentFolder.setEditable(false);
+        txtCurrentFolder.setColumns(50);
+        txtCurrentFolder.setToolTipText("A name for the new folder underneath the displayed parent");
+        txtCurrentFolder.setFocusable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 415;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(59, 10, 0, 147);
+        pnlFolderData.add(txtCurrentFolder, gridBagConstraints);
 
-		btnCancel.setText("Cancel");
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
+        txtNewFolder.setColumns(50);
+        txtNewFolder.setToolTipText("A name for the new folder underneath the displayed parent");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 415;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 60, 147);
+        pnlFolderData.add(txtNewFolder, gridBagConstraints);
 
-		btnOK.setText("OK");
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKActionPerformed(evt);
-			}
-		});
+        getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
 
-		org.jdesktop.layout.GroupLayout pnlBottomLayout = new org.jdesktop.layout.GroupLayout(
-				pnlBottom);
-		pnlBottom.setLayout(pnlBottomLayout);
-		pnlBottomLayout.setHorizontalGroup(pnlBottomLayout.createParallelGroup(
-				org.jdesktop.layout.GroupLayout.LEADING).add(
-				pnlBottomLayout.createSequentialGroup().add(576, 576, 576)
-						.add(btnCancel).add(5, 5, 5).add(btnOK)));
-		pnlBottomLayout
-				.setVerticalGroup(pnlBottomLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(pnlBottomLayout
-								.createSequentialGroup()
-								.add(5, 5, 5)
-								.add(pnlBottomLayout
-										.createParallelGroup(
-												org.jdesktop.layout.GroupLayout.LEADING)
-										.add(btnCancel).add(btnOK))));
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		org.jdesktop.layout.GroupLayout pnlCurrentParentLayout = new org.jdesktop.layout.GroupLayout(
-				pnlCurrentParent);
-		pnlCurrentParent.setLayout(pnlCurrentParentLayout);
-		pnlCurrentParentLayout
-				.setHorizontalGroup(pnlCurrentParentLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(org.jdesktop.layout.GroupLayout.TRAILING,
-								pnlCurrentParentLayout
-										.createSequentialGroup()
-										.addContainerGap(30, Short.MAX_VALUE)
-										.add(pnlCurrentParentLayout
-												.createParallelGroup(
-														org.jdesktop.layout.GroupLayout.TRAILING)
-												.add(lblCurrentParent,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-														org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-												.add(lblNewDiretoryName,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-														org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(pnlCurrentParentLayout
-												.createParallelGroup(
-														org.jdesktop.layout.GroupLayout.TRAILING,
-														false)
-												.add(txtNewFolder, 0, 0,
-														Short.MAX_VALUE)
-												.add(txtCurrentFolder,
-														org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-														421, Short.MAX_VALUE))
-										.add(213, 213, 213))
-						.add(pnlCurrentParentLayout
-								.createSequentialGroup()
-								.add(pnlBottom,
-										org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-										747,
-										org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(
-										org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)));
-		pnlCurrentParentLayout
-				.setVerticalGroup(pnlCurrentParentLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(pnlCurrentParentLayout
-								.createSequentialGroup()
-								.add(58, 58, 58)
-								.add(pnlCurrentParentLayout
-										.createParallelGroup(
-												org.jdesktop.layout.GroupLayout.LEADING)
-										.add(lblCurrentParent,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-										.add(txtCurrentFolder,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(
-										org.jdesktop.layout.LayoutStyle.RELATED)
-								.add(pnlCurrentParentLayout
-										.createParallelGroup(
-												org.jdesktop.layout.GroupLayout.LEADING)
-										.add(txtNewFolder,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-										.add(lblNewDiretoryName,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(
-										org.jdesktop.layout.LayoutStyle.RELATED,
-										22, Short.MAX_VALUE)
-								.add(pnlBottom,
-										org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-										org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-										org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
+        btnCancel.setToolTipText("Cancel the operation");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnCancel);
 
-		lblNewDiretoryName.getAccessibleContext().setAccessibleName(
-				"New directory name:");
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('o');
+        btnOK.setToolTipText("Proceed with the rename");
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnOK);
 
-		org.jdesktop.layout.GroupLayout pnlFolderDataLayout = new org.jdesktop.layout.GroupLayout(
-				pnlFolderData);
-		pnlFolderData.setLayout(pnlFolderDataLayout);
-		pnlFolderDataLayout.setHorizontalGroup(pnlFolderDataLayout
-				.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-				.add(pnlFolderDataLayout
-						.createSequentialGroup()
-						.add(pnlCurrentParent,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-								757,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)));
-		pnlFolderDataLayout.setVerticalGroup(pnlFolderDataLayout
-				.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-				.add(pnlFolderDataLayout
-						.createSequentialGroup()
-						.add(pnlCurrentParent,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)));
+        getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
-		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
-				getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-				.add(layout
-						.createSequentialGroup()
-						.add(layout
-								.createParallelGroup(
-										org.jdesktop.layout.GroupLayout.LEADING)
-								.add(lblTitle,
-										org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-										747,
-										org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-								.add(pnlFolderData,
-										org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-										org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-										org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout
-				.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-				.add(layout
-						.createSequentialGroup()
-						.add(lblTitle)
-						.addPreferredGap(
-								org.jdesktop.layout.LayoutStyle.RELATED)
-						.add(pnlFolderData,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
+        getAccessibleContext().setAccessibleName("Rename file or folder dialog");
 
-		getAccessibleContext()
-				.setAccessibleName("Rename file or folder dialog");
-
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
@@ -308,29 +186,17 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
 	private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
 		doRename();
 	}// GEN-LAST:event_btnOKActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnCancel;
-
-	private javax.swing.JButton btnOK;
-
-	private java.awt.Label lblCurrentParent;
-
-	private java.awt.Label lblNewDiretoryName;
-
-	private javax.swing.JLabel lblTitle;
-
-	private javax.swing.JPanel pnlBottom;
-
-	private javax.swing.JPanel pnlCurrentParent;
-
-	private javax.swing.JPanel pnlFolderData;
-
-	private javax.swing.JTextField txtCurrentFolder;
-
-	private javax.swing.JTextField txtNewFolder;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
+    private java.awt.Label lblCurrentParent;
+    private java.awt.Label lblNewDiretoryName;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlFolderData;
+    private javax.swing.JTextField txtCurrentFolder;
+    private javax.swing.JTextField txtNewFolder;
+    // End of variables declaration//GEN-END:variables
 	private void doRename() {
 		// add the new folder to irods, add to the tree, and scroll the tree
 		// into view

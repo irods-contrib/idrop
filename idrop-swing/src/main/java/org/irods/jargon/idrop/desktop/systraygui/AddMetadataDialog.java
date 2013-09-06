@@ -117,7 +117,7 @@ public class AddMetadataDialog extends javax.swing.JDialog implements DocumentLi
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(450, 220));
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
