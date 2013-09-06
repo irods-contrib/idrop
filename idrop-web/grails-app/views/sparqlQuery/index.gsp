@@ -11,7 +11,7 @@
 
 <div class="tab-content">
 	<div class="tab-pane active" id="hiveQueryTab">
-		<g:render template="/sparqlQuery/hiveQueryForm" />
+		<g:render template="/sparqlQuery/hiveQuery" />
 	</div>
 	<div class="tab-pane" id="resultsTab">
 		<div id="resultsTabInner">Results Here...

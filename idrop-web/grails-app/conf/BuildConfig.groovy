@@ -35,7 +35,8 @@ grails.project.dependency.resolution = {
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
 
-		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ("stax-api","xml-apis", "xercesImpl", "aduna-commons-lang")}
+		
+		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') //{ excludes ("stax-api","xml-apis", "xercesImpl", "aduna-commons-lang")}
 		compile ('org.irods.jargon:jargon-hive-irods:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang")}
 		compile ('org.irods.jargon:jargon-core:3.3.3-SNAPSHOT') { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-data-utils:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
@@ -48,6 +49,8 @@ grails.project.dependency.resolution = {
 		compile('com.google.gwt:gwt-servlet:2.4.0')
 		compile('org.openrdf.sesame:sesame-sail-nativerdf:2.2.4')
 		compile('org.irods.jargon:hive-core:1.0-SNAPSHOT')
+		compile ('org.irods.jargon:jargon-hive-3store-integration:1.0-SNAPSHOT')
+		
 
 
 	}

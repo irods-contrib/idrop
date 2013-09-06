@@ -117,6 +117,7 @@ class HiveController {
 			render(view:"vocabSelectionList", model:[vocabs:vocabularies,absPath:absPath])
 		} else {
 			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies,selectedTerms:selectedTerms,currentVocab:currentVocab])  // add selectedTerms to the model
+			//forward(action:"/sparqlQuery/index", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies,selectedTerms:selectedTerms,currentVocab:currentVocab]) 
 		}
 	}
 

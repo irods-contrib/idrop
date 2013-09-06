@@ -529,6 +529,10 @@ h6 {
   color: inherit;
   text-rendering: optimizelegibility;
 }
+h3 bootstrap {
+	font-family: Helvetica, Arial, sans-serif;
+}
+
 h1 small,
 h2 small,
 h3 small,

@@ -42,8 +42,6 @@
 								onclick="processVocabularySelection('${selectedVocabulary}')">
 								${selectedVocabulary}
 							</button>
-						
-						
 						</g:else>
 					</div>
 				</g:each>
@@ -65,7 +63,6 @@
 	</div>
 		
 	<div class="container-fluid">
-
 		<div class="row-fluid" id="appliedTermList">
 			<div class="span12">
 				<g:render template="/hive/selectedTermList" />

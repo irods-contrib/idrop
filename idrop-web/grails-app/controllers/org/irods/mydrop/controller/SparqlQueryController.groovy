@@ -3,6 +3,9 @@ package org.irods.mydrop.controller
 import grails.plugins.rest.client.RestBuilder
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
+import org.irods.jargon.hive.service.VocabularyService;
+import org.irods.mydrop.service.HiveService;
 
 
 class SparqlQueryController {
@@ -11,6 +14,11 @@ class SparqlQueryController {
 	//VocabularyService vocabularyService
 	//HiveService hiveService
 	def grailsApplication
+	
+	IRODSAccessObjectFactory irodsAccessObjectFactory
+	
+	VocabularyService vocabularyService
+	HiveService hiveService
 
 
 	/**
@@ -35,9 +43,11 @@ class SparqlQueryController {
 
 	public SparqlQueryController() {
 	}
-
+	
 	def index() {
+		
 	}
+
 
 	/**
 	 * Do a canned search by the given vocabulary term

@@ -14,7 +14,7 @@
 	</div>
 	<!-- display area lays out info in a main and side column -->
 	<div class="well">
-		<image style="float:left;margin-right:10px;"
+		<image style="float:left; margin-right:10px; margin-top:10px;"
 			src="<g:resource dir="images" file="folder.png" alt="folder icon" />" />
 		<h3>
 			${collection.collectionName}

@@ -106,9 +106,9 @@
 				</g:if>
 				<div class="row-fluid">
 					<div class="span10 offset2">
-						<h5>
+						<h4>
 							<g:message code="text.narrower.terms" />
-						</h5>
+						</h4>
 					</div>
 				</div>
 				<div class="row-fluid" id="conceptBrowserNarrower">
@@ -121,9 +121,9 @@
 			<div class="container-fluid">
 				<div class="row-fluid">
 					<div class="span10 offset2">
-						<h5>
+						<h4>
 							<g:message code="text.broader.terms" />
-						</h5>
+						</h4>
 					</div>
 				</div>
 				<div class="row-fluid" id="conceptBrowserBroader">
@@ -154,9 +154,9 @@
 				</div>
 				<div class="row-fluid">
 					<div class="span10 offset2">
-						<h5>
+						<h4>
 							<g:message code="text.related.terms" />
-						</h5>
+						</h4>
 					</div>
 				</div>
 				<div class="row-fluid" id="conceptBrowserRelated">
