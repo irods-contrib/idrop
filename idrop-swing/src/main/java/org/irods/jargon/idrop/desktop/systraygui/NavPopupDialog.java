@@ -64,6 +64,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
         btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
         btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoHomeTargetTree.text")); // NOI18N
         btnGoHomeTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoHomeTargetTree.toolTipText")); // NOI18N
+        btnGoHomeTargetTree.setBorder(null);
         btnGoHomeTargetTree.setFocusable(false);
         btnGoHomeTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGoHomeTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -79,6 +80,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
         btnGoRootTargetTree.setMnemonic('r');
         btnGoRootTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoRootTargetTree.text")); // NOI18N
         btnGoRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoRootTargetTree.toolTipText")); // NOI18N
+        btnGoRootTargetTree.setBorder(null);
         btnGoRootTargetTree.setFocusable(false);
         btnGoRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGoRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -100,6 +102,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
         btnSetCustomRootTargetTree.setMnemonic('r');
         btnSetCustomRootTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnSetCustomRootTargetTree.text")); // NOI18N
         btnSetCustomRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnSetCustomRootTargetTree.toolTipText")); // NOI18N
+        btnSetCustomRootTargetTree.setBorder(null);
         btnSetCustomRootTargetTree.setFocusable(false);
         btnSetCustomRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSetCustomRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -160,21 +163,21 @@ public class NavPopupDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 609, Short.MAX_VALUE)
+            .addGap(0, 877, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 18, Short.MAX_VALUE)
                     .addComponent(pnlBreadcrumbPopupContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 18, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 448, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 5, Short.MAX_VALUE)
                     .addComponent(pnlBreadcrumbPopupContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 5, Short.MAX_VALUE)))
         );
 
         pack();

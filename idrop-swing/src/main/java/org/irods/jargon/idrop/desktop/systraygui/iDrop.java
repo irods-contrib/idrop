@@ -311,7 +311,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     root.setParentPath(baseFile.getParent());
                     root.setPathOrName(baseFile.getAbsolutePath());
                     root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
-                    getiDropCore().setBasePath(baseFile.getParent());
+                    getiDropCore().setBasePath(baseFile.getAbsolutePath());
                     
                 }
                 

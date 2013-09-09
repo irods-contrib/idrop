@@ -285,9 +285,12 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnTransferInfo.setMnemonic('i');
         btnTransferInfo.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.text")); // NOI18N
         btnTransferInfo.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.toolTipText")); // NOI18N
+        btnTransferInfo.setBorder(null);
         btnTransferInfo.setEnabled(false);
         btnTransferInfo.setFocusable(false);
         btnTransferInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnTransferInfo.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnTransferInfo.setSize(new java.awt.Dimension(80, 80));
         btnTransferInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnTransferInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,8 +306,10 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnPurgeAll.setMnemonic('a');
         btnPurgeAll.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.text")); // NOI18N
         btnPurgeAll.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.toolTipText")); // NOI18N
+        btnPurgeAll.setBorder(null);
         btnPurgeAll.setFocusable(false);
         btnPurgeAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPurgeAll.setPreferredSize(new java.awt.Dimension(80, 80));
         btnPurgeAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPurgeAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,8 +323,10 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnPurgeSuccessful.setMnemonic('x');
         btnPurgeSuccessful.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.text")); // NOI18N
         btnPurgeSuccessful.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.toolTipText")); // NOI18N
+        btnPurgeSuccessful.setBorder(null);
         btnPurgeSuccessful.setFocusable(false);
         btnPurgeSuccessful.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPurgeSuccessful.setPreferredSize(new java.awt.Dimension(120, 80));
         btnPurgeSuccessful.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBarTop.add(btnPurgeSuccessful);
         toolBarTop.add(filler4);
@@ -330,9 +337,11 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnRemoveSelected.setMnemonic('d');
         btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.text")); // NOI18N
         btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.toolTipText")); // NOI18N
+        btnRemoveSelected.setBorder(null);
         btnRemoveSelected.setEnabled(false);
         btnRemoveSelected.setFocusable(false);
         btnRemoveSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRemoveSelected.setPreferredSize(new java.awt.Dimension(80, 80));
         btnRemoveSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -346,9 +355,13 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnCancel.setMnemonic('l');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setBorder(null);
         btnCancel.setEnabled(false);
         btnCancel.setFocusable(false);
         btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancel.setMaximumSize(null);
+        btnCancel.setMinimumSize(null);
+        btnCancel.setPreferredSize(new java.awt.Dimension(80, 80));
         btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -362,9 +375,11 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnRestartSelected.setMnemonic('t');
         btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.text")); // NOI18N
         btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.toolTipText")); // NOI18N
+        btnRestartSelected.setBorder(null);
         btnRestartSelected.setEnabled(false);
         btnRestartSelected.setFocusable(false);
         btnRestartSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRestartSelected.setPreferredSize(new java.awt.Dimension(80, 80));
         btnRestartSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRestartSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -378,9 +393,11 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnResubmitSelected.setMnemonic('b');
         btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.text")); // NOI18N
         btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.toolTipText")); // NOI18N
+        btnResubmitSelected.setBorder(null);
         btnResubmitSelected.setEnabled(false);
         btnResubmitSelected.setFocusable(false);
         btnResubmitSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnResubmitSelected.setPreferredSize(new java.awt.Dimension(80, 80));
         btnResubmitSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnResubmitSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -396,8 +413,10 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         btnRefresh.setMnemonic('f');
         btnRefresh.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.text")); // NOI18N
         btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.toolTipText")); // NOI18N
+        btnRefresh.setBorder(null);
         btnRefresh.setFocusable(false);
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRefresh.setPreferredSize(new java.awt.Dimension(80, 80));
         btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

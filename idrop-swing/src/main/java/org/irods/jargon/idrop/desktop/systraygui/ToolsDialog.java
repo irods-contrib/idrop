@@ -58,7 +58,7 @@ public class ToolsDialog extends javax.swing.JDialog {
         setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         setName("ToolsDialog"); // NOI18N
         setResizable(false);
-        setType(java.awt.Window.Type.POPUP);
+        //setType(java.awt.Window.Type.POPUP);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
         pnlButtons.setLayout(new java.awt.GridBagLayout());
