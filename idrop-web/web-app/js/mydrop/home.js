@@ -93,6 +93,8 @@ function retrieveBrowserFirstView(type, path, pathSelectedInTree) {
 	dataTreePath = path;
 	requestedSelectedPath = pathSelectedInTree;
 	
+	//alert("requestedSelectedPath:" + requestedSelectedPath);
+	
 	$.bbq.pushState(state);
 
 	var parms = {
@@ -200,10 +202,10 @@ function browserFirstViewRetrieved(data) {
 	
     
 	$("#dataTreeDiv").bind("loaded.jstree", function(e, data) {
-		if (requestedSelectedPath) {
+		
+		//alert("tree loaded stuff now");
+		if (!requestedSelectedPath) {
 			selectTreePathFromIrodsPath(requestedSelectedPath);
-		} else {
-			
 		}
 	});
 	
@@ -267,6 +269,7 @@ function browserFirstViewRetrieved(data) {
 	 * 
 	 * otherwise, just use the root of the tree as the initial selection
 	 */
+	//alert("path stuff now");
 	if (selectedPath) {
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	} else if (requestedSelectedPath) {
@@ -666,7 +669,7 @@ function updateBrowseDetailsForPathBasedOnCurrentModel(absPath) {
 	}
 
 	if (browseOptionVal == null || browseOptionVal == "") {
-		browseOptionVal = "browse";
+		browseOptionVal = "info";
 	}
 
 	setPathCrumbtrail(absPath);
