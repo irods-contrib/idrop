@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.border.TitledBorder;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.core.transfer.TransferStatus;
+import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
 import org.irods.jargon.transfer.dao.domain.TransferType;
@@ -53,8 +54,10 @@ public class TransferInfoDialog extends javax.swing.JDialog {
             toPath = transfer.getIrodsAbsolutePath();
         }
         
-        lblTransferFrom.setText(fromPath);
-        lblTransferTo.setText(toPath);
+        lblTransferFrom.setText(MiscIRODSUtils.abbreviateFileName(fromPath));
+        lblTransferFrom.setToolTipText(fromPath);
+        lblTransferTo.setText(MiscIRODSUtils.abbreviateFileName(toPath));
+        lblTransferTo.setToolTipText(toPath);
         
         // also build string for later use
         StringBuilder sb = new StringBuilder();
@@ -400,6 +403,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlMain = new javax.swing.JPanel();
         pnlTop = new javax.swing.JPanel();
@@ -408,7 +412,6 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlTransferInfo = new javax.swing.JPanel();
         lblTransferType = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         lblTransferFrom = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         lblTransferTo = new javax.swing.JLabel();
@@ -448,25 +451,40 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlTop.add(toolBatTop, java.awt.BorderLayout.NORTH);
 
         pnlTransferInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 0, 6, 0));
-        pnlTransferInfo.setPreferredSize(new java.awt.Dimension(172, 50));
+        pnlTransferInfo.setLayout(new java.awt.GridBagLayout());
 
         lblTransferType.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.lblTransferType.text")); // NOI18N
-        pnlTransferInfo.add(lblTransferType);
+        pnlTransferInfo.add(lblTransferType, new java.awt.GridBagConstraints());
 
         jLabel4.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.jLabel4.text")); // NOI18N
-        pnlTransferInfo.add(jLabel4);
-
-        jLabel5.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.jLabel5.text")); // NOI18N
-        pnlTransferInfo.add(jLabel5);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTransferInfo.add(jLabel4, gridBagConstraints);
 
         lblTransferFrom.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.lblTransferFrom.text")); // NOI18N
-        pnlTransferInfo.add(lblTransferFrom);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferInfo.add(lblTransferFrom, gridBagConstraints);
 
         jLabel6.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.jLabel6.text")); // NOI18N
-        pnlTransferInfo.add(jLabel6);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTransferInfo.add(jLabel6, gridBagConstraints);
 
         lblTransferTo.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.lblTransferTo.text")); // NOI18N
-        pnlTransferInfo.add(lblTransferTo);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferInfo.add(lblTransferTo, gridBagConstraints);
 
         pnlTop.add(pnlTransferInfo, java.awt.BorderLayout.CENTER);
 
@@ -496,8 +514,6 @@ public class TransferInfoDialog extends javax.swing.JDialog {
 
         pnlTransferAttempt.add(pnlTransferAttemptInfo, java.awt.BorderLayout.CENTER);
 
-        pnlButtons.setMinimumSize(null);
-        pnlButtons.setPreferredSize(null);
         pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_198_ok.png"))); // NOI18N
@@ -540,7 +556,6 @@ public class TransferInfoDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnShowFiles;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
