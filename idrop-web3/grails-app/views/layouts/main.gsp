@@ -11,4 +11,5 @@
   <body>
    <g:layoutBody/>
   </body>
+  <g:javascript src="controllers/global_interceptors.js" />
 </html>

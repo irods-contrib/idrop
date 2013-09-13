@@ -2,13 +2,11 @@
 <meta name="layout" content="main" />
 <g:javascript src="controllers/login.js" />
 </head>
-<div ng-controller="LoginCtrl" class="container">
+<div class="container"  ng-controller="LoginCtrl" >
 	<form class="form-horizontal" action='' method="POST">
 		<fieldset>
 			<div id="legend">
-				<legend class="">
 					<g:message code="text.login" />
-				</legend>
 			</div>
 
 			<div class="control-group">
@@ -17,7 +15,7 @@
 						code="text.host" /></label>
 				<div class="controls">
 					<input type="text" id="host" name="host" placeholder=""
-						class="input-xlarge">
+						class="input-xlarge" ng-model="login.host">
 				</div>
 			</div>
 
@@ -27,7 +25,7 @@
 						code="text.port" /></label>
 				<div class="controls">
 					<input type="text" id="port" name="port" placeholder="1247"
-						class="input-xlarge">
+						class="input-xlarge" ng-model="login.port">
 				</div>
 			</div>
 
@@ -37,7 +35,7 @@
 						code="text.zone" /></label>
 				<div class="controls">
 					<input type="text" id="zone" name="zone" placeholder=""
-						class="input-xlarge">
+						class="input-xlarge" ng-model="login.zone">
 				</div>
 			</div>
 
@@ -47,7 +45,7 @@
 						code="text.username" /></label>
 				<div class="controls">
 					<input type="text" id="username" name="username" placeholder=""
-						class="input-xlarge">
+						class="input-xlarge" ng-model="login.username">
 				</div>
 			</div>
 
@@ -57,7 +55,7 @@
 						code="text.password" /></label>
 				<div class="controls">
 					<input type="password" id="password" name="password" placeholder=""
-						class="input-xlarge">
+						class="input-xlarge" ng-model="login.password">
 				</div>
 			</div>
 
@@ -66,14 +64,17 @@
 				<label class="control-label" for="authtype"><g:message
 						code="text.auth.type" /></label>
 				<div class="controls">
-					<g:select name="authMethod" from="${['Standard', 'PAM']}" value=""  />
+					<g:select name="authMethod" from="${['Standard', 'PAM']}" value="" ng-model="login.authmethod"  />
 				</div>
 			</div>
 
 			<div class="control-group">
 				<!-- Button -->
 				<div class="controls">
-					<button class="btn btn-success button-pad">
+				<button class="btn btn-success button-pad" ng-click="doReset()">
+						<g:message code="text.reset" />
+					</button>
+					<button class="btn btn-success button-pad" ng-click="doLogin()">
 						<g:message code="text.login" />
 					</button>
 				</div>

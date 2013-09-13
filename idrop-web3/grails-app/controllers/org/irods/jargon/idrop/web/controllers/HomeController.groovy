@@ -3,15 +3,17 @@ package org.irods.jargon.idrop.web.controllers
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 
+
 class HomeController {
 
    IRODSAccessObjectFactory irodsAccessObjectFactory
+   IRODSAccount irodsAccount
+   
 
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
 	def beforeInterceptor = [action:this.&auth, except:'link']
-	IRODSAccount irodsAccount
 
 	def auth() {
 		if(!session["SPRING_SECURITY_CONTEXT"]) {
@@ -28,7 +30,6 @@ class HomeController {
 
 	def index() {
 		log.info("index")
-		boolean shareSupported = sharingService.isSharingSupported(irodsAccount)
-		render(view:"index", model:[shareSupported:shareSupported])
+		render(view:"index", model:[])
 	}
 }
