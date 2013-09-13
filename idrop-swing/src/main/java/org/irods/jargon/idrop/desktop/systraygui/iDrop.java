@@ -1413,7 +1413,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         java.awt.GridBagConstraints gridBagConstraints;
 
         btnMainToolbarSync = new javax.swing.JButton();
-        togglePauseTransfer = new javax.swing.JToggleButton();
         pnlMainToolbarIcons = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         btnMainToolbarTree = new javax.swing.JButton();
@@ -1470,6 +1469,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         lblTransferByteCounts = new javax.swing.JLabel();
         pnlTransferOptions = new javax.swing.JPanel();
         idropProgressPanelToolbar = new javax.swing.JToolBar();
+        togglePauseTransfer = new javax.swing.JToggleButton();
         progressIconImageLabel = new javax.swing.JLabel();
         pnlIdropGutter = new javax.swing.JPanel();
         lblHostLabel = new javax.swing.JLabel();
@@ -1494,19 +1494,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarSync.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMainToolbarSyncActionPerformed(evt);
-            }
-        });
-
-        togglePauseTransfer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_174_pause.png"))); // NOI18N
-        togglePauseTransfer.setMnemonic('p');
-        togglePauseTransfer.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.text")); // NOI18N
-        togglePauseTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.toolTipText")); // NOI18N
-        togglePauseTransfer.setFocusable(false);
-        togglePauseTransfer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        togglePauseTransfer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        togglePauseTransfer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                togglePauseTransferActionPerformed(evt);
             }
         });
 
@@ -1639,7 +1626,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jToolBar1.add(filler7);
 
         btnMainToolbarInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
-        btnMainToolbarInfo.setBorder(null);
         btnMainToolbarInfo.setBorderPainted(false);
         btnMainToolbarInfo.setFocusable(false);
         btnMainToolbarInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -1884,6 +1870,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         idropProgressPanelToolbar.setFloatable(false);
         idropProgressPanelToolbar.setRollover(true);
+
+        togglePauseTransfer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_174_pause.png"))); // NOI18N
+        togglePauseTransfer.setMnemonic('p');
+        togglePauseTransfer.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.text")); // NOI18N
+        togglePauseTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.toolTipText")); // NOI18N
+        togglePauseTransfer.setFocusable(false);
+        togglePauseTransfer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        togglePauseTransfer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        togglePauseTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                togglePauseTransferActionPerformed(evt);
+            }
+        });
+        idropProgressPanelToolbar.add(togglePauseTransfer);
+
         pnlTransferOptions.add(idropProgressPanelToolbar);
         pnlTransferOptions.add(progressIconImageLabel);
 
@@ -2020,10 +2021,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 log.info("pausing....");
                
 
-                // FIXME: conveyoriDropCore.getTransferManager().pause();
+               iDropCore.getConveyorService().getConveyorExecutorService().requestPause();
             } else {
                 log.info("resuming queue");
-                // FIXME: conveyor  iDropCore.getTransferManager().resume();
+               iDropCore.getConveyorService().getConveyorExecutorService().requestResumeFromPause();
             }
         } catch (Exception ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
