@@ -324,6 +324,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
         txtDownloadTarget.setMaximumSize(null);
         txtDownloadTarget.setMinimumSize(new java.awt.Dimension(400, 20));
         txtDownloadTarget.setName(""); // NOI18N
+        txtDownloadTarget.setPreferredSize(new java.awt.Dimension(1050, 40));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;

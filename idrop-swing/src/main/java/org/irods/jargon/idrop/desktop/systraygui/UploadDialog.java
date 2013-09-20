@@ -280,7 +280,7 @@ public class UploadDialog extends javax.swing.JDialog implements
         pnlMain.setLayout(new java.awt.BorderLayout());
 
         pnlTargetLocations.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlTargetLocations.setPreferredSize(new java.awt.Dimension(945, 76));
+        pnlTargetLocations.setPreferredSize(new java.awt.Dimension(945, 90));
         pnlTargetLocations.setLayout(new java.awt.GridBagLayout());
 
         lblUploadTargetLocation.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.lblUploadTargetLocation.text")); // NOI18N
@@ -291,7 +291,8 @@ public class UploadDialog extends javax.swing.JDialog implements
         txtUploadTarget.setEditable(false);
         txtUploadTarget.setColumns(100);
         txtUploadTarget.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.txtUploadTarget.text")); // NOI18N
-        txtUploadTarget.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtUploadTarget.setMinimumSize(null);
+        txtUploadTarget.setPreferredSize(new java.awt.Dimension(1310, 40));
         txtUploadTarget.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBrowseUploadTargetActionPerformed(evt);
@@ -300,6 +301,8 @@ public class UploadDialog extends javax.swing.JDialog implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlTargetLocations.add(txtUploadTarget, gridBagConstraints);
 
         btnUseIrodsHome.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUseIrodsHome.text")); // NOI18N

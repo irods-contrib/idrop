@@ -542,7 +542,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
 
     private void btnShowFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowFilesActionPerformed
         TransferFileListDialog transferFileListDialog = new TransferFileListDialog(
-                    this, transfer.getId(), idropCore);
+                    this, transfer.getTransferAttempts().get(transfer.getTransferAttempts().size() - 1).getId(), idropCore);
         Toolkit tk = getToolkit();
         int x = (tk.getScreenSize().width - transferFileListDialog.getWidth()) / 2;
         int y = (tk.getScreenSize().height - transferFileListDialog.getHeight()) / 2;
