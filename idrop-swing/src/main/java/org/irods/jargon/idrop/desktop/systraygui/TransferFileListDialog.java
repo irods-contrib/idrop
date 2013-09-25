@@ -19,7 +19,7 @@ import org.openide.util.Exceptions;
  */
 public class TransferFileListDialog extends javax.swing.JDialog {
     
-    private final Long transferId;
+    private final Long transferAttemptId;
     private final IDROPCore idropCore;
     private final int itemsPerPage = 30;
     private ItemListPagingTableModel tableModel;
@@ -27,17 +27,17 @@ public class TransferFileListDialog extends javax.swing.JDialog {
     /**
      * Creates new form TransferFileListDialog
      */
-    public TransferFileListDialog(javax.swing.JDialog parent, Long transferId, IDROPCore idropCore) {
+    public TransferFileListDialog(javax.swing.JDialog parent, Long transferAttemptId, IDROPCore idropCore) {
         super(parent, true);
         initComponents();
         
-        this.transferId = transferId;
+        this.transferAttemptId = transferAttemptId;
         this.idropCore = idropCore;
         
         try {
             this.tableModel = new ItemListPagingTableModel(
                     itemsPerPage,
-                    transferId,
+                    transferAttemptId,
                     idropCore.getConveyorService().getQueueManagerService());
             tblItemList.setModel(tableModel);
         } catch (ConveyorExecutionException ex) {
@@ -61,12 +61,11 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblItemList = new javax.swing.JTable();
         pnlButtons = new javax.swing.JPanel();
-        btnNextPage = new javax.swing.JButton();
         btnPrevPage = new javax.swing.JButton();
+        btnNextPage = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 400));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         pnlMain.setPreferredSize(new java.awt.Dimension(1000, 400));
@@ -89,15 +88,14 @@ public class TransferFileListDialog extends javax.swing.JDialog {
 
         pnlMain.add(pnlList, java.awt.BorderLayout.CENTER);
 
-        btnNextPage.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnNextPage.text")); // NOI18N
-        btnNextPage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextPageActionPerformed(evt);
-            }
-        });
-        pnlButtons.add(btnNextPage);
+        pnlButtons.setMinimumSize(null);
 
+        btnPrevPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_172_rewind.png"))); // NOI18N
+        btnPrevPage.setMnemonic('S');
         btnPrevPage.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnPrevPage.text")); // NOI18N
+        btnPrevPage.setMaximumSize(null);
+        btnPrevPage.setMinimumSize(null);
+        btnPrevPage.setPreferredSize(new java.awt.Dimension(40, 40));
         btnPrevPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrevPageActionPerformed(evt);
@@ -105,7 +103,27 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         });
         pnlButtons.add(btnPrevPage);
 
+        btnNextPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_176_forward.png"))); // NOI18N
+        btnNextPage.setMnemonic('<');
+        btnNextPage.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnNextPage.text")); // NOI18N
+        btnNextPage.setToolTipText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnNextPage.toolTipText")); // NOI18N
+        btnNextPage.setMaximumSize(null);
+        btnNextPage.setMinimumSize(null);
+        btnNextPage.setPreferredSize(new java.awt.Dimension(40, 40));
+        btnNextPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextPageActionPerformed(evt);
+            }
+        });
+        pnlButtons.add(btnNextPage);
+
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnClose.setMnemonic('O');
         btnClose.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnClose.text")); // NOI18N
+        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnClose.toolTipText")); // NOI18N
+        btnClose.setMaximumSize(null);
+        btnClose.setMinimumSize(null);
+        btnClose.setPreferredSize(new java.awt.Dimension(40, 40));
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);

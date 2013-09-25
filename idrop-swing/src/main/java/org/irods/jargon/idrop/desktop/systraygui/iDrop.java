@@ -1893,6 +1893,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlMainTransferStatus.add(pnlIdropBottom, java.awt.BorderLayout.NORTH);
 
         pnlIdropGutter.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        pnlIdropGutter.setMinimumSize(new java.awt.Dimension(591, 45));
+        pnlIdropGutter.setPreferredSize(new java.awt.Dimension(591, 45));
         pnlIdropGutter.setLayout(new java.awt.GridBagLayout());
 
         lblHostLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblHostLabel.text_1")); // NOI18N
