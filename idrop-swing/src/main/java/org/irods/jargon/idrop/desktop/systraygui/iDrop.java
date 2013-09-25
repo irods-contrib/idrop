@@ -84,7 +84,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private Object lastCachedInfoItem = null;
     private CheckboxMenuItem pausedItem = null;
     private boolean formShown = false;
-    private TransferManagerDialog transferManagerDialog = null;
+    private TransferAccountingManagerDialog transferManagerDialog = null;
 
     public iDrop(final IDROPCore idropCore) {
 
@@ -862,7 +862,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         try {
             if (transferManagerDialog == null) {
-                transferManagerDialog = new TransferManagerDialog(this);
+                transferManagerDialog = new TransferAccountingManagerDialog(this);
                 Toolkit tk = getToolkit();
                 int x = (tk.getScreenSize().width - transferManagerDialog.getWidth()) / 2;
                 int y = (tk.getScreenSize().height - transferManagerDialog.getHeight()) / 2;

@@ -5,19 +5,8 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Cursor;
-import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.irods.jargon.conveyor.core.ConveyorBusyException;
@@ -26,7 +15,6 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferManagerTa
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
 import org.irods.jargon.transfer.dao.domain.TransferStateEnum;
-import org.irods.jargon.transfer.dao.domain.TransferStatusEnum;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -35,49 +23,47 @@ import org.slf4j.LoggerFactory;
  * @author lisa
  */
 // public class TransferManagerDialog extends javax.swing.JDialog implements ActionListener {
-public class TransferManagerDialog extends javax.swing.JDialog implements ListSelectionListener {
-    
+public class TransferAccountingManagerDialog extends javax.swing.JDialog implements ListSelectionListener {
+
     public static org.slf4j.Logger log = LoggerFactory.getLogger(TransferManagerTableModel.class);
     private Transfer selectedTableObject = null;
     private final iDrop idropGui;
     private final IDROPCore idropCore;
-    private List<TransferAttempt> currentAttempts = null;
 
     /**
      * Creates new form TransferManagerDialog
-     */    
-    public TransferManagerDialog(final iDrop parent) throws ConveyorExecutionException {
+     */
+    public TransferAccountingManagerDialog(final iDrop parent) throws ConveyorExecutionException {
         super(parent, false);
         initComponents();
-        
+
         this.idropGui = parent;
         this.idropCore = parent.getiDropCore();
-        
+
         initTransferTable();
     }
-    
+
     public final void refreshTableView() {
-        
-        final TransferManagerDialog tmd = this;
-        
+
+        final TransferAccountingManagerDialog tmd = this;
+
         log.info("refreshing transfer table");
-          
+
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
             @Override
             public void run() {
-                
+
                 tmd.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                
+
                 try {
                     int matchingRowForSelected = -1;
                     List<Transfer> transfers = idropCore.getConveyorService().getQueueManagerService().listAllTransfersInQueue();
-                        
-                    TransferManagerTableModel model = (TransferManagerTableModel)tblTransfers.getModel();
+
+                    TransferManagerTableModel model = (TransferManagerTableModel) tblTransfers.getModel();
                     model.setTransfers(transfers);
                     model.fireTableDataChanged();
                     tblTransfers.revalidate();
-                    
+
                     if (selectedTableObject != null) {
                         // previously selected table, refresh display, first, selecting same row
 
@@ -89,7 +75,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
                                 break;
                             }
                         }
-                        
+
                         if (matchingRowForSelected != -1) {
                             int selectedRowIndex = tblTransfers.convertRowIndexToView(matchingRowForSelected);
                             if (selectedRowIndex != -1) {
@@ -103,18 +89,18 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
                 } finally {
                     tmd.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
-                
+
             }
         });
-        
+
     }
-    
+
     private void initTransferTable() throws ConveyorExecutionException {
-        
+
         List<Transfer> transfers = idropCore.getConveyorService().getQueueManagerService().listAllTransfersInQueue();
-        
+
         tblTransfers.setModel(new TransferManagerTableModel(idropCore, transfers));
-        
+
         // make more room for summary column
         tblTransfers.getColumnModel().getColumn(0).setPreferredWidth(60);
         tblTransfers.getColumnModel().getColumn(1).setPreferredWidth(40);
@@ -123,11 +109,11 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         tblTransfers.getColumnModel().getColumn(4).setPreferredWidth(150);
         tblTransfers.getColumnModel().getColumn(5).setPreferredWidth(150);
         tblTransfers.getColumnModel().getColumn(6).setPreferredWidth(280);
-      
-        final TransferManagerDialog tmd = this;
-        
+
+        final TransferAccountingManagerDialog tmd = this;
+
         tblTransfers.getSelectionModel().addListSelectionListener(this);
-    
+
 //        tblTransfers.addMouseMotionListener(new MouseMotionAdapter(){
 //            
 //          Take out hover dropdown menu for now ...
@@ -183,40 +169,40 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 //
 //        });
     }
-    
+
     private void enableTransferSpecificButtons() {
         boolean isRowSelected = (tblTransfers.getSelectedRow() != -1);
-        
+
         // enable/disable info button if row in table is selected/deselected 
         btnTransferInfo.setEnabled(isRowSelected);
-        
+
         // enable delete, restart, resubmit buttons if row is selected and transfer status is not PROCESSING
-        btnRemoveSelected.setEnabled(isRowSelected &&
-                (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
-        btnRestartSelected.setEnabled(isRowSelected &&
-                (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
-        btnResubmitSelected.setEnabled(isRowSelected &&
-                (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
+        btnRemoveSelected.setEnabled(isRowSelected
+                && (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
+        btnRestartSelected.setEnabled(isRowSelected
+                && (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
+        btnResubmitSelected.setEnabled(isRowSelected
+                && (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
         btnCancel.setEnabled(isRowSelected);
     }
-    
+
     @Override
     public void valueChanged(ListSelectionEvent lse) {
-        if ( !lse.getValueIsAdjusting() ) {
-            
-           // save selected row transfer object
+        if (!lse.getValueIsAdjusting()) {
+
+            // save selected row transfer object
             int selectedRow = tblTransfers.getSelectedRow();
-            if (selectedRow >=0) {
+            if (selectedRow >= 0) {
                 selectedRow = tblTransfers.convertRowIndexToModel(selectedRow);
-                TransferManagerTableModel model = (TransferManagerTableModel)tblTransfers.getModel();
+                TransferManagerTableModel model = (TransferManagerTableModel) tblTransfers.getModel();
                 this.selectedTableObject = model.getTransferAtRow(selectedRow);
             }
-            
+
             // enable appropriate buttons
             enableTransferSpecificButtons();
         }
     }
-    
+
 //    @Override
 //    public void actionPerformed(ActionEvent ae) {
 //        
@@ -229,7 +215,6 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 //            // now show details dialog for transfer attempt
 //        }    
 //    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -271,9 +256,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         bntClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.title")); // NOI18N
+        setTitle(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.title")); // NOI18N
         setMinimumSize(new java.awt.Dimension(800, 74));
-        setPreferredSize(new java.awt.Dimension(980, 440));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 4, 4, 4));
         pnlMain.setLayout(new java.awt.BorderLayout());
@@ -283,8 +267,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnTransferInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
         btnTransferInfo.setMnemonic('i');
-        btnTransferInfo.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.text")); // NOI18N
-        btnTransferInfo.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.toolTipText")); // NOI18N
+        btnTransferInfo.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnTransferInfo.text")); // NOI18N
+        btnTransferInfo.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnTransferInfo.toolTipText")); // NOI18N
         btnTransferInfo.setBorder(null);
         btnTransferInfo.setEnabled(false);
         btnTransferInfo.setFocusable(false);
@@ -303,8 +287,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnPurgeAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_207_remove_2.png"))); // NOI18N
         btnPurgeAll.setMnemonic('a');
-        btnPurgeAll.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.text")); // NOI18N
-        btnPurgeAll.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.toolTipText")); // NOI18N
+        btnPurgeAll.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnPurgeAll.text")); // NOI18N
+        btnPurgeAll.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnPurgeAll.toolTipText")); // NOI18N
         btnPurgeAll.setBorder(null);
         btnPurgeAll.setFocusable(false);
         btnPurgeAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -320,8 +304,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnPurgeSuccessful.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_207_remove_2.png"))); // NOI18N
         btnPurgeSuccessful.setMnemonic('x');
-        btnPurgeSuccessful.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.text")); // NOI18N
-        btnPurgeSuccessful.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.toolTipText")); // NOI18N
+        btnPurgeSuccessful.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnPurgeSuccessful.text")); // NOI18N
+        btnPurgeSuccessful.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnPurgeSuccessful.toolTipText")); // NOI18N
         btnPurgeSuccessful.setBorder(null);
         btnPurgeSuccessful.setFocusable(false);
         btnPurgeSuccessful.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -334,8 +318,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnRemoveSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
         btnRemoveSelected.setMnemonic('d');
-        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.text")); // NOI18N
-        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.toolTipText")); // NOI18N
+        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRemoveSelected.text")); // NOI18N
+        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRemoveSelected.toolTipText")); // NOI18N
         btnRemoveSelected.setBorder(null);
         btnRemoveSelected.setEnabled(false);
         btnRemoveSelected.setFocusable(false);
@@ -352,8 +336,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_175_stop.png"))); // NOI18N
         btnCancel.setMnemonic('l');
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.text")); // NOI18N
-        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.setBorder(null);
         btnCancel.setEnabled(false);
         btnCancel.setFocusable(false);
@@ -370,8 +354,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnRestartSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_085_repeat.png"))); // NOI18N
         btnRestartSelected.setMnemonic('t');
-        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.text")); // NOI18N
-        btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.toolTipText")); // NOI18N
+        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRestartSelected.text")); // NOI18N
+        btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRestartSelected.toolTipText")); // NOI18N
         btnRestartSelected.setBorder(null);
         btnRestartSelected.setEnabled(false);
         btnRestartSelected.setFocusable(false);
@@ -388,8 +372,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnResubmitSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_434_redo.png"))); // NOI18N
         btnResubmitSelected.setMnemonic('b');
-        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.text")); // NOI18N
-        btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.toolTipText")); // NOI18N
+        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnResubmitSelected.text")); // NOI18N
+        btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnResubmitSelected.toolTipText")); // NOI18N
         btnResubmitSelected.setBorder(null);
         btnResubmitSelected.setEnabled(false);
         btnResubmitSelected.setFocusable(false);
@@ -408,8 +392,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
         btnRefresh.setMnemonic('f');
-        btnRefresh.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.text")); // NOI18N
-        btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.toolTipText")); // NOI18N
+        btnRefresh.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRefresh.text")); // NOI18N
+        btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRefresh.toolTipText")); // NOI18N
         btnRefresh.setBorder(null);
         btnRefresh.setFocusable(false);
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -440,8 +424,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         bntClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         bntClose.setMnemonic('l');
-        bntClose.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.bntClose.text")); // NOI18N
-        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.bntClose.toolTipText")); // NOI18N
+        bntClose.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.bntClose.text")); // NOI18N
+        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.bntClose.toolTipText")); // NOI18N
         bntClose.setFocusable(false);
         bntClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         bntClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -460,7 +444,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     }// </editor-fold>//GEN-END:initComponents
 
     private void bntCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntCloseActionPerformed
-        idropGui.closeTransferManagerDialog(); 
+        idropGui.closeTransferManagerDialog();
         this.dispose();
     }//GEN-LAST:event_bntCloseActionPerformed
 
@@ -484,19 +468,22 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnTransferInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferInfoActionPerformed
-        TransferInfoDialog transferInfoDialog = new TransferInfoDialog(this, selectedTableObject, idropCore);
+        //TransferInfoDialog transferInfoDialog = new TransferInfoDialog(this, selectedTableObject, idropCore);
+      
+        TransferDashboardDialog transferInfoDialog = new TransferDashboardDialog(this, selectedTableObject, idropCore);
+        
         Toolkit tk = getToolkit();
         int x = (tk.getScreenSize().width - transferInfoDialog.getWidth()) / 2;
         int y = (tk.getScreenSize().height - transferInfoDialog.getHeight()) / 2;
         transferInfoDialog.setLocation(x, y);
-        transferInfoDialog.setModal(true);  
+        transferInfoDialog.setModal(true);
         transferInfoDialog.setVisible(true);
     }//GEN-LAST:event_btnTransferInfoActionPerformed
 
     private void btnRemoveSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveSelectedActionPerformed
         if (selectedTableObject != null) {
             try {
-            idropCore.getConveyorService().getQueueManagerService().deleteTransferFromQueue(selectedTableObject);
+                idropCore.getConveyorService().getQueueManagerService().deleteTransferFromQueue(selectedTableObject);
             } catch (ConveyorBusyException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (ConveyorExecutionException ex) {
@@ -513,8 +500,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
             } catch (ConveyorBusyException ex) {
                 log.error("Error restarting transfer: {}", ex.getMessage());
                 MessageManager.showError(this,
-                    "Transfer Queue Manager is currently busy. Please try again later.",
-                    MessageManager.TITLE_MESSAGE);
+                        "Transfer Queue Manager is currently busy. Please try again later.",
+                        MessageManager.TITLE_MESSAGE);
             } catch (ConveyorExecutionException ex) {
                 String msg = "Error restarting transfer. Transfer may have already completed.";
                 log.error(msg + " {}", ex.getMessage());
@@ -525,14 +512,14 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     }//GEN-LAST:event_btnRestartSelectedActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-         if (selectedTableObject != null) {
+        if (selectedTableObject != null) {
             try {
                 idropCore.getConveyorService().getQueueManagerService().cancelTransfer(selectedTableObject.getId());
             } catch (ConveyorBusyException ex) {
                 log.error("Error restarting transfer: {}", ex.getMessage());
                 MessageManager.showError(this,
-                    "Transfer Queue Manager is currently busy. Please try again later.",
-                    MessageManager.TITLE_MESSAGE);
+                        "Transfer Queue Manager is currently busy. Please try again later.",
+                        MessageManager.TITLE_MESSAGE);
             } catch (ConveyorExecutionException ex) {
                 String msg = "Error cancelling transfer. ";
                 log.error(msg + " {}", ex.getMessage());
@@ -549,8 +536,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
             } catch (ConveyorBusyException ex) {
                 log.error("Error resubmitting transfer: {}", ex.getMessage());
                 MessageManager.showError(this,
-                    "Transfer Queue Manager is currently busy. Please try again later.",
-                    MessageManager.TITLE_MESSAGE);
+                        "Transfer Queue Manager is currently busy. Please try again later.",
+                        MessageManager.TITLE_MESSAGE);
             } catch (ConveyorExecutionException ex) {
                 String msg = "Error resubmitting transfer. Transfer may have already completed.";
                 log.error(msg + " {}", ex.getMessage());
@@ -559,8 +546,6 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
             refreshTableView();
         }
     }//GEN-LAST:event_btnResubmitSelectedActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntClose;
     private javax.swing.JButton btnCancel;
@@ -593,5 +578,4 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     private javax.swing.JTable tblTransfers;
     private javax.swing.JToolBar toolBarTop;
     // End of variables declaration//GEN-END:variables
-
 }
