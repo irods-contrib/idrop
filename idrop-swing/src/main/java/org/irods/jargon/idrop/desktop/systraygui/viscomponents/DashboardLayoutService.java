@@ -56,7 +56,7 @@ public class DashboardLayoutService {
 
             // fix the percents for total relative height of the different file status
             float skipHeight = (float) attempt.getTotalFilesSkippedSoFar() / (float) totalFiles;
-            float successHeight = (float) attempt.getTotalFilesTransferredSoFar() / (float) totalFiles;
+            float successHeight = (float) (attempt.getTotalFilesTransferredSoFar() - attempt.getTotalFilesSkippedSoFar())  / (float) totalFiles;
             float errorHeight = (float) attempt.getTotalFilesErrorSoFar() / (float) totalFiles;
 
             int percentHeightError = Math.round(errorHeight * 100);
