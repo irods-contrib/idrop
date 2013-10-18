@@ -7,6 +7,8 @@ beans = {
 	
 	sharingService(org.irods.mydrop.service.SharingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 	
+	ruleProcessingService(org.irods.mydrop.service.RuleProcessingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+	
 	
 	browseController(org.irods.mydrop.controller.BrowseController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")

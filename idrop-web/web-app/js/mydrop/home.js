@@ -930,6 +930,37 @@ function showTicketView(absPath, targetDiv) {
 
 }
 
+/*
+* Show the rule view
+* 
+* @param absPath
+* @returns {Boolean}
+*/
+function showRuleView(absPath, targetDiv) {
+	if (absPath == null) {
+		absPath = baseAbsPath;
+	}
+
+	if (targetDiv == null) {
+		targetDiv = "#infoDiv";
+	}
+
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/rule/index?absPath=" + encodeURIComponent(absPath),
+				targetDiv, function(data) {
+					// alert("data is:" + data);
+					$(targetDiv).html(data);
+				}, function() {
+					setInfoDivNoData();
+				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+}
+
 /**
  * Show the dialog to allow upload of data in quick upload mode
  */

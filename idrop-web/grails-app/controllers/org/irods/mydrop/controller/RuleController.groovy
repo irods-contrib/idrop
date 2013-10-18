@@ -3,12 +3,13 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
 import org.irods.mydrop.service.ProfileService;
+import org.irods.mydrop.service.RuleProcessingService
 
 class RuleController {
 	
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
-	ProfileService profileService
+	RuleProcessingService ruleProcessingService
 	def grailsApplication
 
 	/**
@@ -29,5 +30,20 @@ class RuleController {
 		irodsAccessObjectFactory.closeSession()
 	}
 
-    def index() { }
+    def index() {
+		
+		log.info("index()")
+		
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request "
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+		
+		//def rule = ruleProcessingService.
+		
+		
+		
+	}
 }
