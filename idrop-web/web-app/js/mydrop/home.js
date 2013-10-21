@@ -204,7 +204,7 @@ function browserFirstViewRetrieved(data) {
 	$("#dataTreeDiv").bind("loaded.jstree", function(e, data) {
 		
 		//alert("tree loaded stuff now");
-		if (!requestedSelectedPath) {
+		if (requestedSelectedPath) {
 			selectTreePathFromIrodsPath(requestedSelectedPath);
 		}
 	});
