@@ -18,37 +18,35 @@
 
 	<div id="ruleDetailDiv">
 		<!-- div for audit table -->
-		
-<g:form name="ruleDetailsForm" id="ruleDetailsForm">
-  <fieldset>
-    <label><g:message code="text.rule.body" /></label>
-   <g:textArea name="ruleBody" value="${rule.ruleBody}" rows="40" cols="100"/>
-  
-   	
-   	<table class="table">
-   	
-	<g:each in="${rule.inputParameters}">
-	
-		<tr>
-			<g:hiddenField name="paramName" value="${it.uniqueName}" id="paramName"/>
-			<td>${it.uniqueName}</td>
-			<td><g:textField name="parmValue" id="parmValue" value="${it.getValueAsStringWithQuotesStripped()}" size="80"/></td>
-			<td><i class='icon-remove' onclick='deleteParam(${it.stringValue})'></i></td>	
-		</tr>
-	
-	</g:each>   
-   
-   </table>
-   
-  </fieldset>
-</g:form>
-		
+		<g:render template="/rule/ruleDetails" />
 	</div>
 	<script type="text/javascript">
 		
 
-	function deleteParam(param) {
-		alert("param:" + param);
+	function deleteInputParam(param) {
+		alert("input param:" + param);
+	}
+
+
+	function deleteOutputParam(param) {
+		alert("output param:" + param);
+	}
+
+	function callSaveRule() {
+		var formData = $("#ruleDetailsForm").serializeArray();
+		var jqxhr = $.post(context + "/rule/updateRule", formData, "html").success(
+				function(returnedData, status, xhr) {
+					var continueReq = checkForSessionTimeout(returnedData, xhr);
+					if (!continueReq) {
+						return false;
+					}
+					setMessage("rule saved");
+					$("#ruleDetailDiv").html(returnedData);
+				}).error(function(xhr, status, error) {
+			setErrorMessage(xhr.responseText);
+		});
+
+		
 	}
 
 	
