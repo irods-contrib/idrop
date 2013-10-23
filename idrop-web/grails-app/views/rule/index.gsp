@@ -1,4 +1,8 @@
-<g:javascript library="mydrop/rule" />
+<head>
+<g:javascript library="codemirror" />
+<g:javascript library="clike" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'codemirror.css')}" />
+</head>
 <h3><a ><g:message code="text.rule" /></a></h3>
 <div id="detailsTopSection">
 
@@ -39,7 +43,7 @@
 	</div>
 	
 	<script type="text/javascript">
-		
+	
 
 	function deleteInputParam(param) {
 		alert("input param:" + param);

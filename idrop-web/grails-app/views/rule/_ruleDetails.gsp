@@ -51,4 +51,12 @@
    
   </fieldset>
 </g:form>
+<script type="text/javascript">
+$(function() {
+    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('ruleBody'),{
+        mode: 'clike',
+        lineNumbers: true
+      });
+});
+</script>
 		
