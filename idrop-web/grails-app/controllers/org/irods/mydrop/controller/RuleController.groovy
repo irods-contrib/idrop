@@ -101,6 +101,30 @@ class RuleController {
 		render(view:"_ruleDetails", model:[absPath:absPath, rule:rule])
 	}
 
+	def deleteRuleInputParameter() {
+		log.info("deleteRuleInputParameter()")
+		log.info("params:${params}")
+
+		def absPath = params['ruleAbsPath']
+		if (!absPath) {
+			log.error "no ruleAbsPath in request "
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+
+		def parmKey = params['inputParamName']
+		if (!parmKey) {
+			log.error "no parmkey in request "
+			def message = message(code:"error.invalid.request")
+			response.sendError(500,message)
+		}
+
+		Rule rule = ruleProcessingService.deleteInputParam(irodsAccount, absPath, parmKey)
+		log.info("rule stored:${rule}")
+		render(view:"_ruleDetails", model:[absPath:absPath, rule:rule])
+	}
+
 	def reloadRule() {
 
 		log.info("reloadRule()")

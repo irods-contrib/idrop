@@ -67,7 +67,6 @@
 		
 	}
 
-
 	function callShowRule() {
 
 		$("#ruleDetailDiv").show("slow");

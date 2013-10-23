@@ -51,4 +51,11 @@ class RuleProcessingService {
 			return false
 		}
 	}
+
+
+	def deleteInputParam(IRODSAccount irodsAccount, String absPath, String parameter) {
+		log.info("deleteInputParam")
+		RuleCompositionService ruleService = new RuleCompositionServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		return ruleService.deleteInputParameterFromRule(absPath, parameter)
+	}
 }
