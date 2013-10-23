@@ -28,6 +28,14 @@ class RuleProcessingService {
 		return ruleService.storeRuleFromParts(rulePath, ruleBody, inputParameters, outputParameters)
 	}
 
+	def executeRule(IRODSAccount irodsAccount, String ruleBody, List<String> inputParameters, List<String> outputParameters) {
+
+		log.info("executeRule")
+		RuleCompositionService ruleService = new RuleCompositionServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		return ruleService.executeRuleFromParts(ruleBody, inputParameters, outputParameters)
+	}
+
+
 	def isRule(String rulePath) {
 		if (!rulePath) {
 			return false

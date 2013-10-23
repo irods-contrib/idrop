@@ -3,6 +3,7 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.rule.IRODSRuleExecResult
 import org.irods.jargon.ruleservice.composition.Rule
 import org.irods.mydrop.service.RuleProcessingService
 
@@ -144,5 +145,73 @@ class RuleController {
 			def message = message(code:"error.unable.to.load.rule")
 			response.sendError(500,message)
 		}
+	}
+
+
+	def runRule() {
+		log.info("runRule()")
+		log.info("params:${params}")
+
+		def absPath = params['ruleAbsPath']
+		if (absPath == null) {
+			log.error "no ruleAbsPath in request "
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		def ruleBody = params['ruleBody']
+		if (!ruleBody) {
+			log.error "no ruleBody in request "
+			def message = message(code:"error.no.rule.body")
+			response.sendError(500,message)
+		}
+
+		List<String> inputParams = new ArrayList<String>()
+		List<String> inputParamValues = new ArrayList<String>()
+		List<String> outputParams = new ArrayList<String>()
+
+		def parmKey = params['inputParamName']
+		def parmValue = params['inputParamValue']
+
+		if (parmKey) {
+
+			if (parmKey instanceof Object[]) {
+				inputParams = parmKey
+			} else {
+				inputParams.add(parmKey)
+			}
+
+			if (!parmValue) {
+				log.error "no param values for param keys in request "
+				def message = message(code:"error.invalid.request")
+				response.sendError(500,message)
+			}
+
+			if (parmValue instanceof Object[]) {
+				inputParamValues = parmValue
+			} else {
+				inputParamValues.add(parmValue)
+			}
+		}
+
+		parmKey = params['outputParamName']
+
+		if (parmKey) {
+
+			if (parmKey instanceof Object[]) {
+				outputParams = parmKey
+			} else {
+				outputParams.add(parmKey)
+			}
+		}
+
+		List<String> concatParams = new ArrayList<String>()
+		for (int i = 0; i < inputParams.size(); i++) {
+			concatParams.add(inputParams[i] + "=" + "\"" + inputParamValues[i] + "\"")
+		}
+
+		IRODSRuleExecResult ruleResult = ruleProcessingService.executeRule(irodsAccount, ruleBody, concatParams, outputParams)
+		log.info("rule result:${ruleResult}")
+		render(view:"ruleResult", model:[ruleResult:ruleResult])
 	}
 }
