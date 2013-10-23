@@ -100,6 +100,28 @@ class RuleController {
 		render(view:"_ruleDetails", model:[absPath:absPath, rule:rule])
 	}
 
+	def reloadRule() {
+
+		log.info("reloadRule()")
+
+		def absPath = params['absPath']
+		if (absPath == null) {
+			log.error "no absPath in request "
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		try {
+			def rule = ruleProcessingService.loadRuleFromIrodsFile(irodsAccount, absPath)
+			log.info("found rule:${rule}")
+			render(view:"_ruleDetails", model:[absPath:absPath, rule:rule])
+		} catch (JargonException je) {
+			log.error("unable to load rule", je)
+			def message = message(code:"error.unable.to.load.rule")
+			response.sendError(500,message)
+		}
+	}
+
 
 
 	def index() {

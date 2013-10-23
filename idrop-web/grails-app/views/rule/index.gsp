@@ -5,7 +5,7 @@
 	<div id="detailsToolbar" >
 			<button type="button" id="reloadRuleButton"
 				value="reloadRule"
-				onclick="callReloadForRule()">
+				onclick="callReloadRule()">
 				<g:message code="default.button.reload.label" />
 			</button>
 			<span id="saveRuleButton"><button type="button" id="saveRuleButton"
@@ -48,6 +48,31 @@
 
 		
 	}
+
+	function callReloadRule(absPath) {
+		var absPath = $("#ruleAbsPath").val();
+		if (absPath == null || absPath == "") {
+			showError("no absPath for rule");
+			return false;
+		}
+		
+		var params = {
+				absPath : absPath
+			}
+		var jqxhr = $.get(context + "/rule/reloadRule", params, "html").success(
+				function(returnedData, status, xhr) {
+					var continueReq = checkForSessionTimeout(returnedData, xhr);
+					if (!continueReq) {
+						return false;
+					}
+					$("#ruleDetailDiv").html(returnedData);
+				}).error(function(xhr, status, error) {
+			setErrorMessage(xhr.responseText);
+		});
+
+		
+	}
+	
 
 	
 	</script>
