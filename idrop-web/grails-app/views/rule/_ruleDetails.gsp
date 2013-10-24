@@ -53,10 +53,26 @@
 </g:form>
 <script type="text/javascript">
 $(function() {
-    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('ruleBody'),{
+   /* var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('ruleBody'),{
         mode: 'clike',
-        lineNumbers: true
-      });
+        lineNumbers: true,
+        theme: "blackboard"
+      }); */
+
+	var uiOptions = { path : 'js/', searchMode: 'popup' }
+	var codeMirrorOptions = {
+    		  mode: 'clike',
+    	        lineNumbers: true,
+    	        theme: "blackboard"
+	}
+
+	//then create the editor
+	var editor = new CodeMirrorUI(document.getElementById('ruleBody'),uiOptions,codeMirrorOptions);
+
+
+
+
+    
 });
 </script>
 		

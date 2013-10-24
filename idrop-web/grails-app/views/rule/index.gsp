@@ -1,7 +1,16 @@
 <head>
+
 <g:javascript library="codemirror" />
+<g:javascript library="addon/search/searchcursor" />
+<g:javascript library="codemirror-ui" />
+
+
 <g:javascript library="clike" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'codemirror.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'codemirror-ui.css')}" />
+
+<link rel="stylesheet" href="${resource(dir:'css',file:'blackboard.css')}" />
+
 </head>
 <h3><a ><g:message code="text.rule" /></a></h3>
 <div id="detailsTopSection">
