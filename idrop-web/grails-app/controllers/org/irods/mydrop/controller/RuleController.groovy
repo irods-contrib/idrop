@@ -5,6 +5,7 @@ import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.rule.IRODSRuleExecResult
 import org.irods.jargon.ruleservice.composition.Rule
+import org.irods.jargon.ruleservice.formatting.HtmlLogTableFormatter
 import org.irods.mydrop.service.RuleProcessingService
 
 
@@ -231,11 +232,19 @@ class RuleController {
 
 		List<String> concatParams = new ArrayList<String>()
 		for (int i = 0; i < inputParams.size(); i++) {
-			concatParams.add(inputParams[i] + "=" + "\"" + inputParamValues[i] + "\"")
+			concatParams.add(inputParams[i] + "=" +  inputParamValues[i])
 		}
 
-		IRODSRuleExecResult ruleResult = ruleProcessingService.executeRule(irodsAccount, ruleBody, concatParams, outputParams)
-		log.info("rule result:${ruleResult}")
-		render(view:"ruleResult", model:[ruleResult:ruleResult])
+		try {
+			IRODSRuleExecResult ruleResult = ruleProcessingService.executeRule(irodsAccount, ruleBody, concatParams, outputParams)
+			log.info("rule result:${ruleResult}")
+			def execOut = HtmlLogTableFormatter.formatAsBootstrap2Table(ruleResult.ruleExecOut, "Std Out")
+			def errorOut = HtmlLogTableFormatter.formatAsBootstrap2Table(ruleResult.ruleExecErr, "Error Out")
+			render(view:"ruleResult", model:[ruleResult:ruleResult, execOut:execOut, errorOut:errorOut])
+		} catch (JargonException je) {
+			def message = HtmlLogTableFormatter.formatAsBootstrap2Table(je.message, "Error")
+			def stackTrace = HtmlLogTableFormatter.formatStackTraceAsBootstrap2Table(je)
+			render(view:"ruleErrorResult", model:[message:message,stackTrace:stackTrace])
+		}
 	}
 }

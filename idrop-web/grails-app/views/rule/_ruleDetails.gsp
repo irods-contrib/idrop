@@ -13,12 +13,12 @@
               
 <g:form name="ruleDetailsForm" id="ruleDetailsForm">
   <fieldset>
-    <label><g:message code="text.rule.body" /></label>
-   <g:textArea id="ruleBody" name="ruleBody" value="${rule.ruleBody}" rows="40" cols="100"/>
+    <label></label>
+   <g:textArea id="ruleBody" name="ruleBody" value="${rule.ruleBody}" rows="80" cols="100"/>
   
   <g:hiddenField name="ruleAbsPath" value="${absPath}" id="ruleAbsPath"/>
    	
-   	<table class="table">
+   	<table class="table alert alert-info">
    	 <caption><g:message code="text.input.parameters"/></caption>
    	
 	<g:each in="${rule.inputParameters}">
@@ -26,7 +26,7 @@
 		<tr>
 			<g:hiddenField name="inputParamName" value="${it.uniqueName}" id="inputParamName"/>
 			<td>${it.uniqueName}</td>
-			<td><g:textField name="inputParamValue" id="inputParamValue" value="${it.getValueAsStringWithQuotesStripped()}" size="80"/></td>
+			<td><g:textField name="inputParamValue" id="inputParamValue" value="${it.getStringValue()}" size="80"/></td>
 			<td><i class='icon-remove' onclick='deleteInputParam(${it.uniqueName})'></i></td>	
 		</tr>
 	
@@ -34,7 +34,7 @@
    </table>
    
    <br/>
-   	<table class="table">
+   	<table class="table alert alert-info">
    	 <caption><g:message code="text.output.parameters"/></caption>
    	
 	<g:each in="${rule.outputParameters}">
@@ -52,6 +52,8 @@
   </fieldset>
 </g:form>
 <script type="text/javascript">
+
+var editor = null;
 $(function() {
    /* var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('ruleBody'),{
         mode: 'clike',
@@ -63,16 +65,12 @@ $(function() {
 	var codeMirrorOptions = {
     		  mode: 'clike',
     	        lineNumbers: true,
-    	        theme: "blackboard"
+    	        theme: "eclipse"
 	}
 
 	//then create the editor
-	var editor = new CodeMirrorUI(document.getElementById('ruleBody'),uiOptions,codeMirrorOptions);
+	editor = new CodeMirrorUI(document.getElementById('ruleBody'),uiOptions,codeMirrorOptions);
 
-
-
-
-    
 });
 </script>
 		

@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="${resource(dir:'css',file:'codemirror.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'codemirror-ui.css')}" />
 
-<link rel="stylesheet" href="${resource(dir:'css',file:'blackboard.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'eclipse.css')}" />
 
 </head>
 <h3><a ><g:message code="text.rule" /></a></h3>
@@ -64,6 +64,7 @@
 	}
 
 	function callSaveRule() {
+		editor.mirror.save();
 		var formData = $("#ruleDetailsForm").serializeArray();
 		var jqxhr = $.post(context + "/rule/updateRule", formData, "html").success(
 				function(returnedData, status, xhr) {
@@ -116,6 +117,7 @@
 	}
 
 	function callRunRule() {
+		editor.mirror.save();
 		var formData = $("#ruleDetailsForm").serializeArray();
 		$("#ruleDetailDiv").hide("slow");
 		$(".ruleEdit").hide("slow");
