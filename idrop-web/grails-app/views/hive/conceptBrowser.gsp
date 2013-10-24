@@ -80,47 +80,47 @@
 	</div>
 </div>
 
-				<div id="myModal" class="modal hide fade" role="dialog" tabindex="2000" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-						<h3 id="myModalLabel">Vocabulary List</h3>
-					</div>
-					<div class="modal-body">
-						<form name="hiveVocabularyForm" id="hiveVocabularyForm">
-						<table cellspacing="0" cellpadding="0" border="0" id="hiveVocabTable"
+<div id="myModal" class="modal hide fade" role="dialog" tabindex="2000" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+			<h3 id="myModalLabel">Vocabulary List</h3>
+	</div>
+	<div class="modal-body">
+		<form name="hiveVocabularyForm" id="hiveVocabularyForm">
+			<table cellspacing="0" cellpadding="0" border="0" id="hiveVocabTable"
 							class="table table-striped table-hover" style="width:60%; margin-left:auto; margin-right: auto">
-								<g:hiddenField name="absPath" id="absPath" value="${absPath	}"/>
-								<thead>
-									<tr>
-										<th></th>
-										<th><g:message code="text.vocabulary" /></th>
-									</tr>
-								</thead>
-								<tbody>
-									<g:each in="${vocabs}" var="vocab">
-										<tr id="${vocab.vocabularyName}">
-											<td><g:checkBox name="selectedVocab" value="${vocab.vocabularyName}"
+				<g:hiddenField name="absPath" id="absPath" value="${absPath	}"/>
+					<thead>
+						<tr>
+							<th></th>
+							<th><g:message code="text.vocabulary" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<g:each in="${vocabs}" var="vocab">
+							<tr id="${vocab.vocabularyName}">
+								<td><g:checkBox name="selectedVocab" value="${vocab.vocabularyName}"
 													checked="${vocab.selected}" /></td>
-											<td>
-												${vocab.vocabularyName}
-											</td>
-										</tr>
-									</g:each>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td></td>
-										<td></td>
-									</tr>
-								</tfoot>
-							</table>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-						<button class="btn btn-primary" data-dismiss="modal" onclick="selectVocabularies()"><g:message code="text.update" /></button>
-					</div>
-				</div>
+								<td>
+									${vocab.vocabularyName}
+								</td>
+							</tr>
+						</g:each>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+					</tfoot>
+			</table>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		<button class="btn btn-primary" data-dismiss="modal" onclick="selectVocabularies()"><g:message code="text.update" /></button>
+	</div>
+</div>
 
 <div id="conceptBrowserDialog"></div>
 
@@ -129,9 +129,6 @@
 	 * page level action signals to select a new vocabulary
 	 */
 	function processVocabularySelection(vocabName) {
-		if (vocabName == null || vocabName == "") {
-			vocabName = null;
-		}
 
 		var absPath = $("#infoAbsPath").val();
 
@@ -139,12 +136,20 @@
 			setErrorMessage(jQuery.i18n.prop('msg_path_missing'));
 			return false;
 		}
-		
-	 	$(".vocab-btn").removeClass("btn btn-mini btn-warning vocab-btn").addClass("btn btn-mini btn-inverse vocab-btn");
-	 	console.log("change class");
 
-		var element = document.getElementById(vocabName);
-		element.className = "btn btn-mini btn-warning vocab-btn";
+
+		if (vocabName == null || vocabName == "") {
+			vocabName = null;
+			console.log("vocabName is null");
+		} 
+		
+		if (vocabName != null) {
+		 	$(".vocab-btn").removeClass("btn btn-mini btn-warning vocab-btn").addClass("btn btn-mini btn-inverse vocab-btn");
+		 	console.log("change class");
+			
+			var element = document.getElementById(vocabName);
+			element.className = "btn btn-mini btn-warning vocab-btn";
+		}
 
 		resetVocabulary(vocabName, absPath);
 	}

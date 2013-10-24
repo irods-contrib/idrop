@@ -117,7 +117,6 @@ class HiveController {
 			render(view:"vocabSelectionList", model:[vocabs:vocabularies,absPath:absPath])
 		} else {
 			forward(action:"conceptBrowser", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies,selectedTerms:selectedTerms,currentVocab:currentVocab])  // add selectedTerms to the model
-			//forward(action:"/sparqlQuery/index", model:[absPath:absPath,hiveState:hiveState,vocabs:vocabularies,selectedTerms:selectedTerms,currentVocab:currentVocab]) 
 		}
 	}
 
@@ -144,16 +143,16 @@ class HiveController {
 		def vocab = hiveState.currentVocabulary
 		log.info "currentVocabulary: ${vocabulary}"
 
-//		if (!vocabulary) {
-//			vocabulary = hiveState.currentVocabulary
-//			
-//		}
-
 		if (!vocabulary) {
-			log.error("no vocabulary is selected or possible to select")
-			response.sendError(500, message(code:"error.no.vocabulary.selected" ))
-			return
+			vocabulary = hiveState.currentVocabulary
+			
 		}
+
+//		if (!vocabulary) {
+//			log.error("no vocabulary is selected or possible to select")
+//			response.sendError(500, message(code:"error.no.vocabulary.selected" ))
+//			return
+//		}
 		def indexLetter = 'A'
 		hiveService.getTopLevelConceptProxyForVocabulary(vocabulary, absPath, irodsAccount,indexLetter)
 		forward(action:"conceptBrowserPivotView",model:[absPath:absPath])
