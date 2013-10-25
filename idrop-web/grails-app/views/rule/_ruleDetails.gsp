@@ -27,7 +27,7 @@
 			<g:hiddenField name="inputParamName" value="${it.uniqueName}" id="inputParamName"/>
 			<td>${it.uniqueName}</td>
 			<td><g:textField name="inputParamValue" id="inputParamValue" value="${it.getStringValue()}" size="80"/></td>
-			<td><i class='icon-remove' onclick='deleteInputParam(${it.uniqueName})'></i></td>	
+			<td><i class='icon-remove' onclick='deleteInputParam(${"\"" + it.uniqueName + "\""})'></i></td>	
 		</tr>
 	
 	</g:each>   
@@ -38,11 +38,10 @@
    	 <caption><g:message code="text.output.parameters"/></caption>
    	
 	<g:each in="${rule.outputParameters}">
-	
 		<tr>
 			<g:hiddenField name="outputParamName" value="${it.uniqueName}" id="outputParamName"/>
 			<td>${it.uniqueName}</td>
-			<td><i class='icon-remove' onclick='deleteOutputParam(${it.uniqueName})'></i></td>	
+			<td><i class='icon-remove' onclick='deleteOutputParam(${"\"" + it.uniqueName + "\""})'></i></td>	
 		</tr>
 	
 	</g:each>   

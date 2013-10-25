@@ -55,13 +55,61 @@
 	
 
 	function deleteInputParam(param) {
-		alert("input param:" + param);
+
+		if (!param) {
+			return false;
+		}
+
+		var absPath = $("#ruleAbsPath").val();
+		if (absPath == null || absPath == "") {
+			showError("no absPath for rule");
+			return false;
+		}
+		
+		var params = {
+				ruleAbsPath : absPath,
+				inputParamName : param
+				}
+
+		
+		var jqxhr = $.post(context + "/rule/deleteRuleInputParameter", params, "html").success(
+				function(returnedData, status, xhr) {
+					var continueReq = checkForSessionTimeout(returnedData, xhr);
+					if (!continueReq) {
+						return false;
+					}
+					setMessage("Parameter deleted");
+					$("#ruleDetailDiv").html(returnedData);
+				}).error(function(xhr, status, error) {
+			setErrorMessage(xhr.responseText);
+		});
 	}
 
 
 	function deleteOutputParam(param) {
-		alert("output param:" + param);
-	}
+		var absPath = $("#ruleAbsPath").val();
+		if (absPath == null || absPath == "") {
+			showError("no absPath for rule");
+			return false;
+		}
+		
+		var params = {
+				ruleAbsPath : absPath,
+				outputParamName : param
+				}
+
+		
+		var jqxhr = $.post(context + "/rule/deleteRuleOutputParameter", params, "html").success(
+				function(returnedData, status, xhr) {
+					var continueReq = checkForSessionTimeout(returnedData, xhr);
+					if (!continueReq) {
+						return false;
+					}
+					setMessage("Parameter deleted");
+					$("#ruleDetailDiv").html(returnedData);
+				}).error(function(xhr, status, error) {
+			setErrorMessage(xhr.responseText);
+		});	}
 
 	function callSaveRule() {
 		editor.mirror.save();
