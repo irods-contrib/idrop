@@ -94,7 +94,7 @@ class RuleController {
 
 		List<String> concatParams = new ArrayList<String>()
 		for (int i = 0; i < inputParams.size(); i++) {
-			concatParams.add(inputParams[i] + "=" + "\"" + inputParamValues[i] + "\"")
+			concatParams.add(inputParams[i] + "=" + inputParamValues[i])
 		}
 
 		Rule rule = ruleProcessingService.storeRule(irodsAccount, absPath, ruleBody, concatParams, outputParams)
