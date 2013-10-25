@@ -102,6 +102,34 @@ class RuleController {
 		render(view:"_ruleDetails", model:[absPath:absPath, rule:rule])
 	}
 
+	def addRuleInputParameterDialog() {
+		log.info("addRuleInputParameterDialog()")
+		log.info("params:${params}")
+
+		def absPath = params['ruleAbsPath']
+		if (!absPath) {
+			log.error "no ruleAbsPath in request "
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		render(view:"addParameterDialog", model:[absPath:absPath, isInputParameter:true])
+	}
+
+	def addRuleOutputParameterDialog() {
+		log.info("addRuleOutputParameterDialog()")
+		log.info("params:${params}")
+
+		def absPath = params['ruleAbsPath']
+		if (!absPath) {
+			log.error "no ruleAbsPath in request "
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		render(view:"addParameterDialog", model:[absPath:absPath, isInputParameter:false])
+	}
+
 	def deleteRuleInputParameter() {
 		log.info("deleteRuleInputParameter()")
 		log.info("params:${params}")
@@ -270,5 +298,63 @@ class RuleController {
 			def stackTrace = HtmlLogTableFormatter.formatStackTraceAsBootstrap2Table(je)
 			render(view:"ruleErrorResult", model:[message:message,stackTrace:stackTrace])
 		}
+	}
+
+
+	def submitAddOutputParameterDialog() {
+		log.info("submitAddOutputParameterDialog")
+		log.info("params:${params}")
+
+		def absPath = params['ruleAbsPath']
+		if (absPath == null) {
+			log.error "no ruleAbsPath in request "
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		def parmKey = params['addParameterName']
+
+		if (!parmKey) {
+			log.error "no param key in request "
+			def message = message(code:"error.no.param.key")
+			response.sendError(500,message)
+		}
+
+
+		Rule rule = ruleProcessingService.addRuleOutputParam(irodsAccount, absPath, parmKey)
+		log.info("rule stored:${rule}")
+		render(view:"_ruleDetails", model:[absPath:absPath, rule:rule])
+	}
+
+	def submitAddInputParameterDialog() {
+		log.info("submitAddInputParameterDialog")
+		log.info("params:${params}")
+
+		def absPath = params['ruleAbsPath']
+		if (absPath == null) {
+			log.error "no ruleAbsPath in request "
+			def message = message(code:"error.no.path.provided")
+			response.sendError(500,message)
+		}
+
+		def parmKey = params['addParameterName']
+		def parmValue = params['addParameterValue']
+
+		if (!parmKey) {
+			log.error "no param key in request "
+			def message = message(code:"error.no.param.key")
+			response.sendError(500,message)
+		}
+
+		if (!parmValue) {
+			log.error "no param values for param value in request "
+			def message = message(code:"error.no.param.value")
+			response.sendError(500,message)
+		}
+
+
+		Rule rule = ruleProcessingService.addRuleInputParam(irodsAccount, absPath, parmKey, parmValue)
+		log.info("rule stored:${rule}")
+		render(view:"_ruleDetails", model:[absPath:absPath, rule:rule])
 	}
 }

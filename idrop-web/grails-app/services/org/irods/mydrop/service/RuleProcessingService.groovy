@@ -65,4 +65,16 @@ class RuleProcessingService {
 		RuleCompositionService ruleService = new RuleCompositionServiceImpl(irodsAccessObjectFactory, irodsAccount)
 		return ruleService.deleteInputParameterFromRule(absPath, parameter)
 	}
+
+	def addRuleInputParam(IRODSAccount irodsAccount, String absPath, String parameterName, String parameterValue) {
+		log.info("addInputParam")
+		RuleCompositionService ruleService = new RuleCompositionServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		return ruleService.addInputParameterToRule(absPath, parameterName, parameterValue)
+	}
+
+	def addRuleOutputParam(IRODSAccount irodsAccount, String absPath, String parameterName) {
+		log.info("addOutputParam")
+		RuleCompositionService ruleService = new RuleCompositionServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		return ruleService.addOutputParameterToRule(absPath, parameterName)
+	}
 }

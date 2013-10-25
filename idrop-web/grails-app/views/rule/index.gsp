@@ -62,7 +62,7 @@
 
 		var absPath = $("#ruleAbsPath").val();
 		if (absPath == null || absPath == "") {
-			showError("no absPath for rule");
+			setErrorMessage("no absPath for rule");
 			return false;
 		}
 		
@@ -89,7 +89,7 @@
 	function deleteOutputParam(param) {
 		var absPath = $("#ruleAbsPath").val();
 		if (absPath == null || absPath == "") {
-			showError("no absPath for rule");
+			setErrorMessage("no absPath for rule");
 			return false;
 		}
 		
@@ -192,10 +192,38 @@
 					
 			setErrorMessage(xhr.responseText);
 		});
-
-		
 	}
-	
+
+	function callAddInputParameter() {
+		
+		var absPath = $("#ruleAbsPath").val();
+		if (absPath == null || absPath == "") {
+			setErrorMessage("no absPath for rule");
+			return false;
+		}
+		
+		var params = {
+				ruleAbsPath : absPath
+				}
+		var url = "/rule/addRuleInputParameterDialog";
+
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#addParamDialogDiv", null);
+	}
+
+	function callAddOutputParameter() {
+		var absPath = $("#ruleAbsPath").val();
+		if (absPath == null || absPath == "") {
+			setErrorMessage("no absPath for rule");
+			return false;
+		}
+		
+		var params = {
+				ruleAbsPath : absPath
+				}
+		var url = "/rule/addRuleOutputParameterDialog";
+
+		lcSendValueWithParamsAndPlugHtmlInDiv(url, params, "#addParamDialogDiv", null);
+	}
 
 	
 	</script>

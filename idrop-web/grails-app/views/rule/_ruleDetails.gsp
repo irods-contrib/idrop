@@ -11,6 +11,11 @@
                 </script>
               </g:if>
               
+              
+<div id="addParamDialogDiv">
+<!--  area for hanging dialogs -->
+</div>
+              
 <g:form name="ruleDetailsForm" id="ruleDetailsForm">
   <fieldset>
     <label></label>
@@ -32,6 +37,14 @@
 	
 	</g:each>   
    </table>
+   <div id="inputParamsToolbar" >
+			<button type="button" id="addInputParameterButton" 
+				value="addInputParameter"
+				onclick="callAddInputParameter()">
+				<i class="icon-plus"></i><g:message code="text.add.input.parm" />
+			</button>
+	</div>
+	
    
    <br/>
    	<table class="table alert alert-info">
@@ -47,6 +60,13 @@
 	</g:each>   
    
    </table>
+    <div id="outputParamsToolbar" >
+			<button type="button" id="addOutputParameterButton" 
+				value="addOutputParameter"
+				onclick="callAddOutputParameter()">
+				<i class="icon-plus"></i><g:message code="text.add.output.parm" />
+			</button>
+	</div>
    
   </fieldset>
 </g:form>
