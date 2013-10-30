@@ -10,7 +10,7 @@ grails.project.dependency.resolution = {
 	inherits("global") {
 		// uncomment to disable ehcace
 		//excludes 'validation-api','stax-api', 'xml-apis', 'xalan', 'xml-apis-ext', 'sl4j-log4j12', 'sl4j'
-		excludes   'xalan', 'xml-apis-ext','xml-apis', 'validation-api','sl4j-log4j12', 'sl4j', 'gwt-user'
+		excludes   'xerces', 'xercesImpl','stax-api','xalan', 'xml-apis-ext','xml-apis', 'validation-api','sl4j-log4j12', 'sl4j', 'gwt-user'
 	}
 	log "warn" // LOG level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 	repositories {
@@ -35,23 +35,22 @@ grails.project.dependency.resolution = {
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
 
-
 		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ( "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")} //{ excludes ("stax-api","xml-apis", "xercesImpl", "aduna-commons-lang")}
 		compile ('org.irods.jargon:jargon-hive-irods:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")}
-
 		compile ('org.irods.jargon:jargon-core:3.3.3-SNAPSHOT') { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-data-utils:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-ticket:3.3.3-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-profile:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-tagging:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 		compile 'xerces:xercesImpl:2.9.1'
 		compile('com.google.gwt:gwt-servlet:2.4.0')
 		compile('org.openrdf.sesame:sesame-sail-nativerdf:2.2.4')
-		compile('org.irods.jargon:hive-core:1.0-SNAPSHOT')
-		compile ('org.irods.jargon:jargon-hive-3store-integration:1.0-SNAPSHOT')
+		compile('org.irods.jargon:hive-core:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")}
+
+		compile ('org.irods.jargon:jargon-hive-3store-integration:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")}
+
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 
 
@@ -59,13 +58,14 @@ grails.project.dependency.resolution = {
 	}
 
 	plugins {
-		runtime ":hibernate:$grailsVersion"
+		runtime ":hibernate:${grailsVersion}"
 
-		build ":tomcat:$grailsVersion"
+		build ":tomcat:${grailsVersion}"
+
 
 	}
 	plugins {
-		runtime ":hibernate:$grailsVersion"
-		build ":tomcat:$grailsVersion"
+		runtime ":hibernate:${grailsVersion}"
+		build ":tomcat:${grailsVersion}"
 	}
 }
