@@ -82,7 +82,7 @@ $(function() {
 
 	var uiOptions = { path : 'js/', searchMode: 'popup' }
 	var codeMirrorOptions = {
-    		  mode: 'clike',
+    		    mode: 'text/x-rule',
     	        lineNumbers: true,
     	        theme: "eclipse"
 	}

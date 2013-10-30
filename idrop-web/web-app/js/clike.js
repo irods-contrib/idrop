@@ -18,8 +18,8 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       var result = hooks[ch](stream, state);
       if (result !== false) return result;
     }
-    if (ch == '"' || ch == "'") {
-      state.tokenize = tokenString(ch);
+    if (ch == '"' || ch == "'" || (ch === "`" && stream.peek() === "`")) {
+      state.tokenize = ch === "`" ? tokenCode() : tokenString(ch);
       return state.tokenize(stream, state);
     }
     if (/[\[\]{}\(\),;\:\.]/.test(ch)) {
@@ -30,18 +30,21 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       stream.eatWhile(/[\w\.]/);
       return "number";
     }
-    if (ch == "/") {
-      if (stream.eat("*")) {
-        state.tokenize = tokenComment;
-        return tokenComment(stream, state);
-      }
-      if (stream.eat("/")) {
+    if (ch == "#") {
         stream.skipToEnd();
         return "comment";
-      }
+      
     }
+    
+    if(/[*$]/.test(ch) && /[_a-zA-Z]/.test(stream.peek() || "")) {
+        stream.eatWhile(/[\w]/);
+        return ch == "*"? "lVar":"sVar";
+    }
+    
     if (isOperatorChar.test(ch)) {
-      stream.eatWhile(isOperatorChar);
+        if(ch !== "*" || ch !== "/") {
+            stream.eatWhile(isOperatorChar);
+        }
       return "operator";
     }
     stream.eatWhile(/[\w\$_]/);
@@ -60,14 +63,45 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
 
   function tokenString(quote) {
     return function(stream, state) {
-      var escaped = false, next, end = false;
-      while ((next = stream.next()) != null) {
-        if (next == quote && !escaped) {end = true; break;}
-        escaped = !escaped && next == "\\";
+        stream.next();
+        var ch = stream.next();
+        if(/[*$]/.test(ch) && /[_a-zA-Z]/.test(stream.peek() || "")) {
+            stream.eatWhile(/[\w]/);
+            return ch == "*"? "lVar":"sVar";
+        }
+        
+      var escaped = false;
+      while (ch != null) {
+        if(!escaped) {
+            if (ch == quote) {break;}
+            if(/[*$]/.test(ch) && /[_a-zA-Z]/.test(stream.peek() || "")) {
+                stream.backUp(1);
+                return "string";
+            }
+            escaped = ch == "\\";
+        } else {
+            escaped = false;
+        }
+          ch = stream.next();
       }
-      if (end || !(escaped || multiLineStrings))
-        state.tokenize = null;
+      state.tokenize = null;
       return "string";
+    };
+  }
+    
+  function tokenCode() {
+    return function(stream, state) {
+        stream.next();
+        stream.next();
+        while(stream.skipTo("`")) {
+            if(stream.next() === "`") {
+                stream.next();
+                state.tokenize = null;
+                return "code";
+            }
+        }
+        stream.skipToEnd();
+      return "code";
     };
   }
 
@@ -169,9 +203,13 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     for (var i = 0; i < words.length; ++i) obj[words[i]] = true;
     return obj;
   }
-  var cKeywords = "auto if break int case long char register continue return default short do sizeof " +
-    "double static else struct entry switch extern typedef float union for unsigned " +
-    "goto while enum void const signed volatile";
+  var cKeywords = "if then else break match with continue while foreach in for let constructor remote delay " +
+    "data select SELECT where WHERE and AND count COUNT sum SUM order_desc ORDER_DESC order_asc ORDER_ASC " +
+    "input INPUT output OUTPUT ruleExecOut " +
+    "integer boolean int integer double time string path list unit forall type set dynamic expression actions " +
+    "on ON or OR oron ORON regex not like";
+    
+  var blockKeywords = "if then else while foreach for remote delay";
 
   function cppHook(stream, state) {
     if (!state.startOfLine) return false;
@@ -207,12 +245,13 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     for (var i = 0; i < ms.length; ++i) CodeMirror.defineMIME(ms[i], mode);
   }
 
-  mimes(["text/x-csrc", "text/x-c", "text/x-chdr"], {
+  mimes(["text/x-rule", "text/x-c", "text/x-chdr"], {
     name: "clike",
     keywords: words(cKeywords),
-    blockKeywords: words("case do else for if switch while struct"),
-    atoms: words("null"),
-    hooks: {"#": cppHook}
+    blockKeywords: words(blockKeywords),
+    atoms: words("true false null"),
+    hooks: {},
+    multiLineStrings: true
   });
   mimes(["text/x-c++src", "text/x-c++hdr"], {
     name: "clike",
@@ -222,7 +261,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
                     "wchar_t"),
     blockKeywords: words("catch class do else finally for if struct switch try while"),
     atoms: words("true false null"),
-    hooks: {"#": cppHook}
+    hooks: {}
   });
   CodeMirror.defineMIME("text/x-java", {
     name: "clike",

@@ -21,3 +21,6 @@
 
 .cm-s-eclipse .CodeMirror-activeline-background {background: #e8f2ff !important;}
 .cm-s-eclipse .CodeMirror-matchingbracket {outline:1px solid grey; color:black !important;}
+.cm-s-eclipse span.cm-sVar {color: #C00000;}
+.cm-s-eclipse span.cm-lVar {color: #00C000;}
+.cm-s-eclipse span.cm-code {color: #00C0C0; font-family: courierNew monospace;}
