@@ -35,7 +35,7 @@ grails.project.dependency.resolution = {
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
 
-		
+
 		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ( "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")} //{ excludes ("stax-api","xml-apis", "xercesImpl", "aduna-commons-lang")}
 		compile ('org.irods.jargon:jargon-hive-irods:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")}
 		compile ('org.irods.jargon:jargon-core:3.3.3-SNAPSHOT') { excludes ([group:'org.jglobus'])}
@@ -43,6 +43,7 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:jargon-ticket:3.3.3-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-profile:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-tagging:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 		compile 'xerces:xercesImpl:2.9.1'
@@ -51,7 +52,7 @@ grails.project.dependency.resolution = {
 		compile('org.irods.jargon:hive-core:1.0-SNAPSHOT')
 		compile ('org.irods.jargon:jargon-hive-3store-integration:1.0-SNAPSHOT')
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
-		
+
 
 
 	}

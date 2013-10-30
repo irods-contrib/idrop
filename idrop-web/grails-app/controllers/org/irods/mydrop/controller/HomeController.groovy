@@ -59,6 +59,10 @@ class HomeController {
 		// TODO: refactor, add check to see if on same grid, in which case the account should not be changed
 		String mungedIRODSURI = irodsURIString.replaceAll(" ", "&&space&&")
 		URI irodsURI = new URI(mungedIRODSURI)
+
+		log.info("irodsURI ${irodsURI}")
+
+
 		String filePath = irodsURI.getPath()
 		log.info("irodsFilePath:${filePath}")
 		filePath = filePath.replaceAll("&&space&&", " ")

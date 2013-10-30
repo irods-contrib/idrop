@@ -9,7 +9,7 @@
 	<g:hiddenField name="mode" id="mode" value="${mode}"/>
 	<g:hiddenField name="viewStateBrowseOptionVal" id="viewStateBrowseOptionVal" value="${viewState.browseView}"/>
 	<g:hiddenField name="presetPath" id="presetPath" value="${viewState.rootPath}"/>
-	<g:hiddenField id="viewStateSelectedPath" name="viewStateSelectedPath" value="${viewState.selectedPath}"/>
+	<g:hiddenField id="viewStateSelectedPath" name="viewStateSelectedPath" value="${absPath}"/>
 	<g:render template="/browse/browseTabContent" />
 	
 </div> 
