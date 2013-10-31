@@ -2,6 +2,7 @@ package org.irods.mydrop.service
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.RuleProcessingAO
 import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.core.utils.MiscIRODSUtils
 import org.irods.jargon.ruleservice.composition.RuleCompositionService
@@ -35,7 +36,6 @@ class RuleProcessingService {
 		return ruleService.executeRuleFromParts(ruleBody, inputParameters, outputParameters)
 	}
 
-
 	def isRule(String rulePath) {
 		if (!rulePath) {
 			return false
@@ -51,7 +51,6 @@ class RuleProcessingService {
 			return false
 		}
 	}
-
 
 	def deleteOutputParam(IRODSAccount irodsAccount, String absPath, String parameter) {
 		log.info("deleteOutputParam")
@@ -76,5 +75,11 @@ class RuleProcessingService {
 		log.info("addOutputParam")
 		RuleCompositionService ruleService = new RuleCompositionServiceImpl(irodsAccessObjectFactory, irodsAccount)
 		return ruleService.addOutputParameterToRule(absPath, parameterName)
+	}
+
+	def listDelayedRuleExecutions(IRODSAccount irodsAccount, int offset) {
+		log.info("listDelayedRuleExecutions()")
+		RuleProcessingAO ruleProcessingAO = irodsAccessObjectFactory.getRuleProcessingAO(irodsAccount)
+		return ruleProcessingAO.listAllDelayedRuleExecutions(offset)
 	}
 }

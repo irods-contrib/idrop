@@ -3,6 +3,8 @@ package org.irods.mydrop.controller
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.RuleProcessingAO
+import org.irods.jargon.core.pub.domain.DelayedRuleExecution
 import org.irods.jargon.core.rule.IRODSRuleExecResult
 import org.irods.jargon.ruleservice.composition.Rule
 import org.irods.jargon.ruleservice.formatting.HtmlLogTableFormatter
@@ -33,6 +35,81 @@ class RuleController {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
 	}
+
+	/**
+	 * List the contents of the delayed execution queue
+	 * @return
+	 */
+	def delayExecQueue() {
+		log.info("delayExecQueue()")
+		List<DelayedRuleExecution> rules = ruleProcessingService.listDelayedRuleExecutions(irodsAccount, 0)
+		render(view:"delayExecQueue", model:[rules:rules])
+	}
+
+
+	def deleteDelayExecQueue = {
+		log.info("deleteDelayExecQueue")
+
+		log.info("params: ${params}")
+
+		def rulesToDelete = params['selectDetail']
+
+		// if nothing selected, just jump out and return a message
+		if (!rulesToDelete) {
+			log.info("no rules to delete")
+			List<DelayedRuleExecution> rules = ruleProcessingService.listDelayedRuleExecutions(irodsAccount, 0)
+			render(view:"_ruleDelayExecQueueDetails", model:[rules:rules])
+		}
+
+		log.info("rulesToDelete: ${rulesToDelete}")
+
+
+		RuleProcessingAO ruleAO = irodsAccessObjectFactory.getRuleProcessingAO(irodsAccount)
+
+		if (!rulesToDelete) {
+			log.info("nothing to delete")
+		} else if (rulesToDelete instanceof Object[]) {
+			log.debug "is array"
+			rulesToDelete.each{
+				log.info "ruleToDelete: ${it}"
+				def idVal = parseRuleId(it)
+				if (idVal != -1) {
+					log.info("deleting id:${idVal}")
+					ruleAO.purgeRuleFromDelayedExecQueue(idVal)
+				}
+			}
+		} else {
+			log.debug "not array"
+			log.info "deleting: ${rulesToDelete}..."
+			def idVal = parseRuleId(rulesToDelete)
+			if (idVal != -1) {
+				log.info("deleting id:${idVal}")
+				ruleAO.purgeRuleFromDelayedExecQueue(idVal)
+			}
+
+		}
+
+		List<DelayedRuleExecution> rules = ruleProcessingService.listDelayedRuleExecutions(irodsAccount, 0)
+
+		render(view:"_ruleDelayExecQueueDetails", model:[rules:rules])
+
+	}
+
+	private int parseRuleId(String ruleId) {
+		if (!ruleId) {
+			throw new IllegalArgumentException("null ruleId")
+		}
+
+		int idx = ruleId.indexOf("select-");
+		if (idx == -1) {
+			return -1
+		}
+
+
+		return Integer.valueOf(ruleId.substring(7))
+
+	}
+
 
 	def updateRule() {
 		log.info("update rule")
