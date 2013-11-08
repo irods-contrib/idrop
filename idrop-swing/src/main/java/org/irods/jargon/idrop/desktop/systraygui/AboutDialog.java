@@ -133,17 +133,8 @@ public class AboutDialog extends javax.swing.JDialog {
         pnlButtons.add(btnOK);
 
         getContentPane().add(pnlButtons, java.awt.BorderLayout.SOUTH);
-		
-		lblIdropVersion.setText(Version.VERSION + " - " + Version.BUILD_TIME);
-		lblJargonVersion.setText(JargonVersion.VERSION + "-"
-				+ JargonVersion.BUILD_TIME);
-                
-                 lblProjectHomeLink = IDropUtils.linkify("Click to open browser to the iDrop project home", "https://code.renci.org/gf/project/irodsidrop/", "iDrop GForge project page");
-                 pnlItems.add(lblProjectHomeLink, new java.awt.GridBagConstraints());
-                    lblProjectTrackerLink = IDropUtils.linkify("iDrop project feature and bug tracker", "https://code.renci.org/gf/project/irodsidrop/tracker/", "iDrop GForge bug and feature tracker page");
-                 pnlItems.add(lblProjectTrackerLink, new java.awt.GridBagConstraints());
-		        pack();
 
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
 	private void btnOKPressed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKPressed
