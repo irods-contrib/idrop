@@ -28,11 +28,15 @@ grails.project.dependency.resolution = {
 		test 'org.mockito:mockito-all:1.8.1'
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
-		compile ('org.irods.jargon:jargon-core:3.3.1-SNAPSHOT') { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-data-utils:3.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-ticket:3.3.1-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-profile:3.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-tagging:3.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-core:3.3.3-SNAPSHOT') { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-data-utils:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ticket:3.3.3-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-profile:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-tagging:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-workflow:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ruleservice:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+
+
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 

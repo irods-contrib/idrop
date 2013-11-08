@@ -48,7 +48,7 @@ environments {
  idrop.config.idrop.lite.use.applet.dir=false
  */
 
-idrop.config.idrop.lite.applet.jar="idrop-lite-2.0.1-SNAPSHOT-jar-with-dependencies.jar"
+idrop.config.idrop.lite.applet.jar="idrop-lite-b964-SNAPSHOT-jar-with-dependencies.jar"
 idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-snapshot"
 idrop.config.idrop.lite.use.applet.dir=false
 

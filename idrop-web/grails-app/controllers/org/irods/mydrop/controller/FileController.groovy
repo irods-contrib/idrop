@@ -236,7 +236,7 @@ class FileController {
 		IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(absPath)
 
 		try {
-			targetFile.delete()
+			targetFile.deleteWithForceOption()
 			log.info("file deleted")
 			render(view:"deleteResult", model:[absPath:targetFile.parent])
 		} catch (CatNoAccessException e) {

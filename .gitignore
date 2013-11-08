@@ -9,7 +9,9 @@ target
 *.war
 Servers
 .DS_Store
+Thumbs.db
 nbactions.xml
+Version.java
 idrop-web/web-app/WEB-INF/classes/
 *.jar
 nb-configuration.xml

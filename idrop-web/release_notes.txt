@@ -10,7 +10,8 @@ This is a maintenance release of iDrop web2 and the iDrop suite
 ==Requirements==
 
 *idrop-web depends on Java 1.6+
-*idrop-web depends on grails 2.2.1
+
+*idrop-web depends on grails 2.2.3
 
 
 Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
@@ -27,11 +28,14 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#1475] ie fixes for 2.0.1
 **Lots of cleanups of html and styles as a result of ie testing on win8
 **Fix of login screen rendering on ie
+**Upgrade to grails 2.2.3
 
 *[#1312] fix public link access to not override account if alread logged in
 
 *[#715] check access before download
 **Check file access and verify is a data object before doing a download, displaying a nicer error message
+
+*[#1668] “iDrop Error Message Executing action [screenForDownloadRights] of controller [org.irods.mydrop.controller.FileController] caused exception: Runtime error executing action”
 
 ==Features==
 
