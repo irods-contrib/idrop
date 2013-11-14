@@ -204,7 +204,7 @@ function browserFirstViewRetrieved(data) {
 	$("#dataTreeDiv").bind("loaded.jstree", function(e, data) {
 		
 		//alert("tree loaded stuff now");
-		if (!requestedSelectedPath) {
+		if (requestedSelectedPath) {
 			selectTreePathFromIrodsPath(requestedSelectedPath);
 		}
 	});
@@ -918,6 +918,37 @@ function showTicketView(absPath, targetDiv) {
 
 		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
 				"/ticket/index?absPath=" + encodeURIComponent(absPath),
+				targetDiv, function(data) {
+					// alert("data is:" + data);
+					$(targetDiv).html(data);
+				}, function() {
+					setInfoDivNoData();
+				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+}
+
+/*
+* Show the rule view
+* 
+* @param absPath
+* @returns {Boolean}
+*/
+function showRuleView(absPath, targetDiv) {
+	if (absPath == null) {
+		absPath = baseAbsPath;
+	}
+
+	if (targetDiv == null) {
+		targetDiv = "#infoDiv";
+	}
+
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/rule/index?absPath=" + encodeURIComponent(absPath),
 				targetDiv, function(data) {
 					// alert("data is:" + data);
 					$(targetDiv).html(data);

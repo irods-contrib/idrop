@@ -7,6 +7,9 @@ beans = {
 
 	sharingService(org.irods.mydrop.service.SharingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
+	ruleProcessingService(org.irods.mydrop.service.RuleProcessingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
+
 	browseController(org.irods.mydrop.controller.BrowseController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 		taggingServiceFactory = ref("taggingServiceFactory")
@@ -55,6 +58,7 @@ beans = {
 	//"/Users/mikeconway/temp/hive-data/hive.properties"
 	//"C:/Users/Koushyar/Documents/hive/irodshive/hive-code/hive-web/war/WEB-INF/conf/hive.properties"
 	hiveConfiguration(org.irods.jargon.hive.container.HiveConfiguration) { hiveConfigLocation = "${application.config.hive.config.location}" }
+	//hiveConfiguration(org.irods.jargon.hive.container.HiveConfiguration) { hiveConfigLocation = "c:/temp/hive-data/hive.properties" }
 
 	hiveContainer(org.irods.jargon.hive.container.HiveContainerImpl) { bean ->
 		hiveConfiguration = ref("hiveConfiguration")

@@ -63,7 +63,6 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
 		this.stagingViewTree = stagingViewTree;
 		this.parentNode = parentNode;
 		initComponents();
-		txtAreaCurrentParent.setText(this.parentDirectory);
 		registerKeystrokeListener();
 
 	}
@@ -75,141 +74,68 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		lblTitle = new javax.swing.JLabel();
-		pnlFolderData = new javax.swing.JPanel();
-		pnlCurrentParent = new javax.swing.JPanel();
-		lblCurrentParent = new java.awt.Label();
-		scrollCurrentParent = new javax.swing.JScrollPane();
-		txtAreaCurrentParent = new javax.swing.JTextArea();
-		lblNewDiretoryName = new java.awt.Label();
-		txtNewFolder = new javax.swing.JTextField();
-		pnlBottom = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnOK = new javax.swing.JButton();
+        lblTitle = new javax.swing.JLabel();
+        pnlFolderData = new javax.swing.JPanel();
+        txtNewFolder = new javax.swing.JTextField();
+        pnlBottom = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnOK = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("Create New Folder Dialog");
-		setName("NewParentDialog"); // NOI18N
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Create New Folder Dialog");
+        setMinimumSize(new java.awt.Dimension(300, 200));
+        setName("NewParentDialog"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(300, 200));
 
-		lblTitle.setText("Please enter a name for the new folder");
-		getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
+        lblTitle.setText("Please enter a name for the new folder");
+        lblTitle.setMaximumSize(null);
+        lblTitle.setMinimumSize(null);
+        getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
-		pnlFolderData.setLayout(new java.awt.GridLayout(0, 1));
+        pnlFolderData.setLayout(new java.awt.GridBagLayout());
 
-		lblCurrentParent.setText("Current parent directory:");
+        txtNewFolder.setColumns(80);
+        txtNewFolder.setToolTipText("A name for the new folder underneath the displayed parent");
+        txtNewFolder.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtNewFolder.setPreferredSize(new java.awt.Dimension(90, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 9, 0, 9);
+        pnlFolderData.add(txtNewFolder, gridBagConstraints);
 
-		txtAreaCurrentParent.setColumns(20);
-		txtAreaCurrentParent.setEditable(false);
-		txtAreaCurrentParent.setLineWrap(true);
-		txtAreaCurrentParent.setRows(5);
-		txtAreaCurrentParent.setFocusable(false);
-		scrollCurrentParent.setViewportView(txtAreaCurrentParent);
+        getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
 
-		lblNewDiretoryName.setText("New folder name:");
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		txtNewFolder
-				.setToolTipText("A name for the new folder underneath the displayed parent");
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
+        btnCancel.setToolTipText("Cancel the folder creation");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnCancel);
 
-		org.jdesktop.layout.GroupLayout pnlCurrentParentLayout = new org.jdesktop.layout.GroupLayout(
-				pnlCurrentParent);
-		pnlCurrentParent.setLayout(pnlCurrentParentLayout);
-		pnlCurrentParentLayout
-				.setHorizontalGroup(pnlCurrentParentLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(org.jdesktop.layout.GroupLayout.TRAILING,
-								pnlCurrentParentLayout
-										.createSequentialGroup()
-										.addContainerGap(20, Short.MAX_VALUE)
-										.add(pnlCurrentParentLayout
-												.createParallelGroup(
-														org.jdesktop.layout.GroupLayout.TRAILING)
-												.add(lblCurrentParent,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-														org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-												.add(lblNewDiretoryName,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-														org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-														org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(pnlCurrentParentLayout
-												.createParallelGroup(
-														org.jdesktop.layout.GroupLayout.LEADING,
-														false)
-												.add(txtNewFolder)
-												.add(scrollCurrentParent,
-														org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-														413, Short.MAX_VALUE))
-										.addContainerGap()));
-		pnlCurrentParentLayout
-				.setVerticalGroup(pnlCurrentParentLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(pnlCurrentParentLayout
-								.createSequentialGroup()
-								.add(58, 58, 58)
-								.add(pnlCurrentParentLayout
-										.createParallelGroup(
-												org.jdesktop.layout.GroupLayout.LEADING)
-										.add(scrollCurrentParent,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-										.add(lblCurrentParent,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(
-										org.jdesktop.layout.LayoutStyle.RELATED)
-								.add(pnlCurrentParentLayout
-										.createParallelGroup(
-												org.jdesktop.layout.GroupLayout.LEADING)
-										.add(txtNewFolder,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-										.add(lblNewDiretoryName,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-								.addContainerGap(68, Short.MAX_VALUE)));
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('o');
+        btnOK.setToolTipText("Create the new folder");
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnOK);
 
-		lblNewDiretoryName.getAccessibleContext().setAccessibleName(
-				"New directory name:");
+        getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
-		pnlFolderData.add(pnlCurrentParent);
-
-		getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
-
-		pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-		btnCancel.setText("Cancel");
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnCancel);
-
-		btnOK.setText("OK");
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnOK);
-
-		getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
-
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
@@ -218,31 +144,14 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
 	private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
 		processNew();
 	}// GEN-LAST:event_btnOKActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnCancel;
-
-	private javax.swing.JButton btnOK;
-
-	private java.awt.Label lblCurrentParent;
-
-	private java.awt.Label lblNewDiretoryName;
-
-	private javax.swing.JLabel lblTitle;
-
-	private javax.swing.JPanel pnlBottom;
-
-	private javax.swing.JPanel pnlCurrentParent;
-
-	private javax.swing.JPanel pnlFolderData;
-
-	private javax.swing.JScrollPane scrollCurrentParent;
-
-	private javax.swing.JTextArea txtAreaCurrentParent;
-
-	private javax.swing.JTextField txtNewFolder;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlFolderData;
+    private javax.swing.JTextField txtNewFolder;
+    // End of variables declaration//GEN-END:variables
 	private void processNew() {
 		// add the new folder to irods, add to the tree, and scroll the tree
 		// into view

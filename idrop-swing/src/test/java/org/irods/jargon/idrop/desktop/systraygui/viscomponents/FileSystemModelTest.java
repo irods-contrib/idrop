@@ -14,9 +14,9 @@ import org.irods.jargon.testutils.IRODSTestSetupUtilities;
 import org.irods.jargon.testutils.TestingPropertiesHelper;
 import org.irods.jargon.testutils.filemanip.FileGenerator;
 import org.irods.jargon.testutils.filemanip.ScratchFileUtils;
+import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -99,8 +99,8 @@ public class FileSystemModelTest {
      */
     @Test
     public void testIsLeaf() throws Exception {
-         String testRoot = IRODS_TEST_SUBDIR_PATH + "/testIsLeaf";
-         String testFileName = "atestfile.txt";
+        String testRoot = IRODS_TEST_SUBDIR_PATH + "/testIsLeaf";
+        String testFileName = "atestfile.txt";
         String absPath = scratchFileUtils.createAndReturnAbsoluteScratchPath(testRoot);
         String testFile = FileGenerator.generateFileOfFixedLengthGivenName(absPath, testFileName, 10);
         FileSystemModel instance = new FileSystemModel(new File(absPath));
@@ -113,7 +113,7 @@ public class FileSystemModelTest {
      */
     @Test
     public void testGetIndexOfChild() {
-          String testRoot = IRODS_TEST_SUBDIR_PATH + "/testGetIndexOfChild";
+        String testRoot = IRODS_TEST_SUBDIR_PATH + "/testGetIndexOfChild";
         String childRoot = testRoot + "/hitherechild1";
         String childRoot2 = testRoot + "/hitherechild2";
 
@@ -153,7 +153,7 @@ public class FileSystemModelTest {
         FileSystemModel instance = null;
         //instance.addTreeModelListener(listener);
         // TODO review the generated test code and remove the default call to fail.
-       // fail("The test case is a prototype.");
+        // fail("The test case is a prototype.");
     }
 
     /**
@@ -164,7 +164,7 @@ public class FileSystemModelTest {
         System.out.println("removeTreeModelListener");
         TreeModelListener listener = null;
         FileSystemModel instance = null;
-       // instance.removeTreeModelListener(listener);
+        // instance.removeTreeModelListener(listener);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }

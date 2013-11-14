@@ -25,8 +25,6 @@
 			</h3>
 		</div>
 
-
-
 		<ul class="nav nav-tabs" id="infoTabs">
 			<li class="active"><a href="#info" id="infoTab"><g:message
 						code="text.info" /></a></li>
@@ -44,6 +42,10 @@
 			<g:if test="${grailsApplication.config.idrop.use.hive==true}">
 				<li><a href="#hive" id="hiveTab"><g:message
 							code="text.hive" /></a></li>
+			</g:if>
+			<g:if test="${rule}">
+				<li><a href="#rule" id="ruleTab"><g:message
+							code="text.rule" /></a></li>
 			</g:if>
 		</ul>
 
@@ -241,12 +243,17 @@
 					<div id="infoAccordionHiveInner"></div>
 				</div>
 			</g:if>
+			<g:if test="${rule}">
+				<div class="tab-pane" id="rule">
+					<div id="infoAccordionRuleInner"></div>
+				</div>
+			</g:if>
 		</div>
 
 	</div>
 	<!--  toggle html area -->
 
-	<script>
+	<script type="text/javascript">
 	$(function() {
 		$(".idropLiteBulkUpload").hide();
 		$("#menuDownload").show();
@@ -270,6 +277,12 @@
 
 		$('#permissionTab').on('shown', function(e) {
 			showSharingView(selectedPath, "#infoAccordionACLInner");
+
+		});
+			$('#ruleTab').on('shown', function(e) {
+				showRuleView(selectedPath, "#infoAccordionRuleInner");
+			});
+
 		});
 
 		$('#ticketTab').on('shown', function(e) {
@@ -286,7 +299,7 @@
 
 	});
 	</script>
-	
+
 	<g:if test="${getThumbnail}">
 		<script type="text/javascript">
 			$(function() {
@@ -308,4 +321,4 @@
 		</script>
 	</g:else>
 </div>
-</div>
+<div></div>

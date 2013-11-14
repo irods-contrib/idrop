@@ -15,8 +15,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.QueueManagerService;
 
-import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
@@ -26,7 +27,6 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
-import org.irods.jargon.transfer.dao.domain.LocalIRODSTransfer;
 import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
@@ -132,37 +132,43 @@ public class DownloadDialog extends javax.swing.JDialog implements
 	}
 
 	private void executeDownload() {
+        
+        idropGUI.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        
+        final String targetPath = txtDownloadTarget.getText();
+        final String sourceFiles[] = getFilesToDownload();
 
-		idropGUI.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-		final String targetPath = txtDownloadTarget.getText();
-		final String sourceFiles[] = getFilesToDownload();
-
-		// process as a get
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				for (String transferFile : sourceFiles) {
-					log.info("initiating a transfer of iRODS file:{}",
-							transferFile);
-					log.info("transfer to local file:{}", targetPath);
-					try {
-						idropGUI.getiDropCore()
-								.getTransferManager()
-								.enqueueAGet(transferFile, targetPath, "",
-										idropGUI.getIrodsAccount());
-					} catch (JargonException ex) {
-						java.util.logging.Logger.getLogger(
-								LocalFileTree.class.getName()).log(
-								java.util.logging.Level.SEVERE, null, ex);
-						idropGUI.showIdropException(ex);
-					}
-				}
-			}
-		});
-		idropGUI.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-	}
-
+        // process as a get
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                for (String transferFile : sourceFiles) {
+                    log.info("initiating a transfer of iRODS file:{}",
+                        transferFile);
+                    log.info("transfer to local file:{}",
+                        targetPath);
+                    
+                    try {
+                        QueueManagerService qms = idropGUI.getiDropCore().getConveyorService().getQueueManagerService();
+                        
+                        qms.enqueueTransferOperation(
+                            transferFile,
+                            targetPath,
+                            idropGUI.getiDropCore().getIrodsAccount(),
+                            TransferType.GET);
+                    } catch (ConveyorExecutionException ex) {
+                        java.util.logging.Logger.getLogger(
+                                LocalFileTree.class.getName()).log(
+                                java.util.logging.Level.SEVERE, null, ex);
+                        idropGUI.showIdropException(ex);
+                    }
+                     
+                }
+            }
+        });
+        idropGUI.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
 	private void setDownloadButtonState() {
 		btnDownloadNow
 				.setEnabled(((txtDownloadTarget.getText().length() > 0) && (tblFilesToDownload
@@ -210,215 +216,201 @@ public class DownloadDialog extends javax.swing.JDialog implements
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		jPanel1 = new javax.swing.JPanel();
-		pnlDownloadFileContainer = new javax.swing.JPanel();
-		lblFilesHeader = new javax.swing.JLabel();
-		scrollPanelFilesToDownload = new javax.swing.JScrollPane();
-		tblFilesToDownload = new javax.swing.JTable();
-		pnlAddDelete = new javax.swing.JPanel();
-		btnAddDownloadFile = new javax.swing.JButton();
-		btnDeleteDownloadFile = new javax.swing.JButton();
-		jPanel4 = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
-		txtDownloadTarget = new javax.swing.JTextField();
-		btnBrowseDownloadTarget = new javax.swing.JButton();
-		btnUseLocaLHome = new javax.swing.JButton();
-		btnUseLastDownload = new javax.swing.JButton();
-		pnlUploadDownloadButtons = new javax.swing.JPanel();
-		btnDownloadNow = new javax.swing.JButton();
-		btnCancel = new javax.swing.JButton();
+        pnlFileSection = new javax.swing.JPanel();
+        pnlDownloadFileContainer = new javax.swing.JPanel();
+        lblFilesHeader = new javax.swing.JLabel();
+        scrollPanelFilesToDownload = new javax.swing.JScrollPane();
+        tblFilesToDownload = new javax.swing.JTable();
+        pnlAddDelete = new javax.swing.JPanel();
+        btnAddDownloadFile = new javax.swing.JButton();
+        btnDeleteDownloadFile = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtDownloadTarget = new javax.swing.JTextField();
+        btnBrowseDownloadTarget = new javax.swing.JButton();
+        btnUseLocaLHome = new javax.swing.JButton();
+        btnUseLastDownload = new javax.swing.JButton();
+        pnlUploadDownloadButtons = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnDownloadNow = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(org.openide.util.NbBundle.getMessage(DownloadDialog.class,
-				"DownloadDialog.title")); // NOI18N
-		setPreferredSize(new java.awt.Dimension(600, 420));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.title")); // NOI18N
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
-		jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6,
-				6));
-		jPanel1.setPreferredSize(new java.awt.Dimension(600, 350));
-		jPanel1.setLayout(new java.awt.BorderLayout());
+        pnlFileSection.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
+        pnlFileSection.setPreferredSize(new java.awt.Dimension(600, 350));
+        pnlFileSection.setLayout(new java.awt.BorderLayout());
 
-		pnlDownloadFileContainer.setBorder(javax.swing.BorderFactory
-				.createEmptyBorder(14, 4, 1, 4));
-		pnlDownloadFileContainer.setPreferredSize(new java.awt.Dimension(303,
-				250));
-		pnlDownloadFileContainer.setLayout(new java.awt.BorderLayout());
+        pnlDownloadFileContainer.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 4, 1, 4));
+        pnlDownloadFileContainer.setPreferredSize(new java.awt.Dimension(303, 250));
+        pnlDownloadFileContainer.setLayout(new java.awt.BorderLayout());
 
-		lblFilesHeader.setText(org.openide.util.NbBundle.getMessage(
-				DownloadDialog.class, "DownloadDialog.lblFilesHeader.text")); // NOI18N
-		pnlDownloadFileContainer.add(lblFilesHeader,
-				java.awt.BorderLayout.NORTH);
+        lblFilesHeader.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.lblFilesHeader.text")); // NOI18N
+        pnlDownloadFileContainer.add(lblFilesHeader, java.awt.BorderLayout.NORTH);
 
-		tblFilesToDownload.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] {
+        tblFilesToDownload.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-				}, new String[] { "File" }) {
-			Class[] types = new Class[] { java.lang.String.class };
-			boolean[] canEdit = new boolean[] { false };
+            },
+            new String [] {
+                "File"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
 
-			@Override
-			public Class getColumnClass(final int columnIndex) {
-				return types[columnIndex];
-			}
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-			@Override
-			public boolean isCellEditable(final int rowIndex,
-					final int columnIndex) {
-				return canEdit[columnIndex];
-			}
-		});
-		scrollPanelFilesToDownload.setViewportView(tblFilesToDownload);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scrollPanelFilesToDownload.setViewportView(tblFilesToDownload);
 
-		pnlDownloadFileContainer.add(scrollPanelFilesToDownload,
-				java.awt.BorderLayout.CENTER);
+        pnlDownloadFileContainer.add(scrollPanelFilesToDownload, java.awt.BorderLayout.CENTER);
 
-		pnlAddDelete.setPreferredSize(new java.awt.Dimension(100, 25));
-		pnlAddDelete.setLayout(new java.awt.GridBagLayout());
+        pnlAddDelete.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-		btnAddDownloadFile
-				.setText(org.openide.util.NbBundle.getMessage(
-						DownloadDialog.class,
-						"DownloadDialog.btnAddDownloadFile.text")); // NOI18N
-		btnAddDownloadFile.setMaximumSize(null);
-		btnAddDownloadFile.setMinimumSize(null);
-		btnAddDownloadFile.setPreferredSize(null);
-		btnAddDownloadFile
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnAddDownloadFileActionPerformed(evt);
-					}
-				});
-		pnlAddDelete.add(btnAddDownloadFile, new java.awt.GridBagConstraints());
+        btnAddDownloadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
+        btnAddDownloadFile.setMnemonic('+');
+        btnAddDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnAddDownloadFile.text")); // NOI18N
+        btnAddDownloadFile.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnAddDownloadFile.toolTipText")); // NOI18N
+        btnAddDownloadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddDownloadFileActionPerformed(evt);
+            }
+        });
+        pnlAddDelete.add(btnAddDownloadFile);
 
-		btnDeleteDownloadFile.setText(org.openide.util.NbBundle.getMessage(
-				DownloadDialog.class,
-				"DownloadDialog.btnDeleteDownloadFile.text")); // NOI18N
-		btnDeleteDownloadFile.setMaximumSize(null);
-		btnDeleteDownloadFile.setMinimumSize(null);
-		btnDeleteDownloadFile.setPreferredSize(null);
-		btnDeleteDownloadFile
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnDeleteDownloadFileActionPerformed(evt);
-					}
-				});
-		pnlAddDelete.add(btnDeleteDownloadFile,
-				new java.awt.GridBagConstraints());
+        btnDeleteDownloadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnDeleteDownloadFile.setMnemonic('-');
+        btnDeleteDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDeleteDownloadFile.text")); // NOI18N
+        btnDeleteDownloadFile.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDeleteDownloadFile.toolTipText")); // NOI18N
+        btnDeleteDownloadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteDownloadFileActionPerformed(evt);
+            }
+        });
+        pnlAddDelete.add(btnDeleteDownloadFile);
 
-		pnlDownloadFileContainer.add(pnlAddDelete, java.awt.BorderLayout.SOUTH);
+        pnlDownloadFileContainer.add(pnlAddDelete, java.awt.BorderLayout.SOUTH);
 
-		jPanel1.add(pnlDownloadFileContainer, java.awt.BorderLayout.NORTH);
+        pnlFileSection.add(pnlDownloadFileContainer, java.awt.BorderLayout.CENTER);
 
-		jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-		jPanel4.setPreferredSize(new java.awt.Dimension(240, 76));
-		jPanel4.setLayout(new java.awt.GridBagLayout());
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel4.setName(""); // NOI18N
+        jPanel4.setLayout(new java.awt.GridBagLayout());
 
-		jLabel1.setText(org.openide.util.NbBundle.getMessage(
-				DownloadDialog.class, "DownloadDialog.jLabel1.text")); // NOI18N
-		jPanel4.add(jLabel1, new java.awt.GridBagConstraints());
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel4.add(jLabel1, gridBagConstraints);
 
-		txtDownloadTarget.setEditable(false);
-		txtDownloadTarget.setColumns(200);
-		txtDownloadTarget.setText(org.openide.util.NbBundle.getMessage(
-				DownloadDialog.class, "DownloadDialog.txtDownloadTarget.text")); // NOI18N
-		txtDownloadTarget.setMaximumSize(new java.awt.Dimension(200, 20));
-		txtDownloadTarget.setMinimumSize(null);
-		txtDownloadTarget.setPreferredSize(new java.awt.Dimension(200, 20));
-		txtDownloadTarget.setRequestFocusEnabled(false);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		jPanel4.add(txtDownloadTarget, gridBagConstraints);
+        txtDownloadTarget.setEditable(false);
+        txtDownloadTarget.setColumns(80);
+        txtDownloadTarget.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.text")); // NOI18N
+        txtDownloadTarget.setMargin(null);
+        txtDownloadTarget.setMaximumSize(null);
+        txtDownloadTarget.setMinimumSize(new java.awt.Dimension(400, 20));
+        txtDownloadTarget.setName(""); // NOI18N
+        txtDownloadTarget.setPreferredSize(new java.awt.Dimension(1050, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(txtDownloadTarget, gridBagConstraints);
 
-		btnBrowseDownloadTarget.setText(org.openide.util.NbBundle.getMessage(
-				DownloadDialog.class,
-				"DownloadDialog.btnBrowseDownloadTarget.text")); // NOI18N
-		btnBrowseDownloadTarget
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnBrowseDownloadTargetActionPerformed(evt);
-					}
-				});
-		jPanel4.add(btnBrowseDownloadTarget, new java.awt.GridBagConstraints());
+        btnBrowseDownloadTarget.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnBrowseDownloadTarget.text")); // NOI18N
+        btnBrowseDownloadTarget.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBrowseDownloadTargetActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(btnBrowseDownloadTarget, gridBagConstraints);
 
-		btnUseLocaLHome.setText(org.openide.util.NbBundle.getMessage(
-				DownloadDialog.class, "DownloadDialog.btnUseLocaLHome.text")); // NOI18N
-		btnUseLocaLHome.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnUseLocaLHomeActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		jPanel4.add(btnUseLocaLHome, gridBagConstraints);
+        btnUseLocaLHome.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnUseLocaLHome.text")); // NOI18N
+        btnUseLocaLHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUseLocaLHomeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(btnUseLocaLHome, gridBagConstraints);
 
-		btnUseLastDownload
-				.setText(org.openide.util.NbBundle.getMessage(
-						DownloadDialog.class,
-						"DownloadDialog.btnUseLastDownload.text")); // NOI18N
-		btnUseLastDownload
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnUseLastDownloadActionPerformed(evt);
-					}
-				});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		jPanel4.add(btnUseLastDownload, gridBagConstraints);
+        btnUseLastDownload.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnUseLastDownload.text")); // NOI18N
+        btnUseLastDownload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUseLastDownloadActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(btnUseLastDownload, gridBagConstraints);
 
-		jPanel1.add(jPanel4, java.awt.BorderLayout.SOUTH);
+        pnlFileSection.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
-		getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
+        getContentPane().add(pnlFileSection, java.awt.BorderLayout.CENTER);
 
-		pnlUploadDownloadButtons.setLayout(new java.awt.FlowLayout(
-				java.awt.FlowLayout.RIGHT));
+        pnlUploadDownloadButtons.setMinimumSize(new java.awt.Dimension(200, 80));
+        pnlUploadDownloadButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		btnDownloadNow.setText(org.openide.util.NbBundle.getMessage(
-				DownloadDialog.class, "DownloadDialog.btnDownloadNow.text")); // NOI18N
-		btnDownloadNow.setEnabled(false);
-		btnDownloadNow.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnDownloadNowActionPerformed(evt);
-			}
-		});
-		pnlUploadDownloadButtons.add(btnDownloadNow);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setMargin(null);
+        btnCancel.setMaximumSize(null);
+        btnCancel.setMinimumSize(null);
+        btnCancel.setPreferredSize(null);
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlUploadDownloadButtons.add(btnCancel);
 
-		btnCancel.setText(org.openide.util.NbBundle.getMessage(
-				DownloadDialog.class, "DownloadDialog.btnCancel.text")); // NOI18N
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		pnlUploadDownloadButtons.add(btnCancel);
+        btnDownloadNow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_181_download_alt.png"))); // NOI18N
+        btnDownloadNow.setMnemonic('d');
+        btnDownloadNow.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDownloadNow.text")); // NOI18N
+        btnDownloadNow.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDownloadNow.toolTipText")); // NOI18N
+        btnDownloadNow.setEnabled(false);
+        btnDownloadNow.setMargin(null);
+        btnDownloadNow.setMaximumSize(null);
+        btnDownloadNow.setMinimumSize(null);
+        btnDownloadNow.setPreferredSize(null);
+        btnDownloadNow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDownloadNowActionPerformed(evt);
+            }
+        });
+        pnlUploadDownloadButtons.add(btnDownloadNow);
 
-		getContentPane().add(pnlUploadDownloadButtons,
-				java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlUploadDownloadButtons, java.awt.BorderLayout.SOUTH);
 
-		getAccessibleContext().setAccessibleName(
-				org.openide.util.NbBundle.getMessage(DownloadDialog.class,
-						"DownloadDialog.AccessibleContext.accessibleName")); // NOI18N
+        getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.AccessibleContext.accessibleName")); // NOI18N
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnBrowseDownloadTargetActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrowseDownloadTargetActionPerformed
@@ -453,6 +445,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUseLastDownloadActionPerformed
 		String target = "";
 		// see if can find some get history in the transfer queue
+                /* FIXME:conveyor
 		try {
 			List<LocalIRODSTransfer> transfers = idropGUI.getiDropCore()
 					.getTransferManager().getRecentQueue();
@@ -476,7 +469,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
 			}
 		} catch (JargonException ex) {
 			Exceptions.printStackTrace(ex);
-		}
+		} */
 		if (target != null) {
 			txtDownloadTarget.setText(target);
 		}
@@ -533,24 +526,24 @@ public class DownloadDialog extends javax.swing.JDialog implements
 		dispose();
 	}// GEN-LAST:event_btnCancelActionPerformed
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton btnAddDownloadFile;
-	private javax.swing.JButton btnBrowseDownloadTarget;
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnDeleteDownloadFile;
-	private javax.swing.JButton btnDownloadNow;
-	private javax.swing.JButton btnUseLastDownload;
-	private javax.swing.JButton btnUseLocaLHome;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JPanel jPanel1;
-	private javax.swing.JPanel jPanel4;
-	private javax.swing.JLabel lblFilesHeader;
-	private javax.swing.JPanel pnlAddDelete;
-	private javax.swing.JPanel pnlDownloadFileContainer;
-	private javax.swing.JPanel pnlUploadDownloadButtons;
-	private javax.swing.JScrollPane scrollPanelFilesToDownload;
-	private javax.swing.JTable tblFilesToDownload;
-	private javax.swing.JTextField txtDownloadTarget;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddDownloadFile;
+    private javax.swing.JButton btnBrowseDownloadTarget;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDeleteDownloadFile;
+    private javax.swing.JButton btnDownloadNow;
+    private javax.swing.JButton btnUseLastDownload;
+    private javax.swing.JButton btnUseLocaLHome;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel lblFilesHeader;
+    private javax.swing.JPanel pnlAddDelete;
+    private javax.swing.JPanel pnlDownloadFileContainer;
+    private javax.swing.JPanel pnlFileSection;
+    private javax.swing.JPanel pnlUploadDownloadButtons;
+    private javax.swing.JScrollPane scrollPanelFilesToDownload;
+    private javax.swing.JTable tblFilesToDownload;
+    private javax.swing.JTextField txtDownloadTarget;
+    // End of variables declaration//GEN-END:variables
 
 }

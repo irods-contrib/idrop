@@ -3,14 +3,14 @@
     <groupId>org.irods</groupId>
     <artifactId>idrop</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.1.0-SNAPSHOT</version>
     <name>iRODS iDrop</name>
     <description>iRODS iDrop - personal web and desktop grid access clients</description>
     <url>https://code.renci.org/gf/project/irodsidrop/</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jargon.version>3.3.2-SNAPSHOT</jargon.version>  
-        <spring.core.version>3.0.5.RELEASE</spring.core.version>
+        <jargon.version>3.3.3-SNAPSHOT</jargon.version>  
+        <spring.core.version>3.2.3.RELEASE</spring.core.version>
         <commons.io.version>2.0.1</commons.io.version>
         <netbeans.version>RELEASE711</netbeans.version>
     </properties>
@@ -182,13 +182,8 @@
                 <version>${jargon.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.irods.jargon.transfer</groupId>
-                <artifactId>jargon-transfer-dao-spring</artifactId>
-                <version>${jargon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.irods.jargon.transfer</groupId>
-                <artifactId>jargon-transfer-engine</artifactId>
+                <groupId>org.irods.jargon</groupId>
+                <artifactId>jargon-conveyor</artifactId>
                 <version>${jargon.version}</version>
             </dependency>
             <dependency>
@@ -322,6 +317,10 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>

@@ -15,171 +15,180 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author lisa
  */
 public class PermissionsTableModel extends AbstractTableModel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1321576471314258457L;
-	List<UserFilePermission> permissions;
-	List<UserFilePermission> origPermissions;
-	public static org.slf4j.Logger log = LoggerFactory
-			.getLogger(MetadataTableModel.class);
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1321576471314258457L;
+    List<UserFilePermission> permissions;
+    List<UserFilePermission> origPermissions;
+    public static org.slf4j.Logger log = LoggerFactory
+            .getLogger(MetadataTableModel.class);
 
-	public PermissionsTableModel(final List<UserFilePermission> permissions) {
-		if (permissions == null) {
-			throw new IdropRuntimeException("null permissions");
-		}
-		this.permissions = permissions;
-		resetOriginalPermissionList();
-	}
+    public PermissionsTableModel(final List<UserFilePermission> permissions) {
+        if (permissions == null) {
+            throw new IdropRuntimeException("null permissions");
+        }
+        this.permissions = permissions;
+        resetOriginalPermissionList();
+    }
 
-	@Override
-	public int getRowCount() {
-		return permissions.size();
-	}
+    @Override
+    public int getRowCount() {
+        return permissions.size();
+    }
 
-	@Override
-	public int getColumnCount() {
-		return 2;
-	}
+    @Override
+    public int getColumnCount() {
+        return 2;
+    }
 
-	@Override
-	public Object getValueAt(final int rowIndex, final int columnIndex) {
-		if (rowIndex >= getRowCount()) {
-			throw new IdropRuntimeException("row unavailable, out of bounds");
-		}
+    @Override
+    public Object getValueAt(final int rowIndex, final int columnIndex) {
+        if (rowIndex >= getRowCount()) {
+            throw new IdropRuntimeException("row unavailable, out of bounds");
+        }
 
-		if (columnIndex >= getColumnCount()) {
-			throw new IdropRuntimeException("column unavailable, out of bounds");
-		}
+        if (columnIndex >= getColumnCount()) {
+            throw new IdropRuntimeException("column unavailable, out of bounds");
+        }
 
-		UserFilePermission permission = permissions.get(rowIndex);
+        UserFilePermission permission = permissions.get(rowIndex);
 
-		// translate indexes to object values
+        // translate indexes to object values
 
-		// 0 = attribute
+        // 0 = attribute
 
-		if (columnIndex == 0) {
-			return permission.getNameWithZone();
-		}
+        if (columnIndex == 0) {
+            return permission.getNameWithZone();
+        }
 
-		// 1 = value
+        // 1 = value
 
-		if (columnIndex == 1) {
-			return permission.getFilePermissionEnum().name();
-		}
+        if (columnIndex == 1) {
+            return permission.getFilePermissionEnum().name();
+        }
 
-		throw new IdropRuntimeException("unknown column");
-	}
+        throw new IdropRuntimeException("unknown column");
+    }
 
-	@Override
-	public void setValueAt(final Object value, final int row, final int column) {
-		if (column == 1) {
-			UserFilePermission permission = permissions.get(row);
-			permission.setFilePermissionEnum(FilePermissionEnum
-					.valueOf((String) value));
-			fireTableDataChanged();
-		}
-	}
+    @Override
+    public void setValueAt(final Object value, final int row, final int column) {
+        if (column == 1) {
+            UserFilePermission permission = permissions.get(row);
+            permission.setFilePermissionEnum(FilePermissionEnum
+                    .valueOf((String) value));
+            fireTableDataChanged();
+        }
+    }
 
-	@Override
-	public Class<?> getColumnClass(final int columnIndex) {
+    @Override
+    public Class<?> getColumnClass(final int columnIndex) {
 
-		if (columnIndex >= getColumnCount()) {
-			throw new IdropRuntimeException("column unavailable, out of bounds");
-		}
-		return (getValueAt(0, columnIndex).getClass());
-	}
+        if (columnIndex >= getColumnCount()) {
+            throw new IdropRuntimeException("column unavailable, out of bounds");
+        }
+        return (getValueAt(0, columnIndex).getClass());
+    }
 
-	@Override
-	public String getColumnName(final int columnIndex) {
-		if (columnIndex >= getColumnCount()) {
-			throw new IdropRuntimeException("column unavailable, out of bounds");
-		}
+    @Override
+    public String getColumnName(final int columnIndex) {
+        if (columnIndex >= getColumnCount()) {
+            throw new IdropRuntimeException("column unavailable, out of bounds");
+        }
 
-		// translate indexes to object values
+        // translate indexes to object values
 
-		// 0 = user name
+        // 0 = user name
 
-		if (columnIndex == 0) {
-			return "User Name";
-		}
+        if (columnIndex == 0) {
+            return "User Name";
+        }
 
-		// 1 = share permissions
+        // 1 = share permissions
 
-		if (columnIndex == 1) {
-			return "Share Permissions";
-		}
+        if (columnIndex == 1) {
+            return "Share Permissions";
+        }
 
-		throw new IdropRuntimeException("unknown column");
-	}
+        throw new IdropRuntimeException("unknown column");
+    }
 
-	@Override
-	public boolean isCellEditable(final int row, final int column) {
-		return (column != 0);
-	}
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        //all cells false
+        return false;
+    }
 
-	public void addRow(final User user, final FilePermissionEnum permissionEnum)
-			throws JargonException {
-		UserFilePermission permission = new UserFilePermission(user.getName(),
-				user.getId(), permissionEnum, user.getUserType(),
-				user.getZone());
-		permissions.add(permission);
-		fireTableDataChanged();
-	}
+    public void addRow(final User user, final FilePermissionEnum permissionEnum)
+            throws JargonException {
+        UserFilePermission permission = new UserFilePermission(user.getName(),
+                user.getId(), permissionEnum, user.getUserType(),
+                user.getZone());
+        permissions.add(permission);
+        fireTableDataChanged();
+    }
 
-	public void deleteRow(final User user) throws JargonException {
-		// UserFilePermission permission = new UserFilePermission(
-		// user.getName(),
-		// user.getId(),
-		// permissionEnum,
-		// user.getUserType(),
-		// user.getZone());
+    public void deleteRow(final User user) throws JargonException {
+        // UserFilePermission permission = new UserFilePermission(
+        // user.getName(),
+        // user.getId(),
+        // permissionEnum,
+        // user.getUserType(),
+        // user.getZone());
 
-		// see if we can find this user in the table, don't complain if we can't
-		String userName = user.getNameWithZone();
-		for (int idx = 0; idx < getRowCount(); idx++) {
-			if (userName.equals(getValueAt(idx, 0))) {
-				permissions.remove(idx);
-				fireTableDataChanged();
-			}
-		}
-	}
+        // see if we can find this user in the table, don't complain if we can't
+        String userName = user.getNameWithZone();
+        for (int idx = 0; idx < getRowCount(); idx++) {
+            if (userName.equals(getValueAt(idx, 0))) {
+                permissions.remove(idx);
+                fireTableDataChanged();
+            }
+        }
+    }
 
-	public void deleteRow(final int idx) {
+    public void deleteRow(final int idx) {
 
-		permissions.remove(idx);
-		fireTableDataChanged();
-	}
+        permissions.remove(idx);
+        fireTableDataChanged();
+    }
 
-	public UserFilePermission[] getPermissionsToDelete() {
+    public UserFilePermission getRow(int row) {
+        return this.permissions.get(row);
+    }
+    
+    public void updateRow(int row, UserFilePermission permission) {
+        permissions.set(row, permission);
+        fireTableDataChanged();
+    }
 
-		Set<UserFilePermission> permissionsToDeleteSet = new HashSet<UserFilePermission>(
-				origPermissions);
-		permissionsToDeleteSet.removeAll(permissions);
-		UserFilePermission[] permissionsToDelete = permissionsToDeleteSet
-				.toArray(new UserFilePermission[0]);
+    public UserFilePermission[] getPermissionsToDelete() {
 
-		return permissionsToDelete;
-	}
+        Set<UserFilePermission> permissionsToDeleteSet = new HashSet<UserFilePermission>(
+                origPermissions);
+        permissionsToDeleteSet.removeAll(permissions);
+        UserFilePermission[] permissionsToDelete = permissionsToDeleteSet
+                .toArray(new UserFilePermission[0]);
 
-	public UserFilePermission[] getPermissionsToAdd() {
+        return permissionsToDelete;
+    }
 
-		Set<UserFilePermission> permissionsToAddSet = new HashSet<UserFilePermission>(
-				permissions);
-		permissionsToAddSet.removeAll(origPermissions);
-		UserFilePermission[] permissionsToAdd = permissionsToAddSet
-				.toArray(new UserFilePermission[0]);
+    public UserFilePermission[] getPermissionsToAdd() {
 
-		return permissionsToAdd;
-	}
+        Set<UserFilePermission> permissionsToAddSet = new HashSet<UserFilePermission>(
+                permissions);
+        permissionsToAddSet.removeAll(origPermissions);
+        UserFilePermission[] permissionsToAdd = permissionsToAddSet
+                .toArray(new UserFilePermission[0]);
 
-	public void resetOriginalPermissionList() {
-		origPermissions = new ArrayList(permissions);
-	}
+        return permissionsToAdd;
+    }
 
+    public void resetOriginalPermissionList() {
+        origPermissions = new ArrayList(permissions);
+    }
 }

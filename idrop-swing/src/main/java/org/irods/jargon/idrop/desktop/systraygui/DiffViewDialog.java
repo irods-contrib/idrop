@@ -17,8 +17,6 @@ import org.irods.jargon.datautils.tree.FileTreeNode;
 import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffTreeCustomRenderer;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffViewData;
-import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -376,7 +374,7 @@ public class DiffViewDialog extends javax.swing.JDialog {
 
         // the diff shows the full computed path, you want to use the parent name for the target so that /x/y doesnt get put to x/y/y
         CollectionAndPath collectionAndPath = MiscIRODSUtils.separateCollectionAndPathFromGivenAbsolutePath(entry.getAbsPathOppositeFile());
-
+        /* FIXME: conveyor
         try {
             idropGui.getiDropCore()
                     .getTransferManager()
@@ -394,7 +392,7 @@ public class DiffViewDialog extends javax.swing.JDialog {
                     this,
                     ex.getMessage(),
                     "");
-        }
+        } */
     }//GEN-LAST:event_btnResolveGetActionPerformed
 
     private void btnResolvePutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolvePutActionPerformed
@@ -408,7 +406,7 @@ public class DiffViewDialog extends javax.swing.JDialog {
 
         // the diff shows the full computed path, you want to use the parent name for the target so that /x/y doesnt get put to x/y/y
         CollectionAndPath collectionAndPath = MiscIRODSUtils.separateCollectionAndPathFromGivenAbsolutePath(entry.getAbsPathOppositeFile());
-
+        /* FIXME: conveyor
         try {
             idropGui.getiDropCore()
                     .getTransferManager()
@@ -427,7 +425,7 @@ public class DiffViewDialog extends javax.swing.JDialog {
                     this,
                     ex.getMessage(),
                     "");
-        }
+        } */
     }//GEN-LAST:event_btnResolvePutActionPerformed
 
     private void btnResolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolveActionPerformed
@@ -438,14 +436,14 @@ public class DiffViewDialog extends javax.swing.JDialog {
         FileTreeDiffEntry entry = (FileTreeDiffEntry) node.getUserObject();
 
         log.info("entry:{}", entry);
-
+        /* FIXME: conveyor
         if (entry.getDiffType() == DiffType.LEFT_HAND_PLUS) {
             log.info("schedule a put");
 
             // the diff shows the full computed path, you want to use the parent name for the target so that /x/y doesnt get put to x/y/y
             CollectionAndPath collectionAndPath = MiscIRODSUtils.separateCollectionAndPathFromGivenAbsolutePath(entry.getAbsPathOppositeFile());
 
-
+            
             try {
                 idropGui.getiDropCore()
                         .getTransferManager()
@@ -488,8 +486,8 @@ public class DiffViewDialog extends javax.swing.JDialog {
                         this,
                         ex.getMessage(),
                         "");
-            }
-        }
+            } 
+        } */
 
 
 

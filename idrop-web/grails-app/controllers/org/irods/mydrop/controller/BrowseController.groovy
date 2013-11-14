@@ -14,6 +14,7 @@ import org.irods.jargon.datautils.image.MediaHandlingUtils
 import org.irods.jargon.datautils.pagination.PagingActions
 import org.irods.jargon.datautils.pagination.PagingAnalyser
 import org.irods.jargon.datautils.sharing.*
+import org.irods.jargon.ruleservice.composition.Rule
 import org.irods.jargon.ticket.TicketDistributionContext
 import org.irods.jargon.usertagging.domain.IRODSStarredFileOrCollection
 import org.irods.jargon.usertagging.tags.FreeTaggingService
@@ -21,6 +22,7 @@ import org.irods.jargon.usertagging.tags.IRODSTaggingService
 import org.irods.jargon.usertagging.tags.TaggingServiceFactory
 import org.irods.mydrop.config.ViewState
 import org.irods.mydrop.controller.utils.ViewNameAndModelValues
+import org.irods.mydrop.service.RuleProcessingService
 import org.irods.mydrop.service.StarringService
 import org.irods.mydrop.service.ViewStateService
 
@@ -35,6 +37,7 @@ class BrowseController {
 	TaggingServiceFactory taggingServiceFactory
 	StarringService starringService
 	ViewStateService viewStateService
+	RuleProcessingService ruleProcessingService
 	IRODSAccount irodsAccount
 
 	def grailsApplication
@@ -87,7 +90,7 @@ class BrowseController {
 
 				/*
 				 * Decide what to do about the selected path, such that a path we set as root might need to wipe out the previous selected path.
-				 * 
+				 *
 				 * Keep the selected path if the new root is shorter than the selected path and it contains the path
 				 */
 
@@ -202,7 +205,7 @@ class BrowseController {
 			/*
 			 * Detect modes means I am being asked to decide what to show, based on things like whether
 			 * strict acl's are enforced.
-			 * 
+			 *
 			 * If I have a preserved view state, initialize to that
 			 */
 
@@ -773,8 +776,20 @@ class BrowseController {
 				comment = commentTag.getTagData()
 			}
 
+
+			Rule rule = null
+			if (ruleProcessingService.isRule(absPath)) {
+				log.info("is a .r file, see if a rule")
+				try {
+
+					rule = ruleProcessingService.loadRuleFromIrodsFile(irodsAccount, absPath)
+				} catch (JargonException je) {
+					log.error("exception attempting to load rule, do not show tab")
+				}
+			}
+
 			mav.view = "dataObjectInfo"
-			mav.model = [dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,irodsStarredFileOrCollection:irodsStarredFileOrCollection,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0")]
+			mav.model = [dataObject:retObj,tags:freeTags,comment:comment,getThumbnail:getThumbnail,renderMedia:renderMedia,isDataObject:isDataObject,irodsStarredFileOrCollection:irodsStarredFileOrCollection,showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0"), rule:rule]
 			return mav
 		} else {
 			log.info("getting free tags for collection")
