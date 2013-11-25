@@ -12,6 +12,7 @@ import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.conveyor.core.GridAccountService;
 import org.irods.jargon.core.connection.AuthScheme;
+import org.irods.jargon.core.exception.AuthenticationException;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
 import org.openide.util.Exceptions;
@@ -21,7 +22,7 @@ import org.openide.util.Exceptions;
  * @author lisa
  */
 public class CreateGridInfoDialog extends javax.swing.JDialog {
-    
+
     private IDROPCore idropCore;
     private IRODSAccount gridInfo = null;
 
@@ -34,11 +35,11 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         initAuthSchemesCombo();
         this.idropCore = idropCore;
     }
-    
+
     public IRODSAccount getGridInfo() {
         return this.gridInfo;
     }
-    
+
     private void initAuthSchemesCombo() {
         cbAuthScheme.setModel(new DefaultComboBoxModel(AuthScheme.values()));
     }
@@ -82,7 +83,6 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(800, 600));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 4, 10));
-        jPanel1.setMinimumSize(null);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel1.text")); // NOI18N
@@ -290,7 +290,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         String host = txtHost.getText().trim();
         String strPort = txtPort.getText().trim();
-        int port=0;
+        int port = 0;
         if ((strPort != null) && (!strPort.isEmpty())) {
             port = Integer.valueOf(strPort).intValue();
         }
@@ -307,9 +307,9 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
             homeBuilder.append(user);
             initialPath = homeBuilder.toString();
         }
-        
+
         // TODO: make sure all fields are filled in and validated
-        
+
         try {
             gridInfo = IRODSAccount.instance(host, port, user, passwd, initialPath, zone, defaultResc);
         } catch (JargonException ex) {
@@ -325,21 +325,28 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
                     "Create Grid Account", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        
+
+
+        if (!validateGridAccount(gridInfo)) {
+            MessageManager.showError(this, "Unable to process login, the server or account appears to be invalid");
+            gridInfo = null;
+            return;
+        }
+
+
         // now add authorization scheme to gridaccount
         AuthScheme scheme = (AuthScheme) cbAuthScheme.getSelectedItem();
         if ((scheme != null) && (!(scheme.getTextValue().isEmpty()))) {
             gridInfo.setAuthenticationScheme(scheme);
         }
-        
+
         // now add comment to gridaccount
         String comment = "";
         if ((textareaComment.getText() != null) && (!textareaComment.getText().isEmpty())) {
             comment = textareaComment.getText().trim();
         }
-        
-        
+
+
         GridAccountService gridAccountService = idropCore.getConveyorService().getGridAccountService();
         try {
             gridAccountService.addOrUpdateGridAccountBasedOnIRODSAccount(gridInfo);
@@ -350,23 +357,32 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
             Logger.getLogger(CreateGridInfoDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
-                this,
-                "Creation of grid account failed. Pass phrase is invalid",
-                "Create Grid Account", JOptionPane.ERROR_MESSAGE);
+                    this,
+                    "Creation of grid account failed. Pass phrase is invalid",
+                    "Create Grid Account", JOptionPane.ERROR_MESSAGE);
         } catch (ConveyorExecutionException ex) {
             gridInfo = null;
             Logger.getLogger(CreateGridInfoDialog.class.getName()).log(
                     Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
-                this,
-                "Creation of grid account failed.",
-                "Create Grid Account", JOptionPane.ERROR_MESSAGE);
+                    this,
+                    "Creation of grid account failed.",
+                    "Create Grid Account", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         this.dispose();
     }//GEN-LAST:event_btnOKActionPerformed
 
-    
+    private boolean validateGridAccount(IRODSAccount gridInfo) {
+        try {
+            idropCore.getIrodsFileSystem().getIRODSAccessObjectFactory().authenticateIRODSAccount(gridInfo);
+            return true;
+        } catch (AuthenticationException ex) {
+            return false;
+        } catch (JargonException je) {
+            return false;
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
