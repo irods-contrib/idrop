@@ -38,6 +38,7 @@ import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.ConveyorExecutorService.RunningStatus;
 import org.irods.jargon.conveyor.core.QueueStatus;
 import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.exception.FileNotFoundException;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.EnvironmentalInfoAO;
 import org.irods.jargon.core.pub.ResourceAO;
@@ -312,19 +313,32 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     root.setPathOrName(baseFile.getAbsolutePath());
                     root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
                     getiDropCore().setBasePath(baseFile.getAbsolutePath());
-                    
+
                 }
-                
-                irodsTree = new IRODSTree(gui);
-                IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
-                        getiDropCore().getIrodsFileSystem(), irodsTree);
-                irodsTree.setRefreshingTree(true);
-                IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
-                        rootNode, getIrodsAccount());
-                mdl = new IRODSOutlineModel(gui, irodsFileSystemModel,
-                        new IRODSRowModel(), true, "File System");
-                irodsTree.setModel(mdl);
-                scrollIrodsTree.setViewportView(irodsTree);
+
+                try {
+                    irodsTree = new IRODSTree(gui);
+                    IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
+                            getiDropCore().getIrodsFileSystem(), irodsTree);
+                    irodsTree.setRefreshingTree(true);
+                    IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
+                            rootNode, getIrodsAccount());
+                    mdl = new IRODSOutlineModel(gui, irodsFileSystemModel,
+                            new IRODSRowModel(), true, "File System");
+                    irodsTree.setModel(mdl);
+                    scrollIrodsTree.setViewportView(irodsTree);
+                } catch (IdropException ie) {
+                    log.error("exception loading new tree...attempting correction by setting to root", ie);
+                    if (gui.getiDropCore().getBasePath().equals("/")) {
+                        MessageManager.showError(irodsTree, "Invalid path, cannot set a root of the tree");
+                        log.error("unable to reset tree, base path already at root", ie);
+                        throw new IdropException("Unable to set base path of tree", ie);
+                    } else {
+                        MessageManager.showError(irodsTree, "Invalid path, attempting to set tree root back to root");
+                        gui.getiDropCore().setBasePath("/");
+                        loadNewTree();
+                    }
+                }
             }
 
             /**
@@ -333,8 +347,17 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             private void reloadExistingTree() throws IdropException,
                     JargonException {
 
-                IRODSNode currentRoot = (IRODSNode) irodsTree.getOutlineModel()
+
+                Object root = irodsTree.getOutlineModel()
                         .getRoot();
+
+                if (root == null) {
+                    log.error("cannot load node, is null");
+                    throw new IdropException("Cannot load a tree with a root at the given path, use the Tree option to select a valid root");
+                }
+
+
+                IRODSNode currentRoot = (IRODSNode) root;
 
                 log.debug("current tree root:{}", currentRoot);
                 TreePath rootPath = TreeUtils.getPath(currentRoot);
@@ -369,7 +392,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                                 .getPathBounds(treePath);
                         if (rect != null) {
                             irodsTree.scrollRectToVisible(rect);
-                     
+
                         }
                     }
                 }
@@ -389,7 +412,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             public void run() {
                 lastCachedInfoItem = null;
                 idropGui.buildTargetTree(true);
-             
+
                 getiDropCore().setBasePath(null);
                 setUpAccountGutter();
             }
@@ -1093,8 +1116,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //            }
 //        });
     }
-
-
 
     /**
      * A transfer confirm dialog
@@ -2021,12 +2042,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         try {
             if (togglePauseTransfer.isSelected()) {
                 log.info("pausing....");
-               
 
-               iDropCore.getConveyorService().getConveyorExecutorService().requestPause();
+
+                iDropCore.getConveyorService().getConveyorExecutorService().requestPause();
             } else {
                 log.info("resuming queue");
-               iDropCore.getConveyorService().getConveyorExecutorService().requestResumeFromPause();
+                iDropCore.getConveyorService().getConveyorExecutorService().requestResumeFromPause();
             }
         } catch (Exception ex) {
             Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
@@ -2199,7 +2220,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             MessageManager.showWarning(this, "Please select a parent folder in the tree");
         }
     }//GEN-LAST:event_btnNewFolderActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMainToolbarCopy;
     private javax.swing.JButton btnMainToolbarDelete;

@@ -10,7 +10,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import org.irods.jargon.core.exception.FileNotFoundException;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
+import org.irods.jargon.idrop.exceptions.IdropException;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -42,7 +44,6 @@ public class NavPopupDialog extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        pnlBreadcrumbPopupContent = new javax.swing.JPanel();
         toolbarBreadcrumb = new javax.swing.JToolBar();
         btnGoHomeTargetTree = new javax.swing.JButton();
         filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
@@ -55,11 +56,13 @@ public class NavPopupDialog extends javax.swing.JDialog {
         tblBreadcrumbs = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(null);
         setPreferredSize(new java.awt.Dimension(300, 200));
-
-        pnlBreadcrumbPopupContent.setLayout(new java.awt.GridBagLayout());
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         toolbarBreadcrumb.setRollover(true);
+        toolbarBreadcrumb.setMinimumSize(null);
+        toolbarBreadcrumb.setPreferredSize(null);
 
         btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
         btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoHomeTargetTree.text")); // NOI18N
@@ -95,6 +98,8 @@ public class NavPopupDialog extends javax.swing.JDialog {
         txtCustomPath.setColumns(60);
         txtCustomPath.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.txtCustomPath.text")); // NOI18N
         txtCustomPath.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.txtCustomPath.toolTipText")); // NOI18N
+        txtCustomPath.setMinimumSize(null);
+        txtCustomPath.setPreferredSize(null);
         toolbarBreadcrumb.add(txtCustomPath);
         toolbarBreadcrumb.add(filler19);
 
@@ -117,8 +122,12 @@ public class NavPopupDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        pnlBreadcrumbPopupContent.add(toolbarBreadcrumb, gridBagConstraints);
+        gridBagConstraints.ipadx = 489;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        getContentPane().add(toolbarBreadcrumb, gridBagConstraints);
+
+        scrollBreadcrumbs.setMinimumSize(null);
+        scrollBreadcrumbs.setPreferredSize(null);
 
         tblBreadcrumbs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -155,30 +164,13 @@ public class NavPopupDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        pnlBreadcrumbPopupContent.add(scrollBreadcrumbs, gridBagConstraints);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 877, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 18, Short.MAX_VALUE)
-                    .addComponent(pnlBreadcrumbPopupContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 18, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 448, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 5, Short.MAX_VALUE)
-                    .addComponent(pnlBreadcrumbPopupContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 5, Short.MAX_VALUE)))
-        );
+        gridBagConstraints.ipadx = 429;
+        gridBagConstraints.ipady = 386;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(scrollBreadcrumbs, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -226,7 +218,6 @@ public class NavPopupDialog extends javax.swing.JDialog {
     private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler18;
     private javax.swing.Box.Filler filler19;
-    private javax.swing.JPanel pnlBreadcrumbPopupContent;
     private javax.swing.JScrollPane scrollBreadcrumbs;
     private javax.swing.JTable tblBreadcrumbs;
     private javax.swing.JToolBar toolbarBreadcrumb;
@@ -255,7 +246,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
                         objVector.add(pathVector);
                     }
                 }
-                DefaultTableModel newModel = new DefaultTableModel(objVector, strVector);
+                DefaultTableModel newModel = new DefaultTableModel(objVector, strVector); 
 
                 tblBreadcrumbs.setModel(newModel);
 
@@ -270,10 +261,18 @@ public class NavPopupDialog extends javax.swing.JDialog {
 
     protected void useCustomPath(String selectedRoot) {
 
-        idropGui.getiDropCore().setBasePath(selectedRoot);
-        idropGui.buildTargetTree(false);
-        buildPathTable(selectedRoot);
-        setVisible(false);
+        String prevPath = idropGui.getiDropCore().getBasePath();
+
+        try {
+            idropGui.getiDropCore().setBasePath(selectedRoot);
+            idropGui.buildTargetTree(false);
+            this.dispose();
+        } catch (Exception ie) {
+            log.error("unable to find path, revert to prevous path", ie);
+            idropGui.getiDropCore().setBasePath(prevPath);
+            idropGui.buildTargetTree(true);
+            this.dispose();
+        }
     }
 }
 
@@ -299,7 +298,7 @@ class PathSelectionHandler implements ListSelectionListener {
         }
 
         if (!lsm.isSelectionEmpty()) {
-            
+
             // Find out which indexes are selected.
             int minIndex = lsm.getMinSelectionIndex();
             // get the selected row index, and build the path from the 0 path forward
