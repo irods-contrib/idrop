@@ -20,26 +20,21 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumn;
 import org.irods.jargon.conveyor.core.QueueManagerService;
 
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.CatNoAccessException;
 import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.protovalues.FilePermissionEnum;
 import org.irods.jargon.core.pub.CollectionAO;
+import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAOImpl;
 import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
-import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.core.pub.domain.AvuData;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
@@ -56,6 +51,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSTree;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.PermissionsTableModel;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.irods.jargon.usertagging.domain.IRODSTagValue;
@@ -80,8 +76,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private final iDrop idropGUI;
     private final IRODSAccount irodsAccount;
     private String selectedObjectFullPath;
-    private String selectedObjectName;
-    private String selectedObjectParent;
+  
+    private CollectionAndDataObjectListingEntry entry;
     private final IRODSFileSystem irodsFileSystem;
     private boolean isFile;
     private final IRODSTree irodsTree;
@@ -118,19 +114,26 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     }
 
     private void initSelectedObjectName() {
+        try {
+            IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
+                    .getModel();
+            ListSelectionModel selectionModel = irodsTree.getSelectionModel();
+            int idxStart = selectionModel.getMinSelectionIndex();
 
-        IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
-                .getModel();
-        ListSelectionModel selectionModel = irodsTree.getSelectionModel();
-        int idxStart = selectionModel.getMinSelectionIndex();
+            IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(
+                    idxStart, 0);
+            selectedObjectFullPath = selectedNode.getFullPath();
+            
+            CollectionAndDataObjectListAndSearchAO listAndSearchAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAndDataObjectListAndSearchAO(idropGUI.getiDropCore().getIrodsAccount());
+            entry = listAndSearchAO.getCollectionAndDataObjectListingEntryAtGivenAbsolutePath(selectedObjectFullPath);
+        } catch (JargonException ex) {
+              Logger.getLogger(IRODSInfoDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+              MessageManager.showError(this, "Unable to find entry for given path");
+              this.dispose();;
+        }
+     
 
-        IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(
-                idxStart, 0);
-        selectedObjectFullPath = selectedNode.getFullPath();
-        String objectPath[] = selectedObjectFullPath.split("/");
-        selectedObjectName = objectPath[objectPath.length - 1];
-        IRODSNode pNode = (IRODSNode) selectedNode.getParent();
-        selectedObjectParent = pNode.getFullPath();
     }
 
     private void selectInfoCard() {
@@ -145,15 +148,14 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         }
 
         // also populate header
-        if (selectedObjectName != null) {
-            lblInfoObjectName.setText(MiscIRODSUtils.abbreviateFileName(selectedObjectName));
-            lblInfoObjectName.setToolTipText(selectedObjectName);
-        }
-        if (selectedObjectParent != null) {
-            lblInfoObjectParent.setText(MiscIRODSUtils.abbreviateFileName(selectedObjectParent));
-                        lblInfoObjectParent.setToolTipText(selectedObjectParent);
+     
+            lblInfoObjectName.setText(MiscIRODSUtils.abbreviateFileName(entry.getPathOrName()));
+            lblInfoObjectName.setToolTipText(entry.getPathOrName());
+       
+            lblInfoObjectParent.setText(MiscIRODSUtils.abbreviateFileName(entry.getParentPath()));
+            lblInfoObjectParent.setToolTipText(entry.getParentPath());
 
-        }
+     
     }
 
     private void initializeFileInfo() {
@@ -225,15 +227,15 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         if (collection.getObjectPath() != null) {
                             lblInfoCollectionObjectPath.setText(MiscIRODSUtils.abbreviateFileName(collection
                                     .getObjectPath()));
-                              lblInfoCollectionObjectPath.setToolTipText(collection.getObjectPath());
-                           
+                            lblInfoCollectionObjectPath.setToolTipText(collection.getObjectPath());
+
                         } else {
                             lblInfoCollectionObjectPath.setText("");
-                                                          lblInfoCollectionObjectPath.setToolTipText(collection.getObjectPath());
+                            lblInfoCollectionObjectPath.setToolTipText(collection.getObjectPath());
 
                         }
-                        
-                        
+
+
 
                         if (collection.getInfo1() != null) {
                             lblInfoCollectionInfo1.setText(collection
@@ -307,11 +309,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         if (dataObject.getDataPath() != null) {
                             lblInfoObjectDataPath.setText(MiscIRODSUtils.abbreviateFileName(dataObject
                                     .getDataPath()));
-                             lblInfoObjectDataPath.setToolTipText(dataObject
+                            lblInfoObjectDataPath.setToolTipText(dataObject
                                     .getDataPath());
                         } else {
                             lblInfoObjectDataPath.setText("");
-                             lblInfoObjectDataPath.setToolTipText("");
+                            lblInfoObjectDataPath.setToolTipText("");
                         }
 
                         if (dataObject.getResourceGroupName() != null) {
@@ -417,8 +419,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                     } else {
                         metadataTableModel = new MetadataTableModel(
                                 irodsFileService.getMetadataForDataObject(
-                                selectedObjectParent,
-                                selectedObjectName));
+                                entry.getParentPath(),
+                                entry.getPathOrName()));
                     }
                     tableMetadata.setModel(metadataTableModel);
                     tableMetadata.getSelectionModel().addListSelectionListener(
@@ -760,12 +762,9 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlReplication.add(pnlReplicaionTools, java.awt.BorderLayout.SOUTH);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(null);
         setPreferredSize(new java.awt.Dimension(800, 750));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 10, 10, 10));
-        jPanel1.setMinimumSize(null);
-        jPanel1.setPreferredSize(null);
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         pnlSelectedObject.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4));
@@ -780,6 +779,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         lblInfoObjectName.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectName.text")); // NOI18N
 
         lblInfoObjectParent.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectParent.text")); // NOI18N
+        lblInfoObjectParent.setAutoscrolls(true);
 
         org.jdesktop.layout.GroupLayout pnlSelectedObjectLayout = new org.jdesktop.layout.GroupLayout(pnlSelectedObject);
         pnlSelectedObject.setLayout(pnlSelectedObjectLayout);
@@ -794,7 +794,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(lblInfoObjectName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                     .add(lblInfoObjectParent, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         pnlSelectedObjectLayout.setVerticalGroup(
             pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -807,7 +807,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(lblInfoObjectParent))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanel1.add(pnlSelectedObject, java.awt.BorderLayout.PAGE_START);
@@ -937,7 +937,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel27)
                     .add(lblInfoCollectionInfo2))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pnlInfoCards.add(pnlCollectionInfo, "cardCollectionInfo");
@@ -1043,7 +1043,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             .add(lblInfoObjectStatus, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(lblInfoObjectType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(lblInfoObjectVersion, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         pnlObjectInfoLayout.setVerticalGroup(
             pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1107,7 +1107,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel16)
                     .add(lblInfoObjectVersion))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pnlInfoCards.add(pnlObjectInfo, "cardObjectInfo");
@@ -1144,7 +1144,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jLabel17)
                             .add(jLabel18))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 57, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 83, Short.MAX_VALUE)
                         .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(txtInfoTags)
                             .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE))
@@ -1393,17 +1393,13 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                     if (isFile && !foundResource) {
                         log.info("file not yet replicated to resource");
 
-                        StringBuilder sb = new StringBuilder();
-                        sb.append(selectedObjectParent);
-                        sb.append("/");
-                        sb.append(selectedObjectName);
                         replicatedCount++;
 
 
 
                         transfer.setTransferType(TransferType.REPLICATE);
                         transfer.setResourceName(checkBox.getText());
-                        transfer.setIrodsAbsolutePath(sb.toString());
+                        transfer.setIrodsAbsolutePath(entry.getFormattedAbsolutePath());
 
                     } else if (!isFile) {
                         log.info("this is a collection, do the replication");
@@ -1412,7 +1408,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
 
                         transfer.setTransferType(TransferType.REPLICATE);
-                        transfer.setIrodsAbsolutePath(selectedObjectParent);
+                        transfer.setIrodsAbsolutePath(entry.getFormattedAbsolutePath());
                         transfer.setResourceName(checkBox.getText());
 
                     }
@@ -1607,7 +1603,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         idropGUI.getIrodsAccount(), idropGUI
                         .getiDropCore().getIrodsFileSystem());
                 currentResources = irodsFileService.getResourcesForDataObject(
-                        selectedObjectParent, selectedObjectName);
+                        entry.getParentPath(), entry.getPathOrName());
             } catch (IdropException ex) {
                 Logger.getLogger(IRODSInfoDialog.class.getName()).log(
                         Level.SEVERE, null, ex);
