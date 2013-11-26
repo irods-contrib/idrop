@@ -279,6 +279,7 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
 						}
 
 						oldNode.setUserObject(nodesEntry);
+                                                oldNode.forceReloadOfChildrenOfThisNode();
 						irodsFileSystemModel.nodeChanged(oldNode);
 
 					}
