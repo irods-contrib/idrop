@@ -58,35 +58,40 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
         if (columnIndex == 1) {
             return String.class;
         }
-
-
-        // 2 = type
+        
+         // 2 = state
 
         if (columnIndex == 2) {
             return String.class;
         }
-        
-        // 3 = grid account zone
+
+        // 3 = type
 
         if (columnIndex == 3) {
             return String.class;
         }
-
-        // 4 = source path
+        
+        // 4 = grid account zone
 
         if (columnIndex == 4) {
             return String.class;
         }
 
-        // 5 = target path
+        // 5 = source path
 
         if (columnIndex == 5) {
             return String.class;
         }
-        
-        // 6 = summary
+
+        // 6 = target path
 
         if (columnIndex == 6) {
+            return String.class;
+        }
+        
+        // 7 = summary
+
+        if (columnIndex == 7) {
             return String.class;
         }
 
@@ -112,34 +117,40 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
         if (columnIndex == 1) {
             return "Status";
         }
-
-        // 2 = type
+        
+          // 2 = state
 
         if (columnIndex == 2) {
+            return "State";
+        }
+
+        // 3 = type
+
+        if (columnIndex == 3) {
             return "Operation";
         }
         
-        // 3 = grid account zone
+        // 4 = grid account zone
 
-        if (columnIndex == 3) {
+        if (columnIndex == 4) {
             return "Zone";
         }
 
-        // 4 = source path
+        // 5 = source path
 
-        if (columnIndex == 4) {
+        if (columnIndex == 5) {
             return "Source";
         }
 
-        // 5 = target path
+        // 6 = target path
 
-        if (columnIndex == 5) {
+        if (columnIndex == 6) {
             return "Destination";
         }
         
-        // 6 = summary
+        // 7 = summary
 
-        if (columnIndex == 6) {
+        if (columnIndex == 7) {
             return "Summary";
         }
 
@@ -158,7 +169,7 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
 
     @Override
     public int getColumnCount() {
-        return 7;
+        return 8;
     }
 
     @Override
@@ -188,23 +199,29 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
         if (columnIndex == 1) {
             return transfer.getTransferState().name();
         }
-
-        // 2 = type
+        
+        // 2 = state
 
         if (columnIndex == 2) {
+            return transfer.getLastTransferStatus().name();
+        }
+
+        // 3 = type
+
+        if (columnIndex == 3) {
             return transfer.getTransferType().name();
         }
         
-        // 3 = grid account zone
+        // 4 = grid account zone
 
-        if (columnIndex == 3) {
+        if (columnIndex == 4) {
             return transfer.getGridAccount().getZone();
         }
 
-        // 4 = source path
+        // 5 = source path
 
         String path = null;
-        if (columnIndex == 4) {
+        if (columnIndex == 5) {
             switch (transfer.getTransferType()) {
                 case GET:
                     path = IDropUtils.abbreviateFileName(transfer.getIrodsAbsolutePath());
@@ -229,8 +246,8 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
             return path;
         }
 
-        // 5 = target path
-        if (columnIndex == 5) {
+        // 6 = target path
+        if (columnIndex == 6) {
             switch (transfer.getTransferType()) {
                 case GET:
                     path = IDropUtils.abbreviateFileName(transfer.getLocalAbsolutePath());
@@ -257,9 +274,9 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
             return path;
         }
         
-        // 6 = summary
+        // 7 = summary
         
-        if (columnIndex == 6) {
+        if (columnIndex == 7) {
             
             StringBuilder summary = new StringBuilder();
             try {
@@ -294,9 +311,9 @@ public class TransferManagerTableModel extends AbstractTableModel { //extends De
             }
         }
         
-        // 7 = transfer id
+        // 8 = transfer id
 
-        if (columnIndex == 7) {
+        if (columnIndex == 8) {
             return transfer.getId();
         }
 
