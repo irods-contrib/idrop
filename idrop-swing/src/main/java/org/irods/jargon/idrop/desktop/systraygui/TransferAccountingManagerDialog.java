@@ -11,9 +11,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.irods.jargon.conveyor.core.ConveyorBusyException;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferManagerTable;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferManagerTableModel;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferManagerTableModelCustomCellRenderer;
 import org.irods.jargon.transfer.dao.domain.Transfer;
-import org.irods.jargon.transfer.dao.domain.TransferAttempt;
 import org.irods.jargon.transfer.dao.domain.TransferStateEnum;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
@@ -113,6 +114,10 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
         final TransferAccountingManagerDialog tmd = this;
 
         tblTransfers.getSelectionModel().addListSelectionListener(this);
+        
+        TransferManagerTableModelCustomCellRenderer transferManagerTableModelCustomCellRenderer = new TransferManagerTableModelCustomCellRenderer();
+        
+        
 
 //        tblTransfers.addMouseMotionListener(new MouseMotionAdapter(){
 //            
@@ -251,7 +256,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         pnlTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblTransfers = new javax.swing.JTable();
+        tblTransfers = new TransferManagerTable();
         pnlBottom = new javax.swing.JPanel();
         bntClose = new javax.swing.JButton();
 
@@ -575,7 +580,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlTable;
-    private javax.swing.JTable tblTransfers;
+    private TransferManagerTable tblTransfers;
     private javax.swing.JToolBar toolBarTop;
     // End of variables declaration//GEN-END:variables
 }
