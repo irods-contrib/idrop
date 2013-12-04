@@ -51,6 +51,7 @@ public class DashboardLayoutService {
             dashboardAttempt = new DashboardAttempt();
             dashboardAttempt.setTransferAttempt(attempt);
             dashboardAttempt.setPercentWidth(60000 + attempt.computeTotalTimeInMillis());
+            
             dashboardAttempts.add(dashboardAttempt);
             totalWidth += dashboardAttempt.getPercentWidth();
 
@@ -95,8 +96,6 @@ public class DashboardLayoutService {
                 log.info("total:{}", totalWidth);
                 attempt.setPercentWidth(Math.round(computed * 100));
                 log.info("computed pct width()", computed);
-
-
             }
         }
 

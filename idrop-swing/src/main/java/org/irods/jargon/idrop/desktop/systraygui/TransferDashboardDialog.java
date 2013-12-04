@@ -32,6 +32,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferDashboard
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
+import org.irods.jargon.transfer.dao.domain.TransferStatusEnum;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -138,7 +139,9 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         btnRemoveSelected.setEnabled(false);
         btnRemoveSelected.setFocusable(false);
         btnRemoveSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnRemoveSelected.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnRemoveSelected.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnRemoveSelected.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnRemoveSelected.setPreferredSize(new java.awt.Dimension(50, 50));
         btnRemoveSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,7 +158,9 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         btnCancel.setEnabled(false);
         btnCancel.setFocusable(false);
         btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCancel.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnCancel.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnCancel.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnCancel.setPreferredSize(new java.awt.Dimension(50, 50));
         btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,7 +177,9 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         btnRestartSelected.setEnabled(false);
         btnRestartSelected.setFocusable(false);
         btnRestartSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnRestartSelected.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnRestartSelected.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnRestartSelected.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnRestartSelected.setPreferredSize(new java.awt.Dimension(50, 50));
         btnRestartSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRestartSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,7 +196,9 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         btnResubmitSelected.setEnabled(false);
         btnResubmitSelected.setFocusable(false);
         btnResubmitSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnResubmitSelected.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnResubmitSelected.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnResubmitSelected.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnResubmitSelected.setPreferredSize(new java.awt.Dimension(50, 50));
         btnResubmitSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnResubmitSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,7 +216,9 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRefresh.toolTipText")); // NOI18N
         btnRefresh.setFocusable(false);
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnRefresh.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnRefresh.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnRefresh.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnRefresh.setPreferredSize(new java.awt.Dimension(50, 50));
         btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -245,7 +256,7 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
                 pnlTableComponentShown(evt);
             }
         });
-        pnlTable.setLayout(new java.awt.GridLayout());
+        pnlTable.setLayout(new java.awt.GridLayout(1, 0));
 
         jTableAttempts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -472,7 +483,6 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
         int width = this.getWidth();
         int height = this.getHeight();
 
-
         int gap = layout.getDashboardAttempts().size() * 5;
 
         width = width - gap;
@@ -482,6 +492,10 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
             g2.setColor(Color.BLUE);
 
             int widthThisBar = Math.round(width * (float) (attempt.getPercentWidth() / 100));
+            
+            if (widthThisBar == 0) {
+                widthThisBar = 50;
+            }
 
             int heightSkipped = 0;
             int heightTransferred = 0;
@@ -534,13 +548,13 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
 
             }
 
-            if (attempt.getPercentHeightError() > 0) {
+            if (attempt.getPercentHeightError() > 0 || attempt.getTransferAttempt().getAttemptStatus() == TransferStatusEnum.ERROR) {
 
                 g2.setColor(Color.RED);
                 heightError = Math.round(height * (float) (attempt.getPercentHeightError() / 100));
 
                 if (heightError == 0) {
-                    heightError = 2;
+                    heightError = 10;
                 }
 
                 Rectangle errorRectangle = new Rectangle(nextX, nextY - heightError, widthThisBar, heightError);
@@ -563,6 +577,20 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent me) {
+        
+        
+          if (this.rectangles == null) {
+            return;
+        }
+
+        //log.info("point entered:{}", me.getPoint());
+
+        for (AttemptRectangle attemptRectangle : rectangles) {
+            if (attemptRectangle.contains(me.getPoint())) {
+                log.info("click the rectangle for:{}", attemptRectangle);
+                break;
+            }
+        }    
     }
 
     @Override
@@ -671,6 +699,7 @@ class SharedListSelectionHandler implements ListSelectionListener {
         this.transferDashboardDialog = transferDashboardDialog;
     }
     
+    @Override
     public void valueChanged(ListSelectionEvent e) {
         ListSelectionModel lsm = (ListSelectionModel) e.getSource();
         TransferAttemptTableModel tm = (TransferAttemptTableModel) transferDashboardDialog.getjTableAttempts().getModel();

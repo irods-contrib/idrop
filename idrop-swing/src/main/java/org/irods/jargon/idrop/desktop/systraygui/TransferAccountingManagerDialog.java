@@ -106,10 +106,11 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
         tblTransfers.getColumnModel().getColumn(0).setPreferredWidth(60);
         tblTransfers.getColumnModel().getColumn(1).setPreferredWidth(40);
         tblTransfers.getColumnModel().getColumn(2).setPreferredWidth(40);
-        tblTransfers.getColumnModel().getColumn(3).setPreferredWidth(50);
-        tblTransfers.getColumnModel().getColumn(4).setPreferredWidth(150);
+        tblTransfers.getColumnModel().getColumn(3).setPreferredWidth(40);
+        tblTransfers.getColumnModel().getColumn(4).setPreferredWidth(50);
         tblTransfers.getColumnModel().getColumn(5).setPreferredWidth(150);
-        tblTransfers.getColumnModel().getColumn(6).setPreferredWidth(280);
+        tblTransfers.getColumnModel().getColumn(6).setPreferredWidth(150);
+        tblTransfers.getColumnModel().getColumn(7).setPreferredWidth(280);
 
         final TransferAccountingManagerDialog tmd = this;
 

@@ -17,47 +17,59 @@ import org.irods.jargon.transfer.dao.domain.TransferType;
  * @author Mike Conway
  */
 public class TransferInformationMessageBuilder {
-    
-    public enum AttemptType {SKIPPED, TRANSFERRED, ERROR}
-    
+
+    public enum AttemptType {
+
+        SKIPPED, TRANSFERRED, ERROR
+    }
+
     public static String buildTransferAttemptSummary(final TransferAttempt transferAttempt, final AttemptType attemptType) {
         if (transferAttempt == null) {
             throw new IllegalArgumentException("null transferAttempt");
         }
-        
+
         if (attemptType == null) {
             throw new IllegalArgumentException("null attamptType");
         }
-        
+
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append("<html><p>This transfer attempt started ");
         sb.append(transferAttempt.getAttemptStart());
-        
+
         if (transferAttempt.getAttemptEnd() != null) {
             sb.append(" and ended ");
             sb.append(transferAttempt.getAttemptEnd());
         }
-        
+
         sb.append("</p><p> This attempt involved ");
         sb.append(transferAttempt.getTotalFilesCount());
         sb.append(" files. ");
-        
+
         if (attemptType == AttemptType.ERROR) {
-           sb.append(" and in this attempt there were ");
-           sb.append(transferAttempt.getTotalFilesErrorSoFar());
-           sb.append(" errors");
+
+            if (transferAttempt.getErrorMessage() == null || transferAttempt.getErrorMessage().isEmpty()) {
+
+
+
+                sb.append(" and in this attempt there were ");
+                sb.append(transferAttempt.getTotalFilesErrorSoFar());
+                sb.append(" errors");
+            } else {
+                sb.append(" in this transfer, an error occurred:");
+                sb.append(transferAttempt.getErrorMessage());
+            }
         } else if (attemptType == AttemptType.SKIPPED) {
-               sb.append(" and in this attempt there was a restart that skipped ");
-           sb.append(transferAttempt.getTotalFilesSkippedSoFar());
+            sb.append(" and in this attempt there was a restart that skipped ");
+            sb.append(transferAttempt.getTotalFilesSkippedSoFar());
         } else {
-              sb.append(" and in this attempt there were ");
-           sb.append(transferAttempt.getTotalFilesTransferredSoFar() - transferAttempt.getTotalFilesSkippedSoFar());
-           sb.append(" files actually transferred");
+            sb.append(" and in this attempt there were ");
+            sb.append(transferAttempt.getTotalFilesTransferredSoFar() - transferAttempt.getTotalFilesSkippedSoFar());
+            sb.append(" files actually transferred");
         }
-        
+
         sb.append(".</p></html>");
-        
+
         return sb.toString();
     }
 
