@@ -22,7 +22,7 @@ import org.openide.util.Exceptions;
  *
  * @author lisa stillwell - RENCI
  */
-public class TransferInfoDialog extends javax.swing.JDialog {
+public class DeprecatedTransferInfoDialog extends javax.swing.JDialog {
     
     private final Transfer transfer;
     private List<TransferAttempt> transferAttempts = null;
@@ -32,7 +32,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
     /**
      * Creates new form TransferInfoDialog
      */  
-    public TransferInfoDialog(javax.swing.JDialog parent, Transfer transfer, IDROPCore idropCore) {
+    public DeprecatedTransferInfoDialog(javax.swing.JDialog parent, Transfer transfer, IDROPCore idropCore) {
         super(parent, true);
         initComponents();
         this.transfer = transfer;
@@ -79,7 +79,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
     }
     
     private void populateTransferAttempts() {
-        final TransferInfoDialog tid = this;
+        final DeprecatedTransferInfoDialog tid = this;
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -135,7 +135,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptInfo.setLayout(new java.awt.GridBagLayout());
         
         javax.swing.JLabel label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.idLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.idLabel.text")); // NOI18N
         java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -156,7 +156,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptInfo.add(label, gridBagConstraints);
         
         label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.startLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.startLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -176,7 +176,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptInfo.add(label, gridBagConstraints);
 
         label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.endLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.endLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -198,7 +198,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptInfo.add(label, gridBagConstraints);
 
         label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.statusLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.statusLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -218,7 +218,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptInfo.add(label, gridBagConstraints);
 
         label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.lastPathLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.lastPathLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -239,7 +239,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptInfo.add(label, gridBagConstraints);
         
         label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.totalFilesLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.totalFilesLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -259,7 +259,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptInfo.add(label, gridBagConstraints);
 
         label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.totalSoFarLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.totalSoFarLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -281,12 +281,12 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptInstance.add(pnlAttemptInfo, java.awt.BorderLayout.CENTER);
 
         javax.swing.JPanel pnlAttemptErrors = new javax.swing.JPanel();
-        pnlAttemptErrors.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.pnlAttemptErrors.border.title"))); // NOI18N
+        pnlAttemptErrors.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.pnlAttemptErrors.border.title"))); // NOI18N
         pnlAttemptErrors.setPreferredSize(new java.awt.Dimension(340, 250));
         pnlAttemptErrors.setLayout(new java.awt.GridBagLayout());
 
         label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.errorsLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.errorsLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -302,7 +302,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         textArea.setEditable(false);
         textArea.setColumns(20);
         textArea.setRows(5);
-        textArea.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.NA.text")); // NOI18N
+        textArea.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.NA.text")); // NOI18N
         scrollPane.setViewportView(textArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -316,7 +316,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptErrors.add(scrollPane, gridBagConstraints);
 
         label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.exceptionLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.exceptionLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -332,7 +332,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         textArea.setEditable(false);
         textArea.setColumns(20);
         textArea.setRows(5);
-        textArea.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.NA.text")); // NOI18N
+        textArea.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.NA.text")); // NOI18N
         textArea.setMinimumSize(new java.awt.Dimension(0, 60));
         scrollPane.setViewportView(textArea);
 
@@ -346,7 +346,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlAttemptErrors.add(scrollPane, gridBagConstraints);
 
         label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.exceptionDetailsLabel.text")); // NOI18N
+        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.exceptionDetailsLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -363,7 +363,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         textArea.setEditable(false);
         textArea.setColumns(20);
         textArea.setRows(5);
-        textArea.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.NA.text")); // NOI18N
+        textArea.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.NA.text")); // NOI18N
         scrollPane.setViewportView(textArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -424,8 +424,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(540, 630));
+        setTitle(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.title")); // NOI18N
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 4, 8, 4));
         pnlMain.setPreferredSize(new java.awt.Dimension(530, 630));
@@ -437,7 +436,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
 
         btnShowFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
         btnShowFiles.setMnemonic('i');
-        btnShowFiles.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.btnShowFiles.text")); // NOI18N
+        btnShowFiles.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.btnShowFiles.text")); // NOI18N
         btnShowFiles.setFocusable(false);
         btnShowFiles.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnShowFiles.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -453,17 +452,17 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlTransferInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 0, 6, 0));
         pnlTransferInfo.setLayout(new java.awt.GridBagLayout());
 
-        lblTransferType.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.lblTransferType.text")); // NOI18N
+        lblTransferType.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.lblTransferType.text")); // NOI18N
         pnlTransferInfo.add(lblTransferType, new java.awt.GridBagConstraints());
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.jLabel4.text")); // NOI18N
+        jLabel4.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.jLabel4.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlTransferInfo.add(jLabel4, gridBagConstraints);
 
-        lblTransferFrom.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.lblTransferFrom.text")); // NOI18N
+        lblTransferFrom.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.lblTransferFrom.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -471,14 +470,14 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlTransferInfo.add(lblTransferFrom, gridBagConstraints);
 
-        jLabel6.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.jLabel6.text")); // NOI18N
+        jLabel6.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.jLabel6.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlTransferInfo.add(jLabel6, gridBagConstraints);
 
-        lblTransferTo.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.lblTransferTo.text")); // NOI18N
+        lblTransferTo.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.lblTransferTo.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -498,7 +497,7 @@ public class TransferInfoDialog extends javax.swing.JDialog {
         pnlTransferAttemptInfo.setPreferredSize(new java.awt.Dimension(350, 600));
         pnlTransferAttemptInfo.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.jPanel1.border.title"))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.jPanel1.border.title"))); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(350, 600));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -518,8 +517,8 @@ public class TransferInfoDialog extends javax.swing.JDialog {
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_198_ok.png"))); // NOI18N
         btnClose.setMnemonic('o');
-        btnClose.setText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.btnClose.text")); // NOI18N
-        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferInfoDialog.class, "TransferInfoDialog.btnClose.toolTipText")); // NOI18N
+        btnClose.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.btnClose.text")); // NOI18N
+        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.btnClose.toolTipText")); // NOI18N
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);

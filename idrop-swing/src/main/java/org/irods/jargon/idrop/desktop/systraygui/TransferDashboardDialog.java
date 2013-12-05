@@ -29,13 +29,13 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DashboardLayoutSe
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DashboardAttempt;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferAttemptTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferDashboardLayout;
+import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
 import org.irods.jargon.transfer.dao.domain.TransferStatusEnum;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
-
 
 /**
  * @author Mike
@@ -455,7 +455,19 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
             }
         });
     }
+
+    public void showTransferAttemptDetailsDialog(final TransferAttempt transferAttempt) {
+        log.info("showing transfser attempt:{}", transferAttempt);
+        if (transferAttempt == null) {
+            throw new IllegalArgumentException("null transferAttempt");
+        }
+
+        TransferFileListDialog transferFileListDialog = new TransferFileListDialog(
+                this, transferAttempt.getId(), idropCore);
+        transferFileListDialog.setVisible(true);
+    }
 }
+
 class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
 
     private Transfer transfer;
@@ -492,7 +504,7 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
             g2.setColor(Color.BLUE);
 
             int widthThisBar = Math.round(width * (float) (attempt.getPercentWidth() / 100));
-            
+
             if (widthThisBar == 0) {
                 widthThisBar = 50;
             }
@@ -566,8 +578,6 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
                 rectangles.add(attemptRectangle);
 
                 g2.fill(errorRectangle);
-
-
             }
 
             nextX += widthThisBar + 5;
@@ -577,9 +587,9 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent me) {
-        
-        
-          if (this.rectangles == null) {
+
+
+        if (this.rectangles == null) {
             return;
         }
 
@@ -588,9 +598,10 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
         for (AttemptRectangle attemptRectangle : rectangles) {
             if (attemptRectangle.contains(me.getPoint())) {
                 log.info("click the rectangle for:{}", attemptRectangle);
+                transferDashboardDialog.showTransferAttemptDetailsDialog(attemptRectangle.getDashboardAttempt().getTransferAttempt());
                 break;
             }
-        }    
+        }
     }
 
     @Override
@@ -693,12 +704,12 @@ class AttemptRectangle {
 
 class SharedListSelectionHandler implements ListSelectionListener {
 
-    private final  TransferDashboardDialog transferDashboardDialog;
-    
+    private final TransferDashboardDialog transferDashboardDialog;
+
     public SharedListSelectionHandler(final TransferDashboardDialog transferDashboardDialog) {
         this.transferDashboardDialog = transferDashboardDialog;
     }
-    
+
     @Override
     public void valueChanged(ListSelectionEvent e) {
         ListSelectionModel lsm = (ListSelectionModel) e.getSource();
@@ -721,11 +732,10 @@ class SharedListSelectionHandler implements ListSelectionListener {
             for (int i = minIndex; i <= maxIndex; i++) {
                 if (lsm.isSelectedIndex(i)) {
                     TransferAttempt transferAttempt = tm.getTransferAttemptAtRow(i);
-                 
+
                     log.info("got atempt:{}", transferAttempt);
-                    
-                    
-                    
+                    transferDashboardDialog.showTransferAttemptDetailsDialog(transferAttempt);
+
                 }
             }
         }

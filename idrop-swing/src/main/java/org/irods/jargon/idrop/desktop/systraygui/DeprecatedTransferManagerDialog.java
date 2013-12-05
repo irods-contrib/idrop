@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * @author lisa
  */
 // public class TransferManagerDialog extends javax.swing.JDialog implements ActionListener {
-public class TransferManagerDialog extends javax.swing.JDialog implements ListSelectionListener {
+public class DeprecatedTransferManagerDialog extends javax.swing.JDialog implements ListSelectionListener {
     
     public static org.slf4j.Logger log = LoggerFactory.getLogger(TransferManagerTableModel.class);
     private Transfer selectedTableObject = null;
@@ -46,7 +46,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     /**
      * Creates new form TransferManagerDialog
      */    
-    public TransferManagerDialog(final iDrop parent) throws ConveyorExecutionException {
+    public DeprecatedTransferManagerDialog(final iDrop parent) throws ConveyorExecutionException {
         super(parent, false);
         initComponents();
         
@@ -58,7 +58,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     
     public final void refreshTableView() {
         
-        final TransferManagerDialog tmd = this;
+        final DeprecatedTransferManagerDialog tmd = this;
         
         log.info("refreshing transfer table");
           
@@ -124,7 +124,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         tblTransfers.getColumnModel().getColumn(5).setPreferredWidth(150);
         tblTransfers.getColumnModel().getColumn(6).setPreferredWidth(280);
       
-        final TransferManagerDialog tmd = this;
+        final DeprecatedTransferManagerDialog tmd = this;
         
         tblTransfers.getSelectionModel().addListSelectionListener(this);
     
@@ -271,9 +271,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
         bntClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.title")); // NOI18N
+        setTitle(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.title")); // NOI18N
         setMinimumSize(new java.awt.Dimension(800, 74));
-        setPreferredSize(new java.awt.Dimension(980, 440));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 4, 4, 4));
         pnlMain.setLayout(new java.awt.BorderLayout());
@@ -283,8 +282,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnTransferInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
         btnTransferInfo.setMnemonic('i');
-        btnTransferInfo.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.text")); // NOI18N
-        btnTransferInfo.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnTransferInfo.toolTipText")); // NOI18N
+        btnTransferInfo.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnTransferInfo.text")); // NOI18N
+        btnTransferInfo.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnTransferInfo.toolTipText")); // NOI18N
         btnTransferInfo.setBorder(null);
         btnTransferInfo.setEnabled(false);
         btnTransferInfo.setFocusable(false);
@@ -303,8 +302,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnPurgeAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_207_remove_2.png"))); // NOI18N
         btnPurgeAll.setMnemonic('a');
-        btnPurgeAll.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.text")); // NOI18N
-        btnPurgeAll.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeAll.toolTipText")); // NOI18N
+        btnPurgeAll.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnPurgeAll.text")); // NOI18N
+        btnPurgeAll.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnPurgeAll.toolTipText")); // NOI18N
         btnPurgeAll.setBorder(null);
         btnPurgeAll.setFocusable(false);
         btnPurgeAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -320,8 +319,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnPurgeSuccessful.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_207_remove_2.png"))); // NOI18N
         btnPurgeSuccessful.setMnemonic('x');
-        btnPurgeSuccessful.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.text")); // NOI18N
-        btnPurgeSuccessful.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnPurgeSuccessful.toolTipText")); // NOI18N
+        btnPurgeSuccessful.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnPurgeSuccessful.text")); // NOI18N
+        btnPurgeSuccessful.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnPurgeSuccessful.toolTipText")); // NOI18N
         btnPurgeSuccessful.setBorder(null);
         btnPurgeSuccessful.setFocusable(false);
         btnPurgeSuccessful.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -334,8 +333,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnRemoveSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
         btnRemoveSelected.setMnemonic('d');
-        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.text")); // NOI18N
-        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRemoveSelected.toolTipText")); // NOI18N
+        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnRemoveSelected.text")); // NOI18N
+        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnRemoveSelected.toolTipText")); // NOI18N
         btnRemoveSelected.setBorder(null);
         btnRemoveSelected.setEnabled(false);
         btnRemoveSelected.setFocusable(false);
@@ -352,8 +351,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_175_stop.png"))); // NOI18N
         btnCancel.setMnemonic('l');
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.text")); // NOI18N
-        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.setBorder(null);
         btnCancel.setEnabled(false);
         btnCancel.setFocusable(false);
@@ -370,8 +369,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnRestartSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_085_repeat.png"))); // NOI18N
         btnRestartSelected.setMnemonic('t');
-        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.text")); // NOI18N
-        btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRestartSelected.toolTipText")); // NOI18N
+        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnRestartSelected.text")); // NOI18N
+        btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnRestartSelected.toolTipText")); // NOI18N
         btnRestartSelected.setBorder(null);
         btnRestartSelected.setEnabled(false);
         btnRestartSelected.setFocusable(false);
@@ -388,8 +387,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnResubmitSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_434_redo.png"))); // NOI18N
         btnResubmitSelected.setMnemonic('b');
-        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.text")); // NOI18N
-        btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnResubmitSelected.toolTipText")); // NOI18N
+        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnResubmitSelected.text")); // NOI18N
+        btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnResubmitSelected.toolTipText")); // NOI18N
         btnResubmitSelected.setBorder(null);
         btnResubmitSelected.setEnabled(false);
         btnResubmitSelected.setFocusable(false);
@@ -408,8 +407,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
         btnRefresh.setMnemonic('f');
-        btnRefresh.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.text")); // NOI18N
-        btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.btnRefresh.toolTipText")); // NOI18N
+        btnRefresh.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnRefresh.text")); // NOI18N
+        btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.btnRefresh.toolTipText")); // NOI18N
         btnRefresh.setBorder(null);
         btnRefresh.setFocusable(false);
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -440,8 +439,8 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
 
         bntClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         bntClose.setMnemonic('l');
-        bntClose.setText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.bntClose.text")); // NOI18N
-        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferManagerDialog.class, "TransferManagerDialog.bntClose.toolTipText")); // NOI18N
+        bntClose.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.bntClose.text")); // NOI18N
+        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferManagerDialog.class, "DeprecatedTransferManagerDialog.bntClose.toolTipText")); // NOI18N
         bntClose.setFocusable(false);
         bntClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         bntClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -484,7 +483,7 @@ public class TransferManagerDialog extends javax.swing.JDialog implements ListSe
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnTransferInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferInfoActionPerformed
-        TransferInfoDialog transferInfoDialog = new TransferInfoDialog(this, selectedTableObject, idropCore);
+        DeprecatedTransferInfoDialog transferInfoDialog = new DeprecatedTransferInfoDialog(this, selectedTableObject, idropCore);
         Toolkit tk = getToolkit();
         int x = (tk.getScreenSize().width - transferInfoDialog.getWidth()) / 2;
         int y = (tk.getScreenSize().height - transferInfoDialog.getHeight()) / 2;
