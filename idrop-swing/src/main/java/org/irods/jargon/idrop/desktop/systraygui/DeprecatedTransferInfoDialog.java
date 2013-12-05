@@ -540,15 +540,7 @@ public class DeprecatedTransferInfoDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnShowFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowFilesActionPerformed
-        TransferFileListDialog transferFileListDialog = new TransferFileListDialog(
-                    this, transfer.getTransferAttempts().get(transfer.getTransferAttempts().size() - 1).getId(), idropCore);
-        Toolkit tk = getToolkit();
-        int x = (tk.getScreenSize().width - transferFileListDialog.getWidth()) / 2;
-        int y = (tk.getScreenSize().height - transferFileListDialog.getHeight()) / 2;
-        transferFileListDialog.setLocation(x, y);
-        transferFileListDialog.setTitle(this.fileDetailsTitle);
-        transferFileListDialog.setModal(true);  
-        transferFileListDialog.setVisible(true);
+      
     }//GEN-LAST:event_btnShowFilesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

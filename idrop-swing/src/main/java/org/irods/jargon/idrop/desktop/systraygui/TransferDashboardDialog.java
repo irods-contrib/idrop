@@ -43,8 +43,9 @@ import org.slf4j.LoggerFactory;
 public class TransferDashboardDialog extends javax.swing.JDialog {
 
     public static org.slf4j.Logger log = LoggerFactory.getLogger(TransferDashboardDialog.class);
-    protected final Transfer transfer;
+    protected Transfer transfer;
     private final IDROPCore idropCore;
+    private MyPanel myPanel;
 
     public void setTransferAttemptDetails(final String details) {
         final TransferDashboardDialog dialog = this;
@@ -136,7 +137,6 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         btnRemoveSelected.setMnemonic('d');
         btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRemoveSelected.text")); // NOI18N
         btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRemoveSelected.toolTipText")); // NOI18N
-        btnRemoveSelected.setEnabled(false);
         btnRemoveSelected.setFocusable(false);
         btnRemoveSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRemoveSelected.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -155,7 +155,6 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         btnCancel.setMnemonic('l');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnCancel.toolTipText")); // NOI18N
-        btnCancel.setEnabled(false);
         btnCancel.setFocusable(false);
         btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCancel.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -174,7 +173,6 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         btnRestartSelected.setMnemonic('t');
         btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRestartSelected.text")); // NOI18N
         btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRestartSelected.toolTipText")); // NOI18N
-        btnRestartSelected.setEnabled(false);
         btnRestartSelected.setFocusable(false);
         btnRestartSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRestartSelected.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -193,7 +191,6 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         btnResubmitSelected.setMnemonic('b');
         btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnResubmitSelected.text")); // NOI18N
         btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnResubmitSelected.toolTipText")); // NOI18N
-        btnResubmitSelected.setEnabled(false);
         btnResubmitSelected.setFocusable(false);
         btnResubmitSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnResubmitSelected.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -364,6 +361,19 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // do something to refresh this stuff
+
+
+        if (transfer != null) {
+            try {
+                this.transfer = idropCore.getConveyorService().getQueueManagerService().findTransferByTransferId(transfer.getId());
+                initData();
+            } catch (ConveyorExecutionException ex) {
+                String msg = "Error refreshing transfer.";
+                log.error(msg + " {}", ex.getMessage());
+                MessageManager.showError(this, msg, MessageManager.TITLE_MESSAGE);
+            }
+        }
+
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void bntCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntCloseActionPerformed
@@ -372,27 +382,13 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
 
     private void pnlTableComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlTableComponentShown
 
-        //final TransferDashboardDialog dialog = this;
-
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-
                 TransferAttemptTableModel transferAttemptTableModel = new TransferAttemptTableModel(transfer);
                 jTableAttempts.setModel(transferAttemptTableModel);
-
             }
         });
-
-
-
-
-
-
-
-
-
     }//GEN-LAST:event_pnlTableComponentShown
 
     public JTable getjTableAttempts() {
@@ -442,15 +438,18 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
     private void buildDashboardForTransfer() {
 
         final TransferDashboardDialog dialog = this;
-
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MyPanel myPanel = new MyPanel(transfer, dialog);
-                myPanel.setSize(800, 600);
-                myPanel.setBackground(Color.WHITE);
-                pnlDashboard.add(myPanel);
+
+                if (myPanel == null) {
+                    myPanel = new MyPanel(transfer, dialog);
+                    myPanel.setSize(800, 600);
+                    myPanel.setBackground(Color.WHITE);
+                    pnlDashboard.add(myPanel);
+                } else {
+                    myPanel = new MyPanel(transfer, dialog);
+                }
                 dialog.repaint();
             }
         });
@@ -463,7 +462,7 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
         }
 
         TransferFileListDialog transferFileListDialog = new TransferFileListDialog(
-                this, transferAttempt.getId(), idropCore);
+                this, transferAttempt, idropCore);
         transferFileListDialog.setVisible(true);
     }
 }
@@ -488,12 +487,13 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
         log.info("layout:{}", layout);
 
         Graphics2D g2 = (Graphics2D) g;
-
+        int width = this.getWidth();
+        int height = this.getHeight();
+        g2.clearRect(0, 0, width, height);
         int nextX = 0;
         int nextY = 0;
 
-        int width = this.getWidth();
-        int height = this.getHeight();
+
 
         int gap = layout.getDashboardAttempts().size() * 5;
 
@@ -536,7 +536,6 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
                 nextY -= heightSkipped;
             }
 
-
             if (attempt.getPercentHeightTransferred() > 0) {
                 g2.setColor(Color.GREEN);
                 heightTransferred = Math.round(height * (float) (attempt.getPercentHeightTransferred() / 100));
@@ -544,7 +543,6 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
                 if (heightTransferred == 0) {
                     heightTransferred = 2;
                 }
-
 
                 Rectangle transferredRectangle = new Rectangle(nextX, nextY - heightTransferred, widthThisBar, heightTransferred);
                 AttemptRectangle attemptRectangle = new AttemptRectangle();
