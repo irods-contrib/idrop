@@ -82,6 +82,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         lblAttemptStart = new javax.swing.JLabel();
         lblAttemptEndLabel = new javax.swing.JLabel();
         lblAttemptEnd = new javax.swing.JLabel();
+        lblErrorMessage = new javax.swing.JLabel();
         pnlList = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblItemList = new javax.swing.JTable();
@@ -166,7 +167,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         lblSourceLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblSourceLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(20, 5, 0, 5);
         pnlTransferAttemptDetails.add(lblSourceLabel, gridBagConstraints);
@@ -174,7 +175,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         lblSource.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblSource.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
@@ -184,7 +185,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         lblTargetLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTargetLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         pnlTransferAttemptDetails.add(lblTargetLabel, gridBagConstraints);
@@ -192,7 +193,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         lblTarget.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTarget.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlTransferAttemptDetails.add(lblTarget, gridBagConstraints);
@@ -201,7 +202,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         lblResourceLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblResourceLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         pnlTransferAttemptDetails.add(lblResourceLabel, gridBagConstraints);
@@ -209,7 +210,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         lblResource.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblResource.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlTransferAttemptDetails.add(lblResource, gridBagConstraints);
 
@@ -285,6 +286,12 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlTransferAttemptDetails.add(lblAttemptEnd, gridBagConstraints);
+
+        lblErrorMessage.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorMessage.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblErrorMessage.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        pnlTransferAttemptDetails.add(lblErrorMessage, gridBagConstraints);
 
         pnlMain.add(pnlTransferAttemptDetails, java.awt.BorderLayout.NORTH);
 
@@ -383,6 +390,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblAttemptIdLabel;
     private javax.swing.JLabel lblAttemptStart;
     private javax.swing.JLabel lblAttemptStarttLabel;
+    private javax.swing.JLabel lblErrorMessage;
     private javax.swing.JLabel lblProcessingState;
     private javax.swing.JLabel lblProcessingStateLabel;
     private javax.swing.JLabel lblResource;
@@ -442,6 +450,13 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         lblTarget.setText(transferAttempt.getTransfer().getIrodsAbsolutePath());
         lblTransferId.setText(String.valueOf(transferAttempt.getTransfer().getId()));
         lblTransferType.setText(transferAttempt.getTransfer().getTransferType().name());
+        
+        
+        if (transferAttempt.getGlobalException() == null) {
+            lblErrorMessage.setText("");
+        } else {
+            lblErrorMessage.setText(transferAttempt.getGlobalException());
+        }
 
     }
 }
