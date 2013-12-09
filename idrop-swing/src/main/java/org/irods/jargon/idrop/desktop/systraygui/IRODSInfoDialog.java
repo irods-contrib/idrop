@@ -1534,6 +1534,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 log.error("metadata delete failed", ex);
                 JOptionPane.showMessageDialog(this, "Metadata Delete Failed",
                         "Delete Metadata", JOptionPane.PLAIN_MESSAGE);
+            } finally {
+                irodsFileSystem.closeAndEatExceptions();
             }
 
         }
@@ -1856,6 +1858,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 log.error("permission delete failed", ex);
                 JOptionPane.showMessageDialog(this, "Permission Delete Failed",
                         "Delete Permission", JOptionPane.PLAIN_MESSAGE);
+            } finally {
+                irodsFileSystem.closeAndEatExceptions();
             }
         }
     }// GEN-LAST:event_btnDeleteSharePermissionsActionPerformed

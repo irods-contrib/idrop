@@ -87,7 +87,10 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
             log.error("cannot retrieve irods users list", ex);
             JOptionPane.showMessageDialog(this, "Cannot retrieve list of iRODS users",
                     "Add Permissions", JOptionPane.PLAIN_MESSAGE);
+        } finally {
+            irodsFileSystem.closeAndEatExceptions();
         }
+        
         cbPermissionsPermission.addActionListener(this);
         cbPermissionsUserName.addActionListener(this);
 

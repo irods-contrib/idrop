@@ -62,8 +62,7 @@ public class AddMetadataDialog extends javax.swing.JDialog implements DocumentLi
     private void updateMetadataAddBtnStatus() {
         // add button should only be enabled when all text fields are populated
         btnAdd.setEnabled((txtAttribute.getText().length() > 0)
-                && (txtValue.getText().length() > 0)
-                && (txtUnit.getText().length() > 0));
+                && (txtValue.getText().length() > 0));
     }
 
     public AvuData getAvuData() {
@@ -241,10 +240,10 @@ public class AddMetadataDialog extends javax.swing.JDialog implements DocumentLi
             JOptionPane.showMessageDialog(this, "Metadata Add Failed",
                     "Add Metadata", JOptionPane.PLAIN_MESSAGE);
             
+        } finally {
+            irodsFileSystem.closeAndEatExceptions();
         }
         
-      
-
         this.dispose();
     }//GEN-LAST:event_btnAddActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

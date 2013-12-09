@@ -4,6 +4,7 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import java.awt.event.KeyEvent;
 import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -56,13 +57,10 @@ public class NavPopupDialog extends javax.swing.JDialog {
         tblBreadcrumbs = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(null);
         setPreferredSize(new java.awt.Dimension(300, 200));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         toolbarBreadcrumb.setRollover(true);
-        toolbarBreadcrumb.setMinimumSize(null);
-        toolbarBreadcrumb.setPreferredSize(null);
 
         btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
         btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoHomeTargetTree.text")); // NOI18N
@@ -100,6 +98,11 @@ public class NavPopupDialog extends javax.swing.JDialog {
         txtCustomPath.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.txtCustomPath.toolTipText")); // NOI18N
         txtCustomPath.setMinimumSize(null);
         txtCustomPath.setPreferredSize(null);
+        txtCustomPath.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCustomPathKeyPressed(evt);
+            }
+        });
         toolbarBreadcrumb.add(txtCustomPath);
         toolbarBreadcrumb.add(filler19);
 
@@ -127,7 +130,6 @@ public class NavPopupDialog extends javax.swing.JDialog {
         getContentPane().add(toolbarBreadcrumb, gridBagConstraints);
 
         scrollBreadcrumbs.setMinimumSize(null);
-        scrollBreadcrumbs.setPreferredSize(null);
 
         tblBreadcrumbs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -211,6 +213,21 @@ public class NavPopupDialog extends javax.swing.JDialog {
         useCustomPath(selectedRoot);
 
     }//GEN-LAST:event_btnSetCustomRootTargetTreeActionPerformed
+
+    private void txtCustomPathKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCustomPathKeyPressed
+        // enter key pressed in text box
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            String selectedRoot = txtCustomPath.getText();
+            if (selectedRoot == null || selectedRoot.isEmpty()) {
+                MessageManager.showWarning(this, "Please enter a custom path");
+                return;
+            }
+            useCustomPath(selectedRoot);
+        }
+
+    }//GEN-LAST:event_txtCustomPathKeyPressed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGoHomeTargetTree;
     private javax.swing.JButton btnGoRootTargetTree;
@@ -246,7 +263,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
                         objVector.add(pathVector);
                     }
                 }
-                DefaultTableModel newModel = new DefaultTableModel(objVector, strVector); 
+                DefaultTableModel newModel = new DefaultTableModel(objVector, strVector);
 
                 tblBreadcrumbs.setModel(newModel);
 

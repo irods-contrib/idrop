@@ -218,7 +218,6 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
 						.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				try {
 
-					new TreePath(currentNode);
 					LocalFileNode parentNode = (LocalFileNode) currentNode
 							.getParent();
 					File fileToRename = (File) currentNode.getUserObject();
@@ -234,9 +233,7 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
 					LocalFileSystemModel localFileTreeModel = (LocalFileSystemModel) localFileTree
 							.getModel();
 					log.debug("updating tree model, remove old and add new nodes");
-					// localFileTreeModel.removeNodeFromParent(currentNode);
-					// localFileTreeModel.insertNodeInto(parentNode, new
-					// LocalFileNode(newFile), 0);
+					
 					currentNode.setUserObject(newFile);
 					localFileTreeModel.reload(parentNode);
 

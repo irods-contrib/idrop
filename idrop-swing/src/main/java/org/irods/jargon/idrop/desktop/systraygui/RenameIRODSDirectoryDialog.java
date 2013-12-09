@@ -44,6 +44,7 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
 	private final String currentAbsolutePath;
 	private final IRODSTree stagingViewTree;
 	private final IRODSNode currentNode;
+        private final String parentAbsPath;
 	public static org.slf4j.Logger log = LoggerFactory
 			.getLogger(RenameIRODSDirectoryDialog.class);
 
@@ -63,10 +64,10 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
 					+ currentAbsolutePath;
 			log.error(msg);
 			idrop.showIdropException(new IdropException(msg));
-			return;
+			throw new IdropRuntimeException("could not find last path component of absolute path");
 		}
 
-		String parentAbsPath = currentAbsolutePath
+		 parentAbsPath = currentAbsolutePath
 				.substring(0, lastPathPartIdx);
 		String currentCollectionOrFileName = currentAbsolutePath
 				.substring(lastPathPartIdx + 1);
