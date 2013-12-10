@@ -5,7 +5,10 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Cursor;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -115,65 +118,46 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
         final TransferAccountingManagerDialog tmd = this;
 
         tblTransfers.getSelectionModel().addListSelectionListener(this);
-        
-        TransferManagerTableModelCustomCellRenderer transferManagerTableModelCustomCellRenderer = new TransferManagerTableModelCustomCellRenderer();
-        
-        
 
-//        tblTransfers.addMouseMotionListener(new MouseMotionAdapter(){
-//            
-//          Take out hover dropdown menu for now ...
-//            public void mouseMoved(MouseEvent e)
-//            {
-//                JTable table = (JTable) e.getSource();
-//                Point point = e.getPoint();
-//                int row = table.rowAtPoint(point);
-//                row = table.convertRowIndexToModel(row);
-//                showPopup(e, row);
-//            }
-//            
-//            public void showPopup(MouseEvent e, int row) {
-//                List<TransferAttempt> attempts = null;
-//                
-//                JTable table = (JTable) e.getSource();
-//                // get id hidden in last column of table
-//                long transferID = (Long)table.getModel().getValueAt(row, 7);
-//                try {
-//                    Transfer transfer = idropCore.getConveyorService().getQueueManagerService().findTransferByTransferId(transferID);
-//                    Transfer transferWithChildren = idropCore.getConveyorService().getQueueManagerService().initializeGivenTransferByLoadingChildren(transfer);
-//                    attempts = transferWithChildren.getTransferAttempts();
-//                    tmd.currentAttempts = attempts;
-//                   
-//                } catch (ConveyorExecutionException ex) {
-//                    Exceptions.printStackTrace(ex);
-//                }
-//                
-//                if (attempts.size() > 0) {
-//                    JPopupMenu popup = new JPopupMenu();
-//                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM, d, yyyy : h:mm:ss a");
-//                    int count =1;
-//
-//                    for ( TransferAttempt attempt: attempts) {
-//
-//                        StringBuilder menuText = new StringBuilder();
-//                        menuText.append(count);
-//                        menuText.append(") Transfer attempt start time: ");
-//                        menuText.append(dateFormat.format(attempt.getAttemptStart()));
-//                        menuText.append(",  Status: ");
-//                        menuText.append(attempt.getAttemptStatus());
-//                        menuText.append("  - Details ...");
-//                        JMenuItem menuItem = new JMenuItem(menuText.toString());
-//                        menuItem.addActionListener(tmd);
-//                        popup.add(menuItem);
-//                        count++;
-//
-//                    }
-//
-//                    popup.show(e.getComponent(), e.getX()+2, e.getY()+2);
-//                }
-//            }
-//
-//        });
+        TransferManagerTableModelCustomCellRenderer transferManagerTableModelCustomCellRenderer = new TransferManagerTableModelCustomCellRenderer();
+        tblTransfers.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent me) {
+
+                if (me.getClickCount() <= 1) {
+                    return;
+                }
+
+                int selected = tblTransfers.getSelectedRow();;
+                if (selected == -1) {
+                    return;
+                }
+
+                TransferManagerTableModel tableModel = (TransferManagerTableModel) tblTransfers.getModel();
+                Transfer transfer = tableModel.getTransferAtRow(selected);
+                log.info("selected transfer:{}", transfer);
+
+                displayTransferInfoDialog();
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+            }
+        });
+
     }
 
     private void enableTransferSpecificButtons() {
@@ -209,18 +193,6 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
         }
     }
 
-//    @Override
-//    public void actionPerformed(ActionEvent ae) {
-//        
-//        // get selected attempt
-//        if ( currentAttempts != null) {
-//            String strIdx = ae.getActionCommand().split("[)]")[0];
-//            int index = Integer.parseInt(strIdx);
-//            TransferAttempt selectedAttempt = currentAttempts.get(index-1);
-//            
-//            // now show details dialog for transfer attempt
-//        }    
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -257,7 +229,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         pnlTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblTransfers = new TransferManagerTable();
+        tblTransfers = new javax.swing.JTable();
         pnlBottom = new javax.swing.JPanel();
         bntClose = new javax.swing.JButton();
 
@@ -317,6 +289,11 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
         btnPurgeSuccessful.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnPurgeSuccessful.setPreferredSize(new java.awt.Dimension(120, 80));
         btnPurgeSuccessful.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPurgeSuccessful.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPurgeSuccessfulActionPerformed(evt);
+            }
+        });
         toolBarTop.add(btnPurgeSuccessful);
         toolBarTop.add(filler4);
         toolBarTop.add(jSeparator2);
@@ -474,16 +451,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnTransferInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferInfoActionPerformed
-        //TransferInfoDialog transferInfoDialog = new TransferInfoDialog(this, selectedTableObject, idropCore);
-      
-        TransferDashboardDialog transferInfoDialog = new TransferDashboardDialog(this, selectedTableObject, idropCore);
-        
-        Toolkit tk = getToolkit();
-        int x = (tk.getScreenSize().width - transferInfoDialog.getWidth()) / 2;
-        int y = (tk.getScreenSize().height - transferInfoDialog.getHeight()) / 2;
-        transferInfoDialog.setLocation(x, y);
-        transferInfoDialog.setModal(true);
-        transferInfoDialog.setVisible(true);
+        displayTransferInfoDialog();
     }//GEN-LAST:event_btnTransferInfoActionPerformed
 
     private void btnRemoveSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveSelectedActionPerformed
@@ -552,6 +520,20 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
             refreshTableView();
         }
     }//GEN-LAST:event_btnResubmitSelectedActionPerformed
+
+    private void btnPurgeSuccessfulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPurgeSuccessfulActionPerformed
+        try {
+            idropCore.getConveyorService().getQueueManagerService().purgeSuccessfulFromQueue();
+        } catch (ConveyorBusyException ex) {
+            log.error("exception purging all from transfer table", ex);
+            MessageManager.showError(this,
+                    "Transfer Queue Manager is currently busy. Please try again later.",
+                    MessageManager.TITLE_MESSAGE);
+        } catch (ConveyorExecutionException ex) {
+            log.error("exception updating transfer table", ex);
+            MessageManager.showError(this, ex.getMessage(), MessageManager.TITLE_MESSAGE);
+        }
+        refreshTableView();    }//GEN-LAST:event_btnPurgeSuccessfulActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntClose;
     private javax.swing.JButton btnCancel;
@@ -581,7 +563,20 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog impleme
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlTable;
-    private TransferManagerTable tblTransfers;
+    private javax.swing.JTable tblTransfers;
     private javax.swing.JToolBar toolBarTop;
     // End of variables declaration//GEN-END:variables
+
+    private void displayTransferInfoDialog() throws HeadlessException {
+        //TransferInfoDialog transferInfoDialog = new TransferInfoDialog(this, selectedTableObject, idropCore);
+
+        TransferDashboardDialog transferInfoDialog = new TransferDashboardDialog(this, selectedTableObject, idropCore);
+
+        Toolkit tk = getToolkit();
+        int x = (tk.getScreenSize().width - transferInfoDialog.getWidth()) / 2;
+        int y = (tk.getScreenSize().height - transferInfoDialog.getHeight()) / 2;
+        transferInfoDialog.setLocation(x, y);
+        transferInfoDialog.setModal(true);
+        transferInfoDialog.setVisible(true);
+    }
 }

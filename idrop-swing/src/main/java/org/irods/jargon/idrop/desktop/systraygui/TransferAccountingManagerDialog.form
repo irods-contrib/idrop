@@ -183,6 +183,9 @@
                 </Property>
                 <Property name="verticalTextPosition" type="int" value="3"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPurgeSuccessfulActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.Box$Filler" name="filler4">
               <Properties>

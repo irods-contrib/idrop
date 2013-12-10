@@ -82,7 +82,7 @@ public class TransferInformationMessageBuilder {
         StringBuilder sb = new StringBuilder();
         sb.append("<html><p>This is a <b>");
         sb.append(transfer.getTransferType());
-        sb.append("</b> transfer.  The transfer, which has ");
+        sb.append("</b> This transfer ");
 
         if (transfer.getTransferState() == TransferStateEnum.CANCELLED) {
             sb.append("was cancelled by the user.");

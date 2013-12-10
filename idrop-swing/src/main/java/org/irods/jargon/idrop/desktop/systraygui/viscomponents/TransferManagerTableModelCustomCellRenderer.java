@@ -18,18 +18,18 @@ public class TransferManagerTableModelCustomCellRenderer extends DefaultTableCel
     @Override
     public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
        
+        Component component = super.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
         String val = (String) o;
         
         if (val.equals("ERROR")) {
-            this.setForeground(Color.RED);
+            component.setForeground(Color.RED);
         } else if (val.equals("WARNING")) {
-            this.setForeground(Color.YELLOW);
+            component.setForeground(Color.YELLOW);
         } else {
-            this.setForeground(Color.GREEN);
+            component.setForeground(Color.GREEN);
         }
         
-        this.setText(val);
-        return this;
+        return component;
         
     }
     
