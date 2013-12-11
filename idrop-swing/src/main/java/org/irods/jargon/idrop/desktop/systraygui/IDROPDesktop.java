@@ -16,7 +16,6 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServ
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationServiceImpl;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropPreDatabaseBootstrapperService;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropPreDatabaseBootstrapperServiceImpl;
-import org.irods.jargon.idrop.desktop.systraygui.services.QueueSchedulerTimerTask;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LookAndFeelManager;
@@ -28,7 +27,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Bootstrapping class for iDrop, load config, create necessary services, and
  * start the appropriate GUI components
- * 
+ *
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IDROPDesktop {
@@ -105,10 +104,11 @@ public class IDROPDesktop {
             log.info("checking for any necessary migrations, this may back up database data and return a value that indicates that iDrop will need to restart");
 
             /**
-             * Code stub here. Think of using a backup dir/file to detect whether the pre migration
-             * service needs to run. boolean restart =
+             * Code stub here. Think of using a backup dir/file to detect
+             * whether the pre migration service needs to run. boolean restart =
              * idropDatabaseMigrationService.backupExistingDataForAnyMigration(previousVersion,
-             * currentVersion, blah) if (restart) { display restart dialog exit } // now
+             * currentVersion, blah) if (restart) { display restart dialog exit
+             * } // now
              * idropDatabaseMigrationService.migrateBackedUpDataToNewDatabase();
              *
              */
@@ -167,9 +167,8 @@ public class IDROPDesktop {
                 passPhraseDialog.toFront();
                 passPhraseDialog.setVisible(true);
                 validated = passPhraseDialog.isValidated();
-            
-            }
-            else {
+
+            } else {
                 // initialize pass phrase
                 final InitialPassPhraseDialog initialPassPhraseDialog = new InitialPassPhraseDialog(null, true, idropCore);
                 Toolkit tk = idrop.getToolkit();
@@ -186,8 +185,19 @@ public class IDROPDesktop {
                     Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
-        
+
+
+
         if (validated) {
+            log.info("validated, dequeue any pending and start timer task");
+            try {
+                idropCore.getConveyorService().beginFirstProcessAndRunPeriodicServiceInvocation();
+            } catch (ConveyorExecutionException ex) {
+                Logger.getLogger(IDROPDesktop.class.getName()).log(
+                        Level.SEVERE, null, ex);
+                throw new IdropRuntimeException(ex);
+            }
+
             final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null, true, idropCore, null);
             Toolkit tk = idrop.getToolkit();
             int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
@@ -248,7 +258,7 @@ public class IDROPDesktop {
         }
 
         idropSplashWindow.setStatus("Starting work queue...", ++count);
-        
+
         log.info("signal that the startup sequence is complete");
         try {
             try {
@@ -320,7 +330,8 @@ public class IDROPDesktop {
     }
 
     /**
-     * Start up iDrop as a system tray application. This is the main entry point for iDrop
+     * Start up iDrop as a system tray application. This is the main entry point
+     * for iDrop
      *
      * @param args the command line arguments
      */
@@ -333,5 +344,4 @@ public class IDROPDesktop {
             System.exit(1);
         }
     }
-
 }
