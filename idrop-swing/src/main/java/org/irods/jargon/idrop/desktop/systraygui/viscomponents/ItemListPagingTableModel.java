@@ -151,7 +151,6 @@ public class ItemListPagingTableModel extends AbstractTableModel {
     }
     
     private void refreshData() throws ConveyorExecutionException {
-        
         items = qms.getNextTransferItems(transferId, pageOffset, pageSize);
         fireTableDataChanged();
     }
