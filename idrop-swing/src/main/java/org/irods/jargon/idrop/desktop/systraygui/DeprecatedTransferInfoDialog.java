@@ -5,13 +5,12 @@
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.border.TitledBorder;
+
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
-import org.irods.jargon.core.transfer.TransferStatus;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
@@ -19,547 +18,629 @@ import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.openide.util.Exceptions;
 
 /**
- *
+ * 
  * @author lisa stillwell - RENCI
  */
 public class DeprecatedTransferInfoDialog extends javax.swing.JDialog {
-    
-    private final Transfer transfer;
-    private List<TransferAttempt> transferAttempts = null;
-    private final IDROPCore idropCore;
-    private String fileDetailsTitle;
 
-    /**
-     * Creates new form TransferInfoDialog
-     */  
-    public DeprecatedTransferInfoDialog(javax.swing.JDialog parent, Transfer transfer, IDROPCore idropCore) {
-        super(parent, true);
-        initComponents();
-        this.transfer = transfer;
-        this.idropCore = idropCore;
-        initTransferInfo();
-        populateTransferAttempts();
-    }
-    
-    private void initTransferInfo() {
-        String fromPath = null;
-        String toPath = null;
-        lblTransferType.setText(transfer.getTransferType().toString());
-        if (transfer.getTransferType() == TransferType.GET) {
-            fromPath = transfer.getIrodsAbsolutePath();
-            toPath = transfer.getLocalAbsolutePath();
-        }
-        else if (transfer.getTransferType() == TransferType.PUT) {
-            fromPath = transfer.getLocalAbsolutePath();
-            toPath = transfer.getIrodsAbsolutePath();
-        }
-        
-        lblTransferFrom.setText(MiscIRODSUtils.abbreviateFileName(fromPath));
-        lblTransferFrom.setToolTipText(fromPath);
-        lblTransferTo.setText(MiscIRODSUtils.abbreviateFileName(toPath));
-        lblTransferTo.setToolTipText(toPath);
-        
-        // also build string for later use
-        StringBuilder sb = new StringBuilder();
-        sb.append(transfer.getTransferType().toString());
-        sb.append( " Transfer from ");
-        sb.append(fromPath);
-        sb.append(" to ");
-        sb.append(toPath);
-        fileDetailsTitle = sb.toString();
-        
-        // initialize transfer attempts
-        try {
-            Transfer transferWithChildren = idropCore.getConveyorService().getQueueManagerService().initializeGivenTransferByLoadingChildren(transfer);
-            transferAttempts = transferWithChildren.getTransferAttempts();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5061965333775878755L;
+	private final Transfer transfer;
+	private List<TransferAttempt> transferAttempts = null;
+	private final IDROPCore idropCore;
+	private String fileDetailsTitle;
 
-        } catch (ConveyorExecutionException ex) {
-            Exceptions.printStackTrace(ex); // FIXME: do the right thing here
-        }
-    }
-    
-    private void populateTransferAttempts() {
-        final DeprecatedTransferInfoDialog tid = this;
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                
-                // change panel's tile border to plural version if more than 1 attempt
-                int numAttempts = transferAttempts.size();
-                if (numAttempts > 1) {
-                    TitledBorder border = (TitledBorder)jPanel1.getBorder();
-                    border.setTitle("Transfer Attempts");
-                    jPanel1.repaint();
-                }
-                int origHeight = pnlScrollableTransferAttempts.getHeight();
-                        
-                // compose panel for each attempt and add to grid bag layout
-                java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-                gridBagConstraints.gridx = 0;
-                gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-                gridBagConstraints.weightx = 0.5;
-                gridBagConstraints.weighty = 0.5;
-                gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
-                
-                int count = 1;
-                for (TransferAttempt attempt: transferAttempts) {
-                    gridBagConstraints.gridy = count-1;
-                    pnlScrollableTransferAttempts.add(createAttemptPanel(attempt, count), gridBagConstraints);
-                    count++;
-                }
-                
-                pnlScrollableTransferAttempts.setPreferredSize(
-                        new Dimension(pnlScrollableTransferAttempts.getWidth(), origHeight*(count-1)));
-                pnlScrollableTransferAttempts.validate();
-                pnlScrollableTransferAttempts.repaint();
-                pack();
-                tid.validate();
-                tid.repaint();
-            }
-        });
-    }
-    
-    private javax.swing.JPanel createAttemptPanel(TransferAttempt attempt, int count) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM, d, yyyy : h:mm:ss a");
-        
-        //javax.swing.JPanel pnlAttemptInstance = new javax.swing.JPanel();
-        int idx = count-1;
-        javax.swing.JPanel pnlAttemptInstance = new javax.swing.JPanel();
-        pnlAttemptInstance.setBorder(javax.swing.BorderFactory.createTitledBorder("Transfer Attempt #" + String.valueOf(count)));
-        pnlAttemptInstance.setPreferredSize(new java.awt.Dimension(340, 585));
-        pnlAttemptInstance.setLayout(new java.awt.BorderLayout());
-        
-        javax.swing.JPanel pnlAttemptInfo = new javax.swing.JPanel();
-        pnlAttemptInfo.setPreferredSize(new java.awt.Dimension(330, 58));
-        pnlAttemptInfo.setLayout(new java.awt.GridBagLayout());
-        
-        javax.swing.JLabel label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.idLabel.text")); // NOI18N
-        java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
-        
-        label = new javax.swing.JLabel();
-        label.setText(transfer.getId().toString());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.5;
-        pnlAttemptInfo.add(label, gridBagConstraints);
-        
-        label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.startLabel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+	/**
+	 * Creates new form TransferInfoDialog
+	 */
+	public DeprecatedTransferInfoDialog(final javax.swing.JDialog parent,
+			final Transfer transfer, final IDROPCore idropCore) {
+		super(parent, true);
+		initComponents();
+		this.transfer = transfer;
+		this.idropCore = idropCore;
+		initTransferInfo();
+		populateTransferAttempts();
+	}
 
-        label = new javax.swing.JLabel();
-        label.setText(dateFormat.format(attempt.getAttemptStart()));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+	private void initTransferInfo() {
+		String fromPath = null;
+		String toPath = null;
+		lblTransferType.setText(transfer.getTransferType().toString());
+		if (transfer.getTransferType() == TransferType.GET) {
+			fromPath = transfer.getIrodsAbsolutePath();
+			toPath = transfer.getLocalAbsolutePath();
+		} else if (transfer.getTransferType() == TransferType.PUT) {
+			fromPath = transfer.getLocalAbsolutePath();
+			toPath = transfer.getIrodsAbsolutePath();
+		}
 
-        label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.endLabel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+		lblTransferFrom.setText(MiscIRODSUtils.abbreviateFileName(fromPath));
+		lblTransferFrom.setToolTipText(fromPath);
+		lblTransferTo.setText(MiscIRODSUtils.abbreviateFileName(toPath));
+		lblTransferTo.setToolTipText(toPath);
 
-        label = new javax.swing.JLabel();
-        if (attempt.getAttemptEnd() != null) {
-            label.setText(dateFormat.format(attempt.getAttemptEnd()));
-        }
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+		// also build string for later use
+		StringBuilder sb = new StringBuilder();
+		sb.append(transfer.getTransferType().toString());
+		sb.append(" Transfer from ");
+		sb.append(fromPath);
+		sb.append(" to ");
+		sb.append(toPath);
+		fileDetailsTitle = sb.toString();
 
-        label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.statusLabel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+		// initialize transfer attempts
+		try {
+			Transfer transferWithChildren = idropCore.getConveyorService()
+					.getQueueManagerService()
+					.initializeGivenTransferByLoadingChildren(transfer);
+			transferAttempts = transferWithChildren.getTransferAttempts();
 
-        label = new javax.swing.JLabel();
-        label.setText(attempt.getAttemptStatus().toString());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+		} catch (ConveyorExecutionException ex) {
+			Exceptions.printStackTrace(ex); // FIXME: do the right thing here
+		}
+	}
 
-        label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.lastPathLabel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 14, 0, 0);
-        pnlAttemptInfo.add(label, gridBagConstraints);
+	private void populateTransferAttempts() {
+		final DeprecatedTransferInfoDialog tid = this;
 
-        label = new javax.swing.JLabel();
-        label.setText(attempt.getLastSuccessfulPath());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
-        
-        label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.totalFilesLabel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
 
-        label = new javax.swing.JLabel();
-        label.setText(String.valueOf(attempt.getTotalFilesCount()));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+				// change panel's tile border to plural version if more than 1
+				// attempt
+				int numAttempts = transferAttempts.size();
+				if (numAttempts > 1) {
+					TitledBorder border = (TitledBorder) jPanel1.getBorder();
+					border.setTitle("Transfer Attempts");
+					jPanel1.repaint();
+				}
+				int origHeight = pnlScrollableTransferAttempts.getHeight();
 
-        label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.totalSoFarLabel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+				// compose panel for each attempt and add to grid bag layout
+				java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+				gridBagConstraints.gridx = 0;
+				gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+				gridBagConstraints.weightx = 0.5;
+				gridBagConstraints.weighty = 0.5;
+				gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
 
-        label = new javax.swing.JLabel();
-        label.setText(String.valueOf(attempt.getTotalFilesTransferredSoFar()));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlAttemptInfo.add(label, gridBagConstraints);
+				int count = 1;
+				for (TransferAttempt attempt : transferAttempts) {
+					gridBagConstraints.gridy = count - 1;
+					pnlScrollableTransferAttempts.add(
+							createAttemptPanel(attempt, count),
+							gridBagConstraints);
+					count++;
+				}
 
-        pnlAttemptInstance.add(pnlAttemptInfo, java.awt.BorderLayout.CENTER);
+				pnlScrollableTransferAttempts.setPreferredSize(new Dimension(
+						pnlScrollableTransferAttempts.getWidth(), origHeight
+								* (count - 1)));
+				pnlScrollableTransferAttempts.validate();
+				pnlScrollableTransferAttempts.repaint();
+				pack();
+				tid.validate();
+				tid.repaint();
+			}
+		});
+	}
 
-        javax.swing.JPanel pnlAttemptErrors = new javax.swing.JPanel();
-        pnlAttemptErrors.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.pnlAttemptErrors.border.title"))); // NOI18N
-        pnlAttemptErrors.setPreferredSize(new java.awt.Dimension(340, 250));
-        pnlAttemptErrors.setLayout(new java.awt.GridBagLayout());
+	private javax.swing.JPanel createAttemptPanel(
+			final TransferAttempt attempt, final int count) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"EEE, MMM, d, yyyy : h:mm:ss a");
 
-        label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.errorsLabel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlAttemptErrors.add(label, gridBagConstraints);
+		javax.swing.JPanel pnlAttemptInstance = new javax.swing.JPanel();
+		pnlAttemptInstance.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Transfer Attempt #"
+						+ String.valueOf(count)));
+		pnlAttemptInstance.setPreferredSize(new java.awt.Dimension(340, 585));
+		pnlAttemptInstance.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
-        scrollPane.setMinimumSize(new java.awt.Dimension(23, 65));
+		javax.swing.JPanel pnlAttemptInfo = new javax.swing.JPanel();
+		pnlAttemptInfo.setPreferredSize(new java.awt.Dimension(330, 58));
+		pnlAttemptInfo.setLayout(new java.awt.GridBagLayout());
 
-        javax.swing.JTextArea textArea = new javax.swing.JTextArea();
-        textArea.setEditable(false);
-        textArea.setColumns(20);
-        textArea.setRows(5);
-        textArea.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.NA.text")); // NOI18N
-        scrollPane.setViewportView(textArea);
+		javax.swing.JLabel label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.idLabel.text")); // NOI18N
+		java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.05;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 8);
-        pnlAttemptErrors.add(scrollPane, gridBagConstraints);
+		label = new javax.swing.JLabel();
+		label.setText(transfer.getId().toString());
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		gridBagConstraints.weightx = 0.5;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.exceptionLabel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlAttemptErrors.add(label, gridBagConstraints);
+		label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.startLabel.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        scrollPane = new javax.swing.JScrollPane();
-        scrollPane.setMinimumSize(new java.awt.Dimension(23, 65));
+		label = new javax.swing.JLabel();
+		label.setText(dateFormat.format(attempt.getAttemptStart()));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        textArea = new javax.swing.JTextArea();
-        textArea.setEditable(false);
-        textArea.setColumns(20);
-        textArea.setRows(5);
-        textArea.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.NA.text")); // NOI18N
-        textArea.setMinimumSize(new java.awt.Dimension(0, 60));
-        scrollPane.setViewportView(textArea);
+		label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.endLabel.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 8);
-        pnlAttemptErrors.add(scrollPane, gridBagConstraints);
+		label = new javax.swing.JLabel();
+		if (attempt.getAttemptEnd() != null) {
+			label.setText(dateFormat.format(attempt.getAttemptEnd()));
+		}
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        label = new javax.swing.JLabel();
-        label.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.exceptionDetailsLabel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 0);
-        pnlAttemptErrors.add(label, gridBagConstraints);
+		label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.statusLabel.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 3;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        scrollPane = new javax.swing.JScrollPane();
-        scrollPane.setMinimumSize(new java.awt.Dimension(23, 65));
+		label = new javax.swing.JLabel();
+		label.setText(attempt.getAttemptStatus().toString());
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 3;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        textArea = new javax.swing.JTextArea();
-        textArea.setEditable(false);
-        textArea.setColumns(20);
-        textArea.setRows(5);
-        textArea.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "TransferInfoDialog.NA.text")); // NOI18N
-        scrollPane.setViewportView(textArea);
+		label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.lastPathLabel.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 6;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		gridBagConstraints.insets = new java.awt.Insets(0, 14, 0, 0);
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 8);
-        pnlAttemptErrors.add(scrollPane, gridBagConstraints);
+		label = new javax.swing.JLabel();
+		label.setText(attempt.getLastSuccessfulPath());
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 6;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        pnlAttemptInstance.add(pnlAttemptErrors, java.awt.BorderLayout.SOUTH);
+		label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.totalFilesLabel.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 4;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.weighty = 0.5;
-        pnlScrollableTransferAttempts.add(pnlAttemptInstance, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.weighty = 0.5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
-        
-        return pnlAttemptInstance;
-    }
+		label = new javax.swing.JLabel();
+		label.setText(String.valueOf(attempt.getTotalFilesCount()));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 4;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
+		label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.totalSoFarLabel.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 5;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        pnlMain = new javax.swing.JPanel();
-        pnlTop = new javax.swing.JPanel();
-        toolBatTop = new javax.swing.JToolBar();
-        btnShowFiles = new javax.swing.JButton();
-        pnlTransferInfo = new javax.swing.JPanel();
-        lblTransferType = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        lblTransferFrom = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        lblTransferTo = new javax.swing.JLabel();
-        pnlTransferAttempt = new javax.swing.JPanel();
-        pnlTransferAttemptInfo = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        pnlScrollableTransferAttempts = new javax.swing.JPanel();
-        pnlButtons = new javax.swing.JPanel();
-        btnClose = new javax.swing.JButton();
+		label = new javax.swing.JLabel();
+		label.setText(String.valueOf(attempt.getTotalFilesTransferredSoFar()));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 5;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		pnlAttemptInfo.add(label, gridBagConstraints);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.title")); // NOI18N
+		pnlAttemptInstance.add(pnlAttemptInfo, java.awt.BorderLayout.CENTER);
 
-        pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 4, 8, 4));
-        pnlMain.setPreferredSize(new java.awt.Dimension(530, 630));
-        pnlMain.setLayout(new java.awt.BorderLayout());
+		javax.swing.JPanel pnlAttemptErrors = new javax.swing.JPanel();
+		pnlAttemptErrors.setBorder(javax.swing.BorderFactory
+				.createTitledBorder(org.openide.util.NbBundle.getMessage(
+						DeprecatedTransferInfoDialog.class,
+						"TransferInfoDialog.pnlAttemptErrors.border.title"))); // NOI18N
+		pnlAttemptErrors.setPreferredSize(new java.awt.Dimension(340, 250));
+		pnlAttemptErrors.setLayout(new java.awt.GridBagLayout());
 
-        pnlTop.setLayout(new java.awt.BorderLayout());
+		label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.errorsLabel.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		pnlAttemptErrors.add(label, gridBagConstraints);
 
-        toolBatTop.setRollover(true);
+		javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
+		scrollPane.setMinimumSize(new java.awt.Dimension(23, 65));
 
-        btnShowFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
-        btnShowFiles.setMnemonic('i');
-        btnShowFiles.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.btnShowFiles.text")); // NOI18N
-        btnShowFiles.setFocusable(false);
-        btnShowFiles.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnShowFiles.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnShowFiles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShowFilesActionPerformed(evt);
-            }
-        });
-        toolBatTop.add(btnShowFiles);
+		javax.swing.JTextArea textArea = new javax.swing.JTextArea();
+		textArea.setEditable(false);
+		textArea.setColumns(20);
+		textArea.setRows(5);
+		textArea.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.NA.text")); // NOI18N
+		scrollPane.setViewportView(textArea);
 
-        pnlTop.add(toolBatTop, java.awt.BorderLayout.NORTH);
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridheight = 2;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		gridBagConstraints.weightx = 0.05;
+		gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 8);
+		pnlAttemptErrors.add(scrollPane, gridBagConstraints);
 
-        pnlTransferInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 0, 6, 0));
-        pnlTransferInfo.setLayout(new java.awt.GridBagLayout());
+		label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.exceptionLabel.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		pnlAttemptErrors.add(label, gridBagConstraints);
 
-        lblTransferType.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.lblTransferType.text")); // NOI18N
-        pnlTransferInfo.add(lblTransferType, new java.awt.GridBagConstraints());
+		scrollPane = new javax.swing.JScrollPane();
+		scrollPane.setMinimumSize(new java.awt.Dimension(23, 65));
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.jLabel4.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        pnlTransferInfo.add(jLabel4, gridBagConstraints);
+		textArea = new javax.swing.JTextArea();
+		textArea.setEditable(false);
+		textArea.setColumns(20);
+		textArea.setRows(5);
+		textArea.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.NA.text")); // NOI18N
+		textArea.setMinimumSize(new java.awt.Dimension(0, 60));
+		scrollPane.setViewportView(textArea);
 
-        lblTransferFrom.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.lblTransferFrom.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlTransferInfo.add(lblTransferFrom, gridBagConstraints);
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.gridheight = 2;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 8);
+		pnlAttemptErrors.add(scrollPane, gridBagConstraints);
 
-        jLabel6.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.jLabel6.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        pnlTransferInfo.add(jLabel6, gridBagConstraints);
+		label = new javax.swing.JLabel();
+		label.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.exceptionDetailsLabel.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 4;
+		gridBagConstraints.ipadx = 6;
+		gridBagConstraints.ipady = 6;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+		gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 0);
+		pnlAttemptErrors.add(label, gridBagConstraints);
 
-        lblTransferTo.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.lblTransferTo.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlTransferInfo.add(lblTransferTo, gridBagConstraints);
+		scrollPane = new javax.swing.JScrollPane();
+		scrollPane.setMinimumSize(new java.awt.Dimension(23, 65));
 
-        pnlTop.add(pnlTransferInfo, java.awt.BorderLayout.CENTER);
+		textArea = new javax.swing.JTextArea();
+		textArea.setEditable(false);
+		textArea.setColumns(20);
+		textArea.setRows(5);
+		textArea.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"TransferInfoDialog.NA.text")); // NOI18N
+		scrollPane.setViewportView(textArea);
 
-        pnlMain.add(pnlTop, java.awt.BorderLayout.NORTH);
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 4;
+		gridBagConstraints.gridheight = 2;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 8);
+		pnlAttemptErrors.add(scrollPane, gridBagConstraints);
 
-        pnlTransferAttempt.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 6, 2));
-        pnlTransferAttempt.setPreferredSize(new java.awt.Dimension(520, 630));
-        pnlTransferAttempt.setRequestFocusEnabled(false);
-        pnlTransferAttempt.setLayout(new java.awt.BorderLayout());
+		pnlAttemptInstance.add(pnlAttemptErrors, java.awt.BorderLayout.SOUTH);
 
-        pnlTransferAttemptInfo.setPreferredSize(new java.awt.Dimension(350, 600));
-        pnlTransferAttemptInfo.setLayout(new java.awt.BorderLayout());
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		gridBagConstraints.weightx = 0.5;
+		gridBagConstraints.weighty = 0.5;
+		pnlScrollableTransferAttempts.add(pnlAttemptInstance,
+				gridBagConstraints);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.jPanel1.border.title"))); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(350, 600));
-        jPanel1.setLayout(new java.awt.BorderLayout());
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		gridBagConstraints.weightx = 0.5;
+		gridBagConstraints.weighty = 0.5;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(350, 460));
+		return pnlAttemptInstance;
+	}
 
-        pnlScrollableTransferAttempts.setPreferredSize(new java.awt.Dimension(340, 460));
-        pnlScrollableTransferAttempts.setLayout(new java.awt.GridBagLayout());
-        jScrollPane1.setViewportView(pnlScrollableTransferAttempts);
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
+		java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+		pnlMain = new javax.swing.JPanel();
+		pnlTop = new javax.swing.JPanel();
+		toolBatTop = new javax.swing.JToolBar();
+		btnShowFiles = new javax.swing.JButton();
+		pnlTransferInfo = new javax.swing.JPanel();
+		lblTransferType = new javax.swing.JLabel();
+		jLabel4 = new javax.swing.JLabel();
+		lblTransferFrom = new javax.swing.JLabel();
+		jLabel6 = new javax.swing.JLabel();
+		lblTransferTo = new javax.swing.JLabel();
+		pnlTransferAttempt = new javax.swing.JPanel();
+		pnlTransferAttemptInfo = new javax.swing.JPanel();
+		jPanel1 = new javax.swing.JPanel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		pnlScrollableTransferAttempts = new javax.swing.JPanel();
+		pnlButtons = new javax.swing.JPanel();
+		btnClose = new javax.swing.JButton();
 
-        pnlTransferAttemptInfo.add(jPanel1, java.awt.BorderLayout.CENTER);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"DeprecatedTransferInfoDialog.title")); // NOI18N
 
-        pnlTransferAttempt.add(pnlTransferAttemptInfo, java.awt.BorderLayout.CENTER);
+		pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 4, 8,
+				4));
+		pnlMain.setPreferredSize(new java.awt.Dimension(530, 630));
+		pnlMain.setLayout(new java.awt.BorderLayout());
 
-        pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+		pnlTop.setLayout(new java.awt.BorderLayout());
 
-        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_198_ok.png"))); // NOI18N
-        btnClose.setMnemonic('o');
-        btnClose.setText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.btnClose.text")); // NOI18N
-        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(DeprecatedTransferInfoDialog.class, "DeprecatedTransferInfoDialog.btnClose.toolTipText")); // NOI18N
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
-            }
-        });
-        pnlButtons.add(btnClose);
+		toolBatTop.setRollover(true);
 
-        pnlTransferAttempt.add(pnlButtons, java.awt.BorderLayout.SOUTH);
+		btnShowFiles
+				.setIcon(new javax.swing.ImageIcon(
+						getClass()
+								.getResource(
+										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
+		btnShowFiles.setMnemonic('i');
+		btnShowFiles.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"DeprecatedTransferInfoDialog.btnShowFiles.text")); // NOI18N
+		btnShowFiles.setFocusable(false);
+		btnShowFiles
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		btnShowFiles.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		btnShowFiles.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(final java.awt.event.ActionEvent evt) {
+				btnShowFilesActionPerformed(evt);
+			}
+		});
+		toolBatTop.add(btnShowFiles);
 
-        pnlMain.add(pnlTransferAttempt, java.awt.BorderLayout.CENTER);
+		pnlTop.add(toolBatTop, java.awt.BorderLayout.NORTH);
 
-        getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
+		pnlTransferInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(
+				14, 0, 6, 0));
+		pnlTransferInfo.setLayout(new java.awt.GridBagLayout());
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+		lblTransferType.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"DeprecatedTransferInfoDialog.lblTransferType.text")); // NOI18N
+		pnlTransferInfo.add(lblTransferType, new java.awt.GridBagConstraints());
 
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCloseActionPerformed
+		jLabel4.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"DeprecatedTransferInfoDialog.jLabel4.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+		pnlTransferInfo.add(jLabel4, gridBagConstraints);
 
-    private void btnShowFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowFilesActionPerformed
-      
-    }//GEN-LAST:event_btnShowFilesActionPerformed
+		lblTransferFrom.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"DeprecatedTransferInfoDialog.lblTransferFrom.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 2;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+		pnlTransferInfo.add(lblTransferFrom, gridBagConstraints);
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnClose;
-    private javax.swing.JButton btnShowFiles;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblTransferFrom;
-    private javax.swing.JLabel lblTransferTo;
-    private javax.swing.JLabel lblTransferType;
-    private javax.swing.JPanel pnlButtons;
-    private javax.swing.JPanel pnlMain;
-    private javax.swing.JPanel pnlScrollableTransferAttempts;
-    private javax.swing.JPanel pnlTop;
-    private javax.swing.JPanel pnlTransferAttempt;
-    private javax.swing.JPanel pnlTransferAttemptInfo;
-    private javax.swing.JPanel pnlTransferInfo;
-    private javax.swing.JToolBar toolBatTop;
-    // End of variables declaration//GEN-END:variables
+		jLabel6.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"DeprecatedTransferInfoDialog.jLabel6.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+		pnlTransferInfo.add(jLabel6, gridBagConstraints);
+
+		lblTransferTo.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"DeprecatedTransferInfoDialog.lblTransferTo.text")); // NOI18N
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 2;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+		pnlTransferInfo.add(lblTransferTo, gridBagConstraints);
+
+		pnlTop.add(pnlTransferInfo, java.awt.BorderLayout.CENTER);
+
+		pnlMain.add(pnlTop, java.awt.BorderLayout.NORTH);
+
+		pnlTransferAttempt.setBorder(javax.swing.BorderFactory
+				.createEmptyBorder(4, 2, 6, 2));
+		pnlTransferAttempt.setPreferredSize(new java.awt.Dimension(520, 630));
+		pnlTransferAttempt.setRequestFocusEnabled(false);
+		pnlTransferAttempt.setLayout(new java.awt.BorderLayout());
+
+		pnlTransferAttemptInfo
+				.setPreferredSize(new java.awt.Dimension(350, 600));
+		pnlTransferAttemptInfo.setLayout(new java.awt.BorderLayout());
+
+		jPanel1.setBorder(javax.swing.BorderFactory
+				.createTitledBorder(org.openide.util.NbBundle.getMessage(
+						DeprecatedTransferInfoDialog.class,
+						"DeprecatedTransferInfoDialog.jPanel1.border.title"))); // NOI18N
+		jPanel1.setPreferredSize(new java.awt.Dimension(350, 600));
+		jPanel1.setLayout(new java.awt.BorderLayout());
+
+		jScrollPane1.setPreferredSize(new java.awt.Dimension(350, 460));
+
+		pnlScrollableTransferAttempts.setPreferredSize(new java.awt.Dimension(
+				340, 460));
+		pnlScrollableTransferAttempts.setLayout(new java.awt.GridBagLayout());
+		jScrollPane1.setViewportView(pnlScrollableTransferAttempts);
+
+		jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+		pnlTransferAttemptInfo.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+		pnlTransferAttempt.add(pnlTransferAttemptInfo,
+				java.awt.BorderLayout.CENTER);
+
+		pnlButtons
+				.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+		btnClose.setIcon(new javax.swing.ImageIcon(
+				getClass()
+						.getResource(
+								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_198_ok.png"))); // NOI18N
+		btnClose.setMnemonic('o');
+		btnClose.setText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"DeprecatedTransferInfoDialog.btnClose.text")); // NOI18N
+		btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(
+				DeprecatedTransferInfoDialog.class,
+				"DeprecatedTransferInfoDialog.btnClose.toolTipText")); // NOI18N
+		btnClose.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(final java.awt.event.ActionEvent evt) {
+				btnCloseActionPerformed(evt);
+			}
+		});
+		pnlButtons.add(btnClose);
+
+		pnlTransferAttempt.add(pnlButtons, java.awt.BorderLayout.SOUTH);
+
+		pnlMain.add(pnlTransferAttempt, java.awt.BorderLayout.CENTER);
+
+		getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
+
+		pack();
+	}// </editor-fold>//GEN-END:initComponents
+
+	private void btnCloseActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCloseActionPerformed
+		dispose();
+	}// GEN-LAST:event_btnCloseActionPerformed
+
+	private void btnShowFilesActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnShowFilesActionPerformed
+
+	}// GEN-LAST:event_btnShowFilesActionPerformed
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JButton btnClose;
+	private javax.swing.JButton btnShowFiles;
+	private javax.swing.JLabel jLabel4;
+	private javax.swing.JLabel jLabel6;
+	private javax.swing.JPanel jPanel1;
+	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JLabel lblTransferFrom;
+	private javax.swing.JLabel lblTransferTo;
+	private javax.swing.JLabel lblTransferType;
+	private javax.swing.JPanel pnlButtons;
+	private javax.swing.JPanel pnlMain;
+	private javax.swing.JPanel pnlScrollableTransferAttempts;
+	private javax.swing.JPanel pnlTop;
+	private javax.swing.JPanel pnlTransferAttempt;
+	private javax.swing.JPanel pnlTransferAttemptInfo;
+	private javax.swing.JPanel pnlTransferInfo;
+	private javax.swing.JToolBar toolBatTop;
+	// End of variables declaration//GEN-END:variables
 }

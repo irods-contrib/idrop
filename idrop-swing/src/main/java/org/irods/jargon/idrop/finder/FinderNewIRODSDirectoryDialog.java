@@ -1,4 +1,3 @@
-
 /*
  * NewIRODSDirectoryDialog.java
  *
@@ -351,6 +350,11 @@ public class FinderNewIRODSDirectoryDialog extends javax.swing.JDialog {
 		KeyStroke enter = KeyStroke.getKeyStroke(
 				java.awt.event.KeyEvent.VK_ENTER, 0);
 		Action enterAction = new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8299613621717739688L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {

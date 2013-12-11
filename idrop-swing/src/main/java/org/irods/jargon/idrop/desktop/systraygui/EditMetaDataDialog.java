@@ -7,297 +7,353 @@ package org.irods.jargon.idrop.desktop.systraygui;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.domain.AvuData;
-import org.irods.jargon.core.query.MetaDataAndDomainData;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * @author lisa
  */
-public class EditMetaDataDialog extends javax.swing.JDialog implements DocumentListener {
-    
-    private final AvuData oldAvuData;
-    private AvuData newAvuData;
-    private final IRODSFileSystem irodsFileSystem;
-    private final IRODSAccount irodsAccount;
-    private final boolean isCollection;
-    private final String selectedObjectFullPath;
-    private final MetadataTableModel tableModel;
-    private final int selectedRow;
-    public static org.slf4j.Logger log = LoggerFactory
-            .getLogger(EditMetaDataDialog.class);
+public class EditMetaDataDialog extends javax.swing.JDialog implements
+		DocumentListener {
 
-    /**
-     * Creates new form EditMetaDataDialog
-     */
-    public EditMetaDataDialog (
-            final javax.swing.JDialog parent,
-            boolean modal,
-            int selectedRow,
-            String selectedObjectFullPath,
-            AvuData avuData,
-            boolean isCollection,
-            IRODSFileSystem irodsFileSystem,
-            IRODSAccount irodsAccount,
-            MetadataTableModel tableModel) {
-        super(parent, modal);
-        initComponents();
-        
-        this.selectedRow = selectedRow;
-        this.oldAvuData = avuData;
-        this.irodsFileSystem = irodsFileSystem;
-        this.irodsAccount = irodsAccount;
-        this.isCollection = isCollection;
-        this.selectedObjectFullPath = selectedObjectFullPath;
-        this.tableModel = tableModel;
-        
-        // set document listener to stop user from trying
-        // to update metadata with no values
-        txtAttribute.getDocument().addDocumentListener(
-                        this);
-        txtValue.getDocument().addDocumentListener(this);
-        txtUnit.getDocument().addDocumentListener(this);
-        
-        initAvuData();
-    }
-    
-    private void initAvuData() {
-        txtAttribute.setText(oldAvuData.getAttribute());
-        txtValue.setText(oldAvuData.getValue());
-        txtUnit.setText(oldAvuData.getUnit());
-    }
-    
-    public AvuData getNewAvuData() {
-        return this.newAvuData;
-    }
-    
-    private void setNewAvuData(String attr, String value, String unit) {
-        newAvuData = new AvuData();
-        newAvuData.setAttribute(attr);
-        newAvuData.setValue(value);
-        newAvuData.setUnit(unit);
-    }
-    
-    private void updateMetadataAddBtnStatus() {
-        // add button should only be enabled when all text fields are populated
-        btnUpdate.setEnabled((txtAttribute.getText().length() > 0)
-            && (txtValue.getText().length() > 0)
-            && (txtUnit.getText().length() > 0));
-    }
-    
-    // document listener methods
-    @Override
-    public void insertUpdate(DocumentEvent de) {
-        updateMetadataAddBtnStatus();
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7219479190041765877L;
+	private final AvuData oldAvuData;
+	private AvuData newAvuData;
+	private final IRODSFileSystem irodsFileSystem;
+	private final IRODSAccount irodsAccount;
+	private final boolean isCollection;
+	private final String selectedObjectFullPath;
+	private final MetadataTableModel tableModel;
+	private final int selectedRow;
+	public static org.slf4j.Logger log = LoggerFactory
+			.getLogger(EditMetaDataDialog.class);
 
-    @Override
-    public void removeUpdate(DocumentEvent de) {
-        updateMetadataAddBtnStatus();
-    }
+	/**
+	 * Creates new form EditMetaDataDialog
+	 */
+	public EditMetaDataDialog(final javax.swing.JDialog parent,
+			final boolean modal, final int selectedRow,
+			final String selectedObjectFullPath, final AvuData avuData,
+			final boolean isCollection, final IRODSFileSystem irodsFileSystem,
+			final IRODSAccount irodsAccount, final MetadataTableModel tableModel) {
+		super(parent, modal);
+		initComponents();
 
-    @Override
-    public void changedUpdate(DocumentEvent de) {
-        updateMetadataAddBtnStatus();
-    }
-    // end document listener methods
-    
+		this.selectedRow = selectedRow;
+		oldAvuData = avuData;
+		this.irodsFileSystem = irodsFileSystem;
+		this.irodsAccount = irodsAccount;
+		this.isCollection = isCollection;
+		this.selectedObjectFullPath = selectedObjectFullPath;
+		this.tableModel = tableModel;
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+		// set document listener to stop user from trying
+		// to update metadata with no values
+		txtAttribute.getDocument().addDocumentListener(this);
+		txtValue.getDocument().addDocumentListener(this);
+		txtUnit.getDocument().addDocumentListener(this);
 
-        jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        txtAttribute = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        txtValue = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtUnit = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        btnCancel = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
+		initAvuData();
+	}
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(600, 300));
+	private void initAvuData() {
+		txtAttribute.setText(oldAvuData.getAttribute());
+		txtValue.setText(oldAvuData.getValue());
+		txtUnit.setText(oldAvuData.getUnit());
+	}
 
-        jPanel2.setLayout(new java.awt.BorderLayout());
+	public AvuData getNewAvuData() {
+		return newAvuData;
+	}
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+	private void setNewAvuData(final String attr, final String value,
+			final String unit) {
+		newAvuData = new AvuData();
+		newAvuData.setAttribute(attr);
+		newAvuData.setValue(value);
+		newAvuData.setUnit(unit);
+	}
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.jLabel1.text")); // NOI18N
+	private void updateMetadataAddBtnStatus() {
+		// add button should only be enabled when all text fields are populated
+		btnUpdate.setEnabled((txtAttribute.getText().length() > 0)
+				&& (txtValue.getText().length() > 0)
+				&& (txtUnit.getText().length() > 0));
+	}
 
-        txtAttribute.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.txtAttribute.text")); // NOI18N
+	// document listener methods
+	@Override
+	public void insertUpdate(final DocumentEvent de) {
+		updateMetadataAddBtnStatus();
+	}
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.jLabel2.text")); // NOI18N
+	@Override
+	public void removeUpdate(final DocumentEvent de) {
+		updateMetadataAddBtnStatus();
+	}
 
-        txtValue.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.txtValue.text")); // NOI18N
+	@Override
+	public void changedUpdate(final DocumentEvent de) {
+		updateMetadataAddBtnStatus();
+	}
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.jLabel3.text")); // NOI18N
+	// end document listener methods
 
-        txtUnit.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.txtUnit.text")); // NOI18N
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
 
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(12, 12, 12)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel2)
-                    .add(jLabel1)
-                    .add(jLabel3))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(txtUnit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(txtValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(txtAttribute, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(27, 27, 27)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel1)
-                    .add(txtAttribute, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(txtValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel2))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel3)
-                    .add(txtUnit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(143, Short.MAX_VALUE))
-        );
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
 
-        jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
+		jPanel2 = new javax.swing.JPanel();
+		jPanel1 = new javax.swing.JPanel();
+		jLabel1 = new javax.swing.JLabel();
+		txtAttribute = new javax.swing.JTextField();
+		jLabel2 = new javax.swing.JLabel();
+		txtValue = new javax.swing.JTextField();
+		jLabel3 = new javax.swing.JLabel();
+		txtUnit = new javax.swing.JTextField();
+		jPanel3 = new javax.swing.JPanel();
+		jPanel4 = new javax.swing.JPanel();
+		jPanel5 = new javax.swing.JPanel();
+		btnCancel = new javax.swing.JButton();
+		btnUpdate = new javax.swing.JButton();
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class,
+				"EditMetaDataDialog.title")); // NOI18N
+		setPreferredSize(new java.awt.Dimension(600, 300));
 
-        jPanel3.setLayout(new java.awt.BorderLayout());
+		jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel4.setPreferredSize(new java.awt.Dimension(100, 40));
+		jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4,
+				4));
 
-        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 40, Short.MAX_VALUE)
-        );
+		jLabel1.setText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class, "EditMetaDataDialog.jLabel1.text")); // NOI18N
 
-        jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
+		txtAttribute.setText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class,
+				"EditMetaDataDialog.txtAttribute.text")); // NOI18N
 
-        jPanel5.setPreferredSize(new java.awt.Dimension(200, 40));
+		jLabel2.setText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class, "EditMetaDataDialog.jLabel2.text")); // NOI18N
 
-        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
-        btnCancel.setMnemonic('c');
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnCancel.text")); // NOI18N
-        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnCancel.toolTipText")); // NOI18N
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnCancel);
+		txtValue.setText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class, "EditMetaDataDialog.txtValue.text")); // NOI18N
 
-        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-        btnUpdate.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnUpdate.text")); // NOI18N
-        btnUpdate.setToolTipText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnUpdate.toolTipText")); // NOI18N
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnUpdate);
+		jLabel3.setText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class, "EditMetaDataDialog.jLabel3.text")); // NOI18N
 
-        jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
+		txtUnit.setText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class, "EditMetaDataDialog.txtUnit.text")); // NOI18N
 
-        getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
+		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(
+				jPanel1);
+		jPanel1.setLayout(jPanel1Layout);
+		jPanel1Layout
+				.setHorizontalGroup(jPanel1Layout
+						.createParallelGroup(
+								org.jdesktop.layout.GroupLayout.LEADING)
+						.add(jPanel1Layout
+								.createSequentialGroup()
+								.add(12, 12, 12)
+								.add(jPanel1Layout
+										.createParallelGroup(
+												org.jdesktop.layout.GroupLayout.LEADING)
+										.add(jLabel2).add(jLabel1).add(jLabel3))
+								.addPreferredGap(
+										org.jdesktop.layout.LayoutStyle.RELATED)
+								.add(jPanel1Layout
+										.createParallelGroup(
+												org.jdesktop.layout.GroupLayout.LEADING)
+										.add(txtUnit,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+												340,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+										.add(txtValue,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+												340,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+										.add(txtAttribute,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+												340,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+								.addContainerGap(29, Short.MAX_VALUE)));
+		jPanel1Layout
+				.setVerticalGroup(jPanel1Layout
+						.createParallelGroup(
+								org.jdesktop.layout.GroupLayout.LEADING)
+						.add(jPanel1Layout
+								.createSequentialGroup()
+								.add(27, 27, 27)
+								.add(jPanel1Layout
+										.createParallelGroup(
+												org.jdesktop.layout.GroupLayout.BASELINE)
+										.add(jLabel1)
+										.add(txtAttribute,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(
+										org.jdesktop.layout.LayoutStyle.UNRELATED)
+								.add(jPanel1Layout
+										.createParallelGroup(
+												org.jdesktop.layout.GroupLayout.BASELINE)
+										.add(txtValue,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+										.add(jLabel2))
+								.addPreferredGap(
+										org.jdesktop.layout.LayoutStyle.UNRELATED)
+								.add(jPanel1Layout
+										.createParallelGroup(
+												org.jdesktop.layout.GroupLayout.BASELINE)
+										.add(jLabel3)
+										.add(txtUnit,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+								.addContainerGap(143, Short.MAX_VALUE)));
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+		jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
+		getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        CollectionAO collectionAO;
-        DataObjectAO dataObjectAO;
-        
-        // save new AvuData
-        setNewAvuData(txtAttribute.getText(), txtValue.getText(), txtUnit.getText());
-        
-        // now save to iRODS and update table
-        try {
-                if (isCollection) {
-                        collectionAO = irodsFileSystem
-                                        .getIRODSAccessObjectFactory().getCollectionAO(
-                                                        irodsAccount);
-                        collectionAO.modifyAVUMetadata(selectedObjectFullPath, oldAvuData, newAvuData);
-                } else {
-                        dataObjectAO = irodsFileSystem
-                                        .getIRODSAccessObjectFactory().getDataObjectAO(
-                                                        irodsAccount);
-                        dataObjectAO.modifyAVUMetadata(selectedObjectFullPath, oldAvuData, newAvuData);
-                }
-                
-                tableModel.updateRow(selectedRow,
-                                selectedObjectFullPath,
-                                newAvuData.getAttribute(),
-                                newAvuData.getValue(),
-                                newAvuData.getUnit());
-        
-        } catch (JargonException ex) {
-                log.error("cannot update metadata table", ex);
-                JOptionPane.showMessageDialog(this, "Metadata Update Failed",
-                                "Update Metadata", JOptionPane.PLAIN_MESSAGE);
-        }
-        
-        JOptionPane.showMessageDialog(this,
-                        "Metadata Updated Successfully",
-                        "Update Metadata", JOptionPane.PLAIN_MESSAGE);
-        
-        this.dispose();
-    }//GEN-LAST:event_btnUpdateActionPerformed
+		jPanel3.setLayout(new java.awt.BorderLayout());
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JTextField txtAttribute;
-    private javax.swing.JTextField txtUnit;
-    private javax.swing.JTextField txtValue;
-    // End of variables declaration//GEN-END:variables
+		jPanel4.setPreferredSize(new java.awt.Dimension(100, 40));
+
+		org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(
+				jPanel4);
+		jPanel4.setLayout(jPanel4Layout);
+		jPanel4Layout.setHorizontalGroup(jPanel4Layout.createParallelGroup(
+				org.jdesktop.layout.GroupLayout.LEADING).add(0, 100,
+				Short.MAX_VALUE));
+		jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(
+				org.jdesktop.layout.GroupLayout.LEADING).add(0, 40,
+				Short.MAX_VALUE));
+
+		jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
+
+		jPanel5.setPreferredSize(new java.awt.Dimension(200, 40));
+
+		btnCancel
+				.setIcon(new javax.swing.ImageIcon(
+						getClass()
+								.getResource(
+										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+		btnCancel.setMnemonic('c');
+		btnCancel.setText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class, "EditMetaDataDialog.btnCancel.text")); // NOI18N
+		btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class,
+				"EditMetaDataDialog.btnCancel.toolTipText")); // NOI18N
+		btnCancel.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(final java.awt.event.ActionEvent evt) {
+				btnCancelActionPerformed(evt);
+			}
+		});
+		jPanel5.add(btnCancel);
+
+		btnUpdate
+				.setIcon(new javax.swing.ImageIcon(
+						getClass()
+								.getResource(
+										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+		btnUpdate.setText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class, "EditMetaDataDialog.btnUpdate.text")); // NOI18N
+		btnUpdate.setToolTipText(org.openide.util.NbBundle.getMessage(
+				EditMetaDataDialog.class,
+				"EditMetaDataDialog.btnUpdate.toolTipText")); // NOI18N
+		btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(final java.awt.event.ActionEvent evt) {
+				btnUpdateActionPerformed(evt);
+			}
+		});
+		jPanel5.add(btnUpdate);
+
+		jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
+
+		getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
+
+		pack();
+	}// </editor-fold>//GEN-END:initComponents
+
+	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
+		dispose();
+	}// GEN-LAST:event_btnCancelActionPerformed
+
+	private void btnUpdateActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateActionPerformed
+		CollectionAO collectionAO;
+		DataObjectAO dataObjectAO;
+
+		// save new AvuData
+		setNewAvuData(txtAttribute.getText(), txtValue.getText(),
+				txtUnit.getText());
+
+		// now save to iRODS and update table
+		try {
+			if (isCollection) {
+				collectionAO = irodsFileSystem.getIRODSAccessObjectFactory()
+						.getCollectionAO(irodsAccount);
+				collectionAO.modifyAVUMetadata(selectedObjectFullPath,
+						oldAvuData, newAvuData);
+			} else {
+				dataObjectAO = irodsFileSystem.getIRODSAccessObjectFactory()
+						.getDataObjectAO(irodsAccount);
+				dataObjectAO.modifyAVUMetadata(selectedObjectFullPath,
+						oldAvuData, newAvuData);
+			}
+
+			tableModel.updateRow(selectedRow, selectedObjectFullPath,
+					newAvuData.getAttribute(), newAvuData.getValue(),
+					newAvuData.getUnit());
+
+		} catch (JargonException ex) {
+			log.error("cannot update metadata table", ex);
+			JOptionPane.showMessageDialog(this, "Metadata Update Failed",
+					"Update Metadata", JOptionPane.PLAIN_MESSAGE);
+		}
+
+		JOptionPane.showMessageDialog(this, "Metadata Updated Successfully",
+				"Update Metadata", JOptionPane.PLAIN_MESSAGE);
+
+		dispose();
+	}// GEN-LAST:event_btnUpdateActionPerformed
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JButton btnCancel;
+	private javax.swing.JButton btnUpdate;
+	private javax.swing.JLabel jLabel1;
+	private javax.swing.JLabel jLabel2;
+	private javax.swing.JLabel jLabel3;
+	private javax.swing.JPanel jPanel1;
+	private javax.swing.JPanel jPanel2;
+	private javax.swing.JPanel jPanel3;
+	private javax.swing.JPanel jPanel4;
+	private javax.swing.JPanel jPanel5;
+	private javax.swing.JTextField txtAttribute;
+	private javax.swing.JTextField txtUnit;
+	private javax.swing.JTextField txtValue;
+	// End of variables declaration//GEN-END:variables
 
 }

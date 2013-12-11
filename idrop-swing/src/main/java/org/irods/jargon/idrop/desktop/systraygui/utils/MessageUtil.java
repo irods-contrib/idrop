@@ -10,8 +10,8 @@ import javax.swing.JOptionPane;
  * 
  */
 public class MessageUtil {
-    
-        public static final String ERROR_MESSAGE = "iDrop Error Message";
+
+	public static final String ERROR_MESSAGE = "iDrop Error Message";
 
 	public static void showError(final Component rootComponent,
 			final String message, final String title) {

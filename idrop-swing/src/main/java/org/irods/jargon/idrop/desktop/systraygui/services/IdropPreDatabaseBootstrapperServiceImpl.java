@@ -6,9 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Properties;
 
-import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.slf4j.LoggerFactory;
 
@@ -154,18 +152,6 @@ public class IdropPreDatabaseBootstrapperServiceImpl implements
 
 		log.info("migration done");
 
-	}
-
-	/**
-	 * Load the default idrop properties from the classpath
-	 * 
-	 * @return <code>Properties</code> of idrop as in the provided class path
-	 * @throws IdropException
-	 */
-	private Properties getDefaultIdropProperties() throws IdropException {
-		log.info("getDefaultIdropProperties");
-		IdropPropertiesHelper idropPropertiesHelper = new IdropPropertiesHelper();
-		return idropPropertiesHelper.loadIdropProperties();
 	}
 
 	/**

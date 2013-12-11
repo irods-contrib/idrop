@@ -393,7 +393,7 @@ public class TreeUtils {
 		// Traverse children
 		TreeNode node = (TreeNode) parent.getLastPathComponent();
 		if (node.getChildCount() >= 0) {
-			for (Enumeration e = node.children(); e.hasMoreElements();) {
+			for (Enumeration<?> e = node.children(); e.hasMoreElements();) {
 				TreeNode n = (TreeNode) e.nextElement();
 				TreePath path = parent.pathByAddingChild(n);
 				expandAll(tree, path, expand);
@@ -413,7 +413,7 @@ public class TreeUtils {
 		// Traverse children
 		TreeNode node = (TreeNode) parent.getLastPathComponent();
 		if (node.getChildCount() >= 0) {
-			for (Enumeration e = node.children(); e.hasMoreElements();) {
+			for (Enumeration<?> e = node.children(); e.hasMoreElements();) {
 				TreeNode n = (TreeNode) e.nextElement();
 				TreePath path = parent.pathByAddingChild(n);
 				expandAll(tree, path, expand);
@@ -444,13 +444,13 @@ public class TreeUtils {
 		TreeNode root = (TreeNode) tree.getModel().getRoot();
 
 		// Create array to hold the treepaths
-		List list = new ArrayList();
+		List<TreePath> list = new ArrayList<TreePath>();
 
 		// Traverse tree from root adding treepaths for all nodes to list
 		getPaths(tree, new TreePath(root), expanded, list);
 
 		// Convert list to array
-		return (TreePath[]) list.toArray(new TreePath[list.size()]);
+		return list.toArray(new TreePath[list.size()]);
 	}
 
 	public static TreePath[] getPaths(final Outline tree, final boolean expanded) {
@@ -463,17 +463,17 @@ public class TreeUtils {
 				.getTreePathSupport();
 
 		// Create array to hold the treepaths
-		List list = new ArrayList();
+		List<TreePath> list = new ArrayList<TreePath>();
 
 		// Traverse tree from root adding treepaths for all nodes to list
 		getPaths(tree, new TreePath(root), expanded, list, treePathSupport);
 
 		// Convert list to array
-		return (TreePath[]) list.toArray(new TreePath[list.size()]);
+		return list.toArray(new TreePath[list.size()]);
 	}
 
 	private static void getPaths(final JTree tree, final TreePath parent,
-			final boolean expanded, final List list) {
+			final boolean expanded, final List<TreePath> list) {
 		// Return if node is not expanded
 		if (expanded && !tree.isVisible(parent)) {
 			return;
@@ -485,7 +485,7 @@ public class TreeUtils {
 		// Create paths for all children
 		TreeNode node = (TreeNode) parent.getLastPathComponent();
 		if (node.getChildCount() >= 0) {
-			for (Enumeration e = node.children(); e.hasMoreElements();) {
+			for (Enumeration<?> e = node.children(); e.hasMoreElements();) {
 				TreeNode n = (TreeNode) e.nextElement();
 				TreePath path = parent.pathByAddingChild(n);
 				getPaths(tree, path, expanded, list);
@@ -494,7 +494,7 @@ public class TreeUtils {
 	}
 
 	private static void getPaths(final Outline tree, final TreePath parent,
-			final boolean expanded, final List list,
+			final boolean expanded, final List<TreePath> list,
 			final TreePathSupport treePathSupport) {
 		// Return if node is not expanded
 		/*
@@ -517,7 +517,7 @@ public class TreeUtils {
 
 			log.debug("iterating cached children of this node....");
 			if (node.getChildCount() >= 0) {
-				for (Enumeration e = node.children(); e.hasMoreElements();) {
+				for (Enumeration<?> e = node.children(); e.hasMoreElements();) {
 					TreeNode n = (TreeNode) e.nextElement();
 					TreePath path = parent.pathByAddingChild(n);
 					getPaths(tree, path, expanded, list, treePathSupport);

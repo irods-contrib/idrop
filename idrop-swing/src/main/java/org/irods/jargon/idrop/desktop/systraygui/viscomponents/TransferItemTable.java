@@ -9,21 +9,24 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  * Special JTable subclass with appropriate cell renderers
- *
+ * 
  * @author Mike Conway
  */
 public class TransferItemTable extends JTable {
 
-    private ItemListPagingTableModelCustomCellRenderer renderer = new ItemListPagingTableModelCustomCellRenderer();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -395062818571167946L;
+	private ItemListPagingTableModelCustomCellRenderer renderer = new ItemListPagingTableModelCustomCellRenderer();
 
-    @Override
-    public TableCellRenderer getCellRenderer(int row, int column) {
+	@Override
+	public TableCellRenderer getCellRenderer(final int row, final int column) {
 
-
-        if (column == 3) {
-            return renderer;
-        } else {
-            return super.getCellRenderer(row, column);
-        }
-    }
+		if (column == 3) {
+			return renderer;
+		} else {
+			return super.getCellRenderer(row, column);
+		}
+	}
 }

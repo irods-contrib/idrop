@@ -168,6 +168,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
 		return thisFile.equals(thatFile);
 	}
 
+	@SuppressWarnings("unchecked")
 	List<IRODSNode> getChildren() throws IdropException {
 		lazyLoadOfChildrenOfThisNode(!irodsTree.isRefreshingTree());
 		return children;

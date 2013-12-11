@@ -23,16 +23,14 @@ public class IDROPSplashWindow extends JWindow {
 	private static final long serialVersionUID = 1L;
 	private final org.slf4j.Logger log = LoggerFactory
 			.getLogger(IDROPSplashWindow.class);
-	private ImageIcon splashImage = new ImageIcon(IDROPSplashWindow.class
+	private final ImageIcon splashImage = new ImageIcon(IDROPSplashWindow.class
 			.getClassLoader().getResource(
 					"org/irods/jargon/idrop/desktop/images/iDrop.png"));
-	private JLabel jlblImage = new JLabel();
-	private JProgressBar jProgressBar1 = new JProgressBar();
-	private iDrop iDrop;
+	private final JLabel jlblImage = new JLabel();
+	private final JProgressBar jProgressBar1 = new JProgressBar();
 
 	public IDROPSplashWindow(final iDrop iDrop) {
 		super(iDrop);
-		this.iDrop = iDrop;
 		try {
 			init();
 		} catch (Exception e) {

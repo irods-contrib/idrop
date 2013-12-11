@@ -80,8 +80,6 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
 		}
 	}
 
-	private final IRODSAccount irodsAccount;
-
 	public IRODSFileSystemModel(final IRODSNode rootNode,
 			final IRODSAccount irodsAccount) throws IdropException {
 		super(rootNode);
@@ -89,7 +87,6 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
 		if (irodsAccount == null) {
 			throw new IdropRuntimeException("null irodsAccount");
 		}
-		this.irodsAccount = irodsAccount;
 
 		// pre-expand the child nodes of the root
 
@@ -105,8 +102,6 @@ public class IRODSFileSystemModel extends DefaultTreeModel {
 		if (irodsAccount == null) {
 			throw new IdropRuntimeException("null irodsAccount");
 		}
-		this.irodsAccount = irodsAccount;
-
 		addTreeModelListener(new TreeModelListener() {
 		});
 

@@ -9,21 +9,24 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  * Special JTable subclass with appropriate cell renderers
- *
+ * 
  * @author Mike Conway
  */
 public class TransferManagerTable extends JTable {
 
-    private TransferManagerTableModelCustomCellRenderer transferManagerTableModelCustomCellRenderer = new TransferManagerTableModelCustomCellRenderer();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9066597127738827883L;
+	private TransferManagerTableModelCustomCellRenderer transferManagerTableModelCustomCellRenderer = new TransferManagerTableModelCustomCellRenderer();
 
-    @Override
-    public TableCellRenderer getCellRenderer(int row, int column) {
+	@Override
+	public TableCellRenderer getCellRenderer(final int row, final int column) {
 
-
-        if (column == 2) {
-            return transferManagerTableModelCustomCellRenderer;
-        } else {
-            return super.getCellRenderer(row, column);
-        }
-    }
+		if (column == 2) {
+			return transferManagerTableModelCustomCellRenderer;
+		} else {
+			return super.getCellRenderer(row, column);
+		}
+	}
 }

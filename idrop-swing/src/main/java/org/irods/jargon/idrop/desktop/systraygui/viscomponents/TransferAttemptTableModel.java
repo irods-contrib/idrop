@@ -5,94 +5,102 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import javax.swing.table.AbstractTableModel;
+
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
 
 /**
- *
+ * 
  * @author Mike
  */
 public class TransferAttemptTableModel extends AbstractTableModel {
 
-    @Override
-    public String getColumnName(int i) {
-       
-        switch (i) {
-            case 0:
-                return "Start";
-            case 1:
-               return "End";
-            case 2:
-               return "Skipped";
-            case 3:
-                return "Transferred";
-            case 4:
-               return "Errors";
-            case 5:
-               return "Message";
-            default:
-                return "";
-        }
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8820057666149558376L;
 
-    private final Transfer transfer;
+	@Override
+	public String getColumnName(final int i) {
 
-    public TransferAttemptTableModel(final Transfer transfer) {
-        if (transfer == null) {
-            throw new IllegalArgumentException("null transfer");
-        }
+		switch (i) {
+		case 0:
+			return "Start";
+		case 1:
+			return "End";
+		case 2:
+			return "Skipped";
+		case 3:
+			return "Transferred";
+		case 4:
+			return "Errors";
+		case 5:
+			return "Message";
+		default:
+			return "";
+		}
+	}
 
-        this.transfer = transfer;
+	private final Transfer transfer;
 
-    }
+	public TransferAttemptTableModel(final Transfer transfer) {
+		if (transfer == null) {
+			throw new IllegalArgumentException("null transfer");
+		}
 
-    @Override
-    public int getRowCount() {
-        return transfer.getTransferAttempts().size();
-    }
+		this.transfer = transfer;
 
-    @Override
-    public int getColumnCount() {
-        return 6;
-    }
-    
-    
+	}
 
-    @Override
-    public Object getValueAt(int row, int col) {
+	@Override
+	public int getRowCount() {
+		return transfer.getTransferAttempts().size();
+	}
 
-        // start end status total_skipped, total_transferred, total_error
+	@Override
+	public int getColumnCount() {
+		return 6;
+	}
 
+	@Override
+	public Object getValueAt(final int row, final int col) {
 
-        if (row > getRowCount() - 1) {
-            throw new IllegalArgumentException("no row at given index");
-        }
+		// start end status total_skipped, total_transferred, total_error
 
-        switch (col) {
-            case 0:
-                return transfer.getTransferAttempts().get(row).getAttemptStart();
-            case 1:
-                return transfer.getTransferAttempts().get(row).getAttemptEnd();
-            case 2:
-                return transfer.getTransferAttempts().get(row).getTotalFilesSkippedSoFar();
-            case 3:
-                return transfer.getTransferAttempts().get(row).getTotalFilesTransferredSoFar() - transfer.getTransferAttempts().get(row).getTotalFilesSkippedSoFar();
-            case 4:
-                return transfer.getTransferAttempts().get(row).getTotalFilesErrorSoFar();
-            case 5:
-                return transfer.getTransferAttempts().get(row).getErrorMessage();
-            default:
-                return null;
-        }
-    }
-    
-    public TransferAttempt getTransferAttemptAtRow(final int i) {
-        if (i < 0 || i > transfer.getTransferAttempts().size() - 1) {
-            throw new IllegalArgumentException("no transfer at given index");
-        }
-        
-        return transfer.getTransferAttempts().get(i);
-        
-    }
-    
+		if (row > getRowCount() - 1) {
+			throw new IllegalArgumentException("no row at given index");
+		}
+
+		switch (col) {
+		case 0:
+			return transfer.getTransferAttempts().get(row).getAttemptStart();
+		case 1:
+			return transfer.getTransferAttempts().get(row).getAttemptEnd();
+		case 2:
+			return transfer.getTransferAttempts().get(row)
+					.getTotalFilesSkippedSoFar();
+		case 3:
+			return transfer.getTransferAttempts().get(row)
+					.getTotalFilesTransferredSoFar()
+					- transfer.getTransferAttempts().get(row)
+							.getTotalFilesSkippedSoFar();
+		case 4:
+			return transfer.getTransferAttempts().get(row)
+					.getTotalFilesErrorSoFar();
+		case 5:
+			return transfer.getTransferAttempts().get(row).getErrorMessage();
+		default:
+			return null;
+		}
+	}
+
+	public TransferAttempt getTransferAttemptAtRow(final int i) {
+		if (i < 0 || i > transfer.getTransferAttempts().size() - 1) {
+			throw new IllegalArgumentException("no transfer at given index");
+		}
+
+		return transfer.getTransferAttempts().get(i);
+
+	}
+
 }
