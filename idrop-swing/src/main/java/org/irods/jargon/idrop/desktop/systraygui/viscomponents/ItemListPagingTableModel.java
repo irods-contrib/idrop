@@ -10,7 +10,6 @@ import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.QueueManagerService;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.TransferItem;
-import org.openide.util.Exceptions;
 
 /**
  *
@@ -47,7 +46,7 @@ public class ItemListPagingTableModel extends AbstractTableModel {
     
     @Override
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
     
     // Work only on the visible part of the table.
@@ -81,6 +80,10 @@ public class ItemListPagingTableModel extends AbstractTableModel {
         if (columnIndex == 2) {
                 return item.getLengthInBytes();
         }
+        
+        if (columnIndex == 3) {
+            return item.isError();
+        }
 
         throw new IdropRuntimeException("unknown column");
     }
@@ -106,6 +109,11 @@ public class ItemListPagingTableModel extends AbstractTableModel {
         // 2 = Size
         if (columnIndex == 2) {
                 return "Size (bytes)";
+        }
+        
+        // 3 - error
+        if (columnIndex == 3) {
+            return "Error?";
         }
 
         throw new IdropRuntimeException("unknown column");
