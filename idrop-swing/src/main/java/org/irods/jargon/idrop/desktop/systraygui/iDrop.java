@@ -64,6 +64,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.netbeans.swing.outline.Outline;
+import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -2146,6 +2147,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
 		String newResource = (String) cbIrodsResource.getSelectedItem();
 		getiDropCore().getIrodsAccount().setDefaultStorageResource(newResource);
+            try {
+                getiDropCore().getConveyorService().getGridAccountService().rememberDefaultStorageResource(newResource, getiDropCore().getIrodsAccount());
+            } catch (ConveyorExecutionException ex) {
+                log.error("unable to remember new resource", ex);
+                MessageManager.showError(this, ex.getMessage());
+            }
 	}
 
 	private void btnMainToolbarDownloadActionPerformed(
