@@ -1012,6 +1012,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 				int idx = selectionModel.getLeadSelectionIndex();
 				IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
 						.getValueAt(idx, 0);
+                                
+                                
+                                if (selectedNode == null) {
+                                    return;
+                                }
+                                
 				selectedNode.getFullPath();
 
 				selectedNode.getUserObject();

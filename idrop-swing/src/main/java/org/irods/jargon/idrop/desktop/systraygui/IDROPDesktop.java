@@ -364,6 +364,8 @@ public class IDROPDesktop {
 		} catch (Exception e) {
 			log.error("unable to start application due to error", e);
 			System.exit(1);
-		}
+		} finally {
+                    startupSequencer.idropCore.closeAllIRODSConnections();
+                }
 	}
 }
