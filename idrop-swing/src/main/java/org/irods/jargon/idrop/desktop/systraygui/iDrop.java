@@ -68,1288 +68,1291 @@ import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author Lisa Stillwell
  */
 public class iDrop extends javax.swing.JFrame implements ActionListener,
-		ItemListener, ConveyorCallbackListener {
+        ItemListener, ConveyorCallbackListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3333150007739240884L;
-	private IDROPCore iDropCore = new IDROPCore();
-	private IRODSTree irodsTree = null;
-	private LocalFileTree fileTree = null;
-	private LocalFileSystemModel localFileModel = null;
-	private static final org.slf4j.Logger log = LoggerFactory
-			.getLogger(iDrop.class);
-	private boolean receivedStartupSignal = false;
-	private TrayIcon trayIcon = null;
-	private Object lastCachedInfoItem = null;
-	private CheckboxMenuItem pausedItem = null;
-	private boolean formShown = false;
-	private TransferAccountingManagerDialog transferManagerDialog = null;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 3333150007739240884L;
+    private IDROPCore iDropCore = new IDROPCore();
+    private IRODSTree irodsTree = null;
+    private LocalFileTree fileTree = null;
+    private LocalFileSystemModel localFileModel = null;
+    private static final org.slf4j.Logger log = LoggerFactory
+            .getLogger(iDrop.class);
+    private boolean receivedStartupSignal = false;
+    private TrayIcon trayIcon = null;
+    private Object lastCachedInfoItem = null;
+    private CheckboxMenuItem pausedItem = null;
+    private boolean formShown = false;
+    private TransferAccountingManagerDialog transferManagerDialog = null;
 
-	public iDrop(final IDROPCore idropCore) {
+    public iDrop(final IDROPCore idropCore) {
 
-		if (idropCore == null) {
-			throw new IllegalArgumentException("null idropCore");
-		}
+        if (idropCore == null) {
+            throw new IllegalArgumentException("null idropCore");
+        }
 
-		iDropCore = idropCore;
+        iDropCore = idropCore;
 
-	}
+    }
 
-	/**
-	 * Creates new form IDrop
-	 */
-	public iDrop() {
-	}
+    /**
+     * Creates new form IDrop
+     */
+    public iDrop() {
+    }
 
-	protected void showIdropGui() {
+    protected void showIdropGui() {
 
-		if (scrollIrodsTree == null) {
-			buildIdropGuiComponents();
-		}
+        if (scrollIrodsTree == null) {
+            buildIdropGuiComponents();
+        }
 
-		initializeLookAndFeelSelected();
+        initializeLookAndFeelSelected();
 
-		if (irodsTree == null) {
-			buildTargetTree(false);
-		}
+        if (irodsTree == null) {
+            buildTargetTree(false);
+        }
 
-		setUpLocalFileSelectTree();
-		// splitPanelTrees.setDividerLocation(0.0d);
-		togglePauseTransfer.setSelected(pausedItem.getState());
-		QueueStatus status = iDropCore.getConveyorService()
-				.getConveyorExecutorService().getQueueStatus();
-		log.info("initial queue status:{}", status);
+        setUpLocalFileSelectTree();
+        // splitPanelTrees.setDividerLocation(0.0d);
+        togglePauseTransfer.setSelected(pausedItem.getState());
+        QueueStatus status = iDropCore.getConveyorService()
+                .getConveyorExecutorService().getQueueStatus();
+        log.info("initial queue status:{}", status);
 
-		if (status.getRunningStatus() == RunningStatus.BUSY) {
-			setUpTransferPanel(true);
-		} else {
-			setUpTransferPanel(false);
-		}
+        if (status.getRunningStatus() == RunningStatus.BUSY) {
+            setUpTransferPanel(true);
+        } else {
+            setUpTransferPanel(false);
+        }
 
-		setUpAccountGutter();
-		setVisibleComponentsAtStartup();
-		enableToolbarButtons(false);
-		getiDropCore().getConveyorService().registerCallbackListener(this);
+        setUpAccountGutter();
+        setVisibleComponentsAtStartup();
+        enableToolbarButtons(false);
+        getiDropCore().getConveyorService().registerCallbackListener(this);
 
-		setVisible(true);
+        setVisible(true);
 
-	}
+    }
 
-	protected void buildIdropGuiComponents() throws IdropRuntimeException,
-			HeadlessException {
-		initComponents();
+    protected void buildIdropGuiComponents() throws IdropRuntimeException,
+            HeadlessException {
+        initComponents();
 
-		splitPanelTrees.setResizeWeight(0.8d);
+        splitPanelTrees.setResizeWeight(0.8d);
 
-		Toolkit t = getToolkit();
-		int width = t.getScreenSize().width;
-		int height = t.getScreenSize().height;
+        Toolkit t = getToolkit();
+        int width = t.getScreenSize().width;
+        int height = t.getScreenSize().height;
 
-		int showX = (width / 2) - (getWidth() / 2);
-		int showY = (height / 2) - (getHeight() / 2);
-		this.setLocation(showX, showY);
+        int showX = (width / 2) - (getWidth() / 2);
+        int showY = (height / 2) - (getHeight() / 2);
+        this.setLocation(showX, showY);
 
-		if (getiDropCore().getIrodsAccount() == null) {
-			log.warn("no account, exiting");
-			System.exit(0);
-		}
+        if (getiDropCore().getIrodsAccount() == null) {
+            log.warn("no account, exiting");
+            System.exit(0);
+        }
 
-	}
+    }
 
-	private void displayAndProcessSignOn() {
-		final iDrop thisPanel = this;
+    private void displayAndProcessSignOn() {
+        final iDrop thisPanel = this;
 
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
 
-				IRODSAccount savedAccount = iDropCore.getIrodsAccount();
-				iDropCore.setIrodsAccount(null);
-				showGridManagerDialog(savedAccount);
-				// can't seem to get a wait cursor to work here
-				thisPanel.setCursor(Cursor
-						.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                IRODSAccount savedAccount = iDropCore.getIrodsAccount();
+                iDropCore.setIrodsAccount(null);
+                showGridManagerDialog(savedAccount);
+                // can't seem to get a wait cursor to work here
+                thisPanel.setCursor(Cursor
+                        .getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-				if (iDropCore.getIrodsAccount() == null) {
-					log.warn("no account, reverting");
-					iDropCore.setIrodsAccount(savedAccount);
-				} else {
-					thisPanel.reinitializeForChangedIRODSAccount();
-				}
-				thisPanel.setCursor(Cursor
-						.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			}
-		});
-	}
+                if (iDropCore.getIrodsAccount() == null) {
+                    log.warn("no account, reverting");
+                    iDropCore.setIrodsAccount(savedAccount);
+                } else {
+                    thisPanel.reinitializeForChangedIRODSAccount();
+                }
+                thisPanel.setCursor(Cursor
+                        .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+    }
 
-	/**
-	 * Startup exit to set visibility of components in iDrop GUI at startup.
-	 * Here is where the initial visible status of components can be specified.
-	 */
-	private void setVisibleComponentsAtStartup() {
-	}
+    /**
+     * Startup exit to set visibility of components in iDrop GUI at startup.
+     * Here is where the initial visible status of components can be specified.
+     */
+    private void setVisibleComponentsAtStartup() {
+    }
 
-	protected void signalIdropCoreReadyAndSplashComplete() {
-		if (receivedStartupSignal) {
-			log.info("already received startup signal");
-		} else {
-			createAndShowSystemTray();
-		}
+    protected void signalIdropCoreReadyAndSplashComplete() {
+        if (receivedStartupSignal) {
+            log.info("already received startup signal");
+        } else {
+            createAndShowSystemTray();
+        }
 
-		receivedStartupSignal = true;
+        receivedStartupSignal = true;
 
-	}
+    }
 
-	private void initializeLookAndFeelSelected() {
-		String lookAndFeelChoice = iDropCore.getIdropConfig()
-				.getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL);
-		if (lookAndFeelChoice == null || lookAndFeelChoice.isEmpty()) {
-			lookAndFeelChoice = "System";
-		}
+    private void initializeLookAndFeelSelected() {
+        String lookAndFeelChoice = iDropCore.getIdropConfig()
+                .getPropertyForKey(IdropConfigurationService.LOOK_AND_FEEL);
+        if (lookAndFeelChoice == null || lookAndFeelChoice.isEmpty()) {
+            lookAndFeelChoice = "System";
+        }
 
-	}
+    }
 
-	public void buildTargetTree(final boolean reset) {
-		log.info("building tree to look at staging resource");
-		final iDrop gui = this;
+    public void buildTargetTree(final boolean reset) {
+        log.info("building tree to look at staging resource");
+        final iDrop gui = this;
 
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				gui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                gui.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-				log.info("building new iRODS tree");
-				try {
-					if (getTreeStagingResource() != null) {
-						if (reset) {
-							loadNewTree();
-						} else {
-							reloadExistingTree();
-						}
-					} else {
-						loadNewTree();
-					}
-				} catch (Exception ex) {
-					Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
-							null, ex);
-					MessageManager.showError(gui, ex.getMessage());
-					throw new IdropRuntimeException(ex);
-				} finally {
-					getiDropCore().getIrodsFileSystem().closeAndEatExceptions(
-							iDropCore.getIrodsAccount());
-					gui.setCursor(Cursor
-							.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				}
-			}
+                log.info("building new iRODS tree");
+                try {
+                    if (getTreeStagingResource() != null) {
+                        if (reset) {
+                            loadNewTree();
+                        } else {
+                            reloadExistingTree();
+                        }
+                    } else {
+                        loadNewTree();
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                    MessageManager.showError(gui, ex.getMessage());
+                    throw new IdropRuntimeException(ex);
+                } finally {
+                    getiDropCore().getIrodsFileSystem().closeAndEatExceptions(
+                            iDropCore.getIrodsAccount());
+                    gui.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
 
-			/**
-			 * A tree has not been previosly loaded, establish the root (strict
-			 * ACLs? Login preset?)
-			 */
-			private void loadNewTree() throws JargonException, IdropException {
-				IRODSOutlineModel mdl;
-				CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
-				String basePath = getBasePath();
-				log.info("base path set to:{}", basePath);
-				if (basePath.equals("/")) {
-					root.setPathOrName(basePath);
-					root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
-				} else {
-					IRODSFile baseFile = iDropCore
-							.getIRODSFileFactoryForLoggedInAccount()
-							.instanceIRODSFile(basePath);
-					root.setParentPath(baseFile.getParent());
-					root.setPathOrName(baseFile.getAbsolutePath());
-					root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
-					getiDropCore().setBasePath(baseFile.getAbsolutePath());
+            /**
+             * A tree has not been previosly loaded, establish the root (strict
+             * ACLs? Login preset?)
+             */
+            private void loadNewTree() throws JargonException, IdropException {
+                IRODSOutlineModel mdl;
+                CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
+                String basePath = getBasePath();
+                log.info("base path set to:{}", basePath);
+                if (basePath.equals("/")) {
+                    root.setPathOrName(basePath);
+                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
+                } else {
+                    IRODSFile baseFile = iDropCore
+                            .getIRODSFileFactoryForLoggedInAccount()
+                            .instanceIRODSFile(basePath);
+                    root.setParentPath(baseFile.getParent());
+                    root.setPathOrName(baseFile.getAbsolutePath());
+                    root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
+                    getiDropCore().setBasePath(baseFile.getAbsolutePath());
 
-				}
+                }
 
-				try {
-					irodsTree = new IRODSTree(gui);
-					IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
-							getiDropCore().getIrodsFileSystem(), irodsTree);
-					irodsTree.setRefreshingTree(true);
-					IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
-							rootNode, getIrodsAccount());
-					mdl = new IRODSOutlineModel(gui, irodsFileSystemModel,
-							new IRODSRowModel(), true, "File System");
-					irodsTree.setModel(mdl);
-					scrollIrodsTree.setViewportView(irodsTree);
-				} catch (IdropException ie) {
-					log.error(
-							"exception loading new tree...attempting correction by setting to root",
-							ie);
-					if (gui.getiDropCore().getBasePath().equals("/")) {
-						MessageManager.showError(irodsTree,
-								"Invalid path, cannot set a root of the tree");
-						log.error(
-								"unable to reset tree, base path already at root",
-								ie);
-						throw new IdropException(
-								"Unable to set base path of tree", ie);
-					} else {
-						MessageManager
-								.showError(irodsTree,
-										"Invalid path, attempting to set tree root back to root");
-						gui.getiDropCore().setBasePath("/");
-						loadNewTree();
-					}
-				}
-			}
+                try {
+                    irodsTree = new IRODSTree(gui);
+                    IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
+                            getiDropCore().getIrodsFileSystem(), irodsTree);
+                    irodsTree.setRefreshingTree(true);
+                    IRODSFileSystemModel irodsFileSystemModel = new IRODSFileSystemModel(
+                            rootNode, getIrodsAccount());
+                    mdl = new IRODSOutlineModel(gui, irodsFileSystemModel,
+                            new IRODSRowModel(), true, "File System");
+                    irodsTree.setModel(mdl);
+                    scrollIrodsTree.setViewportView(irodsTree);
+                } catch (IdropException ie) {
+                    log.error(
+                            "exception loading new tree...attempting correction by setting to root",
+                            ie);
+                    if (gui.getiDropCore().getBasePath().equals("/")) {
+                        MessageManager.showError(irodsTree,
+                                "Invalid path, cannot set a root of the tree");
+                        log.error(
+                                "unable to reset tree, base path already at root",
+                                ie);
+                        throw new IdropException(
+                                "Unable to set base path of tree", ie);
+                    } else {
+                        MessageManager
+                                .showError(irodsTree,
+                                "Invalid path, attempting to set tree root back to root");
+                        gui.getiDropCore().setBasePath("/");
+                        loadNewTree();
+                    }
+                }
+            }
 
-			/**
-			 * A tree already exists so use the current information to reload
-			 */
-			private void reloadExistingTree() throws IdropException,
-					JargonException {
+            /**
+             * A tree already exists so use the current information to reload
+             */
+            private void reloadExistingTree() throws IdropException,
+                    JargonException {
 
-				Object root = irodsTree.getOutlineModel().getRoot();
+                Object root = irodsTree.getOutlineModel().getRoot();
 
-				if (root == null) {
-					log.error("cannot load node, is null");
-					throw new IdropException(
-							"Cannot load a tree with a root at the given path, use the Tree option to select a valid root");
-				}
+                if (root == null) {
+                    log.error("cannot load node, is null");
+                    throw new IdropException(
+                            "Cannot load a tree with a root at the given path, use the Tree option to select a valid root");
+                }
 
-				IRODSNode currentRoot = (IRODSNode) root;
+                IRODSNode currentRoot = (IRODSNode) root;
 
-				log.debug("current tree root:{}", currentRoot);
-				TreePath rootPath = TreeUtils.getPath(currentRoot);
-				TreePath[] currentPaths = irodsTree.getOutlineModel()
-						.getTreePathSupport().getExpandedDescendants(rootPath);
-				log.info("expanded paths:{}", currentPaths);
-				irodsTree.getSelectionModel().getMinSelectionIndex();
-				irodsTree.getSelectionModel().getMaxSelectionIndex();
-				scrollIrodsTree.getViewport().removeAll();
-				loadNewTree();
-				irodsTree.getSelectionModel().setSelectionInterval(0, 0);
-				if (currentPaths != null) {
-					IRODSNode irodsNode = null;
-					CollectionAndDataObjectListingEntry expandedEntry = null;
-					log.info("looking to re-expand paths...");
-					for (TreePath treePath : currentPaths) {
-						irodsNode = (IRODSNode) treePath.getLastPathComponent();
-						expandedEntry = (CollectionAndDataObjectListingEntry) irodsNode
-								.getUserObject();
-						irodsNode = (IRODSNode) TreeUtils
-								.buildTreePathForIrodsAbsolutePath(
-										irodsTree,
-										expandedEntry
-												.getFormattedAbsolutePath())
-								.getLastPathComponent();
-						irodsNode.getChildCount();
-						TreePath pathInNew = TreeUtils.getPath(irodsNode);
-						irodsTree.collapsePath(pathInNew);
-						irodsTree.expandPath(pathInNew);
-						java.awt.Rectangle rect = irodsTree
-								.getPathBounds(treePath);
-						if (rect != null) {
-							irodsTree.scrollRectToVisible(rect);
+                log.debug("current tree root:{}", currentRoot);
+                TreePath rootPath = TreeUtils.getPath(currentRoot);
+                TreePath[] currentPaths = irodsTree.getOutlineModel()
+                        .getTreePathSupport().getExpandedDescendants(rootPath);
+                log.info("expanded paths:{}", currentPaths);
+                irodsTree.getSelectionModel().getMinSelectionIndex();
+                irodsTree.getSelectionModel().getMaxSelectionIndex();
+                scrollIrodsTree.getViewport().removeAll();
+                loadNewTree();
+                irodsTree.getSelectionModel().setSelectionInterval(0, 0);
+                if (currentPaths != null) {
+                    IRODSNode irodsNode = null;
+                    CollectionAndDataObjectListingEntry expandedEntry = null;
+                    log.info("looking to re-expand paths...");
+                    for (TreePath treePath : currentPaths) {
+                        irodsNode = (IRODSNode) treePath.getLastPathComponent();
+                        expandedEntry = (CollectionAndDataObjectListingEntry) irodsNode
+                                .getUserObject();
+                        irodsNode = (IRODSNode) TreeUtils
+                                .buildTreePathForIrodsAbsolutePath(
+                                irodsTree,
+                                expandedEntry
+                                .getFormattedAbsolutePath())
+                                .getLastPathComponent();
+                        irodsNode.getChildCount();
+                        TreePath pathInNew = TreeUtils.getPath(irodsNode);
+                        irodsTree.collapsePath(pathInNew);
+                        irodsTree.expandPath(pathInNew);
+                        java.awt.Rectangle rect = irodsTree
+                                .getPathBounds(treePath);
+                        if (rect != null) {
+                            irodsTree.scrollRectToVisible(rect);
 
-						}
-					}
-				}
-			}
-		});
-	}
+                        }
+                    }
+                }
+            }
+        });
+    }
 
-	/**
-	 * Method to clear any cached values when an account changes. Some data is
-	 * cached and lazily loaded. Rebuilds gui state for new grid.
-	 */
-	public void reinitializeForChangedIRODSAccount() {
-		log.info("clearing any cached data associated with the account");
-		final iDrop idropGui = this;
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				lastCachedInfoItem = null;
-				idropGui.buildTargetTree(true);
+    /**
+     * Method to clear any cached values when an account changes. Some data is
+     * cached and lazily loaded. Rebuilds gui state for new grid.
+     */
+    public void reinitializeForChangedIRODSAccount() {
+        log.info("clearing any cached data associated with the account");
+        final iDrop idropGui = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                lastCachedInfoItem = null;
+                idropGui.buildTargetTree(true);
 
-				getiDropCore().setBasePath(null);
-				setUpAccountGutter();
-			}
-		});
+                getiDropCore().setBasePath(null);
+                setUpAccountGutter();
+            }
+        });
 
-	}
+    }
 
-	/**
-	 * Builds the system tray menu and installs the iDrop icon in the system
-	 * tray. The iDrop GUI is displayed when the iDrop menu item is selected
-	 * from the system tray
-	 */
-	protected void createAndShowSystemTray() {
-		if (!SystemTray.isSupported()) {
-			System.out.println("SystemTray is not supported");
-			return;
-		}
+    /**
+     * Builds the system tray menu and installs the iDrop icon in the system
+     * tray. The iDrop GUI is displayed when the iDrop menu item is selected
+     * from the system tray
+     */
+    protected void createAndShowSystemTray() {
+        if (!SystemTray.isSupported()) {
+            System.out.println("SystemTray is not supported");
+            return;
+        }
 
-		if (trayIcon != null) {
-			log.info("system tray already shown");
-			return;
-		}
+        if (trayIcon != null) {
+            log.info("system tray already shown");
+            return;
+        }
 
-		final PopupMenu popup = new PopupMenu();
+        final PopupMenu popup = new PopupMenu();
 
-		final SystemTray tray = SystemTray.getSystemTray();
+        final SystemTray tray = SystemTray.getSystemTray();
 
-		if (trayIcon == null) {
-			trayIcon = new TrayIcon(createImage("images/dialog-ok-2.png",
-					"tray icon"));
-		}
-		trayIcon.setImageAutoSize(true);
+        if (trayIcon == null) {
+            trayIcon = new TrayIcon(createImage("images/dialog-ok-2.png",
+                    "tray icon"));
+        }
+        trayIcon.setImageAutoSize(true);
 
-		// Create a pop-up menu components
-		MenuItem aboutItem = new MenuItem("About");
-		MenuItem iDropItem = new MenuItem("iDrop");
-		MenuItem preferencesItem = new MenuItem("Preferences");
-		MenuItem changePassPhraseItem = new MenuItem("Change Pass Phrase");
+        // Create a pop-up menu components
+        MenuItem aboutItem = new MenuItem("About");
+        MenuItem iDropItem = new MenuItem("iDrop");
+        MenuItem preferencesItem = new MenuItem("Preferences");
+        MenuItem changePassPhraseItem = new MenuItem("Change Pass Phrase");
 
-		iDropItem.addActionListener(this);
+        iDropItem.addActionListener(this);
 
-		MenuItem currentItem = new MenuItem("Show Current and Past Activity");
+        MenuItem currentItem = new MenuItem("Show Current and Past Activity");
 
-		MenuItem logoutItem = new MenuItem("Grid Accounts");
+        MenuItem logoutItem = new MenuItem("Grid Accounts");
 
-		pausedItem = new CheckboxMenuItem("Pause");
+        pausedItem = new CheckboxMenuItem("Pause");
 
-		MenuItem exitItem = new MenuItem("Exit");
+        MenuItem exitItem = new MenuItem("Exit");
 
-		exitItem.addActionListener(this);
-		currentItem.addActionListener(this);
-		preferencesItem.addActionListener(this);
-		changePassPhraseItem.addActionListener(this);
+        exitItem.addActionListener(this);
+        currentItem.addActionListener(this);
+        preferencesItem.addActionListener(this);
+        changePassPhraseItem.addActionListener(this);
 
+        /*
+         * See if I am in a paused state
+         */
+
+        // FIXME: conveyor
 		/*
-		 * See if I am in a paused state
-		 */
-
-		// FIXME: conveyor
-		/*
-		 * if (this.getiDropCore().getTransferManager().getRunningStatus() ==
-		 * TransferManager.RunningStatus.PAUSED) {
-		 * this.setTransferStatePaused(); }
-		 */
-
-		logoutItem.addActionListener(this);
-		pausedItem.addItemListener(this);
-		aboutItem.addActionListener(this);
-
-		// Add components to pop-up menu
-		popup.add(aboutItem);
-		popup.add(iDropItem);
-		popup.add(preferencesItem);
-		popup.add(changePassPhraseItem);
-		popup.addSeparator();
-		popup.add(currentItem);
-		popup.addSeparator();
-		popup.add(pausedItem);
-		popup.addSeparator();
-		popup.add(logoutItem);
-		popup.add(exitItem);
-
-		trayIcon.setPopupMenu(popup);
-
-		try {
-			tray.add(trayIcon);
-		} catch (AWTException e) {
-			System.out.println("TrayIcon could not be added.");
-		}
-	}
-
-	/**
-	 * Returns an ImageIcon, or null if the path was invalid. FIXME: move to
-	 * static util
-	 */
-	protected static Image createImage(final String path,
-			final String description) {
-		URL imageURL = iDrop.class.getResource(path);
-
-		if (imageURL == null) {
-			System.err.println("Resource not found: " + path);
-			return null;
-		} else {
-			return (new ImageIcon(imageURL, description)).getImage();
-		}
-	}
-
-	/**
-	 * Get the current iRODS login account.
-	 * 
-	 * @return <code>IRODSAccount</code> with the current iRODS connection
-	 *         information.
-	 */
-	public IRODSAccount getIrodsAccount() {
-		synchronized (this) {
-			return iDropCore.getIrodsAccount();
-		}
-	}
-
-	/**
-	 * Set the current connection information.
-	 * 
-	 * @return <code>IRODSAccount</code> with the current iRODS connection
-	 *         information.
-	 */
-	public void setIrodsAccount(final IRODSAccount irodsAccount) {
-		synchronized (this) {
-			iDropCore.setIrodsAccount(irodsAccount);
-		}
-	}
-
-	/**
-	 * Returns the current iRODS remote tree view component.
-	 * 
-	 * @return <code>JTree</code> visual representation of the remote iRODS
-	 *         resource
-	 */
-	public Outline getTreeStagingResource() {
-		return irodsTree;
-	}
-
-	public IDROPCore getiDropCore() {
-		return iDropCore;
-	}
-
-	public void setBusyCursor() {
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-	}
-
-	public void setNormalCursor() {
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-	}
-
-	public LocalFileTree getFileTree() {
-		return fileTree;
-	}
-
-	public void setFileTree(final LocalFileTree fileTree) {
-		this.fileTree = fileTree;
-	}
-
-	/**
-	 * Set the account information in the gutter, including the available
-	 * resources on the grid. Note that this method should be called in the
-	 * context of a <code>Runnable</code>
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void setUpAccountGutter() {
-		// userNameLabel.setText(this.getIrodsAccount().getUserName());
-		// lblZone.setText(this.getIrodsAccount().getZone());
-		// lblHost.setText(this.getIrodsAccount().getHost());
-		// /*
-		// * Get a list of storage resources on this host
-		// */
-		try {
-			ResourceAO resourceAO = getiDropCore()
-					.getIRODSAccessObjectFactory().getResourceAO(
-							getIrodsAccount());
-			log.info("getting a list of all resources in the zone");
-			List<String> resources = new ArrayList<String>();
-			resources.add("");
-			resources.addAll(resourceAO.listResourceAndResourceGroupNames());
-			lblHost.setText(getiDropCore().getIrodsAccount().getHost());
-			lblZone.setText(getiDropCore().getIrodsAccount().getZone());
-			lblUserName.setText(getiDropCore().getIrodsAccount().getUserName());
-			cbIrodsResource.setModel(new DefaultComboBoxModel(resources
-					.toArray()));
-			cbIrodsResource.setSelectedItem(getIrodsAccount()
-					.getDefaultStorageResource());
-
-		} catch (JargonException ex) {
-			log.error("error getting resource list", ex);
-			throw new IdropRuntimeException("error getting resource list", ex);
-		}
-	}
-
-	/**
-	 * Establish base path (checking if strict acl's are in place.
-	 * 
-	 * @return <code>String</code> with the base path for the tree
-	 * @throws JargonException
-	 */
-	private synchronized String getBasePath() throws JargonException {
-		String myBase = getiDropCore().getBasePath();
-
-		// if no base defined, see if there is a prese
-		if (myBase == null) {
-
-			if (getiDropCore().getIrodsAccount().isAnonymousAccount()) {
-				log.info("user is anonymous, default to view the public directory");
-				myBase = MiscIRODSUtils.computePublicDirectory(getiDropCore()
-						.getIrodsAccount());
-
-			} else {
-
-				if (iDropCore.getIdropConfig().isLoginPreset()) {
-					log.info("using policy preset home directory");
-					StringBuilder sb = new StringBuilder();
-					sb.append("/");
-					sb.append(getIrodsAccount().getZone());
-					sb.append("/");
-					sb.append("home");
-					myBase = sb.toString();
-				} else {
-
-					// look up the strict acl setting for the server, if strict
-					// acl, home the person in their user directory
-					EnvironmentalInfoAO environmentalInfoAO = getiDropCore()
-							.getIRODSAccessObjectFactory()
-							.getEnvironmentalInfoAO(
-									getiDropCore().getIrodsAccount());
-
-					// overhead for [#1362] apparent start-up errors idrop
-					// checking for strict acls
-
-					boolean isStrict = false;
-
-					try {
-						isStrict = environmentalInfoAO.isStrictACLs();
-					} catch (JargonException je) {
-						log.error("error checking is strict, warn and set to false");
-						MessageUtil
-								.showWarning(
-										this,
-										"Error checking if strict ACLS, assuming not strict",
-										"");
-					}
-
-					log.info("is strict?:{}", isStrict);
-
-					if (isStrict) {
-						myBase = MiscIRODSUtils
-								.computeHomeDirectoryForIRODSAccount(iDropCore
-										.getIrodsAccount());
-					} else {
-						myBase = "/";
-					}
-
-				}
-			}
-		}
-		getiDropCore().setBasePath(myBase);
-		return myBase;
-
-	}
-
-	/**
-	 * Get the JTree component that represents the iRODS file system in the
-	 * iDrop gui.
-	 * 
-	 * @return <code>IRODSTree</code> that is the JTree component for the iRODS
-	 *         file system view.
-	 */
-	public IRODSTree getIrodsTree() {
-		return irodsTree;
-	}
-
-	/**
-	 * Set up a JTree that depicts the local file system
-	 */
-	private void setUpLocalFileSelectTree() {
-
-		/*
-		 * build a list of the roots (e.g. drives on windows systems). If there
-		 * is only one, use it as the basis for the file model, otherwise,
-		 * display an additional panel listing the other roots, and build the
-		 * tree for the first drive encountered.
-		 */
-
-		if (fileTree != null) {
-			log.info("file tree already initialized");
-			return;
-		}
-
-		log.info("building tree to look at local file system");
-		final iDrop gui = this;
-
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-
-				initializeLocalFileTreeModel(null);
-				fileTree = new LocalFileTree(localFileModel, gui);
-				listLocalDrives.getSelectionModel().addListSelectionListener(
-						new ListSelectionListener() {
-							@Override
-							public void valueChanged(final ListSelectionEvent e) {
-								if (e.getValueIsAdjusting()) {
-									return;
-								}
-
-								log.debug("new local file system model");
-								log.debug("selection event:{}", e);
-								Object selectedItem = listLocalDrives
-										.getSelectedValue();
-								initializeLocalFileTreeModelWhenDriveIsSelected(selectedItem);
-
-							}
-						});
-				scrollLocalFileTree.setViewportView(fileTree);
-				pnlLocalTreeArea.add(scrollLocalFileTree,
-						java.awt.BorderLayout.CENTER);
-			}
-		});
-
-	}
-
-	private void initializeLocalFileTreeModelWhenDriveIsSelected(
-			final Object selectedDrive) {
-		if (selectedDrive == null) {
-			log.debug("selected drive is null, use the first one");
-			listLocalDrives.setSelectedIndex(0);
-
-			localFileModel = new LocalFileSystemModel(new LocalFileNode(
-					new File(listLocalDrives.getSelectedValue())));
-
-			fileTree.setModel(localFileModel);
-		} else {
-			log.debug(
-					"selected drive is not null, create new root based on selection",
-					selectedDrive);
-			listLocalDrives.setSelectedValue(selectedDrive, true);
-			localFileModel = new LocalFileSystemModel(new LocalFileNode(
-					new File((String) selectedDrive)));
-			fileTree.setModel(localFileModel);
-
-		}
-
-		scrollLocalDrives.setVisible(true);
-	}
-
-	private void initializeLocalFileTreeModel(final Object selectedDrive) {
-		List<String> roots = LocalFileUtils.listFileRootsForSystem();
-
-		if (roots.isEmpty()) {
-			IdropException ie = new IdropException(
-					"unable to find any roots on the local file system");
-			log.error("error building roots on local file system", ie);
-			showIdropException(ie);
-			return;
-		} else if (roots.size() == 1) {
-			scrollLocalDrives.setVisible(false);
-			localFileModel = new LocalFileSystemModel(new LocalFileNode(
-					new File(roots.get(0))));
-
-		} else {
-			DefaultListModel<String> listModel = new DefaultListModel<String>();
-			for (String root : roots) {
-				listModel.addElement(root);
-			}
-
-			listLocalDrives.setModel(listModel);
-
-			scrollLocalDrives.setVisible(true);
-		}
-	}
-
-	/**
-	 * Display an error message dialog that indicates an exception has occcurred
-	 * 
-	 * @param idropException
-	 */
-	public void showIdropException(final Exception idropException) {
-		JOptionPane.showMessageDialog(this, idropException.getMessage(),
-				"iDROP Exception", JOptionPane.WARNING_MESSAGE);
-	}
-
-	/**
-	 * Utility method to display a dialog with a message.
-	 * 
-	 * @param messageFromOperation
-	 */
-	public void showMessageFromOperation(final String messageFromOperation) {
-
-		final iDrop thisIdropGui = this;
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				JOptionPane.showMessageDialog(thisIdropGui,
-						messageFromOperation, "iDROP Message",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
-	}
-
-	/**
-	 * Handler for iDrop system tray menu options.
-	 * 
-	 * @param e
-	 */
-	@Override
-	public void actionPerformed(final ActionEvent e) {
-
-		Toolkit toolkit = getToolkit();
-
-		if (e.getActionCommand().equals("Exit")) {
-			shutdownWithConfirmation();
-		} else if (e.getActionCommand().equals("Grid Accounts")) {
-			log.info("logging out to log in to a new grid");
-
-			displayAndProcessSignOn();
-
-		} else if (e.getActionCommand().equals("About")) {
-			AboutDialog aboutDialog = new AboutDialog(this, true);
-			int x = (toolkit.getScreenSize().width - aboutDialog.getWidth()) / 2;
-			int y = (toolkit.getScreenSize().height - aboutDialog.getHeight()) / 2;
-			aboutDialog.setLocation(x, y);
-			aboutDialog.setVisible(true);
-		} else if (e.getActionCommand().equals("Preferences")) {
-			IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(
-					this, true, iDropCore);
-			idropConfigurationPanel.setLocationRelativeTo(null);
-			idropConfigurationPanel.setVisible(true);
-
-		} else if (e.getActionCommand().equals("Change Pass Phrase")) {
-			ChangePassPhraseDialog changePassPhraseDialog = new ChangePassPhraseDialog(
-					this, true, iDropCore);
-			int x = (toolkit.getScreenSize().width - changePassPhraseDialog
-					.getWidth()) / 2;
-			int y = (toolkit.getScreenSize().height - changePassPhraseDialog
-					.getHeight()) / 2;
-			changePassPhraseDialog.setLocation(x, y);
-			changePassPhraseDialog.setVisible(true);
-
-		} else if (e.getActionCommand()
-				.equals("Show Current and Past Activity")) {
-
-			log.info("showing recent items in queue");
-			showQueueManagerDialog();
-
-		} else {
-
-			if (!formShown) {
-
-				showIdropGui();
-
-			} else {
-				// refresh the tree when setting visible again, the account may
-				// have changed.
-
-				buildTargetTree(false);
-				setVisible(true);
-			}
-
-			toFront();
-		}
-
-	}
-
-	private boolean showQueueManagerDialog() {
-
-		try {
-			if (transferManagerDialog == null) {
-				transferManagerDialog = new TransferAccountingManagerDialog(
-						this);
-				Toolkit tk = getToolkit();
-				int x = (tk.getScreenSize().width - transferManagerDialog
-						.getWidth()) / 2;
-				int y = (tk.getScreenSize().height - transferManagerDialog
-						.getHeight()) / 2;
-				transferManagerDialog.setLocation(x, y);
-				transferManagerDialog.setModal(false);
-			} else {
-				transferManagerDialog.refreshTableView();
-			}
-		} catch (ConveyorExecutionException ex) {
-			Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-			showIdropException(ex);
-			return true;
-		}
-
-		transferManagerDialog.setVisible(true);
-		// transferManagerDialog.toFront();
-
-		return false;
-	}
-
-	/**
-	 * Indicate that the GUI should reflect a paused state
-	 * 
-	 */
-	public void setTransferStatePaused() {
-		if (pausedItem != null) {
-			pausedItem.setState(true);
-		}
-
-	}
-
-	/**
-	 * Indicate that the gui should show an unpaused state.
-	 */
-	public void setTransferStateUnpaused() {
-		if (pausedItem != null) {
-			pausedItem.setState(false);
-		}
-
-	}
-
-	@Override
-	public void itemStateChanged(final ItemEvent e) {
-
-		if (e.getItem().equals("Pause")) {
-			// FIXME: conveyor
+         * if (this.getiDropCore().getTransferManager().getRunningStatus() ==
+         * TransferManager.RunningStatus.PAUSED) {
+         * this.setTransferStatePaused(); }
+         */
+
+        logoutItem.addActionListener(this);
+        pausedItem.addItemListener(this);
+        aboutItem.addActionListener(this);
+
+        // Add components to pop-up menu
+        popup.add(aboutItem);
+        popup.add(iDropItem);
+        popup.add(preferencesItem);
+        popup.add(changePassPhraseItem);
+        popup.addSeparator();
+        popup.add(currentItem);
+        popup.addSeparator();
+        popup.add(pausedItem);
+        popup.addSeparator();
+        popup.add(logoutItem);
+        popup.add(exitItem);
+
+        trayIcon.setPopupMenu(popup);
+
+        try {
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+            System.out.println("TrayIcon could not be added.");
+        }
+    }
+
+    /**
+     * Returns an ImageIcon, or null if the path was invalid. FIXME: move to
+     * static util
+     */
+    protected static Image createImage(final String path,
+            final String description) {
+        URL imageURL = iDrop.class.getResource(path);
+
+        if (imageURL == null) {
+            System.err.println("Resource not found: " + path);
+            return null;
+        } else {
+            return (new ImageIcon(imageURL, description)).getImage();
+        }
+    }
+
+    /**
+     * Get the current iRODS login account.
+     *
+     * @return <code>IRODSAccount</code> with the current iRODS connection
+     * information.
+     */
+    public IRODSAccount getIrodsAccount() {
+        synchronized (this) {
+            return iDropCore.getIrodsAccount();
+        }
+    }
+
+    /**
+     * Set the current connection information.
+     *
+     * @return <code>IRODSAccount</code> with the current iRODS connection
+     * information.
+     */
+    public void setIrodsAccount(final IRODSAccount irodsAccount) {
+        synchronized (this) {
+            iDropCore.setIrodsAccount(irodsAccount);
+        }
+    }
+
+    /**
+     * Returns the current iRODS remote tree view component.
+     *
+     * @return <code>JTree</code> visual representation of the remote iRODS
+     * resource
+     */
+    public Outline getTreeStagingResource() {
+        return irodsTree;
+    }
+
+    public IDROPCore getiDropCore() {
+        return iDropCore;
+    }
+
+    public void setBusyCursor() {
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+    }
+
+    public void setNormalCursor() {
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    public LocalFileTree getFileTree() {
+        return fileTree;
+    }
+
+    public void setFileTree(final LocalFileTree fileTree) {
+        this.fileTree = fileTree;
+    }
+
+    /**
+     * Set the account information in the gutter, including the available
+     * resources on the grid. Note that this method should be called in the
+     * context of a
+     * <code>Runnable</code>
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private void setUpAccountGutter() {
+        // userNameLabel.setText(this.getIrodsAccount().getUserName());
+        // lblZone.setText(this.getIrodsAccount().getZone());
+        // lblHost.setText(this.getIrodsAccount().getHost());
+        // /*
+        // * Get a list of storage resources on this host
+        // */
+        try {
+            ResourceAO resourceAO = getiDropCore()
+                    .getIRODSAccessObjectFactory().getResourceAO(
+                    getIrodsAccount());
+            log.info("getting a list of all resources in the zone");
+            List<String> resources = new ArrayList<String>();
+            resources.add("");
+            resources.addAll(resourceAO.listResourceAndResourceGroupNames());
+            lblHost.setText(getiDropCore().getIrodsAccount().getHost());
+            lblZone.setText(getiDropCore().getIrodsAccount().getZone());
+            lblUserName.setText(getiDropCore().getIrodsAccount().getUserName());
+            cbIrodsResource.setModel(new DefaultComboBoxModel(resources
+                    .toArray()));
+            cbIrodsResource.setSelectedItem(getIrodsAccount()
+                    .getDefaultStorageResource());
+
+        } catch (JargonException ex) {
+            log.error("error getting resource list", ex);
+            throw new IdropRuntimeException("error getting resource list", ex);
+        }
+    }
+
+    /**
+     * Establish base path (checking if strict acl's are in place.
+     *
+     * @return <code>String</code> with the base path for the tree
+     * @throws JargonException
+     */
+    private synchronized String getBasePath() throws JargonException {
+        String myBase = getiDropCore().getBasePath();
+
+        // if no base defined, see if there is a prese
+        if (myBase == null) {
+
+            if (getiDropCore().getIrodsAccount().isAnonymousAccount()) {
+                log.info("user is anonymous, default to view the public directory");
+                myBase = MiscIRODSUtils.computePublicDirectory(getiDropCore()
+                        .getIrodsAccount());
+
+            } else {
+
+                if (iDropCore.getIdropConfig().isLoginPreset()) {
+                    log.info("using policy preset home directory");
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("/");
+                    sb.append(getIrodsAccount().getZone());
+                    sb.append("/");
+                    sb.append("home");
+                    myBase = sb.toString();
+                } else {
+
+                    // look up the strict acl setting for the server, if strict
+                    // acl, home the person in their user directory
+                    EnvironmentalInfoAO environmentalInfoAO = getiDropCore()
+                            .getIRODSAccessObjectFactory()
+                            .getEnvironmentalInfoAO(
+                            getiDropCore().getIrodsAccount());
+
+                    // overhead for [#1362] apparent start-up errors idrop
+                    // checking for strict acls
+
+                    boolean isStrict = false;
+
+                    try {
+                        isStrict = environmentalInfoAO.isStrictACLs();
+                    } catch (JargonException je) {
+                        log.error("error checking is strict, warn and set to false");
+                        MessageUtil
+                                .showWarning(
+                                this,
+                                "Error checking if strict ACLS, assuming not strict",
+                                "");
+                    }
+
+                    log.info("is strict?:{}", isStrict);
+
+                    if (isStrict) {
+                        myBase = MiscIRODSUtils
+                                .computeHomeDirectoryForIRODSAccount(iDropCore
+                                .getIrodsAccount());
+                    } else {
+                        myBase = "/";
+                    }
+
+                }
+            }
+        }
+        getiDropCore().setBasePath(myBase);
+        return myBase;
+
+    }
+
+    /**
+     * Get the JTree component that represents the iRODS file system in the
+     * iDrop gui.
+     *
+     * @return <code>IRODSTree</code> that is the JTree component for the iRODS
+     * file system view.
+     */
+    public IRODSTree getIrodsTree() {
+        return irodsTree;
+    }
+
+    /**
+     * Set up a JTree that depicts the local file system
+     */
+    private void setUpLocalFileSelectTree() {
+
+        /*
+         * build a list of the roots (e.g. drives on windows systems). If there
+         * is only one, use it as the basis for the file model, otherwise,
+         * display an additional panel listing the other roots, and build the
+         * tree for the first drive encountered.
+         */
+
+        if (fileTree != null) {
+            log.info("file tree already initialized");
+            return;
+        }
+
+        log.info("building tree to look at local file system");
+        final iDrop gui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                initializeLocalFileTreeModel(null);
+                fileTree = new LocalFileTree(localFileModel, gui);
+                listLocalDrives.getSelectionModel().addListSelectionListener(
+                        new ListSelectionListener() {
+                    @Override
+                    public void valueChanged(final ListSelectionEvent e) {
+                        if (e.getValueIsAdjusting()) {
+                            return;
+                        }
+
+                        log.debug("new local file system model");
+                        log.debug("selection event:{}", e);
+                        Object selectedItem = listLocalDrives
+                                .getSelectedValue();
+                        initializeLocalFileTreeModelWhenDriveIsSelected(selectedItem);
+
+                    }
+                });
+                scrollLocalFileTree.setViewportView(fileTree);
+                pnlLocalTreeArea.add(scrollLocalFileTree,
+                        java.awt.BorderLayout.CENTER);
+            }
+        });
+
+    }
+
+    private void initializeLocalFileTreeModelWhenDriveIsSelected(
+            final Object selectedDrive) {
+        if (selectedDrive == null) {
+            log.debug("selected drive is null, use the first one");
+            listLocalDrives.setSelectedIndex(0);
+
+            localFileModel = new LocalFileSystemModel(new LocalFileNode(
+                    new File(listLocalDrives.getSelectedValue())));
+
+            fileTree.setModel(localFileModel);
+        } else {
+            log.debug(
+                    "selected drive is not null, create new root based on selection",
+                    selectedDrive);
+            listLocalDrives.setSelectedValue(selectedDrive, true);
+            localFileModel = new LocalFileSystemModel(new LocalFileNode(
+                    new File((String) selectedDrive)));
+            fileTree.setModel(localFileModel);
+
+        }
+
+        scrollLocalDrives.setVisible(true);
+    }
+
+    private void initializeLocalFileTreeModel(final Object selectedDrive) {
+        List<String> roots = LocalFileUtils.listFileRootsForSystem();
+
+        if (roots.isEmpty()) {
+            IdropException ie = new IdropException(
+                    "unable to find any roots on the local file system");
+            log.error("error building roots on local file system", ie);
+            showIdropException(ie);
+            return;
+        } else if (roots.size() == 1) {
+            scrollLocalDrives.setVisible(false);
+            localFileModel = new LocalFileSystemModel(new LocalFileNode(
+                    new File(roots.get(0))));
+
+        } else {
+            DefaultListModel<String> listModel = new DefaultListModel<String>();
+            for (String root : roots) {
+                listModel.addElement(root);
+            }
+
+            listLocalDrives.setModel(listModel);
+
+            scrollLocalDrives.setVisible(true);
+        }
+    }
+
+    /**
+     * Display an error message dialog that indicates an exception has occcurred
+     *
+     * @param idropException
+     */
+    public void showIdropException(final Exception idropException) {
+        JOptionPane.showMessageDialog(this, idropException.getMessage(),
+                "iDROP Exception", JOptionPane.WARNING_MESSAGE);
+    }
+
+    /**
+     * Utility method to display a dialog with a message.
+     *
+     * @param messageFromOperation
+     */
+    public void showMessageFromOperation(final String messageFromOperation) {
+
+        final iDrop thisIdropGui = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JOptionPane.showMessageDialog(thisIdropGui,
+                        messageFromOperation, "iDROP Message",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+    }
+
+    /**
+     * Handler for iDrop system tray menu options.
+     *
+     * @param e
+     */
+    @Override
+    public void actionPerformed(final ActionEvent e) {
+
+        Toolkit toolkit = getToolkit();
+
+        if (e.getActionCommand().equals("Exit")) {
+            shutdownWithConfirmation();
+        } else if (e.getActionCommand().equals("Grid Accounts")) {
+            log.info("logging out to log in to a new grid");
+
+            displayAndProcessSignOn();
+
+        } else if (e.getActionCommand().equals("About")) {
+            AboutDialog aboutDialog = new AboutDialog(this, true);
+            int x = (toolkit.getScreenSize().width - aboutDialog.getWidth()) / 2;
+            int y = (toolkit.getScreenSize().height - aboutDialog.getHeight()) / 2;
+            aboutDialog.setLocation(x, y);
+            aboutDialog.setVisible(true);
+        } else if (e.getActionCommand().equals("Preferences")) {
+            IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(
+                    this, true, iDropCore);
+            idropConfigurationPanel.setLocationRelativeTo(null);
+            idropConfigurationPanel.setVisible(true);
+
+        } else if (e.getActionCommand().equals("Change Pass Phrase")) {
+            ChangePassPhraseDialog changePassPhraseDialog = new ChangePassPhraseDialog(
+                    this, true, iDropCore);
+            int x = (toolkit.getScreenSize().width - changePassPhraseDialog
+                    .getWidth()) / 2;
+            int y = (toolkit.getScreenSize().height - changePassPhraseDialog
+                    .getHeight()) / 2;
+            changePassPhraseDialog.setLocation(x, y);
+            changePassPhraseDialog.setVisible(true);
+
+        } else if (e.getActionCommand()
+                .equals("Show Current and Past Activity")) {
+
+            log.info("showing recent items in queue");
+            showQueueManagerDialog();
+
+        } else {
+
+            if (!formShown) {
+
+                showIdropGui();
+
+            } else {
+                // refresh the tree when setting visible again, the account may
+                // have changed.
+
+                buildTargetTree(false);
+                setVisible(true);
+            }
+
+            toFront();
+        }
+
+    }
+
+    private boolean showQueueManagerDialog() {
+
+        try {
+            if (transferManagerDialog == null) {
+                transferManagerDialog = new TransferAccountingManagerDialog(
+                        this);
+                Toolkit tk = getToolkit();
+                int x = (tk.getScreenSize().width - transferManagerDialog
+                        .getWidth()) / 2;
+                int y = (tk.getScreenSize().height - transferManagerDialog
+                        .getHeight()) / 2;
+                transferManagerDialog.setLocation(x, y);
+                transferManagerDialog.setModal(false);
+            } else {
+                transferManagerDialog.refreshTableView();
+            }
+        } catch (ConveyorExecutionException ex) {
+            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+            showIdropException(ex);
+            return true;
+        }
+
+        transferManagerDialog.setVisible(true);
+        // transferManagerDialog.toFront();
+
+        return false;
+    }
+
+    /**
+     * Indicate that the GUI should reflect a paused state
+     *
+     */
+    public void setTransferStatePaused() {
+        if (pausedItem != null) {
+            pausedItem.setState(true);
+        }
+
+    }
+
+    /**
+     * Indicate that the gui should show an unpaused state.
+     */
+    public void setTransferStateUnpaused() {
+        if (pausedItem != null) {
+            pausedItem.setState(false);
+        }
+
+    }
+
+    @Override
+    public void itemStateChanged(final ItemEvent e) {
+
+        if (e.getItem().equals("Pause")) {
+            // FIXME: conveyor
 			/*
-			 * try { if (pausedItem.getState() == true) {
-			 * log.info("pausing...."); iDropCore.getTransferManager().pause();
-			 * } else { log.info("resuming queue");
-			 * iDropCore.getTransferManager().resume(); } } catch (Exception ex)
-			 * { Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null,
-			 * ex); }
-			 */
-		}
-	}
-
-	private void shutdownWithConfirmation() {
-		int result = JOptionPane
-				.showConfirmDialog(this, "Shut down iDrop?",
-						"Do you want to shut down iDrop?",
-						JOptionPane.OK_CANCEL_OPTION);
-		if (result == JOptionPane.OK_OPTION) {
-			shutdown();
-		}
-	}
-
-	private void shutdown() {
-		try {
-			log.info("shut down queue timer");
-			iDropCore.getQueueTimer().cancel();
-			log.info("saving current configuration to idrop.properties");
-			iDropCore.getIdropConfigurationService()
-					.saveConfigurationToPropertiesFile();
-			log.info("properties saved");
-		} catch (IdropException ex) {
-			log.error("iDrop exception on shutdown will be ignored", ex);
-		}
-		System.exit(0);
-	}
-
-	/**
-	 * Update the system tray icon based on the current status.
-	 * 
-	 * @param iconFile
-	 */
-	public void updateIcon(final String iconFile) {
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-
-				/*
-				 * listener events may occur at startup before the GUI is fully
-				 * prepared, ignore these
-				 */
-				if (trayIcon == null) {
-					return;
-				}
-
-				Image newIcon = createImage(iconFile, "icon");
-
-				trayIcon.setImage(newIcon);
-				ImageIcon icon = new ImageIcon();
-				icon.setImage(newIcon);
-				lblStatusIcon.setIcon(icon);
-
-			}
-		});
-	}
-
-	public Object getLastCachedInfoItem() {
-		return lastCachedInfoItem;
-	}
-
-	public void triggerInfoPanelUpdate() throws IdropRuntimeException {
-
-		final iDrop idropGui = this;
-
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-
-				idropGui.setCursor(Cursor
-						.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-				IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) getIrodsTree()
-						.getModel();
-
-				ListSelectionModel selectionModel = getIrodsTree()
-						.getSelectionModel();
-				int idx = selectionModel.getLeadSelectionIndex();
-
-				// use first selection for info
-				IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
-						.getValueAt(idx, 0);
-				log.info("selected node to initialize info panel:{}",
-						selectedNode);
-
-				iDropCore.closeIRODSConnectionForLoggedInAccount();
-				idropGui.setCursor(Cursor
-						.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
-			}
-		});
-
-	}
-
-	// Update state of toolbar buttons when iRODS tree nodes are selected
-	public void triggerToolbarUpdate() throws IdropRuntimeException {
-
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-
-				IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) getIrodsTree()
-						.getModel();
-
-				// first check for selected item in iRODS tree
-				ListSelectionModel selectionModel = getIrodsTree()
-						.getSelectionModel();
-				int idx = selectionModel.getLeadSelectionIndex();
-				IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
-						.getValueAt(idx, 0);
-                                
-                                
-                                if (selectedNode == null) {
-                                    return;
-                                }
-                                
-				selectedNode.getFullPath();
-
-				selectedNode.getUserObject();
-
-				enableToolbarButtons(idx >= 0);
-
-			}
-		});
-	}
-
-	private void enableToolbarButtons(final boolean state) {
-		btnMainToolbarInfo.setEnabled(state);
-		btnMainToolbarCopy.setEnabled(state);
-		btnMainToolbarDelete.setEnabled(state);
-
-	}
-
-	/**
-	 * A transfer confirm dialog
-	 * 
-	 * @param sourcePath
-	 *            <code>String</code> with the source path of the transfer
-	 * @param targetPath
-	 *            <code>String</code> with the target of the transfer
-	 * @return <code>int</code> with the dialog user response.
-	 */
-	public int showTransferConfirm(final String sourcePath,
-			final String targetPath) {
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("Would you like to transfer from ");
-		sb.append(sourcePath);
-		sb.append(" to ");
-		sb.append(targetPath);
-
-		// default icon, custom title
-		int n = JOptionPane.showConfirmDialog(this, sb.toString(),
-				"Transfer Confirmaiton", JOptionPane.YES_NO_OPTION);
-
-		return n;
-	}
-
-	/**
-	 * Status callback per file, or intra-file, from the transfer manager
-	 * 
-	 * @param ts
-	 */
-	@Override
-	public void statusCallback(final TransferStatus ts) {
-
-		log.info("transfer status callback to iDROP:{}", ts);
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-
-				if (ts.getTransferState() == TransferStatus.TransferState.FAILURE) {
-					// an error occurs, stop the transfer
-					log.error("error occurred in transfer: {}", ts);
-
-				} else if (ts.isIntraFileStatusReport()) {
-
-					log.debug("transferred so far:{}", ts.getBytesTransfered());
-					log.debug("total bytes:{}", ts.getTotalSize());
-					float rawPct = (float) ts.getBytesTransfered()
-							/ ts.getTotalSize();
-					int percentDone = (int) (rawPct * 100F);
-					log.info("pct done:{}", percentDone);
-
-					progressIntraFile.setValue(percentDone);
-
-					progressIntraFile.setString(FieldFormatHelper
-							.formatByteProgress(ts.getTotalSize(),
-									ts.getBytesTransfered(), 0));
-
-				} else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_START_FILE) {
-
-					// start of a file operation
-					progressIntraFile.setMinimum(0);
-					progressIntraFile.setMaximum(100);
-					progressIntraFile.setValue(0);
-
-					lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts
-							.getSourceFileAbsolutePath()));
-					transferStatusProgressBar.setString(FieldFormatHelper
-							.formatFileProgress(ts.getTotalFilesToTransfer(),
-									ts.getTotalFilesTransferredSoFar(), 0));
-					progressIntraFile.setString(FieldFormatHelper
-							.formatByteProgress(ts.getTotalSize(),
-									ts.getBytesTransfered(), 0));
-
-				} else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_COMPLETE_FILE) {
-
-					progressIntraFile.setValue(100);
-
-					transferStatusProgressBar.setMaximum(ts
-							.getTotalFilesToTransfer());
-					transferStatusProgressBar.setValue(ts
-							.getTotalFilesTransferredSoFar());
-					transferStatusProgressBar.setString(FieldFormatHelper
-							.formatFileProgress(ts.getTotalFilesToTransfer(),
-									ts.getTotalFilesTransferredSoFar(), 0));
-					progressIntraFile.setString(FieldFormatHelper
-							.formatByteProgress(ts.getTotalSize(),
-									ts.getBytesTransfered(), 0));
-
-				} else {
-
-					transferStatusProgressBar.setMaximum(ts
-							.getTotalFilesToTransfer());
-					transferStatusProgressBar.setValue(ts
-							.getTotalFilesTransferredSoFar());
-					transferStatusProgressBar.setString(FieldFormatHelper
-							.formatFileProgress(ts.getTotalFilesToTransfer(),
-									ts.getTotalFilesTransferredSoFar(), 0));
-					progressIntraFile.setString(FieldFormatHelper
-							.formatByteProgress(ts.getTotalSize(),
-									ts.getBytesTransfered(), 0));
-					lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts
-							.getSourceFileAbsolutePath()));
-				}
-			}
-		});
-
-	}
-
-	/**
-	 * Be able to do things to the transfer panel
-	 * 
-	 * @param isBegin
-	 */
-	private void setUpTransferPanel(final boolean isBegin) {
-		if (isBegin) {
-			pnlCurrentTransferStatus.setVisible(true);
-		} else {
-			pnlCurrentTransferStatus.setVisible(true);
-		}
-	}
-
-	/**
-	 * Implementation of transfer manager callback. The overall status callback
-	 * represents the start and completion of a transfer operation
-	 * 
-	 * @param ts
-	 */
-	@Override
-	public void overallStatusCallback(final TransferStatus ts) {
-
-		final IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree
-				.getModel();
-		final iDrop idropGui = this;
-
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-
-				if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION
-						|| ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
-					transferStatusProgressBar.setString(FieldFormatHelper
-							.formatFileProgress(ts.getTotalFilesToTransfer(),
-									ts.getTotalFilesTransferredSoFar(), 0));
-					progressIntraFile.setString(FieldFormatHelper
-							.formatByteProgress(ts.getTotalSize(),
-									ts.getBytesTransfered(), 0));
-					idropGui.setUpTransferPanel(true);
-				} else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION
-						|| ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
-					idropGui.setUpTransferPanel(false);
-				}
-
-				/*
-				 * Handle appropriate tree notifications, so some filtering to
-				 * prevent notifications when for a different host/zone
-				 */
-				if (ts.getTransferType() == TransferStatus.TransferType.SYNCH
-						|| ts.getTransferType() == TransferStatus.TransferType.REPLICATE) {
-					log.info("no need to notify tree for synch or replicate");
-				} else if (ts.getTransferType() == TransferStatus.TransferType.GET
-						&& ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
-					try {
-
-						((LocalFileSystemModel) idropGui.getFileTree()
-								.getModel()).notifyCompletionOfOperation(
-								idropGui.getFileTree(), ts);
-
-					} catch (IdropException ex) {
-						log.error("error on tree notify after operation", ex);
-						throw new IdropRuntimeException(
-								"error processing overall status callback", ex);
-					}
-				} else if (ts.getTransferType() == TransferStatus.TransferType.COPY
-						|| ts.getTransferType() == TransferStatus.TransferType.PUT) {
-					if (ts.getTransferZone().equals(
-							iDropCore.getIrodsAccount().getZone())
-							&& ts.getTransferHost().equals(
-									iDropCore.getIrodsAccount().getHost())) {
-						try {
-							// should leave PUT, and COPY
-							irodsTreeModel.notifyCompletionOfOperation(
-									irodsTree, ts);
-						} catch (IdropException ex) {
-							log.error("error on tree notify after operation",
-									ex);
-							throw new IdropRuntimeException(
-									"error processing overall status callback",
-									ex);
-						}
-					}
-				}
-
-				/*
-				 * Handle progress bar and messages. These are cleared on
-				 * overall initiation
-				 */
-				if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION
-						|| ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
-					clearProgressBar();
-					// on initiation, clear and reset the status bar info
-					lblTransferType.setText(ts.getTransferType().name());
-					transferStatusProgressBar.setString(FieldFormatHelper
-							.formatFileProgress(ts.getTotalFilesToTransfer(),
-									ts.getTotalFilesTransferredSoFar(), 0));
-					progressIntraFile.setString(FieldFormatHelper
-							.formatByteProgress(ts.getTotalSize(),
-									ts.getBytesTransfered(), 0));
-					lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts
-							.getSourceFileAbsolutePath()));
-					transferStatusProgressBar.setMinimum(0);
-					transferStatusProgressBar.setMaximum(ts
-							.getTotalFilesToTransfer());
-					transferStatusProgressBar.setValue(0);
-				}
-
-				/*
-				 * Handle any text messages
-				 */
-				if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
-					lblTransferMessage.setText("Synchronization Initializing");
-				} else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_GENERATION) {
-					lblTransferMessage
-							.setText("Synchronization looking for updates");
-				} else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_STEP) {
-					lblTransferMessage.setText("Synchronizing differences");
-				} else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
-					lblTransferMessage.setText("Synchronization complete");
-				} else if (ts.getTransferEnclosingType() == TransferStatus.TransferType.SYNCH) {
-					lblTransferMessage
-							.setText("Transfer to synchronize local and iRODS");
-				} else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
-					// initiation not within a synch
-					lblTransferMessage.setText("Processing a "
-							+ ts.getTransferType().name() + " operation");
-				} else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
-					// initiation not within a synch
-					lblTransferMessage.setText("Completed a "
-							+ ts.getTransferType().name() + " operation");
-				}
-
-			}
-		});
-	}
-
-	/**
-	 * Call from a swing event queue runnable
-	 */
-	private synchronized void clearProgressBar() {
-		lblTransferType.setText("");
-		lblCurrentFile.setText("");
-		transferStatusProgressBar.setMinimum(0);
-		transferStatusProgressBar.setMaximum(100);
-		transferStatusProgressBar.setValue(0);
-		transferStatusProgressBar.setString("");
-		progressIntraFile.setString("");
-		progressIntraFile.setMinimum(0);
-		progressIntraFile.setMaximum(0);
-		progressIntraFile.setValue(0);
-		progressIntraFile.setString("");
-	}
-
-	/**
-	 * Callback from conveyor asking how to handle an overwrite situation
-	 * 
-	 * @param irodsAbsolutePath
-	 * @param isCollection
-	 * @return
-	 */
-	@Override
-	public CallbackResponse transferAsksWhetherToForceOperation(
-			final String irodsAbsolutePath, final boolean isCollection) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	/**
-	 * Callback from conveyor framework with current running and error status of
-	 * the transfer queue
-	 * 
-	 * @param qs
-	 *            {@link QueueStatus}
-	 */
-	@Override
-	public void setQueueStatus(final QueueStatus qs) {
-		iDropCore.getIconManager().setRunningStatus(qs.getRunningStatus());
-		iDropCore.getIconManager().setErrorStatus(qs.getErrorStatus());
-		if (qs.getRunningStatus() == RunningStatus.PAUSED) {
-			setTransferStatePaused();
-		} else {
-			setTransferStateUnpaused();
-		}
-	}
-
-	/**
-	 * Callback from conveyor framework indicating that the conveyor transfer
-	 * manager cannot operate and manage the state of transfers, this is really
-	 * a fatal condition.
-	 * 
-	 * @param excptn
-	 */
-	@Override
-	public void signalUnhandledConveyorException(final Exception excptn) {
-		log.error("exception is occurring in conveyor framework", excptn);
-		MessageManager.showError(this, excptn.getMessage(),
-				MessageManager.TITLE_MESSAGE);
-	}
-
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-
-	// <editor-fold defaultstate="collapsed"
-	// <editor-fold defaultstate="collapsed"
+             * try { if (pausedItem.getState() == true) {
+             * log.info("pausing...."); iDropCore.getTransferManager().pause();
+             * } else { log.info("resuming queue");
+             * iDropCore.getTransferManager().resume(); } } catch (Exception ex)
+             * { Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null,
+             * ex); }
+             */
+        }
+    }
+
+    private void shutdownWithConfirmation() {
+        int result = JOptionPane
+                .showConfirmDialog(this, "Shut down iDrop?",
+                "Do you want to shut down iDrop?",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            shutdown();
+        }
+    }
+
+    private void shutdown() {
+        try {
+            log.info("shut down queue timer");
+            iDropCore.getQueueTimer().cancel();
+            log.info("saving current configuration to idrop.properties");
+            iDropCore.getIdropConfigurationService()
+                    .saveConfigurationToPropertiesFile();
+            log.info("properties saved");
+        } catch (IdropException ex) {
+            log.error("iDrop exception on shutdown will be ignored", ex);
+        }
+        System.exit(0);
+    }
+
+    /**
+     * Update the system tray icon based on the current status.
+     *
+     * @param iconFile
+     */
+    public void updateIcon(final String iconFile) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                /*
+                 * listener events may occur at startup before the GUI is fully
+                 * prepared, ignore these
+                 */
+                if (trayIcon == null) {
+                    return;
+                }
+
+                Image newIcon = createImage(iconFile, "icon");
+
+                trayIcon.setImage(newIcon);
+                ImageIcon icon = new ImageIcon();
+                icon.setImage(newIcon);
+                lblStatusIcon.setIcon(icon);
+
+            }
+        });
+    }
+
+    public Object getLastCachedInfoItem() {
+        return lastCachedInfoItem;
+    }
+
+    public void triggerInfoPanelUpdate() throws IdropRuntimeException {
+
+        final iDrop idropGui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                idropGui.setCursor(Cursor
+                        .getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+                IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) getIrodsTree()
+                        .getModel();
+
+                ListSelectionModel selectionModel = getIrodsTree()
+                        .getSelectionModel();
+                int idx = selectionModel.getLeadSelectionIndex();
+
+                // use first selection for info
+                IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
+                        .getValueAt(idx, 0);
+                log.info("selected node to initialize info panel:{}",
+                        selectedNode);
+
+                iDropCore.closeIRODSConnectionForLoggedInAccount();
+                idropGui.setCursor(Cursor
+                        .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+            }
+        });
+
+    }
+
+    // Update state of toolbar buttons when iRODS tree nodes are selected
+    public void triggerToolbarUpdate() throws IdropRuntimeException {
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) getIrodsTree()
+                        .getModel();
+
+                // first check for selected item in iRODS tree
+                ListSelectionModel selectionModel = getIrodsTree()
+                        .getSelectionModel();
+                int idx = selectionModel.getLeadSelectionIndex();
+                IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
+                        .getValueAt(idx, 0);
+
+
+                if (selectedNode == null) {
+                    return;
+                }
+
+                selectedNode.getFullPath();
+
+                selectedNode.getUserObject();
+
+                enableToolbarButtons(idx >= 0);
+
+            }
+        });
+    }
+
+    private void enableToolbarButtons(final boolean state) {
+        btnMainToolbarInfo.setEnabled(state);
+        btnMainToolbarCopy.setEnabled(state);
+        btnMainToolbarDelete.setEnabled(state);
+
+    }
+
+    /**
+     * A transfer confirm dialog
+     *
+     * @param sourcePath <code>String</code> with the source path of the
+     * transfer
+     * @param targetPath <code>String</code> with the target of the transfer
+     * @return <code>int</code> with the dialog user response.
+     */
+    public int showTransferConfirm(final String sourcePath,
+            final String targetPath) {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Would you like to transfer from ");
+        sb.append(sourcePath);
+        sb.append(" to ");
+        sb.append(targetPath);
+
+        // default icon, custom title
+        int n = JOptionPane.showConfirmDialog(this, sb.toString(),
+                "Transfer Confirmaiton", JOptionPane.YES_NO_OPTION);
+
+        return n;
+    }
+
+    /**
+     * Status callback per file, or intra-file, from the transfer manager
+     *
+     * @param ts
+     */
+    @Override
+    public void statusCallback(final TransferStatus ts) {
+
+        log.info("transfer status callback to iDROP:{}", ts);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                if (ts.getTransferState() == TransferStatus.TransferState.FAILURE) {
+                    // an error occurs, stop the transfer
+                    log.error("error occurred in transfer: {}", ts);
+
+                } else if (ts.isIntraFileStatusReport()) {
+
+                    log.debug("transferred so far:{}", ts.getBytesTransfered());
+                    log.debug("total bytes:{}", ts.getTotalSize());
+                    float rawPct = (float) ts.getBytesTransfered()
+                            / ts.getTotalSize();
+                    int percentDone = (int) (rawPct * 100F);
+                    log.info("pct done:{}", percentDone);
+
+                    progressIntraFile.setValue(percentDone);
+
+                    progressIntraFile.setString(FieldFormatHelper
+                            .formatByteProgress(ts.getTotalSize(),
+                            ts.getBytesTransfered(), 0));
+
+                } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_START_FILE) {
+
+                    // start of a file operation
+                    progressIntraFile.setMinimum(0);
+                    progressIntraFile.setMaximum(100);
+                    progressIntraFile.setValue(0);
+
+                    lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts
+                            .getSourceFileAbsolutePath()));
+                    transferStatusProgressBar.setString(FieldFormatHelper
+                            .formatFileProgress(ts.getTotalFilesToTransfer(),
+                            ts.getTotalFilesTransferredSoFar(), 0));
+                    progressIntraFile.setString(FieldFormatHelper
+                            .formatByteProgress(ts.getTotalSize(),
+                            ts.getBytesTransfered(), 0));
+
+                } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_COMPLETE_FILE) {
+
+                    progressIntraFile.setValue(100);
+
+                    transferStatusProgressBar.setMaximum(ts
+                            .getTotalFilesToTransfer());
+                    transferStatusProgressBar.setValue(ts
+                            .getTotalFilesTransferredSoFar());
+                    transferStatusProgressBar.setString(FieldFormatHelper
+                            .formatFileProgress(ts.getTotalFilesToTransfer(),
+                            ts.getTotalFilesTransferredSoFar(), 0));
+                    progressIntraFile.setString(FieldFormatHelper
+                            .formatByteProgress(ts.getTotalSize(),
+                            ts.getBytesTransfered(), 0));
+
+                } else {
+
+                    transferStatusProgressBar.setMaximum(ts
+                            .getTotalFilesToTransfer());
+                    transferStatusProgressBar.setValue(ts
+                            .getTotalFilesTransferredSoFar());
+                    transferStatusProgressBar.setString(FieldFormatHelper
+                            .formatFileProgress(ts.getTotalFilesToTransfer(),
+                            ts.getTotalFilesTransferredSoFar(), 0));
+                    progressIntraFile.setString(FieldFormatHelper
+                            .formatByteProgress(ts.getTotalSize(),
+                            ts.getBytesTransfered(), 0));
+                    lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts
+                            .getSourceFileAbsolutePath()));
+                }
+            }
+        });
+
+    }
+
+    /**
+     * Be able to do things to the transfer panel
+     *
+     * @param isBegin
+     */
+    private void setUpTransferPanel(final boolean isBegin) {
+        if (isBegin) {
+            pnlCurrentTransferStatus.setVisible(true);
+        } else {
+            pnlCurrentTransferStatus.setVisible(true);
+        }
+    }
+
+    /**
+     * Implementation of transfer manager callback. The overall status callback
+     * represents the start and completion of a transfer operation
+     *
+     * @param ts
+     */
+    @Override
+    public void overallStatusCallback(final TransferStatus ts) {
+
+        final IRODSOutlineModel irodsTreeModel = (IRODSOutlineModel) irodsTree
+                .getModel();
+        final iDrop idropGui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION
+                        || ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
+                    transferStatusProgressBar.setString(FieldFormatHelper
+                            .formatFileProgress(ts.getTotalFilesToTransfer(),
+                            ts.getTotalFilesTransferredSoFar(), 0));
+                    progressIntraFile.setString(FieldFormatHelper
+                            .formatByteProgress(ts.getTotalSize(),
+                            ts.getBytesTransfered(), 0));
+                    idropGui.setUpTransferPanel(true);
+                } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION
+                        || ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
+                    idropGui.setUpTransferPanel(false);
+                }
+
+                /*
+                 * Handle appropriate tree notifications, so some filtering to
+                 * prevent notifications when for a different host/zone
+                 */
+                if (ts.getTransferType() == TransferStatus.TransferType.SYNCH
+                        || ts.getTransferType() == TransferStatus.TransferType.REPLICATE) {
+                    log.info("no need to notify tree for synch or replicate");
+                } else if (ts.getTransferType() == TransferStatus.TransferType.GET
+                        && ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                    try {
+
+                        LocalFileSystemModel localFileSystemModel = (LocalFileSystemModel) idropGui.getFileTree()
+                                .getModel();
+
+
+                        if (localFileSystemModel != null) {
+                            localFileSystemModel.notifyCompletionOfOperation(
+                                    idropGui.getFileTree(), ts);
+                        }
+
+                    } catch (IdropException ex) {
+                        log.error("error on tree notify after operation", ex);
+                        throw new IdropRuntimeException(
+                                "error processing overall status callback", ex);
+                    }
+                } else if (ts.getTransferType() == TransferStatus.TransferType.COPY
+                        || ts.getTransferType() == TransferStatus.TransferType.PUT) {
+                    if (ts.getTransferZone().equals(
+                            iDropCore.getIrodsAccount().getZone())
+                            && ts.getTransferHost().equals(
+                            iDropCore.getIrodsAccount().getHost())) {
+                        try {
+                            // should leave PUT, and COPY
+                            irodsTreeModel.notifyCompletionOfOperation(
+                                    irodsTree, ts);
+                        } catch (IdropException ex) {
+                            log.error("error on tree notify after operation",
+                                    ex);
+                            throw new IdropRuntimeException(
+                                    "error processing overall status callback",
+                                    ex);
+                        }
+                    }
+                }
+
+                /*
+                 * Handle progress bar and messages. These are cleared on
+                 * overall initiation
+                 */
+                if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION
+                        || ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
+                    clearProgressBar();
+                    // on initiation, clear and reset the status bar info
+                    lblTransferType.setText(ts.getTransferType().name());
+                    transferStatusProgressBar.setString(FieldFormatHelper
+                            .formatFileProgress(ts.getTotalFilesToTransfer(),
+                            ts.getTotalFilesTransferredSoFar(), 0));
+                    progressIntraFile.setString(FieldFormatHelper
+                            .formatByteProgress(ts.getTotalSize(),
+                            ts.getBytesTransfered(), 0));
+                    lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts
+                            .getSourceFileAbsolutePath()));
+                    transferStatusProgressBar.setMinimum(0);
+                    transferStatusProgressBar.setMaximum(ts
+                            .getTotalFilesToTransfer());
+                    transferStatusProgressBar.setValue(0);
+                }
+
+                /*
+                 * Handle any text messages
+                 */
+                if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
+                    lblTransferMessage.setText("Synchronization Initializing");
+                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_GENERATION) {
+                    lblTransferMessage
+                            .setText("Synchronization looking for updates");
+                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_STEP) {
+                    lblTransferMessage.setText("Synchronizing differences");
+                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
+                    lblTransferMessage.setText("Synchronization complete");
+                } else if (ts.getTransferEnclosingType() == TransferStatus.TransferType.SYNCH) {
+                    lblTransferMessage
+                            .setText("Transfer to synchronize local and iRODS");
+                } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
+                    // initiation not within a synch
+                    lblTransferMessage.setText("Processing a "
+                            + ts.getTransferType().name() + " operation");
+                } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION) {
+                    // initiation not within a synch
+                    lblTransferMessage.setText("Completed a "
+                            + ts.getTransferType().name() + " operation");
+                }
+
+            }
+        });
+    }
+
+    /**
+     * Call from a swing event queue runnable
+     */
+    private synchronized void clearProgressBar() {
+        lblTransferType.setText("");
+        lblCurrentFile.setText("");
+        transferStatusProgressBar.setMinimum(0);
+        transferStatusProgressBar.setMaximum(100);
+        transferStatusProgressBar.setValue(0);
+        transferStatusProgressBar.setString("");
+        progressIntraFile.setString("");
+        progressIntraFile.setMinimum(0);
+        progressIntraFile.setMaximum(0);
+        progressIntraFile.setValue(0);
+        progressIntraFile.setString("");
+    }
+
+    /**
+     * Callback from conveyor asking how to handle an overwrite situation
+     *
+     * @param irodsAbsolutePath
+     * @param isCollection
+     * @return
+     */
+    @Override
+    public CallbackResponse transferAsksWhetherToForceOperation(
+            final String irodsAbsolutePath, final boolean isCollection) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Callback from conveyor framework with current running and error status of
+     * the transfer queue
+     *
+     * @param qs {@link QueueStatus}
+     */
+    @Override
+    public void setQueueStatus(final QueueStatus qs) {
+        iDropCore.getIconManager().setRunningStatus(qs.getRunningStatus());
+        iDropCore.getIconManager().setErrorStatus(qs.getErrorStatus());
+        if (qs.getRunningStatus() == RunningStatus.PAUSED) {
+            setTransferStatePaused();
+        } else {
+            setTransferStateUnpaused();
+        }
+    }
+
+    /**
+     * Callback from conveyor framework indicating that the conveyor transfer
+     * manager cannot operate and manage the state of transfers, this is really
+     * a fatal condition.
+     *
+     * @param excptn
+     */
+    @Override
+    public void signalUnhandledConveyorException(final Exception excptn) {
+        log.error("exception is occurring in conveyor framework", excptn);
+        MessageManager.showError(this, excptn.getMessage(),
+                MessageManager.TITLE_MESSAGE);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed"
+    // <editor-fold defaultstate="collapsed"
 	// desc="Generated Code">//GEN-BEGIN:initComponents
 	@SuppressWarnings({ "rawtypes", "deprecation" })
 	private void initComponents() {
@@ -2108,253 +2111,253 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	/**
-	 * Show a modal dialog with extended tools
-	 * 
-	 * @param evt
-	 */
-	private void btnMainToolbarToolsActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarToolsActionPerformed
-		ToolsDialog toolsDialog = new ToolsDialog(this, true);
-		toolsDialog.setLocation(
-				(int) (this.getLocation().getX() + getWidth() / 2), (int) (this
-						.getLocation().getY() + getHeight() / 2));
-		toolsDialog.setVisible(true);
-	}// GEN-LAST:event_btnMainToolbarToolsActionPerformed
+    /**
+     * Show a modal dialog with extended tools
+     *
+     * @param evt
+     */
+    private void btnMainToolbarToolsActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarToolsActionPerformed
+        ToolsDialog toolsDialog = new ToolsDialog(this, true);
+        toolsDialog.setLocation(
+                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
+                .getLocation().getY() + getHeight() / 2));
+        toolsDialog.setVisible(true);
+    }// GEN-LAST:event_btnMainToolbarToolsActionPerformed
 
-	private void btnMainToolbarTreeActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarTreeActionPerformed
-		NavPopupDialog navDialog = new NavPopupDialog(this, true);
-		navDialog.setLocation(
-				(int) (this.getLocation().getX() + getWidth() / 2), (int) (this
-						.getLocation().getY() + getHeight() / 2));
-		navDialog.setVisible(true);
-	}// GEN-LAST:event_btnMainToolbarTreeActionPerformed
+    private void btnMainToolbarTreeActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarTreeActionPerformed
+        NavPopupDialog navDialog = new NavPopupDialog(this, true);
+        navDialog.setLocation(
+                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
+                .getLocation().getY() + getHeight() / 2));
+        navDialog.setVisible(true);
+    }// GEN-LAST:event_btnMainToolbarTreeActionPerformed
 
-	private void btnMainToolbarSettingsActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarSettingsActionPerformed
-		IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(
-				this, true, iDropCore);
-		idropConfigurationPanel.setLocationRelativeTo(null);
-		idropConfigurationPanel.setVisible(true);
-	}
+    private void btnMainToolbarSettingsActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarSettingsActionPerformed
+        IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(
+                this, true, iDropCore);
+        idropConfigurationPanel.setLocationRelativeTo(null);
+        idropConfigurationPanel.setVisible(true);
+    }
 
-	/**
-	 * TODO: update resource in grid account
-	 */
-	private void cbIrodsResourceActionPerformed(
-			final java.awt.event.ActionEvent evt) {
+    /**
+     * TODO: update resource in grid account
+     */
+    private void cbIrodsResourceActionPerformed(
+            final java.awt.event.ActionEvent evt) {
 
-		String newResource = (String) cbIrodsResource.getSelectedItem();
-		getiDropCore().getIrodsAccount().setDefaultStorageResource(newResource);
-            try {
-                getiDropCore().getConveyorService().getGridAccountService().rememberDefaultStorageResource(newResource, getiDropCore().getIrodsAccount());
-            } catch (ConveyorExecutionException ex) {
-                log.error("unable to remember new resource", ex);
-                MessageManager.showError(this, ex.getMessage());
+        String newResource = (String) cbIrodsResource.getSelectedItem();
+        getiDropCore().getIrodsAccount().setDefaultStorageResource(newResource);
+        try {
+            getiDropCore().getConveyorService().getGridAccountService().rememberDefaultStorageResource(newResource, getiDropCore().getIrodsAccount());
+        } catch (ConveyorExecutionException ex) {
+            log.error("unable to remember new resource", ex);
+            MessageManager.showError(this, ex.getMessage());
+        }
+    }
+
+    private void btnMainToolbarDownloadActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarDownloadActionPerformed
+
+        DownloadDialog downloadDialog = new DownloadDialog(this, true,
+                getIrodsTree(), getFileTree());
+
+        downloadDialog.setLocation(
+                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
+                .getLocation().getY() + getHeight() / 2));
+        downloadDialog.setVisible(true);
+
+    }// GEN-LAST:event_btnMainToolbarDownloadActionPerformed
+
+    private void togglePauseTransferActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_togglePauseTransferActionPerformed
+
+        try {
+            if (togglePauseTransfer.isSelected()) {
+                log.info("pausing....");
+
+                iDropCore.getConveyorService().getConveyorExecutorService()
+                        .requestPause();
+            } else {
+                log.info("resuming queue");
+                iDropCore.getConveyorService().getConveyorExecutorService()
+                        .requestResumeFromPause();
             }
-	}
+        } catch (Exception ex) {
+            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }// GEN-LAST:event_togglePauseTransferActionPerformed
 
-	private void btnMainToolbarDownloadActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarDownloadActionPerformed
+    private void btnMainToolbarRefreshActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarRefreshActionPerformed
+        buildTargetTree(false);
+    }// GEN-LAST:event_btnMainToolbarRefreshActionPerformed
 
-		DownloadDialog downloadDialog = new DownloadDialog(this, true,
-				getIrodsTree(), getFileTree());
+    private void btnMainToolbarDeleteActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarDeleteActionPerformed
 
-		downloadDialog.setLocation(
-				(int) (this.getLocation().getX() + getWidth() / 2), (int) (this
-						.getLocation().getY() + getHeight() / 2));
-		downloadDialog.setVisible(true);
+        log.info("deleting a node");
+        int[] rows = irodsTree.getSelectedRows();
+        log.debug("selected rows for delete:{}", rows);
 
-	}// GEN-LAST:event_btnMainToolbarDownloadActionPerformed
+        DeleteIRODSDialog deleteDialog;
 
-	private void togglePauseTransferActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_togglePauseTransferActionPerformed
+        if (rows.length == 1) {
 
-		try {
-			if (togglePauseTransfer.isSelected()) {
-				log.info("pausing....");
+            IRODSNode toDelete = (IRODSNode) irodsTree.getValueAt(rows[0], 0);
 
-				iDropCore.getConveyorService().getConveyorExecutorService()
-						.requestPause();
-			} else {
-				log.info("resuming queue");
-				iDropCore.getConveyorService().getConveyorExecutorService()
-						.requestResumeFromPause();
-			}
-		} catch (Exception ex) {
-			Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}// GEN-LAST:event_togglePauseTransferActionPerformed
+            log.info("deleting a single node: {}", toDelete);
+            deleteDialog = new DeleteIRODSDialog(this, true, irodsTree,
+                    toDelete);
+        } else {
+            List<IRODSNode> nodesToDelete = new ArrayList<IRODSNode>();
+            for (int row : rows) {
+                nodesToDelete.add((IRODSNode) irodsTree.getValueAt(row, 0));
 
-	private void btnMainToolbarRefreshActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarRefreshActionPerformed
-		buildTargetTree(false);
-	}// GEN-LAST:event_btnMainToolbarRefreshActionPerformed
+            }
 
-	private void btnMainToolbarDeleteActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarDeleteActionPerformed
+            deleteDialog = new DeleteIRODSDialog(this, true, irodsTree,
+                    nodesToDelete);
 
-		log.info("deleting a node");
-		int[] rows = irodsTree.getSelectedRows();
-		log.debug("selected rows for delete:{}", rows);
+        }
 
-		DeleteIRODSDialog deleteDialog;
+        deleteDialog.setLocation(
+                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
+                .getLocation().getY() + getHeight() / 2));
+        deleteDialog.setVisible(true);
+    }// GEN-LAST:event_btnMainToolbarDeleteActionPerformed
 
-		if (rows.length == 1) {
+    private void btnMainToolbarUploadActionPerformed(
+            final java.awt.event.ActionEvent evt) {
 
-			IRODSNode toDelete = (IRODSNode) irodsTree.getValueAt(rows[0], 0);
+        UploadDialog uploadDialog = new UploadDialog(this, true,
+                getIrodsTree(), getFileTree());
 
-			log.info("deleting a single node: {}", toDelete);
-			deleteDialog = new DeleteIRODSDialog(this, true, irodsTree,
-					toDelete);
-		} else {
-			List<IRODSNode> nodesToDelete = new ArrayList<IRODSNode>();
-			for (int row : rows) {
-				nodesToDelete.add((IRODSNode) irodsTree.getValueAt(row, 0));
+        uploadDialog.setLocation(
+                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
+                .getLocation().getY() + getHeight() / 2));
+        uploadDialog.setVisible(true);
 
-			}
+    }
 
-			deleteDialog = new DeleteIRODSDialog(this, true, irodsTree,
-					nodesToDelete);
+    private void btnMainToolbarInfoActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarInfoActionPerformed
+        IRODSInfoDialog irodsInfoDialog = new IRODSInfoDialog(this, true,
+                getIrodsTree());
 
-		}
+        irodsInfoDialog.setLocation(
+                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
+                .getLocation().getY() + getHeight() / 2));
+        irodsInfoDialog.setVisible(true);
+    }// GEN-LAST:event_btnMainToolbarInfoActionPerformed
 
-		deleteDialog.setLocation(
-				(int) (this.getLocation().getX() + getWidth() / 2), (int) (this
-						.getLocation().getY() + getHeight() / 2));
-		deleteDialog.setVisible(true);
-	}// GEN-LAST:event_btnMainToolbarDeleteActionPerformed
+    private void btnMainToolbarCopyActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarCopyActionPerformed
+        CopyMoveDialog copyMoveDialog = new CopyMoveDialog(this, true,
+                getIrodsTree());
 
-	private void btnMainToolbarUploadActionPerformed(
-			final java.awt.event.ActionEvent evt) {
+        copyMoveDialog.setLocation(
+                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
+                .getLocation().getY() + getHeight() / 2));
+        copyMoveDialog.setVisible(true);
 
-		UploadDialog uploadDialog = new UploadDialog(this, true,
-				getIrodsTree(), getFileTree());
+    }// GEN-LAST:event_btnMainToolbarCopyActionPerformed
 
-		uploadDialog.setLocation(
-				(int) (this.getLocation().getX() + getWidth() / 2), (int) (this
-						.getLocation().getY() + getHeight() / 2));
-		uploadDialog.setVisible(true);
+    private void btnMainToolbarSyncActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarSyncActionPerformed
 
-	}
+        log.info("synch now button pressed");
 
-	private void btnMainToolbarInfoActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarInfoActionPerformed
-		IRODSInfoDialog irodsInfoDialog = new IRODSInfoDialog(this, true,
-				getIrodsTree());
+        int result = JOptionPane.showConfirmDialog(this,
+                "Do you want to synchronize now?", "Synchronize",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            /*
+             * try { SynchManagerService synchConfigurationService =
+             * iDropCore.getTransferManager
+             * ().getTransferServiceFactory().instanceSynchManagerService();
+             * List<Synchronization> syncs =
+             * synchConfigurationService.listAllSynchronizations();
+             * log.info("number of synchronizations to process: {}",
+             * syncs.size()); for (Synchronization sync: syncs) { if
+             * (synchConfigurationService.isSynchRunning(sync)) {
+             * MessageManager.showMessage(this,
+             * "Cannot schedule the synchronization, a synch is currently running"
+             * , MessageManager.TITLE_MESSAGE); return; }
+             * iDropCore.getTransferManager().enqueueASynch(sync,
+             * sync.buildIRODSAccountFromSynchronizationData()); } } catch
+             * (Exception ex) { log.error("error starting synch", ex);
+             * MessageManager.showError(this, ex.getMessage(),
+             * MessageManager.TITLE_MESSAGE); throw new
+             * IdropRuntimeException(ex); }
+             */
+        }
 
-		irodsInfoDialog.setLocation(
-				(int) (this.getLocation().getX() + getWidth() / 2), (int) (this
-						.getLocation().getY() + getHeight() / 2));
-		irodsInfoDialog.setVisible(true);
-	}// GEN-LAST:event_btnMainToolbarInfoActionPerformed
+    }// GEN-LAST:event_btnMainToolbarSyncActionPerformed
 
-	private void btnMainToolbarCopyActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarCopyActionPerformed
-		CopyMoveDialog copyMoveDialog = new CopyMoveDialog(this, true,
-				getIrodsTree());
+    private void formWindowClosing(final java.awt.event.WindowEvent evt) {// GEN-FIRST:event_formWindowClosing
+        setVisible(false);
+        formShown = false;
+    }// GEN-LAST:event_formWindowClosing
 
-		copyMoveDialog.setLocation(
-				(int) (this.getLocation().getX() + getWidth() / 2), (int) (this
-						.getLocation().getY() + getHeight() / 2));
-		copyMoveDialog.setVisible(true);
+    private void btnMainToolbarQueueMgrActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarQueueMgrActionPerformed
+        showQueueManagerDialog();
+    }// GEN-LAST:event_btnMainToolbarQueueMgrActionPerformed
 
-	}// GEN-LAST:event_btnMainToolbarCopyActionPerformed
+    private void btnMainToolbarGridsActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarGridsActionPerformed
+        showGridManagerDialog(getIrodsAccount());
 
-	private void btnMainToolbarSyncActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarSyncActionPerformed
+    }// GEN-LAST:event_btnMainToolbarGridsActionPerformed
 
-		log.info("synch now button pressed");
+    private void btnNewFolderActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNewFolderActionPerformed
+        // show a dialog asking for the new directory name...
 
-		int result = JOptionPane.showConfirmDialog(this,
-				"Do you want to synchronize now?", "Synchronize",
-				JOptionPane.OK_CANCEL_OPTION);
-		if (result == JOptionPane.OK_OPTION) {
-			/*
-			 * try { SynchManagerService synchConfigurationService =
-			 * iDropCore.getTransferManager
-			 * ().getTransferServiceFactory().instanceSynchManagerService();
-			 * List<Synchronization> syncs =
-			 * synchConfigurationService.listAllSynchronizations();
-			 * log.info("number of synchronizations to process: {}",
-			 * syncs.size()); for (Synchronization sync: syncs) { if
-			 * (synchConfigurationService.isSynchRunning(sync)) {
-			 * MessageManager.showMessage(this,
-			 * "Cannot schedule the synchronization, a synch is currently running"
-			 * , MessageManager.TITLE_MESSAGE); return; }
-			 * iDropCore.getTransferManager().enqueueASynch(sync,
-			 * sync.buildIRODSAccountFromSynchronizationData()); } } catch
-			 * (Exception ex) { log.error("error starting synch", ex);
-			 * MessageManager.showError(this, ex.getMessage(),
-			 * MessageManager.TITLE_MESSAGE); throw new
-			 * IdropRuntimeException(ex); }
-			 */
-		}
+        IRODSFileService irodsFS = null;
 
-	}// GEN-LAST:event_btnMainToolbarSyncActionPerformed
+        IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
+                .getModel();
+        ListSelectionModel selectionModel = irodsTree.getSelectionModel();
+        int idx = selectionModel.getLeadSelectionIndex();
 
-	private void formWindowClosing(final java.awt.event.WindowEvent evt) {// GEN-FIRST:event_formWindowClosing
-		setVisible(false);
-		formShown = false;
-	}// GEN-LAST:event_formWindowClosing
+        // make sure there is a selected node
+        if (idx >= 0) {
+            try {
+                irodsFS = new IRODSFileService(
+                        getiDropCore().getIrodsAccount(), getiDropCore()
+                        .getIrodsFileSystem());
+                IRODSFile ifile = null;
+                IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
+                        .getValueAt(idx, 0);
+                ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
 
-	private void btnMainToolbarQueueMgrActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarQueueMgrActionPerformed
-		showQueueManagerDialog();
-	}// GEN-LAST:event_btnMainToolbarQueueMgrActionPerformed
+                // rule out "/" and choose parent if file is not a directory
+                String path = ifile.getAbsolutePath();
+                if (ifile.isFile()) {
+                    path = ifile.getParent();
+                    selectedNode = (IRODSNode) selectedNode.getParent();
+                }
 
-	private void btnMainToolbarGridsActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarGridsActionPerformed
-		showGridManagerDialog(getIrodsAccount());
+                NewIRODSDirectoryDialog newDirectoryDialog = new NewIRODSDirectoryDialog(
+                        this, true, path, getIrodsTree(), selectedNode);
+                newDirectoryDialog.setLocation(
+                        (int) (this.getLocation().getX() + getWidth() / 2),
+                        (int) (this.getLocation().getY() + getHeight() / 2));
+                newDirectoryDialog.setVisible(true);
+            } catch (Exception e) {
+                log.error("exception creating new folder", e);
+                MessageManager.showError(this, e.getMessage());
+            }
 
-	}// GEN-LAST:event_btnMainToolbarGridsActionPerformed
-
-	private void btnNewFolderActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNewFolderActionPerformed
-		// show a dialog asking for the new directory name...
-
-		IRODSFileService irodsFS = null;
-
-		IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
-				.getModel();
-		ListSelectionModel selectionModel = irodsTree.getSelectionModel();
-		int idx = selectionModel.getLeadSelectionIndex();
-
-		// make sure there is a selected node
-		if (idx >= 0) {
-			try {
-				irodsFS = new IRODSFileService(
-						getiDropCore().getIrodsAccount(), getiDropCore()
-								.getIrodsFileSystem());
-				IRODSFile ifile = null;
-				IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
-						.getValueAt(idx, 0);
-				ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
-
-				// rule out "/" and choose parent if file is not a directory
-				String path = ifile.getAbsolutePath();
-				if (ifile.isFile()) {
-					path = ifile.getParent();
-					selectedNode = (IRODSNode) selectedNode.getParent();
-				}
-
-				NewIRODSDirectoryDialog newDirectoryDialog = new NewIRODSDirectoryDialog(
-						this, true, path, getIrodsTree(), selectedNode);
-				newDirectoryDialog.setLocation(
-						(int) (this.getLocation().getX() + getWidth() / 2),
-						(int) (this.getLocation().getY() + getHeight() / 2));
-				newDirectoryDialog.setVisible(true);
-			} catch (Exception e) {
-				log.error("exception creating new folder", e);
-				MessageManager.showError(this, e.getMessage());
-			}
-
-		} else {
-			MessageManager.showWarning(this,
-					"Please select a parent folder in the tree");
-		}
-	}// GEN-LAST:event_btnNewFolderActionPerformed
+        } else {
+            MessageManager.showWarning(this,
+                    "Please select a parent folder in the tree");
+        }
+    }// GEN-LAST:event_btnNewFolderActionPerformed
 		// Variables declaration - do not modify//GEN-BEGIN:variables
 
 	private javax.swing.JButton btnMainToolbarCopy;
@@ -2430,22 +2433,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 	private javax.swing.JProgressBar transferStatusProgressBar;
 
 	// End of variables declaration//GEN-END:variables
+    public void closeTransferManagerDialog() {
+        transferManagerDialog = null;
+    }
 
-	public void closeTransferManagerDialog() {
-		transferManagerDialog = null;
-	}
+    private void showGridManagerDialog(final IRODSAccount savedAccount)
+            throws HeadlessException {
 
-	private void showGridManagerDialog(final IRODSAccount savedAccount)
-			throws HeadlessException {
-
-		final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null,
-				true, iDropCore, savedAccount);
-		Toolkit tk = getToolkit();
-		int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
-		int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
-		gridMemoryDialog.setLocation(x, y);
-		gridMemoryDialog.toFront();
-		gridMemoryDialog.setVisible(true);
-		reinitializeForChangedIRODSAccount();
-	}
+        final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(null,
+                true, iDropCore, savedAccount);
+        Toolkit tk = getToolkit();
+        int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
+        int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
+        gridMemoryDialog.setLocation(x, y);
+        gridMemoryDialog.toFront();
+        gridMemoryDialog.setVisible(true);
+        reinitializeForChangedIRODSAccount();
+    }
 }
