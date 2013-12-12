@@ -90,25 +90,9 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 					@Override
 					public void mouseClicked(final MouseEvent evt) {
 						if (evt.getClickCount() == 2) {
-							log.info("processing as edit");
-							Point pnt = evt.getPoint();
-							int row = tableGridInfo.rowAtPoint(pnt);
-							if (row < 0) {
-								return;
-							}
-
-							GridInfoTableModel model = (GridInfoTableModel) tableGridInfo
-									.getModel();
-							GridAccount gridTableData = model.getRow(row);
-							GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
-							EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
-							// null, true, idropCore, gridAccount, idrop);
-									null, true, idropCore, gridAccount);
-
-							editGridInfoDialog.setLocation((int) dialog
-									.getLocation().getX(), (int) dialog
-									.getLocation().getY());
-							editGridInfoDialog.setVisible(true);
+							log.info("processing as login");
+							processLogin();
+							
 						}
 					}
 				});
@@ -307,172 +291,125 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 	 */
 
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		pnlGridInfoTable = new javax.swing.JPanel();
-		jScrollPane3 = new javax.swing.JScrollPane();
-		tableGridInfo = new javax.swing.JTable();
-		jPanel7 = new javax.swing.JPanel();
-		jPanel9 = new javax.swing.JPanel();
-		btnAddGridInfo = new javax.swing.JButton();
-		btnDeleteGridInfo = new javax.swing.JButton();
-		btnEdit = new javax.swing.JButton();
-		pnlActions = new javax.swing.JPanel();
-		pnlActionsButtons = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnLogin = new javax.swing.JButton();
+        pnlGridInfoTable = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableGridInfo = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        btnAddGridInfo = new javax.swing.JButton();
+        btnDeleteGridInfo = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        pnlActions = new javax.swing.JPanel();
+        pnlActionsButtons = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnLogin = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class,
-				"GridMemoryDialog.title")); // NOI18N
-		setPreferredSize(new java.awt.Dimension(600, 300));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.title")); // NOI18N
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
-		pnlGridInfoTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(
-				2, 10, 2, 10));
-		pnlGridInfoTable.setPreferredSize(new java.awt.Dimension(600, 150));
-		pnlGridInfoTable.setLayout(new java.awt.BorderLayout());
+        pnlGridInfoTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
+        pnlGridInfoTable.setPreferredSize(new java.awt.Dimension(600, 150));
+        pnlGridInfoTable.setLayout(new java.awt.BorderLayout());
 
-		jScrollPane3.setMinimumSize(null);
+        jScrollPane3.setMinimumSize(null);
 
-		tableGridInfo.setMaximumSize(null);
-		tableGridInfo.setMinimumSize(null);
-		tableGridInfo.setPreferredSize(null);
-		jScrollPane3.setViewportView(tableGridInfo);
+        tableGridInfo.setMaximumSize(null);
+        tableGridInfo.setMinimumSize(null);
+        tableGridInfo.setPreferredSize(null);
+        jScrollPane3.setViewportView(tableGridInfo);
 
-		pnlGridInfoTable.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+        pnlGridInfoTable.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-		jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2,
-				2));
-		jPanel7.setPreferredSize(new java.awt.Dimension(568, 40));
-		java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(
-				java.awt.FlowLayout.LEFT);
-		flowLayout1.setAlignOnBaseline(true);
-		jPanel7.setLayout(flowLayout1);
+        jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        jPanel7.setPreferredSize(new java.awt.Dimension(568, 40));
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT);
+        flowLayout1.setAlignOnBaseline(true);
+        jPanel7.setLayout(flowLayout1);
 
-		jPanel9.setLayout(new java.awt.GridBagLayout());
+        jPanel9.setLayout(new java.awt.GridBagLayout());
 
-		btnAddGridInfo
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_006_user_add.png"))); // NOI18N
-		btnAddGridInfo.setMnemonic('+');
-		btnAddGridInfo
-				.setText(org.openide.util.NbBundle.getMessage(
-						GridMemoryDialog.class,
-						"GridMemoryDialog.btnAddGridInfo.text")); // NOI18N
-		btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(
-				GridMemoryDialog.class,
-				"GridMemoryDialog.btnAddGridInfo.toolTipText")); // NOI18N
-		btnAddGridInfo.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnAddGridInfoActionPerformed(evt);
-			}
-		});
-		jPanel9.add(btnAddGridInfo, new java.awt.GridBagConstraints());
+        btnAddGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_006_user_add.png"))); // NOI18N
+        btnAddGridInfo.setMnemonic('+');
+        btnAddGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGridInfo.text")); // NOI18N
+        btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGridInfo.toolTipText")); // NOI18N
+        btnAddGridInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddGridInfoActionPerformed(evt);
+            }
+        });
+        jPanel9.add(btnAddGridInfo, new java.awt.GridBagConstraints());
 
-		btnDeleteGridInfo
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_007_user_remove.png"))); // NOI18N
-		btnDeleteGridInfo.setMnemonic('-');
-		btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(
-				GridMemoryDialog.class,
-				"GridMemoryDialog.btnDeleteGridInfo.text")); // NOI18N
-		btnDeleteGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(
-				GridMemoryDialog.class,
-				"GridMemoryDialog.btnDeleteGridInfo.toolTipText")); // NOI18N
-		btnDeleteGridInfo.setEnabled(false);
-		btnDeleteGridInfo
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnDeleteGridInfoActionPerformed(evt);
-					}
-				});
-		jPanel9.add(btnDeleteGridInfo, new java.awt.GridBagConstraints());
+        btnDeleteGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_007_user_remove.png"))); // NOI18N
+        btnDeleteGridInfo.setMnemonic('-');
+        btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGridInfo.text")); // NOI18N
+        btnDeleteGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGridInfo.toolTipText")); // NOI18N
+        btnDeleteGridInfo.setEnabled(false);
+        btnDeleteGridInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteGridInfoActionPerformed(evt);
+            }
+        });
+        jPanel9.add(btnDeleteGridInfo, new java.awt.GridBagConstraints());
 
-		btnEdit.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_030_pencil.png"))); // NOI18N
-		btnEdit.setMnemonic('E');
-		btnEdit.setText(org.openide.util.NbBundle.getMessage(
-				GridMemoryDialog.class, "GridMemoryDialog.btnEdit.text")); // NOI18N
-		btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(
-				GridMemoryDialog.class, "GridMemoryDialog.btnEdit.toolTipText")); // NOI18N
-		btnEdit.setEnabled(false);
-		btnEdit.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnEditActionPerformed(evt);
-			}
-		});
-		jPanel9.add(btnEdit, new java.awt.GridBagConstraints());
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_030_pencil.png"))); // NOI18N
+        btnEdit.setMnemonic('E');
+        btnEdit.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.text")); // NOI18N
+        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.toolTipText")); // NOI18N
+        btnEdit.setEnabled(false);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        jPanel9.add(btnEdit, new java.awt.GridBagConstraints());
 
-		jPanel7.add(jPanel9);
+        jPanel7.add(jPanel9);
 
-		pnlGridInfoTable.add(jPanel7, java.awt.BorderLayout.SOUTH);
+        pnlGridInfoTable.add(jPanel7, java.awt.BorderLayout.SOUTH);
 
-		getContentPane().add(pnlGridInfoTable, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlGridInfoTable, java.awt.BorderLayout.CENTER);
 
-		pnlActions.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10,
-				2, 10));
-		pnlActions.setLayout(new java.awt.GridBagLayout());
+        pnlActions.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
+        pnlActions.setLayout(new java.awt.GridBagLayout());
 
-		btnCancel
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
-		btnCancel.setMnemonic('C');
-		btnCancel.setText(org.openide.util.NbBundle.getMessage(
-				GridMemoryDialog.class, "GridMemoryDialog.btnCancel.text_1")); // NOI18N
-		btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(
-				GridMemoryDialog.class,
-				"GridMemoryDialog.btnCancel.toolTipText")); // NOI18N
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		pnlActionsButtons.add(btnCancel);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('C');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.text_1")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlActionsButtons.add(btnCancel);
 
-		btnLogin.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_204_unlock.png"))); // NOI18N
-		btnLogin.setMnemonic('L');
-		btnLogin.setText(org.openide.util.NbBundle.getMessage(
-				GridMemoryDialog.class, "GridMemoryDialog.btnLogin.text")); // NOI18N
-		btnLogin.setToolTipText(org.openide.util.NbBundle
-				.getMessage(GridMemoryDialog.class,
-						"GridMemoryDialog.btnLogin.toolTipText")); // NOI18N
-		btnLogin.setEnabled(false);
-		btnLogin.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnLoginActionPerformed(evt);
-			}
-		});
-		pnlActionsButtons.add(btnLogin);
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_204_unlock.png"))); // NOI18N
+        btnLogin.setMnemonic('L');
+        btnLogin.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.text")); // NOI18N
+        btnLogin.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.toolTipText")); // NOI18N
+        btnLogin.setEnabled(false);
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+        pnlActionsButtons.add(btnLogin);
 
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.weightx = 0.9;
-		pnlActions.add(pnlActionsButtons, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.weightx = 0.9;
+        pnlActions.add(pnlActionsButtons, gridBagConstraints);
 
-		getContentPane().add(pnlActions, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlActions, java.awt.BorderLayout.SOUTH);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnAddGridInfoActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAddGridInfoActionPerformed
@@ -588,19 +525,18 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 				(int) dialog.getLocation().getY());
 		editGridInfoDialog.setVisible(true);
 	}// GEN-LAST:event_btnEditActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnAddGridInfo;
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnDeleteGridInfo;
-	private javax.swing.JButton btnEdit;
-	private javax.swing.JButton btnLogin;
-	private javax.swing.JPanel jPanel7;
-	private javax.swing.JPanel jPanel9;
-	private javax.swing.JScrollPane jScrollPane3;
-	private javax.swing.JPanel pnlActions;
-	private javax.swing.JPanel pnlActionsButtons;
-	private javax.swing.JPanel pnlGridInfoTable;
-	private javax.swing.JTable tableGridInfo;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddGridInfo;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDeleteGridInfo;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPanel pnlActions;
+    private javax.swing.JPanel pnlActionsButtons;
+    private javax.swing.JPanel pnlGridInfoTable;
+    private javax.swing.JTable tableGridInfo;
+    // End of variables declaration//GEN-END:variables
 }
