@@ -104,287 +104,207 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
 	 */
 
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-		pnlTop = new javax.swing.JPanel();
-		toolBarTop = new javax.swing.JToolBar();
-		btnRemoveSelected = new javax.swing.JButton();
-		filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-		btnCancel = new javax.swing.JButton();
-		filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-		btnRestartSelected = new javax.swing.JButton();
-		filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-		btnResubmitSelected = new javax.swing.JButton();
-		filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-		jSeparator3 = new javax.swing.JToolBar.Separator();
-		filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-		btnRefresh = new javax.swing.JButton();
-		filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-		filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-				new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-		pnlInfo = new javax.swing.JPanel();
-		pnlTransferDetails = new javax.swing.JPanel();
-		lblTransferDetails = new javax.swing.JLabel();
-		pnlTransferAttemptDetails = new javax.swing.JPanel();
-		lblTransferAttemptDetails = new javax.swing.JLabel();
-		transferTabs = new javax.swing.JTabbedPane();
-		pnlDashboard = new javax.swing.JPanel();
-		pnlTable = new javax.swing.JPanel();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		jTableAttempts = new javax.swing.JTable();
-		pnlBottom = new javax.swing.JPanel();
-		bntClose = new javax.swing.JButton();
+        pnlTop = new javax.swing.JPanel();
+        toolBarTop = new javax.swing.JToolBar();
+        btnRemoveSelected = new javax.swing.JButton();
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnCancel = new javax.swing.JButton();
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnRestartSelected = new javax.swing.JButton();
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnResubmitSelected = new javax.swing.JButton();
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        jSeparator3 = new javax.swing.JToolBar.Separator();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnRefresh = new javax.swing.JButton();
+        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        pnlInfo = new javax.swing.JPanel();
+        pnlTransferDetails = new javax.swing.JPanel();
+        lblTransferDetails = new javax.swing.JLabel();
+        pnlTransferAttemptDetails = new javax.swing.JPanel();
+        lblTransferAttemptDetails = new javax.swing.JLabel();
+        transferTabs = new javax.swing.JTabbedPane();
+        pnlDashboard = new javax.swing.JPanel();
+        pnlTable = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableAttempts = new javax.swing.JTable();
+        pnlBottom = new javax.swing.JPanel();
+        bntClose = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setPreferredSize(new java.awt.Dimension(1000, 800));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 800));
 
-		pnlTop.setLayout(new java.awt.BorderLayout());
+        pnlTop.setLayout(new java.awt.BorderLayout());
 
-		toolBarTop.setFloatable(false);
-		toolBarTop.setRollover(true);
+        toolBarTop.setFloatable(false);
+        toolBarTop.setRollover(true);
 
-		btnRemoveSelected
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
-		btnRemoveSelected.setMnemonic('d');
-		btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.btnRemoveSelected.text")); // NOI18N
-		btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.btnRemoveSelected.toolTipText")); // NOI18N
-		btnRemoveSelected.setFocusable(false);
-		btnRemoveSelected
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnRemoveSelected.setMaximumSize(new java.awt.Dimension(50, 50));
-		btnRemoveSelected.setMinimumSize(new java.awt.Dimension(50, 50));
-		btnRemoveSelected.setPreferredSize(new java.awt.Dimension(50, 50));
-		btnRemoveSelected
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnRemoveSelected
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnRemoveSelectedActionPerformed(evt);
-					}
-				});
-		toolBarTop.add(btnRemoveSelected);
-		toolBarTop.add(filler6);
+        btnRemoveSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnRemoveSelected.setMnemonic('d');
+        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRemoveSelected.text")); // NOI18N
+        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRemoveSelected.toolTipText")); // NOI18N
+        btnRemoveSelected.setFocusable(false);
+        btnRemoveSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRemoveSelected.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnRemoveSelected.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnRemoveSelected.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnRemoveSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveSelectedActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnRemoveSelected);
+        toolBarTop.add(filler6);
 
-		btnCancel
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_175_stop.png"))); // NOI18N
-		btnCancel.setMnemonic('l');
-		btnCancel.setText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.btnCancel.text")); // NOI18N
-		btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.btnCancel.toolTipText")); // NOI18N
-		btnCancel.setFocusable(false);
-		btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnCancel.setMaximumSize(new java.awt.Dimension(50, 50));
-		btnCancel.setMinimumSize(new java.awt.Dimension(50, 50));
-		btnCancel.setPreferredSize(new java.awt.Dimension(50, 50));
-		btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		toolBarTop.add(btnCancel);
-		toolBarTop.add(filler7);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_175_stop.png"))); // NOI18N
+        btnCancel.setMnemonic('l');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setFocusable(false);
+        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancel.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnCancel.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnCancel.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnCancel);
+        toolBarTop.add(filler7);
 
-		btnRestartSelected
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_085_repeat.png"))); // NOI18N
-		btnRestartSelected.setMnemonic('t');
-		btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.btnRestartSelected.text")); // NOI18N
-		btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.btnRestartSelected.toolTipText")); // NOI18N
-		btnRestartSelected.setFocusable(false);
-		btnRestartSelected
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnRestartSelected.setMaximumSize(new java.awt.Dimension(50, 50));
-		btnRestartSelected.setMinimumSize(new java.awt.Dimension(50, 50));
-		btnRestartSelected.setPreferredSize(new java.awt.Dimension(50, 50));
-		btnRestartSelected
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnRestartSelected
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnRestartSelectedActionPerformed(evt);
-					}
-				});
-		toolBarTop.add(btnRestartSelected);
-		toolBarTop.add(filler8);
+        btnRestartSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_085_repeat.png"))); // NOI18N
+        btnRestartSelected.setMnemonic('t');
+        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRestartSelected.text")); // NOI18N
+        btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRestartSelected.toolTipText")); // NOI18N
+        btnRestartSelected.setFocusable(false);
+        btnRestartSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRestartSelected.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnRestartSelected.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnRestartSelected.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnRestartSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRestartSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestartSelectedActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnRestartSelected);
+        toolBarTop.add(filler8);
 
-		btnResubmitSelected
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_434_redo.png"))); // NOI18N
-		btnResubmitSelected.setMnemonic('b');
-		btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.btnResubmitSelected.text")); // NOI18N
-		btnResubmitSelected
-				.setToolTipText(org.openide.util.NbBundle
-						.getMessage(TransferDashboardDialog.class,
-								"TransferDashboardDialog.btnResubmitSelected.toolTipText")); // NOI18N
-		btnResubmitSelected.setFocusable(false);
-		btnResubmitSelected
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnResubmitSelected.setMaximumSize(new java.awt.Dimension(50, 50));
-		btnResubmitSelected.setMinimumSize(new java.awt.Dimension(50, 50));
-		btnResubmitSelected.setPreferredSize(new java.awt.Dimension(50, 50));
-		btnResubmitSelected
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnResubmitSelected
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnResubmitSelectedActionPerformed(evt);
-					}
-				});
-		toolBarTop.add(btnResubmitSelected);
-		toolBarTop.add(filler9);
-		toolBarTop.add(jSeparator3);
-		toolBarTop.add(filler10);
+        btnResubmitSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_434_redo.png"))); // NOI18N
+        btnResubmitSelected.setMnemonic('b');
+        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnResubmitSelected.text")); // NOI18N
+        btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnResubmitSelected.toolTipText")); // NOI18N
+        btnResubmitSelected.setFocusable(false);
+        btnResubmitSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnResubmitSelected.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnResubmitSelected.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnResubmitSelected.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnResubmitSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnResubmitSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResubmitSelectedActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnResubmitSelected);
+        toolBarTop.add(filler9);
+        toolBarTop.add(jSeparator3);
+        toolBarTop.add(filler10);
 
-		btnRefresh
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
-		btnRefresh.setMnemonic('f');
-		btnRefresh.setText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.btnRefresh.text")); // NOI18N
-		btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.btnRefresh.toolTipText")); // NOI18N
-		btnRefresh.setFocusable(false);
-		btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnRefresh.setMaximumSize(new java.awt.Dimension(50, 50));
-		btnRefresh.setMinimumSize(new java.awt.Dimension(50, 50));
-		btnRefresh.setPreferredSize(new java.awt.Dimension(50, 50));
-		btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnRefreshActionPerformed(evt);
-			}
-		});
-		toolBarTop.add(btnRefresh);
-		toolBarTop.add(filler11);
-		toolBarTop.add(filler13);
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
+        btnRefresh.setMnemonic('f');
+        btnRefresh.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRefresh.text")); // NOI18N
+        btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.btnRefresh.toolTipText")); // NOI18N
+        btnRefresh.setFocusable(false);
+        btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRefresh.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnRefresh.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnRefresh.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+        toolBarTop.add(btnRefresh);
+        toolBarTop.add(filler11);
+        toolBarTop.add(filler13);
 
-		pnlTop.add(toolBarTop, java.awt.BorderLayout.NORTH);
+        pnlTop.add(toolBarTop, java.awt.BorderLayout.NORTH);
 
-		pnlInfo.setLayout(new java.awt.BorderLayout());
+        pnlInfo.setLayout(new java.awt.BorderLayout());
 
-		lblTransferDetails.setText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.lblTransferDetails.text")); // NOI18N
-		pnlTransferDetails.add(lblTransferDetails);
+        lblTransferDetails.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.lblTransferDetails.text")); // NOI18N
+        pnlTransferDetails.add(lblTransferDetails);
 
-		pnlInfo.add(pnlTransferDetails, java.awt.BorderLayout.CENTER);
+        pnlInfo.add(pnlTransferDetails, java.awt.BorderLayout.CENTER);
 
-		lblTransferAttemptDetails.setText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.lblTransferAttemptDetails.text")); // NOI18N
-		pnlTransferAttemptDetails.add(lblTransferAttemptDetails);
+        lblTransferAttemptDetails.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.lblTransferAttemptDetails.text")); // NOI18N
+        pnlTransferAttemptDetails.add(lblTransferAttemptDetails);
 
-		pnlInfo.add(pnlTransferAttemptDetails, java.awt.BorderLayout.CENTER);
+        pnlInfo.add(pnlTransferAttemptDetails, java.awt.BorderLayout.CENTER);
 
-		pnlTop.add(pnlInfo, java.awt.BorderLayout.CENTER);
+        pnlTop.add(pnlInfo, java.awt.BorderLayout.CENTER);
 
-		getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
+        getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
 
-		pnlDashboard.setPreferredSize(new java.awt.Dimension(700, 400));
-		pnlDashboard.setLayout(new java.awt.GridLayout(1, 0));
-		transferTabs
-				.addTab(org.openide.util.NbBundle
-						.getMessage(TransferDashboardDialog.class,
-								"TransferDashboardDialog.pnlDashboard.TabConstraints.tabTitle"),
-						pnlDashboard); // NOI18N
+        pnlDashboard.setPreferredSize(new java.awt.Dimension(700, 400));
+        pnlDashboard.setLayout(new java.awt.GridLayout(1, 0));
+        transferTabs.addTab(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.pnlDashboard.TabConstraints.tabTitle"), pnlDashboard); // NOI18N
 
-		pnlTable.addComponentListener(new java.awt.event.ComponentAdapter() {
-			@Override
-			public void componentShown(final java.awt.event.ComponentEvent evt) {
-				pnlTableComponentShown(evt);
-			}
-		});
-		pnlTable.setLayout(new java.awt.GridLayout(1, 0));
+        pnlTable.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                pnlTableComponentShown(evt);
+            }
+        });
+        pnlTable.setLayout(new java.awt.GridLayout(1, 0));
 
-		jTableAttempts.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] { { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null } }, new String[] { "Title 1",
-						"Title 2", "Title 3", "Title 4" }));
-		jTableAttempts
-				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-		jScrollPane1.setViewportView(jTableAttempts);
+        jTableAttempts.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableAttempts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(jTableAttempts);
 
-		pnlTable.add(jScrollPane1);
+        pnlTable.add(jScrollPane1);
 
-		transferTabs.addTab(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.pnlTable.TabConstraints.tabTitle"),
-				pnlTable); // NOI18N
+        transferTabs.addTab(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.pnlTable.TabConstraints.tabTitle"), pnlTable); // NOI18N
 
-		getContentPane().add(transferTabs, java.awt.BorderLayout.CENTER);
+        getContentPane().add(transferTabs, java.awt.BorderLayout.CENTER);
 
-		pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		bntClose.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-		bntClose.setMnemonic('l');
-		bntClose.setText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.bntClose.text")); // NOI18N
-		bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(
-				TransferDashboardDialog.class,
-				"TransferDashboardDialog.bntClose.toolTipText")); // NOI18N
-		bntClose.setFocusable(false);
-		bntClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		bntClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		bntClose.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				bntCloseActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(bntClose);
+        bntClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        bntClose.setMnemonic('l');
+        bntClose.setText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.bntClose.text")); // NOI18N
+        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferDashboardDialog.class, "TransferDashboardDialog.bntClose.toolTipText")); // NOI18N
+        bntClose.setFocusable(false);
+        bntClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bntClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        bntClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntCloseActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(bntClose);
 
-		getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnRemoveSelectedActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRemoveSelectedActionPerformed
@@ -508,36 +428,35 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
 		this.jTableAttempts = jTableAttempts;
 	}
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton bntClose;
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnRefresh;
-	private javax.swing.JButton btnRemoveSelected;
-	private javax.swing.JButton btnRestartSelected;
-	private javax.swing.JButton btnResubmitSelected;
-	private javax.swing.Box.Filler filler10;
-	private javax.swing.Box.Filler filler11;
-	private javax.swing.Box.Filler filler13;
-	private javax.swing.Box.Filler filler6;
-	private javax.swing.Box.Filler filler7;
-	private javax.swing.Box.Filler filler8;
-	private javax.swing.Box.Filler filler9;
-	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JToolBar.Separator jSeparator3;
-	private javax.swing.JTable jTableAttempts;
-	private javax.swing.JLabel lblTransferAttemptDetails;
-	private javax.swing.JLabel lblTransferDetails;
-	private javax.swing.JPanel pnlBottom;
-	private javax.swing.JPanel pnlDashboard;
-	private javax.swing.JPanel pnlInfo;
-	private javax.swing.JPanel pnlTable;
-	private javax.swing.JPanel pnlTop;
-	private javax.swing.JPanel pnlTransferAttemptDetails;
-	private javax.swing.JPanel pnlTransferDetails;
-	private javax.swing.JToolBar toolBarTop;
-	private javax.swing.JTabbedPane transferTabs;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bntClose;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnRemoveSelected;
+    private javax.swing.JButton btnRestartSelected;
+    private javax.swing.JButton btnResubmitSelected;
+    private javax.swing.Box.Filler filler10;
+    private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler13;
+    private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JTable jTableAttempts;
+    private javax.swing.JLabel lblTransferAttemptDetails;
+    private javax.swing.JLabel lblTransferDetails;
+    private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlDashboard;
+    private javax.swing.JPanel pnlInfo;
+    private javax.swing.JPanel pnlTable;
+    private javax.swing.JPanel pnlTop;
+    private javax.swing.JPanel pnlTransferAttemptDetails;
+    private javax.swing.JPanel pnlTransferDetails;
+    private javax.swing.JToolBar toolBarTop;
+    private javax.swing.JTabbedPane transferTabs;
+    // End of variables declaration//GEN-END:variables
 
 	private void initData() {
 		log.info("initData()");
@@ -554,15 +473,7 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
 			@Override
 			public void run() {
 
-				if (myPanel == null) {
-					myPanel = new MyPanel(transfer, dialog);
-					myPanel.setSize(800, 600);
-					myPanel.setBackground(Color.WHITE);
-					pnlDashboard.add(myPanel);
-				} else {
-					myPanel = new MyPanel(transfer, dialog);
-				}
-				dialog.repaint();
+				
 			}
 		});
 	}
@@ -580,294 +491,4 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
 	}
 }
 
-class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8512815806313201986L;
-	private final Transfer transfer;
-	private final List<AttemptRectangle> rectangles = new ArrayList<AttemptRectangle>();
-	private final TransferDashboardDialog transferDashboardDialog;
-
-	public MyPanel(final Transfer transfer,
-			final TransferDashboardDialog transferDashboardDialog) {
-		this.transfer = transfer;
-		this.transferDashboardDialog = transferDashboardDialog;
-		setBackground(Color.white);
-		addMouseMotionListener(this);
-		addMouseListener(this);
-	}
-
-	@Override
-	protected void paintComponent(final Graphics g) {
-		log.info("getting layout info for dashboard");
-		TransferDashboardLayout layout = DashboardLayoutService
-				.layoutDashboard(transfer);
-		log.info("layout:{}", layout);
-
-		Graphics2D g2 = (Graphics2D) g;
-		int width = getWidth();
-		int height = getHeight();
-		g2.clearRect(0, 0, width, height);
-		int nextX = 0;
-		int nextY = 0;
-
-		int gap = layout.getDashboardAttempts().size() * 5;
-
-		width = width - gap;
-
-		for (DashboardAttempt attempt : layout.getDashboardAttempts()) {
-			// set fill grey for skipped
-			g2.setColor(Color.BLUE);
-
-			int widthThisBar = Math.round(width
-					* (attempt.getPercentWidth() / 100));
-
-			if (widthThisBar == 0) {
-				widthThisBar = 50;
-			}
-
-			int heightSkipped = 0;
-			int heightTransferred = 0;
-			int heightError = 0;
-			nextY = height;
-
-			if (attempt.getPercentHeightSkipped() > 0) {
-
-				heightSkipped = Math.round(height
-						* (attempt.getPercentHeightSkipped() / 100));
-
-				if (heightSkipped == 0) {
-					heightSkipped = 2;
-				}
-
-				Rectangle skippedRectangle = new Rectangle(nextX, nextY
-						- heightSkipped, widthThisBar, heightSkipped);
-				AttemptRectangle attemptRectangle = new AttemptRectangle();
-
-				attemptRectangle.setShape(skippedRectangle);
-				attemptRectangle.setDashboardAttempt(attempt);
-				attemptRectangle.setType(AttemptRectangle.Type.SKIPPED);
-				rectangles.add(attemptRectangle);
-
-				g2.fill(skippedRectangle);
-
-				nextY -= heightSkipped;
-			}
-
-			if (attempt.getPercentHeightTransferred() > 0) {
-				g2.setColor(Color.GREEN);
-				heightTransferred = Math.round(height
-						* (attempt.getPercentHeightTransferred() / 100));
-
-				if (heightTransferred == 0) {
-					heightTransferred = 2;
-				}
-
-				Rectangle transferredRectangle = new Rectangle(nextX, nextY
-						- heightTransferred, widthThisBar, heightTransferred);
-				AttemptRectangle attemptRectangle = new AttemptRectangle();
-
-				attemptRectangle.setShape(transferredRectangle);
-				attemptRectangle.setDashboardAttempt(attempt);
-				attemptRectangle.setType(AttemptRectangle.Type.TRANSFERRED);
-				rectangles.add(attemptRectangle);
-
-				g2.fill(transferredRectangle);
-
-				nextY -= heightTransferred;
-
-			}
-
-			if (attempt.getPercentHeightError() > 0
-					|| attempt.getTransferAttempt().getAttemptStatus() == TransferStatusEnum.ERROR) {
-
-				g2.setColor(Color.RED);
-				heightError = Math.round(height
-						* (attempt.getPercentHeightError() / 100));
-
-				if (heightError == 0) {
-					heightError = 10;
-				}
-
-				Rectangle errorRectangle = new Rectangle(nextX, nextY
-						- heightError, widthThisBar, heightError);
-				AttemptRectangle attemptRectangle = new AttemptRectangle();
-
-				attemptRectangle.setShape(errorRectangle);
-				attemptRectangle.setDashboardAttempt(attempt);
-				attemptRectangle.setType(AttemptRectangle.Type.ERROR);
-				rectangles.add(attemptRectangle);
-
-				g2.fill(errorRectangle);
-			}
-
-			nextX += widthThisBar + 5;
-
-		}
-	}
-
-	@Override
-	public void mouseClicked(final MouseEvent me) {
-
-		if (rectangles == null) {
-			return;
-		}
-
-		// log.info("point entered:{}", me.getPoint());
-
-		for (AttemptRectangle attemptRectangle : rectangles) {
-			if (attemptRectangle.contains(me.getPoint())) {
-				log.info("click the rectangle for:{}", attemptRectangle);
-				transferDashboardDialog
-						.showTransferAttemptDetailsDialog(attemptRectangle
-								.getDashboardAttempt().getTransferAttempt());
-				break;
-			}
-		}
-	}
-
-	@Override
-	public void mousePressed(final MouseEvent me) {
-	}
-
-	@Override
-	public void mouseReleased(final MouseEvent me) {
-	}
-
-	@Override
-	public void mouseEntered(final MouseEvent me) {
-	}
-
-	@Override
-	public void mouseExited(final MouseEvent me) {
-	}
-
-	@Override
-	public void mouseDragged(final MouseEvent me) {
-	}
-
-	@Override
-	public void mouseMoved(final MouseEvent me) {
-		if (rectangles == null) {
-			return;
-		}
-
-		// log.info("point entered:{}", me.getPoint());
-
-		for (AttemptRectangle attemptRectangle : rectangles) {
-			if (attemptRectangle.contains(me.getPoint())) {
-				// log.info("contains the rectangle for:{}", attemptRectangle);
-
-				TransferInformationMessageBuilder.AttemptType attemptType;
-
-				if (attemptRectangle.getType() == AttemptRectangle.Type.ERROR) {
-					attemptType = AttemptType.ERROR;
-				} else if (attemptRectangle.getType() == AttemptRectangle.Type.SKIPPED) {
-					attemptType = AttemptType.SKIPPED;
-				} else {
-					attemptType = AttemptType.TRANSFERRED;
-				}
-
-				String msg = TransferInformationMessageBuilder
-						.buildTransferAttemptSummary(attemptRectangle
-								.getDashboardAttempt().getTransferAttempt(),
-								attemptType);
-
-				transferDashboardDialog.setTransferAttemptDetails(msg);
-
-				break;
-			}
-		}
-	}
-}
-
-class AttemptRectangle {
-
-	public enum Type {
-
-		TRANSFERRED, SKIPPED, ERROR
-	}
-
-	private Rectangle2D shape;
-	private DashboardAttempt dashboardAttempt;
-	private Type type;
-
-	public Rectangle2D getShape() {
-		return shape;
-	}
-
-	public void setShape(final Rectangle2D shape) {
-		this.shape = shape;
-	}
-
-	public DashboardAttempt getDashboardAttempt() {
-		return dashboardAttempt;
-	}
-
-	public void setDashboardAttempt(final DashboardAttempt dashboardAttempt) {
-		this.dashboardAttempt = dashboardAttempt;
-	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(final Type type) {
-		this.type = type;
-	}
-
-	public boolean contains(final Point point) {
-
-		boolean contains = false;
-		if (shape.contains(point.x, point.y)) {
-			contains = true;
-		}
-
-		return contains;
-
-	}
-}
-
-class SharedListSelectionHandler implements ListSelectionListener {
-
-	private final TransferDashboardDialog transferDashboardDialog;
-
-	public SharedListSelectionHandler(
-			final TransferDashboardDialog transferDashboardDialog) {
-		this.transferDashboardDialog = transferDashboardDialog;
-	}
-
-	@Override
-	public void valueChanged(final ListSelectionEvent e) {
-		ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-		TransferAttemptTableModel tm = (TransferAttemptTableModel) transferDashboardDialog
-				.getjTableAttempts().getModel();
-
-		int firstIndex = e.getFirstIndex();
-		int lastIndex = e.getLastIndex();
-		boolean isAdjusting = e.getValueIsAdjusting();
-		log.info("Event for indexes " + firstIndex + " - " + lastIndex
-				+ "; isAdjusting is " + isAdjusting + "; selected indexes:");
-
-		if (lsm.isSelectionEmpty()) {
-			log.info(" <none>");
-		} else {
-			// Find out which indexes are selected.
-			int minIndex = lsm.getMinSelectionIndex();
-			int maxIndex = lsm.getMaxSelectionIndex();
-			for (int i = minIndex; i <= maxIndex; i++) {
-				if (lsm.isSelectedIndex(i)) {
-					TransferAttempt transferAttempt = tm
-							.getTransferAttemptAtRow(i);
-
-					log.info("got atempt:{}", transferAttempt);
-					transferDashboardDialog
-							.showTransferAttemptDetailsDialog(transferAttempt);
-
-				}
-			}
-		}
-	}
-}

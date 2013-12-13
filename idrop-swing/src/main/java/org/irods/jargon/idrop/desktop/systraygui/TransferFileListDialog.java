@@ -55,519 +55,417 @@ public class TransferFileListDialog extends javax.swing.JDialog {
 
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		pnlMain = new javax.swing.JPanel();
-		pnlTransferAttemptDetails = new javax.swing.JPanel();
-		lblAttemptIdLabel = new javax.swing.JLabel();
-		lblAttemptId = new javax.swing.JLabel();
-		lblSequenceNumberLabel = new javax.swing.JLabel();
-		lblSequenceNumber = new javax.swing.JLabel();
-		lblTransferIdLabel = new javax.swing.JLabel();
-		lblTransferId = new javax.swing.JLabel();
-		lblTransferTypeLabel = new javax.swing.JLabel();
-		lblTransferType = new javax.swing.JLabel();
-		lblSourceLabel = new javax.swing.JLabel();
-		lblSource = new javax.swing.JLabel();
-		lblTargetLabel = new javax.swing.JLabel();
-		lblTarget = new javax.swing.JLabel();
-		lblResourceLabel = new javax.swing.JLabel();
-		lblResource = new javax.swing.JLabel();
-		lblSummary = new javax.swing.JLabel();
-		lblProcessingStateLabel = new javax.swing.JLabel();
-		lblProcessingState = new javax.swing.JLabel();
-		lblStatusLabel = new javax.swing.JLabel();
-		lblStatus = new javax.swing.JLabel();
-		lblAttemptStarttLabel = new javax.swing.JLabel();
-		lblAttemptStart = new javax.swing.JLabel();
-		lblAttemptEndLabel = new javax.swing.JLabel();
-		lblAttemptEnd = new javax.swing.JLabel();
-		lblErrorMessage = new javax.swing.JLabel();
-		lblAttemptTypeLabel = new javax.swing.JLabel();
-		lblAttemptType = new javax.swing.JLabel();
-		lblSourceNameLabel = new javax.swing.JLabel();
-		lblSourceName = new javax.swing.JLabel();
-		lblTargetNameLabel = new javax.swing.JLabel();
-		lblLengthLabel = new javax.swing.JLabel();
-		lblLength = new javax.swing.JLabel();
-		lblErrorMessageLabel = new javax.swing.JLabel();
-		lblItemErrorMessage = new javax.swing.JLabel();
-		btnShowErrorDetails = new javax.swing.JButton();
-		lblTargetName = new javax.swing.JLabel();
-		pnlList = new javax.swing.JPanel();
-		jScrollPane2 = new javax.swing.JScrollPane();
-		tblItemList = new javax.swing.JTable();
-		pnlButtons = new javax.swing.JPanel();
-		btnPrevPage = new javax.swing.JButton();
-		btnNextPage = new javax.swing.JButton();
-		btnClose = new javax.swing.JButton();
+        pnlMain = new javax.swing.JPanel();
+        pnlTransferAttemptDetails = new javax.swing.JPanel();
+        lblAttemptIdLabel = new javax.swing.JLabel();
+        lblAttemptId = new javax.swing.JLabel();
+        lblSequenceNumberLabel = new javax.swing.JLabel();
+        lblSequenceNumber = new javax.swing.JLabel();
+        lblTransferIdLabel = new javax.swing.JLabel();
+        lblTransferId = new javax.swing.JLabel();
+        lblTransferTypeLabel = new javax.swing.JLabel();
+        lblTransferType = new javax.swing.JLabel();
+        lblSourceLabel = new javax.swing.JLabel();
+        lblSource = new javax.swing.JLabel();
+        lblTargetLabel = new javax.swing.JLabel();
+        lblTarget = new javax.swing.JLabel();
+        lblResourceLabel = new javax.swing.JLabel();
+        lblResource = new javax.swing.JLabel();
+        lblSummary = new javax.swing.JLabel();
+        lblProcessingStateLabel = new javax.swing.JLabel();
+        lblProcessingState = new javax.swing.JLabel();
+        lblStatusLabel = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
+        lblAttemptStarttLabel = new javax.swing.JLabel();
+        lblAttemptStart = new javax.swing.JLabel();
+        lblAttemptEndLabel = new javax.swing.JLabel();
+        lblAttemptEnd = new javax.swing.JLabel();
+        lblErrorMessage = new javax.swing.JLabel();
+        lblAttemptTypeLabel = new javax.swing.JLabel();
+        lblAttemptType = new javax.swing.JLabel();
+        lblSourceNameLabel = new javax.swing.JLabel();
+        lblSourceName = new javax.swing.JLabel();
+        lblTargetNameLabel = new javax.swing.JLabel();
+        lblLengthLabel = new javax.swing.JLabel();
+        lblLength = new javax.swing.JLabel();
+        lblErrorMessageLabel = new javax.swing.JLabel();
+        lblItemErrorMessage = new javax.swing.JLabel();
+        btnShowErrorDetails = new javax.swing.JButton();
+        lblTargetName = new javax.swing.JLabel();
+        pnlList = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblItemList = new javax.swing.JTable();
+        pnlButtons = new javax.swing.JPanel();
+        btnPrevPage = new javax.swing.JButton();
+        btnNextPage = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setPreferredSize(new java.awt.Dimension(1000, 800));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 800));
 
-		pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4,
-				4));
-		pnlMain.setPreferredSize(new java.awt.Dimension(1000, 400));
-		pnlMain.setLayout(new java.awt.BorderLayout());
+        pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        pnlMain.setPreferredSize(new java.awt.Dimension(1000, 400));
+        pnlMain.setLayout(new java.awt.BorderLayout());
 
-		pnlTransferAttemptDetails.setLayout(new java.awt.GridBagLayout());
+        pnlTransferAttemptDetails.setLayout(new java.awt.GridBagLayout());
 
-		lblAttemptIdLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblAttemptIdLabel
-				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		lblAttemptIdLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblAttemptIdLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblAttemptIdLabel, gridBagConstraints);
+        lblAttemptIdLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblAttemptIdLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblAttemptIdLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblAttemptIdLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblAttemptIdLabel, gridBagConstraints);
 
-		lblAttemptId.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblAttemptId.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblAttemptId, gridBagConstraints);
+        lblAttemptId.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblAttemptId.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblAttemptId, gridBagConstraints);
 
-		lblSequenceNumberLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblSequenceNumberLabel
-				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		lblSequenceNumberLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblSequenceNumberLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblSequenceNumberLabel,
-				gridBagConstraints);
+        lblSequenceNumberLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblSequenceNumberLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSequenceNumberLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblSequenceNumberLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblSequenceNumberLabel, gridBagConstraints);
 
-		lblSequenceNumber.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblSequenceNumber.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 4;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblSequenceNumber, gridBagConstraints);
+        lblSequenceNumber.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblSequenceNumber.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblSequenceNumber, gridBagConstraints);
 
-		lblTransferIdLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblTransferIdLabel
-				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		lblTransferIdLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblTransferIdLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblTransferIdLabel, gridBagConstraints);
+        lblTransferIdLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblTransferIdLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTransferIdLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTransferIdLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblTransferIdLabel, gridBagConstraints);
 
-		lblTransferId.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblTransferId.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblTransferId, gridBagConstraints);
+        lblTransferId.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTransferId.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblTransferId, gridBagConstraints);
 
-		lblTransferTypeLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblTransferTypeLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblTransferTypeLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblTransferTypeLabel, gridBagConstraints);
+        lblTransferTypeLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblTransferTypeLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTransferTypeLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblTransferTypeLabel, gridBagConstraints);
 
-		lblTransferType.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblTransferType.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 4;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblTransferType, gridBagConstraints);
+        lblTransferType.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTransferType.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblTransferType, gridBagConstraints);
 
-		lblSourceLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblSourceLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblSourceLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 8;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(20, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblSourceLabel, gridBagConstraints);
+        lblSourceLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblSourceLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblSourceLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblSourceLabel, gridBagConstraints);
 
-		lblSource.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblSource.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 8;
-		gridBagConstraints.gridwidth = 5;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-		pnlTransferAttemptDetails.add(lblSource, gridBagConstraints);
+        lblSource.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblSource.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferAttemptDetails.add(lblSource, gridBagConstraints);
 
-		lblTargetLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblTargetLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblTargetLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 9;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblTargetLabel, gridBagConstraints);
+        lblTargetLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblTargetLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTargetLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblTargetLabel, gridBagConstraints);
 
-		lblTarget.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblTarget.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 9;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblTarget, gridBagConstraints);
+        lblTarget.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTarget.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblTarget, gridBagConstraints);
 
-		lblResourceLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblResourceLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblResourceLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 10;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblResourceLabel, gridBagConstraints);
+        lblResourceLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblResourceLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblResourceLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblResourceLabel, gridBagConstraints);
 
-		lblResource.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblResource.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 10;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblResource, gridBagConstraints);
+        lblResource.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblResource.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblResource, gridBagConstraints);
 
-		lblSummary.setForeground(new java.awt.Color(51, 51, 255));
-		lblSummary.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblSummary.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 6;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.ipady = 13;
-		pnlTransferAttemptDetails.add(lblSummary, gridBagConstraints);
+        lblSummary.setForeground(new java.awt.Color(51, 51, 255));
+        lblSummary.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblSummary.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipady = 13;
+        pnlTransferAttemptDetails.add(lblSummary, gridBagConstraints);
 
-		lblProcessingStateLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblProcessingStateLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblProcessingStateLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblProcessingStateLabel,
-				gridBagConstraints);
+        lblProcessingStateLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblProcessingStateLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblProcessingStateLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblProcessingStateLabel, gridBagConstraints);
 
-		lblProcessingState.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblProcessingState.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblProcessingState, gridBagConstraints);
+        lblProcessingState.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblProcessingState.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblProcessingState, gridBagConstraints);
 
-		lblStatusLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblStatusLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblStatusLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblStatusLabel, gridBagConstraints);
+        lblStatusLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblStatusLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblStatusLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblStatusLabel, gridBagConstraints);
 
-		lblStatus.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblStatus.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 4;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblStatus, gridBagConstraints);
+        lblStatus.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblStatus.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblStatus, gridBagConstraints);
 
-		lblAttemptStarttLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblAttemptStarttLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblAttemptStarttLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails
-				.add(lblAttemptStarttLabel, gridBagConstraints);
+        lblAttemptStarttLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblAttemptStarttLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblAttemptStarttLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblAttemptStarttLabel, gridBagConstraints);
 
-		lblAttemptStart.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblAttemptStart.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblAttemptStart, gridBagConstraints);
+        lblAttemptStart.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblAttemptStart.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblAttemptStart, gridBagConstraints);
 
-		lblAttemptEndLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblAttemptEndLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblAttemptEndLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-		pnlTransferAttemptDetails.add(lblAttemptEndLabel, gridBagConstraints);
+        lblAttemptEndLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblAttemptEndLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblAttemptEndLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnlTransferAttemptDetails.add(lblAttemptEndLabel, gridBagConstraints);
 
-		lblAttemptEnd.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblAttemptEnd.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 4;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblAttemptEnd, gridBagConstraints);
+        lblAttemptEnd.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblAttemptEnd.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblAttemptEnd, gridBagConstraints);
 
-		lblErrorMessage.setForeground(new java.awt.Color(255, 0, 0));
-		lblErrorMessage.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblErrorMessage.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 7;
-		gridBagConstraints.gridwidth = 9;
-		pnlTransferAttemptDetails.add(lblErrorMessage, gridBagConstraints);
+        lblErrorMessage.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorMessage.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblErrorMessage.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 9;
+        pnlTransferAttemptDetails.add(lblErrorMessage, gridBagConstraints);
 
-		lblAttemptTypeLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblAttemptTypeLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblAttemptTypeLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 4;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-		pnlTransferAttemptDetails.add(lblAttemptTypeLabel, gridBagConstraints);
+        lblAttemptTypeLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblAttemptTypeLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblAttemptTypeLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlTransferAttemptDetails.add(lblAttemptTypeLabel, gridBagConstraints);
 
-		lblAttemptType.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblAttemptType.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 4;
-		gridBagConstraints.gridwidth = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblAttemptType, gridBagConstraints);
+        lblAttemptType.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblAttemptType.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblAttemptType, gridBagConstraints);
 
-		lblSourceNameLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblSourceNameLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblSourceNameLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 12;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 5);
-		pnlTransferAttemptDetails.add(lblSourceNameLabel, gridBagConstraints);
+        lblSourceNameLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblSourceNameLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblSourceNameLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 5);
+        pnlTransferAttemptDetails.add(lblSourceNameLabel, gridBagConstraints);
 
-		lblSourceName.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblSourceName.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 12;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-		pnlTransferAttemptDetails.add(lblSourceName, gridBagConstraints);
+        lblSourceName.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblSourceName.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        pnlTransferAttemptDetails.add(lblSourceName, gridBagConstraints);
 
-		lblTargetNameLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblTargetNameLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblTargetNameLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 13;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-		pnlTransferAttemptDetails.add(lblTargetNameLabel, gridBagConstraints);
+        lblTargetNameLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblTargetNameLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTargetNameLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlTransferAttemptDetails.add(lblTargetNameLabel, gridBagConstraints);
 
-		lblLengthLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblLengthLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblLengthLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 14;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-		pnlTransferAttemptDetails.add(lblLengthLabel, gridBagConstraints);
+        lblLengthLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblLengthLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblLengthLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlTransferAttemptDetails.add(lblLengthLabel, gridBagConstraints);
 
-		lblLength.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblLength.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 14;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblLength, gridBagConstraints);
+        lblLength.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblLength.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblLength, gridBagConstraints);
 
-		lblErrorMessageLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-		lblErrorMessageLabel.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblErrorMessageLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 15;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-		pnlTransferAttemptDetails.add(lblErrorMessageLabel, gridBagConstraints);
+        lblErrorMessageLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblErrorMessageLabel.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblErrorMessageLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlTransferAttemptDetails.add(lblErrorMessageLabel, gridBagConstraints);
 
-		lblItemErrorMessage.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblItemErrorMessage.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 15;
-		gridBagConstraints.gridwidth = 4;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblItemErrorMessage, gridBagConstraints);
+        lblItemErrorMessage.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblItemErrorMessage.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblItemErrorMessage, gridBagConstraints);
 
-		btnShowErrorDetails.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.btnShowErrorDetails.text")); // NOI18N
-		btnShowErrorDetails
-				.setToolTipText(org.openide.util.NbBundle
-						.getMessage(TransferFileListDialog.class,
-								"TransferFileListDialog.btnShowErrorDetails.toolTipText")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 10;
-		gridBagConstraints.gridy = 15;
-		pnlTransferAttemptDetails.add(btnShowErrorDetails, gridBagConstraints);
+        btnShowErrorDetails.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnShowErrorDetails.text")); // NOI18N
+        btnShowErrorDetails.setToolTipText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnShowErrorDetails.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 15;
+        pnlTransferAttemptDetails.add(btnShowErrorDetails, gridBagConstraints);
 
-		lblTargetName.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.lblTargetName.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 13;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTransferAttemptDetails.add(lblTargetName, gridBagConstraints);
+        lblTargetName.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.lblTargetName.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTransferAttemptDetails.add(lblTargetName, gridBagConstraints);
 
-		pnlMain.add(pnlTransferAttemptDetails, java.awt.BorderLayout.NORTH);
+        pnlMain.add(pnlTransferAttemptDetails, java.awt.BorderLayout.NORTH);
 
-		pnlList.setPreferredSize(new java.awt.Dimension(500, 300));
-		pnlList.setLayout(new java.awt.BorderLayout());
+        pnlList.setPreferredSize(new java.awt.Dimension(500, 300));
+        pnlList.setLayout(new java.awt.BorderLayout());
 
-		tblItemList.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] {
+        tblItemList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-				}, new String[] {
+            },
+            new String [] {
 
-				}));
-		jScrollPane2.setViewportView(tblItemList);
+            }
+        ));
+        jScrollPane2.setViewportView(tblItemList);
 
-		pnlList.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        pnlList.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-		pnlMain.add(pnlList, java.awt.BorderLayout.CENTER);
+        pnlMain.add(pnlList, java.awt.BorderLayout.CENTER);
 
-		btnPrevPage
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_172_rewind.png"))); // NOI18N
-		btnPrevPage.setMnemonic('S');
-		btnPrevPage.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.btnPrevPage.text")); // NOI18N
-		btnPrevPage.setMaximumSize(null);
-		btnPrevPage.setMinimumSize(null);
-		btnPrevPage.setPreferredSize(new java.awt.Dimension(40, 40));
-		btnPrevPage.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnPrevPageActionPerformed(evt);
-			}
-		});
-		pnlButtons.add(btnPrevPage);
+        btnPrevPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_172_rewind.png"))); // NOI18N
+        btnPrevPage.setMnemonic('S');
+        btnPrevPage.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnPrevPage.text")); // NOI18N
+        btnPrevPage.setMaximumSize(null);
+        btnPrevPage.setMinimumSize(null);
+        btnPrevPage.setPreferredSize(new java.awt.Dimension(40, 40));
+        btnPrevPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevPageActionPerformed(evt);
+            }
+        });
+        pnlButtons.add(btnPrevPage);
 
-		btnNextPage
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_176_forward.png"))); // NOI18N
-		btnNextPage.setMnemonic('<');
-		btnNextPage.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.btnNextPage.text")); // NOI18N
-		btnNextPage.setToolTipText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.btnNextPage.toolTipText")); // NOI18N
-		btnNextPage.setMaximumSize(null);
-		btnNextPage.setMinimumSize(null);
-		btnNextPage.setPreferredSize(new java.awt.Dimension(40, 40));
-		btnNextPage.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnNextPageActionPerformed(evt);
-			}
-		});
-		pnlButtons.add(btnNextPage);
+        btnNextPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_176_forward.png"))); // NOI18N
+        btnNextPage.setMnemonic('<');
+        btnNextPage.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnNextPage.text")); // NOI18N
+        btnNextPage.setToolTipText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnNextPage.toolTipText")); // NOI18N
+        btnNextPage.setMaximumSize(null);
+        btnNextPage.setMinimumSize(null);
+        btnNextPage.setPreferredSize(new java.awt.Dimension(40, 40));
+        btnNextPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextPageActionPerformed(evt);
+            }
+        });
+        pnlButtons.add(btnNextPage);
 
-		btnClose.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-		btnClose.setMnemonic('O');
-		btnClose.setText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.btnClose.text")); // NOI18N
-		btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(
-				TransferFileListDialog.class,
-				"TransferFileListDialog.btnClose.toolTipText")); // NOI18N
-		btnClose.setMaximumSize(null);
-		btnClose.setMinimumSize(null);
-		btnClose.setPreferredSize(new java.awt.Dimension(40, 40));
-		btnClose.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCloseActionPerformed(evt);
-			}
-		});
-		pnlButtons.add(btnClose);
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnClose.setMnemonic('O');
+        btnClose.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnClose.text")); // NOI18N
+        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnClose.toolTipText")); // NOI18N
+        btnClose.setMaximumSize(null);
+        btnClose.setMinimumSize(null);
+        btnClose.setPreferredSize(new java.awt.Dimension(40, 40));
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        pnlButtons.add(btnClose);
 
-		pnlMain.add(pnlButtons, java.awt.BorderLayout.SOUTH);
+        pnlMain.add(pnlButtons, java.awt.BorderLayout.SOUTH);
 
-		getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnNextPageActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNextPageActionPerformed
 		try {
@@ -588,54 +486,52 @@ public class TransferFileListDialog extends javax.swing.JDialog {
 	private void btnCloseActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCloseActionPerformed
 		dispose();
 	}// GEN-LAST:event_btnCloseActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnClose;
-	private javax.swing.JButton btnNextPage;
-	private javax.swing.JButton btnPrevPage;
-	private javax.swing.JButton btnShowErrorDetails;
-	private javax.swing.JScrollPane jScrollPane2;
-	private javax.swing.JLabel lblAttemptEnd;
-	private javax.swing.JLabel lblAttemptEndLabel;
-	private javax.swing.JLabel lblAttemptId;
-	private javax.swing.JLabel lblAttemptIdLabel;
-	private javax.swing.JLabel lblAttemptStart;
-	private javax.swing.JLabel lblAttemptStarttLabel;
-	private javax.swing.JLabel lblAttemptType;
-	private javax.swing.JLabel lblAttemptTypeLabel;
-	private javax.swing.JLabel lblErrorMessage;
-	private javax.swing.JLabel lblErrorMessageLabel;
-	private javax.swing.JLabel lblItemErrorMessage;
-	private javax.swing.JLabel lblLength;
-	private javax.swing.JLabel lblLengthLabel;
-	private javax.swing.JLabel lblProcessingState;
-	private javax.swing.JLabel lblProcessingStateLabel;
-	private javax.swing.JLabel lblResource;
-	private javax.swing.JLabel lblResourceLabel;
-	private javax.swing.JLabel lblSequenceNumber;
-	private javax.swing.JLabel lblSequenceNumberLabel;
-	private javax.swing.JLabel lblSource;
-	private javax.swing.JLabel lblSourceLabel;
-	private javax.swing.JLabel lblSourceName;
-	private javax.swing.JLabel lblSourceNameLabel;
-	private javax.swing.JLabel lblStatus;
-	private javax.swing.JLabel lblStatusLabel;
-	private javax.swing.JLabel lblSummary;
-	private javax.swing.JLabel lblTarget;
-	private javax.swing.JLabel lblTargetLabel;
-	private javax.swing.JLabel lblTargetName;
-	private javax.swing.JLabel lblTargetNameLabel;
-	private javax.swing.JLabel lblTransferId;
-	private javax.swing.JLabel lblTransferIdLabel;
-	private javax.swing.JLabel lblTransferType;
-	private javax.swing.JLabel lblTransferTypeLabel;
-	private javax.swing.JPanel pnlButtons;
-	private javax.swing.JPanel pnlList;
-	private javax.swing.JPanel pnlMain;
-	private javax.swing.JPanel pnlTransferAttemptDetails;
-	private javax.swing.JTable tblItemList;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnNextPage;
+    private javax.swing.JButton btnPrevPage;
+    private javax.swing.JButton btnShowErrorDetails;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblAttemptEnd;
+    private javax.swing.JLabel lblAttemptEndLabel;
+    private javax.swing.JLabel lblAttemptId;
+    private javax.swing.JLabel lblAttemptIdLabel;
+    private javax.swing.JLabel lblAttemptStart;
+    private javax.swing.JLabel lblAttemptStarttLabel;
+    private javax.swing.JLabel lblAttemptType;
+    private javax.swing.JLabel lblAttemptTypeLabel;
+    private javax.swing.JLabel lblErrorMessage;
+    private javax.swing.JLabel lblErrorMessageLabel;
+    private javax.swing.JLabel lblItemErrorMessage;
+    private javax.swing.JLabel lblLength;
+    private javax.swing.JLabel lblLengthLabel;
+    private javax.swing.JLabel lblProcessingState;
+    private javax.swing.JLabel lblProcessingStateLabel;
+    private javax.swing.JLabel lblResource;
+    private javax.swing.JLabel lblResourceLabel;
+    private javax.swing.JLabel lblSequenceNumber;
+    private javax.swing.JLabel lblSequenceNumberLabel;
+    private javax.swing.JLabel lblSource;
+    private javax.swing.JLabel lblSourceLabel;
+    private javax.swing.JLabel lblSourceName;
+    private javax.swing.JLabel lblSourceNameLabel;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblStatusLabel;
+    private javax.swing.JLabel lblSummary;
+    private javax.swing.JLabel lblTarget;
+    private javax.swing.JLabel lblTargetLabel;
+    private javax.swing.JLabel lblTargetName;
+    private javax.swing.JLabel lblTargetNameLabel;
+    private javax.swing.JLabel lblTransferId;
+    private javax.swing.JLabel lblTransferIdLabel;
+    private javax.swing.JLabel lblTransferType;
+    private javax.swing.JLabel lblTransferTypeLabel;
+    private javax.swing.JPanel pnlButtons;
+    private javax.swing.JPanel pnlList;
+    private javax.swing.JPanel pnlMain;
+    private javax.swing.JPanel pnlTransferAttemptDetails;
+    private javax.swing.JTable tblItemList;
+    // End of variables declaration//GEN-END:variables
 
 	private void initStats() {
 
