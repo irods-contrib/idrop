@@ -64,6 +64,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
     /**
      * Creates new form TransferManagerDialog
+     *
      * @param parent
      * @throws org.irods.jargon.conveyor.core.ConveyorExecutionException
      */
@@ -76,11 +77,11 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         idropCore = parent.getiDropCore();
 
         initTransferTable();
-        
+
         ListSelectionModel listSelectionModel = jTableAttempts
-				.getSelectionModel();
-		listSelectionModel
-				.addListSelectionListener(new SharedListSelectionHandler(this));
+                .getSelectionModel();
+        listSelectionModel
+                .addListSelectionListener(new SharedListSelectionHandler(this));
     }
 
     public final void refreshTableView() {
@@ -167,8 +168,6 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         tblTransfers.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(final MouseEvent me) {
-
-               
 
                 int selected = tblTransfers.getSelectedRow();
 
@@ -279,6 +278,8 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         tblTransfers = new javax.swing.JTable();
         transferTabs = new javax.swing.JTabbedPane();
         pnlAttemptDashboardTab = new javax.swing.JPanel();
+        pnlDashboardDetails = new javax.swing.JPanel();
+        lblTransferAttemptDetails = new javax.swing.JLabel();
         pnlDashboard = new javax.swing.JPanel();
         pnlTransferAttemptsContainer = new javax.swing.JPanel();
         scrollPaneAttempts = new javax.swing.JScrollPane();
@@ -289,6 +290,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.title")); // NOI18N
         setMinimumSize(new java.awt.Dimension(800, 74));
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 4, 4, 4));
         pnlMain.setLayout(new java.awt.BorderLayout());
@@ -446,6 +448,11 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         pnlMasterDetail.add(pnlTable, java.awt.BorderLayout.NORTH);
 
         pnlAttemptDashboardTab.setLayout(new java.awt.BorderLayout());
+
+        lblTransferAttemptDetails.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.lblTransferAttemptDetails.text")); // NOI18N
+        pnlDashboardDetails.add(lblTransferAttemptDetails);
+
+        pnlAttemptDashboardTab.add(pnlDashboardDetails, java.awt.BorderLayout.NORTH);
 
         pnlDashboard.setPreferredSize(new java.awt.Dimension(700, 400));
         pnlDashboard.setLayout(new java.awt.GridLayout());
@@ -652,12 +659,12 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                //dialog.lblTransferAttemptDetails.setText(details);
+                dialog.lblTransferAttemptDetails.setText(details);
             }
         });
 
     }
-    
+
     public JTable getJTableAttempts() {
         return jTableAttempts;
     }
@@ -687,10 +694,12 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JTable jTableAttempts;
+    private javax.swing.JLabel lblTransferAttemptDetails;
     private javax.swing.JLabel lblTransferDetails;
     private javax.swing.JPanel pnlAttemptDashboardTab;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlDashboard;
+    private javax.swing.JPanel pnlDashboardDetails;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlMasterDetail;
     private javax.swing.JPanel pnlTable;
@@ -717,16 +726,17 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
             public void run() {
 
                 TransferAttemptTableModel transferAttemptTableModel = new TransferAttemptTableModel(
-						transfer);
-				jTableAttempts.setModel(transferAttemptTableModel);
-                if (myPanel == null) {
-                    myPanel = new MyPanel(transfer, dialog);
-                    myPanel.setSize(600, 400);
-                    myPanel.setBackground(Color.WHITE);
-                    pnlDashboard.add(myPanel);
-                } else {
-                    myPanel = new MyPanel(transfer, dialog);
+                        transfer);
+                jTableAttempts.setModel(transferAttemptTableModel);
+
+                if (myPanel != null) {
+                    pnlDashboard.removeAll();
                 }
+                myPanel = new MyPanel(transfer, dialog);
+                myPanel.setSize(500, 300);
+                myPanel.setBackground(Color.WHITE);
+                pnlDashboard.add(myPanel);
+
                 dialog.repaint();
             }
         });
@@ -763,7 +773,7 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
         setBackground(Color.white);
         addMouseMotionListener(this);
         addMouseListener(this);
-        
+
     }
 
     @Override
