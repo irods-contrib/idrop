@@ -91,10 +91,7 @@ public class TransferDashboardDialog extends javax.swing.JDialog {
 		initComponents();
 		initData();
 
-		ListSelectionModel listSelectionModel = jTableAttempts
-				.getSelectionModel();
-		listSelectionModel
-				.addListSelectionListener(new SharedListSelectionHandler(this));
+		
 	}
 
 	/**

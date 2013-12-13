@@ -19,6 +19,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListSelectionEvent;
@@ -75,6 +76,11 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         idropCore = parent.getiDropCore();
 
         initTransferTable();
+        
+        ListSelectionModel listSelectionModel = jTableAttempts
+				.getSelectionModel();
+		listSelectionModel
+				.addListSelectionListener(new SharedListSelectionHandler(this));
     }
 
     public final void refreshTableView() {
@@ -651,6 +657,10 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         });
 
     }
+    
+    public JTable getJTableAttempts() {
+        return jTableAttempts;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntClose;
@@ -753,6 +763,7 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
         setBackground(Color.white);
         addMouseMotionListener(this);
         addMouseListener(this);
+        
     }
 
     @Override
@@ -987,18 +998,18 @@ class AttemptRectangle {
 
 class SharedListSelectionHandler implements ListSelectionListener {
 
-    private final TransferDashboardDialog transferDashboardDialog;
+    private final TransferAccountingManagerDialog transferAccountingManagerDialog;
 
     public SharedListSelectionHandler(
-            final TransferDashboardDialog transferDashboardDialog) {
-        this.transferDashboardDialog = transferDashboardDialog;
+            final TransferAccountingManagerDialog transferAccountingManagerDialog) {
+        this.transferAccountingManagerDialog = transferAccountingManagerDialog;
     }
 
     @Override
     public void valueChanged(final ListSelectionEvent e) {
         ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-        TransferAttemptTableModel tm = (TransferAttemptTableModel) transferDashboardDialog
-                .getjTableAttempts().getModel();
+        TransferAttemptTableModel tm = (TransferAttemptTableModel) transferAccountingManagerDialog
+                .getJTableAttempts().getModel();
 
         int firstIndex = e.getFirstIndex();
         int lastIndex = e.getLastIndex();
@@ -1018,7 +1029,7 @@ class SharedListSelectionHandler implements ListSelectionListener {
                             .getTransferAttemptAtRow(i);
 
                     log.info("got atempt:{}", transferAttempt);
-                    transferDashboardDialog
+                    transferAccountingManagerDialog
                             .showTransferAttemptDetailsDialog(transferAttempt);
 
                 }
