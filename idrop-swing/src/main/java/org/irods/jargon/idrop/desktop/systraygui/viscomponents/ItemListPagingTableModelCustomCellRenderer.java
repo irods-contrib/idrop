@@ -4,6 +4,7 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JCheckBox;
@@ -47,7 +48,27 @@ public class ItemListPagingTableModelCustomCellRenderer extends JCheckBox
 			setBackground(table.getBackground());
 		}
 		setSelected((value != null && ((Boolean) value).booleanValue()));
+                
+                                        if (column == 3) {
+                                            boolean boolVal = (Boolean) value;
+                                            if (boolVal) {
+                                                setForeground(Color.RED);
+                                            } else {
+                                                setForeground(Color.GREEN);
+                                            }
+                                        }
+                                        
+                                        if (column == 4) {
+                                            boolean boolVal = (Boolean) value;
+                                            if (boolVal) {
+                                                setForeground(Color.BLUE);
+                                            } else {
+                                                setForeground(Color.BLACK);
+                                            }
+                                        }
+   
 		return this;
-
+                
+ 
 	}
 }

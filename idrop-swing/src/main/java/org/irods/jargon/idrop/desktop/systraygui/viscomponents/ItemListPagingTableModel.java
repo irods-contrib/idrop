@@ -49,7 +49,7 @@ public class ItemListPagingTableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return 5;
 	}
 
 	// Work only on the visible part of the table.
@@ -87,6 +87,11 @@ public class ItemListPagingTableModel extends AbstractTableModel {
 		if (columnIndex == 3) {
 			return item.isError();
 		}
+                
+                
+                                        if (columnIndex == 4) {
+                                            return item.isSkipped();
+                                        }
 
 		throw new IdropRuntimeException("unknown column");
 	}
@@ -117,6 +122,11 @@ public class ItemListPagingTableModel extends AbstractTableModel {
 		if (columnIndex == 3) {
 			return "Error?";
 		}
+                
+                                        // 4 - skipped
+                                        if (columnIndex == 4) {
+                                            return "Skipped?";
+                                        }
 
 		throw new IdropRuntimeException("unknown column");
 	}
@@ -157,4 +167,8 @@ public class ItemListPagingTableModel extends AbstractTableModel {
 		items = qms.getNextTransferItems(transferId, pageOffset, pageSize);
 		fireTableDataChanged();
 	}
+        
+            public TransferItem getTransferItem(int row) {
+                return this.items.get(row);
+            }
 }
