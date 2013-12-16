@@ -87,14 +87,13 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
             .getLogger(IRODSTree.class);
     private List<JCheckBox> boxes = new ArrayList<JCheckBox>();
 
-    
     /**
      * Creates new form IRODSInfoDialog
+     *
      * @param parent
      * @param modal
      * @param irodsTree
      */
- 
     public IRODSInfoDialog(final iDrop parent, final boolean modal,
             final IRODSTree irodsTree) {
 
@@ -154,7 +153,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
             cl.show(pnlInfoCards, "cardObjectInfo");
         }
 
-    // also populate header
+        // also populate header
         lblInfoObjectName.setText(MiscIRODSUtils.abbreviateFileName(entry
                 .getPathOrName()));
         lblInfoObjectName.setToolTipText(entry.getPathOrName());
@@ -181,6 +180,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             .instanceIrodsTaggingService(irodsAccount);
 
                     if (isCollection()) {
+
+                        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_144_folder_open.png"))); // NOI18N
 
                         isFile = false;
                         CollectionAO collectionAO = irodsFileSystem
@@ -272,6 +273,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         }
 
                     } else {
+                        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_036_file.png"))); // NOI18N
+
                         isFile = true;
                         DataObjectAO dataObjectAO = irodsFileSystem
                                 .getIRODSAccessObjectFactory().getDataObjectAO(
@@ -626,6 +629,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel2 = new javax.swing.JPanel();
         pnlReplication = new javax.swing.JPanel();
@@ -635,8 +639,9 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         btnReplicate = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         pnlSelectedObject = new javax.swing.JPanel();
+        lblIcon = new javax.swing.JLabel();
         lblObjectCollection = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblParentCollection = new javax.swing.JLabel();
         lblInfoObjectName = new javax.swing.JLabel();
         lblInfoObjectParent = new javax.swing.JLabel();
         tabbedpanelMain = new javax.swing.JTabbedPane();
@@ -763,48 +768,50 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         pnlSelectedObject.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4));
         pnlSelectedObject.setPreferredSize(new java.awt.Dimension(528, 70));
+        pnlSelectedObject.setLayout(new java.awt.GridBagLayout());
+
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_144_folder_open.png"))); // NOI18N
+        lblIcon.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblIcon.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlSelectedObject.add(lblIcon, gridBagConstraints);
 
         lblObjectCollection.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         lblObjectCollection.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblObjectCollection.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlSelectedObject.add(lblObjectCollection, gridBagConstraints);
 
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel2.text")); // NOI18N
+        lblParentCollection.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        lblParentCollection.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblParentCollection.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlSelectedObject.add(lblParentCollection, gridBagConstraints);
 
         lblInfoObjectName.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectName.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlSelectedObject.add(lblInfoObjectName, gridBagConstraints);
 
         lblInfoObjectParent.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectParent.text")); // NOI18N
         lblInfoObjectParent.setAutoscrolls(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlSelectedObject.add(lblInfoObjectParent, gridBagConstraints);
 
-        org.jdesktop.layout.GroupLayout pnlSelectedObjectLayout = new org.jdesktop.layout.GroupLayout(pnlSelectedObject);
-        pnlSelectedObject.setLayout(pnlSelectedObjectLayout);
-        pnlSelectedObjectLayout.setHorizontalGroup(
-            pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlSelectedObjectLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(lblObjectCollection, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                    .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(lblInfoObjectName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
-                    .add(lblInfoObjectParent, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(54, Short.MAX_VALUE))
-        );
-        pnlSelectedObjectLayout.setVerticalGroup(
-            pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlSelectedObjectLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblObjectCollection)
-                    .add(lblInfoObjectName))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlSelectedObjectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(lblInfoObjectParent))
-                .addContainerGap(12, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(pnlSelectedObject, java.awt.BorderLayout.PAGE_START);
+        jPanel1.add(pnlSelectedObject, java.awt.BorderLayout.NORTH);
 
         tabbedpanelMain.setPreferredSize(new java.awt.Dimension(600, 867));
         tabbedpanelMain.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -1037,7 +1044,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                             .add(lblInfoObjectStatus, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(lblInfoObjectType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(lblInfoObjectVersion, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(515, Short.MAX_VALUE))
         );
         pnlObjectInfoLayout.setVerticalGroup(
             pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1138,7 +1145,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                         .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jLabel17)
                             .add(jLabel18))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 83, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 530, Short.MAX_VALUE)
                         .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(txtInfoTags)
                             .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE))
@@ -1637,7 +1644,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateTagsCommentsActionPerformed
 
         TaggingServiceFactory taggingServiceFactory = null;
-        
+
         IRODSTagValue irodsTagValue = null;
 
         try {
@@ -1875,7 +1882,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1898,6 +1904,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblInfoCollectionCreatedDate;
     private javax.swing.JLabel lblInfoCollectionDescription;
     private javax.swing.JLabel lblInfoCollectionInfo1;
@@ -1924,6 +1931,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JLabel lblInfoObjectType;
     private javax.swing.JLabel lblInfoObjectVersion;
     private javax.swing.JLabel lblObjectCollection;
+    private javax.swing.JLabel lblParentCollection;
     private javax.swing.JPanel pnlCloseBtn;
     private javax.swing.JPanel pnlCollectionInfo;
     private javax.swing.JPanel pnlInfoCards;
