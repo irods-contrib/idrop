@@ -7,6 +7,7 @@ package org.irods.jargon.idrop.desktop.systraygui.utils;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
+import org.irods.jargon.transfer.dao.domain.TransferAttemptTypeEnum;
 import org.irods.jargon.transfer.dao.domain.TransferStateEnum;
 import org.irods.jargon.transfer.dao.domain.TransferStatusEnum;
 import org.irods.jargon.transfer.dao.domain.TransferType;
@@ -35,17 +36,30 @@ public class TransferInformationMessageBuilder {
 
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("<html><p>This transfer attempt started ");
+		sb.append("<html><p>This transfer attempt");
+                
+                                       if (transferAttempt.getTransferAttemptTypeEnum() == TransferAttemptTypeEnum.NORMAL) {
+                                           sb.append(" started ");
+                                       } else if (transferAttempt.getTransferAttemptTypeEnum() == TransferAttemptTypeEnum.RESTART) {
+                                           sb.append(" was restarted at the next file to be transferred at ");
+                                       } else if (transferAttempt.getTransferAttemptTypeEnum() == TransferAttemptTypeEnum.RESUBMIT) {
+                                           sb.append(" was restarted from the beginning at ");
+                                       } else if (transferAttempt.getTransferAttemptTypeEnum() == TransferAttemptTypeEnum.RESTARTED_PROCESSING_TRANSFER_AT_STARTUP) {
+                                           sb.append(" was processing the last time iDrop was running, and so was continued at ");
+                                       } else  {
+                                           sb.append(" started ");
+                                       }
+               
 		sb.append(transferAttempt.getAttemptStart());
 
 		if (transferAttempt.getAttemptEnd() != null) {
-			sb.append(" and ended ");
+			sb.append(" <br/> and ended ");
 			sb.append(transferAttempt.getAttemptEnd());
 		}
 
 		sb.append("</p><p> This attempt involved ");
 		sb.append(transferAttempt.getTotalFilesCount());
-		sb.append(" files. ");
+		sb.append(" files. <br/>");
 
 		if (attemptType == AttemptType.ERROR) {
 

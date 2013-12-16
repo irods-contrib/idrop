@@ -11,7 +11,6 @@ import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -27,14 +26,13 @@ import javax.swing.event.ListSelectionListener;
 
 import org.irods.jargon.conveyor.core.ConveyorBusyException;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
-import static org.irods.jargon.idrop.desktop.systraygui.TransferDashboardDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TransferInformationMessageBuilder;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DashboardAttempt;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DashboardLayoutService;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferAttemptTableModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferDashboardLayout;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferManagerTable;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferManagerTableModel;
-import org.irods.jargon.idrop.desktop.systraygui.viscomponents.TransferManagerTableModelCustomCellRenderer;
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
 import org.irods.jargon.transfer.dao.domain.TransferStateEnum;
@@ -56,7 +54,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
      */
     private static final long serialVersionUID = 6768064190203607302L;
     public static org.slf4j.Logger log = LoggerFactory
-            .getLogger(TransferManagerTableModel.class);
+            .getLogger(TransferAccountingManagerDialog.class);
     private Transfer selectedTableObject = null;
     private final iDrop idropGui;
     private final IDROPCore idropCore;
@@ -245,7 +243,6 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
     // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlMain = new javax.swing.JPanel();
         toolBarTop = new javax.swing.JToolBar();
@@ -270,12 +267,12 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnRefresh = new javax.swing.JButton();
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        pnlMasterDetail = new javax.swing.JPanel();
+        splitMasterdetail = new javax.swing.JSplitPane();
         pnlTable = new javax.swing.JPanel();
         pnlTransferDetails = new javax.swing.JPanel();
         lblTransferDetails = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblTransfers = new javax.swing.JTable();
+        tblTransfers = new TransferManagerTable();
         transferTabs = new javax.swing.JTabbedPane();
         pnlAttemptDashboardTab = new javax.swing.JPanel();
         pnlDashboardDetails = new javax.swing.JPanel();
@@ -289,8 +286,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.title")); // NOI18N
-        setMinimumSize(new java.awt.Dimension(800, 74));
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(800, 700));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 4, 4, 4));
         pnlMain.setLayout(new java.awt.BorderLayout());
@@ -430,7 +426,8 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         pnlMain.add(toolBarTop, java.awt.BorderLayout.NORTH);
 
-        pnlMasterDetail.setLayout(new java.awt.BorderLayout());
+        splitMasterdetail.setDividerLocation(150);
+        splitMasterdetail.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         pnlTable.setLayout(new java.awt.BorderLayout());
 
@@ -445,7 +442,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         pnlTable.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        pnlMasterDetail.add(pnlTable, java.awt.BorderLayout.NORTH);
+        splitMasterdetail.setLeftComponent(pnlTable);
 
         pnlAttemptDashboardTab.setLayout(new java.awt.BorderLayout());
 
@@ -455,7 +452,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         pnlAttemptDashboardTab.add(pnlDashboardDetails, java.awt.BorderLayout.NORTH);
 
         pnlDashboard.setPreferredSize(new java.awt.Dimension(700, 400));
-        pnlDashboard.setLayout(new java.awt.GridLayout());
+        pnlDashboard.setLayout(new java.awt.GridLayout(1, 0));
         pnlAttemptDashboardTab.add(pnlDashboard, java.awt.BorderLayout.CENTER);
 
         transferTabs.addTab(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.pnlAttemptDashboardTab.TabConstraints.tabTitle"), pnlAttemptDashboardTab); // NOI18N
@@ -465,7 +462,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
                 pnlTransferAttemptsContainerComponentShown(evt);
             }
         });
-        pnlTransferAttemptsContainer.setLayout(new java.awt.GridLayout());
+        pnlTransferAttemptsContainer.setLayout(new java.awt.GridLayout(1, 0));
 
         jTableAttempts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -485,9 +482,9 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         transferTabs.addTab(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.pnlTransferAttemptsContainer.TabConstraints.tabTitle"), pnlTransferAttemptsContainer); // NOI18N
 
-        pnlMasterDetail.add(transferTabs, java.awt.BorderLayout.CENTER);
+        splitMasterdetail.setRightComponent(transferTabs);
 
-        pnlMain.add(pnlMasterDetail, java.awt.BorderLayout.CENTER);
+        pnlMain.add(splitMasterdetail, java.awt.BorderLayout.CENTER);
 
         pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
@@ -701,11 +698,11 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
     private javax.swing.JPanel pnlDashboard;
     private javax.swing.JPanel pnlDashboardDetails;
     private javax.swing.JPanel pnlMain;
-    private javax.swing.JPanel pnlMasterDetail;
     private javax.swing.JPanel pnlTable;
     private javax.swing.JPanel pnlTransferAttemptsContainer;
     private javax.swing.JPanel pnlTransferDetails;
     private javax.swing.JScrollPane scrollPaneAttempts;
+    private javax.swing.JSplitPane splitMasterdetail;
     private javax.swing.JTable tblTransfers;
     private javax.swing.JToolBar toolBarTop;
     private javax.swing.JTabbedPane transferTabs;
@@ -778,10 +775,8 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
 
     @Override
     protected void paintComponent(final Graphics g) {
-        log.info("getting layout info for dashboard");
         TransferDashboardLayout layout = DashboardLayoutService
                 .layoutDashboard(transfer);
-        log.info("layout:{}", layout);
 
         Graphics2D g2 = (Graphics2D) g;
         int width = getWidth();
@@ -803,6 +798,8 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
 
             if (widthThisBar == 0) {
                 widthThisBar = 50;
+            } else if (widthThisBar > 200) {
+                widthThisBar = 200;
             }
 
             int heightSkipped = 0;
@@ -895,7 +892,6 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
         // log.info("point entered:{}", me.getPoint());
         for (AttemptRectangle attemptRectangle : rectangles) {
             if (attemptRectangle.contains(me.getPoint())) {
-                log.info("click the rectangle for:{}", attemptRectangle);
                 transferAccountingManagerDialog
                         .showTransferAttemptDetailsDialog(attemptRectangle
                                 .getDashboardAttempt().getTransferAttempt());
@@ -1024,11 +1020,8 @@ class SharedListSelectionHandler implements ListSelectionListener {
         int firstIndex = e.getFirstIndex();
         int lastIndex = e.getLastIndex();
         boolean isAdjusting = e.getValueIsAdjusting();
-        log.info("Event for indexes " + firstIndex + " - " + lastIndex
-                + "; isAdjusting is " + isAdjusting + "; selected indexes:");
-
+       
         if (lsm.isSelectionEmpty()) {
-            log.info(" <none>");
         } else {
             // Find out which indexes are selected.
             int minIndex = lsm.getMinSelectionIndex();
@@ -1038,7 +1031,6 @@ class SharedListSelectionHandler implements ListSelectionListener {
                     TransferAttempt transferAttempt = tm
                             .getTransferAttemptAtRow(i);
 
-                    log.info("got atempt:{}", transferAttempt);
                     transferAccountingManagerDialog
                             .showTransferAttemptDetailsDialog(transferAttempt);
 
