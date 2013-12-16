@@ -1016,11 +1016,7 @@ class SharedListSelectionHandler implements ListSelectionListener {
         ListSelectionModel lsm = (ListSelectionModel) e.getSource();
         TransferAttemptTableModel tm = (TransferAttemptTableModel) transferAccountingManagerDialog
                 .getJTableAttempts().getModel();
-
-        int firstIndex = e.getFirstIndex();
-        int lastIndex = e.getLastIndex();
-        boolean isAdjusting = e.getValueIsAdjusting();
-       
+        
         if (lsm.isSelectionEmpty()) {
         } else {
             // Find out which indexes are selected.
