@@ -1,5 +1,6 @@
 package org.irods.mydrop.controller
 
+import org.irods.jargon.core.connection.AuthScheme
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.exception.JargonException
@@ -13,7 +14,7 @@ class LoginController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 	ViewStateService viewStateService
-	
+
 	def afterInterceptor = {
 		//log.debug("closing the session")
 		//irodsAccessObjectFactory.closeSession()
@@ -76,7 +77,7 @@ class LoginController {
 			log.info("preset auth scheme is:${presetAuthScheme}")
 			loginCommand.authMethod = presetAuthScheme
 		}
-		
+
 		render(view:"login", model:[loginCommand:loginCommand])
 
 	}
@@ -145,9 +146,9 @@ class LoginController {
 		log.info("login mode: ${loginCommand.authMethod}")
 
 		if (loginCommand.authMethod == "Standard") {
-			irodsAccount.authenticationScheme = IRODSAccount.AuthScheme.STANDARD
+			irodsAccount.authenticationScheme = AuthScheme.STANDARD
 		} else if (loginCommand.authMethod == "PAM") {
-			irodsAccount.authenticationScheme = IRODSAccount.AuthScheme.PAM
+			irodsAccount.authenticationScheme = AuthScheme.PAM
 		} else {
 			log.error("authentication scheme invalid", e)
 			response.sendError(500,e.message)
@@ -202,8 +203,8 @@ class LoginController {
 		session.invalidate()
 		redirect(action:"login")
 	}
-	
-	
+
+
 	/**
 	 * FIXME: deprecated
 	 * Show information about the current user/host
@@ -216,7 +217,7 @@ class LoginController {
 		resources.addAll(resourceAO.listResourceAndResourceGroupNames())
 		render(view:"defaultStorageResource", model:[irodsAccount:irodsAccount, resources:resources])
 	}
-	
+
 	/**
 	 * Show a dialog to set the default storage resource
 	 */
@@ -228,7 +229,7 @@ class LoginController {
 		resources.addAll(resourceAO.listResourceAndResourceGroupNames())
 		render(view:"defaultStorageResource", model:[irodsAccount:irodsAccount, resources:resources])
 	}
-	
+
 	/**
 	 * Show the password change dialog
 	 * @return
@@ -237,7 +238,7 @@ class LoginController {
 		PasswordCommand cmd = new PasswordCommand()
 		render (view:"passwordChange", model:[irodsAccount:irodsAccount, password:cmd])
 	}
-	
+
 	/**
 	 * process a password change
 	 * @return
@@ -257,7 +258,7 @@ class LoginController {
 		}
 
 		log.info("edits pass")
-		
+
 		UserAO userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
 		userAO.changeAUserPasswordByThatUser(irodsAccount.userName, irodsAccount.password, cmd.password)
 		irodsAccount.password = cmd.password
@@ -268,7 +269,7 @@ class LoginController {
 
 	}
 
-	
+
 }
 class LoginCommand {
 	boolean useGuestLogin
@@ -290,17 +291,18 @@ class LoginCommand {
 }
 
 class PasswordCommand {
-	
-		String password
-		String confirmPassword
-	
-		static constraints = {
-			password(blank:false)
-			confirmPassword  validator: {
-				val, obj ->
-				if (!val) return ['error.confirm.password.missing']
-				 if (val != obj.password) return['error.passwords.dont.match']
-			}
+
+	String password
+	String confirmPassword
+
+	static constraints = {
+		password(blank:false)
+		confirmPassword  validator: { val, obj ->
+			if (!val) return [
+					'error.confirm.password.missing'
+				]
+			if (val != obj.password) return['error.passwords.dont.match']
 		}
 	}
-	
+}
+

@@ -31,6 +31,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
      */
     private static final long serialVersionUID = -2239251501465433857L;
     private final TransferAttempt transferAttempt;
+    private TransferItem currentTransferItem;
     private final int itemsPerPage = 30;
     private ItemListPagingTableModel tableModel;
     
@@ -87,6 +88,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
             
                 lblSourceName.setText(IDropUtils.abbreviateFileName(transferItem.getSourceFileAbsolutePath()));
                 lblTargetName.setText(IDropUtils.abbreviateFileName(transferItem.getTargetFileAbsolutePath()));
+                currentTransferItem = transferItem;
                 
             }
         });
@@ -441,6 +443,11 @@ public class TransferFileListDialog extends javax.swing.JDialog {
 
         btnShowErrorDetails.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnShowErrorDetails.text")); // NOI18N
         btnShowErrorDetails.setToolTipText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnShowErrorDetails.toolTipText")); // NOI18N
+        btnShowErrorDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowErrorDetailsActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 15;
@@ -520,6 +527,16 @@ public class TransferFileListDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnShowErrorDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowErrorDetailsActionPerformed
+       
+      if (currentTransferItem != null) {
+          TransferErrorStackTraceDialog dialog = new TransferErrorStackTraceDialog(null, true, currentTransferItem.getErrorMessage(), currentTransferItem.getErrorStackTrace());
+          dialog.setVisible(true);
+      }
+        
+        
+    }//GEN-LAST:event_btnShowErrorDetailsActionPerformed
 
     private void btnNextPageActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNextPageActionPerformed
         try {
