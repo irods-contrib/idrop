@@ -17,14 +17,10 @@ import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author Mike
  */
 public class NavPopupDialog extends javax.swing.JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1471807767210660336L;
 	private final iDrop idropGui;
 	public static org.slf4j.Logger log = LoggerFactory
@@ -45,185 +41,141 @@ public class NavPopupDialog extends javax.swing.JDialog {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		toolbarBreadcrumb = new javax.swing.JToolBar();
-		btnGoHomeTargetTree = new javax.swing.JButton();
-		filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnGoRootTargetTree = new javax.swing.JButton();
-		filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		txtCustomPath = new javax.swing.JTextField();
-		filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnSetCustomRootTargetTree = new javax.swing.JButton();
-		scrollBreadcrumbs = new javax.swing.JScrollPane();
-		tblBreadcrumbs = new javax.swing.JTable();
+        toolbarBreadcrumb = new javax.swing.JToolBar();
+        btnGoHomeTargetTree = new javax.swing.JButton();
+        filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnGoRootTargetTree = new javax.swing.JButton();
+        filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        txtCustomPath = new javax.swing.JTextField();
+        filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnSetCustomRootTargetTree = new javax.swing.JButton();
+        scrollBreadcrumbs = new javax.swing.JScrollPane();
+        tblBreadcrumbs = new javax.swing.JTable();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setPreferredSize(new java.awt.Dimension(300, 200));
-		getContentPane().setLayout(new java.awt.GridBagLayout());
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(300, 200));
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
-		toolbarBreadcrumb.setRollover(true);
+        toolbarBreadcrumb.setRollover(true);
 
-		btnGoHomeTargetTree
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
-		btnGoHomeTargetTree.setText(org.openide.util.NbBundle
-				.getMessage(NavPopupDialog.class,
-						"NavPopupDialog.btnGoHomeTargetTree.text")); // NOI18N
-		btnGoHomeTargetTree.setToolTipText(org.openide.util.NbBundle
-				.getMessage(NavPopupDialog.class,
-						"NavPopupDialog.btnGoHomeTargetTree.toolTipText")); // NOI18N
-		btnGoHomeTargetTree.setBorder(null);
-		btnGoHomeTargetTree.setFocusable(false);
-		btnGoHomeTargetTree
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnGoHomeTargetTree
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnGoHomeTargetTree
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnGoHomeTargetTreeActionPerformed(evt);
-					}
-				});
-		toolbarBreadcrumb.add(btnGoHomeTargetTree);
-		toolbarBreadcrumb.add(filler17);
+        btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
+        btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoHomeTargetTree.text")); // NOI18N
+        btnGoHomeTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoHomeTargetTree.toolTipText")); // NOI18N
+        btnGoHomeTargetTree.setBorder(null);
+        btnGoHomeTargetTree.setFocusable(false);
+        btnGoHomeTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoHomeTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGoHomeTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoHomeTargetTreeActionPerformed(evt);
+            }
+        });
+        toolbarBreadcrumb.add(btnGoHomeTargetTree);
+        toolbarBreadcrumb.add(filler17);
 
-		btnGoRootTargetTree
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_213_up_arrow.png"))); // NOI18N
-		btnGoRootTargetTree.setMnemonic('r');
-		btnGoRootTargetTree.setText(org.openide.util.NbBundle
-				.getMessage(NavPopupDialog.class,
-						"NavPopupDialog.btnGoRootTargetTree.text")); // NOI18N
-		btnGoRootTargetTree.setToolTipText(org.openide.util.NbBundle
-				.getMessage(NavPopupDialog.class,
-						"NavPopupDialog.btnGoRootTargetTree.toolTipText")); // NOI18N
-		btnGoRootTargetTree.setBorder(null);
-		btnGoRootTargetTree.setFocusable(false);
-		btnGoRootTargetTree
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnGoRootTargetTree
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnGoRootTargetTree
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnGoRootTargetTreeActionPerformed(evt);
-					}
-				});
-		toolbarBreadcrumb.add(btnGoRootTargetTree);
-		toolbarBreadcrumb.add(filler18);
+        btnGoRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_213_up_arrow.png"))); // NOI18N
+        btnGoRootTargetTree.setMnemonic('r');
+        btnGoRootTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoRootTargetTree.text")); // NOI18N
+        btnGoRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoRootTargetTree.toolTipText")); // NOI18N
+        btnGoRootTargetTree.setBorder(null);
+        btnGoRootTargetTree.setFocusable(false);
+        btnGoRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGoRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoRootTargetTreeActionPerformed(evt);
+            }
+        });
+        toolbarBreadcrumb.add(btnGoRootTargetTree);
+        toolbarBreadcrumb.add(filler18);
 
-		txtCustomPath.setColumns(60);
-		txtCustomPath.setText(org.openide.util.NbBundle.getMessage(
-				NavPopupDialog.class, "NavPopupDialog.txtCustomPath.text")); // NOI18N
-		txtCustomPath.setToolTipText(org.openide.util.NbBundle.getMessage(
-				NavPopupDialog.class,
-				"NavPopupDialog.txtCustomPath.toolTipText")); // NOI18N
-		txtCustomPath.setMinimumSize(null);
-		txtCustomPath.setPreferredSize(null);
-		txtCustomPath.addKeyListener(new java.awt.event.KeyAdapter() {
-			@Override
-			public void keyPressed(final java.awt.event.KeyEvent evt) {
-				txtCustomPathKeyPressed(evt);
-			}
-		});
-		toolbarBreadcrumb.add(txtCustomPath);
-		toolbarBreadcrumb.add(filler19);
+        txtCustomPath.setColumns(60);
+        txtCustomPath.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.txtCustomPath.text")); // NOI18N
+        txtCustomPath.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.txtCustomPath.toolTipText")); // NOI18N
+        txtCustomPath.setMinimumSize(null);
+        txtCustomPath.setPreferredSize(null);
+        txtCustomPath.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCustomPathKeyPressed(evt);
+            }
+        });
+        toolbarBreadcrumb.add(txtCustomPath);
+        toolbarBreadcrumb.add(filler19);
 
-		btnSetCustomRootTargetTree
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_380_message_forward.png"))); // NOI18N
-		btnSetCustomRootTargetTree.setMnemonic('r');
-		btnSetCustomRootTargetTree.setText(org.openide.util.NbBundle
-				.getMessage(NavPopupDialog.class,
-						"NavPopupDialog.btnSetCustomRootTargetTree.text")); // NOI18N
-		btnSetCustomRootTargetTree
-				.setToolTipText(org.openide.util.NbBundle
-						.getMessage(NavPopupDialog.class,
-								"NavPopupDialog.btnSetCustomRootTargetTree.toolTipText")); // NOI18N
-		btnSetCustomRootTargetTree.setBorder(null);
-		btnSetCustomRootTargetTree.setFocusable(false);
-		btnSetCustomRootTargetTree
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnSetCustomRootTargetTree
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnSetCustomRootTargetTree
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnSetCustomRootTargetTreeActionPerformed(evt);
-					}
-				});
-		toolbarBreadcrumb.add(btnSetCustomRootTargetTree);
+        btnSetCustomRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_380_message_forward.png"))); // NOI18N
+        btnSetCustomRootTargetTree.setMnemonic('r');
+        btnSetCustomRootTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnSetCustomRootTargetTree.text")); // NOI18N
+        btnSetCustomRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnSetCustomRootTargetTree.toolTipText")); // NOI18N
+        btnSetCustomRootTargetTree.setBorder(null);
+        btnSetCustomRootTargetTree.setFocusable(false);
+        btnSetCustomRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSetCustomRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSetCustomRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetCustomRootTargetTreeActionPerformed(evt);
+            }
+        });
+        toolbarBreadcrumb.add(btnSetCustomRootTargetTree);
 
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.ipadx = 489;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		getContentPane().add(toolbarBreadcrumb, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipadx = 489;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        getContentPane().add(toolbarBreadcrumb, gridBagConstraints);
 
-		scrollBreadcrumbs.setMinimumSize(null);
+        scrollBreadcrumbs.setMinimumSize(null);
 
-		tblBreadcrumbs.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] { { null }, { null }, { null }, { null } },
-				new String[] { "" }) {
-			/**
-					 * 
-					 */
-			private static final long serialVersionUID = 7884405365577180539L;
-			@SuppressWarnings("rawtypes")
-			Class[] types = new Class[] { java.lang.String.class };
-			boolean[] canEdit = new boolean[] { false };
+        tblBreadcrumbs.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
 
-			@SuppressWarnings("rawtypes")
-			@Override
-			public Class getColumnClass(final int columnIndex) {
-				return types[columnIndex];
-			}
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-			@Override
-			public boolean isCellEditable(final int rowIndex,
-					final int columnIndex) {
-				return canEdit[columnIndex];
-			}
-		});
-		tblBreadcrumbs.setMinimumSize(null);
-		tblBreadcrumbs.setPreferredSize(null);
-		tblBreadcrumbs.setShowVerticalLines(false);
-		scrollBreadcrumbs.setViewportView(tblBreadcrumbs);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblBreadcrumbs.setMinimumSize(null);
+        tblBreadcrumbs.setPreferredSize(null);
+        tblBreadcrumbs.setShowVerticalLines(false);
+        scrollBreadcrumbs.setViewportView(tblBreadcrumbs);
 
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.ipadx = 429;
-		gridBagConstraints.ipady = 386;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 1.0;
-		getContentPane().add(scrollBreadcrumbs, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 429;
+        gridBagConstraints.ipady = 386;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(scrollBreadcrumbs, gridBagConstraints);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnGoHomeTargetTreeActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnGoHomeTargetTreeActionPerformed
@@ -280,20 +232,18 @@ public class NavPopupDialog extends javax.swing.JDialog {
 		}
 
 	}// GEN-LAST:event_txtCustomPathKeyPressed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnGoHomeTargetTree;
-	private javax.swing.JButton btnGoRootTargetTree;
-	private javax.swing.JButton btnSetCustomRootTargetTree;
-	private javax.swing.Box.Filler filler17;
-	private javax.swing.Box.Filler filler18;
-	private javax.swing.Box.Filler filler19;
-	private javax.swing.JScrollPane scrollBreadcrumbs;
-	private javax.swing.JTable tblBreadcrumbs;
-	private javax.swing.JToolBar toolbarBreadcrumb;
-	private javax.swing.JTextField txtCustomPath;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGoHomeTargetTree;
+    private javax.swing.JButton btnGoRootTargetTree;
+    private javax.swing.JButton btnSetCustomRootTargetTree;
+    private javax.swing.Box.Filler filler17;
+    private javax.swing.Box.Filler filler18;
+    private javax.swing.Box.Filler filler19;
+    private javax.swing.JScrollPane scrollBreadcrumbs;
+    private javax.swing.JTable tblBreadcrumbs;
+    private javax.swing.JToolBar toolbarBreadcrumb;
+    private javax.swing.JTextField txtCustomPath;
+    // End of variables declaration//GEN-END:variables
 
 	public JTable getTblBreadcrumbs() {
 		return tblBreadcrumbs;
@@ -322,7 +272,6 @@ public class NavPopupDialog extends javax.swing.JDialog {
 						strVector);
 
 				tblBreadcrumbs.setModel(newModel);
-
 				ListSelectionModel listSelectionModel = tblBreadcrumbs
 						.getSelectionModel();
 				listSelectionModel
@@ -366,15 +315,13 @@ class PathSelectionHandler implements ListSelectionListener {
 	@Override
 	public void valueChanged(final ListSelectionEvent e) {
 		ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-
-		e.getFirstIndex();
-		e.getLastIndex();
+		
 		boolean isAdjusting = e.getValueIsAdjusting();
 
 		if (isAdjusting) {
 			return;
 		}
-
+                
 		if (!lsm.isSelectionEmpty()) {
 
 			// Find out which indexes are selected.
