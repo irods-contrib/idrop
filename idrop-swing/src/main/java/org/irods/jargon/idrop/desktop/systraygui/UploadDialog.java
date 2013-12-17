@@ -65,7 +65,6 @@ public class UploadDialog extends javax.swing.JDialog implements
         this.localFileTree = localFileTree;
         btnDeleteUploadFile.setEnabled(false);
         tblFilesToUpload.getSelectionModel().addListSelectionListener(this);
-
         initUploadTarget();
         // initSourcesFiles();
         setUploadButtonState();
@@ -115,6 +114,7 @@ public class UploadDialog extends javax.swing.JDialog implements
             }
         }
 
+        uploadTarget = target;
         lblUploadTarget.setText(IDropUtils.abbreviateFileName(target));
         lblUploadTarget.setToolTipText(target);
     }
@@ -254,9 +254,9 @@ public class UploadDialog extends javax.swing.JDialog implements
         pnlMain = new javax.swing.JPanel();
         pnlTargetLocations = new javax.swing.JPanel();
         lblUploadTargetLocation = new javax.swing.JLabel();
-        btnUseIrodsHome = new javax.swing.JButton();
-        btnUseLastUpload = new javax.swing.JButton();
         lblUploadTarget = new javax.swing.JLabel();
+        btnUseIrodsHome = new javax.swing.JButton();
+        btnBrowseForDirectory = new javax.swing.JButton();
         pnlFilesToUpload = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         scrollPanelFilesToUpload = new javax.swing.JScrollPane();
@@ -282,11 +282,20 @@ public class UploadDialog extends javax.swing.JDialog implements
         pnlTargetLocations.setPreferredSize(new java.awt.Dimension(945, 90));
         pnlTargetLocations.setLayout(new java.awt.GridBagLayout());
 
+        lblUploadTargetLocation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblUploadTargetLocation.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.lblUploadTargetLocation.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         pnlTargetLocations.add(lblUploadTargetLocation, gridBagConstraints);
 
+        lblUploadTarget.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.lblUploadTarget.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTargetLocations.add(lblUploadTarget, gridBagConstraints);
+
+        btnUseIrodsHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
         btnUseIrodsHome.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUseIrodsHome.text")); // NOI18N
         btnUseIrodsHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -294,28 +303,24 @@ public class UploadDialog extends javax.swing.JDialog implements
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlTargetLocations.add(btnUseIrodsHome, gridBagConstraints);
 
-        btnUseLastUpload.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUseLastUpload.text")); // NOI18N
-        btnUseLastUpload.addActionListener(new java.awt.event.ActionListener() {
+        btnBrowseForDirectory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
+        btnBrowseForDirectory.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnBrowseForDirectory.text")); // NOI18N
+        btnBrowseForDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnBrowseForDirectory.toolTipText")); // NOI18N
+        btnBrowseForDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUseLastUploadActionPerformed(evt);
+                btnBrowseForDirectoryActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnlTargetLocations.add(btnUseLastUpload, gridBagConstraints);
-
-        lblUploadTarget.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.lblUploadTarget.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlTargetLocations.add(lblUploadTarget, gridBagConstraints);
+        pnlTargetLocations.add(btnBrowseForDirectory, gridBagConstraints);
 
         pnlMain.add(pnlTargetLocations, java.awt.BorderLayout.NORTH);
 
@@ -423,6 +428,16 @@ public class UploadDialog extends javax.swing.JDialog implements
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBrowseForDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForDirectoryActionPerformed
+        
+        IRODSFinderDialog irodsFinderDialog = new IRODSFinderDialog(idropGUI, true, idropGUI.getiDropCore());
+        irodsFinderDialog.setVisible(true);
+        uploadTarget = irodsFinderDialog.getSelectedAbsolutePath();
+        lblUploadTarget.setText(MiscIRODSUtils.abbreviateFileName(uploadTarget));
+        lblUploadTarget.setText(uploadTarget);
+      
+    }//GEN-LAST:event_btnBrowseForDirectoryActionPerformed
 
     private void btnBrowseUploadTargetActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrowseUploadTargetActionPerformed
@@ -535,15 +550,18 @@ public class UploadDialog extends javax.swing.JDialog implements
                 model.removeRow(selectedRow);
             }
         }
+        
+       setUploadButtonState();
+        
     }// GEN-LAST:event_btnDeleteUploadFileActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUploadFile;
+    private javax.swing.JButton btnBrowseForDirectory;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDeleteUploadFile;
     private javax.swing.JButton btnUploadNow;
     private javax.swing.JButton btnUseIrodsHome;
-    private javax.swing.JButton btnUseLastUpload;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
