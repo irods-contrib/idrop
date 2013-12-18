@@ -27,17 +27,23 @@ public class ItemListPagingTableModel extends AbstractTableModel {
 	private final Long transferId;
 	private List<TransferItem> items;
 	private final QueueManagerService qms;
+        private final boolean showSkipped;
+        private final boolean showSuccess;
+        
 
-	public ItemListPagingTableModel(final int pageSize, final Long transferId,
+	public ItemListPagingTableModel(final int pageSize, final Long transferId, final boolean showSuccess, final boolean showSkipped,
 			final QueueManagerService qms) throws ConveyorExecutionException {
 
 		this.pageSize = pageSize;
 		this.transferId = transferId;
 		this.qms = qms;
+                this.showSkipped = showSkipped;
+                this.showSuccess = showSuccess;
 		pageOffset = 0;
+                
 
 		// get list of initial items
-		items = qms.getNextTransferItems(transferId, 0, pageSize);
+		items = qms.getNextTransferItems(transferId, 0, pageSize, showSuccess, showSkipped);
 	}
 
 	// Return values appropriate for the visible table part.
@@ -162,9 +168,17 @@ public class ItemListPagingTableModel extends AbstractTableModel {
 			refreshData();
 		}
 	}
+        
+        
+        public void pageFirst() throws ConveyorExecutionException {
+            pageOffset = 0;
+            items = qms.getNextTransferItems(transferId, pageOffset, pageSize, showSuccess, showSkipped);
+		fireTableDataChanged();
+        }
 
 	private void refreshData() throws ConveyorExecutionException {
-		items = qms.getNextTransferItems(transferId, pageOffset, pageSize);
+        
+		items = qms.getNextTransferItems(transferId, pageOffset, pageSize, showSuccess, showSkipped);
 		fireTableDataChanged();
 	}
         
