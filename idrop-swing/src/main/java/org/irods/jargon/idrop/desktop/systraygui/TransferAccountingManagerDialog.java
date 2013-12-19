@@ -539,18 +539,17 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         // turn on/off auto refresh
 
         if (btnAutoRefresh.isSelected()) {
-            
-               autoRefreshTimer = new Timer();
-        autoRefreshTimer.schedule(new TimerTask() {
 
-                   @Override
-                   public void run() {
-                       refreshTableView();
-                       
-                   }
-               }, 0, 10*1000);
-            
-            
+            autoRefreshTimer = new Timer();
+            autoRefreshTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    refreshTableView();
+
+                }
+            }, 0, 10 * 1000);
+
+
         } else {
 
             if (autoRefreshTimer != null) {
@@ -572,6 +571,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         try {
             idropCore.getConveyorService().getQueueManagerService()
                     .purgeAllFromQueue();
+            resetDetails();
         } catch (ConveyorBusyException ex) {
             log.error("exception purging all from transfer table", ex);
             MessageManager
@@ -597,6 +597,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
             try {
                 idropCore.getConveyorService().getQueueManagerService()
                         .deleteTransferFromQueue(selectedTableObject);
+                resetDetails();
             } catch (ConveyorBusyException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (ConveyorExecutionException ex) {
@@ -685,6 +686,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         try {
             idropCore.getConveyorService().getQueueManagerService()
                     .purgeSuccessfulFromQueue();
+            resetDetails();
         } catch (ConveyorBusyException ex) {
             log.error("exception purging all from transfer table", ex);
             MessageManager
@@ -764,6 +766,22 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         lblTransferAttemptDetails.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.lblTransferAttemptDetails.text")); // NOI18N
         buildDashboardForTransfer(transfer);
 
+    }
+
+    private void resetDetails() {
+
+        final TransferAccountingManagerDialog dialog = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                pnlDashboard.removeAll();
+                TransferAttemptTableModel transferAttemptTableModel = new TransferAttemptTableModel(
+                        null);
+                jTableAttempts.setModel(transferAttemptTableModel);
+                transferAttemptTableModel.fireTableDataChanged();
+
+            }
+        });
     }
 
     private void buildDashboardForTransfer(final Transfer transfer) {
