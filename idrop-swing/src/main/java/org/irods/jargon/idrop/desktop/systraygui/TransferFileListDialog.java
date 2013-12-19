@@ -7,6 +7,7 @@ package org.irods.jargon.idrop.desktop.systraygui;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.FieldFormatHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TransferInformationMessageBuilder;
@@ -89,7 +90,9 @@ public class TransferFileListDialog extends javax.swing.JDialog {
                 
             
                 lblSourceName.setText(IDropUtils.abbreviateFileName(transferItem.getSourceFileAbsolutePath()));
+                lblSourceName.setToolTipText(transferItem.getSourceFileAbsolutePath());
                 lblTargetName.setText(IDropUtils.abbreviateFileName(transferItem.getTargetFileAbsolutePath()));
+                lblTargetName.setToolTipText(transferItem.getTargetFileAbsolutePath());
                 currentTransferItem = transferItem;
                 
             }
@@ -392,7 +395,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         pnlTransferAttemptDetails.add(lblAttemptType, gridBagConstraints);
 
         pnlItemDetails.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlItemDetails.setMinimumSize(null);
         pnlItemDetails.setPreferredSize(new java.awt.Dimension(700, 100));
         pnlItemDetails.setLayout(new java.awt.GridBagLayout());
 
@@ -533,8 +535,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnPrevPage.setToolTipText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnPrevPage.toolTipText")); // NOI18N
         btnPrevPage.setFocusable(false);
         btnPrevPage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnPrevPage.setMaximumSize(null);
-        btnPrevPage.setMinimumSize(null);
         btnPrevPage.setPreferredSize(new java.awt.Dimension(40, 40));
         btnPrevPage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPrevPage.addActionListener(new java.awt.event.ActionListener() {
@@ -550,8 +550,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnNextPage.setToolTipText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnNextPage.toolTipText")); // NOI18N
         btnNextPage.setFocusable(false);
         btnNextPage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnNextPage.setMaximumSize(null);
-        btnNextPage.setMinimumSize(null);
         btnNextPage.setPreferredSize(new java.awt.Dimension(40, 40));
         btnNextPage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnNextPage.addActionListener(new java.awt.event.ActionListener() {
@@ -570,8 +568,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnErrorsOnly.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnErrorsOnly.text")); // NOI18N
         btnErrorsOnly.setFocusable(false);
         btnErrorsOnly.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnErrorsOnly.setMaximumSize(null);
-        btnErrorsOnly.setMinimumSize(null);
         btnErrorsOnly.setPreferredSize(new java.awt.Dimension(113, 40));
         btnErrorsOnly.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnErrorsOnly.addItemListener(new java.awt.event.ItemListener() {
@@ -585,8 +581,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnShowSkipped.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnShowSkipped.text")); // NOI18N
         btnShowSkipped.setFocusable(false);
         btnShowSkipped.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnShowSkipped.setMaximumSize(null);
-        btnShowSkipped.setMinimumSize(null);
         btnShowSkipped.setPreferredSize(new java.awt.Dimension(127, 40));
         btnShowSkipped.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnShowSkipped.addItemListener(new java.awt.event.ItemListener() {
@@ -722,7 +716,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JLabel lblAttemptEnd;
     private javax.swing.JLabel lblAttemptEndLabel;
@@ -789,7 +783,8 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         lblResource.setText(transferAttempt.getTransfer().getResourceName());
         lblSequenceNumber.setText(String.valueOf(transferAttempt
                 .getSequenceNumber()));
-        lblSource.setText(transferAttempt.getTransfer().getLocalAbsolutePath());
+        lblSource.setText(MiscIRODSUtils.abbreviateFileName(transferAttempt.getTransfer().getLocalAbsolutePath()));
+        lblSource.setToolTipText(transferAttempt.getTransfer().getLocalAbsolutePath());
         lblStatus.setText(transferAttempt.getAttemptStatus().name());
 
         if (transferAttempt.getAttemptStatus() == TransferStatusEnum.OK) {
@@ -815,7 +810,8 @@ public class TransferFileListDialog extends javax.swing.JDialog {
                                     TransferInformationMessageBuilder.AttemptType.ERROR));
         }
 
-        lblTarget.setText(transferAttempt.getTransfer().getIrodsAbsolutePath());
+        lblTarget.setText(MiscIRODSUtils.abbreviateFileName(transferAttempt.getTransfer().getIrodsAbsolutePath()));
+        lblTarget.setToolTipText(transferAttempt.getTransfer().getIrodsAbsolutePath());
         lblTransferId.setText(String.valueOf(transferAttempt.getTransfer()
                 .getId()));
         lblTransferType.setText(transferAttempt.getTransfer().getTransferType()

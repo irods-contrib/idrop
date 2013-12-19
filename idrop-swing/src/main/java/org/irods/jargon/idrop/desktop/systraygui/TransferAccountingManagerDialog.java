@@ -294,7 +294,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 700));
+        setPreferredSize(new java.awt.Dimension(900, 800));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 4, 4, 4));
         pnlMain.setLayout(new java.awt.BorderLayout());
@@ -447,7 +447,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         pnlMain.add(toolBarTop, java.awt.BorderLayout.NORTH);
 
-        splitMasterdetail.setDividerLocation(150);
+        splitMasterdetail.setDividerLocation(200);
         splitMasterdetail.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         pnlTable.setLayout(new java.awt.BorderLayout());
@@ -761,6 +761,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
     private void displayTransferInfo(Transfer transfer) throws HeadlessException {
         lblTransferDetails.setText(TransferInformationMessageBuilder
                 .buildTransferSummary(transfer));
+        lblTransferAttemptDetails.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.lblTransferAttemptDetails.text")); // NOI18N
         buildDashboardForTransfer(transfer);
 
     }
