@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" ng-app id="ng-app">
+<html lang="en">
   <head>
     <g:render template="/common/cssAndJs"/>
-    <title>Bootstrap 101 Template</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-   
+    <meta name="description" content="">
+    <meta name="author" content="DICE - www.irods.org">
      <g:layoutHead/>
   </head>
   <body>
    <g:layoutBody/>
   </body>
-  <g:javascript src="controllers/global_interceptors.js" />
 </html>
