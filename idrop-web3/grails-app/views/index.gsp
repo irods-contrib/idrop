@@ -12,11 +12,15 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="#"><g:message code="text.brand" /></a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><a href="#home">
+              <span class="glyphicon glyphicon-star"></span>
+              <span class="glyphicon-class"><g:message code="text.home" /></span>
+              </a>
+              </li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
               <li class="dropdown">
@@ -43,6 +47,10 @@
         <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
       </div>
     </div>
+    
+    
+      <span class="glyphicon glyphicon-star"></span>
+              <span class="glyphicon-class"><g:message code="text.home" /></span>
 
     <div id="footer">
       <div class="container">
