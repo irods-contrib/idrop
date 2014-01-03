@@ -1,51 +1,89 @@
 @CHARSET "UTF-8";
 
-.button-pad {
-    margin-top:5px;
+/*
+
+stretch the responsive grid row
+
+*/
+
+.stretch-row {
+	padding: 0 15px;
+}
+
+
+/*
+
+
+Color palette 
+
+ref http://www.colorcombos.com/color-schemes/250/ColorCombo250.html
+
+
+*/
+.steel-blue {
+	background-color: #4086AA;
+}
+
+.morning-glory {
+	background-color: #91C3DC;
+}
+
+.battlehip-grey {
+	background-color: #87907D;
+}
+
+.bud-green {
+	background-color: #AAB6A2;
+}
+
+.emperor-grey {
+	background-color: #555555;
+}
+
+.dove-grey {
+	background-color: #666666;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
-
-html,
-body {
-  height: 100%;
-  /* The html and body elements cannot have any padding or margin. */
+html,body {
+	height: 100%;
+	/* The html and body elements cannot have any padding or margin. */
 }
 
 /* Wrapper for page content to push down footer */
 #wrap {
-  min-height: 100%;
-  height: auto;
-  /* Negative indent footer by its height */
-  margin: 0 auto -60px;
-  /* Pad bottom by footer height */
-  padding: 0 0 60px;
+	min-height: 100%;
+	height: auto;
+	/* Negative indent footer by its height */
+	margin: 0 auto -60px;
+	/* Pad bottom by footer height */
+	padding: 0 0 60px;
 }
 
 /* Set the fixed height of the footer here */
 #footer {
-  height: 60px;
-  background-color: #f5f5f5;
+	height: 60px;
+	background-color: #f5f5f5;
 }
-
 
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
-
-#wrap > .container {
-  padding: 60px 15px 0;
+#wrap>.container {
+	padding: 60px 15px 0;
 }
+
 .container .text-muted {
-  margin: 20px 0;
+	margin: 20px 0;
 }
 
-#footer > .container {
-  padding-left: 15px;
-  padding-right: 15px;
+#footer>.container {
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 code {
-  font-size: 80%;
-}​
+	font-size: 80%;
+}
+​

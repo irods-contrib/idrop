@@ -1,2 +1,62 @@
 http://bootsnipp.com/
 
+
+palette
+
+http://www.colorcombos.com/color-schemes/250/ColorCombo250.html
+
+
+
+Color Images	Color Codes	Tags	Sponsor
+ 4086AA.png	
+Hex:	 #4086AA
+RGB:64, 134, 170
+CMYK:0.624, 0.212, 0, 0.333
+HSV:200, 62, 67
+4086AA
+blue
+steel blue
+ 91C3DC.png	
+Hex:	 #91C3DC
+RGB:145, 195, 220
+CMYK:0.341, 0.114, 0, 0.137
+HSV:200, 34, 86
+91C3DC
+blue
+morning glory
+ 87907D.png	
+Hex:	 #87907D
+RGB:135, 144, 125
+CMYK:0.063, 0, 0.132, 0.435
+HSV:88, 13, 56
+87907D
+battleship gray
+green yellow
+ AAB6A2.png	
+Hex:	 #AAB6A2
+RGB:170, 182, 162
+CMYK:0.066, 0, 0.11, 0.286
+HSV:96, 11, 71
+AAB6A2
+bud
+green
+ 555555.png	
+Hex:	 #555555
+RGB:85, 85, 85
+CMYK:0, 0, 0, 0.667
+HSV:0, 0, 33
+555555
+emperor
+gray
+grey
+ 666666.png	
+Hex:	 #666666
+RGB:102, 102, 102
+CMYK:0, 0, 0, 0.6
+HSV:0, 0, 40
+666666
+dove gray
+gray
+grey
+
+
