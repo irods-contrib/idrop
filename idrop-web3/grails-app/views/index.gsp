@@ -4,10 +4,6 @@
 	
 	<div class="container">
 		<g:render template="/common/browseContainer" />
-	
-	
-	
-	
 	</div>
 
 	<div id="footer">
