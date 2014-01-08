@@ -6,18 +6,16 @@ stretch the responsive grid row
 
 */
 
-.stretch-row {
-	padding: 0 15px;
+.pad-vertical {
+	padding-top:3px;
+	padding-bottom:3px;
 }
 
-
 /*
-
 
 Color palette 
 
 ref http://www.colorcombos.com/color-schemes/250/ColorCombo250.html
-
 
 */
 .steel-blue {
