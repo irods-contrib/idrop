@@ -1,0 +1,111 @@
+<div ng-controller="CollectionCtrl" id="home-center" class="col-md-9">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-toolbar pad-vertical" role="toolbar">
+                <div class="btn-group pull-left">
+                    <button type="button" class="btn btn-link">
+                        <span class="glyphicon glyphicon-home"></span><span
+                            class="glyphicon-class"></span>
+                    </button>
+                    <div ng-repeat="coll in collection.path"
+                    <button type="button" class="btn btn-link">/ {{coll}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row emperor-grey">
+        <div class="col-md-12">
+            <div class="btn-toolbar pad-vertical" role="toolbar">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span> <span
+                            class="glyphicon-class">Rename</span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-transfer"></span> <span
+                            class="glyphicon-class">Move/Copy</span>
+                    </button>
+
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-trash"></span> <span
+                            class="glyphicon-class">Delete</span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-wrench"></span> <span
+                            class="glyphicon-class">Tools</span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> <span
+                            class="glyphicon-class">Add to Cart</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Kind</th>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Modified</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat = "d in collection.data">
+                    <td><input type="checkbox"></td>
+                    <td>
+                        <span ng-show="d.kind == 'Collection'" class="glyphicon glyphicon-folder-close" />
+                        <span ng-show="d.kind == 'DataObject'" class="glyphicon glyphicon-file" />
+                    </td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.dataSize}}</td>
+                    <td>{{d.created}}</td>
+                </tr>
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <div class="row stretch-row emperor-grey">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="btn-toolbar pad-vertical" role="toolbar">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-fast-backward"></span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-backward"></span>
+                    </button>
+
+                    <button type="button" class="btn btn-default">1</button>
+                    <button type="button" class="btn btn-default">2</button>
+                    <button type="button" class="btn btn-default">3</button>
+                    <button type="button" class="btn btn-default">4</button>
+                    <button type="button" class="btn btn-default">5</button>
+                    <button type="button" class="btn btn-default">6</button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-forward"></span>
+                    </button>
+
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-fast-forward"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
