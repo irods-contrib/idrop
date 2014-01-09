@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iDrop-web - iRODS Cloud Browser</title>
+    <link rel="stylesheet"
+          href="/idrop-web3/css/bootstrap.css" />
+    <link rel="stylesheet" href="/idrop-web3/css/idrop.css" />
+    <link rel="shortcut icon"
+          href="/idrop-web3/images/favicon.ico" type="image/x-icon" />
+
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="DICE - www.irods.org">
+
+    <meta name="layout" content="main"/>
+
+</head>
+<body>
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">iDrop</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#home"> <span
+                        class="glyphicon glyphicon-home"></span> <span
+                        class="glyphicon-class">Home</span>
+                </a></li>
+                <li><a href="#search"> <span
+                        class="glyphicon glyphicon-search"></span> <span
+                        class="glyphicon-class">Search</span>
+                </a></li>
+                <li><a href="#tools"> <span
+                        class="glyphicon glyphicon-wrench"></span> <span
+                        class="glyphicon-class">Tools</span>
+                </a></li>
+                <li><a href="#cart"> <span
+                        class="glyphicon glyphicon-shopping-cart"></span> <span
+                        class="glyphicon-class">File Cart</span>
+                </a></li>
+                <li><a href="#profile"> <span
+                        class="glyphicon glyphicon-user"></span> <span
+                        class="glyphicon-class">Profile</span>
+                </a></li>
+                <li><a href="#help"> <span
+                        class="glyphicon glyphicon-question-sign"></span> <span
+                        class="glyphicon-class">Help</span>
+                </a></li>
+                <li><a href="#logout"> <span
+                        class="glyphicon glyphicon-off"></span> <span
+                        class="glyphicon-class">Logout</span>
+                </a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li class="active"><a href="#quickUpload"> <span
+                        class="glyphicon glyphicon-home"></span> <span
+                        class="glyphicon-class">Quick Upload</span>
+                </a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div id="wrap">
+<head>
+    <meta name="layout" content="main"/>
+</head>
+<div ng-app="home" ng-controller="HomeCtrl" class="container">
+<div  class="row" >
+<div id="home-left" class="col-md-3" ng-hide="hideDrives">
+    <div class="row  stretch-row">
+        <div class="col-md-12">
+            <ul class="list-group">
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-folder-close"></span>
+                    Root
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-folder-close"></span>
+                    User Home
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-star"></span>
+                    Starred
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-share"></span>
+                    Shared By Me
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-share"></span>
+                    Shared With Me
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-tag"></span> SILS
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-tag"></span> SC13
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-tag"></span> WRF
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-search"></span> Cape Fear river
+                    gauges
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-search"></span> Climate Paper
+                    model
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-search"></span> A HIVE SPARQL
+                    Query
+                </button></li>
+                <li class="list-group-item"><button type="button"
+                                                    class="btn btn-link">
+                    <span class="glyphicon glyphicon-search"></span> A Lucene search
+                </button></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div id="home-center" class="col-md-9">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-toolbar pad-vertical" role="toolbar">
+                <div class="btn-group pull-left">
+                    <button type="button" class="btn btn-link">
+                        <span class="glyphicon glyphicon-home"></span><span
+                            class="glyphicon-class"></span>
+                    </button>
+                    <button type="button" class="btn btn-link">/ ...</button>
+                    <button type="button" class="btn btn-link">/ test1</button>
+                    <button type="button" class="btn btn-link">/ home</button>
+                    <button type="button" class="btn btn-link">/ test1</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row emperor-grey">
+        <div class="col-md-12">
+            <div class="btn-toolbar pad-vertical" role="toolbar">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span> <span
+                            class="glyphicon-class">Rename</span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-transfer"></span> <span
+                            class="glyphicon-class">Move/Copy</span>
+                    </button>
+
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-trash"></span> <span
+                            class="glyphicon-class">Delete</span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-wrench"></span> <span
+                            class="glyphicon-class">Tools</span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> <span
+                            class="glyphicon-class">Add to Cart</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Kind</th>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Modified</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td><span class="glyphicon glyphicon-folder-close" /></td>
+                    <td>Collection 1</td>
+                    <td></td>
+                    <td>12/01/2013 12:15:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td><span class="glyphicon glyphicon-folder-close" /></td>
+                    <td>Collection 2</td>
+                    <td></td>
+                    <td>12/31/2013 10:35:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td><span class="glyphicon glyphicon-folder-close" /></td>
+                    <td>Collection 3</td>
+                    <td></td>
+                    <td>01/12/2013 23:29:07</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td><span class="glyphicon glyphicon-folder-close" /></td>
+                    <td>Collection 4</td>
+                    <td></td>
+                    <td>12/31/2013 10:00:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td><span class="glyphicon glyphicon-folder-close" /></td>
+                    <td>Collection 1 with a really really really really long name</td>
+                    <td></td>
+                    <td>12/31/2013 10:00:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td><span class="glyphicon glyphicon-folder-close" /></td>
+                    <td>Collection 1</td>
+                    <td></td>
+                    <td>12/31/2013 10:00:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td><span class="glyphicon glyphicon-file" /></td>
+                    <td>file1.txt</td>
+                    <td>88K</td>
+                    <td>12/31/2013 10:00:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td><span class="glyphicon glyphicon-file" /></td>
+                    <td>file2.txt</td>
+                    <td>235M</td>
+                    <td>12/31/2013 10:00:00</td>
+                </tr>
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <div class="row stretch-row emperor-grey">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="btn-toolbar pad-vertical" role="toolbar">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-fast-backward"></span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-backward"></span>
+                    </button>
+
+                    <button type="button" class="btn btn-default">1</button>
+                    <button type="button" class="btn btn-default">2</button>
+                    <button type="button" class="btn btn-default">3</button>
+                    <button type="button" class="btn btn-default">4</button>
+                    <button type="button" class="btn btn-default">5</button>
+                    <button type="button" class="btn btn-default">6</button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-forward"></span>
+                    </button>
+
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-fast-forward"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div id="footer">
+    <div class="container">
+        <div class="btn-group pull-left pad-vertical">
+            <button type="button" class="btn btn-default dropdown-toggle"
+                    data-toggle="dropdown">
+                <span class="glyphicon glyphicon-eye-open"></span> <span
+                    class="glyphicon-class"></span>
+                Views
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-show="hideDrives" ng-click="showCollections()"><a href="#home"> <span
+                        class="glyphicon glyphicon-eye-open"></span> <span
+                        class="glyphicon-class">Show Collections</span>
+                </a></li>
+                <li ng-hide="hideDrives" ng-click="hideCollections()"><a href="#home"> <span
+                        class="glyphicon glyphicon-eye-close"></span> <span
+                        class="glyphicon-class">Hide Collections</span>
+                </a></li>
+                <li><a href="#home"> <span
+                        class="glyphicon glyphicon-eye-open"></span> <span
+                        class="glyphicon-class">Show Quick View</span>
+                </a></li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+<script src="/idrop-web3/js/vendor/jquery-1.10.2.min.js" type="text/javascript"></script>
+
+<script src="/idrop-web3/js/vendor/bootstrap.min.js" type="text/javascript"></script>
+
+<script src="/idrop-web3/js/vendor/angular.min.js" type="text/javascript"></script>
+
+<script src="/idrop-web3/js/src/app/home/home.js" type="text/javascript"></script>
+
+</div>
+</body>
+</html>
