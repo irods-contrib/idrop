@@ -16,6 +16,32 @@
                         class="glyphicon glyphicon-home"></span> <span
                         class="glyphicon-class">Home</span>
                 </a></li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"
+                            data-toggle="dropdown" href="#">
+                        <span class="glyphicon glyphicon-eye-open"></span> <span
+                            class="glyphicon-class"></span>
+                        Views
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-show="hideDrives" ng-click="showCollections()"><a href="#home"> <span
+                                class="glyphicon glyphicon-eye-open"></span> <span
+                                class="glyphicon-class">Show Collections</span>
+                        </a></li>
+                        <li ng-hide="hideDrives" ng-click="hideCollections()"><a href="#home"> <span
+                                class="glyphicon glyphicon-eye-close"></span> <span
+                                class="glyphicon-class">Hide Collections</span>
+                        </a></li>
+                        <li><a href="#home"> <span
+                                class="glyphicon glyphicon-eye-open"></span> <span
+                                class="glyphicon-class">Show Quick View</span>
+                        </a></li>
+
+                    </ul>
+                </li>
+
                 <li><a href="#search"> <span
                         class="glyphicon glyphicon-search"></span> <span
                         class="glyphicon-class">Search</span>

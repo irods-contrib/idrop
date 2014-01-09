@@ -21,13 +21,13 @@
 
 </head>
 <body>
-<!-- Fixed navbar -->
-<div x-ng-include="'nav-angularjs.html'"></div>
 <div id="wrap">
 <head>
     <meta name="layout" content="main"/>
 </head>
 <div ng-app="home" ng-controller="HomeCtrl" class="container">
+<!-- Fixed navbar -->
+<div x-ng-include="'nav-angularjs.html'"></div>
 <div  class="row" >
 <div id="home-left" class="col-md-3" ng-hide="hideDrives">
     <div class="row  stretch-row">
@@ -254,30 +254,6 @@
 
 <div id="footer">
     <div class="container">
-        <div class="btn-group pull-left pad-vertical">
-            <button type="button" class="btn btn-default dropdown-toggle"
-                    data-toggle="dropdown">
-                <span class="glyphicon glyphicon-eye-open"></span> <span
-                    class="glyphicon-class"></span>
-                Views
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li ng-show="hideDrives" ng-click="showCollections()"><a href="#home"> <span
-                        class="glyphicon glyphicon-eye-open"></span> <span
-                        class="glyphicon-class">Show Collections</span>
-                </a></li>
-                <li ng-hide="hideDrives" ng-click="hideCollections()"><a href="#home"> <span
-                        class="glyphicon glyphicon-eye-close"></span> <span
-                        class="glyphicon-class">Hide Collections</span>
-                </a></li>
-                <li><a href="#home"> <span
-                        class="glyphicon glyphicon-eye-open"></span> <span
-                        class="glyphicon-class">Show Quick View</span>
-                </a></li>
-
-            </ul>
-        </div>
     </div>
 </div>
 </div>
