@@ -15,5 +15,4 @@
 		<g:layoutBody />
 	</div>
 </body>
-<g:render template="/common/sharedJs" />
 </html>
