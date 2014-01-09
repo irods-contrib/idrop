@@ -1,10 +1,8 @@
 <head>
 <meta name="layout" content="main" />
 </head>
-<div ng-app="home" ng-controller="HomeCtrl">
-	<div class="container">
+<div ng-app="home" ng-controller="HomeCtrl" class="container">
 		<g:render template="/common/browseContainer" />
-	</div>
 
 	<div id="footer">
 		<div class="container">

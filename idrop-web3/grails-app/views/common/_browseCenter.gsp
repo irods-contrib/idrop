@@ -1,6 +1,4 @@
-<div class="container">
 
-<!-- 
 	<div class="row">
 		<div class="col-md-12">
 			<div class="btn-toolbar pad-vertical" role="toolbar">
@@ -125,8 +123,6 @@
 	</div>
 
 	<div class="row stretch-row emperor-grey">
-
-
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
 			<div class="btn-toolbar pad-vertical" role="toolbar">
@@ -155,5 +151,4 @@
 				</div>
 			</div>
 		</div>
-	</div> -->
-</div>
+	</div> 
