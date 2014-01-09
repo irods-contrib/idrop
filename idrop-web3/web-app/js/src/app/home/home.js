@@ -6,14 +6,11 @@
 
 angular.module('home', [])
 
-.config(function($scope){
+.config(function(){
 	/*
 	 * configuration block
 	 */
 	
-
-	$scope.name="mconway";
-	$scope.hideDrives="false";
 
 })
 
@@ -21,8 +18,10 @@ angular.module('home', [])
 	 * Home controller function here
 	 */
 .controller('HomeCtrl', function($scope) {
-	
-	
+
+        $scope.name="mconway";
+        $scope.hideDrives="false";
+
 	
 	/*
 	 * Cause the collections panel on the left to display
