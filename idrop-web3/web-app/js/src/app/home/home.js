@@ -52,7 +52,8 @@ angular.module('home', [])
     var folderIcon = "glyphicon-folder-close";
     for(var n=0;n<pages.length;n++) {
         var page = [];
-        for(var i=0;i<8;i++) {
+        if(n!==0) {
+        for(var i=0;i<10;i++) {
             page.push({
                 kind: "DataObject",
                 icon: fileIcon,
@@ -62,14 +63,16 @@ angular.module('home', [])
                 selected: false
             });
         }
+        } else {
         for(var i=0;i<10;i++) {
             page.push({
                 kind: "Collection",
                 icon: folderIcon,
-                name: "Collection "+n+i,
+                name: "Collection "+i,
                 created: "12/01/2013 12:15:00",
                 selected: false
             });
+        }
         }
         pageData.push(page);
     }
