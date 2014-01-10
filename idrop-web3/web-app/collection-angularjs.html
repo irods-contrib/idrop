@@ -19,26 +19,9 @@
         <div class="col-md-12">
             <div class="btn-toolbar pad-vertical" role="toolbar">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-pencil"></span> <span
-                            class="glyphicon-class">Rename</span>
-                    </button>
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-transfer"></span> <span
-                            class="glyphicon-class">Move/Copy</span>
-                    </button>
-
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-trash"></span> <span
-                            class="glyphicon-class">Delete</span>
-                    </button>
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-wrench"></span> <span
-                            class="glyphicon-class">Tools</span>
-                    </button>
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-shopping-cart"></span> <span
-                            class="glyphicon-class">Add to Cart</span>
+                    <button ng-repeat="a in collection.actions" type="button" class="btn btn-default">
+                        <span class="glyphicon {{a.icon}}"></span> <span
+                            class="glyphicon-class">{{a.name}}</span>
                     </button>
                 </div>
             </div>
@@ -59,10 +42,9 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat = "d in collection.data">
-                    <td><input type="checkbox"></td>
+                    <td><input ng-click="update(d)" ng-model="d.selected" type="checkbox"></td>
                     <td>
-                        <span ng-show="d.kind == 'Collection'" class="glyphicon glyphicon-folder-close" />
-                        <span ng-show="d.kind == 'DataObject'" class="glyphicon glyphicon-file" />
+                        <span class="glyphicon {{d.icon}}" />
                     </td>
                     <td>{{d.name}}</td>
                     <td>{{d.dataSize}}</td>
