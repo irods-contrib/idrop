@@ -41,17 +41,43 @@ angular.module('home', [])
 }).controller("CollectionCtrl", function($scope) {
         $scope.collection = {
             path: ["tempZone", "home", "rods"],
-            data: [ {
-                kind: "Collection",
-                name: "Collection 1",
-                created: "12/01/2013 12:15:00"
-            }, {
-                kind: "DataObject",
-                name: "file1.txt",
-                dataSize: "88K",
-                created: "12/31/2013 10:00:00"
-            } ],
+            data: [],
             metadata: {}
 
         }
+        $scope.page = function page(n) {
+            if(n==="first") {
+                page(0);
+            } else if(n==="last") {
+                var pages = $scope.pages();
+                page(pages.length-1);
+            } else if(n==="next") {
+                var pages = $scope.pages();
+                if($scope.collection.pageInx < pages.length-1) {
+                    page($scope.collection.pageInx+1);
+                }
+            } else if(n==="prev") {
+                var pages = $scope.pages();
+                if($scope.collection.pageInx > 0) {
+                    page($scope.collection.pageInx-1);
+                }
+            } else {
+                $scope.collection.pageInx = n;
+                $scope.collection.data = [ {
+                    kind: "Collection",
+                    name: "Collection "+n,
+                    created: "12/01/2013 12:15:00"
+                }, {
+                    kind: "DataObject",
+                    name: "file"+n+".txt",
+                    dataSize: "88K",
+                    created: "12/31/2013 10:00:00"
+                } ];
+            }
+        }
+        $scope.pages = function () {
+            return [1,2,3,4,5,6];
+        }
+        $scope.page(0);
+
     });

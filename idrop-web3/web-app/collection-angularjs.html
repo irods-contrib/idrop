@@ -80,24 +80,19 @@
         <div class="col-md-8">
             <div class="btn-toolbar pad-vertical" role="toolbar">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default">
+                    <button ng-click="page('first')" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-fast-backward"></span>
                     </button>
-                    <button type="button" class="btn btn-default">
+                    <button ng-click="page('prev')" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-backward"></span>
                     </button>
 
-                    <button type="button" class="btn btn-default">1</button>
-                    <button type="button" class="btn btn-default">2</button>
-                    <button type="button" class="btn btn-default">3</button>
-                    <button type="button" class="btn btn-default">4</button>
-                    <button type="button" class="btn btn-default">5</button>
-                    <button type="button" class="btn btn-default">6</button>
-                    <button type="button" class="btn btn-default">
+                    <button ng-repeat="n in pages()" ng-click="page($index)" type="button" class="btn btn-default">{{n}}</button>
+                    <button ng-click="page('next')" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-forward"></span>
                     </button>
 
-                    <button type="button" class="btn btn-default">
+                    <button ng-click="page('last')" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-fast-forward"></span>
                     </button>
 
