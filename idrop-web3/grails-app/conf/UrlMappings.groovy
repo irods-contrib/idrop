@@ -8,6 +8,6 @@ class UrlMappings {
 		}
 
 		"500"(view:'/error')
-		"/"(view:"/index")
+	//	"/"(view:"/index-angularjs.html")
 	}
 }
