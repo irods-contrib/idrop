@@ -19,7 +19,6 @@ angular.module('home', [])
 	 */
 .controller('HomeCtrl', function($scope) {
 
-        $scope.name="mconway";
         $scope.hideDrives="false";
 
 	
