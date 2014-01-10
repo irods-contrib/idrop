@@ -20,8 +20,7 @@ angular.module('home', [])
 .controller('HomeCtrl', function($scope) {
 
         $scope.hideDrives="false";
-
-	
+        $scope.numberSelected = 0;
 	/*
 	 * Cause the collections panel on the left to display
 	 */
@@ -35,7 +34,6 @@ angular.module('home', [])
 	$scope.hideCollections = function () {
 		$scope.hideDrives="true";
 	};
-	
 	
 }).controller("CollectionCtrl", function($scope) {
     $scope.collection = {
@@ -79,51 +77,12 @@ angular.module('home', [])
         var selection = $scope.collection.selection;
         if(d) {
             if(d.selected) {
-                selection.push(d);
+            	$scope.numberSelected++;
             } else {
-                selection.splice(selection.indexOf(d), 1);
+            	$scope.numberSelected--;
             }
         }
-        switch(selection.length) {
-            case 0:
-                $scope.collection.actions = [{
-                    name: "Tools",
-                    icon: "glyphicon-wrench"
-                }]
-                break;
-            case 1:
-                $scope.collection.actions = [ {
-                    name: "Rename",
-                    icon: "glyphicon-pencil"
-                },{
-                    name: "Move/Copy",
-                    icon: "glyphicon-transfer"
-                },{
-                    name: "Delete",
-                    icon: "glyphicon-trash"
-                },{
-                    name: "Tools",
-                    icon: "glyphicon-wrench"
-                },{
-                    name: "Add to Cart",
-                    icon: "glyphicon-shopping-cart"
-                }];
-                break;
-            default :
-                $scope.collection.actions =[{
-                    name: "Move/Copy",
-                    icon: "glyphicon-transfer"
-                },{
-                    name: "Delete",
-                    icon: "glyphicon-trash"
-                },{
-                    name: "Tools",
-                    icon: "glyphicon-wrench"
-                },{
-                    name: "Add to Cart",
-                    icon: "glyphicon-shopping-cart"
-                }];
-        }
+       
     }
     $scope.page = function page(n) {
         var collection = $scope.collection;
