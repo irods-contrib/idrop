@@ -1,5 +1,4 @@
 <div ng-controller="CollectionCtrl" id="home-center" class="col-md-9">
-
     <div class="row">
         <div class="col-md-12">
             <div class="btn-toolbar pad-vertical" role="toolbar">
@@ -8,26 +7,18 @@
                         <span class="glyphicon glyphicon-home"></span><span
                             class="glyphicon-class"></span>
                     </button>
-                    <div ng-repeat="coll in collection.path"
-                    <button type="button" class="btn btn-link">/ {{coll}}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row emperor-grey">
-        <div class="col-md-12">
-            <div class="btn-toolbar pad-vertical" role="toolbar">
-                <div class="btn-group">
-                    <button ng-repeat="a in collection.actions" type="button" class="btn btn-default">
-                        <span class="glyphicon {{a.icon}}"></span> <span
-                            class="glyphicon-class">{{a.name}}</span>
+                    <span ng-repeat="coll in collection.path">
+                    <button ng-click="goto(coll.id)" type="button" class="btn btn-link">
+                        <span ng-hide="$first">/ {{coll.path}} </span>
+                        <span ng-show="$first">root</span>
                     </button>
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 
+    <div x-ng-include="'js/src/assets/home/collectionActions-angularjs.html'"></div>
     <div class="row">
         <div class="table-responsive">
             <table class="table table-striped">
@@ -36,17 +27,17 @@
                     <th><input type="checkbox"></th>
                     <th>Kind</th>
                     <th>Name</th>
-                    <th>Size</th>
+                        <th>Size</th>
                     <th>Modified</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat = "d in collection.data">
-                    <td><input ng-click="update(d)" ng-model="d.selected" type="checkbox"></td>
+                    <td><input ng-change="update(d)" ng-model="d.selected" type="checkbox"></td>
                     <td>
                         <span class="glyphicon {{d.icon}}" />
                     </td>
-                    <td>{{d.name}}</td>
+                    <td><a href="#{{d.id}}">{{d.name}}</a></td>
                     <td>{{d.dataSize}}</td>
                     <td>{{d.created}}</td>
                 </tr>
@@ -83,6 +74,5 @@
         </div>
     </div>
 
-</div>
 </div>
 

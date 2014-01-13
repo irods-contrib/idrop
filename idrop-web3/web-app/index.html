@@ -9,8 +9,6 @@
     <link rel="shortcut icon"
           href="images/favicon.ico" type="image/x-icon" />
 
-
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +25,7 @@
 </head>
 <div ng-app="home" ng-controller="HomeCtrl" class="container">
 <!-- Fixed navbar -->
-<div x-ng-include="'nav-angularjs.html'"></div>
+<div x-ng-include="'js/src/assets/common/nav-angularjs.html'"></div>
 <div  class="row" >
 <div id="home-left" class="col-md-3" ng-hide="hideDrives">
     <div class="row  stretch-row">
@@ -93,7 +91,7 @@
         </div>
     </div>
 </div>
-<div x-ng-include="'collection-angularjs.html'"></div>
+<div x-ng-view></div>
 </div>
 <div id="footer">
     <div class="container">
@@ -104,7 +102,11 @@
 
 <script src="js/vendor/bootstrap.min.js" type="text/javascript"></script>
 
-<script src="js/vendor/angular.min.js" type="text/javascript"></script>
+<!-- <script src="js/vendor/angular.min.js" type="text/javascript"></script> -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.js"></script>
 
 <script src="js/src/app/home/home.js" type="text/javascript"></script>
 
