@@ -111,7 +111,6 @@ angular.module('home', ['ngRoute','ngResource'], function($provide, $routeProvid
 	 */
 .controller('HomeCtrl', function($scope) {
 
-        $scope.name="mconway";
         $scope.hideDrives="false";
 	/*
 	 * Cause the collections panel on the left to display
