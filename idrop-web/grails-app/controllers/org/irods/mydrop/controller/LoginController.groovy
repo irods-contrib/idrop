@@ -106,7 +106,6 @@ class LoginController {
 
 		log.info("default storage resource: ${resource}")
 
-		boolean success = true
 		IRODSAccount irodsAccount
 
 		if (loginCommand.useGuestLogin) {
@@ -160,6 +159,7 @@ class LoginController {
 		try {
 			authResponse = irodsAccessObjectFactory.authenticateIRODSAccount(irodsAccount)
 			viewStateService.clearViewState()
+
 		} catch (JargonException e) {
 			log.error("unable to authenticate, JargonException", e)
 
@@ -167,21 +167,17 @@ class LoginController {
 				if (e.getMessage().indexOf("-826000") > -1) {
 					log.warn("invalid user/password")
 					loginCommand.errors.reject("error.auth.invalid.user","Invalid user or password")
-					success = false
 				} else {
 					log.error("authentication service exception", e)
 
 					loginCommand.errors.reject("error.auth.invalid.user","Unable to authenticate")
-					success = false
 				}
 			} else if (e.getCause() instanceof UnknownHostException) {
 				log.warn("cause is invalid host")
 				loginCommand.errors.reject("error.auth.invalid.host","Unknown host")
-				success = false
 			} else if (e.getCause().getMessage().indexOf("refused") > -1) {
 				log.error("cause is refused or invalid port")
 				loginCommand.errors.reject("error.auth.connection.refused","Connection refused")
-				success = false
 			} else {
 				log.error("authentication service exception", e)
 				response.sendError(500,e.message)
@@ -189,7 +185,7 @@ class LoginController {
 			}
 		}
 
-		if (!success) {
+		if (!authResponse.isSuccessful()) {
 			log.warn("unsuccessful, render the login again")
 			render(view:"login", model:[loginCommand:loginCommand])
 			return

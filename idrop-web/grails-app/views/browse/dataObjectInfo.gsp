@@ -1,3 +1,4 @@
+<%@page import="java.lang.String"%>
 <g:hiddenField id="infoAbsPath" name="absolutePath"
 	value="${dataObject.absolutePath}" />
 
@@ -21,7 +22,7 @@
 
 
 			<h3>
-				${dataObject.dataName}
+				<Jsoup:clean>${dataObject.dataName}</Jsoup:clean>
 			</h3>
 		</div>
 
@@ -209,8 +210,8 @@
 							:</strong>
 						</div>
 						<div class="span10">
-							<g:textField id="infoTags" name="tags"
-								value="${tags.spaceDelimitedTagsForDomain}" />
+							<Jsoup:clean><g:textField id="infoTags" name="tags"
+								value="${tags.spaceDelimitedTagsForDomain}" /></Jsoup:clean>
 						</div>
 					</div>
 					<div class="row">
@@ -219,8 +220,8 @@
 							:</strong>
 						</div>
 						<div class="span10">
-							<g:textArea id="infoComment" name="comment" rows="5" cols="80"
-								value="${comment}" />
+							<Jsoup:clean><g:textArea id="infoComment" name="comment" rows="5" cols="80"
+								value="${comment}" /></Jsoup:clean>
 						</div>
 					</div>
 					<div class="row">

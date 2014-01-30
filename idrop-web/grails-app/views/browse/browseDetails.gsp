@@ -40,7 +40,7 @@
 								</div>
 
 							</th>
-							<th><g:message code="text.name" /></th>
+							<th><Jsoup:clean><g:message code="text.name" /></Jsoup:clean></th>
 							<th><g:message code="text.type" /></th>
 							<th><g:message code="text.modified" /></th>
 							<th><g:message code="text.length" /></th>
@@ -66,7 +66,7 @@
 										test="${entry.objectType.toString() == 'COLLECTION'}">
 										<a href="#" id="${entry.formattedAbsolutePath}"
 											onclick="clickOnPathInBrowseDetails(this.id)">
-											${entry.nodeLabelDisplayValue}
+											<Jsoup:clean>${entry.nodeLabelDisplayValue}</Jsoup:clean>
 										</a>
 
 									</g:if> <g:else>
