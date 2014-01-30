@@ -116,37 +116,13 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 			log.info("no properties found in properties file in home directory, attempt to import default idrop.properties from classpath properties");
 			databaseProperties = importPropertiesFromDefaultFile(true);
 		}
+                
+                Properties overrideTearOffProperties = new Properties();
+                overrideTearOffProperties.setProperty("tear.off.mode", configFileProperties.getProperty("tear.off.mode"));
+                importGivenPropertiesIntoDatabase(overrideTearOffProperties);
 
 		log.info("now storing derived properties in idrop configuration");
-		log.info("checking for force mode, which forces certain properties to be loaded from the idrop.properties file");
-		/*
-		 * This is something of a shim right now until config things settle
-		 * down. For lifetime library, force into login preset mode
-		 */
-
-		String forceMode = configFileProperties.getProperty(FORCE_MODE);
-		if (forceMode != null) {
-			boolean isForce = Boolean.valueOf(forceMode);
-			log.info("force mode is:{}", isForce);
-			if (isForce) {
-				log.warn("forcing into login preset mode");
-				databaseProperties.setProperty(LOGIN_PRESET, "true");
-			}
-		}
-
-		/*
-		 * If the distro has the idrop.properties to force.no.synch=true, then
-		 * override the force option in effect
-		 */
-		forceMode = configFileProperties.getProperty(FORCE_NO_SYNCH);
-		if (forceMode != null) {
-			boolean isForce = Boolean.valueOf(forceMode);
-			log.info("force no synch mode  mode is:{}", isForce);
-			if (isForce) {
-				log.warn("forcing into no synch mode");
-				databaseProperties.setProperty(SHOW_STARTUP, "false");
-			}
-		}
+		
 
 		/*
 		 * Bring over anything in the configuration file that is not stored n
@@ -290,7 +266,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 		synchronized (this) {
 			try {
 				ConfigurationProperty configurationProperty = configurationService
-						.findConfigurationServiceByKey(key);
+						.findConfigurationPropertyByKey(key);
 
 				if (configurationProperty == null) {
 					log.info("not found, this is new configuration");
@@ -486,8 +462,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 		log.info("key to remove:{}", key);
 		synchronized (this) {
 			try {
-				ConfigurationProperty configurationProperty = configurationService
-						.findConfigurationServiceByKey(key);
+				ConfigurationProperty configurationProperty = configurationService.findConfigurationPropertyByKey(key);
 				if (configurationProperty == null) {
 					log.info("no prop with key, ignore");
 					return;
