@@ -162,93 +162,52 @@ public class IDROPDesktop {
         boolean validated = false;
 
         try {
-
             if (idropCore.getConveyorService().getConfigurationService().isInTearOffMode()) {
-                LoginDialog loginDialog = new LoginDialog(null, idropCore);
-                loginDialog.setVisible(true);
-                
+                validated = this.processTearOffMode();
             } else {
-
-                // check to see if need to set up initial pass phrase
-                if (idropCore.getConveyorService().isPreviousPassPhraseStored()) {
-                    // ask for pass phrase
-                    final PassPhraseDialog passPhraseDialog = new PassPhraseDialog(
-                            null, true, idropCore);
-                    Toolkit tk = idrop.getToolkit();
-                    int x = (tk.getScreenSize().width - passPhraseDialog.getWidth()) / 2;
-                    int y = (tk.getScreenSize().height - passPhraseDialog
-                            .getHeight()) / 2;
-                    passPhraseDialog.setLocation(x, y);
-                    idropSplashWindow.toBack();
-                    passPhraseDialog.toFront();
-                    passPhraseDialog.setVisible(true);
-                    validated = passPhraseDialog.isValidated();
-
-                } else {
-                    // initialize pass phrase
-                    final InitialPassPhraseDialog initialPassPhraseDialog = new InitialPassPhraseDialog(
-                            null, true, idropCore);
-                    Toolkit tk = idrop.getToolkit();
-                    int x = (tk.getScreenSize().width - initialPassPhraseDialog
-                            .getWidth()) / 2;
-                    int y = (tk.getScreenSize().height - initialPassPhraseDialog
-                            .getHeight()) / 2;
-                    initialPassPhraseDialog.setLocation(x, y);
-                    idropSplashWindow.toBack();
-                    initialPassPhraseDialog.toFront();
-                    initialPassPhraseDialog.setVisible(true);
-                    validated = initialPassPhraseDialog.isValidated();
-                }
+                validated = this.processNormalPassPhrase(idropSplashWindow);
             }
-
-
+        } catch (IdropException ex) {
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            throw new IdropRuntimeException(ex);
         } catch (ConveyorExecutionException ex) {
-            Logger.getLogger(IDROPDesktop.class.getName()).log(Level.SEVERE,
-                    null, ex);
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
+                    Level.SEVERE, null, ex);
             throw new IdropRuntimeException(ex);
         }
 
-        if (validated) {
-            log.info("validated, dequeue any pending and start timer task");
-            try {
-                idropCore.getConveyorService()
-                        .beginFirstProcessAndRunPeriodicServiceInvocation();
-            } catch (ConveyorExecutionException ex) {
-                Logger.getLogger(IDROPDesktop.class.getName()).log(
-                        Level.SEVERE, null, ex);
-                throw new IdropRuntimeException(ex);
-            }
-
-            final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(
-                    null, true, idropCore, null);
-            Toolkit tk = idrop.getToolkit();
-            int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
-            int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
-            gridMemoryDialog.setLocation(x, y);
-            gridMemoryDialog.toFront();
-            gridMemoryDialog.setVisible(true);
-        }
 
         if (idropCore.getIrodsAccount() == null) {
             log.warn("no login account, exiting");
             System.exit(0);
         }
 
+        log.info("validated, dequeue any pending and start timer task");
+        try {
+            idropCore.getConveyorService()
+                    .beginFirstProcessAndRunPeriodicServiceInvocation();
+        } catch (ConveyorExecutionException ex) {
+            Logger.getLogger(IDROPDesktop.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            throw new IdropRuntimeException(ex);
+        }
+
         idropSplashWindow.toFront();
         sleepABit();
 
-        idropSplashWindow.setStatus("Building transfer engine...", ++count);
-
-        sleepABit();
 
         log.info("logged in, now checking for first run...");
         sleepABit();
+        /*
 
-        idropSplashWindow.setStatus(
-                "Checking if this is the first time run to set up synch...",
-                ++count);
+         idropSplashWindow.setStatus(
+         "Checking if this is the first time run to set up synch...",
+         ++count);
 
-        idropCore.getIdropConfig().getSynchDeviceName();
+         idropCore.getIdropConfig().getSynchDeviceName();
+         */
+
         idrop.signalIdropCoreReadyAndSplashComplete();
 
         // see if I show the gui at startup or show a message
@@ -298,6 +257,57 @@ public class IDROPDesktop {
             throw new IdropRuntimeException("error starting idrop gui", e);
         }
 
+    }
+
+    private boolean processNormalPassPhrase(IDROPSplashWindow idropSplashWindow) throws IdropException, ConveyorExecutionException {
+        boolean validated = false;
+        // check to see if need to set up initial pass phrase
+        if (idropCore.getConveyorService().isPreviousPassPhraseStored()) {
+            // ask for pass phrase
+            final PassPhraseDialog passPhraseDialog = new PassPhraseDialog(
+                    null, true, idropCore);
+            Toolkit tk = idrop.getToolkit();
+            int x = (tk.getScreenSize().width - passPhraseDialog.getWidth()) / 2;
+            int y = (tk.getScreenSize().height - passPhraseDialog
+                    .getHeight()) / 2;
+            passPhraseDialog.setLocation(x, y);
+            idropSplashWindow.toBack();
+            passPhraseDialog.toFront();
+            passPhraseDialog.setVisible(true);
+            validated = passPhraseDialog.isValidated();
+
+        } else {
+            // initialize pass phrase
+            final InitialPassPhraseDialog initialPassPhraseDialog = new InitialPassPhraseDialog(
+                    null, true, idropCore);
+            Toolkit tk = idrop.getToolkit();
+            int x = (tk.getScreenSize().width - initialPassPhraseDialog
+                    .getWidth()) / 2;
+            int y = (tk.getScreenSize().height - initialPassPhraseDialog
+                    .getHeight()) / 2;
+            initialPassPhraseDialog.setLocation(x, y);
+            idropSplashWindow.toBack();
+            initialPassPhraseDialog.toFront();
+            initialPassPhraseDialog.setVisible(true);
+            validated = initialPassPhraseDialog.isValidated();
+        }
+
+        final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(
+                null, true, idropCore, null);
+        Toolkit tk = idrop.getToolkit();
+        int x = (tk.getScreenSize().width - gridMemoryDialog.getWidth()) / 2;
+        int y = (tk.getScreenSize().height - gridMemoryDialog.getHeight()) / 2;
+        gridMemoryDialog.setLocation(x, y);
+        gridMemoryDialog.toFront();
+        gridMemoryDialog.setVisible(true);
+        return validated;
+        
+    }
+
+    private boolean processTearOffMode() throws IdropException {
+        LoginDialog loginDialog = new LoginDialog(null, idropCore);
+        loginDialog.setVisible(true);
+        return loginDialog.isValidated();
     }
 
     private IdropConfigurationService startUpTheDatabaseAndSetConfigurationServiceInIdropCore(
