@@ -12,16 +12,16 @@ grails.project.source.level = 1.6
 //]
 
 grails.project.dependency.resolution = {
-    // inherit Grails' default dependencies
-    inherits("global") {
-        // specify dependency exclusions here; for example, uncomment this to disable ehcache:
-        // excludes 'ehcache'
-    }
-    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
-    checksums true // Whether to verify checksums on resolve
-    legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
+	// inherit Grails' default dependencies
+	inherits("global") {
+		// specify dependency exclusions here; for example, uncomment this to disable ehcache:
+		// excludes 'ehcache'
+	}
+	log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+	checksums true // Whether to verify checksums on resolve
+	legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
 
-   repositories {
+	repositories {
 		// uncomment the below to enable remote dependency resolution
 		// from public Maven repositories
 		mavenLocal()
@@ -41,34 +41,34 @@ grails.project.dependency.resolution = {
 		test 'org.mockito:mockito-all:1.8.1'
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
-		compile ('org.irods.jargon:jargon-core:3.3.3-VC-SNAPSHOT') { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-data-utils:3.3.3-VC-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-ticket:3.3.3-VC-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-profile:3.3.3-VC-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-tagging:3.3.3-VC-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:virtual-collections:3.3.3-VC-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		
+		compile ('org.irods.jargon:jargon-core:3.3.3-SNAPSHOT') { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-data-utils:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ticket:3.3.3-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-profile:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-tagging:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:virtual-collections:3.3.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 	}
-	
-	
 
-    plugins {
-       // runtime ":hibernate:$grailsVersion"
-        //runtime ":jquery:1.8.3"
-        //runtime ":resources:1.2"
 
-        // Uncomment these (or add new ones) to enable additional resources capabilities
-        //runtime ":zipped-resources:1.0"
-        //runtime ":cached-resources:1.0"
-        //runtime ":yui-minify-resources:0.1.5"
 
-      build ':tomcat:7.0.47'
-       // runtime ":database-migration:1.3.2"
+	plugins {
+		// runtime ":hibernate:$grailsVersion"
+		//runtime ":jquery:1.8.3"
+		//runtime ":resources:1.2"
 
-       // compile ':cache:1.0.1'
-    }
+		// Uncomment these (or add new ones) to enable additional resources capabilities
+		//runtime ":zipped-resources:1.0"
+		//runtime ":cached-resources:1.0"
+		//runtime ":yui-minify-resources:0.1.5"
+
+		build ':tomcat:7.0.47'
+		// runtime ":database-migration:1.3.2"
+
+		// compile ':cache:1.0.1'
+	}
 }

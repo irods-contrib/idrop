@@ -12,6 +12,8 @@ beans = {
 
 	authenticationService(idrop.web3.AuthenticationService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
+	virtualCollectionServicesCreatingFactory(idrop.web3.virtualCollectionServicesCreatingFactoryImpl) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+
 	virtualCollectionService(idrop.web3.VirtualCollectionService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
 
