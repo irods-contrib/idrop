@@ -125,9 +125,9 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
 		pnlMain = new javax.swing.JPanel();
 		pnlPermissionEdit = new javax.swing.JPanel();
 		jLabel31 = new javax.swing.JLabel();
-		cbPermissionsUserName = new javax.swing.JComboBox<String>();
+		cbPermissionsUserName = new javax.swing.JComboBox();
 		jLabel32 = new javax.swing.JLabel();
-		cbPermissionsPermission = new javax.swing.JComboBox<String>();
+		cbPermissionsPermission = new javax.swing.JComboBox();
 		jPanel1 = new javax.swing.JPanel();
 		btnPermissionsCancel = new javax.swing.JButton();
 		btnPermissionsAdd = new javax.swing.JButton();
@@ -342,8 +342,8 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
 
 	private javax.swing.JButton btnPermissionsAdd;
 	private javax.swing.JButton btnPermissionsCancel;
-	private javax.swing.JComboBox<String> cbPermissionsPermission;
-	private javax.swing.JComboBox<String> cbPermissionsUserName;
+	private javax.swing.JComboBox cbPermissionsPermission;
+	private javax.swing.JComboBox cbPermissionsUserName;
 	private javax.swing.JLabel jLabel31;
 	private javax.swing.JLabel jLabel32;
 	private javax.swing.JPanel jPanel1;

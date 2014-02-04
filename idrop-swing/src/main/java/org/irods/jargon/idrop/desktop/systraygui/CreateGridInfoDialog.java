@@ -47,7 +47,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 	}
 
 	private void initAuthSchemesCombo() {
-		cbAuthScheme.setModel(new DefaultComboBoxModel<Object>(AuthScheme
+		cbAuthScheme.setModel(new DefaultComboBoxModel(AuthScheme
 				.values()));
 	}
 
