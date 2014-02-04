@@ -1,7 +1,5 @@
-<div class="container">
 	<div class="row  stretch-row">
 		<div class="col-md-12">
-
 			<ul class="list-group">
 				<li class="list-group-item"><button type="button"
 						class="btn btn-link">
@@ -62,4 +60,3 @@
 			</ul>
 		</div>
 	</div>
-</div>

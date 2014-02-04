@@ -1,10 +1,8 @@
 <head>
 <meta name="layout" content="main" />
 </head>
-<div ng-app="home" ng-controller="HomeCtrl">
-	<div class="container">
+<div ng-app="home" ng-controller="HomeCtrl" class="container">
 		<g:render template="/common/browseContainer" />
-	</div>
 
 	<div id="footer">
 		<div class="container">
@@ -17,11 +15,21 @@
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Show Collections</a></li>
-					<li><a href="#">Show Quick View</a></li>
+				<li ng-show="hideDrives" ng-click="showCollections()"><a href="#home"> <span
+							class="glyphicon glyphicon-eye-open"></span> <span
+							class="glyphicon-class"><g:message code="text.show.collections" /></span>
+					</a></li>
+					<li ng-hide="hideDrives" ng-click="hideCollections()"><a href="#home"> <span
+							class="glyphicon glyphicon-eye-close"></span> <span
+							class="glyphicon-class"><g:message code="text.hide.collections" /></span>
+					</a></li>
+					<li><a href="#home"> <span
+							class="glyphicon glyphicon-eye-open"></span> <span
+							class="glyphicon-class"><g:message code="text.show.quick.view" /></span>
+					</a></li>
+					
 				</ul>
 			</div>
-			<span>Hello {{name}}</span>
 		</div>
 	</div>
 </div>
