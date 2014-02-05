@@ -38,6 +38,7 @@ public class LoginDialog extends JDialog {
 
     public LoginDialog(final JDialog parentDialog, final IDROPCore idropCore) {
         super(parentDialog, true);
+        
         if (idropCore == null) {
             throw new IllegalArgumentException("null idropCore");
         }

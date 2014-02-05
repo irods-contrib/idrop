@@ -65,123 +65,103 @@ public class PassPhraseDialog extends javax.swing.JDialog {
 	 */
 
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		jPanel1 = new javax.swing.JPanel();
-		txtAreaWelcomeLabel = new javax.swing.JTextArea();
-		jPanel2 = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
-		txtPassPhrase = new javax.swing.JPasswordField();
-		jPanel3 = new javax.swing.JPanel();
-		jPanel4 = new javax.swing.JPanel();
-		jPanel5 = new javax.swing.JPanel();
-		btnForgotPassPhrase = new javax.swing.JButton();
-		btnOkay = new javax.swing.JButton();
-		btnCancel = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        txtAreaWelcomeLabel = new javax.swing.JTextArea();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtPassPhrase = new javax.swing.JPasswordField();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        btnForgotPassPhrase = new javax.swing.JButton();
+        btnOkay = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class,
-				"PassPhraseDialog.title")); // NOI18N
-		setMinimumSize(null);
-		setPreferredSize(new java.awt.Dimension(600, 300));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.title")); // NOI18N
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
-		jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 14,
-				4, 14));
-		jPanel1.setPreferredSize(new java.awt.Dimension(0, 90));
-		jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 14, 4, 14));
+        jPanel1.setPreferredSize(new java.awt.Dimension(0, 90));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-		txtAreaWelcomeLabel.setEditable(false);
-		txtAreaWelcomeLabel.setBackground(new java.awt.Color(238, 238, 238));
-		txtAreaWelcomeLabel.setColumns(20);
-		txtAreaWelcomeLabel.setRows(5);
-		txtAreaWelcomeLabel.setText(org.openide.util.NbBundle.getMessage(
-				PassPhraseDialog.class,
-				"PassPhraseDialog.txtAreaWelcomeLabel.text")); // NOI18N
-		jPanel1.add(txtAreaWelcomeLabel, java.awt.BorderLayout.CENTER);
+        txtAreaWelcomeLabel.setEditable(false);
+        txtAreaWelcomeLabel.setBackground(new java.awt.Color(238, 238, 238));
+        txtAreaWelcomeLabel.setColumns(20);
+        txtAreaWelcomeLabel.setRows(5);
+        txtAreaWelcomeLabel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.txtAreaWelcomeLabel.text")); // NOI18N
+        jPanel1.add(txtAreaWelcomeLabel, java.awt.BorderLayout.CENTER);
 
-		getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
 
-		jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 14, 4,
-				14));
-		jPanel2.setMinimumSize(null);
-		jPanel2.setPreferredSize(new java.awt.Dimension(300, 200));
-		jPanel2.setLayout(new java.awt.GridBagLayout());
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 14, 4, 14));
+        jPanel2.setPreferredSize(new java.awt.Dimension(300, 200));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
-		jLabel1.setText(org.openide.util.NbBundle.getMessage(
-				PassPhraseDialog.class, "PassPhraseDialog.jLabel1.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel2.add(jLabel1, gridBagConstraints);
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel2.add(jLabel1, gridBagConstraints);
 
-		txtPassPhrase.setText(org.openide.util.NbBundle.getMessage(
-				PassPhraseDialog.class, "PassPhraseDialog.txtPassPhrase.text")); // NOI18N
-		txtPassPhrase.setPreferredSize(new java.awt.Dimension(300, 28));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.weightx = 0.1;
-		jPanel2.add(txtPassPhrase, gridBagConstraints);
+        txtPassPhrase.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.txtPassPhrase.text")); // NOI18N
+        txtPassPhrase.setPreferredSize(new java.awt.Dimension(300, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel2.add(txtPassPhrase, gridBagConstraints);
 
-		getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 14, 8,
-				14));
-		jPanel3.setLayout(new java.awt.BorderLayout());
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 14, 8, 14));
+        jPanel3.setLayout(new java.awt.BorderLayout());
 
-		jPanel4.setLayout(new java.awt.BorderLayout());
-		jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
+        jPanel4.setLayout(new java.awt.BorderLayout());
+        jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
 
-		jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1,
-				1));
-		jPanel5.setLayout(new java.awt.BorderLayout());
+        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel5.setLayout(new java.awt.BorderLayout());
 
-		btnForgotPassPhrase.setText(org.openide.util.NbBundle.getMessage(
-				PassPhraseDialog.class,
-				"PassPhraseDialog.btnForgotPassPhrase.text")); // NOI18N
-		btnForgotPassPhrase
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnForgotPassPhraseActionPerformed(evt);
-					}
-				});
-		jPanel5.add(btnForgotPassPhrase, java.awt.BorderLayout.CENTER);
+        btnForgotPassPhrase.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnForgotPassPhrase.text")); // NOI18N
+        btnForgotPassPhrase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnForgotPassPhraseActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnForgotPassPhrase, java.awt.BorderLayout.CENTER);
 
-		btnOkay.setText(org.openide.util.NbBundle.getMessage(
-				PassPhraseDialog.class, "PassPhraseDialog.btnOkay.text")); // NOI18N
-		btnOkay.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOkayActionPerformed(evt);
-			}
-		});
-		jPanel5.add(btnOkay, java.awt.BorderLayout.EAST);
+        btnOkay.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOkay.text")); // NOI18N
+        btnOkay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkayActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnOkay, java.awt.BorderLayout.EAST);
 
-		btnCancel.setText(org.openide.util.NbBundle.getMessage(
-				PassPhraseDialog.class, "PassPhraseDialog.btnCancel.text")); // NOI18N
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		jPanel5.add(btnCancel, java.awt.BorderLayout.WEST);
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.text")); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnCancel, java.awt.BorderLayout.WEST);
 
-		jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
+        jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
 
-		getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
-		dispose();
+		System.exit(0);
 	}// GEN-LAST:event_btnCancelActionPerformed
 
 	private void btnForgotPassPhraseActionPerformed(
@@ -269,17 +249,17 @@ public class PassPhraseDialog extends javax.swing.JDialog {
 		dispose();
 	}// GEN-LAST:event_btnOkayActionPerformed
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnForgotPassPhrase;
-	private javax.swing.JButton btnOkay;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JPanel jPanel1;
-	private javax.swing.JPanel jPanel2;
-	private javax.swing.JPanel jPanel3;
-	private javax.swing.JPanel jPanel4;
-	private javax.swing.JPanel jPanel5;
-	private javax.swing.JTextArea txtAreaWelcomeLabel;
-	private javax.swing.JPasswordField txtPassPhrase;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnForgotPassPhrase;
+    private javax.swing.JButton btnOkay;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JTextArea txtAreaWelcomeLabel;
+    private javax.swing.JPasswordField txtPassPhrase;
+    // End of variables declaration//GEN-END:variables
 }
