@@ -15,7 +15,7 @@ import javax.swing.table.TableCellRenderer;
 public class TransferManagerTable extends JTable {
 
 	/**
-	 * 
+	 *   
 	 */
 	private static final long serialVersionUID = 9066597127738827883L;
 	private TransferManagerTableModelCustomCellRenderer transferManagerTableModelCustomCellRenderer = new TransferManagerTableModelCustomCellRenderer();

@@ -20,6 +20,7 @@ import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.connection.SettableJargonProperties;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
+import static org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService.IDROP_PROPS_FILE_NAME;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.exceptions.IdropAlreadyRunningException;
@@ -118,13 +119,36 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
         }
 
         Properties overrideTearOffProperties = new Properties();
-        overrideTearOffProperties.setProperty("login.preset", configFileProperties.getProperty("login.preset"));
-        overrideTearOffProperties.setProperty("login.preset.host", configFileProperties.getProperty("login.preset.host"));
-        overrideTearOffProperties.setProperty("login.preset.port", configFileProperties.getProperty("login.preset.port"));
-        overrideTearOffProperties.setProperty("login.preset.zone", configFileProperties.getProperty("login.preset.zone"));
-        overrideTearOffProperties.setProperty("login.preset.resource", configFileProperties.getProperty("login.preset.resource"));
-        overrideTearOffProperties.setProperty("login.preset.authscheme", configFileProperties.getProperty("login.preset.authscheme"));
-        overrideTearOffProperties.setProperty("tear.off.mode", configFileProperties.getProperty("tear.off.mode"));
+
+
+        if (configFileProperties.getProperty("login.preset") != null) {
+            overrideTearOffProperties.setProperty("login.preset", configFileProperties.getProperty("login.preset"));
+        }
+
+        if (configFileProperties.getProperty("login.preset.host") != null) {
+            overrideTearOffProperties.setProperty("login.preset.host", configFileProperties.getProperty("login.preset.host"));
+        }
+
+        if (configFileProperties.getProperty("login.preset.port") != null) {
+            overrideTearOffProperties.setProperty("login.preset.port", configFileProperties.getProperty("login.preset.port"));
+        }
+
+        if (configFileProperties.getProperty("login.preset.zone") != null) {
+            overrideTearOffProperties.setProperty("login.preset.zone", configFileProperties.getProperty("login.preset.zone"));
+        }
+
+        if (configFileProperties.getProperty("login.preset.resource") != null) {
+            overrideTearOffProperties.setProperty("login.preset.resource", configFileProperties.getProperty("login.preset.resource"));
+        }
+
+        if (configFileProperties.getProperty("login.preset.authscheme") != null) {
+            overrideTearOffProperties.setProperty("login.preset.authscheme", configFileProperties.getProperty("login.preset.authscheme"));
+        }
+
+        if (configFileProperties.getProperty("tear.off.mode") != null) {
+            overrideTearOffProperties.setProperty("tear.off.mode", configFileProperties.getProperty("tear.off.mode"));
+        }
+        
         importGivenPropertiesIntoDatabase(overrideTearOffProperties);
 
         log.info("now storing derived properties in idrop configuration");
@@ -184,6 +208,8 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
     /**
      * In cases where there are no database properties, attempt to import them
      * from a file in the .idrop directory
+     * In cases where there are no database properties, attempt to import them from a file in the
+     * .idrop directory
      *
      * @return
      * @throws IdropException
@@ -365,6 +391,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
                     IdropConfigurationService.IRODS_IO_LOCAL_OUTPUT_STREAM_BUFFER_SIZE,
                     String.valueOf(jargonProperties
                     .getLocalFileOutputStreamBufferSize()));
+
             idropConfig.setProperty(
                     IdropConfigurationService.IRODS_IO_PUT_BUFFER_SIZE,
                     String.valueOf(jargonProperties.getPutBufferSize()));
@@ -392,12 +419,10 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
                     String.valueOf(jargonProperties.isUseParallelTransfer()));
             idropConfig
                     .setProperty(
-                    IdropConfigurationService.IRODS_PARALLEL_USE_POOL,
-                    String.valueOf(jargonProperties
-                    .isUseTransferThreadsPool()));
-            idropConfig.setProperty(
-                    IdropConfigurationService.IRODS_CONNECTION_RESTART,
-                    String.valueOf(jargonProperties.isReconnect()));
+                            IdropConfigurationService.IRODS_PARALLEL_USE_POOL,
+                            String.valueOf(jargonProperties
+                                    .isUseTransferThreadsPool()));
+           
         }
     }
 
