@@ -290,7 +290,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 		synchronized (this) {
 			try {
 				ConfigurationProperty configurationProperty = configurationService
-						.findConfigurationServiceByKey(key);
+						.findConfigurationPropertyByKey(key);
 
 				if (configurationProperty == null) {
 					log.info("not found, this is new configuration");
@@ -487,7 +487,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
 		synchronized (this) {
 			try {
 				ConfigurationProperty configurationProperty = configurationService
-						.findConfigurationServiceByKey(key);
+						.findConfigurationPropertyByKey(key);
 				if (configurationProperty == null) {
 					log.info("no prop with key, ignore");
 					return;
