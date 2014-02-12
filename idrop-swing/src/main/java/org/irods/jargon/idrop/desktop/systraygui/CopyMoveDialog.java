@@ -71,7 +71,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 		IRODSFileService irodsFS = null;
 		try {
 			irodsFS = new IRODSFileService(idropGUI.getiDropCore()
-					.getIrodsAccount(), idropGUI.getiDropCore()
+					.irodsAccount(), idropGUI.getiDropCore()
 					.getIrodsFileSystem());
 		} catch (Exception ex) {
 			// JOptionPane.showMessageDialog(this,
@@ -298,12 +298,12 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 			throws IdropException {
 		try {
 			dataTransferOperations.copy(sourceFile.getAbsolutePath(), idropGUI
-					.getiDropCore().getIrodsAccount()
+					.getiDropCore().irodsAccount()
 					.getDefaultStorageResource(), targetAbsolutePath, null,
 					null);
 			// idropGUI.getiDropCore().getTransferManager().enqueueACopy(sourceFile.getAbsolutePath(),
 			// sourceFile.getResource(), targetAbsolutePath,
-			// idropGUI.getiDropCore().getIrodsAccount());
+			// idropGUI.getiDropCore().irodsAccount());
 
 		} catch (JargonException ex) {
 			log.error("jargon exception", ex);
@@ -323,160 +323,126 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		pnlFolderData = new javax.swing.JPanel();
-		pnlCurrentParent = new javax.swing.JPanel();
-		lblCurrentParentLabel = new java.awt.Label();
-		scrollCurrentParent = new javax.swing.JScrollPane();
-		txtCurrentParent = new javax.swing.JTextArea();
-		lblNewDiretoryName = new java.awt.Label();
-		txtNewLocation = new javax.swing.JTextField();
-		btnBrowse = new javax.swing.JButton();
-		pnlBottom = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnMove = new javax.swing.JButton();
-		btnCopy = new javax.swing.JButton();
+        pnlFolderData = new javax.swing.JPanel();
+        pnlCurrentParent = new javax.swing.JPanel();
+        lblCurrentParentLabel = new java.awt.Label();
+        scrollCurrentParent = new javax.swing.JScrollPane();
+        txtCurrentParent = new javax.swing.JTextArea();
+        lblNewDiretoryName = new java.awt.Label();
+        txtNewLocation = new javax.swing.JTextField();
+        btnBrowse = new javax.swing.JButton();
+        pnlBottom = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnMove = new javax.swing.JButton();
+        btnCopy = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class,
-				"CopyMoveDialog.title")); // NOI18N
-		setPreferredSize(new java.awt.Dimension(600, 300));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.title")); // NOI18N
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
-		pnlFolderData.setPreferredSize(new java.awt.Dimension(540, 240));
-		pnlFolderData.setLayout(new java.awt.BorderLayout());
+        pnlFolderData.setPreferredSize(new java.awt.Dimension(540, 240));
+        pnlFolderData.setLayout(new java.awt.BorderLayout());
 
-		pnlCurrentParent.setBorder(javax.swing.BorderFactory.createEmptyBorder(
-				10, 4, 10, 4));
-		pnlCurrentParent.setPreferredSize(new java.awt.Dimension(500, 190));
-		pnlCurrentParent.setLayout(new java.awt.GridBagLayout());
+        pnlCurrentParent.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 4, 10, 4));
+        pnlCurrentParent.setPreferredSize(new java.awt.Dimension(500, 190));
+        pnlCurrentParent.setLayout(new java.awt.GridBagLayout());
 
-		lblCurrentParentLabel.setText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class,
-				"CopyMoveDialog.lblCurrentParentLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlCurrentParent.add(lblCurrentParentLabel, gridBagConstraints);
+        lblCurrentParentLabel.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.lblCurrentParentLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCurrentParent.add(lblCurrentParentLabel, gridBagConstraints);
 
-		scrollCurrentParent.setPreferredSize(new java.awt.Dimension(360, 100));
+        scrollCurrentParent.setPreferredSize(new java.awt.Dimension(360, 100));
 
-		txtCurrentParent.setEditable(false);
-		txtCurrentParent.setColumns(20);
-		txtCurrentParent.setRows(5);
-		txtCurrentParent.setWrapStyleWord(true);
-		txtCurrentParent.setFocusable(false);
-		txtCurrentParent.setPreferredSize(new java.awt.Dimension(290, 90));
-		scrollCurrentParent.setViewportView(txtCurrentParent);
+        txtCurrentParent.setEditable(false);
+        txtCurrentParent.setColumns(20);
+        txtCurrentParent.setRows(5);
+        txtCurrentParent.setWrapStyleWord(true);
+        txtCurrentParent.setFocusable(false);
+        txtCurrentParent.setPreferredSize(new java.awt.Dimension(290, 90));
+        scrollCurrentParent.setViewportView(txtCurrentParent);
 
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridwidth = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlCurrentParent.add(scrollCurrentParent, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCurrentParent.add(scrollCurrentParent, gridBagConstraints);
 
-		lblNewDiretoryName
-				.setText(org.openide.util.NbBundle.getMessage(
-						CopyMoveDialog.class,
-						"CopyMoveDialog.lblNewDiretoryName.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlCurrentParent.add(lblNewDiretoryName, gridBagConstraints);
+        lblNewDiretoryName.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.lblNewDiretoryName.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCurrentParent.add(lblNewDiretoryName, gridBagConstraints);
 
-		txtNewLocation.setText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class, "CopyMoveDialog.txtNewLocation.text")); // NOI18N
-		txtNewLocation.setPreferredSize(new java.awt.Dimension(360, 28));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		pnlCurrentParent.add(txtNewLocation, gridBagConstraints);
+        txtNewLocation.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.txtNewLocation.text")); // NOI18N
+        txtNewLocation.setPreferredSize(new java.awt.Dimension(360, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        pnlCurrentParent.add(txtNewLocation, gridBagConstraints);
 
-		btnBrowse
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_144_folder_open.png"))); // NOI18N
-		btnBrowse.setMnemonic('b');
-		btnBrowse.setText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class, "CopyMoveDialog.btnBrowse.text")); // NOI18N
-		btnBrowse.setToolTipText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class, "CopyMoveDialog.btnBrowse.toolTipText")); // NOI18N
-		btnBrowse.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnBrowseActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 1;
-		pnlCurrentParent.add(btnBrowse, gridBagConstraints);
+        btnBrowse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_144_folder_open.png"))); // NOI18N
+        btnBrowse.setMnemonic('b');
+        btnBrowse.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnBrowse.text")); // NOI18N
+        btnBrowse.setToolTipText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnBrowse.toolTipText")); // NOI18N
+        btnBrowse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBrowseActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        pnlCurrentParent.add(btnBrowse, gridBagConstraints);
 
-		pnlFolderData.add(pnlCurrentParent, java.awt.BorderLayout.CENTER);
+        pnlFolderData.add(pnlCurrentParent, java.awt.BorderLayout.CENTER);
 
-		pnlBottom.setPreferredSize(new java.awt.Dimension(708, 40));
-		pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        pnlBottom.setPreferredSize(new java.awt.Dimension(708, 40));
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		btnCancel
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
-		btnCancel.setMnemonic('C');
-		btnCancel.setText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class, "CopyMoveDialog.btnCancel.text")); // NOI18N
-		btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class, "CopyMoveDialog.btnCancel.toolTipText")); // NOI18N
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnCancel);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('C');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnCancel);
 
-		btnMove.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_318_more_items.png"))); // NOI18N
-		btnMove.setMnemonic('m');
-		btnMove.setText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class, "CopyMoveDialog.btnMove.text")); // NOI18N
-		btnMove.setToolTipText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class, "CopyMoveDialog.btnMove.toolTipText")); // NOI18N
-		btnMove.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnMoveActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnMove);
+        btnMove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_318_more_items.png"))); // NOI18N
+        btnMove.setMnemonic('m');
+        btnMove.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnMove.text")); // NOI18N
+        btnMove.setToolTipText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnMove.toolTipText")); // NOI18N
+        btnMove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnMove);
 
-		btnCopy.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_318_more_items.png"))); // NOI18N
-		btnCopy.setMnemonic('c');
-		btnCopy.setText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class, "CopyMoveDialog.btnCopy.text")); // NOI18N
-		btnCopy.setToolTipText(org.openide.util.NbBundle.getMessage(
-				CopyMoveDialog.class, "CopyMoveDialog.btnCopy.toolTipText")); // NOI18N
-		btnCopy.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCopyActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnCopy);
+        btnCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_318_more_items.png"))); // NOI18N
+        btnCopy.setMnemonic('c');
+        btnCopy.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnCopy.text")); // NOI18N
+        btnCopy.setToolTipText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnCopy.toolTipText")); // NOI18N
+        btnCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCopyActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnCopy);
 
-		pnlFolderData.add(pnlBottom, java.awt.BorderLayout.SOUTH);
+        pnlFolderData.add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
-		getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
@@ -488,7 +454,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 
 	private void btnBrowseActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrowseActionPerformed
 		IRODSFinderDialog irodsFinder = new IRODSFinderDialog(idropGUI, false,
-				idropGUI.getiDropCore());
+				idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
 		irodsFinder.setTitle("Select iRODS Collection Upload Target");
 		irodsFinder
 				.setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
@@ -507,18 +473,18 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 		processMoveOrCopy(true);
 	}// GEN-LAST:event_btnCopyActionPerformed
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton btnBrowse;
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnCopy;
-	private javax.swing.JButton btnMove;
-	private java.awt.Label lblCurrentParentLabel;
-	private java.awt.Label lblNewDiretoryName;
-	private javax.swing.JPanel pnlBottom;
-	private javax.swing.JPanel pnlCurrentParent;
-	private javax.swing.JPanel pnlFolderData;
-	private javax.swing.JScrollPane scrollCurrentParent;
-	private javax.swing.JTextArea txtCurrentParent;
-	private javax.swing.JTextField txtNewLocation;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBrowse;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnCopy;
+    private javax.swing.JButton btnMove;
+    private java.awt.Label lblCurrentParentLabel;
+    private java.awt.Label lblNewDiretoryName;
+    private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlCurrentParent;
+    private javax.swing.JPanel pnlFolderData;
+    private javax.swing.JScrollPane scrollCurrentParent;
+    private javax.swing.JTextArea txtCurrentParent;
+    private javax.swing.JTextField txtNewLocation;
+    // End of variables declaration//GEN-END:variables
 }

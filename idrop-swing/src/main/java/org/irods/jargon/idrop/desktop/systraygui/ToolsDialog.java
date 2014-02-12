@@ -138,7 +138,7 @@ public class ToolsDialog extends javax.swing.JDialog {
 		IRODSFileService irodsFS;
 		try {
 			irodsFS = new IRODSFileService(idropGui.getiDropCore()
-					.getIrodsAccount(), idropGui.getiDropCore()
+					.irodsAccount(), idropGui.getiDropCore()
 					.getIrodsFileSystem());
 		} catch (Exception ex) {
 
@@ -205,7 +205,7 @@ public class ToolsDialog extends javax.swing.JDialog {
 				idropGui.setCursor(Cursor
 						.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				FileTreeDiffUtility fileTreeDiffUtility = new FileTreeDiffUtilityImpl(
-						idropGui.getiDropCore().getIrodsAccount(), idropGui
+						idropGui.getiDropCore().irodsAccount(), idropGui
 								.getiDropCore().getIRODSAccessObjectFactory());
 				try {
 					FileTreeModel diffModel = fileTreeDiffUtility

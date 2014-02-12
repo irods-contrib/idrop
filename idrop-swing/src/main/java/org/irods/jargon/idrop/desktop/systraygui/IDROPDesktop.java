@@ -178,7 +178,7 @@ public class IDROPDesktop {
         }
 
 
-        if (idropCore.getIrodsAccount() == null) {
+        if (idropCore.irodsAccount() == null) {
             log.warn("no login account, exiting");
             System.exit(0);
         }

@@ -155,7 +155,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         int showY = (height / 2) - (getHeight() / 2);
         this.setLocation(showX, showY);
 
-        if (getiDropCore().getIrodsAccount() == null) {
+        if (getiDropCore().irodsAccount() == null) {
             log.warn("no account, exiting");
             System.exit(0);
         }
@@ -169,14 +169,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             @Override
             public void run() {
 
-                IRODSAccount savedAccount = iDropCore.getIrodsAccount();
+                IRODSAccount savedAccount = iDropCore.irodsAccount();
                 iDropCore.setIrodsAccount(null);
                 showGridManagerDialog(savedAccount);
                 // can't seem to get a wait cursor to work here
                 thisPanel.setCursor(Cursor
                         .getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                if (iDropCore.getIrodsAccount() == null) {
+                if (iDropCore.irodsAccount() == null) {
                     log.warn("no account, reverting");
                     iDropCore.setIrodsAccount(savedAccount);
                 } else {
@@ -242,7 +242,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     throw new IdropRuntimeException(ex);
                 } finally {
                     getiDropCore().getIrodsFileSystem().closeAndEatExceptions(
-                            iDropCore.getIrodsAccount());
+                            iDropCore.irodsAccount());
                     gui.setCursor(Cursor
                             .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
@@ -488,7 +488,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     public IRODSAccount getIrodsAccount() {
         synchronized (this) {
-            return iDropCore.getIrodsAccount();
+            return iDropCore.irodsAccount();
         }
     }
 
@@ -542,9 +542,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void setUpAccountGutter() {
-        // userNameLabel.setText(this.getIrodsAccount().getUserName());
-        // lblZone.setText(this.getIrodsAccount().getZone());
-        // lblHost.setText(this.getIrodsAccount().getHost());
+        // userNameLabel.setText(this.irodsAccount().getUserName());
+        // lblZone.setText(this.irodsAccount().getZone());
+        // lblHost.setText(this.irodsAccount().getHost());
         // /*
         // * Get a list of storage resources on this host
         // */
@@ -556,9 +556,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             List<String> resources = new ArrayList<String>();
             resources.add("");
             resources.addAll(resourceAO.listResourceAndResourceGroupNames());
-            lblHost.setText(getiDropCore().getIrodsAccount().getHost());
-            lblZone.setText(getiDropCore().getIrodsAccount().getZone());
-            lblUserName.setText(getiDropCore().getIrodsAccount().getUserName());
+            lblHost.setText(getiDropCore().irodsAccount().getHost());
+            lblZone.setText(getiDropCore().irodsAccount().getZone());
+            lblUserName.setText(getiDropCore().irodsAccount().getUserName());
             cbIrodsResource.setModel(new DefaultComboBoxModel(resources
                     .toArray()));
             cbIrodsResource.setSelectedItem(getIrodsAccount()
@@ -582,10 +582,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         // if no base defined, see if there is a prese
         if (myBase == null) {
 
-            if (getiDropCore().getIrodsAccount().isAnonymousAccount()) {
+            if (getiDropCore().irodsAccount().isAnonymousAccount()) {
                 log.info("user is anonymous, default to view the public directory");
                 myBase = MiscIRODSUtils.computePublicDirectory(getiDropCore()
-                        .getIrodsAccount());
+                        .irodsAccount());
 
             } else {
 
@@ -604,7 +604,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     EnvironmentalInfoAO environmentalInfoAO = getiDropCore()
                             .getIRODSAccessObjectFactory()
                             .getEnvironmentalInfoAO(
-                            getiDropCore().getIrodsAccount());
+                            getiDropCore().irodsAccount());
 
                     // overhead for [#1362] apparent start-up errors idrop
                     // checking for strict acls
@@ -627,7 +627,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     if (isStrict) {
                         myBase = MiscIRODSUtils
                                 .computeHomeDirectoryForIRODSAccount(iDropCore
-                                .getIrodsAccount());
+                                .irodsAccount());
                     } else {
                         myBase = "/";
                     }
@@ -1216,9 +1216,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } else if (ts.getTransferType() == TransferStatus.TransferType.COPY
                         || ts.getTransferType() == TransferStatus.TransferType.PUT) {
                     if (ts.getTransferZone().equals(
-                            iDropCore.getIrodsAccount().getZone())
+                            iDropCore.irodsAccount().getZone())
                             && ts.getTransferHost().equals(
-                            iDropCore.getIrodsAccount().getHost())) {
+                            iDropCore.irodsAccount().getHost())) {
                         try {
                             // should leave PUT, and COPY
                             irodsTreeModel.notifyCompletionOfOperation(
@@ -1264,7 +1264,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_GENERATION) {
                     lblTransferMessage
                             .setText("Synchronization looking for updates");
-                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_STEP) {
+                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_RESOLVE_STEP) {
                     lblTransferMessage.setText("Synchronizing differences");
                 } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
                     lblTransferMessage.setText("Synchronization complete");
@@ -1353,763 +1353,586 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	@SuppressWarnings({ "rawtypes", "deprecation" })
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
-
-		btnMainToolbarSync = new javax.swing.JButton();
-		pnlMainToolbarIcons = new javax.swing.JPanel();
-		jToolBar1 = new javax.swing.JToolBar();
-		btnMainToolbarTree = new javax.swing.JButton();
-		filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarDownload = new javax.swing.JButton();
-		filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarUpload = new javax.swing.JButton();
-		filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarRefresh = new javax.swing.JButton();
-		filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		jSeparator1 = new javax.swing.JToolBar.Separator();
-		filler15 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnNewFolder = new javax.swing.JButton();
-		filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarCopy = new javax.swing.JButton();
-		filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarDelete = new javax.swing.JButton();
-		filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarInfo = new javax.swing.JButton();
-		filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(25, 0), new java.awt.Dimension(2, 32767));
-		jSeparator2 = new javax.swing.JToolBar.Separator();
-		filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarTools = new javax.swing.JButton();
-		filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarSettings = new javax.swing.JButton();
-		filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarQueueMgr = new javax.swing.JButton();
-		filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		btnMainToolbarGrids = new javax.swing.JButton();
-		filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0),
-				new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-		pnlBreadCrumbNav = new javax.swing.JPanel();
-		pnlMainIrodsTree = new javax.swing.JPanel();
-		splitPanelTrees = new javax.swing.JSplitPane();
-		scrollIrodsTree = new javax.swing.JScrollPane();
-		pnlLocalTreeArea = new javax.swing.JPanel();
-		pnlLocalRoots = new javax.swing.JPanel();
-		scrollLocalDrives = new javax.swing.JScrollPane();
-		listLocalDrives = new javax.swing.JList();
-		pnlDrivesFiller = new javax.swing.JPanel();
-		scrollLocalFileTree = new javax.swing.JScrollPane();
-		jPanel1 = new javax.swing.JPanel();
-		jPanel2 = new javax.swing.JPanel();
-		jPanel3 = new javax.swing.JPanel();
-		pnlMainTransferStatus = new javax.swing.JPanel();
-		pnlIdropBottom = new javax.swing.JPanel();
-		pnlCurrentTransferStatus = new javax.swing.JPanel();
-		lblCurrentFile = new javax.swing.JLabel();
-		progressIntraFile = new javax.swing.JProgressBar();
-		lblTransferFilesCounts = new javax.swing.JLabel();
-		transferStatusProgressBar = new javax.swing.JProgressBar();
-		lblTransferType = new javax.swing.JLabel();
-		lblTransferMessage = new javax.swing.JLabel();
-		lblTransferByteCounts = new javax.swing.JLabel();
-		pnlTransferOptions = new javax.swing.JPanel();
-		idropProgressPanelToolbar = new javax.swing.JToolBar();
-		togglePauseTransfer = new javax.swing.JToggleButton();
-		progressIconImageLabel = new javax.swing.JLabel();
-		pnlIdropGutter = new javax.swing.JPanel();
-		lblHostLabel = new javax.swing.JLabel();
-		lblHost = new javax.swing.JLabel();
-		lblZoneLabel = new javax.swing.JLabel();
-		lblZone = new javax.swing.JLabel();
-		lblUserNameLabel = new javax.swing.JLabel();
-		lblUserName = new javax.swing.JLabel();
-		lblResource = new javax.swing.JLabel();
-		cbIrodsResource = new javax.swing.JComboBox();
-		filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0),
-				new java.awt.Dimension(30, 0),
-				new java.awt.Dimension(30, 32767));
-		pnlStatus = new javax.swing.JPanel();
-		lblStatusIcon = new javax.swing.JLabel();
-
-		btnMainToolbarSync
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_457_transfer.png"))); // NOI18N
-		btnMainToolbarSync.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarSync.text")); // NOI18N
-		btnMainToolbarSync.setBorder(null);
-		btnMainToolbarSync.setFocusable(false);
-		btnMainToolbarSync
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarSync.setMargin(null);
-		btnMainToolbarSync
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarSync
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarSyncActionPerformed(evt);
-					}
-				});
-
-		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-		setMinimumSize(new java.awt.Dimension(622, 158));
-		addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowClosing(final java.awt.event.WindowEvent evt) {
-				formWindowClosing(evt);
-			}
-		});
-
-		pnlMainToolbarIcons.setBorder(javax.swing.BorderFactory
-				.createEmptyBorder(10, 20, 10, 20));
-		pnlMainToolbarIcons.setFocusTraversalPolicyProvider(true);
-		pnlMainToolbarIcons.setLayout(new java.awt.GridBagLayout());
-
-		jToolBar1.setFloatable(false);
-		jToolBar1.setRollover(true);
-
-		btnMainToolbarTree
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_119_table.png"))); // NOI18N
-		btnMainToolbarTree.setMnemonic('t');
-		btnMainToolbarTree.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarTree.text")); // NOI18N
-		btnMainToolbarTree.setToolTipText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarTree.toolTipText")); // NOI18N
-		btnMainToolbarTree.setBorder(null);
-		btnMainToolbarTree.setFocusable(false);
-		btnMainToolbarTree
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarTree.setMargin(new java.awt.Insets(0, 0, 0, 4));
-		btnMainToolbarTree.setMinimumSize(new java.awt.Dimension(30, 0));
-		btnMainToolbarTree
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarTree
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarTreeActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarTree);
-		jToolBar1.add(filler1);
-
-		btnMainToolbarDownload
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_181_download_alt.png"))); // NOI18N
-		btnMainToolbarDownload.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarDownload.text")); // NOI18N
-		btnMainToolbarDownload.setBorder(null);
-		btnMainToolbarDownload.setFocusable(false);
-		btnMainToolbarDownload
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarDownload.setMargin(new java.awt.Insets(0, 4, 0, 4));
-		btnMainToolbarDownload
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarDownload
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarDownloadActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarDownload);
-		jToolBar1.add(filler2);
-
-		btnMainToolbarUpload
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_415_disk_open.png"))); // NOI18N
-		btnMainToolbarUpload.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarUpload.text")); // NOI18N
-		btnMainToolbarUpload.setBorder(null);
-		btnMainToolbarUpload.setFocusable(false);
-		btnMainToolbarUpload
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarUpload.setMargin(null);
-		btnMainToolbarUpload
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarUpload
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarUploadActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarUpload);
-		jToolBar1.add(filler3);
-
-		btnMainToolbarRefresh
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
-		btnMainToolbarRefresh.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarRefresh.text")); // NOI18N
-		btnMainToolbarRefresh.setBorder(null);
-		btnMainToolbarRefresh.setFocusable(false);
-		btnMainToolbarRefresh
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarRefresh.setMargin(null);
-		btnMainToolbarRefresh
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarRefresh
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarRefreshActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarRefresh);
-		jToolBar1.add(filler4);
-		jToolBar1.add(jSeparator1);
-		jToolBar1.add(filler15);
-
-		btnNewFolder
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_145_folder_plus.png"))); // NOI18N
-		btnNewFolder.setMnemonic('n');
-		btnNewFolder.setText(org.openide.util.NbBundle.getMessage(iDrop.class,
-				"iDrop.btnNewFolder.text")); // NOI18N
-		btnNewFolder.setActionCommand(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnNewFolder.actionCommand")); // NOI18N
-		btnNewFolder.setBorder(null);
-		btnNewFolder.setFocusable(false);
-		btnNewFolder
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnNewFolder.setMargin(null);
-		btnNewFolder.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnNewFolder.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnNewFolderActionPerformed(evt);
-			}
-		});
-		jToolBar1.add(btnNewFolder);
-		jToolBar1.add(filler5);
-
-		btnMainToolbarCopy
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_318_more_items.png"))); // NOI18N
-		btnMainToolbarCopy.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarCopy.text")); // NOI18N
-		btnMainToolbarCopy.setActionCommand(org.openide.util.NbBundle
-				.getMessage(iDrop.class,
-						"iDrop.btnMainToolbarCopy.actionCommand")); // NOI18N
-		btnMainToolbarCopy.setBorder(null);
-		btnMainToolbarCopy.setFocusable(false);
-		btnMainToolbarCopy
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarCopy.setMargin(null);
-		btnMainToolbarCopy
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarCopy
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarCopyActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarCopy);
-		jToolBar1.add(filler6);
-
-		btnMainToolbarDelete
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
-		btnMainToolbarDelete.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarDelete.text_1")); // NOI18N
-		btnMainToolbarDelete.setBorder(null);
-		btnMainToolbarDelete.setFocusable(false);
-		btnMainToolbarDelete
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarDelete.setMargin(null);
-		btnMainToolbarDelete
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarDelete
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarDeleteActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarDelete);
-		jToolBar1.add(filler7);
-
-		btnMainToolbarInfo
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
-		btnMainToolbarInfo.setBorderPainted(false);
-		btnMainToolbarInfo.setFocusable(false);
-		btnMainToolbarInfo
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarInfo.setLabel(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarInfo.label")); // NOI18N
-		btnMainToolbarInfo.setMargin(null);
-		btnMainToolbarInfo
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarInfo
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarInfoActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarInfo);
-		jToolBar1.add(filler8);
-		jToolBar1.add(jSeparator2);
-		jToolBar1.add(filler9);
-
-		btnMainToolbarTools
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_280_settings.png"))); // NOI18N
-		btnMainToolbarTools.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarTools.text")); // NOI18N
-		btnMainToolbarTools.setToolTipText(org.openide.util.NbBundle
-				.getMessage(iDrop.class,
-						"iDrop.btnMainToolbarTools.toolTipText")); // NOI18N
-		btnMainToolbarTools.setBorder(null);
-		btnMainToolbarTools.setFocusable(false);
-		btnMainToolbarTools
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarTools.setMargin(null);
-		btnMainToolbarTools
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarTools
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarToolsActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarTools);
-		jToolBar1.add(filler10);
-
-		btnMainToolbarSettings
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_139_adjust_alt.png"))); // NOI18N
-		btnMainToolbarSettings.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarSettings.text")); // NOI18N
-		btnMainToolbarSettings.setBorder(null);
-		btnMainToolbarSettings.setFocusable(false);
-		btnMainToolbarSettings
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarSettings.setMargin(null);
-		btnMainToolbarSettings
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarSettings
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarSettingsActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarSettings);
-		jToolBar1.add(filler11);
-		jToolBar1.add(filler14);
-
-		btnMainToolbarQueueMgr
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_136_cogwheel.png"))); // NOI18N
-		btnMainToolbarQueueMgr.setMnemonic('Q');
-		btnMainToolbarQueueMgr.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarQueueMgr.text")); // NOI18N
-		btnMainToolbarQueueMgr.setBorder(null);
-		btnMainToolbarQueueMgr.setFocusable(false);
-		btnMainToolbarQueueMgr
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarQueueMgr.setMargin(null);
-		btnMainToolbarQueueMgr
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarQueueMgr
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarQueueMgrActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarQueueMgr);
-		jToolBar1.add(filler12);
-
-		btnMainToolbarGrids
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_003_user.png"))); // NOI18N
-		btnMainToolbarGrids.setMnemonic('G');
-		btnMainToolbarGrids.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.btnMainToolbarGrids.text")); // NOI18N
-		btnMainToolbarGrids.setBorder(null);
-		btnMainToolbarGrids.setFocusable(false);
-		btnMainToolbarGrids
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnMainToolbarGrids.setMargin(null);
-		btnMainToolbarGrids
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnMainToolbarGrids
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnMainToolbarGridsActionPerformed(evt);
-					}
-				});
-		jToolBar1.add(btnMainToolbarGrids);
-		jToolBar1.add(filler13);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlMainToolbarIcons.add(jToolBar1, gridBagConstraints);
-
-		pnlBreadCrumbNav.setMaximumSize(new java.awt.Dimension(20, 20));
-		pnlBreadCrumbNav.setPreferredSize(new java.awt.Dimension(20, 20));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 4;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		pnlMainToolbarIcons.add(pnlBreadCrumbNav, gridBagConstraints);
-
-		getContentPane().add(pnlMainToolbarIcons, java.awt.BorderLayout.NORTH);
-
-		pnlMainIrodsTree.setBorder(javax.swing.BorderFactory
-				.createEtchedBorder());
-		pnlMainIrodsTree.setPreferredSize(new java.awt.Dimension(834, 395));
-		pnlMainIrodsTree.setLayout(new java.awt.BorderLayout());
-
-		splitPanelTrees.setBorder(null);
-		splitPanelTrees.setDividerLocation(150);
-		splitPanelTrees.setAutoscrolls(true);
-		splitPanelTrees.setLastDividerLocation(200);
-		splitPanelTrees.setPreferredSize(new java.awt.Dimension(834, 360));
-
-		scrollIrodsTree.setBorder(null);
-		splitPanelTrees.setRightComponent(scrollIrodsTree);
-
-		pnlLocalTreeArea.setBackground(new java.awt.Color(153, 255, 102));
-		pnlLocalTreeArea.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		pnlLocalTreeArea.setMinimumSize(new java.awt.Dimension(0, 0));
-		pnlLocalTreeArea.setOpaque(false);
-		pnlLocalTreeArea.setPreferredSize(new java.awt.Dimension(0, 0));
-		pnlLocalTreeArea.setLayout(new java.awt.BorderLayout());
-
-		pnlLocalRoots.setMinimumSize(new java.awt.Dimension(0, 0));
-		pnlLocalRoots.setLayout(new java.awt.BorderLayout());
-
-		scrollLocalDrives.setMaximumSize(null);
-		scrollLocalDrives.setMinimumSize(new java.awt.Dimension(0, 0));
-		scrollLocalDrives.setPreferredSize(new java.awt.Dimension(300, 100));
-
-		listLocalDrives.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		listLocalDrives
-				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-		listLocalDrives.setMaximumSize(null);
-		listLocalDrives.setPreferredSize(new java.awt.Dimension(150, 200));
-		listLocalDrives.setVisibleRowCount(4);
-		scrollLocalDrives.setViewportView(listLocalDrives);
-
-		pnlLocalRoots.add(scrollLocalDrives, java.awt.BorderLayout.CENTER);
-		pnlLocalRoots.add(pnlDrivesFiller, java.awt.BorderLayout.SOUTH);
-
-		pnlLocalTreeArea.add(pnlLocalRoots, java.awt.BorderLayout.NORTH);
-
-		scrollLocalFileTree.setBackground(javax.swing.UIManager.getDefaults()
-				.getColor("Button.background"));
-		scrollLocalFileTree.setBorder(null);
-		scrollLocalFileTree.setToolTipText(org.openide.util.NbBundle
-				.getMessage(iDrop.class,
-						"iDrop.scrollLocalFileTree.toolTipText")); // NOI18N
-		scrollLocalFileTree
-				.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollLocalFileTree.setMaximumSize(null);
-		scrollLocalFileTree.setMinimumSize(new java.awt.Dimension(0, 0));
-		scrollLocalFileTree.setPreferredSize(new java.awt.Dimension(500, 500));
-		pnlLocalTreeArea.add(scrollLocalFileTree, java.awt.BorderLayout.CENTER);
-
-		splitPanelTrees.setLeftComponent(pnlLocalTreeArea);
-
-		pnlMainIrodsTree.add(splitPanelTrees, java.awt.BorderLayout.CENTER);
-
-		jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1,
-				10));
-		jPanel1.setPreferredSize(new java.awt.Dimension(100, 35));
-		jPanel1.setLayout(new java.awt.BorderLayout());
-
-		jPanel2.setLayout(new java.awt.BorderLayout());
-		jPanel1.add(jPanel2, java.awt.BorderLayout.WEST);
-
-		jPanel3.setPreferredSize(new java.awt.Dimension(400, 35));
-		jPanel1.add(jPanel3, java.awt.BorderLayout.EAST);
-
-		pnlMainIrodsTree.add(jPanel1, java.awt.BorderLayout.SOUTH);
-
-		getContentPane().add(pnlMainIrodsTree, java.awt.BorderLayout.CENTER);
-
-		pnlMainTransferStatus
-				.setPreferredSize(new java.awt.Dimension(835, 120));
-		pnlMainTransferStatus.setLayout(new java.awt.BorderLayout());
-
-		pnlIdropBottom.setBorder(javax.swing.BorderFactory
-				.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		pnlIdropBottom.setToolTipText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.pnlIdropBottom.toolTipText")); // NOI18N
-		pnlIdropBottom.setMinimumSize(new java.awt.Dimension(166, 66));
-		pnlIdropBottom.setLayout(new java.awt.BorderLayout());
-
-		pnlCurrentTransferStatus.setBorder(javax.swing.BorderFactory
-				.createEmptyBorder(1, 10, 1, 10));
-		pnlCurrentTransferStatus
-				.setMinimumSize(new java.awt.Dimension(100, 132));
-		pnlCurrentTransferStatus.setLayout(new java.awt.GridBagLayout());
-
-		lblCurrentFile.setMaximumSize(new java.awt.Dimension(999, 999));
-		lblCurrentFile.setMinimumSize(new java.awt.Dimension(30, 10));
-		lblCurrentFile.setPreferredSize(new java.awt.Dimension(300, 20));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.insets = new java.awt.Insets(0, 9, 0, 0);
-		pnlCurrentTransferStatus.add(lblCurrentFile, gridBagConstraints);
-
-		progressIntraFile.setBorder(javax.swing.BorderFactory
-				.createEmptyBorder(1, 3, 1, 1));
-		progressIntraFile.setMinimumSize(new java.awt.Dimension(10, 60));
-		progressIntraFile.setString(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.progressIntraFile.string")); // NOI18N
-		progressIntraFile.setStringPainted(true);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.gridwidth = 4;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlCurrentTransferStatus.add(progressIntraFile, gridBagConstraints);
-
-		lblTransferFilesCounts.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.lblTransferFilesCounts.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.gridwidth = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlCurrentTransferStatus
-				.add(lblTransferFilesCounts, gridBagConstraints);
-
-		transferStatusProgressBar
-				.setMinimumSize(new java.awt.Dimension(10, 60));
-		transferStatusProgressBar.setString(org.openide.util.NbBundle
-				.getMessage(iDrop.class,
-						"iDrop.transferStatusProgressBar.string")); // NOI18N
-		transferStatusProgressBar.setStringPainted(true);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.gridwidth = 4;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		gridBagConstraints.weightx = 8.0;
-		pnlCurrentTransferStatus.add(transferStatusProgressBar,
-				gridBagConstraints);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 0;
-		pnlCurrentTransferStatus.add(lblTransferType, gridBagConstraints);
-
-		lblTransferMessage.setForeground(java.awt.Color.blue);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlCurrentTransferStatus.add(lblTransferMessage, gridBagConstraints);
-
-		lblTransferByteCounts.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.lblTransferByteCounts.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.gridwidth = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlCurrentTransferStatus.add(lblTransferByteCounts, gridBagConstraints);
-
-		pnlIdropBottom.add(pnlCurrentTransferStatus,
-				java.awt.BorderLayout.CENTER);
-
-		idropProgressPanelToolbar.setFloatable(false);
-		idropProgressPanelToolbar.setRollover(true);
-
-		togglePauseTransfer
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_174_pause.png"))); // NOI18N
-		togglePauseTransfer.setMnemonic('p');
-		togglePauseTransfer.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.togglePauseTransfer.text")); // NOI18N
-		togglePauseTransfer.setToolTipText(org.openide.util.NbBundle
-				.getMessage(iDrop.class,
-						"iDrop.togglePauseTransfer.toolTipText")); // NOI18N
-		togglePauseTransfer.setFocusable(false);
-		togglePauseTransfer
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		togglePauseTransfer
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		togglePauseTransfer
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						togglePauseTransferActionPerformed(evt);
-					}
-				});
-		idropProgressPanelToolbar.add(togglePauseTransfer);
-
-		pnlTransferOptions.add(idropProgressPanelToolbar);
-		pnlTransferOptions.add(progressIconImageLabel);
-
-		pnlIdropBottom.add(pnlTransferOptions, java.awt.BorderLayout.EAST);
-
-		pnlMainTransferStatus.add(pnlIdropBottom, java.awt.BorderLayout.NORTH);
-
-		pnlIdropGutter.setBorder(javax.swing.BorderFactory
-				.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		pnlIdropGutter.setMinimumSize(new java.awt.Dimension(591, 45));
-		pnlIdropGutter.setPreferredSize(new java.awt.Dimension(591, 45));
-		pnlIdropGutter.setLayout(new java.awt.GridBagLayout());
-
-		lblHostLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class,
-				"iDrop.lblHostLabel.text_1")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlIdropGutter.add(lblHostLabel, gridBagConstraints);
-
-		lblHost.setText(org.openide.util.NbBundle.getMessage(iDrop.class,
-				"iDrop.lblHost.text_1")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlIdropGutter.add(lblHost, gridBagConstraints);
-
-		lblZoneLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class,
-				"iDrop.lblZoneLabel.text_1")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-		pnlIdropGutter.add(lblZoneLabel, gridBagConstraints);
-
-		lblZone.setText(org.openide.util.NbBundle.getMessage(iDrop.class,
-				"iDrop.lblZone.text_1")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlIdropGutter.add(lblZone, gridBagConstraints);
-
-		lblUserNameLabel.setText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.lblUserNameLabel.text_1")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-		pnlIdropGutter.add(lblUserNameLabel, gridBagConstraints);
-
-		lblUserName.setText(org.openide.util.NbBundle.getMessage(iDrop.class,
-				"iDrop.lblUserName.text_1")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlIdropGutter.add(lblUserName, gridBagConstraints);
-
-		lblResource.setText(org.openide.util.NbBundle.getMessage(iDrop.class,
-				"iDrop.lblResource.text_1")); // NOI18N
-		lblResource.setToolTipText(org.openide.util.NbBundle.getMessage(
-				iDrop.class, "iDrop.lblResource.toolTipText")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-		pnlIdropGutter.add(lblResource, gridBagConstraints);
-
-		cbIrodsResource.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				cbIrodsResourceActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridwidth = 6;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlIdropGutter.add(cbIrodsResource, gridBagConstraints);
-		pnlIdropGutter.add(filler16, new java.awt.GridBagConstraints());
-
-		pnlStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-		lblStatusIcon.setText(org.openide.util.NbBundle.getMessage(iDrop.class,
-				"iDrop.lblStatusIcon.text_1")); // NOI18N
-		pnlStatus.add(lblStatusIcon);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlIdropGutter.add(pnlStatus, gridBagConstraints);
-
-		pnlMainTransferStatus.add(pnlIdropGutter, java.awt.BorderLayout.CENTER);
-
-		getContentPane()
-				.add(pnlMainTransferStatus, java.awt.BorderLayout.SOUTH);
-
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        btnMainToolbarSync = new javax.swing.JButton();
+        pnlMainToolbarIcons = new javax.swing.JPanel();
+        jToolBar1 = new javax.swing.JToolBar();
+        btnMainToolbarTree = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarDownload = new javax.swing.JButton();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarUpload = new javax.swing.JButton();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarRefresh = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        filler15 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnNewFolder = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarCopy = new javax.swing.JButton();
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarDelete = new javax.swing.JButton();
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarInfo = new javax.swing.JButton();
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(2, 32767));
+        jSeparator2 = new javax.swing.JToolBar.Separator();
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarTools = new javax.swing.JButton();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarSettings = new javax.swing.JButton();
+        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarQueueMgr = new javax.swing.JButton();
+        filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarGrids = new javax.swing.JButton();
+        filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnSynch = new javax.swing.JButton();
+        pnlBreadCrumbNav = new javax.swing.JPanel();
+        pnlMainIrodsTree = new javax.swing.JPanel();
+        splitPanelTrees = new javax.swing.JSplitPane();
+        scrollIrodsTree = new javax.swing.JScrollPane();
+        pnlLocalTreeArea = new javax.swing.JPanel();
+        pnlLocalRoots = new javax.swing.JPanel();
+        scrollLocalDrives = new javax.swing.JScrollPane();
+        listLocalDrives = new javax.swing.JList();
+        pnlDrivesFiller = new javax.swing.JPanel();
+        scrollLocalFileTree = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        pnlMainTransferStatus = new javax.swing.JPanel();
+        pnlIdropBottom = new javax.swing.JPanel();
+        pnlCurrentTransferStatus = new javax.swing.JPanel();
+        lblCurrentFile = new javax.swing.JLabel();
+        progressIntraFile = new javax.swing.JProgressBar();
+        lblTransferFilesCounts = new javax.swing.JLabel();
+        transferStatusProgressBar = new javax.swing.JProgressBar();
+        lblTransferType = new javax.swing.JLabel();
+        lblTransferMessage = new javax.swing.JLabel();
+        lblTransferByteCounts = new javax.swing.JLabel();
+        pnlTransferOptions = new javax.swing.JPanel();
+        idropProgressPanelToolbar = new javax.swing.JToolBar();
+        togglePauseTransfer = new javax.swing.JToggleButton();
+        progressIconImageLabel = new javax.swing.JLabel();
+        pnlIdropGutter = new javax.swing.JPanel();
+        lblHostLabel = new javax.swing.JLabel();
+        lblHost = new javax.swing.JLabel();
+        lblZoneLabel = new javax.swing.JLabel();
+        lblZone = new javax.swing.JLabel();
+        lblUserNameLabel = new javax.swing.JLabel();
+        lblUserName = new javax.swing.JLabel();
+        lblResource = new javax.swing.JLabel();
+        cbIrodsResource = new javax.swing.JComboBox();
+        filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
+        pnlStatus = new javax.swing.JPanel();
+        lblStatusIcon = new javax.swing.JLabel();
+
+        btnMainToolbarSync.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_457_transfer.png"))); // NOI18N
+        btnMainToolbarSync.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSync.text")); // NOI18N
+        btnMainToolbarSync.setBorder(null);
+        btnMainToolbarSync.setFocusable(false);
+        btnMainToolbarSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarSync.setMargin(null);
+        btnMainToolbarSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarSyncActionPerformed(evt);
+            }
+        });
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(622, 158));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        pnlMainToolbarIcons.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        pnlMainToolbarIcons.setFocusTraversalPolicyProvider(true);
+        pnlMainToolbarIcons.setLayout(new java.awt.GridBagLayout());
+
+        jToolBar1.setFloatable(false);
+        jToolBar1.setRollover(true);
+
+        btnMainToolbarTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_119_table.png"))); // NOI18N
+        btnMainToolbarTree.setMnemonic('t');
+        btnMainToolbarTree.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTree.text")); // NOI18N
+        btnMainToolbarTree.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTree.toolTipText")); // NOI18N
+        btnMainToolbarTree.setBorder(null);
+        btnMainToolbarTree.setFocusable(false);
+        btnMainToolbarTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarTree.setMargin(new java.awt.Insets(0, 0, 0, 4));
+        btnMainToolbarTree.setMinimumSize(new java.awt.Dimension(30, 0));
+        btnMainToolbarTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarTreeActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarTree);
+        jToolBar1.add(filler1);
+
+        btnMainToolbarDownload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_181_download_alt.png"))); // NOI18N
+        btnMainToolbarDownload.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarDownload.text")); // NOI18N
+        btnMainToolbarDownload.setBorder(null);
+        btnMainToolbarDownload.setFocusable(false);
+        btnMainToolbarDownload.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarDownload.setMargin(new java.awt.Insets(0, 4, 0, 4));
+        btnMainToolbarDownload.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarDownload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarDownloadActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarDownload);
+        jToolBar1.add(filler2);
+
+        btnMainToolbarUpload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_415_disk_open.png"))); // NOI18N
+        btnMainToolbarUpload.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarUpload.text")); // NOI18N
+        btnMainToolbarUpload.setBorder(null);
+        btnMainToolbarUpload.setFocusable(false);
+        btnMainToolbarUpload.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarUpload.setMargin(null);
+        btnMainToolbarUpload.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarUpload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarUploadActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarUpload);
+        jToolBar1.add(filler3);
+
+        btnMainToolbarRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
+        btnMainToolbarRefresh.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarRefresh.text")); // NOI18N
+        btnMainToolbarRefresh.setBorder(null);
+        btnMainToolbarRefresh.setFocusable(false);
+        btnMainToolbarRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarRefresh.setMargin(null);
+        btnMainToolbarRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarRefreshActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarRefresh);
+        jToolBar1.add(filler4);
+        jToolBar1.add(jSeparator1);
+        jToolBar1.add(filler15);
+
+        btnNewFolder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_145_folder_plus.png"))); // NOI18N
+        btnNewFolder.setMnemonic('n');
+        btnNewFolder.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnNewFolder.text")); // NOI18N
+        btnNewFolder.setActionCommand(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnNewFolder.actionCommand")); // NOI18N
+        btnNewFolder.setBorder(null);
+        btnNewFolder.setFocusable(false);
+        btnNewFolder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNewFolder.setMargin(null);
+        btnNewFolder.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNewFolder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewFolderActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnNewFolder);
+        jToolBar1.add(filler5);
+
+        btnMainToolbarCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_318_more_items.png"))); // NOI18N
+        btnMainToolbarCopy.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarCopy.text")); // NOI18N
+        btnMainToolbarCopy.setActionCommand(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarCopy.actionCommand")); // NOI18N
+        btnMainToolbarCopy.setBorder(null);
+        btnMainToolbarCopy.setFocusable(false);
+        btnMainToolbarCopy.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarCopy.setMargin(null);
+        btnMainToolbarCopy.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarCopyActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarCopy);
+        jToolBar1.add(filler6);
+
+        btnMainToolbarDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnMainToolbarDelete.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarDelete.text_1")); // NOI18N
+        btnMainToolbarDelete.setBorder(null);
+        btnMainToolbarDelete.setFocusable(false);
+        btnMainToolbarDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarDelete.setMargin(null);
+        btnMainToolbarDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarDeleteActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarDelete);
+        jToolBar1.add(filler7);
+
+        btnMainToolbarInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
+        btnMainToolbarInfo.setBorderPainted(false);
+        btnMainToolbarInfo.setFocusable(false);
+        btnMainToolbarInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarInfo.setLabel(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarInfo.label")); // NOI18N
+        btnMainToolbarInfo.setMargin(null);
+        btnMainToolbarInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarInfoActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarInfo);
+        jToolBar1.add(filler8);
+        jToolBar1.add(jSeparator2);
+        jToolBar1.add(filler9);
+
+        btnMainToolbarTools.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_280_settings.png"))); // NOI18N
+        btnMainToolbarTools.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTools.text")); // NOI18N
+        btnMainToolbarTools.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTools.toolTipText")); // NOI18N
+        btnMainToolbarTools.setBorder(null);
+        btnMainToolbarTools.setFocusable(false);
+        btnMainToolbarTools.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarTools.setMargin(null);
+        btnMainToolbarTools.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarTools.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarToolsActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarTools);
+        jToolBar1.add(filler10);
+
+        btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_139_adjust_alt.png"))); // NOI18N
+        btnMainToolbarSettings.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSettings.text")); // NOI18N
+        btnMainToolbarSettings.setBorder(null);
+        btnMainToolbarSettings.setFocusable(false);
+        btnMainToolbarSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarSettings.setMargin(null);
+        btnMainToolbarSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarSettingsActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarSettings);
+        jToolBar1.add(filler11);
+        jToolBar1.add(filler14);
+
+        btnMainToolbarQueueMgr.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_136_cogwheel.png"))); // NOI18N
+        btnMainToolbarQueueMgr.setMnemonic('Q');
+        btnMainToolbarQueueMgr.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarQueueMgr.text")); // NOI18N
+        btnMainToolbarQueueMgr.setBorder(null);
+        btnMainToolbarQueueMgr.setFocusable(false);
+        btnMainToolbarQueueMgr.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarQueueMgr.setMargin(null);
+        btnMainToolbarQueueMgr.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarQueueMgr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarQueueMgrActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarQueueMgr);
+        jToolBar1.add(filler12);
+
+        btnMainToolbarGrids.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_003_user.png"))); // NOI18N
+        btnMainToolbarGrids.setMnemonic('G');
+        btnMainToolbarGrids.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarGrids.text")); // NOI18N
+        btnMainToolbarGrids.setBorder(null);
+        btnMainToolbarGrids.setFocusable(false);
+        btnMainToolbarGrids.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarGrids.setMargin(null);
+        btnMainToolbarGrids.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarGrids.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarGridsActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarGrids);
+        jToolBar1.add(filler13);
+
+        btnSynch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_428_git_compare.png"))); // NOI18N
+        btnSynch.setMnemonic('s');
+        btnSynch.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnSynch.text")); // NOI18N
+        btnSynch.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnSynch.toolTipText")); // NOI18N
+        btnSynch.setBorderPainted(false);
+        btnSynch.setFocusable(false);
+        btnSynch.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSynch.setPreferredSize(new java.awt.Dimension(29, 40));
+        btnSynch.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSynch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSynchActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnSynch);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMainToolbarIcons.add(jToolBar1, gridBagConstraints);
+
+        pnlBreadCrumbNav.setMaximumSize(new java.awt.Dimension(20, 20));
+        pnlBreadCrumbNav.setPreferredSize(new java.awt.Dimension(20, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        pnlMainToolbarIcons.add(pnlBreadCrumbNav, gridBagConstraints);
+
+        getContentPane().add(pnlMainToolbarIcons, java.awt.BorderLayout.NORTH);
+
+        pnlMainIrodsTree.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlMainIrodsTree.setPreferredSize(new java.awt.Dimension(834, 395));
+        pnlMainIrodsTree.setLayout(new java.awt.BorderLayout());
+
+        splitPanelTrees.setBorder(null);
+        splitPanelTrees.setDividerLocation(150);
+        splitPanelTrees.setAutoscrolls(true);
+        splitPanelTrees.setLastDividerLocation(200);
+        splitPanelTrees.setPreferredSize(new java.awt.Dimension(834, 360));
+
+        scrollIrodsTree.setBorder(null);
+        splitPanelTrees.setRightComponent(scrollIrodsTree);
+
+        pnlLocalTreeArea.setBackground(new java.awt.Color(153, 255, 102));
+        pnlLocalTreeArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlLocalTreeArea.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlLocalTreeArea.setOpaque(false);
+        pnlLocalTreeArea.setPreferredSize(new java.awt.Dimension(0, 0));
+        pnlLocalTreeArea.setLayout(new java.awt.BorderLayout());
+
+        pnlLocalRoots.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlLocalRoots.setLayout(new java.awt.BorderLayout());
+
+        scrollLocalDrives.setMaximumSize(null);
+        scrollLocalDrives.setMinimumSize(new java.awt.Dimension(0, 0));
+        scrollLocalDrives.setPreferredSize(new java.awt.Dimension(300, 100));
+
+        listLocalDrives.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        listLocalDrives.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listLocalDrives.setMaximumSize(null);
+        listLocalDrives.setPreferredSize(new java.awt.Dimension(150, 200));
+        listLocalDrives.setVisibleRowCount(4);
+        scrollLocalDrives.setViewportView(listLocalDrives);
+
+        pnlLocalRoots.add(scrollLocalDrives, java.awt.BorderLayout.CENTER);
+        pnlLocalRoots.add(pnlDrivesFiller, java.awt.BorderLayout.SOUTH);
+
+        pnlLocalTreeArea.add(pnlLocalRoots, java.awt.BorderLayout.NORTH);
+
+        scrollLocalFileTree.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+        scrollLocalFileTree.setBorder(null);
+        scrollLocalFileTree.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.scrollLocalFileTree.toolTipText")); // NOI18N
+        scrollLocalFileTree.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollLocalFileTree.setMaximumSize(null);
+        scrollLocalFileTree.setMinimumSize(new java.awt.Dimension(0, 0));
+        scrollLocalFileTree.setPreferredSize(new java.awt.Dimension(500, 500));
+        pnlLocalTreeArea.add(scrollLocalFileTree, java.awt.BorderLayout.CENTER);
+
+        splitPanelTrees.setLeftComponent(pnlLocalTreeArea);
+
+        pnlMainIrodsTree.add(splitPanelTrees, java.awt.BorderLayout.CENTER);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        jPanel1.setPreferredSize(new java.awt.Dimension(100, 35));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(jPanel2, java.awt.BorderLayout.WEST);
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(400, 35));
+        jPanel1.add(jPanel3, java.awt.BorderLayout.EAST);
+
+        pnlMainIrodsTree.add(jPanel1, java.awt.BorderLayout.SOUTH);
+
+        getContentPane().add(pnlMainIrodsTree, java.awt.BorderLayout.CENTER);
+
+        pnlMainTransferStatus.setPreferredSize(new java.awt.Dimension(835, 120));
+        pnlMainTransferStatus.setLayout(new java.awt.BorderLayout());
+
+        pnlIdropBottom.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        pnlIdropBottom.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.pnlIdropBottom.toolTipText")); // NOI18N
+        pnlIdropBottom.setMinimumSize(new java.awt.Dimension(166, 66));
+        pnlIdropBottom.setLayout(new java.awt.BorderLayout());
+
+        pnlCurrentTransferStatus.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        pnlCurrentTransferStatus.setMinimumSize(new java.awt.Dimension(100, 132));
+        pnlCurrentTransferStatus.setLayout(new java.awt.GridBagLayout());
+
+        lblCurrentFile.setMaximumSize(new java.awt.Dimension(999, 999));
+        lblCurrentFile.setMinimumSize(new java.awt.Dimension(30, 10));
+        lblCurrentFile.setPreferredSize(new java.awt.Dimension(300, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 9, 0, 0);
+        pnlCurrentTransferStatus.add(lblCurrentFile, gridBagConstraints);
+
+        progressIntraFile.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 1));
+        progressIntraFile.setMinimumSize(new java.awt.Dimension(10, 60));
+        progressIntraFile.setString(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.progressIntraFile.string")); // NOI18N
+        progressIntraFile.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCurrentTransferStatus.add(progressIntraFile, gridBagConstraints);
+
+        lblTransferFilesCounts.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblTransferFilesCounts.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCurrentTransferStatus.add(lblTransferFilesCounts, gridBagConstraints);
+
+        transferStatusProgressBar.setMinimumSize(new java.awt.Dimension(10, 60));
+        transferStatusProgressBar.setString(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.transferStatusProgressBar.string")); // NOI18N
+        transferStatusProgressBar.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 8.0;
+        pnlCurrentTransferStatus.add(transferStatusProgressBar, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        pnlCurrentTransferStatus.add(lblTransferType, gridBagConstraints);
+
+        lblTransferMessage.setForeground(java.awt.Color.blue);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCurrentTransferStatus.add(lblTransferMessage, gridBagConstraints);
+
+        lblTransferByteCounts.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblTransferByteCounts.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCurrentTransferStatus.add(lblTransferByteCounts, gridBagConstraints);
+
+        pnlIdropBottom.add(pnlCurrentTransferStatus, java.awt.BorderLayout.CENTER);
+
+        idropProgressPanelToolbar.setFloatable(false);
+        idropProgressPanelToolbar.setRollover(true);
+
+        togglePauseTransfer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_174_pause.png"))); // NOI18N
+        togglePauseTransfer.setMnemonic('p');
+        togglePauseTransfer.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.text")); // NOI18N
+        togglePauseTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.togglePauseTransfer.toolTipText")); // NOI18N
+        togglePauseTransfer.setFocusable(false);
+        togglePauseTransfer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        togglePauseTransfer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        togglePauseTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                togglePauseTransferActionPerformed(evt);
+            }
+        });
+        idropProgressPanelToolbar.add(togglePauseTransfer);
+
+        pnlTransferOptions.add(idropProgressPanelToolbar);
+        pnlTransferOptions.add(progressIconImageLabel);
+
+        pnlIdropBottom.add(pnlTransferOptions, java.awt.BorderLayout.EAST);
+
+        pnlMainTransferStatus.add(pnlIdropBottom, java.awt.BorderLayout.NORTH);
+
+        pnlIdropGutter.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        pnlIdropGutter.setMinimumSize(new java.awt.Dimension(591, 45));
+        pnlIdropGutter.setPreferredSize(new java.awt.Dimension(591, 45));
+        pnlIdropGutter.setLayout(new java.awt.GridBagLayout());
+
+        lblHostLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblHostLabel.text_1")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlIdropGutter.add(lblHostLabel, gridBagConstraints);
+
+        lblHost.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblHost.text_1")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlIdropGutter.add(lblHost, gridBagConstraints);
+
+        lblZoneLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblZoneLabel.text_1")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        pnlIdropGutter.add(lblZoneLabel, gridBagConstraints);
+
+        lblZone.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblZone.text_1")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlIdropGutter.add(lblZone, gridBagConstraints);
+
+        lblUserNameLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblUserNameLabel.text_1")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        pnlIdropGutter.add(lblUserNameLabel, gridBagConstraints);
+
+        lblUserName.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblUserName.text_1")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlIdropGutter.add(lblUserName, gridBagConstraints);
+
+        lblResource.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblResource.text_1")); // NOI18N
+        lblResource.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblResource.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        pnlIdropGutter.add(lblResource, gridBagConstraints);
+
+        cbIrodsResource.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbIrodsResourceActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlIdropGutter.add(cbIrodsResource, gridBagConstraints);
+        pnlIdropGutter.add(filler16, new java.awt.GridBagConstraints());
+
+        pnlStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        lblStatusIcon.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblStatusIcon.text_1")); // NOI18N
+        pnlStatus.add(lblStatusIcon);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlIdropGutter.add(pnlStatus, gridBagConstraints);
+
+        pnlMainTransferStatus.add(pnlIdropGutter, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(pnlMainTransferStatus, java.awt.BorderLayout.SOUTH);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSynchActionPerformed
+        
+        SynchronizationDialog synchDialog = new SynchronizationDialog(this, true, this.getiDropCore());
+        synchDialog.setVisible(true);
+       
+    }//GEN-LAST:event_btnSynchActionPerformed
 
     /**
      * Show a modal dialog with extended tools
@@ -2149,9 +1972,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             final java.awt.event.ActionEvent evt) {
 
         String newResource = (String) cbIrodsResource.getSelectedItem();
-        getiDropCore().getIrodsAccount().setDefaultStorageResource(newResource);
+        getiDropCore().irodsAccount().setDefaultStorageResource(newResource);
         try {
-            getiDropCore().getConveyorService().getGridAccountService().rememberDefaultStorageResource(newResource, getiDropCore().getIrodsAccount());
+            getiDropCore().getConveyorService().getGridAccountService().rememberDefaultStorageResource(newResource, getiDropCore().irodsAccount());
         } catch (ConveyorExecutionException ex) {
             log.error("unable to remember new resource", ex);
             MessageManager.showError(this, ex.getMessage());
@@ -2328,7 +2151,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         if (idx >= 0) {
             try {
                 irodsFS = new IRODSFileService(
-                        getiDropCore().getIrodsAccount(), getiDropCore()
+                        getiDropCore().irodsAccount(), getiDropCore()
                         .getIrodsFileSystem());
                 IRODSFile ifile = null;
                 IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
@@ -2358,81 +2181,80 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     "Please select a parent folder in the tree");
         }
     }// GEN-LAST:event_btnNewFolderActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnMainToolbarCopy;
-	private javax.swing.JButton btnMainToolbarDelete;
-	private javax.swing.JButton btnMainToolbarDownload;
-	private javax.swing.JButton btnMainToolbarGrids;
-	private javax.swing.JButton btnMainToolbarInfo;
-	private javax.swing.JButton btnMainToolbarQueueMgr;
-	private javax.swing.JButton btnMainToolbarRefresh;
-	private javax.swing.JButton btnMainToolbarSettings;
-	private javax.swing.JButton btnMainToolbarSync;
-	private javax.swing.JButton btnMainToolbarTools;
-	private javax.swing.JButton btnMainToolbarTree;
-	private javax.swing.JButton btnMainToolbarUpload;
-	private javax.swing.JButton btnNewFolder;
-	private javax.swing.JComboBox cbIrodsResource;
-	private javax.swing.Box.Filler filler1;
-	private javax.swing.Box.Filler filler10;
-	private javax.swing.Box.Filler filler11;
-	private javax.swing.Box.Filler filler12;
-	private javax.swing.Box.Filler filler13;
-	private javax.swing.Box.Filler filler14;
-	private javax.swing.Box.Filler filler15;
-	private javax.swing.Box.Filler filler16;
-	private javax.swing.Box.Filler filler2;
-	private javax.swing.Box.Filler filler3;
-	private javax.swing.Box.Filler filler4;
-	private javax.swing.Box.Filler filler5;
-	private javax.swing.Box.Filler filler6;
-	private javax.swing.Box.Filler filler7;
-	private javax.swing.Box.Filler filler8;
-	private javax.swing.Box.Filler filler9;
-	private javax.swing.JToolBar idropProgressPanelToolbar;
-	private javax.swing.JPanel jPanel1;
-	private javax.swing.JPanel jPanel2;
-	private javax.swing.JPanel jPanel3;
-	private javax.swing.JToolBar.Separator jSeparator1;
-	private javax.swing.JToolBar.Separator jSeparator2;
-	private javax.swing.JToolBar jToolBar1;
-	private javax.swing.JLabel lblCurrentFile;
-	private javax.swing.JLabel lblHost;
-	private javax.swing.JLabel lblHostLabel;
-	private javax.swing.JLabel lblResource;
-	private javax.swing.JLabel lblStatusIcon;
-	private javax.swing.JLabel lblTransferByteCounts;
-	private javax.swing.JLabel lblTransferFilesCounts;
-	private javax.swing.JLabel lblTransferMessage;
-	private javax.swing.JLabel lblTransferType;
-	private javax.swing.JLabel lblUserName;
-	private javax.swing.JLabel lblUserNameLabel;
-	private javax.swing.JLabel lblZone;
-	private javax.swing.JLabel lblZoneLabel;
-	private javax.swing.JList listLocalDrives;
-	private javax.swing.JPanel pnlBreadCrumbNav;
-	private javax.swing.JPanel pnlCurrentTransferStatus;
-	private javax.swing.JPanel pnlDrivesFiller;
-	private javax.swing.JPanel pnlIdropBottom;
-	private javax.swing.JPanel pnlIdropGutter;
-	private javax.swing.JPanel pnlLocalRoots;
-	private javax.swing.JPanel pnlLocalTreeArea;
-	private javax.swing.JPanel pnlMainIrodsTree;
-	private javax.swing.JPanel pnlMainToolbarIcons;
-	private javax.swing.JPanel pnlMainTransferStatus;
-	private javax.swing.JPanel pnlStatus;
-	private javax.swing.JPanel pnlTransferOptions;
-	private javax.swing.JLabel progressIconImageLabel;
-	private javax.swing.JProgressBar progressIntraFile;
-	private javax.swing.JScrollPane scrollIrodsTree;
-	private javax.swing.JScrollPane scrollLocalDrives;
-	private javax.swing.JScrollPane scrollLocalFileTree;
-	private javax.swing.JSplitPane splitPanelTrees;
-	private javax.swing.JToggleButton togglePauseTransfer;
-	private javax.swing.JProgressBar transferStatusProgressBar;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMainToolbarCopy;
+    private javax.swing.JButton btnMainToolbarDelete;
+    private javax.swing.JButton btnMainToolbarDownload;
+    private javax.swing.JButton btnMainToolbarGrids;
+    private javax.swing.JButton btnMainToolbarInfo;
+    private javax.swing.JButton btnMainToolbarQueueMgr;
+    private javax.swing.JButton btnMainToolbarRefresh;
+    private javax.swing.JButton btnMainToolbarSettings;
+    private javax.swing.JButton btnMainToolbarSync;
+    private javax.swing.JButton btnMainToolbarTools;
+    private javax.swing.JButton btnMainToolbarTree;
+    private javax.swing.JButton btnMainToolbarUpload;
+    private javax.swing.JButton btnNewFolder;
+    private javax.swing.JButton btnSynch;
+    private javax.swing.JComboBox cbIrodsResource;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
+    private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler12;
+    private javax.swing.Box.Filler filler13;
+    private javax.swing.Box.Filler filler14;
+    private javax.swing.Box.Filler filler15;
+    private javax.swing.Box.Filler filler16;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
+    private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
+    private javax.swing.JToolBar idropProgressPanelToolbar;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel lblCurrentFile;
+    private javax.swing.JLabel lblHost;
+    private javax.swing.JLabel lblHostLabel;
+    private javax.swing.JLabel lblResource;
+    private javax.swing.JLabel lblStatusIcon;
+    private javax.swing.JLabel lblTransferByteCounts;
+    private javax.swing.JLabel lblTransferFilesCounts;
+    private javax.swing.JLabel lblTransferMessage;
+    private javax.swing.JLabel lblTransferType;
+    private javax.swing.JLabel lblUserName;
+    private javax.swing.JLabel lblUserNameLabel;
+    private javax.swing.JLabel lblZone;
+    private javax.swing.JLabel lblZoneLabel;
+    private javax.swing.JList listLocalDrives;
+    private javax.swing.JPanel pnlBreadCrumbNav;
+    private javax.swing.JPanel pnlCurrentTransferStatus;
+    private javax.swing.JPanel pnlDrivesFiller;
+    private javax.swing.JPanel pnlIdropBottom;
+    private javax.swing.JPanel pnlIdropGutter;
+    private javax.swing.JPanel pnlLocalRoots;
+    private javax.swing.JPanel pnlLocalTreeArea;
+    private javax.swing.JPanel pnlMainIrodsTree;
+    private javax.swing.JPanel pnlMainToolbarIcons;
+    private javax.swing.JPanel pnlMainTransferStatus;
+    private javax.swing.JPanel pnlStatus;
+    private javax.swing.JPanel pnlTransferOptions;
+    private javax.swing.JLabel progressIconImageLabel;
+    private javax.swing.JProgressBar progressIntraFile;
+    private javax.swing.JScrollPane scrollIrodsTree;
+    private javax.swing.JScrollPane scrollLocalDrives;
+    private javax.swing.JScrollPane scrollLocalFileTree;
+    private javax.swing.JSplitPane splitPanelTrees;
+    private javax.swing.JToggleButton togglePauseTransfer;
+    private javax.swing.JProgressBar transferStatusProgressBar;
+    // End of variables declaration//GEN-END:variables
     public void closeTransferManagerDialog() {
         transferManagerDialog = null;
     }

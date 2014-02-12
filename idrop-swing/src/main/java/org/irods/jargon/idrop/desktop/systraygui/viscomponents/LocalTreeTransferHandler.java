@@ -228,7 +228,7 @@ public class LocalTreeTransferHandler extends TransferHandler {
 					qms.enqueueTransferOperation(
 							transferFile.getAbsolutePath(),
 							tempTargetLocalFileAbsolutePath, idropGui
-									.getiDropCore().getIrodsAccount(),
+									.getiDropCore().irodsAccount(),
 							TransferType.GET);
 				}
 

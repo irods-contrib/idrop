@@ -101,7 +101,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
         IRODSFileService irodsFS = null;
         try {
             irodsFS = new IRODSFileService(idropGUI.getiDropCore()
-                    .getIrodsAccount(), idropGUI.getiDropCore()
+                    .irodsAccount(), idropGUI.getiDropCore()
                     .getIrodsFileSystem());
         } catch (Exception ex) {
             // JOptionPane.showMessageDialog(this,
@@ -156,7 +156,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
                                 .getConveyorService().getQueueManagerService();
 
                         qms.enqueueTransferOperation(transferFile, targetPath,
-                                idropGUI.getiDropCore().getIrodsAccount(),
+                                idropGUI.getiDropCore().irodsAccount(),
                                 TransferType.GET);
                     } catch (ConveyorExecutionException ex) {
                         java.util.logging.Logger.getLogger(
@@ -442,13 +442,13 @@ public class DownloadDialog extends javax.swing.JDialog implements
          * transfers) { // must check to match type, user, host, zone, &
          * resource if ((transfer.getTransferType() == TransferType.GET) &&
          * (transfer.getTransferUserName() .equals(idropGUI.getiDropCore()
-         * .getIrodsAccount().getUserName())) &&
+         * .irodsAccount().getUserName())) &&
          * (transfer.getTransferZone().equals(idropGUI
-         * .getiDropCore().getIrodsAccount().getZone())) &&
+         * .getiDropCore().irodsAccount().getZone())) &&
          * (transfer.getTransferPort() == idropGUI
-         * .getiDropCore().getIrodsAccount().getPort()) &&
+         * .getiDropCore().irodsAccount().getPort()) &&
          * (transfer.getTransferHost().equals(idropGUI
-         * .getiDropCore().getIrodsAccount().getHost()))) { target =
+         * .getiDropCore().irodsAccount().getHost()))) { target =
          * transfer.getLocalAbsolutePath(); break; } } } catch (JargonException
          * ex) { Exceptions.printStackTrace(ex); }
          */
@@ -461,7 +461,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
     private void btnAddDownloadFileActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAddDownloadFileActionPerformed
         IRODSFinderDialog irodsFinder = new IRODSFinderDialog(idropGUI, false,
-                idropGUI.getiDropCore());
+                idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
         irodsFinder.setTitle("Select iRODS Files and Collections for download");
         irodsFinder
                 .setSelectionType(IRODSFinderDialog.SelectionType.OBJS_AND_COLLS_SELECTION_MODE);
