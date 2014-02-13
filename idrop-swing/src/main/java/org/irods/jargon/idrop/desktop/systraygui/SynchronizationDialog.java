@@ -47,6 +47,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
         
         this.idropCore = idropCore;
         initComponents();
+        this.tblSynchs.getSelectionModel().addListSelectionListener(this);
         buildSynchTable();
     }
 
@@ -392,7 +393,23 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
     }//GEN-LAST:event_btnRemoveSelectedActionPerformed
 
     private void btnLaunchSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaunchSelectedActionPerformed
-        // TODO add your handling code here:
+        
+        
+        log.info("launching synchronization...");
+        
+        if (synchronization == null) {
+            log.error("cannot launch, no synch provided");
+        } 
+        
+        log.info("launching synch:{}", synchronization);
+        try {
+            idropCore.getConveyorService().getSynchronizationManagerService().triggerSynchronizationNow(synchronization);
+            MessageManager.showMessage(this, "Synchronization was triggered");
+        } catch (ConveyorExecutionException ex) {
+            log.error("unable to launch synchronization", ex);
+            MessageManager.showError(this, ex.getMessage());
+        }
+        
     }//GEN-LAST:event_btnLaunchSelectedActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -586,10 +603,31 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
             selectedRow = tblSynchs.convertRowIndexToModel(selectedRow);
             SynchConfigTableModel synchConfigTableModel = (SynchConfigTableModel) tblSynchs.getModel();
             this.setSynchronization(synchConfigTableModel.getSynchronizationAt(selectedRow));
+            initViewFromSynch();
             log.info("selected:{}", this.getSynchronization());
         }
         
     }
+    
+   private void initViewFromSynch() {
+       if (synchronization == null) {
+         synchronization = new Synchronization();
+       }
+       
+       this.lblIrodsDirectory.setText(MiscIRODSUtils.abbreviateFileName(synchronization.getIrodsSynchDirectory()));
+       this.lblIrodsDirectory.setToolTipText(synchronization.getIrodsSynchDirectory());
+       
+       this.lblLocalDirectory.setText(MiscIRODSUtils.abbreviateFileName(synchronization.getLocalSynchDirectory()));
+       this.lblIrodsDirectory.setToolTipText(synchronization.getLocalSynchDirectory());
+       
+       this.txtSynchName.setText(synchronization.getName());
+       this.comboBoxSynchType.setSelectedItem(synchronization.getSynchronizationMode());
+       this.comboSynchFrequency.setSelectedItem(synchronization.getFrequencyType());
+       
+       configureButtonsForSynchSelected();
+       
+       
+   }
     
     synchronized void setSynchronization(final Synchronization synchronization) {
         this.synchronization = synchronization;
@@ -606,6 +644,11 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
         lblLocalDirectory.setToolTipText("");
         txtSynchName.setText("");
         
+    }
+
+    private void configureButtonsForSynchSelected() {
+        this.btnLaunchSelected.setEnabled(true);
+        this.btnRemoveSelected.setEnabled(true);
     }
     
 }
