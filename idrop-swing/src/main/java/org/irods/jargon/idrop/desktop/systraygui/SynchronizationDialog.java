@@ -3,13 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.irods.jargon.idrop.desktop.systraygui;
 
 import java.util.List;
+import javax.swing.AbstractListModel;
+import javax.swing.ComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.core.utils.MiscIRODSUtils;
+import static org.irods.jargon.idrop.desktop.systraygui.TransferAccountingManagerDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.SynchConfigTableModel;
+import org.irods.jargon.idrop.finder.IRODSFinderDialog;
+import org.irods.jargon.transfer.dao.domain.FrequencyType;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
+import org.irods.jargon.transfer.dao.domain.SynchronizationType;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -17,12 +27,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author mikeconway
  */
-public class SynchronizationDialog extends javax.swing.JDialog {
+public class SynchronizationDialog extends javax.swing.JDialog implements ListSelectionListener {
     
     private final IDROPCore idropCore;
     
-      private static final org.slf4j.Logger log = LoggerFactory
+    private static final org.slf4j.Logger log = LoggerFactory
             .getLogger(SynchronizationDialog.class);
+    
+    private Synchronization synchronization = null;
 
     /**
      * Creates new form SynchronizationDialog
@@ -78,7 +90,7 @@ public class SynchronizationDialog extends javax.swing.JDialog {
         lblSynchType = new javax.swing.JLabel();
         comboBoxSynchType = new javax.swing.JComboBox();
         lblSynchFrequency = new javax.swing.JLabel();
-        comboSynchFreequency = new javax.swing.JComboBox();
+        comboSynchFrequency = new javax.swing.JComboBox();
         pnlButtons = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -98,7 +110,6 @@ public class SynchronizationDialog extends javax.swing.JDialog {
         btnAddSynchActionPerformed.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnAddSynchActionPerformed.text")); // NOI18N
         btnAddSynchActionPerformed.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnAddSynchActionPerformed.toolTipText")); // NOI18N
         btnAddSynchActionPerformed.setActionCommand(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnAddSynchActionPerformed.actionCommand")); // NOI18N
-        btnAddSynchActionPerformed.setEnabled(false);
         btnAddSynchActionPerformed.setFocusable(false);
         btnAddSynchActionPerformed.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAddSynchActionPerformed.setPreferredSize(new java.awt.Dimension(80, 80));
@@ -226,6 +237,11 @@ public class SynchronizationDialog extends javax.swing.JDialog {
         btnLocalDirectory.setMnemonic('l');
         btnLocalDirectory.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnLocalDirectory.text")); // NOI18N
         btnLocalDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnLocalDirectory.toolTipText")); // NOI18N
+        btnLocalDirectory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLocalDirectoryActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -250,6 +266,11 @@ public class SynchronizationDialog extends javax.swing.JDialog {
         btnIrodsDirectory.setMnemonic('i');
         btnIrodsDirectory.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnIrodsDirectory.text")); // NOI18N
         btnIrodsDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnIrodsDirectory.toolTipText")); // NOI18N
+        btnIrodsDirectory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIrodsDirectoryActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
@@ -262,7 +283,7 @@ public class SynchronizationDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlSynch.add(lblSynchType, gridBagConstraints);
 
-        comboBoxSynchType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Local -> iRODS", "iRODS -> Local" }));
+        comboBoxSynchType.setModel(new SynchTypeModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -276,12 +297,12 @@ public class SynchronizationDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlSynch.add(lblSynchFrequency, gridBagConstraints);
 
-        comboSynchFreequency.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Every 2 Minutes", "Every 15 Minutes", "Every Day", "Every Week" }));
+        comboSynchFrequency.setModel(new FrequencyTypeModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlSynch.add(comboSynchFreequency, gridBagConstraints);
+        pnlSynch.add(comboSynchFrequency, gridBagConstraints);
 
         pnlButtons.setMinimumSize(new java.awt.Dimension(200, 80));
         pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
@@ -305,7 +326,6 @@ public class SynchronizationDialog extends javax.swing.JDialog {
         btnUpdate.setMnemonic('u');
         btnUpdate.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnUpdate.text")); // NOI18N
         btnUpdate.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnUpdate.toolTipText")); // NOI18N
-        btnUpdate.setEnabled(false);
         btnUpdate.setMargin(null);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -384,7 +404,10 @@ public class SynchronizationDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_bntCloseActionPerformed
 
     private void btnAddSynchActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSynchActionPerformedActionPerformed
-        // TODO add your handling code here:
+        
+        clearDetailData();
+        txtSynchName.requestFocus();
+        this.synchronization = new Synchronization();
     }//GEN-LAST:event_btnAddSynchActionPerformedActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -392,8 +415,106 @@ public class SynchronizationDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        
+        final SynchronizationDialog dialog = this;
+        
+        log.info("refreshing transfer table");
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                
+                log.info("updating!");
+                if (synchronization == null) {
+                    synchronization = new Synchronization();
+                }
+                
+                synchronization.setSynchronizationMode((SynchronizationType) comboBoxSynchType.getModel().getSelectedItem());
+                synchronization.setFrequencyType((FrequencyType) comboSynchFrequency.getModel().getSelectedItem());
+                
+                if (synchronization.getGridAccount() == null) {
+                    log.info("no grid account, this is a new synch, use the present iRODS account ot set the the grid account");
+                    try {
+                        synchronization.setGridAccount(idropCore.getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(idropCore.irodsAccount()));
+                    } catch (ConveyorExecutionException ex) {
+                        log.error("exception setting grid account", ex);
+                        MessageManager.showError(dialog, ex.getMessage());
+                    }
+                }
+
+                // source and target should be set, and are altered by using the lookup buttons and stored in the synchronization object, so i don't need
+                // to update them here
+                synchronization.setName(txtSynchName.getText());
+                try {
+                    idropCore.getConveyorService().getSynchronizationManagerService().addOrUpdateSynchronization(synchronization);
+                    buildSynchTable();
+                } catch (ConveyorExecutionException ex) {
+                    log.error("exception saving synchronization", ex);
+                    MessageManager.showError(dialog, ex.getMessage());
+                }
+                
+            }
+            
+        });
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnLocalDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocalDirectoryActionPerformed
+        log.info("btnLocalDirectoryActionPerformed");
+        
+        final JFileChooser localFileChooser = new JFileChooser();
+        localFileChooser.setMultiSelectionEnabled(false);
+        localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        localFileChooser.setDialogTitle("Select synchronization target");
+        localFileChooser.setLocation((int) this.getLocation().getX(),
+                (int) this.getLocation().getY());
+        final int returnVal = localFileChooser.showOpenDialog(this);
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    String localPath = localFileChooser.getSelectedFile()
+                            .getAbsolutePath();
+                    lblLocalDirectory.setText(MiscIRODSUtils.abbreviateFileName(localPath));
+                    lblLocalDirectory.setToolTipText(localPath);
+                    synchronization.setLocalSynchDirectory(localPath);
+                }
+                
+            }
+        });
+    }//GEN-LAST:event_btnLocalDirectoryActionPerformed
+
+    private void btnIrodsDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrodsDirectoryActionPerformed
+        
+        log.info("btnIrodsDirectoryActionPerformed");
+        
+        final SynchronizationDialog thisDialog = this;
+        final IDROPCore thisIdropCore = idropCore;
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                
+                IRODSFinderDialog irodsFinder = new IRODSFinderDialog(null, false,
+                        thisIdropCore, thisIdropCore.irodsAccount());
+                irodsFinder.setTitle("Select iRODS Collection Upload Target");
+                irodsFinder
+                        .setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
+                irodsFinder.setLocation((int) thisDialog.getLocation().getX(), (int) thisDialog
+                        .getLocation().getY());
+                irodsFinder.setVisible(true);
+                
+                String selectedPath = irodsFinder.getSelectedAbsolutePath();
+                if (selectedPath != null) {
+                    lblIrodsDirectory.setText(MiscIRODSUtils.abbreviateFileName(selectedPath));
+                    lblIrodsDirectory.setToolTipText(selectedPath);
+                    synchronization.setIrodsSynchDirectory(selectedPath);
+                }
+            }
+        });
+        
+    }//GEN-LAST:event_btnIrodsDirectoryActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -407,7 +528,7 @@ public class SynchronizationDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnRemoveSelected;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox comboBoxSynchType;
-    private javax.swing.JComboBox comboSynchFreequency;
+    private javax.swing.JComboBox comboSynchFrequency;
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler11;
     private javax.swing.Box.Filler filler13;
@@ -442,15 +563,105 @@ public class SynchronizationDialog extends javax.swing.JDialog {
             List<Synchronization> synchs = idropCore.getConveyorService().getSynchronizationManagerService().listAllSynchronizations();
             SynchConfigTableModel synchConfigTableModel = new SynchConfigTableModel(idropCore, synchs);
             tblSynchs.setModel(synchConfigTableModel);
+            if (synchs.size() > 0) {
+                tblSynchs.getSelectionModel().setLeadSelectionIndex(0);
+            }
         } catch (ConveyorExecutionException ex) {
             log.error("error listing synchs", ex);
             MessageManager.showError(this, ex.getMessage());
         }
-       
-       
         
-        
-    
-    
     }
+    
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        
+        if (e.getValueIsAdjusting()) {
+            return;
+        }
+        
+        int selectedRow = tblSynchs.getSelectedRow();
+        
+        if (selectedRow >= 0) {
+            selectedRow = tblSynchs.convertRowIndexToModel(selectedRow);
+            SynchConfigTableModel synchConfigTableModel = (SynchConfigTableModel) tblSynchs.getModel();
+            this.setSynchronization(synchConfigTableModel.getSynchronizationAt(selectedRow));
+            log.info("selected:{}", this.getSynchronization());
+        }
+        
+    }
+    
+    synchronized void setSynchronization(final Synchronization synchronization) {
+        this.synchronization = synchronization;
+    }
+    
+    synchronized Synchronization getSynchronization() {
+        return this.synchronization;
+    }
+    
+    private void clearDetailData() {
+        lblIrodsDirectory.setText("");
+        lblIrodsDirectory.setToolTipText("");
+        lblLocalDirectory.setText("");
+        lblLocalDirectory.setToolTipText("");
+        txtSynchName.setText("");
+        
+    }
+    
+}
+
+class SynchTypeModel extends AbstractListModel<SynchronizationType> implements ComboBoxModel<SynchronizationType> {
+    
+    private SynchronizationType selected = null;
+    
+    SynchronizationType[] synchronizationTypes = SynchronizationType.values();
+    
+    @Override
+    public int getSize() {
+        return synchronizationTypes.length;
+    }
+    
+    @Override
+    public SynchronizationType getElementAt(int index) {
+        return synchronizationTypes[index];
+    }
+    
+    @Override
+    public void setSelectedItem(Object anItem) {
+        selected = (SynchronizationType) anItem;
+    }
+    
+    @Override
+    public Object getSelectedItem() {
+        return selected;
+    }
+    
+}
+
+class FrequencyTypeModel extends AbstractListModel<FrequencyType> implements ComboBoxModel<FrequencyType> {
+    
+    private FrequencyType selected = null;
+    
+    FrequencyType[] frequencyTypes = FrequencyType.values();
+    
+    @Override
+    public int getSize() {
+        return frequencyTypes.length;
+    }
+    
+    @Override
+    public FrequencyType getElementAt(int index) {
+        return frequencyTypes[index];
+    }
+    
+    @Override
+    public void setSelectedItem(Object anItem) {
+        selected = (FrequencyType) anItem;
+    }
+    
+    @Override
+    public Object getSelectedItem() {
+        return selected;
+    }
+    
 }
