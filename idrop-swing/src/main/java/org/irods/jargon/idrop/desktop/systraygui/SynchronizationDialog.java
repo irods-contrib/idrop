@@ -449,6 +449,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
             @Override
             public void run() {
                 clearDetailData();
+                enableDataEntry(true);
                 txtSynchName.requestFocus();
                 dialog.synchronization = new Synchronization();
             }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="5.1.9" transformSequenceNumber="4">
-  <directoryPresets config="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target" />
+  <directoryPresets config="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/src/main/resources/org/irods/jargon/idrop/desktop/systraygui/images" />
   <application name="iDrop Transfer Manager" distributionSourceDir="" applicationId="2205-8603-1440-4153" mediaDir="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="iDrop" publisher="DICE" publisherWeb="http://www.irods.org" version="2.0.1" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.6" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="false" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
@@ -22,13 +22,63 @@
       <mountPoint id="22" root="" location="" mode="755" />
     </mountPoints>
     <entries>
-      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/idrop-swing-2.1.0-SNAPSHOT-jar-with-dependencies.jar" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/idrop-swing-2.1.0-SNAPSHOT.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/antlr-2.7.7.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/aopalliance-1.0.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/asm-1.5.3.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/asm-attrs-1.5.3.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/beansbinding-1.2.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/c3p0-0.9.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/cglib-2.1_3.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/cglib-nodep-2.1_3.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/cog-jglobus-1.8.0.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/commons-codec-1.4.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/commons-collections-3.2.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/commons-io-2.0.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/commons-logging-1.1.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/commons-pool-1.5.6.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/derby-10.6.1.0.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/dom4j-1.6.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/ehcache-1.2.3.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/hibernate-3.2.1.ga.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/hibernate-annotations-3.2.1.ga.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/hibernate-core-3.3.2.GA.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/jargon-conveyor-3.3.3-SNAPSHOT.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/jargon-core-3.3.3-SNAPSHOT.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/jargon-data-utils-3.3.3-SNAPSHOT.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/jargon-user-tagging-3.3.3-SNAPSHOT.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/javassist-3.8.0.GA.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/jta-1.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/junit-4.8.2.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/log4j-1.2.16.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/mockito-all-1.8.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/org-netbeans-swing-outline-RELEASE711.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/org-openide-util-lookup-RELEASE711.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/org-openide-util-RELEASE711.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/perf4j-0.9.9.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/persistence-api-1.0.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/puretls-1.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/slf4j-api-1.5.10.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/slf4j-log4j12-1.5.10.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-aop-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-asm-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-beans-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-context-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-core-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-expression-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-jdbc-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-orm-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-test-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/spring-tx-3.0.5.RELEASE.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/swing-layout-1.0.3.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/tika-core-1.1.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target/dependency/xml-apis-1.0.b2.jar" overwriteMode="1" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="true" overrideUninstallMode="false" />
     </entries>
     <components />
   </files>
   <launchers>
     <launcher name="iDrop" id="23" customizedId="" external="false" excludeFromMenu="false" unixMode="755" menuName="" icnsFile="" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="" macBundleBinary="JavaApplicationStub" addMacEntitlements="false" macEntitlementsFile="">
-      <executable name="iDrop" type="1" iconSet="true" iconFile="" executableDir=".i4j_fileset_" redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="true" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="true" globalSingleInstance="false">
+      <executable name="iDrop" type="1" iconSet="false" iconFile="" executableDir=".i4j_fileset_" redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="true" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="true" globalSingleInstance="false">
         <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
       </executable>
       <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/src/main/resources/org/irods/jargon/idrop/desktop/images/iDrop.png" java6SplashScreen="false">
@@ -55,14 +105,12 @@
       <infoPlist mode="1" file="">
         <content />
       </infoPlist>
-      <iconImageFiles>
-        <file path="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/src/main/resources/org/irods/jargon/idrop/desktop/images/iDrop.png" />
-      </iconImageFiles>
+      <iconImageFiles />
     </launcher>
   </launchers>
   <installerGui installerType="1" addOnAppId="" suggestPreviousLocations="true" autoUpdateDescriptorUrl="" useAutoUpdateBaseUrl="false" autoUpdateBaseUrl="">
     <customCode />
-    <autoUpdate useMinUpdatableVersion="true" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
+    <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
       <commentFiles />
       <customAttributes />
     </autoUpdate>
@@ -370,6 +418,19 @@
       <excludedComponents />
       <includedDownloadableComponents />
     </macos>
+    <windows name="Windows" id="70" customizedId="" mediaFileName="" installDir="iDrop" overridePrincipalLanguage="false" jreBitType="64" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="" verifyIntegrity="true">
+      <excludedLaunchers />
+      <excludedBeans />
+      <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
+      <exclude />
+      <variables />
+      <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
+        <commentFiles />
+        <customAttributes />
+      </autoUpdate>
+      <excludedComponents />
+      <includedDownloadableComponents />
+    </windows>
   </mediaSets>
   <buildIds buildAll="true" />
   <buildOptions verbose="true" faster="false" disableSigning="false" debug="false" />
