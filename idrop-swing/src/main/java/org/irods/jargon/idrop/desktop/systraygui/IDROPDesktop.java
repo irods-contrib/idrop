@@ -185,6 +185,7 @@ public class IDROPDesktop {
 
         log.info("validated, dequeue any pending and start timer task");
         try {
+            idropCore.getConveyorService().init();
             idropCore.getConveyorService()
                     .beginFirstProcessAndRunPeriodicServiceInvocation();
         } catch (ConveyorExecutionException ex) {
