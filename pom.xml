@@ -10,7 +10,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jargon.version>3.3.3-SNAPSHOT</jargon.version>  
-        <spring.core.version>3.2.3.RELEASE</spring.core.version>
+        <spring.core.version>3.0.5.RELEASE</spring.core.version>
         <commons.io.version>2.0.1</commons.io.version>
         <netbeans.version>RELEASE711</netbeans.version>
     </properties>
@@ -351,6 +351,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
         </dependency>
+           <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.core.version}</version>
+            </dependency>
+           
     </dependencies>
     <build>
         <plugins>

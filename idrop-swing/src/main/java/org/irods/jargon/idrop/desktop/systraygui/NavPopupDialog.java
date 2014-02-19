@@ -180,14 +180,14 @@ public class NavPopupDialog extends javax.swing.JDialog {
 	private void btnGoHomeTargetTreeActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnGoHomeTargetTreeActionPerformed
 		String homeRoot;
-		if (idropGui.getiDropCore().getIrodsAccount().isAnonymousAccount()) {
+		if (idropGui.getiDropCore().irodsAccount().isAnonymousAccount()) {
 			// log.info("setting home dir to public");
 			homeRoot = MiscIRODSUtils.computePublicDirectory(idropGui
-					.getiDropCore().getIrodsAccount());
+					.getiDropCore().irodsAccount());
 		} else {
 			homeRoot = MiscIRODSUtils
 					.computeHomeDirectoryForIRODSAccount(idropGui
-							.getiDropCore().getIrodsAccount());
+							.getiDropCore().irodsAccount());
 		}
 		idropGui.getiDropCore().setBasePath(homeRoot);
 		idropGui.buildTargetTree(false);

@@ -178,13 +178,14 @@ public class IDROPDesktop {
         }
 
 
-        if (idropCore.getIrodsAccount() == null) {
+        if (idropCore.irodsAccount() == null) {
             log.warn("no login account, exiting");
             System.exit(0);
         }
 
         log.info("validated, dequeue any pending and start timer task");
         try {
+            idropCore.getConveyorService().init();
             idropCore.getConveyorService()
                     .beginFirstProcessAndRunPeriodicServiceInvocation();
         } catch (ConveyorExecutionException ex) {

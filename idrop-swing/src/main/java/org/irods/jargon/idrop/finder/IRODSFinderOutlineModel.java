@@ -180,7 +180,7 @@ public class IRODSFinderOutlineModel extends DefaultOutlineModel {
 					}
 
 					IRODSNode newNode = new IRODSNode(newEntry, idropCore
-							.getIrodsAccount(), idropCore.getIrodsFileSystem(),
+							.irodsAccount(), idropCore.getIrodsFileSystem(),
 							irodsTree);
 					((IRODSNode) parentPath.getLastPathComponent())
 							.add(newNode);
