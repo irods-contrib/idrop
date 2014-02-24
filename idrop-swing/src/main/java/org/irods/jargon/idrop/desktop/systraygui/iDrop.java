@@ -708,7 +708,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             listLocalDrives.setSelectedIndex(0);
 
             localFileModel = new LocalFileSystemModel(new LocalFileNode(
-                    new File(listLocalDrives.getSelectedValue())));
+                    new File((String)listLocalDrives.getSelectedValue())));
 
             fileTree.setModel(localFileModel);
         } else {
@@ -717,7 +717,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     selectedDrive);
             listLocalDrives.setSelectedValue(selectedDrive, true);
             localFileModel = new LocalFileSystemModel(new LocalFileNode(
-                    new File((String) selectedDrive)));
+                    new File(((String) selectedDrive))));
             fileTree.setModel(localFileModel);
 
         }
@@ -740,7 +740,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     new File(roots.get(0))));
 
         } else {
-            DefaultListModel<String> listModel = new DefaultListModel<String>();
+            DefaultListModel listModel = new DefaultListModel();
             for (String root : roots) {
                 listModel.addElement(root);
             }
@@ -1412,7 +1412,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 		pnlLocalTreeArea = new javax.swing.JPanel();
 		pnlLocalRoots = new javax.swing.JPanel();
 		scrollLocalDrives = new javax.swing.JScrollPane();
-		listLocalDrives = new javax.swing.JList<String>();
+		listLocalDrives = new javax.swing.JList();
 		pnlDrivesFiller = new javax.swing.JPanel();
 		scrollLocalFileTree = new javax.swing.JScrollPane();
 		jPanel1 = new javax.swing.JPanel();
@@ -2373,7 +2373,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 	private javax.swing.JButton btnMainToolbarTree;
 	private javax.swing.JButton btnMainToolbarUpload;
 	private javax.swing.JButton btnNewFolder;
-	private javax.swing.JComboBox<?> cbIrodsResource;
+	private javax.swing.JComboBox cbIrodsResource;
 	private javax.swing.Box.Filler filler1;
 	private javax.swing.Box.Filler filler10;
 	private javax.swing.Box.Filler filler11;
@@ -2410,7 +2410,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 	private javax.swing.JLabel lblUserNameLabel;
 	private javax.swing.JLabel lblZone;
 	private javax.swing.JLabel lblZoneLabel;
-	private javax.swing.JList<String> listLocalDrives;
+	private javax.swing.JList listLocalDrives;
 	private javax.swing.JPanel pnlBreadCrumbNav;
 	private javax.swing.JPanel pnlCurrentTransferStatus;
 	private javax.swing.JPanel pnlDrivesFiller;

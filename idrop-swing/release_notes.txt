@@ -51,6 +51,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 *[#1553] faulty sl4j bindings
 **Added sl4j/log4j bindings removed in jargon-core
 
+*[#1850] Direct login mode allows use of iDrop on a shared computer setting with a temporary set of accounts
+
 ==Outstanding Issues==
 
 Please consult [[https://code.renci.org/gf/project/irodsidrop/tracker/]]

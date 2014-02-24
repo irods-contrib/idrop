@@ -110,7 +110,7 @@ public class EditPermissionsDialog extends javax.swing.JDialog {
 		jLabel31 = new javax.swing.JLabel();
 		lblUserName = new javax.swing.JLabel();
 		jLabel32 = new javax.swing.JLabel();
-		cbPermissionsPermission = new javax.swing.JComboBox<String>();
+		cbPermissionsPermission = new javax.swing.JComboBox();
 		jPanel1 = new javax.swing.JPanel();
 		btnPermissionsCancel = new javax.swing.JButton();
 		btnPermissionsUpdate = new javax.swing.JButton();
@@ -323,7 +323,7 @@ public class EditPermissionsDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btnPermissionsCancel;
 	private javax.swing.JButton btnPermissionsUpdate;
-	private javax.swing.JComboBox<String> cbPermissionsPermission;
+	private javax.swing.JComboBox cbPermissionsPermission;
 	private javax.swing.JLabel jLabel31;
 	private javax.swing.JLabel jLabel32;
 	private javax.swing.JPanel jPanel1;

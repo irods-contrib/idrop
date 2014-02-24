@@ -5,7 +5,7 @@ package org.irods.jargon.idrop.exceptions;
  */
 public class IdropException extends Exception {
 
-	/**
+	/**   
 	 * 
 	 */
 	private static final long serialVersionUID = 5893379469123450760L;

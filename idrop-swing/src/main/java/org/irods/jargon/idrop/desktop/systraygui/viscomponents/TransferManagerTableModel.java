@@ -24,10 +24,9 @@ import org.slf4j.LoggerFactory;
  */
 public class TransferManagerTableModel extends AbstractTableModel { // extends
 																	// DefaultTableModel
-																	// {
-
+																	// 
 	/**
-	 * 
+	 *   
 	 */
 	private static final long serialVersionUID = 5019020669516135403L;
 	public static org.slf4j.Logger log = LoggerFactory
@@ -38,7 +37,7 @@ public class TransferManagerTableModel extends AbstractTableModel { // extends
 	public TransferManagerTableModel(final IDROPCore idropCore,
 			final List<Transfer> transfers) {
 		if (transfers == null) {
-			throw new IdropRuntimeException("null transfers");
+			throw new IdropRuntimeException("null transfers");  
 		}
 
 		this.transfers = transfers;
