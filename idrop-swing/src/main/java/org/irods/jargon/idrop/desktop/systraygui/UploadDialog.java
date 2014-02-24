@@ -79,7 +79,7 @@ public class UploadDialog extends javax.swing.JDialog implements
         IRODSFileService irodsFS = null;
         try {
             irodsFS = new IRODSFileService(idropGUI.getiDropCore()
-                    .getIrodsAccount(), idropGUI.getiDropCore()
+                    .irodsAccount(), idropGUI.getiDropCore()
                     .getIrodsFileSystem());
         } catch (Exception ex) {
 			// JOptionPane.showMessageDialog(this,
@@ -172,7 +172,7 @@ public class UploadDialog extends javax.swing.JDialog implements
                         QueueManagerService qms = idropGUI.getiDropCore()
                                 .getConveyorService().getQueueManagerService();
                         qms.enqueueTransferOperation(targetPath, transferFile,
-                                idropGUI.getiDropCore().getIrodsAccount(),
+                                idropGUI.getiDropCore().irodsAccount(),
                                 TransferType.PUT);
                     } catch (ConveyorExecutionException ex) {
                         java.util.logging.Logger.getLogger(
@@ -431,7 +431,7 @@ public class UploadDialog extends javax.swing.JDialog implements
 
     private void btnBrowseForDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForDirectoryActionPerformed
         
-        IRODSFinderDialog irodsFinderDialog = new IRODSFinderDialog(idropGUI, true, idropGUI.getiDropCore());
+        IRODSFinderDialog irodsFinderDialog = new IRODSFinderDialog(idropGUI, true, idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
         irodsFinderDialog.setVisible(true);
         uploadTarget = irodsFinderDialog.getSelectedAbsolutePath();
         lblUploadTarget.setText(MiscIRODSUtils.abbreviateFileName(uploadTarget));
@@ -443,7 +443,7 @@ public class UploadDialog extends javax.swing.JDialog implements
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrowseUploadTargetActionPerformed
 
         IRODSFinderDialog irodsFinder = new IRODSFinderDialog(idropGUI, false,
-                idropGUI.getiDropCore());
+                idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
         irodsFinder.setTitle("Select iRODS Collection Upload Target");
         irodsFinder
                 .setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
@@ -472,13 +472,13 @@ public class UploadDialog extends javax.swing.JDialog implements
     private void btnUseIrodsHomeActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUseIrodsHomeActionPerformed
         String target = "";
-        if (idropGUI.getiDropCore().getIrodsAccount().isAnonymousAccount()) {
+        if (idropGUI.getiDropCore().irodsAccount().isAnonymousAccount()) {
             target = MiscIRODSUtils.computePublicDirectory(idropGUI
-                    .getiDropCore().getIrodsAccount());
+                    .getiDropCore().irodsAccount());
         } else {
             target = MiscIRODSUtils
                     .computeHomeDirectoryForIRODSAccount(idropGUI
-                            .getiDropCore().getIrodsAccount());
+                            .getiDropCore().irodsAccount());
         }
         if (target != null) {
             lblUploadTarget.setText(target);
@@ -499,13 +499,13 @@ public class UploadDialog extends javax.swing.JDialog implements
          * transfers) { // must check to match type, user, host, zone, & port if
          * ((transfer.getTransferType() == TransferType.PUT) &&
          * (transfer.getTransferUserName() .equals(idropGUI.getiDropCore()
-         * .getIrodsAccount().getUserName())) &&
+         * .irodsAccount().getUserName())) &&
          * (transfer.getTransferZone().equals(idropGUI
-         * .getiDropCore().getIrodsAccount().getZone())) &&
+         * .getiDropCore().irodsAccount().getZone())) &&
          * (transfer.getTransferPort() == idropGUI
-         * .getiDropCore().getIrodsAccount().getPort()) &&
+         * .getiDropCore().irodsAccount().getPort()) &&
          * (transfer.getTransferHost().equals(idropGUI
-         * .getiDropCore().getIrodsAccount().getHost()))) { target =
+         * .getiDropCore().irodsAccount().getHost()))) { target =
          * transfer.getIrodsAbsolutePath(); break; } } } catch (JargonException
          * ex) { Exceptions.printStackTrace(ex); }
          */

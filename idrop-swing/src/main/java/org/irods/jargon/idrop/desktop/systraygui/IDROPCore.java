@@ -75,7 +75,7 @@ public class IDROPCore {
 		super();
 	}
 
-	public IRODSAccount getIrodsAccount() {
+	public IRODSAccount irodsAccount() {
 		return irodsAccount;
 	}
 
@@ -229,7 +229,7 @@ public class IDROPCore {
 			log.info("using policy preset home directory");
 			StringBuilder sb = new StringBuilder();
 			sb.append("/");
-			sb.append(getIrodsAccount().getZone());
+			sb.append(irodsAccount().getZone());
 			sb.append("/");
 			sb.append("home");
 			root = sb.toString();

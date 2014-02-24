@@ -322,7 +322,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 							qms.enqueueTransferOperation(
 									targetIrodsFileAbsolutePath, transferFile
 											.getAbsolutePath(), idropGui
-											.getiDropCore().getIrodsAccount(),
+											.getiDropCore().irodsAccount(),
 									TransferType.PUT);
 						} catch (ConveyorExecutionException ex) {
 							java.util.logging.Logger.getLogger(
@@ -472,7 +472,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 							qms.enqueueTransferOperation(
 									targetIrodsFileAbsolutePath, transferFile
 											.getAbsolutePath(), idropGui
-											.getiDropCore().getIrodsAccount(),
+											.getiDropCore().irodsAccount(),
 									TransferType.PUT);
 						} catch (ConveyorExecutionException ex) {
 							java.util.logging.Logger.getLogger(
@@ -515,7 +515,7 @@ public class IRODSTreeTransferHandler extends TransferHandler {
 
 			for (IRODSFile sourceFile : sourceFiles) {
 				sourceFile.setResource(idropGui.getiDropCore()
-						.getIrodsAccount().getDefaultStorageResource());
+						.irodsAccount().getDefaultStorageResource());
 			}
 
 		} catch (UnsupportedFlavorException ex) {

@@ -98,7 +98,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
 		super(parent, modal);
 		idropGUI = parent;
-		irodsAccount = idropGUI.getiDropCore().getIrodsAccount();
+		irodsAccount = idropGUI.getiDropCore().irodsAccount();
 		irodsFileSystem = idropGUI.getiDropCore().getIrodsFileSystem();
 		this.irodsTree = irodsTree;
 		initSelectedObjectName();
@@ -127,7 +127,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 					.getiDropCore()
 					.getIRODSAccessObjectFactory()
 					.getCollectionAndDataObjectListAndSearchAO(
-							idropGUI.getiDropCore().getIrodsAccount());
+							idropGUI.getiDropCore().irodsAccount());
 			entry = listAndSearchAO
 					.getCollectionAndDataObjectListingEntryAtGivenAbsolutePath(selectedObjectFullPath);
 		} catch (JargonException ex) {

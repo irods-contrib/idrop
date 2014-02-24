@@ -345,7 +345,7 @@ public class FinderRenameIRODSDirectoryDialog extends javax.swing.JDialog {
 				try {
 
 					IRODSFileService irodsFileService = new IRODSFileService(
-							irodsFinderDialog.getIdropCore().getIrodsAccount(),
+							irodsFinderDialog.getIdropCore().irodsAccount(),
 							irodsFinderDialog.getIdropCore()
 									.getIrodsFileSystem());
 					String newPath = irodsFileService

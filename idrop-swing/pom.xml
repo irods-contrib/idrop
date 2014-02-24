@@ -45,7 +45,6 @@
             <groupId>org.irods.jargon</groupId>
             <artifactId>jargon-conveyor</artifactId>
             <scope>compile</scope>
-            <version>3.3.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -61,12 +60,13 @@
             <groupId>org.swinglabs</groupId>
             <artifactId>swing-layout</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>3.3.2.GA</version>
             <scope>runtime</scope>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.jdesktop</groupId>
             <artifactId>beansbinding</artifactId>
@@ -88,7 +88,7 @@
                 </executions>
                 <configuration>
                     <!--
-                 	      Set to true to exclude all transitive dependencies. Default is false.
+                              Set to true to exclude all transitive dependencies. Default is false.
                     -->
                     <excludeTransitive>false</excludeTransitive>
 
@@ -168,6 +168,33 @@
                     </archive>
                 </configuration>
             </plugin>
+            
+          <plugin>
+      <artifactId>maven-shade-plugin</artifactId>
+      <version>1.7</version>
+      <executions>
+        <execution>
+          <phase>package</phase>
+          <goals>
+            <goal>shade</goal>
+          </goals>
+          <configuration>
+            <transformers>
+             
+              <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                <resource>META-INF/spring.handlers</resource>
+              </transformer>
+              <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                <resource>META-INF/spring.schemas</resource>
+              </transformer>
+              <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                <resource>META-INF/spring.tooling</resource>
+              </transformer>
+            </transformers>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>

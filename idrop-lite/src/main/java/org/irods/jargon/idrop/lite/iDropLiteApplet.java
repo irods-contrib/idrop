@@ -1070,17 +1070,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 /*
                  * Handle any text messages
                  */
-                if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
-                    lblTransferStatusMessage.setText("Synchronization Initializing");
-                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_GENERATION) {
-                    lblTransferStatusMessage.setText("Synchronization looking for updates");
-                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_DIFF_STEP) {
-                    lblTransferStatusMessage.setText("Synchronizing differences");
-                } else if (ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
-                    lblTransferStatusMessage.setText("Synchronization complete");
-                } else if (ts.getTransferEnclosingType() == TransferStatus.TransferType.SYNCH) {
-                    lblTransferStatusMessage.setText("Transfer to synchronize local and iRODS");
-                } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
+            if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_INITIATION) {
                     // initiation not within a synch
                     lblTransferStatusMessage.setText("Processing a " + ts.getTransferType().name() + " operation");
                 }
