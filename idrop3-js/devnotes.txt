@@ -1,0 +1,47 @@
+This is the javascript and angular template project for idrop3.  This has been separated from the grails back-end portion of the application, allowing a pure javasript dev workflow. The app uses grunt to automate
+the building and testing of the javascript code, and creation of distribution assets that are then placed in the grails 'idrop3' app structure.  This distribution workflow
+can be automated by running grunt, through the use of the grunt watch hooks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+links:
+
+tools
+
+grunt - http://gruntjs.com/
+
+
+
+
+
+
+
+
+tutorials and docs
+
+grunt workflow - http://www.youtube.com/watch?v=fSAgFxjFSqY
+
+
