@@ -12,6 +12,6 @@ describe("A suite", function() {
 
   it("list virtual collections should return a list of colls", function() {
       var actual = virtualCollectionsService.listUserVirtualCollections();
-    expect(actual).toEqual('hello');
+      expect(actual).toEqual('hello');
   });
 });

@@ -20,6 +20,19 @@
     "grunt-contrib-concat": "^0.3.0",
     "grunt-contrib-watch": "^0.5.3",
     "grunt-copy": "^0.1.0",
-    "grunt-mcopy": "^0.4.3"
+    "grunt-mcopy": "^0.4.3",
+    "grunt-jasmine-runner": "^0.6.0",
+    "karma-script-launcher": "^0.1.0",
+    "karma-firefox-launcher": "^0.1.3",
+    "karma-chrome-launcher": "^0.1.2",
+    "karma-html2js-preprocessor": "^0.1.0",
+    "karma-jasmine": "^0.1.5",
+    "requirejs": "^2.1.11",
+    "karma-requirejs": "^0.2.1",
+    "karma-coffee-preprocessor": "^0.1.3",
+    "karma-phantomjs-launcher": "^0.1.2",
+    "karma": "^0.10.9",
+    "grunt-karma": "^0.6.2",
+    "karma-ie-launcher": "^0.1.1"
   }
 }

@@ -36,14 +36,27 @@ module.exports = function (grunt) {
                 ]
             }
         },
+        /*
+        * Run tests via Karma https://www.npmjs.org/package/grunt-karma
+        * */
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js',
+                background: true,
+            }
+        },
         watch: {
             vendorjs: {
                 files: ['<%= concat.vendorjs.src %>'],
-                tasks: ['concat:vendorjs', 'copy']
+                tasks: ['concat:vendorjs', 'karma:unit:run', 'copy']
             },
             js: {
-                files: ['js/src/**/*.js'],
-                tasks: ['copy']
+                files: ['js/app/**/*.js'],
+                tasks: ['karma:unit:run', 'copy']
+            },
+            unittestjs: {
+                files: ['js/test/unit/**/*.js'],
+                tasks: ['karma:unit:run']
             },
             css: {
                 files: ['<%= concat.css.src %>'],
@@ -69,7 +82,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-mcopy");
-
+    grunt.loadNpmTasks('grunt-karma');
 
     // loading of custom tasks
     grunt.loadTasks("tasks");
@@ -77,6 +90,6 @@ module.exports = function (grunt) {
     // load a custom task
 
     // set our workflow
-    grunt.registerTask("default", ["concat", "copy", "watch"]);
+    grunt.registerTask("default", ["concat", "karma:unit:run", "copy", "watch"]);
 
 };

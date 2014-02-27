@@ -5,6 +5,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Angular" level="project" />
+    <orderEntry type="library" name="Node.js Dependencies for idrop3-js" level="project" />
   </component>
 </module>
 
