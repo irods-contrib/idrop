@@ -92,20 +92,6 @@ public interface IdropConfigurationService {
 
 	void removeConfigProperty(final String key) throws IdropException;
 
-	/**
-	 * Create a new synchronization configuration, checking for conflicts and
-	 * properly configuring both local and iRODS configuration
-	 * 
-	 * @param synchConfiguration
-	 *            {@link Synchronization}
-	 * @throws IdropException
-	 * @throws ConflictingSynchException
-	 */
-	void createNewSynchronization(final Synchronization synchConfiguration)
-			throws IdropException;
-
-	void updateSynchronization(final Synchronization synchConfiguration)
-			throws IdropException;
 
 	/**
 	 * Cause the transfer options using in the transfer engine to be updated
