@@ -1,11 +1,23 @@
 <?xml version="1.0"?>
 <testsuites>
-  <testsuite name="Chrome 33.0.1750 (Windows)" package="" timestamp="2014-02-27T14:51:51" id="0" hostname="tumblingDice" tests="1" errors="0" failures="0" time="0.036">
+  <testsuite name="Chrome 33.0.1750 (Windows)" package="" timestamp="2014-02-28T16:29:28" id="0" hostname="tumblingDice" tests="2" errors="0" failures="1" time="0.061">
     <properties>
       <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36"/>
     </properties>
-    <testcase name="list virtual collections should return a list of colls" time="0.036" classname="Chrome 33.0.1750 (Windows).A suite"/>
-    <system-out><![CDATA[
+    <testcase name="list virtual collections should have exception because no irods account" time="0.045" classname="Chrome 33.0.1750 (Windows).A suite"/>
+    <testcase name="list virtual collections should return a list of colls" time="0.016" classname="Chrome 33.0.1750 (Windows).A suite">
+      <failure type="">Expected undefined to equal &apos;hello&apos;.
+Error: Expected undefined to equal &apos;hello&apos;.
+    at null.&lt;anonymous&gt; (C:/Users/Mike/Documents/workspace-idrop3/idrop/idrop3-js/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js:31:24)
+</failure>
+    </testcase>
+    <system-out><![CDATA[Chrome 33.0.1750 (Windows) LOG: LOG
+ 'doing get of virtual collections',Chrome 33.0.1750 (Windows) LOG: LOG
+ 'falling out',Chrome 33.0.1750 (Windows) LOG: LOG
+ 'actual is:undefined',Chrome 33.0.1750 (Windows) LOG: LOG
+ 'success!',Chrome 33.0.1750 (Windows) LOG: LOG
+ 'data is:hello',Chrome 33.0.1750 (Windows) LOG: LOG
+ 'returning:hello'
 ]]></system-out>
     <system-err/>
   </testsuite>

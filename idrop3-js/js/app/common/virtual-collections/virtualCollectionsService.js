@@ -1,18 +1,41 @@
 /**
  * Service providing access to virtual collections
  */
-
+(function () {
+    'use strict';
+    // this function is strict...
+}());
 angular.module('virtualCollectionsModule', [])
 
-    .factory('virtualCollectionsService', function () {
+    .factory('virtualCollectionsService', function ($http, $log) {
 
-    return {
+        return {
+        listUserVirtualCollections: function (irodsAccount) {
 
-        listUserVirtualCollections: function () {
-            var msg = "hello";
-            return msg;
+            if (!irodsAccount) {
+                throw new Error("no iRODS account");
+            }
+
+            console.log("doing get of virtual collections");
+            var response;
+
+            $http({method: 'GET', url: '/virtualCollections'}).success(function (data, status, headers, config) {
+                    console.log("success!");
+                    console.log("data is:" + data);
+
+                    console.log("returning:" + data);
+                    return data;
+
+                }).error(function (data, status, headers, config) {
+
+                });
+
+            console.log("falling out");
+
+
         }
     }
 
 
-});
+})
+;
