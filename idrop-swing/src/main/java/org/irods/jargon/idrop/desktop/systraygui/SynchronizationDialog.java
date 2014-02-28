@@ -219,6 +219,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
         txtSynchName.setColumns(20);
         txtSynchName.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.txtSynchName.text")); // NOI18N
         txtSynchName.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.txtSynchName.toolTipText")); // NOI18N
+        txtSynchName.setEnabled(false);
         txtSynchName.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -676,7 +677,8 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
 
     private void enableDataEntry(boolean enabled) {
 
-        txtSynchName.setEnabled(rootPaneCheckingEnabled);
+        txtSynchName.setEnabled(enabled);
+        txtSynchName.setEditable(enabled);
         comboBoxSynchType.setEnabled(enabled);
         comboSynchFrequency.setEnabled(enabled);
         this.btnIrodsDirectory.setEnabled(enabled);
