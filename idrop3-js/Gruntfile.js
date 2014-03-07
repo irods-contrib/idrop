@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         // configured a task
         concat: {
             vendorjs: {
-                src: ['js/vendor/**/*.js'],
+                src: ['bootstrap.js','js/vendor/angular.js', 'js/vendor/angular-route.js','js/vendor/angular-resource.js','jquery-1.10.2.min.js'],
                 dest: 'web-app/js/vendor/vendor.js'
             },
             css: {
@@ -27,9 +27,12 @@ module.exports = function (grunt) {
                 files: [
                     // copy assets to dist
                     {expand: true, src: ['assets/**/*.html'], dest: 'web-app'},
-                    {expand: true, src: ['fonts'], dest: 'web-app'},
-                    {expand: true, src: ['images'], dest: 'web-app'},
+                    {expand: true, src: ['index.html'], dest: 'web-app'},
+                    {expand: true, src: ['fonts/*.*'], dest: 'web-app'},
+                    {expand: true, src: ['images/**/*.*'], dest: 'web-app'},
                     {expand: true, src: ['js/app/**/*.js'], dest: 'web-app'},
+                    {expand: true, src: ['css/**/*.css.map'], dest: 'web-app'},
+
                     // includes files within path and its sub-directories
                     {expand: true, src: ['web-app/**'], dest: '../idrop-web3'}
 
@@ -59,7 +62,7 @@ module.exports = function (grunt) {
                 tasks: ['karma:unit:run']
             },
             css: {
-                files: ['<%= concat.css.src %>'],
+                files: ['<%= concat.css.src %>', 'css/**/*.css.map'],
                 tasks: ['concat:css', 'copy']
             },
             images: {
@@ -67,11 +70,15 @@ module.exports = function (grunt) {
                 tasks: ['copy']
             },
             fonts: {
-                files: ['fonts/*.*'],
+                files: ['fonts/**/*.*'],
                 tasks: ['copy']
             },
             assets: {
                 files: ['assets/**/*.html'],
+                tasks: ['copy']
+            },
+            index: {
+                files: ['index.html'],
                 tasks: ['copy']
             }
 

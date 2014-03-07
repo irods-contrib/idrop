@@ -11,7 +11,7 @@ function genId(path) {
 angular.module('home', ['ngRoute','ngResource'], function($provide, $routeProvider, $locationProvider) {
 
     $routeProvider.when("/Collection/:collId", {
-        templateUrl: "js/src/assets/home/collection-angularjs.html",
+        templateUrl: "assets/home/collection-angularjs.html",
         controller: "CollectionCtrl",
         controllerAs: "CollectionCtrl"
     }).otherwise({redirectTo: "/Collection/%2FtempZone%2Fhome%2Frods"});

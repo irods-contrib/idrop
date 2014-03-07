@@ -30,8 +30,8 @@ grails.project.dependency.resolution = {
 		mavenRepo "http://repository.codehaus.org"
 		mavenRepo "http://download.java.net/maven/2/"
 		mavenRepo "http://repository.jboss.com/maven2/"
-		mavenRepo "http://ci-dev.renci.org/nexus/content/repositories/release"
-		mavenRepo "http://ci-dev.renci.org/nexus/content/repositories/snapshots"
+		mavenRepo "https://raw.github.com/DICE-UNC/DICE-Maven/master/releases"
+		mavenRepo "https://raw.github.com/DICE-UNC/DICE-Maven/master/snapshots"
 		grailsPlugins()
 		grailsHome()
 		grailsCentral()
@@ -57,6 +57,7 @@ grails.project.dependency.resolution = {
 
 
 	plugins {
+		//runtime ":tomcat:$grailsVersion"
 		// runtime ":hibernate:$grailsVersion"
 		//runtime ":jquery:1.8.3"
 		//runtime ":resources:1.2"

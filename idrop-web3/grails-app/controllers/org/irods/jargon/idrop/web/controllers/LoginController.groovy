@@ -1,19 +1,19 @@
 package org.irods.jargon.idrop.web.controllers
 
 
-import idrop.web3.AuthenticationService
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.idrop.web.services.AuthenticationService
 
 
 
 class LoginController {
-	
-	
+
+
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
 	AuthenticationService authentiationService
-	
+
 	/**
 	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
 	 */
@@ -32,18 +32,15 @@ class LoginController {
 		irodsAccessObjectFactory.closeSession()
 	}
 
-    def login() {
-		
+	def login() {
+
 		log.info("login()");
-		
+
 		def host = params.host
 		def port = params.port
 		def zone = params.zone
 		def user = params.username
 		def password = params.password
 		def authType = params.authtype
-		
-		
-		
 	}
 }

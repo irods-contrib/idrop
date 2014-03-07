@@ -19,18 +19,9 @@ angular.module('virtualCollectionsModule', [])
             $log.info("doing get of virtual collections");
             var response;
 
-           var promise =  $http({method: 'GET', url: '/virtualCollections'}).then(function (data, status, headers, config) {
-                $log.info("success!");
-                $log.info("data is:" + data);
+           var promise =  $http({method: 'GET', url: '/virtualCollections'});
 
-                $log.info("returning:" + data);
-                    return data;
-
-                },function (data, status, headers, config) {
-                    $log.error("error! " + data + " status:" + status);
-                });
-
-            return promise;
+           return promise;
 
 
         }

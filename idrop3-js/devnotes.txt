@@ -5,28 +5,6 @@ can be automated by running grunt, through the use of the grunt watch hooks.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 links:
 
 tools
@@ -35,13 +13,13 @@ grunt - http://gruntjs.com/
 
 
 
-
-
-
-
-
 tutorials and docs
 
 grunt workflow - http://www.youtube.com/watch?v=fSAgFxjFSqY
 
+
+
+code and design info
+
+auth with single-page apps: http://frederiknakstad.com/2013/01/21/authentication-in-single-page-applications-with-angular-js/
 

@@ -1,0 +1,80 @@
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">iDrop</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#home"> <span
+                        class="glyphicon glyphicon-home"></span> <span
+                        class="glyphicon-class">Home</span>
+                </a></li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"
+                            data-toggle="dropdown" href="#">
+                        <span class="glyphicon glyphicon-eye-open"></span> <span
+                            class="glyphicon-class"></span>
+                        Views
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-show="hideDrives" ng-click="showCollections()"><a href="#home"> <span
+                                class="glyphicon glyphicon-eye-open"></span> <span
+                                class="glyphicon-class">Show Collections</span>
+                        </a></li>
+                        <li ng-hide="hideDrives" ng-click="hideCollections()"><a href="#home"> <span
+                                class="glyphicon glyphicon-eye-close"></span> <span
+                                class="glyphicon-class">Hide Collections</span>
+                        </a></li>
+                        <li><a href="#home"> <span
+                                class="glyphicon glyphicon-eye-open"></span> <span
+                                class="glyphicon-class">Show Quick View</span>
+                        </a></li>
+
+                    </ul>
+                </li>
+
+                <li><a href="#search"> <span
+                        class="glyphicon glyphicon-search"></span> <span
+                        class="glyphicon-class">Search</span>
+                </a></li>
+                <li><a href="#tools"> <span
+                        class="glyphicon glyphicon-wrench"></span> <span
+                        class="glyphicon-class">Tools</span>
+                </a></li>
+                <li><a href="#cart"> <span
+                        class="glyphicon glyphicon-shopping-cart"></span> <span
+                        class="glyphicon-class">File Cart</span>
+                </a></li>
+                <li><a href="#profile"> <span
+                        class="glyphicon glyphicon-user"></span> <span
+                        class="glyphicon-class">Profile</span>
+                </a></li>
+                <li><a href="#help"> <span
+                        class="glyphicon glyphicon-question-sign"></span> <span
+                        class="glyphicon-class">Help</span>
+                </a></li>
+                <li><a href="#logout"> <span
+                        class="glyphicon glyphicon-off"></span> <span
+                        class="glyphicon-class">Logout</span>
+                </a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li class="active"><a href="#quickUpload"> <span
+                        class="glyphicon glyphicon-home"></span> <span
+                        class="glyphicon-class">Quick Upload</span>
+                </a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+

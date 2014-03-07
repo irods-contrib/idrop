@@ -45,9 +45,10 @@ describe("A suite", function () {
         }).toThrow(new Error('no iRODS account'));
     });
 
-    var actual;
 
     it("list virtual collections should return a list of colls", function () {
+        var actual;
+
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
         var vc = mockAVc();
         $httpBackend.whenGET('/virtualCollections').respond(vc);
@@ -63,4 +64,23 @@ describe("A suite", function () {
         expect(actual.data).toEqual(vc);
         expect(actual.status).toEqual(200);
     });
+
+    it("list virtual collections should return an exception fro http", function () {
+        var actual;
+
+        var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
+        $httpBackend.whenGET('/virtualCollections').respond('500',"error");
+        virtualCollectionsService.listUserVirtualCollections(irodsAccountVal).then(function (d) {
+            actual = d;
+        });
+
+        $httpBackend.flush();
+        console.log("actual is:" + actual);
+
+        expect($log.info.logs).toContain(['doing get of virtual collections']);
+
+        expect(actual.status).toEqual(500);
+    });
+
+
 });

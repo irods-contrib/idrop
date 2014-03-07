@@ -10,11 +10,10 @@ beans = {
 	 * Services
 	 */
 
-	authenticationService(idrop.web3.AuthenticationService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+	authenticationService(org.irods.jargon.idrop.web.services.AuthenticationService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
-	virtualCollectionServicesCreatingFactory(idrop.web3.virtualCollectionServicesCreatingFactoryImpl) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
-
-	virtualCollectionService(idrop.web3.VirtualCollectionService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+	/*virtualCollectionFactory(idrop.web3.virtualCollectionFactoryImpl) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+	 virtualCollectionService(org.irods.jargon.idrop.web.services.VirtualCollectionService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }*/
 
 
 
