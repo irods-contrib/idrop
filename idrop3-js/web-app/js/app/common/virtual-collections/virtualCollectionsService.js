@@ -30,7 +30,6 @@ angular.module('virtualCollectionsModule', [])
                     $log.error("error! " + data + " status:" + status);
                 });
 
-            console.log("falling out");
             return promise;
 
 

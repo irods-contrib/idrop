@@ -5,6 +5,28 @@
     'use strict';
     // this function is strict...
 }());
+
+function mockAVc() {
+
+    var vcData = [
+        {"name": "vc1", description: "desc1", sourcePath: "source/path"}
+    ];
+    return vcData;
+
+
+}
+
+function mockAVc2() {
+
+    var vcData = [
+        {"name": "vc2", description: "desc1", sourcePath: "source/path"}
+    ];
+    return vcData;
+
+
+}
+
+
 describe("A suite", function () {
 
     var virtualCollectionsService, $http, $httpBackend, $log;
@@ -25,19 +47,20 @@ describe("A suite", function () {
 
     var actual;
 
-   it("list virtual collections should return a list of colls", function () {
+    it("list virtual collections should return a list of colls", function () {
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
-        $httpBackend.whenGET('/virtualCollections').respond("hello");
-        virtualCollectionsService.listUserVirtualCollections(irodsAccountVal).then(function(d) {
+        var vc = mockAVc();
+        $httpBackend.whenGET('/virtualCollections').respond(vc);
+        virtualCollectionsService.listUserVirtualCollections(irodsAccountVal).then(function (d) {
             actual = d;
         });
 
-        //var actual = virtualCollectionsService.virtualCollectionsService(irodsAccountVal);
-       $httpBackend.flush();
-       console.log("actual is:" + actual);
+        $httpBackend.flush();
+        console.log("actual is:" + actual);
 
-       expect($log.info.logs).toContain(['doing get of virtual collections']);
+        expect($log.info.logs).toContain(['doing get of virtual collections']);
 
-        expect(actual.data).toEqual('hello');
+        expect(actual.data).toEqual(vc);
+        expect(actual.status).toEqual(200);
     });
 });
