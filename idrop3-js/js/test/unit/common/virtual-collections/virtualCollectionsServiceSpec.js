@@ -7,11 +7,12 @@
 }());
 describe("A suite", function () {
 
-    var virtualCollectionsService, $http, $httpBackend;
+    var virtualCollectionsService, $http, $httpBackend, $log;
     beforeEach(module('virtualCollectionsModule'));
-    beforeEach(inject(function (_virtualCollectionsService_,_$http_, _$httpBackend_) {
+    beforeEach(inject(function (_virtualCollectionsService_, _$http_, _$httpBackend_, _$log_) {
         virtualCollectionsService = _virtualCollectionsService_;
         $http = _$http_;
+        $log = _$log_;
         $httpBackend = _$httpBackend_;
     }));
 
@@ -28,6 +29,8 @@ describe("A suite", function () {
         var actual = virtualCollectionsService.listUserVirtualCollections(irodsAccountVal);
         console.log("actual is:" + actual);
         $httpBackend.flush();
+        expect($log.info.logs).toContain(['doing get of virtual collections']);
+
         expect(actual).toEqual('hello');
     });
 });
