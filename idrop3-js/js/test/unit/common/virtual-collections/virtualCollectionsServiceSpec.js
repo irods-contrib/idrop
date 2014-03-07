@@ -23,14 +23,21 @@ describe("A suite", function () {
         }).toThrow(new Error('no iRODS account'));
     });
 
-    it("list virtual collections should return a list of colls", function () {
+    var actual;
+
+   it("list virtual collections should return a list of colls", function () {
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
         $httpBackend.whenGET('/virtualCollections').respond("hello");
-        var actual = virtualCollectionsService.listUserVirtualCollections(irodsAccountVal);
-        console.log("actual is:" + actual);
-        $httpBackend.flush();
-        expect($log.info.logs).toContain(['doing get of virtual collections']);
+        virtualCollectionsService.listUserVirtualCollections(irodsAccountVal).then(function(d) {
+            actual = d;
+        });
 
-        expect(actual).toEqual('hello');
+        //var actual = virtualCollectionsService.virtualCollectionsService(irodsAccountVal);
+       $httpBackend.flush();
+       console.log("actual is:" + actual);
+
+       expect($log.info.logs).toContain(['doing get of virtual collections']);
+
+        expect(actual.data).toEqual('hello');
     });
 });

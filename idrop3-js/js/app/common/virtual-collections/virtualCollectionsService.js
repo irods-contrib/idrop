@@ -7,7 +7,7 @@
 }());
 angular.module('virtualCollectionsModule', [])
 
-    .factory('virtualCollectionsService', ['$http', '$log', '$q',function ($http, $log) {
+    .factory('virtualCollectionsService', ['$http', '$log', '$q',function ($http, $log, $q) {
 
         return {
         listUserVirtualCollections: function (irodsAccount) {
@@ -19,18 +19,19 @@ angular.module('virtualCollectionsModule', [])
             $log.info("doing get of virtual collections");
             var response;
 
-            $http({method: 'GET', url: '/virtualCollections'}).success(function (data, status, headers, config) {
-                    console.log("success!");
-                    console.log("data is:" + data);
+           var promise =  $http({method: 'GET', url: '/virtualCollections'}).then(function (data, status, headers, config) {
+                $log.info("success!");
+                $log.info("data is:" + data);
 
-                    console.log("returning:" + data);
+                $log.info("returning:" + data);
                     return data;
 
-                }).error(function (data, status, headers, config) {
-
+                },function (data, status, headers, config) {
+                    $log.error("error! " + data + " status:" + status);
                 });
 
             console.log("falling out");
+            return promise;
 
 
         }
