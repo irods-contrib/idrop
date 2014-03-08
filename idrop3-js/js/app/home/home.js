@@ -8,7 +8,7 @@ function genId(path) {
     return encodeURIComponent(encodeURIComponent(path));
 }
 
-angular.module('home', ['ngRoute','ngResource'], function($provide, $routeProvider, $locationProvider) {
+angular.module('home', ['ngRoute','ngResource','httpInterceptorModule'], function($provide, $routeProvider, $locationProvider) {
 
     $routeProvider.when("/Collection/:collId", {
         templateUrl: "assets/home/collection-angularjs.html",
@@ -116,6 +116,7 @@ angular.module('home', ['ngRoute','ngResource'], function($provide, $routeProvid
 	 * Cause the collections panel on the left to display
 	 */
 	$scope.showCollections = function () {
+        alert("show collections");
 		$scope.hideDrives="false";
 	};
 	

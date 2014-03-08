@@ -12,7 +12,7 @@
 }());
 
 angular.module('httpInterceptorModule', [])
-.factory('myHttpResponseInterceptor',['$q','$location',function($q,$location, $log){
+.factory('myHttpResponseInterceptor',['$q','$location','$log',function($q,$location, $log){
         return {
             // On request success
             request: function (config) {
@@ -43,15 +43,15 @@ angular.module('httpInterceptorModule', [])
             responseError: function (rejection) {
                 // console.log(rejection); // Contains the data about the error.
                 $log.error(rejection);
-                var status = response.status;
+                var status = rejection.status;
 
                 if (status == 401) { // unauthorized - redirect to login again
-                    window.location = "/";
+                    window.location = "/login";
                 } else if (status == 400) { // validation error display errors
-                    alert(JSON.stringify(response.data.errors)); // here really we need to format this but just showing as alert.
+                    alert(JSON.stringify(rejection.data.errors)); // here really we need to format this but just showing as alert.
                 } else {
                     // otherwise reject other status codes
-                    return $q.reject(response);
+                    return $q.reject(rejection);
                 }
                 // Return the promise rejection.
                 //return $q.reject(rejection);

@@ -2,9 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57f0941b-99d3-4937-ae2b-51deda513046" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/common/virtual-collections/virtualCollectionsService.js" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/common/virtual-collections/virtualCollectionsService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js" afterPath="$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/js/app/common/virtual-collections/virtualCollectionsService.js" afterPath="$PROJECT_DIR$/web-app/js/app/common/virtual-collections/virtualCollectionsService.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gruntfile.js" afterPath="$PROJECT_DIR$/Gruntfile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/assets/home/collection-angularjs.html" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/assets/home/collection-angularjs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/home/collection-angularjs.html" afterPath="$PROJECT_DIR$/assets/home/collection-angularjs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/assets/home/collection-angularjs.html" afterPath="$PROJECT_DIR$/web-app/assets/home/collection-angularjs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/home/home.js" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/home/home.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/home/home.js" afterPath="$PROJECT_DIR$/js/app/home/home.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/js/app/home/home.js" afterPath="$PROJECT_DIR$/web-app/js/app/home/home.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/common/interceptors/httpInterceptors.js" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/common/interceptors/httpInterceptors.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js" afterPath="$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/js/app/common/interceptors/httpInterceptors.js" afterPath="$PROJECT_DIR$/web-app/js/app/common/interceptors/httpInterceptors.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/index.html" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/index.html" afterPath="$PROJECT_DIR$/web-app/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/assets/common/nav-angularjs.html" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/assets/common/nav-angularjs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/common/nav-angularjs.html" afterPath="$PROJECT_DIR$/assets/common/nav-angularjs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/assets/common/nav-angularjs.html" afterPath="$PROJECT_DIR$/web-app/assets/common/nav-angularjs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/vendor/vendor.js" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/js/vendor/vendor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/js/vendor/vendor.js" afterPath="$PROJECT_DIR$/web-app/js/vendor/vendor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="idrop3-js.iws" />
@@ -28,10 +43,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="virtualCollectionsServiceSpec.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
+      <file leaf-file-name="httpInterceptors.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="0" selection-start="376" selection-end="376" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1547">
+            <state line="17" column="11" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1173">
               <folding />
             </state>
           </provider>
@@ -40,7 +55,27 @@
       <file leaf-file-name="Gruntfile.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Gruntfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="52" selection-start="1125" selection-end="1125" vertical-scroll-proportion="0.49162862" vertical-offset="204" max-vertical-offset="1819">
+            <state line="11" column="164" selection-start="385" selection-end="385" vertical-scroll-proportion="-1.4581431" vertical-offset="1145" max-vertical-offset="1802">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vendor.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-app/js/vendor/vendor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="0" selection-start="93107" selection-end="93107" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="414307">
+              <folding>
+                <marker date="1394294986000" expanded="true" signature="93107:93254" placeholder="/*...*/" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/app/home/home.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="118" column="34" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4114">
               <folding />
             </state>
           </provider>
@@ -49,7 +84,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="26" selection-start="339" selection-end="339" vertical-scroll-proportion="-5.8846154" vertical-offset="17" max-vertical-offset="918">
+            <state line="43" column="54" selection-start="1481" selection-end="1481" vertical-scroll-proportion="-17.076923" vertical-offset="287" max-vertical-offset="918">
               <folding />
             </state>
           </provider>
@@ -58,16 +93,7 @@
       <file leaf-file-name="nav-angularjs.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/common/nav-angularjs.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1462">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="home.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/app/home/home.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="221" column="13" selection-start="7150" selection-end="7150" vertical-scroll-proportion="0.0" vertical-offset="1143" max-vertical-offset="4097">
+            <state line="25" column="51" selection-start="1247" selection-end="1247" vertical-scroll-proportion="-3.2692308" vertical-offset="340" max-vertical-offset="1462">
               <folding />
             </state>
           </provider>
@@ -96,18 +122,19 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/tasks/README.TXT" />
         <option value="$PROJECT_DIR$/js/vendor/testvend.js" />
-        <option value="$PROJECT_DIR$/assets/common/nav-angularjs.html" />
         <option value="$PROJECT_DIR$/js/test/config/karmaConfig.js" />
         <option value="$PROJECT_DIR$/assets/home/virtualCollections-angularjs.html" />
         <option value="$PROJECT_DIR$/karma.conf.js" />
         <option value="$PROJECT_DIR$/js/app/common/domain/irodsAccount.js" />
         <option value="$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js" />
-        <option value="$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js" />
         <option value="$PROJECT_DIR$/devnotes.txt" />
-        <option value="$PROJECT_DIR$/web-app/index.html" />
-        <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/app/home/home.js" />
         <option value="$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js" />
+        <option value="$PROJECT_DIR$/web-app/index.html" />
+        <option value="$PROJECT_DIR$/assets/home/collection-angularjs.html" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js" />
+        <option value="$PROJECT_DIR$/js/app/home/home.js" />
+        <option value="$PROJECT_DIR$/assets/common/nav-angularjs.html" />
         <option value="$PROJECT_DIR$/Gruntfile.js" />
       </list>
     </option>
@@ -209,7 +236,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vendor" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -227,11 +258,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="skin" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -245,7 +272,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -259,11 +286,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="skin" />
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -301,6 +342,14 @@
     </key>
   </component>
   <component name="RunManager" selected="Karma.RunKarmaIdrop3Unit">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -311,23 +360,15 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" editBeforeRun="true" singleton="true" config-file="$PROJECT_DIR$/js/test/config/karmaConfig.js">
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="CHROME" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" editBeforeRun="true" singleton="true" config-file="$PROJECT_DIR$/js/test/config/karmaConfig.js">
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -396,14 +437,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1137" extended-state="7" />
+    <frame x="0" y="22" width="1920" height="1137" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296501" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777232" sideWeight="0.4997367" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777232" sideWeight="0.4997367" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32281333" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2085308" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2085308" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39923224" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777232" sideWeight="0.5002633" order="7" side_tool="true" content_ui="tabs" />
@@ -411,11 +452,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912534" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912534" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -436,23 +477,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="28" selection-start="257" selection-end="257" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/home/virtualCollections-angularjs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="30" selection-start="1625" selection-end="1625" vertical-scroll-proportion="0.0" vertical-offset="493" max-vertical-offset="1071" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/devnotes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901">
-          <folding />
-        </state>
+        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
@@ -481,9 +508,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/devnotes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901">
-          <folding />
-        </state>
+        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
@@ -505,9 +530,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/devnotes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901">
-          <folding />
-        </state>
+        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
@@ -519,9 +542,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/karma.conf.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="13" selection-start="384" selection-end="384" vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="1581">
-          <folding />
-        </state>
+        <state line="14" column="13" selection-start="384" selection-end="384" vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="1581" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vendor/angular.js">
@@ -644,16 +665,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vendor/jasmine-standalone-2.0.0/lib/jasmine-2.0.0/boot.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3179">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3179" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/karma.conf.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="19" selection-start="1859" selection-end="1859" vertical-scroll-proportion="0.0" vertical-offset="642" max-vertical-offset="1343">
-          <folding />
-        </state>
+        <state line="70" column="19" selection-start="1859" selection-end="1859" vertical-scroll-proportion="0.0" vertical-offset="642" max-vertical-offset="1343" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
@@ -675,58 +692,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="0" selection-start="674" selection-end="674" vertical-scroll-proportion="0.8095238" vertical-offset="0" max-vertical-offset="672">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="53" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.33184522" vertical-offset="423" max-vertical-offset="1173">
-          <folding />
-        </state>
+        <state line="32" column="0" selection-start="674" selection-end="674" vertical-scroll-proportion="0.8095238" vertical-offset="0" max-vertical-offset="672" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/devnotes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="125" selection-start="742" selection-end="742" vertical-scroll-proportion="0.59332323" vertical-offset="0" max-vertical-offset="659">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="0" selection-start="1499" selection-end="1499" vertical-scroll-proportion="-18.384615" vertical-offset="287" max-vertical-offset="918">
-          <folding />
-        </state>
+        <state line="23" column="125" selection-start="742" selection-end="742" vertical-scroll-proportion="0.59332323" vertical-offset="0" max-vertical-offset="659" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vendor/bootstrap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="170" column="21" selection-start="5064" selection-end="5067" vertical-scroll-proportion="46.615383" vertical-offset="4034" max-vertical-offset="34136">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="26" selection-start="339" selection-end="339" vertical-scroll-proportion="-5.8846154" vertical-offset="17" max-vertical-offset="918">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/common/nav-angularjs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1462">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/app/home/home.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="221" column="13" selection-start="7150" selection-end="7150" vertical-scroll-proportion="0.0" vertical-offset="1143" max-vertical-offset="4097">
-          <folding />
-        </state>
+        <state line="170" column="21" selection-start="5064" selection-end="5067" vertical-scroll-proportion="46.615383" vertical-offset="4034" max-vertical-offset="34136" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
@@ -736,9 +712,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="10" selection-start="1437" selection-end="1437" vertical-scroll-proportion="-16.76923" vertical-offset="295" max-vertical-offset="935">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="11" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1173">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/home/collection-angularjs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="14" selection-start="867" selection-end="867" vertical-scroll-proportion="0.45800316" vertical-offset="0" max-vertical-offset="1428">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/app/home/home.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="34" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.0" vertical-offset="1683" max-vertical-offset="4114">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="54" selection-start="1481" selection-end="1481" vertical-scroll-proportion="-17.076923" vertical-offset="287" max-vertical-offset="918">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/common/nav-angularjs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="51" selection-start="1247" selection-end="1247" vertical-scroll-proportion="-3.2692308" vertical-offset="340" max-vertical-offset="1462">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/js/vendor/vendor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="93107" selection-end="93107" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="414307">
+          <folding>
+            <marker date="1394294986000" expanded="true" signature="93107:93254" placeholder="/*...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Gruntfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="52" selection-start="1125" selection-end="1125" vertical-scroll-proportion="0.49162862" vertical-offset="204" max-vertical-offset="1819">
+        <state line="11" column="164" selection-start="385" selection-end="385" vertical-scroll-proportion="-1.4581431" vertical-offset="1145" max-vertical-offset="1802">
           <folding />
         </state>
       </provider>

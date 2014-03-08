@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         // configured a task
         concat: {
             vendorjs: {
-                src: ['bootstrap.js','js/vendor/angular.js', 'js/vendor/angular-route.js','js/vendor/angular-resource.js','jquery-1.10.2.min.js'],
+                src: ['js/vendor/jquery-1.10.2.min.js','js/vendor/bootstrap.js','js/vendor/angular.js', 'js/vendor/angular-route.js','js/vendor/angular-resource.js'],
                 dest: 'web-app/js/vendor/vendor.js'
             },
             css: {
@@ -20,7 +20,6 @@ module.exports = function (grunt) {
 
         /*
          distribute built javascript and web packages to the idrop3 main grails app
-         TODO: add fonts, images
          https://www.npmjs.org/package/grunt-mcopy */
         copy: {
             main: {
@@ -45,7 +44,7 @@ module.exports = function (grunt) {
         karma: {
             unit: {
                 configFile: 'karma.conf.js',
-                background: true,
+                background: true
             }
         },
         watch: {
