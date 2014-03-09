@@ -15,6 +15,10 @@ module.exports = function (grunt) {
             css: {
                 src: ['css/*.css'],
                 dest: 'web-app/css/app.css'
+            },
+            appjs: {
+                src: ['js/app/**/*.js'],
+                dest: 'web-app/js/app.js'
             }
         },
 
@@ -29,7 +33,7 @@ module.exports = function (grunt) {
                     {expand: true, src: ['index.html'], dest: 'web-app'},
                     {expand: true, src: ['fonts/*.*'], dest: 'web-app'},
                     {expand: true, src: ['images/**/*.*'], dest: 'web-app'},
-                    {expand: true, src: ['js/app/**/*.js'], dest: 'web-app'},
+                    //{expand: true, src: ['js/app/**/*.js'], dest: 'web-app'},
                     {expand: true, src: ['css/**/*.css.map'], dest: 'web-app'},
 
                     // includes files within path and its sub-directories
@@ -38,6 +42,7 @@ module.exports = function (grunt) {
                 ]
             }
         },
+        clean: ["web-app"],
         /*
         * Run tests via Karma https://www.npmjs.org/package/grunt-karma
         * */
@@ -54,7 +59,7 @@ module.exports = function (grunt) {
             },
             js: {
                 files: ['js/app/**/*.js'],
-                tasks: ['karma:unit:run', 'copy']
+                tasks: ['karma:unit:run', 'concat:appjs','copy']
             },
             unittestjs: {
                 files: ['js/test/unit/**/*.js'],

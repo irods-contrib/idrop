@@ -1,40 +1,13 @@
 /**
- * Main angular module for home views
- *
- * @author Mike Conway (DICE)
+ * Home page controllers
+ * Created by mikeconway on 3/9/14.
  */
 
-function genId(path) {
-    return encodeURIComponent(encodeURIComponent(path));
-}
+/*
+ * Home controller function here
+ */
+angular.module('home')
 
-angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule'], function ($provide, $routeProvider, $locationProvider) {
-
-    // route for the home page
-    $routeProvider.when('/home', {
-        templateUrl: 'assets/home/home-angularjs.html',
-        controller: 'homeController'
-    })
-
-        // route for the login page
-        .when('/login', {
-            templateUrl: 'assets/home/login-angularjs.html',
-            controller: 'loginController'
-        })
-        .otherwise({redirectTo: "/home"});
-})
-
-    .config(function () {
-        /*
-         * configuration block
-         */
-
-
-    })
-
-    /*
-     * Home controller function here
-     */
     .controller('homeController', function ($scope) {
 
         $scope.hideDrives = "false";
@@ -54,6 +27,7 @@ angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule'], funct
         $scope.hideCollections = function () {
             $scope.hideDrives = "true";
         };
-
-
     });
+
+
+

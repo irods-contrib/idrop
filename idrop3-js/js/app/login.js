@@ -8,7 +8,7 @@
  */
 
 
-angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule'])
+angular.module('login')
 
 
     .config(function () {
@@ -27,6 +27,8 @@ angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule'])
 // create a message to display in our view
         $scope.message = 'Everyone come and see how good I look!';
 
-
     });
+
+
+
 
