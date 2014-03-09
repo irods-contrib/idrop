@@ -6,11 +6,6 @@
  *
  */
 
-(function () {
-    'use strict';
-    // this function is strict...
-}());
-
 angular.module('httpInterceptorModule', [])
 .factory('myHttpResponseInterceptor',['$q','$location','$log',function($q,$location, $log){
         return {

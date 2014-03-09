@@ -1,10 +1,43 @@
 /*
-Central module registry for the entire application
+ Central module registry for the entire application
  */
+
+
+(function () {
+    'use strict';
+    // this function is strict...
+}());
+
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login']);
 
 angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
 
 angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
+
+
+angular.module('app')
+
+
+    .config(function($routeProvider) {
+        // route for the home page
+        $routeProvider.when('/home', {
+            templateUrl: 'assets/home/home-angularjs.html',
+            controller: 'homeController'
+        })
+
+            // route for the login page
+            .when('/login', {
+                templateUrl: 'assets/home/login-angularjs.html',
+                controller: 'loginController'
+            })
+            .otherwise({redirectTo: "/home"});
+    })
+
+    .controller('appController', function () {
+
+
+    });
+
 /**
  * Represents an iRODS account identity for login
  * Created by Mike on 2/28/14.
@@ -34,11 +67,6 @@ var irodsAccount = function (host, port, zone, user, password, authType, resourc
  *
  *
  */
-
-(function () {
-    'use strict';
-    // this function is strict...
-}());
 
 angular.module('httpInterceptorModule', [])
 .factory('myHttpResponseInterceptor',['$q','$location','$log',function($q,$location, $log){
@@ -94,10 +122,7 @@ angular.module('httpInterceptorModule', [])
 /**
  * Service providing access to virtual collections
  */
-(function () {
-    'use strict';
-    // this function is strict...
-}());
+
 angular.module('virtualCollectionsModule', [])
 
     .factory('virtualCollectionsService', ['$http', '$log', '$q',function ($http, $log, $q) {
@@ -192,32 +217,3 @@ angular.module('login')
 
 
 
-
-/**
- * Main angular module for master index page and routes
- *
- * @author Mike Conway (DICE)
- */
-
-
-angular.module('app', function ($provide, $routeProvider, $locationProvider) {
-
-    // route for the home page
-    $routeProvider.when('/home', {
-        templateUrl: 'assets/home/home-angularjs.html',
-        controller: 'homeController'
-    })
-
-        // route for the login page
-        .when('/login', {
-            templateUrl: 'assets/home/login-angularjs.html',
-            controller: 'loginController'
-        })
-        .otherwise({redirectTo: "/home"});
-})
-
-    .config(function () {
-        /*
-         * configuration block
-         */
-    });

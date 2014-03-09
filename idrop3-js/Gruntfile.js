@@ -10,7 +10,7 @@ module.exports = function (grunt) {
         concat: {
             vendorjs: {
                 src: ['js/vendor/jquery-1.10.2.min.js','js/vendor/bootstrap.js','js/vendor/angular.js', 'js/vendor/angular-route.js','js/vendor/angular-resource.js'],
-                dest: 'web-app/js/vendor/vendor.js'
+                dest: 'web-app/js/vendor.js'
             },
             css: {
                 src: ['css/*.css'],
@@ -55,11 +55,11 @@ module.exports = function (grunt) {
         watch: {
             vendorjs: {
                 files: ['<%= concat.vendorjs.src %>'],
-                tasks: ['clean','concat:vendorjs', 'karma:unit:run', 'copy']
+                tasks: ['concat:vendorjs', 'karma:unit:run', 'copy']
             },
             js: {
                 files: ['js/app/**/*.js'],
-                tasks: ['clean','karma:unit:run', 'concat:appjs','copy']
+                tasks: ['karma:unit:run', 'concat:appjs','copy']
             },
             unittestjs: {
                 files: ['js/test/unit/**/*.js'],
@@ -67,23 +67,23 @@ module.exports = function (grunt) {
             },
             css: {
                 files: ['<%= concat.css.src %>', 'css/**/*.css.map'],
-                tasks: ['clean','concat:css', 'copy']
+                tasks: ['concat:css', 'copy']
             },
             images: {
                 files: ['images/*.*'],
-                tasks: ['clean','copy']
+                tasks: ['copy']
             },
             fonts: {
                 files: ['fonts/**/*.*'],
-                tasks: ['clean','copy']
+                tasks: ['copy']
             },
             assets: {
                 files: ['assets/**/*.html'],
-                tasks: ['clean','copy']
+                tasks: ['copy']
             },
             index: {
                 files: ['index.html'],
-                tasks: ['clean','copy']
+                tasks: ['copy']
             }
 
         }

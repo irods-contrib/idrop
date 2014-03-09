@@ -1,10 +1,7 @@
 /**
  * Service providing access to virtual collections
  */
-(function () {
-    'use strict';
-    // this function is strict...
-}());
+
 angular.module('virtualCollectionsModule', [])
 
     .factory('virtualCollectionsService', ['$http', '$log', '$q',function ($http, $log, $q) {
