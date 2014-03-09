@@ -23,3 +23,5 @@ code and design info
 
 auth with single-page apps: http://frederiknakstad.com/2013/01/21/authentication-in-single-page-applications-with-angular-js/
 
+large apps - http://briantford.com/blog/huuuuuge-angular-apps.html
+

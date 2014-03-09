@@ -2,24 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57f0941b-99d3-4937-ae2b-51deda513046" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gruntfile.js" afterPath="$PROJECT_DIR$/Gruntfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/assets/home/collection-angularjs.html" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/assets/home/collection-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/home/collection-angularjs.html" afterPath="$PROJECT_DIR$/assets/home/collection-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/assets/home/collection-angularjs.html" afterPath="$PROJECT_DIR$/web-app/assets/home/collection-angularjs.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/browse/browse-master-angularjs.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/home/home-angularjs.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attic/home.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attic/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/home/login-angularjs.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/app/home/login.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/devnotes.txt" afterPath="$PROJECT_DIR$/devnotes.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/home/home.js" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/home/home.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/home/home.js" afterPath="$PROJECT_DIR$/js/app/home/home.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/js/app/home/home.js" afterPath="$PROJECT_DIR$/web-app/js/app/home/home.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/common/interceptors/httpInterceptors.js" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/common/interceptors/httpInterceptors.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js" afterPath="$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/js/app/common/interceptors/httpInterceptors.js" afterPath="$PROJECT_DIR$/web-app/js/app/common/interceptors/httpInterceptors.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/index.html" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/index.html" afterPath="$PROJECT_DIR$/web-app/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/assets/common/nav-angularjs.html" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/assets/common/nav-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/common/nav-angularjs.html" afterPath="$PROJECT_DIR$/assets/common/nav-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/assets/common/nav-angularjs.html" afterPath="$PROJECT_DIR$/web-app/assets/common/nav-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/vendor/vendor.js" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/js/vendor/vendor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/js/vendor/vendor.js" afterPath="$PROJECT_DIR$/web-app/js/vendor/vendor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="idrop3-js.iws" />
@@ -46,16 +41,25 @@
       <file leaf-file-name="httpInterceptors.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="11" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1173">
+            <state line="17" column="11" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Gruntfile.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Gruntfile.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Gruntfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="164" selection-start="385" selection-end="385" vertical-scroll-proportion="-1.4581431" vertical-offset="1145" max-vertical-offset="1802">
+            <state line="11" column="164" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1802">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="53" selection-start="625" selection-end="655" vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="731">
               <folding />
             </state>
           </provider>
@@ -75,25 +79,43 @@
       <file leaf-file-name="home.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/app/home/home.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="118" column="34" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4114">
+            <state line="10" column="131" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
+      <file leaf-file-name="home-angularjs.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/home/home-angularjs.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="54" selection-start="1481" selection-end="1481" vertical-scroll-proportion="-17.076923" vertical-offset="287" max-vertical-offset="918">
+            <state line="4" column="0" selection-start="85" selection-end="85" vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="187">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nav-angularjs.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/common/nav-angularjs.html">
+      <file leaf-file-name="login-angularjs.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/home/login-angularjs.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="51" selection-start="1247" selection-end="1247" vertical-scroll-proportion="-3.2692308" vertical-offset="340" max-vertical-offset="1462">
+            <state line="7" column="0" selection-start="194" selection-end="194" vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="221">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="devnotes.txt" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/devnotes.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="66" selection-start="810" selection-end="810" vertical-scroll-proportion="0.65993786" vertical-offset="0" max-vertical-offset="644">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/app/home/login.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="75" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
               <folding />
             </state>
           </provider>
@@ -127,15 +149,20 @@
         <option value="$PROJECT_DIR$/karma.conf.js" />
         <option value="$PROJECT_DIR$/js/app/common/domain/irodsAccount.js" />
         <option value="$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js" />
-        <option value="$PROJECT_DIR$/devnotes.txt" />
         <option value="$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js" />
         <option value="$PROJECT_DIR$/web-app/index.html" />
         <option value="$PROJECT_DIR$/assets/home/collection-angularjs.html" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js" />
-        <option value="$PROJECT_DIR$/js/app/home/home.js" />
         <option value="$PROJECT_DIR$/assets/common/nav-angularjs.html" />
         <option value="$PROJECT_DIR$/Gruntfile.js" />
+        <option value="$PROJECT_DIR$/assets/browse/browse-master-angularjs.html" />
+        <option value="$PROJECT_DIR$/assets/home/login.angularjs.html" />
+        <option value="$PROJECT_DIR$/assets/home/home-angularjs.html" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/app/home/home.js" />
+        <option value="$PROJECT_DIR$/js/app/home/login.js" />
+        <option value="$PROJECT_DIR$/assets/home/login-angularjs.html" />
+        <option value="$PROJECT_DIR$/devnotes.txt" />
       </list>
     </option>
   </component>
@@ -218,46 +245,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idrop3-js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idrop3-js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vendor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idrop3-js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idrop3-js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -273,6 +260,50 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="home" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="home" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -304,7 +335,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
+              <option name="myItemId" value="browse" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -328,11 +359,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/attic" />
       <recent name="$PROJECT_DIR$/js/vendor" />
       <recent name="$PROJECT_DIR$/assets" />
       <recent name="$PROJECT_DIR$" />
       <recent name="C:\Users\Mike\Documents\workspace-idrop3\irodsidrop\idrop3-js" />
-      <recent name="C:\Users\Mike\Documents\workspace-idrop3\irodsidrop\idrop3-js\css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Mike\Documents\workspace-idrop3\irodsidrop\idrop3-js" />
@@ -438,10 +469,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1137" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296501" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777232" sideWeight="0.4997367" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777232" sideWeight="0.4997367" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32281333" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2085308" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -477,28 +508,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/devnotes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="610" selection-end="610" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Gruntfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="0" selection-start="2218" selection-end="2218" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1445">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/test/unit/nav-angularjs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="878" selection-end="878" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="1462" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="3" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="374">
@@ -508,7 +517,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/devnotes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901" />
+        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
@@ -530,7 +541,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/devnotes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901" />
+        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
@@ -695,11 +708,6 @@
         <state line="32" column="0" selection-start="674" selection-end="674" vertical-scroll-proportion="0.8095238" vertical-offset="0" max-vertical-offset="672" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/devnotes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="125" selection-start="742" selection-end="742" vertical-scroll-proportion="0.59332323" vertical-offset="0" max-vertical-offset="659" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/vendor/bootstrap.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="170" column="21" selection-start="5064" selection-end="5067" vertical-scroll-proportion="46.615383" vertical-offset="4034" max-vertical-offset="34136" />
@@ -719,37 +727,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="11" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1173">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/home/collection-angularjs.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="14" selection-start="867" selection-end="867" vertical-scroll-proportion="0.45800316" vertical-offset="0" max-vertical-offset="1428">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/app/home/home.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="34" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.0" vertical-offset="1683" max-vertical-offset="4114">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="54" selection-start="1481" selection-end="1481" vertical-scroll-proportion="-17.076923" vertical-offset="287" max-vertical-offset="918">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/common/nav-angularjs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="51" selection-start="1247" selection-end="1247" vertical-scroll-proportion="-3.2692308" vertical-offset="340" max-vertical-offset="1462">
           <folding />
         </state>
       </provider>
@@ -765,7 +745,70 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Gruntfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="164" selection-start="385" selection-end="385" vertical-scroll-proportion="-1.4581431" vertical-offset="1145" max-vertical-offset="1802">
+        <state line="11" column="164" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1802">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="11" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1173">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/common/nav-angularjs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="51" selection-start="1247" selection-end="1247" vertical-scroll-proportion="0.6735341" vertical-offset="0" max-vertical-offset="1462">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/browse/browse-master-angularjs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="6" selection-start="361" selection-end="361" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="340">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/app/home/home.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="131" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/app/home/login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="75" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/home/home-angularjs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="85" selection-end="85" vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="187">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="53" selection-start="625" selection-end="655" vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="731">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/home/login-angularjs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="194" selection-end="194" vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="221">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/devnotes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="66" selection-start="810" selection-end="810" vertical-scroll-proportion="0.65993786" vertical-offset="0" max-vertical-offset="644">
           <folding />
         </state>
       </provider>
