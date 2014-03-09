@@ -55,11 +55,11 @@ module.exports = function (grunt) {
         watch: {
             vendorjs: {
                 files: ['<%= concat.vendorjs.src %>'],
-                tasks: ['concat:vendorjs', 'karma:unit:run', 'copy']
+                tasks: ['clean','concat:vendorjs', 'karma:unit:run', 'copy']
             },
             js: {
                 files: ['js/app/**/*.js'],
-                tasks: ['karma:unit:run', 'concat:appjs','copy']
+                tasks: ['clean','karma:unit:run', 'concat:appjs','copy']
             },
             unittestjs: {
                 files: ['js/test/unit/**/*.js'],
@@ -67,23 +67,23 @@ module.exports = function (grunt) {
             },
             css: {
                 files: ['<%= concat.css.src %>', 'css/**/*.css.map'],
-                tasks: ['concat:css', 'copy']
+                tasks: ['clean','concat:css', 'copy']
             },
             images: {
                 files: ['images/*.*'],
-                tasks: ['copy']
+                tasks: ['clean','copy']
             },
             fonts: {
                 files: ['fonts/**/*.*'],
-                tasks: ['copy']
+                tasks: ['clean','copy']
             },
             assets: {
                 files: ['assets/**/*.html'],
-                tasks: ['copy']
+                tasks: ['clean','copy']
             },
             index: {
                 files: ['index.html'],
-                tasks: ['copy']
+                tasks: ['clean','copy']
             }
 
         }
@@ -92,6 +92,7 @@ module.exports = function (grunt) {
     // loaded a task from npm module
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-mcopy");
     grunt.loadNpmTasks('grunt-karma');
 
@@ -101,6 +102,6 @@ module.exports = function (grunt) {
     // load a custom task
 
     // set our workflow
-    grunt.registerTask("default", ["concat", "karma:unit:run", "copy", "watch"]);
+    grunt.registerTask("default", ["clean","concat", "karma:unit:run", "copy", "watch"]);
 
 };

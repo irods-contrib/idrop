@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57f0941b-99d3-4937-ae2b-51deda513046" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/app/app.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/js/app/home/login.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/assets/browse/browse-master-angularjs.html" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/assets/common/nav-angularjs.html" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/assets/home/collection-angularjs.html" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/assets/home/collectionActions-angularjs.html" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/assets/home/home-angularjs.html" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/assets/home/login-angularjs.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/assets/home/login.angularjs.html" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/assets/home/virtualCollections-angularjs.html" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/css/app.css" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/css/bootstrap-theme.css.map" afterPath="" />
@@ -37,19 +34,9 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/images/skin/sorted_asc.gif" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/images/skin/sorted_desc.gif" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/js/app/common/domain/irodsAccount.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/js/app/common/interceptors/httpInterceptors.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/js/app/common/virtual-collections/virtualCollectionsService.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/js/app.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web-app/js/vendor/vendor.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/web-app/js/app/home/home.js" afterPath="$PROJECT_DIR$/js/app/master.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/web-app/js/app/home/login.js" afterPath="$PROJECT_DIR$/js/app/login.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gruntfile.js" afterPath="$PROJECT_DIR$/Gruntfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/home/home.js" afterPath="$PROJECT_DIR$/js/app/home/home.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/index.html" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/assets/home/login-angularjs.html" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/assets/home/login-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/home/login-angularjs.html" afterPath="$PROJECT_DIR$/assets/home/login-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="idrop3-js.iws" />
@@ -87,7 +74,7 @@
       <file leaf-file-name="Gruntfile.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Gruntfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="24" selection-start="1638" selection-end="1638" vertical-scroll-proportion="-0.6560122" vertical-offset="1179" max-vertical-offset="1887">
+            <state line="104" column="43" selection-start="3408" selection-end="3408" vertical-scroll-proportion="0.7929985" vertical-offset="1247" max-vertical-offset="1904">
               <folding />
             </state>
           </provider>
@@ -235,34 +222,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="idrop3-js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idrop3-js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idrop3-js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idrop3-js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idrop3-js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -447,13 +406,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1137" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296501" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777232" sideWeight="0.4997367" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32281333" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2085308" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2085308" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39923224" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777232" sideWeight="0.5002633" order="7" side_tool="true" content_ui="tabs" />
@@ -747,13 +706,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="3032" max-vertical-offset="3689">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/app/login.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="23" selection-start="133" selection-end="156" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
@@ -788,7 +740,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Gruntfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="24" selection-start="1638" selection-end="1638" vertical-scroll-proportion="-0.6560122" vertical-offset="1179" max-vertical-offset="1887">
+        <state line="104" column="43" selection-start="3408" selection-end="3408" vertical-scroll-proportion="0.7929985" vertical-offset="1247" max-vertical-offset="1904">
           <folding />
         </state>
       </provider>
