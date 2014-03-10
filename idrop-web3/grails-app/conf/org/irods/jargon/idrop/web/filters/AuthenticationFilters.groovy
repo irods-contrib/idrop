@@ -13,7 +13,7 @@ class AuthenticationFilters {
 	AuthenticationService authenticationService
 
 	def filters = {
-		all(controller:'*', action:'*') {
+		all(controller:'*', action:'*', controllerExclude:'login') {
 			before = {
 				if(!session[IdropConstants.AUTH_SESSION]) {
 					response.sendError HttpServletResponse.SC_UNAUTHORIZED

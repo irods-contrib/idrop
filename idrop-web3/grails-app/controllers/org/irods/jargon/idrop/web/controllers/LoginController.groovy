@@ -1,38 +1,32 @@
 package org.irods.jargon.idrop.web.controllers
 
 
+import static org.springframework.http.HttpMethod.*
+import static org.springframework.http.HttpStatus.*
+import grails.rest.RestfulController
+import grails.transaction.*
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.AuthenticationService
 
+class LoginController extends RestfulController {
 
+	static responseFormats = ['json']
 
-class LoginController {
 
 
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	IRODSAccount irodsAccount
-	AuthenticationService authentiationService
+	AuthenticationService authenticationService
 
-	/**
-	 * Interceptor grabs IRODSAccount from the SecurityContextHolder
-	 */
-	def beforeInterceptor = [action:this.&auth, except:'login']
-
-	def auth() {
-		if(!session["SPRING_SECURITY_CONTEXT"]) {
-			redirect(controller:"login", action:"login")
-			return false
-		}
-		irodsAccount = session["SPRING_SECURITY_CONTEXT"]
-	}
 
 	def afterInterceptor = {
 		log.debug("closing the session")
 		irodsAccessObjectFactory.closeSession()
 	}
 
-	def login() {
+	def save() {
 
 		log.info("login()");
 
