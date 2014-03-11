@@ -2,31 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57f0941b-99d3-4937-ae2b-51deda513046" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/assets/home/login.angularjs.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/css/app.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/images/apple-touch-icon-retina.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/images/apple-touch-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/images/grails_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/images/spinner.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/images/springsource.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/common/domain/irodsAccount.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/common/interceptors/httpInterceptors.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/common/virtual-collections/virtualCollectionsService.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/home/home.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app/home/login.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/vendor/vendor.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/js/app/master.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/assets/common/nav-angularjs.html" afterPath="$PROJECT_DIR$/assets/home/nav-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gruntfile.js" afterPath="$PROJECT_DIR$/Gruntfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/js/app.js" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/app.js" afterPath="$PROJECT_DIR$/js/app/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/web-app/assets/home/home-angularjs.html" afterPath="$PROJECT_DIR$/../idrop-web3/web-app/assets/home/home-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/home/home-angularjs.html" afterPath="$PROJECT_DIR$/assets/home/home-angularjs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js" afterPath="$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js" afterPath="$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/grails-app/controllers/org/irods/jargon/idrop/web/controllers/LoginController.groovy" afterPath="$PROJECT_DIR$/../idrop-web3/grails-app/controllers/org/irods/jargon/idrop/web/controllers/LoginController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/grails-app/conf/UrlMappings.groovy" afterPath="$PROJECT_DIR$/../idrop-web3/grails-app/conf/UrlMappings.groovy" />
     </list>
     <ignored path="idrop3-js.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,10 +26,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="673" selection-end="673" vertical-scroll-proportion="0.46117273" vertical-offset="49" max-vertical-offset="680">
+            <state line="20" column="0" selection-start="673" selection-end="673" vertical-scroll-proportion="-11.192307" vertical-offset="49" max-vertical-offset="680">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="httpInterceptors.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="3" selection-start="127" selection-end="127" vertical-scroll-proportion="-0.49162862" vertical-offset="425" max-vertical-offset="1088">
               <folding />
             </state>
           </provider>
@@ -171,6 +157,86 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idrop3-js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="interceptors" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -550,13 +616,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="3" selection-start="127" selection-end="127" vertical-scroll-proportion="0.15525115" vertical-offset="0" max-vertical-offset="1088">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="0" selection-start="59" selection-end="59" vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="657">
@@ -654,7 +713,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="673" selection-end="673" vertical-scroll-proportion="0.46117273" vertical-offset="49" max-vertical-offset="680">
+        <state line="20" column="0" selection-start="673" selection-end="673" vertical-scroll-proportion="-11.192307" vertical-offset="49" max-vertical-offset="680">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="3" selection-start="127" selection-end="127" vertical-scroll-proportion="-0.49162862" vertical-offset="425" max-vertical-offset="1088">
           <folding />
         </state>
       </provider>
