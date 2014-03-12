@@ -19,7 +19,7 @@ class AuthenticationFilters {
 					response.sendError HttpServletResponse.SC_UNAUTHORIZED
 					return
 				}
-				irodsAccount = session[IdropConstants.AUTH_SESSION]
+				irodsAccount = session.authenticationSession.authenticatedIRODSAccount
 				request.irodsAccount = irodsAccount
 			}
 			after = { Map model ->

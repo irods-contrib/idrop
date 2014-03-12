@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57f0941b-99d3-4937-ae2b-51deda513046" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/grails-app/controllers/org/irods/jargon/idrop/web/controllers/LoginController.groovy" afterPath="$PROJECT_DIR$/../idrop-web3/grails-app/controllers/org/irods/jargon/idrop/web/controllers/LoginController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../idrop-web3/grails-app/conf/UrlMappings.groovy" afterPath="$PROJECT_DIR$/../idrop-web3/grails-app/conf/UrlMappings.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="idrop3-js.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,7 +28,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="673" selection-end="673" vertical-scroll-proportion="-11.192307" vertical-offset="49" max-vertical-offset="680">
+            <state line="20" column="0" selection-start="673" selection-end="673" vertical-scroll-proportion="0.0" vertical-offset="49" max-vertical-offset="680">
               <folding />
             </state>
           </provider>
@@ -38,7 +37,7 @@
       <file leaf-file-name="httpInterceptors.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="3" selection-start="127" selection-end="127" vertical-scroll-proportion="-0.49162862" vertical-offset="425" max-vertical-offset="1088">
+            <state line="4" column="2" selection-start="120" selection-end="120" vertical-scroll-proportion="0.092769444" vertical-offset="0" max-vertical-offset="1088">
               <folding />
             </state>
           </provider>
@@ -95,9 +94,10 @@
     <data>$PROJECT_DIR$/node_modules/karma</data>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
-    <option name="width" value="1920" />
-    <option name="height" value="1137" />
+    <option name="x" value="1912" />
+    <option name="y" value="-90" />
+    <option name="width" value="1936" />
+    <option name="height" value="1216" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -141,7 +141,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -242,6 +241,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -275,14 +275,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Karma.RunKarmaIdrop3Unit">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -293,15 +285,23 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" editBeforeRun="true" singleton="true" config-file="$PROJECT_DIR$/js/test/config/karmaConfig.js">
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="CHROME" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" editBeforeRun="true" singleton="true" config-file="$PROJECT_DIR$/js/test/config/karmaConfig.js">
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -370,17 +370,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1137" extended-state="6" />
+    <frame x="1912" y="-90" width="1936" height="1216" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296501" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777232" sideWeight="0.4997367" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31559965" sideWeight="0.49947917" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32281333" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2085308" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20833333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39923224" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777232" sideWeight="0.5002633" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31559965" sideWeight="0.5005208" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25907752" sideWeight="0.72775143" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -417,9 +417,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Gruntfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="10" selection-start="467" selection-end="467" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1445">
-          <folding />
-        </state>
+        <state line="20" column="10" selection-start="467" selection-end="467" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1445" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/nav-angularjs.html">
@@ -429,23 +427,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/devnotes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901">
-          <folding />
-        </state>
+        <state line="4" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="901" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="3" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="374">
-          <folding />
-        </state>
+        <state line="16" column="3" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="374" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/karma.conf.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="13" selection-start="384" selection-end="384" vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="1581">
-          <folding />
-        </state>
+        <state line="14" column="13" selection-start="384" selection-end="384" vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="1581" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vendor/angular.js">
@@ -470,9 +462,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="3" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
-          <folding />
-        </state>
+        <state line="16" column="3" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vendor/angular.js">
@@ -497,23 +487,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="3" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="238">
-          <folding />
-        </state>
+        <state line="8" column="3" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="238" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="3" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
-          <folding />
-        </state>
+        <state line="8" column="3" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="3" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="238">
-          <folding />
-        </state>
+        <state line="8" column="3" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="238" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vendor/jasmine-standalone-2.0.0/SpecRunner.html">
@@ -568,9 +552,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/karma.conf.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="19" selection-start="1859" selection-end="1859" vertical-scroll-proportion="0.0" vertical-offset="642" max-vertical-offset="1343">
-          <folding />
-        </state>
+        <state line="70" column="19" selection-start="1859" selection-end="1859" vertical-scroll-proportion="0.0" vertical-offset="642" max-vertical-offset="1343" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
@@ -585,9 +567,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vendor/angular-mocks.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1967" column="23" selection-start="72887" selection-end="72887" vertical-scroll-proportion="0.29017857" vertical-offset="29310" max-vertical-offset="31635">
-          <folding />
-        </state>
+        <state line="1967" column="23" selection-start="72887" selection-end="72887" vertical-scroll-proportion="0.29017857" vertical-offset="29310" max-vertical-offset="31635" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vendor/bootstrap.js">
@@ -597,130 +577,84 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/test/unit/common/virtual-collections/virtualCollectionsServiceSpec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="376" selection-end="376" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1547">
-          <folding />
-        </state>
+        <state line="28" column="0" selection-start="376" selection-end="376" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1547" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/browse/browse-master-angularjs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="6" selection-start="361" selection-end="361" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="340">
-          <folding />
-        </state>
+        <state line="13" column="6" selection-start="361" selection-end="361" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="340" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/devnotes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="66" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
-          <folding />
-        </state>
+        <state line="25" column="66" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/app/common/virtual-collections/virtualCollectionsService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="59" selection-end="59" vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="657">
-          <folding />
-        </state>
+        <state line="3" column="0" selection-start="59" selection-end="59" vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="657" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/app/home/home.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="38" selection-start="514" selection-end="514" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
+        <state line="19" column="38" selection-start="514" selection-end="514" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/app/login.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="37" selection-start="293" selection-end="293" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
-          <folding />
-        </state>
+        <state line="22" column="37" selection-start="293" selection-end="293" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/home/virtualCollections-angularjs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="30" selection-start="1625" selection-end="1625" vertical-scroll-proportion="-2.0384614" vertical-offset="440" max-vertical-offset="1071">
-          <folding />
-        </state>
+        <state line="29" column="30" selection-start="1625" selection-end="1625" vertical-scroll-proportion="-2.0384614" vertical-offset="440" max-vertical-offset="1071" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/home/login-angularjs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="35" selection-start="35" selection-end="35" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="631">
-          <folding />
-        </state>
+        <state line="0" column="35" selection-start="35" selection-end="35" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="631" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/home/collectionActions-angularjs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="935">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="935" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/home/collection-angularjs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="14" selection-start="867" selection-end="867" vertical-scroll-proportion="0.45800316" vertical-offset="0" max-vertical-offset="1428">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="3" selection-end="3" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="3825">
-          <folding />
-        </state>
+        <state line="17" column="14" selection-start="867" selection-end="867" vertical-scroll-proportion="0.45800316" vertical-offset="0" max-vertical-offset="1428" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/app/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="45" selection-start="812" selection-end="812" vertical-scroll-proportion="0.7762557" vertical-offset="0" max-vertical-offset="765">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
+        <state line="30" column="45" selection-start="812" selection-end="812" vertical-scroll-proportion="0.7762557" vertical-offset="0" max-vertical-offset="765" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/home/nav-angularjs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="51" selection-start="1247" selection-end="1247" vertical-scroll-proportion="-16.346153" vertical-offset="0" max-vertical-offset="1462">
-          <folding />
-        </state>
+        <state line="25" column="51" selection-start="1247" selection-end="1247" vertical-scroll-proportion="-16.346153" vertical-offset="0" max-vertical-offset="1462" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/home/home-angularjs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="65" selection-start="127" selection-end="127" vertical-scroll-proportion="0.053882726" vertical-offset="0" max-vertical-offset="631">
-          <folding />
-        </state>
+        <state line="2" column="65" selection-start="127" selection-end="127" vertical-scroll-proportion="0.053882726" vertical-offset="0" max-vertical-offset="631" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Gruntfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="9" selection-start="2921" selection-end="2921" vertical-scroll-proportion="0.0" vertical-offset="1247" max-vertical-offset="1904">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="7" selection-start="780" selection-end="780" vertical-scroll-proportion="0.46117273" vertical-offset="83" max-vertical-offset="714">
-          <folding />
-        </state>
+        <state line="88" column="9" selection-start="2921" selection-end="2921" vertical-scroll-proportion="0.0" vertical-offset="1247" max-vertical-offset="1904" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="673" selection-end="673" vertical-scroll-proportion="-11.192307" vertical-offset="49" max-vertical-offset="680">
+        <state line="20" column="0" selection-start="673" selection-end="673" vertical-scroll-proportion="0.0" vertical-offset="49" max-vertical-offset="680">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/app/common/interceptors/httpInterceptors.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="3" selection-start="127" selection-end="127" vertical-scroll-proportion="-0.49162862" vertical-offset="425" max-vertical-offset="1088">
+        <state line="4" column="2" selection-start="120" selection-end="120" vertical-scroll-proportion="0.092769444" vertical-offset="0" max-vertical-offset="1088">
           <folding />
         </state>
       </provider>

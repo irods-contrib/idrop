@@ -1,15 +1,11 @@
 package org.irods.jargon.idrop.web.controllers
 
-import grails.test.mixin.*
-
 import org.irods.jargon.core.connection.AuthScheme
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.exception.AuthenticationException
 import org.irods.jargon.idrop.web.filters.AuthenticationFilters
 import org.irods.jargon.idrop.web.filters.ConnectionClosingFilterFilters
 import org.irods.jargon.idrop.web.services.AuthenticationService
-import org.junit.*
-
 import spock.lang.Specification
 
 /**
@@ -19,6 +15,10 @@ import spock.lang.Specification
 @Mock([AuthenticationFilters, ConnectionClosingFilterFilters])
 
 class LoginControllerSpec extends Specification  {
+	
+	void setup() {
+		mockCommandObject(LoginCommand)
+	}
 
 	void "test authenticate with a invalid credential"() {
 		given:
@@ -43,7 +43,22 @@ class LoginControllerSpec extends Specification  {
 		controller.save(loginCommand)
 
 		then:
-		controller.response.status == 500
+		thrown(AuthenticationException)
+	}
+	
+	void "test authenticate with a null command"() {
+		given:
+		def authMock = mockFor(AuthenticationService)
+
+		controller.authenticationService = authMock.createMock()
+
+		LoginCommand loginCommand = null
+		
+		when:
+		controller.save(loginCommand)
+
+		then:
+		thrown(IllegalArgumentException)
 	}
 
 	void "test authenticate with a valid credential"() {
@@ -70,5 +85,28 @@ class LoginControllerSpec extends Specification  {
 
 		then:
 		controller.response.status == 200
+		controller.session.authenticationSession != null
 	}
+	
+	void "test authenticate with a missing user gives validation error"() {
+		given:
+		def authMock = mockFor(AuthenticationService)
+		authMock.demand.authenticate { irodsAccount ->
+			return new AuthResponse()
+		}
+
+		controller.authenticationService = authMock.createMock()
+
+		LoginCommand loginCommand = new LoginCommand()
+		loginCommand.host = "host"
+		loginCommand.port = 1247
+		loginCommand.zone = "zone"
+		loginCommand.userName = ""
+		loginCommand.password = "password"
+		loginCommand.defaultStorageResource = "defaultStorageResource"
+		loginCommand.authType = AuthScheme.STANDARD
+
+		assert !loginCommand.validate()
+	}
+	
 }

@@ -38,7 +38,6 @@ grails.project.dependency.resolution = {
 	}
 	dependencies {
 		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		test 'org.mockito:mockito-all:1.8.1'
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
 		compile ('org.irods.jargon:jargon-core:3.3.3-VC-SNAPSHOT') { excludes ([group:'org.jglobus'])}
@@ -49,7 +48,6 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:virtual-collections:3.3.3-VC-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 
 		provided 'javax.servlet:servlet-api:2.5'
-		compile 'org.jsoup:jsoup:0.2.2'
 
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 	}

@@ -16,8 +16,6 @@ class LoginController extends RestfulController {
 
 	static responseFormats = ['json']
 
-
-
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	AuthenticationService authenticationService
 
@@ -29,6 +27,10 @@ class LoginController extends RestfulController {
 	def save(LoginCommand command) {
 
 		log.info("login()");
+		
+		if (!command) {
+			throw new IllegalArgumentException("null command")
+		}
 
 		if (command.hasErrors()) {
 			command.password = ""
@@ -43,9 +45,13 @@ class LoginController extends RestfulController {
 		IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port, command.userName, command.password, "", command.zone, command.defaultStorageResource)
 
 		AuthResponse response = authenticationService.authenticate(irodsAccount)
+		
+		log.info("auth successful, saving response")
+		session.authenticationSession = response
+		
 	}
 }
-
+@grails.validation.Validateable
 class LoginCommand {
 	String userName
 	String password
@@ -58,7 +64,7 @@ class LoginCommand {
 	boolean usePreset
 
 	static constraints = {
-		username(blank: false)
+		userName(blank: false)
 		password(blank: false)
 	}
 }
