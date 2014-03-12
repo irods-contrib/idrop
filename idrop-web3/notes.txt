@@ -1,3 +1,12 @@
+
+
+grails testing with mocks http://groovy.codehaus.org/Using+MockFor+and+StubFor
+
+spock testing plug-in: https://code.google.com/p/spock/
+
+
+
+
 http://bootsnipp.com/
 
 

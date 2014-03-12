@@ -7,6 +7,8 @@ import grails.converters.JSON
 import grails.rest.RestfulController
 import grails.transaction.*
 
+import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.AuthenticationService
 
@@ -37,6 +39,10 @@ class LoginController extends RestfulController {
 		}
 
 		log.info("no validation errors, authenticate")
+
+		IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port, command.userName, command.password, "", command.zone, command.defaultStorageResource)
+
+		AuthResponse response = authenticationService.authenticate(irodsAccount)
 	}
 }
 
