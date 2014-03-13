@@ -4,7 +4,9 @@ package org.irods.jargon.idrop.web.services
 
 import grails.test.mixin.*
 
-import org.irods.jargon.idrop.web.services.AuthenticationService;
+import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.connection.auth.AuthResponse
+import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.junit.*
 
 /**
@@ -13,7 +15,22 @@ import org.junit.*
 @TestFor(AuthenticationService)
 class AuthenticationServiceTests {
 
-    void testSomething() {
-        fail "Implement me"
-    }
+	@Before
+	void setup() {
+	}
+
+	void testAuthenticateValid() {
+
+		AuthResponse authResponse = new AuthResponse()
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+		irodsAccessObjectFactory.demand.authenticateIRODSAccount{irodsAccount -> return authResponse}
+		irodsAccessObjectFactory = irodsAccessObjectFactory.createMock()
+		AuthenticationService authenticationService = new AuthenticationService()
+		authenticationService.irodsAccessObjectFactory = irodsAccessObjectFactory
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247,
+				"user", "xxx", "", "zone", "")
+		AuthResponse actual = authenticationService.authenticate(irodsAccount)
+		assertNotNull(actual)
+		log.info("actual response:${actual}")
+	}
 }

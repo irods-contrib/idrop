@@ -1,11 +1,14 @@
 package org.irods.jargon.idrop.web.controllers
 
+import grails.test.mixin.TestFor
+
 import org.irods.jargon.core.connection.AuthScheme
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.exception.AuthenticationException
 import org.irods.jargon.idrop.web.filters.AuthenticationFilters
 import org.irods.jargon.idrop.web.filters.ConnectionClosingFilterFilters
 import org.irods.jargon.idrop.web.services.AuthenticationService
+
 import spock.lang.Specification
 
 /**
@@ -15,7 +18,7 @@ import spock.lang.Specification
 @Mock([AuthenticationFilters, ConnectionClosingFilterFilters])
 
 class LoginControllerSpec extends Specification  {
-	
+
 	void setup() {
 		mockCommandObject(LoginCommand)
 	}
@@ -45,7 +48,7 @@ class LoginControllerSpec extends Specification  {
 		then:
 		thrown(AuthenticationException)
 	}
-	
+
 	void "test authenticate with a null command"() {
 		given:
 		def authMock = mockFor(AuthenticationService)
@@ -53,7 +56,7 @@ class LoginControllerSpec extends Specification  {
 		controller.authenticationService = authMock.createMock()
 
 		LoginCommand loginCommand = null
-		
+
 		when:
 		controller.save(loginCommand)
 
@@ -86,8 +89,10 @@ class LoginControllerSpec extends Specification  {
 		then:
 		controller.response.status == 200
 		controller.session.authenticationSession != null
+		log.info("response:${response.text}")
+		assert '{"authMessage":"","authenticatedIRODSAccount":null,"authenticatingIRODSAccount":null,"challengeValue":"","class":"org.irods.jargon.core.connection.auth.AuthResponse","responseProperties":{},"startupResponse":null,"successful":false}' == response.text
 	}
-	
+
 	void "test authenticate with a missing user gives validation error"() {
 		given:
 		def authMock = mockFor(AuthenticationService)
@@ -108,5 +113,4 @@ class LoginControllerSpec extends Specification  {
 
 		assert !loginCommand.validate()
 	}
-	
 }

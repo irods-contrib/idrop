@@ -18,9 +18,9 @@ class AuthenticationService {
 		}
 
 		log.info("IRODSAccount ${irodsAccount}")
-		AuthResponse authResponse = new AuthResponse()
-		
-	
-		return authResponse;
+		AuthResponse authResponse = irodsAccessObjectFactory.authenticateIRODSAccount(irodsAccount)
+
+		log.info("authenticated successfully")
+		return authResponse
 	}
 }
