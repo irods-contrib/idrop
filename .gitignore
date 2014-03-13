@@ -1,3 +1,5 @@
+*.iml
+.idea
 */.groovy
 .classpath
 */.classpath
@@ -7,6 +9,7 @@
 target
 *.log
 *.war
+out
 Servers
 .DS_Store
 Thumbs.db

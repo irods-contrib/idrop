@@ -4,7 +4,7 @@ grails testing with mocks http://groovy.codehaus.org/Using+MockFor+and+StubFor
 
 spock testing plug-in: https://code.google.com/p/spock/
 
-
+bootstrap snips: http://bootsnipp.com/
 
 
 http://bootsnipp.com/
