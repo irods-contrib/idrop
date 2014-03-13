@@ -23,9 +23,13 @@ angular.module('login')
      * login controller function here
      */
 
-    .controller('loginController', function ($scope) {
-// create a message to display in our view
-        $scope.message = 'Everyone come and see how good I look!';
+    .controller('loginController', function ($scope, $translate) {
+
+
+        $scope.changeLanguage = function (langKey) {
+            $translate.use(langKey);
+        };
+
 
     });
 

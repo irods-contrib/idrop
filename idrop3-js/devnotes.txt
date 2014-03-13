@@ -11,6 +11,8 @@ tools
 
 grunt - http://gruntjs.com/
 
+angular-translate: http://angular-translate.github.io/, http://www.ng-newsletter.com/posts/angular-translate.html
+
 
 
 tutorials and docs

@@ -8,11 +8,11 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login','pascalprecht.translate','angularTranslateApp']);
 
 angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
 
-angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
+angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp','pascalprecht.translate']);
 
 
 angular.module('app')
