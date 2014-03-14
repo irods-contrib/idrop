@@ -11,7 +11,14 @@
 angular.module('angularTranslateApp', ['pascalprecht.translate'])
     .config(function($translateProvider) {
         $translateProvider.translations('en', {
-            LOGIN_HEADLINE: 'Please login to iDrop'
+            HOST: 'Host',
+            LOGIN_HEADLINE: 'Please login to iDrop',
+            NEED_HELP: 'Need help?',
+            PASSWORD: 'Password',
+            PORT: 'Port',
+            SIGN_IN: 'Sign in',
+            USER_NAME: 'User Name',
+            ZONE: 'Zone'
         });
         $translateProvider.preferredLanguage('en');
  });

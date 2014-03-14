@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login','pascalprecht.translate','angularTranslateApp']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login']);
 
 angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
 
@@ -73,7 +73,14 @@ var irodsAccount = function (host, port, zone, user, password, authType, resourc
 angular.module('angularTranslateApp', ['pascalprecht.translate'])
     .config(function($translateProvider) {
         $translateProvider.translations('en', {
-            LOGIN_HEADLINE: 'Please login to iDrop'
+            HOST: 'Host',
+            LOGIN_HEADLINE: 'Please login to iDrop',
+            NEED_HELP: 'Need help?',
+            PASSWORD: 'Password',
+            PORT: 'Port',
+            SIGN_IN: 'Sign in',
+            USER_NAME: 'User Name',
+            ZONE: 'Zone'
         });
         $translateProvider.preferredLanguage('en');
  });
