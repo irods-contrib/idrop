@@ -12,7 +12,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','
 
 angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
 
-angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp','pascalprecht.translate']);
+angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp','authenticationService']);
 
 
 angular.module('app')
@@ -233,12 +233,28 @@ angular.module('login')
      * login controller function here
      */
 
-    .controller('loginController', function ($scope, $translate) {
+    .controller('loginController', function ($scope, $translate, $log) {
 
+        $scope.login = {};
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
+
+        $scope.submitLogin = function() {
+            alert($scope.login.userName);
+            // how to validate?
+            // where do errors go?
+
+            var irodsAccount = irodsAccount(login.host, login.port, login.zone, loginu.serName, login.password, "STANDARD", "");
+            log.info("irodsAccount for host:" + login.host);
+
+            alert (login.host);
+
+
+
+
+        }
 
 
     });

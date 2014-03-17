@@ -12,7 +12,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','
 
 angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
 
-angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp','pascalprecht.translate']);
+angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp','authenticationService']);
 
 
 angular.module('app')

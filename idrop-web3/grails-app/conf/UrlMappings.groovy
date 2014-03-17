@@ -5,6 +5,7 @@ class UrlMappings {
 			} }
 
 		"500"(controller: "error")
-		//	"/"(view:"/index-angularjs.html")
+
+		""(uri:"/index.html")
 	}
 }
