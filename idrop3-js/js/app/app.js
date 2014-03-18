@@ -8,12 +8,13 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login','flash']);
 
 angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
 
-angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp','authenticationService']);
+angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp']);
 
+angular.module('flash', []);
 
 angular.module('app')
 

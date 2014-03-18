@@ -6,6 +6,6 @@ class UrlMappings {
 
 		"500"(controller: "error")
 
-		""(uri:"/index.html")
+//		"/"(uri:"/index.html")
 	}
 }

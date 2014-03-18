@@ -8,12 +8,13 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login','flash']);
 
 angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
 
-angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp','authenticationService']);
+angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp']);
 
+angular.module('flash', []);
 
 angular.module('app')
 
@@ -84,6 +85,31 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
         });
         $translateProvider.preferredLanguage('en');
  });
+
+/**
+ * Flash error processing service
+ * Created by mikeconway on 3/18/14.
+ */
+
+angular.module('flashModule', [])
+.factory("flash", function($rootScope) {
+    var queue = [];
+    var currentMessage = "";
+
+    $rootScope.$on("$routeChangeSuccess", function() {
+        currentMessage = queue.shift() || "";
+    });
+
+    return {
+        setMessage: function(message) {
+            queue.push(message);
+        },
+        getMessage: function() {
+            return currentMessage;
+        }
+    };
+});
+
 
 /**
  *
@@ -230,7 +256,7 @@ angular.module('login')
     })
 
     /*
-     * login controller function here
+     * login controller fçunction here
      */
 
     .controller('loginController', function ($scope, $translate, $log) {
@@ -246,8 +272,8 @@ angular.module('login')
             // how to validate?
             // where do errors go?
 
-            var irodsAccount = irodsAccount(login.host, login.port, login.zone, loginu.serName, login.password, "STANDARD", "");
-            log.info("irodsAccount for host:" + login.host);
+            var actval = irodsAccount(login.host, login.port, login.zone, login.userName, login.password, "STANDARD", "");
+            $log.info("irodsAccount for host:" + actval);
 
             alert (login.host);
 

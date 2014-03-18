@@ -27,3 +27,5 @@ auth with single-page apps: http://frederiknakstad.com/2013/01/21/authentication
 
 large apps - http://briantford.com/blog/huuuuuge-angular-apps.html
 
+flash error message service: http://fdietz.github.io/recipes-with-angular-js/common-user-interface-patterns/displaying-a-flash-notice-failure-message.html
+
