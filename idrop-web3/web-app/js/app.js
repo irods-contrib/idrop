@@ -47,12 +47,12 @@ angular.module('app')
     'use strict';
     // this function is strict...
 }());
-var irodsAccount = function (host, port, zone, user, password, authType, resource) {
+var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
     return {
         host:host,
         port:port,
         zone:zone,
-        user:user,
+        userName:userName,
         password:password,
         authType:authType,
         resource:resource
@@ -154,7 +154,7 @@ angular.module('httpInterceptorModule', [])
                 var status = rejection.status;
 
                 if (status == 401) { // unauthorized - redirect to login again
-                    window.location = "/login";
+                    window.location = "login";
                 } else if (status == 400) { // validation error display errors
                     alert(JSON.stringify(rejection.data.errors)); // here really we need to format this but just showing as alert.
                 } else {
@@ -259,7 +259,7 @@ angular.module('login')
      * login controller fçunction here
      */
 
-    .controller('loginController', function ($scope, $translate, $log) {
+    .controller('loginController', function ($scope, $translate, $log, $http) {
 
         $scope.login = {};
 
@@ -268,22 +268,29 @@ angular.module('login')
         };
 
         $scope.submitLogin = function() {
-            alert($scope.login.userName);
             // how to validate?
             // where do errors go?
 
-            var actval = irodsAccount(login.host, login.port, login.zone, login.userName, login.password, "STANDARD", "");
+            var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, "STANDARD", "");
             $log.info("irodsAccount for host:" + actval);
-
-            alert (login.host);
-
-
-
-
+            var responsePromise = $http.post('login',
+                actval
+            );
+            responsePromise.then(function(response) {
+                $log.info("response:");
+                $log.info(response);
+            }, function(response) {
+                $log.error("error:" + response);
+                alert("error!");
+            });
         }
-
-
     });
+
+
+
+
+
+
 
 
 

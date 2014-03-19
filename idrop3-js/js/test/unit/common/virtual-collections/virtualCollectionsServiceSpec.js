@@ -61,7 +61,7 @@ describe("A suite", function () {
         expect(actual.status).toEqual(200);
     });
 
-    it("list virtual collections should return an exception fro http", function () {
+    it("list virtual collections should return an exception from http", function () {
         var actual;
 
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");

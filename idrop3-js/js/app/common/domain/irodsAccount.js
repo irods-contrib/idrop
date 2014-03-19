@@ -6,12 +6,12 @@
     'use strict';
     // this function is strict...
 }());
-var irodsAccount = function (host, port, zone, user, password, authType, resource) {
+var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
     return {
         host:host,
         port:port,
         zone:zone,
-        user:user,
+        userName:userName,
         password:password,
         authType:authType,
         resource:resource
