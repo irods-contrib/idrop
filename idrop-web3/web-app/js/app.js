@@ -283,6 +283,7 @@ angular.module('login')
         $scope.submitLogin = function() {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, "STANDARD", "");
             $log.info("irodsAccount for host:" + actval);
+<<<<<<< HEAD
             $http({
                 method  : 'POST',
                 url     : 'login',
@@ -304,7 +305,25 @@ angular.module('login')
                 });
         };
 
+=======
+<<<<<<< HEAD
+
+           
+=======
+            var responsePromise = $http.post('login',
+                actval
+            );
+            responsePromise.then(function(response) {
+                $log.info("response:");
+                $log.info(response);
+            }, function(response) {
+                $log.error("error:" + response);
+                alert("error!");
+            });
+        }
+>>>>>>> 72cbe11e32f684c97e5b754d844bca45705e24fb
     });
+>>>>>>> de10e0858d1e47c1ac1b6614da7256481d10cf45
 
 
 
