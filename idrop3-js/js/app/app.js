@@ -34,6 +34,19 @@ angular.module('app')
             .otherwise({redirectTo: "/home"});
     })
 
+/**
+ * Provides a directive to prevent form loading per http://stackoverflow.com/questions/12319758/angularjs-clicking-a-button-within-a-form-causes-page-refresh
+ * use the prevent-default directive on form buttons
+ */
+    .directive('preventDefault', function() {
+        return function(scope, element, attrs) {
+            angular.element(element).bind('click', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+        }
+    })
+
     .controller('appController', function () {
 
 

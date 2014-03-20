@@ -41,7 +41,7 @@ angular.module('httpInterceptorModule', [])
                 var status = rejection.status;
 
                 if (status == 401) { // unauthorized - redirect to login again
-                    window.location = "login";
+                    $location.path("/login");
                 } else if (status == 400) { // validation error display errors
                     alert(JSON.stringify(rejection.data.errors)); // here really we need to format this but just showing as alert.
                 } else {

@@ -23,7 +23,7 @@ angular.module('login')
      * login controller fçunction here
      */
 
-    .controller('loginController', function ($scope, $translate, $log, $http) {
+    .controller('loginController', function ($scope, $translate, $log, $http, $location) {
 
         $scope.login = {};
 
@@ -32,22 +32,29 @@ angular.module('login')
         };
 
         $scope.submitLogin = function() {
-            // how to validate?
-            // where do errors go?
-
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, "STANDARD", "");
             $log.info("irodsAccount for host:" + actval);
-            var responsePromise = $http.post('login',
-                actval
-            );
-            responsePromise.then(function(response) {
-                $log.info("response:");
-                $log.info(response);
-            }, function(response) {
-                $log.error("error:" + response);
-                alert("error!");
-            });
-        }
+            $http({
+                method  : 'POST',
+                url     : 'login',
+                data    : actval,
+                headers : { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
+            })
+                .success(function(data) {
+                    //$log.info(data);
+
+                    if (!data.successful) {
+                        $log.error(data);
+                        // if not successful, bind errors to error variables
+                        //$scope.errorName = data.errors.name;
+                        //$scope.errorSuperhero = data.errors.superheroAlias;
+                    } else {
+                        // if successful, bind success message to message
+                       $location.path("/home");
+                    }
+                });
+        };
+
     });
 
 

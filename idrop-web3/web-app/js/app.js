@@ -34,6 +34,19 @@ angular.module('app')
             .otherwise({redirectTo: "/home"});
     })
 
+/**
+ * Provides a directive to prevent form loading per http://stackoverflow.com/questions/12319758/angularjs-clicking-a-button-within-a-form-causes-page-refresh
+ * use the prevent-default directive on form buttons
+ */
+    .directive('preventDefault', function() {
+        return function(scope, element, attrs) {
+            angular.element(element).bind('click', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+        }
+    })
+
     .controller('appController', function () {
 
 
@@ -154,7 +167,7 @@ angular.module('httpInterceptorModule', [])
                 var status = rejection.status;
 
                 if (status == 401) { // unauthorized - redirect to login again
-                    window.location = "login";
+                    $location.path("/login");
                 } else if (status == 400) { // validation error display errors
                     alert(JSON.stringify(rejection.data.errors)); // here really we need to format this but just showing as alert.
                 } else {
@@ -259,7 +272,7 @@ angular.module('login')
      * login controller fçunction here
      */
 
-    .controller('loginController', function ($scope, $translate, $log, $http) {
+    .controller('loginController', function ($scope, $translate, $log, $http, $location) {
 
         $scope.login = {};
 
@@ -268,22 +281,29 @@ angular.module('login')
         };
 
         $scope.submitLogin = function() {
-            // how to validate?
-            // where do errors go?
-
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, "STANDARD", "");
             $log.info("irodsAccount for host:" + actval);
-            var responsePromise = $http.post('login',
-                actval
-            );
-            responsePromise.then(function(response) {
-                $log.info("response:");
-                $log.info(response);
-            }, function(response) {
-                $log.error("error:" + response);
-                alert("error!");
-            });
-        }
+            $http({
+                method  : 'POST',
+                url     : 'login',
+                data    : actval,
+                headers : { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
+            })
+                .success(function(data) {
+                    //$log.info(data);
+
+                    if (!data.successful) {
+                        $log.error(data);
+                        // if not successful, bind errors to error variables
+                        //$scope.errorName = data.errors.name;
+                        //$scope.errorSuperhero = data.errors.superheroAlias;
+                    } else {
+                        // if successful, bind success message to message
+                       $location.path("/home");
+                    }
+                });
+        };
+
     });
 
 

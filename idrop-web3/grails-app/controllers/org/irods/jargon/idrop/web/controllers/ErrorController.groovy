@@ -14,13 +14,18 @@ class ErrorController {
 	def index() {
 
 		def exception = request.exception.cause
-		def message = ExceptionMapper.mapException(exception)
-		def status = message.status
-
+		
+		def message;
+		if (!exception) {
+			message = ExceptionMapper.mapException(exception)
+		} else {
+			message = "Unknown exception"
+		}
+		
 		log.error("error controller triggered for exception:${exception}")
 
 		response.status = 500
-		render([error: 'an error occurred'] as JSON)
+		render([error: exception] as JSON)
 	}
 }
 

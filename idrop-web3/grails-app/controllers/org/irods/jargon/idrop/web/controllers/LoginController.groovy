@@ -42,7 +42,7 @@ class LoginController extends RestfulController {
 
 		log.info("no validation errors, authenticate")
 
-		IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port, command.userName, command.password, "", command.zone, command.defaultStorageResource)
+		IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port, command.userName, command.password, "", command.zone, "") //FIXME: handle def resc
 
 		AuthResponse authResponse = authenticationService.authenticate(irodsAccount)
 
