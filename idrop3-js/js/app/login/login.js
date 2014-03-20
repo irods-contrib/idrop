@@ -41,7 +41,7 @@ angular.module('login')
                 headers : { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             })
                 .success(function(data) {
-                    //$log.info(data);
+                    $log.info(data);
 
                     if (!data.successful) {
                         $log.error(data);

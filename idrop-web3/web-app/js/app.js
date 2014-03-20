@@ -12,7 +12,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','
 
 angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
 
-angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp']);
+angular.module('login', [ 'httpInterceptorModule','angularTranslateApp']);
 
 angular.module('flash', []);
 
@@ -283,7 +283,6 @@ angular.module('login')
         $scope.submitLogin = function() {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, "STANDARD", "");
             $log.info("irodsAccount for host:" + actval);
-<<<<<<< HEAD
             $http({
                 method  : 'POST',
                 url     : 'login',
@@ -291,7 +290,7 @@ angular.module('login')
                 headers : { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             })
                 .success(function(data) {
-                    //$log.info(data);
+                    $log.info(data);
 
                     if (!data.successful) {
                         $log.error(data);
@@ -305,25 +304,7 @@ angular.module('login')
                 });
         };
 
-=======
-<<<<<<< HEAD
-
-           
-=======
-            var responsePromise = $http.post('login',
-                actval
-            );
-            responsePromise.then(function(response) {
-                $log.info("response:");
-                $log.info(response);
-            }, function(response) {
-                $log.error("error:" + response);
-                alert("error!");
-            });
-        }
->>>>>>> 72cbe11e32f684c97e5b754d844bca45705e24fb
     });
->>>>>>> de10e0858d1e47c1ac1b6614da7256481d10cf45
 
 
 

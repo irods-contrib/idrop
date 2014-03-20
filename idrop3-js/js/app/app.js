@@ -12,7 +12,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','
 
 angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
 
-angular.module('login', ['ngRoute', 'ngResource', 'httpInterceptorModule','angularTranslateApp']);
+angular.module('login', [ 'httpInterceptorModule','angularTranslateApp']);
 
 angular.module('flash', []);
 
