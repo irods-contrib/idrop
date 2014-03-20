@@ -39,7 +39,7 @@ angular.module('login')
             var actval = irodsAccount(login.host, login.port, login.zone, login.userName, login.password, "STANDARD", "");
             $log.info("irodsAccount for host:" + actval);
 
-            alert (login.host);
+           
 
 
 
