@@ -1,6 +1,10 @@
 class UrlMappings {
 
 	static mappings = {
+		
+		"/login"(resource:"login")
+		
+		
 		"/$controller/$action?/$id?"{ constraints { // apply constraints here
 			} }
 
