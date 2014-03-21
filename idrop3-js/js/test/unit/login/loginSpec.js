@@ -36,7 +36,7 @@ describe("login controller suite", function () {
             "successful": true};
 
 
-        $httpBackend.whenPOST('login').respond('200', responseFromAuth);
+        $httpBackend.whenPOST('login').respond(responseFromAuth);
         ctrlScope.submitLogin();
 
         $httpBackend.flush();

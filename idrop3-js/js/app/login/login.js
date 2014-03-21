@@ -23,7 +23,7 @@ angular.module('login')
      * login controller fçunction here
      */
 
-    .controller('loginController', function ($scope, $translate, $log, $http, $location) {
+    .controller('loginController', ['$scope','$translate','$log','$http','$location','identityModel',function ($scope, $translate, $log, $http, $location, identityModel) {
 
         $scope.login = {};
 
@@ -50,12 +50,23 @@ angular.module('login')
                         //$scope.errorSuperhero = data.errors.superheroAlias;
                     } else {
                         // if successful, bind success message to message
+                        identityModel.setLoggedInIdentity(data);
                        $location.path("/home");
                     }
                 });
         };
 
-    });
+    }]).service('identityModel', ['$rootScope', function($rootScope) {
+
+        this.loggedInIdentity = null;
+        this.setLoggedInIdentity = function(identity) {
+
+            this.loggedInIdentity = identity;
+            $rootScope.$broadcast('identityModel::loggedInIdentityUpdated', identity);
+
+        };
+
+    }]);
 
 
 
