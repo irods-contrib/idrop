@@ -305,11 +305,12 @@ angular.module('login')
                 });
         };
 
-    }]).service('identityModel', ['$rootScope', function($rootScope) {
+    }]).service('identityModel', ['$rootScope','$log', function($rootScope, $log) {
 
-        this.loggedInIdentity = null;
+        $rootScope.loggedInIdentity = null;
         this.setLoggedInIdentity = function(identity) {
-            this.loggedInIdentity = identity;
+            log.info("setting identity to:" + identity);
+            $rootScope.loggedInIdentity = identity;
             $rootScope.$broadcast('identityModel::loggedInIdentityUpdated', identity);
         };
 
