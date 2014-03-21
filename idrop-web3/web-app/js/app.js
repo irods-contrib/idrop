@@ -309,10 +309,8 @@ angular.module('login')
 
         this.loggedInIdentity = null;
         this.setLoggedInIdentity = function(identity) {
-
             this.loggedInIdentity = identity;
             $rootScope.$broadcast('identityModel::loggedInIdentityUpdated', identity);
-
         };
 
     }]);

@@ -5,21 +5,20 @@
 
 describe("login controller suite", function () {
 
-    var $http, $httpBackend, $log, $translate, scope, controller;
+    var $http, $httpBackend, $log, $translate, scope, controller, identityModel;
     beforeEach(module('login'));
-    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_ , _$translate_, $rootScope, $controller) {
+    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_ , _$translate_, $rootScope, $controller, _identityModel_) {
         $http = _$http_;
         $log = _$log_;
         $httpBackend = _$httpBackend_;
         $translate = _$translate_;
         ctrlScope = $rootScope.$new();
         controller = $controller('loginController', {$scope: ctrlScope});
+        identityModel = _identityModel_;
     }));
 
 
     it("list virtual collections should return an exception from http", function () {
-        var actual;
-
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
 
         var responseFromAuth = {"authMessage": "",
@@ -40,11 +39,11 @@ describe("login controller suite", function () {
         ctrlScope.submitLogin();
 
         $httpBackend.flush();
-        console.log("actual is:" + actual);
+        expect(responseFromAuth).toEqual(identityModel.loggedInIdentity);
 
        // expect($log.info.logs).toContain(['doing get of virtual collections']);
 
-       // expect(actual.status).toEqual(500);
+      // expect($rootScope.id).toEqual(500);
     });
 
 
