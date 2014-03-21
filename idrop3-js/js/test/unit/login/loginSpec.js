@@ -5,12 +5,15 @@
 
 describe("login controller suite", function () {
 
-    var $http, $httpBackend, $log;
+    var $http, $httpBackend, $log, $translate, scope, controller;
     beforeEach(module('login'));
-    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_, ) {
+    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_ , _$translate_, $rootScope, $controller) {
         $http = _$http_;
         $log = _$log_;
         $httpBackend = _$httpBackend_;
+        $translate = _$translate_;
+        ctrlScope = $rootScope.$new();
+        controller = $controller('loginController', {$scope: ctrlScope});
     }));
 
 
@@ -33,10 +36,8 @@ describe("login controller suite", function () {
             "successful": true};
 
 
-        $httpBackend.whenPOST('/login').respond('200', responseFromAuth);
-        login.submitLogin(irodsAccountVal).then(function (d) {
-            actual = d;
-        });
+        $httpBackend.whenPOST('login').respond('200', responseFromAuth);
+        ctrlScope.submitLogin();
 
         $httpBackend.flush();
         console.log("actual is:" + actual);
