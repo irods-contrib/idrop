@@ -8,7 +8,7 @@
  */
 
 
-angular.module('login')
+angular.module('login', [ 'httpInterceptorModule','angularTranslateApp'])
 
 
     .config(function () {
@@ -16,20 +16,28 @@ angular.module('login')
          * configuration block
          */
 
-
     })
+
 
     /*
      * login controller fçunction here
      */
 
-    .controller('loginController', ['$scope','$translate','$log','$http','$location','identityModel',function ($scope, $translate, $log, $http, $location, identityModel) {
+    .controller('loginController', ['$scope','$translate','$log','$http','$location','identityModel','$rootScope',function ($scope, $translate, $log, $http, $location, identityModel,$rootScope) {
 
         $scope.login = {};
+
+        $scope.loggedInIdentity = identityModel.loggedInIdentity;
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
+
+        $scope.getLoggedInIdentity = function () {
+            return identityModel.loggedInIdentity;
+
+        };
+
 
         $scope.submitLogin = function() {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, "STANDARD", "");
@@ -50,20 +58,16 @@ angular.module('login')
                         //$scope.errorSuperhero = data.errors.superheroAlias;
                     } else {
                         // if successful, bind success message to message
-                        identityModel.setLoggedInIdentity(data);
+                        identityModel.loggedInIdentity = data;
                        $location.path("/home");
                     }
                 });
         };
 
-    }]).service('identityModel', ['$rootScope','$log', function($rootScope, $log) {
+    }]).service('identityModel', ['$log', function($log) {
 
-        $rootScope.loggedInIdentity = null;
-        this.setLoggedInIdentity = function(identity) {
-            log.info("setting identity to:" + identity);
-            $rootScope.loggedInIdentity = identity;
-            $rootScope.$broadcast('identityModel::loggedInIdentityUpdated', identity);
-        };
+        this.loggedInIdentity = null;
+
 
     }]);
 

@@ -6,13 +6,25 @@
 /*
  * Home controller function here
  */
-angular.module('home')
+angular.module('home', ['httpInterceptorModule','login'])
 
-    .controller('homeController', function ($scope) {
+    .controller('homeController',function ($scope, identityModel ,$log) {
+
+        $scope.init = function() {
+            $log.info("getting logged in identity");
+            $scope.loggedInIdentity = identityModel.loggedInIdentity;
+            $log.info("logged in identity....");
+            $log.info($scope.loggedInIdentity);
+
+        };
+
 
         $scope.hideDrives = "false";
         // create a message to display in our view
         $scope.message = 'Everyone come and see how good I look!';
+        $scope.loggedInIdentity = {};
+        $scope.init();
+
         /*
          * Cause the collections panel on the left to display
          */

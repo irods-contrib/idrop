@@ -10,10 +10,6 @@
 
 angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login','flash']);
 
-angular.module('home', ['ngRoute', 'ngResource', 'httpInterceptorModule']);
-
-angular.module('login', [ 'httpInterceptorModule','angularTranslateApp']);
-
 angular.module('flash', []);
 
 angular.module('app')
