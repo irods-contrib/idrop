@@ -219,11 +219,11 @@ angular.module('virtualCollectionsModule', [])
  */
 angular.module('home', ['httpInterceptorModule','login'])
 
-    .controller('homeController',function ($scope, identityModel ,$log) {
+    .controller('homeController',function ($scope, identityService ,$log) {
 
         $scope.init = function() {
             $log.info("getting logged in identity");
-            $scope.loggedInIdentity = identityModel.loggedInIdentity;
+            $scope.loggedInIdentity = identityService.loggedInIdentity;
             $log.info("logged in identity....");
             $log.info($scope.loggedInIdentity);
 
@@ -265,7 +265,7 @@ angular.module('home', ['httpInterceptorModule','login'])
  */
 
 
-angular.module('login', [ 'httpInterceptorModule','angularTranslateApp'])
+angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
 
 
     .config(function () {
@@ -280,48 +280,42 @@ angular.module('login', [ 'httpInterceptorModule','angularTranslateApp'])
      * login controller fçunction here
      */
 
-    .controller('loginController', ['$scope','$translate','$log','$http','$location','identityModel','$rootScope',function ($scope, $translate, $log, $http, $location, identityModel,$rootScope) {
+    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'identityService', function ($scope, $translate, $log, $http, $location, identityService) {
 
         $scope.login = {};
 
-        $scope.loggedInIdentity = identityModel.loggedInIdentity;
+        $scope.loggedInIdentity = identityService.loggedInIdentity;
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
 
         $scope.getLoggedInIdentity = function () {
-            return identityModel.loggedInIdentity;
+            return identityService.loggedInIdentity;
 
         };
 
 
-        $scope.submitLogin = function() {
+        $scope.submitLogin = function () {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, "STANDARD", "");
             $log.info("irodsAccount for host:" + actval);
             $http({
-                method  : 'POST',
-                url     : 'login',
-                data    : actval,
-                headers : { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
+                method: 'POST',
+                url: 'login',
+                data: actval,
+                headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             })
-                .success(function(data) {
+                .success(function (data) {
                     $log.info(data);
 
-                    if (!data.successful) {
-                        $log.error(data);
-                        // if not successful, bind errors to error variables
-                        //$scope.errorName = data.errors.name;
-                        //$scope.errorSuperhero = data.errors.superheroAlias;
-                    } else {
-                        // if successful, bind success message to message
-                        identityModel.loggedInIdentity = data;
-                       $location.path("/home");
-                    }
+
+                    identityService.loggedInIdentity = data;
+                    $location.path("/home");
+
                 });
         };
 
-    }]).service('identityModel', ['$log', function($log) {
+    }]).service('identityService', ['$log', function ($log) {
 
         this.loggedInIdentity = null;
 

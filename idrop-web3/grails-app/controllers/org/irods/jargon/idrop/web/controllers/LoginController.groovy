@@ -10,6 +10,8 @@ import grails.transaction.*
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.idrop.web.authsession.UserSessionContext
+import org.irods.jargon.idrop.web.authsession.UserSessionContext
 import org.irods.jargon.idrop.web.services.AuthenticationService
 
 class LoginController extends RestfulController {
@@ -42,14 +44,22 @@ class LoginController extends RestfulController {
 
 		log.info("no validation errors, authenticate")
 
+        log.info("login values:${command}")
+
 		IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port, command.userName, command.password, "", command.zone, "") //FIXME: handle def resc
 
 		AuthResponse authResponse = authenticationService.authenticate(irodsAccount)
 
 		log.info("auth successful, saving response in session and returning")
 		session.authenticationSession = authResponse
+                
+                                       UserSessionContext userSessionContext = new UserSessionContext()
+                                       userSessionContext.userName = authResponse.authenticatedIRODSAccount.userName
+                                       userSessionContext.zone = authResponse.authenticatedIRODSAccount.zone
+                                       //userSessionContext.defaultStorageResource = authResponse.authenticatedIRODSAccount.defaultStorageResource
+                                       userSessionContext.serverVersion = irodsAccessObjectFactory.getIRODSServerProperties(authResponse.authenticatedIRODSAccount).relVersion
 
-		render authResponse as JSON
+		render userSessionContext as JSON  
 	}
 }
 @grails.validation.Validateable
@@ -69,3 +79,5 @@ class LoginCommand {
 		password(blank: false)
 	}
 }
+
+

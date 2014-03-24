@@ -8,11 +8,11 @@
  */
 angular.module('home', ['httpInterceptorModule','login'])
 
-    .controller('homeController',function ($scope, identityModel ,$log) {
+    .controller('homeController',function ($scope, identityService ,$log) {
 
         $scope.init = function() {
             $log.info("getting logged in identity");
-            $scope.loggedInIdentity = identityModel.loggedInIdentity;
+            $scope.loggedInIdentity = identityService.loggedInIdentity;
             $log.info("logged in identity....");
             $log.info($scope.loggedInIdentity);
 

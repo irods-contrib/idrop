@@ -5,16 +5,16 @@
 
 describe("login controller suite", function () {
 
-    var $http, $httpBackend, $log, $translate, scope, controller, identityModel, rootScope;
+    var $http, $httpBackend, $log, $translate, scope, controller, identityService, rootScope;
     beforeEach(module('login'));
-    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_ , _$translate_, _$rootScope_, $controller, _identityModel_) {
+    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_ , _$translate_, _$rootScope_, $controller, _identityService_) {
         $http = _$http_;
         $log = _$log_;
         $httpBackend = _$httpBackend_;
         $translate = _$translate_;
         ctrlScope = _$rootScope_.$new();
         controller = $controller('loginController', {$scope: ctrlScope});
-        identityModel = _identityModel_;
+        identityService = _identityService_;
         rootScope = _$rootScope_;
     }));
 
@@ -22,25 +22,13 @@ describe("login controller suite", function () {
     it("login should seet identity in root scope", function () {
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
 
-        var responseFromAuth = {"authMessage": "",
-            "authenticatedIRODSAccount": {"anonymousAccount": false,
-                "authenticationScheme": {"enumType": "org.irods.jargon.core.connection.AuthScheme", "name": "STANDARD"},
-                "class": "org.irods.jargon.core.connection.IRODSAccount", "defaultStorageResource": "", "homeDirectory": "", "host": "fedZone1", "password": "test", "port": 1247,
-                "proxyName": "test1", "proxyZone": "fedZone1", "userName": "test1", "zone": "fedZone1"},
-            "authenticatingIRODSAccount": {"anonymousAccount": false, "authenticationScheme": {"enumType": "org.irods.jargon.core.connection.AuthScheme", "name": "STANDARD"},
-                "class": "org.irods.jargon.core.connection.IRODSAccount", "defaultStorageResource": "", "homeDirectory": "",
-                "host": "fedZone1", "password": "test", "port": 1247, "proxyName": "test1", "proxyZone": "fedZone1", "userName": "test1", "zone": "fedZone1"},
-            "challengeValue": "8gjPAWqxRZJVUPGj8nvX5WRfRQzHwo1JoauizL8+lQxT+BWuperl0EwPtTPlNI6ZtuSdt3lXfGZwUF+WC1XZmA==",
-            "class": "org.irods.jargon.core.connection.auth.AuthResponse", "responseProperties": {},
-            "startupResponse": {"apiVersion": "d", "class": "org.irods.jargon.core.connection.StartupResponseData", "cookie": "0", "eirods": false, "reconnAddr": "", "reconnPort": 0, "relVersion": "rods3.3", "status": 0},
-            "successful": true};
-
+        var responseFromAuth = {"defaultStorageResource":null,"serverVersion":"rods3.3","userName":"test1","zone":"test1"};
 
         $httpBackend.whenPOST('login').respond(responseFromAuth);
         ctrlScope.submitLogin();
 
         $httpBackend.flush();
-        expect(responseFromAuth).toEqual(identityModel.loggedInIdentity);
+        expect(responseFromAuth).toEqual(identityService.loggedInIdentity);
 
        // expect($log.info.logs).toContain(['doing get of virtual collections']);
 
