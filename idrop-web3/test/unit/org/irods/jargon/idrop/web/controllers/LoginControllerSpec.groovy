@@ -21,7 +21,7 @@ import spock.lang.Specification
 class LoginControllerSpec extends Specification  {
 
 	void setup() {
-		mockCommandObject(LoginCommand)
+		//mockCommandObject(LoginCommand)
 	}
 
 	void "test authenticate with a invalid credential"() {
@@ -32,8 +32,8 @@ class LoginControllerSpec extends Specification  {
 		}
 
 		controller.authenticationService = authMock.createMock()
-
-		LoginCommand loginCommand = new LoginCommand()
+ 
+		def loginCommand = new LoginCommand() 
 		loginCommand.host = "host"
 		loginCommand.port = 1247
 		loginCommand.zone = "zone"
@@ -41,8 +41,8 @@ class LoginControllerSpec extends Specification  {
 		loginCommand.password = "password"
 		loginCommand.defaultStorageResource = "defaultStorageResource"
 		loginCommand.authType = AuthScheme.STANDARD
-
-
+                                     // loginCommand = loginComand.createMock()
+                                     loginCommand.validate()
 		when:
 		controller.save(loginCommand)
 
@@ -74,7 +74,7 @@ class LoginControllerSpec extends Specification  {
 
 		controller.authenticationService = authMock.createMock()
 
-		LoginCommand loginCommand = new LoginCommand()
+		def loginCommand = mockFor(LoginCommand) 
 		loginCommand.host = "host"
 		loginCommand.port = 1247
 		loginCommand.zone = "zone"
@@ -82,6 +82,8 @@ class LoginControllerSpec extends Specification  {
 		loginCommand.password = "password"
 		loginCommand.defaultStorageResource = "defaultStorageResource"
 		loginCommand.authType = AuthScheme.STANDARD
+                
+                                      loginCommand.validate()
 
 
 		when:

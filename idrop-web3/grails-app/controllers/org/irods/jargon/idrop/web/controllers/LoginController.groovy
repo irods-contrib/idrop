@@ -9,7 +9,7 @@ import grails.transaction.*
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.auth.AuthResponse
-import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.*
 import org.irods.jargon.idrop.web.authsession.UserSessionContext
 import org.irods.jargon.idrop.web.authsession.UserSessionContext
 import org.irods.jargon.idrop.web.services.AuthenticationService
@@ -63,7 +63,7 @@ class LoginController extends RestfulController {
 	}
 }
 @grails.validation.Validateable
-class LoginCommand {
+public class LoginCommand {
 	String userName
 	String password
 	int port
