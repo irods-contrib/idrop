@@ -1,16 +1,17 @@
 package org.irods.jargon.idrop.web.services
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.vircoll.VirtualCollectionContext
+import org.irods.jargon.vircoll.VirtualCollectionContextImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionFactory
+import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
 
 class VirtualCollectionService {
 
 	static transactional = false
+	IRODSAccessObjectFactory irodsAccessObjectFactory
 
-	/**
-	 * Required dependency on the factory that will be used to create necessary services
-	 */
-	VirtualCollectionFactory virtualCollectionFactory
 
 	/**
 	 * Get the default list of virtual collections associated with a user
@@ -26,8 +27,9 @@ class VirtualCollectionService {
 		}
 
 		log.info("irodsAccount: ${irodsAccount}")
+		VirtualCollectionContext context = new VirtualCollectionContextImpl(irodsAccessObjectFactory, irodsAccount)
 
-		VirtualCollectionFactory virtualCollectionFactory = virtualCollectionFactory.instanceVirtualCollectionFactory(irodsAccount)
+		VirtualCollectionFactory virtualCollectionFactory = new VirtualCollectionFactoryImpl(context)
 		return virtualCollectionFactory.listDefaultUserCollections()
 	}
 }
