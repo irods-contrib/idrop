@@ -87,9 +87,9 @@ class LoginControllerSpec extends Specification  {
 		}
   
 		controller.authenticationService = authMock.createMock()		
-		//Map mp = [host: 'host', port: 1247, zone:'zone', userName:'userName', password:'password', defaultStorageResource:'defaultresc', authType:AuthScheme.STANDARD]
+		Map mp = [host: 'host', port: 1247, zone:'zone', userName:'userName', password:'password', defaultStorageResource:'defaultresc', authType:AuthScheme.STANDARD]
 		//controller.metaClass.getParams { -> mp}
-		
+		/*
 		params.host = 'host'
 		params.port = 1247
 		params.zone = 'zone'
@@ -97,7 +97,19 @@ class LoginControllerSpec extends Specification  {
 		params.password = 'password'
 		params.defaultStorageResource = 'defresc'
 		params.authType = AuthScheme.STANDARD
-		
+                */
+               	mockCommandObject(LoginCommand)
+                def loginCommand = new LoginCommand(mp) 
+		/*loginCommand.host = "host"
+		loginCommand.port = 1247
+		loginCommand.zone = "zone"
+		loginCommand.userName = "userName"
+		loginCommand.password = "password"
+		loginCommand.defaultStorageResource = "defaultStorageResource"
+		loginCommand.authType = AuthScheme.STANDARD
+		*/
+                loginCommand.validate()
+        
 		when: "parameters are sent for login with valid"
 	
 		controller.save()

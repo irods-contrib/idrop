@@ -1,6 +1,7 @@
 package org.irods.jargon.idrop.web.services
 
-import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.pub.EnvironmentalInfoAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 
 /**
@@ -9,18 +10,19 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
  *
  */
 class EnvironmentServicesService {
-	
-	static transactional = false
-	
-	IRODSAccessObjectFactory irodsAccessObjectFactory
 
+    static transactional = false
+
+    IRODSAccessObjectFactory irodsAccessObjectFactory
+
+    /**
+    * Get the server properties that describe the current server
+    */
     def getIrodsServerProperties(IRODSAccount irodsAccount) {
-		if (!irodsAccount) throw new IllegalArgumentException("no irodsAccount")
-		
-		log.info("getIrodsServerProperties")
-		EnvironmentalInfoAO environmentalInfoAO
-		
-		
+        if (!irodsAccount) throw new IllegalArgumentException("no irodsAccount")
 
+        log.info("getIrodsServerProperties")
+        EnvironmentalInfoAO environmentalInfoAO = irodsAccessObjectFactory.getEnvironmentalInfoAO(irodsAccount)
+        return environmentalInfoAO.getIRODSServerProperties();
     }
 }

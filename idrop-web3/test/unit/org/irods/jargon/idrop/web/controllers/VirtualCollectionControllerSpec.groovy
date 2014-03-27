@@ -30,8 +30,8 @@ class VirtualCollectionControllerSpec {
         
         */
        
-        def virtualCollectionFactory = mockFor(VirtualCollectionFactory)
-        virtualCollectionFactory.demand
+       // def virtualCollectionFactory = mockFor(VirtualCollectionFactory)
+       // virtualCollectionFactory.demand
         
         def vcServiceMock = mockFor(VirtualCollectionService)
 
