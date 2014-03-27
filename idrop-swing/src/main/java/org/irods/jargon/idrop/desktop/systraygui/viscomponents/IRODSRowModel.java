@@ -41,6 +41,7 @@ public class IRODSRowModel implements RowModel {
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Class getColumnClass(final int i) {
 		switch (i) {

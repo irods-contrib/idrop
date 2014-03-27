@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import org.irods.jargon.core.connection.IRODSAccount;
@@ -21,296 +22,332 @@ import org.irods.jargon.core.pub.UserAO;
 import org.irods.jargon.core.pub.domain.User;
 import org.irods.jargon.core.pub.domain.UserFilePermission;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.PermissionsTableModel;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * @author lisa
  */
 public class AddPermissionsDialog extends javax.swing.JDialog implements
-        ActionListener {
+		ActionListener {
 
-    /**
+	/**
      *
      */
-    private static final long serialVersionUID = 764249725877953976L;
-    private final IRODSFileSystem irodsFileSystem;
-    private final IRODSAccount irodsAccount;
-    private final boolean isCollection;
-    private final String selectedObjectFullPath;
-    private final PermissionsTableModel tableModel;
-    private UserFilePermission permissionToAdd = null;
-    public static org.slf4j.Logger log = LoggerFactory
-            .getLogger(EditMetaDataDialog.class);
+	private static final long serialVersionUID = 764249725877953976L;
+	private final IRODSFileSystem irodsFileSystem;
+	private final IRODSAccount irodsAccount;
+	private final boolean isCollection;
+	private final String selectedObjectFullPath;
+	private final PermissionsTableModel tableModel;
+	private UserFilePermission permissionToAdd = null;
+	public static org.slf4j.Logger log = LoggerFactory
+			.getLogger(EditMetaDataDialog.class);
 
-    /**
-     * Creates new form AddPermissionsDialog
-     */
-    public AddPermissionsDialog(final javax.swing.JDialog parent,
-            final boolean modal,
-            String selectedObjectFullPath,
-            boolean isCollection,
-            final IRODSFileSystem irodsFileSystem,
-            final IRODSAccount irodsAccount,
-            PermissionsTableModel model) {
+	/**
+	 * Creates new form AddPermissionsDialog
+	 */
+	public AddPermissionsDialog(final javax.swing.JDialog parent,
+			final boolean modal, final String selectedObjectFullPath,
+			final boolean isCollection, final IRODSFileSystem irodsFileSystem,
+			final IRODSAccount irodsAccount, final PermissionsTableModel model) {
 
-        super(parent, modal);
-        initComponents();
+		super(parent, modal);
+		initComponents();
 
-        this.irodsFileSystem = irodsFileSystem;
-        this.irodsAccount = irodsAccount;
-        this.isCollection = isCollection;
-        this.selectedObjectFullPath = selectedObjectFullPath;
-        this.tableModel = model;
+		this.irodsFileSystem = irodsFileSystem;
+		this.irodsAccount = irodsAccount;
+		this.isCollection = isCollection;
+		this.selectedObjectFullPath = selectedObjectFullPath;
+		tableModel = model;
 
-        cbPermissionsPermission.addItem("READ");
-        cbPermissionsPermission.addItem("WRITE");
-        cbPermissionsPermission.addItem("OWN");
+		cbPermissionsPermission.addItem("READ");
+		cbPermissionsPermission.addItem("WRITE");
+		cbPermissionsPermission.addItem("OWN");
 
-        List<User> users = null;
-        try {
-            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
-                    .getUserAO(irodsAccount);
-            users = userAO.findAll();
-            Collections.sort(users, new Comparator<User>() {
-                @Override
-                public int compare(final User object1, final User object2) {
-                    return object1.getName().compareTo(object2.getName());
-                }
-            });
+		List<User> users = null;
+		try {
+			UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
+					.getUserAO(irodsAccount);
+			users = userAO.findAll();
+			Collections.sort(users, new Comparator<User>() {
+				@Override
+				public int compare(final User object1, final User object2) {
+					return object1.getName().compareTo(object2.getName());
+				}
+			});
 
-            for (User user : users) {
-                cbPermissionsUserName.addItem(user.getNameWithZone());
-            }
-        } catch (JargonException ex) {
-            log.error("cannot retrieve irods users list", ex);
-            JOptionPane.showMessageDialog(this, "Cannot retrieve list of iRODS users",
-                    "Add Permissions", JOptionPane.PLAIN_MESSAGE);
-        }
-        cbPermissionsPermission.addActionListener(this);
-        cbPermissionsUserName.addActionListener(this);
+			for (User user : users) {
+				cbPermissionsUserName.addItem(user.getNameWithZone());
+			}
+		} catch (JargonException ex) {
+			log.error("cannot retrieve irods users list", ex);
+			JOptionPane.showMessageDialog(this,
+					"Cannot retrieve list of iRODS users", "Add Permissions",
+					JOptionPane.PLAIN_MESSAGE);
+		} finally {
+			irodsFileSystem.closeAndEatExceptions();
+		}
 
-        updateAddButtonStatus();
-    }
+		cbPermissionsPermission.addActionListener(this);
+		cbPermissionsUserName.addActionListener(this);
 
-    private void updateAddButtonStatus() {
-        btnPermissionsAdd
-                .setEnabled((cbPermissionsUserName.getSelectedIndex() >= 0)
-                && (cbPermissionsPermission.getSelectedIndex() >= 0));
-    }
+		updateAddButtonStatus();
+	}
 
-//    public UserFilePermission getPermissionToAdd() {
-//        return permissionToAdd;
-//    }
+	private void updateAddButtonStatus() {
+		btnPermissionsAdd
+				.setEnabled((cbPermissionsUserName.getSelectedIndex() >= 0)
+						&& (cbPermissionsPermission.getSelectedIndex() >= 0));
+	}
 
-    @Override
-    public void actionPerformed(final ActionEvent ae) {
-        updateAddButtonStatus();
-    }
+	// public UserFilePermission getPermissionToAdd() {
+	// return permissionToAdd;
+	// }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed"
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
+	@Override
+	public void actionPerformed(final ActionEvent ae) {
+		updateAddButtonStatus();
+	}
 
-        pnlMain = new javax.swing.JPanel();
-        pnlPermissionEdit = new javax.swing.JPanel();
-        jLabel31 = new javax.swing.JLabel();
-        cbPermissionsUserName = new javax.swing.JComboBox();
-        jLabel32 = new javax.swing.JLabel();
-        cbPermissionsPermission = new javax.swing.JComboBox();
-        jPanel1 = new javax.swing.JPanel();
-        btnPermissionsCancel = new javax.swing.JButton();
-        btnPermissionsAdd = new javax.swing.JButton();
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(300, 200));
+	// <editor-fold defaultstate="collapsed"
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
+		java.awt.GridBagConstraints gridBagConstraints;
 
-        pnlMain.setLayout(new java.awt.BorderLayout());
+		pnlMain = new javax.swing.JPanel();
+		pnlPermissionEdit = new javax.swing.JPanel();
+		jLabel31 = new javax.swing.JLabel();
+		cbPermissionsUserName = new javax.swing.JComboBox();
+		jLabel32 = new javax.swing.JLabel();
+		cbPermissionsPermission = new javax.swing.JComboBox();
+		jPanel1 = new javax.swing.JPanel();
+		btnPermissionsCancel = new javax.swing.JButton();
+		btnPermissionsAdd = new javax.swing.JButton();
 
-        pnlPermissionEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 8, 20, 8));
-        pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
-        pnlPermissionEdit.setLayout(new java.awt.GridBagLayout());
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle(org.openide.util.NbBundle.getMessage(
+				AddPermissionsDialog.class, "AddPermissionsDialog.title")); // NOI18N
+		setPreferredSize(new java.awt.Dimension(300, 200));
 
-        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel31.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.jLabel31.text")); // NOI18N
-        jLabel31.setPreferredSize(new java.awt.Dimension(120, 16));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        pnlPermissionEdit.add(jLabel31, gridBagConstraints);
+		pnlMain.setLayout(new java.awt.BorderLayout());
 
-        cbPermissionsUserName.setMinimumSize(null);
-        cbPermissionsUserName.setPreferredSize(new java.awt.Dimension(100, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlPermissionEdit.add(cbPermissionsUserName, gridBagConstraints);
+		pnlPermissionEdit.setBorder(javax.swing.BorderFactory
+				.createEmptyBorder(16, 8, 20, 8));
+		pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
+		pnlPermissionEdit.setLayout(new java.awt.GridBagLayout());
 
-        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel32.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.jLabel32.text")); // NOI18N
-        jLabel32.setPreferredSize(new java.awt.Dimension(120, 16));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        pnlPermissionEdit.add(jLabel32, gridBagConstraints);
+		jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		jLabel31.setText(org.openide.util.NbBundle.getMessage(
+				AddPermissionsDialog.class,
+				"AddPermissionsDialog.jLabel31.text")); // NOI18N
+		jLabel31.setPreferredSize(new java.awt.Dimension(120, 16));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+		pnlPermissionEdit.add(jLabel31, gridBagConstraints);
 
-        cbPermissionsPermission.setMinimumSize(null);
-        cbPermissionsPermission.setPreferredSize(new java.awt.Dimension(100, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlPermissionEdit.add(cbPermissionsPermission, gridBagConstraints);
+		cbPermissionsUserName.setMinimumSize(null);
+		cbPermissionsUserName.setPreferredSize(new java.awt.Dimension(100, 20));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+		pnlPermissionEdit.add(cbPermissionsUserName, gridBagConstraints);
 
-        pnlMain.add(pnlPermissionEdit, java.awt.BorderLayout.CENTER);
+		jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		jLabel32.setText(org.openide.util.NbBundle.getMessage(
+				AddPermissionsDialog.class,
+				"AddPermissionsDialog.jLabel32.text")); // NOI18N
+		jLabel32.setPreferredSize(new java.awt.Dimension(120, 16));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+		pnlPermissionEdit.add(jLabel32, gridBagConstraints);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 6, 1));
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+		cbPermissionsPermission.setMinimumSize(null);
+		cbPermissionsPermission
+				.setPreferredSize(new java.awt.Dimension(100, 20));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+		pnlPermissionEdit.add(cbPermissionsPermission, gridBagConstraints);
 
-        btnPermissionsCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
-        btnPermissionsCancel.setMnemonic('c');
-        btnPermissionsCancel.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.btnPermissionsCancel.text")); // NOI18N
-        btnPermissionsCancel.setToolTipText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.btnPermissionsCancel.toolTipText")); // NOI18N
-        btnPermissionsCancel.setMaximumSize(null);
-        btnPermissionsCancel.setMinimumSize(null);
-        btnPermissionsCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPermissionsCancelActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnPermissionsCancel);
+		pnlMain.add(pnlPermissionEdit, java.awt.BorderLayout.CENTER);
 
-        btnPermissionsAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-        btnPermissionsAdd.setMnemonic('o');
-        btnPermissionsAdd.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.btnPermissionsAdd.text")); // NOI18N
-        btnPermissionsAdd.setToolTipText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.btnPermissionsAdd.toolTipText")); // NOI18N
-        btnPermissionsAdd.setActionCommand(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.btnPermissionsAdd.actionCommand")); // NOI18N
-        btnPermissionsAdd.setEnabled(false);
-        btnPermissionsAdd.setMaximumSize(null);
-        btnPermissionsAdd.setMinimumSize(null);
-        btnPermissionsAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPermissionsAddActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnPermissionsAdd);
+		jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 6,
+				1));
+		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        pnlMain.add(jPanel1, java.awt.BorderLayout.SOUTH);
+		btnPermissionsCancel
+				.setIcon(new javax.swing.ImageIcon(
+						getClass()
+								.getResource(
+										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+		btnPermissionsCancel.setMnemonic('c');
+		btnPermissionsCancel.setText(org.openide.util.NbBundle.getMessage(
+				AddPermissionsDialog.class,
+				"AddPermissionsDialog.btnPermissionsCancel.text")); // NOI18N
+		btnPermissionsCancel
+				.setToolTipText(org.openide.util.NbBundle
+						.getMessage(AddPermissionsDialog.class,
+								"AddPermissionsDialog.btnPermissionsCancel.toolTipText")); // NOI18N
+		btnPermissionsCancel.setMaximumSize(null);
+		btnPermissionsCancel.setMinimumSize(null);
+		btnPermissionsCancel
+				.addActionListener(new java.awt.event.ActionListener() {
+					@Override
+					public void actionPerformed(
+							final java.awt.event.ActionEvent evt) {
+						btnPermissionsCancelActionPerformed(evt);
+					}
+				});
+		jPanel1.add(btnPermissionsCancel);
 
-        getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
+		btnPermissionsAdd
+				.setIcon(new javax.swing.ImageIcon(
+						getClass()
+								.getResource(
+										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+		btnPermissionsAdd.setMnemonic('o');
+		btnPermissionsAdd.setText(org.openide.util.NbBundle.getMessage(
+				AddPermissionsDialog.class,
+				"AddPermissionsDialog.btnPermissionsAdd.text")); // NOI18N
+		btnPermissionsAdd.setToolTipText(org.openide.util.NbBundle.getMessage(
+				AddPermissionsDialog.class,
+				"AddPermissionsDialog.btnPermissionsAdd.toolTipText")); // NOI18N
+		btnPermissionsAdd
+				.setActionCommand(org.openide.util.NbBundle.getMessage(
+						AddPermissionsDialog.class,
+						"AddPermissionsDialog.btnPermissionsAdd.actionCommand")); // NOI18N
+		btnPermissionsAdd.setEnabled(false);
+		btnPermissionsAdd.setMaximumSize(null);
+		btnPermissionsAdd.setMinimumSize(null);
+		btnPermissionsAdd
+				.addActionListener(new java.awt.event.ActionListener() {
+					@Override
+					public void actionPerformed(
+							final java.awt.event.ActionEvent evt) {
+						btnPermissionsAddActionPerformed(evt);
+					}
+				});
+		jPanel1.add(btnPermissionsAdd);
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+		pnlMain.add(jPanel1, java.awt.BorderLayout.SOUTH);
 
-    private void btnPermissionsAddActionPerformed(
-            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsAddActionPerformed
+		getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
-        String selectedPermission = (String) cbPermissionsPermission
-                .getSelectedItem();
-        String tmpSelectedUser = (String) cbPermissionsUserName
-                .getSelectedItem();
-        String selectedUser = null;
+		pack();
+	}// </editor-fold>//GEN-END:initComponents
 
-        // probably have to remove #zone from user name
-        int idx = tmpSelectedUser.indexOf("#");
-        if (idx >= 0) {
-            selectedUser = tmpSelectedUser.substring(0, idx);
-        } else {
-            selectedUser = tmpSelectedUser;
-        }
+	private void btnPermissionsAddActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsAddActionPerformed
 
-        try {
-            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
-                    .getUserAO(irodsAccount);
-            User user = userAO.findByName(tmpSelectedUser);
+		String selectedPermission = (String) cbPermissionsPermission
+				.getSelectedItem();
+		String tmpSelectedUser = (String) cbPermissionsUserName
+				.getSelectedItem();
+		String selectedUser = null;
 
-            permissionToAdd = new UserFilePermission(selectedUser,
-                    user.getId(),
-                    FilePermissionEnum.valueOf(selectedPermission),
-                    user.getUserType(), user.getZone());
-            CollectionAO collectionAO = irodsFileSystem
-                    .getIRODSAccessObjectFactory().getCollectionAO(
-                    irodsAccount);
-            DataObjectAO dataObjectAO = irodsFileSystem
-                    .getIRODSAccessObjectFactory().getDataObjectAO(
-                    irodsAccount);
+		// probably have to remove #zone from user name
+		int idx = tmpSelectedUser.indexOf("#");
+		if (idx >= 0) {
+			selectedUser = tmpSelectedUser.substring(0, idx);
+		} else {
+			selectedUser = tmpSelectedUser;
+		}
 
-            if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.READ) {
-                if (isCollection) {
-                    collectionAO.setAccessPermissionRead(
-                            permissionToAdd.getUserZone(),
-                            selectedObjectFullPath,
-                            permissionToAdd.getUserName(), true);
-                } else {
-                    dataObjectAO.setAccessPermissionRead(
-                            permissionToAdd.getUserZone(),
-                            selectedObjectFullPath,
-                            permissionToAdd.getUserName());
-                }
-            } else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.WRITE) {
-                if (isCollection) {
-                    collectionAO.setAccessPermissionWrite(
-                            permissionToAdd.getUserZone(),
-                            selectedObjectFullPath,
-                            permissionToAdd.getUserName(), true);
-                } else {
-                    dataObjectAO.setAccessPermissionWrite(
-                            permissionToAdd.getUserZone(),
-                            selectedObjectFullPath,
-                            permissionToAdd.getUserName());
-                }
-            } else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.OWN) {
-                if (isCollection) {
-                    collectionAO.setAccessPermissionOwn(
-                            permissionToAdd.getUserZone(),
-                            selectedObjectFullPath,
-                            permissionToAdd.getUserName(), true);
-                } else {
-                    dataObjectAO.setAccessPermissionOwn(
-                            permissionToAdd.getUserZone(),
-                            selectedObjectFullPath,
-                            permissionToAdd.getUserName());
-                }
-            }
-            
-            tableModel.addRow(user, permissionToAdd.getFilePermissionEnum());
-            
-            JOptionPane.showMessageDialog(this,
-                "Permission Added Successfully",
-                "Add Permissions", JOptionPane.PLAIN_MESSAGE);
-            
-        } catch (JargonException ex) {
-            log.error("cannot add permissions", ex);
-            JOptionPane.showMessageDialog(this, "Permission Add Failed",
-                    "Add Permissions", JOptionPane.PLAIN_MESSAGE);
-        }
+		try {
+			UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
+					.getUserAO(irodsAccount);
+			User user = userAO.findByName(tmpSelectedUser);
 
-        this.dispose();
-    }// GEN-LAST:event_btnPermissionsAddActionPerformed
+			permissionToAdd = new UserFilePermission(selectedUser,
+					user.getId(),
+					FilePermissionEnum.valueOf(selectedPermission),
+					user.getUserType(), user.getZone());
+			CollectionAO collectionAO = irodsFileSystem
+					.getIRODSAccessObjectFactory()
+					.getCollectionAO(irodsAccount);
+			DataObjectAO dataObjectAO = irodsFileSystem
+					.getIRODSAccessObjectFactory()
+					.getDataObjectAO(irodsAccount);
 
-    private void btnPermissionsCancelActionPerformed(
-            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsCancelActionPerformed
-        dispose();
-    }// GEN-LAST:event_btnPermissionsCancelActionPerformed
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnPermissionsAdd;
-    private javax.swing.JButton btnPermissionsCancel;
-    private javax.swing.JComboBox cbPermissionsPermission;
-    private javax.swing.JComboBox cbPermissionsUserName;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel pnlMain;
-    private javax.swing.JPanel pnlPermissionEdit;
-    // End of variables declaration//GEN-END:variables
+			if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.READ) {
+				if (isCollection) {
+					collectionAO.setAccessPermissionRead(
+							permissionToAdd.getUserZone(),
+							selectedObjectFullPath,
+							permissionToAdd.getUserName(), true);
+				} else {
+					dataObjectAO.setAccessPermissionRead(
+							permissionToAdd.getUserZone(),
+							selectedObjectFullPath,
+							permissionToAdd.getUserName());
+				}
+			} else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.WRITE) {
+				if (isCollection) {
+					collectionAO.setAccessPermissionWrite(
+							permissionToAdd.getUserZone(),
+							selectedObjectFullPath,
+							permissionToAdd.getUserName(), true);
+				} else {
+					dataObjectAO.setAccessPermissionWrite(
+							permissionToAdd.getUserZone(),
+							selectedObjectFullPath,
+							permissionToAdd.getUserName());
+				}
+			} else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.OWN) {
+				if (isCollection) {
+					collectionAO.setAccessPermissionOwn(
+							permissionToAdd.getUserZone(),
+							selectedObjectFullPath,
+							permissionToAdd.getUserName(), true);
+				} else {
+					dataObjectAO.setAccessPermissionOwn(
+							permissionToAdd.getUserZone(),
+							selectedObjectFullPath,
+							permissionToAdd.getUserName());
+				}
+			}
+
+			tableModel.addRow(user, permissionToAdd.getFilePermissionEnum());
+
+			JOptionPane.showMessageDialog(this,
+					"Permission Added Successfully", "Add Permissions",
+					JOptionPane.PLAIN_MESSAGE);
+
+		} catch (JargonException ex) {
+			log.error("cannot add permissions", ex);
+			JOptionPane.showMessageDialog(this, "Permission Add Failed",
+					"Add Permissions", JOptionPane.PLAIN_MESSAGE);
+		}
+
+		dispose();
+	}// GEN-LAST:event_btnPermissionsAddActionPerformed
+
+	private void btnPermissionsCancelActionPerformed(
+			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsCancelActionPerformed
+		dispose();
+	}// GEN-LAST:event_btnPermissionsCancelActionPerformed
+		// Variables declaration - do not modify//GEN-BEGIN:variables
+
+	private javax.swing.JButton btnPermissionsAdd;
+	private javax.swing.JButton btnPermissionsCancel;
+	private javax.swing.JComboBox cbPermissionsPermission;
+	private javax.swing.JComboBox cbPermissionsUserName;
+	private javax.swing.JLabel jLabel31;
+	private javax.swing.JLabel jLabel32;
+	private javax.swing.JPanel jPanel1;
+	private javax.swing.JPanel pnlMain;
+	private javax.swing.JPanel pnlPermissionEdit;
+	// End of variables declaration//GEN-END:variables
 }

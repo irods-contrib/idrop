@@ -60,98 +60,21 @@
             <groupId>org.swinglabs</groupId>
             <artifactId>swing-layout</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>3.3.2.GA</version>
             <scope>runtime</scope>
+        </dependency> -->
+        <dependency>
+            <groupId>org.jdesktop</groupId>
+            <artifactId>beansbinding</artifactId>
+            <version>1.2.1</version>
         </dependency>
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo.webstart</groupId>
-                <artifactId>webstart-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jnlp-inline</goal> 
-                            <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <!--
-                 	      Set to true to exclude all transitive dependencies. Default is false.
-                    -->
-                    <excludeTransitive>false</excludeTransitive>
-
-                    <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
-                    <libPath>lib</libPath>
-          
-                    <!-- JNLP generation -->
-                    <jnlp>
-                        <!-- default values -->
-
-                        <inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath>
-                        <inputTemplate>src/main/jnlp/template.vm</inputTemplate>
-                        <!-- relative to inputTemplateResourcePath -->
-                        <outputFile>idrop.jnlp</outputFile> 
-                        <!-- defaults to launch.jnlp -->
-
-                        <!-- used to automatically identify the jar containing the main class. -->
-                        <!-- this is perhaps going to change -->
-                        <mainClass>org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop</mainClass>
-                    </jnlp>
-
-                    <!-- SIGNING -->
-                    <!-- defining this will automatically sign the jar and its dependencies, if necessary -->
-                    <sign>
-                        <keystore>idrop</keystore>
-                        <keypass>123xxx</keypass>  
-                        <!-- we need to override passwords easily from the command line. ${keypass} -->
-                        <storepass>123xxx</storepass> 
-                        <!-- ${storepass} -->
-                        <!--storetype>fillme</storetype-->
-                        <alias>idrop</alias>
-
-                        <!--validity>fillme</validity-->
-
-                        <!-- only required for generating the keystore -->
-                        <dnameCn>irods</dnameCn>
-                        <dnameOu>dice</dnameOu>
-                        <dnameO>uncch</dnameO>
-                        <dnameL>Chapel Hill</dnameL>
-                        <dnameSt>NC</dnameSt>
-                        <dnameC>US</dnameC>
-
-                        <verify>true</verify> 
-                        <!-- verify that the signing operation succeeded -->
-
-                        <!-- KEYSTORE MANAGEMENT -->
-                        <keystoreConfig>
-                            <delete>false</delete> 
-                            <!-- delete the keystore -->
-                            <gen>true</gen>       
-                            <!-- optional shortcut to generate the store. -->
-                        </keystoreConfig>
-                    </sign>
-
-                    <!-- BUILDING PROCESS -->
-
-                    <pack200>true</pack200>
-                    <gzip>true</gzip> 
-                    <!-- default force when pack200 false, true when pack200 selected ?? -->
-
-                    <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
-                    <!-- <outputJarVersions>false</outputJarVersions>-->
-
-                    <!--install>false</install--> 
-                    <!-- not yet supported -->
-                    <verbose>false</verbose>
-
-                </configuration>
-            </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
@@ -162,6 +85,33 @@
                     </archive>
                 </configuration>
             </plugin>
+            
+          <plugin>
+      <artifactId>maven-shade-plugin</artifactId>
+      <version>1.7</version>
+      <executions>
+        <execution>
+          <phase>package</phase>
+          <goals>
+            <goal>shade</goal>
+          </goals>
+          <configuration>
+            <transformers>
+             
+              <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                <resource>META-INF/spring.handlers</resource>
+              </transformer>
+              <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                <resource>META-INF/spring.schemas</resource>
+              </transformer>
+              <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                <resource>META-INF/spring.tooling</resource>
+              </transformer>
+            </transformers>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -170,7 +120,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.irods.jargon.idrop.desktop.systraygui.StartupSequencer</mainClass>
+                            <mainClass>org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -264,5 +214,12 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-    </build>   
+    </build>
+    <repositories>
+        <repository>
+            <id>unknown-jars-temp-repo</id>
+            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+            <url>file:${project.basedir}/lib</url>
+        </repository>
+    </repositories>
 </project>

@@ -5,62 +5,70 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
+
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.QueueManagerService;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.irods.jargon.transfer.dao.domain.TransferItem;
-import org.openide.util.Exceptions;
 
 /**
  *
  * @author lisa
  */
 public class ItemListPagingTableModel extends AbstractTableModel {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7671632111053433938L;
     private final int pageSize;
     private int pageOffset;
     private final Long transferId;
     private List<TransferItem> items;
     private final QueueManagerService qms;
-    
-    public ItemListPagingTableModel(
-            int pageSize,
-            Long transferId,
-            QueueManagerService qms)
-            throws ConveyorExecutionException {
-        
+    private final boolean showSkipped;
+    private final boolean showSuccess;
+
+    public ItemListPagingTableModel(final int pageSize, final Long transferId, final boolean showSuccess, final boolean showSkipped,
+            final QueueManagerService qms) throws ConveyorExecutionException {
+
         this.pageSize = pageSize;
         this.transferId = transferId;
         this.qms = qms;
+        this.showSkipped = showSkipped;
+        this.showSuccess = showSuccess;
         pageOffset = 0;
-        
+
+
         // get list of initial items
-        items = qms.getNextTransferItems(transferId, 0, pageSize);
+        items = qms.getNextTransferItems(transferId, 0, pageSize, showSuccess, showSkipped);
     }
-    
+
     // Return values appropriate for the visible table part.
     @Override
     public int getRowCount() {
-        //return Math.min(pageSize, data.length);
+        // return Math.min(pageSize, data.length);
         return items.size();
     }
-    
+
     @Override
     public int getColumnCount() {
-        return 3;
+        return 5;
     }
-    
+
     // Work only on the visible part of the table.
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-//        int realRow = row + (pageOffset * pageSize);
-//        return data[realRow].getValueAt(col);
+    public Object getValueAt(final int rowIndex, final int columnIndex) {
+        // int realRow = row + (pageOffset * pageSize);
+        // return data[realRow].getValueAt(col);
         if (rowIndex >= getRowCount()) {
-                throw new IdropRuntimeException("row unavailable, out of bounds");
+            throw new IdropRuntimeException("row unavailable, out of bounds");
         }
 
         if (columnIndex >= getColumnCount()) {
-                throw new IdropRuntimeException("column unavailable, out of bounds");
+            throw new IdropRuntimeException("column unavailable, out of bounds");
         }
 
         TransferItem item = items.get(rowIndex);
@@ -69,62 +77,80 @@ public class ItemListPagingTableModel extends AbstractTableModel {
 
         // 0 = source path
         if (columnIndex == 0) {
-                return item.getSourceFileAbsolutePath();
+            return item.getSourceFileAbsolutePath();
         }
 
         // 1 = target path
         if (columnIndex == 1) {
-                return item.getTargetFileAbsolutePath();
+            return item.getTargetFileAbsolutePath();
         }
-        
+
         // 2 = size
         if (columnIndex == 2) {
-                return item.getLengthInBytes();
+            return item.getLengthInBytes();
+        }
+
+        if (columnIndex == 3) {
+            return item.isError();
+        }
+
+
+        if (columnIndex == 4) {
+            return item.isSkipped();
         }
 
         throw new IdropRuntimeException("unknown column");
     }
-    
-    
+
     @Override
-    public String getColumnName(int columnIndex) {
+    public String getColumnName(final int columnIndex) {
         if (columnIndex >= getColumnCount()) {
             throw new IdropRuntimeException("column unavailable, out of bounds");
-	}
+        }
         // translate indexes to object values
 
         // 0 = Source Path
         if (columnIndex == 0) {
-                return "Source Path";
+            return "Source Path";
         }
 
         // 1 = Destination Path
         if (columnIndex == 1) {
-                return "Destination Path";
+            return "Destination Path";
         }
-        
+
         // 2 = Size
         if (columnIndex == 2) {
-                return "Size (bytes)";
+            return "Size (bytes)";
+        }
+
+        // 3 - error
+        if (columnIndex == 3) {
+            return "Error?";
+        }
+
+        // 4 - skipped
+        if (columnIndex == 4) {
+            return "Skipped?";
         }
 
         throw new IdropRuntimeException("unknown column");
     }
-    
+
     @Override
     public Class<?> getColumnClass(final int columnIndex) {
 
-            if (columnIndex >= getColumnCount()) {
-                    throw new IdropRuntimeException("column unavailable, out of bounds");
-            }
-            return (getValueAt(0, columnIndex).getClass());
+        if (columnIndex >= getColumnCount()) {
+            throw new IdropRuntimeException("column unavailable, out of bounds");
+        }
+        return (getValueAt(0, columnIndex).getClass());
     }
-    
+
     @Override
     public boolean isCellEditable(final int row, final int column) {
-            return false;
+        return false;
     }
-    
+
     // Update the page offset
     public void pageDown() throws ConveyorExecutionException {
         // make sure that there might be more data
@@ -133,6 +159,7 @@ public class ItemListPagingTableModel extends AbstractTableModel {
             refreshData();
         }
     }
+
     // Update the page offset.
     public void pageUp() throws ConveyorExecutionException {
         // make sure not going beyond beginning of dataset
@@ -141,10 +168,25 @@ public class ItemListPagingTableModel extends AbstractTableModel {
             refreshData();
         }
     }
-    
-    private void refreshData() throws ConveyorExecutionException {
-        
-        items = qms.getNextTransferItems(transferId, pageOffset, pageSize);
+
+    public void pageFirst() throws ConveyorExecutionException {
+        pageOffset = 0;
+        items = qms.getNextTransferItems(transferId, pageOffset, pageSize, showSuccess, showSkipped);
         fireTableDataChanged();
+    }
+
+    private void refreshData() throws ConveyorExecutionException {
+
+        items = qms.getNextTransferItems(transferId, pageOffset, pageSize, showSuccess, showSkipped);
+        fireTableDataChanged();
+    }
+
+    public TransferItem getTransferItem(int row) {
+        
+        if (row == -1 || row >= this.items.size()) {
+            return null;
+        }
+        
+        return this.items.get(row);
     }
 }

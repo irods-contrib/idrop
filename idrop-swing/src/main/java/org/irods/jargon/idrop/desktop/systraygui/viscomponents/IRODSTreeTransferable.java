@@ -22,8 +22,7 @@ import org.slf4j.LoggerFactory;
  */
 public class IRODSTreeTransferable implements Transferable, ClipboardOwner {
 
-	private List<File> files;
-	private IRODSTree stagingViewTree;
+	private final List<File> files;
 	public static org.slf4j.Logger log = LoggerFactory
 			.getLogger(IRODSTreeTransferable.class);
 	public static DataFlavor irodsTreeDataFlavor = null;
@@ -45,11 +44,13 @@ public class IRODSTreeTransferable implements Transferable, ClipboardOwner {
 		sb.append("staging view tree transferrable:");
 		if (files == null) {
 			sb.append("\n  files is null!");
-		}
 
-		for (File file : files) {
-			sb.append("\n   file:");
-			sb.append(file.getAbsolutePath());
+		} else {
+
+			for (File file : files) {
+				sb.append("\n   file:");
+				sb.append(file.getAbsolutePath());
+			}
 		}
 
 		return sb.toString();
@@ -67,7 +68,6 @@ public class IRODSTreeTransferable implements Transferable, ClipboardOwner {
 			throw new IllegalArgumentException("null stagingViewTree");
 		}
 		files = transferFiles;
-		this.stagingViewTree = stagingViewTree;
 
 	}
 

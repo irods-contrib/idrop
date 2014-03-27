@@ -249,6 +249,11 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 		m_popup = new JPopupMenu();
 		m_action = new AbstractAction() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3798461983034034967L;
+
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				if (m_clickedPath == null) {
@@ -266,6 +271,11 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 		m_popup.add(m_action);
 
 		Action newAction = new AbstractAction("New Folder") {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6916238767471452343L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -302,6 +312,11 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 		m_popup.addSeparator();
 
 		Action a1 = new AbstractAction("Delete") {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3102260953978106503L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -350,6 +365,11 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 
 		Action a2 = new AbstractAction("Rename") {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 4047680258889100143L;
+
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				log.info("renaming node");
@@ -374,6 +394,11 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
 		m_popup.add(a2);
 
 		Action a3 = new AbstractAction("Info") {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6975513402111865496L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {

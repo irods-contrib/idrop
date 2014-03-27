@@ -7,75 +7,72 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
 
 /**
- *
+ * 
  * @author Mike
  */
 public class DashboardAttempt {
-    
-     private  TransferAttempt transferAttempt;
 
-   
-     private float percentWidth = 0;
-     private float percentTotalHeight = 0;
-     private float percentHeightSkipped = 0;
-     private float percentHeightTransferred = 0;
-     private float percentHeightError = 0;
+	private TransferAttempt transferAttempt;
 
-    DashboardAttempt() {
-    }
+	private float percentWidth = 0;
+	private float percentTotalHeight = 0;
+	private float percentHeightSkipped = 0;
+	private float percentHeightTransferred = 0;
+	private float percentHeightError = 0;
 
-    public float getPercentWidth() {
-        return percentWidth;
-    }
+	DashboardAttempt() {
+	}
 
-    public void setPercentWidth(float percentWidth) {
-        this.percentWidth = percentWidth;
-    }
+	public float getPercentWidth() {
+		return percentWidth;
+	}
 
-    public float getPercentTotalHeight() {
-        return percentTotalHeight;
-    }
+	public void setPercentWidth(final float percentWidth) {
+		this.percentWidth = percentWidth;
+	}
 
-    public void setPercentTotalHeight(float percentTotalHeight) {
-        this.percentTotalHeight = percentTotalHeight;
-    }
+	public float getPercentTotalHeight() {
+		return percentTotalHeight;
+	}
 
-    public float getPercentHeightSkipped() {
-        return percentHeightSkipped;
-    }
+	public void setPercentTotalHeight(final float percentTotalHeight) {
+		this.percentTotalHeight = percentTotalHeight;
+	}
 
-    public void setPercentHeightSkipped(float percentHeightSkipped) {
-        this.percentHeightSkipped = percentHeightSkipped;
-    }
+	public float getPercentHeightSkipped() {
+		return percentHeightSkipped;
+	}
 
-    public float getPercentHeightTransferred() {
-        return percentHeightTransferred;
-    }
+	public void setPercentHeightSkipped(final float percentHeightSkipped) {
+		this.percentHeightSkipped = percentHeightSkipped;
+	}
 
-    public void setPercentHeightTransferred(float percentHeightTransferred) {
-        this.percentHeightTransferred = percentHeightTransferred;
-    }
+	public float getPercentHeightTransferred() {
+		return percentHeightTransferred;
+	}
 
-    public float getPercentHeightError() {
-        return percentHeightError;
-    }
+	public void setPercentHeightTransferred(final float percentHeightTransferred) {
+		this.percentHeightTransferred = percentHeightTransferred;
+	}
 
-    public void setPercentHeightError(float percentHeightError) {
-        this.percentHeightError = percentHeightError;
-    }
+	public float getPercentHeightError() {
+		return percentHeightError;
+	}
 
-    public DashboardAttempt(TransferAttempt transferAttempt) {
-        this.transferAttempt = transferAttempt;
-    }
+	public void setPercentHeightError(final float percentHeightError) {
+		this.percentHeightError = percentHeightError;
+	}
 
-    public TransferAttempt getTransferAttempt() {
-        return transferAttempt;
-    }
-    
-     public void setTransferAttempt(TransferAttempt transferAttempt) {
-        this.transferAttempt = transferAttempt;
-    }
-    
-   
-    
+	public DashboardAttempt(final TransferAttempt transferAttempt) {
+		this.transferAttempt = transferAttempt;
+	}
+
+	public TransferAttempt getTransferAttempt() {
+		return transferAttempt;
+	}
+
+	public void setTransferAttempt(final TransferAttempt transferAttempt) {
+		this.transferAttempt = transferAttempt;
+	}
+
 }

@@ -5,6 +5,7 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import javax.swing.table.AbstractTableModel;
+
 import org.irods.jargon.transfer.dao.domain.Transfer;
 import org.irods.jargon.transfer.dao.domain.TransferAttempt;
 
@@ -14,35 +15,41 @@ import org.irods.jargon.transfer.dao.domain.TransferAttempt;
  */
 public class TransferAttemptTableModel extends AbstractTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8820057666149558376L;
+
     @Override
-    public String getColumnName(int i) {
-       
+    public String getColumnName(final int i) {
+
         switch (i) {
             case 0:
                 return "Start";
             case 1:
-               return "End";
+                return "End";
             case 2:
-               return "Skipped";
+                return "Skipped";
             case 3:
                 return "Transferred";
             case 4:
-               return "Errors";
+                return "Errors";
             case 5:
-               return "Message";
+                return "Message";
             default:
                 return "";
         }
     }
-
     private final Transfer transfer;
 
     public TransferAttemptTableModel(final Transfer transfer) {
         if (transfer == null) {
-            throw new IllegalArgumentException("null transfer");
-        }
+            this.transfer = new Transfer();
 
-        this.transfer = transfer;
+        } else {
+
+            this.transfer = transfer;
+        }
 
     }
 
@@ -55,14 +62,11 @@ public class TransferAttemptTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return 6;
     }
-    
-    
 
     @Override
-    public Object getValueAt(int row, int col) {
+    public Object getValueAt(final int row, final int col) {
 
         // start end status total_skipped, total_transferred, total_error
-
 
         if (row > getRowCount() - 1) {
             throw new IllegalArgumentException("no row at given index");
@@ -74,25 +78,29 @@ public class TransferAttemptTableModel extends AbstractTableModel {
             case 1:
                 return transfer.getTransferAttempts().get(row).getAttemptEnd();
             case 2:
-                return transfer.getTransferAttempts().get(row).getTotalFilesSkippedSoFar();
+                return transfer.getTransferAttempts().get(row)
+                        .getTotalFilesSkippedSoFar();
             case 3:
-                return transfer.getTransferAttempts().get(row).getTotalFilesTransferredSoFar() - transfer.getTransferAttempts().get(row).getTotalFilesSkippedSoFar();
+                return transfer.getTransferAttempts().get(row)
+                        .getTotalFilesTransferredSoFar()
+                        - transfer.getTransferAttempts().get(row)
+                        .getTotalFilesSkippedSoFar();
             case 4:
-                return transfer.getTransferAttempts().get(row).getTotalFilesErrorSoFar();
+                return transfer.getTransferAttempts().get(row)
+                        .getTotalFilesErrorSoFar();
             case 5:
                 return transfer.getTransferAttempts().get(row).getErrorMessage();
             default:
                 return null;
         }
     }
-    
+
     public TransferAttempt getTransferAttemptAtRow(final int i) {
         if (i < 0 || i > transfer.getTransferAttempts().size() - 1) {
             throw new IllegalArgumentException("no transfer at given index");
         }
-        
+
         return transfer.getTransferAttempts().get(i);
-        
+
     }
-    
 }

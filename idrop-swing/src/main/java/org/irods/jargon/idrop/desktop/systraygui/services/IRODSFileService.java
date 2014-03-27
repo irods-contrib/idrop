@@ -222,7 +222,9 @@ public class IRODSFileService {
 			throw new IdropException("exception processing rule", ex);
 		} finally {
 			try {
-				irodsFileSystem.close(irodsAccount);
+				if (irodsFileSystem != null) {
+					irodsFileSystem.close(irodsAccount);
+				}
 			} catch (JargonException ex) {
 				Logger.getLogger(IRODSFileService.class.getName()).log(
 						Level.SEVERE, null, ex);

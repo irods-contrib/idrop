@@ -5,7 +5,9 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
+
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
@@ -13,217 +15,222 @@ import org.irods.jargon.transfer.dao.domain.GridAccount;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * @author lisa
  */
 public class GridInfoTableModel extends AbstractTableModel {
-    
-    public static org.slf4j.Logger log = LoggerFactory.getLogger(GridInfoTableModel.class);
 
-    @Override
-    public Class<?> getColumnClass(final int columnIndex) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6492635838872419711L;
+	public static org.slf4j.Logger log = LoggerFactory
+			.getLogger(GridInfoTableModel.class);
 
-        if (columnIndex >= getColumnCount()) {
-            throw new IdropRuntimeException("column unavailable, out of bounds");
-        }
+	@Override
+	public Class<?> getColumnClass(final int columnIndex) {
 
-        // translate indexes to object values
+		if (columnIndex >= getColumnCount()) {
+			throw new IdropRuntimeException("column unavailable, out of bounds");
+		}
 
-        // 0 = host
+		// translate indexes to object values
 
-        if (columnIndex == 0) {
-            return String.class;
-        }
+		// 0 = host
 
-        // 2 = port - Mike says we don't need this
+		if (columnIndex == 0) {
+			return String.class;
+		}
 
-//        if (columnIndex == 2) {
-//            return int.class;
-//        }
-        
-        // 1 = zone
-        
-        if (columnIndex == 1) {
-            return String.class;
-        }
-        
-        // 2 = user name
+		// 2 = port - Mike says we don't need this
 
-        if (columnIndex == 2) {
-            return String.class;
-        }
+		// if (columnIndex == 2) {
+		// return int.class;
+		// }
 
-        throw new IdropRuntimeException("unknown column");
-    }
+		// 1 = zone
 
-    @Override
-    public String getColumnName(final int columnIndex) {
-        if (columnIndex >= getColumnCount()) {
-            throw new IdropRuntimeException("column unavailable, out of bounds");
-        }
+		if (columnIndex == 1) {
+			return String.class;
+		}
 
-        // translate indexes to object values
+		// 2 = user name
 
-        // 0 = Host
+		if (columnIndex == 2) {
+			return String.class;
+		}
 
-        if (columnIndex == 0) {
-            return "Host";
-        }
+		throw new IdropRuntimeException("unknown column");
+	}
 
-        // 2 = Port
+	@Override
+	public String getColumnName(final int columnIndex) {
+		if (columnIndex >= getColumnCount()) {
+			throw new IdropRuntimeException("column unavailable, out of bounds");
+		}
 
-//        if (columnIndex == 2) {
-//            return "Port";
-//        }
-        
-        // 1 = Zone
+		// translate indexes to object values
 
-        if (columnIndex == 1) {
-            return "Zone";
-        }
-        
-         // 2 = User
+		// 0 = Host
 
-        if (columnIndex == 2) {
-            return "User Name";
-        }
+		if (columnIndex == 0) {
+			return "Host";
+		}
 
-        throw new IdropRuntimeException("unknown column");
-    }
-    private List<GridAccount> gridAccounts = null;
+		// 2 = Port
 
-    public GridInfoTableModel(
-            final List<GridAccount> gridAccounts) {
-        if (gridAccounts == null) {
-            throw new IdropRuntimeException("null gridAccounts");
-        }
+		// if (columnIndex == 2) {
+		// return "Port";
+		// }
 
-        this.gridAccounts = gridAccounts;
-    }
+		// 1 = Zone
 
-    @Override
-    public int getRowCount() {
-        return gridAccounts.size();
-    }
+		if (columnIndex == 1) {
+			return "Zone";
+		}
 
-    @Override
-    public int getColumnCount() {
-        return 3;
-    }
+		// 2 = User
 
-    @Override
-    public Object getValueAt(final int rowIndex, final int columnIndex) {
+		if (columnIndex == 2) {
+			return "User Name";
+		}
 
-        if (rowIndex >= getRowCount()) {
-            throw new IdropRuntimeException("row unavailable, out of bounds");
-        }
+		throw new IdropRuntimeException("unknown column");
+	}
 
-        if (columnIndex >= getColumnCount()) {
-            throw new IdropRuntimeException("column unavailable, out of bounds");
-        }
+	private List<GridAccount> gridAccounts = null;
 
-        GridAccount gridAccount = gridAccounts.get(rowIndex);
+	public GridInfoTableModel(final List<GridAccount> gridAccounts) {
+		if (gridAccounts == null) {
+			throw new IdropRuntimeException("null gridAccounts");
+		}
 
-        // translate indexes to object values
+		this.gridAccounts = gridAccounts;
+	}
 
-        // 0 = host
+	@Override
+	public int getRowCount() {
+		return gridAccounts.size();
+	}
 
-        if (columnIndex == 0) {
-            return gridAccount.getHost();
-        }
+	@Override
+	public int getColumnCount() {
+		return 3;
+	}
 
-        // 2 = port
+	@Override
+	public Object getValueAt(final int rowIndex, final int columnIndex) {
 
-//        if (columnIndex == 2) {
-//            return gridAccount.getPort();
-//        }
-        
-        // 1 = zone
+		if (rowIndex >= getRowCount()) {
+			throw new IdropRuntimeException("row unavailable, out of bounds");
+		}
 
-        if (columnIndex == 1) {
-            return gridAccount.getZone();
-        }
-        
-        // 2 = user name
+		if (columnIndex >= getColumnCount()) {
+			throw new IdropRuntimeException("column unavailable, out of bounds");
+		}
 
-        if (columnIndex == 2) {
-            return gridAccount.getUserName();
-        }
+		GridAccount gridAccount = gridAccounts.get(rowIndex);
 
-        throw new IdropRuntimeException("unknown column");
+		// translate indexes to object values
 
-    }
-    
-    public void addRow(IRODSAccount irodsAccount) throws JargonException {
-        GridAccount gridAccount = new GridAccount();
-        
-        if (! isIrodsAccountValid(irodsAccount)) {
-            throw new JargonException("invalid grid account parameters");
-        }
-        
-        gridAccount.setUserName(irodsAccount.getUserName());
-        gridAccount.setHost(irodsAccount.getHost());
-//        gridAccount.setPort(irodsAccount.getPort());
-        gridAccount.setZone(irodsAccount.getZone());
-//        gridAccount.setPassword(irodsAccount.getPassword());
-//        gridAccount.setDefaultResource(irodsAccount.getDefaultStorageResource());
-        
-        gridAccounts.add(gridAccount);
-        
-        fireTableDataChanged();
-    }
-    
-    public void deleteRow(int selectedRow) throws JargonException {
-        gridAccounts.remove(selectedRow);
-        fireTableDataChanged();
-    }
-    
-    public void deleteRow(IRODSAccount irodsAccount) throws JargonException {
-        
-        if (! isIrodsAccountValid(irodsAccount)) {
-            throw new JargonException("invalid grid account parameters");
-        }
-        
-        int idx = 0;
-        for (GridAccount acct: gridAccounts) {
-            if ((irodsAccount.getUserName().equals(acct.getUserName()) &&
-                (irodsAccount.getHost().equals(acct.getHost())) &&
-                //(irodsAccount.getPort() == acct.getPort()) &&
-                (irodsAccount.getZone().equals(acct.getZone())))) {
-                
-                gridAccounts.remove(idx);
-                break;
-            }
-            idx++;
-        }
+		// 0 = host
 
-        fireTableDataChanged();
-    }
-    
-    private boolean isIrodsAccountValid(IRODSAccount irodsAccount) {
-        
-        String user = irodsAccount.getUserName();
-        String host = irodsAccount.getHost();
-        //int port = irodsAccount.getPort();
-        String zone = irodsAccount.getZone();
-        
-        if ((user == null) || (user.isEmpty()) ||
-            (host == null) || (host.isEmpty()) ||
-            //(port <= 0) ||
-            (zone == null) || zone.isEmpty()) {
-            
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-    
-    public GridAccount getRow(int row) {
-        if (row < 0) {
-            return null;
-        }
-        return this.gridAccounts.get(row);
-    }
-    
+		if (columnIndex == 0) {
+			return gridAccount.getHost();
+		}
+
+		// 2 = port
+
+		// if (columnIndex == 2) {
+		// return gridAccount.getPort();
+		// }
+
+		// 1 = zone
+
+		if (columnIndex == 1) {
+			return gridAccount.getZone();
+		}
+
+		// 2 = user name
+
+		if (columnIndex == 2) {
+			return gridAccount.getUserName();
+		}
+
+		throw new IdropRuntimeException("unknown column");
+
+	}
+
+	public void addRow(final IRODSAccount irodsAccount) throws JargonException {
+		GridAccount gridAccount = new GridAccount();
+
+		if (!isIrodsAccountValid(irodsAccount)) {
+			throw new JargonException("invalid grid account parameters");
+		}
+
+		gridAccount.setUserName(irodsAccount.getUserName());
+		gridAccount.setHost(irodsAccount.getHost());
+		// gridAccount.setPort(irodsAccount.getPort());
+		gridAccount.setZone(irodsAccount.getZone());
+		// gridAccount.setPassword(irodsAccount.getPassword());
+		// gridAccount.setDefaultResource(irodsAccount.getDefaultStorageResource());
+
+		gridAccounts.add(gridAccount);
+
+		fireTableDataChanged();
+	}
+
+	public void deleteRow(final int selectedRow) throws JargonException {
+		gridAccounts.remove(selectedRow);
+		fireTableDataChanged();
+	}
+
+	public void deleteRow(final IRODSAccount irodsAccount)
+			throws JargonException {
+
+		if (!isIrodsAccountValid(irodsAccount)) {
+			throw new JargonException("invalid grid account parameters");
+		}
+
+		int idx = 0;
+		for (GridAccount acct : gridAccounts) {
+			if ((irodsAccount.getUserName().equals(acct.getUserName())
+					&& (irodsAccount.getHost().equals(acct.getHost())) &&
+			// (irodsAccount.getPort() == acct.getPort()) &&
+			(irodsAccount.getZone().equals(acct.getZone())))) {
+
+				gridAccounts.remove(idx);
+				break;
+			}
+			idx++;
+		}
+
+		fireTableDataChanged();
+	}
+
+	private boolean isIrodsAccountValid(final IRODSAccount irodsAccount) {
+
+		String user = irodsAccount.getUserName();
+		String host = irodsAccount.getHost();
+		// int port = irodsAccount.getPort();
+		String zone = irodsAccount.getZone();
+
+		if ((user == null) || (user.isEmpty()) || (host == null)
+				|| (host.isEmpty()) ||
+				// (port <= 0) ||
+				(zone == null) || zone.isEmpty()) {
+
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public GridAccount getRow(final int row) {
+		if (row < 0) {
+			return null;
+		}
+		return gridAccounts.get(row);
+	}
+
 }
