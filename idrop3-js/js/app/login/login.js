@@ -27,7 +27,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
 
         $scope.login = {};
 
-        $scope.loggedInIdentity = identityService.loggedInIdentity;
+        $scope.loggedInIdentity = identityService.getlLoggedInIdentity();
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
@@ -52,7 +52,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
                     $log.info(data);
 
 
-                    identityService.loggedInIdentity = data;
+                    identityService.setLoggedInIdentity(data);
                     $location.path("/home");
 
                 });
@@ -60,8 +60,18 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
 
     }]).service('identityService', ['$log', function ($log) {
 
+
+        // see http://joelhooks.com/blog/2013/04/24/modeling-data-and-state-in-your-angularjs-application/
+
         this.loggedInIdentity = null;
 
+        this.getlLoggedInIdentity = function() {
+          return this.loggedInIdentity;
+        };
+
+        this.setLoggedInIdentity = function(identity) {
+          this.loggedInIdentity = identity;
+        };
 
     }]);
 

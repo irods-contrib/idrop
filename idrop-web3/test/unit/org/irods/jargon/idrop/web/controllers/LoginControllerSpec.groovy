@@ -65,12 +65,9 @@ class LoginControllerSpec extends Specification  {
 		AuthResponse authResponse = new AuthResponse()
 		authResponse.authenticatedIRODSAccount = testAcct
 		authResponse.authenticatingIRODSAccount = testAcct
-		//		authResponse.irodsServerProperties = irodsServerProps
-
 		authMock.demand.authenticate { irodsAccount -> return authResponse }
 
 		controller.authenticationService = authMock.createMock()
-
 
 		IRODSServerProperties irodsServerProperties = IRODSServerProperties.instance(IRODSServerProperties.IcatEnabled.ICAT_ENABLED, 100, "v1", "api1", "zone")
 
@@ -79,26 +76,10 @@ class LoginControllerSpec extends Specification  {
 		controller.environmentServicesService = envMock.createMock()
 
 		Map mp = [host: 'host', port: 1247, zone:'zone', userName:'userName', password:'password', defaultStorageResource:'defaultresc', authType:AuthScheme.STANDARD]
-		//controller.metaClass.getParams { -> mp}
-		/*
-		 params.host = 'host'
-		 params.port = 1247
-		 params.zone = 'zone'
-		 params.userName = 'user'
-		 params.password = 'password'
-		 params.defaultStorageResource = 'defresc'
-		 params.authType = AuthScheme.STANDARD
-		 */
+
 		mockCommandObject(LoginCommand)
 		def loginCommand = new LoginCommand(mp)
-		/*loginCommand.host = "host"
-		 loginCommand.port = 1247
-		 loginCommand.zone = "zone"
-		 loginCommand.userName = "userName"
-		 loginCommand.password = "password"
-		 loginCommand.defaultStorageResource = "defaultStorageResource"
-		 loginCommand.authType = AuthScheme.STANDARD
-		 */
+
 		loginCommand.validate()
 
 		when: "parameters are sent for login with valid"

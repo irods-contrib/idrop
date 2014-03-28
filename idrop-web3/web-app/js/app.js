@@ -223,7 +223,7 @@ angular.module('home', ['httpInterceptorModule','login'])
 
         $scope.init = function() {
             $log.info("getting logged in identity");
-            $scope.loggedInIdentity = identityService.loggedInIdentity;
+            $scope.loggedInIdentity = identityService.getLoggedInIdentity();
             $log.info("logged in identity....");
             $log.info($scope.loggedInIdentity);
 
@@ -284,7 +284,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
 
         $scope.login = {};
 
-        $scope.loggedInIdentity = identityService.loggedInIdentity;
+        $scope.loggedInIdentity = identityService.getlLoggedInIdentity();
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
@@ -309,7 +309,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
                     $log.info(data);
 
 
-                    identityService.loggedInIdentity = data;
+                    identityService.setLoggedInIdentity(data);
                     $location.path("/home");
 
                 });
@@ -317,8 +317,19 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
 
     }]).service('identityService', ['$log', function ($log) {
 
-        this.loggedInIdentity = null;
+        var identityService = {};
 
+        identityService.loggedInIdentity= null;
+
+        identityService.getLoggedInIdentity = function () {
+            return identityService.getLoggedInIdentity();
+        };
+
+        identityService.setLoggedInIdentity = function (loggedInIdentity) {
+             identityService.loggedInIdentity = loggedInIdentity;
+        };
+
+        return identityService;
 
     }]);
 

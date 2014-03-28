@@ -12,7 +12,7 @@ angular.module('home', ['httpInterceptorModule','login'])
 
         $scope.init = function() {
             $log.info("getting logged in identity");
-            $scope.loggedInIdentity = identityService.loggedInIdentity;
+            $scope.loggedInIdentity = identityService.getLoggedInIdentity();
             $log.info("logged in identity....");
             $log.info($scope.loggedInIdentity);
 
