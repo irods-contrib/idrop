@@ -1,4 +1,4 @@
-package org.irods.jargon.idrop.web.filters
+
 
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 
@@ -16,8 +16,10 @@ class ConnectionClosingFilterFilters {
 			before = {
 			}
 			after = { Map model ->
-
+				log.info("closing conn in filter!")
+				
 				irodsAccessObjectFactory.closeSessionAndEatExceptions()
+				return true
 			}
 			afterView = { Exception e ->
 			}

@@ -25,11 +25,9 @@ describe("Tests of User Services", function () {
 
     it("get of logged in identity from server should return data", function () {
         var actual;
-
-        var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
         var uid = mockUserIdentity();
-        $httpBackend.whenGET('/user').respond(uid);
-        userService.getLoggedInIdentity(irodsAccountVal).then(function (d) {
+        $httpBackend.whenGET('user').respond(uid);
+        userService.retrieveLoggedInIdentity().then(function (d) {
             actual = d;
         });
 
@@ -41,7 +39,5 @@ describe("Tests of User Services", function () {
         expect(actual.data).toEqual(uid);
         expect(actual.status).toEqual(200);
     });
-
-
 
 });

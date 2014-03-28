@@ -9,7 +9,7 @@ angular.module('virtualCollectionsModule', [])
         return {
             listUserVirtualCollections: function () {
                 $log.info("doing get of virtual collections");
-                var promise = $http({method: 'GET', url: '/virtualCollections'});
+                var promise = $http({method: 'GET', url: 'virtualCollection'});
                 return promise;
             }
         }

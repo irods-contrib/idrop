@@ -39,7 +39,7 @@ describe("Tests of virtual collections", function () {
 
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
         var vc = mockAVc();
-        $httpBackend.whenGET('/virtualCollections').respond(vc);
+        $httpBackend.whenGET('virtualCollection').respond(vc);
         virtualCollectionsService.listUserVirtualCollections().then(function (d) {
             actual = d;
         });
@@ -57,7 +57,7 @@ describe("Tests of virtual collections", function () {
         var actual;
 
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
-        $httpBackend.whenGET('/virtualCollections').respond('500',"error");
+        $httpBackend.whenGET('virtualCollection').respond('500',"error");
         virtualCollectionsService.listUserVirtualCollections(irodsAccountVal).then(function (d) {
             actual = d;
         });

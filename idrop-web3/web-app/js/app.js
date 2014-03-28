@@ -1,3 +1,50 @@
+/*
+ Central module registry for the entire application
+ */
+
+
+(function () {
+    'use strict';
+    // this function is strict...
+}());
+
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash', 'userServiceModule']);
+
+angular.module('flash', []);
+
+angular.module('app')
+
+    .config(function ($routeProvider) {
+        // route for the home page
+        $routeProvider.when('/home', {
+            templateUrl: 'assets/home/home-angularjs.html',
+            controller: 'homeController'
+        })
+
+            // route for the login page
+            .when('/login', {
+                templateUrl: 'assets/home/login-angularjs.html',
+                controller: 'loginController'
+            }).otherwise({redirectTo: "/home"});
+    })
+
+/**
+ * Provides a directive to prevent form loading per http://stackoverflow.com/questions/12319758/angularjs-clicking-a-button-within-a-form-causes-page-refresh
+ * use the prevent-default directive on form buttons
+ */.directive('preventDefault', function () {
+        return function (scope, element, attrs) {
+            angular.element(element).bind('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+        }
+    })
+
+    .controller('appController', function () {
+
+
+    });
+
 /**
  * Represents an iRODS account identity for login
  * Created by Mike on 2/28/14.
@@ -110,6 +157,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 var status = rejection.status;
 
                 if (status == 401) { // unauthorized - redirect to login again
+                    alert("redirect to login === remove me later!!!!!");
                     $location.path("/login");
                 } else if (status == 400) { // validation error display errors
                     alert(JSON.stringify(rejection.data.errors)); // here really we need to format this but just showing as alert.
@@ -148,13 +196,17 @@ angular.module('userServiceModule', [])
              * Get stored identity value
              * @returns UserIdentity JSON
              */
-            getLoggedInIdentity: function () {
+            retrieveLoggedInIdentity: function () {
 
                 if (loggedInIdentity) {
-                    return loggedInIdentity;
+                    var deferred = $q.defer();
+                    // Place the fake return object here
+                    deferred.resolve(loggedInIdentity);
+                    return deferred.promise;
+
                 }
                 $log.info("doing get of userIdentity from server");
-                var promise = $http({method: 'GET', url: '/user'});
+                var promise = $http({method: 'GET', url: 'user'});
                 return promise;
             },
 
@@ -172,54 +224,6 @@ angular.module('userServiceModule', [])
     }]);
 
 
-/*
- Central module registry for the entire application
- */
-
-
-(function () {
-    'use strict';
-    // this function is strict...
-}());
-
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash', 'userModule']);
-
-angular.module('flash', []);
-
-angular.module('app')
-
-
-    .config(function ($routeProvider) {
-        // route for the home page
-        $routeProvider.when('/home', {
-            templateUrl: 'assets/home/home-angularjs.html',
-            controller: 'homeController'
-        })
-
-            // route for the login page
-            .when('/login', {
-                templateUrl: 'assets/home/login-angularjs.html',
-                controller: 'loginController'
-            }).otherwise({redirectTo: "/home"});
-    })
-
-/**
- * Provides a directive to prevent form loading per http://stackoverflow.com/questions/12319758/angularjs-clicking-a-button-within-a-form-causes-page-refresh
- * use the prevent-default directive on form buttons
- */.directive('preventDefault', function () {
-        return function (scope, element, attrs) {
-            angular.element(element).bind('click', function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            });
-        }
-    })
-
-    .controller('appController', function () {
-
-
-    });
-
 /**
  * Service providing access to virtual collections
  */
@@ -231,7 +235,7 @@ angular.module('virtualCollectionsModule', [])
         return {
             listUserVirtualCollections: function () {
                 $log.info("doing get of virtual collections");
-                var promise = $http({method: 'GET', url: '/virtualCollections'});
+                var promise = $http({method: 'GET', url: 'virtualCollection'});
                 return promise;
             }
         }
@@ -249,22 +253,25 @@ angular.module('virtualCollectionsModule', [])
  */
 angular.module('home', ['httpInterceptorModule','userServiceModule', 'angularTranslateApp','virtualCollectionsModule'])
 
-    .controller('homeController', ['$scope', '$translate', '$log', '$http', '$location', 'userService','virtualCollectionsService',function ($scope, $translate, $log, $http, $location,userService, virtualCollectionsService) {
+    .controller('homeController', ['$scope', '$translate', '$log', '$http', '$location', 'userService','virtualCollectionsService',function ($scope, $translate, $log, $http, $location, userService, virtualCollectionsService) {
 
-        $scope.init = function () {
+
+
             $log.info("getting logged in identity");
-            $scope.loggedInIdentity = userService.getLoggedInIdentity();
+            userService.retrieveLoggedInIdentity().then(function(identity){
+                $scope.loggedInIdentity = identity;
+                $log.info("identity is:{}", identity);
+
+            });
             $log.info("logged in identity....");
             $log.info($scope.loggedInIdentity);
             $log.info("getting virtual colls");
             $scope.virtualCollections = virtualCollectionsService.listUserVirtualCollections()
-        };
+
 
         $scope.hideDrives = "false";
         // create a message to display in our view
-        $scope.loggedInIdentity = {};
-        $scope.virtualCollections = {};
-        $scope.init();
+
 
         /*
          * Cause the collections panel on the left to display

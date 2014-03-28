@@ -77,9 +77,11 @@ log4j = {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
 
-	info	'org.irods' 
-    error  'org.codehaus.groovy.grails.web.servlet',        // controllers
-           'org.codehaus.groovy.grails.web.pages',          // GSP
+	info	'org',
+			'org.codehaus.groovy.grails.web.servlet',   
+			'org.irods' 
+     // 'org.codehaus.groovy.grails.web.servlet',        // controllers
+     /*   error   'org.codehaus.groovy.grails.web.pages',          // GSP
            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
            'org.codehaus.groovy.grails.web.mapping',        // URL mapping
@@ -88,7 +90,7 @@ log4j = {
            'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
            'org.springframework',
            'org.hibernate',
-           'net.sf.ehcache.hibernate'
+           'net.sf.ehcache.hibernate'*/
 }
 
 // Uncomment and edit the following lines to start using Grails encoding & escaping improvements

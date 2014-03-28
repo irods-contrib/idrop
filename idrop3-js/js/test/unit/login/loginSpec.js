@@ -28,11 +28,9 @@ describe("Tests of the login controller", function () {
         ctrlScope.submitLogin();
 
         $httpBackend.flush();
-        expect(responseFromAuth).toEqual(userService.getLoggedInIdentity());
+        expect(responseFromAuth).toEqual(userService.retrieveLoggedInIdentity());
 
-       // expect($log.info.logs).toContain(['doing get of virtual collections']);
 
-      // expect($rootScope.id).toEqual(500);
     });
 
 

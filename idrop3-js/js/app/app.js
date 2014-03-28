@@ -8,12 +8,11 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash', 'userModule']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash', 'userServiceModule']);
 
 angular.module('flash', []);
 
 angular.module('app')
-
 
     .config(function ($routeProvider) {
         // route for the home page

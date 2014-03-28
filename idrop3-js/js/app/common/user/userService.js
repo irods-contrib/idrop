@@ -21,14 +21,17 @@ angular.module('userServiceModule', [])
              * Get stored identity value
              * @returns UserIdentity JSON
              */
-            getLoggedInIdentity: function () {
+            retrieveLoggedInIdentity: function () {
 
                 if (loggedInIdentity) {
-                    return loggedInIdentity;
+                    var deferred = $q.defer();
+                    // Place the fake return object here
+                    deferred.resolve(loggedInIdentity);
+                    return deferred.promise;
+
                 }
                 $log.info("doing get of userIdentity from server");
-                var promise = $http({method: 'GET', url: '/user'});
-                return promise;
+                return  $http({method: 'GET', url: 'user'});
             },
 
             /**
