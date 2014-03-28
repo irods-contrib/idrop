@@ -3,23 +3,23 @@
  */
 
 
-describe("login controller suite", function () {
+describe("Tests of the login controller", function () {
 
-    var $http, $httpBackend, $log, $translate, scope, controller, identityService, rootScope;
+    var $http, $httpBackend, $log, $translate, scope, controller, userService, rootScope;
     beforeEach(module('login'));
-    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_ , _$translate_, _$rootScope_, $controller, _identityService_) {
+    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_ , _$translate_, _$rootScope_, $controller, _userService_) {
         $http = _$http_;
         $log = _$log_;
         $httpBackend = _$httpBackend_;
         $translate = _$translate_;
         ctrlScope = _$rootScope_.$new();
         controller = $controller('loginController', {$scope: ctrlScope});
-        identityService = _identityService_;
+        userService = _userService_;
         rootScope = _$rootScope_;
     }));
 
 
-    it("login should seet identity in root scope", function () {
+    it("login should set identity in userService", function () {
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
 
         var responseFromAuth = {"defaultStorageResource":null,"serverVersion":"rods3.3","userName":"test1","zone":"test1"};
@@ -28,7 +28,7 @@ describe("login controller suite", function () {
         ctrlScope.submitLogin();
 
         $httpBackend.flush();
-        expect(responseFromAuth).toEqual(identityService.loggedInIdentity);
+        expect(responseFromAuth).toEqual(userService.getLoggedInIdentity());
 
        // expect($log.info.logs).toContain(['doing get of virtual collections']);
 

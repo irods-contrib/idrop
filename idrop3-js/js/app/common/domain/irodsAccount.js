@@ -8,13 +8,13 @@
 }());
 var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
     return {
-        host:host,
-        port:port,
-        zone:zone,
-        userName:userName,
-        password:password,
-        authType:authType,
-        resource:resource
+        host: host,
+        port: port,
+        zone: zone,
+        userName: userName,
+        password: password,
+        authType: authType,
+        resource: resource
 
     };
 };

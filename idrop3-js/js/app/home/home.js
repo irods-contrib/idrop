@@ -6,23 +6,23 @@
 /*
  * Home controller function here
  */
-angular.module('home', ['httpInterceptorModule','login'])
+angular.module('home', ['httpInterceptorModule','userServiceModule', 'angularTranslateApp','virtualCollectionsModule'])
 
-    .controller('homeController',function ($scope, identityService ,$log) {
+    .controller('homeController', ['$scope', '$translate', '$log', '$http', '$location', 'userService','virtualCollectionsService',function ($scope, $translate, $log, $http, $location,userService, virtualCollectionsService) {
 
-        $scope.init = function() {
+        $scope.init = function () {
             $log.info("getting logged in identity");
-            $scope.loggedInIdentity = identityService.getLoggedInIdentity();
+            $scope.loggedInIdentity = userService.getLoggedInIdentity();
             $log.info("logged in identity....");
             $log.info($scope.loggedInIdentity);
-
+            $log.info("getting virtual colls");
+            $scope.virtualCollections = virtualCollectionsService.listUserVirtualCollections()
         };
-
 
         $scope.hideDrives = "false";
         // create a message to display in our view
-        $scope.message = 'Everyone come and see how good I look!';
         $scope.loggedInIdentity = {};
+        $scope.virtualCollections = {};
         $scope.init();
 
         /*
@@ -39,7 +39,7 @@ angular.module('home', ['httpInterceptorModule','login'])
         $scope.hideCollections = function () {
             $scope.hideDrives = "true";
         };
-    });
+    }]);
 
 
 

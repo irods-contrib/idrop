@@ -8,8 +8,7 @@
  * Created by mikeconway on 3/13/14.
  */
 
-angular.module('angularTranslateApp', ['pascalprecht.translate'])
-    .config(function($translateProvider) {
+angular.module('angularTranslateApp', ['pascalprecht.translate']).config(function ($translateProvider) {
         $translateProvider.translations('en', {
             HOST: 'Host',
             LOGIN_HEADLINE: 'Please login to iDrop',
@@ -21,4 +20,4 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
             ZONE: 'Zone'
         });
         $translateProvider.preferredLanguage('en');
- });
+    });

@@ -1,53 +1,3 @@
-/*
- Central module registry for the entire application
- */
-
-
-(function () {
-    'use strict';
-    // this function is strict...
-}());
-
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule','home','login','flash']);
-
-angular.module('flash', []);
-
-angular.module('app')
-
-
-    .config(function($routeProvider) {
-        // route for the home page
-        $routeProvider.when('/home', {
-            templateUrl: 'assets/home/home-angularjs.html',
-            controller: 'homeController'
-        })
-
-            // route for the login page
-            .when('/login', {
-                templateUrl: 'assets/home/login-angularjs.html',
-                controller: 'loginController'
-            })
-            .otherwise({redirectTo: "/home"});
-    })
-
-/**
- * Provides a directive to prevent form loading per http://stackoverflow.com/questions/12319758/angularjs-clicking-a-button-within-a-form-causes-page-refresh
- * use the prevent-default directive on form buttons
- */
-    .directive('preventDefault', function() {
-        return function(scope, element, attrs) {
-            angular.element(element).bind('click', function(event) {
-                event.preventDefault();
-                event.stopPropagation();
-            });
-        }
-    })
-
-    .controller('appController', function () {
-
-
-    });
-
 /**
  * Represents an iRODS account identity for login
  * Created by Mike on 2/28/14.
@@ -58,13 +8,13 @@ angular.module('app')
 }());
 var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
     return {
-        host:host,
-        port:port,
-        zone:zone,
-        userName:userName,
-        password:password,
-        authType:authType,
-        resource:resource
+        host: host,
+        port: port,
+        zone: zone,
+        userName: userName,
+        password: password,
+        authType: authType,
+        resource: resource
 
     };
 };
@@ -80,8 +30,7 @@ var irodsAccount = function (host, port, zone, userName, password, authType, res
  * Created by mikeconway on 3/13/14.
  */
 
-angular.module('angularTranslateApp', ['pascalprecht.translate'])
-    .config(function($translateProvider) {
+angular.module('angularTranslateApp', ['pascalprecht.translate']).config(function ($translateProvider) {
         $translateProvider.translations('en', {
             HOST: 'Host',
             LOGIN_HEADLINE: 'Please login to iDrop',
@@ -93,31 +42,30 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
             ZONE: 'Zone'
         });
         $translateProvider.preferredLanguage('en');
- });
+    });
 
 /**
  * Flash error processing service
  * Created by mikeconway on 3/18/14.
  */
 
-angular.module('flashModule', [])
-.factory("flash", function($rootScope) {
-    var queue = [];
-    var currentMessage = "";
+angular.module('flashModule', []).factory("flash", function ($rootScope) {
+        var queue = [];
+        var currentMessage = "";
 
-    $rootScope.$on("$routeChangeSuccess", function() {
-        currentMessage = queue.shift() || "";
+        $rootScope.$on("$routeChangeSuccess", function () {
+            currentMessage = queue.shift() || "";
+        });
+
+        return {
+            setMessage: function (message) {
+                queue.push(message);
+            },
+            getMessage: function () {
+                return currentMessage;
+            }
+        };
     });
-
-    return {
-        setMessage: function(message) {
-            queue.push(message);
-        },
-        getMessage: function() {
-            return currentMessage;
-        }
-    };
-});
 
 
 /**
@@ -128,8 +76,7 @@ angular.module('flashModule', [])
  *
  */
 
-angular.module('httpInterceptorModule', [])
-.factory('myHttpResponseInterceptor',['$q','$location','$log',function($q,$location, $log){
+angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', function ($q, $location, $log) {
         return {
             // On request success
             request: function (config) {
@@ -174,40 +121,123 @@ angular.module('httpInterceptorModule', [])
                 //return $q.reject(rejection);
             }
         };
-}])
-//Http Intercpetor to check auth failures for xhr requests
-.config(['$httpProvider',function($httpProvider) {
-    $httpProvider.interceptors.push('myHttpResponseInterceptor');
-}]);
+    }])//Http Intercpetor to check auth failures for xhr requests
+    .config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.interceptors.push('myHttpResponseInterceptor');
+    }]);
+/**
+ * Service for user and identity information.  This service will access and maintain information about the logged in user and
+ * provides user related operations
+ *
+ * Created by Mike on 3/28/14.
+ */
+
+angular.module('userServiceModule', [])
+
+    .factory('userService', ['$http', '$log', '$q', function ($http, $log, $q) {
+
+        /*
+         * logged in identity contains basic info on user, stored here for reference between controllers, and can be obtained from
+         * the server side by getUserIdentity, which will initialize
+         * @type {null}
+         */
+        var loggedInIdentity = null;
+        return {
+
+            /**
+             * Get stored identity value
+             * @returns UserIdentity JSON
+             */
+            getLoggedInIdentity: function () {
+
+                if (loggedInIdentity) {
+                    return loggedInIdentity;
+                }
+                $log.info("doing get of userIdentity from server");
+                var promise = $http({method: 'GET', url: '/user'});
+                return promise;
+            },
+
+            /**
+             * Set the stored user identity mirroring the server side session
+             * @param identity UserIdentity
+             */
+            setLoggedInIdentity: function (identity) {
+                loggedInIdentity = identity;
+            }
+
+
+        }
+
+    }]);
+
+
+/*
+ Central module registry for the entire application
+ */
+
+
+(function () {
+    'use strict';
+    // this function is strict...
+}());
+
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash', 'userModule']);
+
+angular.module('flash', []);
+
+angular.module('app')
+
+
+    .config(function ($routeProvider) {
+        // route for the home page
+        $routeProvider.when('/home', {
+            templateUrl: 'assets/home/home-angularjs.html',
+            controller: 'homeController'
+        })
+
+            // route for the login page
+            .when('/login', {
+                templateUrl: 'assets/home/login-angularjs.html',
+                controller: 'loginController'
+            }).otherwise({redirectTo: "/home"});
+    })
+
+/**
+ * Provides a directive to prevent form loading per http://stackoverflow.com/questions/12319758/angularjs-clicking-a-button-within-a-form-causes-page-refresh
+ * use the prevent-default directive on form buttons
+ */.directive('preventDefault', function () {
+        return function (scope, element, attrs) {
+            angular.element(element).bind('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+        }
+    })
+
+    .controller('appController', function () {
+
+
+    });
+
 /**
  * Service providing access to virtual collections
  */
 
 angular.module('virtualCollectionsModule', [])
 
-    .factory('virtualCollectionsService', ['$http', '$log', '$q',function ($http, $log, $q) {
+    .factory('virtualCollectionsService', ['$http', '$log', '$q', function ($http, $log, $q) {
 
         return {
-        listUserVirtualCollections: function (irodsAccount) {
-
-            if (!irodsAccount) {
-                throw new Error("no iRODS account");
+            listUserVirtualCollections: function () {
+                $log.info("doing get of virtual collections");
+                var promise = $http({method: 'GET', url: '/virtualCollections'});
+                return promise;
             }
-
-            $log.info("doing get of virtual collections");
-            var response;
-
-           var promise =  $http({method: 'GET', url: '/virtualCollections'});
-
-           return promise;
-
-
         }
-    }
 
 
-}])
-;
+    }]);
 
 /**
  * Home page controllers
@@ -217,23 +247,23 @@ angular.module('virtualCollectionsModule', [])
 /*
  * Home controller function here
  */
-angular.module('home', ['httpInterceptorModule','login'])
+angular.module('home', ['httpInterceptorModule','userServiceModule', 'angularTranslateApp','virtualCollectionsModule'])
 
-    .controller('homeController',function ($scope, identityService ,$log) {
+    .controller('homeController', ['$scope', '$translate', '$log', '$http', '$location', 'userService','virtualCollectionsService',function ($scope, $translate, $log, $http, $location,userService, virtualCollectionsService) {
 
-        $scope.init = function() {
+        $scope.init = function () {
             $log.info("getting logged in identity");
-            $scope.loggedInIdentity = identityService.getLoggedInIdentity();
+            $scope.loggedInIdentity = userService.getLoggedInIdentity();
             $log.info("logged in identity....");
             $log.info($scope.loggedInIdentity);
-
+            $log.info("getting virtual colls");
+            $scope.virtualCollections = virtualCollectionsService.listUserVirtualCollections()
         };
-
 
         $scope.hideDrives = "false";
         // create a message to display in our view
-        $scope.message = 'Everyone come and see how good I look!';
         $scope.loggedInIdentity = {};
+        $scope.virtualCollections = {};
         $scope.init();
 
         /*
@@ -250,7 +280,7 @@ angular.module('home', ['httpInterceptorModule','login'])
         $scope.hideCollections = function () {
             $scope.hideDrives = "true";
         };
-    });
+    }]);
 
 
 
@@ -265,7 +295,7 @@ angular.module('home', ['httpInterceptorModule','login'])
  */
 
 
-angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
+angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userServiceModule'])
 
 
     .config(function () {
@@ -280,18 +310,18 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
      * login controller fçunction here
      */
 
-    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'identityService', function ($scope, $translate, $log, $http, $location, identityService) {
+    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location,userService) {
 
         $scope.login = {};
 
-        $scope.loggedInIdentity = identityService.getlLoggedInIdentity();
+       // $scope.loggedInIdentity = userService.getLoggedInIdentity();
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
 
         $scope.getLoggedInIdentity = function () {
-            return identityService.loggedInIdentity;
+            return userService.loggedInIdentity;
 
         };
 
@@ -304,35 +334,15 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
                 url: 'login',
                 data: actval,
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
-            })
-                .success(function (data) {
+            }).success(function (data) {
                     $log.info(data);
-
-
-                    identityService.setLoggedInIdentity(data);
+                    userService.setLoggedInIdentity(data);
                     $location.path("/home");
 
                 });
         };
 
-    }]).service('identityService', ['$log', function ($log) {
-
-        var identityService = {};
-
-        identityService.loggedInIdentity= null;
-
-        identityService.getLoggedInIdentity = function () {
-            return identityService.getLoggedInIdentity();
-        };
-
-        identityService.setLoggedInIdentity = function (loggedInIdentity) {
-             identityService.loggedInIdentity = loggedInIdentity;
-        };
-
-        return identityService;
-
     }]);
-
 
 
 

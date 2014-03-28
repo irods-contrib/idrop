@@ -8,7 +8,7 @@
  */
 
 
-angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
+angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userServiceModule'])
 
 
     .config(function () {
@@ -23,18 +23,18 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
      * login controller fçunction here
      */
 
-    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'identityService', function ($scope, $translate, $log, $http, $location, identityService) {
+    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location,userService) {
 
         $scope.login = {};
 
-        $scope.loggedInIdentity = identityService.getlLoggedInIdentity();
+       // $scope.loggedInIdentity = userService.getLoggedInIdentity();
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
 
         $scope.getLoggedInIdentity = function () {
-            return identityService.loggedInIdentity;
+            return userService.loggedInIdentity;
 
         };
 
@@ -47,34 +47,15 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp'])
                 url: 'login',
                 data: actval,
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
-            })
-                .success(function (data) {
+            }).success(function (data) {
                     $log.info(data);
-
-
-                    identityService.setLoggedInIdentity(data);
+                    userService.setLoggedInIdentity(data);
                     $location.path("/home");
 
                 });
         };
 
-    }]).service('identityService', ['$log', function ($log) {
-
-
-        // see http://joelhooks.com/blog/2013/04/24/modeling-data-and-state-in-your-angularjs-application/
-
-        this.loggedInIdentity = null;
-
-        this.getlLoggedInIdentity = function() {
-          return this.loggedInIdentity;
-        };
-
-        this.setLoggedInIdentity = function(identity) {
-          this.loggedInIdentity = identity;
-        };
-
     }]);
-
 
 
 

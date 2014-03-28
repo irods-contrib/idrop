@@ -6,8 +6,7 @@
  *
  */
 
-angular.module('httpInterceptorModule', [])
-.factory('myHttpResponseInterceptor',['$q','$location','$log',function($q,$location, $log){
+angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', function ($q, $location, $log) {
         return {
             // On request success
             request: function (config) {
@@ -52,8 +51,7 @@ angular.module('httpInterceptorModule', [])
                 //return $q.reject(rejection);
             }
         };
-}])
-//Http Intercpetor to check auth failures for xhr requests
-.config(['$httpProvider',function($httpProvider) {
-    $httpProvider.interceptors.push('myHttpResponseInterceptor');
-}]);
+    }])//Http Intercpetor to check auth failures for xhr requests
+    .config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.interceptors.push('myHttpResponseInterceptor');
+    }]);

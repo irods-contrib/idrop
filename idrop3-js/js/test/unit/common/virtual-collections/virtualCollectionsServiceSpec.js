@@ -23,7 +23,7 @@ function mockAVc2() {
 }
 
 
-describe("A suite", function () {
+describe("Tests of virtual collections", function () {
 
     var virtualCollectionsService, $http, $httpBackend, $log;
     beforeEach(module('virtualCollectionsModule'));
@@ -34,21 +34,13 @@ describe("A suite", function () {
         $httpBackend = _$httpBackend_;
     }));
 
-
-    it("list virtual collections should have exception because no irods account", function () {
-        expect(function () {
-            virtualCollectionsService.listUserVirtualCollections()
-        }).toThrow(new Error('no iRODS account'));
-    });
-
-
     it("list virtual collections should return a list of colls", function () {
         var actual;
 
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
         var vc = mockAVc();
         $httpBackend.whenGET('/virtualCollections').respond(vc);
-        virtualCollectionsService.listUserVirtualCollections(irodsAccountVal).then(function (d) {
+        virtualCollectionsService.listUserVirtualCollections().then(function (d) {
             actual = d;
         });
 

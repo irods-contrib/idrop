@@ -14,22 +14,10 @@ import org.junit.*
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(VirtualCollectionController)
-//@Mock([AuthenticationFilters, ConnectionClosingFilterFilters])
 class VirtualCollectionControllerSpec {
 
 	void testListVirtualCollections() {
 		given:
-
-		//IRODSAccount irodsAccount = IRODSAccount.instance("host", port, "user", "password", "zone", "", AuthScheme.STANDARD)
-
-		/*
-		 def accessObjFactory = mockFor(IRODSAccessObjectFactory)
-		 def virtualCollectionContext = new VirtualCollectionContextImpl(accessObjFactory.createMock());
-		 def virtualCollectionFactory = new VirtualCollectionFactoryImpl()
-		 */
-
-		// def virtualCollectionFactory = mockFor(VirtualCollectionFactory)
-		// virtualCollectionFactory.demand
 
 		def vcServiceMock = mockFor(VirtualCollectionService)
 

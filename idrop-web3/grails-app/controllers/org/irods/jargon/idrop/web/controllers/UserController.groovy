@@ -1,5 +1,6 @@
 package org.irods.jargon.idrop.web.controllers
 
+import grails.converters.JSON
 import grails.rest.RestfulController
 
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
@@ -19,6 +20,6 @@ class UserController extends RestfulController {
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("null irodsAccount")
 
-		render userService.getLoggedInIdentity(session)
+		render userService.getLoggedInIdentity(session) as JSON
 	}
 }
