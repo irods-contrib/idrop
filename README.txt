@@ -1,14 +1,22 @@
-*'''Project''': iDrop Suite - iDrop Clients
-*'''Date''': 
-*'''Release Version''': 2.0.2-SNAPSHOT
-*'''git tag''': 
+#### Project: iDrop Suite - iDrop Clients
+#### Date: 03/31/2004 
+#### Release Version: 2.0.1-beta2
+#### git tag: 2.0.1-beta2
 
+## News
 
-==News==
+This is a beta of iDrop desktop installed via Install4j, removing the dependency on Java WebStart.  After this evaluation, we will purchase a license for Install4J for
+the production release.
 
-See the release notes in the individual subprojects for details.
+This version of iDrop desktop is completely refactored and includes the new 'conveyor' framework that was released in beta form with Jargon 3.3.3-beta1. iDrop has been tested and is compatible 
+with iRODS 3.3.1 as well as iRODS 4.0 RC1. It is expected that another beta will be released after iRODS 4.0 RC2, and then a final release will be made with 4.0 compatability.  
 
-Please go to [[https://code.renci.org/gf/project/irodsidrop/]] for the latest news and info.
+Standard and PAM authentication are supported in the current version of iDrop desktop.  
+
+This release also has incremental bug fixes and improvements to iDrop web and iDrop lite.  Note that iDrop web will be replaced with a much-improved version that is being developed
+on the idrop3 git branch.
+
+See the release notes in the individual subprojects for details.  Please go to [[https://github.com/DICE-UNC/idrop]] for the latest news and info.
 
 iDrop consists of the following libraries
 
@@ -18,13 +26,13 @@ iDrop consists of the following libraries
 
 Other modules are planned in later releases for REST-ful API and mobile access.
 
-==Requirements==
+## Requirements
 
-*Jargon depends on Java 1.6+
-*Jargon is built using Apache Maven2, see POM for dependencies
-*Jargon supports iRODS 2.4 through iRODS 3.0, and is tested with the current (as of release time) development version of iRODS
+* Jargon depends on Java 1.6+
+* Jargon is built using Apache Maven2, see POM for dependencies
+* Jargon supports iRODS 2.5 through iRODS 4.0RC1
 
-==Libraries==
+## Libraries
 
 Jargon-core uses Maven for dependency management.  See the pom.xml file for references to various dependencies.
 
