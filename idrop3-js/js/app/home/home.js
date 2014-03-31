@@ -6,14 +6,17 @@
 /*
  * Home controller function here
  */
-angular.module('home', ['httpInterceptorModule', 'userServiceModule', 'angularTranslateApp', 'virtualCollectionsModule'])
+angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule'])
 
-    .controller('homeController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', 'virtualCollectionsService', function ($scope, $translate, $log, $http, $location, userService, virtualCollectionsService) {
+    .controller('homeController', ['$scope','virtualCollectionsService','$translate', '$log', '$http', '$location',function ($scope, virtualCollectionsService, $translate, $log, $http, $location) {
 
         $scope.listVirtualCollections = function () {
 
             $log.info("getting virtual colls");
-            virtualCollectionsService.listUserVirtualCollections().success(function (virColls) {
+            console.log("vc data:");
+            console.log(virtualCollectionsService.listUserVirtualCollections());
+            virtualCollectionsService.listUserVirtualCollections().then(function (virColls) {
+                console.log(virColls.data);
                 $scope.virtualCollections = virColls.data;
             });
         };

@@ -5,8 +5,16 @@
 
 describe("Tests of the home controller", function () {
 
-    var $http, $httpBackend, $log, $translate, ctrlScope, controller, rootScope, _$q_;
+    var $http, $httpBackend, $log, $translate, ctrlScope, controller, rootScope, $q, controllerFactory;
     beforeEach(module('home'));
+
+    var mockVcService = {
+        listVirtualCollections: function () {
+        }
+    };
+
+    var vcData = {"name": "vc1", description: "desc1", sourcePath: "source/path"};
+
 
     /**
      * Mocking userService for controller, see http://stackoverflow.com/questions/15854043/mock-a-service-in-order-to-test-a-controller
@@ -19,38 +27,35 @@ describe("Tests of the home controller", function () {
         $httpBackend = _$httpBackend_;
         $translate = _$translate_;
         ctrlScope = _$rootScope_.$new();
-        controller = $controller;
+        //  controller = $controller;
         rootScope = _$rootScope_;
         $q = _$q_;
-
-        @deferredGetBy = $q.defer()
-        @fakeService
-        {
-            listVirtualCollections : function () {
-                @deferredGetBy.promise
-            }
-            ;
-        }
-        spyOn(@fakeService, 'listVirtualCollections').andCallThrough()
-
+        controllerFactory = $controller;
 
     }));
 
 
     it("home should init virtual colls", function () {
 
-       controller('homeController',
-        $scope: ctrlScope,
-        virtualCollectionsService: @fakeService
-        )
+        mockVcService = {
+            listUserVirtualCollections: function () {
+            }
+        };
 
+        controller = controllerFactory('homeController', {
+            $scope: ctrlScope,
+            virtualCollectionsService: mockVcService
+        });
 
-        var vcData = {"name": "vc1", description: "desc1", sourcePath: "source/path"};
+        var deferred = $q.defer();
+        deferred.resolve(vcData);
+        spyOn(mockVcService, 'listUserVirtualCollections').andReturn(deferred.promise);
 
-        ctrlScope.$apply() {}
-        @deferredGetBy.resolve(fakeBookDetail)
+        ctrlScope.listVirtualCollections();
 
-        expect(@scope.bookDetails).toEqual(fakeBookDetails)
+        ctrlScope.$apply();
+        expect(mockVcService.listUserVirtualCollections).toHaveBeenCalled();
+
 
     });
 
