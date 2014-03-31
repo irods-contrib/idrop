@@ -13,8 +13,6 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         $scope.listVirtualCollections = function () {
 
             $log.info("getting virtual colls");
-            console.log("vc data:");
-            console.log(virtualCollectionsService.listUserVirtualCollections());
             virtualCollectionsService.listUserVirtualCollections().then(function (virColls) {
                 console.log(virColls.data);
                 $scope.virtualCollections = virColls.data;
@@ -22,6 +20,11 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         };
 
         $scope.hideDrives = "false";
+        /*
+        Init the virtual collections
+         */
+
+           $scope.listVirtualCollections();
 
         /*
          * Cause the collections panel on the left to display

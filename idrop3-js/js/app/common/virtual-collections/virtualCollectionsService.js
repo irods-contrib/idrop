@@ -4,15 +4,26 @@
 
 angular.module('virtualCollectionsModule', [])
 
-    .factory('virtualCollectionsService', ['$http', '$log', '$q', function ($http, $log, $q) {
+    .factory('virtualCollectionsService', ['$http', '$log', function ($http, $log) {
 
-        return {
+        var virtualCollectionsService = {
+
+            virtualCollections: [],
+
             listUserVirtualCollections: function () {
                 $log.info("doing get of virtual collections");
-                var promise = $http({method: 'GET', url: 'virtualCollection'});
-                return promise;
+
+                return $http({method: 'GET', url: 'virtualCollection'}).success(function (data) {
+                    virtualCollections = data;
+                }).error(function () {
+                        virtualCollections = [];
+                    });
+
             }
-        }
+
+        };
+
+        return virtualCollectionsService;
 
 
     }]);

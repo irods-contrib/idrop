@@ -18,6 +18,8 @@ describe("Tests of the home controller", function () {
 
     /**
      * Mocking userService for controller, see http://stackoverflow.com/questions/15854043/mock-a-service-in-order-to-test-a-controller
+     *
+     * note: restyled to this: http://codingsmackdown.tv/blog/2012/12/28/mocking-promises-in-unit-tests/
      */
 
 
@@ -31,31 +33,22 @@ describe("Tests of the home controller", function () {
         rootScope = _$rootScope_;
         $q = _$q_;
         controllerFactory = $controller;
+        mockVcService = {
+            listUserVirtualCollections: function () {
+                var deferred = $q.defer();
+                deferred.resolve(vcData);
+                return deferred.promise;
+            }
+        };
+        controller = $controller('homeController', { $scope:ctrlScope, virtualCollectionsService: mockVcService });
 
     }));
 
 
     it("home should init virtual colls", function () {
-
-        mockVcService = {
-            listUserVirtualCollections: function () {
-            }
-        };
-
-        controller = controllerFactory('homeController', {
-            $scope: ctrlScope,
-            virtualCollectionsService: mockVcService
-        });
-
-        var deferred = $q.defer();
-        deferred.resolve(vcData);
-        spyOn(mockVcService, 'listUserVirtualCollections').andReturn(deferred.promise);
-
         ctrlScope.listVirtualCollections();
-
         ctrlScope.$apply();
-        expect(mockVcService.listUserVirtualCollections).toHaveBeenCalled();
-
+        expect(ctrlScope.virtualCollections).not.toBe([]);
 
     });
 

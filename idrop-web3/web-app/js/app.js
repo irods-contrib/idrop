@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash', 'userServiceModule']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash']);
 
 angular.module('flash', []);
 
@@ -182,44 +182,22 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
 
 angular.module('userServiceModule', [])
 
-    .factory('userService', ['$http', '$log', '$q', function ($http, $log, $q) {
+    .service('userService', ['$http', '$log', '$q', function ($http, $log, $q) {
 
-        /*
-         * logged in identity contains basic info on user, stored here for reference between controllers, and can be obtained from
-         * the server side by getUserIdentity, which will initialize
-         * @type {null}
-         */
-        var loggedInIdentity = null;
-        return {
+
 
             /**
              * Get stored identity value
              * @returns UserIdentity JSON
              */
-            retrieveLoggedInIdentity: function () {
+          this.retrieveLoggedInIdentity = function () {
 
-                if (loggedInIdentity) {
-                    var deferred = $q.defer();
-                    // Place the fake return object here
-                    deferred.resolve(loggedInIdentity);
-                    return deferred.promise;
 
-                }
                 $log.info("doing get of userIdentity from server");
-                var promise = $http({method: 'GET', url: 'user'});
-                return promise;
-            },
-
-            /**
-             * Set the stored user identity mirroring the server side session
-             * @param identity UserIdentity
-             */
-            setLoggedInIdentity: function (identity) {
-                loggedInIdentity = identity;
-            }
+                return  $http({method: 'GET', url: 'user'});
+            };
 
 
-        }
 
     }]);
 
@@ -230,15 +208,26 @@ angular.module('userServiceModule', [])
 
 angular.module('virtualCollectionsModule', [])
 
-    .factory('virtualCollectionsService', ['$http', '$log', '$q', function ($http, $log, $q) {
+    .factory('virtualCollectionsService', ['$http', '$log', function ($http, $log) {
 
-        return {
+        var virtualCollectionsService = {
+
+            virtualCollections: [],
+
             listUserVirtualCollections: function () {
                 $log.info("doing get of virtual collections");
-                var promise = $http({method: 'GET', url: 'virtualCollection'});
-                return promise;
+
+                return $http({method: 'GET', url: 'virtualCollection'}).success(function (data) {
+                    virtualCollections = data;
+                }).error(function () {
+                        virtualCollections = [];
+                    });
+
             }
-        }
+
+        };
+
+        return virtualCollectionsService;
 
 
     }]);
@@ -251,27 +240,25 @@ angular.module('virtualCollectionsModule', [])
 /*
  * Home controller function here
  */
-angular.module('home', ['httpInterceptorModule','userServiceModule', 'angularTranslateApp','virtualCollectionsModule'])
+angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule'])
 
-    .controller('homeController', ['$scope', '$translate', '$log', '$http', '$location', 'userService','virtualCollectionsService',function ($scope, $translate, $log, $http, $location, userService, virtualCollectionsService) {
+    .controller('homeController', ['$scope','virtualCollectionsService','$translate', '$log', '$http', '$location',function ($scope, virtualCollectionsService, $translate, $log, $http, $location) {
 
+        $scope.listVirtualCollections = function () {
 
-
-            $log.info("getting logged in identity");
-            userService.retrieveLoggedInIdentity().then(function(identity){
-                $scope.loggedInIdentity = identity;
-                $log.info("identity is:{}", identity);
-
-            });
-            $log.info("logged in identity....");
-            $log.info($scope.loggedInIdentity);
             $log.info("getting virtual colls");
-            $scope.virtualCollections = virtualCollectionsService.listUserVirtualCollections()
-
+            virtualCollectionsService.listUserVirtualCollections().then(function (virColls) {
+                console.log(virColls.data);
+                $scope.virtualCollections = virColls.data;
+            });
+        };
 
         $scope.hideDrives = "false";
-        // create a message to display in our view
+        /*
+        Init the virtual collections
+         */
 
+           $scope.listVirtualCollections();
 
         /*
          * Cause the collections panel on the left to display
@@ -317,18 +304,16 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userSe
      * login controller fçunction here
      */
 
-    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location,userService) {
+    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location, userService) {
 
         $scope.login = {};
-
-       // $scope.loggedInIdentity = userService.getLoggedInIdentity();
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
 
         $scope.getLoggedInIdentity = function () {
-            return userService.loggedInIdentity;
+            return userService.retrieveLoggedInIdentity.success(function(identity) {$scope.loggedInIdentity = identity});
 
         };
 
@@ -343,7 +328,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userSe
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             }).success(function (data) {
                     $log.info(data);
-                    userService.setLoggedInIdentity(data);
+                   // userService.setLoggedInIdentity(data);
                     $location.path("/home");
 
                 });
