@@ -10,26 +10,15 @@ angular.module('home', ['httpInterceptorModule', 'userServiceModule', 'angularTr
 
     .controller('homeController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', 'virtualCollectionsService', function ($scope, $translate, $log, $http, $location, userService, virtualCollectionsService) {
 
-        $scope.init = function () {
+        $scope.listVirtualCollections = function () {
 
-            $log.info("getting logged in identity");
-            userService.retrieveLoggedInIdentity().success(function (identity) {
-                $scope.loggedInIdentity = identity.data;
-                $log.info("identity is:{}", identity.data);
-
-            });
-            $log.info("logged in identity....");
-            $log.info($scope.loggedInIdentity);
             $log.info("getting virtual colls");
             virtualCollectionsService.listUserVirtualCollections().success(function (virColls) {
                 $scope.virtualCollections = virColls.data;
             });
         };
 
-
         $scope.hideDrives = "false";
-// create a message to display in our view
-
 
         /*
          * Cause the collections panel on the left to display

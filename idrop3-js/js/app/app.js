@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash', 'userServiceModule']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash']);
 
 angular.module('flash', []);
 

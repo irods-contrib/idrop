@@ -23,18 +23,16 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userSe
      * login controller fçunction here
      */
 
-    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location,userService) {
+    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location, userService) {
 
         $scope.login = {};
-
-       // $scope.loggedInIdentity = userService.getLoggedInIdentity();
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
 
         $scope.getLoggedInIdentity = function () {
-            return userService.loggedInIdentity;
+            return userService.retrieveLoggedInIdentity.success(function(identity) {$scope.loggedInIdentity = identity});
 
         };
 
@@ -49,7 +47,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userSe
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             }).success(function (data) {
                     $log.info(data);
-                    userService.setLoggedInIdentity(data);
+                   // userService.setLoggedInIdentity(data);
                     $location.path("/home");
 
                 });

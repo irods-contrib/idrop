@@ -5,7 +5,7 @@
 
 describe("Tests of the login controller", function () {
 
-    var $http, $httpBackend, $log, $translate, scope, controller, userService, rootScope;
+    var $http, $httpBackend, $log, $translate, ctrlScope, controller, userService, rootScope;
     beforeEach(module('login'));
     beforeEach(inject(function (_$http_, _$httpBackend_, _$log_ , _$translate_, _$rootScope_, $controller, _userService_) {
         $http = _$http_;
@@ -28,7 +28,11 @@ describe("Tests of the login controller", function () {
         ctrlScope.submitLogin();
 
         $httpBackend.flush();
-        expect(responseFromAuth).toEqual(userService.retrieveLoggedInIdentity());
+
+        userService.retrieveLoggedInIdentity().then(function (d) {
+            expect(responseFromAuth).toEqual(d);
+        });
+
 
 
     });
