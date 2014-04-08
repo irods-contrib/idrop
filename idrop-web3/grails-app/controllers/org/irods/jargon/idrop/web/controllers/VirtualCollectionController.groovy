@@ -21,7 +21,6 @@ class VirtualCollectionController extends RestfulController {
 	def index() {
 		log.info("index()...get virtual collections for user")
 		def irodsAccount = request.irodsAccount
-
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
 		log.info("getting virtual colls")
 		def virColls = virtualCollectionService.virtualCollectionHomeListingForUser(irodsAccount)

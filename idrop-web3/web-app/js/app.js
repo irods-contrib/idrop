@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash','virtualCollectionFilter']);
 
 angular.module('flash', []);
 
@@ -65,6 +65,31 @@ var irodsAccount = function (host, port, zone, userName, password, authType, res
 
     };
 };
+
+
+/**
+ * Filter to assign icons to virtual collections
+ * Created by mikeconway on 4/7/14.
+ */
+
+angular.module('virtualCollectionFilter', []).filter('vcIconFilter', function () {
+    /**
+     * Given an input type which is a virtual collecion i18n icon name, convert to an appropriate icon css class
+     */
+
+    return function (inputType) {
+       if (!inputType) {
+           return "glyphicon-folder-close";
+       } else if (inputType == "virtual.collection.default.icon") {
+           return "glyphicon-folder-close";
+       } else if (inputType == "virtual.collection.icon.starred") {
+           return "glyphicon-star";
+       } else {
+           return "glyphicon-folder-close";
+       }
+
+    };
+});
 
 
 /**
