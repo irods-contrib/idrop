@@ -6,8 +6,6 @@ import org.irods.jargon.core.connection.AuthScheme
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.connection.auth.AuthResponse
-import org.irods.jargon.idrop.web.filters.AuthenticationFilters
-import org.irods.jargon.idrop.web.filters.ConnectionClosingFilterFilters
 import org.irods.jargon.idrop.web.services.AuthenticationService
 import org.irods.jargon.idrop.web.services.EnvironmentServicesService
 
@@ -17,7 +15,7 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(LoginController)
-@Mock([AuthenticationFilters, ConnectionClosingFilterFilters])
+//@Mock([AuthenticationFilters, ConnectionClosingFilterFilters])
 
 class LoginControllerSpec extends Specification  {
 

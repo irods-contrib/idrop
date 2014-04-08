@@ -2,10 +2,9 @@ package org.irods.jargon.idrop.web.services
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.irods.jargon.vircoll.VirtualCollectionContext
-import org.irods.jargon.vircoll.VirtualCollectionContextImpl
-import org.irods.jargon.vircoll.impl.VirtualCollectionFactory
-import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
+import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryService
+import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
+
 
 class VirtualCollectionService {
 
@@ -27,9 +26,8 @@ class VirtualCollectionService {
 		}
 
 		log.info("irodsAccount: ${irodsAccount}")
-		VirtualCollectionContext context = new VirtualCollectionContextImpl(irodsAccessObjectFactory, irodsAccount)
 
-		VirtualCollectionFactory virtualCollectionFactory = new VirtualCollectionFactoryImpl(context)
-		return virtualCollectionFactory.listDefaultUserCollections()
+		VirtualCollectionDiscoveryService virtualCollectionDiscoveryService = new VirtualCollectionDiscoveryServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		return virtualCollectionDiscoveryService.listDefaultUserCollections()
 	}
 }

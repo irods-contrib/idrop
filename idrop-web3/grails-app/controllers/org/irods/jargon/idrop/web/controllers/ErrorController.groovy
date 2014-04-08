@@ -1,6 +1,6 @@
 package org.irods.jargon.idrop.web.controllers
 
-import grails.converters.JSON
+import grails.converters.*
 
 import com.sun.jndi.cosnaming.ExceptionMapper
 
@@ -14,14 +14,14 @@ class ErrorController {
 	def index() {
 
 		def exception = request.exception.cause
-		
-		def message;
+
+		def message
 		if (!exception) {
 			message = ExceptionMapper.mapException(exception)
 		} else {
 			message = "Unknown exception"
 		}
-		
+
 		log.error("error controller triggered for exception:${exception}")
 
 		response.status = 500

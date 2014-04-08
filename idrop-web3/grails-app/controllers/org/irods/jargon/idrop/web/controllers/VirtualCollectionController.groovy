@@ -3,7 +3,7 @@ package org.irods.jargon.idrop.web.controllers
 import grails.converters.JSON
 import grails.rest.RestfulController
 
-import org.irods.jargon.core.pub.*
+import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.VirtualCollectionService
 
 /**
