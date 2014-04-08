@@ -1,11 +1,9 @@
  <ul class="list-group" ng-if="virtualCollections.length > 0">
 
-     {{virtualCollections}}
-
      <li class="list-group-item" ng-repeat="virtualCollection in virtualCollections">
          <button type="button"
                  class="btn btn-link">
-             <span class="glyphicon "></span>
+             <span class="glyphicon    {{virtualCollection.i18icon | vcIcon}}"></span>
              {{virtualCollection.name}}
          </button>
      </li>
