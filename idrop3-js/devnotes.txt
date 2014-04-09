@@ -29,4 +29,6 @@ large apps - http://briantford.com/blog/huuuuuge-angular-apps.html
 
 flash error message service: http://fdietz.github.io/recipes-with-angular-js/common-user-interface-patterns/displaying-a-flash-notice-failure-message.html
 
+or even better... http://ngmodules.org/modules/message-center
+
 testing controllers with jasmine: http://sravi-kiran.blogspot.com/2013/04/UnitTestingAngularJsControllerUsingJasmine.html

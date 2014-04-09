@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash','virtualCollectionFilter']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash','virtualCollectionFilter','MessageCenterModule']);
 
 angular.module('flash', []);
 
@@ -151,7 +151,7 @@ angular.module('flashModule', []).factory("flash", function ($rootScope) {
  *
  */
 
-angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', function ($q, $location, $log) {
+angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log','messageCenterService', function ($q, $location, $log, messageCenterService) {
         return {
             // On request success
             request: function (config) {
@@ -172,8 +172,10 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
             // On response success
             response: function (response) {
                 // console.log(response); // Contains the data from the response.
-                $log.info(response);
-
+                //$log.info(response);
+                if (response.config.method.toUpperCase() != 'GET') {
+                messageCenterService.add('success', 'Success');
+                }
                 // Return the response or promise.
                 return response || $q.when(response);
             },
