@@ -151,7 +151,7 @@ angular.module('flashModule', []).factory("flash", function ($rootScope) {
  *
  */
 
-angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log','messageCenterService', function ($q, $location, $log, messageCenterService) {
+angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', 'messageCenterService', function ($q, $location, $log, messageCenterService) {
         return {
             // On request success
             request: function (config) {
@@ -172,9 +172,9 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
             // On response success
             response: function (response) {
                 // console.log(response); // Contains the data from the response.
-                //$log.info(response);
+                $log.info(response);
                 if (response.config.method.toUpperCase() != 'GET') {
-                messageCenterService.add('success', 'Success');
+                    messageCenterService.add('success', 'Success');
                 }
                 // Return the response or promise.
                 return response || $q.when(response);
@@ -190,9 +190,18 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                     alert("redirect to login === remove me later!!!!!");
                     $location.path("/login");
                 } else if (status == 400) { // validation error display errors
-                    alert(JSON.stringify(rejection.data.errors)); // here really we need to format this but just showing as alert.
+                    //alert(JSON.stringify(rejection.data.error.message)); // here really we need to format this but just showing as alert.
+                    var len = rejection.data.errors.length;
+                    if(len > 0) {
+                        for(var i=0; i<rejection.data.errors.length; i++) {
+                            messageCenterService.add('warning',rejection.data.errors[i]);
+                        }
+                    }
+
+                    return $q.reject(rejection);
                 } else {
                     // otherwise reject other status codes
+                    messageCenterService.add('danger', rejection.data.error.message);
                     return $q.reject(rejection);
                 }
                 // Return the promise rejection.
