@@ -2,7 +2,7 @@ package org.irods.jargon.idrop.web.services
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryService
+import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService;
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 
 
