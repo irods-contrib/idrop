@@ -2,14 +2,16 @@ package org.irods.jargon.idrop.web.services
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService;
+import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
+
 
 
 class VirtualCollectionService {
 
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
+        enum ListingType {ALL, COLLETIONS, DATA_OBJECTS}
 
 
 	/**
@@ -30,4 +32,9 @@ class VirtualCollectionService {
 		VirtualCollectionDiscoveryService virtualCollectionDiscoveryService = new VirtualCollectionDiscoveryServiceImpl(irodsAccessObjectFactory, irodsAccount)
 		return virtualCollectionDiscoveryService.listDefaultUserCollections()
 	}
+        
+    
+        def virtualCollectionListing(String vcName, ListingType listingType, int offset) {
+            
+        }
 }

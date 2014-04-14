@@ -12,7 +12,7 @@ tools
 grunt - http://gruntjs.com/
 
 angular-translate: http://angular-translate.github.io/, http://www.ng-newsletter.com/posts/angular-translate.html
-
+ note: using translate in controllers: http://stackoverflow.com/questions/20540877/correct-use-for-angular-translate-in-controllers
 
 
 tutorials and docs

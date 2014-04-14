@@ -8,7 +8,7 @@
  */
 angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule'])
 
-    .controller('homeController', ['$scope','virtualCollectionsService','$translate', '$log', '$http', '$location',function ($scope, virtualCollectionsService, $translate, $log, $http, $location) {
+    .controller('homeController', ['$scope','virtualCollectionsService','$translate', '$log', '$http', '$location','messageCenterService',function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService) {
 
         $scope.listVirtualCollections = function () {
 
@@ -24,7 +24,17 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         Init the virtual collections
          */
 
-           $scope.listVirtualCollections();
+        $scope.listVirtualCollections();
+
+        $scope.selectVirtualCollection = function(vcName) {
+            if (!vcName) {
+                messageCenterService.add('danger', rejection.data.error.message);
+                return;
+            }
+
+            alert("vcName:" + vcName);
+
+        }
 
         /*
          * Cause the collections panel on the left to display

@@ -2,7 +2,7 @@
 
      <li class="list-group-item" ng-repeat="virtualCollection in virtualCollections">
          <button type="button"
-                 class="btn btn-link">
+                 class="btn btn-link" ng-click="selectVirtualCollection(virtualCollection.name)">
              <span class="glyphicon    {{virtualCollection.i18icon | vcIcon}}"></span>
              {{virtualCollection.name}}
          </button>

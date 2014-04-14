@@ -9,9 +9,26 @@ angular.module('virtualCollectionsModule', [])
         var virtualCollectionsService = {
 
             virtualCollections: [],
+            virtualCollectionContents: [],
 
             listUserVirtualCollections: function () {
                 $log.info("doing get of virtual collections");
+
+                return $http({method: 'GET', url: 'virtualCollection'}).success(function (data) {
+                    virtualCollections = data;
+                }).error(function () {
+                        virtualCollections = [];
+                    });
+
+            },
+
+            listUserVirtualCollectionData: function (vcName) {
+                $log.info("listing virtual collection data");
+
+                if (!vcName) {
+                    virtualCollectionContents = [];
+                    return;
+                }
 
                 return $http({method: 'GET', url: 'virtualCollection'}).success(function (data) {
                     virtualCollections = data;
@@ -24,6 +41,5 @@ angular.module('virtualCollectionsModule', [])
         };
 
         return virtualCollectionsService;
-
 
     }]);

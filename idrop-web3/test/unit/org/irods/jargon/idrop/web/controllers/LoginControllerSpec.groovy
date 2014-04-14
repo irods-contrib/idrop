@@ -9,8 +9,6 @@ import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.idrop.web.services.AuthenticationService
 import org.irods.jargon.idrop.web.services.EnvironmentServicesService
 
-import spock.lang.Specification
-
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */

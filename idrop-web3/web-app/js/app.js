@@ -252,9 +252,26 @@ angular.module('virtualCollectionsModule', [])
         var virtualCollectionsService = {
 
             virtualCollections: [],
+            virtualCollectionContents: [],
 
             listUserVirtualCollections: function () {
                 $log.info("doing get of virtual collections");
+
+                return $http({method: 'GET', url: 'virtualCollection'}).success(function (data) {
+                    virtualCollections = data;
+                }).error(function () {
+                        virtualCollections = [];
+                    });
+
+            },
+
+            listUserVirtualCollectionData: function (vcName) {
+                $log.info("listing virtual collection data");
+
+                if (!vcName) {
+                    virtualCollectionContents = [];
+                    return;
+                }
 
                 return $http({method: 'GET', url: 'virtualCollection'}).success(function (data) {
                     virtualCollections = data;
@@ -268,7 +285,6 @@ angular.module('virtualCollectionsModule', [])
 
         return virtualCollectionsService;
 
-
     }]);
 
 /**
@@ -281,7 +297,7 @@ angular.module('virtualCollectionsModule', [])
  */
 angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule'])
 
-    .controller('homeController', ['$scope','virtualCollectionsService','$translate', '$log', '$http', '$location',function ($scope, virtualCollectionsService, $translate, $log, $http, $location) {
+    .controller('homeController', ['$scope','virtualCollectionsService','$translate', '$log', '$http', '$location','messageCenterService',function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService) {
 
         $scope.listVirtualCollections = function () {
 
@@ -297,7 +313,17 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         Init the virtual collections
          */
 
-           $scope.listVirtualCollections();
+        $scope.listVirtualCollections();
+
+        $scope.selectVirtualCollection = function(vcName) {
+            if (!vcName) {
+                messageCenterService.add('danger', rejection.data.error.message);
+                return;
+            }
+
+            alert("vcName:" + vcName);
+
+        }
 
         /*
          * Cause the collections panel on the left to display
