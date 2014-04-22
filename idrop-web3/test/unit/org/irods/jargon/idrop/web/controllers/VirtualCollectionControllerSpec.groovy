@@ -9,7 +9,7 @@ import org.irods.jargon.idrop.web.services.VirtualCollectionService
 import org.irods.jargon.vircoll.AbstractVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection;
 import org.junit.*
-
+ 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */

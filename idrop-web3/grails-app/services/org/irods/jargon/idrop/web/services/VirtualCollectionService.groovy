@@ -11,7 +11,9 @@ class VirtualCollectionService {
 
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
-        enum ListingType {ALL, COLLETIONS, DATA_OBJECTS}
+	enum ListingType {
+		ALL, COLLETIONS, DATA_OBJECTS
+	}
 
 
 	/**
@@ -30,11 +32,54 @@ class VirtualCollectionService {
 		log.info("irodsAccount: ${irodsAccount}")
 
 		VirtualCollectionDiscoveryService virtualCollectionDiscoveryService = new VirtualCollectionDiscoveryServiceImpl(irodsAccessObjectFactory, irodsAccount)
-		return virtualCollectionDiscoveryService.listDefaultUserCollections()
+		
+		def colls = virtualCollectionDiscoveryService.listDefaultUserCollections()
+		
+		def session = RequestContextHolder.currentRequestAttributes().getSession()
+		session.virtualCollections = colls
+		
+		return colls
 	}
-        
-    
-        def virtualCollectionListing(String vcName, ListingType listingType, int offset) {
-            
-        }
+
+
+	def virtualCollectionListing(String vcName, ListingType listingType, int offset) {
+		
+		log.info("virtualCollectionListing")
+		
+		if (!vcName) {
+			throw new IllegalArgumentException("null or empty vcName")
+		}
+		
+		if (!listingType) {
+			throw new IllegalArgumentException("null or empty listingType")
+		}
+		
+		log.info("listing for vc: ${vcName} listing type:${listingType} offset:{$offset}")
+		def session = RequestContextHolder.currentRequestAttributes().getSession()
+		
+		
+		def virColls = session.virtualCollections
+		
+		def virColl
+		for (virCollEntry in virColls) {
+			if (virCollEntry.uniqueName == vcName) {
+				log.info("found it")
+				session.virtualCollection = virCollEntry
+				break
+			}
+		}
+		
+		if (!virColl) {
+			throw new Exception "no virtual collections found for name:${vcName}"
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
 }
