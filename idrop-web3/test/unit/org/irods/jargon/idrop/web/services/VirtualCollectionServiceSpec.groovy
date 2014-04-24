@@ -5,10 +5,12 @@ package org.irods.jargon.idrop.web.services
 import grails.test.mixin.*
 
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpSession
+import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
 import org.irods.jargon.vircoll.AbstractVirtualCollection
+import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollectionExecutor
 import org.junit.*
@@ -23,9 +25,10 @@ class VirtualCollectionServiceSpec  extends Specification  {
 
 	void "test create listing from collection based vc"() {
 		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
 		String uniqueName = "hithere"
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
-		irodsAccessObjectFactory.demand.getEnvironmentalInfoAO{ irodsAccount -> return envMock }
+		irodsAccessObjectFactory.demand.getEnvironmentalInfoAO{ irodsAcct -> return envMock }
 		def iafMock = irodsAccessObjectFactory.createMock()
 		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
 
@@ -33,8 +36,13 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		collectionBasedVirtualCollectionExecutor.demand.queryAll{return listing}
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
 
+
+		def virtualCollectionExecutorFactory = mockFor(VirtualCollectionExecutorFactoryImpl)
+		virtualCollectionExecutorFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
+		def factMock = virtualCollectionExecutorFactory.createMock()
+
 		def virtualCollectionExecutorFactoryCreatorService = mockFor(VirtualCollectionExecutorFactoryCreatorService)
-		virtualCollectionExecutorFactoryCreatorService.demand.instanceVirtualCollectionExecutorFactory{irodsAccount -> return execMock}
+		virtualCollectionExecutorFactoryCreatorService.demand.instanceVirtualCollectionExecutorFactory{irodsAcct -> return factMock}
 
 		def virtualCollectionExecutorFactoryCreatorServiceMock = virtualCollectionExecutorFactoryCreatorService.createMock()
 
@@ -50,7 +58,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 
 		when:
 
-		def actual = virtualCollectionService.virtualCollectionListing(uniqueName, ListingType.ALL, 0)
+		def actual = virtualCollectionService.virtualCollectionListing(uniqueName, ListingType.ALL, 0, irodsAccount, mockSession)
 
 		then:
 

@@ -82,13 +82,13 @@ class VirtualCollectionService {
 
 		// TODO: if not found, or missing, should I refresh?
 
-		if (!virColl) {
+		if (!session.virtualCollection) {
 			throw new Exception("no virtual collections found for name:${vcName}")
 		}
 
 		VirtualCollectionExecutorFactory executorFactory = virtualCollectionExecutorFactoryCreatorService.instanceVirtualCollectionExecutorFactory(irodsAccount)
 
-		def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(virColl)
+		def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(session.virtualCollection)
 
 		if (listingType == ListingType.ALL) {
 			return executor.queryAll(offset)
