@@ -23,7 +23,7 @@ class VirtualCollectionController extends RestfulController {
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
 		log.info("getting virtual colls")
-		def virColls = virtualCollectionService.virtualCollectionHomeListingForUser(irodsAccount)
+		def virColls = virtualCollectionService.virtualCollectionHomeListingForUser(irodsAccount,session)
 		log.info("virColls:${virColls}")
 		render virColls as JSON
 	}
