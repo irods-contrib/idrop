@@ -28,7 +28,7 @@ public class MetadataTableModelTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        MetaDataAndDomainData metadata = MetaDataAndDomainData.instance(MetadataDomain.DATA, "1", "abspath", "attribute", "value", "units");
+        MetaDataAndDomainData metadata = MetaDataAndDomainData.instance(MetadataDomain.DATA, "1", "abspath", 0,"attribute", "value", "units");
         metadataAndDomainData.add(metadata);
     }
 

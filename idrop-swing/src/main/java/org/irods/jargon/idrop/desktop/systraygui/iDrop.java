@@ -1067,7 +1067,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      * @param ts
      */
     @Override
-    public void statusCallback(final TransferStatus ts) {
+    public FileStatusCallbackResponse statusCallback(final TransferStatus ts) {
 
         log.info("transfer status callback to iDROP:{}", ts);
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1141,6 +1141,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 }
             }
         });
+        
+        return FileStatusCallbackResponse.CONTINUE;
 
     }
 

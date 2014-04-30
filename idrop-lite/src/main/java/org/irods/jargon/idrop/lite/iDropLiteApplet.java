@@ -852,7 +852,7 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
     }
 
     @Override
-    public void statusCallback(final TransferStatus ts) {
+    public FileStatusCallbackResponse statusCallback(final TransferStatus ts) {
         log.info("transfer status callback to iDropLiteApplet:{}", ts);
         final iDropLiteApplet idrop = this;
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -966,6 +966,8 @@ public class iDropLiteApplet extends javax.swing.JApplet implements TransferStat
                 }
             }
         });
+        
+        return FileStatusCallbackResponse.CONTINUE;
     }
 
     @Override

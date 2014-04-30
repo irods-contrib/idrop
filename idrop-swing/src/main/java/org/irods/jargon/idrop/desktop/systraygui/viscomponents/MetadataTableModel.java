@@ -155,7 +155,7 @@ public class MetadataTableModel extends AbstractTableModel {
 	public void addRow(final String absPath, final String attr,
 			final String value, final String unit) throws JargonException {
 		MetaDataAndDomainData metadata = MetaDataAndDomainData.instance(
-				MetadataDomain.DATA, "1", absPath, attr, value, unit);
+				MetadataDomain.DATA, "1", absPath, 0, attr, value, unit);
 		metadataAndDomainData.add(metadata);
 		fireTableDataChanged();
 	}
@@ -163,7 +163,7 @@ public class MetadataTableModel extends AbstractTableModel {
 	public void deleteRow(final String absPath, final String attr,
 			final String value, final String unit, final int selectedRow)
 			throws JargonException {
-		MetaDataAndDomainData.instance(MetadataDomain.DATA, "1", absPath, attr,
+		MetaDataAndDomainData.instance(MetadataDomain.DATA, "1", absPath, 0, attr,
 				value, unit);
 		// metadataAndDomainData.remove(metadata); //this didn't work ...
 		// but I don't think it should be dome like this ...
@@ -184,7 +184,7 @@ public class MetadataTableModel extends AbstractTableModel {
 			final String attr, final String value, final String unit)
 			throws JargonException {
 		MetaDataAndDomainData metadata = MetaDataAndDomainData.instance(
-				MetadataDomain.DATA, "1", absPath, attr, value, unit);
+				MetadataDomain.DATA, "1", absPath, 0, attr, value, unit);
 		metadataAndDomainData.set(row, metadata);
 		fireTableDataChanged();
 	}
