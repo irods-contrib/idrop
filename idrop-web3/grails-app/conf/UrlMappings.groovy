@@ -4,9 +4,10 @@ class UrlMappings {
 
 		"/login"(resource:"login")
 
-		"/collection/$virtualCollection/$path?"{ resource:"collection"}
+		"/collection/$virtualCollection"(resource:"collection")
 
-		"/$controller/$action?/$id?"{ constraints { // apply constraints here
+		"/$controller/$action?/$id?"{ constraints {
+				// apply constraints here
 			} }
 
 		"500"(controller: "error")

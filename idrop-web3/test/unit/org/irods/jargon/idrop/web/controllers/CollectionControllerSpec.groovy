@@ -3,6 +3,10 @@ package org.irods.jargon.idrop.web.controllers
 
 
 import grails.test.mixin.*
+
+import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.query.PagingAwareCollectionListing
+import org.irods.jargon.idrop.web.services.VirtualCollectionService
 import org.junit.*
 
 /**
@@ -11,7 +15,50 @@ import org.junit.*
 @TestFor(CollectionController)
 class CollectionControllerSpec {
 
-    void testSomething() {
-       fail "Implement me"
-    }
+	void testCollectionListJustVcName() {
+		given:
+
+		def vcServiceMock = mockFor(VirtualCollectionService)
+
+		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
+
+		vcServiceMock.demand.virtualCollectionListing{vcName, listingType, offset, irodsAccount, session -> return listing}
+
+		controller.virtualCollectionService = vcServiceMock.createMock()
+		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.virtualCollection = "root"
+
+
+		when:
+		controller.show()
+
+		then:
+		controller.response.status == 200
+		log.info("responseText:${response.text}")
+	}
+
+
+	void testCollectionListVcNameAndSubPath() {
+		given:
+
+		def vcServiceMock = mockFor(VirtualCollectionService)
+
+		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
+
+		vcServiceMock.demand.virtualCollectionListing{vcName, listingType, offset, irodsAccount, session -> return listing}
+
+		controller.virtualCollectionService = vcServiceMock.createMock()
+		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.virtualCollection = "root"
+		params.path = "/a/path"
+
+		when:
+		controller.show()
+
+		then:
+		controller.response.status == 200
+		log.info("responseText:${response.text}")
+	}
 }

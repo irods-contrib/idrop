@@ -6,7 +6,7 @@
 /*
  * Home controller function here
  */
-angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule'])
+angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule','MessageCenterModule'])
 
     .controller('homeController', ['$scope','virtualCollectionsService','$translate', '$log', '$http', '$location','messageCenterService',function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService) {
 

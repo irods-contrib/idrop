@@ -1,9 +1,6 @@
 package org.irods.jargon.idrop.web.controllers
 
 import grails.converters.JSON
-import grails.rest.RestfulController
-
-import javax.servlet.http.HttpSession
 
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
@@ -13,10 +10,9 @@ import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
 /**
  * Controller for dealing with collection listings of various sorts
  * @author Mike Conway - DICE
- *
  */
 
-class CollectionController  extends RestfulController  {
+class CollectionController  {
 
 	static responseFormats = ['json']
 	IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -29,8 +25,8 @@ class CollectionController  extends RestfulController  {
 	 * 
 	 * @return
 	 */
-	def index() {
-		log.info("index")
+	def show() {
+		log.info("show")
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
 		log.info("getting virtual coll contents listing")
@@ -40,7 +36,7 @@ class CollectionController  extends RestfulController  {
 		def path = params.path
 		if (!path) path = ""
 
-		def offset = params.offset
+		int offset = params.offset
 		if (!offset) offset = 0
 
 		log.info("virtualCollection: ${virtualCollection}")
@@ -48,7 +44,12 @@ class CollectionController  extends RestfulController  {
 		log.info("offset:offset")
 
 		def pagingAwareCollectionListing = virtualCollectionService.virtualCollectionListing(virtualCollection, ListingType.ALL, offset, irodsAccount, session)
-		log.info("virColls:${virColls}")
+		log.info("pagingAwareCollectionListing:${pagingAwareCollectionListing}")
 		render pagingAwareCollectionListing as JSON
+	}
+
+
+	def index() {
+		log.info("index()")
 	}
 }
