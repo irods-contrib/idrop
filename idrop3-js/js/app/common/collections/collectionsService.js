@@ -22,19 +22,14 @@ angular.module('CollectionsModule', [])
                 if (!reqVcName) {
                     $log.error("recVcName is missing");
                     throw "reqMcName is missing";
-
                 }
 
                 if (!reqParentPath) {
-                    $log.error("reqParentPath is missing");
-                    throw "reqParentPath is missing";
-
+                   reqParentPath = "";
                 }
 
                 if (!reqOffset) {
-                    $log.error("reqOffset is missing");
-                    throw "reqOffset is missing";
-
+                  reqOffset = 0;
                 }
 
                 return $http({method: 'GET', url: 'collection',  params: {virtualCollection: reqVcName, path:reqParentPath, offset:reqOffset }}).success(function (data) {
