@@ -6,33 +6,37 @@
 /*
  * Home controller function here
  */
-angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule','MessageCenterModule'])
+angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule', 'MessageCenterModule', 'CollectionsModule'])
 
-    .controller('homeController', ['$scope','virtualCollectionsService','$translate', '$log', '$http', '$location','messageCenterService',function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService) {
+    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService) {
+
 
         $scope.listVirtualCollections = function () {
 
             $log.info("getting virtual colls");
             virtualCollectionsService.listUserVirtualCollections().then(function (virColls) {
-                console.log(virColls.data);
                 $scope.virtualCollections = virColls.data;
             });
         };
 
         $scope.hideDrives = "false";
+
         /*
-        Init the virtual collections
+         Init the virtual collections
          */
 
         $scope.listVirtualCollections();
 
-        $scope.selectVirtualCollection = function(vcName) {
+        $scope.selectVirtualCollection = function (vcName) {
             if (!vcName) {
-                messageCenterService.add('danger', rejection.data.error.message);
+                $messageCenterService.add('danger', "missing vcName");
                 return;
             }
+            $log.info("initializing virtual collection for:" + vcName);
 
-            alert("vcName:" + vcName);
+            collectionsService.listCollectionContents(vcName, "", 0).then(function (listing) {
+                $scope.pagingAwareCollectionListing = listing.data;
+            });
 
         }
 

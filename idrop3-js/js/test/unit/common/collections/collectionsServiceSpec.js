@@ -32,7 +32,6 @@ describe("Tests list contents of a vc", function () {
         var vc = mockAVc();
         $httpBackend.whenGET('collection?offset=0&path=&virtualCollection=root').respond(vc);
         collectionsService.listCollectionContents("root","",0).then(function (d) {
-
             actual = d;
         });
 

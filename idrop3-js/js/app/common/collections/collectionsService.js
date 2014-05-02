@@ -13,9 +13,14 @@ angular.module('CollectionsModule', [])
         var collectionsService = {
 
             pagingAwareCollectionListing: {},
-            virtualCollection:"",
-            parentPath:"",
 
+            /**
+             * List the contents of a collection, based on the type of virtual collection, and any subpath
+             * @param reqVcName
+             * @param reqParentPath
+             * @param reqOffset
+             * @returns {*|Error}
+             */
             listCollectionContents: function (reqVcName, reqParentPath, reqOffset) {
                 $log.info("doing get of the contents of a virtual collection");
 
@@ -25,22 +30,24 @@ angular.module('CollectionsModule', [])
                 }
 
                 if (!reqParentPath) {
-                   reqParentPath = "";
+                    reqParentPath = "";
                 }
 
                 if (!reqOffset) {
-                  reqOffset = 0;
+                    reqOffset = 0;
                 }
 
-                return $http({method: 'GET', url: 'collection',  params: {virtualCollection: reqVcName, path:reqParentPath, offset:reqOffset }}).success(function (data) {
+                return $http({method: 'GET', url: 'collection/' + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (data) {
                     pagingAwareCollectionListing = data;
-                    virtualCollection = reqVcName;
-                    parentPath = reqParentPath;
+
                 }).error(function () {
-                        virtualCollections = [];
+                        pagingAwareCollectionListing = {};
+
                     });
 
             }
+
+
 
         };
 

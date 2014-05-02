@@ -60,39 +60,41 @@ angular.module('CollectionsModule', [])
         var collectionsService = {
 
             pagingAwareCollectionListing: {},
-            virtualCollection:"",
-            parentPath:"",
 
+            /**
+             * List the contents of a collection, based on the type of virtual collection, and any subpath
+             * @param reqVcName
+             * @param reqParentPath
+             * @param reqOffset
+             * @returns {*|Error}
+             */
             listCollectionContents: function (reqVcName, reqParentPath, reqOffset) {
                 $log.info("doing get of the contents of a virtual collection");
 
                 if (!reqVcName) {
                     $log.error("recVcName is missing");
                     throw "reqMcName is missing";
-
                 }
 
                 if (!reqParentPath) {
-                    $log.error("reqParentPath is missing");
-                    throw "reqParentPath is missing";
-
+                    reqParentPath = "";
                 }
 
                 if (!reqOffset) {
-                    $log.error("reqOffset is missing");
-                    throw "reqOffset is missing";
-
+                    reqOffset = 0;
                 }
 
-                return $http({method: 'GET', url: 'collection',  params: {virtualCollection: reqVcName, path:reqParentPath, offset:reqOffset }}).success(function (data) {
+                return $http({method: 'GET', url: 'collection/' + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (data) {
                     pagingAwareCollectionListing = data;
-                    virtualCollection = reqVcName;
-                    parentPath = reqParentPath;
+
                 }).error(function () {
-                        virtualCollections = [];
+                        pagingAwareCollectionListing = {};
+
                     });
 
             }
+
+
 
         };
 
@@ -351,33 +353,37 @@ angular.module('virtualCollectionsModule', [])
 /*
  * Home controller function here
  */
-angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule'])
+angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule', 'MessageCenterModule', 'CollectionsModule'])
 
-    .controller('homeController', ['$scope','virtualCollectionsService','$translate', '$log', '$http', '$location','messageCenterService',function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService) {
+    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService) {
+
 
         $scope.listVirtualCollections = function () {
 
             $log.info("getting virtual colls");
             virtualCollectionsService.listUserVirtualCollections().then(function (virColls) {
-                console.log(virColls.data);
                 $scope.virtualCollections = virColls.data;
             });
         };
 
         $scope.hideDrives = "false";
+
         /*
-        Init the virtual collections
+         Init the virtual collections
          */
 
         $scope.listVirtualCollections();
 
-        $scope.selectVirtualCollection = function(vcName) {
+        $scope.selectVirtualCollection = function (vcName) {
             if (!vcName) {
-                messageCenterService.add('danger', rejection.data.error.message);
+                $messageCenterService.add('danger', "missing vcName");
                 return;
             }
+            $log.info("initializing virtual collection for:" + vcName);
 
-            alert("vcName:" + vcName);
+            collectionsService.listCollectionContents(vcName, "", 0).then(function (listing) {
+                $scope.pagingAwareCollectionListing = listing.data;
+            });
 
         }
 
@@ -410,7 +416,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
  */
 
 
-angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userServiceModule'])
+angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userServiceModule','MessageCenterModule'])
 
 
     .config(function () {
