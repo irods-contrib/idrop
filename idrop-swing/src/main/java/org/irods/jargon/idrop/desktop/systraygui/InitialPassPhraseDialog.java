@@ -11,7 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
 import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -25,6 +27,8 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
 	private static final long serialVersionUID = -7747139565320723806L;
 	private final IDROPCore idropCore;
 	private boolean validated = false;
+        public static org.slf4j.Logger log = LoggerFactory
+			.getLogger(InitialPassPhraseDialog.class);
 
 	/**
 	 * Creates new form InitialPassPhraseDialog
@@ -32,6 +36,7 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
 	public InitialPassPhraseDialog(final java.awt.Frame parent,
 			final boolean modal, final IDROPCore idropCore) {
 		super(parent, modal);
+                log.info("Initial pass phrase dialog");
 		this.idropCore = idropCore;
 		initComponents();
 		makeTextAreaLikeLabel();
@@ -177,6 +182,7 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
 
 	private void btnOkayActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOkayActionPerformed
 
+                log.info("btnOkayActionPerformed()");
 		String passPhrase = new String(txtPassPhrase.getPassword());
 
 		// make sure pass phrase is entered
@@ -193,7 +199,9 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
 			return;
 		}
 		try {
+                        log.info("calling validatePassPhrase()");
 			idropCore.getConveyorService().validatePassPhrase(passPhrase);
+                        log.info("validated");
 		} catch (PassPhraseInvalidException ex) {
 			Logger.getLogger(InitialPassPhraseDialog.class.getName()).log(
 					Level.SEVERE, null, ex);

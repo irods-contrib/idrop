@@ -56,6 +56,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 	public GridMemoryDialog(final java.awt.Frame parent, final boolean modal,
 			final IDROPCore idropCore, final IRODSAccount savedAccount) {
 		super(parent, modal);
+                log.info("GridMemoryDialog()");
 		initComponents();
 		this.idropCore = idropCore;
 		initGridInfoTable();
@@ -63,6 +64,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 	}
 
 	private void initGridInfoTable() {
+            log.info("initGridInfoTable()");
 		dialog = this;
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -72,6 +74,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 					GridAccountService gridAccountService = idropCore
 							.getConveyorService().getGridAccountService();
 					List<GridAccount> gridAccounts = null;
+                                        log.info("listing all grid accounts:()");
 					gridAccounts = gridAccountService.findAll();
 
 					GridInfoTableModel gridInfoTableModel = new GridInfoTableModel(
@@ -117,7 +120,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 	}
 
 	private boolean processLogin() {
-
+            
 		IRODSAccount irodsAccount = null;
 		GridAccount loginAccount = null;
 

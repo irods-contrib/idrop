@@ -163,8 +163,10 @@ public class IDROPDesktop {
 
         try {
             if (idropCore.getConveyorService().getConfigurationService().isInTearOffMode()) {
+                log.info("in tear off mode");
                 validated = this.processTearOffMode();
             } else {
+                log.info("processing normal pass phrase");
                 validated = this.processNormalPassPhrase(idropSplashWindow);
             }
         } catch (IdropException ex) {
@@ -261,9 +263,11 @@ public class IDROPDesktop {
     }
 
     private boolean processNormalPassPhrase(IDROPSplashWindow idropSplashWindow) throws IdropException, ConveyorExecutionException {
+        log.info("process normal pass phrase");
         boolean validated = false;
         // check to see if need to set up initial pass phrase
         if (idropCore.getConveyorService().isPreviousPassPhraseStored()) {
+            log.info("no previous pass phrase");
             // ask for pass phrase
             final PassPhraseDialog passPhraseDialog = new PassPhraseDialog(
                     null, true, idropCore);
@@ -276,6 +280,7 @@ public class IDROPDesktop {
             passPhraseDialog.toFront();
             passPhraseDialog.setVisible(true);
             validated = passPhraseDialog.isValidated();
+            log.info("pass phrase dialog processed...validated? {}", validated);
 
         } else {
             // initialize pass phrase
@@ -291,8 +296,13 @@ public class IDROPDesktop {
             initialPassPhraseDialog.toFront();
             initialPassPhraseDialog.setVisible(true);
             validated = initialPassPhraseDialog.isValidated();
+            log.info("pass phrase dialog processed...validated? {}", validated);
         }
-
+        
+        if (!validated) {
+            log.info("not validated...exit");
+            System.exit(0);
+        }
         final GridMemoryDialog gridMemoryDialog = new GridMemoryDialog(
                 null, true, idropCore, null);
         Toolkit tk = idrop.getToolkit();
