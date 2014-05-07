@@ -37,4 +37,14 @@ Other modules are planned in later releases for REST-ful API and mobile access.
 Jargon-core uses Maven for dependency management.  See the pom.xml file for references to various dependencies.
 
 NOTE: bug fixes and features in individual sub-project release notes
+
+
+## Enhancements and Fixes
+
+* set directory custom path in iDrop appears to be not working on Win7 #7
+
+* Flow manager integration #4
+
+
+
  

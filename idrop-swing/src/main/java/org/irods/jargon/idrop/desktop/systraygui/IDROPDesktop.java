@@ -213,35 +213,6 @@ public class IDROPDesktop {
 
         idrop.signalIdropCoreReadyAndSplashComplete();
 
-        // see if I show the gui at startup or show a message
-        if (idropCore.getIdropConfig().isShowGuiAtStartup()) {
-            idrop.showIdropGui();
-        } else {
-            Object[] options = {"Do not show GUI at startup",
-                "Show GUI at startup"};
-
-            int n = JOptionPane
-                    .showOptionDialog(
-                    idrop,
-                    "iDrop has started.\nCheck your system tray to access the iDrop user interface. ",
-                    "iDrop - Startup Complete",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, null, options,
-                    options[0]);
-            log.info("response was:{}", n);
-            if (n == 1) {
-                log.info("switching to show GUI at startup");
-                try {
-                    idropCore.getIdropConfigurationService().updateConfig(
-                            IdropConfigurationService.SHOW_GUI, "true");
-                    idrop.showIdropGui();
-                } catch (IdropException ex) {
-                    log.error("error setting show GUI at startup", ex);
-                    throw new IdropRuntimeException(ex);
-                }
-            }
-        }
-
         idropSplashWindow.setStatus("Starting work queue...", ++count);
 
         log.info("signal that the startup sequence is complete");
