@@ -63,6 +63,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileSystemMo
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
+import org.irods.jargon.transfer.dao.domain.GridAccount;
 import org.netbeans.swing.outline.Outline;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
@@ -249,7 +250,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
 
             /**
-             * A tree has not been previosly loaded, establish the root (strict
+             * A tree has not been previously loaded, establish the root (strict
              * ACLs? Login preset?)
              */
             private void loadNewTree() throws JargonException, IdropException {
@@ -371,9 +372,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             @Override
             public void run() {
                 lastCachedInfoItem = null;
-                idropGui.buildTargetTree(true);
-
                 getiDropCore().setBasePath(null);
+                idropGui.buildTargetTree(true);
                 setUpAccountGutter();
             }
         });
@@ -578,9 +578,24 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     private synchronized String getBasePath() throws JargonException {
         String myBase = getiDropCore().getBasePath();
-
-        // if no base defined, see if there is a prese
+        
         if (myBase == null) {
+            log.info("checking to see if the grid account has a preset path");
+            
+            try {
+                GridAccount gridAccount = this.getiDropCore().getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(this.getIrodsAccount());
+                myBase = gridAccount.getDefaultPath();
+                log.info("base from grid account preset:{}", myBase);
+            } catch (ConveyorExecutionException ex) {
+                log.error("error obtaining grid account for this iRODS account", ex);
+                throw new IdropRuntimeException("cannot obtain grid account for given iRODS account", ex);
+            }
+            
+            
+        }
+       
+        // if no base defined, see if there is a prese
+        if (myBase == null || myBase.isEmpty()) {
 
             if (getiDropCore().irodsAccount().isAnonymousAccount()) {
                 log.info("user is anonymous, default to view the public directory");
