@@ -14,6 +14,11 @@ angular.module('CollectionsModule', [])
 
             pagingAwareCollectionListing: {},
 
+            selectVirtualCollection : function(vcName) {
+                alert(vcName);
+            },
+
+
             /**
              * List the contents of a collection, based on the type of virtual collection, and any subpath
              * @param reqVcName

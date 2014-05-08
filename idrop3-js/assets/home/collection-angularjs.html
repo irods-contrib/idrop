@@ -7,10 +7,10 @@
                         <span class="glyphicon glyphicon-home"></span><span
                             class="glyphicon-class"></span>
                     </button>
-                    <span ng-repeat="coll in collection.path">
-                    <button ng-click="goto(coll.id)" type="button" class="btn btn-link">
-                        <span ng-hide="$first">/ {{coll.path}} </span>
-                        <span ng-show="$first">root</span>
+                    <span ng-repeat="breadcrumb in pagingAwareCollectionListing.pathComponents">
+                    <button ng-click="goToBreadcrumb(breadcrumb)" type="button" class="btn btn-link">
+                        <span ng-hide="$first">/ {{breadcrumb}} </span>
+                        <span ng-show="$first">root (/)</span>
                     </button>
                     </span>
                 </div>

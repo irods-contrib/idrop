@@ -63,6 +63,11 @@ angular.module('CollectionsModule', [])
 
             pagingAwareCollectionListing: {},
 
+            selectVirtualCollection : function(vcName) {
+                alert(vcName);
+            },
+
+
             /**
              * List the contents of a collection, based on the type of virtual collection, and any subpath
              * @param reqVcName
@@ -179,13 +184,19 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
 
 angular.module('angularTranslateApp', ['pascalprecht.translate']).config(function ($translateProvider) {
         $translateProvider.translations('en', {
+            ADD_TO_CART: 'Add to Cart',
+            DELETE: 'Delete',
             HOST: 'Host',
             LOGIN_HEADLINE: 'Please login to iDrop',
+            MOVE_COPY: 'Move/Copy',
             NEED_HELP: 'Need help?',
             PASSWORD: 'Password',
             PORT: 'Port',
+            RENAME: 'Rename',
             SIGN_IN: 'Sign in',
+            TOOLS: 'Tools',
             USER_NAME: 'User Name',
+            VIEW_DETAILS: 'View Details',
             ZONE: 'Zone'
         });
         $translateProvider.preferredLanguage('en');
@@ -325,6 +336,7 @@ angular.module('virtualCollectionsModule', [])
 
             virtualCollections: [],
             virtualCollectionContents: [],
+            selectedVirtualCollection : {},
 
             listUserVirtualCollections: function () {
                 $log.info("doing get of virtual collections");
@@ -384,6 +396,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
                 // do a listing
                 pagingAwareCollectionListing: function ($route, collectionsService) {
                     var vcName = $route.current.params.vcName;
+                    collectionsService.selectVirtualCollection(vcName);
                     return collectionsService.listCollectionContents(vcName, "", 0);
                 }
 
@@ -409,9 +422,15 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
     .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVcName', 'pagingAwareCollectionListing', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVcName, pagingAwareCollectionListing) {
 
         $scope.selectedVcName = selectedVcName;
+        $scope.selectedVc = collectionsService.selectedVirtualCollection;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
         $scope.numberSelected = 0;
+        $scope.breadcrumbs = [];
+        $scope.hideDrives = "false";
 
+        /**
+         * List all virtual collections for the user
+         */
         $scope.listVirtualCollections = function () {
 
             $log.info("getting virtual colls");
@@ -420,17 +439,8 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             });
         };
 
-        $scope.hideDrives = "false";
-
-        /*
-         Init the virtual collections
-         */
-
-        $scope.listVirtualCollections();
-
-
-        /*
-         * Handle the selection of a virtual collection from the virtual collection list, by causing a route change
+        /**
+         * Handle the selection of a virtual collection from the virtual collection list, by causing a route change and updating the selected virtual collection
          * @param vcName
          */
         $scope.selectVirtualCollection = function (vcName) {
@@ -439,12 +449,11 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
                 return;
             }
             $log.info("initializing virtual collection for:" + vcName);
-
             $location.path("/home/" + vcName);
 
         }
 
-        /*
+        /**
          * Cause the collections panel on the left to display
          */
         $scope.showCollections = function () {
@@ -452,20 +461,27 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             $scope.hideDrives = "false";
         };
 
-        /*
+        /**
          * Cause the collections panel on the left to be hidden
          */
         $scope.hideCollections = function () {
             $scope.hideDrives = "true";
         };
 
-        /*
+        /**
          * respond to selection of a check box in the listing
          */
         $scope.updateSelectedFromCollection = function (action, id) {
             var checkbox = action.target;
            (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
         }
+
+        /**
+         * INIT
+         */
+
+        $scope.listVirtualCollections();
+
     }]);
 
 

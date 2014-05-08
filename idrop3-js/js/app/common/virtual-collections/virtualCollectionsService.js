@@ -10,6 +10,7 @@ angular.module('virtualCollectionsModule', [])
 
             virtualCollections: [],
             virtualCollectionContents: [],
+            selectedVirtualCollection : {},
 
             listUserVirtualCollections: function () {
                 $log.info("doing get of virtual collections");
