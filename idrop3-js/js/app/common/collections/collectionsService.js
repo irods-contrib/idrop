@@ -46,9 +46,6 @@ angular.module('CollectionsModule', [])
                     });
 
             }
-
-
-
         };
 
         return collectionsService;

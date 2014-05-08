@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat = "d in pagingAwareCollectionListing.collectionAndDataObjectListingEntries">
-                    <td><input ng-change="update(d)" ng-model="d.selected" type="checkbox"></td>
+                    <td><input ng-click="updateSelectedFromCollection($event, d.id)" ng-model="d.selected" type="checkbox"></td>
                     <td>
                         <span class="glyphicon glyphicon-folder-close" />
                     </td>
