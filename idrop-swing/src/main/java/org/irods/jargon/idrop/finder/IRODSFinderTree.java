@@ -120,6 +120,11 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
 		m_popup = new JPopupMenu();
 		m_action = new AbstractAction() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -7582714315889710792L;
+
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				if (m_clickedPath == null) {
@@ -137,6 +142,11 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
 		m_popup.add(m_action);
 
 		Action newAction = new AbstractAction("New Folder") {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2669919936325234315L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -177,6 +187,11 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
 		m_popup.addSeparator();
 
 		Action a1 = new AbstractAction("Delete") {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3538636977493284208L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -219,6 +234,11 @@ public class IRODSFinderTree extends Outline implements TreeWillExpandListener,
 
 		m_popup.add(a1);
 		Action a2 = new AbstractAction("Rename") {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 8880274157384321980L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {

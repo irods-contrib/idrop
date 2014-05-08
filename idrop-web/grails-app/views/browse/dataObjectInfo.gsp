@@ -1,3 +1,4 @@
+<%@page import="java.lang.String"%>
 <g:hiddenField id="infoAbsPath" name="absolutePath"
 	value="${dataObject.absolutePath}" />
 
@@ -21,11 +22,9 @@
 
 
 			<h3>
-				${dataObject.dataName}
+				<Jsoup:clean>${dataObject.dataName}</Jsoup:clean>
 			</h3>
 		</div>
-
-
 
 		<ul class="nav nav-tabs" id="infoTabs">
 			<li class="active"><a href="#info" id="infoTab"><g:message
@@ -41,6 +40,11 @@
 			</g:if>
 			<li><a href="#audit" id="auditTab"><g:message
 						code="text.audit" /></a></li>
+						<g:if
+				test="${rule}">
+				<li><a href="#rule" id="ruleTab"><g:message
+							code="text.rule" /></a></li>
+			</g:if>
 		</ul>
 
 		<div class="tab-content">
@@ -206,8 +210,8 @@
 							:</strong>
 						</div>
 						<div class="span10">
-							<g:textField id="infoTags" name="tags"
-								value="${tags.spaceDelimitedTagsForDomain}" />
+							<Jsoup:clean><g:textField id="infoTags" name="tags"
+								value="${tags.spaceDelimitedTagsForDomain}" /></Jsoup:clean>
 						</div>
 					</div>
 					<div class="row">
@@ -216,8 +220,8 @@
 							:</strong>
 						</div>
 						<div class="span10">
-							<g:textArea id="infoComment" name="comment" rows="5" cols="80"
-								value="${comment}" />
+							<Jsoup:clean><g:textArea id="infoComment" name="comment" rows="5" cols="80"
+								value="${comment}" /></Jsoup:clean>
 						</div>
 					</div>
 					<div class="row">
@@ -246,6 +250,12 @@
 			<div class="tab-pane" id="audit">
 				<div id="infoAccordionAuditInner"></div>
 			</div>
+			<g:if
+				test="${rule}">
+				<div class="tab-pane" id="rule">
+					<div id="infoAccordionRuleInner"></div>
+				</div>
+			</g:if>
 		</div>
 
 	</div>
@@ -283,6 +293,10 @@
 
 			$('#auditTab').on('shown', function(e) {
 				showAuditView(selectedPath, "#infoAccordionAuditInner");
+			});
+
+			$('#ruleTab').on('shown', function(e) {
+				showRuleView(selectedPath, "#infoAccordionRuleInner");
 			});
 
 		});

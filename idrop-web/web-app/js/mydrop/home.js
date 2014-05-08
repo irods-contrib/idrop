@@ -93,6 +93,8 @@ function retrieveBrowserFirstView(type, path, pathSelectedInTree) {
 	dataTreePath = path;
 	requestedSelectedPath = pathSelectedInTree;
 	
+	//alert("requestedSelectedPath:" + requestedSelectedPath);
+	
 	$.bbq.pushState(state);
 
 	var parms = {
@@ -200,10 +202,10 @@ function browserFirstViewRetrieved(data) {
 	
     
 	$("#dataTreeDiv").bind("loaded.jstree", function(e, data) {
+		
+		//alert("tree loaded stuff now");
 		if (requestedSelectedPath) {
 			selectTreePathFromIrodsPath(requestedSelectedPath);
-		} else {
-			
 		}
 	});
 	
@@ -267,6 +269,7 @@ function browserFirstViewRetrieved(data) {
 	 * 
 	 * otherwise, just use the root of the tree as the initial selection
 	 */
+	//alert("path stuff now");
 	if (selectedPath) {
 		updateBrowseDetailsForPathBasedOnCurrentModel(selectedPath);
 	} else if (requestedSelectedPath) {
@@ -927,6 +930,37 @@ function showTicketView(absPath, targetDiv) {
 
 }
 
+/*
+* Show the rule view
+* 
+* @param absPath
+* @returns {Boolean}
+*/
+function showRuleView(absPath, targetDiv) {
+	if (absPath == null) {
+		absPath = baseAbsPath;
+	}
+
+	if (targetDiv == null) {
+		targetDiv = "#infoDiv";
+	}
+
+	try {
+
+		lcSendValueAndCallbackHtmlAfterErrorCheckThrowsException(
+				"/rule/index?absPath=" + encodeURIComponent(absPath),
+				targetDiv, function(data) {
+					// alert("data is:" + data);
+					$(targetDiv).html(data);
+				}, function() {
+					setInfoDivNoData();
+				});
+	} catch (err) {
+		setInfoDivNoData();
+	}
+
+}
+
 /**
  * Show the dialog to allow upload of data in quick upload mode
  */
@@ -1553,7 +1587,7 @@ function showIdropLiteGivenPath(path, displayMode) {
 						// 'http://iren-web.renci.org/idrop-web/applet');//dataJSON.appletUrl);
 						a.setAttribute('codebase', dataJSON.appletUrl);
 						a.setAttribute('archive', dataJSON.archive);
-						a.setAttribute('width', 700);
+						a.setAttribute('width', 800);
 						a.setAttribute('height', 600);
 						var p = document.createElement('param');
 						p.setAttribute('name', 'mode');

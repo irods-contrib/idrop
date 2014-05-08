@@ -1,11 +1,11 @@
 package org.irods.jargon.idrop.exceptions;
 
-/**
+/** 
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IdropRuntimeException extends RuntimeException {
 
-	/**
+	/** 
 	 * 
 	 */
 	private static final long serialVersionUID = 8562374621379778140L;
@@ -24,4 +24,6 @@ public class IdropRuntimeException extends RuntimeException {
 
 	public IdropRuntimeException() {
 	}
+
+   
 }

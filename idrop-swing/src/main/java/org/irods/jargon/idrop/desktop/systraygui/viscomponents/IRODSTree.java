@@ -42,8 +42,8 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 		TreeExpansionListener, IRODSTreeContainingComponent {
 
 	/**
-	 * 
-	 */
+     *
+     */
 	private static final long serialVersionUID = -7815706939610881953L;
 	public static org.slf4j.Logger log = LoggerFactory
 			.getLogger(IRODSTree.class);
@@ -141,6 +141,10 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 		thisTree = this;
 		m_popup = new JPopupMenu();
 		m_action = new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 7892834665485518474L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -159,6 +163,10 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 		m_popup.add(m_action);
 
 		Action newAction = new AbstractAction("New Folder") {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -5440066731375232885L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -197,6 +205,10 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 		m_popup.addSeparator();
 
 		Action a1 = new AbstractAction("Delete") {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -5755781062958243058L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -237,6 +249,10 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 
 		m_popup.add(a1);
 		Action a2 = new AbstractAction("Rename") {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2540520099138042530L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -315,7 +331,12 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 						inode = (IRODSNode) node;
 						CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) inode
 								.getUserObject();
-						fullPath = entry.getPathOrName();
+
+						if (entry.isCollection()) {
+							fullPath = entry.getPathOrName();
+						} else {
+							fullPath = entry.getParentPath();
+						}
 					}
 
 					if (fullPath != null) {
@@ -352,7 +373,6 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 
 	@Override
 	public void treeWillExpand(final TreeExpansionEvent event)
-
 	// TODO: Need to make this a swing worker??
 			throws ExpandVetoException {
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -377,7 +397,6 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 	public void highlightPath(final TreePath pathToHighlight) {
 		final IRODSTree highlightTree = this;
 		java.awt.EventQueue.invokeLater(new Runnable() {
-
 			@Override
 			public void run() {
 				highlightTree.collapsePath(pathToHighlight);
@@ -387,7 +406,6 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 			}
 		});
 	}
-
 	// FIXME: move out?
 	/*
 	 * public class TransferActionListener implements ActionListener,
@@ -407,4 +425,5 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 	 * a.actionPerformed(new ActionEvent(focusOwner,
 	 * ActionEvent.ACTION_PERFORMED, null)); } } }
 	 */
+
 }

@@ -15,7 +15,6 @@ import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.domain.Collection;
 import org.irods.jargon.core.pub.domain.DataObject;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
@@ -251,23 +250,17 @@ public class InfoPanelTransferHandler extends TransferHandler {
 		log.info(
 				"drop of a local file  onto an iRODS data object, will process as a drop on parent collection:{}",
 				dataObject.getCollectionName());
-
-		try {
-			log.info("enqueue a put operation");
-			idropGui.getiDropCore()
-					.getTransferManager()
-					.enqueueAPut(
-							sourcePath,
-							dataObject.getCollectionName(),
-							idropGui.getIrodsAccount()
-									.getDefaultStorageResource(),
-							idropGui.getIrodsAccount());
-		} catch (JargonException ex) {
-			Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(
-					Level.SEVERE, null, ex);
-			throw new IdropException("error enqueing put operation", ex);
-		}
-
+		// FIXME: conveyor
+		/*
+		 * try { log.info("enqueue a put operation");
+		 * idropGui.getiDropCore().getTransferManager().enqueueAPut( sourcePath,
+		 * dataObject.getCollectionName(),
+		 * idropGui.getIrodsAccount().getDefaultStorageResource(),
+		 * idropGui.getIrodsAccount()); } catch (JargonException ex) {
+		 * Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(
+		 * Level.SEVERE, null, ex); throw new
+		 * IdropException("error enqueing put operation", ex); }
+		 */
 	}
 
 	private void processDropOnCollection(final Collection collection,
@@ -284,22 +277,17 @@ public class InfoPanelTransferHandler extends TransferHandler {
 				"drop of a local file  onto an iRODS collection, will process as a drop on parent collection:{}",
 				collection.getCollectionName());
 
-		try {
-			log.info("enqueue a put operation");
-			idropGui.getiDropCore()
-					.getTransferManager()
-					.enqueueAPut(
-							sourcePath,
-							collection.getCollectionName(),
-							idropGui.getIrodsAccount()
-									.getDefaultStorageResource(),
-							idropGui.getIrodsAccount());
-		} catch (JargonException ex) {
-			Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(
-					Level.SEVERE, null, ex);
-			throw new IdropException("error enqueing put operation", ex);
-		}
-
+		// FIXME: conveyor
+		/*
+		 * try { log.info("enqueue a put operation");
+		 * idropGui.getiDropCore().getTransferManager().enqueueAPut( sourcePath,
+		 * collection.getCollectionName(),
+		 * idropGui.getIrodsAccount().getDefaultStorageResource(),
+		 * idropGui.getIrodsAccount()); } catch (JargonException ex) {
+		 * Logger.getLogger(InfoPanelTransferHandler.class.getName()).log(
+		 * Level.SEVERE, null, ex); throw new
+		 * IdropException("error enqueing put operation", ex); }
+		 */
 	}
 
 	/**
@@ -309,6 +297,7 @@ public class InfoPanelTransferHandler extends TransferHandler {
 	 * @param support
 	 * @throws IdropRuntimeException
 	 */
+	@SuppressWarnings("unchecked")
 	private void processDesktopDrop(final Transferable transferable,
 			final DataFlavor[] dataFlavors, final TransferSupport support)
 			throws IdropException {
@@ -386,4 +375,5 @@ public class InfoPanelTransferHandler extends TransferHandler {
 		log.info("drop from desktop processed");
 
 	}
+
 }

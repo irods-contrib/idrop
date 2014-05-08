@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.irods.jargon.conveyor.core.ConveyorService;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
@@ -15,7 +16,6 @@ import org.irods.jargon.idrop.desktop.systraygui.services.IconManager;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
-import org.irods.jargon.transfer.engine.TransferManager;
 import org.slf4j.LoggerFactory;
 
 public class IDROPCore {
@@ -34,12 +34,21 @@ public class IDROPCore {
 	}
 
 	private IdropConfig idropConfig = null;
-	private TransferManager transferManager = null;
+	private ConveyorService conveyorService = null;
+
 	private IconManager iconManager = null;
 	private Timer queueTimer = new Timer();
 	private IdropConfigurationService idropConfigurationService = null;
 	private final DateFormat dateFormat = DateFormat.getDateTimeInstance();
 	private String basePath = null;
+
+	public ConveyorService getConveyorService() {
+		return conveyorService;
+	}
+
+	public void setConveyorService(final ConveyorService conveyorService) {
+		this.conveyorService = conveyorService;
+	}
 
 	public synchronized String getBasePath() {
 		return basePath;
@@ -66,7 +75,7 @@ public class IDROPCore {
 		super();
 	}
 
-	public IRODSAccount getIrodsAccount() {
+	public IRODSAccount irodsAccount() {
 		return irodsAccount;
 	}
 
@@ -80,14 +89,6 @@ public class IDROPCore {
 
 	public void setIdropConfig(final IdropConfig idropConfig) {
 		this.idropConfig = idropConfig;
-	}
-
-	public TransferManager getTransferManager() {
-		return transferManager;
-	}
-
-	public void setTransferManager(final TransferManager transferManager) {
-		this.transferManager = transferManager;
 	}
 
 	public IconManager getIconManager() {
@@ -228,7 +229,7 @@ public class IDROPCore {
 			log.info("using policy preset home directory");
 			StringBuilder sb = new StringBuilder();
 			sb.append("/");
-			sb.append(getIrodsAccount().getZone());
+			sb.append(irodsAccount().getZone());
 			sb.append("/");
 			sb.append("home");
 			root = sb.toString();
@@ -249,4 +250,5 @@ public class IDROPCore {
 		}
 
 	}
+
 }

@@ -21,8 +21,8 @@ import org.slf4j.LoggerFactory;
 public class PermissionsTableModel extends AbstractTableModel {
 
 	/**
-	 * 
-	 */
+     *
+     */
 	private static final long serialVersionUID = -1321576471314258457L;
 	List<UserFilePermission> permissions;
 	List<UserFilePermission> origPermissions;
@@ -120,7 +120,8 @@ public class PermissionsTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(final int row, final int column) {
-		return (column != 0);
+		// all cells false
+		return false;
 	}
 
 	public void addRow(final User user, final FilePermissionEnum permissionEnum)
@@ -156,6 +157,15 @@ public class PermissionsTableModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 
+	public UserFilePermission getRow(final int row) {
+		return permissions.get(row);
+	}
+
+	public void updateRow(final int row, final UserFilePermission permission) {
+		permissions.set(row, permission);
+		fireTableDataChanged();
+	}
+
 	public UserFilePermission[] getPermissionsToDelete() {
 
 		Set<UserFilePermission> permissionsToDeleteSet = new HashSet<UserFilePermission>(
@@ -181,5 +191,4 @@ public class PermissionsTableModel extends AbstractTableModel {
 	public void resetOriginalPermissionList() {
 		origPermissions = new ArrayList(permissions);
 	}
-
 }

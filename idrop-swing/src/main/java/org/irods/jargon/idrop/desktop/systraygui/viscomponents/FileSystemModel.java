@@ -19,8 +19,8 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
  */
 public class FileSystemModel implements TreeModel {
 
-	private File root;
-	private List listeners = new ArrayList();
+	private final File root;
+	private final List<TreeModelListener> listeners = new ArrayList<TreeModelListener>();
 
 	public FileSystemModel(final File rootDirectory) {
 		root = rootDirectory;
@@ -93,10 +93,10 @@ public class FileSystemModel implements TreeModel {
 			final int[] indices, final Object[] children) {
 		TreeModelEvent event = new TreeModelEvent(this, parentPath, indices,
 				children);
-		Iterator iterator = listeners.iterator();
+		Iterator<TreeModelListener> iterator = listeners.iterator();
 		TreeModelListener listener = null;
 		while (iterator.hasNext()) {
-			listener = (TreeModelListener) iterator.next();
+			listener = iterator.next();
 			listener.treeNodesChanged(event);
 		}
 	}

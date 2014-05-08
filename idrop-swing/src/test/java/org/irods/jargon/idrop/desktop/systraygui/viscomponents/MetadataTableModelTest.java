@@ -2,20 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
-import java.lang.Class;
 import java.util.ArrayList;
 import java.util.List;
 import org.irods.jargon.core.query.MetaDataAndDomainData;
 import org.irods.jargon.core.query.MetaDataAndDomainData.MetadataDomain;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -30,8 +28,8 @@ public class MetadataTableModelTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        MetaDataAndDomainData metadata = MetaDataAndDomainData.instance(MetadataDomain.DATA, "1", "abspath", "attribute", "value", "units");
-       metadataAndDomainData.add(metadata);
+        MetaDataAndDomainData metadata = MetaDataAndDomainData.instance(MetadataDomain.DATA, "1", "abspath", 0,"attribute", "value", "units");
+        metadataAndDomainData.add(metadata);
     }
 
     @AfterClass
@@ -58,7 +56,7 @@ public class MetadataTableModelTest {
         Class expResult = String.class;
         Class result = instance.getColumnClass(columnIndex);
         assertEquals(expResult, result);
-        
+
     }
 
     /**
@@ -73,7 +71,7 @@ public class MetadataTableModelTest {
         String expResult = "ID";
         String result = instance.getColumnName(columnIndex);
         assertEquals(expResult, result);
-        
+
     }
 
     /**
@@ -98,7 +96,7 @@ public class MetadataTableModelTest {
         int expResult = 5;
         int result = instance.getColumnCount();
         assertEquals(expResult, result);
-        
+
     }
 
     /**
@@ -113,7 +111,6 @@ public class MetadataTableModelTest {
         Object expResult = "1";
         Object result = instance.getValueAt(rowIndex, columnIndex);
         assertEquals(expResult, result);
-      
-    }
 
+    }
 }

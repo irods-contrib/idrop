@@ -6,9 +6,7 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.io.File;
 import java.util.Properties;
-
 import junit.framework.Assert;
-import junit.framework.TestCase;
 import org.irods.jargon.testutils.IRODSTestSetupUtilities;
 import org.irods.jargon.testutils.TestingPropertiesHelper;
 import org.irods.jargon.testutils.filemanip.FileGenerator;

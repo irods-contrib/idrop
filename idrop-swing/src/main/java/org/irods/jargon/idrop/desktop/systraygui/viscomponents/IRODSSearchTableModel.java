@@ -49,6 +49,7 @@ public class IRODSSearchTableModel extends AbstractTableModel {
 	// type, parent, name, created, modified
 	@Override
 	public Class<?> getColumnClass(final int i) {
+		@SuppressWarnings("rawtypes")
 		Class clazz = null;
 		switch (i) {
 		case 0:

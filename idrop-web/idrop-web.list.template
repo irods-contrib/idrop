@@ -181,7 +181,7 @@ RESULT=$$(ps ax | grep -v grep | grep -i tomcat)
 if [ -n "$$RESULT" ];
 then
   echo "INFO :: Starting Tomcat ..."
-  /usr/sbin/service ${TOMCAT_VER} start
+  /usr/sbin/service tomcat${TOMCAT_VER} start
 fi
 
 # wait until the tomcat conf/Catalina/localhost folder is created

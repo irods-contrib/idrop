@@ -7,6 +7,8 @@ beans = {
 	
 	sharingService(org.irods.mydrop.service.SharingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 	
+	ruleProcessingService(org.irods.mydrop.service.RuleProcessingService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
+	
 	
 	browseController(org.irods.mydrop.controller.BrowseController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
@@ -46,6 +48,10 @@ beans = {
 	profileController(org.irods.mydrop.controller.ProfileController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 	
 	homeController(org.irods.mydrop.controller.HomeController) {
+		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
+	}
+	
+	ruleController(org.irods.mydrop.controller.RuleController) {
 		irodsAccessObjectFactory = ref("irodsAccessObjectFactory")
 	}
 

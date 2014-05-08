@@ -7,7 +7,6 @@ import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.transfer.dao.domain.Synchronization;
-import org.irods.jargon.transfer.engine.synch.ConflictingSynchException;
 
 /**
  * 
@@ -58,6 +57,7 @@ public interface IdropConfigurationService {
 	public static final String IRODS_IO_GET_BUFFER_SIZE = "jargon.get.buffer.size";
 	public static final String IRODS_CONNECTION_RESTART = "transfer.reconnect";
 	public static final String IDROP_ENABLE_RESC_EDIT = "idrop.settings.enable_default_resc_edit";
+	public static final String MAX_TRANSFER_ERRORS = "transferengine.max.transfer.errors";
 
 	Properties bootstrapConfigurationAndMergePropertiesFromLocalAndClasspath()
 			throws IdropException;
@@ -92,20 +92,6 @@ public interface IdropConfigurationService {
 
 	void removeConfigProperty(final String key) throws IdropException;
 
-	/**
-	 * Create a new synchronization configuration, checking for conflicts and
-	 * properly configuring both local and iRODS configuration
-	 * 
-	 * @param synchConfiguration
-	 *            {@link Synchronization}
-	 * @throws IdropException
-	 * @throws ConflictingSynchException
-	 */
-	void createNewSynchronization(final Synchronization synchConfiguration)
-			throws IdropException, ConflictingSynchException;
-
-	void updateSynchronization(final Synchronization synchConfiguration)
-			throws IdropException, ConflictingSynchException;
 
 	/**
 	 * Cause the transfer options using in the transfer engine to be updated

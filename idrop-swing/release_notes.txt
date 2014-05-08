@@ -1,8 +1,9 @@
 
 *'''Project''': iDrop-swing- Desktop iRODS transfer manager
 *'''Date''': 
-*'''Release Version''': 2.0.1 snapshot
-*'''git tag''': release branch
+*'''Release Version''': development branch
+*'''git tag''': 
+
 
 ==News==
 
@@ -34,8 +35,7 @@ Note that the following bug and feature requests are logged in GForge with relat
 **Added a tools menu and a diff view dialog to compare local and iRODS directories, viewing differences
 
 ==Bug Fixes==
-* [#1093] Broken pipe error did not propogate in parallel transfer
-**Minor fixes to better propogate errors to queue manager
+
 
 *[#1340] allow switching of resource by default
 
@@ -50,6 +50,8 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 *[#1553] faulty sl4j bindings
 **Added sl4j/log4j bindings removed in jargon-core
+
+*[#1850] Direct login mode allows use of iDrop on a shared computer setting with a temporary set of accounts
 
 ==Outstanding Issues==
 

@@ -19,15 +19,33 @@ public class MessageManager {
 				JOptionPane.ERROR_MESSAGE);
 	}
 
+	public static void showError(final Component rootComponent,
+			final String message) {
+		JOptionPane.showMessageDialog(rootComponent, message, TITLE_MESSAGE,
+				JOptionPane.ERROR_MESSAGE);
+	}
+
 	public static void showWarning(final Component rootComponent,
 			final String message, final String title) {
 		JOptionPane.showMessageDialog(rootComponent, message, title,
 				JOptionPane.WARNING_MESSAGE);
 	}
 
+	public static void showWarning(final Component rootComponent,
+			final String message) {
+		JOptionPane.showMessageDialog(rootComponent, message, TITLE_MESSAGE,
+				JOptionPane.WARNING_MESSAGE);
+	}
+
 	public static void showMessage(final Component rootComponent,
 			final String message, final String title) {
 		JOptionPane.showMessageDialog(rootComponent, message, title,
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public static void showMessage(final Component rootComponent,
+			final String message) {
+		JOptionPane.showMessageDialog(rootComponent, message, TITLE_MESSAGE,
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 }

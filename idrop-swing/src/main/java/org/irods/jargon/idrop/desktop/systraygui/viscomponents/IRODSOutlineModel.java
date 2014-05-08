@@ -196,7 +196,7 @@ public class IRODSOutlineModel extends DefaultOutlineModel {
 					}
 
 					IRODSNode newNode = new IRODSNode(newEntry, idrop
-							.getiDropCore().getIrodsAccount(), idrop
+							.getiDropCore().irodsAccount(), idrop
 							.getiDropCore().getIrodsFileSystem(), irodsTree);
 					((IRODSNode) parentPath.getLastPathComponent())
 							.add(newNode);

@@ -1,4 +1,3 @@
-
 /*
  * NewIRODSDirectoryDialog.java
  *
@@ -260,7 +259,7 @@ public class FinderNewIRODSDirectoryDialog extends javax.swing.JDialog {
 					try {
 						irodsFileService = new IRODSFileService(
 								irodsFinderDialog.getIdropCore()
-										.getIrodsAccount(), irodsFinderDialog
+										.irodsAccount(), irodsFinderDialog
 										.getIdropCore().getIrodsFileSystem());
 					} catch (IdropException ex) {
 						Logger.getLogger(
@@ -301,7 +300,7 @@ public class FinderNewIRODSDirectoryDialog extends javax.swing.JDialog {
 					entry.setParentPath(parentDirectory);
 					entry.setPathOrName(newDirPath);
 					IRODSNode newNode = new IRODSNode(entry, irodsFinderDialog
-							.getIdropCore().getIrodsAccount(),
+							.getIdropCore().irodsAccount(),
 							irodsFinderDialog.getIdropCore()
 									.getIrodsFileSystem(), irodsFinderDialog
 									.getIrodsTree());
@@ -351,6 +350,11 @@ public class FinderNewIRODSDirectoryDialog extends javax.swing.JDialog {
 		KeyStroke enter = KeyStroke.getKeyStroke(
 				java.awt.event.KeyEvent.VK_ENTER, 0);
 		Action enterAction = new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8299613621717739688L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {

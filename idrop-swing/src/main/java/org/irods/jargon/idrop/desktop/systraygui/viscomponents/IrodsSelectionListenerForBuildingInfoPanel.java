@@ -25,7 +25,6 @@ public class IrodsSelectionListenerForBuildingInfoPanel implements
 	public static org.slf4j.Logger log = LoggerFactory
 			.getLogger(IrodsSelectionListenerForBuildingInfoPanel.class);
 	private final iDrop idrop;
-	private IRODSOutlineModel irodsFileSystemModel = null;
 
 	public IrodsSelectionListenerForBuildingInfoPanel(final iDrop idrop)
 			throws IdropException {

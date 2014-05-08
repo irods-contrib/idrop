@@ -7,9 +7,7 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import junit.framework.Assert;
-import junit.framework.TestCase;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -78,8 +76,8 @@ public class IRODSSearchTableModelTest {
      */
     @Test
     public void testGetRowCount() {
-         List<CollectionAndDataObjectListingEntry> entries = new ArrayList<CollectionAndDataObjectListingEntry>();
-         entries.add(Mockito.mock(CollectionAndDataObjectListingEntry.class));
+        List<CollectionAndDataObjectListingEntry> entries = new ArrayList<CollectionAndDataObjectListingEntry>();
+        entries.add(Mockito.mock(CollectionAndDataObjectListingEntry.class));
         IRODSSearchTableModel model = new IRODSSearchTableModel(entries);
         Assert.assertEquals(1, model.getRowCount());
     }
@@ -90,7 +88,7 @@ public class IRODSSearchTableModelTest {
     @Test
     public void testGetValueAt() {
         List<CollectionAndDataObjectListingEntry> entries = new ArrayList<CollectionAndDataObjectListingEntry>();
-        CollectionAndDataObjectListingEntry entry =  new CollectionAndDataObjectListingEntry();
+        CollectionAndDataObjectListingEntry entry = new CollectionAndDataObjectListingEntry();
         entry.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
         entry.setCreatedAt(new Date());
         entry.setModifiedAt(new Date());
