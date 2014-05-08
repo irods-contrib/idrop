@@ -19,7 +19,6 @@ angular.module('virtualCollectionsModule', [])
                 }).error(function () {
                         virtualCollections = [];
                     });
-
             },
 
             listUserVirtualCollectionData: function (vcName) {

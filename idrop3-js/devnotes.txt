@@ -33,7 +33,7 @@ or even better... http://ngmodules.org/modules/message-center
 
 testing controllers with jasmine: http://sravi-kiran.blogspot.com/2013/04/UnitTestingAngularJsControllerUsingJasmine.html
 
-
+notes on resolve, service and controller refs to service data : http://jsfiddle.net/derkoe/Wk7WD/presentation/  and https://medium.com/opinionated-angularjs/a2fcbf874a1c
 
 
 

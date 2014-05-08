@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash','virtualCollectionFilter','MessageCenterModule']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule']);
 
 angular.module('flash', []);
 
@@ -16,10 +16,12 @@ angular.module('app')
 
     .config(function ($routeProvider) {
         // route for the home page
-        $routeProvider.when('/home', {
+        $routeProvider
+            /*
+            .when('/home', {
             templateUrl: 'assets/home/home-angularjs.html',
             controller: 'homeController'
-        })
+        })*/
 
             // route for the login page
             .when('/login', {
@@ -124,6 +126,21 @@ var irodsAccount = function (host, port, zone, userName, password, authType, res
     };
 };
 
+
+/**
+ * Filter to url encode a link
+ * Created by mike conway on 4/7/14.
+ */
+
+angular.module('urlEncodingModule', []).filter('encodeIt', function ($log) {
+    /**
+     * Given an input type url encode it
+     */
+
+    return function (input) {
+        return window.encodeURIComponent(input);
+    };
+});
 
 /**
  * Filter to assign icons to virtual collections
@@ -320,7 +337,6 @@ angular.module('virtualCollectionsModule', [])
                 }).error(function () {
                         virtualCollections = [];
                     });
-
             },
 
             listUserVirtualCollectionData: function (vcName) {
@@ -355,8 +371,49 @@ angular.module('virtualCollectionsModule', [])
  */
 angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule', 'MessageCenterModule', 'CollectionsModule'])
 
-    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService) {
+    .config(function ($routeProvider) {
+        // route for the home page
+        $routeProvider.when('/home/:vcName', {
+            templateUrl: 'assets/home/home-angularjs.html',
+            controller: 'homeController',
+            resolve:{
+                // set vc name as selected
+                selectedVcName: function($route) {
+                    var vcName = $route.current.params.vcName;
+                    return vcName;
+                },
+                // do a listing
+                pagingAwareCollectionListing : function($route, collectionsService) {
+                    var vcName =  $route.current.params.vcName;
+                    return collectionsService.listCollectionContents(vcName, "", 0);
+                }
 
+            }
+        })
+            .when('/home', {
+            templateUrl: 'assets/home/home-angularjs.html',
+            controller: 'homeController',
+            resolve:{
+                // set vc name as selected
+                selectedVcName: function($route) {
+
+                    return "";
+                },
+                // do a listing
+                pagingAwareCollectionListing : function($route, collectionsService) {
+                  return {};
+                }
+
+            }
+        })
+            .otherwise({redirectTo: "/home"});
+    })
+
+    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVcName', 'pagingAwareCollectionListing',
+        function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVcName, pagingAwareCollectionListing) {
+
+        $scope.selectedVcName = selectedVcName;
+        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
 
         $scope.listVirtualCollections = function () {
 
@@ -374,6 +431,11 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
         $scope.listVirtualCollections();
 
+
+            /*
+             * Handle the selection of a virtual collection from the virtual collection list, by causing a route change
+             * @param vcName
+             */
         $scope.selectVirtualCollection = function (vcName) {
             if (!vcName) {
                 $messageCenterService.add('danger', "missing vcName");
@@ -381,11 +443,10 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             }
             $log.info("initializing virtual collection for:" + vcName);
 
-            collectionsService.listCollectionContents(vcName, "", 0).then(function (listing) {
-                $scope.pagingAwareCollectionListing = listing.data;
-            });
+            $location.path("/home/" + vcName);
 
         }
+
 
         /*
          * Cause the collections panel on the left to display

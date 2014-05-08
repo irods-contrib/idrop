@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash','virtualCollectionFilter','MessageCenterModule']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule']);
 
 angular.module('flash', []);
 
@@ -16,10 +16,12 @@ angular.module('app')
 
     .config(function ($routeProvider) {
         // route for the home page
-        $routeProvider.when('/home', {
+        $routeProvider
+            /*
+            .when('/home', {
             templateUrl: 'assets/home/home-angularjs.html',
             controller: 'homeController'
-        })
+        })*/
 
             // route for the login page
             .when('/login', {
