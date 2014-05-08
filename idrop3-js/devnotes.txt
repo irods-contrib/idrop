@@ -40,4 +40,4 @@ notes on resolve, service and controller refs to service data : http://jsfiddle.
 
 
 
-u
+testing!!!  http://www.yearofmoo.com/2013/01/full-spectrum-testing-with-angularjs-and-karma.html

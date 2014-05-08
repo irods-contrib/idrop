@@ -20,6 +20,7 @@ module.exports = function(config) {
         'js/vendor/jasmine-standalone-2.0.0/lib/boot.js',
         'js/vendor/angular-translate.js',
         'js/vendor/message-center.js',
+        'js/vendor/angular-route.js',
         'js/app/**/*.js',
       'js/test/unit/**/*.js'
     ],

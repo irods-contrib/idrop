@@ -30,7 +30,7 @@ describe("Tests list contents of a vc", function () {
 
         var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
         var vc = mockAVc();
-        $httpBackend.whenGET('collection?offset=0&path=&virtualCollection=root').respond(vc);
+        $httpBackend.whenGET('collection/root?offset=0&path=').respond(vc);
         collectionsService.listCollectionContents("root","",0).then(function (d) {
             actual = d;
         });
