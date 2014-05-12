@@ -132,7 +132,7 @@ class VirtualCollectionService {
 			throw new Exception("no virtual collections found for name:${vcName}")
 		}
 
-		VirtualCollectionExecutorFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionDiscoveryService(irodsAccount)
+		VirtualCollectionExecutorFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionExecutorFactory(irodsAccount)
 
 		def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(session.virtualCollection)
 
