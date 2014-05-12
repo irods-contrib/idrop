@@ -2,6 +2,7 @@ package org.irods.jargon.idrop.web.services
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
 
 /**
@@ -10,7 +11,7 @@ import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
  * @author Mike Conway - DICE
  *
  */
-class VirtualCollectionExecutorFactoryCreatorService {
+class VirtualCollectionFactoryCreatorService {
 
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -22,5 +23,14 @@ class VirtualCollectionExecutorFactoryCreatorService {
 	 */
 	def instanceVirtualCollectionExecutorFactory(IRODSAccount irodsAccount) {
 		return new VirtualCollectionExecutorFactoryImpl(irodsAccessObjectFactory, irodsAccount)
+	}
+
+	/**
+	 * Get an instance of the virtual collection discovery service that can find virtual collections
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceVirtualCollectionDiscoveryService(IRODSAccount irodsAccount) {
+		return new VirtualCollectionDiscoveryServiceImpl(irodsAccessObjectFactory, irodsAccount)
 	}
 }

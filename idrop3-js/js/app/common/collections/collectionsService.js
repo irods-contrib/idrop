@@ -15,7 +15,7 @@ angular.module('CollectionsModule', [])
             pagingAwareCollectionListing: {},
 
             selectVirtualCollection : function(vcName) {
-                alert(vcName);
+                //alert(vcName);
             },
 
 

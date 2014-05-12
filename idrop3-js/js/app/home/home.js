@@ -17,14 +17,13 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             controller: 'homeController',
             resolve: {
                 // set vc name as selected
-                selectedVcName: function ($route) {
+                selectedVc: function ($route) {
                     var vcName = $route.current.params.vcName;
-                    return vcName;
+                    return
                 },
                 // do a listing
                 pagingAwareCollectionListing: function ($route, collectionsService) {
                     var vcName = $route.current.params.vcName;
-                    collectionsService.selectVirtualCollection(vcName);
                     return collectionsService.listCollectionContents(vcName, "", 0);
                 }
 
