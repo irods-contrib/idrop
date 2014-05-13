@@ -284,7 +284,13 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                     return $q.reject(rejection);
                 } else {
                     // otherwise reject other status codes
-                    messageCenterService.add('danger', rejection.data.error.message);
+
+                    var msg = rejection.data.error;
+                    if (!msg) {
+                        msg = "unknown exception occurred";  //FIXME: i18n
+                    }
+
+                    messageCenterService.add('danger', msg);
                     return $q.reject(rejection);
                 }
                 // Return the promise rejection.
@@ -356,7 +362,7 @@ angular.module('virtualCollectionsModule', [])
                     return;
                 }
 
-                return $http({method: 'GET', url: 'virtualCollection'}).success(function (data) {
+                return $http({method: 'GET', url: 'virtualCollection/' + vcName}).success(function (data) {
                     virtualCollections = data;
                 }).error(function () {
                         virtualCollections = [];
@@ -389,9 +395,10 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             controller: 'homeController',
             resolve: {
                 // set vc name as selected
-                selectedVcName: function ($route) {
-                    var vcName = $route.current.params.vcName;
-                    return vcName;
+                selectedVc: function ($route, virtualCollectionsService) {
+                    alert("get vc");
+                    var vcData = virtualCollectionsService.listUserVirtualCollectionData($route.current.params.vcName);
+                    return vcData.data;
                 },
                 // do a listing
                 pagingAwareCollectionListing: function ($route, collectionsService) {
@@ -405,9 +412,9 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
                 controller: 'homeController',
                 resolve: {
                     // set vc name as selected
-                    selectedVcName: function ($route) {
+                    selectedVc: function ($route) {
 
-                        return "";
+                        return {};
                     },
                     // do a listing
                     pagingAwareCollectionListing: function ($route, collectionsService) {
@@ -418,10 +425,9 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             }).otherwise({redirectTo: "/home"});
     })
 
-    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVcName', 'pagingAwareCollectionListing', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVcName, pagingAwareCollectionListing) {
+    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing) {
 
-        $scope.selectedVcName = selectedVcName;
-        $scope.selectedVc = collectionsService.selectedVirtualCollection;
+        $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
         $scope.numberSelected = 0;
         $scope.breadcrumbs = [];

@@ -30,7 +30,7 @@ angular.module('virtualCollectionsModule', [])
                     return;
                 }
 
-                return $http({method: 'GET', url: 'virtualCollection'}).success(function (data) {
+                return $http({method: 'GET', url: 'virtualCollection/' + vcName}).success(function (data) {
                     virtualCollections = data;
                 }).error(function () {
                         virtualCollections = [];

@@ -56,7 +56,13 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                     return $q.reject(rejection);
                 } else {
                     // otherwise reject other status codes
-                    messageCenterService.add('danger', rejection.data.error.message);
+
+                    var msg = rejection.data.error;
+                    if (!msg) {
+                        msg = "unknown exception occurred";  //FIXME: i18n
+                    }
+
+                    messageCenterService.add('danger', msg);
                     return $q.reject(rejection);
                 }
                 // Return the promise rejection.

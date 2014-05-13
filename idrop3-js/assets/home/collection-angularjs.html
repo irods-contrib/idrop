@@ -10,7 +10,7 @@
                     <span ng-repeat="breadcrumb in pagingAwareCollectionListing.pathComponents">
                     <button ng-click="goToBreadcrumb(breadcrumb)" type="button" class="btn btn-link">
                         <span ng-hide="$first">/ {{breadcrumb}} </span>
-                        <span ng-show="$first">root (/)</span>
+                        <span ng-show="$first"> selected is {{selectedVc.uniqueName}}</span>
                     </button>
                     </span>
                 </div>

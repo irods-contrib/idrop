@@ -39,6 +39,8 @@ class CollectionController  {
 		def offset = params.offset
 		if (!offset) offset = 0
 
+		offset = (int) offset
+
 		log.info("virtualCollection: ${virtualCollection}")
 		log.info("path:${path}")
 		log.info("offset:offset")
