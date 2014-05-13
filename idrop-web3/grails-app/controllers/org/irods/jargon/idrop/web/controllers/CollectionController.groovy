@@ -36,7 +36,7 @@ class CollectionController  {
 		def path = params.path
 		if (!path) path = ""
 
-		int offset = params.offset
+		def offset = params.offset
 		if (!offset) offset = 0
 
 		log.info("virtualCollection: ${virtualCollection}")
