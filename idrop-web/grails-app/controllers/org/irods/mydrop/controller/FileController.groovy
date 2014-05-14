@@ -3,6 +3,10 @@ package org.irods.mydrop.controller
 
 import grails.converters.*
 
+import org.apache.commons.fileupload.FileItemIterator
+import org.apache.commons.fileupload.FileItemStream
+import org.apache.commons.fileupload.servlet.ServletFileUpload
+import org.apache.commons.fileupload.util.Streams
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.CatNoAccessException
 import org.irods.jargon.core.exception.DataNotFoundException
@@ -18,7 +22,6 @@ import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
 import org.irods.jargon.datautils.uploads.UploadsService
 import org.irods.jargon.datautils.uploads.UploadsServiceImpl
-import org.springframework.web.multipart.MultipartFile
 
 
 class FileController {
@@ -157,64 +160,70 @@ class FileController {
 	 */
 	def upload = {
 		log.info("upload action in file controller")
-		MultipartFile f = request.getFile('file')
-		def name = f.getOriginalFilename()
 
-		log.info("f is ${f}")
-		log.info("length of f is ${f.size}")
-		log.info("max upload size is ${MAX_UPLOAD}")
+		ServletFileUpload svu = new ServletFileUpload();
 
-		if (f.size > MAX_UPLOAD) {
-			log.error("file size is too large, send error message to use bulk upload")
-			def message = message(code:"error.use.bulk.upload")
-			response.sendError(500,message)
-			return
-		} else if (f.size == 0) {
-			log.error("file is zero length")
-			def message = message(code:"error.zero.length.upload")
+		//MultipartFile f = request.getFile('file')
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+
+		if (!isMultipart) {
+			def message = "request is not multipart"
 			response.sendError(500,message)
 			return
 		}
 
-		log.info("name is : ${name}")
-		def irodsCollectionPath = params.collectionParentName
+		FileItemIterator iterator = svu.getItemIterator(request);
+		while (iterator.hasNext()) {
+			FileItemStream item = iterator.next();
+			if (item.isFormField()) {
+				log.info("Form field " + name + " with value "
+						+ Streams.asString(stream) + " detected.");
+			} else {
+				log.info("File field " + name + " with file name "
+						+ item.getName() + " detected.");
+				// Process the input stream
 
-		if (f == null || f.empty) {
-			log.error("no file to upload")
-			throw new JargonException("No file to upload")
-		}
+				InputStream fis = new BufferedInputStream(item.openStream());
+				def name = item.name
 
-		if (irodsCollectionPath == null || irodsCollectionPath.empty) {
-			log.error("no target iRODS collection given in upload request")
-			throw new JargonException("No iRODS target collection given for upload")
-		}
+				log.info("name is : ${name}")
+				def irodsCollectionPath = params.collectionParentName
 
-		InputStream fis = null
-		log.info("building irodsFile for file name: ${name}")
+				if (irodsCollectionPath == null || irodsCollectionPath.empty) {
+					log.error("no target iRODS collection given in upload request")
+					throw new JargonException("No iRODS target collection given for upload")
+				}
+
+				try {
+					IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+					IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, name)
+					targetFile.setResource(irodsAccount.defaultStorageResource)
+
+					//	OutputStream outputStream = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFileOutputStream(targetFile);
 
 
-		try {
-			fis = new BufferedInputStream(f.getInputStream())
-			IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
-			IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, name)
-			targetFile.setResource(irodsAccount.defaultStorageResource)
-			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
-			def transferStats = stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, f.size, 0)
-			log.info("transferStats:${transferStats}")
-		} catch (NoResourceDefinedException nrd) {
-			log.error("no resource defined exception", nrd)
-			response.sendError(500, message(code:"message.no.resource"))
-		} catch (CatNoAccessException e) {
-			log.error("no access error", e)
-			response.sendError(500, message(code:"message.no.access"))
-		} catch (Exception e) {
-			log.error("exception in upload transfer", e)
-			response.sendError(500, message(code:"message.error.in.upload"))
-		} finally {
-			// stream2Stream will close input and output streams
+					Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
+					def transferStats = stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, 0, 1 * 1024 * 1024)
+
+					//stream2Stream.streamToStreamCopy(fis,outputStream)
+					log.info("transferStats:${transferStats}")
+				} catch (NoResourceDefinedException nrd) {
+					log.error("no resource defined exception", nrd)
+					response.sendError(500, message(code:"message.no.resource"))
+				} catch (CatNoAccessException e) {
+					log.error("no access error", e)
+					response.sendError(500, message(code:"message.no.access"))
+				} catch (Exception e) {
+					log.error("exception in upload transfer", e)
+					response.sendError(500, message(code:"message.error.in.upload"))
+				} finally {
+					// stream2Stream will close input and output streams
+				}
+			}
 		}
 
 		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
+
 	}
 
 	/**
