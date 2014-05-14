@@ -18,9 +18,8 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             resolve: {
                 // set vc name as selected
                 selectedVc: function ($route, virtualCollectionsService) {
-                    alert("get vc");
                     var vcData = virtualCollectionsService.listUserVirtualCollectionData($route.current.params.vcName);
-                    return vcData.data;
+                    return vcData;
                 },
                 // do a listing
                 pagingAwareCollectionListing: function ($route, collectionsService) {

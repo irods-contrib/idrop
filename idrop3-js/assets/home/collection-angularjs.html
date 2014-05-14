@@ -3,15 +3,15 @@
         <div class="col-md-12">
             <div class="btn-toolbar pad-vertical" role="toolbar">
                 <div class="btn-group pull-left">
-                    <button type="button" class="btn btn-link">
-                        <span class="glyphicon glyphicon-home"></span><span
-                            class="glyphicon-class"></span>
+                    <button ng-click="selectVirtualCollection({{selectedVc.data.uniqueName}})" type="button" class="btn btn-default">
+                        <span class="glyphicon    {{selectedVc.data.i18icon | vcIcon}}"></span>
+                        {{selectedVc.data.uniqueName}}
                     </button>
-                    <span ng-repeat="breadcrumb in pagingAwareCollectionListing.pathComponents">
-                    <button ng-click="goToBreadcrumb(breadcrumb)" type="button" class="btn btn-link">
-                        <span ng-hide="$first">/ {{breadcrumb}} </span>
-                        <span ng-show="$first"> selected is {{selectedVc.uniqueName}}</span>
+                    <span ng-repeat="breadcrumb in pagingAwareCollectionListing.pathComponents  track by $id(breadcrumb + $index)">
+                    <button ng-hide="$first" ng-click="goToBreadcrumb(breadcrumb)" type="button" class="btn btn-link">
+                        <span>/ {{breadcrumb}} </span>
                     </button>
+
                     </span>
                 </div>
             </div>
