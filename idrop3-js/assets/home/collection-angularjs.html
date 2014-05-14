@@ -3,13 +3,14 @@
         <div class="col-md-12">
             <div class="btn-toolbar pad-vertical" role="toolbar">
                 <div class="btn-group pull-left">
-                    <button ng-click="selectVirtualCollection({{selectedVc.data.uniqueName}})" type="button" class="btn btn-default">
+                    <button ng-hide="noVcSelected()" ng-click="selectVirtualCollection(selectedVc.data.uniqueName)"
+                            type="button" class="btn btn-default">
                         <span class="glyphicon    {{selectedVc.data.i18icon | vcIcon}}"></span>
                         {{selectedVc.data.uniqueName}}
                     </button>
                     <span ng-repeat="breadcrumb in pagingAwareCollectionListing.pathComponents  track by $id(breadcrumb + $index)">
                     <button ng-hide="$first" ng-click="goToBreadcrumb(breadcrumb)" type="button" class="btn btn-link">
-                        <span>/ {{breadcrumb}} </span>
+                        <span>/ {{breadcrumb | abbreviateFileName}} </span>
                     </button>
 
                     </span>
@@ -28,17 +29,21 @@
                     <th><input type="checkbox"></th>
                     <th>Kind</th>
                     <th>Name</th>
-                        <th>Size</th>
+                    <th>Size</th>
                     <th>Modified</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat = "d in pagingAwareCollectionListing.collectionAndDataObjectListingEntries">
-                    <td><input ng-click="updateSelectedFromCollection($event, d.id)" ng-model="d.selected" type="checkbox"></td>
+                <tr ng-repeat="d in pagingAwareCollectionListing.collectionAndDataObjectListingEntries">
+                    <td><input ng-click="updateSelectedFromCollection($event, d.id)" ng-model="d.selected"
+                               type="checkbox"></td>
                     <td>
-                        <span class="glyphicon glyphicon-folder-close" />
+                        <span class="glyphicon glyphicon-folder-close"/>
                     </td>
-                    <td><a href="#{{d.id}}">{{d.nodeLabelDisplayValue}}</a></td>
+                    <td><a href="#{{d.id}}">
+
+                        {{d.nodeLabelDisplayValue | abbreviateFileName}}
+                    </a></td>
                     <td>{{d.displayDataSize}}</td>
                     <td>{{d.createdAt}}</td>
                 </tr>
@@ -61,7 +66,9 @@
                         <span class="glyphicon glyphicon-backward"></span>
                     </button>
 
-                    <button ng-repeat="n in pages()" ng-click="page($index)" type="button" class="btn btn-default">{{n}}</button>
+                    <button ng-repeat="n in pages()" ng-click="page($index)" type="button" class="btn btn-default">
+                        {{n}}
+                    </button>
                     <button ng-click="page('next')" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-forward"></span>
                     </button>

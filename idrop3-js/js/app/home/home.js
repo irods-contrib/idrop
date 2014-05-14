@@ -74,6 +74,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
                 $messageCenterService.add('danger', "missing vcName");
                 return;
             }
+
             $log.info("initializing virtual collection for:" + vcName);
             $location.path("/home/" + vcName);
 
@@ -100,6 +101,16 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         $scope.updateSelectedFromCollection = function (action, id) {
             var checkbox = action.target;
            (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
+        }
+
+        $scope.noVcSelected = function () {
+            var selected = false;
+
+            if ($scope.selectedV != null) {
+                selected = true;
+            }
+
+            return selected;
         }
 
         /**

@@ -155,22 +155,49 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
      */
 
     return function (inputType) {
-       if (!inputType) {
-           $log.info("no type, use default icon");
-           return "glyphicon-folder-close";
-       } else if (inputType == "virtual.collection.default.icon") {
-           $log.info("use default");
-           return "glyphicon-folder-close";
-       } else if (inputType == "virtual.collection.icon.starred") {
-           $log.info("use star icon");
-           return "glyphicon-star";
-       } else {
-           $log.info("unknown type, use default");
-           return "glyphicon-folder-close";
-       }
+        if (!inputType) {
+            $log.info("no type, use default icon");
+            return "glyphicon-folder-close";
+        } else if (inputType == "virtual.collection.default.icon") {
+            $log.info("use default");
+            return "glyphicon-folder-close";
+        } else if (inputType == "virtual.collection.icon.starred") {
+            $log.info("use star icon");
+            return "glyphicon-star";
+        } else {
+            $log.info("unknown type, use default");
+            return "glyphicon-folder-close";
+        }
 
     };
-});
+})
+
+    .filter('abbreviateFileName', function ($log) {
+        /**
+         * Given an absolute path, make a space-saving abbreviation by redacting parts of the full string
+         */
+
+        return function (fullPath) {
+            if (!fullPath) {
+                return "";
+            }
+
+            // check length
+
+            var newPath = "";
+
+            if (fullPath.length > 100) {
+                newPath = fullPath.substring(0, 50);
+                newPath = newPath + "...";
+                newPath = newPath + fullPath.substring(fullPath.length - 50);
+
+            } else {
+                newPath = fullPath;
+            }
+
+            return newPath;
+        };
+    });
 
 /**
  * Supporting code for integration with angular-translate
@@ -452,6 +479,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
                 $messageCenterService.add('danger', "missing vcName");
                 return;
             }
+
             $log.info("initializing virtual collection for:" + vcName);
             $location.path("/home/" + vcName);
 
@@ -478,6 +506,16 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         $scope.updateSelectedFromCollection = function (action, id) {
             var checkbox = action.target;
            (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
+        }
+
+        $scope.noVcSelected = function () {
+            var selected = false;
+
+            if ($scope.selectedV != null) {
+                selected = true;
+            }
+
+            return selected;
         }
 
         /**
