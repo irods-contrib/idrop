@@ -90,7 +90,7 @@ class FileController {
 
 			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 			def stats = stream2Stream
-					.streamToStreamCopyUsingStandardIO(irodsFileInputStream, response.outputStream)
+					.streamToStreamCopyUsingStandardIO(irodsFileInputStream, new BufferedOutputStream(response.outputStream, 32768))
 			log.info("transferStats:${stats}")
 
 		} catch (CatNoAccessException e) {
