@@ -1,7 +1,3 @@
-package org.irods.jargon.idrop.web.services
-
-
-
 import grails.test.mixin.*
 
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpSession
@@ -14,7 +10,8 @@ import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollectionExecutor
-import org.junit.*
+import org.irods.jargon.idrop.web.services.VirtualCollectionService  
+
 
 import spock.lang.Specification
 

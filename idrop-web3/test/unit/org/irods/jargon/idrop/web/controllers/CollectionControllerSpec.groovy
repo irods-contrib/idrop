@@ -1,13 +1,11 @@
-package org.irods.jargon.idrop.web.controllers
-
-
-
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.query.PagingAwareCollectionListing
+import org.irods.jargon.idrop.web.services.IrodsCollectionService
 import org.irods.jargon.idrop.web.services.VirtualCollectionService
-import org.junit.*
+import org.irods.jargon.idrop.web.controllers.CollectionController
+
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
@@ -42,16 +40,15 @@ class CollectionControllerSpec {
 	void testCollectionListVcNameAndSubPath() {
 		given:
 
-		def vcServiceMock = mockFor(VirtualCollectionService)
+		def collectionService = mockFor(IrodsCollectionService)
 
 		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
 
-		vcServiceMock.demand.virtualCollectionListing{vcName, listingType, offset, irodsAccount, session -> return listing}
+		collectionService.demand.collectionListing{path, listingType, offset, irodsAccount -> return listing}
 
-		controller.virtualCollectionService = vcServiceMock.createMock()
+		controller.irodsCollectionService = collectionService.createMock()
 		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
 		request.irodsAccount = testAccount
-		params.virtualCollection = "root"
 		params.path = "/a/path"
 
 		when:

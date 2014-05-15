@@ -1,16 +1,15 @@
-package org.irods.jargon.idrop.web.services
-
-
-
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
-import org.junit.*
+import org.junit.Before
+import org.irods.jargon.idrop.web.services.AuthenticationService
+
 
 /**
- * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
+ * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for
+ * usage instructions
  */
 @TestFor(AuthenticationService)
 class AuthenticationServiceTests {

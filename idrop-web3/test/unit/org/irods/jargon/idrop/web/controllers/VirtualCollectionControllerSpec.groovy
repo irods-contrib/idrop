@@ -1,17 +1,15 @@
-package org.irods.jargon.idrop.web.controllers
-
-
-
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.idrop.web.services.VirtualCollectionService
 import org.irods.jargon.vircoll.AbstractVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
-import org.junit.*
+import org.irods.jargon.idrop.web.controllers.VirtualCollectionController
+
 
 /**
- * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
+ * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for
+ * usage instructions
  */
 @TestFor(VirtualCollectionController)
 class VirtualCollectionControllerSpec {

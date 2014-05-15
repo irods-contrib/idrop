@@ -493,17 +493,21 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
         }
 
-
         /**
-         * Handle the selection of a 'link' to an iRODS collection, this will set the current virtual collection to 'root' and the absolute path to the
-         * selected path, which will be an iRODS parent collection in the home view
+         * Handle the selection of a collection from the iRODS and make a new iRODS parent
          *
          * @param vcName
-         * @param path
-         * @param offset
+         *
          */
-        $scope.selectVirtualCollectionAndLocation = function (vcName, path, offset) {
-            alert("implement me!");
+        $scope.selectVirtualCollection = function (vcName) {
+            if (!vcName) {
+                $messageCenterService.add('danger', "missing vcName");
+                return;
+            }
+
+            $log.info("initializing virtual collection for:" + vcName);
+            $location.path("/home/" + vcName + "?path=/");
+
         }
 
         /**

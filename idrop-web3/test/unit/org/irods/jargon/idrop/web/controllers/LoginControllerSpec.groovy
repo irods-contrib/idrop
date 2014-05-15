@@ -1,5 +1,3 @@
-package org.irods.jargon.idrop.web.controllers
-
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.AuthScheme
@@ -8,6 +6,10 @@ import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.idrop.web.services.AuthenticationService
 import org.irods.jargon.idrop.web.services.EnvironmentServicesService
+import org.irods.jargon.idrop.web.controllers.LoginController
+import org.irods.jargon.idrop.web.controllers.LoginCommand
+
+
 import spock.lang.Specification
 
 /**
