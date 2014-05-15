@@ -297,7 +297,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 var status = rejection.status;
 
                 if (status == 401) { // unauthorized - redirect to login again
-                    alert("redirect to login === remove me later!!!!!");
+                    //alert("redirect to login === remove me later!!!!!");
                     $location.path("/login");
                 } else if (status == 400) { // validation error display errors
                     //alert(JSON.stringify(rejection.data.error.message)); // here really we need to format this but just showing as alert.
@@ -421,15 +421,23 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             templateUrl: 'assets/home/home-angularjs.html',
             controller: 'homeController',
             resolve: {
+
                 // set vc name as selected
                 selectedVc: function ($route, virtualCollectionsService) {
+
                     var vcData = virtualCollectionsService.listUserVirtualCollectionData($route.current.params.vcName);
                     return vcData;
                 },
                 // do a listing
                 pagingAwareCollectionListing: function ($route, collectionsService) {
                     var vcName = $route.current.params.vcName;
-                    return collectionsService.listCollectionContents(vcName, "", 0);
+
+                    var path = $route.current.params.path;
+                    if (path == null) {
+                        path = "";
+                    }
+
+                    return collectionsService.listCollectionContents(vcName, path, 0);
                 }
 
             }
@@ -440,7 +448,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
                     // set vc name as selected
                     selectedVc: function ($route) {
 
-                        return {};
+                        return null;
                     },
                     // do a listing
                     pagingAwareCollectionListing: function ($route, collectionsService) {
@@ -481,7 +489,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             }
 
             $log.info("initializing virtual collection for:" + vcName);
-            $location.path("/home/" + vcName);
+            $location.path("/home/" + vcName + "?path=/");
 
         }
 
@@ -489,6 +497,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         /**
          * Handle the selection of a 'link' to an iRODS collection, this will set the current virtual collection to 'root' and the absolute path to the
          * selected path, which will be an iRODS parent collection in the home view
+         *
          * @param vcName
          * @param path
          * @param offset
@@ -520,15 +529,21 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
            (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
         }
 
+        /**
+         * Indicates whether a virtual collection has been selected
+         * @returns {boolean}
+         */
         $scope.noVcSelected = function () {
-            var selected = false;
+            var selected = true;
 
-            if ($scope.selectedV != null) {
+            if ($scope.selectedVc == null) {
                 selected = true;
+            } else {
+                selected = false;
             }
 
             return selected;
-        }
+        };
 
         /**
          * INIT
