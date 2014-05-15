@@ -1,10 +1,14 @@
+package org.irods.jargon.idrop.web.controllers
+
 import grails.test.mixin.*
 
+import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpSession
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.idrop.web.services.VirtualCollectionService
 import org.irods.jargon.vircoll.AbstractVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 import org.irods.jargon.idrop.web.controllers.VirtualCollectionController
+import spock.lang.Specification
 
 
 /**
@@ -12,7 +16,7 @@ import org.irods.jargon.idrop.web.controllers.VirtualCollectionController
  * usage instructions
  */
 @TestFor(VirtualCollectionController)
-class VirtualCollectionControllerSpec {
+class VirtualCollectionControllerSpec extends Specification {
 
 	void testListVirtualCollections() {
 		given:
@@ -24,8 +28,9 @@ class VirtualCollectionControllerSpec {
 		def virtualCollections = new ArrayList<AbstractVirtualCollection>()
 		virtualCollections.add(rootColl)
 		virtualCollections.add(homeColl)
+		def mockSession = new GrailsMockHttpSession()
 
-		vcServiceMock.demand.virtualCollectionHomeListingForUser { irodsAccount -> return virtualCollections }
+		vcServiceMock.demand.virtualCollectionHomeListingForUser { irodsAccount, sess -> return virtualCollections }
 
 		controller.virtualCollectionService = vcServiceMock.createMock()
 		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")

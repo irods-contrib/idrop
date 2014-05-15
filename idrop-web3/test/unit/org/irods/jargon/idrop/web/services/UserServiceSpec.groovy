@@ -1,3 +1,5 @@
+package org.irods.jargon.idrop.web.services
+
 import grails.test.mixin.*
 
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpSession
@@ -8,7 +10,7 @@ import org.irods.jargon.core.pub.EnvironmentalInfoAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.junit.Before
 import org.irods.jargon.idrop.web.services.UserService
-import org.irods.jargon.idrop.web.services.EnvironmentServicesService 
+import org.irods.jargon.idrop.web.services.EnvironmentServicesService
 
 
 /**

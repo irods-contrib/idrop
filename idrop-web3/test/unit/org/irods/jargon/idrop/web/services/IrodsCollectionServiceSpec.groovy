@@ -1,3 +1,5 @@
+package org.irods.jargon.idrop.web.services
+
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount

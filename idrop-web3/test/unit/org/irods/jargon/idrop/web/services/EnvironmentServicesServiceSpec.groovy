@@ -1,3 +1,5 @@
+package org.irods.jargon.idrop.web.services
+
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
@@ -5,7 +7,7 @@ import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.pub.EnvironmentalInfoAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.junit.Before
-import org.irods.jargon.idrop.web.services.EnvironmentServicesService 
+import org.irods.jargon.idrop.web.services.EnvironmentServicesService
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for
