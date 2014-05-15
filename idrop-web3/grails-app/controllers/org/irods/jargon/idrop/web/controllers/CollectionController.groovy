@@ -1,6 +1,7 @@
 package org.irods.jargon.idrop.web.controllers
 
 import grails.converters.JSON
+import grails.rest.RestfulController
 
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.IrodsCollectionService
@@ -13,7 +14,7 @@ import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
  * @author Mike Conway - DICE
  */
 
-class CollectionController  {
+class CollectionController extends RestfulController {
 
 	static responseFormats = ['json']
 	IRODSAccessObjectFactory irodsAccessObjectFactory
@@ -42,7 +43,6 @@ class CollectionController  {
 
 		offset = (int) offset
 
-		log.info("virtualCollection: ${virtualCollection}")
 		log.info("path:${path}")
 		log.info("offset:offset")
 

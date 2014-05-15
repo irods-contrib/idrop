@@ -1,3 +1,6 @@
+package org.irods.jargon.idrop.web.services
+
+
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
@@ -5,6 +8,7 @@ import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.junit.Before
 import org.irods.jargon.idrop.web.services.AuthenticationService
+import spock.lang.Specification
 
 
 /**
@@ -12,7 +16,7 @@ import org.irods.jargon.idrop.web.services.AuthenticationService
  * usage instructions
  */
 @TestFor(AuthenticationService)
-class AuthenticationServiceTests {
+class AuthenticationServiceTests extends Specification {
 
 	@Before
 	void setup() {
