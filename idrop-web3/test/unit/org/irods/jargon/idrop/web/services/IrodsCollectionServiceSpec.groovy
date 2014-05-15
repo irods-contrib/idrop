@@ -6,8 +6,9 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.query.PagingAwareCollectionListing
-import org.irods.jargon.idrop.web.services.IrodsCollectionService.ListingType
 import org.irods.jargon.idrop.web.services.IrodsCollectionService
+import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
+
 
 import spock.lang.Specification
 

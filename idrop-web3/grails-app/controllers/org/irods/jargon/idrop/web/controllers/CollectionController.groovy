@@ -12,7 +12,7 @@ import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
  * Controller for dealing with collection listings of various sorts
  * 
  * @author Mike Conway - DICE
- */
+ */  
 
 class CollectionController extends RestfulController {
 
@@ -38,15 +38,15 @@ class CollectionController extends RestfulController {
 		def path = params.path
 		if (!path) path = ""
 
-		def offset = params.offset
+		int offset = params.offset
 		if (!offset) offset = 0
 
-		offset = (int) offset
+		//offset = (int) offset
 
 		log.info("path:${path}")
 		log.info("offset:offset")
 
-		def pagingAwareCollectionListing = irodsCollectionService.collectionListing(path, ListingType.ALL, offset, irodsAccount)
+		def pagingAwareCollectionListing = irodsCollectionService.collectionListing(path, ListingType.ALL, (int) offset, irodsAccount)
 		log.info("pagingAwareCollectionListing:${pagingAwareCollectionListing}")
 		render pagingAwareCollectionListing as JSON
 	}

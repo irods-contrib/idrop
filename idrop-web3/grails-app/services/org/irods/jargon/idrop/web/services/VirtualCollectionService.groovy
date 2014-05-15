@@ -14,7 +14,7 @@ class VirtualCollectionService {
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	VirtualCollectionFactoryCreatorService virtualCollectionFactoryCreatorService
-	enum ListingType {
+	public enum ListingType {
 		ALL, COLLECTIONS, DATA_OBJECTS
 	}
 

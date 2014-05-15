@@ -3,6 +3,7 @@ package org.irods.jargon.idrop.web.services
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
 
 /**
  * Service for navigating and manipulating iRODS collections.
@@ -14,9 +15,6 @@ class IrodsCollectionService {
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	VirtualCollectionFactoryCreatorService virtualCollectionFactoryCreatorService
-	enum ListingType {
-		ALL, COLLECTIONS, DATA_OBJECTS
-	}
 
 	/**
 	 * Generate a collection listing 
@@ -31,7 +29,7 @@ class IrodsCollectionService {
 		log.info("collectionListing()")
 
 		if (!absoluteParentPath) {
-			throw new IllegalArgumentException("null or empty absoluteParentPath")
+			absoluteParentPath = "/"
 		}
 
 		if (!listingType) {
