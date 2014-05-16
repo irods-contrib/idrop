@@ -9,7 +9,9 @@
                         {{selectedVc.data.uniqueName}}
                     </button>
                     <span ng-repeat="breadcrumb in pagingAwareCollectionListing.pathComponents  track by $id(breadcrumb + $index)">
-                    <button ng-hide="$first" ng-click="goToBreadcrumb(breadcrumb)" type="button" class="btn btn-link">
+                    <button ng-hide="$first"
+                            ng-click="goToBreadcrumb($index,pagingAwareCollectionListing.pathComponents)" type="button"
+                            class="btn btn-link">
                         <span>/ {{breadcrumb | abbreviateFileName}} </span>
                     </button>
 
@@ -40,7 +42,7 @@
                     <td>
                         <span class="glyphicon glyphicon-folder-close"/>
                     </td>
-                    <td><a href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}">
+                    <td><a href="#/home/root?path={{d.formattedAbsolutePath}}">
 
                         {{d.nodeLabelDisplayValue | abbreviateFileName}}
                     </a></td>

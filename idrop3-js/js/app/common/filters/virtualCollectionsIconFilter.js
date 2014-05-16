@@ -26,6 +26,40 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
     };
 })
 
+/**
+ * Filter that will create an absolute path for a breadcrumb by chaining together parent paths
+ */
+    .filter('breadcrumbUrl', function ($log) {
+        /**
+         * Given an absolute path, make a space-saving abbreviation by redacting parts of the full string
+         */
+
+        return function (index, paths) {
+            if (!index) {
+                return "";
+            }
+
+            if (!paths) {
+                return "";
+            }
+
+            // i know it's an array?
+
+            if (!paths instanceof Array) {
+               return "";
+            }
+
+            var totalPath = "";
+
+            for (var i = 0; i <+ index; i ++) {
+                totalPath = totalPath + "/" + paths[i];
+            }
+
+            return totalPath;
+
+        };
+    })
+
     .filter('abbreviateFileName', function ($log) {
         /**
          * Given an absolute path, make a space-saving abbreviation by redacting parts of the full string

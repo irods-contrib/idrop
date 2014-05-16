@@ -41,7 +41,7 @@ class VirtualCollectionController extends RestfulController {
 
 		if (!vcName) {
 			log.error("missing vcName")
-			//throw new JargonException("missing virtualCollection")
+			throw new JargonException("missing virtualCollection")
 		}
 
 		log.info("vcName:${vcName}")

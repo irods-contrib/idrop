@@ -91,7 +91,7 @@ angular.module('CollectionsModule', [])
                     reqOffset = 0;
                 }
 
-                return $http({method: 'GET', url: 'collection/' + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (data) {
+                return $http({method: 'GET', url: 'virtualCollection/' + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (data) {
                     pagingAwareCollectionListing = data;
 
                 }).error(function () {
@@ -171,6 +171,40 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
 
     };
 })
+
+/**
+ * Filter that will create an absolute path for a breadcrumb by chaining together parent paths
+ */
+    .filter('breadcrumbUrl', function ($log) {
+        /**
+         * Given an absolute path, make a space-saving abbreviation by redacting parts of the full string
+         */
+
+        return function (index, paths) {
+            if (!index) {
+                return "";
+            }
+
+            if (!paths) {
+                return "";
+            }
+
+            // i know it's an array?
+
+            if (!paths instanceof Array) {
+               return "";
+            }
+
+            var totalPath = "";
+
+            for (var i = 0; i <+ index; i ++) {
+                totalPath = totalPath + "/" + paths[i];
+            }
+
+            return totalPath;
+
+        };
+    })
 
     .filter('abbreviateFileName', function ($log) {
         /**
@@ -317,7 +351,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                         msg = "unknown exception occurred";  //FIXME: i18n
                     }
 
-                    messageCenterService.add('danger', msg);
+                    messageCenterService.add('danger', msg.message);
                     return $q.reject(rejection);
                 }
                 // Return the promise rejection.
@@ -491,7 +525,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             $log.info("initializing virtual collection for:" + vcName);
             $location.path("/home/" + vcName + "?path=/");
 
-        }
+        };
 
         /**
          * Handle the selection of a collection from the iRODS and make a new iRODS parent
@@ -509,7 +543,43 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             $location.path("/home/" + vcName)
             $location.search("path", "/");
 
-        }
+        };
+
+        $scope.goToBreadcrumb = function (index, path) {
+
+            if (!index) {
+                $log.error("cannot go to breadcrumb, no index");
+                return;
+            }
+
+            if (!path) {
+                $log.error("no path components, cannot go to breadcrumb");
+                return;
+            }
+
+            // i know it's an array?
+
+            if (!path instanceof Array) {
+                return;
+            }
+
+            var totalPath = "";
+
+            for (var i = 0; i < +index; i++) {
+
+                // skip a blank path, which indicates an element that is a '/' for root, avoid double slashes
+                if (path[i]) {
+
+                    totalPath = totalPath + "/" + path[i];
+                }
+            }
+
+
+            $location.path("/home/root");
+            $location.search("path", totalPath);
+
+        };
+
 
         /**
          * Cause the collections panel on the left to display
@@ -531,7 +601,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
          */
         $scope.updateSelectedFromCollection = function (action, id) {
             var checkbox = action.target;
-           (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
+            (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
         }
 
         /**

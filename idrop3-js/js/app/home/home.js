@@ -86,7 +86,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             $log.info("initializing virtual collection for:" + vcName);
             $location.path("/home/" + vcName + "?path=/");
 
-        }
+        };
 
         /**
          * Handle the selection of a collection from the iRODS and make a new iRODS parent
@@ -104,7 +104,43 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             $location.path("/home/" + vcName)
             $location.search("path", "/");
 
-        }
+        };
+
+        $scope.goToBreadcrumb = function (index, path) {
+
+            if (!index) {
+                $log.error("cannot go to breadcrumb, no index");
+                return;
+            }
+
+            if (!path) {
+                $log.error("no path components, cannot go to breadcrumb");
+                return;
+            }
+
+            // i know it's an array?
+
+            if (!path instanceof Array) {
+                return;
+            }
+
+            var totalPath = "";
+
+            for (var i = 0; i < +index; i++) {
+
+                // skip a blank path, which indicates an element that is a '/' for root, avoid double slashes
+                if (path[i]) {
+
+                    totalPath = totalPath + "/" + path[i];
+                }
+            }
+
+
+            $location.path("/home/root");
+            $location.search("path", totalPath);
+
+        };
+
 
         /**
          * Cause the collections panel on the left to display
@@ -126,7 +162,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
          */
         $scope.updateSelectedFromCollection = function (action, id) {
             var checkbox = action.target;
-           (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
+            (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
         }
 
         /**
