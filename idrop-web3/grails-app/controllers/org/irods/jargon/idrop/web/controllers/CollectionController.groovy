@@ -41,16 +41,22 @@ class CollectionController extends RestfulController {
 		int offset = params.offset
 		if (!offset) offset = 0
 
+		def virtualCollection = params.virtualCollection
+
+		if (!virtualCollection) {
+			throw new IllegalArgumentException("no virtualCollection provided")
+		}
+
 		//offset = (int) offset
 
 		log.info("path:${path}")
-		log.info("offset:offset")
+		log.info("offset:${offset}")
+		log.info("virtualCollection:${virtualCollection}")
 
-		def pagingAwareCollectionListing = irodsCollectionService.collectionListing(path, ListingType.ALL, (int) offset, irodsAccount)
+		def pagingAwareCollectionListing = virtualCollectionService.virtualCollectionListing(virtualCollection, path, ListingType.ALL, (int) offset, irodsAccount, session)
 		log.info("pagingAwareCollectionListing:${pagingAwareCollectionListing}")
 		render pagingAwareCollectionListing as JSON
 	}
-
 
 	def index() {
 		log.info("index()")

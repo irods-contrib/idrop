@@ -36,7 +36,6 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		collectionBasedVirtualCollectionExecutor.demand.queryAll{return listing}
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
 
-
 		def virtualCollectionExecutorFactory = mockFor(VirtualCollectionExecutorFactoryImpl)
 		virtualCollectionExecutorFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
 		def factMock = virtualCollectionExecutorFactory.createMock()
@@ -157,7 +156,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 
 		when:
 
-		def actual = virtualCollectionService.virtualCollectionListing(uniqueName, ListingType.ALL, 0, irodsAccount, mockSession)
+		def actual = virtualCollectionService.virtualCollectionListing(uniqueName, "/a/path", ListingType.ALL, 0, irodsAccount, mockSession)
 
 		then:
 

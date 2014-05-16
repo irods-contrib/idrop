@@ -8,16 +8,18 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
 import org.irods.jargon.vircoll.VirtualCollectionExecutorFactory
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
+import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 
 class VirtualCollectionService {
 
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	VirtualCollectionFactoryCreatorService virtualCollectionFactoryCreatorService
+	IrodsCollectionService irodsCollectionService
+
 	public enum ListingType {
 		ALL, COLLECTIONS, DATA_OBJECTS
 	}
-
 
 	/**
 	 * Get the default list of virtual collections associated with a user
@@ -35,9 +37,7 @@ class VirtualCollectionService {
 		log.info("irodsAccount: ${irodsAccount}")
 
 		VirtualCollectionDiscoveryService virtualCollectionDiscoveryService = new VirtualCollectionDiscoveryServiceImpl(irodsAccessObjectFactory, irodsAccount)
-
 		def colls = virtualCollectionDiscoveryService.listDefaultUserCollections()
-
 		session.virtualCollections = colls
 
 		return colls
@@ -88,16 +88,16 @@ class VirtualCollectionService {
 
 	}
 
-
 	/**
-	 * Given a virtual collection type, generate a listing of data for display
+	 * Given a virtual collection type, generate a listing of data for display, incorporating a path if the virtual collection supports subpaths
 	 * @param vcName
+	 * @param path
 	 * @param listingType
 	 * @param offset
 	 * @param irodsAccount
 	 * @return
 	 */
-	def virtualCollectionListing(String vcName, ListingType listingType, int offset, IRODSAccount irodsAccount, HttpSession session) {
+	def virtualCollectionListing(String vcName, String path, ListingType listingType, int offset, IRODSAccount irodsAccount, HttpSession session) {
 
 		log.info("virtualCollectionListing")
 
@@ -126,20 +126,30 @@ class VirtualCollectionService {
 			}
 		}
 
-		// TODO: if not found, or missing, should I refresh?
-
 		if (!session.virtualCollection) {
 			throw new Exception("no virtual collections found for name:${vcName}")
 		}
 
-		VirtualCollectionExecutorFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionExecutorFactory(irodsAccount)
+		/*
+		 * If the given virtual collection is not collection based virtual collection, this method will return the contents based on that vc
+		 * <p/>
+		 * If this is a virtual collection, and no path is provided, it will return the contents based on that VC.  If a path is provided, it is checked to make sure it
+		 * is 'below' that VC, and if so, the contents are returned based on the given subpath.
+		 *
+		 */
 
-		def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(session.virtualCollection)
-
-		if (listingType == ListingType.ALL) {
-			return executor.queryAll(offset)
+		if (session.virtualCollection instanceof CollectionBasedVirtualCollection) {
+			log.info("collection based vc, so employ the path to make the query")
+			return irodsCollectionService.collectionListing(path, ListingType.ALL, offset, irodsAccount)
 		} else {
-			throw new UnsupportedOperationException("not supported yet")
+			log.info("not a collection based vc, so use an executor for the listing")
+			VirtualCollectionExecutorFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionExecutorFactory(irodsAccount)
+			def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(session.virtualCollection)
+			if (listingType == ListingType.ALL) {
+				return executor.queryAll(offset)
+			} else {
+				throw new UnsupportedOperationException("not supported yet")
+			}
 		}
 	}
 }
