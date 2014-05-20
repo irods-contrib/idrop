@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.vircoll.PathHintable
 import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
 import org.irods.jargon.vircoll.VirtualCollectionExecutorFactory
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
@@ -146,7 +147,14 @@ class VirtualCollectionService {
 			VirtualCollectionExecutorFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionExecutorFactory(irodsAccount)
 			def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(session.virtualCollection)
 			if (listingType == ListingType.ALL) {
-				return executor.queryAll(offset)
+
+				if (session.virtualCollection instanceof PathHintable) {
+					log.info("path hintable, provide path")
+					return executor.queryAll(path, offset)
+				} else {
+					log.info("not path hintable, don't provide path")
+					return executor.queryAll(offset)
+				}
 			} else {
 				throw new UnsupportedOperationException("not supported yet")
 			}
