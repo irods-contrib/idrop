@@ -84,7 +84,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             }
 
             $log.info("initializing virtual collection for:" + vcName);
-            $location.path("/home/" + vcName + "?path=/");
+            $location.path("/home/" + vcName + "?path=");
 
         };
 

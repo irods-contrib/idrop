@@ -27,7 +27,7 @@ angular.module('app')
             .when('/login', {
                 templateUrl: 'assets/home/login-angularjs.html',
                 controller: 'loginController'
-            }).otherwise({redirectTo: "/home"});
+            }).otherwise({redirectTo: "/home/root"});
     })
 
 /**
@@ -524,7 +524,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             }
 
             $log.info("initializing virtual collection for:" + vcName);
-            $location.path("/home/" + vcName + "?path=/");
+            $location.path("/home/" + vcName + "?path=");
 
         };
 

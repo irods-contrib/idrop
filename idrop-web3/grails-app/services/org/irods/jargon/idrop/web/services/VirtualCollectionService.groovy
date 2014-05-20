@@ -123,13 +123,16 @@ class VirtualCollectionService {
 			if (virCollEntry.uniqueName == vcName) {
 				log.info("found it")
 				session.virtualCollection = virCollEntry
+				virColl = virCollEntry
 				break
 			}
 		}
 
-		if (!session.virtualCollection) {
+		if (!virColl) {
 			throw new Exception("no virtual collections found for name:${vcName}")
 		}
+
+		log.info("vircoll is:${virColl}")
 
 		/*
 		 * If the given virtual collection is not collection based virtual collection, this method will return the contents based on that vc
@@ -139,25 +142,21 @@ class VirtualCollectionService {
 		 *
 		 */
 
-		if (session.virtualCollection instanceof CollectionBasedVirtualCollection) {
-			log.info("collection based vc, so employ the path to make the query")
-			return irodsCollectionService.collectionListing(path, ListingType.ALL, offset, irodsAccount)
-		} else {
-			log.info("not a collection based vc, so use an executor for the listing")
-			VirtualCollectionExecutorFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionExecutorFactory(irodsAccount)
-			def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(session.virtualCollection)
-			if (listingType == ListingType.ALL) {
 
-				if (session.virtualCollection instanceof PathHintable) {
-					log.info("path hintable, provide path")
-					return executor.queryAll(path, offset)
-				} else {
-					log.info("not path hintable, don't provide path")
-					return executor.queryAll(offset)
-				}
+		log.info("not a collection based vc, so use an executor for the listing")
+		VirtualCollectionExecutorFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionExecutorFactory(irodsAccount)
+		def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(virColl)
+		if (listingType == ListingType.ALL) {
+
+			if (executor instanceof PathHintable) {
+				log.info("path hintable, provide path")
+				return executor.queryAll(path, offset)
 			} else {
-				throw new UnsupportedOperationException("not supported yet")
+				log.info("not path hintable, don't provide path")
+				return executor.queryAll(offset)
 			}
+		} else {
+			throw new UnsupportedOperationException("not supported yet")
 		}
 	}
 }
