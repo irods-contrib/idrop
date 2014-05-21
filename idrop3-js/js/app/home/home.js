@@ -126,7 +126,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
             var totalPath = "";
 
-            for (var i = 0; i < +index; i++) {
+            for (var i = 0; i <= index; i++) {
 
                 // skip a blank path, which indicates an element that is a '/' for root, avoid double slashes
                 if (path[i]) {

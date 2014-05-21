@@ -207,6 +207,29 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
         };
     })
 
+    .filter('fileIcon', function ($log) {
+        /**
+         * Given a listing entry, return the appropriate file icon
+         */
+
+        return function (listingEntry) {
+            if (!listingEntry) {
+                return "";
+            }
+
+
+         /*
+         right now it's a
+          */
+         if (listingEntry.objectType.name == "COLLECTION") {
+            return "glyphicon-folder-close";
+         } else {
+             return "glyphicon-file";
+         }
+
+
+        }
+    })
     .filter('abbreviateFileName', function ($log) {
         /**
          * Given an absolute path, make a space-saving abbreviation by redacting parts of the full string
@@ -566,7 +589,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
             var totalPath = "";
 
-            for (var i = 0; i < +index; i++) {
+            for (var i = 0; i <= index; i++) {
 
                 // skip a blank path, which indicates an element that is a '/' for root, avoid double slashes
                 if (path[i]) {
