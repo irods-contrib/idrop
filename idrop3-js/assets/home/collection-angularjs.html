@@ -14,7 +14,6 @@
                             class="btn btn-link">
                         <span>/ {{breadcrumb | abbreviateFileName}} </span>
                     </button>
-
                     </span>
                 </div>
             </div>
@@ -36,23 +35,22 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="d in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" ng-init="showit=false" ng-mouseenter="showit = true" ng-mouseleave="showit = false">
+                <tr ng-repeat="d in pagingAwareCollectionListing.collectionAndDataObjectListingEntries"
+                    ng-init="showit=false" ng-mouseenter="showit = true" ng-mouseleave="showit = false">
                     <td><input ng-click="updateSelectedFromCollection($event, d.id)" ng-model="d.selected"
                                type="checkbox"></td>
                     <td>
                         <span class="glyphicon    {{d | fileIcon}}"/>
                     </td>
-                    <td><a href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}"> {{d.nodeLabelDisplayValue | abbreviateFileName}}</a>
+                    <td><a href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}">
+                        {{d.nodeLabelDisplayValue | abbreviateFileName}}</a>
 
-                        <span ng-show="d.objectType.name == 'COLLECTION'">
-                             <span ng-show="showit">
-                                   <span class="glyphicon glyphicon-info-sign"/>
-                              </span>
+                        <a ng-show="showit"  class="glyphicon glyphicon-info-sign"
+                                ng-click="showFileDetails(d.formattedAbsolutePath)"></a>
 
-                        </span>
                          <span ng-hide="d.objectType.name == 'COLLECTION'">
-                                  <a  ng-show="showit" class="glyphicon glyphicon-download" href="download?path={{ d.formattedAbsolutePath }}" target="_self"></a>
-                                   <span  ng-show="showit"  class="glyphicon glyphicon-info-sign"/>
+                                  <a ng-show="showit" class="glyphicon glyphicon-download"
+                                     href="download?path={{ d.formattedAbsolutePath }}" target="_self"></a>
                          </span>
 
                     </td>
@@ -65,35 +63,35 @@
             </table>
         </div>
     </div>
-<!--
-    <div class="row stretch-row emperor-grey">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="btn-toolbar pad-vertical" role="toolbar">
-                <div class="btn-group">
-                    <button ng-click="page('first')" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-fast-backward"></span>
-                    </button>
-                    <button ng-click="page('prev')" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-backward"></span>
-                    </button>
+    <!--
+        <div class="row stretch-row emperor-grey">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="btn-toolbar pad-vertical" role="toolbar">
+                    <div class="btn-group">
+                        <button ng-click="page('first')" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-fast-backward"></span>
+                        </button>
+                        <button ng-click="page('prev')" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-backward"></span>
+                        </button>
 
-                    <button ng-repeat="n in pages()" ng-click="page($index)" type="button" class="btn btn-default">
-                        {{n}}
-                    </button>
-                    <button ng-click="page('next')" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-forward"></span>
-                    </button>
+                        <button ng-repeat="n in pages()" ng-click="page($index)" type="button" class="btn btn-default">
+                            {{n}}
+                        </button>
+                        <button ng-click="page('next')" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-forward"></span>
+                        </button>
 
-                    <button ng-click="page('last')" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-fast-forward"></span>
-                    </button>
+                        <button ng-click="page('last')" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-fast-forward"></span>
+                        </button>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    -->
+        -->
 
 </div>
 

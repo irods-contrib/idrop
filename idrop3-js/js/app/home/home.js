@@ -51,7 +51,14 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
                     }
 
                 }
-            }).otherwise({redirectTo: "/home"});
+            })
+            /*
+            .when('/file', {
+                templateUrl: 'assets/file/file-master-angularjs.html',
+                controller: 'fileController'
+
+
+            }) */
     })
 
     .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing) {
@@ -141,12 +148,21 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
         };
 
+        /**
+         * Show the file details view
+         * @param path
+         */
+        $scope.showFileDetails = function(path) {
+            $location.path("/file");
+            $location.search("path", path);
+
+        };
+
 
         /**
          * Cause the collections panel on the left to display
          */
         $scope.showCollections = function () {
-            alert("show collections");
             $scope.hideDrives = "false";
         };
 

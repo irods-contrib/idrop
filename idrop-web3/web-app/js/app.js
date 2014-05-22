@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'file','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule']);
 
 angular.module('flash', []);
 
@@ -27,7 +27,7 @@ angular.module('app')
             .when('/login', {
                 templateUrl: 'assets/home/login-angularjs.html',
                 controller: 'loginController'
-            }).otherwise({redirectTo: "/home/root"});
+            });
     })
 
 /**
@@ -66,7 +66,6 @@ angular.module('CollectionsModule', [])
             selectVirtualCollection : function(vcName) {
                 //alert(vcName);
             },
-
 
             /**
              * List the contents of a collection, based on the type of virtual collection, and any subpath
@@ -467,6 +466,79 @@ angular.module('virtualCollectionsModule', [])
  */
 
 /*
+ * File controller function here, representing collection and data object catalog info and operations
+ */
+angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute'])
+
+    /*
+     * handle config of routes for home functions
+     */
+    .config(function ($routeProvider) {
+        // route for the home page
+        $routeProvider.when('/file', {
+            templateUrl: 'assets/file/file-master-angularjs.html',
+            controller: 'fileController',
+            resolve: {
+                // do a listing
+                file: function ($route, fileService) {
+                    var path = $route.current.params.path;
+                    if (path == null) {
+                        path = "/";
+                    }
+                    return fileService.retrieveFileBasics(path);
+                }
+            }
+        });
+    })
+
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file) {
+
+        $scope.file = file;
+
+
+    }])
+    .factory('fileService', ['$http', '$log', function ($http, $log) {
+
+        var fileService = {
+            /**
+             * List the contents of a collection, based on the type of virtual collection, and any subpath
+             * @param reqVcName
+             * @param reqParentPath
+             * @param reqOffset
+             * @returns {*|Error}
+             */
+            retrieveFileBasics: function (path) {
+
+                $log.info("get basic info about the file");
+
+                if (!path) {
+                    $log.error("path is missing");
+                    throw "path is missing";
+                }
+
+                return $http({method: 'GET', url: 'file/', params: {path: path}}).success(function (data) {
+                    return data;
+
+                }).error(function () {
+                        file = null;
+                });
+            }
+
+        };
+
+        return fileService;
+
+    }]);
+
+
+
+
+/**
+ * Home page controllers
+ * Created by mikeconway on 3/9/14.
+ */
+
+/*
  * Home controller function here
  */
 angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule', 'MessageCenterModule', 'CollectionsModule', 'ngRoute'])
@@ -514,7 +586,14 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
                     }
 
                 }
-            }).otherwise({redirectTo: "/home"});
+            })
+            /*
+            .when('/file', {
+                templateUrl: 'assets/file/file-master-angularjs.html',
+                controller: 'fileController'
+
+
+            }) */
     })
 
     .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing) {
@@ -604,12 +683,21 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
         };
 
+        /**
+         * Show the file details view
+         * @param path
+         */
+        $scope.showFileDetails = function(path) {
+            $location.path("/file");
+            $location.search("path", path);
+
+        };
+
 
         /**
          * Cause the collections panel on the left to display
          */
         $scope.showCollections = function () {
-            alert("show collections");
             $scope.hideDrives = "false";
         };
 

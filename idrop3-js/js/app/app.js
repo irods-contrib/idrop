@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'file','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule']);
 
 angular.module('flash', []);
 
@@ -27,7 +27,7 @@ angular.module('app')
             .when('/login', {
                 templateUrl: 'assets/home/login-angularjs.html',
                 controller: 'loginController'
-            }).otherwise({redirectTo: "/home/root"});
+            });
     })
 
 /**

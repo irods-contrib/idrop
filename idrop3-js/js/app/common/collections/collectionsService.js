@@ -18,7 +18,6 @@ angular.module('CollectionsModule', [])
                 //alert(vcName);
             },
 
-
             /**
              * List the contents of a collection, based on the type of virtual collection, and any subpath
              * @param reqVcName

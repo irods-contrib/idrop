@@ -1,0 +1,72 @@
+/**
+ * Home page controllers
+ * Created by mikeconway on 3/9/14.
+ */
+
+/*
+ * File controller function here, representing collection and data object catalog info and operations
+ */
+angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute'])
+
+    /*
+     * handle config of routes for home functions
+     */
+    .config(function ($routeProvider) {
+        // route for the home page
+        $routeProvider.when('/file', {
+            templateUrl: 'assets/file/file-master-angularjs.html',
+            controller: 'fileController',
+            resolve: {
+                // do a listing
+                file: function ($route, fileService) {
+                    var path = $route.current.params.path;
+                    if (path == null) {
+                        path = "/";
+                    }
+                    return fileService.retrieveFileBasics(path);
+                }
+            }
+        });
+    })
+
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file) {
+
+        $scope.file = file;
+
+
+    }])
+    .factory('fileService', ['$http', '$log', function ($http, $log) {
+
+        var fileService = {
+            /**
+             * List the contents of a collection, based on the type of virtual collection, and any subpath
+             * @param reqVcName
+             * @param reqParentPath
+             * @param reqOffset
+             * @returns {*|Error}
+             */
+            retrieveFileBasics: function (path) {
+
+                $log.info("get basic info about the file");
+
+                if (!path) {
+                    $log.error("path is missing");
+                    throw "path is missing";
+                }
+
+                return $http({method: 'GET', url: 'file/', params: {path: path}}).success(function (data) {
+                    return data;
+
+                }).error(function () {
+                        file = null;
+                });
+            }
+
+        };
+
+        return fileService;
+
+    }]);
+
+
+
