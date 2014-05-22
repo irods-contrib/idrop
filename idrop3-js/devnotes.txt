@@ -41,3 +41,7 @@ notes on resolve, service and controller refs to service data : http://jsfiddle.
 
 
 testing!!!  http://www.yearofmoo.com/2013/01/full-spectrum-testing-with-angularjs-and-karma.html
+
+
+  <a ng-show="showit" ng-href="/download?pah={{ d.formattedAbsolutePath }}"><span
+                                            class="glyphicon glyphicon-download"/></a>

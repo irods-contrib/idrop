@@ -42,24 +42,20 @@
                     <td>
                         <span class="glyphicon    {{d | fileIcon}}"/>
                     </td>
-                    <td><a href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}">
-
-                        {{d.nodeLabelDisplayValue | abbreviateFileName}}
+                    <td><a href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}"> {{d.nodeLabelDisplayValue | abbreviateFileName}}</a>
 
                         <span ng-show="d.objectType.name == 'COLLECTION'">
                              <span ng-show="showit">
-                                   <span class="glyphicon glyphicon-info"/>
+                                   <span class="glyphicon glyphicon-info-sign"/>
                               </span>
 
                         </span>
                          <span ng-hide="d.objectType.name == 'COLLECTION'">
-                              <span ng-show="showit">
-                                    <span class="glyphicon glyphicon-download"/>
-                                   <span class="glyphicon glyphicon-info-sign"/>
-                              </span>
+                                  <a  ng-show="showit" class="glyphicon glyphicon-download" href="download?path={{ d.formattedAbsolutePath }}" target="_self"></a>
+                                   <span  ng-show="showit"  class="glyphicon glyphicon-info-sign"/>
                          </span>
 
-                    </a></td>
+                    </td>
                     <td>{{d.displayDataSize}}</td>
                     <td>{{d.createdAt}}</td>
                 </tr>

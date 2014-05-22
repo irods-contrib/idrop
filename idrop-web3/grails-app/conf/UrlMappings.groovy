@@ -8,8 +8,9 @@ class UrlMappings {
 
 		"/virtualCollection/$name"(resource:"virtualCollection")
 
-		"/$controller/$action?/$id?"{ constraints {
-				// apply constraints here
+		"/download"(resource:"download")
+
+		"/$controller/$action?/$id?"{ constraints { // apply constraints here
 			} }
 
 		"500"(controller: "error")
