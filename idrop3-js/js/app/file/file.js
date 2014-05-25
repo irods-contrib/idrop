@@ -55,10 +55,10 @@ angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'Message
                 }
 
                 return $http({method: 'GET', url: 'file/', params: {path: path}}).success(function (data) {
-                    return data;
+                    return data.data;
 
                 }).error(function () {
-                        file = null;
+                        return null;
                 });
             }
 

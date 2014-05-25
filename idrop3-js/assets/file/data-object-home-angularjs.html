@@ -1,0 +1,91 @@
+<div x-ng-include="'assets/common/nav-angularjs.html'"></div>
+<div class="container">
+
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button"
+                            class="btn btn-link" ng-click="selectParentCollection(file.data.collectionName)">{{
+                        file.data.collectionName | abbreviateFileName }}
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <h3>{{ file.data.dataName }}</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div x-ng-include="'assets/file/file-actions-for-data-objects-angularjs.html'"></div>
+
+
+    <div class="container pad-vertical">
+        <!-- Example row of columns -->
+
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'LENGTH' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.displayDataSize}}</span>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'CREATED' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.createdAt}}</span>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'MODIFIED' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.createdAt}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'TYPE' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.specColType.name}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'DATA_TYPE' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.dataTypeName}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 col-md-offset-1">
+              <div class="panel panel-default">
+                  <div class="panel-heading">{{ 'METADATA' | translate }}</div>
+
+              </div>
+            </div>
+
+        </div>
+
+
+        {{ file }}
+
+    </div>

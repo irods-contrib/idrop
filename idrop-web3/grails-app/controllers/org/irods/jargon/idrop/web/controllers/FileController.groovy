@@ -3,6 +3,7 @@ package org.irods.jargon.idrop.web.controllers
 import grails.converters.JSON
 import grails.rest.RestfulController
 
+import org.irods.jargon.idrop.web.services.DataProfileMidTierService
 import org.irods.jargon.idrop.web.services.FileService
 
 /**
@@ -15,6 +16,7 @@ class FileController extends RestfulController {
 
 	static responseFormats = ['json']
 	FileService fileService
+	DataProfileMidTierService dataProfileMidTierService
 
 	/**
 	 * Get the iRODS catalog info for the given path
@@ -26,10 +28,8 @@ class FileController extends RestfulController {
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
 
 		def path = params.path
-
 		log.info("path:${path}")
-
-		def catalogObject = fileService.retrieveCatalogInfoForPath(path, irodsAccount)
-		render catalogObject as JSON
+		def dataProfile = dataProfileMidTierService.retrieveDataProfile(path, irodsAccount)
+		render dataProfile as JSON
 	}
 }

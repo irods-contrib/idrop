@@ -269,9 +269,14 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
 angular.module('angularTranslateApp', ['pascalprecht.translate']).config(function ($translateProvider) {
         $translateProvider.translations('en', {
             ADD_TO_CART: 'Add to Cart',
+            CREATED: 'Created',
+            DATA_TYPE: 'Data Type',
             DELETE: 'Delete',
             HOST: 'Host',
+            LENGTH: 'Length',
             LOGIN_HEADLINE: 'Please login to iDrop',
+            METADATA: 'Metadata',
+            MODIFIED: 'Modified',
             MOVE_COPY: 'Move/Copy',
             NEED_HELP: 'Need help?',
             PASSWORD: 'Password',
@@ -279,6 +284,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             RENAME: 'Rename',
             SIGN_IN: 'Sign in',
             TOOLS: 'Tools',
+            TYPE: 'Type',
             USER_NAME: 'User Name',
             VIEW_DETAILS: 'View Details',
             ZONE: 'Zone'
@@ -517,10 +523,10 @@ angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'Message
                 }
 
                 return $http({method: 'GET', url: 'file/', params: {path: path}}).success(function (data) {
-                    return data;
+                    return data.data;
 
                 }).error(function () {
-                        file = null;
+                        return null;
                 });
             }
 

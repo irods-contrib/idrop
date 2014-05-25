@@ -3,6 +3,8 @@ package org.irods.jargon.idrop.web.controllers
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.dataprofile.DataProfile
+import org.irods.jargon.idrop.web.services.DataProfileMidTierService
 import org.irods.jargon.idrop.web.services.FileService
 import org.junit.*
 
@@ -22,9 +24,16 @@ class FileControllerSpec extends Specification {
 		fileService.demand.retrieveCatalogInfoForPath{path, irodsAccount -> return collection}
 		controller.fileService = fileService.createMock()
 
+		DataProfile dataProfile = new DataProfile()
+		def dataProfileMidTierService = mockFor(DataProfileMidTierService)
+		dataProfileMidTierService.demand.retrieveDataProfile{pathval, irodsAccountVal -> return dataProfile}
+		def dataProfileMidTierServiceMock = dataProfileMidTierService.createMock()
+		controller.dataProfileMidTierService = dataProfileMidTierServiceMock
+
 		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
 		request.irodsAccount = testAccount
 		params.path = "/a/path"
+
 
 		when:
 		controller.index()
