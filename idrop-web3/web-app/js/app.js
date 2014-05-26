@@ -269,7 +269,10 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
 angular.module('angularTranslateApp', ['pascalprecht.translate']).config(function ($translateProvider) {
         $translateProvider.translations('en', {
             ADD_TO_CART: 'Add to Cart',
+            CHECKSUM: 'Checksum',
             CREATED: 'Created',
+            DATA_OWNER_NAME: 'Owner',
+            DATA_OWNER_ZONE: 'Owner Zone',
             DATA_TYPE: 'Data Type',
             DELETE: 'Delete',
             HOST: 'Host',

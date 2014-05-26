@@ -1,4 +1,5 @@
 <div x-ng-include="'assets/common/nav-angularjs.html'"></div>
+
 <div class="container">
 
     <div class="jumbotron">
@@ -74,41 +75,96 @@
                             <span class="text-left">{{ file.data.domainObject.dataTypeName}}</span>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'CHECKSUM' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.checksum}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-7 col-md-offset-1">
+                <div class="row">
+                    <div class="col-md-3">
+                        <span class="text-right"><b>{{ 'DATA_OWNER_NAME' | translate }}:</b></span>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="text-left">{{ file.data.domainObject.dataOwnerName}}</span>
+                    </div>
 
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <span class="text-right"><b>{{ 'DATA_OWNER_ZONE' | translate }}:</b></span>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="text-left">{{ file.data.domainObject.dataOwnerZone}}</span>
+                    </div>
+
+                </div>
             </div>
         </div>
         <div class="row pad-vertical">
-            <div class="panel panel-default">
-                <div class="panel-heading">{{ 'PERMISSIONS' | translate }}</div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">{{ 'PERMISSIONS' | translate }}</div>
 
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>{{ 'NAME' | translate }}</th>
-                            <th>{{ 'PERMISSION' | translate }}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="acl in file.data.acls">
-                            <td><input ng-model="acl.selected"
-                                       type="checkbox"></td>
-                            <td>
-                                {{acl.nameWithZone}}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>{{ 'NAME' | translate }}</th>
+                                <th>{{ 'PERMISSION' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="acl in file.data.acls">
+                                <td><input ng-model="acl.selected"
+                                           type="checkbox"></td>
+                                <td>
+                                    {{acl.nameWithZone}}
 
-                            </td>
-                            <td>{{acl.filePermissionEnum}.name}</td>
-                        </tr>
+                                </td>
+                                <td>{{acl.filePermissionEnum.name}}</td>
+                            </tr>
 
-                        </tbody>
+                            </tbody>
 
-                    </table>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row pad-vertical">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">{{ 'METADATA' | translate }}</div>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'ATTRIBUTE' | translate }}</th>
+                                    <th>{{ 'VALUE' | translate }}</th>
+                                    <th>{{ 'UNIT' | translate }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="avu in file.data.metadata">
+                                    <td><input ng-model="avu.selected"
+                                               type="checkbox"></td>
+                                    <td>{{avu.avuAttribute}}</td>
+                                    <td>{{avu.avuValue}}</td>
+                                    <td>{{avu.avuUnit}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
