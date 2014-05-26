@@ -7,14 +7,14 @@
                 <div class="col-md-12">
                     <button type="button"
                             class="btn btn-link" ng-click="selectParentCollection(file.data.collectionName)">{{
-                        file.data.collectionName | abbreviateFileName }}
+                        file.data.domainObject.collectionName | abbreviateFileName }}
                     </button>
                 </div>
             </div>
             <div class="row">
 
                 <div class="col-md-12">
-                    <h3>{{ file.data.dataName }}</h3>
+                    <h3>{{ file.data.domainObject.dataName }}</h3>
                 </div>
             </div>
 
@@ -36,7 +36,7 @@
                             <span class="text-right"><b>{{ 'LENGTH' | translate }}:</b></span>
                         </div>
                         <div class="col-md-10">
-                            <span class="text-left">{{ file.data.displayDataSize}}</span>
+                            <span class="text-left">{{ file.data.domainObject.displayDataSize}}</span>
                         </div>
 
                     </div>
@@ -46,7 +46,7 @@
                             <span class="text-right"><b>{{ 'CREATED' | translate }}:</b></span>
                         </div>
                         <div class="col-md-10">
-                            <span class="text-left">{{ file.data.createdAt}}</span>
+                            <span class="text-left">{{ file.data.domainObject.createdAt}}</span>
                         </div>
 
                     </div>
@@ -55,7 +55,7 @@
                             <span class="text-right"><b>{{ 'MODIFIED' | translate }}:</b></span>
                         </div>
                         <div class="col-md-10">
-                            <span class="text-left">{{ file.data.createdAt}}</span>
+                            <span class="text-left">{{ file.data.domainObject.updatedAt}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -63,7 +63,7 @@
                             <span class="text-right"><b>{{ 'TYPE' | translate }}:</b></span>
                         </div>
                         <div class="col-md-10">
-                            <span class="text-left">{{ file.data.specColType.name}}</span>
+                            <span class="text-left">{{ file.data.domainObject.specColType.name}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -71,21 +71,44 @@
                             <span class="text-right"><b>{{ 'DATA_TYPE' | translate }}:</b></span>
                         </div>
                         <div class="col-md-10">
-                            <span class="text-left">{{ file.data.dataTypeName}}</span>
+                            <span class="text-left">{{ file.data.domainObject.dataTypeName}}</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-7 col-md-offset-1">
-              <div class="panel panel-default">
-                  <div class="panel-heading">{{ 'METADATA' | translate }}</div>
 
-              </div>
             </div>
-
         </div>
+        <div class="row pad-vertical">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ 'PERMISSIONS' | translate }}</div>
 
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>{{ 'NAME' | translate }}</th>
+                            <th>{{ 'PERMISSION' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="acl in file.data.acls">
+                            <td><input ng-model="acl.selected"
+                                       type="checkbox"></td>
+                            <td>
+                                {{acl.nameWithZone}}
 
-        {{ file }}
+                            </td>
+                            <td>{{acl.filePermissionEnum}.name}</td>
+                        </tr>
 
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+</div>

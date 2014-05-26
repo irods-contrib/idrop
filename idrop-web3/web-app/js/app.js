@@ -278,8 +278,11 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             METADATA: 'Metadata',
             MODIFIED: 'Modified',
             MOVE_COPY: 'Move/Copy',
+            NAME: 'Name',
             NEED_HELP: 'Need help?',
             PASSWORD: 'Password',
+            PERMISSION: 'Permission',
+            PERMISSIONS: 'Permissions',
             PORT: 'Port',
             RENAME: 'Rename',
             SIGN_IN: 'Sign in',
@@ -523,7 +526,7 @@ angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'Message
                 }
 
                 return $http({method: 'GET', url: 'file/', params: {path: path}}).success(function (data) {
-                    return data.data;
+                    return data;
 
                 }).error(function () {
                         return null;
