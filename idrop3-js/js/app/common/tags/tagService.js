@@ -9,7 +9,6 @@ angular.module('tagServiceModule', [])
     .service('tagService', ['$http', '$log', '$q', function ($http, $log, $q) {
 
 
-
             /**
              * translate an array of tag values into a free tag string
              */

@@ -6,7 +6,7 @@
 /*
  * File controller function here, representing collection and data object catalog info and operations
  */
-angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute'])
+angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute','tagServiceModule'])
 
     /*
      * handle config of routes for home functions
@@ -29,13 +29,13 @@ angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'Message
         });
     })
 
-    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file) {
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService) {
 
         $scope.file = file;
 
 
     }])
-    .factory('fileService', ['$http', '$log', function ($http, $log) {
+    .factory('fileService', ['$http', '$log','tagService', function ($http, $log, tagService) {
 
         var fileService = {
             /**
@@ -55,6 +55,10 @@ angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'Message
                 }
 
                 return $http({method: 'GET', url: 'file/', params: {path: path}}).success(function (data) {
+
+                    // decorate data with tag string
+
+                    data.tagString = tagService.tagListToTagString(data.irodsTagValues);
                     return data;
 
                 }).error(function () {

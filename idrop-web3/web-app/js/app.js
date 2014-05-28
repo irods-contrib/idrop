@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'file','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'file','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule','tagServiceModule']);
 
 angular.module('flash', []);
 
@@ -402,6 +402,41 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
         $httpProvider.interceptors.push('myHttpResponseInterceptor');
     }]);
 /**
+ * Service for free tagging and tag clouds
+ *
+ * Created by Mike on 3/28/14.
+ */
+
+angular.module('tagServiceModule', [])
+
+    .service('tagService', ['$http', '$log', '$q', function ($http, $log, $q) {
+
+
+            /**
+             * translate an array of tag values into a free tag string
+             */
+          this.tagListToTagString = function (tagList) {
+                if (!tagList) {
+                    return "";
+                }
+
+              var tagString = "";
+
+              for (var tag in tagList) {
+                  tagString = tagString + tagList[tag] + " ";
+              }
+
+              return tagString;
+
+
+            };
+
+
+
+    }]);
+
+
+/**
  * Service for user and identity information.  This service will access and maintain information about the logged in user and
  * provides user related operations
  *
@@ -484,7 +519,7 @@ angular.module('virtualCollectionsModule', [])
 /*
  * File controller function here, representing collection and data object catalog info and operations
  */
-angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute'])
+angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute','tagServiceModule'])
 
     /*
      * handle config of routes for home functions
@@ -507,13 +542,13 @@ angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'Message
         });
     })
 
-    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file) {
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService) {
 
         $scope.file = file;
 
 
     }])
-    .factory('fileService', ['$http', '$log', function ($http, $log) {
+    .factory('fileService', ['$http', '$log','tagService', function ($http, $log, tagService) {
 
         var fileService = {
             /**
@@ -533,6 +568,10 @@ angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'Message
                 }
 
                 return $http({method: 'GET', url: 'file/', params: {path: path}}).success(function (data) {
+
+                    // decorate data with tag string
+
+                    data.tagString = tagService.tagListToTagString(data.irodsTagValues);
                     return data;
 
                 }).error(function () {
