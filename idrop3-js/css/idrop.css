@@ -7,9 +7,14 @@ stretch the responsive grid row
 */
 
 .pad-vertical {
-	padding-top:10px;
-	padding-bottom:10px;
+	padding-top:20px;
+	padding-bottom:20px;
 }
+
+.top-buffer { margin-top:20px; }
+
+.top-buffer-sm { margin-top:10px; }
+
 
 /*
 

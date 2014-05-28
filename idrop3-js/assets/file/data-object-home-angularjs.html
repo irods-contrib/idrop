@@ -2,37 +2,22 @@
 
 <div class="container">
 
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <button type="button"
-                            class="btn btn-link" ng-click="selectParentCollection(file.data.collectionName)">{{
-                        file.data.domainObject.collectionName | abbreviateFileName }}
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-
-                <div class="col-md-12">
-                    <h3>{{ file.data.domainObject.dataName }}</h3>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div x-ng-include="'assets/file/file-actions-for-data-objects-angularjs.html'"></div>
-
+    <div x-ng-include="'assets/file/data-object-name-jumbotron-angularjs.html'"></div>
 
     <div class="container pad-vertical">
-        <!-- Example row of columns -->
+
 
         <div class="row">
-            <div class="col-md-4">
+            <div x-ng-include="'assets/file/data-object-nav-angularjs.html'"></div>
 
+            <div class="col-md-10">
                 <div class="container">
                     <div class="row">
+                        <div class="col-md-12">
+                            <div x-ng-include="'assets/file/file-actions-for-data-objects-angularjs.html'"></div>
+                        </div>
+                    </div>
+                    <div class="row top-buffer" >
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'LENGTH' | translate }}:</b></span>
                         </div>
@@ -41,7 +26,7 @@
                         </div>
 
                     </div>
-                    <div class="row">
+                    <div class="row top-buffer-sm">
 
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'CREATED' | translate }}:</b></span>
@@ -51,7 +36,7 @@
                         </div>
 
                     </div>
-                    <div class="row">
+                    <div class="row top-buffer-sm">
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'MODIFIED' | translate }}:</b></span>
                         </div>
@@ -59,7 +44,15 @@
                             <span class="text-left">{{ file.data.domainObject.updatedAt}}</span>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'EXPIRY' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.expiry}}</span>
+                        </div>
+                    </div>
+                    <div class="row top-buffer-sm">
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'TYPE' | translate }}:</b></span>
                         </div>
@@ -67,7 +60,7 @@
                             <span class="text-left">{{ file.data.domainObject.specColType.name}}</span>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row top-buffer-sm">
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'DATA_TYPE' | translate }}:</b></span>
                         </div>
@@ -75,7 +68,7 @@
                             <span class="text-left">{{ file.data.domainObject.dataTypeName}}</span>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row top-buffer-sm">
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'CHECKSUM' | translate }}:</b></span>
                         </div>
@@ -83,88 +76,47 @@
                             <span class="text-left">{{ file.data.domainObject.checksum}}</span>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-7 col-md-offset-1">
-                <div class="row">
-                    <div class="col-md-3">
-                        <span class="text-right"><b>{{ 'DATA_OWNER_NAME' | translate }}:</b></span>
-                    </div>
-                    <div class="col-md-9">
-                        <span class="text-left">{{ file.data.domainObject.dataOwnerName}}</span>
-                    </div>
 
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <span class="text-right"><b>{{ 'DATA_OWNER_ZONE' | translate }}:</b></span>
-                    </div>
-                    <div class="col-md-9">
-                        <span class="text-left">{{ file.data.domainObject.dataOwnerZone}}</span>
-                    </div>
 
-                </div>
-            </div>
-        </div>
-        <div class="row pad-vertical">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">{{ 'PERMISSIONS' | translate }}</div>
-
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>{{ 'NAME' | translate }}</th>
-                                <th>{{ 'PERMISSION' | translate }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="acl in file.data.acls">
-                                <td><input ng-model="acl.selected"
-                                           type="checkbox"></td>
-                                <td>
-                                    {{acl.nameWithZone}}
-
-                                </td>
-                                <td>{{acl.filePermissionEnum.name}}</td>
-                            </tr>
-
-                            </tbody>
-
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="row pad-vertical">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">{{ 'METADATA' | translate }}</div>
-
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>{{ 'ATTRIBUTE' | translate }}</th>
-                                    <th>{{ 'VALUE' | translate }}</th>
-                                    <th>{{ 'UNIT' | translate }}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="avu in file.data.metadata">
-                                    <td><input ng-model="avu.selected"
-                                               type="checkbox"></td>
-                                    <td>{{avu.avuAttribute}}</td>
-                                    <td>{{avu.avuValue}}</td>
-                                    <td>{{avu.avuUnit}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'DATA_OWNER_NAME' | translate }}:</b></span>
                         </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.dataOwnerName}}</span>
+                        </div>
+
+                    </div>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'DATA_OWNER_ZONE' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.dataOwnerZone}}</span>
+                        </div>
+
+                    </div>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'DATA_PATH' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.dataPath}}</span>
+                        </div>
+
+                    </div>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'OBJECT_PATH' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.objectPath}}</span>
+                        </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+</div>
