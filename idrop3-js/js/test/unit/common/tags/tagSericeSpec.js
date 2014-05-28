@@ -17,7 +17,7 @@ describe("tests of tag service", function () {
     it("convert list of tags to tag string", function () {
         var actual;
 
-        var tags = ["tag1", "tag2"];
+        var tags = [{tagData:"tag1"}, {tagData:"tag2"}];
         var actual = tagService.tagListToTagString(tags);
 
 

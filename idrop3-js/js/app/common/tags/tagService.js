@@ -20,12 +20,10 @@ angular.module('tagServiceModule', [])
               var tagString = "";
 
               for (var tag in tagList) {
-                  tagString = tagString + tagList[tag] + " ";
+                  tagString = tagString + tagList[tag].tagData + " ";
               }
 
               return tagString;
-
-
             };
 
 

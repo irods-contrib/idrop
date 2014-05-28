@@ -27,6 +27,9 @@ angular.module('app')
             .when('/login', {
                 templateUrl: 'assets/home/login-angularjs.html',
                 controller: 'loginController'
+            })
+            . otherwise({
+                redirectTo: '/home/home'
             });
     })
 

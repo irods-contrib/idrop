@@ -24,7 +24,6 @@
                         <div class="col-md-10">
                             <span class="text-left">{{ file.data.domainObject.displayDataSize}}</span>
                         </div>
-
                     </div>
                     <div class="row top-buffer-sm">
 
@@ -34,7 +33,6 @@
                         <div class="col-md-10">
                             <span class="text-left">{{ file.data.domainObject.createdAt}}</span>
                         </div>
-
                     </div>
                     <div class="row top-buffer-sm">
                         <div class="col-md-2">
@@ -72,8 +70,13 @@
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'CHECKSUM' | translate }}:</b></span>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-6">
                             <span class="text-left">{{ file.data.domainObject.checksum}}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-default" ng-click="updateChecksum()">
+                                <span class="glyphicon glyphicon-refresh" style="vertical-align:middle"></span>
+                            </button>
                         </div>
                     </div>
 
@@ -114,8 +117,50 @@
                         </div>
 
                     </div>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'TAGS' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-6">
+                            <input  class="form-control" id="tags" placeholder="Enter tags separated by spaces" ng-model="file.data.tagString">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-default" ng-click="updateTags()">
+                                <span class="glyphicon glyphicon-ok" style="vertical-align:middle"></span>
+                            </button>
+                        </div>
+
+                    </div>
                 </div>
 
+            </div>
+        </div>
+        <div class="row pad-vertical">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">{{ 'METADATA' | translate }}</div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+
+                                <th>{{ 'ATTRIBUTE' | translate }}</th>
+                                <th>{{ 'VALUE' | translate }}</th>
+                                <th>{{ 'UNIT' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="avu in file.data.metadata">
+
+                                <td>{{avu.avuAttribute}}</td>
+                                <td>{{avu.avuValue}}</td>
+                                <td>{{avu.avuUnit}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

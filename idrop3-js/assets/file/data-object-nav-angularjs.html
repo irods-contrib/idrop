@@ -1,7 +1,11 @@
 <div class="col-md-2">
     <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="#">{{ 'HOME' | translate }}</a></li>
-        <li><a href="#">Profile</a></li>
-        <li><a href="#">Messages</a></li>
+        <li  ng-class="{active: infoTab}"><a href="#">{{ 'INFO' | translate }}</a></li>
+        <li ><a href="#">{{ 'METADATA' | translate }}</a></li>
+        <li ><a href="#">{{ 'PERMISSIONS' | translate }}</a></li>
+        <li ><a href="#">{{ 'AUDIT' | translate }}</a></li>
+        <li ><a href="#">{{ 'EDIT' | translate }}</a></li>
+        <li ><a href="#">{{ 'RULE' | translate }}</a></li>
+        <li ><a href="#">{{ 'WORKFLOW' | translate }}</a></li>
     </ul>
 </div>
