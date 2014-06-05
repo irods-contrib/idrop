@@ -1464,14 +1464,14 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 			txtMetadataValue.setText("");
 			txtMetadataUnit.setText("");
 
-			JOptionPane.showMessageDialog(this, "Metadata Sucessfully Created",
+			JOptionPane.showMessageDialog(this, "Metadata Successfully Created",
 					"Create Metadata", JOptionPane.PLAIN_MESSAGE);
 
 		} catch (CatNoAccessException cna) {
 
 			log.error("no access to collection for tagging", cna);
 			JOptionPane.showMessageDialog(this,
-					"Insufficient privilages to update this data");
+					"Insufficient privileges to update this data");
 		} catch (JargonException ex) {
 			Exceptions.printStackTrace(ex);
 			JOptionPane.showMessageDialog(this, "Metadata Creation Failed",
@@ -1590,13 +1590,13 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 			}
 
 			JOptionPane.showMessageDialog(this,
-					"Tags and Comments Sucessfully Updated",
+					"Tags and Comments Successfully Updated",
 					"Update Tags and Comments", JOptionPane.PLAIN_MESSAGE);
 
 		} catch (CatNoAccessException cna) {
 			log.error("no access to collection for tagging", cna);
 			JOptionPane.showMessageDialog(this,
-					"Insufficient privilages to update this data");
+					"Insufficient privileges to update this data");
 
 		} catch (JargonException ex) {
 			Exceptions.printStackTrace(ex);
@@ -1658,13 +1658,13 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 						selectedRow);
 			}
 
-			JOptionPane.showMessageDialog(this, "Metadata Sucessfully Deleted",
+			JOptionPane.showMessageDialog(this, "Metadata Successfully Deleted",
 					"Delete Metadata", JOptionPane.PLAIN_MESSAGE);
 		} catch (CatNoAccessException cna) {
 
 			log.error("no access to collection for tagging", cna);
 			JOptionPane.showMessageDialog(this,
-					"Insufficient privilages to update this data");
+					"Insufficient privileges to update this data");
 		} catch (JargonException ex) {
 			Exceptions.printStackTrace(ex);
 			JOptionPane.showMessageDialog(this, "Metadata Delete Failed",
@@ -1766,7 +1766,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 			if ((permissionsToAdd.length > 0)
 					|| (permissionsToDelete.length > 0)) {
 				JOptionPane.showMessageDialog(this,
-						"Permissions Updated Sucessfully",
+						"Permissions Updated Successfully",
 						"Update Permissions", JOptionPane.PLAIN_MESSAGE);
 			}
 
