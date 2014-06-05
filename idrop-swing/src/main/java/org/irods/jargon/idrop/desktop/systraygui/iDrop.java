@@ -201,6 +201,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             log.info("already received startup signal");
         } else {
             createAndShowSystemTray();
+             showIdropGui();
         }
 
         receivedStartupSignal = true;

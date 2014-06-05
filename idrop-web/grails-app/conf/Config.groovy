@@ -163,7 +163,7 @@ log4j = {
 	appenders { 'null' name:'stacktrace' }
 
 	root {
-		warn()
+		info()
 		additivity = true
 	}
 
@@ -192,7 +192,7 @@ log4j = {
 	warn 'org.springframework'
 	debug 'grails.app'
 
-	warn 'org.mortbay.log',
+	info 'org.mortbay.log',
 			'grails.app.controller',
 			'org.springframework.security'
 }
