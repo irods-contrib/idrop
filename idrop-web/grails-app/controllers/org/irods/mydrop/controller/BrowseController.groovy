@@ -11,8 +11,6 @@ import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.utils.IRODSUriUtils
 import org.irods.jargon.core.utils.LocalFileUtils
 import org.irods.jargon.datautils.image.MediaHandlingUtils
-import org.irods.jargon.datautils.pagination.PagingActions
-import org.irods.jargon.datautils.pagination.PagingAnalyser
 import org.irods.jargon.datautils.sharing.*
 import org.irods.jargon.ruleservice.composition.Rule
 import org.irods.jargon.ticket.TicketDistributionContext
@@ -414,11 +412,11 @@ class BrowseController {
 
 			def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
 			int pageSize = irodsAccessObjectFactory.jargonProperties.maxFilesAndDirsQueryMax
-			PagingActions pagingActions = PagingAnalyser.buildPagingActionsFromListOfIRODSDomainObjects(entries, pageSize)
-			log.debug("retrieved collectionAndDataObjectList: ${entries}")
-			log.debug("pagingActions:${pagingActions}")
+			//PagingActions pagingActions = PagingAnalyser.buildPagingActionsFromListOfIRODSDomainObjects(entries, pageSize)
+			//log.debug("retrieved collectionAndDataObjectList: ${entries}")
+			//log.debug("pagingActions:${pagingActions}")
 
-			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0"), viewState:viewState, pagingActions:pagingActions])
+			render(view:"browseDetails", model:[collection:entries, parent:retObj, showLite:collectionAndDataObjectListAndSearchAO.getIRODSServerProperties().isTheIrodsServerAtLeastAtTheGivenReleaseVersion("rods3.0"), viewState:viewState])
 		} catch (FileNotFoundException fnf) {
 			log.info("file not found looking for data, show stand-in page", fnf)
 			render(view:"noInfo")

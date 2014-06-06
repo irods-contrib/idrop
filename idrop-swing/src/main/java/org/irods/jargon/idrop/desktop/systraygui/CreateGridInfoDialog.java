@@ -80,7 +80,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         cbAuthScheme = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrollComment = new javax.swing.JScrollPane();
         textareaComment = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
@@ -102,7 +102,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         txtHost.setColumns(80);
         txtHost.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtHost.text")); // NOI18N
-        txtHost.setMinimumSize(null);
+        txtHost.setMinimumSize(new java.awt.Dimension(150, 25));
+        txtHost.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -120,7 +121,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         jPanel1.add(jLabel2, gridBagConstraints);
 
         txtPort.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtPort.text")); // NOI18N
-        txtPort.setPreferredSize(null);
+        txtPort.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -138,7 +139,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         txtZone.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtZone.text")); // NOI18N
         txtZone.setMinimumSize(null);
-        txtZone.setPreferredSize(null);
+        txtZone.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -156,7 +157,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         txtUser.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtUser.text")); // NOI18N
         txtUser.setMinimumSize(null);
-        txtUser.setPreferredSize(null);
+        txtUser.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -174,7 +175,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         txtPassword.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtPassword.text")); // NOI18N
         txtPassword.setMinimumSize(null);
-        txtPassword.setPreferredSize(null);
+        txtPassword.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -192,7 +193,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         txtDefaultResource.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtDefaultResource.text")); // NOI18N
         txtDefaultResource.setMinimumSize(null);
-        txtDefaultResource.setPreferredSize(null);
+        txtDefaultResource.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -210,7 +211,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         txtInitialPath.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtInitialPath.text")); // NOI18N
         txtInitialPath.setMinimumSize(null);
-        txtInitialPath.setPreferredSize(null);
+        txtInitialPath.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -227,7 +228,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         jPanel1.add(jLabel8, gridBagConstraints);
 
         cbAuthScheme.setMinimumSize(null);
-        cbAuthScheme.setPreferredSize(null);
+        cbAuthScheme.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
@@ -243,11 +244,14 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel9, gridBagConstraints);
 
+        scrollComment.setMinimumSize(new java.awt.Dimension(250, 75));
+        scrollComment.setPreferredSize(new java.awt.Dimension(338, 300));
+
         textareaComment.setColumns(20);
         textareaComment.setRows(5);
         textareaComment.setMinimumSize(null);
-        textareaComment.setPreferredSize(null);
-        jScrollPane1.setViewportView(textareaComment);
+        textareaComment.setPreferredSize(new java.awt.Dimension(150, 75));
+        scrollComment.setViewportView(textareaComment);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -256,7 +260,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        jPanel1.add(jScrollPane1, gridBagConstraints);
+        jPanel1.add(scrollComment, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -409,7 +413,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane scrollComment;
     private javax.swing.JTextArea textareaComment;
     private javax.swing.JTextField txtDefaultResource;
     private javax.swing.JTextField txtHost;

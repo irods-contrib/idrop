@@ -486,6 +486,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
 
+        pnlCenter.setLayout(new java.awt.BorderLayout());
+
         pnlConfigIdrop.setLayout(new java.awt.GridBagLayout());
 
         checkShowGUI.setMnemonic('s');
@@ -883,7 +885,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
         tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlPipelineConfiguration.TabConstraints.tabTitle"), pnlPipelineConfiguration); // NOI18N
 
-        pnlCenter.add(tabConfig);
+        pnlCenter.add(tabConfig, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(pnlCenter, java.awt.BorderLayout.CENTER);
 

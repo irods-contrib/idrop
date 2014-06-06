@@ -18,7 +18,6 @@ environments {
 	 production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
 	 production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
 	 production {  grails.serverURL = "http://www.irods.org" } */
-
 	production { grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test { grails.serverURL = "http://localhost:8080/${appName}" }
@@ -185,7 +184,7 @@ log4j = {
 	appenders { 'null' name:'stacktrace' }
 
 	root {
-		warn()
+		info()
 		additivity = true
 	}
 
@@ -214,7 +213,7 @@ log4j = {
 	warn 'org.springframework'
 	debug 'grails.app'
 
-	warn 'org.mortbay.log',
+	info 'org.mortbay.log',
 			'grails.app.controller',
 			'org.springframework.security'
 }
