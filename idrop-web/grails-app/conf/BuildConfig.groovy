@@ -37,13 +37,13 @@ grails.project.dependency.resolution = {
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
 		test 'org.mockito:mockito-all:1.8.1'
-		compile ('org.irods.jargon:jargon-core:3.3.5-SNAPSHOT') { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-data-utils:3.3.5-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-ticket:3.3.5-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-profile:3.3.5-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-tagging:3.3.5-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-workflow:3.3.5-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-ruleservice:3.3.5-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-core:3.3.6-SNAPSHOT') { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-data-utils:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ticket:3.3.6-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-profile:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-tagging:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-workflow:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ruleservice:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ( "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")} //{ excludes ("stax-api","xml-apis", "xercesImpl", "aduna-commons-lang")}
 		compile ('org.irods.jargon:jargon-hive-irods:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")}
 
@@ -64,7 +64,7 @@ grails.project.dependency.resolution = {
 
 	plugins {
 		//runtime ":hibernate:${grailsVersion}"
-		//build ":tomcat:${grailsVersion}"
-	}
+		build ":tomcat:7.0.53"
+		compile ":rest-client-builder:2.0.1" }
 
 }
