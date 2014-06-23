@@ -42,7 +42,9 @@ grails.project.dependency.resolution = {
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 
 	}
-	plugins { //runtime ":hibernate:$grailsVersion"
-		build ":tomcat:$grailsVersion"
-		 }
+
+	plugins {
+		runtime ":hibernate:3.6.10.10"
+		build ":tomcat:7.0.52.1"
+	}
 }
