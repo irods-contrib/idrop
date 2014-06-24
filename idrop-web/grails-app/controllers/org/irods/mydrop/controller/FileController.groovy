@@ -3,10 +3,6 @@ package org.irods.mydrop.controller
 
 import grails.converters.*
 
-import org.apache.commons.fileupload.FileItemIterator
-import org.apache.commons.fileupload.FileItemStream
-import org.apache.commons.fileupload.servlet.ServletFileUpload
-import org.apache.commons.fileupload.util.Streams
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.CatNoAccessException
 import org.irods.jargon.core.exception.DataNotFoundException
@@ -22,6 +18,8 @@ import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
 import org.irods.jargon.datautils.uploads.UploadsService
 import org.irods.jargon.datautils.uploads.UploadsServiceImpl
+import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.multipart.MultipartHttpServletRequest
 
 
 class FileController {
@@ -161,30 +159,22 @@ class FileController {
 	def upload = {
 		log.info("upload action in file controller")
 
-		ServletFileUpload svu = new ServletFileUpload();
+		MultipartFile uploadedFile = null
+		String name = ""
+		  
+                if (request instanceof MultipartHttpServletRequest) {
+					//Get the file's name from request
+                    name = request.getFileNames()[0]
+					//Get a reference to the uploaded file.
+                    uploadedFile = request.getFile(name)					
 
-		//MultipartFile f = request.getFile('file')
-		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-
-		if (!isMultipart) {
-			def message = "request is not multipart"
-			response.sendError(500,message)
-			return
-		}
-
-		FileItemIterator iterator = svu.getItemIterator(request);
-		while (iterator.hasNext()) {
-			FileItemStream item = iterator.next();
-			if (item.isFormField()) {
-				log.info("Form field " + name + " with value "
-						+ Streams.asString(stream) + " detected.");
-			} else {
-				log.info("File field " + name + " with file name "
-						+ item.getName() + " detected.");
-				// Process the input stream
-
-				InputStream fis = new BufferedInputStream(item.openStream());
-				def name = item.name
+                }
+                
+				//get uploaded file's inputStream
+				InputStream inputStream = uploadedFile.inputStream
+				//get the file storage location 
+			
+				InputStream fis = new BufferedInputStream(inputStream)
 
 				log.info("name is : ${name}")
 				def irodsCollectionPath = params.collectionParentName
@@ -200,8 +190,6 @@ class FileController {
 					targetFile.setResource(irodsAccount.defaultStorageResource)
 
 					//	OutputStream outputStream = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFileOutputStream(targetFile);
-
-
 					Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 					def transferStats = stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, 0, 1 * 1024 * 1024)
 
@@ -219,9 +207,7 @@ class FileController {
 				} finally {
 					// stream2Stream will close input and output streams
 				}
-			}
-		}
-
+			
 		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
 
 	}
