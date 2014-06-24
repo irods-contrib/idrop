@@ -161,53 +161,58 @@ class FileController {
 
 		MultipartFile uploadedFile = null
 		String name = ""
-		  
-                if (request instanceof MultipartHttpServletRequest) {
-					//Get the file's name from request
-                    name = request.getFileNames()[0]
-					//Get a reference to the uploaded file.
-                    uploadedFile = request.getFile(name)					
+		String originalFileName = ""
 
-                }
-                
-				//get uploaded file's inputStream
-				InputStream inputStream = uploadedFile.inputStream
-				//get the file storage location 
-			
-				InputStream fis = new BufferedInputStream(inputStream)
+		if (request instanceof MultipartHttpServletRequest) {
+			//Get the file's name from request
+			name = request.getFileNames()[0]
 
-				log.info("name is : ${name}")
-				def irodsCollectionPath = params.collectionParentName
+			log.info("name from request:${name}")
+			//Get a reference to the uploaded file.
+			uploadedFile = request.getFile(name)
+			originalFileName = uploadedFile.originalFilename
+			log.info("original filename:${originalFileName}")
 
-				if (irodsCollectionPath == null || irodsCollectionPath.empty) {
-					log.error("no target iRODS collection given in upload request")
-					throw new JargonException("No iRODS target collection given for upload")
-				}
+		}
 
-				try {
-					IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
-					IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, name)
-					targetFile.setResource(irodsAccount.defaultStorageResource)
+		//get uploaded file's inputStream
+		InputStream inputStream = uploadedFile.inputStream
+		//get the file storage location
 
-					//	OutputStream outputStream = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFileOutputStream(targetFile);
-					Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
-					def transferStats = stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, 0, 1 * 1024 * 1024)
+		InputStream fis = new BufferedInputStream(inputStream)
 
-					//stream2Stream.streamToStreamCopy(fis,outputStream)
-					log.info("transferStats:${transferStats}")
-				} catch (NoResourceDefinedException nrd) {
-					log.error("no resource defined exception", nrd)
-					response.sendError(500, message(code:"message.no.resource"))
-				} catch (CatNoAccessException e) {
-					log.error("no access error", e)
-					response.sendError(500, message(code:"message.no.access"))
-				} catch (Exception e) {
-					log.error("exception in upload transfer", e)
-					response.sendError(500, message(code:"message.error.in.upload"))
-				} finally {
-					// stream2Stream will close input and output streams
-				}
-			
+		log.info("name is : ${name}")
+		def irodsCollectionPath = params.collectionParentName
+
+		if (irodsCollectionPath == null || irodsCollectionPath.empty) {
+			log.error("no target iRODS collection given in upload request")
+			throw new JargonException("No iRODS target collection given for upload")
+		}
+
+		try {
+			IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+			IRODSFile targetFile = irodsFileFactory.instanceIRODSFile(irodsCollectionPath, originalFileName)
+			targetFile.setResource(irodsAccount.defaultStorageResource)
+
+			//	OutputStream outputStream = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFileOutputStream(targetFile);
+			Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
+			def transferStats = stream2Stream.transferStreamToFileUsingIOStreams(fis, targetFile, 0, 1 * 1024 * 1024)
+
+			//stream2Stream.streamToStreamCopy(fis,outputStream)
+			log.info("transferStats:${transferStats}")
+		} catch (NoResourceDefinedException nrd) {
+			log.error("no resource defined exception", nrd)
+			response.sendError(500, message(code:"message.no.resource"))
+		} catch (CatNoAccessException e) {
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+		} catch (Exception e) {
+			log.error("exception in upload transfer", e)
+			response.sendError(500, message(code:"message.error.in.upload"))
+		} finally {
+			// stream2Stream will close input and output streams
+		}
+
 		render "{\"name\":\"${name}\",\"type\":\"image/jpeg\",\"size\":\"1000\"}"
 
 	}
