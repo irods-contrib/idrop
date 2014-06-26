@@ -8,12 +8,14 @@ grails.project.dependency.resolution = {
 	inherits("global") { // uncomment to disable ehcace
 		excludes 'ehcache'}
 	log "warn" // LOG level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+	checksums false
 	repositories {
 		// uncomment the below to enable remote dependency resolution
 		// from public Maven repositories
 		mavenLocal()
 		mavenCentral()
 		mavenRepo "http://snapshots.repository.codehaus.org"
+		mavenRepo "http://ci-dev.renci.org/nexus/content/repositories/public"
 		mavenRepo "http://repository.codehaus.org"
 		mavenRepo "http://download.java.net/maven/2/"
 		mavenRepo "http://repository.jboss.com/maven2/"

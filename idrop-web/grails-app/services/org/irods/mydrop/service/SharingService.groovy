@@ -1,6 +1,6 @@
 package org.irods.mydrop.service
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder
+import grails.util.Holders
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
