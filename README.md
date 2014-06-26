@@ -41,9 +41,15 @@ NOTE: bug fixes and features in individual sub-project release notes
 
 ## Enhancements and Fixes
 
-* set directory custom path in iDrop appears to be not working on Win7 #7
+#### set directory custom path in iDrop appears to be not working on Win7 #7
 
-* Flow manager integration #4
+#### Flow manager integration #4
+
+integration of flow manager framework from jargon/conveyor.  See: https://github.com/DICE-UNC/idrop/issues/4
+
+#### Broken build/deploy script for idrop-web #16
+
+see: https://github.com/DICE-UNC/idrop/issues/16
 
 
 
