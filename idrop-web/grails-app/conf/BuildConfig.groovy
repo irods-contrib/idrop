@@ -17,6 +17,7 @@ grails.project.dependency.resolution = {
 		mavenRepo "http://repository.codehaus.org"
 		mavenRepo "http://download.java.net/maven/2/"
 		mavenRepo "http://repository.jboss.com/maven2/"
+		mavenRepo "http://ci-dev.renci.org/nexus/content/repositories/public"
 		mavenRepo "https://raw.github.com/DICE-UNC/DICE-Maven/master/releases"
 		mavenRepo "https://raw.github.com/DICE-UNC/DICE-Maven/master/snapshots"
 		grailsPlugins()
@@ -39,9 +40,15 @@ grails.project.dependency.resolution = {
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
 
+		compile 'org.springframework:spring-expression:4.0.5.RELEASE'
+		compile 'org.springframework:spring-aop:4.0.5.RELEASE'
+
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 
 	}
-	plugins { //runtime ":hibernate:$grailsVersion"
-		build ":tomcat:$grailsVersion" }
+	plugins {
+		runtime ":hibernate:3.6.10.10"
+		build ":tomcat:7.0.52.1" 
+		compile ":asset-pipeline:1.8.3"
+	}
 }
