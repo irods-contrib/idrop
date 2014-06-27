@@ -34,6 +34,20 @@ angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'Message
         $scope.file = file;
         $scope.infoTab = true;
 
+        $scope.showFileMetadata = function (absPath) {
+            alert("show file metadata");
+            $log.info("showFileMetadata()");
+            if (!absPath) {
+                throw "no apsPath provided";
+            }
+
+            $log.info("absPath:" + absPath);
+            $location.path("/file/metadata");
+            $location.search("path", absPath);
+
+        };
+
+
 
 
     }])
