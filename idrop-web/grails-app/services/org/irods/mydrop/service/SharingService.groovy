@@ -1,13 +1,13 @@
 package org.irods.mydrop.service
 
+import grails.util.Holders
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.usertagging.domain.IRODSSharedFileOrCollection
 import org.irods.jargon.usertagging.sharing.IRODSSharingService
 import org.irods.jargon.usertagging.sharing.IRODSSharingServiceImpl
-
-
 /**
  * Service to manage shares, which are treated like first class objects, managing marking as a share and updating ACLs via the jargon-user-tagging
  * share services.
@@ -19,11 +19,10 @@ import org.irods.jargon.usertagging.sharing.IRODSSharingServiceImpl
 
 class SharingService {
 
-	def grailsApplication
 
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
-
+  
 	/**
 	 * Check to see if sharing is enabled, either by the idrop config setting (idrop.config.use.sharing), or because
 	 * a previous request indicated that sharing was not supported for this grid
@@ -34,7 +33,7 @@ class SharingService {
 	 */
 	boolean isSharingSupported(IRODSAccount irodsAccount) throws JargonException {
 
-		boolean sharing =  grailsApplication.config.idrop.config.use.sharing
+		boolean sharing =  Holders.config.idrop.config.use.sharing
 		log.info("sharing supported in config:${sharing}")
 
 		if (sharing) {

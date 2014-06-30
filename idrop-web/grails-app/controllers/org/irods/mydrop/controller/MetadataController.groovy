@@ -426,6 +426,7 @@ public class AddMetadataCommand {
 	static constraints = {
 		attribute(blank:false)
 		value(blank:false)
+		unit(nullable:true)
 		absPath(blank:false)
 	}
 }
@@ -444,8 +445,10 @@ public class UpdateMetadataCommand {
 	static constraints = {
 		currentAttribute(blank:false)
 		currentValue( nullable:false)
+		currentUnit(nullable:true)
 		newAttribute(blank:false)
 		newValue(blank:false)
+		newUnit(nullable:true)
 		absPath(blank:false)
 	}
 }
