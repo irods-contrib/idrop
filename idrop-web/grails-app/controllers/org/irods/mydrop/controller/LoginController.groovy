@@ -70,7 +70,9 @@ class LoginController {
 		}
 
 		if (presetResource) {
-			loginCommand.defaultStorageResource = presetResource
+			loginCommand.resource = presetResource
+		} else {
+			loginCommand.resource = "   "
 		}
 
 		if (presetAuthScheme) {
@@ -100,7 +102,7 @@ class LoginController {
 
 		log.info("edits pass")
 
-		def resource =  loginCommand.defaultStorageResource ? loginCommand.defaultStorageResource : ""
+		def resource =  loginCommand.resource ? loginCommand.resource : ""
 		def userName =  loginCommand.user ? loginCommand.user : ""
 		def password =  loginCommand.password ? loginCommand.password : ""
 
@@ -184,7 +186,7 @@ class LoginController {
 			render(view:"login", model:[loginCommand:loginCommand])
 			return
 		}
-		
+
 
 		if (!authResponse.isSuccessful()) {
 			log.warn("unsuccessful, render the login again")
@@ -276,7 +278,7 @@ class LoginCommand {
 	String host
 	String zone
 	int port
-	String defaultStorageResource
+	String resource
 	String authMethod
 
 	static constraints = {
@@ -284,6 +286,7 @@ class LoginCommand {
 		zone(blank:false)
 		port( min:1, max:Integer.MAX_VALUE)
 		authMethod(blank:false)
+		resource(nullable:true)
 	}
 }
 
