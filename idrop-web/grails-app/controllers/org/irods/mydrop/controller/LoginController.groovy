@@ -166,11 +166,10 @@ class LoginController {
 			if (e.getCause() == null) {
 				if (e.getMessage().indexOf("-826000") > -1) {
 					log.warn("invalid user/password")
-					loginCommand.errors.reject("error.auth.invalid.user","Invalid user or password")
+					loginCommand.errors.reject("error.unable.to.authenticate","Authentication Error")
 				} else {
 					log.error("authentication service exception", e)
-
-					loginCommand.errors.reject("error.auth.invalid.user","Unable to authenticate")
+					loginCommand.errors.reject("error.unable.to.authenticate","Authentication Error")
 				}
 			} else if (e.getCause() instanceof UnknownHostException) {
 				log.warn("cause is invalid host")
@@ -180,10 +179,12 @@ class LoginController {
 				loginCommand.errors.reject("error.auth.connection.refused","Connection refused")
 			} else {
 				log.error("authentication service exception", e)
-				response.sendError(500,e.message)
-				return
+				loginCommand.errors.reject("error.unable.to.authenticate","Authentication Error")
 			}
+			render(view:"login", model:[loginCommand:loginCommand])
+			return
 		}
+		
 
 		if (!authResponse.isSuccessful()) {
 			log.warn("unsuccessful, render the login again")

@@ -18,7 +18,7 @@ environments {
 	 production {  grails.serverURL = "http://iren-web.renci.org:8080/${appName}" } 
 	 production {  grails.serverURL = "http://srbbrick15.ucsd.edu:1525//${appName}" } 
 	 production {  grails.serverURL = "http://www.irods.org" } */
-	production { grails.serverURL = "http://iren-web.renci.org:8080/${appName}" }
+	production { grails.serverURL = "http://put.your.server.name.here:8080/${appName}" }
 	development { grails.serverURL = "http://localhost:8080/${appName}" }
 	test { grails.serverURL = "http://localhost:8080/${appName}" }
 }
@@ -48,24 +48,13 @@ environments {
  idrop.config.idrop.lite.use.applet.dir=false
  */
 
-idrop.config.idrop.lite.applet.jar="idrop-lite-b964-SNAPSHOT-jar-with-dependencies.jar"
-idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-snapshot"
+idrop.config.idrop.lite.applet.jar="idrop-lite-2.0.1-SNAPSHOT-jar-with-dependencies.jar"
+idrop.config.idrop.lite.codebase="https://code.renci.org/gf/download/frsrelease/217/2371"
 idrop.config.idrop.lite.use.applet.dir=false
 
-/*
- * 4) iDROP web includes a link to launch the iDROP desktop GUI, using Java WebStart.  WebStart looks for a jnlp file and the accompanying 
- * lib directories.  This should be deployed on a web server at some accessible location and referred to here
- * 
- * idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
- * 
- * idrop.config.idrop.jnlp="https://lifetime-library.ils.unc.edu/llclient/idrop.jnlp"
- */
 
-//idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
-//drop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
-idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
 /*
- * 5) Customization properties
+ * 4) Customization properties
  */
 
 // do I support tickets? This determies whether the ticket feature is available via the interface, it also requires ticket support in iRODS itself (version 3.1+)
@@ -163,7 +152,7 @@ log4j = {
 	appenders { 'null' name:'stacktrace' }
 
 	root {
-		info()
+		warn()
 		additivity = true
 	}
 
@@ -196,3 +185,27 @@ log4j = {
 			'grails.app.controller',
 			'org.springframework.security'
 }
+
+// Uncomment and edit the following lines to start using Grails encoding & escaping improvements
+
+/* remove this line 
+ // GSP settings
+ grails {
+ views {
+ gsp {
+ encoding = 'UTF-8'
+ htmlcodec = 'xml' // use xml escaping instead of HTML4 escaping
+ codecs {
+ expression = 'html' // escapes values inside null
+ scriptlet = 'none' // escapes output from scriptlets in GSPs
+ taglib = 'none' // escapes output from taglibs
+ staticparts = 'none' // escapes output from static template parts
+ }
+ }
+ // escapes all not-encoded output at final stage of outputting
+ filteringCodecForContentType {
+ //'text/html' = 'html'
+ }
+ }
+ }
+ remove this line */

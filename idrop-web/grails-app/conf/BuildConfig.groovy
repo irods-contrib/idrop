@@ -20,6 +20,7 @@ grails.project.dependency.resolution = {
 		mavenRepo "http://ci-dev.renci.org/nexus/content/repositories/public"
 		mavenRepo "https://raw.github.com/DICE-UNC/DICE-Maven/master/releases"
 		mavenRepo "https://raw.github.com/DICE-UNC/DICE-Maven/master/snapshots"
+		mavenRepo "http://ci-dev.renci.org/nexus/content/repositories/public"
 		grailsPlugins()
 		grailsHome()
 		grailsCentral()
