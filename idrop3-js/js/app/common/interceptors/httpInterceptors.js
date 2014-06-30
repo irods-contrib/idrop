@@ -46,10 +46,10 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                     $location.path("/login");
                 } else if (status == 400) { // validation error display errors
                     //alert(JSON.stringify(rejection.data.error.message)); // here really we need to format this but just showing as alert.
-                    var len = rejection.data.errors.length;
+                    var len = rejection.data.errors.errors.length;
                     if(len > 0) {
-                        for(var i=0; i<rejection.data.errors.length; i++) {
-                            messageCenterService.add('warning',rejection.data.errors[i]);
+                        for(var i=0; i<len; i++) {
+                            messageCenterService.add('warning',rejection.data.errors.errors[i].message);
                         }
                     }
 
