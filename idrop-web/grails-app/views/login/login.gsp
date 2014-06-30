@@ -74,8 +74,8 @@ legend {
 							<g:hiddenField name="host" id="host" value="${loginCommand.host}" />
 							<g:hiddenField name="port" id="port" value="${loginCommand.port}" />
 							<g:hiddenField name="zone" id="zone" value="${loginCommand.zone}" />
-							<g:hiddenField name="defaultStorageResource" id="resource"
-								value="${loginCommand.defaultStorageResource}" />
+							<g:hiddenField name="resource" id="resource"
+								value="${loginCommand.resource}" />
 							<g:hiddenField name="authMethod" id="authMethod"
 								value="${loginCommand.authMethod}" />
 						</g:if>
@@ -129,7 +129,7 @@ legend {
 								</div>
 								<div>
 									<input type="text" class="input-text" name="resource"
-										id="resource" value="${loginCommand.defaultStorageResource}" />
+										id="resource" value="${loginCommand.resource}" />
 									<stong> <g:message code="text.optional" /> <strong></strong>
 									</stong>
 								</div>
