@@ -48,6 +48,9 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:jargon-user-tagging:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:virtual-collections:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:data-profile:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		runtime 'org.springframework:spring-expression:4.0.5.RELEASE'
+		runtime 'org.springframework:spring-aop:4.0.5.RELEASE'
+
 
 
 		provided 'javax.servlet:servlet-api:2.5'
@@ -56,22 +59,18 @@ grails.project.dependency.resolution = {
 	}
 
 
-
 	plugins {
-		//runtime ":tomcat:$grailsVersion"
-		// runtime ":hibernate:$grailsVersion"
-		//runtime ":jquery:1.8.3"
-		//runtime ":resources:1.2"
+		// plugins for the build system only
+		build ':tomcat:7.0.52.1'
+		// plugins for the compile step
+		compile ':scaffolding:2.1.0'
+		compile ':cache:1.1.3'
+		compile ':asset-pipeline:1.8.3'
 
-		// Uncomment these (or add new ones) to enable additional resources capabilities
-		//runtime ":zipped-resources:1.0"
-		//runtime ":cached-resources:1.0"
-		//runtime ":yui-minify-resources:0.1.5"
+		// plugins needed at runtime but not for compilation
+		//runtime ':hibernate4:4.3.5.2' // or ':hibernate:3.6.10.14'
+		//runtime ':database-migration:1.4.0'
+		//runtime ':jquery:1.11.0.2'
 
-		build ':tomcat:7.0.47'
-		//test ":spock:0.7"
-		// runtime ":database-migration:1.3.2"
-
-		// compile ':cache:1.0.1'
 	}
 }

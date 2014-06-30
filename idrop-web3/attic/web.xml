@@ -17,10 +17,19 @@
         <param-value>@grails.project.key@</param-value>
     </context-param>
 
+	<!--  
     <filter>
         <filter-name>sitemesh</filter-name>
         <filter-class>org.codehaus.groovy.grails.web.sitemesh.GrailsPageFilter</filter-class>
     </filter>
+     <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    
+    -->
 
     <filter>
         <filter-name>charEncodingFilter</filter-name>
@@ -40,13 +49,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter-mapping>
-        <filter-name>sitemesh</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>ERROR</dispatcher>
-    </filter-mapping>
-
+   
     <listener>
         <listener-class>org.codehaus.groovy.grails.web.context.GrailsContextLoaderListener</listener-class>
     </listener>
