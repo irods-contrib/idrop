@@ -4,6 +4,8 @@ package org.irods.jargon.idrop.web.controllers
 import grails.converters.JSON
 import grails.rest.RestfulController
 
+import javax.servlet.http.Cookie
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.connection.auth.AuthResponse
@@ -22,6 +24,20 @@ class LoginController extends RestfulController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	AuthenticationService authenticationService
 	EnvironmentServicesService environmentServicesService
+
+	/**
+	 * After interceptor to add CXRF cookie
+	 */
+	def afterInterceptor = [action: this.&generateCookie, only: ['save']]
+
+	private generateCookie(model) {
+
+		Cookie cookie = new Cookie("XSRF-TOKEN",session.userSessionContext.xsrfToken)
+		cookie.httpOnly = false
+		cookie.maxAge = (20 * 60 * 1000)
+		log.info("adding xsrf token cookie")
+		response.addCookie(cookie)
+	}
 
 	/**
 	 * Processing of POST is a login action
@@ -55,8 +71,9 @@ class LoginController extends RestfulController {
 		UserSessionContext userSessionContext = new UserSessionContext()
 		userSessionContext.userName = authResponse.authenticatedIRODSAccount.userName
 		userSessionContext.zone = authResponse.authenticatedIRODSAccount.zone
-
+		userSessionContext.xsrfToken = authenticationService.generateXSRFToken()
 		log.info("getting irodsServerProperties")
+		session.userSessionContext = userSessionContext
 
 		IRODSServerProperties irodsServerProperties = environmentServicesService.getIrodsServerProperties(irodsAccount)
 

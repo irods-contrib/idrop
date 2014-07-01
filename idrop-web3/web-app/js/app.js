@@ -379,7 +379,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 var status = rejection.status;
 
                 if (status == 401) { // unauthorized - redirect to login again
-                    //alert("redirect to login === remove me later!!!!!");
+                    //TODO: add save of last path
                     $location.path("/login");
                 } else if (status == 400) { // validation error display errors
                     //alert(JSON.stringify(rejection.data.error.message)); // here really we need to format this but just showing as alert.
@@ -409,6 +409,13 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
     }])//Http Intercpetor to check auth failures for xhr requests
     .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('myHttpResponseInterceptor');
+
+        /* configure xsrf token
+            see: http://stackoverflow.com/questions/14734243/rails-csrf-protection-angular-js-protect-from-forgery-makes-me-to-log-out-on
+         */
+
+        $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
+
     }]);
 /**
  * Service for free tagging and tag clouds

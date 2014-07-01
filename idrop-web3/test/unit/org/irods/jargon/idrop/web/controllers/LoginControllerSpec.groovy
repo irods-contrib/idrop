@@ -8,9 +8,6 @@ import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.idrop.web.services.AuthenticationService
 import org.irods.jargon.idrop.web.services.EnvironmentServicesService
-import org.irods.jargon.idrop.web.controllers.LoginController
-import org.irods.jargon.idrop.web.controllers.LoginCommand
-
 
 import spock.lang.Specification
 
@@ -67,6 +64,8 @@ class LoginControllerSpec extends Specification  {
 		authResponse.authenticatedIRODSAccount = testAcct
 		authResponse.authenticatingIRODSAccount = testAcct
 		authMock.demand.authenticate { irodsAccount -> return authResponse }
+		def authToken = "foo"
+		authMock.demand.generateXSRFToken{->return authToken}
 
 		controller.authenticationService = authMock.createMock()
 
@@ -91,7 +90,7 @@ class LoginControllerSpec extends Specification  {
 		controller.response.status == 200
 		controller.session.authenticationSession != null
 		log.info("response:${response.text}")
-		assert '{"defaultStorageResource":"","serverVersion":"v1","userName":"xxx","zone":"xxx"}' == response.text
+		assert '{"defaultStorageResource":"","serverVersion":"v1","userName":"xxx","xsrfToken":"foo","zone":"xxx"}' == response.text
 	}
 
 	void "test authenticate with a missing user gives validation error"() {

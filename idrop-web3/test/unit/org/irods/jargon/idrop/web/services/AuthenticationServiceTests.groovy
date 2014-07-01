@@ -7,7 +7,7 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.junit.Before
-import org.irods.jargon.idrop.web.services.AuthenticationService
+
 import spock.lang.Specification
 
 
@@ -18,11 +18,11 @@ import spock.lang.Specification
 @TestFor(AuthenticationService)
 class AuthenticationServiceTests extends Specification {
 
-	@Before
-	void setup() {
-	}
 
-	void testAuthenticateValid() {
+
+	void  "test authenticate irods account"() {
+
+		given:
 
 		AuthResponse authResponse = new AuthResponse()
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
@@ -32,8 +32,30 @@ class AuthenticationServiceTests extends Specification {
 		authenticationService.irodsAccessObjectFactory = irodsAccessObjectFactory
 		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247,
 				"user", "xxx", "", "zone", "")
+
+		when:
+
 		AuthResponse actual = authenticationService.authenticate(irodsAccount)
+
+		then:
+
 		assertNotNull(actual)
 		log.info("actual response:${actual}")
 	}
+
+	void "test generate an xrsf token"() {
+		given:
+
+		AuthenticationService authenticationService = new AuthenticationService()
+
+		when:
+
+		def actual = authenticationService.generateXSRFToken()
+
+		then:
+
+		assertNotNull(actual)
+	}
 }
+
+

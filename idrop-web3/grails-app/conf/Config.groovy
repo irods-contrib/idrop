@@ -93,7 +93,10 @@ log4j = {
 	info	'org',
 			'org.codehaus.groovy.grails.web.servlet',
 			'org.irods',
-			'org.codehaus.groovy.grails.web.servlet'       // controllers
+			'org.irods.jargon.idrop.web.controllers'
+
+	info "grails.app"
+
 	/*   error   'org.codehaus.groovy.grails.web.pages',          // GSP
 	 'org.codehaus.groovy.grails.web.sitemesh',       // layouts
 	 'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
