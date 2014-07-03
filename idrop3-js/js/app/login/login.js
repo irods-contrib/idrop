@@ -8,7 +8,7 @@
  */
 
 
-angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userServiceModule','MessageCenterModule'])
+angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userServiceModule', 'MessageCenterModule'])
 
 
     .config(function () {
@@ -26,29 +26,25 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userSe
     .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location, userService) {
 
 
+        $scope.login = {
+            authType: 'STANDARD'
+        };
 
-        $scope.init = function () {
-            $scope.login = {
-                authType:'STANDARD'
-
-            };
-        }
-
-
-        $scope.init();
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
 
         $scope.getLoggedInIdentity = function () {
-            return userService.retrieveLoggedInIdentity.success(function(identity) {$scope.loggedInIdentity = identity});
+            return userService.retrieveLoggedInIdentity.success(function (identity) {
+                $scope.loggedInIdentity = identity
+            });
 
         };
 
 
         $scope.submitLogin = function () {
-            var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, "STANDARD", "");
+            var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
             $log.info("irodsAccount for host:" + actval);
             $http({
                 method: 'POST',
@@ -57,7 +53,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userSe
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             }).success(function (data) {
                     $log.info(data);
-                   // userService.setLoggedInIdentity(data);
+                    // userService.setLoggedInIdentity(data);
                     $location.path("/home");
 
                 });

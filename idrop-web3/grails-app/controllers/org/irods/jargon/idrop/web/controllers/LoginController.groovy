@@ -6,6 +6,7 @@ import grails.rest.RestfulController
 
 import javax.servlet.http.Cookie
 
+import org.irods.jargon.core.connection.AuthScheme
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.connection.auth.AuthResponse
@@ -60,9 +61,11 @@ class LoginController extends RestfulController {
 
 		log.info("no validation errors, authenticate")
 
-		log.info("login values:${command}")
+		def authScheme = AuthScheme.findTypeByString(command.authType)
 
-		IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port, command.userName, command.password, "", command.zone, "") //FIXME: handle def resc
+		log.info("using authScheme:${authScheme}")
+
+		IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port, command.userName, command.password, "", command.zone, "",authScheme) //FIXME: handle def resc
 
 		AuthResponse authResponse = authenticationService.authenticate(irodsAccount)
 
@@ -98,6 +101,7 @@ class LoginCommand {
 		userName(blank: false)
 		password(blank: false)
 		defaultStorageResource(nullable:true)
+		authType(blank: false)
 	}
 }
 

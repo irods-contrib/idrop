@@ -41,13 +41,13 @@ grails.project.dependency.resolution = {
 		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		compile 'commons-io:commons-io:2.1'
 		provided 'junit:junit:4.8.1'
-		compile ('org.irods.jargon:jargon-core:3.3.6-SNAPSHOT') { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-data-utils:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-ticket:3.3.6-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-profile:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-tagging:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:virtual-collections:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:data-profile:3.3.6-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-core:4.0.2.2-SNAPSHOT') { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-data-utils:4.0.2.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ticket:4.0.2.2-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-profile:4.0.2.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-tagging:4.0.2.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:virtual-collections:4.0.2.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:data-profile:4.0.2.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		runtime 'org.springframework:spring-expression:4.0.5.RELEASE'
 		runtime 'org.springframework:spring-aop:4.0.5.RELEASE'
 

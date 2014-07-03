@@ -6,7 +6,7 @@
             <div class="account-wall">
                 <img class="profile-img" src="images/userpic.png"
                      alt="">
-                <form class="form-signin" name="login">
+                <div class="form-signin" name="login" ng-controller="loginController" >
                     <input ng-model="login.host" type="text" class="form-control" placeholder="{{ 'HOST' | translate }}" required autofocus>
                     <input ng-model="login.port" type="text" class="form-control" placeholder="{{ 'PORT' | translate }}" required>
                     <input ng-model="login.zone" type="text" class="form-control" placeholder="{{ 'ZONE' | translate }}" required>
@@ -23,8 +23,10 @@
                         Remember me
                     </label>-->
                     <a href="#" class="pull-right need-help">{{ 'NEED_HELP' | translate }}</a><span class="clearfix"></span>
-                </form>
+
+                </div>
             </div>
+
            <!-- <a href="#" class="text-center new-account">Create an account </a> -->
         </div>
     </div>
