@@ -12,6 +12,10 @@
                     <input ng-model="login.zone" type="text" class="form-control" placeholder="{{ 'ZONE' | translate }}" required>
                     <input ng-model="login.userName" type="text" class="form-control" placeholder="{{ 'USER_NAME' | translate }}" required>
                     <input ng-model="login.password" type="password" class="form-control" placeholder="{{ 'PASSWORD' | translate }}" required>
+                    <select ng-model="login.authType" class="form-control" required>
+                        <option value="STANDARD">Standard</option>
+                        <option value="PAM">PAM</option>
+                    </select>
                     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submitLogin()" prevent-default>
                         {{ 'SIGN_IN' | translate }}</button>
                     <!--<label class="checkbox pull-left">

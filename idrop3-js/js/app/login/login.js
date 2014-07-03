@@ -20,12 +20,22 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp','userSe
 
 
     /*
-     * login controller fçunction here
+     * login controller function here
      */
 
     .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location, userService) {
 
-        $scope.login = {};
+
+
+        $scope.init = function () {
+            $scope.login = {
+                authType:'STANDARD'
+
+            };
+        }
+
+
+        $scope.init();
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);

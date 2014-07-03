@@ -36,7 +36,7 @@ testing controllers with jasmine: http://sravi-kiran.blogspot.com/2013/04/UnitTe
 notes on resolve, service and controller refs to service data : http://jsfiddle.net/derkoe/Wk7WD/presentation/  and https://medium.com/opinionated-angularjs/a2fcbf874a1c
 
 
-
+notes on angular selects http://odetocode.com/blogs/scott/archive/2013/06/19/using-ngoptions-in-angularjs.aspx
 
 
 
