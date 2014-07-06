@@ -61,13 +61,31 @@ class LoginController extends RestfulController {
 
 		log.info("no validation errors, authenticate")
 
+		// In order to simplify the login process, just try all auth methods
+		// and find the first one that succeeds
+		
+			
+		
 		def authScheme = AuthScheme.findTypeByString(command.authType)
+		
+		// Hiding the auth scheme and default port in the login view
+		if (authScheme == null) {
+			trySchemes = AuthScheme.authSchemeList()
+			
+			// XXX: resumable exceptions in Groovy?
+			for (scheme in trySchemes) {
+				try {
+					IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port ? command.port: 1247, command.userName, command.password, "", command.zone, "", authScheme)
+					
+					log.info("using authScheme:${authScheme}")		
+					AuthResponse authResponse = authenticationService.authenticate(irodsAccount)
+			
+				} catch (e) {
+					log.info("Failed to authenticate with auth scheme ${scheme}")
+				}
+			}
+		}
 
-		log.info("using authScheme:${authScheme}")
-
-		IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port, command.userName, command.password, "", command.zone, "",authScheme) //FIXME: handle def resc
-
-		AuthResponse authResponse = authenticationService.authenticate(irodsAccount)
 
 		log.info("auth successful, saving response in session and returning")
 		session.authenticationSession = authResponse
@@ -101,6 +119,7 @@ class LoginCommand {
 		userName(blank: false)
 		password(blank: false)
 		defaultStorageResource(nullable:true)
+		port(nullable:true)
 		authType(blank: false)
 	}
 }

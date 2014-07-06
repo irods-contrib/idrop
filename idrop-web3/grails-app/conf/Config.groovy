@@ -71,6 +71,8 @@ grails.exceptionresolver.params.exclude = ['password']
 
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
+// allow for non-caching of GSP pages while in dev environment: http://stackoverflow.com/questions/13198456/is-there-a-way-to-disable-gsp-caching-for-non-dev-environment
+grails.gsp.enable.reload=true
 
 environments {
 	development {
