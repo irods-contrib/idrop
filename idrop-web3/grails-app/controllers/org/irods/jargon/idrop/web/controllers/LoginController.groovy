@@ -29,7 +29,7 @@ class LoginController extends RestfulController {
 	/**
 	 * After interceptor to add CXRF cookie
 	 */
-	def afterInterceptor = [action: this.&generateCookie, only: ['save']]
+	def beforeInterceptor = [action: this.&generateCookie, only: ['save']]
 
 	private generateCookie(model) {
 
