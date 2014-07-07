@@ -18,7 +18,6 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userS
 
     })
 
-
     /*
      * login controller function here
      */

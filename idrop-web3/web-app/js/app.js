@@ -414,7 +414,6 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
             see: http://stackoverflow.com/questions/14734243/rails-csrf-protection-angular-js-protect-from-forgery-makes-me-to-log-out-on
          */
 
-        $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
 
     }]);
 /**
@@ -913,7 +912,6 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userS
          */
 
     })
-
 
     /*
      * login controller function here

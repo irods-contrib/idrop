@@ -13,6 +13,5 @@ class UserSessionContext {
 	String zone
 	String serverVersion
 	String defaultStorageResource
-	String xsrfToken
 }
 

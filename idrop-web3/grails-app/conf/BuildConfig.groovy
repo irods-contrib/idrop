@@ -50,9 +50,6 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:data-profile:4.0.2.2-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		runtime 'org.springframework:spring-expression:4.0.5.RELEASE'
 		runtime 'org.springframework:spring-aop:4.0.5.RELEASE'
-
-
-
 		provided 'javax.servlet:servlet-api:2.5'
 
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )

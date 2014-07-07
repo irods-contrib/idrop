@@ -27,15 +27,17 @@ class LoginController extends RestfulController {
 	EnvironmentServicesService environmentServicesService
 
 	/**
-	 * After interceptor to add CXRF cookie
+	 * Before interceptor to add CXRF cookie
 	 */
 	def beforeInterceptor = [action: this.&generateCookie, only: ['save']]
 
-	private generateCookie(model) {
+	private generateCookie() {
 
-		Cookie cookie = new Cookie("XSRF-TOKEN",session.userSessionContext.xsrfToken)
+		def token = authenticationService.generateXSRFToken()
+		session.xsrfToken = token
+		Cookie cookie = new Cookie("XSRF-TOKEN",token)
 		cookie.httpOnly = false
-		cookie.maxAge = (20 * 60 * 1000)
+		cookie.maxAge = (60)
 		log.info("adding xsrf token cookie")
 		response.addCookie(cookie)
 	}
@@ -74,7 +76,7 @@ class LoginController extends RestfulController {
 		UserSessionContext userSessionContext = new UserSessionContext()
 		userSessionContext.userName = authResponse.authenticatedIRODSAccount.userName
 		userSessionContext.zone = authResponse.authenticatedIRODSAccount.zone
-		userSessionContext.xsrfToken = authenticationService.generateXSRFToken()
+		authenticationService.generateXSRFToken()
 		log.info("getting irodsServerProperties")
 		session.userSessionContext = userSessionContext
 
