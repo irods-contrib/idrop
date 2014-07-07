@@ -90,7 +90,7 @@ class LoginControllerSpec extends Specification  {
 		controller.response.status == 200
 		controller.session.authenticationSession != null
 		log.info("response:${response.text}")
-		assert '{"defaultStorageResource":"","serverVersion":"v1","userName":"xxx","xsrfToken":"foo","zone":"xxx"}' == response.text
+		assert '{"defaultStorageResource":"","serverVersion":"v1","userName":"xxx","zone":"xxx"}' == response.text
 	}
 
 	void "test authenticate with a missing user gives validation error"() {
