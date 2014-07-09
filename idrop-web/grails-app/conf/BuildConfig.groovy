@@ -55,6 +55,7 @@ grails.project.dependency.resolution = {
 		compile('com.google.gwt:gwt-servlet:2.4.0')
 		compile('org.openrdf.sesame:sesame-sail-nativerdf:2.2.4')
 		compile('org.irods.jargon:hive-core:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")}
+		compile('org.irods.jargon:jargon-hive:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")}
 
 		compile ('org.irods.jargon:jargon-hive-3store-integration:1.0-SNAPSHOT') { excludes ("stax-api", "aduna-commons-lang", "jargon-core", "jargon-data-utils", "jargon-ticket", "jargon-user-profile", "jargon-user-tagging")}
 
