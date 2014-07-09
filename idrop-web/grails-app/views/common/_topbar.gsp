@@ -31,7 +31,7 @@
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
       				<g:message code="text.tools" /><b class="caret"></b></a>
       				 <ul class="dropdown-menu">
-	      					 <li><a href="${grailsApplication.config.idrop.config.idrop.jnlp}" id="idropDesktop")>iDrop Desktop</a></li>
+	      					 <li><a href="https://github.com/DICE-UNC/idrop/wiki/iDrop-Installers" target="_blank">iDrop Desktop</a></li>
 	      					  <li id="topbarRule" class="topbarItem"><g:link controller="rule" action="delayExecQueue">User Rules</g:link></li>
       				  </ul>
 			</li>

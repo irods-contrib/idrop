@@ -70,7 +70,9 @@ class LoginController {
 		}
 
 		if (presetResource) {
-			loginCommand.defaultStorageResource = presetResource
+			loginCommand.resource = presetResource
+		} else {
+			loginCommand.resource = "   "
 		}
 
 		if (presetAuthScheme) {
@@ -100,7 +102,7 @@ class LoginController {
 
 		log.info("edits pass")
 
-		def resource =  loginCommand.defaultStorageResource ? loginCommand.defaultStorageResource : ""
+		def resource =  loginCommand.resource ? loginCommand.resource : ""
 		def userName =  loginCommand.user ? loginCommand.user : ""
 		def password =  loginCommand.password ? loginCommand.password : ""
 
@@ -166,11 +168,10 @@ class LoginController {
 			if (e.getCause() == null) {
 				if (e.getMessage().indexOf("-826000") > -1) {
 					log.warn("invalid user/password")
-					loginCommand.errors.reject("error.auth.invalid.user","Invalid user or password")
+					loginCommand.errors.reject("error.unable.to.authenticate","Authentication Error")
 				} else {
 					log.error("authentication service exception", e)
-
-					loginCommand.errors.reject("error.auth.invalid.user","Unable to authenticate")
+					loginCommand.errors.reject("error.unable.to.authenticate","Authentication Error")
 				}
 			} else if (e.getCause() instanceof UnknownHostException) {
 				log.warn("cause is invalid host")
@@ -180,10 +181,12 @@ class LoginController {
 				loginCommand.errors.reject("error.auth.connection.refused","Connection refused")
 			} else {
 				log.error("authentication service exception", e)
-				response.sendError(500,e.message)
-				return
+				loginCommand.errors.reject("error.unable.to.authenticate","Authentication Error")
 			}
+			render(view:"login", model:[loginCommand:loginCommand])
+			return
 		}
+
 
 		if (!authResponse.isSuccessful()) {
 			log.warn("unsuccessful, render the login again")
@@ -275,7 +278,7 @@ class LoginCommand {
 	String host
 	String zone
 	int port
-	String defaultStorageResource
+	String resource
 	String authMethod
 
 	static constraints = {
@@ -283,6 +286,7 @@ class LoginCommand {
 		zone(blank:false)
 		port( min:1, max:Integer.MAX_VALUE)
 		authMethod(blank:false)
+		resource(nullable:true)
 	}
 }
 

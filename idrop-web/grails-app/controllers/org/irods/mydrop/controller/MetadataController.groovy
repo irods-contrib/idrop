@@ -79,7 +79,6 @@ class MetadataController {
 			log.error("no access error", e)
 			response.sendError(500, message(code:"message.no.access"))
 		}
-
 	}
 
 	/**
@@ -111,17 +110,14 @@ class MetadataController {
 				CollectionAO collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 				metadata = collectionAO.findMetadataValuesForCollection(retObj.collectionName, 0)
 			}
-			
+
 			log.info("metadata:${metadata}")
-			
-			
 		} catch (DataNotFoundException dnf) {
 			log.warn "cannot find data for path"
 			flash.message="error.no.data.found"
 		} catch (CatNoAccessException e) {
-		log.error("no access error", e)
-		response.sendError(500, message(code:"message.no.access"))
-
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
 		} catch (Exception e) {
 			log.warn "cannot find data for path"
 			flash.message="error.no.data.found"
@@ -190,6 +186,10 @@ class MetadataController {
 
 			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
 
+			if (cmd.unit == null || cmd.unit.isEmpty()) {
+				cmd.unit = ""
+			}
+
 			def avuData = AvuData.instance(cmd.attribute, cmd.value, cmd.unit)
 
 			def isDataObject = retObj instanceof DataObject
@@ -210,9 +210,9 @@ class MetadataController {
 				response.sendError(500,errorMessage)
 				return
 			} catch (CatNoAccessException e) {
-			log.error("no access error", e)
-			response.sendError(500, message(code:"message.no.access"))
-		}
+				log.error("no access error", e)
+				response.sendError(500, message(code:"message.no.access"))
+			}
 
 
 			log.info("avu set successfully")
@@ -248,7 +248,17 @@ class MetadataController {
 
 			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(cmd.absPath)
 
+			if (cmd.currentUnit == null || cmd.currentUnit.isEmpty()) {
+				cmd.currentUnit = ""
+			}
+
+
 			def currentAvuData = AvuData.instance(cmd.currentAttribute, cmd.currentValue, cmd.currentUnit)
+
+			if (cmd.newUnit == null || cmd.newUnit.isEmpty()) {
+				cmd.newUnit = ""
+			}
+
 			def newAvuData = AvuData.instance(cmd.newAttribute, cmd.newValue, cmd.newUnit)
 
 			def isDataObject = retObj instanceof DataObject
@@ -264,9 +274,8 @@ class MetadataController {
 					collectionAO.modifyAVUMetadata(cmd.absPath, currentAvuData, newAvuData)
 				}
 			} catch (CatNoAccessException e) {
-			log.error("no access error", e)
-			response.sendError(500, message(code:"message.no.access"))
-
+				log.error("no access error", e)
+				response.sendError(500, message(code:"message.no.access"))
 			} catch (Exception e) {
 				log.error("exception updating metadata:${e}")
 				response.sendError(500,e.message)
@@ -328,24 +337,24 @@ class MetadataController {
 				int i = 0
 				attributesToDelete.each{
 					log.info "avusToDelete: ${it} has index ${i}"
-	
+
 					def thisAttr = ((List) attributesToDelete).get(i)
 					def thisVal = ((List) valuesToDelete).get(i)
 					def thisUnit = ((List) unitsToDelete).get(i)
-	
+
 					avuValue = new AvuData(thisAttr,thisVal,thisUnit)
 					log.info("avuValue: ${avuValue}")
-	
+
 					if (isDataObject) {
 						log.info "delete as data object"
 						deleteAvuForDataObject(absPath, avuValue, dataObjectAO)
 					} else {
 						deleteAvuForCollection(absPath, avuValue, collectionAO)
 					}
-	
+
 					i++
 				}
-	
+
 			} else {
 				log.debug "not array"
 				log.info "deleting: ${attributesToDelete}"
@@ -358,10 +367,10 @@ class MetadataController {
 				}
 			}
 		} catch (CatNoAccessException e) {
-		log.error("no access error", e)
-		response.sendError(500, message(code:"message.no.access"))
-		return
-	}
+			log.error("no access error", e)
+			response.sendError(500, message(code:"message.no.access"))
+			return
+		}
 
 
 		render "OK"
@@ -417,6 +426,7 @@ public class AddMetadataCommand {
 	static constraints = {
 		attribute(blank:false)
 		value(blank:false)
+		unit(nullable:true)
 		absPath(blank:false)
 	}
 }
@@ -435,10 +445,10 @@ public class UpdateMetadataCommand {
 	static constraints = {
 		currentAttribute(blank:false)
 		currentValue( nullable:false)
-		currentUnit(nullable:false)
+		currentUnit(nullable:true)
 		newAttribute(blank:false)
 		newValue(blank:false)
-		newUnit(nullable:false)
+		newUnit(nullable:true)
 		absPath(blank:false)
 	}
 }

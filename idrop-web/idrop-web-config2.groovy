@@ -28,37 +28,11 @@ environments {
  idrop.config.preset.authScheme="Standard"
  */
 
-/*
- * 3) iDROP web includes the idrop-lite Java applet, which is launched from the iDROP web interface.  The interface needs to know where to find this jar file.
- * The Jar file should be placed on a web server in an accessible directory, and configured below
- * 
- * 
- idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
- idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-web/applet"
- idrop.config.idrop.lite.use.applet.dir=false
- idrop.config.idrop.lite.applet.jar="idrop-lite-1.0.0-SNAPSHOT-jar-with-dependencies.jar"
- idrop.config.idrop.lite.codebase="https://lifetime-library.ils.unc.edu/llclient"
- idrop.config.idrop.lite.use.applet.dir=false
- */
-
-idrop.config.idrop.lite.applet.jar="idrop-lite-b964-SNAPSHOT-jar-with-dependencies.jar"
-idrop.config.idrop.lite.codebase="http://iren-web.renci.org/idrop-snapshot"
-idrop.config.idrop.lite.use.applet.dir=false
-
-/*
- * 4) iDROP web includes a link to launch the iDROP desktop GUI, using Java WebStart.  WebStart looks for a jnlp file and the accompanying 
- * lib directories.  This should be deployed on a web server at some accessible location and referred to here
- * 
- * idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
- * 
- * idrop.config.idrop.jnlp="https://lifetime-library.ils.unc.edu/llclient/idrop.jnlp"
- */
-
 //idrop.config.idrop.jnlp="http://iren-web.renci.org:8080/idrop/idrop.jnlp"
 //drop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
 idrop.config.idrop.jnlp="http://iren-web.renci.org/idrop-snapshot/idrop.jnlp"
 /*
- * 5) Customization properties
+ * 3) Customization properties
  */
 
 // do I support tickets? This determies whether the ticket feature is available via the interface, it also requires ticket support in iRODS itself (version 3.1+)
