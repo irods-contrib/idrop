@@ -1,15 +1,15 @@
 package org.irods.mydrop.controller
 
 
-import java.net.MalformedURLException
 import java.text.SimpleDateFormat
-import org.irods.jargon.ticket.*
-import org.irods.jargon.ticket.packinstr.TicketCreateModeEnum
+
+import org.irods.jargon.core.connection.*
+import org.irods.jargon.core.exception.*
 import org.irods.jargon.core.pub.*
 import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.utils.MiscIRODSUtils
-import org.irods.jargon.core.connection.*
-import org.irods.jargon.core.exception.*
+import org.irods.jargon.ticket.*
+import org.irods.jargon.ticket.packinstr.TicketCreateModeEnum
 
 class TicketController {
 
@@ -447,5 +447,10 @@ class TicketCommand {
 		usesLimit( min:0, max:Integer.MAX_VALUE)
 		writeFileLimit(min:0, max:Integer.MAX_VALUE)
 		writeByteLimit( min:0L, max:Long.MAX_VALUE)
+		expireTime(nullable:true)
+		ticketURL(nullable:true)
+		ticketURLWithLandingPage(nullable:true)
+		ticketString(nullable:true	)
+
 	}
 }
