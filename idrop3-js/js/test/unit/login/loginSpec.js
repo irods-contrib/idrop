@@ -33,8 +33,6 @@ describe("Tests of the login controller", function () {
             expect(responseFromAuth).toEqual(d);
         });
 
-
-
     });
 
 

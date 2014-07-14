@@ -32,21 +32,6 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                     messageCenterService.add('success', 'Success');
                 }
 
-
-                /*
-                 * Memory processing for last path in the case of an auth error will set locationt to
-                  * a remembered last path
-                 *
-                 */
-                var path = globals.getLastPath();
-                if (path) {
-                 
-                    // setpath
-                    $log.info("setting location to last path:" + path);
-                    globals.setLastPath(null);
-                    $location.path = path;
-                }
-
                 // Return the response or promise.
                 return response || $q.when(response);
             },

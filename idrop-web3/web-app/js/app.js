@@ -273,14 +273,40 @@ angular.module('globalsModule', [])
 
 
         f.lastPath = null;
+        f.loggedInIdentity = null;
 
+        /**
+         * Saved path when a not authenticated occurred
+         * @param newLastPath
+         */
         f.setLastPath = function (newLastPath) {
             this.lastPath = newLastPath;
         };
 
+
+        /**
+         * Retrieve a path to re-route when a login screen was required
+         * @returns {null|*|f.lastPath}
+         */
         f.getLastPath = function () {
             return this.lastPath;
         };
+
+        /**
+         * Retrieve the user identity, server info, and options for the session
+         * @returns {null|*}
+         */
+        f.getLoggedInIdentity = function() {
+            return this.loggedInIdentity;
+        }
+
+        /**
+         * Set the user identity, server info, and options for the session
+         * @param inputIdentity
+         */
+        f.setLoggedInIdentity = function(inputIdentity) {
+            this.loggedInIdentity = inputIdentity;
+        }
 
         return f;
 
@@ -316,12 +342,14 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             INFO: 'Info',
             LENGTH: 'Length',
             LOGIN_HEADLINE: 'Please login to iDrop',
+            LOGOUT: 'Logout',
             METADATA: 'Metadata',
             MODIFIED: 'Modified',
             MOVE_COPY: 'Move/Copy',
             NAME: 'Name',
             NEED_HELP: 'Need help?',
             OBJECT_PATH: 'Object Path',
+            PROFILE: 'Profile',
             PASSWORD: 'Password',
             PERMISSION: 'Permission',
             PERMISSIONS: 'Permissions',
@@ -333,6 +361,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             TOOLS: 'Tools',
             TYPE: 'Type',
             USER_NAME: 'User Name',
+            VIEWS: 'Views',
             VIEW_DETAILS: 'View Details',
             WORKFLOW:'Workflow',
             ZONE: 'Zone'
@@ -396,21 +425,6 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 $log.info(response);
                 if (response.config.method.toUpperCase() != 'GET') {
                     messageCenterService.add('success', 'Success');
-                }
-
-
-                /*
-                 * Memory processing for last path in the case of an auth error will set locationt to
-                  * a remembered last path
-                 *
-                 */
-                var path = globals.getLastPath();
-                if (path) {
-                 
-                    // setpath
-                    $log.info("setting location to last path:" + path);
-                    globals.setLastPath(null);
-                    $location.path = path;
                 }
 
                 // Return the response or promise.
