@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'file','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule','tagServiceModule','angular-loading-bar']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'file','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule','tagServiceModule','angular-loading-bar', 'globalsModule']);
 
 angular.module('flash', []);
 
@@ -260,6 +260,35 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
     });
 
 /**
+ * Global state holders
+ * Created by mikeconway on 7/8/14.
+ */
+
+
+angular.module('globalsModule', [])
+
+    .factory('globals', function ($rootScope) {
+
+        var f = {};
+
+
+        f.lastPath = null;
+
+        f.setLastPath = function (newLastPath) {
+            this.lastPath = newLastPath;
+        };
+
+        f.getLastPath = function () {
+            return this.lastPath;
+        };
+
+        return f;
+
+})
+;
+
+
+/**
  * Supporting code for integration with angular-translate
  *
  * see:
@@ -343,7 +372,7 @@ angular.module('flashModule', []).factory("flash", function ($rootScope) {
  *
  */
 
-angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', 'messageCenterService', function ($q, $location, $log, messageCenterService) {
+angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', 'messageCenterService', 'globals', function ($q, $location, $log, messageCenterService, globals) {
         return {
             // On request success
             request: function (config) {
@@ -368,6 +397,22 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 if (response.config.method.toUpperCase() != 'GET') {
                     messageCenterService.add('success', 'Success');
                 }
+
+
+                /*
+                 * Memory processing for last path in the case of an auth error will set locationt to
+                  * a remembered last path
+                 *
+                 */
+                var path = globals.getLastPath();
+                if (path) {
+                 
+                    // setpath
+                    $log.info("setting location to last path:" + path);
+                    globals.setLastPath(null);
+                    $location.path = path;
+                }
+
                 // Return the response or promise.
                 return response || $q.when(response);
             },
@@ -379,14 +424,20 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 var status = rejection.status;
 
                 if (status == 401) { // unauthorized - redirect to login again
-                    //TODO: add save of last path
+                    //save last path for subsequent re-login
+                    if ($location.path() != "/login") {
+                        $log.info("intercepted unauthorized, save the last path");
+                        globals.setLastPath($location.path());
+                        $log.info("saved last path:" + $location.path());
+                    }
+
                     $location.path("/login");
                 } else if (status == 400) { // validation error display errors
                     //alert(JSON.stringify(rejection.data.error.message)); // here really we need to format this but just showing as alert.
                     var len = rejection.data.errors.errors.length;
-                    if(len > 0) {
-                        for(var i=0; i<len; i++) {
-                            messageCenterService.add('warning',rejection.data.errors.errors[i].message);
+                    if (len > 0) {
+                        for (var i = 0; i < len; i++) {
+                            messageCenterService.add('warning', rejection.data.errors.errors[i].message);
                         }
                     }
 
@@ -411,7 +462,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
         $httpProvider.interceptors.push('myHttpResponseInterceptor');
 
         /* configure xsrf token
-            see: http://stackoverflow.com/questions/14734243/rails-csrf-protection-angular-js-protect-from-forgery-makes-me-to-log-out-on
+         see: http://stackoverflow.com/questions/14734243/rails-csrf-protection-angular-js-protect-from-forgery-makes-me-to-log-out-on
          */
 
 
@@ -917,7 +968,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userS
      * login controller function here
      */
 
-    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location, userService) {
+    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService','globals', function ($scope, $translate, $log, $http, $location, userService, globals) {
 
 
         $scope.login = {
@@ -946,9 +997,20 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userS
                 data: actval,
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             }).success(function (data) {
-                    $log.info(data);
+                    $log.info("login successful" + data);
                     // userService.setLoggedInIdentity(data);
-                    $location.path("/home");
+
+                    var path = globals.getLastPath();
+                    if (!path) {
+                        $log.info("hard code to go home");
+                        $location.path="/home/home";
+                    } else {
+                        // setpath
+                        $log.info("setting location to last path:" + path);
+                        $location.path = path;
+                    }
+
+                    $log.info("end login success processing");
 
                 });
         };

@@ -6,7 +6,7 @@
  *
  */
 
-angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', 'messageCenterService', function ($q, $location, $log, messageCenterService) {
+angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', 'messageCenterService', 'globals', function ($q, $location, $log, messageCenterService, globals) {
         return {
             // On request success
             request: function (config) {
@@ -31,6 +31,22 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 if (response.config.method.toUpperCase() != 'GET') {
                     messageCenterService.add('success', 'Success');
                 }
+
+
+                /*
+                 * Memory processing for last path in the case of an auth error will set locationt to
+                  * a remembered last path
+                 *
+                 */
+                var path = globals.getLastPath();
+                if (path) {
+                 
+                    // setpath
+                    $log.info("setting location to last path:" + path);
+                    globals.setLastPath(null);
+                    $location.path = path;
+                }
+
                 // Return the response or promise.
                 return response || $q.when(response);
             },
@@ -42,14 +58,20 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 var status = rejection.status;
 
                 if (status == 401) { // unauthorized - redirect to login again
-                    //TODO: add save of last path
+                    //save last path for subsequent re-login
+                    if ($location.path() != "/login") {
+                        $log.info("intercepted unauthorized, save the last path");
+                        globals.setLastPath($location.path());
+                        $log.info("saved last path:" + $location.path());
+                    }
+
                     $location.path("/login");
                 } else if (status == 400) { // validation error display errors
                     //alert(JSON.stringify(rejection.data.error.message)); // here really we need to format this but just showing as alert.
                     var len = rejection.data.errors.errors.length;
-                    if(len > 0) {
-                        for(var i=0; i<len; i++) {
-                            messageCenterService.add('warning',rejection.data.errors.errors[i].message);
+                    if (len > 0) {
+                        for (var i = 0; i < len; i++) {
+                            messageCenterService.add('warning', rejection.data.errors.errors[i].message);
                         }
                     }
 
@@ -74,7 +96,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
         $httpProvider.interceptors.push('myHttpResponseInterceptor');
 
         /* configure xsrf token
-            see: http://stackoverflow.com/questions/14734243/rails-csrf-protection-angular-js-protect-from-forgery-makes-me-to-log-out-on
+         see: http://stackoverflow.com/questions/14734243/rails-csrf-protection-angular-js-protect-from-forgery-makes-me-to-log-out-on
          */
 
 

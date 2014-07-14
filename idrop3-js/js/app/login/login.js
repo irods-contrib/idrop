@@ -22,7 +22,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userS
      * login controller function here
      */
 
-    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService', function ($scope, $translate, $log, $http, $location, userService) {
+    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService','globals', function ($scope, $translate, $log, $http, $location, userService, globals) {
 
 
         $scope.login = {
@@ -51,9 +51,20 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userS
                 data: actval,
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             }).success(function (data) {
-                    $log.info(data);
+                    $log.info("login successful" + data);
                     // userService.setLoggedInIdentity(data);
-                    $location.path("/home");
+
+                    var path = globals.getLastPath();
+                    if (!path) {
+                        $log.info("hard code to go home");
+                        $location.path="/home/home";
+                    } else {
+                        // setpath
+                        $log.info("setting location to last path:" + path);
+                        $location.path = path;
+                    }
+
+                    $log.info("end login success processing");
 
                 });
         };
