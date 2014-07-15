@@ -982,7 +982,7 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userS
      * login controller function here
      */
 
-    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService','globals', function ($scope, $translate, $log, $http, $location, userService, globals) {
+    .controller('loginController', ['$scope', '$translate', '$log', '$http', '$location', 'userService','globals','$q', '$timeout' ,function ($scope, $translate, $log, $http, $location, userService, globals, $q, $timeout) {
 
 
         $scope.login = {
@@ -1010,19 +1010,26 @@ angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userS
                 url: 'login',
                 data: actval,
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
-            }).success(function (data) {
+            }).then(function (data) {
                     $log.info("login successful" + data);
                     // userService.setLoggedInIdentity(data);
 
                     var path = globals.getLastPath();
+                    return $q.when(path);
+
+                }).then(function(path) {
+
                     if (!path) {
                         $log.info("hard code to go home");
-                        $location.path="/home/home";
+                       path="/home/home";
                     } else {
                         // setpath
                         $log.info("setting location to last path:" + path);
-                        $location.path = path;
                     }
+
+                    $timeout(function () {
+                        $location.path(path);
+                    });
 
                     $log.info("end login success processing");
 
