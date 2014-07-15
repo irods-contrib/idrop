@@ -177,6 +177,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
          * respond to selection of a check box in the listing
          */
         $scope.updateSelectedFromCollection = function (action, id) {
+            alert("selected!");
             var checkbox = action.target;
             (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
         }

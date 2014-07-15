@@ -24,7 +24,7 @@
 
     <div class="row">
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th><input type="checkbox"></th>
@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="d in pagingAwareCollectionListing.collectionAndDataObjectListingEntries"
-                    ng-init="showit=false" ng-mouseenter="showit = true" ng-mouseleave="showit = false">
+                    ng-init="showit=false" ng-click="updateSelectedFromCollection($event, d.id)">
                     <td><input ng-click="updateSelectedFromCollection($event, d.id)" ng-model="d.selected"
                                type="checkbox"></td>
                     <td>
@@ -44,15 +44,6 @@
                     </td>
                     <td><a href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}">
                         {{d.nodeLabelDisplayValue | abbreviateFileName}}</a>
-
-                        <a ng-show="showit"  class="glyphicon glyphicon-info-sign"
-                                ng-click="showFileDetails(d.formattedAbsolutePath)"></a>
-
-                         <span ng-hide="d.objectType.name == 'COLLECTION'">
-                                  <a ng-show="showit" class="glyphicon glyphicon-download"
-                                     href="download?path={{ d.formattedAbsolutePath }}" target="_self"></a>
-                         </span>
-
                     </td>
                     <td>{{d.displayDataSize}}</td>
                     <td>{{d.createdAt}}</td>
