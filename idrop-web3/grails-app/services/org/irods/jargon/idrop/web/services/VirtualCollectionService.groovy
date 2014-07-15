@@ -9,7 +9,6 @@ import org.irods.jargon.vircoll.PathHintable
 import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
 import org.irods.jargon.vircoll.VirtualCollectionExecutorFactory
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
-import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 
 class VirtualCollectionService {
 
@@ -117,6 +116,11 @@ class VirtualCollectionService {
 		log.info("listing for vc: ${vcName} listing type:${listingType} offset:{$offset}")
 
 		def virColls = session.virtualCollections
+
+		if (virColls == null) {
+			log.info("virtual collections not yet cached, do so")
+			virColls = virtualCollectionHomeListingForUser(irodsAccount, session)
+		}
 
 		def virColl
 		for (virCollEntry in virColls) {
