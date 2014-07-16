@@ -818,6 +818,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         $scope.numberSelected = 0;
         $scope.breadcrumbs = [];
         $scope.hideDrives = "false";
+        $scope.selection = [];
 
         /**
          * List all virtual collections for the user
@@ -926,10 +927,25 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         /**
          * respond to selection of a check box in the listing
          */
-        $scope.updateSelectedFromCollection = function (action, id) {
-            alert("selected!");
-            var checkbox = action.target;
-            (checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
+        $scope.updateSelectedFromCollection = function (absolutePath) {
+
+           $log.info("update selected:" + absolutePath);
+           // alert("selected!");
+            //var checkbox = action.target;
+            //(checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
+
+            var idx = $scope.selection.indexOf(absolutePath);
+
+            // is currently selected
+            if (idx > -1) {
+                $scope.selection.splice(idx, 1);
+            }
+
+            // is newly selected
+            else {
+                $scope.selection.push(absolutePath);
+            }
+
         }
 
         /**
