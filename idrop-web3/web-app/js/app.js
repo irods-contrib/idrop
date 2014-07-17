@@ -347,6 +347,8 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             MODIFIED: 'Modified',
             MOVE_COPY: 'Move/Copy',
             NAME: 'Name',
+            NEW_FILE: 'New File',
+            NEW_FOLDER: 'New Folder',
             NEED_HELP: 'Need help?',
             OBJECT_PATH: 'Object Path',
             PROFILE: 'Profile',
@@ -939,11 +941,13 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             // is currently selected
             if (idx > -1) {
                 $scope.selection.splice(idx, 1);
+                $scope.numberSelected--;
             }
 
             // is newly selected
             else {
                 $scope.selection.push(absolutePath);
+                $scope.numberSelected++;
             }
 
         }

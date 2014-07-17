@@ -31,6 +31,8 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             MODIFIED: 'Modified',
             MOVE_COPY: 'Move/Copy',
             NAME: 'Name',
+            NEW_FILE: 'New File',
+            NEW_FOLDER: 'New Folder',
             NEED_HELP: 'Need help?',
             OBJECT_PATH: 'Object Path',
             PROFILE: 'Profile',

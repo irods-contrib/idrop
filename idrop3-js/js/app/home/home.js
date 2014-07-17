@@ -189,11 +189,13 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             // is currently selected
             if (idx > -1) {
                 $scope.selection.splice(idx, 1);
+                $scope.numberSelected--;
             }
 
             // is newly selected
             else {
                 $scope.selection.push(absolutePath);
+                $scope.numberSelected++;
             }
 
         }

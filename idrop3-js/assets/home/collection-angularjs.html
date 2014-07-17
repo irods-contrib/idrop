@@ -18,7 +18,7 @@
                 <tbody>
                 <tr ng-repeat="d in pagingAwareCollectionListing.collectionAndDataObjectListingEntries"
                     ng-init="showit=false"  ng-click="updateSelectedFromCollection(d.formattedAbsolutePath)">
-                    <td><input ng-click="updateSelectedFromCollection(d.formattedAbsolutePath)"  name="selectedItems[]" value="d.formattedAbsolutePath" ng-checked="selection.indexOf(formattedAbsolutePath) > -1"
+                    <td><input name="selectedItems[]" value="d.formattedAbsolutePath" ng-checked="selection.indexOf(d.formattedAbsolutePath) > -1"
                                type="checkbox"></td>
                     <td>
                         <span class="glyphicon    {{d | fileIcon}}"/>
