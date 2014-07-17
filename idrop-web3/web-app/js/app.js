@@ -232,6 +232,25 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
 
         }
     })
+    .filter('hideSizeForCollection', function ($log) {
+        /**
+         * Given an absolute path, make a space-saving abbreviation by redacting parts of the full string
+         */
+
+        return function (collectionListingEntry) {
+            if (!collectionListingEntry) {
+                return "";
+            }
+
+
+            if (collectionListingEntry.objectType.name == "COLLECTION") {
+                return "";
+            } else {
+                return collectionListingEntry.displayDataSize;
+            }
+
+        };
+    })
     .filter('abbreviateFileName', function ($log) {
         /**
          * Given an absolute path, make a space-saving abbreviation by redacting parts of the full string
