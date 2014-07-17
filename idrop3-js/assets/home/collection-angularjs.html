@@ -23,8 +23,11 @@
                     <td>
                         <span class="glyphicon    {{d | fileIcon}}"/>
                     </td>
-                    <td><a href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}">
+                    <td ng-show="d.objectType.name == 'COLLECTION'"><a href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}">
                         {{d.nodeLabelDisplayValue | abbreviateFileName}}</a>
+                    </td>
+                    <td ng-hide="d.objectType.name == 'COLLECTION'">
+                        {{d.nodeLabelDisplayValue | abbreviateFileName}}
                     </td>
                     <td> {{d | hideSizeForCollection}}</td>
                     <td>{{d.createdAt}}</td>

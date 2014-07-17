@@ -18,7 +18,7 @@ describe("Tests of the metadata controller", function () {
      */
 
 
-    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_, _$translate_, _$rootScope_, $controller, _$q_,_$routeProvider_) {
+    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_, _$translate_, _$rootScope_, $controller, _$q_, _$routeProvider_) {
         $http = _$http_;
         $log = _$log_;
         $httpBackend = _$httpBackend_;
@@ -29,26 +29,29 @@ describe("Tests of the metadata controller", function () {
         controllerFactory = $controller;
         $routeProvider = _$routeProvider_;
         mockMetadataService = {
-           /* listUserVirtualCollections: function () {
-                var deferred = $q.defer();
-                deferred.resolve(vcData);
-                return deferred.promise;
-            }*/
+            /* listUserVirtualCollections: function () {
+             var deferred = $q.defer();
+             deferred.resolve(vcData);
+             return deferred.promise;
+             }*/
         };
 
-        controller = $controller('metadataController', { $scope:ctrlScope, metadataService: mockMetadataService });
+        controller = $controller('metadataController', { $scope: ctrlScope, metadataService: mockMetadataService });
 
     }));
 
 
     it("metadataController should init dataProfile", function () {
-        expect($route.current).toBeUndefined();
-        $location.path('/file/metadata');
-        $rootScope.$digest();
 
-        //expect($route.current.loadedTemplateUrl).toBe('app/users/user-list.tpl.html');
-        expect($route.current.controller).toBe('fileMetadataController');
+    //    inject(function ($route, $location, $rootScope) {
+            expect($route.current).toBeUndefined();
+            $location.path('/file/metadata');
+            $rootScope.$digest();
 
-    });
+            //expect($route.current.loadedTemplateUrl).toBe('app/users/user-list.tpl.html');
+            expect($route.current.controller).toBe('fileMetadataController');
+        });
+
+  //  });
 
 });

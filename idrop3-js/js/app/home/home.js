@@ -52,13 +52,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
                 }
             })
-            /*
-            .when('/file', {
-                templateUrl: 'assets/file/file-master-angularjs.html',
-                controller: 'fileController'
 
-
-            }) */
     })
 
     .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing) {
@@ -146,6 +140,26 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
             $location.path("/home/root");
             $location.search("path", totalPath);
+
+        };
+
+
+        /**
+         * View the details for the selected file, by evaluating the selections and finding the selected path
+         */
+        $scope.viewInfoDetails = function() {
+
+            $log.info("viewInfoDetails...looking for selected path...");
+
+            if ($scope.selection.length == 0) {
+                $log.info("nothing to select");
+                return;
+            }
+
+            // find the selected path and chain the call to show the details
+
+            var path = $scope.selection[0];
+            $scope.showFileDetails(path);
 
         };
 
