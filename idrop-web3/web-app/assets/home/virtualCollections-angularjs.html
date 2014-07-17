@@ -1,6 +1,6 @@
  <ul class="list-group" ng-if="virtualCollections.length > 0">
 
-     <li class="list-group-item" ng-repeat="virtualCollection in virtualCollections">
+     <li class="list-group-item-noborder" ng-repeat="virtualCollection in virtualCollections">
          <button type="button"
                  class="btn btn-link" ng-click="selectVirtualCollection(virtualCollection.uniqueName, virtualCollection)">
              <span class="glyphicon    {{virtualCollection.i18icon | vcIcon}}"></span>

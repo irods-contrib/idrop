@@ -1,24 +1,5 @@
 <div id="home-center" class="col-md-9">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="btn-toolbar pad-vertical" role="toolbar">
-                <div class="btn-group pull-left">
-                    <button ng-hide="noVcSelected()" ng-click="selectVirtualCollection(selectedVc.data.uniqueName)"
-                            type="button" class="btn btn-default">
-                        <span class="glyphicon    {{selectedVc.data.i18icon | vcIcon}}"></span>
-                        {{selectedVc.data.uniqueName}}
-                    </button>
-                    <span ng-repeat="breadcrumb in pagingAwareCollectionListing.pathComponents  track by $id(breadcrumb + $index)">
-                    <button ng-hide="$first"
-                            ng-click="goToBreadcrumb($index,pagingAwareCollectionListing.pathComponents)" type="button"
-                            class="btn btn-link">
-                        <span>/ {{breadcrumb | abbreviateFileName}} </span>
-                    </button>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <div x-ng-include="'assets/home/collectionActions-angularjs.html'"></div>
 

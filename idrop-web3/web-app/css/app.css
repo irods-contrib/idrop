@@ -188,6 +188,15 @@ code {
     display: block;
     margin-top: 10px;
 }
+
+.list-group-item-noborder {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+
+}
 ​
 
 /* Make clicks pass-through */

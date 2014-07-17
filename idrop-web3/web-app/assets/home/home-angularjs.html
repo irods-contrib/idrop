@@ -1,21 +1,24 @@
 <div x-ng-include="'assets/home/nav-angularjs.html'"></div>
 <div class="container">
+    <div class="row">
 
+        <div id="home-left" class="col-md-2" ng-hide="hideDrives">
 
-
-<div class="row">
-
-    <div id="home-left" class="col-md-2" ng-hide="hideDrives">
-        <div class="row  stretch-row">
-            <div class="col-md-12" x-ng-include="'assets/home/virtualCollections-angularjs.html'">
+            <div id="vcs-home-left" class="container-fluid">
+                <div class="row ">
+                    <div class="col-md-12" x-ng-include="'assets/home/virtualCollections-angularjs.html'">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" x-ng-include="'assets/home/home-actions-angularjs.html'">
+                    </div>
+                </div>
             </div>
+
         </div>
+
+        <div id="home-right" class="col-md-10" x-ng-include="'assets/home/collection-angularjs.html'"></div>
     </div>
-
-        <div id="home-right" class="col-md-10"  x-ng-include="'assets/home/collection-angularjs.html'"></div>
-
-
-</div>
 </div>
 <div id="footer">
     <div class="container">
