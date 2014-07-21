@@ -21,6 +21,7 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -137,7 +138,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         setVisibleComponentsAtStartup();
         enableToolbarButtons(false);
         getiDropCore().getConveyorService().registerCallbackListener(this);
-
         setVisible(true);
 
     }
@@ -201,7 +201,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             log.info("already received startup signal");
         } else {
             createAndShowSystemTray();
-             showIdropGui();
+            showIdropGui();
         }
 
         receivedStartupSignal = true;
@@ -306,6 +306,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 }
             }
 
+           
             /**
              * A tree already exists so use the current information to reload
              */
@@ -579,10 +580,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      */
     private synchronized String getBasePath() throws JargonException {
         String myBase = getiDropCore().getBasePath();
-        
+
         if (myBase == null) {
             log.info("checking to see if the grid account has a preset path");
-            
+
             try {
                 GridAccount gridAccount = this.getiDropCore().getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(this.getIrodsAccount());
                 myBase = gridAccount.getDefaultPath();
@@ -591,10 +592,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 log.error("error obtaining grid account for this iRODS account", ex);
                 throw new IdropRuntimeException("cannot obtain grid account for given iRODS account", ex);
             }
-            
-            
+
+
         }
-       
+
         // if no base defined, see if there is a prese
         if (myBase == null || myBase.isEmpty()) {
 
@@ -724,7 +725,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             listLocalDrives.setSelectedIndex(0);
 
             localFileModel = new LocalFileSystemModel(new LocalFileNode(
-                    new File((String)listLocalDrives.getSelectedValue())));
+                    new File((String) listLocalDrives.getSelectedValue())));
 
             fileTree.setModel(localFileModel);
         } else {
@@ -1157,7 +1158,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 }
             }
         });
-        
+
         return FileStatusCallbackResponse.CONTINUE;
 
     }
@@ -1946,10 +1947,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSynchActionPerformed
-        
+
         SynchronizationDialog synchDialog = new SynchronizationDialog(this, true, this.getiDropCore());
         synchDialog.setVisible(true);
-       
+
     }//GEN-LAST:event_btnSynchActionPerformed
 
     /**
@@ -2034,6 +2035,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void btnMainToolbarRefreshActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarRefreshActionPerformed
         buildTargetTree(false);
+         reloadExistingLocalTree();
     }// GEN-LAST:event_btnMainToolbarRefreshActionPerformed
 
     private void btnMainToolbarDeleteActionPerformed(
@@ -2199,6 +2201,48 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     "Please select a parent folder in the tree");
         }
     }// GEN-LAST:event_btnNewFolderActionPerformed
+    
+     /**
+             * A tree already exists so use the current information to reload
+             */
+            private void reloadExistingLocalTree()  {
+
+                if (fileTree == null) {
+                    log.warn("null file tree - ignored when refreshing");
+                    return;
+                }
+
+                final TreePath rootPath = fileTree.getPathForRow(0);
+                final Enumeration<TreePath> currentPaths = fileTree.getExpandedDescendants(rootPath);
+                log.debug("expanded local tree node, paths are:{}", currentPaths);
+
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            // keep track of the currently selected drive
+                            Object selectedDrive = listLocalDrives.getSelectedValue();
+                            initializeLocalFileTreeModel(selectedDrive);
+                            fileTree.setModel(localFileModel);
+
+                            // re-expand the tree paths that are currently expanded
+                            final Enumeration<TreePath> pathsToExpand = currentPaths;
+                            fileTree.expandTreeNodesBasedOnListOfPreviouslyExpandedNodes(pathsToExpand);
+                        } catch (IdropException ex) {
+                            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
+                                    null, ex);
+                            throw new IdropRuntimeException(
+                                    "exception expanding tree nodes", ex);
+                        }
+
+                    }
+                });
+
+            }
+
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMainToolbarCopy;
     private javax.swing.JButton btnMainToolbarDelete;
@@ -2273,6 +2317,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JToggleButton togglePauseTransfer;
     private javax.swing.JProgressBar transferStatusProgressBar;
     // End of variables declaration//GEN-END:variables
+
     public void closeTransferManagerDialog() {
         transferManagerDialog = null;
     }
