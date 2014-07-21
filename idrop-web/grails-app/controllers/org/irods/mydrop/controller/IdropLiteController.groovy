@@ -4,7 +4,6 @@ import grails.converters.*
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
-import org.irods.jargon.core.exception.NoResourceDefinedException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.UserAO
 import org.irods.jargon.datautils.datacache.DataCacheServiceFactory
@@ -72,7 +71,7 @@ class IdropLiteController {
 					def message = message(e.message)
 					response.sendError(500,e.message)
 					return
-					}
+				}
 			}
 			log.info("cart serialized to file:${shoppingCartFile}")
 		}
@@ -138,8 +137,8 @@ class IdropLiteController {
 		idropLite.key = key
 
 		def jsonResult = ["appletUrl" : idropLite.appletUrl, "appletCode": idropLite.appletCode, "archive": idropLite.archive, "mode":idropLite.mode,
-					"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
-					"absolutePath":idropLite.absolutePath, "key":key]
+			"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
+			"absolutePath":idropLite.absolutePath, "key":key]
 
 		render jsonResult as JSON
 	}
@@ -203,15 +202,15 @@ class IdropLiteController {
 		idropLite.absolutePath = absPath
 
 		def jsonResult = ["appletUrl" : idropLite.appletUrl, "appletCode": idropLite.appletCode, "archive": idropLite.archive, "mode":idropLite.mode,
-					"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
-					"absolutePath":idropLite.absolutePath, "key":idropLite.key]
+			"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
+			"absolutePath":idropLite.absolutePath, "key":idropLite.key]
 
 		render jsonResult as JSON
 
 	}
 
 	/**
-	 * Load the applet in 'bulk upload' mode
+	 * Load the applet in 'local/irods' mode
 	 */
 	def localIrodsTreeViewAppletLoader = {
 
@@ -269,8 +268,8 @@ class IdropLiteController {
 		idropLite.absolutePath = absPath
 
 		def jsonResult = ["appletUrl" : idropLite.appletUrl, "appletCode": idropLite.appletCode, "archive": idropLite.archive, "mode":idropLite.mode,
-					"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
-					"absolutePath":idropLite.absolutePath, "key":idropLite.key]
+			"host":idropLite.host, "port":idropLite.port, "zone":idropLite.zone, "user":idropLite.user, "password":idropLite.password, "defaultStorageResource":idropLite.defaultStorageResource,
+			"absolutePath":idropLite.absolutePath, "key":idropLite.key]
 
 		render jsonResult as JSON
 
