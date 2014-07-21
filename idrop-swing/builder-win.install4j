@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="5.1.11" transformSequenceNumber="4">
-  <directoryPresets config="C:/Users/Mike/Documents/workspace-development-github/idrop/idrop-swing/target/idrop-swing-2.0.1-SNAPSHOT.jar" />
-  <application name="iDrop Transfer Manager" distributionSourceDir="" applicationId="6819-2942-8339-1472" mediaDir="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="iDrop" publisher="DICE" publisherWeb="http://www.irods.org" version="2.0.1-beta2" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.6" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+  <directoryPresets config="C:/Users/Mike/Documents/workspace-release-github/idrop/idrop-swing/target" />
+  <application name="iDrop Transfer Manager" distributionSourceDir="" applicationId="8964-1144-5026-5108" mediaDir="/Users/mikeconway/Documents/workspace-newtxfr/irodsidrop/idrop-swing/target" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="iDrop" publisher="DICE" publisherWeb="http://www.irods.org" version="2.0.1-beta3" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.6" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="false" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages />
@@ -22,10 +22,10 @@
       <mountPoint id="22" root="" location="" mode="755" />
     </mountPoints>
     <entries>
-      <fileEntry mountPoint="22" file="C:/Users/Mike/Documents/workspace-development-github/idrop/idrop-swing/target/idrop-swing-2.0.1-SNAPSHOT.jar" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" />
-      <dirEntry mountPoint="22" file="C:/Users/Mike/Documents/workspace-development-github/idrop/idrop-swing/target/dependency" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="dependency" excludeSuffixes="" dirMode="755" overrideDirMode="false">
+      <dirEntry mountPoint="22" file="C:/Users/Mike/Documents/workspace-release-github/idrop/idrop-swing/target/dependency" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="dependency" excludeSuffixes="" dirMode="755" overrideDirMode="false">
         <exclude />
       </dirEntry>
+      <fileEntry mountPoint="22" file="C:/Users/Mike/Documents/workspace-release-github/idrop/idrop-swing/target/idrop-swing-2.0.1-SNAPSHOT.jar" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" />
     </entries>
     <components />
   </files>
@@ -359,7 +359,7 @@
     </applications>
   </installerGui>
   <mediaSets>
-    <macos name="Mac OS X Single Bundle" id="24" customizedId="" mediaFileName="" installDir="iDrop Transfer Manager" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" appleJre="false" requiredVmIdPrefix="" customInstallBaseDir="" contentFilesType="1" downloadURL="" signLaunchers="false" launcherId="23">
+    <macos name="Mac OS X Single Bundle" id="24" customizedId="" mediaFileName="" installDir="iDrop Transfer Manager" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="macosx-amd64-1.7.0_65" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" appleJre="false" requiredVmIdPrefix="" customInstallBaseDir="" contentFilesType="1" downloadURL="" signLaunchers="false" launcherId="23">
       <excludedBeans />
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude />
@@ -414,7 +414,9 @@
       </installerScript>
     </unixInstaller>
   </mediaSets>
-  <buildIds buildAll="true" />
+  <buildIds buildAll="false">
+    <mediaSet refId="24" />
+  </buildIds>
   <buildOptions verbose="true" faster="false" disableSigning="false" debug="false" />
 </install4j>
 
