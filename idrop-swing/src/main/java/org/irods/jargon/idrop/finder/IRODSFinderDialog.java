@@ -17,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import org.irods.jargon.core.connection.IRODSAccount;
 
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
+import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.IDROPCore;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
@@ -44,9 +45,15 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
     private SelectionType selectionTypeSetting = SelectionType.COLLS_ONLY_SELECTION_MODE;
 
     private final IDROPCore idropCore;
+    private String topOfTreeAbsolutePath = "/";
+
     private String selectedAbsolutePath = null;
     private List<String> selectedAbsolutePaths = null;
     private final IRODSAccount irodsAccount;
+    
+    private static final org.slf4j.Logger log = LoggerFactory
+            .getLogger(IRODSFinderDialog.class);
+    private IRODSFinderTree irodsTree = null;
 
     public String getSelectedAbsolutePath() {
         return selectedAbsolutePath;
@@ -64,9 +71,41 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
         return irodsTree;
     }
 
-    private static final org.slf4j.Logger log = LoggerFactory
-            .getLogger(IRODSFinderDialog.class);
-    private IRODSFinderTree irodsTree = null;
+
+    public void setIrodsTree(IRODSFinderTree irodsTree) {
+        this.irodsTree = irodsTree;
+    }
+    
+    /**
+     * 
+     * @param parent
+     * @param modal
+     * @param idropCore
+     * @param irodsAccount
+     * @param topOfTreeAsolutePath 
+     */
+     public IRODSFinderDialog(final java.awt.Frame parent, final boolean modal,
+            final IDROPCore idropCore, final IRODSAccount irodsAccount, final String topOfTreeAsolutePath) {
+        super(parent, modal);
+
+        if (idropCore == null) {
+            throw new IllegalArgumentException("null idropCore");
+        }
+
+        if (irodsAccount == null) {
+            throw new IllegalArgumentException("null irodsAccount");
+        }
+        
+        if (topOfTreeAbsolutePath == null || topOfTreeAbsolutePath.isEmpty()) {
+            throw new IllegalArgumentException("null or empty topOfTreeAbsolutePath");
+        }
+
+        this.topOfTreeAbsolutePath = topOfTreeAbsolutePath;
+        this.idropCore = idropCore;
+        initComponents();
+        this.irodsAccount = irodsAccount;
+        buildTargetTree();
+    }
 
     /**
      * Creates new form IRODSFinderDialog
@@ -110,9 +149,7 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
             public void run() {
 
                 CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
-
-                root.setPathOrName("/");
-
+                root.setPathOrName(gui.getTopOfTreeAbsolutePath());
                 root.setObjectType(CollectionAndDataObjectListingEntry.ObjectType.COLLECTION);
 
                 log.info("building new iRODS tree");
@@ -183,51 +220,17 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnGoHomeTargetTree = new javax.swing.JButton();
-        btnGoRootTargetTree = new javax.swing.JButton();
         topPanel = new javax.swing.JPanel();
         treePanel = new javax.swing.JPanel();
         pnlIrodsTreeToolbar = new javax.swing.JPanel();
         btnRefreshTargetTree = new javax.swing.JButton();
+        btnGoHomeTargetTree = new javax.swing.JButton();
+        btnGoRootTargetTree = new javax.swing.JButton();
         pnlIrodsTreeMaster = new javax.swing.JPanel();
         scrollIrodsTree = new javax.swing.JScrollPane();
         bottomPanel = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnSelectFolder = new javax.swing.JButton();
-
-        btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
-        btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoHomeTargetTree.text")); // NOI18N
-        btnGoHomeTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoHomeTargetTree.toolTipText")); // NOI18N
-        btnGoHomeTargetTree.setBorder(null);
-        btnGoHomeTargetTree.setFocusable(false);
-        btnGoHomeTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnGoHomeTargetTree.setMaximumSize(null);
-        btnGoHomeTargetTree.setMinimumSize(null);
-        btnGoHomeTargetTree.setPreferredSize(new java.awt.Dimension(57, 35));
-        btnGoHomeTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnGoHomeTargetTree.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGoHomeTargetTreeActionPerformed(evt);
-            }
-        });
-
-        btnGoRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_213_up_arrow.png"))); // NOI18N
-        btnGoRootTargetTree.setMnemonic('r');
-        btnGoRootTargetTree.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoRootTargetTree.text")); // NOI18N
-        btnGoRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoRootTargetTree.toolTipText")); // NOI18N
-        btnGoRootTargetTree.setBorder(null);
-        btnGoRootTargetTree.setFocusable(false);
-        btnGoRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnGoRootTargetTree.setMaximumSize(null);
-        btnGoRootTargetTree.setMinimumSize(null);
-        btnGoRootTargetTree.setPreferredSize(new java.awt.Dimension(57, 35));
-        btnGoRootTargetTree.setRolloverEnabled(false);
-        btnGoRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnGoRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGoRootTargetTreeActionPerformed(evt);
-            }
-        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
@@ -260,6 +263,42 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
             }
         });
         pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
+
+        btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
+        btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoHomeTargetTree.text")); // NOI18N
+        btnGoHomeTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoHomeTargetTree.toolTipText")); // NOI18N
+        btnGoHomeTargetTree.setBorder(null);
+        btnGoHomeTargetTree.setFocusable(false);
+        btnGoHomeTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoHomeTargetTree.setMaximumSize(null);
+        btnGoHomeTargetTree.setMinimumSize(null);
+        btnGoHomeTargetTree.setPreferredSize(new java.awt.Dimension(57, 35));
+        btnGoHomeTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGoHomeTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoHomeTargetTreeActionPerformed(evt);
+            }
+        });
+        pnlIrodsTreeToolbar.add(btnGoHomeTargetTree);
+
+        btnGoRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_213_up_arrow.png"))); // NOI18N
+        btnGoRootTargetTree.setMnemonic('r');
+        btnGoRootTargetTree.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoRootTargetTree.text")); // NOI18N
+        btnGoRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoRootTargetTree.toolTipText")); // NOI18N
+        btnGoRootTargetTree.setBorder(null);
+        btnGoRootTargetTree.setFocusable(false);
+        btnGoRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoRootTargetTree.setMaximumSize(null);
+        btnGoRootTargetTree.setMinimumSize(null);
+        btnGoRootTargetTree.setPreferredSize(new java.awt.Dimension(57, 35));
+        btnGoRootTargetTree.setRolloverEnabled(false);
+        btnGoRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGoRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoRootTargetTreeActionPerformed(evt);
+            }
+        });
+        pnlIrodsTreeToolbar.add(btnGoRootTargetTree);
 
         treePanel.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
 
@@ -297,12 +336,38 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGoHomeTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoHomeTargetTreeActionPerformed
-        // TODO add your handling code here:
+        log.info("btnGoHomeTargetTreeActionPerformed");
+        final IRODSFinderDialog gui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+              String homeDir = MiscIRODSUtils.buildIRODSUserHomeForAccountUsingDefaultScheme(gui.irodsAccount);
+              gui.setTopOfTreeAbsolutePath(homeDir);
+              gui.setIrodsTree(null);
+              gui.buildTargetTree();
+
+            }
+        });
     }//GEN-LAST:event_btnGoHomeTargetTreeActionPerformed
 
     private void btnGoRootTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoRootTargetTreeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnGoRootTargetTreeActionPerformed
+  log.info("btnGoRootTargetTreeActionPerformed");
+        final IRODSFinderDialog gui = this;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+              gui.setTopOfTreeAbsolutePath("/");
+              gui.setIrodsTree(null);
+              gui.buildTargetTree();
+
+            }
+        });    }//GEN-LAST:event_btnGoRootTargetTreeActionPerformed
 
     private void btnRefreshTargetTreeActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshTargetTreeActionPerformed
@@ -352,6 +417,17 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
         enableButtonSelectFolder(true);
 
     }// GEN-LAST:event_btnSelectFolderActionPerformed
+    
+    
+    public String getTopOfTreeAbsolutePath() {
+        return topOfTreeAbsolutePath;
+    }
+
+    public void setTopOfTreeAbsolutePath(String topOfTreeAbsolutePath) {
+        this.topOfTreeAbsolutePath = topOfTreeAbsolutePath;
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton btnCancel;
