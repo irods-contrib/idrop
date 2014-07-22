@@ -180,97 +180,129 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-		topPanel = new javax.swing.JPanel();
-		treePanel = new javax.swing.JPanel();
-		pnlIrodsTreeToolbar = new javax.swing.JPanel();
-		btnRefreshTargetTree = new javax.swing.JButton();
-		pnlIrodsTreeMaster = new javax.swing.JPanel();
-		scrollIrodsTree = new javax.swing.JScrollPane();
-		bottomPanel = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnSelectFolder = new javax.swing.JButton();
+        btnGoHomeTargetTree = new javax.swing.JButton();
+        btnGoRootTargetTree = new javax.swing.JButton();
+        topPanel = new javax.swing.JPanel();
+        treePanel = new javax.swing.JPanel();
+        pnlIrodsTreeToolbar = new javax.swing.JPanel();
+        btnRefreshTargetTree = new javax.swing.JButton();
+        pnlIrodsTreeMaster = new javax.swing.JPanel();
+        scrollIrodsTree = new javax.swing.JScrollPane();
+        bottomPanel = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnSelectFolder = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setModal(true);
+        btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
+        btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoHomeTargetTree.text")); // NOI18N
+        btnGoHomeTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoHomeTargetTree.toolTipText")); // NOI18N
+        btnGoHomeTargetTree.setBorder(null);
+        btnGoHomeTargetTree.setFocusable(false);
+        btnGoHomeTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoHomeTargetTree.setMaximumSize(null);
+        btnGoHomeTargetTree.setMinimumSize(null);
+        btnGoHomeTargetTree.setPreferredSize(new java.awt.Dimension(57, 35));
+        btnGoHomeTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGoHomeTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoHomeTargetTreeActionPerformed(evt);
+            }
+        });
 
-		org.jdesktop.layout.GroupLayout topPanelLayout = new org.jdesktop.layout.GroupLayout(
-				topPanel);
-		topPanel.setLayout(topPanelLayout);
-		topPanelLayout.setHorizontalGroup(topPanelLayout.createParallelGroup(
-				org.jdesktop.layout.GroupLayout.LEADING).add(0, 593,
-				Short.MAX_VALUE));
-		topPanelLayout.setVerticalGroup(topPanelLayout.createParallelGroup(
-				org.jdesktop.layout.GroupLayout.LEADING).add(0, 484,
-				Short.MAX_VALUE));
+        btnGoRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_213_up_arrow.png"))); // NOI18N
+        btnGoRootTargetTree.setMnemonic('r');
+        btnGoRootTargetTree.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoRootTargetTree.text")); // NOI18N
+        btnGoRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnGoRootTargetTree.toolTipText")); // NOI18N
+        btnGoRootTargetTree.setBorder(null);
+        btnGoRootTargetTree.setFocusable(false);
+        btnGoRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoRootTargetTree.setMaximumSize(null);
+        btnGoRootTargetTree.setMinimumSize(null);
+        btnGoRootTargetTree.setPreferredSize(new java.awt.Dimension(57, 35));
+        btnGoRootTargetTree.setRolloverEnabled(false);
+        btnGoRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGoRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoRootTargetTreeActionPerformed(evt);
+            }
+        });
 
-		getContentPane().add(topPanel, java.awt.BorderLayout.CENTER);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setModal(true);
 
-		treePanel.setLayout(new java.awt.BorderLayout());
+        org.jdesktop.layout.GroupLayout topPanelLayout = new org.jdesktop.layout.GroupLayout(topPanel);
+        topPanel.setLayout(topPanelLayout);
+        topPanelLayout.setHorizontalGroup(
+            topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 593, Short.MAX_VALUE)
+        );
+        topPanelLayout.setVerticalGroup(
+            topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 486, Short.MAX_VALUE)
+        );
 
-		btnRefreshTargetTree.setMnemonic('r');
-		btnRefreshTargetTree.setText(org.openide.util.NbBundle.getMessage(
-				IRODSFinderDialog.class,
-				"IRODSFinderDialog.btnRefreshTargetTree.text")); // NOI18N
-		btnRefreshTargetTree.setToolTipText(org.openide.util.NbBundle
-				.getMessage(IRODSFinderDialog.class,
-						"IRODSFinderDialog.btnRefreshTargetTree.toolTipText")); // NOI18N
-		btnRefreshTargetTree.setFocusable(false);
-		btnRefreshTargetTree
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnRefreshTargetTree
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnRefreshTargetTree
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnRefreshTargetTreeActionPerformed(evt);
-					}
-				});
-		pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
+        getContentPane().add(topPanel, java.awt.BorderLayout.CENTER);
 
-		treePanel.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
+        treePanel.setLayout(new java.awt.BorderLayout());
 
-		pnlIrodsTreeMaster.setLayout(new java.awt.BorderLayout());
+        btnRefreshTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_081_refresh.png"))); // NOI18N
+        btnRefreshTargetTree.setMnemonic('r');
+        btnRefreshTargetTree.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnRefreshTargetTree.text")); // NOI18N
+        btnRefreshTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnRefreshTargetTree.toolTipText")); // NOI18N
+        btnRefreshTargetTree.setFocusable(false);
+        btnRefreshTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRefreshTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRefreshTargetTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshTargetTreeActionPerformed(evt);
+            }
+        });
+        pnlIrodsTreeToolbar.add(btnRefreshTargetTree);
 
-		scrollIrodsTree.setMinimumSize(null);
-		scrollIrodsTree.setPreferredSize(null);
-		pnlIrodsTreeMaster.add(scrollIrodsTree, java.awt.BorderLayout.CENTER);
+        treePanel.add(pnlIrodsTreeToolbar, java.awt.BorderLayout.NORTH);
 
-		treePanel.add(pnlIrodsTreeMaster, java.awt.BorderLayout.CENTER);
+        pnlIrodsTreeMaster.setLayout(new java.awt.BorderLayout());
 
-		getContentPane().add(treePanel, java.awt.BorderLayout.PAGE_START);
+        scrollIrodsTree.setMinimumSize(null);
+        scrollIrodsTree.setPreferredSize(null);
+        pnlIrodsTreeMaster.add(scrollIrodsTree, java.awt.BorderLayout.CENTER);
 
-		btnCancel.setMnemonic('c');
-		btnCancel.setText(org.openide.util.NbBundle.getMessage(
-				IRODSFinderDialog.class, "IRODSFinderDialog.btnCancel.text")); // NOI18N
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		bottomPanel.add(btnCancel);
+        treePanel.add(pnlIrodsTreeMaster, java.awt.BorderLayout.CENTER);
 
-		btnSelectFolder.setMnemonic('s');
-		btnSelectFolder.setText(org.openide.util.NbBundle.getMessage(
-				IRODSFinderDialog.class,
-				"IRODSFinderDialog.btnSelectFolder.text")); // NOI18N
-		btnSelectFolder.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnSelectFolderActionPerformed(evt);
-			}
-		});
-		bottomPanel.add(btnSelectFolder);
+        getContentPane().add(treePanel, java.awt.BorderLayout.PAGE_START);
 
-		getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+        btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnCancel.text")); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        bottomPanel.add(btnCancel);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        btnSelectFolder.setMnemonic('s');
+        btnSelectFolder.setText(org.openide.util.NbBundle.getMessage(IRODSFinderDialog.class, "IRODSFinderDialog.btnSelectFolder.text")); // NOI18N
+        btnSelectFolder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectFolderActionPerformed(evt);
+            }
+        });
+        bottomPanel.add(btnSelectFolder);
+
+        getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGoHomeTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoHomeTargetTreeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGoHomeTargetTreeActionPerformed
+
+    private void btnGoRootTargetTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoRootTargetTreeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGoRootTargetTreeActionPerformed
 
     private void btnRefreshTargetTreeActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshTargetTreeActionPerformed
@@ -320,16 +352,17 @@ public class IRODSFinderDialog extends javax.swing.JDialog {
         enableButtonSelectFolder(true);
 
     }// GEN-LAST:event_btnSelectFolderActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JPanel bottomPanel;
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnRefreshTargetTree;
-	private javax.swing.JButton btnSelectFolder;
-	private javax.swing.JPanel pnlIrodsTreeMaster;
-	private javax.swing.JPanel pnlIrodsTreeToolbar;
-	private javax.swing.JScrollPane scrollIrodsTree;
-	private javax.swing.JPanel topPanel;
-	private javax.swing.JPanel treePanel;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel bottomPanel;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnGoHomeTargetTree;
+    private javax.swing.JButton btnGoRootTargetTree;
+    private javax.swing.JButton btnRefreshTargetTree;
+    private javax.swing.JButton btnSelectFolder;
+    private javax.swing.JPanel pnlIrodsTreeMaster;
+    private javax.swing.JPanel pnlIrodsTreeToolbar;
+    private javax.swing.JScrollPane scrollIrodsTree;
+    private javax.swing.JPanel topPanel;
+    private javax.swing.JPanel treePanel;
+    // End of variables declaration//GEN-END:variables
 }
