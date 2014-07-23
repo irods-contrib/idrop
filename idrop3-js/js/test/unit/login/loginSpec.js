@@ -5,7 +5,7 @@
 
 describe("Tests of the login controller", function () {
 
-    var $http, $httpBackend, $log, $translate, ctrlScope, controller, userService, rootScope;
+    var $http, $httpBackend, $log, $translate, ctrlScope, controller, userService, rootScope, myHttpResponseInterceptor;
     beforeEach(module('login'));
     beforeEach(inject(function (_$http_, _$httpBackend_, _$log_ , _$translate_, _$rootScope_, $controller, _userService_) {
         $http = _$http_;
@@ -16,6 +16,7 @@ describe("Tests of the login controller", function () {
         controller = $controller('loginController', {$scope: ctrlScope});
         userService = _userService_;
         rootScope = _$rootScope_;
+        myHttpResponseInterceptor = {};
     }));
 
 

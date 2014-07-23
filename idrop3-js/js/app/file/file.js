@@ -6,7 +6,7 @@
 /*
  * File controller function here, representing collection and data object catalog info and operations
  */
-angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute','tagServiceModule'])
+angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute','tagServiceModule'])
 
     /*
      * handle config of routes for home functions
@@ -29,7 +29,7 @@ angular.module('file', ['httpInterceptorModule', 'angularTranslateApp', 'Message
         });
     })
 
-    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService) {
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'fileService', 'tagService', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService) {
 
         $scope.file = file;
         $scope.infoTab = true;

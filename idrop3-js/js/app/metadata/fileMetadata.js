@@ -6,7 +6,7 @@
 /*
  * File metadata controller function here, representing collection and data object catalog info and operations
  */
-angular.module('fileMetadata', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute'])
+angular.module('fileMetadata', ['globalsModule','httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute', 'fileModule',  'tagServiceModule'])
 
     /*
      * handle config of routes for home functions
@@ -18,7 +18,7 @@ angular.module('fileMetadata', ['httpInterceptorModule', 'angularTranslateApp', 
             controller: 'fileMetadataController',
             resolve: {
                 // do a listing
-                file: function ($route, fileService) {
+                fileData: function ($route, fileService) {
                     var path = $route.current.params.path;
                     if (path == null) {
                         path = "/";
@@ -29,9 +29,9 @@ angular.module('fileMetadata', ['httpInterceptorModule', 'angularTranslateApp', 
         });
     })
 
-    .controller('fileMetadataController', ['$scope', 'fileService', 'fileMetadataService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', function ($scope, fileService, fileMetadataService, $translate, $log, $http, $location, $messageCenterService, file) {
+    .controller('fileMetadataController', ['$scope', 'fileService', 'fileMetadataService', '$translate', '$log', '$http', '$location', 'messageCenterService','fileData',function ($scope, fileService, fileMetadataService, $translate, $log, $http, $location, $messageCenterService, fileData) {
 
-        $scope.file = file;
+        $scope.file = fileData;
         $scope.metadataTab = true;
 
 

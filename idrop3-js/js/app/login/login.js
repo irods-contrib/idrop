@@ -8,7 +8,7 @@
  */
 
 
-angular.module('login', [ 'httpInterceptorModule', 'angularTranslateApp', 'userServiceModule', 'MessageCenterModule'])
+angular.module('login', [ 'globalsModule','httpInterceptorModule', 'angularTranslateApp', 'userServiceModule', 'MessageCenterModule'])
 
 
     .config(function () {

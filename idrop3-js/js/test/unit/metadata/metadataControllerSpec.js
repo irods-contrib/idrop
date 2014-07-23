@@ -2,12 +2,9 @@
  *
  */
 
-/**
- * temporarily turned off until I can get around missing route providcer error
- */
 describe("Tests of the metadata controller", function () {
 
-    var $http, $httpBackend, $log, $translate, ctrlScope, controller, rootScope, $q, controllerFactory, $routeProvider;
+    var $http, $httpBackend, $log, $translate, ctrlScope, controller, rootScope, $q, controllerFactory, $route, $location;
     beforeEach(module('fileMetadata'));
 
 
@@ -18,7 +15,7 @@ describe("Tests of the metadata controller", function () {
      */
 
 
-    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_, _$translate_, _$rootScope_, $controller, _$q_, _$routeProvider_) {
+    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_, _$translate_, _$rootScope_, $controller, _$q_, _$route_, _$location_) {
         $http = _$http_;
         $log = _$log_;
         $httpBackend = _$httpBackend_;
@@ -27,7 +24,8 @@ describe("Tests of the metadata controller", function () {
         rootScope = _$rootScope_;
         $q = _$q_;
         controllerFactory = $controller;
-        $routeProvider = _$routeProvider_;
+        $route = _$route_;
+        $location = _$location_;
         mockMetadataService = {
             /* listUserVirtualCollections: function () {
              var deferred = $q.defer();
@@ -36,17 +34,36 @@ describe("Tests of the metadata controller", function () {
              }*/
         };
 
-        controller = $controller('metadataController', { $scope: ctrlScope, metadataService: mockMetadataService });
+        mockFileService = {
+
+        };
+
+        mockTagService = {
+
+        };
+
+        mockFileData = {};
+
+        controller = $controller('fileMetadataController', { $scope: ctrlScope, metadataService: mockMetadataService, fileService:mockFileService, tagService:mockTagService, fileData:mockFileData});
 
     }));
 
 
-    it("metadataController should init dataProfile", function () {
+    /*
+    for inspiration, see http://stackoverflow.com/questions/17963717/can-we-write-unit-test-for-angularjs-routeprovider
+    Need a better way to test route behavior, prob as midway or e2e type test
+    see dev notes for some links
+     */
+
+    it("fileMetadataController should init dataProfile", function () {
+
+        $httpBackend.whenGET('file/?path=%2F').respond(mockFileData);  //TODO: this looks funny..mc
+        $httpBackend.whenGET('assets/file/metadata/file-metadata-master-angularjs.html').respond("");
 
     //    inject(function ($route, $location, $rootScope) {
             expect($route.current).toBeUndefined();
             $location.path('/file/metadata');
-            $rootScope.$digest();
+            rootScope.$digest();
 
             //expect($route.current.loadedTemplateUrl).toBe('app/users/user-list.tpl.html');
             expect($route.current.controller).toBe('fileMetadataController');
