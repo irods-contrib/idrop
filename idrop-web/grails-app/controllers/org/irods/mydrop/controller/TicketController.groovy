@@ -450,7 +450,7 @@ class TicketCommand {
 		expireTime(nullable:true)
 		ticketURL(nullable:true)
 		ticketURLWithLandingPage(nullable:true)
-		ticketString(nullable:true	)
+		ticketString(nullable:true)
 
 	}
 }

@@ -190,8 +190,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Startup exit to set visibility of components in iDrop GUI at startup.
-     * Here is where the initial visible status of components can be specified.
+     * Startup exit to set visibility of components in iDrop GUI at startup. Here is where the
+     * initial visible status of components can be specified.
      */
     private void setVisibleComponentsAtStartup() {
     }
@@ -251,8 +251,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
 
             /**
-             * A tree has not been previously loaded, establish the root (strict
-             * ACLs? Login preset?)
+             * A tree has not been previously loaded, establish the root (strict ACLs? Login
+             * preset?)
              */
             private void loadNewTree() throws JargonException, IdropException {
                 IRODSOutlineModel mdl;
@@ -299,14 +299,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     } else {
                         MessageManager
                                 .showError(irodsTree,
-                                "Invalid path, attempting to set tree root back to root");
+                                        "Invalid path, attempting to set tree root back to root");
                         gui.getiDropCore().setBasePath("/");
                         loadNewTree();
                     }
                 }
             }
 
-           
             /**
              * A tree already exists so use the current information to reload
              */
@@ -343,9 +342,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                                 .getUserObject();
                         irodsNode = (IRODSNode) TreeUtils
                                 .buildTreePathForIrodsAbsolutePath(
-                                irodsTree,
-                                expandedEntry
-                                .getFormattedAbsolutePath())
+                                        irodsTree,
+                                        expandedEntry
+                                        .getFormattedAbsolutePath())
                                 .getLastPathComponent();
                         irodsNode.getChildCount();
                         TreePath pathInNew = TreeUtils.getPath(irodsNode);
@@ -364,8 +363,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Method to clear any cached values when an account changes. Some data is
-     * cached and lazily loaded. Rebuilds gui state for new grid.
+     * Method to clear any cached values when an account changes. Some data is cached and lazily
+     * loaded. Rebuilds gui state for new grid.
      */
     public void reinitializeForChangedIRODSAccount() {
         log.info("clearing any cached data associated with the account");
@@ -383,9 +382,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Builds the system tray menu and installs the iDrop icon in the system
-     * tray. The iDrop GUI is displayed when the iDrop menu item is selected
-     * from the system tray
+     * Builds the system tray menu and installs the iDrop icon in the system tray. The iDrop GUI is
+     * displayed when the iDrop menu item is selected from the system tray
      */
     protected void createAndShowSystemTray() {
         if (!SystemTray.isSupported()) {
@@ -432,14 +430,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         /*
          * See if I am in a paused state
          */
-
         // FIXME: conveyor
 		/*
          * if (this.getiDropCore().getTransferManager().getRunningStatus() ==
          * TransferManager.RunningStatus.PAUSED) {
          * this.setTransferStatePaused(); }
          */
-
         logoutItem.addActionListener(this);
         pausedItem.addItemListener(this);
         aboutItem.addActionListener(this);
@@ -467,8 +463,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Returns an ImageIcon, or null if the path was invalid. FIXME: move to
-     * static util
+     * Returns an ImageIcon, or null if the path was invalid. FIXME: move to static util
      */
     protected static Image createImage(final String path,
             final String description) {
@@ -485,8 +480,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * Get the current iRODS login account.
      *
-     * @return <code>IRODSAccount</code> with the current iRODS connection
-     * information.
+     * @return <code>IRODSAccount</code> with the current iRODS connection information.
      */
     public IRODSAccount getIrodsAccount() {
         synchronized (this) {
@@ -497,8 +491,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * Set the current connection information.
      *
-     * @return <code>IRODSAccount</code> with the current iRODS connection
-     * information.
+     * @return <code>IRODSAccount</code> with the current iRODS connection information.
      */
     public void setIrodsAccount(final IRODSAccount irodsAccount) {
         synchronized (this) {
@@ -509,8 +502,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * Returns the current iRODS remote tree view component.
      *
-     * @return <code>JTree</code> visual representation of the remote iRODS
-     * resource
+     * @return <code>JTree</code> visual representation of the remote iRODS resource
      */
     public Outline getTreeStagingResource() {
         return irodsTree;
@@ -537,10 +529,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Set the account information in the gutter, including the available
-     * resources on the grid. Note that this method should be called in the
-     * context of a
-     * <code>Runnable</code>
+     * Set the account information in the gutter, including the available resources on the grid.
+     * Note that this method should be called in the context of a <code>Runnable</code>
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void setUpAccountGutter() {
@@ -553,7 +543,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         try {
             ResourceAO resourceAO = getiDropCore()
                     .getIRODSAccessObjectFactory().getResourceAO(
-                    getIrodsAccount());
+                            getIrodsAccount());
             log.info("getting a list of all resources in the zone");
             List<String> resources = new ArrayList<String>();
             resources.add("");
@@ -593,7 +583,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 throw new IdropRuntimeException("cannot obtain grid account for given iRODS account", ex);
             }
 
-
         }
 
         // if no base defined, see if there is a prese
@@ -621,11 +610,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     EnvironmentalInfoAO environmentalInfoAO = getiDropCore()
                             .getIRODSAccessObjectFactory()
                             .getEnvironmentalInfoAO(
-                            getiDropCore().irodsAccount());
+                                    getiDropCore().irodsAccount());
 
                     // overhead for [#1362] apparent start-up errors idrop
                     // checking for strict acls
-
                     boolean isStrict = false;
 
                     try {
@@ -634,9 +622,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         log.error("error checking is strict, warn and set to false");
                         MessageUtil
                                 .showWarning(
-                                this,
-                                "Error checking if strict ACLS, assuming not strict",
-                                "");
+                                        this,
+                                        "Error checking if strict ACLS, assuming not strict",
+                                        "");
                     }
 
                     log.info("is strict?:{}", isStrict);
@@ -644,7 +632,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     if (isStrict) {
                         myBase = MiscIRODSUtils
                                 .computeHomeDirectoryForIRODSAccount(iDropCore
-                                .irodsAccount());
+                                        .irodsAccount());
                     } else {
                         myBase = "/";
                     }
@@ -658,11 +646,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Get the JTree component that represents the iRODS file system in the
-     * iDrop gui.
+     * Get the JTree component that represents the iRODS file system in the iDrop gui.
      *
-     * @return <code>IRODSTree</code> that is the JTree component for the iRODS
-     * file system view.
+     * @return <code>IRODSTree</code> that is the JTree component for the iRODS file system view.
      */
     public IRODSTree getIrodsTree() {
         return irodsTree;
@@ -679,7 +665,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
          * display an additional panel listing the other roots, and build the
          * tree for the first drive encountered.
          */
-
         if (fileTree != null) {
             log.info("file tree already initialized");
             return;
@@ -696,20 +681,20 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 fileTree = new LocalFileTree(localFileModel, gui);
                 listLocalDrives.getSelectionModel().addListSelectionListener(
                         new ListSelectionListener() {
-                    @Override
-                    public void valueChanged(final ListSelectionEvent e) {
-                        if (e.getValueIsAdjusting()) {
-                            return;
-                        }
+                            @Override
+                            public void valueChanged(final ListSelectionEvent e) {
+                                if (e.getValueIsAdjusting()) {
+                                    return;
+                                }
 
-                        log.debug("new local file system model");
-                        log.debug("selection event:{}", e);
-                        Object selectedItem = listLocalDrives
+                                log.debug("new local file system model");
+                                log.debug("selection event:{}", e);
+                                Object selectedItem = listLocalDrives
                                 .getSelectedValue();
-                        initializeLocalFileTreeModelWhenDriveIsSelected(selectedItem);
+                                initializeLocalFileTreeModelWhenDriveIsSelected(selectedItem);
 
-                    }
-                });
+                            }
+                        });
                 scrollLocalFileTree.setViewportView(fileTree);
                 pnlLocalTreeArea.add(scrollLocalFileTree,
                         java.awt.BorderLayout.CENTER);
@@ -928,8 +913,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void shutdownWithConfirmation() {
         int result = JOptionPane
                 .showConfirmDialog(this, "Shut down iDrop?",
-                "Do you want to shut down iDrop?",
-                JOptionPane.OK_CANCEL_OPTION);
+                        "Do you want to shut down iDrop?",
+                        JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             shutdown();
         }
@@ -1032,7 +1017,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
                         .getValueAt(idx, 0);
 
-
                 if (selectedNode == null) {
                     return;
                 }
@@ -1057,8 +1041,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * A transfer confirm dialog
      *
-     * @param sourcePath <code>String</code> with the source path of the
-     * transfer
+     * @param sourcePath <code>String</code> with the source path of the transfer
      * @param targetPath <code>String</code> with the target of the transfer
      * @return <code>int</code> with the dialog user response.
      */
@@ -1108,7 +1091,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
                     progressIntraFile.setString(FieldFormatHelper
                             .formatByteProgress(ts.getTotalSize(),
-                            ts.getBytesTransfered(), 0));
+                                    ts.getBytesTransfered(), 0));
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_START_FILE) {
 
@@ -1121,10 +1104,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                             .getSourceFileAbsolutePath()));
                     transferStatusProgressBar.setString(FieldFormatHelper
                             .formatFileProgress(ts.getTotalFilesToTransfer(),
-                            ts.getTotalFilesTransferredSoFar(), 0));
+                                    ts.getTotalFilesTransferredSoFar(), 0));
                     progressIntraFile.setString(FieldFormatHelper
                             .formatByteProgress(ts.getTotalSize(),
-                            ts.getBytesTransfered(), 0));
+                                    ts.getBytesTransfered(), 0));
 
                 } else if (ts.getTransferState() == TransferStatus.TransferState.IN_PROGRESS_COMPLETE_FILE) {
 
@@ -1136,10 +1119,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                             .getTotalFilesTransferredSoFar());
                     transferStatusProgressBar.setString(FieldFormatHelper
                             .formatFileProgress(ts.getTotalFilesToTransfer(),
-                            ts.getTotalFilesTransferredSoFar(), 0));
+                                    ts.getTotalFilesTransferredSoFar(), 0));
                     progressIntraFile.setString(FieldFormatHelper
                             .formatByteProgress(ts.getTotalSize(),
-                            ts.getBytesTransfered(), 0));
+                                    ts.getBytesTransfered(), 0));
 
                 } else {
 
@@ -1149,10 +1132,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                             .getTotalFilesTransferredSoFar());
                     transferStatusProgressBar.setString(FieldFormatHelper
                             .formatFileProgress(ts.getTotalFilesToTransfer(),
-                            ts.getTotalFilesTransferredSoFar(), 0));
+                                    ts.getTotalFilesTransferredSoFar(), 0));
                     progressIntraFile.setString(FieldFormatHelper
                             .formatByteProgress(ts.getTotalSize(),
-                            ts.getBytesTransfered(), 0));
+                                    ts.getBytesTransfered(), 0));
                     lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts
                             .getSourceFileAbsolutePath()));
                 }
@@ -1177,8 +1160,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Implementation of transfer manager callback. The overall status callback
-     * represents the start and completion of a transfer operation
+     * Implementation of transfer manager callback. The overall status callback represents the start
+     * and completion of a transfer operation
      *
      * @param ts
      */
@@ -1197,10 +1180,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         || ts.getTransferState() == TransferStatus.TransferState.SYNCH_INITIALIZATION) {
                     transferStatusProgressBar.setString(FieldFormatHelper
                             .formatFileProgress(ts.getTotalFilesToTransfer(),
-                            ts.getTotalFilesTransferredSoFar(), 0));
+                                    ts.getTotalFilesTransferredSoFar(), 0));
                     progressIntraFile.setString(FieldFormatHelper
                             .formatByteProgress(ts.getTotalSize(),
-                            ts.getBytesTransfered(), 0));
+                                    ts.getBytesTransfered(), 0));
                     idropGui.setUpTransferPanel(true);
                 } else if (ts.getTransferState() == TransferStatus.TransferState.OVERALL_COMPLETION
                         || ts.getTransferState() == TransferStatus.TransferState.SYNCH_COMPLETION) {
@@ -1221,7 +1204,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         LocalFileSystemModel localFileSystemModel = (LocalFileSystemModel) idropGui.getFileTree()
                                 .getModel();
 
-
                         if (localFileSystemModel != null) {
                             localFileSystemModel.notifyCompletionOfOperation(
                                     idropGui.getFileTree(), ts);
@@ -1237,7 +1219,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     if (ts.getTransferZone().equals(
                             iDropCore.irodsAccount().getZone())
                             && ts.getTransferHost().equals(
-                            iDropCore.irodsAccount().getHost())) {
+                                    iDropCore.irodsAccount().getHost())) {
                         try {
                             // should leave PUT, and COPY
                             irodsTreeModel.notifyCompletionOfOperation(
@@ -1263,10 +1245,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     lblTransferType.setText(ts.getTransferType().name());
                     transferStatusProgressBar.setString(FieldFormatHelper
                             .formatFileProgress(ts.getTotalFilesToTransfer(),
-                            ts.getTotalFilesTransferredSoFar(), 0));
+                                    ts.getTotalFilesTransferredSoFar(), 0));
                     progressIntraFile.setString(FieldFormatHelper
                             .formatByteProgress(ts.getTotalSize(),
-                            ts.getBytesTransfered(), 0));
+                                    ts.getBytesTransfered(), 0));
                     lblCurrentFile.setText(IDropUtils.abbreviateFileName(ts
                             .getSourceFileAbsolutePath()));
                     transferStatusProgressBar.setMinimum(0);
@@ -1335,8 +1317,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Callback from conveyor framework with current running and error status of
-     * the transfer queue
+     * Callback from conveyor framework with current running and error status of the transfer queue
      *
      * @param qs {@link QueueStatus}
      */
@@ -1352,9 +1333,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Callback from conveyor framework indicating that the conveyor transfer
-     * manager cannot operate and manage the state of transfers, this is really
-     * a fatal condition.
+     * Callback from conveyor framework indicating that the conveyor transfer manager cannot operate
+     * and manage the state of transfers, this is really a fatal condition.
      *
      * @param excptn
      */
@@ -1366,9 +1346,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+     * modify this code. The content of this method is always regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed"
@@ -2035,7 +2014,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void btnMainToolbarRefreshActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarRefreshActionPerformed
         buildTargetTree(false);
-         reloadExistingLocalTree();
+        reloadExistingLocalTree();
     }// GEN-LAST:event_btnMainToolbarRefreshActionPerformed
 
     private void btnMainToolbarDeleteActionPerformed(
@@ -2075,13 +2054,19 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void btnMainToolbarUploadActionPerformed(
             final java.awt.event.ActionEvent evt) {
 
-        UploadDialog uploadDialog = new UploadDialog(this, true,
-                getIrodsTree(), getFileTree());
+        try {
+            UploadDialog uploadDialog = new UploadDialog(this, true,
+                    getIrodsTree(), getFileTree(), getFileTree().listSelectedPathsInTree());
 
-        uploadDialog.setLocation(
-                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
-                .getLocation().getY() + getHeight() / 2));
-        uploadDialog.setVisible(true);
+            uploadDialog.setLocation(
+                    (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
+                    .getLocation().getY() + getHeight() / 2));
+            uploadDialog.setVisible(true);
+        } catch (IdropException ide) {
+            log.error("IdropException building upload dialog", ide);
+            MessageManager.showError(this, ide.getMessage());
+            throw new IdropRuntimeException("Error generating upload dialog", ide);
+        }
 
     }
 
@@ -2201,48 +2186,46 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     "Please select a parent folder in the tree");
         }
     }// GEN-LAST:event_btnNewFolderActionPerformed
-    
-     /**
-             * A tree already exists so use the current information to reload
-             */
-            private void reloadExistingLocalTree()  {
 
-                if (fileTree == null) {
-                    log.warn("null file tree - ignored when refreshing");
-                    return;
+    /**
+     * A tree already exists so use the current information to reload
+     */
+    private void reloadExistingLocalTree() {
+
+        if (fileTree == null) {
+            log.warn("null file tree - ignored when refreshing");
+            return;
+        }
+
+        final TreePath rootPath = fileTree.getPathForRow(0);
+        final Enumeration<TreePath> currentPaths = fileTree.getExpandedDescendants(rootPath);
+        log.debug("expanded local tree node, paths are:{}", currentPaths);
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // keep track of the currently selected drive
+                    Object selectedDrive = listLocalDrives.getSelectedValue();
+                    initializeLocalFileTreeModel(selectedDrive);
+                    fileTree.setModel(localFileModel);
+
+                    // re-expand the tree paths that are currently expanded
+                    final Enumeration<TreePath> pathsToExpand = currentPaths;
+                    fileTree.expandTreeNodesBasedOnListOfPreviouslyExpandedNodes(pathsToExpand);
+                } catch (IdropException ex) {
+                    Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                    throw new IdropRuntimeException(
+                            "exception expanding tree nodes", ex);
                 }
 
-                final TreePath rootPath = fileTree.getPathForRow(0);
-                final Enumeration<TreePath> currentPaths = fileTree.getExpandedDescendants(rootPath);
-                log.debug("expanded local tree node, paths are:{}", currentPaths);
-
-                java.awt.EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            // keep track of the currently selected drive
-                            Object selectedDrive = listLocalDrives.getSelectedValue();
-                            initializeLocalFileTreeModel(selectedDrive);
-                            fileTree.setModel(localFileModel);
-
-                            // re-expand the tree paths that are currently expanded
-                            final Enumeration<TreePath> pathsToExpand = currentPaths;
-                            fileTree.expandTreeNodesBasedOnListOfPreviouslyExpandedNodes(pathsToExpand);
-                        } catch (IdropException ex) {
-                            Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
-                                    null, ex);
-                            throw new IdropRuntimeException(
-                                    "exception expanding tree nodes", ex);
-                        }
-
-                    }
-                });
-
             }
+        });
 
-    
-    
-    
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMainToolbarCopy;
     private javax.swing.JButton btnMainToolbarDelete;
