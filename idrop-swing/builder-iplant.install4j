@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="5.1.12" transformSequenceNumber="4">
-  <directoryPresets config="C:/Users/Mike/Documents/workspace-release-github/idrop/idrop-swing/target/generated-installers" />
-  <application name="iDrop Transfer Manager" distributionSourceDir="" applicationId="2146-4545-1213-3321" mediaDir="C:/Users/Mike/Documents/workspace-release-github/idrop/idrop-swing/target/generated-installers" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="iDrop" publisher="DICE" publisherWeb="http://www.irods.org" version="2.0.1-beta3" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.6" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+  <directoryPresets config="/Users/mikeconway/Documents/workspace-release/idrop/idrop-swing/target/installers" />
+  <application name="iDrop Transfer Manager - iPlant Edition" distributionSourceDir="" applicationId="2252-9869-1942-6314" mediaDir="/Users/mikeconway/Documents/workspace-release/idrop/idrop-swing/target/installers/iplant" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="iDrop" publisher="DICE" publisherWeb="http://www.irods.org" version="2.0.1-beta3" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.6" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="false" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages />
@@ -18,8 +18,15 @@
   <files keepModificationTimes="false" missingFilesStrategy="warn" globalExcludeSuffixes="" defaultOverwriteMode="4" defaultUninstallMode="0" launcherOverwriteMode="3" defaultFileMode="644" defaultDirMode="755">
     <filesets />
     <roots />
-    <mountPoints />
-    <entries />
+    <mountPoints>
+      <mountPoint id="22" root="" location="" mode="755" />
+    </mountPoints>
+    <entries>
+      <dirEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-release/idrop/idrop-swing/target/dependency" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="dependency" excludeSuffixes="" dirMode="755" overrideDirMode="false">
+        <exclude />
+      </dirEntry>
+      <fileEntry mountPoint="22" file="/Users/mikeconway/Documents/workspace-release/idrop/idrop-swing/target/idrop-swing-2.0.1-SNAPSHOT.jar" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" />
+    </entries>
     <components />
   </files>
   <launchers>
