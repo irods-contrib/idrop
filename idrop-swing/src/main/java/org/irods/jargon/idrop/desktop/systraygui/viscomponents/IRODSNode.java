@@ -13,6 +13,7 @@ import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.idrop.desktop.systraygui.IRODSTreeContainingComponent;
+import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.exceptions.IdropException;
 import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
@@ -101,6 +102,8 @@ public class IRODSNode extends DefaultMutableTreeNode {
 			CollectionAndDataObjectListAndSearchAO collectionAO = irodsFileSystem
 					.getIRODSAccessObjectFactory()
 					.getCollectionAndDataObjectListAndSearchAO(irodsAccount);
+                     
+                        
 			List<CollectionAndDataObjectListingEntry> childCache = collectionAO
 					.listDataObjectsAndCollectionsUnderPath(parentObject
 							.getFormattedAbsolutePath());
