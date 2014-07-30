@@ -237,28 +237,19 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     }
                 });
 
-                IRODSTree myIrodsTree = null;
+                IRODSTree myIrodsTree = gui.getIrodsTree();
+                boolean reload = false;
 
                 try {
-
-                    if (gui.getIrodsTree() != null) {
-                        if (reset) {
-                            myIrodsTree = loadNewTree(gui);
-                        } else {
-                            myIrodsTree = reloadExistingTree(gui, myIrodsTree);
-                        }
-                    } else {
+                    if (reset || myIrodsTree == null) {
                         myIrodsTree = loadNewTree(gui);
+                    } else {
+                        myIrodsTree = reloadExistingTree(gui, myIrodsTree);
+                        reload = true;
                     }
 
-                    final IRODSTree createdTree = myIrodsTree;
-
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            scrollIrodsTree.setViewportView(createdTree);
-
-                        }
-                    });
+                    gui.setIrodsTree(myIrodsTree);                  
+                    return myIrodsTree;
 
                 } catch (Exception ex) {
                     Logger.getLogger(iDrop.class.getName()).log(Level.SEVERE,
@@ -277,8 +268,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     });
 
                 }
-                gui.setIrodsTree(myIrodsTree);
-                return myIrodsTree;
 
             }
 
@@ -288,7 +277,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
              */
             private IRODSTree loadNewTree(iDrop gui) throws JargonException, IdropException {
                 IRODSOutlineModel mdl;
-                IRODSTree myIrodsTree;
+                final IRODSTree myIrodsTree;
                 CollectionAndDataObjectListingEntry root = new CollectionAndDataObjectListingEntry();
                 String basePath = gui.getBasePath();
                 log.info("base path set to:{}", basePath);
@@ -316,6 +305,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     mdl = new IRODSOutlineModel(gui, irodsFileSystemModel,
                             new IRODSRowModel(), true, "File System");
                     myIrodsTree.setModel(mdl);
+                     SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            
+                            
+                            
+                            scrollIrodsTree.setViewportView(myIrodsTree);
+
+                        }
+                    });
                 } catch (IdropException ie) {
                     log.error(
                             "exception loading new tree",
@@ -326,6 +324,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                             "Unable to set base path of tree", ie);
                 }
 
+                
+                   
                 return myIrodsTree;
             }
 
@@ -340,6 +340,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     getiDropCore().setBasePath(null);
                     return loadNewTree(gui);
                 }
+                
+                  SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                             scrollIrodsTree.getViewport().removeAll();
+                            
+                        }
+                  });
 
                 Object root = myIrodsTree.getOutlineModel().getRoot();
 
@@ -353,15 +360,17 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
                 log.debug("current tree root:{}", currentRoot);
                 TreePath rootPath = TreeUtils.getPath(currentRoot);
-                TreePath[] currentPaths = irodsTree.getOutlineModel()
+                final TreePath[] currentPaths = irodsTree.getOutlineModel()
                         .getTreePathSupport().getExpandedDescendants(rootPath);
                 log.info("expanded paths:{}", currentPaths);
-                irodsTree.getSelectionModel().getMinSelectionIndex();
-                irodsTree.getSelectionModel().getMaxSelectionIndex();
-                scrollIrodsTree.getViewport().removeAll();
-
+                myIrodsTree.getSelectionModel().getMinSelectionIndex();
+                myIrodsTree.getSelectionModel().getMaxSelectionIndex();
+               
                 myIrodsTree = loadNewTree(gui);
-                irodsTree.getSelectionModel().setSelectionInterval(0, 0);
+                myIrodsTree.getSelectionModel().setSelectionInterval(0, 0);
+                
+                
+                
                 if (currentPaths != null) {
 
                     IRODSNode irodsNode = null;
@@ -373,7 +382,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                                 .getUserObject();
                         irodsNode = (IRODSNode) TreeUtils
                                 .buildTreePathForIrodsAbsolutePath(
-                                        irodsTree,
+                                        myIrodsTree,
                                         expandedEntry
                                         .getFormattedAbsolutePath())
                                 .getLastPathComponent();
@@ -381,14 +390,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         TreePath pathInNew = TreeUtils.getPath(irodsNode);
                         myIrodsTree.collapsePath(pathInNew);
                         myIrodsTree.expandPath(pathInNew);
-                        java.awt.Rectangle rect = myIrodsTree
-                                .getPathBounds(treePath);
-                        if (rect != null) {
-                            myIrodsTree.scrollRectToVisible(rect);
-
-                        }
+                       
                     }
                 }
+                
+                
 
                 return myIrodsTree;
 
