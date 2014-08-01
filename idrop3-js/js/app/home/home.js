@@ -163,6 +163,23 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         };
 
         /**
+         * Get the breadcrumbs from the pagingAwareCollectionListing in the scope.  This updates the path
+         * in the global scope breadcrmubsService.  I don't know if that's the best way, but gotta get it somehow.
+         * Someday when I'm better at angualar we can do this differently.
+         */
+        $scope.getBreadcrumbPaths = function () {
+
+            if (!$scope.pagingAwareCollectionListing) {
+                return [];
+            }
+
+            breadcrumbsService.setCurrentAbsolutePath($scope.pagingAwareCollectionListing.parentAbsolutePath);
+            return breadcrumbsService.getWholePathComponents();
+
+        };
+
+
+        /**
          * Cause the collections panel on the left to be hidden
          */
         $scope.hideCollections = function () {

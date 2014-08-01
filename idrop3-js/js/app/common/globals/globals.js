@@ -73,7 +73,7 @@ angular.module('globalsModule', [])
         bc.setCurrentAbsolutePath = function (pathIn) {
 
             if (!pathIn) {
-               clear();
+               this.clear();
                 return;
             }
 

@@ -20,9 +20,9 @@
                         <span class="glyphicon    {{selectedVc.data.i18icon | vcIcon}}"></span>
                         {{selectedVc.data.uniqueName}}
                     </button>
-                    <span ng-repeat="breadcrumb in pagingAwareCollectionListing.pathComponents  track by $id(breadcrumb + $index)">
+                    <span ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
                     <button ng-hide="$first"
-                            ng-click="goToBreadcrumb($index,pagingAwareCollectionListing.pathComponents)" type="button"
+                            ng-click="goToBreadcrumb($index)" type="button"
                             class="btn btn-link">
                         <span>/ {{breadcrumb | abbreviateFileName}} </span>
                     </button>
