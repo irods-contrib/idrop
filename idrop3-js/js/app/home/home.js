@@ -6,7 +6,7 @@
 /*
  * Home controller function here
  */
-angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule', 'MessageCenterModule', 'CollectionsModule', 'ngRoute'])
+angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule', 'MessageCenterModule', 'CollectionsModule', 'ngRoute','globalsModule'])
 
     /*
      * handle config of routes for home functions
@@ -55,12 +55,11 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
     })
 
-    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing) {
+    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing','breadcrumbsService', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing,breadcrumbsService) {
 
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
         $scope.numberSelected = 0;
-        $scope.breadcrumbs = [];
         $scope.hideDrives = "false";
         $scope.selection = [];
 
@@ -108,38 +107,20 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
         };
 
-        $scope.goToBreadcrumb = function (index, path) {
+        /**
+         * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
+         * a view of that collection
+         * @param index
+         */
+        $scope.goToBreadcrumb = function (index) {
 
             if (!index) {
                 $log.error("cannot go to breadcrumb, no index");
                 return;
             }
 
-            if (!path) {
-                $log.error("no path components, cannot go to breadcrumb");
-                return;
-            }
-
-            // i know it's an array?
-
-            if (!path instanceof Array) {
-                return;
-            }
-
-            var totalPath = "";
-
-            for (var i = 0; i <= index; i++) {
-
-                // skip a blank path, which indicates an element that is a '/' for root, avoid double slashes
-                if (path[i]) {
-
-                    totalPath = totalPath + "/" + path[i];
-                }
-            }
-
-
             $location.path("/home/root");
-            $location.search("path", totalPath);
+            $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
 
         };
 

@@ -291,8 +291,14 @@ angular.module('globalsModule', [])
         var f = {};
 
 
+        /**
+         * Saved path in case an auth exception required a new login
+         * @type {null}
+         */
         f.lastPath = null;
         f.loggedInIdentity = null;
+
+
 
         /**
          * Saved path when a not authenticated occurred
@@ -329,7 +335,117 @@ angular.module('globalsModule', [])
 
         return f;
 
-})
+}).factory('breadcrumbsService',  function ($rootScope, $log) {
+
+        var bc = {};
+
+        /**
+         * Global representation of current file path for display
+         */
+        bc.currentAbsolutePath = null;
+        bc.pathComponents = [];
+
+
+        /**
+         * Set the current iRODS path and split into components for use in breadcrumbs
+         * @param pathIn
+         */
+        bc.setCurrentAbsolutePath = function (pathIn) {
+
+            if (!pathIn) {
+               clear();
+                return;
+            }
+
+            this.currentAbsolutePath = pathIn;
+            $log.info("path:" + pathIn);
+            this.pathComponents = this.pathToArray(pathIn);
+            $log.info("path components set:" + this.pathComponents);
+
+        }
+
+        /**
+         * Turn a path into
+         * @param pathIn
+         * @returns {*}
+         */
+        bc.pathToArray = function(pathIn)  {
+            if (!pathIn) {
+                $log.info("no pathin");
+                return [];
+            }
+
+            var array = pathIn.split("/");
+            $log.info("array orig is:" + array);
+            // first element may be blank because it's the root, so it'll be trimmed from the front
+
+            if (array.length == 0) {
+                return [];
+            }
+
+           array.shift();
+            return array;
+
+        }
+
+        /**
+         * given an index into the breadcrumbs, roll back and build an absolute path based on each element in the
+         * bread crumbs array
+         * @param index int wiht the index in the breadcrumbs that is the last part of the selected path
+         * @returns {string}
+         */
+        bc.buildPathUpToIndex = function(index) {
+
+            var path = this.getWholePathComponents();
+
+            if (!path) {
+                $log.error("no path components, cannot go to breadcrumb");
+                throw("cannot build path");
+            }
+
+            var totalPath = "";
+
+            for (var i = 0; i <= index; i++) {
+
+                // skip a blank path, which indicates an element that is a '/' for root, avoid double slashes
+                if (path[i]) {
+
+                    totalPath = totalPath + "/" + path[i];
+                }
+            }
+
+            $log.info("got total path:" + totalPath);
+            return totalPath;
+
+
+        }
+
+        /**
+         * Get all of the path components
+         * @returns {*}
+         */
+        bc.getWholePathComponents = function() {
+
+            if (!this.pathComponents) {
+                return [];
+            } else {
+                return this.pathComponents;
+            }
+
+        }
+
+
+        /**
+         * Reset path data
+         */
+        bc.clear = function() {
+            this.currentAbsolutePath = null;
+            this.pathComponents = [];
+        }
+
+        return bc;
+
+    })
 ;
 
 
@@ -711,7 +827,7 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
 /*
  * Home controller function here
  */
-angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule', 'MessageCenterModule', 'CollectionsModule', 'ngRoute'])
+angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtualCollectionsModule', 'MessageCenterModule', 'CollectionsModule', 'ngRoute','globalsModule'])
 
     /*
      * handle config of routes for home functions
@@ -760,12 +876,11 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
     })
 
-    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing) {
+    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing','breadcrumbsService', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing,breadcrumbsService) {
 
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
         $scope.numberSelected = 0;
-        $scope.breadcrumbs = [];
         $scope.hideDrives = "false";
         $scope.selection = [];
 
@@ -813,38 +928,20 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
         };
 
-        $scope.goToBreadcrumb = function (index, path) {
+        /**
+         * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
+         * a view of that collection
+         * @param index
+         */
+        $scope.goToBreadcrumb = function (index) {
 
             if (!index) {
                 $log.error("cannot go to breadcrumb, no index");
                 return;
             }
 
-            if (!path) {
-                $log.error("no path components, cannot go to breadcrumb");
-                return;
-            }
-
-            // i know it's an array?
-
-            if (!path instanceof Array) {
-                return;
-            }
-
-            var totalPath = "";
-
-            for (var i = 0; i <= index; i++) {
-
-                // skip a blank path, which indicates an element that is a '/' for root, avoid double slashes
-                if (path[i]) {
-
-                    totalPath = totalPath + "/" + path[i];
-                }
-            }
-
-
             $location.path("/home/root");
-            $location.search("path", totalPath);
+            $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
 
         };
 

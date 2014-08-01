@@ -42,3 +42,5 @@ notes on angular selects http://odetocode.com/blogs/scott/archive/2013/06/19/usi
 testing!!!  http://www.yearofmoo.com/2013/01/full-spectrum-testing-with-angularjs-and-karma.html
 
 setting up moo for midway testing: http://blogs.burnsidedigital.com/2013/07/setting-up-midway-testing-to-angularjs-app/
+
+best and clearest overview of testing services ever - http://nathanleclaire.com/blog/2014/04/12/unit-testing-services-in-angularjs-for-fun-and-for-profit/
