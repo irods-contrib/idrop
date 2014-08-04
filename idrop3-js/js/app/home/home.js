@@ -162,6 +162,13 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             $scope.hideDrives = "false";
         };
 
+        $scope.initiateAddDirectory = function() {
+            $log.info("initiateAddDirectory()");
+            $scope.newFolderAction=true;
+            //collectionAndDataObjectListingEntries.collectionAndDataObjectListingEntries.unshift("{newFolderAction:true}");
+
+        }
+
         /**
          * Get the breadcrumbs from the pagingAwareCollectionListing in the scope.  This updates the path
          * in the global scope breadcrmubsService.  I don't know if that's the best way, but gotta get it somehow.
