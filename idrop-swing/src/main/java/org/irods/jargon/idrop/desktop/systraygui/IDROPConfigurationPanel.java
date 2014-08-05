@@ -37,108 +37,107 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Tools/Preferences dialog to set preferences
- * 
+ *
  * @author mikeconway
  */
 public class IDROPConfigurationPanel extends javax.swing.JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 823534870414670793L;
-	private final IDROPCore idropCore;
-	private static final org.slf4j.Logger log = LoggerFactory
-			.getLogger(IDROPConfigurationPanel.class);
-	private final JTable jTableSynch = null;
-	private Synchronization selectedSynchronization = null;
-	private final DateFormat dateFormat = SimpleDateFormat
-			.getDateTimeInstance();
+    /**
+     *
+     */
+    private static final long serialVersionUID = 823534870414670793L;
+    private final IDROPCore idropCore;
+    private static final org.slf4j.Logger log = LoggerFactory
+            .getLogger(IDROPConfigurationPanel.class);
+    private final JTable jTableSynch = null;
+    private Synchronization selectedSynchronization = null;
+    private final DateFormat dateFormat = SimpleDateFormat
+            .getDateTimeInstance();
 
-	/**
-	 * Creates new form IDROPConfigurationPanel
-	 */
-	public IDROPConfigurationPanel(final java.awt.Frame parent,
-			final boolean modal, final IDROPCore idropCore) {
-		super(parent, modal);
-		this.idropCore = idropCore;
-		initComponents();
-		initWithConfigData();
-	}
+    /**
+     * Creates new form IDROPConfigurationPanel
+     */
+    public IDROPConfigurationPanel(final java.awt.Frame parent,
+            final boolean modal, final IDROPCore idropCore) {
+        super(parent, modal);
+        this.idropCore = idropCore;
+        initComponents();
+        initWithConfigData();
+    }
 
-	private boolean checkIfSynchChanged() throws IdropRuntimeException {
-		// compare data and update synch first if necessary
+    private boolean checkIfSynchChanged() throws IdropRuntimeException {
+        // compare data and update synch first if necessary
 
-		boolean areEqual = true;
+        boolean areEqual = true;
 
-		if (!selectedSynchronization.getLocalSynchDirectory().equals(
-				txtLocalPath.getText())) {
-			areEqual = false;
-		}
+        if (!selectedSynchronization.getLocalSynchDirectory().equals(
+                txtLocalPath.getText())) {
+            areEqual = false;
+        }
 
-		if (!selectedSynchronization.getName().equals(txtSynchName.getText())) {
-			areEqual = false;
-		}
+        if (!selectedSynchronization.getName().equals(txtSynchName.getText())) {
+            areEqual = false;
+        }
 
-		if (!selectedSynchronization.getIrodsSynchDirectory().equals(
-				txtIrodsPath.getText())) {
-			areEqual = false;
-		}
+        if (!selectedSynchronization.getIrodsSynchDirectory().equals(
+                txtIrodsPath.getText())) {
+            areEqual = false;
+        }
 
-		SynchronizationType currentSynchronizationType = getSynchTypeFromGUI();
+        SynchronizationType currentSynchronizationType = getSynchTypeFromGUI();
 
-		if (currentSynchronizationType != selectedSynchronization
-				.getSynchronizationMode()) {
-			areEqual = false;
-		}
+        if (currentSynchronizationType != selectedSynchronization
+                .getSynchronizationMode()) {
+            areEqual = false;
+        }
 
-		FrequencyType currentFrequencyType = null;
-		currentFrequencyType = getSynchFrequencyFromGUI();
+        FrequencyType currentFrequencyType = null;
+        currentFrequencyType = getSynchFrequencyFromGUI();
 
-		if (selectedSynchronization.getFrequencyType() != currentFrequencyType) {
-			areEqual = false;
-		}
+        if (selectedSynchronization.getFrequencyType() != currentFrequencyType) {
+            areEqual = false;
+        }
 
-		return areEqual;
-	}
+        return areEqual;
+    }
 
-	private FrequencyType getSynchFrequencyFromGUI() {
-		FrequencyType currentFrequencyType = null;
-		if (jcomboSynchFrequency.getSelectedIndex() == 0) {
-			currentFrequencyType = FrequencyType.EVERY_HOUR;
-		} else if (jcomboSynchFrequency.getSelectedIndex() == 1) {
-			currentFrequencyType = FrequencyType.EVERY_WEEK;
-		} else if (jcomboSynchFrequency.getSelectedIndex() == 2) {
-			currentFrequencyType = FrequencyType.EVERY_DAY;
-		} else if (jcomboSynchFrequency.getSelectedIndex() == 3) {
-			currentFrequencyType = FrequencyType.EVERY_TWO_MINUTES;
-		}
-		return currentFrequencyType;
-	}
+    private FrequencyType getSynchFrequencyFromGUI() {
+        FrequencyType currentFrequencyType = null;
+        if (jcomboSynchFrequency.getSelectedIndex() == 0) {
+            currentFrequencyType = FrequencyType.EVERY_HOUR;
+        } else if (jcomboSynchFrequency.getSelectedIndex() == 1) {
+            currentFrequencyType = FrequencyType.EVERY_WEEK;
+        } else if (jcomboSynchFrequency.getSelectedIndex() == 2) {
+            currentFrequencyType = FrequencyType.EVERY_DAY;
+        } else if (jcomboSynchFrequency.getSelectedIndex() == 3) {
+            currentFrequencyType = FrequencyType.EVERY_TWO_MINUTES;
+        }
+        return currentFrequencyType;
+    }
 
-	private SynchronizationType getSynchTypeFromGUI()
-			throws IdropRuntimeException {
-		SynchronizationType currentSynchronizationType;
-		if (radioBackup.isSelected()) {
-			currentSynchronizationType = SynchronizationType.ONE_WAY_LOCAL_TO_IRODS;
-		} else if (radioFeed.isSelected()) {
-			currentSynchronizationType = SynchronizationType.ONE_WAY_IRODS_TO_LOCAL;
-		} else if (radioSynch.isSelected()) {
-			currentSynchronizationType = SynchronizationType.BI_DIRECTIONAL;
-		} else {
-			log.error("unknown synchronization type in GUI");
-			throw new IdropRuntimeException(
-					"unknown synchroization type in GUI");
-		}
-		return currentSynchronizationType;
-	}
+    private SynchronizationType getSynchTypeFromGUI()
+            throws IdropRuntimeException {
+        SynchronizationType currentSynchronizationType;
+        if (radioBackup.isSelected()) {
+            currentSynchronizationType = SynchronizationType.ONE_WAY_LOCAL_TO_IRODS;
+        } else if (radioFeed.isSelected()) {
+            currentSynchronizationType = SynchronizationType.ONE_WAY_IRODS_TO_LOCAL;
+        } else if (radioSynch.isSelected()) {
+            currentSynchronizationType = SynchronizationType.BI_DIRECTIONAL;
+        } else {
+            log.error("unknown synchronization type in GUI");
+            throw new IdropRuntimeException(
+                    "unknown synchroization type in GUI");
+        }
+        return currentSynchronizationType;
+    }
 
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	// <editor-fold defaultstate="collapsed"
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+     * modify this code. The content of this method is always regenerated by the Form Editor.
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -477,7 +476,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlTop.setLayout(pnlTopLayout);
         pnlTopLayout.setHorizontalGroup(
             pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 1077, Short.MAX_VALUE)
+            .add(0, 1239, Short.MAX_VALUE)
         );
         pnlTopLayout.setVerticalGroup(
             pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -621,6 +620,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlConfigTransfers.add(pnlTransferManagement);
 
         tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlConfigTransfers.TabConstraints.tabTitle"), pnlConfigTransfers); // NOI18N
+
+        pnlPipelineConfiguration.setLayout(new java.awt.BorderLayout());
 
         plnPipelineConfigurationDetails.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.plnPipelineConfigurationDetails.border.title"))); // NOI18N
         plnPipelineConfigurationDetails.setLayout(new java.awt.GridBagLayout());
@@ -881,7 +882,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.gridy = 3;
         plnPipelineConfigurationDetails.add(btnApplyPipelineConfig, gridBagConstraints);
 
-        pnlPipelineConfiguration.add(plnPipelineConfigurationDetails);
+        pnlPipelineConfiguration.add(plnPipelineConfigurationDetails, java.awt.BorderLayout.CENTER);
 
         tabConfig.addTab(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlPipelineConfiguration.TabConstraints.tabTitle"), pnlPipelineConfiguration); // NOI18N
 
@@ -907,832 +908,829 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	/**
-	 * Refresh the displayed synch
-	 * 
-	 * @param evt
-	 */
-	private void btnRefreshSynchActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshSynchActionPerformed
-		refreshSynchConfigPanel();
-	}// GEN-LAST:event_btnRefreshSynchActionPerformed
+    /**
+     * Refresh the displayed synch
+     *
+     * @param evt
+     */
+    private void btnRefreshSynchActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRefreshSynchActionPerformed
+        refreshSynchConfigPanel();
+    }// GEN-LAST:event_btnRefreshSynchActionPerformed
 
-	private void checkShowFileProgressActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_checkShowFileProgressActionPerformed
-		//
-	}// GEN-LAST:event_checkShowFileProgressActionPerformed
+    private void checkShowFileProgressActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_checkShowFileProgressActionPerformed
+        //
+    }// GEN-LAST:event_checkShowFileProgressActionPerformed
 
-	private void checkShowGUIItemStateChanged(final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkShowGUIItemStateChanged
+    private void checkShowGUIItemStateChanged(final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkShowGUIItemStateChanged
 
-		boolean isSelected = false;
-		if (evt.getStateChange() == ItemEvent.SELECTED) {
-			isSelected = true;
-		}
-		log.info("updating show gui at startup to:{}", isSelected);
-		try {
-			idropCore.getIdropConfigurationService().updateConfig(
-					IdropConfigurationService.SHOW_GUI,
-					Boolean.toString(isSelected));
-		} catch (IdropException ex) {
-			log.error("error setting show gui property", ex);
-			throw new IdropRuntimeException(ex);
-		}
-	}// GEN-LAST:event_checkShowGUIItemStateChanged
+        boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating show gui at startup to:{}", isSelected);
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.SHOW_GUI,
+                    Boolean.toString(isSelected));
+        } catch (IdropException ex) {
+            log.error("error setting show gui property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }// GEN-LAST:event_checkShowGUIItemStateChanged
 
-	private void checkShowFileProgressItemStateChanged(
-			final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkShowFileProgressItemStateChanged
-		boolean isSelected = false;
-		if (evt.getStateChange() == ItemEvent.SELECTED) {
-			isSelected = true;
-		}
-		log.info("updating show intra-file progress to:{}", isSelected);
-		try {
-			idropCore.getIdropConfigurationService().updateConfig(
-					IdropConfigurationService.INTRA_FILE_STATUS_CALLBACKS,
-					Boolean.toString(isSelected));
-			idropCore.getIdropConfigurationService()
-					.updateJargonPropertiesBasedOnIDROPConfig();
-		} catch (Exception ex) {
-			log.error("error setting  property", ex);
-			throw new IdropRuntimeException(ex);
-		}
-	}// GEN-LAST:event_checkShowFileProgressItemStateChanged
+    private void checkShowFileProgressItemStateChanged(
+            final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkShowFileProgressItemStateChanged
+        boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating show intra-file progress to:{}", isSelected);
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.INTRA_FILE_STATUS_CALLBACKS,
+                    Boolean.toString(isSelected));
+            idropCore.getIdropConfigurationService()
+                    .updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }// GEN-LAST:event_checkShowFileProgressItemStateChanged
 
-	private void checkVerifyChecksumOnTransferItemStateChanged(
-			final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkVerifyChecksumOnTransferItemStateChanged
-		updateConfigForGivenPropertyBasedOnCheckboxStateChange(evt,
-				IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER);
-	}
+    private void checkVerifyChecksumOnTransferItemStateChanged(
+            final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkVerifyChecksumOnTransferItemStateChanged
+        updateConfigForGivenPropertyBasedOnCheckboxStateChange(evt,
+                IdropConfigurationService.VERIFY_CHECKSUM_ON_TRANSFER);
+    }
 
-	private void updateConfigForGivenPropertyBasedOnCheckboxStateChange(
-			final ItemEvent evt, final String propertyName)
-			throws IdropRuntimeException {
-		boolean isSelected = false;
-		if (evt.getStateChange() == ItemEvent.SELECTED) {
-			isSelected = true;
-		}
-		log.info("updating verify checksum to:{}", isSelected);
-		try {
-			idropCore.getIdropConfigurationService().updateConfig(propertyName,
-					Boolean.toString(isSelected));
-			idropCore.getIdropConfigurationService()
-					.updateJargonPropertiesBasedOnIDROPConfig();
-		} catch (Exception ex) {
-			log.error("error setting  property", ex);
-			throw new IdropRuntimeException(ex);
-		}
-	}// GEN-LAST:event_checkVerifyChecksumOnTransferItemStateChanged
+    private void updateConfigForGivenPropertyBasedOnCheckboxStateChange(
+            final ItemEvent evt, final String propertyName)
+            throws IdropRuntimeException {
+        boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating verify checksum to:{}", isSelected);
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(propertyName,
+                    Boolean.toString(isSelected));
+            idropCore.getIdropConfigurationService()
+                    .updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }// GEN-LAST:event_checkVerifyChecksumOnTransferItemStateChanged
 
-	private void checkLogSuccessfulTransferItemStateChanged(
-			final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkLogSuccessfulTransferItemStateChanged
+    private void checkLogSuccessfulTransferItemStateChanged(
+            final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkLogSuccessfulTransferItemStateChanged
 
-		updateConfigForGivenPropertyBasedOnCheckboxStateChange(
-				evt,
-				IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES);
-	}// GEN-LAST:event_checkLogSuccessfulTransferItemStateChanged
+        updateConfigForGivenPropertyBasedOnCheckboxStateChange(
+                evt,
+                IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES);
+    }// GEN-LAST:event_checkLogSuccessfulTransferItemStateChanged
 
-	private void checkUseExecutorPoolItemStateChanged(
-			final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkUseExecutorPoolItemStateChanged
-		updateConfigForGivenPropertyBasedOnCheckboxStateChange(evt,
-				IdropConfigurationService.IRODS_PARALLEL_USE_POOL);
-	}// GEN-LAST:event_checkUseExecutorPoolItemStateChanged
+    private void checkUseExecutorPoolItemStateChanged(
+            final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkUseExecutorPoolItemStateChanged
+        updateConfigForGivenPropertyBasedOnCheckboxStateChange(evt,
+                IdropConfigurationService.IRODS_PARALLEL_USE_POOL);
+    }// GEN-LAST:event_checkUseExecutorPoolItemStateChanged
 
-	private void checkAllowReroutingItemStateChanged(
-			final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkAllowReroutingItemStateChanged
-		boolean isSelected = false;
-		if (evt.getStateChange() == ItemEvent.SELECTED) {
-			isSelected = true;
-		}
-		log.info("updating allow rerouting to:{}", isSelected);
-		try {
-			idropCore.getIdropConfigurationService().updateConfig(
-					IdropConfigurationService.ALLOW_CONNECTION_REROUTING,
-					Boolean.toString(isSelected));
-			idropCore.getIdropConfigurationService()
-					.updateJargonPropertiesBasedOnIDROPConfig();
-		} catch (Exception ex) {
-			log.error("error setting  property", ex);
-			throw new IdropRuntimeException(ex);
-		}
-	}// GEN-LAST:event_checkAllowReroutingItemStateChanged
+    private void checkAllowReroutingItemStateChanged(
+            final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkAllowReroutingItemStateChanged
+        boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating allow rerouting to:{}", isSelected);
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.ALLOW_CONNECTION_REROUTING,
+                    Boolean.toString(isSelected));
+            idropCore.getIdropConfigurationService()
+                    .updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }// GEN-LAST:event_checkAllowReroutingItemStateChanged
 
-	private void resetTransferPipelineEditColors() {
-		txtInternalInputBufferSize.setBackground(Color.white);
-		txtInternalOutputBufferSize.setBackground(Color.white);
-		txtLocalFileInputBufferSize.setBackground(Color.white);
-		txtLocalFileOutputBufferSize.setBackground(Color.white);
-		txtGetBufferSize.setBackground(Color.white);
-		txtPutBufferSize.setBackground(Color.white);
-		txtInputToOutputCopyBufferSize.setBackground(Color.white);
-		txtInternalCacheBufferSize.setBackground(Color.white);
-	}
+    private void resetTransferPipelineEditColors() {
+        txtInternalInputBufferSize.setBackground(Color.white);
+        txtInternalOutputBufferSize.setBackground(Color.white);
+        txtLocalFileInputBufferSize.setBackground(Color.white);
+        txtLocalFileOutputBufferSize.setBackground(Color.white);
+        txtGetBufferSize.setBackground(Color.white);
+        txtPutBufferSize.setBackground(Color.white);
+        txtInputToOutputCopyBufferSize.setBackground(Color.white);
+        txtInternalCacheBufferSize.setBackground(Color.white);
+    }
 
-	/**
-	 * Update the pipeline configuration information properties based on the
-	 * screen data
-	 * 
-	 * @param evt
-	 */
-	private void btnApplyPipelineConfigActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnApplyPipelineConfigActionPerformed
-		try {
+    /**
+     * Update the pipeline configuration information properties based on the screen data
+     *
+     * @param evt
+     */
+    private void btnApplyPipelineConfigActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnApplyPipelineConfigActionPerformed
+        try {
 
-			resetTransferPipelineEditColors();
+            resetTransferPipelineEditColors();
 			// edit and set
 
-			// internal input buffer size
-			String actual = txtInternalInputBufferSize.getText();
-			if (actual.isEmpty()) {
-			} else {
-				try {
-					Integer.parseInt(actual);
-					idropCore
-							.getIdropConfigurationService()
-							.updateConfig(
-									IdropConfigurationService.IRODS_IO_INTERNAL_INPUT_STREAM_BUFFER_SIZE,
-									actual);
-				} catch (NumberFormatException nfe) {
-					txtInternalInputBufferSize.setBackground(Color.red);
-					MessageManager.showWarning(this,
-							"Invalid internal input buffer size",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
-			}
+            // internal input buffer size
+            String actual = txtInternalInputBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_INTERNAL_INPUT_STREAM_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtInternalInputBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid internal input buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
 
-			// internal output buffer size
-			actual = txtInternalOutputBufferSize.getText();
-			if (actual.isEmpty()) {
-			} else {
-				try {
-					Integer.parseInt(actual);
-					idropCore
-							.getIdropConfigurationService()
-							.updateConfig(
-									IdropConfigurationService.IRODS_IO_INTERNAL_OUTPUT_STREAM_BUFFER_SIZE,
-									actual);
-				} catch (NumberFormatException nfe) {
-					txtInternalOutputBufferSize.setBackground(Color.red);
-					MessageManager.showWarning(this,
-							"Invalid internal output buffer size",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
-			}
+            // internal output buffer size
+            actual = txtInternalOutputBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_INTERNAL_OUTPUT_STREAM_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtInternalOutputBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid internal output buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
 
-			// local file input buffer size
-			actual = txtLocalFileInputBufferSize.getText();
-			if (actual.isEmpty()) {
-			} else {
-				try {
-					Integer.parseInt(actual);
-					idropCore
-							.getIdropConfigurationService()
-							.updateConfig(
-									IdropConfigurationService.IRODS_IO_LOCAL_INPUT_STREAM_BUFFER_SIZE,
-									actual);
-				} catch (NumberFormatException nfe) {
-					txtLocalFileInputBufferSize.setBackground(Color.red);
-					MessageManager.showWarning(this,
-							"Invalid local file input buffer size",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
-			}
+            // local file input buffer size
+            actual = txtLocalFileInputBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_LOCAL_INPUT_STREAM_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtLocalFileInputBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid local file input buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
 
-			// local file output buffer size
-			actual = txtLocalFileOutputBufferSize.getText();
-			if (actual.isEmpty()) {
-			} else {
-				try {
-					Integer.parseInt(actual);
-					idropCore
-							.getIdropConfigurationService()
-							.updateConfig(
-									IdropConfigurationService.IRODS_IO_LOCAL_OUTPUT_STREAM_BUFFER_SIZE,
-									actual);
-				} catch (NumberFormatException nfe) {
-					txtLocalFileOutputBufferSize.setBackground(Color.red);
-					MessageManager.showWarning(this,
-							"Invalid local file output buffer size",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
-			}
+            // local file output buffer size
+            actual = txtLocalFileOutputBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_LOCAL_OUTPUT_STREAM_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtLocalFileOutputBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid local file output buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
 
-			// get buffer size
-			actual = txtGetBufferSize.getText();
-			if (actual.isEmpty()) {
-			} else {
-				try {
-					Integer.parseInt(actual);
-					idropCore.getIdropConfigurationService().updateConfig(
-							IdropConfigurationService.IRODS_IO_GET_BUFFER_SIZE,
-							actual);
-				} catch (NumberFormatException nfe) {
-					txtGetBufferSize.setBackground(Color.red);
-					MessageManager.showWarning(this, "Invalid get buffer size",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
-			}
+            // get buffer size
+            actual = txtGetBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore.getIdropConfigurationService().updateConfig(
+                            IdropConfigurationService.IRODS_IO_GET_BUFFER_SIZE,
+                            actual);
+                } catch (NumberFormatException nfe) {
+                    txtGetBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this, "Invalid get buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
 
-			// put buffer size
-			actual = txtPutBufferSize.getText();
-			if (actual.isEmpty()) {
-			} else {
-				try {
-					Integer.parseInt(actual);
-					idropCore.getIdropConfigurationService().updateConfig(
-							IdropConfigurationService.IRODS_IO_PUT_BUFFER_SIZE,
-							actual);
-				} catch (NumberFormatException nfe) {
-					txtPutBufferSize.setBackground(Color.red);
-					MessageManager.showWarning(this, "Invalid put buffer size",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
-			}
+            // put buffer size
+            actual = txtPutBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore.getIdropConfigurationService().updateConfig(
+                            IdropConfigurationService.IRODS_IO_PUT_BUFFER_SIZE,
+                            actual);
+                } catch (NumberFormatException nfe) {
+                    txtPutBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this, "Invalid put buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
 
-			// input to output copy buffer size
-			actual = txtInputToOutputCopyBufferSize.getText();
-			if (actual.isEmpty()) {
-			} else {
-				try {
-					Integer.parseInt(actual);
-					idropCore
-							.getIdropConfigurationService()
-							.updateConfig(
-									IdropConfigurationService.IRODS_IO_INPUT_TO_OUTPUT_COPY_BUFFER_SIZE,
-									actual);
-				} catch (NumberFormatException nfe) {
-					txtInputToOutputCopyBufferSize.setBackground(Color.red);
-					MessageManager.showWarning(this,
-							"Invalid input to output copy buffer size",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
-			}
+            // input to output copy buffer size
+            actual = txtInputToOutputCopyBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_INPUT_TO_OUTPUT_COPY_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtInputToOutputCopyBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid input to output copy buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
 
-			// internal cache buffer size
-			actual = txtInternalCacheBufferSize.getText();
-			if (actual.isEmpty()) {
-			} else {
-				try {
-					Integer.parseInt(actual);
-					idropCore
-							.getIdropConfigurationService()
-							.updateConfig(
-									IdropConfigurationService.IRODS_IO_INTERNAL_CACHE_BUFFER_SIZE,
-									actual);
-				} catch (NumberFormatException nfe) {
-					txtInternalCacheBufferSize.setBackground(Color.red);
-					MessageManager.showWarning(this,
-							"Invalid internal cache buffer size",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
-			}
+            // internal cache buffer size
+            actual = txtInternalCacheBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_INTERNAL_CACHE_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtInternalCacheBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid internal cache buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
 
-			idropCore.getIdropConfigurationService().updateConfig(
-					IdropConfigurationService.IRODS_PARALLEL_USE_PARALLEL,
-					Boolean.toString(checkAllowParallelTransfers.isSelected()));
-			idropCore.getIdropConfigurationService().updateConfig(
-					IdropConfigurationService.IRODS_PARALLEL_USE_NIO,
-					Boolean.toString(checkUseNIOForParallelTransfers
-							.isSelected()));
-			idropCore
-					.getIdropConfigurationService()
-					.updateConfig(
-							IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS,
-							spinnerIrodsMaxParallelThreads.getValue()
-									.toString());
-			idropCore
-					.getIdropConfigurationService()
-					.updateConfig(
-							IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT,
-							spinnerIrodsParallelSocketTimeout.getValue()
-									.toString());
-			idropCore.getIdropConfigurationService().updateConfig(
-					IdropConfigurationService.IRODS_CONNECTION_TIMEOUT,
-					spinnerIrodsSocketTimeout.getValue().toString());
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.IRODS_PARALLEL_USE_PARALLEL,
+                    Boolean.toString(checkAllowParallelTransfers.isSelected()));
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.IRODS_PARALLEL_USE_NIO,
+                    Boolean.toString(checkUseNIOForParallelTransfers
+                            .isSelected()));
+            idropCore
+                    .getIdropConfigurationService()
+                    .updateConfig(
+                            IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS,
+                            spinnerIrodsMaxParallelThreads.getValue()
+                            .toString());
+            idropCore
+                    .getIdropConfigurationService()
+                    .updateConfig(
+                            IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT,
+                            spinnerIrodsParallelSocketTimeout.getValue()
+                            .toString());
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.IRODS_CONNECTION_TIMEOUT,
+                    spinnerIrodsSocketTimeout.getValue().toString());
 
-			idropCore.getIdropConfigurationService()
-					.updateJargonPropertiesBasedOnIDROPConfig();
-		} catch (Exception ex) {
-			log.error("error setting  property", ex);
-			throw new IdropRuntimeException(ex);
-		}
-	}// GEN-LAST:event_btnApplyPipelineConfigActionPerformed
+            idropCore.getIdropConfigurationService()
+                    .updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }// GEN-LAST:event_btnApplyPipelineConfigActionPerformed
 
-	private void btnRestoreDefaultsActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRestoreDefaultsActionPerformed
-		log.info("restoring pipeline config to jargon properties settings");
-		try {
-			JargonProperties defaultJargonProperties = new DefaultPropertiesJargonConfig();
-			IdropConfigurationService configService = idropCore
-					.getIdropConfigurationService();
-			configService
-					.restoreIDROPConfigFromJargonProperties(defaultJargonProperties);
-			initWithConfigData();
-			MessageManager.showMessage(this,
-					"Values restored to defaults, hit apply to update",
-					MessageManager.TITLE_MESSAGE);
-		} catch (JargonException ex) {
-			log.error("unable to restore jargon properties", ex);
-			throw new IdropRuntimeException(
-					"unable to restore jargon properties", ex);
-		}
+    private void btnRestoreDefaultsActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnRestoreDefaultsActionPerformed
+        log.info("restoring pipeline config to jargon properties settings");
+        try {
+            JargonProperties defaultJargonProperties = new DefaultPropertiesJargonConfig();
+            IdropConfigurationService configService = idropCore
+                    .getIdropConfigurationService();
+            configService
+                    .restoreIDROPConfigFromJargonProperties(defaultJargonProperties);
+            initWithConfigData();
+            MessageManager.showMessage(this,
+                    "Values restored to defaults, hit apply to update",
+                    MessageManager.TITLE_MESSAGE);
+        } catch (JargonException ex) {
+            log.error("unable to restore jargon properties", ex);
+            throw new IdropRuntimeException(
+                    "unable to restore jargon properties", ex);
+        }
 
-	}// GEN-LAST:event_btnRestoreDefaultsActionPerformed
+    }// GEN-LAST:event_btnRestoreDefaultsActionPerformed
 
-	private void checkConnectionRestartActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_checkConnectionRestartActionPerformed
-	}// GEN-LAST:event_checkConnectionRestartActionPerformed
+    private void checkConnectionRestartActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_checkConnectionRestartActionPerformed
+    }// GEN-LAST:event_checkConnectionRestartActionPerformed
 
-	private void checkConnectionRestartItemStateChanged(
-			final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkConnectionRestartItemStateChanged
-		boolean isSelected = false;
-		if (evt.getStateChange() == ItemEvent.SELECTED) {
-			isSelected = true;
-		}
-		log.info("updating connection restart to:{}", isSelected);
-		try {
-			idropCore.getIdropConfigurationService().updateConfig(
-					IdropConfigurationService.IRODS_CONNECTION_RESTART,
-					Boolean.toString(isSelected));
-			idropCore.getIdropConfigurationService()
-					.updateJargonPropertiesBasedOnIDROPConfig();
-		} catch (Exception ex) {
-			log.error("error setting  property", ex);
-			throw new IdropRuntimeException(ex);
-		}
-	}// GEN-LAST:event_checkConnectionRestartItemStateChanged
+    private void checkConnectionRestartItemStateChanged(
+            final java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkConnectionRestartItemStateChanged
+        boolean isSelected = false;
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            isSelected = true;
+        }
+        log.info("updating connection restart to:{}", isSelected);
+        try {
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.IRODS_CONNECTION_RESTART,
+                    Boolean.toString(isSelected));
+            idropCore.getIdropConfigurationService()
+                    .updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }// GEN-LAST:event_checkConnectionRestartItemStateChanged
 
-	private void spinnerMaxTransferErrorsStateChanged(
-			final javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerMaxTransferErrorsStateChanged
-		log.info("spinnerMaxTransferErrorsStateChanged:{}", evt);
+    private void spinnerMaxTransferErrorsStateChanged(
+            final javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerMaxTransferErrorsStateChanged
+        log.info("spinnerMaxTransferErrorsStateChanged:{}", evt);
 
-		try {
-			String val = (spinnerMaxTransferErrors.getModel().getValue()
-					.toString());
-			idropCore.getIdropConfigurationService().updateConfig(
-					IdropConfigurationService.MAX_TRANSFER_ERRORS, val);
-			idropCore.getIdropConfigurationService()
-					.updateJargonPropertiesBasedOnIDROPConfig();
-		} catch (Exception ex) {
-			log.error("error setting  property", ex);
-			throw new IdropRuntimeException(ex);
-		}
-	}// GEN-LAST:event_spinnerMaxTransferErrorsStateChanged
+        try {
+            String val = (spinnerMaxTransferErrors.getModel().getValue()
+                    .toString());
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.MAX_TRANSFER_ERRORS, val);
+            idropCore.getIdropConfigurationService()
+                    .updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+    }// GEN-LAST:event_spinnerMaxTransferErrorsStateChanged
 
-	private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {
-		dispose();
-	}
+    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {
+        dispose();
+    }
 
-	private void checkShowGUIActionPerformed(
-			final java.awt.event.ActionEvent evt) {
-		//
-	}
+    private void checkShowGUIActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+        //
+    }
 
-	private void checkLogSuccessfulTransferActionPerformed(
-			final java.awt.event.ActionEvent evt) {
-		//
-	}
+    private void checkLogSuccessfulTransferActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+        //
+    }
 
-	private void pnlConfigSynchComponentShown(
-			final java.awt.event.ComponentEvent evt) {
+    private void pnlConfigSynchComponentShown(
+            final java.awt.event.ComponentEvent evt) {
 
-		refreshSynchConfigPanel();
+        refreshSynchConfigPanel();
 
-	}
+    }
 
-	private void refreshSynchConfigPanel() {
-		log.info("lazily loading synch data");
+    private void refreshSynchConfigPanel() {
+        log.info("lazily loading synch data");
 
-		final IDROPConfigurationPanel thisPanel = this;
+        final IDROPConfigurationPanel thisPanel = this;
 
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
 
 				// FIXME:conveyor SynchManagerService synchConfigurationService
-				// =
-				// idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+                // =
+                // idropCore.getTransferManager().getTransferServiceFactory().instanceSynchManagerService();
+                try {
+                    thisPanel.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    /*
+                     * List<Synchronization> synchronizations =
+                     * synchConfigurationService.listAllSynchronizations();
+                     * SynchConfigTableModel synchConfigTableModel = null; if
+                     * (jTableSynch == null) { synchConfigTableModel = new
+                     * SynchConfigTableModel(idropCore, synchronizations);
+                     * jTableSynch = new JTable(synchConfigTableModel);
+                     * jTableSynch
+                     * .getSelectionModel().addListSelectionListener(new
+                     * SynchListSelectionHandler(thisPanel));
+                     * scrollSynchTable.setViewportView(jTableSynch);
+                     * scrollSynchTable.validate();
+                     * pnlConfigSynchListing.validate(); } else {
+                     * synchConfigTableModel = (SynchConfigTableModel)
+                     * jTableSynch.getModel();
+                     * synchConfigTableModel.setSynchronizations
+                     * (synchronizations);
+                     * synchConfigTableModel.fireTableDataChanged(); }
+                     * 
+                     * if (synchConfigTableModel.getRowCount() > 0) {
+                     * jTableSynch.setRowSelectionInterval(0, 0); } else {
+                     * lockSynchPanelForNewOnly(); } } catch (SynchException ex)
+                     * { log.error("error setting up synchs table", ex); throw
+                     * new IdropRuntimeException(ex);
+                     */
+                } finally {
+                    thisPanel.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
+        });
+    }
 
-				try {
-					thisPanel.setCursor(Cursor
-							.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					/*
-					 * List<Synchronization> synchronizations =
-					 * synchConfigurationService.listAllSynchronizations();
-					 * SynchConfigTableModel synchConfigTableModel = null; if
-					 * (jTableSynch == null) { synchConfigTableModel = new
-					 * SynchConfigTableModel(idropCore, synchronizations);
-					 * jTableSynch = new JTable(synchConfigTableModel);
-					 * jTableSynch
-					 * .getSelectionModel().addListSelectionListener(new
-					 * SynchListSelectionHandler(thisPanel));
-					 * scrollSynchTable.setViewportView(jTableSynch);
-					 * scrollSynchTable.validate();
-					 * pnlConfigSynchListing.validate(); } else {
-					 * synchConfigTableModel = (SynchConfigTableModel)
-					 * jTableSynch.getModel();
-					 * synchConfigTableModel.setSynchronizations
-					 * (synchronizations);
-					 * synchConfigTableModel.fireTableDataChanged(); }
-					 * 
-					 * if (synchConfigTableModel.getRowCount() > 0) {
-					 * jTableSynch.setRowSelectionInterval(0, 0); } else {
-					 * lockSynchPanelForNewOnly(); } } catch (SynchException ex)
-					 * { log.error("error setting up synchs table", ex); throw
-					 * new IdropRuntimeException(ex);
-					 */
-				} finally {
-					thisPanel.setCursor(Cursor
-							.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				}
-			}
-		});
-	}
+    private void txtLocalPathActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
 
-	private void txtLocalPathActionPerformed(
-			final java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}
+    private void btnChooseLocalSynchActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        JFileChooser localFileChooser = new JFileChooser();
+        localFileChooser.setMultiSelectionEnabled(false);
+        localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        localFileChooser.showOpenDialog(this);
+        txtLocalPath.setText(localFileChooser.getSelectedFile()
+                .getAbsolutePath());
+    }
 
-	private void btnChooseLocalSynchActionPerformed(
-			final java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-		JFileChooser localFileChooser = new JFileChooser();
-		localFileChooser.setMultiSelectionEnabled(false);
-		localFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		localFileChooser.showOpenDialog(this);
-		txtLocalPath.setText(localFileChooser.getSelectedFile()
-				.getAbsolutePath());
-	}
+    private void txtIrodsPathActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
 
-	private void txtIrodsPathActionPerformed(
-			final java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}
+    private void btnChooseIrodsSynchActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+        try {
+            IRODSFinderDialog irodsFileSystemChooserView = new IRODSFinderDialog(
+                    null, true, idropCore, idropCore.irodsAccount());
+            final Toolkit toolkit = Toolkit.getDefaultToolkit();
+            final Dimension screenSize = toolkit.getScreenSize();
+            final int x = (screenSize.width - irodsFileSystemChooserView
+                    .getWidth()) / 2;
+            final int y = (screenSize.height - irodsFileSystemChooserView
+                    .getHeight()) / 2;
+            irodsFileSystemChooserView.setLocation(x, y);
+            irodsFileSystemChooserView.setVisible(true);
+            String absPath = irodsFileSystemChooserView
+                    .getSelectedAbsolutePath();
+            irodsFileSystemChooserView.dispose();
+            if (absPath != null) {
+                txtIrodsPath.setText(irodsFileSystemChooserView
+                        .getSelectedAbsolutePath());
+            }
 
-	private void btnChooseIrodsSynchActionPerformed(
-			final java.awt.event.ActionEvent evt) {
-		try {
-			IRODSFinderDialog irodsFileSystemChooserView = new IRODSFinderDialog(
-					null, true, idropCore, idropCore.irodsAccount());
-			final Toolkit toolkit = Toolkit.getDefaultToolkit();
-			final Dimension screenSize = toolkit.getScreenSize();
-			final int x = (screenSize.width - irodsFileSystemChooserView
-					.getWidth()) / 2;
-			final int y = (screenSize.height - irodsFileSystemChooserView
-					.getHeight()) / 2;
-			irodsFileSystemChooserView.setLocation(x, y);
-			irodsFileSystemChooserView.setVisible(true);
-			String absPath = irodsFileSystemChooserView
-					.getSelectedAbsolutePath();
-			irodsFileSystemChooserView.dispose();
-			if (absPath != null) {
-				txtIrodsPath.setText(irodsFileSystemChooserView
-						.getSelectedAbsolutePath());
-			}
+            // int returnVal = irodsFileChooser.showSaveDialog(this);
+        } catch (Exception e) {
+            log.error("exception choosings iRODS file");
+            throw new IdropRuntimeException("exception choosing irods fie", e);
+        } finally {
+            idropCore.getIrodsFileSystem().closeAndEatExceptions();
+        }
+    }
 
-			// int returnVal = irodsFileChooser.showSaveDialog(this);
-		} catch (Exception e) {
-			log.error("exception choosings iRODS file");
-			throw new IdropRuntimeException("exception choosing irods fie", e);
-		} finally {
-			idropCore.getIrodsFileSystem().closeAndEatExceptions();
-		}
-	}
+    /**
+     * Delete the selected synchronization
+     *
+     * @param evt
+     */
+    private void btnDeleteSynchActionPerformed(
+            final java.awt.event.ActionEvent evt) {
 
-	/**
-	 * Delete the selected synchronization
-	 * 
-	 * @param evt
-	 */
-	private void btnDeleteSynchActionPerformed(
-			final java.awt.event.ActionEvent evt) {
+        final IDROPConfigurationPanel thisPanel = this;
 
-		final IDROPConfigurationPanel thisPanel = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
 
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-
-				if (selectedSynchronization == null) {
-					MessageManager.showError(thisPanel,
-							"Please select a synchronization from the table",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
-				int result = JOptionPane.showConfirmDialog(thisPanel,
-						"Do you wish to delete this synchronization?",
-						MessageManager.TITLE_MESSAGE,
-						JOptionPane.OK_CANCEL_OPTION);
-				if (result == JOptionPane.CANCEL_OPTION) {
-					return;
-				}
-				try {
-					thisPanel.setCursor(Cursor
-							.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                if (selectedSynchronization == null) {
+                    MessageManager.showError(thisPanel,
+                            "Please select a synchronization from the table",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+                int result = JOptionPane.showConfirmDialog(thisPanel,
+                        "Do you wish to delete this synchronization?",
+                        MessageManager.TITLE_MESSAGE,
+                        JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
+                try {
+                    thisPanel.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.WAIT_CURSOR));
 					// FIXME: conveyor
 					/*
-					 * SynchManagerService synchConfigurationService =
-					 * idropCore.
-					 * getTransferManager().getTransferServiceFactory()
-					 * .instanceSynchManagerService();
-					 * log.info("deleting synchronization:{}", synchronization);
-					 * 
-					 * if
-					 * (synchConfigurationService.isSynchRunning(synchronization
-					 * )) { MessageManager.showMessage(thisPanel,
-					 * "Cannot delete the synchronization, a synch is currently running"
-					 * , MessageManager.TITLE_MESSAGE); return; }
-					 * 
-					 * ListSelectionModel lsm = (ListSelectionModel)
-					 * thisPanel.getSynchTable().getSelectionModel();
-					 * SynchConfigTableModel model = (SynchConfigTableModel)
-					 * thisPanel.getSynchTable().getModel();
-					 * 
-					 * synchConfigurationService.deleteSynchronization(
-					 * synchronization);
-					 * log.info("synch deleted, refreshing model");
-					 * List<Synchronization> synchronizations =
-					 * synchConfigurationService.listAllSynchronizations();
-					 * 
-					 * model.setSynchronizations(synchronizations);
-					 * model.fireTableDataChanged();
-					 * 
-					 * MessageManager.showMessage(thisPanel,
-					 * "Configuration deleted", MessageManager.TITLE_MESSAGE);
-					 * btnDeleteSynch.setEnabled(false);
-					 * btnUpdateSynch.setEnabled(false);
-					 * btnSynchNow.setEnabled(false); refreshSynchConfigPanel();
-					 * } catch (Exception ex) {
-					 * MessageManager.showError(thisPanel, ex.getMessage(),
-					 * MessageManager.TITLE_MESSAGE);
-					 */
-				} finally {
-					thisPanel.setCursor(Cursor
-							.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					idropCore.closeIRODSConnection(idropCore.irodsAccount());
-				}
-			}
-		});
-	}
+                     * SynchManagerService synchConfigurationService =
+                     * idropCore.
+                     * getTransferManager().getTransferServiceFactory()
+                     * .instanceSynchManagerService();
+                     * log.info("deleting synchronization:{}", synchronization);
+                     * 
+                     * if
+                     * (synchConfigurationService.isSynchRunning(synchronization
+                     * )) { MessageManager.showMessage(thisPanel,
+                     * "Cannot delete the synchronization, a synch is currently running"
+                     * , MessageManager.TITLE_MESSAGE); return; }
+                     * 
+                     * ListSelectionModel lsm = (ListSelectionModel)
+                     * thisPanel.getSynchTable().getSelectionModel();
+                     * SynchConfigTableModel model = (SynchConfigTableModel)
+                     * thisPanel.getSynchTable().getModel();
+                     * 
+                     * synchConfigurationService.deleteSynchronization(
+                     * synchronization);
+                     * log.info("synch deleted, refreshing model");
+                     * List<Synchronization> synchronizations =
+                     * synchConfigurationService.listAllSynchronizations();
+                     * 
+                     * model.setSynchronizations(synchronizations);
+                     * model.fireTableDataChanged();
+                     * 
+                     * MessageManager.showMessage(thisPanel,
+                     * "Configuration deleted", MessageManager.TITLE_MESSAGE);
+                     * btnDeleteSynch.setEnabled(false);
+                     * btnUpdateSynch.setEnabled(false);
+                     * btnSynchNow.setEnabled(false); refreshSynchConfigPanel();
+                     * } catch (Exception ex) {
+                     * MessageManager.showError(thisPanel, ex.getMessage(),
+                     * MessageManager.TITLE_MESSAGE);
+                     */
+                } finally {
+                    thisPanel.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    idropCore.closeIRODSConnection(idropCore.irodsAccount());
+                }
+            }
+        });
+    }
 
-	/**
-	 * Called to clear and prepare for adding a new synchronization
-	 * 
-	 * @param evt
-	 */
-	private void btnNewSynchActionPerformed(final java.awt.event.ActionEvent evt) {
-		clearAndResetSynchPanel();
-		if (jTableSynch.getModel().getRowCount() > 0) {
-			jTableSynch.getSelectionModel().removeIndexInterval(0,
-					jTableSynch.getModel().getRowCount() - 1);
-		}
-		selectedSynchronization = new Synchronization();
-		btnDeleteSynch.setEnabled(false);
-		btnUpdateSynch.setEnabled(true);
-		btnSynchNow.setEnabled(false);
-		MessageManager
-				.showMessage(
-						this,
-						"Enter the data for the new Synchronization and press Update to save",
-						MessageManager.TITLE_MESSAGE);
-		setLockStatusSynchPanel(true);
-		btnSynchNow.setEnabled(false);
-		btnDeleteSynch.setEnabled(false);
-	}
+    /**
+     * Called to clear and prepare for adding a new synchronization
+     *
+     * @param evt
+     */
+    private void btnNewSynchActionPerformed(final java.awt.event.ActionEvent evt) {
+        clearAndResetSynchPanel();
+        if (jTableSynch.getModel().getRowCount() > 0) {
+            jTableSynch.getSelectionModel().removeIndexInterval(0,
+                    jTableSynch.getModel().getRowCount() - 1);
+        }
+        selectedSynchronization = new Synchronization();
+        btnDeleteSynch.setEnabled(false);
+        btnUpdateSynch.setEnabled(true);
+        btnSynchNow.setEnabled(false);
+        MessageManager
+                .showMessage(
+                        this,
+                        "Enter the data for the new Synchronization and press Update to save",
+                        MessageManager.TITLE_MESSAGE);
+        setLockStatusSynchPanel(true);
+        btnSynchNow.setEnabled(false);
+        btnDeleteSynch.setEnabled(false);
+    }
 
-	/**
-	 * User signals that the displayed synchronization should be updated
-	 * 
-	 * @param evt
-	 */
-	private void btnUpdateSynchActionPerformed(
-			final java.awt.event.ActionEvent evt) {
-		updateSynch();
-	}
+    /**
+     * User signals that the displayed synchronization should be updated
+     *
+     * @param evt
+     */
+    private void btnUpdateSynchActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+        updateSynch();
+    }
 
-	private void updateSynch() {
-		final IDROPConfigurationPanel thisPanel = this;
+    private void updateSynch() {
+        final IDROPConfigurationPanel thisPanel = this;
 
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
 
-				resetSynchPanel();
-				if (selectedSynchronization == null) {
-					MessageManager.showError(thisPanel,
-							"Please select a synchronization from the table",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
+                resetSynchPanel();
+                if (selectedSynchronization == null) {
+                    MessageManager.showError(thisPanel,
+                            "Please select a synchronization from the table",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
 
-				if (txtLocalPath.getText().trim().isEmpty()) {
-					txtLocalPath.setBackground(Color.RED);
-					MessageManager.showError(thisPanel,
-							"Please select a local path",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
+                if (txtLocalPath.getText().trim().isEmpty()) {
+                    txtLocalPath.setBackground(Color.RED);
+                    MessageManager.showError(thisPanel,
+                            "Please select a local path",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
 
-				if (txtIrodsPath.getText().trim().isEmpty()) {
-					txtIrodsPath.setBackground(Color.RED);
-					MessageManager.showError(thisPanel,
-							"Please select an iRODS path",
-							MessageManager.TITLE_MESSAGE);
-					return;
-				}
+                if (txtIrodsPath.getText().trim().isEmpty()) {
+                    txtIrodsPath.setBackground(Color.RED);
+                    MessageManager.showError(thisPanel,
+                            "Please select an iRODS path",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
 
-				if (txtSynchName.getText().trim().isEmpty()) {
-					txtSynchName.setBackground(Color.RED);
-					MessageManager
-							.showError(
-									thisPanel,
-									"Please enter a unique name for this synchronization",
-									MessageManager.TITLE_MESSAGE);
-					return;
-				}
+                if (txtSynchName.getText().trim().isEmpty()) {
+                    txtSynchName.setBackground(Color.RED);
+                    MessageManager
+                            .showError(
+                                    thisPanel,
+                                    "Please enter a unique name for this synchronization",
+                                    MessageManager.TITLE_MESSAGE);
+                    return;
+                }
 
-				boolean isNew = (selectedSynchronization.getId() == null);
-				if (isNew) {
-					log.info("adding new synch");
-				}
+                boolean isNew = (selectedSynchronization.getId() == null);
+                if (isNew) {
+                    log.info("adding new synch");
+                }
 
 				// FIXME: conveyor
 				/*
-				 * SynchManagerService synchConfigurationService =
-				 * idropCore.getTransferManager
-				 * ().getTransferServiceFactory().instanceSynchManagerService();
-				 * 
-				 * // edits pass, do update log.info("saving synch data");
-				 * Synchronization synchronization = selectedSynchronization;
-				 * synchronization.setUpdatedAt(new Date());
-				 * synchronization.setFrequencyType(getSynchFrequencyFromGUI());
-				 * 
-				 * synchronization.setName(txtSynchName.getText().trim());
-				 * synchronization
-				 * .setSynchronizationMode(getSynchTypeFromGUI());
-				 * synchronization
-				 * .setLocalSynchDirectory(txtLocalPath.getText().trim());
-				 * synchronization
-				 * .setIrodsSynchDirectory(txtIrodsPath.getText().trim());
-				 * IRODSAccount irodsAccount = idropCore.irodsAccount();
-				 * synchronization.setIrodsHostName(irodsAccount.getHost());
-				 * 
-				 * try {
-				 * synchronization.setIrodsPassword(HibernateUtil.obfuscate
-				 * (irodsAccount.getPassword())); } catch (JargonException ex) {
-				 * log.error("exception obfuscating password", ex);
-				 * MessageManager.showError(thisPanel, ex.getMessage(),
-				 * MessageManager.TITLE_MESSAGE); throw new
-				 * IdropRuntimeException(ex); }
-				 * 
-				 * synchronization.setIrodsPort(irodsAccount.getPort());
-				 * synchronization.setIrodsUserName(irodsAccount.getUserName());
-				 * synchronization.setIrodsZone(irodsAccount.getZone());
-				 * synchronization
-				 * .setDefaultResourceName(irodsAccount.getDefaultStorageResource
-				 * ()); synchronization.setCreatedAt(new Date());
-				 * selectedSynchronization = synchronization;
-				 */
-
-				try {
-					thisPanel.setCursor(Cursor
-							.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                 * SynchManagerService synchConfigurationService =
+                 * idropCore.getTransferManager
+                 * ().getTransferServiceFactory().instanceSynchManagerService();
+                 * 
+                 * // edits pass, do update log.info("saving synch data");
+                 * Synchronization synchronization = selectedSynchronization;
+                 * synchronization.setUpdatedAt(new Date());
+                 * synchronization.setFrequencyType(getSynchFrequencyFromGUI());
+                 * 
+                 * synchronization.setName(txtSynchName.getText().trim());
+                 * synchronization
+                 * .setSynchronizationMode(getSynchTypeFromGUI());
+                 * synchronization
+                 * .setLocalSynchDirectory(txtLocalPath.getText().trim());
+                 * synchronization
+                 * .setIrodsSynchDirectory(txtIrodsPath.getText().trim());
+                 * IRODSAccount irodsAccount = idropCore.irodsAccount();
+                 * synchronization.setIrodsHostName(irodsAccount.getHost());
+                 * 
+                 * try {
+                 * synchronization.setIrodsPassword(HibernateUtil.obfuscate
+                 * (irodsAccount.getPassword())); } catch (JargonException ex) {
+                 * log.error("exception obfuscating password", ex);
+                 * MessageManager.showError(thisPanel, ex.getMessage(),
+                 * MessageManager.TITLE_MESSAGE); throw new
+                 * IdropRuntimeException(ex); }
+                 * 
+                 * synchronization.setIrodsPort(irodsAccount.getPort());
+                 * synchronization.setIrodsUserName(irodsAccount.getUserName());
+                 * synchronization.setIrodsZone(irodsAccount.getZone());
+                 * synchronization
+                 * .setDefaultResourceName(irodsAccount.getDefaultStorageResource
+                 * ()); synchronization.setCreatedAt(new Date());
+                 * selectedSynchronization = synchronization;
+                 */
+                try {
+                    thisPanel.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 					// FIXME: conveyor
 
-					/*
-					 * if (synchConfigurationService.isSynchRunning(
-					 * selectedSynchronization)) {
-					 * MessageManager.showMessage(thisPanel,
-					 * "Cannot update the synchronization, a synch is currently running"
-					 * , MessageManager.TITLE_MESSAGE); return; }
-					 * 
-					 * idropCore.getIdropConfigurationService().
-					 * updateSynchronization(synchronization);
-					 */
-					MessageManager.showMessage(thisPanel,
-							"Configuration updated",
-							MessageManager.TITLE_MESSAGE);
-					ListSelectionModel lsm = thisPanel.getSynchTable()
-							.getSelectionModel();
-					SynchConfigTableModel model = (SynchConfigTableModel) thisPanel
-							.getSynchTable().getModel();
+                    /*
+                     * if (synchConfigurationService.isSynchRunning(
+                     * selectedSynchronization)) {
+                     * MessageManager.showMessage(thisPanel,
+                     * "Cannot update the synchronization, a synch is currently running"
+                     * , MessageManager.TITLE_MESSAGE); return; }
+                     * 
+                     * idropCore.getIdropConfigurationService().
+                     * updateSynchronization(synchronization);
+                     */
+                    MessageManager.showMessage(thisPanel,
+                            "Configuration updated",
+                            MessageManager.TITLE_MESSAGE);
+                    ListSelectionModel lsm = thisPanel.getSynchTable()
+                            .getSelectionModel();
+                    SynchConfigTableModel model = (SynchConfigTableModel) thisPanel
+                            .getSynchTable().getModel();
 
-					if (isNew) {
+                    if (isNew) {
 						// FIXME: conveyor
 						/*
-						 * List<Synchronization> synchronizations =
-						 * synchConfigurationService.listAllSynchronizations();
-						 * 
-						 * model.setSynchronizations(synchronizations);
-						 */
-						model.fireTableDataChanged();
-					} else {
-						if (lsm.isSelectionEmpty()) {
-							return;
-						} else {
-							// Find out which indexes are selected.
-							int minIndex = lsm.getMinSelectionIndex();
-							int maxIndex = lsm.getMaxSelectionIndex();
-							for (int i = minIndex; i <= maxIndex; i++) {
-								if (lsm.isSelectedIndex(i)) {
-									thisPanel.getSynchTable()
-											.convertRowIndexToModel(i);
+                         * List<Synchronization> synchronizations =
+                         * synchConfigurationService.listAllSynchronizations();
+                         * 
+                         * model.setSynchronizations(synchronizations);
+                         */
+                        model.fireTableDataChanged();
+                    } else {
+                        if (lsm.isSelectionEmpty()) {
+                            return;
+                        } else {
+                            // Find out which indexes are selected.
+                            int minIndex = lsm.getMinSelectionIndex();
+                            int maxIndex = lsm.getMaxSelectionIndex();
+                            for (int i = minIndex; i <= maxIndex; i++) {
+                                if (lsm.isSelectedIndex(i)) {
+                                    thisPanel.getSynchTable()
+                                            .convertRowIndexToModel(i);
 
 									// FIXME: conveyor
-									// model.getSynchronizations().set(modelIdx,
-									// synchronization);
-									model.fireTableDataChanged();
-									break;
-								}
-							}
-						}
-					}
+                                    // model.getSynchronizations().set(modelIdx,
+                                    // synchronization);
+                                    model.fireTableDataChanged();
+                                    break;
+                                }
+                            }
+                        }
+                    }
 
-					btnDeleteSynch.setEnabled(true);
-					btnUpdateSynch.setEnabled(true);
-					btnSynchNow.setEnabled(true);
-					/*
-					 * } catch (IdropException ex) {
-					 * MessageManager.showError(thisPanel, ex.getMessage(),
-					 * MessageManager.TITLE_MESSAGE); } catch (SynchException
-					 * ex) { MessageManager.showError(thisPanel,
-					 * ex.getMessage(), MessageManager.TITLE_MESSAGE);
-					 */
-				} finally {
-					thisPanel.setCursor(Cursor
-							.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					idropCore.closeIRODSConnection(idropCore.irodsAccount());
-				}
-			}
-		});
-	}
+                    btnDeleteSynch.setEnabled(true);
+                    btnUpdateSynch.setEnabled(true);
+                    btnSynchNow.setEnabled(true);
+                    /*
+                     * } catch (IdropException ex) {
+                     * MessageManager.showError(thisPanel, ex.getMessage(),
+                     * MessageManager.TITLE_MESSAGE); } catch (SynchException
+                     * ex) { MessageManager.showError(thisPanel,
+                     * ex.getMessage(), MessageManager.TITLE_MESSAGE);
+                     */
+                } finally {
+                    thisPanel.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    idropCore.closeIRODSConnection(idropCore.irodsAccount());
+                }
+            }
+        });
+    }
 
-	/**
-	 * Force a synchronization process on the selected synchronization
-	 * 
-	 * @param evt
-	 */
-	private void btnSynchNowActionPerformed(final java.awt.event.ActionEvent evt) {
-		log.info("synch now button pressed");
-		if (selectedSynchronization == null) {
-			MessageManager.showWarning(this, "Please select a synhronization",
-					MessageManager.TITLE_MESSAGE);
-			return;
-		}
+    /**
+     * Force a synchronization process on the selected synchronization
+     *
+     * @param evt
+     */
+    private void btnSynchNowActionPerformed(final java.awt.event.ActionEvent evt) {
+        log.info("synch now button pressed");
+        if (selectedSynchronization == null) {
+            MessageManager.showWarning(this, "Please select a synhronization",
+                    MessageManager.TITLE_MESSAGE);
+            return;
+        }
 
-		log.info("selected synchronization is:{}", selectedSynchronization);
-		boolean synchIsUnchanged = checkIfSynchChanged();
+        log.info("selected synchronization is:{}", selectedSynchronization);
+        boolean synchIsUnchanged = checkIfSynchChanged();
 
-		if (!synchIsUnchanged) {
-			log.info("synch had been changed, update first");
-			updateSynch();
-		}
+        if (!synchIsUnchanged) {
+            log.info("synch had been changed, update first");
+            updateSynch();
+        }
 
-		int result = JOptionPane
-				.showConfirmDialog(this, "Synchronize?",
-						"Do you want to synchronize now?",
-						JOptionPane.OK_CANCEL_OPTION);
-		if (result == JOptionPane.OK_OPTION) {
+        int result = JOptionPane
+                .showConfirmDialog(this, "Synchronize?",
+                        "Do you want to synchronize now?",
+                        JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
 			// FIXME: conveyor
 			/*
-			 * try { SynchManagerService synchConfigurationService =
-			 * idropCore.getTransferManager
-			 * ().getTransferServiceFactory().instanceSynchManagerService();
-			 * 
-			 * if
-			 * (synchConfigurationService.isSynchRunning(selectedSynchronization
-			 * )) { MessageManager.showMessage(this,
-			 * "Cannot schedule the synchronization, a synch is currently running"
-			 * , MessageManager.TITLE_MESSAGE); return; }
-			 * idropCore.getTransferManager
-			 * ().enqueueASynch(selectedSynchronization,
-			 * selectedSynchronization.
-			 * buildIRODSAccountFromSynchronizationData()); } catch (Exception
-			 * ex) { log.error("error starting synch", ex);
-			 * MessageManager.showError(this, ex.getMessage(),
-			 * MessageManager.TITLE_MESSAGE); throw new
-			 * IdropRuntimeException(ex); }
-			 */
-		}
-	}
+             * try { SynchManagerService synchConfigurationService =
+             * idropCore.getTransferManager
+             * ().getTransferServiceFactory().instanceSynchManagerService();
+             * 
+             * if
+             * (synchConfigurationService.isSynchRunning(selectedSynchronization
+             * )) { MessageManager.showMessage(this,
+             * "Cannot schedule the synchronization, a synch is currently running"
+             * , MessageManager.TITLE_MESSAGE); return; }
+             * idropCore.getTransferManager
+             * ().enqueueASynch(selectedSynchronization,
+             * selectedSynchronization.
+             * buildIRODSAccountFromSynchronizationData()); } catch (Exception
+             * ex) { log.error("error starting synch", ex);
+             * MessageManager.showError(this, ex.getMessage(),
+             * MessageManager.TITLE_MESSAGE); throw new
+             * IdropRuntimeException(ex); }
+             */
+        }
+    }
 
-	private void checkVerifyChecksumOnTransferActionPerformed(
-			final java.awt.event.ActionEvent evt) {
-		//
-	}
+    private void checkVerifyChecksumOnTransferActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+        //
+    }
 
-	protected JTable getSynchTable() {
-		return jTableSynch;
-	}
+    protected JTable getSynchTable() {
+        return jTableSynch;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApplyPipelineConfig;
@@ -1818,211 +1816,210 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.JTextField txtSynchName;
     // End of variables declaration//GEN-END:variables
 
-	private void initWithConfigData() {
-		resetTransferPipelineEditColors();
-		IdropConfig idropConfig = idropCore.getIdropConfig();
-		checkShowGUI.setSelected(idropConfig.isShowGuiAtStartup());
-		checkLogSuccessfulTransfer.setSelected(idropConfig
-				.isLogSuccessfulTransfers());
-		checkUseExecutorPool.setSelected(idropConfig.isParallelUsePool());
-		checkVerifyChecksumOnTransfer.setSelected(idropConfig
-				.isVerifyChecksum());
-		checkShowFileProgress.setSelected(idropConfig
-				.isIntraFileStatusCallbacks());
-		checkAllowRerouting.setSelected(idropConfig
-				.isAllowConnectionRerouting());
-		checkUseExecutorPool.setSelected(idropConfig.isParallelUsePool());
-		spinnerIrodsSocketTimeout.setValue(idropConfig
-				.getIrodsConnectionTimeout());
-		spinnerIrodsParallelSocketTimeout.setValue(idropConfig
-				.getIrodsParallelConnectionTimeout());
-		spinnerIrodsMaxParallelThreads.setValue(idropConfig
-				.getIrodsParallelTransferMaxThreads());
-		checkAllowParallelTransfers.setSelected(idropConfig
-				.isUseParallelTransfers());
-		checkConnectionRestart.setSelected(idropConfig.isConnectionRestart());
-		checkUseNIOForParallelTransfers.setSelected(idropConfig
-				.isUseNIOForParallelTransfers());
-		txtInternalInputBufferSize.setText(String.valueOf(idropConfig
-				.getInternalInputStreamBufferSize()));
-		txtInternalOutputBufferSize.setText(String.valueOf(idropConfig
-				.getInternalOutputStreamBufferSize()));
-		txtLocalFileInputBufferSize.setText(String.valueOf(idropConfig
-				.getLocalFileInputStreamBufferSize()));
-		txtLocalFileOutputBufferSize.setText(String.valueOf(idropConfig
-				.getLocalFileOutputStreamBufferSize()));
-		txtGetBufferSize
-				.setText(String.valueOf(idropConfig.getGetBufferSize()));
-		txtPutBufferSize
-				.setText(String.valueOf(idropConfig.getPutBufferSize()));
-		txtInputToOutputCopyBufferSize.setText(String.valueOf(idropConfig
-				.getInputToOutputCopyBufferByteSize()));
-		txtInternalCacheBufferSize.setText(String.valueOf(idropConfig
-				.getInternalCacheBufferSize()));
-		spinnerMaxTransferErrors.setValue(idropConfig.getMaxTransferErrors());
-		// refreshAccountData();
-	}
+    private void initWithConfigData() {
+        resetTransferPipelineEditColors();
+        IdropConfig idropConfig = idropCore.getIdropConfig();
+        checkShowGUI.setSelected(idropConfig.isShowGuiAtStartup());
+        checkLogSuccessfulTransfer.setSelected(idropConfig
+                .isLogSuccessfulTransfers());
+        checkUseExecutorPool.setSelected(idropConfig.isParallelUsePool());
+        checkVerifyChecksumOnTransfer.setSelected(idropConfig
+                .isVerifyChecksum());
+        checkShowFileProgress.setSelected(idropConfig
+                .isIntraFileStatusCallbacks());
+        checkAllowRerouting.setSelected(idropConfig
+                .isAllowConnectionRerouting());
+        checkUseExecutorPool.setSelected(idropConfig.isParallelUsePool());
+        spinnerIrodsSocketTimeout.setValue(idropConfig
+                .getIrodsConnectionTimeout());
+        spinnerIrodsParallelSocketTimeout.setValue(idropConfig
+                .getIrodsParallelConnectionTimeout());
+        spinnerIrodsMaxParallelThreads.setValue(idropConfig
+                .getIrodsParallelTransferMaxThreads());
+        checkAllowParallelTransfers.setSelected(idropConfig
+                .isUseParallelTransfers());
+        checkConnectionRestart.setSelected(idropConfig.isConnectionRestart());
+        checkUseNIOForParallelTransfers.setSelected(idropConfig
+                .isUseNIOForParallelTransfers());
+        txtInternalInputBufferSize.setText(String.valueOf(idropConfig
+                .getInternalInputStreamBufferSize()));
+        txtInternalOutputBufferSize.setText(String.valueOf(idropConfig
+                .getInternalOutputStreamBufferSize()));
+        txtLocalFileInputBufferSize.setText(String.valueOf(idropConfig
+                .getLocalFileInputStreamBufferSize()));
+        txtLocalFileOutputBufferSize.setText(String.valueOf(idropConfig
+                .getLocalFileOutputStreamBufferSize()));
+        txtGetBufferSize
+                .setText(String.valueOf(idropConfig.getGetBufferSize()));
+        txtPutBufferSize
+                .setText(String.valueOf(idropConfig.getPutBufferSize()));
+        txtInputToOutputCopyBufferSize.setText(String.valueOf(idropConfig
+                .getInputToOutputCopyBufferByteSize()));
+        txtInternalCacheBufferSize.setText(String.valueOf(idropConfig
+                .getInternalCacheBufferSize()));
+        spinnerMaxTransferErrors.setValue(idropConfig.getMaxTransferErrors());
+        // refreshAccountData();
+    }
 
-	/**
-	 * Reset colors in synch panel when re-validating
-	 */
-	private void resetSynchPanel() {
-		txtLocalPath.setBackground(Color.WHITE);
-		txtIrodsPath.setBackground(Color.WHITE);
-		txtSynchName.setBackground(Color.WHITE);
-	}
+    /**
+     * Reset colors in synch panel when re-validating
+     */
+    private void resetSynchPanel() {
+        txtLocalPath.setBackground(Color.WHITE);
+        txtIrodsPath.setBackground(Color.WHITE);
+        txtSynchName.setBackground(Color.WHITE);
+    }
 
-	/**
-	 * Clear synch panel values and colors
-	 */
-	private void clearAndResetSynchPanel() {
-		resetSynchPanel();
-		txtLocalPath.setText("");
-		txtIrodsPath.setText("");
-		txtSynchName.setText("");
-		radioBackup.setSelected(true);
-		lblSynchDate.setText("");
-		pnlSynchIcon.removeAll();
-		pnlSynchIcon.validate();
-		jcomboSynchFrequency.setSelectedIndex(0);
-	}
+    /**
+     * Clear synch panel values and colors
+     */
+    private void clearAndResetSynchPanel() {
+        resetSynchPanel();
+        txtLocalPath.setText("");
+        txtIrodsPath.setText("");
+        txtSynchName.setText("");
+        radioBackup.setSelected(true);
+        lblSynchDate.setText("");
+        pnlSynchIcon.removeAll();
+        pnlSynchIcon.validate();
+        jcomboSynchFrequency.setSelectedIndex(0);
+    }
 
-	protected void updateDetailsForSelectedSynch(final int i) {
-		// make sure the most up-to-date information is displayed
-		int modelIdx = getSynchTable().convertRowIndexToModel(i);
-		SynchConfigTableModel model = (SynchConfigTableModel) getSynchTable()
-				.getModel();
+    protected void updateDetailsForSelectedSynch(final int i) {
+        // make sure the most up-to-date information is displayed
+        int modelIdx = getSynchTable().convertRowIndexToModel(i);
+        SynchConfigTableModel model = (SynchConfigTableModel) getSynchTable()
+                .getModel();
 
-		selectedSynchronization = model.getSynchronizationAt(modelIdx);
+        selectedSynchronization = model.getSynchronizationAt(modelIdx);
 
-		if (selectedSynchronization == null) {
-			model.removeRow(modelIdx);
-			return;
-		}
+        if (selectedSynchronization == null) {
+            model.removeRow(modelIdx);
+            return;
+        }
 
-		// initialize data
-		txtLocalPath.setText(selectedSynchronization.getLocalSynchDirectory());
-		txtIrodsPath.setText(selectedSynchronization.getIrodsSynchDirectory());
-		txtSynchName.setText(selectedSynchronization.getName());
+        // initialize data
+        txtLocalPath.setText(selectedSynchronization.getLocalSynchDirectory());
+        txtIrodsPath.setText(selectedSynchronization.getIrodsSynchDirectory());
+        txtSynchName.setText(selectedSynchronization.getName());
 
-		if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_HOUR) {
-			jcomboSynchFrequency.setSelectedIndex(0);
-		} else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_WEEK) {
-			jcomboSynchFrequency.setSelectedIndex(1);
-		} else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_DAY) {
-			jcomboSynchFrequency.setSelectedIndex(2);
-		} else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_TWO_MINUTES) {
-			jcomboSynchFrequency.setSelectedIndex(3);
-		} else {
-			// default to hourly to avoid errors
-			log.error("unknown frequency type for synch:{}",
-					selectedSynchronization.getFrequencyType());
-			jcomboSynchFrequency.setSelectedIndex(0);
-		}
+        if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_HOUR) {
+            jcomboSynchFrequency.setSelectedIndex(0);
+        } else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_WEEK) {
+            jcomboSynchFrequency.setSelectedIndex(1);
+        } else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_DAY) {
+            jcomboSynchFrequency.setSelectedIndex(2);
+        } else if (selectedSynchronization.getFrequencyType() == FrequencyType.EVERY_TWO_MINUTES) {
+            jcomboSynchFrequency.setSelectedIndex(3);
+        } else {
+            // default to hourly to avoid errors
+            log.error("unknown frequency type for synch:{}",
+                    selectedSynchronization.getFrequencyType());
+            jcomboSynchFrequency.setSelectedIndex(0);
+        }
 
-		if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.BI_DIRECTIONAL) {
-			radioSynch.setSelected(true);
-		} else if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_IRODS_TO_LOCAL) {
-			radioFeed.setSelected(true);
-		} else if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_LOCAL_TO_IRODS) {
-			radioBackup.setSelected(true);
-		} else {
-			log.error("unknown synchronization mode for synch:{}",
-					selectedSynchronization.getSynchronizationMode());
-			throw new IdropRuntimeException("unknown synchronization mode");
-		}
+        if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.BI_DIRECTIONAL) {
+            radioSynch.setSelected(true);
+        } else if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_IRODS_TO_LOCAL) {
+            radioFeed.setSelected(true);
+        } else if (selectedSynchronization.getSynchronizationMode() == SynchronizationType.ONE_WAY_LOCAL_TO_IRODS) {
+            radioBackup.setSelected(true);
+        } else {
+            log.error("unknown synchronization mode for synch:{}",
+                    selectedSynchronization.getSynchronizationMode());
+            throw new IdropRuntimeException("unknown synchronization mode");
+        }
 
-		btnDeleteSynch.setEnabled(true);
-		btnUpdateSynch.setEnabled(true);
-		btnSynchNow.setEnabled(true);
+        btnDeleteSynch.setEnabled(true);
+        btnUpdateSynch.setEnabled(true);
+        btnSynchNow.setEnabled(true);
 
-		setSynchIcon(selectedSynchronization);
-		if (selectedSynchronization.getLastSynchronized() == null) {
-			lblSynchDate.setText("None");
-		} else {
-			lblSynchDate.setText(dateFormat.format(selectedSynchronization
-					.getLastSynchronized()));
-		}
+        setSynchIcon(selectedSynchronization);
+        if (selectedSynchronization.getLastSynchronized() == null) {
+            lblSynchDate.setText("None");
+        } else {
+            lblSynchDate.setText(dateFormat.format(selectedSynchronization
+                    .getLastSynchronized()));
+        }
 
-	}
+    }
 
-	protected void setLockStatusSynchPanel(final boolean lockStatus) {
-		txtSynchName.setEnabled(lockStatus);
-		txtLocalPath.setEnabled(lockStatus);
-		btnChooseLocalSynch.setEnabled(lockStatus);
-		radioBackup.setEnabled(lockStatus);
+    protected void setLockStatusSynchPanel(final boolean lockStatus) {
+        txtSynchName.setEnabled(lockStatus);
+        txtLocalPath.setEnabled(lockStatus);
+        btnChooseLocalSynch.setEnabled(lockStatus);
+        radioBackup.setEnabled(lockStatus);
 		// radioFeed.setEnabled(lockStatus);
-		// radioSynch.setEnabled(lockStatus);
-		jcomboSynchFrequency.setEnabled(lockStatus);
-		txtIrodsPath.setEnabled(lockStatus);
-		btnChooseIrodsSynch.setEnabled(lockStatus);
-		btnDeleteSynch.setEnabled(lockStatus);
-		btnUpdateSynch.setEnabled(lockStatus);
-		btnSynchNow.setEnabled(lockStatus);
-		// btnSynchDetails.setEnabled(lockStatus);
-	}
+        // radioSynch.setEnabled(lockStatus);
+        jcomboSynchFrequency.setEnabled(lockStatus);
+        txtIrodsPath.setEnabled(lockStatus);
+        btnChooseIrodsSynch.setEnabled(lockStatus);
+        btnDeleteSynch.setEnabled(lockStatus);
+        btnUpdateSynch.setEnabled(lockStatus);
+        btnSynchNow.setEnabled(lockStatus);
+        // btnSynchDetails.setEnabled(lockStatus);
+    }
 
-	private void setSynchIcon(final Synchronization synchronization) {
+    private void setSynchIcon(final Synchronization synchronization) {
 
-		JLabel labelToUse = null;
+        JLabel labelToUse = null;
 
 		// FIXME: conveyor
 		/*
-		 * SynchManagerService synchManagerService =
-		 * idropCore.getTransferManager
-		 * ().getTransferServiceFactory().instanceSynchManagerService(); try {
-		 * boolean isRunning =
-		 * synchManagerService.isSynchRunning(synchronization); if (isRunning) {
-		 * labelToUse = IconHelper.getRunningIcon(); } else if
-		 * (synchronization.getLastSynchronizationStatus() == null) { labelToUse
-		 * = IconHelper.getOkIcon(); } else if
-		 * (synchronization.getLastSynchronizationStatus() ==
-		 * TransferStatus.ERROR) { labelToUse = IconHelper.getErrorIcon(); }
-		 * else { labelToUse = IconHelper.getOkIcon(); } } catch (SynchException
-		 * ex) { log.error("error checking if synch is already running:{}",
-		 * synchronization, ex); throw new
-		 * IdropRuntimeException("exception checking if synch is already running"
-		 * , ex); }
-		 */
+         * SynchManagerService synchManagerService =
+         * idropCore.getTransferManager
+         * ().getTransferServiceFactory().instanceSynchManagerService(); try {
+         * boolean isRunning =
+         * synchManagerService.isSynchRunning(synchronization); if (isRunning) {
+         * labelToUse = IconHelper.getRunningIcon(); } else if
+         * (synchronization.getLastSynchronizationStatus() == null) { labelToUse
+         * = IconHelper.getOkIcon(); } else if
+         * (synchronization.getLastSynchronizationStatus() ==
+         * TransferStatus.ERROR) { labelToUse = IconHelper.getErrorIcon(); }
+         * else { labelToUse = IconHelper.getOkIcon(); } } catch (SynchException
+         * ex) { log.error("error checking if synch is already running:{}",
+         * synchronization, ex); throw new
+         * IdropRuntimeException("exception checking if synch is already running"
+         * , ex); }
+         */
+        pnlSynchIcon.removeAll();
+        lblSynchStatus = labelToUse;
+        pnlSynchIcon.add(lblSynchStatus);
+        pnlSynchIcon.validate();
 
-		pnlSynchIcon.removeAll();
-		lblSynchStatus = labelToUse;
-		pnlSynchIcon.add(lblSynchStatus);
-		pnlSynchIcon.validate();
-
-	}
+    }
 
 }
 
 class SynchListSelectionHandler implements ListSelectionListener {
 
-	private final IDROPConfigurationPanel idropConfigurationPanel;
+    private final IDROPConfigurationPanel idropConfigurationPanel;
 
-	SynchListSelectionHandler(final IDROPConfigurationPanel configurationPanel) {
-		idropConfigurationPanel = configurationPanel;
-	}
+    SynchListSelectionHandler(final IDROPConfigurationPanel configurationPanel) {
+        idropConfigurationPanel = configurationPanel;
+    }
 
-	@Override
-	public void valueChanged(final ListSelectionEvent e) {
+    @Override
+    public void valueChanged(final ListSelectionEvent e) {
 
-		if (e.getValueIsAdjusting() == true) {
-			return;
-		}
+        if (e.getValueIsAdjusting() == true) {
+            return;
+        }
 
-		ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+        ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 
-		if (lsm.isSelectionEmpty()) {
-			return;
-		} else {
-			// Find out which indexes are selected.
-			int minIndex = lsm.getMinSelectionIndex();
-			int maxIndex = lsm.getMaxSelectionIndex();
-			for (int i = minIndex; i <= maxIndex; i++) {
-				if (lsm.isSelectedIndex(i)) {
-					idropConfigurationPanel.updateDetailsForSelectedSynch(i);
-				}
-			}
-		}
+        if (lsm.isSelectionEmpty()) {
+            return;
+        } else {
+            // Find out which indexes are selected.
+            int minIndex = lsm.getMinSelectionIndex();
+            int maxIndex = lsm.getMaxSelectionIndex();
+            for (int i = minIndex; i <= maxIndex; i++) {
+                if (lsm.isSelectedIndex(i)) {
+                    idropConfigurationPanel.updateDetailsForSelectedSynch(i);
+                }
+            }
+        }
 
-	}
+    }
 }

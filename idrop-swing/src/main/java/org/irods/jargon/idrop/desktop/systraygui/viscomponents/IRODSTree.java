@@ -373,7 +373,6 @@ public class IRODSTree extends Outline implements TreeWillExpandListener,
 
 	@Override
 	public void treeWillExpand(final TreeExpansionEvent event)
-	// TODO: Need to make this a swing worker??
 			throws ExpandVetoException {
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		log.debug("tree expansion event:{}", event);

@@ -1,0 +1,1167 @@
+<dependencies>
+  <build>
+    <dependency group='xalan' name='serializer' version='2.7.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/xalan/serializer/jars/serializer-2.7.1.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-bootstrap' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-bootstrap/jars/grails-bootstrap-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='jcl-over-slf4j' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='slf4j-api' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='jline' name='jline' version='2.12'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/jline/jline/jars/jline-2.12.jar</jar>
+    </dependency>
+    <dependency group='org.apache.ant' name='ant' version='1.8.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.ant/ant/jars/ant-1.8.4.jar</jar>
+    </dependency>
+    <dependency group='org.apache.ant' name='ant-launcher' version='1.8.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.8.4.jar</jar>
+    </dependency>
+    <dependency group='org.apache.ant' name='ant-trax' version='1.7.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.ant/ant-trax/jars/ant-trax-1.7.1.jar</jar>
+    </dependency>
+    <dependency group='net.java.dev.jna' name='jna' version='4.0.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/net.java.dev.jna/jna/jars/jna-4.0.0.jar</jar>
+    </dependency>
+    <dependency group='org.apache.ant' name='ant-junit' version='1.8.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.ant/ant-junit/jars/ant-junit-1.8.4.jar</jar>
+    </dependency>
+    <dependency group='org.codehaus.gant' name='gant_groovy1.8' version='1.9.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.codehaus.gant/gant_groovy1.8/jars/gant_groovy1.8-1.9.6.jar</jar>
+    </dependency>
+    <dependency group='org.apache.ivy' name='ivy' version='2.3.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.ivy/ivy/jars/ivy-2.3.0.jar</jar>
+    </dependency>
+    <dependency group='org.fusesource.jansi' name='jansi' version='1.11'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.fusesource.jansi/jansi/jars/jansi-1.11.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-project-api' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-project-api/jars/grails-project-api-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-core' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-core/jars/grails-core-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-core' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-core/jars/spring-core-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-beans' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-beans/jars/spring-beans-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='com.googlecode.concurrentlinkedhashmap' name='concurrentlinkedhashmap-lru' version='1.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.googlecode.concurrentlinkedhashmap/concurrentlinkedhashmap-lru/jars/concurrentlinkedhashmap-lru-1.4.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-spring' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-spring/jars/grails-spring-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-tx' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-tx/jars/spring-tx-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-context' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-context/jars/spring-context-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate.javax.persistence' name='hibernate-jpa-2.1-api' version='1.0.0.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/jars/hibernate-jpa-2.1-api-1.0.0.Final.jar</jar>
+    </dependency>
+    <dependency group='aopalliance' name='aopalliance' version='1.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar</jar>
+    </dependency>
+    <dependency group='org.aspectj' name='aspectjrt' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.aspectj/aspectjrt/jars/aspectjrt-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web/jars/grails-web-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-common' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-common/jars/grails-web-common-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-webmvc' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-webmvc/jars/spring-webmvc-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-context-support' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-context-support/jars/spring-context-support-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-encoder' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-encoder/jars/grails-encoder-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-web' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-web/jars/spring-web-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-databinding/jars/grails-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='com.google.code.gson' name='gson' version='2.2.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.google.code.gson/gson/jars/gson-2.2.4.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-url-mappings' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-url-mappings/jars/grails-web-url-mappings-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-core' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-core/jars/grails-datastore-core-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-validation' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-validation/jars/grails-validation-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-validator' name='commons-validator' version='1.4.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-validator/commons-validator/jars/commons-validator-1.4.0.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-fileupload' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-fileupload/jars/grails-web-fileupload-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-fileupload' name='commons-fileupload' version='1.3.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-fileupload/commons-fileupload/jars/commons-fileupload-1.3.1.jar</jar>
+    </dependency>
+    <dependency group='commons-io' name='commons-io' version='2.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-io/commons-io/jars/commons-io-2.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-gsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-gsp/jars/grails-web-gsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-sitemesh' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-sitemesh/jars/grails-web-sitemesh-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='opensymphony' name='sitemesh' version='2.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/opensymphony/sitemesh/jars/sitemesh-2.4.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-mvc' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-mvc/jars/grails-web-mvc-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-databinding/jars/grails-web-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-jsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-jsp/jars/grails-web-jsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-aspects' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-aspects/jars/spring-aspects-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.aspectj' name='aspectjweaver' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-scripts' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-scripts/jars/grails-scripts-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.spockframework' name='spock-core' version='0.7-groovy-2.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.spockframework/spock-core/jars/spock-core-0.7-groovy-2.0.jar</jar>
+    </dependency>
+    <dependency group='org.hamcrest' name='hamcrest-core' version='1.3'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hamcrest/hamcrest-core/jars/hamcrest-core-1.3.jar</jar>
+    </dependency>
+    <dependency group='junit' name='junit' version='4.11'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/junit/junit/jars/junit-4.11.jar</jar>
+    </dependency>
+    <dependency group='org.grails.plugins' name='tomcat' version='7.0.52.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails.plugins/tomcat/zips/tomcat-7.0.52.1.zip</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat.embed' name='tomcat-embed-core' version='7.0.52'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-core/jars/tomcat-embed-core-7.0.52.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat' name='tomcat-catalina-ant' version='7.0.52'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat/tomcat-catalina-ant/jars/tomcat-catalina-ant-7.0.52.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat.embed' name='tomcat-embed-jasper' version='7.0.52'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-jasper/jars/tomcat-embed-jasper-7.0.52.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat.embed' name='tomcat-embed-el' version='7.0.52'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-el/jars/tomcat-embed-el-7.0.52.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat.embed' name='tomcat-embed-logging-log4j' version='7.0.52'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-logging-log4j/jars/tomcat-embed-logging-log4j-7.0.52.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat.embed' name='tomcat-embed-websocket' version='7.0.52'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-websocket/jars/tomcat-embed-websocket-7.0.52.jar</jar>
+    </dependency>
+    <dependency group='org.eclipse.jdt.core.compiler' name='ecj' version='3.7.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.eclipse.jdt.core.compiler/ecj/jars/ecj-3.7.2.jar</jar>
+    </dependency>
+  </build>
+  <compile>
+    <dependency group='org.codehaus.groovy' name='groovy-all' version='2.3.3'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.codehaus.groovy/groovy-all/jars/groovy-all-2.3.3.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-rest' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-rest/jars/grails-plugin-rest-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='jcl-over-slf4j' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='slf4j-api' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='com.google.code.gson' name='gson' version='2.2.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.google.code.gson/gson/jars/gson-2.2.4.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web/jars/grails-web-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-common' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-common/jars/grails-web-common-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-core' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-core/jars/grails-core-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-core' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-core/jars/spring-core-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-beans' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-beans/jars/spring-beans-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='com.googlecode.concurrentlinkedhashmap' name='concurrentlinkedhashmap-lru' version='1.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.googlecode.concurrentlinkedhashmap/concurrentlinkedhashmap-lru/jars/concurrentlinkedhashmap-lru-1.4.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-tx' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-tx/jars/spring-tx-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-bootstrap' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-bootstrap/jars/grails-bootstrap-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-context' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-context/jars/spring-context-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate.javax.persistence' name='hibernate-jpa-2.1-api' version='1.0.0.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/jars/hibernate-jpa-2.1-api-1.0.0.Final.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-webmvc' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-webmvc/jars/spring-webmvc-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-context-support' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-context-support/jars/spring-context-support-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-encoder' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-encoder/jars/grails-encoder-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-web' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-web/jars/spring-web-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-databinding/jars/grails-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-url-mappings' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-url-mappings/jars/grails-web-url-mappings-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-core' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-core/jars/grails-datastore-core-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-validation' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-validation/jars/grails-validation-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-validator' name='commons-validator' version='1.4.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-validator/commons-validator/jars/commons-validator-1.4.0.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-fileupload' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-fileupload/jars/grails-web-fileupload-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-fileupload' name='commons-fileupload' version='1.3.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-fileupload/commons-fileupload/jars/commons-fileupload-1.3.1.jar</jar>
+    </dependency>
+    <dependency group='commons-io' name='commons-io' version='2.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-io/commons-io/jars/commons-io-2.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-gsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-gsp/jars/grails-web-gsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-sitemesh' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-sitemesh/jars/grails-web-sitemesh-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='opensymphony' name='sitemesh' version='2.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/opensymphony/sitemesh/jars/sitemesh-2.4.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-mvc' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-mvc/jars/grails-web-mvc-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-databinding/jars/grails-web-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-jsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-jsp/jars/grails-web-jsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='xalan' name='serializer' version='2.7.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/xalan/serializer/jars/serializer-2.7.1.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-spring' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-spring/jars/grails-spring-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='aopalliance' name='aopalliance' version='1.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar</jar>
+    </dependency>
+    <dependency group='org.aspectj' name='aspectjrt' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.aspectj/aspectjrt/jars/aspectjrt-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-aspects' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-aspects/jars/spring-aspects-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.aspectj' name='aspectjweaver' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-controllers' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-controllers/jars/grails-plugin-controllers-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-mimetypes' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-mimetypes/jars/grails-plugin-mimetypes-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-validation' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-validation/jars/grails-plugin-validation-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-domain-class' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-domain-class/jars/grails-plugin-domain-class-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-simple' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-simple/jars/grails-datastore-simple-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-gorm' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-gorm/jars/grails-datastore-gorm-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-async' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-async/jars/grails-async-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.codehaus.gpars' name='gpars' version='1.2.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.codehaus.gpars/gpars/jars/gpars-1.2.1.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-converters' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-converters/jars/grails-plugin-converters-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-lang' name='commons-lang' version='2.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-lang/commons-lang/jars/commons-lang-2.6.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-datasource' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-datasource/jars/grails-plugin-datasource-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-jdbc' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-jdbc/jars/spring-jdbc-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat' name='tomcat-jdbc' version='7.0.50'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat/tomcat-jdbc/jars/tomcat-jdbc-7.0.50.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat' name='tomcat-juli' version='7.0.50'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat/tomcat-juli/jars/tomcat-juli-7.0.50.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat.embed' name='tomcat-embed-logging-log4j' version='7.0.50'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-logging-log4j/jars/tomcat-embed-logging-log4j-7.0.50.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-databinding/jars/grails-plugin-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-i18n' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-i18n/jars/grails-plugin-i18n-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-filters' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-filters/jars/grails-plugin-filters-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-gsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-gsp/jars/grails-plugin-gsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-gsp-taglib' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-gsp-taglib/jars/grails-web-gsp-taglib-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-codecs' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-codecs/jars/grails-plugin-codecs-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-codec' name='commons-codec' version='1.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-codec/commons-codec/jars/commons-codec-1.6.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-logging' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-logging/jars/grails-logging-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-log4j' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-log4j/jars/grails-plugin-log4j-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='log4j' name='log4j' version='1.2.17'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/log4j/log4j/bundles/log4j-1.2.17.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='jul-to-slf4j' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-services' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-services/jars/grails-plugin-services-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-servlets' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-servlets/jars/grails-plugin-servlets-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-url-mappings' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-url-mappings/jars/grails-plugin-url-mappings-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-core' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-core/jars/jargon-core-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.globus.jglobus' name='cog-jglobus' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.globus.jglobus/cog-jglobus/jars/cog-jglobus-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='com.claymoresystems' name='puretls' version='1.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.claymoresystems/puretls/jars/puretls-1.1.jar</jar>
+    </dependency>
+    <dependency group='org.perf4j' name='perf4j' version='0.9.9'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.perf4j/perf4j/jars/perf4j-0.9.9.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-data-utils' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-data-utils/jars/jargon-data-utils-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='junit' name='junit' version='4.8.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/junit/junit/jars/junit-4.8.2.jar</jar>
+    </dependency>
+    <dependency group='commons-pool' name='commons-pool' version='1.5.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-pool/commons-pool/jars/commons-pool-1.5.6.jar</jar>
+    </dependency>
+    <dependency group='org.apache.commons' name='commons-compress' version='1.8'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.commons/commons-compress/jars/commons-compress-1.8.jar</jar>
+    </dependency>
+    <dependency group='org.tukaani' name='xz' version='1.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.tukaani/xz/jars/xz-1.5.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tika' name='tika-core' version='1.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tika/tika-core/bundles/tika-core-1.1.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-ticket' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-ticket/jars/jargon-ticket-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-user-profile' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-user-profile/jars/jargon-user-profile-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-user-tagging' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-user-tagging/jars/jargon-user-tagging-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-workflow' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-workflow/jars/jargon-workflow-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-ruleservice' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-ruleservice/jars/jargon-ruleservice-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.jsoup' name='jsoup' version='0.2.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.jsoup/jsoup/jars/jsoup-0.2.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-expression' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-expression/jars/spring-expression-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-aop' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-aop/jars/spring-aop-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails.plugins' name='asset-pipeline' version='1.8.3'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails.plugins/asset-pipeline/zips/asset-pipeline-1.8.3.zip</jar>
+    </dependency>
+    <dependency group='org.grails.plugins' name='webxml' version='1.4.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails.plugins/webxml/zips/webxml-1.4.1.zip</jar>
+    </dependency>
+    <dependency group='org.mozilla' name='rhino' version='1.7R4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.mozilla/rhino/jars/rhino-1.7R4.jar</jar>
+    </dependency>
+  </compile>
+  <test>
+    <dependency group='org.codehaus.groovy' name='groovy-all' version='2.3.3'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.codehaus.groovy/groovy-all/jars/groovy-all-2.3.3.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-rest' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-rest/jars/grails-plugin-rest-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='jcl-over-slf4j' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='slf4j-api' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='com.google.code.gson' name='gson' version='2.2.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.google.code.gson/gson/jars/gson-2.2.4.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web/jars/grails-web-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-common' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-common/jars/grails-web-common-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-core' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-core/jars/grails-core-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-core' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-core/jars/spring-core-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-beans' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-beans/jars/spring-beans-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='com.googlecode.concurrentlinkedhashmap' name='concurrentlinkedhashmap-lru' version='1.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.googlecode.concurrentlinkedhashmap/concurrentlinkedhashmap-lru/jars/concurrentlinkedhashmap-lru-1.4.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-tx' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-tx/jars/spring-tx-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-bootstrap' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-bootstrap/jars/grails-bootstrap-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-context' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-context/jars/spring-context-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate.javax.persistence' name='hibernate-jpa-2.1-api' version='1.0.0.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/jars/hibernate-jpa-2.1-api-1.0.0.Final.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-webmvc' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-webmvc/jars/spring-webmvc-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-context-support' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-context-support/jars/spring-context-support-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-encoder' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-encoder/jars/grails-encoder-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-web' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-web/jars/spring-web-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-databinding/jars/grails-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-url-mappings' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-url-mappings/jars/grails-web-url-mappings-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-core' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-core/jars/grails-datastore-core-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-validation' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-validation/jars/grails-validation-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-validator' name='commons-validator' version='1.4.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-validator/commons-validator/jars/commons-validator-1.4.0.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-fileupload' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-fileupload/jars/grails-web-fileupload-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-fileupload' name='commons-fileupload' version='1.3.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-fileupload/commons-fileupload/jars/commons-fileupload-1.3.1.jar</jar>
+    </dependency>
+    <dependency group='commons-io' name='commons-io' version='2.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-io/commons-io/jars/commons-io-2.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-gsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-gsp/jars/grails-web-gsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-sitemesh' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-sitemesh/jars/grails-web-sitemesh-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='opensymphony' name='sitemesh' version='2.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/opensymphony/sitemesh/jars/sitemesh-2.4.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-mvc' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-mvc/jars/grails-web-mvc-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-databinding/jars/grails-web-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-jsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-jsp/jars/grails-web-jsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='xalan' name='serializer' version='2.7.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/xalan/serializer/jars/serializer-2.7.1.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-spring' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-spring/jars/grails-spring-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='aopalliance' name='aopalliance' version='1.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar</jar>
+    </dependency>
+    <dependency group='org.aspectj' name='aspectjrt' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.aspectj/aspectjrt/jars/aspectjrt-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-aspects' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-aspects/jars/spring-aspects-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.aspectj' name='aspectjweaver' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-controllers' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-controllers/jars/grails-plugin-controllers-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-mimetypes' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-mimetypes/jars/grails-plugin-mimetypes-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-validation' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-validation/jars/grails-plugin-validation-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-domain-class' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-domain-class/jars/grails-plugin-domain-class-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-simple' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-simple/jars/grails-datastore-simple-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-gorm' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-gorm/jars/grails-datastore-gorm-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-async' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-async/jars/grails-async-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.codehaus.gpars' name='gpars' version='1.2.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.codehaus.gpars/gpars/jars/gpars-1.2.1.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-converters' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-converters/jars/grails-plugin-converters-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-lang' name='commons-lang' version='2.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-lang/commons-lang/jars/commons-lang-2.6.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-datasource' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-datasource/jars/grails-plugin-datasource-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-jdbc' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-jdbc/jars/spring-jdbc-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat' name='tomcat-jdbc' version='7.0.50'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat/tomcat-jdbc/jars/tomcat-jdbc-7.0.50.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat' name='tomcat-juli' version='7.0.50'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat/tomcat-juli/jars/tomcat-juli-7.0.50.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat.embed' name='tomcat-embed-logging-log4j' version='7.0.50'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-logging-log4j/jars/tomcat-embed-logging-log4j-7.0.50.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-databinding/jars/grails-plugin-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-i18n' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-i18n/jars/grails-plugin-i18n-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-filters' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-filters/jars/grails-plugin-filters-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-gsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-gsp/jars/grails-plugin-gsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-gsp-taglib' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-gsp-taglib/jars/grails-web-gsp-taglib-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-codecs' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-codecs/jars/grails-plugin-codecs-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-codec' name='commons-codec' version='1.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-codec/commons-codec/jars/commons-codec-1.6.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-logging' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-logging/jars/grails-logging-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-log4j' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-log4j/jars/grails-plugin-log4j-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='log4j' name='log4j' version='1.2.17'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/log4j/log4j/bundles/log4j-1.2.17.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='jul-to-slf4j' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-services' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-services/jars/grails-plugin-services-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-servlets' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-servlets/jars/grails-plugin-servlets-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-url-mappings' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-url-mappings/jars/grails-plugin-url-mappings-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-core' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-core/jars/jargon-core-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.globus.jglobus' name='cog-jglobus' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.globus.jglobus/cog-jglobus/jars/cog-jglobus-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='com.claymoresystems' name='puretls' version='1.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.claymoresystems/puretls/jars/puretls-1.1.jar</jar>
+    </dependency>
+    <dependency group='org.perf4j' name='perf4j' version='0.9.9'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.perf4j/perf4j/jars/perf4j-0.9.9.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-data-utils' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-data-utils/jars/jargon-data-utils-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='commons-pool' name='commons-pool' version='1.5.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-pool/commons-pool/jars/commons-pool-1.5.6.jar</jar>
+    </dependency>
+    <dependency group='org.apache.commons' name='commons-compress' version='1.8'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.commons/commons-compress/jars/commons-compress-1.8.jar</jar>
+    </dependency>
+    <dependency group='org.tukaani' name='xz' version='1.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.tukaani/xz/jars/xz-1.5.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tika' name='tika-core' version='1.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tika/tika-core/bundles/tika-core-1.1.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-ticket' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-ticket/jars/jargon-ticket-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-user-profile' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-user-profile/jars/jargon-user-profile-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-user-tagging' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-user-tagging/jars/jargon-user-tagging-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-workflow' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-workflow/jars/jargon-workflow-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-ruleservice' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-ruleservice/jars/jargon-ruleservice-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.jsoup' name='jsoup' version='0.2.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.jsoup/jsoup/jars/jsoup-0.2.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-expression' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-expression/jars/spring-expression-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-aop' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-aop/jars/spring-aop-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails.plugins' name='asset-pipeline' version='1.8.3'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails.plugins/asset-pipeline/zips/asset-pipeline-1.8.3.zip</jar>
+    </dependency>
+    <dependency group='org.grails.plugins' name='webxml' version='1.4.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails.plugins/webxml/zips/webxml-1.4.1.zip</jar>
+    </dependency>
+    <dependency group='org.mozilla' name='rhino' version='1.7R4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.mozilla/rhino/jars/rhino-1.7R4.jar</jar>
+    </dependency>
+    <dependency group='com.h2database' name='h2' version='1.3.176'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.h2database/h2/jars/h2-1.3.176.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-resources' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-resources/jars/grails-resources-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails.plugins' name='hibernate' version='3.6.10.10'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails.plugins/hibernate/zips/hibernate-3.6.10.10.zip</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-gorm-hibernate' version='3.0.2.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-gorm-hibernate/jars/grails-datastore-gorm-hibernate-3.0.2.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-gorm-hibernate-core' version='3.0.2.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-gorm-hibernate-core/jars/grails-datastore-gorm-hibernate-core-3.0.2.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.javassist' name='javassist' version='3.17.1-GA'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.javassist/javassist/bundles/javassist-3.17.1-GA.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-gorm-plugin-support' version='3.0.2.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-gorm-plugin-support/jars/grails-datastore-gorm-plugin-support-3.0.2.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='dom4j' name='dom4j' version='1.6.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/dom4j/dom4j/jars/dom4j-1.6.1.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-core' version='3.6.10.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-core/jars/hibernate-core-3.6.10.Final.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-commons-annotations' version='3.2.0.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-commons-annotations/jars/hibernate-commons-annotations-3.2.0.Final.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate.javax.persistence' name='hibernate-jpa-2.0-api' version='1.0.1.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/jars/hibernate-jpa-2.0-api-1.0.1.Final.jar</jar>
+    </dependency>
+    <dependency group='javax.transaction' name='jta' version='1.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/javax.transaction/jta/jars/jta-1.1.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-orm' version='3.2.8.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-orm/jars/spring-orm-3.2.8.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='antlr' name='antlr' version='2.7.7'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/antlr/antlr/jars/antlr-2.7.7.jar</jar>
+    </dependency>
+    <dependency group='javax.validation' name='validation-api' version='1.0.0.GA'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/javax.validation/validation-api/jars/validation-api-1.0.0.GA.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-validator' version='4.1.0.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-validator/jars/hibernate-validator-4.1.0.Final.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-entitymanager' version='3.6.10.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-entitymanager/jars/hibernate-entitymanager-3.6.10.Final.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-ehcache' version='3.6.10.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-ehcache/jars/hibernate-ehcache-3.6.10.Final.jar</jar>
+    </dependency>
+    <dependency group='net.sf.ehcache' name='ehcache-core' version='2.4.8'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/net.sf.ehcache/ehcache-core/jars/ehcache-core-2.4.8.jar</jar>
+    </dependency>
+    <dependency group='cglib' name='cglib' version='2.2.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/cglib/cglib/jars/cglib-2.2.2.jar</jar>
+    </dependency>
+    <dependency group='asm' name='asm' version='3.3.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/asm/asm/jars/asm-3.3.1.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-testing' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-testing/jars/grails-plugin-testing-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-test' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-test/jars/grails-test-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-project-api' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-project-api/jars/grails-project-api-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='jline' name='jline' version='2.12'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/jline/jline/jars/jline-2.12.jar</jar>
+    </dependency>
+    <dependency group='org.apache.ant' name='ant' version='1.8.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.ant/ant/jars/ant-1.8.4.jar</jar>
+    </dependency>
+    <dependency group='org.apache.ant' name='ant-launcher' version='1.8.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.8.4.jar</jar>
+    </dependency>
+    <dependency group='org.codehaus.gant' name='gant_groovy1.8' version='1.9.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.codehaus.gant/gant_groovy1.8/jars/gant_groovy1.8-1.9.6.jar</jar>
+    </dependency>
+    <dependency group='org.fusesource.jansi' name='jansi' version='1.11'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.fusesource.jansi/jansi/jars/jansi-1.11.jar</jar>
+    </dependency>
+    <dependency group='org.spockframework' name='spock-core' version='0.7-groovy-2.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.spockframework/spock-core/jars/spock-core-0.7-groovy-2.0.jar</jar>
+    </dependency>
+    <dependency group='junit' name='junit-dep' version='4.10'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/junit/junit-dep/jars/junit-dep-4.10.jar</jar>
+    </dependency>
+    <dependency group='org.hamcrest' name='hamcrest-core' version='1.3'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hamcrest/hamcrest-core/jars/hamcrest-core-1.3.jar</jar>
+    </dependency>
+    <dependency group='org.objenesis' name='objenesis' version='1.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.objenesis/objenesis/jars/objenesis-1.4.jar</jar>
+    </dependency>
+    <dependency group='junit' name='junit' version='4.11'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/junit/junit/jars/junit-4.11.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-test' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-test/jars/spring-test-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.mockito' name='mockito-all' version='1.8.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.mockito/mockito-all/jars/mockito-all-1.8.1.jar</jar>
+    </dependency>
+  </test>
+  <runtime>
+    <dependency group='org.codehaus.groovy' name='groovy-all' version='2.3.3'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.codehaus.groovy/groovy-all/jars/groovy-all-2.3.3.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-rest' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-rest/jars/grails-plugin-rest-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='jcl-over-slf4j' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='slf4j-api' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='com.google.code.gson' name='gson' version='2.2.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.google.code.gson/gson/jars/gson-2.2.4.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web/jars/grails-web-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-common' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-common/jars/grails-web-common-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-core' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-core/jars/grails-core-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-core' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-core/jars/spring-core-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-beans' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-beans/jars/spring-beans-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='com.googlecode.concurrentlinkedhashmap' name='concurrentlinkedhashmap-lru' version='1.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.googlecode.concurrentlinkedhashmap/concurrentlinkedhashmap-lru/jars/concurrentlinkedhashmap-lru-1.4.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-tx' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-tx/jars/spring-tx-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-bootstrap' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-bootstrap/jars/grails-bootstrap-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-context' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-context/jars/spring-context-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate.javax.persistence' name='hibernate-jpa-2.1-api' version='1.0.0.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/jars/hibernate-jpa-2.1-api-1.0.0.Final.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-webmvc' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-webmvc/jars/spring-webmvc-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-context-support' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-context-support/jars/spring-context-support-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-encoder' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-encoder/jars/grails-encoder-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-web' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-web/jars/spring-web-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-databinding/jars/grails-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-url-mappings' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-url-mappings/jars/grails-web-url-mappings-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-core' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-core/jars/grails-datastore-core-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-validation' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-validation/jars/grails-validation-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-validator' name='commons-validator' version='1.4.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-validator/commons-validator/jars/commons-validator-1.4.0.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-fileupload' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-fileupload/jars/grails-web-fileupload-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-fileupload' name='commons-fileupload' version='1.3.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-fileupload/commons-fileupload/jars/commons-fileupload-1.3.1.jar</jar>
+    </dependency>
+    <dependency group='commons-io' name='commons-io' version='2.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-io/commons-io/jars/commons-io-2.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-gsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-gsp/jars/grails-web-gsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-sitemesh' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-sitemesh/jars/grails-web-sitemesh-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='opensymphony' name='sitemesh' version='2.4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/opensymphony/sitemesh/jars/sitemesh-2.4.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-mvc' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-mvc/jars/grails-web-mvc-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-databinding/jars/grails-web-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-jsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-jsp/jars/grails-web-jsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='xalan' name='serializer' version='2.7.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/xalan/serializer/jars/serializer-2.7.1.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-spring' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-spring/jars/grails-spring-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='aopalliance' name='aopalliance' version='1.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar</jar>
+    </dependency>
+    <dependency group='org.aspectj' name='aspectjrt' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.aspectj/aspectjrt/jars/aspectjrt-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-aspects' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-aspects/jars/spring-aspects-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.aspectj' name='aspectjweaver' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-controllers' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-controllers/jars/grails-plugin-controllers-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-mimetypes' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-mimetypes/jars/grails-plugin-mimetypes-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-validation' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-validation/jars/grails-plugin-validation-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-domain-class' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-domain-class/jars/grails-plugin-domain-class-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-simple' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-simple/jars/grails-datastore-simple-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-gorm' version='3.1.1.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-gorm/jars/grails-datastore-gorm-3.1.1.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-async' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-async/jars/grails-async-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.codehaus.gpars' name='gpars' version='1.2.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.codehaus.gpars/gpars/jars/gpars-1.2.1.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-converters' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-converters/jars/grails-plugin-converters-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-lang' name='commons-lang' version='2.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-lang/commons-lang/jars/commons-lang-2.6.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-datasource' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-datasource/jars/grails-plugin-datasource-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-jdbc' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-jdbc/jars/spring-jdbc-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat' name='tomcat-jdbc' version='7.0.50'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat/tomcat-jdbc/jars/tomcat-jdbc-7.0.50.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat' name='tomcat-juli' version='7.0.50'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat/tomcat-juli/jars/tomcat-juli-7.0.50.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tomcat.embed' name='tomcat-embed-logging-log4j' version='7.0.50'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-logging-log4j/jars/tomcat-embed-logging-log4j-7.0.50.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-databinding' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-databinding/jars/grails-plugin-databinding-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-i18n' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-i18n/jars/grails-plugin-i18n-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-filters' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-filters/jars/grails-plugin-filters-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-gsp' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-gsp/jars/grails-plugin-gsp-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-web-gsp-taglib' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-web-gsp-taglib/jars/grails-web-gsp-taglib-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-codecs' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-codecs/jars/grails-plugin-codecs-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='commons-codec' name='commons-codec' version='1.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-codec/commons-codec/jars/commons-codec-1.6.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-logging' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-logging/jars/grails-logging-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-log4j' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-log4j/jars/grails-plugin-log4j-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='log4j' name='log4j' version='1.2.17'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/log4j/log4j/bundles/log4j-1.2.17.jar</jar>
+    </dependency>
+    <dependency group='org.slf4j' name='jul-to-slf4j' version='1.7.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.7.5.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-services' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-services/jars/grails-plugin-services-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-servlets' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-servlets/jars/grails-plugin-servlets-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-plugin-url-mappings' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-plugin-url-mappings/jars/grails-plugin-url-mappings-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-core' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-core/jars/jargon-core-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.globus.jglobus' name='cog-jglobus' version='1.8.0'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.globus.jglobus/cog-jglobus/jars/cog-jglobus-1.8.0.jar</jar>
+    </dependency>
+    <dependency group='com.claymoresystems' name='puretls' version='1.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.claymoresystems/puretls/jars/puretls-1.1.jar</jar>
+    </dependency>
+    <dependency group='org.perf4j' name='perf4j' version='0.9.9'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.perf4j/perf4j/jars/perf4j-0.9.9.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-data-utils' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-data-utils/jars/jargon-data-utils-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='junit' name='junit' version='4.8.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/junit/junit/jars/junit-4.8.2.jar</jar>
+    </dependency>
+    <dependency group='commons-pool' name='commons-pool' version='1.5.6'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/commons-pool/commons-pool/jars/commons-pool-1.5.6.jar</jar>
+    </dependency>
+    <dependency group='org.apache.commons' name='commons-compress' version='1.8'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.commons/commons-compress/jars/commons-compress-1.8.jar</jar>
+    </dependency>
+    <dependency group='org.tukaani' name='xz' version='1.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.tukaani/xz/jars/xz-1.5.jar</jar>
+    </dependency>
+    <dependency group='org.apache.tika' name='tika-core' version='1.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.apache.tika/tika-core/bundles/tika-core-1.1.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-ticket' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-ticket/jars/jargon-ticket-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-user-profile' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-user-profile/jars/jargon-user-profile-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-user-tagging' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-user-tagging/jars/jargon-user-tagging-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-workflow' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-workflow/jars/jargon-workflow-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.irods.jargon' name='jargon-ruleservice' version='4.0.2-SNAPSHOT'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.irods.jargon/jargon-ruleservice/jars/jargon-ruleservice-4.0.2-SNAPSHOT.jar</jar>
+    </dependency>
+    <dependency group='org.jsoup' name='jsoup' version='0.2.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.jsoup/jsoup/jars/jsoup-0.2.2.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-expression' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-expression/jars/spring-expression-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-aop' version='4.0.5.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-aop/jars/spring-aop-4.0.5.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails.plugins' name='asset-pipeline' version='1.8.3'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails.plugins/asset-pipeline/zips/asset-pipeline-1.8.3.zip</jar>
+    </dependency>
+    <dependency group='org.grails.plugins' name='webxml' version='1.4.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails.plugins/webxml/zips/webxml-1.4.1.zip</jar>
+    </dependency>
+    <dependency group='org.mozilla' name='rhino' version='1.7R4'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.mozilla/rhino/jars/rhino-1.7R4.jar</jar>
+    </dependency>
+    <dependency group='com.h2database' name='h2' version='1.3.176'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/com.h2database/h2/jars/h2-1.3.176.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-resources' version='2.4.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-resources/jars/grails-resources-2.4.2.jar</jar>
+    </dependency>
+    <dependency group='org.grails.plugins' name='hibernate' version='3.6.10.10'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails.plugins/hibernate/zips/hibernate-3.6.10.10.zip</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-gorm-hibernate' version='3.0.2.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-gorm-hibernate/jars/grails-datastore-gorm-hibernate-3.0.2.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-gorm-hibernate-core' version='3.0.2.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-gorm-hibernate-core/jars/grails-datastore-gorm-hibernate-core-3.0.2.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='org.javassist' name='javassist' version='3.17.1-GA'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.javassist/javassist/bundles/javassist-3.17.1-GA.jar</jar>
+    </dependency>
+    <dependency group='org.grails' name='grails-datastore-gorm-plugin-support' version='3.0.2.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.grails/grails-datastore-gorm-plugin-support/jars/grails-datastore-gorm-plugin-support-3.0.2.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='dom4j' name='dom4j' version='1.6.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/dom4j/dom4j/jars/dom4j-1.6.1.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-core' version='3.6.10.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-core/jars/hibernate-core-3.6.10.Final.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-commons-annotations' version='3.2.0.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-commons-annotations/jars/hibernate-commons-annotations-3.2.0.Final.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate.javax.persistence' name='hibernate-jpa-2.0-api' version='1.0.1.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/jars/hibernate-jpa-2.0-api-1.0.1.Final.jar</jar>
+    </dependency>
+    <dependency group='javax.transaction' name='jta' version='1.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/javax.transaction/jta/jars/jta-1.1.jar</jar>
+    </dependency>
+    <dependency group='org.springframework' name='spring-orm' version='3.2.8.RELEASE'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.springframework/spring-orm/jars/spring-orm-3.2.8.RELEASE.jar</jar>
+    </dependency>
+    <dependency group='antlr' name='antlr' version='2.7.7'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/antlr/antlr/jars/antlr-2.7.7.jar</jar>
+    </dependency>
+    <dependency group='javax.validation' name='validation-api' version='1.0.0.GA'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/javax.validation/validation-api/jars/validation-api-1.0.0.GA.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-validator' version='4.1.0.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-validator/jars/hibernate-validator-4.1.0.Final.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-entitymanager' version='3.6.10.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-entitymanager/jars/hibernate-entitymanager-3.6.10.Final.jar</jar>
+    </dependency>
+    <dependency group='org.hibernate' name='hibernate-ehcache' version='3.6.10.Final'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/org.hibernate/hibernate-ehcache/jars/hibernate-ehcache-3.6.10.Final.jar</jar>
+    </dependency>
+    <dependency group='net.sf.ehcache' name='ehcache-core' version='2.4.8'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/net.sf.ehcache/ehcache-core/jars/ehcache-core-2.4.8.jar</jar>
+    </dependency>
+    <dependency group='cglib' name='cglib' version='2.2.2'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/cglib/cglib/jars/cglib-2.2.2.jar</jar>
+    </dependency>
+    <dependency group='asm' name='asm' version='3.3.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/asm/asm/jars/asm-3.3.1.jar</jar>
+    </dependency>
+  </runtime>
+  <provided>
+    <dependency group='javax.servlet' name='javax.servlet-api' version='3.0.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/javax.servlet/javax.servlet-api/jars/javax.servlet-api-3.0.1.jar</jar>
+    </dependency>
+    <dependency group='junit' name='junit' version='4.8.1'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/junit/junit/jars/junit-4.8.1.jar</jar>
+    </dependency>
+    <dependency group='javax.servlet' name='servlet-api' version='2.5'>
+      <jar>/Users/mikeconway/.grails/ivy-cache/javax.servlet/servlet-api/jars/servlet-api-2.5.jar</jar>
+    </dependency>
+  </provided>
+</dependencies>

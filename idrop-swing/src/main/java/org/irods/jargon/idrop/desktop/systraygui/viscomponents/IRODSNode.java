@@ -104,10 +104,17 @@ public class IRODSNode extends DefaultMutableTreeNode {
 					.getCollectionAndDataObjectListAndSearchAO(irodsAccount);
                      
                         
+                        long timeStart = System.currentTimeMillis();
+                        
 			List<CollectionAndDataObjectListingEntry> childCache = collectionAO
 					.listDataObjectsAndCollectionsUnderPath(parentObject
 							.getFormattedAbsolutePath());
 
+                        
+                        long timeEnd = System.currentTimeMillis();
+                        
+                        log.info(">>> total query time = {}", timeEnd = timeStart);
+                        
 			for (CollectionAndDataObjectListingEntry childEntry : childCache) {
 				insert(new IRODSNode(childEntry, irodsAccount, irodsFileSystem,
 						irodsTree), getChildCount());
