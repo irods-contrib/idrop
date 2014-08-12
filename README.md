@@ -51,6 +51,14 @@ integration of flow manager framework from jargon/conveyor.  See: https://github
 
 see: https://github.com/DICE-UNC/idrop/issues/16
 
+#### unable to view under public via idrop web #56 
+
+Added new functional tests and cleanup for handling of listings under public, especially when anonymous
+
+#### idrop web public login does not hide uid/password #55
+
+Fixed login screen functionality to correctly hide or display login fields when doing guest logins
+
 
 
  

@@ -98,7 +98,7 @@ legend {
 
 							<label><g:message code="text.auth.method" />:</label>
 
-							<g:select name="authMethod" from="${['Standard', 'PAM']}"
+							<g:select class="userLoginData" name="authMethod" from="${['Standard', 'PAM']}"
 								value="${loginCommand.authMethod}" />
 						</g:else>
 
@@ -110,11 +110,11 @@ legend {
 							onclick="toggleGuestLogin()" />
 
 
-						<label><g:message code="text.user" />:</label> <input type="text"
-							class="input-text" name="user" id="user"
-							value="${loginCommand.user}" /> <label><g:message
+						<label class="userLoginData"><g:message code="text.user" />:</label> <input type="text"
+							class="input-text userLoginData" name="user" id="user"
+							value="${loginCommand.user}" /> <label class="userLoginData"><g:message
 								code="text.password" />:</label> <input type="password"
-							class="input-text" name="password" id="password"
+							class="input-text userLoginData" name="password" id="password"
 							value="${loginCommand.password}" />
 
 						<button id="login" name="login"
