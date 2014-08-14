@@ -34,6 +34,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             NEW_FILE: 'New File',
             NEW_FOLDER: 'New Folder',
             NEED_HELP: 'Need help?',
+            NO_DIRECTORY_PROVIDED: 'No folder name was provided',
             OBJECT_PATH: 'Object Path',
             PROFILE: 'Profile',
             PASSWORD: 'Password',

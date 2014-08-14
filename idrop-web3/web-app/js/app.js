@@ -485,6 +485,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             NEW_FILE: 'New File',
             NEW_FOLDER: 'New Folder',
             NEED_HELP: 'Need help?',
+            NO_DIRECTORY_PROVIDED: 'No folder name was provided',
             OBJECT_PATH: 'Object Path',
             PROFILE: 'Profile',
             PASSWORD: 'Password',
@@ -876,7 +877,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
     })
 
-    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing','breadcrumbsService', function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing,breadcrumbsService) {
+    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing','breadcrumbsService', '$filter',function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing,breadcrumbsService, $filter) {
 
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
@@ -988,7 +989,32 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             $scope.newFolderAction=true;
             //collectionAndDataObjectListingEntries.collectionAndDataObjectListingEntries.unshift("{newFolderAction:true}");
 
-        }
+        };
+
+        /**
+         * Following an action to initiateAddDirectory(), take the required new folder name and
+         * do the actual folder create
+         *
+         * @param subDirNameToAdd the name of the subdirectory under the current pat that will be added
+         */
+        $scope.addDirectory = function(subDirNameToAdd) {
+            $log.info("addDirectory()");
+            if(!subDirNameToAdd) {
+                // show an error
+                var message = $filter('translate')('NO_DIRECTORY_PROVIDED');
+                $messageCenterService.add('danger', message);
+                return;
+            }
+
+            $log.info("subdirectory name is:" + subDirNameToAdd);
+
+            if (!$scope.newFolderAction) {
+                throw "This is not a new folder action, method should not be called";
+            }
+
+            // do new folder action stuff
+
+        };
 
         /**
          * Get the breadcrumbs from the pagingAwareCollectionListing in the scope.  This updates the path

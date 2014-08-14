@@ -7,7 +7,7 @@
  */
 describe("Tests of the home controller", function () {
 
-    var $http, $httpBackend, $log, $translate, ctrlScope, controller, rootScope, $q, controllerFactory, $routeProvider, breadcrumbsService, $location;
+    var $http, $httpBackend, $log, $translate, ctrlScope, controller, rootScope, $q, controllerFactory, $routeProvider, breadcrumbsService, $location, messageCenterService;
     beforeEach(module('home'));
 
     var mockVcService = {
@@ -48,8 +48,14 @@ describe("Tests of the home controller", function () {
 
         mockSelectedVc = {};
         mockPagingAwareCollectionListing = {};
+        mockMessageCenterService = {
+            add: function (type,msg) {
+            }
+        };
 
-        controller = $controller('homeController', { $scope:ctrlScope, virtualCollectionsService: mockVcService, selectedVc:mockSelectedVc, pagingAwareCollectionListing:mockPagingAwareCollectionListing });
+        messageCenterService = mockMessageCenterService;
+
+        controller = $controller('homeController', { $scope:ctrlScope, virtualCollectionsService: mockVcService, selectedVc:mockSelectedVc, pagingAwareCollectionListing:mockPagingAwareCollectionListing, messageCenterService:messageCenterService});
 
     }));
 
@@ -66,6 +72,16 @@ describe("Tests of the home controller", function () {
         ctrlScope.listVirtualCollections();
         ctrlScope.$apply();
         expect(ctrlScope.virtualCollections).not.toBe([]);
+
+    });
+
+    it("new folder action without path should have an error", function () {
+        ctrlScope.pagingAwareCollectionListing = {};
+        ctrlScope.initiateAddDirectory();
+        var dir = "";
+        spyOn(messageCenterService,'add');
+        ctrlScope.addDirectory(dir);
+        expect(messageCenterService.add).toHaveBeenCalled();
 
     });
 
