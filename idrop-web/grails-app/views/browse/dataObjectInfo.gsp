@@ -280,10 +280,9 @@
 			showSharingView(selectedPath, "#infoAccordionACLInner");
 
 		});
-			$('#ruleTab').on('shown', function(e) {
-				showRuleView(selectedPath, "#infoAccordionRuleInner");
-			});
-
+		
+		$('#ruleTab').on('shown', function(e) {
+			showRuleView(selectedPath, "#infoAccordionRuleInner");
 		});
 
 		$('#ticketTab').on('shown', function(e) {
