@@ -8,7 +8,6 @@
 			<div id="legend">
 					<g:message code="text.login" />
 			</div>
-
 			<div class="control-group">
 				<!-- Host -->
 				<label class="control-label" for="host"><g:message
@@ -19,14 +18,20 @@
 				</div>
 			</div>
 
+			
 			<div class="control-group">
+		
+<%-- 		XXX: Refer to Config.groovy variables from this view?
+			<g:if test="${true == false}">
 				<!-- Port -->
 				<label class="control-label" for="port"><g:message
 						code="text.port" /></label>
 				<div class="controls">
 					<input type="text" id="port" name="port" placeholder="1247"
 						class="input-xlarge" ng-model="login.port">
-				</div>
+				</div> 
+			</g:if>
+--%>			
 			</div>
 
 			<div class="control-group">
@@ -59,13 +64,18 @@
 				</div>
 			</div>
 
+
 			<div class="control-group">
+<%--		
+			<g:if test="${true == false}">
 				<!-- authmethod-->
 				<label class="control-label" for="authtype"><g:message
 						code="text.auth.type" /></label>
 				<div class="controls">
 					<g:select name="authMethod" from="${['Standard', 'PAM']}" value="" ng-model="login.authmethod"  />
 				</div>
+			</g:if>
+--%>		
 			</div>
 
 			<div class="control-group">

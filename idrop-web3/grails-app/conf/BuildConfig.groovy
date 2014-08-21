@@ -63,6 +63,9 @@ grails.project.dependency.resolution = {
 		compile ':scaffolding:2.1.0'
 		compile ':cache:1.1.3'
 		compile ':asset-pipeline:1.8.3'
+		
+		// avoid caching of GSP pages in dev environment
+		runtime ':cache-headers:1.1.7'
 
 		// plugins needed at runtime but not for compilation
 		//runtime ':hibernate4:4.3.5.2' // or ':hibernate:3.6.10.14'
