@@ -55,21 +55,13 @@ class FileController {
 		log.info("index action")
 		String parseString = "/file/download"
 		def parseStringLength = parseString.length()
-		String fullPath = params.name
+		String fullPath = params.path
 		if (fullPath == null || fullPath.isEmpty()) {
 			log.error("null or missing path info")
 			throw new JargonException("null or missing path info")
 		}
-
-		log.info("add path info is ${params.name}")
-		def idx = fullPath.indexOf(parseString)
-		log.debug("parsing out additional path info")
-		if (idx == -1) {
-			log.error("unable to parse addl path info for irods absolute path, path info was ${fullPath}")
-			throw new JargonException("unable to parse addl path info for irods absolute path")
-		}
-
-		fullPath = fullPath.substring(idx + parseStringLength)
+		fullPath = URLDecoder.decode(fullPath, "UTF-8");
+		//fullPath = StringEscapeUtils.unescapeHtml(fullPath);
 		log.info("iRODS path for file is: ${fullPath}")
 
 		try {

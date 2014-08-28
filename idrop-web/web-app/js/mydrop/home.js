@@ -1721,7 +1721,9 @@ function doActualDownload(path) {
 		return false;
 	}
 	
-	window.open(context + '/file/download' + escape(path), '_self');
+	path = escape(path);
+	path = path.replace('+', '%2B');
+	window.open(context + '/file/download?path=' + escape(path), '_self');
 }
 
 /**

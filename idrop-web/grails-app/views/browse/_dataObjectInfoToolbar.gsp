@@ -28,6 +28,7 @@
 
 function dibDownloadFile() {
 	var path = $("#infoAbsPath").val();
+	//alert("path from infoAbsPath:" + path);
 	if (path == null) {
 		showErrorMessage(jQuery.i18n.prop('msg.path.missing'));
 		return false;

@@ -388,19 +388,25 @@ class BrowseController {
 	}
 
 	def displayBrowseGridDetails = {
+		log.info("displayBrowseGridDetails()")
 		def absPath = params['absPath']
 		if (absPath == null) {
 			throw new JargonException("no absolute path passed to the method")
 		}
+
+		log.info("absPath:${absPath}")
 
 		ViewState viewState = viewStateService.saveViewModeAndSelectedPath("browse", absPath)
 
 		log.info "displayBrowseGridDetails for absPath: ${absPath}"
 		try {
 			CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
-			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
-			def isDataObject = retObj instanceof DataObject
 
+			log.info("looking up full object...")
+			def retObj = collectionAndDataObjectListAndSearchAO.getFullObjectForType(absPath)
+			log.info("got fullObjectForType:${retObj}")
+			def isDataObject = retObj instanceof DataObject
+			log.info("is data object?:${isDataObject}")
 
 			// if data object, show the info details instead...
 			if (isDataObject) {
@@ -409,6 +415,7 @@ class BrowseController {
 				return
 			}
 
+			log.info("is a coll, listing entries under:${absPath}")
 			def entries = collectionAndDataObjectListAndSearchAO.listDataObjectsAndCollectionsUnderPath(absPath)
 			int pageSize = irodsAccessObjectFactory.jargonProperties.maxFilesAndDirsQueryMax
 			//PagingActions pagingActions = PagingAnalyser.buildPagingActionsFromListOfIRODSDomainObjects(entries, pageSize)

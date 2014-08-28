@@ -60,5 +60,7 @@ Added new functional tests and cleanup for handling of listings under public, es
 Fixed login screen functionality to correctly hide or display login fields when doing guest logins
 
 
+#### file not found error in GENI portal access subcollection that should have permissions #57
 
+Added better handling of special characters, especially the + character, in file names for download operations
  
