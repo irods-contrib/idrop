@@ -54,7 +54,6 @@ describe("Tests of the home controller", function () {
         };
 
         messageCenterService = mockMessageCenterService;
-
         controller = $controller('homeController', { $scope:ctrlScope, virtualCollectionsService: mockVcService, selectedVc:mockSelectedVc, pagingAwareCollectionListing:mockPagingAwareCollectionListing, messageCenterService:messageCenterService});
 
     }));
@@ -82,6 +81,17 @@ describe("Tests of the home controller", function () {
         spyOn(messageCenterService,'add');
         ctrlScope.addDirectory(dir);
         expect(messageCenterService.add).toHaveBeenCalled();
+
+    });
+
+    it("new folder action should work just fine and call the serice to do the add", function()
+    {
+
+
+        ctrlScope.pagingAwareCollectionListing = {parentAbsolutePath:"/test1/home/test1"};
+        ctrlScope.initiateAddDirectory();
+        var dir = "newDir";
+        ctrlScope.addDirectory(dir);
 
     });
 

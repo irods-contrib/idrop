@@ -102,7 +102,15 @@ angular.module('CollectionsModule', [])
 
                     });
 
+            },
+            addNewCollection: function(parentPath, childName) {
+                $log.info("addNewCollection()");
+
+
+
             }
+
+
         };
 
         return collectionsService;
