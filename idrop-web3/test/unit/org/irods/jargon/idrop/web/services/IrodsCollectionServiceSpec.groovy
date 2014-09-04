@@ -5,10 +5,10 @@ import grails.test.mixin.*
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.core.pub.io.IRODSFile
+import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.query.PagingAwareCollectionListing
-import org.irods.jargon.idrop.web.services.IrodsCollectionService
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
-
 
 import spock.lang.Specification
 
@@ -37,6 +37,32 @@ class IrodsCollectionServiceSpec  extends Specification {
 		when:
 
 		def actual = irodsCollectionService.collectionListing("blah", ListingType.ALL, 0, irodsAccount)
+
+		then:
+
+		actual != null
+	}
+
+	void "new folder action should call iRODS file mkdirs"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		String absolutePath = "/a/path/to/a/folder"
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+		def irodsFileFactory = mockFor(IRODSFileFactory)
+		def irodsFile = mockFor(IRODSFile)
+
+
+		irodsFile.demand.mkdirs{}
+		irodsFileFactory.demand.instanceIRODSFile{ap -> return irodsFile.createMock()}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{ir -> return irodsFileFactory.createMock()}
+
+		IrodsCollectionService irodsCollectionService = new IrodsCollectionService()
+		irodsCollectionService.irodsAccessObjectFactory = iafMock
+
+
+		when:
+
+		irodsCollectionService.newFolder(absolutePath,irodsAccount)
 
 		then:
 
