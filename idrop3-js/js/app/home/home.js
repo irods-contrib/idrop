@@ -62,6 +62,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         $scope.numberSelected = 0;
         $scope.hideDrives = "false";
         $scope.selection = [];
+        $scope.newFolderInfo = [];
 
         /**
          * List all virtual collections for the user
@@ -165,30 +166,38 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         $scope.initiateAddDirectory = function() {
             $log.info("initiateAddDirectory()");
             $scope.newFolderAction=true;
+            $scope.newFolderInfo = {};
             //collectionAndDataObjectListingEntries.collectionAndDataObjectListingEntries.unshift("{newFolderAction:true}");
 
         };
 
         /**
+         * Cancel a new folder action
+         */
+        $scope.cancelAddDirectory = function() {
+            $log.info("cancelAddDirectory()");
+            $scope.newFolderAction=false;
+            $scope.newFolderInfo = {};
+
+        }
+
+        /**
          * Following an action to initiateAddDirectory(), take the required new folder name and
          * do the actual folder create
-         *
-         * @param subDirNameToAdd the name of the subdirectory under the current pat that will be added
-         */
-        $scope.addDirectory = function(subDirNameToAdd) {
+         **/
+        $scope.addDirectory = function() {
             $log.info("addDirectory()");
-            if(!subDirNameToAdd) {
+
+            if(!$scope.newFolderInfo.name) {
                 // show an error
                 var message = $filter('translate')('NO_DIRECTORY_PROVIDED');
                 $messageCenterService.add('danger', message);
                 return;
             }
 
-            $log.info("subdirectory name is:" + subDirNameToAdd);
-
-            if (!$scope.newFolderAction) {
-                throw "This is not a new folder action, method should not be called";
-            }
+            $log.info("subdirectory name is:" + $scope.newFolderInfo.name);
+            $scope.newFolderAction=false;
+            $scope.newFolderInfo = {};
 
             // do new folder action stuff
 

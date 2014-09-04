@@ -84,14 +84,30 @@ describe("Tests of the home controller", function () {
 
     });
 
-    it("new folder action should work just fine and call the serice to do the add", function()
+    it("new folder action and then cancel should set new folder in scope to false", function () {
+        ctrlScope.pagingAwareCollectionListing = {};
+        ctrlScope.initiateAddDirectory();
+        ctrlScope.cancelAddDirectory();
+        expect(ctrlScope.newFolderAction).toBe(false);
+
+    });
+
+    it("new folder action should work just fine and call the service to do the add", function()
     {
-
-
         ctrlScope.pagingAwareCollectionListing = {parentAbsolutePath:"/test1/home/test1"};
         ctrlScope.initiateAddDirectory();
         var dir = "newDir";
         ctrlScope.addDirectory(dir);
+
+    });
+
+    it("initiating and then completing a new folder action with data should call update service", function () {
+        ctrlScope.pagingAwareCollectionListing = {parentAbsolutePath:"/test1/home/test1"};
+        ctrlScope.initiateAddDirectory();
+        ctrlScope.newFolderInfo.name = "test";
+        ctrlScope.addDirectory();
+        expect(ctrlScope.newFolderAction).toBe(false);
+        expect(ctrlScope.newFolderInfo.name).toBe(undefined);
 
     });
 

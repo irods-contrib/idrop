@@ -9,20 +9,20 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox"></th>
-                    <th>Kind</th>
-                    <th>Name</th>
-                    <th>Size</th>
-                    <th>Modified</th>
+                    <th>{{ 'KIND' | translate }}</th>
+                    <th>{{ 'NAME' | translate }}</th>
+                    <th>{{ 'SIZE' | translate }}</th>
+                    <th>{{ 'MODIFIED' | translate }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-show="newFolderAction">
 
-                    <td><input ng-model="newFolderName" type="text"
-                                                           placeholder="{{ 'NEW_FOLDER_NAME' | translate }}"/></td>
+                    <td><input ng-model="newFolderInfo.name" type="text"
+                                                           placeholder="{{ 'NEW_FOLDER_NAME' | translate }}" /></td>
                     <td colspan="4"><div class="btn-group">
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok-sign"></span></button>
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove-sign"></span></button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok-sign" ng-click="addDirectory()"></span></button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove-sign" ng-click="cancelAddDirectory()"></span></button>
                     </div></td>
                 </tr>
                 <tr ng-repeat="d in pagingAwareCollectionListing.collectionAndDataObjectListingEntries"
