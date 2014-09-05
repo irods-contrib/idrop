@@ -47,6 +47,7 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:jargon-user-profile:4.0.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-user-tagging:4.0.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:virtual-collections:4.0.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:dot-irods-utilities:4.0.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:data-profile:4.0.3-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		runtime 'org.springframework:spring-expression:4.0.5.RELEASE'
 		runtime 'org.springframework:spring-aop:4.0.5.RELEASE'

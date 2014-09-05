@@ -10,6 +10,7 @@ import org.irods.jargon.core.connection.AuthScheme
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.connection.auth.AuthResponse
+import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.authsession.UserSessionContext
 import org.irods.jargon.idrop.web.services.AuthenticationService
@@ -68,8 +69,12 @@ class LoginController extends RestfulController {
 		log.info("using authScheme:${authScheme}")
 
 		IRODSAccount irodsAccount = IRODSAccount.instance(command.host, command.port, command.userName, command.password, "", command.zone, "",authScheme) //FIXME: handle def resc
-
-		AuthResponse authResponse = authenticationService.authenticate(irodsAccount)
+		AuthResponse authResponse
+		try {
+			authResponse = authenticationService.authenticate(irodsAccount)
+		} catch (Exception e) {
+			throw new JargonException("Authentication error, check host, port, and login information")
+		}
 
 		log.info("auth successful, saving response in session and returning")
 		session.authenticationSession = authResponse
