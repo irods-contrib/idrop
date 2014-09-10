@@ -22,6 +22,7 @@ class CollectionController extends RestfulController {
 	IrodsCollectionService irodsCollectionService
 	VirtualCollectionService virtualCollectionService
 
+
 	/**
 	 * Obtain a listing of collection contents
 	 * 
@@ -68,6 +69,7 @@ class CollectionController extends RestfulController {
 	 */
 	def update() {
 		log.info("update()")
+		def irodsAccount = request.irodsAccount
 
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
 
@@ -76,5 +78,8 @@ class CollectionController extends RestfulController {
 			log.error("path is missing")
 			throw new MissingDataException("path parameter is missing")
 		}
+
+		log.info("create new folder at ${path}")
+		irodsCollectionService.newFolder(path, irodsAccount)
 	}
 }

@@ -7,7 +7,6 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.IrodsCollectionService
 import org.irods.jargon.idrop.web.services.VirtualCollectionService
-import org.irods.jargon.idrop.web.controllers.CollectionController
 import org.irods.jargon.vircoll.AbstractVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 
@@ -19,7 +18,7 @@ import spock.lang.Specification
 @TestFor(CollectionController)
 class CollectionControllerSpec extends Specification {
 
-	void testCollectionListVcNameAndSubPath() {
+	void "gets listing under virtual collection"() {
 		given:
 
 		def collectionService = mockFor(IrodsCollectionService)
@@ -45,6 +44,29 @@ class CollectionControllerSpec extends Specification {
 
 		when:
 		controller.show()
+
+		then:
+		controller.response.status == 200
+		log.info("responseText:${response.text}")
+	}
+
+
+	void "new folder should work correctly"() {
+		given:
+
+		def collectionService = mockFor(IrodsCollectionService)
+
+		controller.irodsCollectionService = collectionService.createMock()
+
+		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.path = "/a/path"
+
+		collectionService.demand.newFolder{path, irodsAccount -> return }
+		controller.irodsCollectionService = collectionService.createMock()
+
+		when:
+		controller.update()
 
 		then:
 		controller.response.status == 200
