@@ -34,7 +34,6 @@ environments {
  idrop.config.preset.authScheme="Standard"
  */
 
-
 /*
  * 3) iDROP web includes the idrop-lite Java applet, which is launched from the iDROP web interface.  The interface needs to know where to find this jar file.
  * The Jar file should be placed on a web server in an accessible directory, and configured below
@@ -49,7 +48,7 @@ environments {
  */
 
 idrop.config.idrop.lite.applet.jar="idrop-lite-2.0.1-SNAPSHOT-jar-with-dependencies.jar"
-idrop.config.idrop.lite.codebase="https://code.renci.org/gf/download/frsrelease/217/2371"
+idrop.config.idrop.lite.codebase="https://code.renci.org/gf/download/frsrelease/221/2529/"
 idrop.config.idrop.lite.use.applet.dir=false
 
 
