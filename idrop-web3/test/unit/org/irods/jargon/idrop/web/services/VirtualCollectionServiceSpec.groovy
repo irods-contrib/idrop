@@ -8,12 +8,11 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
 import org.irods.jargon.vircoll.AbstractVirtualCollection
+import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollectionExecutor
-import org.irods.jargon.idrop.web.services.VirtualCollectionService
-
 
 import spock.lang.Specification
 
@@ -89,7 +88,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		List<AbstractVirtualCollection> virColls = new ArrayList<AbstractVirtualCollection>()
 		CollectionBasedVirtualCollection collBasedVirColl = new CollectionBasedVirtualCollection(uniqueName,"/a/path")
 		virColls.add(collBasedVirColl)
-		def virtualCollectionDiscoveryService = mockFor(VirtualCollectionDiscoveryServiceImpl)
+		def virtualCollectionDiscoveryService = mockFor(VirtualCollectionDiscoveryService)
 		virtualCollectionDiscoveryService.demand.listDefaultUserCollections{return virColls}
 		def discoveryMock = virtualCollectionDiscoveryService.createMock()
 
@@ -136,7 +135,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 
 		def factMock = virtualCollectionExecutorFactory.createMock()
 
-		def virtualCollectionDiscoveryService = mockFor(VirtualCollectionDiscoveryServiceImpl)
+		def virtualCollectionDiscoveryService = mockFor(VirtualCollectionDiscoveryService)
 		virtualCollectionDiscoveryService.demand.listDefaultUserCollections{return virColls}
 		def discoveryMock = virtualCollectionDiscoveryService.createMock()
 
