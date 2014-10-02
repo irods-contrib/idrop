@@ -3,7 +3,7 @@ package org.irods.jargon.idrop.web.services
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
-import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
+import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
 
 /**
  * This is a bit of slight-of-hand intended to make it easy to mock virtual collection services.  It abstracts out the creation of vc factories
@@ -21,8 +21,8 @@ class VirtualCollectionFactoryCreatorService {
 	 * @param irodsAccount
 	 * @return
 	 */
-	def instanceVirtualCollectionExecutorFactory(IRODSAccount irodsAccount) {
-		return new VirtualCollectionExecutorFactoryImpl(irodsAccessObjectFactory, irodsAccount)
+	def instanceVirtualCollectionFactory(IRODSAccount irodsAccount) {
+		return new VirtualCollectionFactoryImpl(irodsAccessObjectFactory, irodsAccount)
 	}
 
 	/**

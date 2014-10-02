@@ -7,7 +7,7 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.IrodsCollectionService
 import org.irods.jargon.idrop.web.services.VirtualCollectionService
-import org.irods.jargon.vircoll.AbstractVirtualCollection
+import org.irods.jargon.vircoll.VirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 
 import spock.lang.Specification
@@ -29,7 +29,7 @@ class CollectionControllerSpec extends Specification {
 		def vcServiceMock = mockFor(VirtualCollectionService)
 		CollectionBasedVirtualCollection rootColl = new CollectionBasedVirtualCollection("/", "root")
 		CollectionBasedVirtualCollection homeColl = new CollectionBasedVirtualCollection("/test/home/userhome", "home")
-		def virtualCollections = new ArrayList<AbstractVirtualCollection>()
+		def virtualCollections = new ArrayList<VirtualCollection>()
 		virtualCollections.add(rootColl)
 		virtualCollections.add(homeColl)
 		def mockSession = new GrailsMockHttpSession()

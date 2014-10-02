@@ -7,7 +7,7 @@ import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.vircoll.PathHintable
 import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
-import org.irods.jargon.vircoll.VirtualCollectionExecutorFactory
+import org.irods.jargon.vircoll.VirtualCollectionFactory
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 
 class VirtualCollectionService {
@@ -148,8 +148,8 @@ class VirtualCollectionService {
 
 
 		log.info("not a collection based vc, so use an executor for the listing")
-		VirtualCollectionExecutorFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionExecutorFactory(irodsAccount)
-		def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(virColl)
+		VirtualCollectionFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionFactory(irodsAccount)
+		def executor = executorFactory.instanceExecutor(virColl)
 		if (listingType == ListingType.ALL) {
 
 			if (executor instanceof PathHintable) {
