@@ -6,7 +6,7 @@
 /*
  * File controller function here, representing collection and data object catalog info and operations
  */
-angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute','tagServiceModule'])
+angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute', 'tagServiceModule'])
 
     /*
      * handle config of routes for home functions
@@ -48,10 +48,8 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
         };
 
 
-
-
     }])
-    .factory('fileService', ['$http', '$log','tagService', function ($http, $log, tagService) {
+    .factory('fileService', ['$http', '$log', 'tagService', function ($http, $log, tagService) {
 
         var fileService = {
             /**
@@ -79,7 +77,43 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
 
                 }).error(function () {
                         return null;
-                });
+                    });
+            },
+
+            /**
+             * Create a new child folder underneath the given parent collection
+             * @param parentPath path of parent
+             * @param newChildName name of new folder
+             * @returns {*|Error}
+             */
+            createNewFolder: function (parentPath, newChildName) {
+
+                $log.info("createNewFolder()");
+
+                if (!parentPath) {
+                    $log.error("parentPath is missing");
+                    throw "parentPath is missing";
+                }
+
+                if (!newChildName) {
+                    $log.error("newChildName is missing");
+                    throw "newChildName is missing";
+                }
+
+                var path = parentPath + "/" + newChildName;
+
+
+                return $http({method: 'PUT', url: 'collection/', params: {path: path}}).success(function (data) {
+                    $log.info("successfully added:" + path);
+
+                    //TODO: factor out to function?
+                    var newFolder = { "collection": true, "createdAt": "", "dataObject": false, "dataSize": 0, "description": "", "displayDataSize": "", "formattedAbsolutePath": path, "nodeLabelDisplayValue": newChildName, "objectType": {"enumType": "org.irods.jargon.core.query.CollectionAndDataObjectListingEntry$ObjectType", "name": "COLLECTION"},
+                        "parentPath": parentPath, "pathOrName": "/" + newChildName, "specColType": {"enumType": "org.irods.jargon.core.pub.domain.ObjStat$SpecColType", "name": "NORMAL"}};
+                    return newFolder;
+
+                }).error(function () {
+                        return null;
+                    });
             }
 
         };

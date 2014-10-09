@@ -55,7 +55,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
     })
 
-    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'selectedVc', 'pagingAwareCollectionListing','breadcrumbsService', '$filter',function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, selectedVc, pagingAwareCollectionListing,breadcrumbsService, $filter) {
+    .controller('homeController', ['$scope', 'virtualCollectionsService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'collectionsService', 'fileService','selectedVc', 'pagingAwareCollectionListing','breadcrumbsService', '$filter',function ($scope, virtualCollectionsService, $translate, $log, $http, $location, $messageCenterService, collectionsService, fileService, selectedVc, pagingAwareCollectionListing,breadcrumbsService, $filter) {
 
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
@@ -196,6 +196,14 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             }
 
             $log.info("subdirectory name is:" + $scope.newFolderInfo.name);
+
+
+            fileService.createNewFolder($scope.pagingAwareCollectionListing.parentAbsolutePath, $scope.newFolderInfo.name);
+
+
+
+
+
             $scope.newFolderAction=false;
             $scope.newFolderInfo = {};
 

@@ -25,6 +25,8 @@ stretch the responsive grid row
 	padding-bottom:20px;
 }
 
+body { padding-top: 70px; }
+
 .top-buffer { margin-top:20px; }
 
 .top-buffer-sm { margin-top:10px; }
