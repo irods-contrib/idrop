@@ -209,6 +209,8 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
 
             // do new folder action stuff
 
+            $scope.pagingAwareCollectionListing.collectionAndDataObjectListingEntries.unshift(data);
+
         };
 
         /**

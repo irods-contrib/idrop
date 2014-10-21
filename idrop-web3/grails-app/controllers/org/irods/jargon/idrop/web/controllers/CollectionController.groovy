@@ -80,7 +80,7 @@ class CollectionController extends RestfulController {
 		}
 
 		log.info("create new folder at ${path}")
-		irodsCollectionService.newFolder(path, irodsAccount)
-		render "OK"
+		def newEntry = irodsCollectionService.newFolder(path, irodsAccount)
+		render newEntry as JSON
 	}
 }

@@ -7,6 +7,7 @@ import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
+import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
 
@@ -52,15 +53,22 @@ class IrodsCollectionServiceSpec  extends Specification {
 
 		def irodsFile = mockFor(IRODSFile)
 		irodsFile.demand.mkdirs{ -> return true}
+		irodsFile.demand.getAbsolutePath{-> return ""}
 		def ifMock = irodsFile.createMock()
 
 		irodsFileFactory.demand.instanceIRODSFile{ap -> return ifMock}
 		irodsAccessObjectFactory.demand.getIRODSFileFactory{ir -> return irodsFileFactory.createMock()}
-		def iafMock = irodsAccessObjectFactory.createMock()
 
 		IrodsCollectionService irodsCollectionService = new IrodsCollectionService()
-		irodsCollectionService.irodsAccessObjectFactory = iafMock
 
+		def lasAO = mockFor(CollectionAndDataObjectListAndSearchAO)
+		CollectionAndDataObjectListingEntry entry = new CollectionAndDataObjectListingEntry()
+		lasAO.demand.getCollectionAndDataObjectListingEntryAtGivenAbsolutePath{pathVal -> return entry}
+		def lasAOMock = lasAO.createMock()
+
+		irodsAccessObjectFactory.demand.getCollectionAndDataObjectListAndSearchAO{x -> return lasAOMock}
+		def iafMock = irodsAccessObjectFactory.createMock()
+		irodsCollectionService.irodsAccessObjectFactory = iafMock
 
 		when:
 

@@ -106,10 +106,9 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
                 return $http({method: 'PUT', url: 'collection/', params: {path: path}}).success(function (data) {
                     $log.info("successfully added:" + path);
 
-                    //TODO: factor out to function?
-                    var newFolder = { "collection": true, "createdAt": "", "dataObject": false, "dataSize": 0, "description": "", "displayDataSize": "", "formattedAbsolutePath": path, "nodeLabelDisplayValue": newChildName, "objectType": {"enumType": "org.irods.jargon.core.query.CollectionAndDataObjectListingEntry$ObjectType", "name": "COLLECTION"},
-                        "parentPath": parentPath, "pathOrName": "/" + newChildName, "specColType": {"enumType": "org.irods.jargon.core.pub.domain.ObjStat$SpecColType", "name": "NORMAL"}};
-                    return newFolder;
+                   // var newFolder = { "collection": true, "createdAt": "", "dataObject": false, "dataSize": 0, "description": "", "displayDataSize": "", "formattedAbsolutePath": path, "nodeLabelDisplayValue": newChildName, "objectType": {"enumType": "org.irods.jargon.core.query.CollectionAndDataObjectListingEntry$ObjectType", "name": "COLLECTION"},
+                     //   "parentPath": parentPath, "pathOrName": "/" + newChildName, "specColType": {"enumType": "org.irods.jargon.core.pub.domain.ObjStat$SpecColType", "name": "NORMAL"}};
+                    return data;
 
                 }).error(function () {
                         return null;

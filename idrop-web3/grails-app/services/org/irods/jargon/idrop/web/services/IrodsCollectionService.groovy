@@ -55,7 +55,7 @@ class IrodsCollectionService {
 	 * Create a new folder at the given path
 	 * @param absolutePath absolute path to folder to be created
 	 * @param irodsAccount user info for request
-	 * @return
+	 * @return {@link CollectionAndDataObjectListingEntry} for new folder
 	 */
 	def newFolder(String absolutePath, IRODSAccount irodsAccount)  {
 		log.info("newFolder()")
@@ -75,5 +75,7 @@ class IrodsCollectionService {
 		IRODSFile newFolderFile = irodsFileFactory.instanceIRODSFile(absolutePath)
 		newFolderFile.mkdirs()
 		log.info("create done")
+		CollectionAndDataObjectListAndSearchAO collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		return collectionAndDataObjectListAndSearchAO.getCollectionAndDataObjectListingEntryAtGivenAbsolutePath(newFolderFile.getAbsolutePath())
 	}
 }
