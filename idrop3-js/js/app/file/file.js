@@ -29,7 +29,7 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
         });
     })
 
-    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'fileService', 'tagService', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService) {
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService) {
 
         $scope.file = file;
         $scope.infoTab = true;
