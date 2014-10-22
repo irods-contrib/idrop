@@ -198,11 +198,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
             $log.info("subdirectory name is:" + $scope.newFolderInfo.name);
 
 
-            fileService.createNewFolder($scope.pagingAwareCollectionListing.parentAbsolutePath, $scope.newFolderInfo.name);
-
-
-
-
+            var data = fileService.createNewFolder($scope.pagingAwareCollectionListing.parentAbsolutePath, $scope.newFolderInfo.name);
 
             $scope.newFolderAction=false;
             $scope.newFolderInfo = {};

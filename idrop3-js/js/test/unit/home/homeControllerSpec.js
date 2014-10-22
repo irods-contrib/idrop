@@ -7,7 +7,7 @@
  */
 describe("Tests of the home controller", function () {
 
-    var $http, $httpBackend, $log, $translate, ctrlScope, controller, rootScope, $q, controllerFactory, $routeProvider, breadcrumbsService, $location, messageCenterService;
+    var $http, $httpBackend, $log, $translate, ctrlScope, controller, rootScope, $q, controllerFactory, $routeProvider, breadcrumbsService, $location, messageCenterService, mockFileService;
     beforeEach(module('home'));
 
     var mockVcService = {
@@ -38,6 +38,13 @@ describe("Tests of the home controller", function () {
        // $routeProvider = _$routeProvider_;
         breadcrumbsService = _breadcrumbsService_;
         $location = _$location_;
+
+        mockFileService = {
+            createNewFolder: function (parent, child) {
+                return {};
+            }
+        };
+
         mockVcService = {
             listUserVirtualCollections: function () {
                 var deferred = $q.defer();
@@ -54,7 +61,7 @@ describe("Tests of the home controller", function () {
         };
 
         messageCenterService = mockMessageCenterService;
-        controller = $controller('homeController', { $scope:ctrlScope, virtualCollectionsService: mockVcService, selectedVc:mockSelectedVc, pagingAwareCollectionListing:mockPagingAwareCollectionListing, messageCenterService:messageCenterService});
+        controller = $controller('homeController', { $scope:ctrlScope, virtualCollectionsService: mockVcService, selectedVc:mockSelectedVc, pagingAwareCollectionListing:mockPagingAwareCollectionListing, messageCenterService:messageCenterService, fileService:mockFileService});
 
     }));
 
@@ -105,6 +112,7 @@ describe("Tests of the home controller", function () {
         ctrlScope.pagingAwareCollectionListing = {parentAbsolutePath:"/test1/home/test1"};
         ctrlScope.initiateAddDirectory();
         ctrlScope.newFolderInfo.name = "test";
+        ctrlScope.pagingAwareCollectionListing = {collectionAndDataObjectListingEntries:[]};
         ctrlScope.addDirectory();
         expect(ctrlScope.newFolderAction).toBe(false);
         expect(ctrlScope.newFolderInfo.name).toBe(undefined);
