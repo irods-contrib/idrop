@@ -47,6 +47,14 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
 
         };
 
+        /**
+         * Return to the parent collection in the home view
+         * @param path path to the iRODS parent collection
+         */
+        $scope.selectParentCollection = function(path) {
+            alert("selectParentCollection()");
+        }
+
 
     }])
     .factory('fileService', ['$http', '$log', 'tagService', function ($http, $log, tagService) {

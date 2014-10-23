@@ -1,0 +1,40 @@
+/* css links to extended icons */
+.glyphext {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width:20px; /*width of your image*/
+    height:20px; /*height of your image*/
+    margin-right:5px; /* If you want no margin */
+    padding-right:0px; /*if your want to padding */
+    background-repeat: no-repeat;
+}
+
+.glyphext2x {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width:40px; /*width of your image*/
+    height:40px; /*height of your image*/
+    margin-right:5px; /* If you want no margin */
+    padding-right:0px; /*if your want to padding */
+    background-repeat: no-repeat;
+}
+
+.glyphext-folder-closed-large {
+    background-image:  url(../images/glyphext/glyphicons_440_folder_closed.png);
+}
+
+.glyphext-file-2x {
+    background-image:  url(../images/glyphext/glyphicons_036_file@2x.png);
+}

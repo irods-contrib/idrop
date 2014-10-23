@@ -16,15 +16,22 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'FILE' | translate }} <span class="caret"></span></a>
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'FILE' | translate }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a ng-click="blah()" href="#">{{ 'RENAME' | translate }} </a></li>
-                        <li><a href="#">{{ 'COPY' | translate }}</a></li>
-                        <li><a href="#">{{ 'DOWNLOAD' | translate }}</a></li>
+                        <li><a ng-click="blah()" href="">{{ 'RENAME' | translate }} </a></li>
+                        <li><a href="">{{ 'COPY' | translate }}</a></li>
+                        <li><a href=""><span class="glyphicon glyphicon-download"></span>{{ 'DOWNLOAD' | translate }}</a></li>
+                        <li><a href=""><span class="glyphicon glyphicon-trash"></span>{{ 'MOVE_TO_TRASH' | translate }}</a></li>
+                       <!-- <li class="divider"></li>
+                        <li><a href="">Separated link</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li><a href="">One more separated link</a></li> -->
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'TOOLS' | translate }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+
                     </ul>
                 </li>
             </ul>

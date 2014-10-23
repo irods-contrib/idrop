@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'fileModule','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule','tagServiceModule','angular-loading-bar', 'globalsModule']);
+angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'fileModule','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule','tagServiceModule','angular-loading-bar', 'globalsModule','mimeTypeServiceModule']);
 
 angular.module('flash', []);
 
@@ -472,12 +472,14 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             ADD_TO_CART: 'Add to Cart',
             AUDIT: 'Audit',
             CHECKSUM: 'Checksum',
+            COPY: 'Copy',
             CREATED: 'Created',
             DATA_OWNER_NAME: 'Owner',
             DATA_OWNER_ZONE: 'Owner Zone',
             DATA_PATH: 'Data Path',
             DATA_TYPE: 'Data Type',
             DELETE: 'Delete',
+            DOWNLOAD: 'Download',
             EDIT:'Edit',
             EXPIRY: 'Expiry',
             FILE: 'File',
@@ -491,6 +493,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             METADATA: 'Metadata',
             MODIFIED: 'Modified',
             MOVE_COPY: 'Move/Copy',
+            MOVE_TO_TRASH: 'Move to Trash',
             NAME: 'Name',
             NEW_FILE: 'New File',
             NEW_FOLDER: 'New Folder',
@@ -630,6 +633,33 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
 
 
     }]);
+/**
+ * Created by Mike Conway on 10/23/2014.
+ * Service to translate mime types to css classes for icon display and other mime-based purposes
+ */
+
+angular.module('mimeTypeServiceModule', [])
+
+    .service('mimeTypeService', ['$log', function ($log) {
+
+        /**
+         * Get css class values based on the passed in mime type
+         * @returns css classes that can be used to set icons for file type
+         */
+        this.iconClassFromMimeTypeFullSize = function (mimeType) {
+
+            if (!mimeType) {
+                return "glyphext2x glyphext-file-2x";
+            }
+
+            return return "glyphext2x glyphext-file-2x";
+
+        };
+
+
+
+    }]);
+
 /**
  * Service for free tagging and tag clouds
  *
@@ -786,6 +816,14 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
             $location.search("path", absPath);
 
         };
+
+        /**
+         * Return to the parent collection in the home view
+         * @param path path to the iRODS parent collection
+         */
+        $scope.selectParentCollection = function(path) {
+            alert("selectParentCollection()");
+        }
 
 
     }])

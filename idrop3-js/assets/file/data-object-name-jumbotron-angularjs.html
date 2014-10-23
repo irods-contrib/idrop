@@ -1,16 +1,15 @@
-<div class="">
-
         <div class="row">
             <div class="col-md-12">
+
                 <button type="button"
-                        class="btn btn-link" ng-click="selectParentCollection(file.data.collectionName)">{{
+                        class="btn btn-link" ng-click="selectParentCollection(file.data.collectionName)"> <span class="glyphext glyphext-folder-closed-large"></span>{{
                     file.data.domainObject.collectionName | abbreviateFileName }}
                 </button>
             </div>
         </div>
-        <div class="row">
+        <div class="row well well-sm">
             <div class="col-md-12">
-                <h3>{{ file.data.domainObject.dataName }}</h3>
+                <h4>{{ file.data.domainObject.dataName }}</h4>
             </div>
         </div>
         <div class="row">
@@ -19,4 +18,3 @@
             </div>
         </div>
 
-</div>
