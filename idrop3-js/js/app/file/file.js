@@ -56,13 +56,19 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
             alert("selectParentCollection()");
         };
 
+        /**
+         * Get a css class string based on the mime type of the current file.  This handles null data by returning a blank class
+         */
         $scope.getFileIconClass = function() {
+            if (!$scope.file) {
+                return "";
+            }
+
+            $log.info("getting mime type for file:" + $scope.file.mimeType);
+
+            return mimeTypeService.iconClassFromMimeTypeFullSize($scope.file.mimeType);
 
         }
-
-
-
-
 
     }])
     .factory('fileService', ['$http', '$log', 'tagService', function ($http, $log, tagService) {
