@@ -652,7 +652,7 @@ angular.module('mimeTypeServiceModule', [])
                 return "glyphext2x glyphext-file-2x";
             }
 
-            return return "glyphext2x glyphext-file-2x";
+            return  "glyphext2x glyphext-file-2x";
 
         };
 
@@ -795,11 +795,12 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
                     }
                     return fileService.retrieveFileBasics(path);
                 }
+
             }
         });
     })
 
-    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService) {
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService','mimeTypeService', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService, mimeTypeService) {
 
         $scope.file = file;
         $scope.infoTab = true;
@@ -823,7 +824,14 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
          */
         $scope.selectParentCollection = function(path) {
             alert("selectParentCollection()");
+        };
+
+        $scope.getFileIconClass = function() {
+            
         }
+
+
+
 
 
     }])
