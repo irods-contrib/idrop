@@ -1,8 +1,8 @@
-<div x-ng-include="'assets/file/nav-angularjs.html'"></div>
 <div >
     <div x-ng-include="'assets/file/data-object-name-jumbotron-angularjs.html'"></div>
     <div class=" pad-vertical">
         <div class="row">
+            <div x-ng-include="'assets/file/data-object-nav-angularjs.html'"></div>
 
             <div class="col-md-10">
                 <div class="">
@@ -32,7 +32,30 @@
                             <span class="text-left">{{ file.data.domainObject.updatedAt}}</span>
                         </div>
                     </div>
-
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'EXPIRY' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.expiry}}</span>
+                        </div>
+                    </div>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'TYPE' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.specColType.name}}</span>
+                        </div>
+                    </div>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'DATA_TYPE' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.dataTypeName}}</span>
+                        </div>
+                    </div>
                     <div class="row top-buffer-sm">
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'CHECKSUM' | translate }}:</b></span>
@@ -48,7 +71,42 @@
                     </div>
 
 
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'DATA_OWNER_NAME' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.dataOwnerName}}</span>
+                        </div>
 
+                    </div>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'DATA_OWNER_ZONE' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.dataOwnerZone}}</span>
+                        </div>
+
+                    </div>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'DATA_PATH' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.dataPath}}</span>
+                        </div>
+
+                    </div>
+                    <div class="row top-buffer-sm">
+                        <div class="col-md-2">
+                            <span class="text-right"><b>{{ 'OBJECT_PATH' | translate }}:</b></span>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-left">{{ file.data.domainObject.objectPath}}</span>
+                        </div>
+
+                    </div>
                     <div class="row top-buffer-sm">
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'TAGS' | translate }}:</b></span>

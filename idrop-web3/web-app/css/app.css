@@ -52,6 +52,10 @@
 .glyphext-file-2x {
     background-image:  url(../images/glyphext/glyphicons_036_file@2x.png);
 }
+
+.glyphext-doc-2x {
+    background-image:  url(../images/glyphext/glyphicons_filetypes_001_doc@2x.png);
+}
 @CHARSET "UTF-8";
 
 /*
@@ -109,6 +113,12 @@ html,body {
 	height: 100%;
 	/* The html and body elements cannot have any padding or margin. */
 }
+
+#main {
+    margin: 5px;
+
+}
+
 
 /* Wrapper for page content to push down footer */
 #wrap {

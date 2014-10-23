@@ -29,6 +29,20 @@
                     </ul>
                 </li>
                 <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'VIEWS' | translate }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-class="{active: infoTab}"><a href="#" ng-click="showFileInfoTab(file.data.absolutePath)">{{
+                            'INFO' | translate }}</a></li>
+                        <li ng-class="{active: metadataTab}"><a href="#" ng-click="showFileMetadata(file.data.absolutePath)">{{
+                            'METADATA' | translate }}</a></li>
+                        <li><a href="#">{{ 'PERMISSIONS' | translate }}</a></li>
+                        <li><a href="#">{{ 'AUDIT' | translate }}</a></li>
+                        <li><a href="#">{{ 'EDIT' | translate }}</a></li>
+                        <li><a href="#">{{ 'RULE' | translate }}</a></li>
+                        <li><a href="#">{{ 'WORKFLOW' | translate }}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ 'TOOLS' | translate }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
 

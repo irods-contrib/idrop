@@ -64,9 +64,9 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
                 return "";
             }
 
-            $log.info("getting mime type for file:" + $scope.file.mimeType);
+            $log.info("getting mime type for file:" + $scope.file.data.mimeType);
 
-            return mimeTypeService.iconClassFromMimeTypeFullSize($scope.file.mimeType);
+            return mimeTypeService.iconClassFromMimeTypeFullSize($scope.file.data.mimeType);
 
         }
 

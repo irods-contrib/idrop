@@ -17,10 +17,14 @@ angular.module('mimeTypeServiceModule', [])
                 return "glyphext2x glyphext-file-2x";
             }
 
-            return  "glyphext2x glyphext-file-2x";
+
+            if (mimeType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+                return "glyphext2x glyphext-doc-2x";
+            } else {
+
+                return "glyphext2x glyphext-file-2x";
+            }
 
         };
-
-
 
     }]);
