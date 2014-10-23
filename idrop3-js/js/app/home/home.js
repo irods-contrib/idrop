@@ -152,7 +152,7 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         $scope.showFileDetails = function(path) {
             $location.path("/file");
             $location.search("path", path);
-
+            $location.search("vc", $scope.selectedVc.data.uniqueName);
         };
 
 

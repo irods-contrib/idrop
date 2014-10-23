@@ -24,16 +24,24 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
                         path = "/";
                     }
                     return fileService.retrieveFileBasics(path);
+                },
+                vc: function ($route, fileService) {
+                    var vc = $route.current.params.vc;
+                    if (vc == null) {
+                        vc = "root";
+                    }
+                    return vc;
                 }
 
             }
         });
     })
 
-    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService','mimeTypeService', function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService, mimeTypeService) {
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService','mimeTypeService','$window','vc',function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService, mimeTypeService, $window,vc) {
 
         $scope.file = file;
         $scope.infoTab = true;
+        $scope.vc = vc;
 
         $scope.showFileMetadata = function (absPath) {
             alert("show file metadata");
@@ -50,10 +58,11 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
 
         /**
          * Return to the parent collection in the home view
-         * @param path path to the iRODS parent collection
          */
-        $scope.selectParentCollection = function(path) {
-            alert("selectParentCollection()");
+        $scope.selectParentCollection = function() {
+            $location.path("/home/");
+            $location.search("path", path);
+            $location.search("vc", $scope.selectedVc.data.uniqueName);
         };
 
         /**
