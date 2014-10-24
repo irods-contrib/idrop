@@ -514,6 +514,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             TOOLS: 'Tools',
             TYPE: 'Type',
             USER_NAME: 'User Name',
+            UPDATE_TAGS: 'Update Tags',
             VIEWS: 'Views',
             VIEW_DETAILS: 'View Details',
             WORKFLOW:'Workflow',
@@ -819,6 +820,7 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
         $scope.vc = vc;
 
         $scope.checksumVisible = false;
+        $scope.tagVisible = false;
 
         $scope.showChecksum = function() {
           $scope.checksumVisible = true;
@@ -826,6 +828,14 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
 
         $scope.hideChecksum = function() {
             $scope.checksumVisible = false;
+        };
+
+        $scope.showTag = function() {
+            $scope.tagVisible = true;
+        };
+
+        $scope.hideTag = function() {
+            $scope.tagVisible = false;
         };
 
 

@@ -44,22 +44,22 @@
                             <span class="animate-show-hide" ng-show="checksumVisible"> <button  class="btn btn-primary btn-sm " ng-click="updateChecksum()">
                                 <span>{{ 'COMPUTE_CHECKSUM' | translate }}</span>
                             </button></span>
-
                         </div>
                     </div>
 
 
-                    <div class="row top-buffer-sm">
+                    <div class="row top-buffer-sm" ng-mouseenter="showTag()" ng-mouseleave="hideTag()">
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'TAGS' | translate }}:</b></span>
                         </div>
                         <div class="col-md-6">
                             <input  class="form-control" id="tags" placeholder="Enter tags separated by spaces" ng-model="file.data.tagString">
                         </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-default" ng-click="updateTags()">
-                                <span class="glyphicon glyphicon-ok" style="vertical-align:middle"></span>
-                            </button>
+
+                        <div class="col-md-4 " >
+                            <span class="animate-show-hide" ng-show="tagVisible"> <button  class="btn btn-primary btn-sm " ng-click="updateTags()">
+                                <span>{{ 'UPDATE_TAGS' | translate }}</span>
+                            </button></span>
                         </div>
 
                     </div>

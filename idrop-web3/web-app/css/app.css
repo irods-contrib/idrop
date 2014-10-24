@@ -71,10 +71,11 @@ stretch the responsive grid row
 
 body { padding-top: 70px; }
 
+/*
 .top-buffer { margin-top:20px; }
 
 .top-buffer-sm { margin-top:10px; }
-
+*/
 
 /*
 
@@ -251,7 +252,7 @@ code {
 }
 
 .animate-show-hide {
-    padding:10px;
+    padding:0px;
 
 }
 
