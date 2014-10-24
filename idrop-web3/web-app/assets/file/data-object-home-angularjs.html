@@ -33,20 +33,20 @@
                         </div>
                     </div>
 
-                    <div class="row top-buffer-sm">
+                    <div class="row top-buffer-sm" ng-mouseenter="showChecksum()" ng-mouseleave="hideChecksum()">
                         <div class="col-md-2">
                             <span class="text-right"><b>{{ 'CHECKSUM' | translate }}:</b></span>
                         </div>
                         <div class="col-md-6">
                             <span class="text-left">{{ file.data.domainObject.checksum}}</span>
                         </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-default" ng-click="updateChecksum()">
-                                <span class="glyphicon glyphicon-refresh" style="vertical-align:middle"></span>
-                            </button>
+                        <div class="col-md-4 " >
+                            <span class="animate-show-hide" ng-show="checksumVisible"> <button  class="btn btn-primary btn-sm " ng-click="updateChecksum()">
+                                <span>{{ 'COMPUTE_CHECKSUM' | translate }}</span>
+                            </button></span>
+
                         </div>
                     </div>
-
 
 
                     <div class="row top-buffer-sm">

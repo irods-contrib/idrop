@@ -43,6 +43,17 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
         $scope.infoTab = true;
         $scope.vc = vc;
 
+        $scope.checksumVisible = false;
+
+        $scope.showChecksum = function() {
+          $scope.checksumVisible = true;
+        };
+
+        $scope.hideChecksum = function() {
+            $scope.checksumVisible = false;
+        };
+
+
         $scope.showFileMetadata = function (absPath) {
             alert("show file metadata");
             $log.info("showFileMetadata()");

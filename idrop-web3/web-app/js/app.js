@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'fileModule','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule','tagServiceModule','angular-loading-bar', 'globalsModule','mimeTypeServiceModule']);
+angular.module('app', ['ngAnimate','ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'fileModule','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule','tagServiceModule','angular-loading-bar', 'globalsModule','mimeTypeServiceModule']);
 
 angular.module('flash', []);
 
@@ -474,6 +474,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             CHECKSUM: 'Checksum',
             COPY: 'Copy',
             CREATED: 'Created',
+            COMPUTE_CHECKSUM: 'Generate Checksum',
             DATA_OWNER_NAME: 'Owner',
             DATA_OWNER_ZONE: 'Owner Zone',
             DATA_PATH: 'Data Path',
@@ -816,6 +817,17 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
         $scope.file = file;
         $scope.infoTab = true;
         $scope.vc = vc;
+
+        $scope.checksumVisible = false;
+
+        $scope.showChecksum = function() {
+          $scope.checksumVisible = true;
+        };
+
+        $scope.hideChecksum = function() {
+            $scope.checksumVisible = false;
+        };
+
 
         $scope.showFileMetadata = function (absPath) {
             alert("show file metadata");

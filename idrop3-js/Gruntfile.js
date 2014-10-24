@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         // configured a task
         concat: {
             vendorjs: {
-                src: ['js/vendor/jquery-1.10.2.min.js','js/vendor/bootstrap.js','js/vendor/angular.js', 'js/vendor/angular-route.js','js/vendor/angular-resource.js','js/vendor/angular-translate.js','js/vendor/message-center.js', 'js/vendor/loading-bar.js'],
+                src: ['js/vendor/jquery-1.10.2.min.js','js/vendor/bootstrap.js','js/vendor/angular.js', 'js/vendor/angular-route.js','js/vendor/angular-resource.js','js/vendor/angular-translate.js','js/vendor/message-center.js', 'js/vendor/loading-bar.js','js/vendor/angular-animate.min.js'],
                 dest: 'web-app/js/vendor.js'
             },
             css: {
@@ -35,6 +35,8 @@ module.exports = function (grunt) {
                     {expand: true, src: ['images/**/*.*'], dest: 'web-app'},
                     //{expand: true, src: ['js/app/**/*.js'], dest: 'web-app'},
                     {expand: true, src: ['css/**/*.css.map'], dest: 'web-app'},
+                    {expand: false, src: ['js/vendor/angular-animate.min.js.map'], dest: 'web-app/js/angular-animate.min.js.map'},
+
 
                     // includes files within path and its sub-directories
                     {expand: true, src: ['web-app/**'], dest: '../idrop-web3'}

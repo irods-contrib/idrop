@@ -15,6 +15,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate']).config(functio
             CHECKSUM: 'Checksum',
             COPY: 'Copy',
             CREATED: 'Created',
+            COMPUTE_CHECKSUM: 'Generate Checksum',
             DATA_OWNER_NAME: 'Owner',
             DATA_OWNER_ZONE: 'Owner Zone',
             DATA_PATH: 'Data Path',
