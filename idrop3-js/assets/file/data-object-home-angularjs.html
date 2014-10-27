@@ -9,40 +9,40 @@
 
                     <div class="row top-buffer" >
                         <div class="col-md-2">
-                            <span class="text-right"><b>{{ 'LENGTH' | translate }}:</b></span>
+                            <span class="text-right"><h5>{{ 'LENGTH' | translate }}:</h5></span>
                         </div>
                         <div class="col-md-10">
-                            <span class="text-left">{{ file.data.domainObject.displayDataSize}}</span>
+                            <h5><span class="text-left">{{ file.data.domainObject.displayDataSize}}</span></h5>
                         </div>
                     </div>
                     <div class="row top-buffer-sm">
 
                         <div class="col-md-2">
-                            <span class="text-right"><b>{{ 'CREATED' | translate }}:</b></span>
+                          <h5>  <span class="text-right"><h5>{{ 'CREATED' | translate }}:</h5></span>
                         </div>
                         <div class="col-md-10">
-                            <span class="text-left">{{ file.data.domainObject.createdAt}}</span>
+                          <h5>  <span class="text-left">{{ file.data.domainObject.createdAt}}</span></h5>
                         </div>
                     </div>
                     <div class="row top-buffer-sm">
                         <div class="col-md-2">
-                            <span class="text-right"><b>{{ 'MODIFIED' | translate }}:</b></span>
+                            <span class="text-right"><h5>{{ 'MODIFIED' | translate }}:</h5></span>
                         </div>
                         <div class="col-md-10">
-                            <span class="text-left">{{ file.data.domainObject.updatedAt}}</span>
+                         <h5><span class="text-left">{{ file.data.domainObject.updatedAt}}</span></h5>
                         </div>
                     </div>
 
                     <div class="row top-buffer-sm" ng-mouseenter="showChecksum()" ng-mouseleave="hideChecksum()">
                         <div class="col-md-2">
-                            <span class="text-right"><b>{{ 'CHECKSUM' | translate }}:</b></span>
+                            <span class="text-right"><h5>{{ 'CHECKSUM' | translate }}:</h5></span>
                         </div>
                         <div class="col-md-6">
-                            <span class="text-left">{{ file.data.domainObject.checksum}}</span>
+                            <h5><span class="text-left">{{ file.data.domainObject.checksum}}</span></h5>
                         </div>
                         <div class="col-md-4 " >
                             <span class="animate-show-hide" ng-show="checksumVisible"> <button  class="btn btn-primary btn-sm " ng-click="updateChecksum()">
-                                <span>{{ 'COMPUTE_CHECKSUM' | translate }}</span>
+                             <span>{{ 'COMPUTE_CHECKSUM' | translate }}</span>
                             </button></span>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
 
                     <div class="row top-buffer-sm" ng-mouseenter="showTag()" ng-mouseleave="hideTag()">
                         <div class="col-md-2">
-                            <span class="text-right"><b>{{ 'TAGS' | translate }}:</b></span>
+                            <span class="text-right"><h5>{{ 'TAGS' | translate }}:</h5></span>
                         </div>
                         <div class="col-md-6">
                             <input  class="form-control" id="tags" placeholder="Enter tags separated by spaces" ng-model="file.data.tagString">
