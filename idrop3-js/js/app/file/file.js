@@ -80,9 +80,8 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
          * Return to the parent collection in the home view
          */
         $scope.selectParentCollection = function() {
-            $location.path("/home/");
-            $location.search("path", path);
-            $location.search("vc", $scope.selectedVc.data.uniqueName);
+            $location.path("/home/" + $scope.vc);
+            $location.search("path",  $scope.file.data.domainObject.collectionName);
         };
 
         /**
