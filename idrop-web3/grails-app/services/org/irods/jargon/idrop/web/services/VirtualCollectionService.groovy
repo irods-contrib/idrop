@@ -14,7 +14,7 @@ class VirtualCollectionService {
 
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
-	VirtualCollectionFactoryCreatorService virtualCollectionFactoryCreatorService
+	JargonServiceFactoryService jargonServiceFactoryService
 	IrodsCollectionService irodsCollectionService
 
 	public enum ListingType {
@@ -148,7 +148,7 @@ class VirtualCollectionService {
 
 
 		log.info("not a collection based vc, so use an executor for the listing")
-		VirtualCollectionFactory executorFactory = virtualCollectionFactoryCreatorService.instanceVirtualCollectionFactory(irodsAccount)
+		VirtualCollectionFactory executorFactory = jargonServiceFactoryService.instanceVirtualCollectionFactory(irodsAccount)
 		def executor = executorFactory.instanceExecutor(virColl)
 		if (listingType == ListingType.ALL) {
 

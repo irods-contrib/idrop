@@ -215,4 +215,9 @@ code {
 .animate-show-hide.ng-hide-remove.ng-hide-remove-active {
     opacity:1;
 }
+
+.text-align-icon{
+    display:block;
+    text-align:center
+}
 ​

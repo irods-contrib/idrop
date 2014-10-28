@@ -23,4 +23,24 @@ describe("Tests of the virtual collections icon filterr", function () {
 
     });
 
+    it("should return a star class when it is starred", function () {
+        var orig, result;
+
+        orig = {data:{starred:true}};
+
+        result = $filter('starIcon')(orig);
+        expect(result).toEqual("glyphicon-star");
+
+    });
+
+    it("should return an empty star class when it is not starred", function () {
+        var orig, result;
+
+        orig = {data:{starred:false}};
+
+        result = $filter('starIcon')(orig);
+        expect(result).toEqual("glyphicon-star-empty");
+
+    });
+
 });

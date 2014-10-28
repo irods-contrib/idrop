@@ -7,9 +7,12 @@
                 </button>
             </div>
         </div>
-        <div class="row well well-sm">
-            <div class="col-md-12">
-                <h4> <span class="{{getFileIconClass()}}"></span>{{ file.data.domainObject.dataName }}</h4>
+        <div class="row well well-sm" >
+            <div class="col-md-10">
+                <span class="{{getFileIconClass()}}"></span><h4>{{ file.data.domainObject.dataName }}</h4>
+            </div>
+            <div class="col-md-2">
+                 <span class="glyphicon {{file | starIcon }}" ng-click="toggleStar()"></span>
             </div>
         </div>
 

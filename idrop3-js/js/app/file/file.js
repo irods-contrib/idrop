@@ -62,6 +62,13 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
             $scope.tagVisible = false;
         };
 
+        /**
+         * star or unstar the given file
+         */
+        $scope.toggleStar = function() {
+            alert("toggle star");
+        };
+
 
         $scope.showFileMetadata = function (absPath) {
             alert("show file metadata");

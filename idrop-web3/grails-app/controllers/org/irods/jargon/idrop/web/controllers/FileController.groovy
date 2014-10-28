@@ -26,7 +26,6 @@ class FileController extends RestfulController {
 		log.info("index")
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
-
 		def path = params.path
 		log.info("path:${path}")
 		def dataProfile = dataProfileMidTierService.retrieveDataProfile(path, irodsAccount)

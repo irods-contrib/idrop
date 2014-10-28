@@ -38,10 +38,10 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		virtualCollectionFactory.demand.instanceExecutorBased{vc -> return execMock}
 		def factMock = virtualCollectionFactory.createMock()
 
-		def virtualCollectionFactoryCreatorService = mockFor(VirtualCollectionFactoryCreatorService)
-		virtualCollectionFactoryCreatorService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		jargonServiceFactoryService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
 
-		def virtualCollectionExecutorFactoryCreatorServiceMock = virtualCollectionFactoryCreatorService.createMock()
+		def virtualCollectionExecutorFactoryCreatorServiceMock = jargonServiceFactoryService.createMock()
 
 		def mockSession = new GrailsMockHttpSession()
 		List<VirtualCollection> virColls = new ArrayList<VirtualCollection>()
@@ -51,7 +51,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 
 		VirtualCollectionService virtualCollectionService = new VirtualCollectionService()
 		virtualCollectionService.irodsAccessObjectFactory = iafMock
-		virtualCollectionService.virtualCollectionFactoryCreatorService = virtualCollectionExecutorFactoryCreatorServiceMock
+		virtualCollectionService.jargonServiceFactoryService = virtualCollectionExecutorFactoryCreatorServiceMock
 
 		when:
 
@@ -80,8 +80,8 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		virtualCollectionFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
 		def factMock = virtualCollectionFactory.createMock()
 
-		def virtualCollectionFactoryCreatorService = mockFor(VirtualCollectionFactoryCreatorService)
-		virtualCollectionFactoryCreatorService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		jargonServiceFactoryService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
 
 
 		List<VirtualCollection> virColls = new ArrayList<VirtualCollection>()
@@ -91,9 +91,9 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		virtualCollectionDiscoveryService.demand.listDefaultUserCollections{return virColls}
 		def discoveryMock = virtualCollectionDiscoveryService.createMock()
 
-		virtualCollectionFactoryCreatorService.demand.instanceVirtualCollectionDiscoveryService{irodsAcct -> return discoveryMock}
+		jargonServiceFactoryService.demand.instanceVirtualCollectionDiscoveryService{irodsAcct -> return discoveryMock}
 
-		def virtualCollectionExecutorFactoryCreatorServiceMock = virtualCollectionFactoryCreatorService.createMock()
+		def virtualCollectionExecutorFactoryCreatorServiceMock = jargonServiceFactoryService.createMock()
 
 		def mockSession = new GrailsMockHttpSession()
 
@@ -101,7 +101,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 
 		VirtualCollectionService virtualCollectionService = new VirtualCollectionService()
 		virtualCollectionService.irodsAccessObjectFactory = iafMock
-		virtualCollectionService.virtualCollectionFactoryCreatorService = virtualCollectionExecutorFactoryCreatorServiceMock
+		virtualCollectionService.jargonServiceFactoryService = virtualCollectionExecutorFactoryCreatorServiceMock
 
 		when:
 
@@ -125,7 +125,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		CollectionBasedVirtualCollection collBasedVirColl = new CollectionBasedVirtualCollection(uniqueName,"/a/path")
 		virColls.add(collBasedVirColl)
 
-		def virtualCollectionFactoryCreatorService = mockFor(VirtualCollectionFactoryCreatorService)
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
 		def collectionBasedVirtualCollectionExecutor = mockFor(CollectionBasedVirtualCollectionExecutor)
 		collectionBasedVirtualCollectionExecutor.demand.queryAll{return listing}
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
@@ -140,7 +140,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 
 
 		//virtualCollectionFactoryCreatorService.demand.instanceVirtualCollectionDiscoveryService{irodsAcct -> return discoveryMock}
-		virtualCollectionFactoryCreatorService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
+		jargonServiceFactoryService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
 
 		def mockSession = new GrailsMockHttpSession()
 
@@ -148,9 +148,9 @@ class VirtualCollectionServiceSpec  extends Specification  {
 
 		VirtualCollectionService virtualCollectionService = new VirtualCollectionService()
 		virtualCollectionService.irodsAccessObjectFactory = iafMock
-		def virtualCollectionFactoryCreatorServiceMock = virtualCollectionFactoryCreatorService.createMock()
+		def virtualCollectionFactoryCreatorServiceMock = jargonServiceFactoryService.createMock()
 
-		virtualCollectionService.virtualCollectionFactoryCreatorService = virtualCollectionFactoryCreatorServiceMock
+		virtualCollectionService.jargonServiceFactoryService = virtualCollectionFactoryCreatorServiceMock
 
 		when:
 

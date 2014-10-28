@@ -8,6 +8,7 @@ class UrlMappings {
 
 		"/collection"(resource:"collection")
 
+		"/star/$path"(resource:"star")
 
 		"/virtualCollection/$name"(resource:"virtualCollection")
 

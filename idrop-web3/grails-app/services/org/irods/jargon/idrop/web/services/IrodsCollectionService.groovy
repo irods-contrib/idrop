@@ -16,7 +16,7 @@ class IrodsCollectionService {
 
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
-	VirtualCollectionFactoryCreatorService virtualCollectionFactoryCreatorService
+	JargonServiceFactoryService jargonServiceFactoryService
 
 	/**
 	 * Generate a collection listing 

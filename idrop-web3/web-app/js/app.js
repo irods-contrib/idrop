@@ -259,6 +259,26 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
 
         };
     })
+    .filter('starIcon', function ($log) {
+        /**
+         * Given an absolute path, make a space-saving abbreviation by redacting parts of the full string
+         */
+
+        return function (dataProfile) {
+
+            if (!dataProfile) {
+                return "glyphicon-star-empty";
+            }
+
+            if(dataProfile.data.starred) {
+                return "glyphicon-star";
+            } else {
+                return "glyphicon-star-empty";
+
+            }
+
+        };
+    })
     .filter('abbreviateFileName', function ($log) {
         /**
          * Given an absolute path, make a space-saving abbreviation by redacting parts of the full string
@@ -836,6 +856,13 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
 
         $scope.hideTag = function() {
             $scope.tagVisible = false;
+        };
+
+        /**
+         * star or unstar the given file
+         */
+        $scope.toggleStar = function() {
+            alert("toggle star");
         };
 
 
