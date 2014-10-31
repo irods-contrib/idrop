@@ -30,6 +30,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
@@ -54,6 +55,7 @@ import org.irods.jargon.idrop.desktop.systraygui.utils.IDropUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.LocalFileUtils;
 import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.utils.TreeUtils;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.HyperLinkButton;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSFileSystemModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
@@ -161,6 +163,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             log.warn("no account, exiting");
             System.exit(0);
         }
+        
+        // add Advanced hyperlink
+        HyperLinkButton btnAdvanced = new HyperLinkButton("Advanced");
+        btnAdvanced.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdvancedActionPerformed(evt);
+            }
+        });
+        btnAdvanced.setVerticalTextPosition(SwingConstants.BOTTOM);
+        jToolBar1.add(btnAdvanced);
 
     }
 
@@ -1072,6 +1084,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarInfo.setEnabled(state);
         btnMainToolbarCopy.setEnabled(state);
         btnMainToolbarDelete.setEnabled(state);
+        
+        // TODO: remove these after to finish iPlant redesign:
+        btnMainToolbarTools.setVisible(false);
+        btnMainToolbarQueueMgr.setVisible(false);
+        btnMainToolbarGrids.setVisible(false);
+        btnSynch.setVisible(false);
 
     }
 
@@ -1493,11 +1511,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        btnMainToolbarTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_119_table.png"))); // NOI18N
+        btnMainToolbarTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_340_globe.png"))); // NOI18N
         btnMainToolbarTree.setMnemonic('t');
         btnMainToolbarTree.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTree.text")); // NOI18N
         btnMainToolbarTree.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTree.toolTipText")); // NOI18N
-        btnMainToolbarTree.setBorder(null);
+        btnMainToolbarTree.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 2));
         btnMainToolbarTree.setFocusable(false);
         btnMainToolbarTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarTree.setMargin(new java.awt.Insets(0, 0, 0, 4));
@@ -1513,7 +1531,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         btnMainToolbarDownload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_181_download_alt.png"))); // NOI18N
         btnMainToolbarDownload.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarDownload.text")); // NOI18N
-        btnMainToolbarDownload.setBorder(null);
+        btnMainToolbarDownload.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 2));
         btnMainToolbarDownload.setFocusable(false);
         btnMainToolbarDownload.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarDownload.setMargin(new java.awt.Insets(0, 4, 0, 4));
@@ -1526,9 +1544,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jToolBar1.add(btnMainToolbarDownload);
         jToolBar1.add(filler2);
 
-        btnMainToolbarUpload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_415_disk_open.png"))); // NOI18N
+        btnMainToolbarUpload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_358_file_import.png"))); // NOI18N
         btnMainToolbarUpload.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarUpload.text")); // NOI18N
-        btnMainToolbarUpload.setBorder(null);
+        btnMainToolbarUpload.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 2));
         btnMainToolbarUpload.setFocusable(false);
         btnMainToolbarUpload.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarUpload.setMargin(null);
@@ -1562,7 +1580,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnNewFolder.setMnemonic('n');
         btnNewFolder.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnNewFolder.text")); // NOI18N
         btnNewFolder.setActionCommand(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnNewFolder.actionCommand")); // NOI18N
-        btnNewFolder.setBorder(null);
+        btnNewFolder.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 2));
         btnNewFolder.setFocusable(false);
         btnNewFolder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNewFolder.setMargin(null);
@@ -1578,7 +1596,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_318_more_items.png"))); // NOI18N
         btnMainToolbarCopy.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarCopy.text")); // NOI18N
         btnMainToolbarCopy.setActionCommand(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarCopy.actionCommand")); // NOI18N
-        btnMainToolbarCopy.setBorder(null);
+        btnMainToolbarCopy.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 0, 0, 2));
         btnMainToolbarCopy.setFocusable(false);
         btnMainToolbarCopy.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarCopy.setMargin(null);
@@ -1591,9 +1609,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jToolBar1.add(btnMainToolbarCopy);
         jToolBar1.add(filler6);
 
-        btnMainToolbarDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
+        btnMainToolbarDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_016_bin.png"))); // NOI18N
         btnMainToolbarDelete.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarDelete.text_1")); // NOI18N
-        btnMainToolbarDelete.setBorder(null);
+        btnMainToolbarDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 2));
         btnMainToolbarDelete.setFocusable(false);
         btnMainToolbarDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarDelete.setMargin(null);
@@ -1607,10 +1625,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jToolBar1.add(filler7);
 
         btnMainToolbarInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_195_circle_info.png"))); // NOI18N
+        btnMainToolbarInfo.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarInfo.text")); // NOI18N
+        btnMainToolbarInfo.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarInfo.toolTipText")); // NOI18N
+        btnMainToolbarInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         btnMainToolbarInfo.setBorderPainted(false);
         btnMainToolbarInfo.setFocusable(false);
         btnMainToolbarInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMainToolbarInfo.setLabel(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarInfo.label")); // NOI18N
         btnMainToolbarInfo.setMargin(null);
         btnMainToolbarInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMainToolbarInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -1639,9 +1659,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jToolBar1.add(btnMainToolbarTools);
         jToolBar1.add(filler10);
 
-        btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_139_adjust_alt.png"))); // NOI18N
+        btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_136_cogwheel.png"))); // NOI18N
         btnMainToolbarSettings.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSettings.text")); // NOI18N
-        btnMainToolbarSettings.setBorder(null);
+        btnMainToolbarSettings.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 2, 0, 2));
         btnMainToolbarSettings.setFocusable(false);
         btnMainToolbarSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarSettings.setMargin(null);
@@ -1964,8 +1984,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void btnSynchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSynchActionPerformed
 
-        SynchronizationDialog synchDialog = new SynchronizationDialog(this, true, this.getiDropCore());
-        synchDialog.setVisible(true);
+//        SynchronizationDialog synchDialog = new SynchronizationDialog(this, true, this.getiDropCore());
+//        synchDialog.setVisible(true);
 
     }//GEN-LAST:event_btnSynchActionPerformed
 
@@ -1999,6 +2019,15 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         idropConfigurationPanel.setLocationRelativeTo(null);
         idropConfigurationPanel.setVisible(true);
     }
+
+    private void btnAdvancedActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+        AdvancedOptionsDialog advancedOptionsDialog = new AdvancedOptionsDialog(
+                this, true, iDropCore);
+        advancedOptionsDialog.setLocationRelativeTo(null);
+        advancedOptionsDialog.setVisible(true);
+    }
+
 
     /**
      * TODO: update resource in grid account
