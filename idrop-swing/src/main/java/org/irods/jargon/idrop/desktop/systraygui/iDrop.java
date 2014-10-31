@@ -1661,7 +1661,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_136_cogwheel.png"))); // NOI18N
         btnMainToolbarSettings.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSettings.text")); // NOI18N
-        btnMainToolbarSettings.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 2, 0, 2));
+        btnMainToolbarSettings.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 2, 0, 20));
         btnMainToolbarSettings.setFocusable(false);
         btnMainToolbarSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMainToolbarSettings.setMargin(null);
@@ -1752,11 +1752,12 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         splitPanelTrees.setLastDividerLocation(200);
         splitPanelTrees.setPreferredSize(new java.awt.Dimension(834, 360));
 
-        scrollIrodsTree.setBorder(null);
+        scrollIrodsTree.setBackground(new java.awt.Color(235, 235, 235));
+        scrollIrodsTree.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0), org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.scrollIrodsTree.border.title"))); // NOI18N
         splitPanelTrees.setRightComponent(scrollIrodsTree);
 
-        pnlLocalTreeArea.setBackground(new java.awt.Color(153, 255, 102));
-        pnlLocalTreeArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlLocalTreeArea.setBackground(new java.awt.Color(230, 230, 230));
+        pnlLocalTreeArea.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0), org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.pnlLocalTreeArea.border.title"))); // NOI18N
         pnlLocalTreeArea.setMinimumSize(new java.awt.Dimension(0, 0));
         pnlLocalTreeArea.setOpaque(false);
         pnlLocalTreeArea.setPreferredSize(new java.awt.Dimension(0, 0));
