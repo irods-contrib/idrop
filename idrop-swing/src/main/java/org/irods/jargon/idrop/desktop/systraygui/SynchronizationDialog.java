@@ -39,7 +39,8 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
     /**
      * Creates new form SynchronizationDialog
      */
-    public SynchronizationDialog(java.awt.Frame parent, boolean modal, final IDROPCore idropCore) {
+    //public SynchronizationDialog(java.awt.Frame parent, boolean modal, final IDROPCore idropCore) 
+    public SynchronizationDialog(AdvancedOptionsDialog parent, boolean modal, final IDROPCore idropCore) {
         super(parent, modal);
         if (idropCore == null) {
             throw new IllegalArgumentException("null idropCore");
