@@ -38,7 +38,6 @@ describe("Tests list contents of a vc", function () {
         $httpBackend.flush();
         console.log("actual is:" + actual);
 
-
         expect(actual.data).toEqual(vc);
         expect(actual.status).toEqual(200);
     });

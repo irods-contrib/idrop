@@ -8,7 +8,7 @@
     // this function is strict...
 }());
 
-angular.module('app', ['ngAnimate','ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'fileModule','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule','tagServiceModule','angular-loading-bar', 'globalsModule','mimeTypeServiceModule']);
+angular.module('app', ['globalsModule','StarModule','ngAnimate','ngRoute', 'ngResource', 'httpInterceptorModule', 'home', 'login', 'fileModule','flash','virtualCollectionFilter','MessageCenterModule','urlEncodingModule','tagServiceModule','angular-loading-bar', 'mimeTypeServiceModule']);
 
 angular.module('flash', []);
 
