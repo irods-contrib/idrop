@@ -114,128 +114,120 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		lblTitle = new javax.swing.JLabel();
-		pnlCurrentParent = new javax.swing.JPanel();
-		lblCurrentParent = new java.awt.Label();
-		lblNewDiretoryName = new java.awt.Label();
-		scrollCurrentParent = new javax.swing.JScrollPane();
-		txtCurrentParent = new javax.swing.JTextArea();
-		scrollNewLocation = new javax.swing.JScrollPane();
-		txtNewLocation = new javax.swing.JTextArea();
-		pnlBottom = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnOK = new javax.swing.JButton();
+        lblTitle = new javax.swing.JLabel();
+        pnlCurrentParent = new javax.swing.JPanel();
+        lblCurrentParent = new java.awt.Label();
+        lblNewDiretoryName = new java.awt.Label();
+        scrollCurrentParent = new javax.swing.JScrollPane();
+        txtCurrentParent = new javax.swing.JTextArea();
+        scrollNewLocation = new javax.swing.JScrollPane();
+        txtNewLocation = new javax.swing.JTextArea();
+        pnlBottom = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnOK = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("iRODS Move File - Confirmation Dialog");
-		setName("NewParentDialog"); // NOI18N
-		setPreferredSize(new java.awt.Dimension(600, 300));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("iRODS Move File - Confirmation Dialog");
+        setName("moveCopyIrodsDialog"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
-		lblTitle.setText("Confirm the move of the iRODS File to a new collection");
-		getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
+        lblTitle.setText("Confirm the move of the iRODS File to a new collection");
+        getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
-		pnlCurrentParent.setMinimumSize(null);
-		pnlCurrentParent.setPreferredSize(null);
-		pnlCurrentParent.setLayout(new java.awt.GridBagLayout());
+        pnlCurrentParent.setLayout(new java.awt.GridBagLayout());
 
-		lblCurrentParent.setText("Current location:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		pnlCurrentParent.add(lblCurrentParent, gridBagConstraints);
+        lblCurrentParent.setText("Current location:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlCurrentParent.add(lblCurrentParent, gridBagConstraints);
 
-		lblNewDiretoryName.setText("New location:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.gridwidth = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		pnlCurrentParent.add(lblNewDiretoryName, gridBagConstraints);
-		lblNewDiretoryName.getAccessibleContext().setAccessibleName(
-				"New directory name:");
+        lblNewDiretoryName.setText("New location:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlCurrentParent.add(lblNewDiretoryName, gridBagConstraints);
+        lblNewDiretoryName.getAccessibleContext().setAccessibleName("New directory name:");
 
-		txtCurrentParent.setEditable(false);
-		txtCurrentParent.setColumns(20);
-		txtCurrentParent.setRows(5);
-		txtCurrentParent.setWrapStyleWord(true);
-		txtCurrentParent.setFocusable(false);
-		txtCurrentParent.setMinimumSize(null);
-		txtCurrentParent.setPreferredSize(null);
-		scrollCurrentParent.setViewportView(txtCurrentParent);
+        txtCurrentParent.setEditable(false);
+        txtCurrentParent.setColumns(20);
+        txtCurrentParent.setRows(5);
+        txtCurrentParent.setWrapStyleWord(true);
+        txtCurrentParent.setFocusable(false);
+        txtCurrentParent.setMinimumSize(null);
+        txtCurrentParent.setName("currentLocation"); // NOI18N
+        txtCurrentParent.setPreferredSize(null);
+        scrollCurrentParent.setViewportView(txtCurrentParent);
 
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.gridheight = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 1.0;
-		pnlCurrentParent.add(scrollCurrentParent, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlCurrentParent.add(scrollCurrentParent, gridBagConstraints);
 
-		txtNewLocation.setEditable(false);
-		txtNewLocation.setColumns(20);
-		txtNewLocation.setRows(5);
-		txtNewLocation.setWrapStyleWord(true);
-		txtNewLocation.setFocusable(false);
-		txtNewLocation.setMinimumSize(null);
-		txtNewLocation.setPreferredSize(null);
-		scrollNewLocation.setViewportView(txtNewLocation);
+        txtNewLocation.setEditable(false);
+        txtNewLocation.setColumns(20);
+        txtNewLocation.setRows(5);
+        txtNewLocation.setWrapStyleWord(true);
+        txtNewLocation.setFocusable(false);
+        txtNewLocation.setMinimumSize(null);
+        txtNewLocation.setName("newLocation"); // NOI18N
+        txtNewLocation.setPreferredSize(null);
+        scrollNewLocation.setViewportView(txtNewLocation);
 
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.gridheight = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 1.0;
-		pnlCurrentParent.add(scrollNewLocation, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlCurrentParent.add(scrollNewLocation, gridBagConstraints);
 
-		getContentPane().add(pnlCurrentParent, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlCurrentParent, java.awt.BorderLayout.CENTER);
 
-		pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		btnCancel
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
-		btnCancel.setMnemonic('c');
-		btnCancel.setToolTipText("Cancel the move/copy operation");
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnCancel);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
+        btnCancel.setToolTipText("Cancel the move/copy operation");
+        btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnCancel);
 
-		btnOK.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-		btnOK.setMnemonic('o');
-		btnOK.setToolTipText("Do the move/copy operation");
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnOK);
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('o');
+        btnOK.setToolTipText("Do the move/copy operation");
+        btnOK.setName("btnOk"); // NOI18N
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnOK);
 
-		getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
@@ -244,21 +236,19 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 	private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
 		processMoveOrCopy();
 	}// GEN-LAST:event_btnOKActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnOK;
-	private java.awt.Label lblCurrentParent;
-	private java.awt.Label lblNewDiretoryName;
-	private javax.swing.JLabel lblTitle;
-	private javax.swing.JPanel pnlBottom;
-	private javax.swing.JPanel pnlCurrentParent;
-	private javax.swing.JScrollPane scrollCurrentParent;
-	private javax.swing.JScrollPane scrollNewLocation;
-	private javax.swing.JTextArea txtCurrentParent;
-	private javax.swing.JTextArea txtNewLocation;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
+    private java.awt.Label lblCurrentParent;
+    private java.awt.Label lblNewDiretoryName;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlCurrentParent;
+    private javax.swing.JScrollPane scrollCurrentParent;
+    private javax.swing.JScrollPane scrollNewLocation;
+    private javax.swing.JTextArea txtCurrentParent;
+    private javax.swing.JTextArea txtNewLocation;
+    // End of variables declaration//GEN-END:variables
 	private void processMoveOrCopy() {
 		// add the new folder to irods, add to the tree, and scroll the tree
 		// into view

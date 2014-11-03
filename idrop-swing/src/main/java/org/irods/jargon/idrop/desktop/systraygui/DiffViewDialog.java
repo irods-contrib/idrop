@@ -54,359 +54,314 @@ public class DiffViewDialog extends javax.swing.JDialog {
 	 */
 
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		pnlTop = new javax.swing.JPanel();
-		lblDiffResult = new javax.swing.JLabel();
-		lblLocalAbsPathLabel = new javax.swing.JLabel();
-		lblLocalAbsPath = new javax.swing.JLabel();
-		lblIrodsPathLabel = new javax.swing.JLabel();
-		lblIrodsPath = new javax.swing.JLabel();
-		pnlCenter = new javax.swing.JPanel();
-		scrollPaneDiff = new javax.swing.JScrollPane();
-		treeDiff = new javax.swing.JTree();
-		pnlSelectionInfo = new javax.swing.JPanel();
-		lblSelectedPathLabel = new javax.swing.JLabel();
-		lblLocalSelectedPath = new javax.swing.JLabel();
-		lblDescriptionOfDiffInfo = new javax.swing.JLabel();
-		btnResolve = new javax.swing.JButton();
-		lblSuggestedResolution = new javax.swing.JLabel();
-		lblIrodsSelectedPathLabel = new javax.swing.JLabel();
-		lblIrodsSelectedPath = new javax.swing.JLabel();
-		lblTypeLabel = new javax.swing.JLabel();
-		lblType = new javax.swing.JLabel();
-		pnlFileDiffDetails = new javax.swing.JPanel();
-		btnResolveGet = new javax.swing.JButton();
-		btnResolvePut = new javax.swing.JButton();
-		lblLocalFileLengthLbl = new javax.swing.JLabel();
-		lblLocalFileLength = new javax.swing.JLabel();
-		lblIrodsFileLengthLbl = new javax.swing.JLabel();
-		lblIrodsFileLength = new javax.swing.JLabel();
-		lblLocalFileChecksumLbl = new javax.swing.JLabel();
-		lblLocalFileChecksum = new javax.swing.JLabel();
-		lblIrodsFileChecksumLbl = new javax.swing.JLabel();
-		lblIrodsFileChecksum = new javax.swing.JLabel();
-		pnlBottom = new javax.swing.JPanel();
-		pnlUploadDownloadButtons = new javax.swing.JPanel();
-		btnOK = new javax.swing.JButton();
+        pnlTop = new javax.swing.JPanel();
+        lblDiffResult = new javax.swing.JLabel();
+        lblLocalAbsPathLabel = new javax.swing.JLabel();
+        lblLocalAbsPath = new javax.swing.JLabel();
+        lblIrodsPathLabel = new javax.swing.JLabel();
+        lblIrodsPath = new javax.swing.JLabel();
+        pnlCenter = new javax.swing.JPanel();
+        scrollPaneDiff = new javax.swing.JScrollPane();
+        treeDiff = new javax.swing.JTree();
+        pnlSelectionInfo = new javax.swing.JPanel();
+        lblSelectedPathLabel = new javax.swing.JLabel();
+        lblLocalSelectedPath = new javax.swing.JLabel();
+        lblDescriptionOfDiffInfo = new javax.swing.JLabel();
+        btnResolve = new javax.swing.JButton();
+        lblSuggestedResolution = new javax.swing.JLabel();
+        lblIrodsSelectedPathLabel = new javax.swing.JLabel();
+        lblIrodsSelectedPath = new javax.swing.JLabel();
+        lblTypeLabel = new javax.swing.JLabel();
+        lblType = new javax.swing.JLabel();
+        pnlFileDiffDetails = new javax.swing.JPanel();
+        btnResolveGet = new javax.swing.JButton();
+        btnResolvePut = new javax.swing.JButton();
+        lblLocalFileLengthLbl = new javax.swing.JLabel();
+        lblLocalFileLength = new javax.swing.JLabel();
+        lblIrodsFileLengthLbl = new javax.swing.JLabel();
+        lblIrodsFileLength = new javax.swing.JLabel();
+        lblLocalFileChecksumLbl = new javax.swing.JLabel();
+        lblLocalFileChecksum = new javax.swing.JLabel();
+        lblIrodsFileChecksumLbl = new javax.swing.JLabel();
+        lblIrodsFileChecksum = new javax.swing.JLabel();
+        pnlBottom = new javax.swing.JPanel();
+        pnlUploadDownloadButtons = new javax.swing.JPanel();
+        btnOK = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(org.openide.util.NbBundle.getMessage(DiffViewDialog.class,
-				"DiffViewDialog.title")); // NOI18N
-		setModal(true);
-		setName("DiffViewDialog"); // NOI18N
-		setPreferredSize(new java.awt.Dimension(800, 600));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.title")); // NOI18N
+        setModal(true);
+        setName("DiffViewDialog"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
-		pnlTop.setLayout(new java.awt.GridBagLayout());
+        pnlTop.setLayout(new java.awt.GridBagLayout());
 
-		lblDiffResult.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.lblDiffResult.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.ipady = 5;
-		pnlTop.add(lblDiffResult, gridBagConstraints);
+        lblDiffResult.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblDiffResult.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.ipady = 5;
+        pnlTop.add(lblDiffResult, gridBagConstraints);
 
-		lblLocalAbsPathLabel.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblLocalAbsPathLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.ipady = 5;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlTop.add(lblLocalAbsPathLabel, gridBagConstraints);
+        lblLocalAbsPathLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblLocalAbsPathLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTop.add(lblLocalAbsPathLabel, gridBagConstraints);
 
-		lblLocalAbsPath.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.lblLocalAbsPath.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTop.add(lblLocalAbsPath, gridBagConstraints);
+        lblLocalAbsPath.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.localFileName.text")); // NOI18N
+        lblLocalAbsPath.setName("localFileName"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTop.add(lblLocalAbsPath, gridBagConstraints);
 
-		lblIrodsPathLabel.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.lblIrodsPathLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.ipady = 5;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlTop.add(lblIrodsPathLabel, gridBagConstraints);
+        lblIrodsPathLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsPathLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlTop.add(lblIrodsPathLabel, gridBagConstraints);
 
-		lblIrodsPath.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.lblIrodsPath.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlTop.add(lblIrodsPath, gridBagConstraints);
+        lblIrodsPath.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.irodsFileName.text")); // NOI18N
+        lblIrodsPath.setName("irodsFileName"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlTop.add(lblIrodsPath, gridBagConstraints);
 
-		getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
+        getContentPane().add(pnlTop, java.awt.BorderLayout.NORTH);
 
-		pnlCenter.setLayout(new java.awt.BorderLayout());
+        pnlCenter.setLayout(new java.awt.BorderLayout());
 
-		treeDiff.setModel(getFileTreeModel());
-		treeDiff.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-			@Override
-			public void valueChanged(
-					final javax.swing.event.TreeSelectionEvent evt) {
-				treeDiffValueChanged(evt);
-			}
-		});
-		scrollPaneDiff.setViewportView(treeDiff);
+        treeDiff.setModel(this.getFileTreeModel());
+        treeDiff.setName("diffTree"); // NOI18N
+        treeDiff.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                treeDiffValueChanged(evt);
+            }
+        });
+        scrollPaneDiff.setViewportView(treeDiff);
 
-		pnlCenter.add(scrollPaneDiff, java.awt.BorderLayout.CENTER);
+        pnlCenter.add(scrollPaneDiff, java.awt.BorderLayout.CENTER);
 
-		pnlSelectionInfo.setLayout(new java.awt.GridBagLayout());
+        pnlSelectionInfo.setLayout(new java.awt.GridBagLayout());
 
-		lblSelectedPathLabel.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblSelectedPathLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
-		pnlSelectionInfo.add(lblSelectedPathLabel, gridBagConstraints);
+        lblSelectedPathLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblSelectedPathLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(lblSelectedPathLabel, gridBagConstraints);
 
-		lblLocalSelectedPath.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblLocalSelectedPath.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlSelectionInfo.add(lblLocalSelectedPath, gridBagConstraints);
+        lblLocalSelectedPath.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.localPath.text")); // NOI18N
+        lblLocalSelectedPath.setName("localPath"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlSelectionInfo.add(lblLocalSelectedPath, gridBagConstraints);
 
-		lblDescriptionOfDiffInfo.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblDescriptionOfDiffInfo.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
-		pnlSelectionInfo.add(lblDescriptionOfDiffInfo, gridBagConstraints);
+        lblDescriptionOfDiffInfo.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblDescriptionOfDiffInfo.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(lblDescriptionOfDiffInfo, gridBagConstraints);
 
-		btnResolve.setMnemonic('r');
-		btnResolve.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.btnResolve.text")); // NOI18N
-		btnResolve.setToolTipText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.btnResolve.toolTipText")); // NOI18N
-		btnResolve.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnResolveActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 5;
-		gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
-		pnlSelectionInfo.add(btnResolve, gridBagConstraints);
+        btnResolve.setMnemonic('r');
+        btnResolve.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolve.text")); // NOI18N
+        btnResolve.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolve.toolTipText")); // NOI18N
+        btnResolve.setName("btnResolve"); // NOI18N
+        btnResolve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResolveActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(btnResolve, gridBagConstraints);
 
-		lblSuggestedResolution.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblSuggestedResolution.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 7;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
-		pnlSelectionInfo.add(lblSuggestedResolution, gridBagConstraints);
+        lblSuggestedResolution.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblSuggestedResolution.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(lblSuggestedResolution, gridBagConstraints);
 
-		lblIrodsSelectedPathLabel.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblIrodsSelectedPathLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
-		pnlSelectionInfo.add(lblIrodsSelectedPathLabel, gridBagConstraints);
+        lblIrodsSelectedPathLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsSelectedPathLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlSelectionInfo.add(lblIrodsSelectedPathLabel, gridBagConstraints);
 
-		lblIrodsSelectedPath.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblIrodsSelectedPath.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlSelectionInfo.add(lblIrodsSelectedPath, gridBagConstraints);
+        lblIrodsSelectedPath.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.irodsPath.text")); // NOI18N
+        lblIrodsSelectedPath.setName("irodsPath"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlSelectionInfo.add(lblIrodsSelectedPath, gridBagConstraints);
 
-		lblTypeLabel.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.lblTypeLabel.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlSelectionInfo.add(lblTypeLabel, gridBagConstraints);
+        lblTypeLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblTypeLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlSelectionInfo.add(lblTypeLabel, gridBagConstraints);
 
-		lblType.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.lblType.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlSelectionInfo.add(lblType, gridBagConstraints);
+        lblType.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.diffType.text")); // NOI18N
+        lblType.setName("diffType"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlSelectionInfo.add(lblType, gridBagConstraints);
 
-		pnlFileDiffDetails.setLayout(new java.awt.GridBagLayout());
+        pnlFileDiffDetails.setLayout(new java.awt.GridBagLayout());
 
-		btnResolveGet.setMnemonic('g');
-		btnResolveGet.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.btnResolveGet.text")); // NOI18N
-		btnResolveGet.setToolTipText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.btnResolveGet.toolTipText")); // NOI18N
-		btnResolveGet.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnResolveGetActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 6;
-		gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
-		pnlFileDiffDetails.add(btnResolveGet, gridBagConstraints);
+        btnResolveGet.setMnemonic('g');
+        btnResolveGet.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveToLocal.text")); // NOI18N
+        btnResolveGet.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveToLocal.toolTipText")); // NOI18N
+        btnResolveGet.setName("btnResolveToLocal"); // NOI18N
+        btnResolveGet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResolveGetActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlFileDiffDetails.add(btnResolveGet, gridBagConstraints);
 
-		btnResolvePut.setMnemonic('p');
-		btnResolvePut.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.btnResolvePut.text")); // NOI18N
-		btnResolvePut.setToolTipText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.btnResolvePut.toolTipText")); // NOI18N
-		btnResolvePut.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnResolvePutActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 6;
-		gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
-		pnlFileDiffDetails.add(btnResolvePut, gridBagConstraints);
+        btnResolvePut.setMnemonic('p');
+        btnResolvePut.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveToIrods.text")); // NOI18N
+        btnResolvePut.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveToIrods.toolTipText")); // NOI18N
+        btnResolvePut.setName("btnResolveToIrods"); // NOI18N
+        btnResolvePut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResolvePutActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlFileDiffDetails.add(btnResolvePut, gridBagConstraints);
 
-		lblLocalFileLengthLbl.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblLocalFileLengthLbl.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
-		pnlFileDiffDetails.add(lblLocalFileLengthLbl, gridBagConstraints);
+        lblLocalFileLengthLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblLocalFileLengthLbl.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        pnlFileDiffDetails.add(lblLocalFileLengthLbl, gridBagConstraints);
 
-		lblLocalFileLength
-				.setText(org.openide.util.NbBundle.getMessage(
-						DiffViewDialog.class,
-						"DiffViewDialog.lblLocalFileLength.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlFileDiffDetails.add(lblLocalFileLength, gridBagConstraints);
+        lblLocalFileLength.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.localFileLength.text")); // NOI18N
+        lblLocalFileLength.setName("localFileLength"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlFileDiffDetails.add(lblLocalFileLength, gridBagConstraints);
 
-		lblIrodsFileLengthLbl.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblIrodsFileLengthLbl.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlFileDiffDetails.add(lblIrodsFileLengthLbl, gridBagConstraints);
+        lblIrodsFileLengthLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsFileLengthLbl.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlFileDiffDetails.add(lblIrodsFileLengthLbl, gridBagConstraints);
 
-		lblIrodsFileLength
-				.setText(org.openide.util.NbBundle.getMessage(
-						DiffViewDialog.class,
-						"DiffViewDialog.lblIrodsFileLength.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlFileDiffDetails.add(lblIrodsFileLength, gridBagConstraints);
+        lblIrodsFileLength.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.irodsFileLength.text")); // NOI18N
+        lblIrodsFileLength.setName("irodsFileLength"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlFileDiffDetails.add(lblIrodsFileLength, gridBagConstraints);
 
-		lblLocalFileChecksumLbl.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblLocalFileChecksumLbl.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlFileDiffDetails.add(lblLocalFileChecksumLbl, gridBagConstraints);
+        lblLocalFileChecksumLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblLocalFileChecksumLbl.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlFileDiffDetails.add(lblLocalFileChecksumLbl, gridBagConstraints);
 
-		lblLocalFileChecksum.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblLocalFileChecksum.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlFileDiffDetails.add(lblLocalFileChecksum, gridBagConstraints);
+        lblLocalFileChecksum.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.localChecksum.text")); // NOI18N
+        lblLocalFileChecksum.setName("localChecksum"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlFileDiffDetails.add(lblLocalFileChecksum, gridBagConstraints);
 
-		lblIrodsFileChecksumLbl.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblIrodsFileChecksumLbl.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlFileDiffDetails.add(lblIrodsFileChecksumLbl, gridBagConstraints);
+        lblIrodsFileChecksumLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsFileChecksumLbl.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlFileDiffDetails.add(lblIrodsFileChecksumLbl, gridBagConstraints);
 
-		lblIrodsFileChecksum.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class,
-				"DiffViewDialog.lblIrodsFileChecksum.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlFileDiffDetails.add(lblIrodsFileChecksum, gridBagConstraints);
+        lblIrodsFileChecksum.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.irodsChecksum.text")); // NOI18N
+        lblIrodsFileChecksum.setName("irodsChecksum"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlFileDiffDetails.add(lblIrodsFileChecksum, gridBagConstraints);
 
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 6;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-		pnlSelectionInfo.add(pnlFileDiffDetails, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlSelectionInfo.add(pnlFileDiffDetails, gridBagConstraints);
 
-		pnlCenter.add(pnlSelectionInfo, java.awt.BorderLayout.SOUTH);
+        pnlCenter.add(pnlSelectionInfo, java.awt.BorderLayout.SOUTH);
 
-		getContentPane().add(pnlCenter, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlCenter, java.awt.BorderLayout.CENTER);
 
-		pnlBottom.setLayout(new java.awt.GridLayout(1, 0));
+        pnlBottom.setLayout(new java.awt.GridLayout(1, 0));
 
-		pnlUploadDownloadButtons.setLayout(new java.awt.FlowLayout(
-				java.awt.FlowLayout.RIGHT));
+        pnlUploadDownloadButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		btnOK.setMnemonic('o');
-		btnOK.setText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.btnOK.text")); // NOI18N
-		btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(
-				DiffViewDialog.class, "DiffViewDialog.btnOK.toolTipText")); // NOI18N
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKActionPerformed(evt);
-			}
-		});
-		pnlUploadDownloadButtons.add(btnOK);
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('o');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnOk.text")); // NOI18N
+        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnOk.toolTipText")); // NOI18N
+        btnOK.setName("btnOk"); // NOI18N
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        pnlUploadDownloadButtons.add(btnOK);
 
-		pnlBottom.add(pnlUploadDownloadButtons);
+        pnlBottom.add(pnlUploadDownloadButtons);
 
-		getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
-		getAccessibleContext()
-				.setAccessibleDescription(
-						org.openide.util.NbBundle
-								.getMessage(DiffViewDialog.class,
-										"DiffViewDialog.AccessibleContext.accessibleDescription")); // NOI18N
+        getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.AccessibleContext.accessibleDescription")); // NOI18N
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
 		dispose();
@@ -512,43 +467,41 @@ public class DiffViewDialog extends javax.swing.JDialog {
 		 */
 
 	}// GEN-LAST:event_btnResolveActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnOK;
-	private javax.swing.JButton btnResolve;
-	private javax.swing.JButton btnResolveGet;
-	private javax.swing.JButton btnResolvePut;
-	private javax.swing.JLabel lblDescriptionOfDiffInfo;
-	private javax.swing.JLabel lblDiffResult;
-	private javax.swing.JLabel lblIrodsFileChecksum;
-	private javax.swing.JLabel lblIrodsFileChecksumLbl;
-	private javax.swing.JLabel lblIrodsFileLength;
-	private javax.swing.JLabel lblIrodsFileLengthLbl;
-	private javax.swing.JLabel lblIrodsPath;
-	private javax.swing.JLabel lblIrodsPathLabel;
-	private javax.swing.JLabel lblIrodsSelectedPath;
-	private javax.swing.JLabel lblIrodsSelectedPathLabel;
-	private javax.swing.JLabel lblLocalAbsPath;
-	private javax.swing.JLabel lblLocalAbsPathLabel;
-	private javax.swing.JLabel lblLocalFileChecksum;
-	private javax.swing.JLabel lblLocalFileChecksumLbl;
-	private javax.swing.JLabel lblLocalFileLength;
-	private javax.swing.JLabel lblLocalFileLengthLbl;
-	private javax.swing.JLabel lblLocalSelectedPath;
-	private javax.swing.JLabel lblSelectedPathLabel;
-	private javax.swing.JLabel lblSuggestedResolution;
-	private javax.swing.JLabel lblType;
-	private javax.swing.JLabel lblTypeLabel;
-	private javax.swing.JPanel pnlBottom;
-	private javax.swing.JPanel pnlCenter;
-	private javax.swing.JPanel pnlFileDiffDetails;
-	private javax.swing.JPanel pnlSelectionInfo;
-	private javax.swing.JPanel pnlTop;
-	private javax.swing.JPanel pnlUploadDownloadButtons;
-	private javax.swing.JScrollPane scrollPaneDiff;
-	private javax.swing.JTree treeDiff;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOK;
+    private javax.swing.JButton btnResolve;
+    private javax.swing.JButton btnResolveGet;
+    private javax.swing.JButton btnResolvePut;
+    private javax.swing.JLabel lblDescriptionOfDiffInfo;
+    private javax.swing.JLabel lblDiffResult;
+    private javax.swing.JLabel lblIrodsFileChecksum;
+    private javax.swing.JLabel lblIrodsFileChecksumLbl;
+    private javax.swing.JLabel lblIrodsFileLength;
+    private javax.swing.JLabel lblIrodsFileLengthLbl;
+    private javax.swing.JLabel lblIrodsPath;
+    private javax.swing.JLabel lblIrodsPathLabel;
+    private javax.swing.JLabel lblIrodsSelectedPath;
+    private javax.swing.JLabel lblIrodsSelectedPathLabel;
+    private javax.swing.JLabel lblLocalAbsPath;
+    private javax.swing.JLabel lblLocalAbsPathLabel;
+    private javax.swing.JLabel lblLocalFileChecksum;
+    private javax.swing.JLabel lblLocalFileChecksumLbl;
+    private javax.swing.JLabel lblLocalFileLength;
+    private javax.swing.JLabel lblLocalFileLengthLbl;
+    private javax.swing.JLabel lblLocalSelectedPath;
+    private javax.swing.JLabel lblSelectedPathLabel;
+    private javax.swing.JLabel lblSuggestedResolution;
+    private javax.swing.JLabel lblType;
+    private javax.swing.JLabel lblTypeLabel;
+    private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlCenter;
+    private javax.swing.JPanel pnlFileDiffDetails;
+    private javax.swing.JPanel pnlSelectionInfo;
+    private javax.swing.JPanel pnlTop;
+    private javax.swing.JPanel pnlUploadDownloadButtons;
+    private javax.swing.JScrollPane scrollPaneDiff;
+    private javax.swing.JTree treeDiff;
+    // End of variables declaration//GEN-END:variables
 
 	/**
 	 * Initialize the components for the diff view

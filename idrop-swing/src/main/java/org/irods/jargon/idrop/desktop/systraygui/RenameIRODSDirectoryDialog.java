@@ -86,115 +86,104 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
 
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		lblTitle = new javax.swing.JLabel();
-		pnlFolderData = new javax.swing.JPanel();
-		lblCurrentParent = new java.awt.Label();
-		lblNewDiretoryName = new java.awt.Label();
-		txtCurrentFolder = new javax.swing.JTextField();
-		txtNewFolder = new javax.swing.JTextField();
-		pnlBottom = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnOK = new javax.swing.JButton();
+        lblTitle = new javax.swing.JLabel();
+        pnlFolderData = new javax.swing.JPanel();
+        lblCurrentParent = new java.awt.Label();
+        lblNewDiretoryName = new java.awt.Label();
+        txtCurrentFolder = new javax.swing.JTextField();
+        txtNewFolder = new javax.swing.JTextField();
+        pnlBottom = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnOK = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("Rename iRODS File or Folder");
-		setName("NewParentDialog"); // NOI18N
-		setPreferredSize(new java.awt.Dimension(600, 300));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Rename iRODS File or Folder");
+        setName("renameIrodsDirectoryDialog"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
-		lblTitle.setText("Please enter a new name for the file or collection");
-		getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
+        lblTitle.setText("Please enter a new name for the file or collection");
+        getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
-		pnlFolderData.setMinimumSize(null);
-		pnlFolderData.setPreferredSize(null);
-		pnlFolderData.setLayout(new java.awt.GridBagLayout());
+        pnlFolderData.setLayout(new java.awt.GridBagLayout());
 
-		lblCurrentParent.setText("Current name:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		pnlFolderData.add(lblCurrentParent, gridBagConstraints);
+        lblCurrentParent.setText("Current name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlFolderData.add(lblCurrentParent, gridBagConstraints);
 
-		lblNewDiretoryName.setText("New name:");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		pnlFolderData.add(lblNewDiretoryName, gridBagConstraints);
-		lblNewDiretoryName.getAccessibleContext().setAccessibleName(
-				"New directory name:");
+        lblNewDiretoryName.setText("New name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlFolderData.add(lblNewDiretoryName, gridBagConstraints);
+        lblNewDiretoryName.getAccessibleContext().setAccessibleName("New directory name:");
 
-		txtCurrentFolder.setEditable(false);
-		txtCurrentFolder.setColumns(50);
-		txtCurrentFolder
-				.setToolTipText("A name for the new folder underneath the displayed parent");
-		txtCurrentFolder.setFocusable(false);
-		txtCurrentFolder.setMinimumSize(null);
-		txtCurrentFolder.setPreferredSize(null);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.ipadx = 415;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-		pnlFolderData.add(txtCurrentFolder, gridBagConstraints);
+        txtCurrentFolder.setEditable(false);
+        txtCurrentFolder.setColumns(50);
+        txtCurrentFolder.setToolTipText("A name for the new folder underneath the displayed parent");
+        txtCurrentFolder.setFocusable(false);
+        txtCurrentFolder.setMinimumSize(null);
+        txtCurrentFolder.setName("currentName"); // NOI18N
+        txtCurrentFolder.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 415;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        pnlFolderData.add(txtCurrentFolder, gridBagConstraints);
 
-		txtNewFolder.setColumns(50);
-		txtNewFolder
-				.setToolTipText("A name for the new folder underneath the displayed parent");
-		txtNewFolder.setMinimumSize(null);
-		txtNewFolder.setPreferredSize(null);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.ipadx = 415;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		pnlFolderData.add(txtNewFolder, gridBagConstraints);
+        txtNewFolder.setColumns(50);
+        txtNewFolder.setToolTipText("A name for the new folder underneath the displayed parent");
+        txtNewFolder.setMinimumSize(null);
+        txtNewFolder.setName("newName"); // NOI18N
+        txtNewFolder.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 415;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlFolderData.add(txtNewFolder, gridBagConstraints);
 
-		getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
 
-		pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		btnCancel
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
-		btnCancel.setMnemonic('c');
-		btnCancel.setToolTipText("Cancel the rename operation");
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnCancel);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
+        btnCancel.setToolTipText("Cancel the rename operation");
+        btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnCancel);
 
-		btnOK.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-		btnOK.setMnemonic('o');
-		btnOK.setToolTipText("Proceed with the rename operation");
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnOK);
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('o');
+        btnOK.setToolTipText("Proceed with the rename operation");
+        btnOK.setName("btnOk"); // NOI18N
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnOK);
 
-		getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
-		getAccessibleContext()
-				.setAccessibleName("Rename file or folder dialog");
+        getAccessibleContext().setAccessibleName("Rename file or folder dialog");
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
@@ -203,19 +192,17 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
 	private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
 		doRename();
 	}// GEN-LAST:event_btnOKActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnOK;
-	private java.awt.Label lblCurrentParent;
-	private java.awt.Label lblNewDiretoryName;
-	private javax.swing.JLabel lblTitle;
-	private javax.swing.JPanel pnlBottom;
-	private javax.swing.JPanel pnlFolderData;
-	private javax.swing.JTextField txtCurrentFolder;
-	private javax.swing.JTextField txtNewFolder;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
+    private java.awt.Label lblCurrentParent;
+    private java.awt.Label lblNewDiretoryName;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlFolderData;
+    private javax.swing.JTextField txtCurrentFolder;
+    private javax.swing.JTextField txtNewFolder;
+    // End of variables declaration//GEN-END:variables
 	private void doRename() {
 		// add the new folder to irods, add to the tree, and scroll the tree
 		// into view

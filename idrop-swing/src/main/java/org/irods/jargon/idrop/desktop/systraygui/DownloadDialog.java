@@ -241,6 +241,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.title")); // NOI18N
+        setName("downloadDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 600));
 
         pnlFileSection.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
@@ -277,6 +278,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
                 return canEdit [columnIndex];
             }
         });
+        tblFilesToDownload.setName("fileList"); // NOI18N
         scrollPanelFilesToDownload.setViewportView(tblFilesToDownload);
 
         pnlDownloadFileContainer.add(scrollPanelFilesToDownload, java.awt.BorderLayout.CENTER);
@@ -285,8 +287,9 @@ public class DownloadDialog extends javax.swing.JDialog implements
 
         btnAddDownloadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
         btnAddDownloadFile.setMnemonic('+');
-        btnAddDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnAddDownloadFile.text")); // NOI18N
-        btnAddDownloadFile.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnAddDownloadFile.toolTipText")); // NOI18N
+        btnAddDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnAddFile.text")); // NOI18N
+        btnAddDownloadFile.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnAddFile.toolTipText")); // NOI18N
+        btnAddDownloadFile.setName("btnAddFile"); // NOI18N
         btnAddDownloadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddDownloadFileActionPerformed(evt);
@@ -296,8 +299,9 @@ public class DownloadDialog extends javax.swing.JDialog implements
 
         btnDeleteDownloadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
         btnDeleteDownloadFile.setMnemonic('-');
-        btnDeleteDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDeleteDownloadFile.text")); // NOI18N
-        btnDeleteDownloadFile.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDeleteDownloadFile.toolTipText")); // NOI18N
+        btnDeleteDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDeleteFile.text")); // NOI18N
+        btnDeleteDownloadFile.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDeleteFile.toolTipText")); // NOI18N
+        btnDeleteDownloadFile.setName("btnDeleteFile"); // NOI18N
         btnDeleteDownloadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteDownloadFileActionPerformed(evt);
@@ -320,14 +324,16 @@ public class DownloadDialog extends javax.swing.JDialog implements
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         jPanel4.add(lblDownloadTargetLabel, gridBagConstraints);
 
-        lblDownloadTarget.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.lblDownloadTarget.text")); // NOI18N
+        lblDownloadTarget.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.dowloadTarget.text")); // NOI18N
+        lblDownloadTarget.setName("dowloadTarget"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel4.add(lblDownloadTarget, gridBagConstraints);
 
         btnBrowseDownloadTarget.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
-        btnBrowseDownloadTarget.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnBrowseDownloadTarget.text")); // NOI18N
+        btnBrowseDownloadTarget.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnBrowseLocal.text")); // NOI18N
+        btnBrowseDownloadTarget.setName("btnBrowseLocal"); // NOI18N
         btnBrowseDownloadTarget.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBrowseDownloadTargetActionPerformed(evt);
@@ -340,7 +346,8 @@ public class DownloadDialog extends javax.swing.JDialog implements
         jPanel4.add(btnBrowseDownloadTarget, gridBagConstraints);
 
         btnUseLocaLHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
-        btnUseLocaLHome.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnUseLocaLHome.text")); // NOI18N
+        btnUseLocaLHome.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnUseLocalHomeDir.text")); // NOI18N
+        btnUseLocaLHome.setName("btnUseLocalHomeDir"); // NOI18N
         btnUseLocaLHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUseLocaLHomeActionPerformed(evt);
@@ -366,6 +373,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
         btnCancel.setMargin(null);
         btnCancel.setMaximumSize(null);
         btnCancel.setMinimumSize(null);
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.setPreferredSize(null);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -376,12 +384,13 @@ public class DownloadDialog extends javax.swing.JDialog implements
 
         btnDownloadNow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_181_download_alt.png"))); // NOI18N
         btnDownloadNow.setMnemonic('d');
-        btnDownloadNow.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDownloadNow.text")); // NOI18N
-        btnDownloadNow.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDownloadNow.toolTipText")); // NOI18N
+        btnDownloadNow.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDownload.text")); // NOI18N
+        btnDownloadNow.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDownload.toolTipText")); // NOI18N
         btnDownloadNow.setEnabled(false);
         btnDownloadNow.setMargin(null);
         btnDownloadNow.setMaximumSize(null);
         btnDownloadNow.setMinimumSize(null);
+        btnDownloadNow.setName("btnDownload"); // NOI18N
         btnDownloadNow.setPreferredSize(null);
         btnDownloadNow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

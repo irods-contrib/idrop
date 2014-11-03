@@ -294,6 +294,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.title")); // NOI18N
+        setName("transferAccountingManagerDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(900, 800));
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 4, 4, 4));
@@ -311,6 +312,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnPurgeAll.setBorder(null);
         btnPurgeAll.setFocusable(false);
         btnPurgeAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPurgeAll.setName("btnPurgeAll"); // NOI18N
         btnPurgeAll.setPreferredSize(new java.awt.Dimension(80, 80));
         btnPurgeAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPurgeAll.addActionListener(new java.awt.event.ActionListener() {
@@ -328,6 +330,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnPurgeSuccessful.setBorder(null);
         btnPurgeSuccessful.setFocusable(false);
         btnPurgeSuccessful.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPurgeSuccessful.setName("btnPurgeSuccessful"); // NOI18N
         btnPurgeSuccessful.setPreferredSize(new java.awt.Dimension(120, 80));
         btnPurgeSuccessful.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPurgeSuccessful.addActionListener(new java.awt.event.ActionListener() {
@@ -342,12 +345,13 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         btnRemoveSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
         btnRemoveSelected.setMnemonic('d');
-        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRemoveSelected.text")); // NOI18N
-        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRemoveSelected.toolTipText")); // NOI18N
+        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnDelete.text")); // NOI18N
+        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnDelete.toolTipText")); // NOI18N
         btnRemoveSelected.setBorder(null);
         btnRemoveSelected.setEnabled(false);
         btnRemoveSelected.setFocusable(false);
         btnRemoveSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRemoveSelected.setName("btnDelete"); // NOI18N
         btnRemoveSelected.setPreferredSize(new java.awt.Dimension(80, 80));
         btnRemoveSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
@@ -366,6 +370,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnCancel.setEnabled(false);
         btnCancel.setFocusable(false);
         btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.setPreferredSize(new java.awt.Dimension(80, 80));
         btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -378,12 +383,13 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         btnRestartSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_085_repeat.png"))); // NOI18N
         btnRestartSelected.setMnemonic('t');
-        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRestartSelected.text")); // NOI18N
-        btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRestartSelected.toolTipText")); // NOI18N
+        btnRestartSelected.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRestart.text")); // NOI18N
+        btnRestartSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnRestart.toolTipText")); // NOI18N
         btnRestartSelected.setBorder(null);
         btnRestartSelected.setEnabled(false);
         btnRestartSelected.setFocusable(false);
         btnRestartSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRestartSelected.setName("btnRestart"); // NOI18N
         btnRestartSelected.setPreferredSize(new java.awt.Dimension(80, 80));
         btnRestartSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRestartSelected.addActionListener(new java.awt.event.ActionListener() {
@@ -396,12 +402,13 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         btnResubmitSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_434_redo.png"))); // NOI18N
         btnResubmitSelected.setMnemonic('b');
-        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnResubmitSelected.text")); // NOI18N
-        btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnResubmitSelected.toolTipText")); // NOI18N
+        btnResubmitSelected.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnResubmit.text")); // NOI18N
+        btnResubmitSelected.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnResubmit.toolTipText")); // NOI18N
         btnResubmitSelected.setBorder(null);
         btnResubmitSelected.setEnabled(false);
         btnResubmitSelected.setFocusable(false);
         btnResubmitSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnResubmitSelected.setName("btnResubmit"); // NOI18N
         btnResubmitSelected.setPreferredSize(new java.awt.Dimension(80, 80));
         btnResubmitSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnResubmitSelected.addActionListener(new java.awt.event.ActionListener() {
@@ -421,6 +428,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnRefresh.setBorder(null);
         btnRefresh.setFocusable(false);
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRefresh.setName("btnRefresh"); // NOI18N
         btnRefresh.setPreferredSize(new java.awt.Dimension(80, 80));
         btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -436,6 +444,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnAutoRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnAutoRefresh.toolTipText")); // NOI18N
         btnAutoRefresh.setFocusable(false);
         btnAutoRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAutoRefresh.setName("btnAutoRefresh"); // NOI18N
         btnAutoRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnAutoRefresh.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -452,18 +461,22 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         pnlTable.setLayout(new java.awt.BorderLayout());
 
-        lblTransferDetails.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.lblTransferDetails.text")); // NOI18N
+        lblTransferDetails.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.transferDescription.text")); // NOI18N
+        lblTransferDetails.setName("transferDescription"); // NOI18N
         pnlTransferDetails.add(lblTransferDetails);
 
         pnlTable.add(pnlTransferDetails, java.awt.BorderLayout.NORTH);
 
         tblTransfers.setAutoCreateRowSorter(true);
+        tblTransfers.setName("transferTable"); // NOI18N
         tblTransfers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblTransfers);
 
         pnlTable.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         splitMasterdetail.setLeftComponent(pnlTable);
+
+        transferTabs.setName("tabTransfers"); // NOI18N
 
         pnlAttemptDashboardTab.setLayout(new java.awt.BorderLayout());
 
@@ -472,6 +485,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         pnlAttemptDashboardTab.add(pnlDashboardDetails, java.awt.BorderLayout.NORTH);
 
+        pnlDashboard.setName("transferGraph"); // NOI18N
         pnlDashboard.setPreferredSize(new java.awt.Dimension(700, 400));
         pnlDashboard.setLayout(new java.awt.GridLayout(1, 0));
         pnlAttemptDashboardTab.add(pnlDashboard, java.awt.BorderLayout.CENTER);
@@ -496,6 +510,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableAttempts.setName("attemptLog"); // NOI18N
         jTableAttempts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         scrollPaneAttempts.setViewportView(jTableAttempts);
 

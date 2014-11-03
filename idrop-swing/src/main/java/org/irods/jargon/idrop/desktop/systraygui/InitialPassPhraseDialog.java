@@ -87,6 +87,7 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.title")); // NOI18N
+        setName("initialPassPhraseDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 300));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 14, 4, 14));
@@ -113,7 +114,8 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel2.add(jLabel1, gridBagConstraints);
 
-        txtPassPhrase.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.txtPassPhrase.text")); // NOI18N
+        txtPassPhrase.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.passPhrase.text")); // NOI18N
+        txtPassPhrase.setName("passPhrase"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -128,7 +130,8 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel2.add(jLabel2, gridBagConstraints);
 
-        txtVerifyPassPhrase.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.txtVerifyPassPhrase.text")); // NOI18N
+        txtVerifyPassPhrase.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.confirmPassPhrase.text")); // NOI18N
+        txtVerifyPassPhrase.setName("confirmPassPhrase"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -149,8 +152,9 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('c');
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnCancel.text")); // NOI18N
-        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btmCamcel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btmCamcel.toolTipText")); // NOI18N
+        btnCancel.setName("btmCamcel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -160,8 +164,9 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
 
         btnOkay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOkay.setMnemonic('o');
-        btnOkay.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnOkay.text")); // NOI18N
-        btnOkay.setToolTipText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnOkay.toolTipText")); // NOI18N
+        btnOkay.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnOk.text")); // NOI18N
+        btnOkay.setToolTipText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnOk.toolTipText")); // NOI18N
+        btnOkay.setName("btnOk"); // NOI18N
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOkayActionPerformed(evt);

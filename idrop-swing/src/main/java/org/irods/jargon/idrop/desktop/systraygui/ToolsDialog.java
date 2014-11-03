@@ -52,67 +52,51 @@ public class ToolsDialog extends javax.swing.JDialog {
 	 */
 
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		pnlButtons = new javax.swing.JPanel();
-		btnToolbarDiff = new javax.swing.JButton();
+        pnlButtons = new javax.swing.JPanel();
+        btnToolbarDiff = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
-		setName("ToolsDialog"); // NOI18N
-		setResizable(false);
-		// setType(java.awt.Window.Type.POPUP);
-		getContentPane().setLayout(
-				new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        setName("ToolsDialog"); // NOI18N
+        setResizable(false);
+        setType(java.awt.Window.Type.POPUP);
+        getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
-		pnlButtons.setLayout(new java.awt.GridBagLayout());
+        pnlButtons.setLayout(new java.awt.GridBagLayout());
 
-		btnToolbarDiff
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_428_git_compare.png"))); // NOI18N
-		btnToolbarDiff.setMnemonic('D');
-		btnToolbarDiff.setText(org.openide.util.NbBundle.getMessage(
-				ToolsDialog.class, "ToolsDialog.btnToolbarDiff.text")); // NOI18N
-		btnToolbarDiff.setToolTipText(org.openide.util.NbBundle.getMessage(
-				ToolsDialog.class, "ToolsDialog.btnToolbarDiff.toolTipText")); // NOI18N
-		btnToolbarDiff.setBorder(null);
-		btnToolbarDiff
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		btnToolbarDiff.setMaximumSize(null);
-		btnToolbarDiff.setMinimumSize(null);
-		btnToolbarDiff.setPreferredSize(null);
-		btnToolbarDiff
-				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		btnToolbarDiff.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnToolbarDiffActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.ipadx = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		pnlButtons.add(btnToolbarDiff, gridBagConstraints);
+        btnToolbarDiff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_428_git_compare.png"))); // NOI18N
+        btnToolbarDiff.setMnemonic('D');
+        btnToolbarDiff.setText(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.btnDiff.text")); // NOI18N
+        btnToolbarDiff.setToolTipText(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.btnDiff.toolTipText")); // NOI18N
+        btnToolbarDiff.setBorder(null);
+        btnToolbarDiff.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnToolbarDiff.setName("btnDiff"); // NOI18N
+        btnToolbarDiff.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnToolbarDiff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnToolbarDiffActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnlButtons.add(btnToolbarDiff, gridBagConstraints);
 
-		getContentPane().add(pnlButtons);
+        getContentPane().add(pnlButtons);
 
-		getAccessibleContext().setAccessibleName(
-				org.openide.util.NbBundle.getMessage(ToolsDialog.class,
-						"ToolsDialog.AccessibleContext.accessibleName")); // NOI18N
-		getAccessibleContext().setAccessibleDescription(
-				org.openide.util.NbBundle.getMessage(ToolsDialog.class,
-						"ToolsDialog.AccessibleContext.accessibleDescription")); // NOI18N
-		getAccessibleContext().setAccessibleParent(this);
+        getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.AccessibleContext.accessibleName")); // NOI18N
+        getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.AccessibleContext.accessibleDescription")); // NOI18N
+        getAccessibleContext().setAccessibleParent(this);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnToolbarDiffActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnToolbarDiffActionPerformed
@@ -238,9 +222,8 @@ public class ToolsDialog extends javax.swing.JDialog {
 		});
 
 	}// GEN-LAST:event_btnToolbarDiffActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnToolbarDiff;
-	private javax.swing.JPanel pnlButtons;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnToolbarDiff;
+    private javax.swing.JPanel pnlButtons;
+    // End of variables declaration//GEN-END:variables
 }

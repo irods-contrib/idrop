@@ -313,6 +313,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.title")); // NOI18N
+        setName("gridMemoryDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 300));
 
         pnlGridInfoTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
@@ -323,6 +324,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         tableGridInfo.setMaximumSize(null);
         tableGridInfo.setMinimumSize(null);
+        tableGridInfo.setName("gridTable"); // NOI18N
         tableGridInfo.setPreferredSize(null);
         jScrollPane3.setViewportView(tableGridInfo);
 
@@ -338,8 +340,9 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         btnAddGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_006_user_add.png"))); // NOI18N
         btnAddGridInfo.setMnemonic('+');
-        btnAddGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGridInfo.text")); // NOI18N
-        btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGridInfo.toolTipText")); // NOI18N
+        btnAddGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGrid.text")); // NOI18N
+        btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGrid.toolTipText")); // NOI18N
+        btnAddGridInfo.setName("btnAddGrid"); // NOI18N
         btnAddGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddGridInfoActionPerformed(evt);
@@ -349,9 +352,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         btnDeleteGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_007_user_remove.png"))); // NOI18N
         btnDeleteGridInfo.setMnemonic('-');
-        btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGridInfo.text")); // NOI18N
-        btnDeleteGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGridInfo.toolTipText")); // NOI18N
+        btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGrid.text")); // NOI18N
+        btnDeleteGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGrid.toolTipText")); // NOI18N
         btnDeleteGridInfo.setEnabled(false);
+        btnDeleteGridInfo.setName("btnDeleteGrid"); // NOI18N
         btnDeleteGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteGridInfoActionPerformed(evt);
@@ -361,9 +365,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_030_pencil.png"))); // NOI18N
         btnEdit.setMnemonic('E');
-        btnEdit.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.text")); // NOI18N
-        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEdit.toolTipText")); // NOI18N
+        btnEdit.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEditGrid.text")); // NOI18N
+        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEditGrid.toolTipText")); // NOI18N
         btnEdit.setEnabled(false);
+        btnEdit.setName("btnEditGrid"); // NOI18N
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -384,6 +389,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         btnCancel.setMnemonic('C');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.text_1")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -393,9 +399,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_204_unlock.png"))); // NOI18N
         btnLogin.setMnemonic('L');
-        btnLogin.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.text")); // NOI18N
-        btnLogin.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.toolTipText")); // NOI18N
+        btnLogin.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogIn.text")); // NOI18N
+        btnLogin.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogIn.toolTipText")); // NOI18N
         btnLogin.setEnabled(false);
+        btnLogin.setName("btnLogIn"); // NOI18N
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);

@@ -101,126 +101,97 @@ public class EditPermissionsDialog extends javax.swing.JDialog {
 	 */
 
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		pnlMain = new javax.swing.JPanel();
-		pnlPermissionEdit = new javax.swing.JPanel();
-		jLabel31 = new javax.swing.JLabel();
-		lblUserName = new javax.swing.JLabel();
-		jLabel32 = new javax.swing.JLabel();
-		cbPermissionsPermission = new javax.swing.JComboBox();
-		jPanel1 = new javax.swing.JPanel();
-		btnPermissionsCancel = new javax.swing.JButton();
-		btnPermissionsUpdate = new javax.swing.JButton();
+        pnlMain = new javax.swing.JPanel();
+        pnlPermissionEdit = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
+        lblUserName = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        cbPermissionsPermission = new javax.swing.JComboBox();
+        jPanel1 = new javax.swing.JPanel();
+        btnPermissionsCancel = new javax.swing.JButton();
+        btnPermissionsUpdate = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(org.openide.util.NbBundle.getMessage(
-				EditPermissionsDialog.class, "EditPermissionsDialog.title")); // NOI18N
-		setPreferredSize(new java.awt.Dimension(300, 200));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.title")); // NOI18N
+        setPreferredSize(new java.awt.Dimension(300, 200));
 
-		pnlMain.setLayout(new java.awt.BorderLayout());
+        pnlMain.setLayout(new java.awt.BorderLayout());
 
-		pnlPermissionEdit.setBorder(javax.swing.BorderFactory
-				.createEmptyBorder(16, 8, 20, 8));
-		pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
-		pnlPermissionEdit.setLayout(new java.awt.GridBagLayout());
+        pnlPermissionEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 8, 20, 8));
+        pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
+        pnlPermissionEdit.setLayout(new java.awt.GridBagLayout());
 
-		jLabel31.setText(org.openide.util.NbBundle.getMessage(
-				EditPermissionsDialog.class,
-				"EditPermissionsDialog.jLabel31.text")); // NOI18N
-		jLabel31.setPreferredSize(new java.awt.Dimension(120, 16));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlPermissionEdit.add(jLabel31, gridBagConstraints);
+        jLabel31.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.jLabel31.text")); // NOI18N
+        jLabel31.setPreferredSize(new java.awt.Dimension(120, 16));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlPermissionEdit.add(jLabel31, gridBagConstraints);
 
-		lblUserName.setText(org.openide.util.NbBundle.getMessage(
-				EditPermissionsDialog.class,
-				"EditPermissionsDialog.lblUserName.text")); // NOI18N
-		lblUserName.setPreferredSize(null);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-		pnlPermissionEdit.add(lblUserName, gridBagConstraints);
+        lblUserName.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.userName.text")); // NOI18N
+        lblUserName.setName("userName"); // NOI18N
+        lblUserName.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPermissionEdit.add(lblUserName, gridBagConstraints);
 
-		jLabel32.setText(org.openide.util.NbBundle.getMessage(
-				EditPermissionsDialog.class,
-				"EditPermissionsDialog.jLabel32.text")); // NOI18N
-		jLabel32.setPreferredSize(new java.awt.Dimension(120, 16));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-		pnlPermissionEdit.add(jLabel32, gridBagConstraints);
+        jLabel32.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.jLabel32.text")); // NOI18N
+        jLabel32.setPreferredSize(new java.awt.Dimension(120, 16));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlPermissionEdit.add(jLabel32, gridBagConstraints);
 
-		cbPermissionsPermission.setMinimumSize(null);
-		cbPermissionsPermission.setPreferredSize(null);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-		pnlPermissionEdit.add(cbPermissionsPermission, gridBagConstraints);
+        cbPermissionsPermission.setMinimumSize(null);
+        cbPermissionsPermission.setName("lblPermission"); // NOI18N
+        cbPermissionsPermission.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        pnlPermissionEdit.add(cbPermissionsPermission, gridBagConstraints);
 
-		pnlMain.add(pnlPermissionEdit, java.awt.BorderLayout.CENTER);
+        pnlMain.add(pnlPermissionEdit, java.awt.BorderLayout.CENTER);
 
-		jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 6,
-				1));
-		jPanel1.setPreferredSize(new java.awt.Dimension(525, 40));
-		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 6, 1));
+        jPanel1.setPreferredSize(new java.awt.Dimension(525, 40));
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		btnPermissionsCancel
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
-		btnPermissionsCancel.setMnemonic('c');
-		btnPermissionsCancel.setText(org.openide.util.NbBundle.getMessage(
-				EditPermissionsDialog.class,
-				"EditPermissionsDialog.btnPermissionsCancel.text")); // NOI18N
-		btnPermissionsCancel
-				.setToolTipText(org.openide.util.NbBundle
-						.getMessage(EditPermissionsDialog.class,
-								"EditPermissionsDialog.btnPermissionsCancel.toolTipText")); // NOI18N
-		btnPermissionsCancel
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnPermissionsCancelActionPerformed(evt);
-					}
-				});
-		jPanel1.add(btnPermissionsCancel);
+        btnPermissionsCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnPermissionsCancel.setMnemonic('c');
+        btnPermissionsCancel.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnCancel.text")); // NOI18N
+        btnPermissionsCancel.setToolTipText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnCancel.toolTipText")); // NOI18N
+        btnPermissionsCancel.setName("btnCancel"); // NOI18N
+        btnPermissionsCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPermissionsCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnPermissionsCancel);
 
-		btnPermissionsUpdate
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-		btnPermissionsUpdate.setMnemonic('o');
-		btnPermissionsUpdate.setText(org.openide.util.NbBundle.getMessage(
-				EditPermissionsDialog.class,
-				"EditPermissionsDialog.btnPermissionsUpdate.text")); // NOI18N
-		btnPermissionsUpdate
-				.setActionCommand(org.openide.util.NbBundle
-						.getMessage(EditPermissionsDialog.class,
-								"EditPermissionsDialog.btnPermissionsUpdate.actionCommand")); // NOI18N
-		btnPermissionsUpdate
-				.addActionListener(new java.awt.event.ActionListener() {
-					@Override
-					public void actionPerformed(
-							final java.awt.event.ActionEvent evt) {
-						btnPermissionsUpdateActionPerformed(evt);
-					}
-				});
-		jPanel1.add(btnPermissionsUpdate);
+        btnPermissionsUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnPermissionsUpdate.setMnemonic('o');
+        btnPermissionsUpdate.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnOk.text")); // NOI18N
+        btnPermissionsUpdate.setActionCommand(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnOk.actionCommand")); // NOI18N
+        btnPermissionsUpdate.setName("btnOk"); // NOI18N
+        btnPermissionsUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPermissionsUpdateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnPermissionsUpdate);
 
-		pnlMain.add(jPanel1, java.awt.BorderLayout.SOUTH);
+        pnlMain.add(jPanel1, java.awt.BorderLayout.SOUTH);
 
-		getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnPermissionsCancelActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsCancelActionPerformed
@@ -320,15 +291,15 @@ public class EditPermissionsDialog extends javax.swing.JDialog {
 		dispose();
 	}// GEN-LAST:event_btnPermissionsUpdateActionPerformed
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton btnPermissionsCancel;
-	private javax.swing.JButton btnPermissionsUpdate;
-	private javax.swing.JComboBox cbPermissionsPermission;
-	private javax.swing.JLabel jLabel31;
-	private javax.swing.JLabel jLabel32;
-	private javax.swing.JPanel jPanel1;
-	private javax.swing.JLabel lblUserName;
-	private javax.swing.JPanel pnlMain;
-	private javax.swing.JPanel pnlPermissionEdit;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPermissionsCancel;
+    private javax.swing.JButton btnPermissionsUpdate;
+    private javax.swing.JComboBox cbPermissionsPermission;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblUserName;
+    private javax.swing.JPanel pnlMain;
+    private javax.swing.JPanel pnlPermissionEdit;
+    // End of variables declaration//GEN-END:variables
 }

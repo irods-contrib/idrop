@@ -100,69 +100,64 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
 
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-		lblTitle = new javax.swing.JLabel();
-		pnlFolderData = new javax.swing.JPanel();
-		scrollFileToDelete = new javax.swing.JScrollPane();
-		txtAreaFileToDelete = new javax.swing.JTextArea();
-		pnlBottom = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnOK = new javax.swing.JButton();
+        lblTitle = new javax.swing.JLabel();
+        pnlFolderData = new javax.swing.JPanel();
+        scrollFileToDelete = new javax.swing.JScrollPane();
+        txtAreaFileToDelete = new javax.swing.JTextArea();
+        pnlBottom = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnOK = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("iDrop - Delete local file or folder");
-		setPreferredSize(new java.awt.Dimension(300, 200));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("iDrop - Delete local file or folder");
+        setName("deleteLocalFileDialog"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(300, 200));
 
-		lblTitle.setText("Please hit OK to delete the following file/folder from the local file system");
-		getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
+        lblTitle.setText("Please hit OK to delete the following file/folder from the local file system");
+        getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
-		pnlFolderData.setLayout(new java.awt.BorderLayout());
+        pnlFolderData.setLayout(new java.awt.BorderLayout());
 
-		txtAreaFileToDelete.setColumns(20);
-		txtAreaFileToDelete.setEditable(false);
-		txtAreaFileToDelete.setLineWrap(true);
-		txtAreaFileToDelete.setRows(5);
-		scrollFileToDelete.setViewportView(txtAreaFileToDelete);
+        txtAreaFileToDelete.setEditable(false);
+        txtAreaFileToDelete.setColumns(20);
+        txtAreaFileToDelete.setLineWrap(true);
+        txtAreaFileToDelete.setRows(5);
+        txtAreaFileToDelete.setName("fileName"); // NOI18N
+        scrollFileToDelete.setViewportView(txtAreaFileToDelete);
 
-		pnlFolderData.add(scrollFileToDelete, java.awt.BorderLayout.CENTER);
+        pnlFolderData.add(scrollFileToDelete, java.awt.BorderLayout.CENTER);
 
-		getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
 
-		pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		btnCancel
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnCancel);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnCancel);
 
-		btnOK.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-		btnOK.setMnemonic('o');
-		btnOK.setToolTipText("Proceed with delete");
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKActionPerformed(evt);
-			}
-		});
-		pnlBottom.add(btnOK);
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('o');
+        btnOK.setToolTipText("Proceed with delete");
+        btnOK.setName("btnOk"); // NOI18N
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        pnlBottom.add(btnOK);
 
-		getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(pnlBottom, java.awt.BorderLayout.SOUTH);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
@@ -172,17 +167,15 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
 		processDelete();
 
 	}// GEN-LAST:event_btnOKActionPerformed
-		// Variables declaration - do not modify//GEN-BEGIN:variables
-
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnOK;
-	private javax.swing.JLabel lblTitle;
-	private javax.swing.JPanel pnlBottom;
-	private javax.swing.JPanel pnlFolderData;
-	private javax.swing.JScrollPane scrollFileToDelete;
-	private javax.swing.JTextArea txtAreaFileToDelete;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlFolderData;
+    private javax.swing.JScrollPane scrollFileToDelete;
+    private javax.swing.JTextArea txtAreaFileToDelete;
+    // End of variables declaration//GEN-END:variables
 	private void processDelete() {
 
 		log.info("delete folder named:{}", txtAreaFileToDelete.getText());
