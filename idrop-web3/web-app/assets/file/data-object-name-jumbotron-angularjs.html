@@ -2,14 +2,14 @@
             <div class="col-md-12">
 
                 <button type="button"
-                        class="btn btn-link" ng-click="selectParentCollection(file.collectionName)"> <span class="glyphext glyphext-folder-closed-large"></span>{{
-                    file.domainObject.collectionName | abbreviateFileName }}
+                        class="btn btn-link" ng-click="selectParentCollection(file.parentPath)"> <span class="glyphext glyphext-folder-closed-large"></span>{{
+                    file.parentPath | abbreviateFileName }}
                 </button>
             </div>
         </div>
         <div class="row well well-sm" >
             <div class="col-md-10">
-                <span class="{{getFileIconClass()}}"></span><h4>{{ file.domainObject.dataName }}</h4>
+                <span class="{{getFileIconClass()}}"></span><h4>{{ file.childName }}</h4>
             </div>
             <div class="col-md-2">
                  <span class="glyphicon {{file | starIcon }}" ng-click="toggleStar()"></span>
