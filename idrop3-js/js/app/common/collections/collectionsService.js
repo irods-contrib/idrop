@@ -42,8 +42,8 @@ angular.module('CollectionsModule', [])
                 }
 
                 $log.info("requesting vc:" + reqVcName + " and path:" + reqParentPath);
-                return $http({method: 'GET', url: 'collection/' + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (data) {
-                    pagingAwareCollectionListing = data;
+                return $http({method: 'GET', url: 'collection/' + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (response) {
+                    pagingAwareCollectionListing = response.data;
 
                 }).error(function () {
                         pagingAwareCollectionListing = {};

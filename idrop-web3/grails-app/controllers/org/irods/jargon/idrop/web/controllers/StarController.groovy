@@ -15,7 +15,7 @@ class StarController extends RestfulController {
 	static responseFormats = ['json']
 
 	/**
-	 * Post method to star a file or collection
+	 * PUT method to star a file or collection, this is idempotent, and returns a 204 (succss no data)
 	 * @return
 	 */
 	def update() {

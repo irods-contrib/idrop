@@ -24,6 +24,8 @@ grunt workflow - http://www.youtube.com/watch?v=fSAgFxjFSqY
 
 code and design info
 
+returning promise from service to controller: http://chariotsolutions.com/blog/post/angularjs-corner-using-promises-q-handle-asynchronous-calls/
+
 auth with single-page apps: http://frederiknakstad.com/2013/01/21/authentication-in-single-page-applications-with-angular-js/
 
 large apps - http://briantford.com/blog/huuuuuge-angular-apps.html

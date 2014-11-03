@@ -3,6 +3,7 @@
 */.groovy
 .classpath
 */.classpath
+*/dependencies
 .metadata
 .project
 .settings

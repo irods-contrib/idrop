@@ -113,7 +113,7 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
                 return "glyphicon-star-empty";
             }
 
-            if(dataProfile.data.starred) {
+            if(dataProfile.starred) {
                 return "glyphicon-star";
             } else {
                 return "glyphicon-star-empty";

@@ -94,8 +94,8 @@ angular.module('CollectionsModule', [])
                 }
 
                 $log.info("requesting vc:" + reqVcName + " and path:" + reqParentPath);
-                return $http({method: 'GET', url: 'collection/' + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (data) {
-                    pagingAwareCollectionListing = data;
+                return $http({method: 'GET', url: 'collection/' + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (response) {
+                    pagingAwareCollectionListing = response.data;
 
                 }).error(function () {
                         pagingAwareCollectionListing = {};
@@ -270,7 +270,7 @@ angular.module('virtualCollectionFilter', []).filter('vcIcon', function ($log) {
                 return "glyphicon-star-empty";
             }
 
-            if(dataProfile.data.starred) {
+            if(dataProfile.starred) {
                 return "glyphicon-star";
             } else {
                 return "glyphicon-star-empty";
@@ -833,7 +833,7 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
         });
     })
 
-    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService','mimeTypeService','$window','vc',function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService, mimeTypeService, $window,vc) {
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService','starService','mimeTypeService','$window','vc',function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService, starService, mimeTypeService, $window,vc) {
 
         $scope.file = file;
         $scope.infoTab = true;
@@ -900,14 +900,14 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
                 return "";
             }
 
-            $log.info("getting mime type for file:" + $scope.file.data.mimeType);
+            $log.info("getting mime type for file:" + $scope.file.mimeType);
 
-            return mimeTypeService.iconClassFromMimeTypeFullSize($scope.file.data.mimeType);
+            return mimeTypeService.iconClassFromMimeTypeFullSize($scope.file.mimeType);
 
         }
 
     }])
-    .factory('fileService', ['$http', '$log', 'tagService', function ($http, $log, tagService) {
+    .factory('fileService', ['$http', '$log', '$q','tagService', function ($http, $log, $q, tagService) {
 
         var fileService = {
             /**
@@ -926,16 +926,21 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
                     throw "path is missing";
                 }
 
-                return $http({method: 'GET', url: 'file/', params: {path: path}}).success(function (data) {
+                var deferred = $q.defer();
 
+                var promise =  $http({method: 'GET', url: 'file/', params: {path: path}}).success(function(data, status, headers, config) {
+
+                    deferred.resolve(data);
                     // decorate data with tag string
-
+                    $log.info("return from call toget fileBasics:" + data);
                     data.tagString = tagService.tagListToTagString(data.irodsTagValues);
-                    return data;
+
 
                 }).error(function () {
                         return null;
                     });
+
+                return deferred.promise;
             },
 
             /**
