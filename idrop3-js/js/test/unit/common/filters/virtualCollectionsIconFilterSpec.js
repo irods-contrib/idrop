@@ -26,7 +26,7 @@ describe("Tests of the virtual collections icon filterr", function () {
     it("should return a star class when it is starred", function () {
         var orig, result;
 
-        orig = {data:{starred:true}};
+        orig = {starred:true};
 
         result = $filter('starIcon')(orig);
         expect(result).toEqual("glyphicon-star");

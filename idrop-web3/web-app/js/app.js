@@ -889,7 +889,7 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
          */
         $scope.selectParentCollection = function() {
             $location.path("/home/" + $scope.vc);
-            $location.search("path",  $scope.file.data.domainObject.collectionName);
+            $location.search("path",  $scope.file.parentCollection);
         };
 
         /**
