@@ -135,6 +135,12 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         log.info("listSelectedPathsInTree()");
 
         TreePath[] selectedPaths = this.getSelectionPaths();
+        
+        
+        if (selectedPaths == null) {
+            return new ArrayList<String>();
+        }
+        
         List<String> paths = new ArrayList<String>();
 
         for (TreePath treePath : selectedPaths) {
