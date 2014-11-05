@@ -1497,6 +1497,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.title")); // NOI18N
         setMinimumSize(new java.awt.Dimension(622, 158));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -2015,10 +2016,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void btnMainToolbarSettingsActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarSettingsActionPerformed
-        IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(
-                this, true, iDropCore);
-        idropConfigurationPanel.setLocationRelativeTo(null);
-        idropConfigurationPanel.setVisible(true);
+//        IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(
+//                this, true, iDropCore);
+//        idropConfigurationPanel.setLocationRelativeTo(null);
+//        idropConfigurationPanel.setVisible(true);
+        SettingsDialog dlgSettings = new SettingsDialog(
+                this, true, iDropCore, getIrodsAccount());
+        dlgSettings.setLocationRelativeTo(null);
+        dlgSettings.setVisible(true);
     }
 
     private void btnAdvancedActionPerformed(

@@ -7,7 +7,7 @@
       <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditGridInfoDialog.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
     </Property>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[430, 460]"/>
+      <Dimension value="[430, 480]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -344,7 +344,7 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                <EmptyBorder bottom="4" left="1" right="1" top="20"/>
+                <EmptyBorder bottom="4" left="1" right="1" top="8"/>
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -371,7 +371,7 @@
             <Container class="javax.swing.JPanel" name="jPanel5">
               <Properties>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[190, 39]"/>
+                  <Dimension value="[190, 50]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -404,7 +404,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"/>
                     </Property>
-                    <Property name="mnemonic" type="int" value="79"/>
+                    <Property name="mnemonic" type="int" value="83"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditGridInfoDialog.btnOK.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>

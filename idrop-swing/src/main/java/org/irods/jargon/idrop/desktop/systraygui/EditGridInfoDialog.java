@@ -232,288 +232,246 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
 	 */
 
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	@SuppressWarnings("rawtypes")
-	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		jPanel2 = new javax.swing.JPanel();
-		jPanel1 = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
-		lblHost = new javax.swing.JLabel();
-		jLabel2 = new javax.swing.JLabel();
-		txtPort = new javax.swing.JTextField();
-		jLabel3 = new javax.swing.JLabel();
-		lblZone = new javax.swing.JLabel();
-		jLabel4 = new javax.swing.JLabel();
-		lblUser = new javax.swing.JLabel();
-		jLabel6 = new javax.swing.JLabel();
-		txtDefaultResource = new javax.swing.JTextField();
-		jLabel7 = new javax.swing.JLabel();
-		txtInitialPath = new javax.swing.JTextField();
-		jLabel8 = new javax.swing.JLabel();
-		cbAuthScheme = new javax.swing.JComboBox();
-		jLabel9 = new javax.swing.JLabel();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		textareaComment = new javax.swing.JTextArea();
-		txtPassword = new javax.swing.JPasswordField();
-		jLabel5 = new javax.swing.JLabel();
-		jLabel10 = new javax.swing.JLabel();
-		txtVerifyPassword = new javax.swing.JPasswordField();
-		jPanel3 = new javax.swing.JPanel();
-		jPanel4 = new javax.swing.JPanel();
-		jPanel5 = new javax.swing.JPanel();
-		btnCancel = new javax.swing.JButton();
-		btnOK = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblHost = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtPort = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        lblZone = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtDefaultResource = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtInitialPath = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        cbAuthScheme = new javax.swing.JComboBox();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textareaComment = new javax.swing.JTextArea();
+        txtPassword = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtVerifyPassword = new javax.swing.JPasswordField();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnOK = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class,
-				"EditGridInfoDialog.title")); // NOI18N
-		setPreferredSize(new java.awt.Dimension(430, 460));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.title")); // NOI18N
+        setPreferredSize(new java.awt.Dimension(430, 480));
 
-		jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1,
-				1));
-		jPanel2.setPreferredSize(new java.awt.Dimension(394, 406));
-		jPanel2.setLayout(new java.awt.BorderLayout());
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel2.setPreferredSize(new java.awt.Dimension(394, 406));
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
-		jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10,
-				4, 10));
-		jPanel1.setPreferredSize(new java.awt.Dimension(382, 370));
-		jPanel1.setLayout(new java.awt.GridBagLayout());
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 4, 10));
+        jPanel1.setPreferredSize(new java.awt.Dimension(382, 370));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
-		jLabel1.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel1.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel1, gridBagConstraints);
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel1, gridBagConstraints);
 
-		lblHost.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.lblHost.text")); // NOI18N
-		lblHost.setPreferredSize(new java.awt.Dimension(0, 28));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.weightx = 0.1;
-		jPanel1.add(lblHost, gridBagConstraints);
+        lblHost.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblHost.text")); // NOI18N
+        lblHost.setPreferredSize(new java.awt.Dimension(0, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(lblHost, gridBagConstraints);
 
-		jLabel2.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel2.text")); // NOI18N
-		jLabel2.setPreferredSize(new java.awt.Dimension(29, 28));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel2, gridBagConstraints);
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel2.text")); // NOI18N
+        jLabel2.setPreferredSize(new java.awt.Dimension(29, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel2, gridBagConstraints);
 
-		txtPort.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.txtPort.text")); // NOI18N
-		txtPort.setPreferredSize(new java.awt.Dimension(200, 28));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		jPanel1.add(txtPort, gridBagConstraints);
+        txtPort.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtPort.text")); // NOI18N
+        txtPort.setPreferredSize(new java.awt.Dimension(200, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(txtPort, gridBagConstraints);
 
-		jLabel3.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel3.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel3, gridBagConstraints);
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel3, gridBagConstraints);
 
-		lblZone.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.lblZone.text")); // NOI18N
-		lblZone.setPreferredSize(new java.awt.Dimension(0, 28));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.weightx = 0.1;
-		jPanel1.add(lblZone, gridBagConstraints);
+        lblZone.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblZone.text")); // NOI18N
+        lblZone.setPreferredSize(new java.awt.Dimension(0, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(lblZone, gridBagConstraints);
 
-		jLabel4.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel4.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel4, gridBagConstraints);
+        jLabel4.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel4.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel4, gridBagConstraints);
 
-		lblUser.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.lblUser.text")); // NOI18N
-		lblUser.setPreferredSize(new java.awt.Dimension(0, 28));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.weightx = 0.1;
-		jPanel1.add(lblUser, gridBagConstraints);
+        lblUser.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblUser.text")); // NOI18N
+        lblUser.setPreferredSize(new java.awt.Dimension(0, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(lblUser, gridBagConstraints);
 
-		jLabel6.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel6.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 6;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel6, gridBagConstraints);
+        jLabel6.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel6.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel6, gridBagConstraints);
 
-		txtDefaultResource.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class,
-				"EditGridInfoDialog.txtDefaultResource.text")); // NOI18N
-		txtDefaultResource.setPreferredSize(new java.awt.Dimension(200, 28));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 6;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		jPanel1.add(txtDefaultResource, gridBagConstraints);
+        txtDefaultResource.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtDefaultResource.text")); // NOI18N
+        txtDefaultResource.setPreferredSize(new java.awt.Dimension(200, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(txtDefaultResource, gridBagConstraints);
 
-		jLabel7.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel7.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 7;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel7, gridBagConstraints);
+        jLabel7.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel7.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel7, gridBagConstraints);
 
-		txtInitialPath.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class,
-				"EditGridInfoDialog.txtInitialPath.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 7;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		jPanel1.add(txtInitialPath, gridBagConstraints);
+        txtInitialPath.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtInitialPath.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(txtInitialPath, gridBagConstraints);
 
-		jLabel8.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel8.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 8;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel8, gridBagConstraints);
+        jLabel8.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel8.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel8, gridBagConstraints);
 
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 8;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		jPanel1.add(cbAuthScheme, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(cbAuthScheme, gridBagConstraints);
 
-		jLabel9.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel9.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 9;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel9, gridBagConstraints);
+        jLabel9.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel9.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel9, gridBagConstraints);
 
-		jScrollPane1.setPreferredSize(new java.awt.Dimension(224, 84));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(224, 84));
 
-		textareaComment.setColumns(20);
-		textareaComment.setRows(5);
-		jScrollPane1.setViewportView(textareaComment);
+        textareaComment.setColumns(20);
+        textareaComment.setRows(5);
+        jScrollPane1.setViewportView(textareaComment);
 
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 9;
-		gridBagConstraints.gridheight = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		jPanel1.add(jScrollPane1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(jScrollPane1, gridBagConstraints);
 
-		txtPassword.setText(org.openide.util.NbBundle
-				.getMessage(EditGridInfoDialog.class,
-						"EditGridInfoDialog.txtPassword.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 4;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.weightx = 0.1;
-		jPanel1.add(txtPassword, gridBagConstraints);
+        txtPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtPassword.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(txtPassword, gridBagConstraints);
 
-		jLabel5.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel5.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 4;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel5, gridBagConstraints);
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel5.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel5, gridBagConstraints);
 
-		jLabel10.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.jLabel10.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 5;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-		jPanel1.add(jLabel10, gridBagConstraints);
+        jLabel10.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel10.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel10, gridBagConstraints);
 
-		txtVerifyPassword.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class,
-				"EditGridInfoDialog.txtVerifyPassword.text")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 5;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.weightx = 0.1;
-		jPanel1.add(txtVerifyPassword, gridBagConstraints);
+        txtVerifyPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtVerifyPassword.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(txtVerifyPassword, gridBagConstraints);
 
-		jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
+        jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
 
-		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 1, 4,
-				1));
-		jPanel3.setPreferredSize(new java.awt.Dimension(100, 60));
-		jPanel3.setLayout(new java.awt.BorderLayout());
-		jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 1, 4, 1));
+        jPanel3.setPreferredSize(new java.awt.Dimension(100, 60));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+        jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
 
-		jPanel5.setPreferredSize(new java.awt.Dimension(190, 39));
+        jPanel5.setPreferredSize(new java.awt.Dimension(190, 50));
 
-		btnCancel
-				.setIcon(new javax.swing.ImageIcon(
-						getClass()
-								.getResource(
-										"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
-		btnCancel.setMnemonic('C');
-		btnCancel.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.btnCancel.text")); // NOI18N
-		btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class,
-				"EditGridInfoDialog.btnCancel.toolTipText")); // NOI18N
-		btnCancel.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnCancelActionPerformed(evt);
-			}
-		});
-		jPanel5.add(btnCancel);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('C');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnCancel);
 
-		btnOK.setIcon(new javax.swing.ImageIcon(
-				getClass()
-						.getResource(
-								"/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-		btnOK.setMnemonic('O');
-		btnOK.setText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class, "EditGridInfoDialog.btnOK.text")); // NOI18N
-		btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(
-				EditGridInfoDialog.class,
-				"EditGridInfoDialog.btnOK.toolTipText")); // NOI18N
-		btnOK.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(final java.awt.event.ActionEvent evt) {
-				btnOKActionPerformed(evt);
-			}
-		});
-		jPanel5.add(btnOK);
+        btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOK.setMnemonic('S');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOK.text")); // NOI18N
+        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOK.toolTipText")); // NOI18N
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnOK);
 
-		jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
+        jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
 
-		jPanel2.add(jPanel3, java.awt.BorderLayout.SOUTH);
+        jPanel2.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
-		getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
@@ -573,38 +531,36 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
 	 * @param args
 	 *            the command line arguments
 	 */
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton btnCancel;
-	private javax.swing.JButton btnOK;
-	@SuppressWarnings("rawtypes")
-	private javax.swing.JComboBox cbAuthScheme;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel10;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel3;
-	private javax.swing.JLabel jLabel4;
-	private javax.swing.JLabel jLabel5;
-	private javax.swing.JLabel jLabel6;
-	private javax.swing.JLabel jLabel7;
-	private javax.swing.JLabel jLabel8;
-	private javax.swing.JLabel jLabel9;
-	private javax.swing.JPanel jPanel1;
-	private javax.swing.JPanel jPanel2;
-	private javax.swing.JPanel jPanel3;
-	private javax.swing.JPanel jPanel4;
-	private javax.swing.JPanel jPanel5;
-	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JLabel lblHost;
-	private javax.swing.JLabel lblUser;
-	private javax.swing.JLabel lblZone;
-	private javax.swing.JTextArea textareaComment;
-	private javax.swing.JTextField txtDefaultResource;
-	private javax.swing.JTextField txtInitialPath;
-	private javax.swing.JPasswordField txtPassword;
-	private javax.swing.JTextField txtPort;
-	private javax.swing.JPasswordField txtVerifyPassword;
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
+    private javax.swing.JComboBox cbAuthScheme;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblHost;
+    private javax.swing.JLabel lblUser;
+    private javax.swing.JLabel lblZone;
+    private javax.swing.JTextArea textareaComment;
+    private javax.swing.JTextField txtDefaultResource;
+    private javax.swing.JTextField txtInitialPath;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtPort;
+    private javax.swing.JPasswordField txtVerifyPassword;
+    // End of variables declaration//GEN-END:variables
 
 	private boolean validateGridAccount(final IRODSAccount gridInfo) {
 		try {

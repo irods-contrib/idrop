@@ -88,7 +88,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(500, 500));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 4, 10));
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -279,7 +279,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         jPanel3.add(btnCancel);
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-        btnOK.setMnemonic('O');
+        btnOK.setMnemonic('S');
         btnOK.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnOK.text")); // NOI18N
         btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnOK.toolTipText")); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {
