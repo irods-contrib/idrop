@@ -16,6 +16,26 @@ import spock.lang.Specification
 @TestFor(StarController)
 class StarControllerSpec extends Specification {
 
+	void "star controller removing a star to a collection"() {
+		given:
+
+		def path = "/a/path"
+		def starService = mockFor(StarService)
+		starService.demand.removeStar{path1,irodsAccount1->}
+		def starServiceMock = starService.createMock()
+
+		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.path = path
+		controller.starService = starServiceMock
+
+		when:
+		controller.delete()
+
+		then:
+		controller.response.status == 204
+	}
+
 	void "star controller adding a star to a collection"() {
 		given:
 
