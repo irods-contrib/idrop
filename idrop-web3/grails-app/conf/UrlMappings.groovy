@@ -8,7 +8,7 @@ class UrlMappings {
 
 		"/collection"(resource:"collection")
 
-		"/star/$path"(resource:"star")
+		"/star/$path**?(.$format)?"(resource:"star")
 
 		"/virtualCollection/$name"(resource:"virtualCollection")
 

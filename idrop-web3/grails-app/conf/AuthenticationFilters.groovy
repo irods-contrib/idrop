@@ -1,10 +1,10 @@
 
+import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.idrop.web.services.AuthenticationService
 import org.irods.jargon.idrop.web.utils.IdropConstants
-import javax.servlet.http.Cookie
 
 class AuthenticationFilters {
 

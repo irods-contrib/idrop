@@ -802,7 +802,7 @@ angular.module('virtualCollectionsModule', [])
 /*
  * File controller function here, representing collection and data object catalog info and operations
  */
-angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute', 'tagServiceModule'])
+angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute', 'tagServiceModule', 'StarModule','globalsModule'])
 
     /*
      * handle config of routes for home functions
@@ -833,7 +833,7 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
         });
     })
 
-    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', '$location', 'messageCenterService', 'file', 'tagService','starService','mimeTypeService','$window','vc',function ($scope, fileService, $translate, $log, $http, $location, $messageCenterService, file, tagService, starService, mimeTypeService, $window,vc) {
+    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', 'messageCenterService', 'file', 'tagService','starService','mimeTypeService','$window','vc',function ($scope, fileService, $translate, $log, $http, $messageCenterService, file, tagService, starService, mimeTypeService, $window,vc) {
 
         $scope.file = file;
         $scope.infoTab = true;
@@ -864,8 +864,21 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
         $scope.toggleStar = function() {
 
             $log.info("toggleStar()");
-            //var currPath = $scope.file.data.
-            //var path = $scope.
+            var currPath = $scope.file.domainObject.absolutePath;
+            if (!currPath) {
+                $log.error("no path found, cannot star");
+                throw "no absolute path";
+            }
+            $log.info("currPath:" + currPath);
+
+            if (!$scope.file.starred) {
+                $log.info("adding a star");
+                starService.addStar(currPath);
+                // go ahead and flip the star icon by updating the model
+                $scope.file.starred = true;
+            } else {
+                $log.info("remove star");
+            }
 
 
 

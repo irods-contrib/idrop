@@ -6,7 +6,7 @@ import org.irods.jargon.idrop.web.services.StarService
 
 /**
  * Implements REST actions for 
- * @author mikeconway
+ * @author Mike Conway - DICE
  *
  */
 class StarController extends RestfulController {
@@ -18,7 +18,7 @@ class StarController extends RestfulController {
 	 * PUT method to star a file or collection, this is idempotent, and returns a 204 (succss no data)
 	 * @return
 	 */
-	def update() {
+	def save() {
 		log.info("update()...respond to put that adds a star")
 		def path = params.path
 		if (!path) {

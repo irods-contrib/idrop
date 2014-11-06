@@ -7,7 +7,7 @@
  */
 describe("Tests of the home controller", function () {
 
-    var $http, $httpBackend, $log, $translate, ctrlScope, controller, rootScope, $q, controllerFactory, $routeProvider, breadcrumbsService, $location, messageCenterService, mockFileService;
+    var $http, $httpBackend, $log, $translate, ctrlScope, controller, $q, $routeProvider, breadcrumbsService, $location, messageCenterService, mockFileService;
     beforeEach(module('home'));
 
     var mockVcService = {
@@ -31,11 +31,7 @@ describe("Tests of the home controller", function () {
         $httpBackend = _$httpBackend_;
         $translate = _$translate_;
         ctrlScope = _$rootScope_.$new();
-        //  controller = $controller;
-        rootScope = _$rootScope_;
         $q = _$q_;
-        controllerFactory = $controller;
-       // $routeProvider = _$routeProvider_;
         breadcrumbsService = _breadcrumbsService_;
         $location = _$location_;
 
