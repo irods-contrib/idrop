@@ -6,7 +6,7 @@
 /*
  * File controller function here, representing collection and data object catalog info and operations
  */
-angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute', 'tagServiceModule', 'StarModule','globalsModule'])
+angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'MessageCenterModule', 'ngRoute', 'tagServiceModule', 'StarModule','globalsModule','mimeTypeServiceModule'])
 
     /*
      * handle config of routes for home functions
@@ -83,8 +83,6 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
             } else {
                 $log.info("remove star");
             }
-
-
 
         };
 

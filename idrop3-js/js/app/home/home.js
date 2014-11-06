@@ -239,10 +239,6 @@ angular.module('home', ['httpInterceptorModule', 'angularTranslateApp', 'virtual
         $scope.updateSelectedFromCollection = function (absolutePath) {
 
            $log.info("update selected:" + absolutePath);
-           // alert("selected!");
-            //var checkbox = action.target;
-            //(checkbox.checked ? $scope.numberSelected++ : $scope.numberSelected--);
-
             var idx = $scope.selection.indexOf(absolutePath);
 
             // is currently selected

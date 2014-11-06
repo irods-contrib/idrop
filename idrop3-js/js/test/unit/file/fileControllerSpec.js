@@ -5,7 +5,7 @@
 
 describe("Tests of the file controller", function () {
 
-    var $http, $httpBackend, $log, $translate, ctrlScope, controller, messageCenterService,  starService, file, fileService;
+    var $http, $httpBackend, $log, $translate, ctrlScope, controller, messageCenterService,  starService, file, fileService, vc;
     beforeEach(module('fileModule'));
 
 
@@ -26,21 +26,21 @@ describe("Tests of the file controller", function () {
         };
 
         file = {};
+        vc = {};
 
-        controller = $controller('fileController', { $scope:ctrlScope, messageCenterService:messageCenterService, starService:starService, fileService:fileService, file:file});
+        controller = $controller('fileController', { $scope:ctrlScope, messageCenterService:messageCenterService, starService:starService, fileService:fileService, file:file, vc:vc});
 
     }));
 
     it("should toggle file as starred and set in scope to true", function () {
         var path = "/this/is/a/path/to/a/file.txt";
         ctrlScope.file = {starred:false, domainObject:{absolutePath:path}};
+        spyOn(starService,'addStar');
         ctrlScope.toggleStar();
         expect(starService.addStar).toHaveBeenCalled();
         expect(ctrlScope.file.starred).toBe(true);
 
     });
-
-
 
 
 });
