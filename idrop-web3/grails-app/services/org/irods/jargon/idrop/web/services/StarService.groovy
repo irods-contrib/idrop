@@ -32,6 +32,24 @@ class StarService {
 		def irodsStarringService = jargonServiceFactoryService.instanceStarringService(irodsAccount)
 		irodsStarringService.starFileOrCollection(irodsAbsolutePath, "Starred from iDROP Web")
 	}
+
+	def removeStar(String irodsAbsolutePath, irodsAccount) {
+		log.info("removeStar")
+		if (!irodsAbsolutePath) {
+			throw new IllegalArgumentException("null or empty irodsAbsolutePath")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		log.info("irodsAbsolutePath:${irodsAbsolutePath}")
+		log.info("irodsAccount:${irodsAccount}")
+
+
+		def irodsStarringService = jargonServiceFactoryService.instanceStarringService(irodsAccount)
+		irodsStarringService.unstarFileOrCollection(irodsAbsolutePath)
+	}
 }
 
 

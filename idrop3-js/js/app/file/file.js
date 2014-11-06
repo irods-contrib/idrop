@@ -77,14 +77,13 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
 
             if ($scope.file.starred) {
                 $log.info("remove star");
+                starService.removeStar(currPath);
+                $scope.file.starred = false;
             } else {
                 $log.info("adding a star");
-
                 starService.addStar(currPath);
                 $scope.file.starred = true;
-
             }
-
         };
 
         $scope.showFileMetadata = function (absPath) {

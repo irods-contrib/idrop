@@ -14,10 +14,25 @@ describe("star service tests", function () {
         $httpBackend = _$httpBackend_;
     }));
 
+    it("remove star on a collection should call proper http delete", function () {
+        var actual;
+        var path = "star/a/path";
+
+        $httpBackend.whenDELETE(path).respond(204);
+
+        starService.removeStar("/a/path").then(function (d) {
+            actual = d;
+        });
+
+        $httpBackend.flush();
+        console.log("actual is:" + actual);
+
+        expect(actual.status).toEqual(204);
+    });
+
+
     it("add star on a collection should call proper http put", function () {
         var actual;
-
-        var irodsAccountVal = irodsAccount("host", 1247, "zone", "user", "password", "", "resc");
         var path = "star/a/path";
 
         $httpBackend.whenPUT(path).respond(204);

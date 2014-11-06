@@ -873,14 +873,13 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
 
             if ($scope.file.starred) {
                 $log.info("remove star");
+                starService.removeStar(currPath);
+                $scope.file.starred = false;
             } else {
                 $log.info("adding a star");
-
                 starService.addStar(currPath);
                 $scope.file.starred = true;
-
             }
-
         };
 
         $scope.showFileMetadata = function (absPath) {
@@ -1010,6 +1009,30 @@ angular.module('StarModule',[])
         var starService = {
 
             /**
+             * Set a path in iRODS to be tagged as 'unstarred'.  This service acts in an idempotent fashion
+             * @param path
+             * @returns {*}
+             */
+            removeStar: function (path) {
+
+                $log.info("removeStar()");
+
+                if (!path) {
+                    $log.error("path is missing");
+                    throw "path is missing";
+                }
+
+                var uriPath = 'star' + path;
+
+                return $http({method: 'DELETE', url: uriPath}).success(function (data) {
+                    return data;
+
+                }).error(function () {
+                    return null;
+                });
+            },
+
+            /**
              * Set a path in iRODS to be tagged as 'starred'.  This service acts in an idempotent fashion
              * @param path
              * @returns {*}
@@ -1034,7 +1057,7 @@ angular.module('StarModule',[])
                 });
             }
 
-        };
+    };
 
         return starService;
 

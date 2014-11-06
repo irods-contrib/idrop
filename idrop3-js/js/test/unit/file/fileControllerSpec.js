@@ -18,6 +18,9 @@ describe("Tests of the file controller", function () {
         starService = {
             addStar: function (path) {
                 return {};
+            },
+            removeStar: function (path) {
+                return {};
             }
         };
 
@@ -41,6 +44,17 @@ describe("Tests of the file controller", function () {
         expect(ctrlScope.file.starred).toBe(true);
 
     });
+
+    it("should toggle file as unstarred and set in scope to false", function () {
+        var path = "/this/is/a/path/to/a/file.txt";
+        ctrlScope.file = {starred:true, domainObject:{absolutePath:path}};
+        spyOn(starService,'removeStar');
+        ctrlScope.toggleStar();
+        expect(starService.removeStar).toHaveBeenCalled();
+        expect(ctrlScope.file.starred).toBe(false);
+
+    });
+
 
 
 });

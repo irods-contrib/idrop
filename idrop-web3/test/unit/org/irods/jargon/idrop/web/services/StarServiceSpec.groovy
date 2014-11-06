@@ -40,4 +40,30 @@ class StarServiceSpec extends Specification {
 
 		true
 	}
+
+	void "should unstar a file"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		String absPath = "/an/abs/path"
+
+		def irodsStarringService = mockFor(IRODSStarringService)
+		irodsStarringService.demand.unstarFileOrCollection{ab ->}
+		def irodsStarringServiceMock = irodsStarringService.createMock()
+
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		jargonServiceFactoryService.demand.instanceStarringService{act1 -> return irodsStarringServiceMock}
+		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
+
+		def starService = new StarService()
+		starService.jargonServiceFactoryService = jargonServiceFactoryServiceMock
+
+		when:
+
+		starService.removeStar(absPath, irodsAccount)
+
+		then:
+
+		true
+	}
 }
