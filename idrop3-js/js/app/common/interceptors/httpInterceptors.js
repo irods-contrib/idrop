@@ -28,9 +28,9 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
             response: function (response) {
                 // console.log(response); // Contains the data from the response.
                 $log.info(response);
-                if (response.config.method.toUpperCase() != 'GET') {
+               /* if (response.config.method.toUpperCase() != 'GET') {
                     messageCenterService.add('success', 'Success');
-                }
+                }*/
 
                 // Return the response or promise.
                 return response || $q.when(response);

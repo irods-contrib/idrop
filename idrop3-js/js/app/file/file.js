@@ -37,7 +37,7 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
         });
     })
 
-    .controller('fileController', ['$scope', 'fileService', '$translate', '$log', '$http', 'messageCenterService', 'file', 'tagService','starService','mimeTypeService','$window','vc',function ($scope, fileService, $translate, $log, $http, $messageCenterService, file, tagService, starService, mimeTypeService, $window,vc) {
+    .controller('fileController', ['$location','$scope', 'fileService', '$translate', '$log', '$http', 'messageCenterService', 'file', 'tagService','starService','mimeTypeService','$window','vc',function ($location,$scope, fileService, $translate, $log, $http, $messageCenterService, file, tagService, starService, mimeTypeService, $window,vc) {
 
         $scope.file = file;
         $scope.infoTab = true;
@@ -75,13 +75,14 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
             }
             $log.info("currPath:" + currPath);
 
-            if (!$scope.file.starred) {
-                $log.info("adding a star");
-                starService.addStar(currPath);
-                // go ahead and flip the star icon by updating the model
-                $scope.file.starred = true;
-            } else {
+            if ($scope.file.starred) {
                 $log.info("remove star");
+            } else {
+                $log.info("adding a star");
+
+                starService.addStar(currPath);
+                $scope.file.starred = true;
+
             }
 
         };
@@ -104,7 +105,7 @@ angular.module('fileModule', ['httpInterceptorModule', 'angularTranslateApp', 'M
          */
         $scope.selectParentCollection = function() {
             $location.path("/home/" + $scope.vc);
-            $location.search("path",  $scope.file.parentCollection);
+            $location.search("path",  $scope.file.parentPath);
         };
 
         /**

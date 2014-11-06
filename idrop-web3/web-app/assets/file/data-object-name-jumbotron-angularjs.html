@@ -11,8 +11,11 @@
             <div class="col-md-10">
                 <span class="{{getFileIconClass()}}"></span><h4>{{ file.childName }}</h4>
             </div>
-            <div class="col-md-2">
-                 <span class="glyphicon {{file | starIcon }}" ng-click="toggleStar()"></span>
+            <div class="col-md-2" ng-show="file.starred">
+                 <span class="glyphicon glyphicon-star" ng-click="toggleStar()"></span>
+            </div>
+            <div class="col-md-2" ng-hide="file.starred">
+                <span class="glyphicon glyphicon-star-empty" ng-click="toggleStar()"></span>
             </div>
         </div>
 
