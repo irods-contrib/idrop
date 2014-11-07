@@ -12,11 +12,13 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
 import java.io.File;
 import java.util.Map;
+import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +26,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreePath;
+import org.irods.jargon.core.connection.DefaultPropertiesJargonConfig;
+import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.datautils.tree.DiffTreePostProcessor;
@@ -32,6 +36,9 @@ import org.irods.jargon.datautils.tree.FileTreeDiffUtilityImpl;
 import org.irods.jargon.datautils.tree.FileTreeModel;
 import static org.irods.jargon.idrop.desktop.systraygui.ToolsDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
+import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
+import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
 import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.CollapsiblePane;
@@ -41,6 +48,7 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSNode;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.IRODSOutlineModel;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileNode;
 import org.irods.jargon.idrop.exceptions.IdropException;
+import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 
 /**
  *
@@ -93,6 +101,7 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
         pnlCollapsibles.add(sp, pipelineConstraints);
         //pnlCollapsibles.add(new JScrollPane(cpPipelineConfig), pipelineConstraints);
         
+        initWithConfigData();
     }
     
     private void setupToolsPanel() {
@@ -155,6 +164,42 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
         
     }
     
+    private void initWithConfigData() {
+
+        IdropConfig idropConfig = idropCore.getIdropConfig();
+
+        chkExecutorPool.setSelected(idropConfig.isParallelUsePool());
+//        checkVerifyChecksumOnTransfer.setSelected(idropConfig
+//                .isVerifyChecksum());
+
+        spnTimeout.setValue(idropConfig
+                .getIrodsConnectionTimeout());
+        spnParallelTimeout.setValue(idropConfig
+                .getIrodsParallelConnectionTimeout());
+        spnMaxThreads.setValue(idropConfig
+                .getIrodsParallelTransferMaxThreads());
+        chkAllowParallel.setSelected(idropConfig
+                .isUseParallelTransfers());
+        chkNIO.setSelected(idropConfig
+                .isUseNIOForParallelTransfers());
+        txtInternalInputBuffer.setText(String.valueOf(idropConfig
+                .getInternalInputStreamBufferSize()));
+        txtInternalOutputBuffer.setText(String.valueOf(idropConfig
+                .getInternalOutputStreamBufferSize()));
+        txtLocalFileInputBufferSize.setText(String.valueOf(idropConfig
+                .getLocalFileInputStreamBufferSize()));
+        txtLocalFileOutputBufferSize.setText(String.valueOf(idropConfig
+                .getLocalFileOutputStreamBufferSize()));
+        txtGetBufferSize
+                .setText(String.valueOf(idropConfig.getGetBufferSize()));
+        txtPutBufferSize
+                .setText(String.valueOf(idropConfig.getPutBufferSize()));
+        txtInputToOutputCopyBufferSize.setText(String.valueOf(idropConfig
+                .getInputToOutputCopyBufferByteSize()));
+        txtInternalCacheBufferSize.setText(String.valueOf(idropConfig
+                .getInternalCacheBufferSize()));
+    }
+    
     private void performDiff() {
         log.info("diff action performed");
         // look for selected local and iRODS files
@@ -186,7 +231,6 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
                 MessageUtil.showError(this,
                                 "Cannot create iRODS file Service, see exception log",
                                 MessageUtil.ERROR_MESSAGE);
-//                dispose();
                 return;
         }
 
@@ -222,14 +266,12 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
                 } catch (IdropException ex) {
                         MessageUtil.showError(this, ex.getMessage(),
                                         MessageUtil.ERROR_MESSAGE);
-//                        dispose();
                         return;
                 }
         } else {
                 MessageUtil.showError(this,
                                 "An iRODS path needs to be selected to do a diff",
                                 MessageUtil.ERROR_MESSAGE);
-//                dispose();
                 return;
         }
 
@@ -241,7 +283,6 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
                 @Override
                 public void run() {
 
-//                        thisDialog.dispose();
                         idropGui.setCursor(Cursor
                                         .getPredefinedCursor(Cursor.WAIT_CURSOR));
                         FileTreeDiffUtility fileTreeDiffUtility = new FileTreeDiffUtilityImpl(
@@ -269,7 +310,6 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
                                                 "An error occurred generating the diff:\n"
                                                                 + ex.getMessage(),
                                                 MessageUtil.ERROR_MESSAGE);
-//                                thisDialog.dispose();
                                 return;
                         } finally {
                                 idropGui.setCursor(Cursor
@@ -303,9 +343,9 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
         spnMaxThreads = new javax.swing.JSpinner();
         pnlBufferOptions = new javax.swing.JPanel();
         lblInternalInputBufferSize = new javax.swing.JLabel();
-        txtInternalInputBufferSize = new javax.swing.JTextField();
+        txtInternalInputBuffer = new javax.swing.JTextField();
         lblInternalOutputBufferSize = new javax.swing.JLabel();
-        txtInternalOutputBufferSize = new javax.swing.JTextField();
+        txtInternalOutputBuffer = new javax.swing.JTextField();
         lblLocalFileInputBufferSize = new javax.swing.JLabel();
         txtLocalFileInputBufferSize = new javax.swing.JTextField();
         lblLocalFileOutputBufferSize = new javax.swing.JLabel();
@@ -439,15 +479,15 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         pnlBufferOptions.add(lblInternalInputBufferSize, gridBagConstraints);
 
-        txtInternalInputBufferSize.setColumns(20);
-        txtInternalInputBufferSize.setText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.txtInternalInputBufferSize.text")); // NOI18N
-        txtInternalInputBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.txtInternalInputBufferSize.toolTipText")); // NOI18N
-        txtInternalInputBufferSize.setPreferredSize(new java.awt.Dimension(200, 28));
+        txtInternalInputBuffer.setColumns(20);
+        txtInternalInputBuffer.setText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.txtInternalInputBuffer.text")); // NOI18N
+        txtInternalInputBuffer.setToolTipText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.txtInternalInputBuffer.toolTipText")); // NOI18N
+        txtInternalInputBuffer.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pnlBufferOptions.add(txtInternalInputBufferSize, gridBagConstraints);
+        pnlBufferOptions.add(txtInternalInputBuffer, gridBagConstraints);
 
         lblInternalOutputBufferSize.setText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.lblInternalOutputBufferSize.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -456,15 +496,15 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         pnlBufferOptions.add(lblInternalOutputBufferSize, gridBagConstraints);
 
-        txtInternalOutputBufferSize.setColumns(20);
-        txtInternalOutputBufferSize.setText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.txtInternalOutputBufferSize.text")); // NOI18N
-        txtInternalOutputBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.txtInternalOutputBufferSize.toolTipText")); // NOI18N
-        txtInternalOutputBufferSize.setPreferredSize(new java.awt.Dimension(200, 28));
+        txtInternalOutputBuffer.setColumns(20);
+        txtInternalOutputBuffer.setText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.txtInternalOutputBuffer.text")); // NOI18N
+        txtInternalOutputBuffer.setToolTipText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.txtInternalOutputBuffer.toolTipText")); // NOI18N
+        txtInternalOutputBuffer.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pnlBufferOptions.add(txtInternalOutputBufferSize, gridBagConstraints);
+        pnlBufferOptions.add(txtInternalOutputBuffer, gridBagConstraints);
 
         lblLocalFileInputBufferSize.setText(org.openide.util.NbBundle.getMessage(AdvancedOptionsDialog.class, "AdvancedOptionsDialog.lblLocalFileInputBufferSize.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -728,39 +768,299 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void bntSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSaveActionPerformed
-        // TODO add your handling code here:
+        
+        try {
+            // internal input buffer size
+            String actual = txtInternalInputBuffer.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_INTERNAL_INPUT_STREAM_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtInternalInputBuffer.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid internal input buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
+
+            // internal output buffer size
+            actual = txtInternalOutputBuffer.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_INTERNAL_OUTPUT_STREAM_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtInternalOutputBuffer.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid internal output buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
+
+            // local file input buffer size
+            actual = txtLocalFileInputBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_LOCAL_INPUT_STREAM_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtLocalFileInputBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid local file input buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
+
+            // local file output buffer size
+            actual = txtLocalFileOutputBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_LOCAL_OUTPUT_STREAM_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtLocalFileOutputBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid local file output buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
+
+            // get buffer size
+            actual = txtGetBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore.getIdropConfigurationService().updateConfig(
+                            IdropConfigurationService.IRODS_IO_GET_BUFFER_SIZE,
+                            actual);
+                } catch (NumberFormatException nfe) {
+                    txtGetBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this, "Invalid get buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
+
+            // put buffer size
+            actual = txtPutBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore.getIdropConfigurationService().updateConfig(
+                            IdropConfigurationService.IRODS_IO_PUT_BUFFER_SIZE,
+                            actual);
+                } catch (NumberFormatException nfe) {
+                    txtPutBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this, "Invalid put buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
+
+            // input to output copy buffer size
+            actual = txtInputToOutputCopyBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_INPUT_TO_OUTPUT_COPY_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtInputToOutputCopyBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid input to output copy buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
+
+            // internal cache buffer size
+            actual = txtInternalCacheBufferSize.getText();
+            if (actual.isEmpty()) {
+            } else {
+                try {
+                    Integer.parseInt(actual);
+                    idropCore
+                            .getIdropConfigurationService()
+                            .updateConfig(
+                                    IdropConfigurationService.IRODS_IO_INTERNAL_CACHE_BUFFER_SIZE,
+                                    actual);
+                } catch (NumberFormatException nfe) {
+                    txtInternalCacheBufferSize.setBackground(Color.red);
+                    MessageManager.showWarning(this,
+                            "Invalid internal cache buffer size",
+                            MessageManager.TITLE_MESSAGE);
+                    return;
+                }
+            }
+
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.IRODS_PARALLEL_USE_PARALLEL,
+                    Boolean.toString(chkAllowParallel.isSelected()));
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.IRODS_PARALLEL_USE_NIO,
+                    Boolean.toString(chkNIO.isSelected()));
+            idropCore
+                    .getIdropConfigurationService()
+                    .updateConfig(
+                            IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS,
+                            spnMaxThreads.getValue()
+                            .toString());
+            idropCore
+                    .getIdropConfigurationService()
+                    .updateConfig(
+                            IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT,
+                            spnParallelTimeout.getValue()
+                            .toString());
+            idropCore.getIdropConfigurationService().updateConfig(
+                    IdropConfigurationService.IRODS_CONNECTION_TIMEOUT,
+                    spnTimeout.getValue().toString());
+
+            idropCore.getIdropConfigurationService()
+                    .updateJargonPropertiesBasedOnIDROPConfig();
+        } catch (Exception ex) {
+            log.error("error setting  property", ex);
+            throw new IdropRuntimeException(ex);
+        }
+        
+        MessageManager.showMessage(
+                this, "Advanced options successfully updated", MessageManager.TITLE_MESSAGE);
+        dispose();
     }//GEN-LAST:event_bntSaveActionPerformed
 
     private void btnResetOutputBufferSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetOutputBufferSizeActionPerformed
-        // TODO add your handling code here:
+        try {
+            IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
+            Properties properties = propertiesHelper.loadIdropProperties();
+            this.txtLocalFileOutputBufferSize
+                    .setText(String.valueOf(properties.get("jargon.io.local.output.stream.buffer.size")));
+        } catch (IdropException ex) {
+            log.error("unable to restore LocalFileOutputStreamBufferSize idrop property", ex);
+            throw new IdropRuntimeException(
+                    "unable to restore LocalFileOutputStreamBufferSize idrop property", ex);
+        }
     }//GEN-LAST:event_btnResetOutputBufferSizeActionPerformed
 
     private void btnResetInputBufferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetInputBufferActionPerformed
-        // TODO add your handling code here:
+        try {
+            IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
+            Properties properties = propertiesHelper.loadIdropProperties();
+            this.txtInternalInputBuffer
+                    .setText(String.valueOf(properties.get("jargon.io.internal.input.stream.buffer.size")));
+        } catch (IdropException ex) {
+            log.error("unable to restore InternalInputStreamBufferSize idrop property", ex);
+            throw new IdropRuntimeException(
+                    "unable to restore InternalInputStreamBufferSize idrop property", ex);
+        }
     }//GEN-LAST:event_btnResetInputBufferActionPerformed
 
     private void btnResetOutputBufferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetOutputBufferActionPerformed
-        // TODO add your handling code here:
+        try {
+            //JargonProperties defaultJargonProperties = new DefaultPropertiesJargonConfig();
+            IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
+            Properties properties = propertiesHelper.loadIdropProperties();
+            this.txtInternalOutputBuffer
+                    .setText(String.valueOf(properties.get("jargon.io.internal.output.stream.buffer.size")));
+        } catch (IdropException ex) {
+            log.error("unable to restore InternalOutputStreamBufferSize idrop property", ex);
+            throw new IdropRuntimeException(
+                    "unable to restore InternalOutputStreamBufferSize idrop property", ex);
+        }
     }//GEN-LAST:event_btnResetOutputBufferActionPerformed
 
     private void btnResetInputBufferSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetInputBufferSizeActionPerformed
-        // TODO add your handling code here:
+        try {
+            IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
+            Properties properties = propertiesHelper.loadIdropProperties();
+            this.txtLocalFileInputBufferSize
+                    .setText(String.valueOf(properties.get("jargon.io.local.output.stream.buffer.size")));
+        } catch (IdropException ex) {
+            log.error("unable to restore LocalFileInputStreamBufferSize idrop property", ex);
+            throw new IdropRuntimeException(
+                    "unable to restore LocalFileInputStreamBufferSize idrop property", ex);
+        }
     }//GEN-LAST:event_btnResetInputBufferSizeActionPerformed
 
     private void btnResetGetBufferSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetGetBufferSizeActionPerformed
-        // TODO add your handling code here:
+        try {
+            IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
+            Properties properties = propertiesHelper.loadIdropProperties();
+            this.txtGetBufferSize
+                    .setText(String.valueOf(properties.get("jargon.get.buffer.size")));
+        } catch (IdropException ex) {
+            log.error("unable to restore GetBufferSize idrop property", ex);
+            throw new IdropRuntimeException(
+                    "unable to restore GetBufferSize idrop property", ex);
+        }
     }//GEN-LAST:event_btnResetGetBufferSizeActionPerformed
 
     private void btnResetPutBufferSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPutBufferSizeActionPerformed
-        // TODO add your handling code here:
+        try {
+            IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
+            Properties properties = propertiesHelper.loadIdropProperties();
+            this.txtPutBufferSize
+                    .setText(String.valueOf(properties.get("jargon.put.buffer.size")));
+        } catch (IdropException ex) {
+            log.error("unable to restore PutBufferSize idrop property", ex);
+            throw new IdropRuntimeException(
+                    "unable to restore PutBufferSize idrop property", ex);
+        }
     }//GEN-LAST:event_btnResetPutBufferSizeActionPerformed
 
     private void btnResetCopyBufferSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetCopyBufferSizeActionPerformed
-        // TODO add your handling code here:
+        try {
+            IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
+            Properties properties = propertiesHelper.loadIdropProperties();
+            this.txtInputToOutputCopyBufferSize
+                    .setText(String.valueOf(properties.get("jargon.io.input.to.output.copy.byte.buffer.size")));
+        } catch (IdropException ex) {
+            log.error("unable to restore InputToOutputCopyBufferByteSize idrop property", ex);
+            throw new IdropRuntimeException(
+                    "unable to restore InputToOutputCopyBufferByteSize idrop property", ex);
+        }
     }//GEN-LAST:event_btnResetCopyBufferSizeActionPerformed
 
     private void btnResetCacheBufferSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetCacheBufferSizeActionPerformed
-        // TODO add your handling code here:
+        try {
+            IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
+            Properties properties = propertiesHelper.loadIdropProperties();
+            this.txtInternalCacheBufferSize
+                    .setText(String.valueOf(properties.get("jargon.io.internal.cache.buffer.size")));
+        } catch (IdropException ex) {
+            log.error("unable to restore InternalCacheBufferSize idrop property", ex);
+            throw new IdropRuntimeException(
+                    "unable to restore InternalCacheBufferSize idrop property", ex);
+        }
     }//GEN-LAST:event_btnResetCacheBufferSizeActionPerformed
 
     private void btnPerformDiffActionPerformed(java.awt.event.ActionEvent evt) {                                                
@@ -768,51 +1068,16 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
     }                                               
 
     private void btnSetupSyncActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        SynchronizationDialog synchDialog = new SynchronizationDialog(this, true, this.idropCore);
+        SynchronizationDialogTwo synchDialog = new SynchronizationDialogTwo(this, true, this.idropCore);
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        int x = (toolkit.getScreenSize().width - synchDialog
+                    .getWidth()) / 2;
+        int y = (toolkit.getScreenSize().height - synchDialog
+                    .getHeight()) / 2;
+        synchDialog.setLocation(x, y);
         synchDialog.setVisible(true);
     }
     
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(AdvancedOptionsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(AdvancedOptionsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(AdvancedOptionsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(AdvancedOptionsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                AdvancedOptionsDialog dialog = new AdvancedOptionsDialog(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntSave;
@@ -855,8 +1120,8 @@ public class AdvancedOptionsDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtGetBufferSize;
     private javax.swing.JTextField txtInputToOutputCopyBufferSize;
     private javax.swing.JTextField txtInternalCacheBufferSize;
-    private javax.swing.JTextField txtInternalInputBufferSize;
-    private javax.swing.JTextField txtInternalOutputBufferSize;
+    private javax.swing.JTextField txtInternalInputBuffer;
+    private javax.swing.JTextField txtInternalOutputBuffer;
     private javax.swing.JTextField txtLocalFileInputBufferSize;
     private javax.swing.JTextField txtLocalFileOutputBufferSize;
     private javax.swing.JTextField txtPutBufferSize;
