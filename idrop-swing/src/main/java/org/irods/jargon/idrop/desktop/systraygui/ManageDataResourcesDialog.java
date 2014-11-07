@@ -418,116 +418,116 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
         dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
-	private void btnAddGridInfoActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAddGridInfoActionPerformed
-		CreateGridInfoDialog createGridInfoDialog = new CreateGridInfoDialog(
-				null, true, idropCore);
+    private void btnAddGridInfoActionPerformed(
+                    final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAddGridInfoActionPerformed
+            CreateGridInfoDialog createGridInfoDialog = new CreateGridInfoDialog(
+                            null, true, idropCore);
 
-		createGridInfoDialog.setLocation((int) this.getLocation().getX(),
-				(int) this.getLocation().getY());
-		createGridInfoDialog.setVisible(true);
+            createGridInfoDialog.setLocation((int) this.getLocation().getX(),
+                            (int) this.getLocation().getY());
+            createGridInfoDialog.setVisible(true);
 
-		IRODSAccount irodsAccount = createGridInfoDialog.getGridInfo();
+            IRODSAccount irodsAccount = createGridInfoDialog.getGridInfo();
 
-		// first remove this user's entry from table if there is one
-		if (irodsAccount != null) {
-			try {
-				GridInfoTableModel tm = (GridInfoTableModel) tableGridInfo
-						.getModel();
-				tm.deleteRow(irodsAccount);
+            // first remove this user's entry from table if there is one
+            if (irodsAccount != null) {
+                    try {
+                            GridInfoTableModel tm = (GridInfoTableModel) tableGridInfo
+                                            .getModel();
+                            tm.deleteRow(irodsAccount);
 
-				// now add to table
-				tm.addRow(irodsAccount);
-			} catch (JargonException ex) {
-				Logger.getLogger(ManageDataResourcesDialog.class.getName()).log(
-						Level.SEVERE, null, ex);
-				MessageManager.showError(this,
-						"Addition of grid account failed.",
-						"Create Grid Account");
-			}
-		}
-	}// GEN-LAST:event_btnAddGridInfoActionPerformed
+                            // now add to table
+                            tm.addRow(irodsAccount);
+                    } catch (JargonException ex) {
+                            Logger.getLogger(ManageDataResourcesDialog.class.getName()).log(
+                                            Level.SEVERE, null, ex);
+                            MessageManager.showError(this,
+                                            "Addition of grid account failed.",
+                                            "Create Grid Account");
+                    }
+            }
+    }// GEN-LAST:event_btnAddGridInfoActionPerformed
 
-	private void btnDeleteGridInfoActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeleteGridInfoActionPerformed
+    private void btnDeleteGridInfoActionPerformed(
+                    final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeleteGridInfoActionPerformed
 
-		int ans = JOptionPane.showConfirmDialog(this,
-				"Are you sure you want to delete a grid account?",
-				"Delete Grid Account", JOptionPane.YES_NO_OPTION);
+            int ans = JOptionPane.showConfirmDialog(this,
+                            "Are you sure you want to delete a grid account?",
+                            "Delete Grid Account", JOptionPane.YES_NO_OPTION);
 
-		if (ans == JOptionPane.YES_OPTION) {
+            if (ans == JOptionPane.YES_OPTION) {
 
-			int[] selectedRows = tableGridInfo.getSelectedRows();
-			int numRowsSelected = selectedRows.length;
+                    int[] selectedRows = tableGridInfo.getSelectedRows();
+                    int numRowsSelected = selectedRows.length;
 
-			// have to remove rows in reverse
-			for (int i = numRowsSelected - 1; i >= 0; i--) {
-				int selectedRow = selectedRows[i];
-				if (selectedRow >= 0) {
-					try {
-						GridInfoTableModel model = (GridInfoTableModel) tableGridInfo
-								.getModel();
-						try {
-							// delete grid account from service
-							idropCore
-									.getConveyorService()
-									.getGridAccountService()
-									.deleteGridAccount(
-											model.getRow(selectedRow));
+                    // have to remove rows in reverse
+                    for (int i = numRowsSelected - 1; i >= 0; i--) {
+                            int selectedRow = selectedRows[i];
+                            if (selectedRow >= 0) {
+                                    try {
+                                            GridInfoTableModel model = (GridInfoTableModel) tableGridInfo
+                                                            .getModel();
+                                            try {
+                                                    // delete grid account from service
+                                                    idropCore
+                                                                    .getConveyorService()
+                                                                    .getGridAccountService()
+                                                                    .deleteGridAccount(
+                                                                                    model.getRow(selectedRow));
 
-							// then remove from table
-							model.deleteRow(selectedRow);
+                                                    // then remove from table
+                                                    model.deleteRow(selectedRow);
 
-						} catch (ConveyorBusyException ex) {
-							Logger.getLogger(ManageDataResourcesDialog.class.getName())
-									.log(Level.SEVERE, null, ex);
-							MessageManager
-									.showError(
-											this,
-											"Transfer for this grid account is currently in progess.\nPlease try again later.",
-											"Delete Grid Account");
-						} catch (ConveyorExecutionException ex) {
-							Logger.getLogger(ManageDataResourcesDialog.class.getName())
-									.log(Level.SEVERE, null, ex);
-							MessageManager.showError(this,
-									"Deletion of grid account failed.",
-									"Delete Grid Account");
-						}
+                                            } catch (ConveyorBusyException ex) {
+                                                    Logger.getLogger(ManageDataResourcesDialog.class.getName())
+                                                                    .log(Level.SEVERE, null, ex);
+                                                    MessageManager
+                                                                    .showError(
+                                                                                    this,
+                                                                                    "Transfer for this grid account is currently in progess.\nPlease try again later.",
+                                                                                    "Delete Grid Account");
+                                            } catch (ConveyorExecutionException ex) {
+                                                    Logger.getLogger(ManageDataResourcesDialog.class.getName())
+                                                                    .log(Level.SEVERE, null, ex);
+                                                    MessageManager.showError(this,
+                                                                    "Deletion of grid account failed.",
+                                                                    "Delete Grid Account");
+                                            }
 
-					} catch (JargonException ex) {
-						Exceptions.printStackTrace(ex);
-					}
-				}
-			}
-		}
-	}// GEN-LAST:event_btnDeleteGridInfoActionPerformed
+                                    } catch (JargonException ex) {
+                                            Exceptions.printStackTrace(ex);
+                                    }
+                            }
+                    }
+            }
+    }// GEN-LAST:event_btnDeleteGridInfoActionPerformed
 
-	private void btnLoginActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnLoginActionPerformed
-		if (processLogin()) {
-			dispose();
-		}
-	}// GEN-LAST:event_btnLoginActionPerformed
+    private void btnLoginActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnLoginActionPerformed
+            if (processLogin()) {
+                    dispose();
+            }
+    }// GEN-LAST:event_btnLoginActionPerformed
 
-	private void btnEditActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditActionPerformed
-		int row = tableGridInfo.getSelectedRow();
+    private void btnEditActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditActionPerformed
+            int row = tableGridInfo.getSelectedRow();
 
-		if (row == -1) {
-			MessageManager.showWarning(this,
-					"No grid selected, please select a grid");
-		}
+            if (row == -1) {
+                    MessageManager.showWarning(this,
+                                    "No grid selected, please select a grid");
+            }
 
-		GridInfoTableModel model = (GridInfoTableModel) tableGridInfo
-				.getModel();
-		GridAccount gridTableData = model.getRow(row);
-		GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
-		EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
-		// null, true, idropCore, gridAccount, idrop);
-				null, true, idropCore, gridAccount);
+            GridInfoTableModel model = (GridInfoTableModel) tableGridInfo
+                            .getModel();
+            GridAccount gridTableData = model.getRow(row);
+            GridAccount gridAccount = getStoredGridAccountFromGridTableData(gridTableData);
+            EditGridInfoDialog editGridInfoDialog = new EditGridInfoDialog(
+            // null, true, idropCore, gridAccount, idrop);
+                            null, true, idropCore, gridAccount);
 
-		editGridInfoDialog.setLocation((int) dialog.getLocation().getX(),
-				(int) dialog.getLocation().getY());
-		editGridInfoDialog.setVisible(true);
-	}// GEN-LAST:event_btnEditActionPerformed
+            editGridInfoDialog.setLocation((int) dialog.getLocation().getX(),
+                            (int) dialog.getLocation().getY());
+            editGridInfoDialog.setVisible(true);
+    }// GEN-LAST:event_btnEditActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddGridInfo;
     private javax.swing.JButton btnDeleteGridInfo;
