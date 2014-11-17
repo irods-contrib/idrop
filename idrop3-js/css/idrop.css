@@ -26,6 +26,24 @@ Color palette
 ref http://www.colorcombos.com/color-schemes/250/ColorCombo250.html
 
 */
+
+.drop_cue {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+.drop_drag {
+    border-style: dashed;
+    border-color: black;
+    background-color: #91C3DC;
+    border-width: 1px;
+    border-radius: 5px;
+
+}
+
+
 .steel-blue {
 	background-color: #4086AA;
 }

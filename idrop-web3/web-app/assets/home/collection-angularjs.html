@@ -1,8 +1,18 @@
-<div id="home-center">
+<div id="home-center" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="">
+
+
+    <div class="row ">
+        <div class="col-md-12">
+            <div x-ng-include="'assets/home/file-upload-drop-angularjs.html'"></div>
+        </div>
+    </div>
 
     <div class="row">
-        <div x-ng-include="'assets/home/collectionActions-angularjs.html'"></div>
-     </div>
+        <div class="col-md-12">
+
+            <div x-ng-include="'assets/home/collectionActions-angularjs.html'"></div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="table-responsive">
@@ -16,34 +26,40 @@
                     <th>{{ 'MODIFIED' | translate }}</th>
                 </tr>
                 </thead>
-                <tbody>   
+                <tbody>
                 <tr ng-show="newFolderAction">
 
                     <td><input ng-model="newFolderInfo.name" type="text"
-                                                           placeholder="{{ 'NEW_FOLDER_NAME' | translate }}" /></td>
-                    <td colspan="4"><div class="btn-group">
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok-sign" ng-click="addDirectory()"></span></button>
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove-sign" ng-click="cancelAddDirectory()"></span></button>
-                    </div></td>
+                               placeholder="{{ 'NEW_FOLDER_NAME' | translate }}"/></td>
+                    <td colspan="4">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok-sign"
+                                                                                ng-click="addDirectory()"></span>
+                            </button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove-sign"
+                                                                                ng-click="cancelAddDirectory()"></span>
+                            </button>
+                        </div>
+                    </td>
                 </tr>
                 <tr ng-repeat="d in pagingAwareCollectionListing.collectionAndDataObjectListingEntries"
                     ng-init="showit=false" ng-click="updateSelectedFromCollection(d.formattedAbsolutePath)">
 
-                        <td><input name="selectedItems[]" value="d.formattedAbsolutePath"
-                                   ng-checked="selection.indexOf(d.formattedAbsolutePath) > -1"
-                                   type="checkbox"></td>
-                        <td>
-                            <span class="glyphicon    {{d | fileIcon}}"/>
-                        </td>
-                        <td ng-show="d.objectType.name == 'COLLECTION'"><a
-                                href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}">
-                            {{d.nodeLabelDisplayValue | abbreviateFileName}}</a>
-                        </td>
-                        <td ng-hide="d.objectType.name == 'COLLECTION'">
-                            {{d.nodeLabelDisplayValue | abbreviateFileName}}
-                        </td>
-                        <td> {{d | hideSizeForCollection}}</td>
-                        <td>{{d.createdAt}}</td>
+                    <td><input name="selectedItems[]" value="d.formattedAbsolutePath"
+                               ng-checked="selection.indexOf(d.formattedAbsolutePath) > -1"
+                               type="checkbox"></td>
+                    <td>
+                        <span class="glyphicon    {{d | fileIcon}}"/>
+                    </td>
+                    <td ng-show="d.objectType.name == 'COLLECTION'"><a
+                            href="#/home/{{selectedVc.data.uniqueName}}?path={{d.formattedAbsolutePath}}">
+                        {{d.nodeLabelDisplayValue | abbreviateFileName}}</a>
+                    </td>
+                    <td ng-hide="d.objectType.name == 'COLLECTION'">
+                        {{d.nodeLabelDisplayValue | abbreviateFileName}}
+                    </td>
+                    <td> {{d | hideSizeForCollection}}</td>
+                    <td>{{d.createdAt}}</td>
                 </tr>
 
                 </tbody>

@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         // configured a task
         concat: {
             vendorjs: {
-                src: ['js/vendor/jquery-1.10.2.min.js','js/vendor/bootstrap.js','js/vendor/angular.js', 'js/vendor/angular-route.js','js/vendor/angular-resource.js','js/vendor/angular-translate.js','js/vendor/message-center.js', 'js/vendor/loading-bar.js'],
+                src: ['js/vendor/angular-file-upload-shim-min.js','js/vendor/jquery-1.10.2.min.js','js/vendor/bootstrap.js','js/vendor/angular.js', 'js/vendor/angular-route.js','js/vendor/angular-resource.js','js/vendor/angular-translate.js','js/vendor/message-center.js', 'js/vendor/loading-bar.js','js/vendor/angular-file-upload.min.js'],
                 dest: 'web-app/js/vendor.js'
             },
             css: {

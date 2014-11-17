@@ -51,3 +51,5 @@ setting up moo for midway testing: http://blogs.burnsidedigital.com/2013/07/sett
 best and clearest overview of testing services ever - http://nathanleclaire.com/blog/2014/04/12/unit-testing-services-in-angularjs-for-fun-and-for-profit/
 
 good outline of prototype http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
+
+uploads - proposed https://github.com/danialfarid/angular-file-upload
