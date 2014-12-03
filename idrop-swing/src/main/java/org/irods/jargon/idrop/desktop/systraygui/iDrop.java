@@ -7,6 +7,7 @@ package org.irods.jargon.idrop.desktop.systraygui;
 import java.awt.AWTException;
 import java.awt.CheckboxMenuItem;
 import java.awt.Cursor;
+import java.awt.Dialog;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.MenuItem;
@@ -165,14 +166,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
         
         // add Advanced hyperlink
-        HyperLinkButton btnAdvanced = new HyperLinkButton("Advanced");
-        btnAdvanced.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdvancedActionPerformed(evt);
-            }
-        });
-        btnAdvanced.setVerticalTextPosition(SwingConstants.BOTTOM);
-        jToolBar1.add(btnAdvanced);
+//        HyperLinkButton btnAdvanced = new HyperLinkButton("Advanced");
+//        btnAdvanced.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                btnAdvancedActionPerformed(evt);
+//            }
+//        });
+//        btnAdvanced.setVerticalTextPosition(SwingConstants.BOTTOM);
+//        jToolBar1.add(btnAdvanced);
 
     }
 
@@ -1086,7 +1087,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarDelete.setEnabled(state);
         
         // TODO: remove these after to finish iPlant redesign:
-        btnMainToolbarTools.setVisible(false);
+        //btnMainToolbarTools.setVisible(false);
         btnMainToolbarQueueMgr.setVisible(false);
         btnMainToolbarGrids.setVisible(false);
         btnSynch.setVisible(false);
@@ -1433,9 +1434,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(2, 32767));
         jSeparator2 = new javax.swing.JToolBar.Separator();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
-        btnMainToolbarTools = new javax.swing.JButton();
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
         btnMainToolbarSettings = new javax.swing.JButton();
+        btnMainToolbarTools = new javax.swing.JButton();
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
         btnMainToolbarQueueMgr = new javax.swing.JButton();
@@ -1643,6 +1644,21 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         jToolBar1.add(filler8);
         jToolBar1.add(jSeparator2);
         jToolBar1.add(filler9);
+        jToolBar1.add(filler10);
+
+        btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_136_cogwheel.png"))); // NOI18N
+        btnMainToolbarSettings.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSettings.text")); // NOI18N
+        btnMainToolbarSettings.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 2, 0, 14));
+        btnMainToolbarSettings.setFocusable(false);
+        btnMainToolbarSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarSettings.setMargin(null);
+        btnMainToolbarSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarSettingsActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarSettings);
 
         btnMainToolbarTools.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_280_settings.png"))); // NOI18N
         btnMainToolbarTools.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarTools.text")); // NOI18N
@@ -1658,21 +1674,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         jToolBar1.add(btnMainToolbarTools);
-        jToolBar1.add(filler10);
-
-        btnMainToolbarSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_136_cogwheel.png"))); // NOI18N
-        btnMainToolbarSettings.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarSettings.text")); // NOI18N
-        btnMainToolbarSettings.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 2, 0, 20));
-        btnMainToolbarSettings.setFocusable(false);
-        btnMainToolbarSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMainToolbarSettings.setMargin(null);
-        btnMainToolbarSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnMainToolbarSettings.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMainToolbarSettingsActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnMainToolbarSettings);
         jToolBar1.add(filler11);
         jToolBar1.add(filler14);
 
@@ -1997,12 +1998,23 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      * @param evt
      */
     private void btnMainToolbarToolsActionPerformed(
-            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMainToolbarToolsActionPerformed
-        ToolsDialog toolsDialog = new ToolsDialog(this, true);
-        toolsDialog.setLocation(
-                (int) (this.getLocation().getX() + getWidth() / 2), (int) (this
-                .getLocation().getY() + getHeight() / 2));
-        toolsDialog.setVisible(true);
+               final java.awt.event.ActionEvent evt) {
+//        final iDrop idropGui = this;
+//
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                Tools2Dialog advancedOptionsDialog = new Tools2Dialog(
+//                    idropGui, true, iDropCore);
+//                advancedOptionsDialog.setLocationRelativeTo(null);
+//                advancedOptionsDialog.setVisible(true);
+//            }
+//        });
+        Tools2Dialog advancedOptionsDialog = new Tools2Dialog(
+                    this, true, iDropCore);
+        advancedOptionsDialog.setLocationRelativeTo(null);
+        advancedOptionsDialog.setModalityType(Dialog.ModalityType.MODELESS);
+        advancedOptionsDialog.setVisible(true);
     }// GEN-LAST:event_btnMainToolbarToolsActionPerformed
 
     private void btnMainToolbarTreeActionPerformed(
@@ -2028,7 +2040,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void btnAdvancedActionPerformed(
             final java.awt.event.ActionEvent evt) {
-        AdvancedOptionsDialog advancedOptionsDialog = new AdvancedOptionsDialog(
+        Tools2Dialog advancedOptionsDialog = new Tools2Dialog(
                 this, true, iDropCore);
         advancedOptionsDialog.setLocationRelativeTo(null);
         advancedOptionsDialog.setVisible(true);

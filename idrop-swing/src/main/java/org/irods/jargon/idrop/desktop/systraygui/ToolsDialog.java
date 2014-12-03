@@ -160,37 +160,37 @@ public class ToolsDialog extends javax.swing.JDialog {
 		// make sure there is a selected node
 		if (idx >= 0) {
 
-			try {
-				IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
-						.getValueAt(idx, 0);
-				if (selectedNode == null) {
-					return;
-				}
-				ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
+                    try {
+                            IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
+                                            .getValueAt(idx, 0);
+                            if (selectedNode == null) {
+                                    return;
+                            }
+                            ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
 
-				// rule out "/" and choose parent if file is not a directory
-				String path = ifile.getAbsolutePath();
-				if (ifile.isFile()) {
-					path = ifile.getParent();
-				}
-				if ((path != null) && (!path.equals("/"))) {
-					irodsAbsPath = path;
-				} else {
-					irodsAbsPath = "/";
-				}
-				log.info("irods path for diff:{}", ifile.getAbsolutePath());
-			} catch (IdropException ex) {
-				MessageUtil.showError(this, ex.getMessage(),
-						MessageUtil.ERROR_MESSAGE);
-				dispose();
-				return;
-			}
+                            // rule out "/" and choose parent if file is not a directory
+                            String path = ifile.getAbsolutePath();
+                            if (ifile.isFile()) {
+                                    path = ifile.getParent();
+                            }
+                            if ((path != null) && (!path.equals("/"))) {
+                                    irodsAbsPath = path;
+                            } else {
+                                    irodsAbsPath = "/";
+                            }
+                            log.info("irods path for diff:{}", ifile.getAbsolutePath());
+                    } catch (IdropException ex) {
+                            MessageUtil.showError(this, ex.getMessage(),
+                                            MessageUtil.ERROR_MESSAGE);
+                            dispose();
+                            return;
+                    }
 		} else {
-			MessageUtil.showError(this,
-					"An iRODS path needs to be selected to do a diff",
-					MessageUtil.ERROR_MESSAGE);
-			dispose();
-			return;
+                    MessageUtil.showError(this,
+                                    "An iRODS path needs to be selected to do a diff",
+                                    MessageUtil.ERROR_MESSAGE);
+                    dispose();
+                    return;
 		}
 
 		final ToolsDialog thisDialog = this;

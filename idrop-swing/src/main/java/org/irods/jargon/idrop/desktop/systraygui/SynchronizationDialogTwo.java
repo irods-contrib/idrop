@@ -41,7 +41,7 @@ public class SynchronizationDialogTwo extends javax.swing.JDialog implements Lis
      * Creates new form SynchronizationDialog
      */
     //public SynchronizationDialog(java.awt.Frame parent, boolean modal, final IDROPCore idropCore) 
-    public SynchronizationDialogTwo(AdvancedOptionsDialog parent, boolean modal, final IDROPCore idropCore) {
+    public SynchronizationDialogTwo(Tools2Dialog parent, boolean modal, final IDROPCore idropCore) {
         super(parent, modal);
         if (idropCore == null) {
             throw new IllegalArgumentException("null idropCore");
@@ -60,7 +60,6 @@ public class SynchronizationDialogTwo extends javax.swing.JDialog implements Lis
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlMain = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
