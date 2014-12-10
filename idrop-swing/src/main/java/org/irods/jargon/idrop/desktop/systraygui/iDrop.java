@@ -584,6 +584,22 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         // userNameLabel.setText(this.irodsAccount().getUserName());
         // lblZone.setText(this.irodsAccount().getZone());
         // lblHost.setText(this.irodsAccount().getHost());
+        
+        // add see details link in gutter. if not already created
+        if (bntDetailsLink == null) {
+            bntDetailsLink = new HyperLinkButton("See details");
+            bntDetailsLink.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    bntDetailsLinkActionPerformed(evt);
+                }
+            });
+            java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+            gridBagConstraints.gridy = 0;
+            pnlIdropGutter.add(bntDetailsLink, gridBagConstraints);
+        }
         // /*
         // * Get a list of storage resources on this host
         // */
@@ -2271,6 +2287,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         }
     }// GEN-LAST:event_btnNewFolderActionPerformed
 
+    private void bntDetailsLinkActionPerformed(
+            final java.awt.event.ActionEvent evt) {
+         showQueueManagerDialog();
+    }
     /**
      * A tree already exists so use the current information to reload
      */
@@ -2382,7 +2402,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JToggleButton togglePauseTransfer;
     private javax.swing.JProgressBar transferStatusProgressBar;
     // End of variables declaration//GEN-END:variables
-
+    private HyperLinkButton bntDetailsLink;
     public void closeTransferManagerDialog() {
         transferManagerDialog = null;
     }
