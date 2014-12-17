@@ -80,6 +80,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="name" type="java.lang.String" value="irodsInfoDialog" noResource="true"/>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[800, 750]"/>
     </Property>
@@ -186,8 +187,9 @@
             <Component class="javax.swing.JLabel" name="lblInfoObjectName">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoObjectName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.objectName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="objectName" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -198,9 +200,10 @@
             <Component class="javax.swing.JLabel" name="lblInfoObjectParent">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoObjectParent.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.parentName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="autoscrolls" type="boolean" value="true"/>
+                <Property name="name" type="java.lang.String" value="parentName" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -434,64 +437,73 @@
                         <Component class="javax.swing.JLabel" name="lblInfoCollectionCreatedDate">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoCollectionCreatedDate.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.created.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="created" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblInfoCollectionModifiedDate">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoCollectionModifiedDate.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.updated.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="updated" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblInfoCollectionOwner">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoCollectionOwner.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.owner.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="owner" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblInfoCollectionOwnerZone">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoCollectionOwnerZone.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.zone.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="zone" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblInfoCollectionType">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoCollectionType.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.fileTYpe.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="fileTYpe" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblInfoCollectionObjectPath">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoCollectionObjectPath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.objectPath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="objectPath" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblInfoCollectionDescription">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoCollectionDescription.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.description.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="description" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblInfoCollectionInfo1">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoCollectionInfo1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.info1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="info1" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblInfoCollectionInfo2">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.lblInfoCollectionInfo2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.info2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="info2" noResource="true"/>
                           </Properties>
                         </Component>
                       </SubComponents>
@@ -917,8 +929,9 @@
                     <Component class="javax.swing.JTextField" name="txtInfoTags">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.txtInfoTags.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.tags.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="tags" noResource="true"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel18">
@@ -939,6 +952,7 @@
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="rows" type="int" value="5"/>
+                            <Property name="name" type="java.lang.String" value="comments" noResource="true"/>
                           </Properties>
                         </Component>
                       </SubComponents>
@@ -946,8 +960,9 @@
                     <Component class="javax.swing.JButton" name="btnUpdateTagsComments">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.btnUpdateTagsComments.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.btnUpdateTagsAndComments.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="btnUpdateTagsAndComments" noResource="true"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateTagsCommentsActionPerformed"/>
@@ -1267,6 +1282,7 @@
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="null"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="btnRefresh" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="null"/>
                 </Property>
@@ -1282,10 +1298,10 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.btnOk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IRODSInfoDialog.btnOk.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="null"/>
@@ -1293,7 +1309,7 @@
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="null"/>
                 </Property>
-                <Property name="name" type="java.lang.String" value="" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="btnOk" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="null"/>
                 </Property>

@@ -40,6 +40,7 @@ public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.title")); // NOI18N
+        setName("transferStackTraceDialog"); // NOI18N
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblErrorMessageLabel.setText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.lblErrorMessageLabel.text")); // NOI18N
@@ -67,11 +68,11 @@ public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
         getContentPane().add(lblStackTraceLabel, gridBagConstraints);
 
         scrollStackTrace.setMinimumSize(null);
-        scrollStackTrace.setPreferredSize(null);
 
         textAreaStackTrace.setColumns(60);
         textAreaStackTrace.setRows(10);
         textAreaStackTrace.setEnabled(false);
+        textAreaStackTrace.setName("stackTrace"); // NOI18N
         scrollStackTrace.setViewportView(textAreaStackTrace);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -91,7 +92,8 @@ public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('o');
-        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.btnOK.toolTipText")); // NOI18N
+        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.btnOk.toolTipText")); // NOI18N
+        btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

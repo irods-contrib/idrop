@@ -274,6 +274,7 @@ public class LoginDialog extends JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setName("loginDialog"); // NOI18N
 
         pnlLoginInfo.setLayout(new java.awt.GridBagLayout());
 
@@ -289,6 +290,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(lblHost, gridBagConstraints);
 
         txtHost.setColumns(30);
+        txtHost.setName("host"); // NOI18N
         txtHost.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -306,6 +308,7 @@ public class LoginDialog extends JDialog {
 
         txtPort.setColumns(30);
         txtPort.setText("1247");
+        txtPort.setName("port"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -321,6 +324,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(lblZone, gridBagConstraints);
 
         txtZone.setColumns(30);
+        txtZone.setName("zone"); // NOI18N
         txtZone.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -337,6 +341,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(lblResource, gridBagConstraints);
 
         txtResource.setColumns(30);
+        txtResource.setName("defaultResourceName"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -352,6 +357,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(lblUserName, gridBagConstraints);
 
         txtUserName.setColumns(30);
+        txtUserName.setName("userName"); // NOI18N
         txtUserName.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -368,6 +374,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(lblPassword, gridBagConstraints);
 
         password.setColumns(30);
+        password.setName("password"); // NOI18N
         password.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -378,6 +385,7 @@ public class LoginDialog extends JDialog {
 
         chkGuestLogin.setText("Login As Guest");
         chkGuestLogin.setToolTipText("Use a guest login");
+        chkGuestLogin.setName("authType"); // NOI18N
         chkGuestLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkGuestLoginActionPerformed(evt);
@@ -399,6 +407,7 @@ public class LoginDialog extends JDialog {
 
         comboLoginMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Standard", "PAM" }));
         comboLoginMode.setToolTipText("Authentication mode used at login");
+        comboLoginMode.setName("loginMode"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
@@ -413,6 +422,7 @@ public class LoginDialog extends JDialog {
         btnCancel.setMnemonic('c');
         btnCancel.setToolTipText("Cancel the login attempt");
         btnCancel.setMaximumSize(new java.awt.Dimension(100, 100));
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -424,6 +434,7 @@ public class LoginDialog extends JDialog {
         btnOK.setMnemonic('L');
         btnOK.setToolTipText("Proceed to log on with given information");
         btnOK.setMaximumSize(new java.awt.Dimension(100, 100));
+        btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

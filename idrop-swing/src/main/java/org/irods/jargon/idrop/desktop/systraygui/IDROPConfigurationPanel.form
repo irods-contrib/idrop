@@ -447,6 +447,7 @@
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
       <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
     </Property>
+    <Property name="name" type="java.lang.String" value="idropConfigurationPanel" noResource="true"/>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1000, 600]"/>
     </Property>
@@ -500,6 +501,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
       <SubComponents>
         <Container class="javax.swing.JTabbedPane" name="tabConfig">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="tabiDrop" noResource="true"/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
               <BorderConstraints direction="Center"/>
@@ -521,35 +525,16 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JCheckBox" name="checkShowGUI">
-                  <Properties>
-                    <Property name="mnemonic" type="int" value="115"/>
-                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkShowGUI.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                    </Property>
-                    <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkShowGUI.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="checkShowGUIItemStateChanged"/>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkShowGUIActionPerformed"/>
-                  </Events>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                      <GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="21" weightX="0.0" weightY="0.0"/>
-                    </Constraint>
-                  </Constraints>
-                </Component>
                 <Component class="javax.swing.JCheckBox" name="checkShowFileProgress">
                   <Properties>
                     <Property name="mnemonic" type="int" value="119"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkShowFileProgress.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.showWithinFileProgress.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkShowFileProgress.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.showWithinFileProgress.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="showWithinFileProgress" noResource="true"/>
                   </Properties>
                   <Events>
                     <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="checkShowFileProgressItemStateChanged"/>
@@ -592,11 +577,12 @@
                     <Component class="javax.swing.JCheckBox" name="checkLogSuccessfulTransfer">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkLogSuccessfulTransfer.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.logSuccessful.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkLogSuccessfulTransfer.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.logSuccessful.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="logSuccessful" noResource="true"/>
                       </Properties>
                       <Events>
                         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="checkLogSuccessfulTransferItemStateChanged"/>
@@ -611,8 +597,9 @@
                     <Component class="javax.swing.JCheckBox" name="checkVerifyChecksumOnTransfer">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkVerifyChecksumOnTransfer.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.verifyChecksum.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="verifyChecksum" noResource="true"/>
                       </Properties>
                       <Events>
                         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="checkVerifyChecksumOnTransferItemStateChanged"/>
@@ -627,11 +614,12 @@
                     <Component class="javax.swing.JCheckBox" name="checkAllowRerouting">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkAllowRerouting.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.alowConnectionRerouting.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkAllowRerouting.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.alowConnectionRerouting.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="alowConnectionRerouting" noResource="true"/>
                       </Properties>
                       <Events>
                         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="checkAllowReroutingItemStateChanged"/>
@@ -645,11 +633,12 @@
                     <Component class="javax.swing.JCheckBox" name="checkConnectionRestart">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkConnectionRestart.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.connectionRestart.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkConnectionRestart.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.connectionRestart.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="connectionRestart" noResource="true"/>
                       </Properties>
                       <Events>
                         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="checkConnectionRestartItemStateChanged"/>
@@ -679,8 +668,9 @@
                           <SpinnerModel initial="0" maximum="600" minimum="0" numberType="java.lang.Integer" stepSize="10" type="number"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.spinnerMaxTransferErrors.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.maxTransfersBeforeFailure.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="maxTransfersBeforeFailure" noResource="true"/>
                       </Properties>
                       <Events>
                         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="spinnerMaxTransferErrorsStateChanged"/>
@@ -747,8 +737,9 @@
                           <SpinnerModel initial="0" maximum="600" minimum="0" numberType="java.lang.Integer" stepSize="10" type="number"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.spinnerIrodsSocketTimeout.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.connectionTimeout.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="connectionTimeout" noResource="true"/>
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -778,11 +769,12 @@
                           <Properties>
                             <Property name="mnemonic" type="int" value="112"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkAllowParallelTransfers.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.allowParallel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkAllowParallelTransfers.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.allowParallel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="allowParallel" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -793,11 +785,12 @@
                         <Component class="javax.swing.JCheckBox" name="checkUseNIOForParallelTransfers">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkUseNIOForParallelTransfers.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.useNio.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkUseNIOForParallelTransfers.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.useNio.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="useNio" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -808,8 +801,9 @@
                         <Component class="javax.swing.JCheckBox" name="checkUseExecutorPool">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.checkUseExecutorPool.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.useExecutorPool.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="useExecutorPool" noResource="true"/>
                           </Properties>
                           <Events>
                             <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="checkUseExecutorPoolItemStateChanged"/>
@@ -916,11 +910,12 @@
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtInternalInputBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.internalInputBuffer.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtInternalInputBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.internalInputBuffer.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="internalInputBuffer" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -944,11 +939,12 @@
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtInternalOutputBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.internalOutputBuffer.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtInternalOutputBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.internalOutputBuffer.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="internalOutputBuffer" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -972,11 +968,12 @@
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtLocalFileInputBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.localFileInputBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtLocalFileInputBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.localFileInputBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="localFileInputBufferSize" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1000,11 +997,12 @@
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtLocalFileOutputBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.localFileOutputBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtLocalFileOutputBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.localFileOutputBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="localFileOutputBufferSize" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1028,11 +1026,12 @@
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtPutBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.putBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtPutBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.putBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="putBufferSize" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1056,11 +1055,12 @@
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtGetBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.getBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtGetBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.getBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="getBufferSize" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1084,11 +1084,12 @@
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtInputToOutputCopyBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.inputToOutputCopyBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtInputToOutputCopyBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.inputToOutputCopyBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="inputToOutputCopyBufferSize" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1112,11 +1113,12 @@
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtInternalCacheBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.internalCacheBufferSize.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.txtInternalCacheBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.internalCacheBufferSize.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="internalCacheBufferSize" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1130,11 +1132,12 @@
                       <Properties>
                         <Property name="mnemonic" type="int" value="97"/>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnRestoreDefaults.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnRestoreDefaultSettings.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnRestoreDefaults.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnRestoreDefaultSettings.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="btnRestoreDefaultSettings" noResource="true"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRestoreDefaultsActionPerformed"/>
@@ -1149,11 +1152,12 @@
                       <Properties>
                         <Property name="mnemonic" type="int" value="97"/>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnApplyPipelineConfig.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnSaveConfiguration.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnApplyPipelineConfig.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnSaveConfiguration.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="btnSaveConfiguration" noResource="true"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApplyPipelineConfigActionPerformed"/>
@@ -1190,11 +1194,12 @@
             </Property>
             <Property name="mnemonic" type="int" value="79"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnOK.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnOk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnOK.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="IDROPConfigurationPanel.btnOk.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="btnOk" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOKActionPerformed"/>

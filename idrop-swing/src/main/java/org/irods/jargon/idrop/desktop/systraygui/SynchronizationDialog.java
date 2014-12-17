@@ -97,6 +97,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
         btnUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setName("synchronizationDialog"); // NOI18N
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 4, 4, 4));
         pnlMain.setLayout(new java.awt.BorderLayout());
@@ -106,11 +107,12 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
 
         btnAddSynchActionPerformed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
         btnAddSynchActionPerformed.setMnemonic('a');
-        btnAddSynchActionPerformed.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnAddSynchActionPerformed.text")); // NOI18N
-        btnAddSynchActionPerformed.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnAddSynchActionPerformed.toolTipText")); // NOI18N
-        btnAddSynchActionPerformed.setActionCommand(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnAddSynchActionPerformed.actionCommand")); // NOI18N
+        btnAddSynchActionPerformed.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnAdd.text")); // NOI18N
+        btnAddSynchActionPerformed.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnAdd.toolTipText")); // NOI18N
+        btnAddSynchActionPerformed.setActionCommand(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnAdd.actionCommand")); // NOI18N
         btnAddSynchActionPerformed.setFocusable(false);
         btnAddSynchActionPerformed.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAddSynchActionPerformed.setName("btnAdd"); // NOI18N
         btnAddSynchActionPerformed.setPreferredSize(new java.awt.Dimension(80, 80));
         btnAddSynchActionPerformed.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnAddSynchActionPerformed.addActionListener(new java.awt.event.ActionListener() {
@@ -123,11 +125,12 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
 
         btnRemoveSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
         btnRemoveSelected.setMnemonic('d');
-        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnRemoveSelected.text")); // NOI18N
-        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnRemoveSelected.toolTipText")); // NOI18N
+        btnRemoveSelected.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnDelete.text")); // NOI18N
+        btnRemoveSelected.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnDelete.toolTipText")); // NOI18N
         btnRemoveSelected.setEnabled(false);
         btnRemoveSelected.setFocusable(false);
         btnRemoveSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRemoveSelected.setName("btnDelete"); // NOI18N
         btnRemoveSelected.setPreferredSize(new java.awt.Dimension(80, 80));
         btnRemoveSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
@@ -140,11 +143,12 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
 
         btnLaunchSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_173_play.png"))); // NOI18N
         btnLaunchSelected.setMnemonic('l');
-        btnLaunchSelected.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnLaunchSelected.text")); // NOI18N
-        btnLaunchSelected.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnLaunchSelected.toolTipText")); // NOI18N
+        btnLaunchSelected.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnLaunch.text")); // NOI18N
+        btnLaunchSelected.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnLaunch.toolTipText")); // NOI18N
         btnLaunchSelected.setEnabled(false);
         btnLaunchSelected.setFocusable(false);
         btnLaunchSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnLaunchSelected.setName("btnLaunch"); // NOI18N
         btnLaunchSelected.setPreferredSize(new java.awt.Dimension(80, 80));
         btnLaunchSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnLaunchSelected.addActionListener(new java.awt.event.ActionListener() {
@@ -163,6 +167,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
         btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnRefresh.toolTipText")); // NOI18N
         btnRefresh.setFocusable(false);
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRefresh.setName("btnRefresh"); // NOI18N
         btnRefresh.setPreferredSize(new java.awt.Dimension(80, 80));
         btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -197,6 +202,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblSynchs.setName("synchronizationList"); // NOI18N
         scrollPanelSynchs.setViewportView(tblSynchs);
 
         pnlTable.add(scrollPanelSynchs, java.awt.BorderLayout.CENTER);
@@ -218,9 +224,10 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
 
         txtSynchName.setEditable(false);
         txtSynchName.setColumns(20);
-        txtSynchName.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.txtSynchName.text")); // NOI18N
-        txtSynchName.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.txtSynchName.toolTipText")); // NOI18N
+        txtSynchName.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.name.text")); // NOI18N
+        txtSynchName.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.name.toolTipText")); // NOI18N
         txtSynchName.setEnabled(false);
+        txtSynchName.setName("name"); // NOI18N
         txtSynchName.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -247,6 +254,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
         btnLocalDirectory.setEnabled(false);
         btnLocalDirectory.setMaximumSize(new java.awt.Dimension(143, 31));
         btnLocalDirectory.setMinimumSize(new java.awt.Dimension(143, 31));
+        btnLocalDirectory.setName("btnLocalDirectory"); // NOI18N
         btnLocalDirectory.setPreferredSize(new java.awt.Dimension(143, 31));
         btnLocalDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,6 +283,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
         btnIrodsDirectory.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnIrodsDirectory.text")); // NOI18N
         btnIrodsDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnIrodsDirectory.toolTipText")); // NOI18N
         btnIrodsDirectory.setEnabled(false);
+        btnIrodsDirectory.setName("btnIrodsDirectory"); // NOI18N
         btnIrodsDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIrodsDirectoryActionPerformed(evt);
@@ -301,6 +310,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
         comboBoxSynchType.setModel(new SynchTypeModel());
         comboBoxSynchType.setEnabled(false);
         comboBoxSynchType.setMinimumSize(null);
+        comboBoxSynchType.setName("synchType"); // NOI18N
         comboBoxSynchType.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -323,6 +333,7 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
         comboSynchFrequency.setModel(new FrequencyTypeModel());
         comboSynchFrequency.setEnabled(false);
         comboSynchFrequency.setMinimumSize(null);
+        comboSynchFrequency.setName("frequency"); // NOI18N
         comboSynchFrequency.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -341,10 +352,11 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
 
         bntClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         bntClose.setMnemonic('c');
-        bntClose.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.bntClose.text")); // NOI18N
-        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.bntClose.toolTipText")); // NOI18N
+        bntClose.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnCancel.text")); // NOI18N
+        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnCancel.toolTipText")); // NOI18N
         bntClose.setFocusable(false);
         bntClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bntClose.setName("btnCancel"); // NOI18N
         bntClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         bntClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -355,10 +367,11 @@ public class SynchronizationDialog extends javax.swing.JDialog implements ListSe
 
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnUpdate.setMnemonic('u');
-        btnUpdate.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnUpdate.text")); // NOI18N
-        btnUpdate.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnUpdate.toolTipText")); // NOI18N
+        btnUpdate.setText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnOk.text")); // NOI18N
+        btnUpdate.setToolTipText(org.openide.util.NbBundle.getMessage(SynchronizationDialog.class, "SynchronizationDialog.btnOk.toolTipText")); // NOI18N
         btnUpdate.setEnabled(false);
         btnUpdate.setMargin(null);
+        btnUpdate.setName("btnOk"); // NOI18N
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);

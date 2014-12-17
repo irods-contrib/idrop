@@ -759,6 +759,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlReplication.add(pnlReplicaionTools, java.awt.BorderLayout.SOUTH);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setName("irodsInfoDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 750));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(14, 10, 10, 10));
@@ -792,7 +793,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         pnlSelectedObject.add(lblParentCollection, gridBagConstraints);
 
-        lblInfoObjectName.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectName.text")); // NOI18N
+        lblInfoObjectName.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.objectName.text")); // NOI18N
+        lblInfoObjectName.setName("objectName"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -800,8 +802,9 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         pnlSelectedObject.add(lblInfoObjectName, gridBagConstraints);
 
-        lblInfoObjectParent.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectParent.text")); // NOI18N
+        lblInfoObjectParent.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.parentName.text")); // NOI18N
         lblInfoObjectParent.setAutoscrolls(true);
+        lblInfoObjectParent.setName("parentName"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -844,23 +847,32 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         jLabel27.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel27.text")); // NOI18N
 
-        lblInfoCollectionCreatedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoCollectionCreatedDate.text")); // NOI18N
+        lblInfoCollectionCreatedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.created.text")); // NOI18N
+        lblInfoCollectionCreatedDate.setName("created"); // NOI18N
 
-        lblInfoCollectionModifiedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoCollectionModifiedDate.text")); // NOI18N
+        lblInfoCollectionModifiedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.updated.text")); // NOI18N
+        lblInfoCollectionModifiedDate.setName("updated"); // NOI18N
 
-        lblInfoCollectionOwner.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoCollectionOwner.text")); // NOI18N
+        lblInfoCollectionOwner.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.owner.text")); // NOI18N
+        lblInfoCollectionOwner.setName("owner"); // NOI18N
 
-        lblInfoCollectionOwnerZone.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoCollectionOwnerZone.text")); // NOI18N
+        lblInfoCollectionOwnerZone.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.zone.text")); // NOI18N
+        lblInfoCollectionOwnerZone.setName("zone"); // NOI18N
 
-        lblInfoCollectionType.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoCollectionType.text")); // NOI18N
+        lblInfoCollectionType.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.fileTYpe.text")); // NOI18N
+        lblInfoCollectionType.setName("fileTYpe"); // NOI18N
 
-        lblInfoCollectionObjectPath.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoCollectionObjectPath.text")); // NOI18N
+        lblInfoCollectionObjectPath.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.objectPath.text")); // NOI18N
+        lblInfoCollectionObjectPath.setName("objectPath"); // NOI18N
 
-        lblInfoCollectionDescription.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoCollectionDescription.text")); // NOI18N
+        lblInfoCollectionDescription.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.description.text")); // NOI18N
+        lblInfoCollectionDescription.setName("description"); // NOI18N
 
-        lblInfoCollectionInfo1.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoCollectionInfo1.text")); // NOI18N
+        lblInfoCollectionInfo1.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.info1.text")); // NOI18N
+        lblInfoCollectionInfo1.setName("info1"); // NOI18N
 
-        lblInfoCollectionInfo2.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoCollectionInfo2.text")); // NOI18N
+        lblInfoCollectionInfo2.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.info2.text")); // NOI18N
+        lblInfoCollectionInfo2.setName("info2"); // NOI18N
 
         org.jdesktop.layout.GroupLayout pnlCollectionInfoLayout = new org.jdesktop.layout.GroupLayout(pnlCollectionInfo);
         pnlCollectionInfo.setLayout(pnlCollectionInfoLayout);
@@ -1117,15 +1129,18 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         jLabel17.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel17.text")); // NOI18N
 
-        txtInfoTags.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.txtInfoTags.text")); // NOI18N
+        txtInfoTags.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.tags.text")); // NOI18N
+        txtInfoTags.setName("tags"); // NOI18N
 
         jLabel18.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel18.text")); // NOI18N
 
         textareaInfoComments.setColumns(20);
         textareaInfoComments.setRows(5);
+        textareaInfoComments.setName("comments"); // NOI18N
         jScrollPane1.setViewportView(textareaInfoComments);
 
-        btnUpdateTagsComments.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnUpdateTagsComments.text")); // NOI18N
+        btnUpdateTagsComments.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnUpdateTagsAndComments.text")); // NOI18N
+        btnUpdateTagsComments.setName("btnUpdateTagsAndComments"); // NOI18N
         btnUpdateTagsComments.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateTagsCommentsActionPerformed(evt);
@@ -1342,6 +1357,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         btnRefresh.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnRefresh.toolTipText")); // NOI18N
         btnRefresh.setMaximumSize(null);
         btnRefresh.setMinimumSize(null);
+        btnRefresh.setName("btnRefresh"); // NOI18N
         btnRefresh.setPreferredSize(null);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1352,11 +1368,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnClose.setMnemonic('c');
-        btnClose.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.text")); // NOI18N
-        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.toolTipText")); // NOI18N
+        btnClose.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnOk.text")); // NOI18N
+        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnOk.toolTipText")); // NOI18N
         btnClose.setMaximumSize(null);
         btnClose.setMinimumSize(null);
-        btnClose.setName(""); // NOI18N
+        btnClose.setName("btnOk"); // NOI18N
         btnClose.setPreferredSize(null);
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

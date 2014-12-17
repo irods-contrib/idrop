@@ -267,6 +267,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.title")); // NOI18N
+        setName("editGridInfo"); // NOI18N
         setPreferredSize(new java.awt.Dimension(430, 480));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -274,6 +275,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 4, 10));
+        jPanel1.setName("host"); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(382, 370));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -301,7 +303,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        txtPort.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtPort.text")); // NOI18N
+        txtPort.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.port.text")); // NOI18N
+        txtPort.setName("port"); // NOI18N
         txtPort.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -316,7 +319,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel3, gridBagConstraints);
 
-        lblZone.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblZone.text")); // NOI18N
+        lblZone.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.zone.text")); // NOI18N
+        lblZone.setName("zone"); // NOI18N
         lblZone.setPreferredSize(new java.awt.Dimension(0, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -332,7 +336,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel4, gridBagConstraints);
 
-        lblUser.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblUser.text")); // NOI18N
+        lblUser.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.user.text")); // NOI18N
+        lblUser.setName("user"); // NOI18N
         lblUser.setPreferredSize(new java.awt.Dimension(0, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -348,7 +353,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel6, gridBagConstraints);
 
-        txtDefaultResource.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtDefaultResource.text")); // NOI18N
+        txtDefaultResource.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.defaultResource.text")); // NOI18N
+        txtDefaultResource.setName("defaultResource"); // NOI18N
         txtDefaultResource.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -363,7 +369,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel7, gridBagConstraints);
 
-        txtInitialPath.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtInitialPath.text")); // NOI18N
+        txtInitialPath.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.startingCollection.text")); // NOI18N
+        txtInitialPath.setName("startingCollection"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
@@ -377,6 +384,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel8, gridBagConstraints);
 
+        cbAuthScheme.setName("authScheme"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
@@ -394,6 +402,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
 
         textareaComment.setColumns(20);
         textareaComment.setRows(5);
+        textareaComment.setName("comment"); // NOI18N
         jScrollPane1.setViewportView(textareaComment);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -403,7 +412,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
-        txtPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtPassword.text")); // NOI18N
+        txtPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.password.text")); // NOI18N
+        txtPassword.setName("password"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -425,7 +435,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel10, gridBagConstraints);
 
-        txtVerifyPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.txtVerifyPassword.text")); // NOI18N
+        txtVerifyPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.confirmPassword.text")); // NOI18N
+        txtVerifyPassword.setName("confirmPassword"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -446,6 +457,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         btnCancel.setMnemonic('C');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -455,8 +467,9 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('S');
-        btnOK.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOK.text")); // NOI18N
-        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOK.toolTipText")); // NOI18N
+        btnOK.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOk.text")); // NOI18N
+        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOk.toolTipText")); // NOI18N
+        btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

@@ -132,6 +132,7 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.title")); // NOI18N
+        setName("editMetadataDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 300));
 
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -140,15 +141,18 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.jLabel1.text")); // NOI18N
 
-        txtAttribute.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.txtAttribute.text")); // NOI18N
+        txtAttribute.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.attribute.text")); // NOI18N
+        txtAttribute.setName("attribute"); // NOI18N
 
         jLabel2.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.jLabel2.text")); // NOI18N
 
-        txtValue.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.txtValue.text")); // NOI18N
+        txtValue.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.value.text")); // NOI18N
+        txtValue.setName("value"); // NOI18N
 
         jLabel3.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.jLabel3.text")); // NOI18N
 
-        txtUnit.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.txtUnit.text")); // NOI18N
+        txtUnit.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.unit.text")); // NOI18N
+        txtUnit.setName("unit"); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -212,6 +216,7 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements
         btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -222,6 +227,7 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnUpdate.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnUpdate.text")); // NOI18N
         btnUpdate.setToolTipText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.btnUpdate.toolTipText")); // NOI18N
+        btnUpdate.setName("btnUpdate"); // NOI18N
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);

@@ -47,6 +47,7 @@ public class FileInfoDialog extends javax.swing.JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setName("fileInfoDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(300, 200));
 
         fileInfoArea.setLayout(new javax.swing.BoxLayout(fileInfoArea, javax.swing.BoxLayout.LINE_AXIS));
@@ -56,8 +57,9 @@ public class FileInfoDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('o');
-        btnOK.setText(org.openide.util.NbBundle.getMessage(FileInfoDialog.class, "FileInfoDialog.btnOK.text")); // NOI18N
-        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(FileInfoDialog.class, "FileInfoDialog.btnOK.toolTipText")); // NOI18N
+        btnOK.setText(org.openide.util.NbBundle.getMessage(FileInfoDialog.class, "FileInfoDialog.btnOk.text")); // NOI18N
+        btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(FileInfoDialog.class, "FileInfoDialog.btnOk.toolTipText")); // NOI18N
+        btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

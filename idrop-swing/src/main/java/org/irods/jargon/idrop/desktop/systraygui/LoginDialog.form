@@ -3,6 +3,7 @@
 <Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="name" type="java.lang.String" value="loginDialog" noResource="true"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -55,6 +56,7 @@
         <Component class="javax.swing.JTextField" name="txtHost">
           <Properties>
             <Property name="columns" type="int" value="30"/>
+            <Property name="name" type="java.lang.String" value="host" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="null"/>
             </Property>
@@ -79,6 +81,7 @@
           <Properties>
             <Property name="columns" type="int" value="30"/>
             <Property name="text" type="java.lang.String" value="1247"/>
+            <Property name="name" type="java.lang.String" value="port" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -99,6 +102,7 @@
         <Component class="javax.swing.JTextField" name="txtZone">
           <Properties>
             <Property name="columns" type="int" value="30"/>
+            <Property name="name" type="java.lang.String" value="zone" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="null"/>
             </Property>
@@ -122,6 +126,7 @@
         <Component class="javax.swing.JTextField" name="txtResource">
           <Properties>
             <Property name="columns" type="int" value="30"/>
+            <Property name="name" type="java.lang.String" value="defaultResourceName" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -142,6 +147,7 @@
         <Component class="javax.swing.JTextField" name="txtUserName">
           <Properties>
             <Property name="columns" type="int" value="30"/>
+            <Property name="name" type="java.lang.String" value="userName" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="null"/>
             </Property>
@@ -165,6 +171,7 @@
         <Component class="javax.swing.JPasswordField" name="password">
           <Properties>
             <Property name="columns" type="int" value="30"/>
+            <Property name="name" type="java.lang.String" value="password" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="null"/>
             </Property>
@@ -188,6 +195,7 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Login As Guest"/>
                 <Property name="toolTipText" type="java.lang.String" value="Use a guest login"/>
+                <Property name="name" type="java.lang.String" value="authType" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkGuestLoginActionPerformed"/>
@@ -215,6 +223,7 @@
               </StringArray>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Authentication mode used at login"/>
+            <Property name="name" type="java.lang.String" value="loginMode" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -246,6 +255,7 @@
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[100, 100]"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="btnCancel" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
@@ -261,6 +271,7 @@
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[100, 100]"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="btnOk" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOKActionPerformed"/>

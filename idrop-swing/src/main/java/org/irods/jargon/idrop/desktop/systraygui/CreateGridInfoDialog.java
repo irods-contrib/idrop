@@ -88,6 +88,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.title")); // NOI18N
+        setName("gridInfoDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 500));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 4, 10));
@@ -101,8 +102,9 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         jPanel1.add(jLabel1, gridBagConstraints);
 
         txtHost.setColumns(80);
-        txtHost.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtHost.text")); // NOI18N
+        txtHost.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.host.text")); // NOI18N
         txtHost.setMinimumSize(new java.awt.Dimension(150, 25));
+        txtHost.setName("host"); // NOI18N
         txtHost.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -120,7 +122,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        txtPort.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtPort.text")); // NOI18N
+        txtPort.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.port.text")); // NOI18N
+        txtPort.setName("port"); // NOI18N
         txtPort.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -137,8 +140,9 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel3, gridBagConstraints);
 
-        txtZone.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtZone.text")); // NOI18N
+        txtZone.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.zone.text")); // NOI18N
         txtZone.setMinimumSize(null);
+        txtZone.setName("zone"); // NOI18N
         txtZone.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -155,8 +159,9 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel4, gridBagConstraints);
 
-        txtUser.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtUser.text")); // NOI18N
+        txtUser.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.user.text")); // NOI18N
         txtUser.setMinimumSize(null);
+        txtUser.setName("user"); // NOI18N
         txtUser.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -173,8 +178,9 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel5, gridBagConstraints);
 
-        txtPassword.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtPassword.text")); // NOI18N
+        txtPassword.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.password.text")); // NOI18N
         txtPassword.setMinimumSize(null);
+        txtPassword.setName("password"); // NOI18N
         txtPassword.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -191,8 +197,9 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel6, gridBagConstraints);
 
-        txtDefaultResource.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtDefaultResource.text")); // NOI18N
+        txtDefaultResource.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.defaultResource.text")); // NOI18N
         txtDefaultResource.setMinimumSize(null);
+        txtDefaultResource.setName("defaultResource"); // NOI18N
         txtDefaultResource.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -209,8 +216,9 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel7, gridBagConstraints);
 
-        txtInitialPath.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.txtInitialPath.text")); // NOI18N
+        txtInitialPath.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.startingCollection.text")); // NOI18N
         txtInitialPath.setMinimumSize(null);
+        txtInitialPath.setName("startingCollection"); // NOI18N
         txtInitialPath.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -228,6 +236,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         jPanel1.add(jLabel8, gridBagConstraints);
 
         cbAuthScheme.setMinimumSize(null);
+        cbAuthScheme.setName("authScheme"); // NOI18N
         cbAuthScheme.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -250,6 +259,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         textareaComment.setColumns(20);
         textareaComment.setRows(5);
         textareaComment.setMinimumSize(null);
+        textareaComment.setName("comment"); // NOI18N
         textareaComment.setPreferredSize(new java.awt.Dimension(150, 75));
         scrollComment.setViewportView(textareaComment);
 
@@ -271,6 +281,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         btnCancel.setMnemonic('C');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -282,6 +293,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         btnOK.setMnemonic('S');
         btnOK.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnOK.text")); // NOI18N
         btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.btnOK.toolTipText")); // NOI18N
+        btnOK.setName("btnOK"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

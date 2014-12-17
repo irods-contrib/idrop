@@ -83,6 +83,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.title")); // NOI18N
+        setName("passPhraseDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 300));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 14, 4, 14));
@@ -109,8 +110,14 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel2.add(jLabel1, gridBagConstraints);
 
-        txtPassPhrase.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.txtPassPhrase.text")); // NOI18N
+        txtPassPhrase.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.passPhrase.text")); // NOI18N
+        txtPassPhrase.setName("passPhrase"); // NOI18N
         txtPassPhrase.setPreferredSize(new java.awt.Dimension(300, 28));
+        txtPassPhrase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassPhraseActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -129,7 +136,8 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        btnForgotPassPhrase.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnForgotPassPhrase.text")); // NOI18N
+        btnForgotPassPhrase.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnIForgot.text")); // NOI18N
+        btnForgotPassPhrase.setName("btnIForgot"); // NOI18N
         btnForgotPassPhrase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnForgotPassPhraseActionPerformed(evt);
@@ -137,7 +145,8 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         });
         jPanel5.add(btnForgotPassPhrase, java.awt.BorderLayout.CENTER);
 
-        btnOkay.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOkay.text")); // NOI18N
+        btnOkay.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOk.text")); // NOI18N
+        btnOkay.setName("btnOk"); // NOI18N
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOkayActionPerformed(evt);
@@ -145,7 +154,8 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         });
         jPanel5.add(btnOkay, java.awt.BorderLayout.EAST);
 
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.text")); // NOI18N
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btmCancel.text")); // NOI18N
+        btnCancel.setName("btmCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -159,6 +169,10 @@ public class PassPhraseDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtPassPhraseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassPhraseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPassPhraseActionPerformed
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		System.exit(0);

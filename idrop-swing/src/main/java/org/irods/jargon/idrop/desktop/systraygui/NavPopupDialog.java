@@ -63,11 +63,12 @@ public class NavPopupDialog extends javax.swing.JDialog {
         toolbarBreadcrumb.setRollover(true);
 
         btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
-        btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoHomeTargetTree.text")); // NOI18N
-        btnGoHomeTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoHomeTargetTree.toolTipText")); // NOI18N
+        btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnHome.text")); // NOI18N
+        btnGoHomeTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnHome.toolTipText")); // NOI18N
         btnGoHomeTargetTree.setBorder(null);
         btnGoHomeTargetTree.setFocusable(false);
         btnGoHomeTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoHomeTargetTree.setName("btnHome"); // NOI18N
         btnGoHomeTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnGoHomeTargetTree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,11 +80,12 @@ public class NavPopupDialog extends javax.swing.JDialog {
 
         btnGoRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_213_up_arrow.png"))); // NOI18N
         btnGoRootTargetTree.setMnemonic('r');
-        btnGoRootTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoRootTargetTree.text")); // NOI18N
-        btnGoRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnGoRootTargetTree.toolTipText")); // NOI18N
+        btnGoRootTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnRoot.text")); // NOI18N
+        btnGoRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnRoot.toolTipText")); // NOI18N
         btnGoRootTargetTree.setBorder(null);
         btnGoRootTargetTree.setFocusable(false);
         btnGoRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGoRootTargetTree.setName("btnRoot"); // NOI18N
         btnGoRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnGoRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,9 +96,10 @@ public class NavPopupDialog extends javax.swing.JDialog {
         toolbarBreadcrumb.add(filler18);
 
         txtCustomPath.setColumns(60);
-        txtCustomPath.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.txtCustomPath.text")); // NOI18N
-        txtCustomPath.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.txtCustomPath.toolTipText")); // NOI18N
+        txtCustomPath.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.directPathName.text")); // NOI18N
+        txtCustomPath.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.directPathName.toolTipText")); // NOI18N
         txtCustomPath.setMinimumSize(null);
+        txtCustomPath.setName("directPathName"); // NOI18N
         txtCustomPath.setPreferredSize(null);
         txtCustomPath.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -108,11 +111,12 @@ public class NavPopupDialog extends javax.swing.JDialog {
 
         btnSetCustomRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_380_message_forward.png"))); // NOI18N
         btnSetCustomRootTargetTree.setMnemonic('r');
-        btnSetCustomRootTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnSetCustomRootTargetTree.text")); // NOI18N
-        btnSetCustomRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnSetCustomRootTargetTree.toolTipText")); // NOI18N
+        btnSetCustomRootTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnSetDirectPath.text")); // NOI18N
+        btnSetCustomRootTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnSetDirectPath.toolTipText")); // NOI18N
         btnSetCustomRootTargetTree.setBorder(null);
         btnSetCustomRootTargetTree.setFocusable(false);
         btnSetCustomRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSetCustomRootTargetTree.setName("btnSetDirectPath"); // NOI18N
         btnSetCustomRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnSetCustomRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,6 +162,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
             }
         });
         tblBreadcrumbs.setMinimumSize(null);
+        tblBreadcrumbs.setName("listPaths"); // NOI18N
         tblBreadcrumbs.setPreferredSize(null);
         tblBreadcrumbs.setShowVerticalLines(false);
         scrollBreadcrumbs.setViewportView(tblBreadcrumbs);
