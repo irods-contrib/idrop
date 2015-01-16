@@ -78,25 +78,25 @@ public class SettingsDialog extends javax.swing.JDialog {
         sp.setViewportView(cpDataTransferSettings);
         pnlCollapsibles.add(sp, dataTransferSettingsConstraints);
         
-//        setupConnectionTestPanel();
-//        CollapsiblePane cpTestConnection = new CollapsiblePane(pnlCollapsibles, "Test Connection", pnlTestConnection);
-//        GridBagConstraints testConnectionConstraints = new GridBagConstraints();
-//        testConnectionConstraints.gridx = 0;
-//        testConnectionConstraints.gridy = 2;
-//        testConnectionConstraints.gridwidth = 1;
-//        testConnectionConstraints.fill = GridBagConstraints.BOTH;
-//        testConnectionConstraints.anchor = GridBagConstraints.NORTHWEST;
-//        testConnectionConstraints.weightx = 0.0;
-//        testConnectionConstraints.weighty = 0.0;
-//        sp = new JScrollPane();
-//        sp.setBorder(new EmptyBorder(0,0,0,0));
-//        sp.setViewportView(cpTestConnection);
-//        pnlCollapsibles.add(sp, testConnectionConstraints);
+        setupConnectionTestPanel();
+        CollapsiblePane cpTestConnection = new CollapsiblePane(pnlCollapsibles, "Test Connection", pnlTestConnection);
+        GridBagConstraints testConnectionConstraints = new GridBagConstraints();
+        testConnectionConstraints.gridx = 0;
+        testConnectionConstraints.gridy = 2;
+        testConnectionConstraints.gridwidth = 1;
+        testConnectionConstraints.fill = GridBagConstraints.BOTH;
+        testConnectionConstraints.anchor = GridBagConstraints.NORTHWEST;
+        testConnectionConstraints.weightx = 0.0;
+        testConnectionConstraints.weighty = 0.0;
+        sp = new JScrollPane();
+        sp.setBorder(new EmptyBorder(0,0,0,0));
+        sp.setViewportView(cpTestConnection);
+        pnlCollapsibles.add(sp, testConnectionConstraints);
         
         setupPipelineConfigPanel();
         GridBagConstraints pipelineConstraints = new GridBagConstraints();
         pipelineConstraints.gridx = 0;
-        pipelineConstraints.gridy = 2;
+        pipelineConstraints.gridy = 3;
         pipelineConstraints.gridwidth = 1;
         pipelineConstraints.fill = GridBagConstraints.BOTH;
         pipelineConstraints.anchor = GridBagConstraints.NORTHWEST;
@@ -573,14 +573,14 @@ public class SettingsDialog extends javax.swing.JDialog {
     
     private void btnConnectionTestActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // start up test connection dialog
-//        ManageDataResourcesDialog dlgManageDataResources = new ManageDataResourcesDialog(this, true, idropCore, irodsAcct);
-//        Toolkit toolkit = Toolkit.getDefaultToolkit();
-//        int x = (toolkit.getScreenSize().width - dlgManageDataResources
-//                    .getWidth()) / 2;
-//        int y = (toolkit.getScreenSize().height - dlgManageDataResources
-//                    .getHeight()) / 2;
-//        dlgManageDataResources.setLocation(x, y);
-//        dlgManageDataResources.setVisible(true);
+        TestConnectionDialog dlgTestConnection = new TestConnectionDialog(this, true, idropCore);
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        int x = (toolkit.getScreenSize().width - dlgTestConnection
+                    .getWidth()) / 2;
+        int y = (toolkit.getScreenSize().height - dlgTestConnection
+                    .getHeight()) / 2;
+        dlgTestConnection.setLocation(x, y);
+        dlgTestConnection.setVisible(true);
     }
 
     /**
