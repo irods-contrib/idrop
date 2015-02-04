@@ -145,7 +145,9 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         });
         jPanel5.add(btnForgotPassPhrase, java.awt.BorderLayout.CENTER);
 
-        btnOkay.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOk.text")); // NOI18N
+        btnOkay.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOK.text")); // NOI18N
+        btnOkay.setActionCommand(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOK.text")); // NOI18N
+        btnOkay.setLabel(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOK.text")); // NOI18N
         btnOkay.setName("btnOk"); // NOI18N
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,7 +156,9 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         });
         jPanel5.add(btnOkay, java.awt.BorderLayout.EAST);
 
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btmCancel.text")); // NOI18N
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.text")); // NOI18N
+        btnCancel.setActionCommand(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.actionCommand")); // NOI18N
+        btnCancel.setLabel(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.text")); // NOI18N
         btnCancel.setName("btmCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

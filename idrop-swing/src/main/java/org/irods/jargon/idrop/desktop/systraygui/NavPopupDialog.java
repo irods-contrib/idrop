@@ -101,6 +101,11 @@ public class NavPopupDialog extends javax.swing.JDialog {
         txtCustomPath.setMinimumSize(null);
         txtCustomPath.setName("directPathName"); // NOI18N
         txtCustomPath.setPreferredSize(null);
+        txtCustomPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCustomPathActionPerformed(evt);
+            }
+        });
         txtCustomPath.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCustomPathKeyPressed(evt);
@@ -181,6 +186,10 @@ public class NavPopupDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtCustomPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomPathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCustomPathActionPerformed
 
 	private void btnGoHomeTargetTreeActionPerformed(
 			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnGoHomeTargetTreeActionPerformed

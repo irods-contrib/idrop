@@ -1130,7 +1130,13 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         jLabel17.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel17.text")); // NOI18N
 
         txtInfoTags.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.tags.text")); // NOI18N
+        txtInfoTags.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.txtInfoTags.toolTipText")); // NOI18N
         txtInfoTags.setName("tags"); // NOI18N
+        txtInfoTags.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtInfoTagsActionPerformed(evt);
+            }
+        });
 
         jLabel18.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel18.text")); // NOI18N
 
@@ -1387,6 +1393,10 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtInfoTagsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInfoTagsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtInfoTagsActionPerformed
 
 	private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditActionPerformed
 

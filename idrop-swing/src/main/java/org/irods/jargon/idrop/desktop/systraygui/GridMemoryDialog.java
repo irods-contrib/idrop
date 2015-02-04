@@ -387,7 +387,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
         btnCancel.setMnemonic('C');
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.text_1")); // NOI18N
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -399,8 +399,8 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_204_unlock.png"))); // NOI18N
         btnLogin.setMnemonic('L');
-        btnLogin.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogIn.text")); // NOI18N
-        btnLogin.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogIn.toolTipText")); // NOI18N
+        btnLogin.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.text")); // NOI18N
+        btnLogin.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogin.toolTipText")); // NOI18N
         btnLogin.setEnabled(false);
         btnLogin.setName("btnLogIn"); // NOI18N
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
