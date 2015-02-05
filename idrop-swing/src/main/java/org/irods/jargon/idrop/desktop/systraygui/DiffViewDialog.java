@@ -59,7 +59,6 @@ public class DiffViewDialog extends javax.swing.JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         pnlTop = new javax.swing.JPanel();
-        lblDiffResult = new javax.swing.JLabel();
         lblLocalAbsPathLabel = new javax.swing.JLabel();
         lblLocalAbsPath = new javax.swing.JLabel();
         lblIrodsPathLabel = new javax.swing.JLabel();
@@ -100,12 +99,8 @@ public class DiffViewDialog extends javax.swing.JDialog {
 
         pnlTop.setLayout(new java.awt.GridBagLayout());
 
-        lblDiffResult.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblDiffResult.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.ipady = 5;
-        pnlTop.add(lblDiffResult, gridBagConstraints);
-
-        lblLocalAbsPathLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblLocalAbsPathLabel.text")); // NOI18N
+        lblLocalAbsPathLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblLocalFile.text")); // NOI18N
+        lblLocalAbsPathLabel.setName("lblLocalFile"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -122,7 +117,8 @@ public class DiffViewDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlTop.add(lblLocalAbsPath, gridBagConstraints);
 
-        lblIrodsPathLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsPathLabel.text")); // NOI18N
+        lblIrodsPathLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsPath.text")); // NOI18N
+        lblIrodsPathLabel.setName("lblIrodsPath"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -223,7 +219,8 @@ public class DiffViewDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlSelectionInfo.add(lblIrodsSelectedPath, gridBagConstraints);
 
-        lblTypeLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblTypeLabel.text")); // NOI18N
+        lblTypeLabel.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblType.text")); // NOI18N
+        lblTypeLabel.setName("lblType"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -270,7 +267,8 @@ public class DiffViewDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
         pnlFileDiffDetails.add(btnResolvePut, gridBagConstraints);
 
-        lblLocalFileLengthLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblLocalFileLengthLbl.text")); // NOI18N
+        lblLocalFileLengthLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblLocalFIleLength.text")); // NOI18N
+        lblLocalFileLengthLbl.setName("lblLocalFIleLength"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
@@ -282,7 +280,8 @@ public class DiffViewDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlFileDiffDetails.add(lblLocalFileLength, gridBagConstraints);
 
-        lblIrodsFileLengthLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsFileLengthLbl.text")); // NOI18N
+        lblIrodsFileLengthLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsFileLength.text")); // NOI18N
+        lblIrodsFileLengthLbl.setName("lblIrodsFileLength"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -297,7 +296,8 @@ public class DiffViewDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlFileDiffDetails.add(lblIrodsFileLength, gridBagConstraints);
 
-        lblLocalFileChecksumLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblLocalFileChecksumLbl.text")); // NOI18N
+        lblLocalFileChecksumLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblLocalFileChecksum.text")); // NOI18N
+        lblLocalFileChecksumLbl.setName("lblLocalFileChecksum"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -312,7 +312,8 @@ public class DiffViewDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlFileDiffDetails.add(lblLocalFileChecksum, gridBagConstraints);
 
-        lblIrodsFileChecksumLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsFileChecksumLbl.text")); // NOI18N
+        lblIrodsFileChecksumLbl.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.lblIrodsFileChecksum.text")); // NOI18N
+        lblIrodsFileChecksumLbl.setName("lblIrodsFileChecksum"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -473,7 +474,6 @@ public class DiffViewDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnResolveGet;
     private javax.swing.JButton btnResolvePut;
     private javax.swing.JLabel lblDescriptionOfDiffInfo;
-    private javax.swing.JLabel lblDiffResult;
     private javax.swing.JLabel lblIrodsFileChecksum;
     private javax.swing.JLabel lblIrodsFileChecksumLbl;
     private javax.swing.JLabel lblIrodsFileLength;

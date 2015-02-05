@@ -252,7 +252,8 @@ public class DownloadDialog extends javax.swing.JDialog implements
         pnlDownloadFileContainer.setPreferredSize(new java.awt.Dimension(303, 250));
         pnlDownloadFileContainer.setLayout(new java.awt.BorderLayout());
 
-        lblFilesHeader.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.lblFilesHeader.text")); // NOI18N
+        lblFilesHeader.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.lblWelcome.text")); // NOI18N
+        lblFilesHeader.setName("lblWelcome"); // NOI18N
         pnlDownloadFileContainer.add(lblFilesHeader, java.awt.BorderLayout.NORTH);
 
         tblFilesToDownload.setModel(new javax.swing.table.DefaultTableModel(
@@ -318,7 +319,8 @@ public class DownloadDialog extends javax.swing.JDialog implements
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         lblDownloadTargetLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblDownloadTargetLabel.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.lblDownloadTargetLabel.text")); // NOI18N
+        lblDownloadTargetLabel.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.lblDownloadLocationTarget.text")); // NOI18N
+        lblDownloadTargetLabel.setName("lblDownloadLocationTarget"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);

@@ -133,7 +133,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel1.add(txtPort, gridBagConstraints);
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel3.text")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.lblZone.text")); // NOI18N
+        jLabel3.setName("lblZone"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -152,7 +153,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel1.add(txtZone, gridBagConstraints);
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel4.text")); // NOI18N
+        jLabel4.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.lblUser.text")); // NOI18N
+        jLabel4.setName("lblUser"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -171,7 +173,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel1.add(txtUser, gridBagConstraints);
 
-        jLabel5.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel5.text")); // NOI18N
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.lblPassword.text")); // NOI18N
+        jLabel5.setName("lblPassword"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -190,7 +193,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel1.add(txtPassword, gridBagConstraints);
 
-        jLabel6.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel6.text")); // NOI18N
+        jLabel6.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.lblDefaultResource.text")); // NOI18N
+        jLabel6.setName("lblDefaultResource"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -209,7 +213,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel1.add(txtDefaultResource, gridBagConstraints);
 
-        jLabel7.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel7.text")); // NOI18N
+        jLabel7.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.lblStartingCollection.text")); // NOI18N
+        jLabel7.setName("lblStartingCollection"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -228,7 +233,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel1.add(txtInitialPath, gridBagConstraints);
 
-        jLabel8.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel8.text")); // NOI18N
+        jLabel8.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.lblAuthScheme.text")); // NOI18N
+        jLabel8.setName("lblAuthScheme"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -246,7 +252,8 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel1.add(cbAuthScheme, gridBagConstraints);
 
-        jLabel9.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.jLabel9.text")); // NOI18N
+        jLabel9.setText(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.lblComment.text")); // NOI18N
+        jLabel9.setName("lblComment"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;

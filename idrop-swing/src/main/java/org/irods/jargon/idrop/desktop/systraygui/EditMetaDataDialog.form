@@ -46,6 +46,7 @@
                 <EmptyBorder bottom="4" left="4" right="4" top="4"/>
               </Border>
             </Property>
+            <Property name="name" type="java.lang.String" value="lblAttribute" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -106,39 +107,32 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtAttribute">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditMetaDataDialog.attribute.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
                 <Property name="name" type="java.lang.String" value="attribute" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditMetaDataDialog.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditMetaDataDialog.lblValue.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblValue" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtValue">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditMetaDataDialog.value.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
                 <Property name="name" type="java.lang.String" value="value" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditMetaDataDialog.jLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditMetaDataDialog.lblUnit.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblUnit" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtUnit">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditMetaDataDialog.unit.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
                 <Property name="name" type="java.lang.String" value="unit" noResource="true"/>
               </Properties>
             </Component>

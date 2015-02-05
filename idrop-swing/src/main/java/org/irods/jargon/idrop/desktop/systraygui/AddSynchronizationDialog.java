@@ -135,7 +135,8 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 300));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.jLabel1.text")); // NOI18N
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.lblelectLocalResource.text")); // NOI18N
+        jLabel1.setName("lblelectLocalResource"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -143,7 +144,8 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel1.add(jLabel1, gridBagConstraints);
 
-        txtLocalPath.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.txtLocalPath.text")); // NOI18N
+        txtLocalPath.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.localResource.text")); // NOI18N
+        txtLocalPath.setName("localResource"); // NOI18N
         txtLocalPath.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -154,7 +156,8 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.5;
         jPanel1.add(txtLocalPath, gridBagConstraints);
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.jLabel3.text")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.lblSelectIrodsResourcePath.text")); // NOI18N
+        jLabel3.setName("lblSelectIrodsResourcePath"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -162,7 +165,8 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel1.add(jLabel3, gridBagConstraints);
 
-        txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.txtIrodsPath.text")); // NOI18N
+        txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.irodsResourcePath.text")); // NOI18N
+        txtIrodsPath.setName("irodsResourcePath"); // NOI18N
         txtIrodsPath.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -176,10 +180,11 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
 
         btnLocalDirectory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_144_folder_open.png"))); // NOI18N
         btnLocalDirectory.setMnemonic('l');
-        btnLocalDirectory.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnLocalDirectory.text")); // NOI18N
-        btnLocalDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnLocalDirectory.toolTipText")); // NOI18N
+        btnLocalDirectory.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnBrowseLocal.text")); // NOI18N
+        btnLocalDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnBrowseLocal.toolTipText")); // NOI18N
         btnLocalDirectory.setMaximumSize(new java.awt.Dimension(143, 31));
         btnLocalDirectory.setMinimumSize(new java.awt.Dimension(143, 31));
+        btnLocalDirectory.setName("btnBrowseLocal"); // NOI18N
         btnLocalDirectory.setPreferredSize(new java.awt.Dimension(100, 34));
         btnLocalDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,8 +199,9 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
 
         btnIrodsDirectory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_144_folder_open.png"))); // NOI18N
         btnIrodsDirectory.setMnemonic('i');
-        btnIrodsDirectory.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnIrodsDirectory.text")); // NOI18N
-        btnIrodsDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnIrodsDirectory.toolTipText")); // NOI18N
+        btnIrodsDirectory.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnBrowseIrodsResourcePath.text")); // NOI18N
+        btnIrodsDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnBrowseIrodsResourcePath.toolTipText")); // NOI18N
+        btnIrodsDirectory.setName("btnBrowseIrodsResourcePath"); // NOI18N
         btnIrodsDirectory.setPreferredSize(new java.awt.Dimension(100, 34));
         btnIrodsDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,6 +217,7 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
 
         comboSynchFrequency.setModel(new FrequencyTypeModel());
         comboSynchFrequency.setMinimumSize(null);
+        comboSynchFrequency.setName("comboSynchronizationFrequency"); // NOI18N
         comboSynchFrequency.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboSynchFrequencyActionPerformed(evt);
@@ -226,7 +233,8 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         gridBagConstraints.weighty = 0.8;
         jPanel1.add(comboSynchFrequency, gridBagConstraints);
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.jLabel4.text")); // NOI18N
+        jLabel4.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.lblChooseSynchronizationFrequency.text")); // NOI18N
+        jLabel4.setName("lblChooseSynchronizationFrequency"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -235,7 +243,8 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         gridBagConstraints.weighty = 0.8;
         jPanel1.add(jLabel4, gridBagConstraints);
 
-        jLabel5.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.jLabel5.text")); // NOI18N
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.lblName.text")); // NOI18N
+        jLabel5.setName("lblName"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -244,7 +253,8 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(4, 0, 0, 0);
         jPanel1.add(jLabel5, gridBagConstraints);
 
-        txtName.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.txtName.text")); // NOI18N
+        txtName.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.name.text")); // NOI18N
+        txtName.setName("name"); // NOI18N
         txtName.setPreferredSize(new java.awt.Dimension(100, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -261,6 +271,7 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnCancel.text")); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.setPreferredSize(new java.awt.Dimension(82, 42));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -271,6 +282,7 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnSave.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnSave.text")); // NOI18N
+        btnSave.setName("btnSave"); // NOI18N
         btnSave.setPreferredSize(new java.awt.Dimension(82, 42));
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -125,21 +125,21 @@ public class EditPermissionsDialog extends javax.swing.JDialog {
         pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
         pnlPermissionEdit.setLayout(new java.awt.GridBagLayout());
 
-        jLabel31.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.jLabel31.text")); // NOI18N
+        jLabel31.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.lblUserName.text")); // NOI18N
+        jLabel31.setName("lblUserName"); // NOI18N
         jLabel31.setPreferredSize(new java.awt.Dimension(120, 16));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlPermissionEdit.add(jLabel31, gridBagConstraints);
 
-        lblUserName.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.userName.text")); // NOI18N
         lblUserName.setName("userName"); // NOI18N
-        lblUserName.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlPermissionEdit.add(lblUserName, gridBagConstraints);
 
-        jLabel32.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.jLabel32.text")); // NOI18N
+        jLabel32.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.lblSharePermission.text")); // NOI18N
+        jLabel32.setName("lblSharePermission"); // NOI18N
         jLabel32.setPreferredSize(new java.awt.Dimension(120, 16));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -148,7 +148,7 @@ public class EditPermissionsDialog extends javax.swing.JDialog {
         pnlPermissionEdit.add(jLabel32, gridBagConstraints);
 
         cbPermissionsPermission.setMinimumSize(null);
-        cbPermissionsPermission.setName("lblPermission"); // NOI18N
+        cbPermissionsPermission.setName("comboPermission"); // NOI18N
         cbPermissionsPermission.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -164,8 +164,9 @@ public class EditPermissionsDialog extends javax.swing.JDialog {
 
         btnPermissionsCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnPermissionsCancel.setMnemonic('c');
-        btnPermissionsCancel.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnCancel.text")); // NOI18N
+        btnPermissionsCancel.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "Cancel")); // NOI18N
         btnPermissionsCancel.setToolTipText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnCancel.toolTipText")); // NOI18N
+        btnPermissionsCancel.setActionCommand(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnPermissionsCancel.actionCommand")); // NOI18N
         btnPermissionsCancel.setName("btnCancel"); // NOI18N
         btnPermissionsCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,7 +177,7 @@ public class EditPermissionsDialog extends javax.swing.JDialog {
 
         btnPermissionsUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnPermissionsUpdate.setMnemonic('o');
-        btnPermissionsUpdate.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnOk.text")); // NOI18N
+        btnPermissionsUpdate.setText(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditGridInfoDialog.btnOk.text")); // NOI18N
         btnPermissionsUpdate.setActionCommand(org.openide.util.NbBundle.getMessage(EditPermissionsDialog.class, "EditPermissionsDialog.btnOk.actionCommand")); // NOI18N
         btnPermissionsUpdate.setName("btnOk"); // NOI18N
         btnPermissionsUpdate.addActionListener(new java.awt.event.ActionListener() {

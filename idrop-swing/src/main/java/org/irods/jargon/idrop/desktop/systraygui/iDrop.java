@@ -310,6 +310,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
                 try {
                     myIrodsTree = new IRODSTree(gui);
+                    myIrodsTree.setName("irodsTree");
                     IRODSNode rootNode = new IRODSNode(root, getIrodsAccount(),
                             getiDropCore().getIrodsFileSystem(), myIrodsTree);
                     myIrodsTree.setRefreshingTree(true);
@@ -742,6 +743,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
                 initializeLocalFileTreeModel(null);
                 fileTree = new LocalFileTree(localFileModel, gui);
+                fileTree.setName("localFileTree");
                 listLocalDrives.getSelectionModel().addListSelectionListener(
                         new ListSelectionListener() {
                             @Override
@@ -1515,7 +1517,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.title")); // NOI18N
-        setMinimumSize(new java.awt.Dimension(622, 158));
+        setMinimumSize(new java.awt.Dimension(900, 700));
         setName("idropMainGui"); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -1792,8 +1794,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         splitPanelTrees.setRightComponent(scrollIrodsTree);
 
         pnlLocalTreeArea.setBackground(new java.awt.Color(230, 230, 230));
-        pnlLocalTreeArea.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0), org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.pnlLocalTreeArea.border.title"))); // NOI18N
+        pnlLocalTreeArea.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0), org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblLocalDirectory.border.title"))); // NOI18N
         pnlLocalTreeArea.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnlLocalTreeArea.setName("lblLocalDirectory"); // NOI18N
         pnlLocalTreeArea.setOpaque(false);
         pnlLocalTreeArea.setPreferredSize(new java.awt.Dimension(0, 0));
         pnlLocalTreeArea.setLayout(new java.awt.BorderLayout());
@@ -1871,7 +1874,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         progressIntraFile.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 1));
         progressIntraFile.setMinimumSize(new java.awt.Dimension(10, 60));
-        progressIntraFile.setString(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.progressIntraFile.string")); // NOI18N
+        progressIntraFile.setName("fileProgress"); // NOI18N
+        progressIntraFile.setString(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.fileProgress.string")); // NOI18N
         progressIntraFile.setStringPainted(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1881,7 +1885,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentTransferStatus.add(progressIntraFile, gridBagConstraints);
 
-        lblTransferFilesCounts.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblTransferFilesCounts.text")); // NOI18N
+        lblTransferFilesCounts.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.totalProgress.text")); // NOI18N
+        lblTransferFilesCounts.setName("totalProgress"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -1890,7 +1895,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlCurrentTransferStatus.add(lblTransferFilesCounts, gridBagConstraints);
 
         transferStatusProgressBar.setMinimumSize(new java.awt.Dimension(10, 60));
-        transferStatusProgressBar.setString(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.transferStatusProgressBar.string")); // NOI18N
+        transferStatusProgressBar.setName("transferStatusProgress"); // NOI18N
+        transferStatusProgressBar.setString(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.transferStatusProgress.string")); // NOI18N
         transferStatusProgressBar.setStringPainted(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1913,7 +1919,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentTransferStatus.add(lblTransferMessage, gridBagConstraints);
 
-        lblTransferByteCounts.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblTransferByteCounts.text")); // NOI18N
+        lblTransferByteCounts.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblCurrentFile.text")); // NOI18N
+        lblTransferByteCounts.setName("lblCurrentFile"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -1953,7 +1960,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlIdropGutter.setPreferredSize(new java.awt.Dimension(591, 45));
         pnlIdropGutter.setLayout(new java.awt.GridBagLayout());
 
-        lblHostLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblHostLabel.text")); // NOI18N
+        lblHostLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblHost.text")); // NOI18N
+        lblHostLabel.setName("lblHost"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlIdropGutter.add(lblHostLabel, gridBagConstraints);
@@ -1965,7 +1973,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         pnlIdropGutter.add(lblHost, gridBagConstraints);
         lblHost.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblHost.text")); // NOI18N
 
-        lblZoneLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblZoneLabel.text")); // NOI18N
+        lblZoneLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblZone.text")); // NOI18N
+        lblZoneLabel.setName("lblZone"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
@@ -1977,7 +1986,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlIdropGutter.add(lblZone, gridBagConstraints);
 
-        lblUserNameLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblUserNameLabel.text")); // NOI18N
+        lblUserNameLabel.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblUserName.text")); // NOI18N
+        lblUserNameLabel.setName("lblUserName"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
@@ -1991,6 +2001,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         lblResource.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblResource.text")); // NOI18N
         lblResource.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblResource.toolTipText")); // NOI18N
+        lblResource.setName("lblResource"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
@@ -2010,7 +2021,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
         pnlStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        lblStatusIcon.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblStatusIcon.text")); // NOI18N
+        lblStatusIcon.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.lblStatusOfTransfers.text")); // NOI18N
+        lblStatusIcon.setName("lblStatusOfTransfers"); // NOI18N
         pnlStatus.add(lblStatusIcon);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

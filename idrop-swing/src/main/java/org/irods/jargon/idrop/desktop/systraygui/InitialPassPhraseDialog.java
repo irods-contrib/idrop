@@ -98,16 +98,19 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         txtAreaWelcomeLabel.setBackground(new java.awt.Color(238, 238, 238));
         txtAreaWelcomeLabel.setColumns(20);
         txtAreaWelcomeLabel.setRows(5);
-        txtAreaWelcomeLabel.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.txtAreaWelcomeLabel.text")); // NOI18N
+        txtAreaWelcomeLabel.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.txtWelcome.text")); // NOI18N
+        txtAreaWelcomeLabel.setName("txtWelcome"); // NOI18N
         txtAreaWelcomeLabel.setPreferredSize(new java.awt.Dimension(470, 90));
         jPanel1.add(txtAreaWelcomeLabel, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 14, 4, 14));
+        jPanel2.setName(""); // NOI18N
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.jLabel1.text")); // NOI18N
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.lblPassPhrase.text")); // NOI18N
+        jLabel1.setName("lblPassPhrase"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -123,7 +126,8 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel2.add(txtPassPhrase, gridBagConstraints);
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.jLabel2.text")); // NOI18N
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.lblConfirmPassPhrase.text")); // NOI18N
+        jLabel2.setName("lblConfirmPassPhrase"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -152,9 +156,9 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('c');
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btmCamcel.text")); // NOI18N
-        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btmCamcel.toolTipText")); // NOI18N
-        btnCancel.setName("btmCamcel"); // NOI18N
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnCancel.text")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);

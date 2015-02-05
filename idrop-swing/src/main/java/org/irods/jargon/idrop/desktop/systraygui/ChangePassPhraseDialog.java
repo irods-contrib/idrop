@@ -69,7 +69,8 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 14, 4, 14));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.jLabel1.text")); // NOI18N
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.lblCurrentPassPhrase.text")); // NOI18N
+        jLabel1.setName("lblCurrentPassPhrase"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -85,13 +86,14 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel2.add(txtPassPhrase, gridBagConstraints);
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.jLabel2.text")); // NOI18N
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.lblNewPassPhrase.text")); // NOI18N
+        jLabel2.setName("lblNewPassPhrase"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel2.add(jLabel2, gridBagConstraints);
-        jLabel2.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.jLabel2.AccessibleContext.accessibleName")); // NOI18N
+        jLabel2.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.lblNewPassPhrase.AccessibleContext.accessibleName")); // NOI18N
 
         txtNewPassPhrase.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.newPassPhrase.text")); // NOI18N
         txtNewPassPhrase.setName("newPassPhrase"); // NOI18N
@@ -102,7 +104,8 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel2.add(txtNewPassPhrase, gridBagConstraints);
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.jLabel3.text")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.lblConfirmNewPassPhrase.text")); // NOI18N
+        jLabel3.setName("lblConfirmNewPassPhrase"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -133,6 +136,7 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
         btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -142,8 +146,9 @@ public class ChangePassPhraseDialog extends javax.swing.JDialog {
 
         btnOkay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOkay.setMnemonic('O');
-        btnOkay.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnOkay.text")); // NOI18N
-        btnOkay.setToolTipText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnOkay.toolTipText")); // NOI18N
+        btnOkay.setText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnOk.text")); // NOI18N
+        btnOkay.setToolTipText(org.openide.util.NbBundle.getMessage(ChangePassPhraseDialog.class, "ChangePassPhraseDialog.btnOk.toolTipText")); // NOI18N
+        btnOkay.setName("btnOk"); // NOI18N
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOkayActionPerformed(evt);

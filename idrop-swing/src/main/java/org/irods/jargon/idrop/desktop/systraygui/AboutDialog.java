@@ -48,30 +48,33 @@ public class AboutDialog extends javax.swing.JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         pnlInfo = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
         lblJargonVersionLabel = new javax.swing.JLabel();
         lblJargonVersion = new javax.swing.JLabel();
         lblIdropVersionLabel = new javax.swing.JLabel();
         lblIdropVersion = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblSplash = new javax.swing.JLabel();
         pnlItems = new javax.swing.JPanel();
         pnlButtons = new javax.swing.JPanel();
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("iDROP - About");
+        setName("dlgAbout"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 600));
 
+        pnlInfo.setName("pnlInfo"); // NOI18N
         pnlInfo.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel1.setText("iDrop Desktop Transfer Manager");
+        lblTitle.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        lblTitle.setText("iDrop Desktop Transfer Manager");
+        lblTitle.setName("lblTitle"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 14, 0);
-        pnlInfo.add(jLabel1, gridBagConstraints);
+        pnlInfo.add(lblTitle, gridBagConstraints);
 
         lblJargonVersionLabel.setText("Jargon Version:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -105,14 +108,16 @@ public class AboutDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
         pnlInfo.add(lblIdropVersion, gridBagConstraints);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/images/iDrop.png"))); // NOI18N
+        lblSplash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/images/iDrop.png"))); // NOI18N
+        lblSplash.setName("lblSplash"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 32, 0);
-        pnlInfo.add(jLabel2, gridBagConstraints);
+        pnlInfo.add(lblSplash, gridBagConstraints);
 
+        pnlItems.setName("pnlItems"); // NOI18N
         pnlItems.setLayout(new java.awt.GridLayout(0, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -123,10 +128,12 @@ public class AboutDialog extends javax.swing.JDialog {
 
         getContentPane().add(pnlInfo, java.awt.BorderLayout.CENTER);
 
+        pnlButtons.setName("pnlButtons"); // NOI18N
         pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('O');
+        btnOK.setName("btnOK"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKPressed(evt);
@@ -176,12 +183,12 @@ public class AboutDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOK;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblIdropVersion;
     private javax.swing.JLabel lblIdropVersionLabel;
     private javax.swing.JLabel lblJargonVersion;
     private javax.swing.JLabel lblJargonVersionLabel;
+    private javax.swing.JLabel lblSplash;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlButtons;
     private javax.swing.JPanel pnlInfo;
     private javax.swing.JPanel pnlItems;

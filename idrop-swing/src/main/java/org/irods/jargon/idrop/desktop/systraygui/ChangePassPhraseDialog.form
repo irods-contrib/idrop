@@ -49,8 +49,9 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.jLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.lblCurrentPassPhrase.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="lblCurrentPassPhrase" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -74,12 +75,13 @@
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.lblNewPassPhrase.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="lblNewPassPhrase" noResource="true"/>
           </Properties>
           <AccessibilityProperties>
             <Property name="AccessibleContext.accessibleName" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.jLabel2.AccessibleContext.accessibleName" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.lblNewPassPhrase.AccessibleContext.accessibleName" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </AccessibilityProperties>
           <Constraints>
@@ -104,8 +106,9 @@
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.jLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.lblConfirmNewPassPhrase.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="lblConfirmNewPassPhrase" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -181,6 +184,7 @@
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.btnCancel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="btnCancel" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
@@ -198,11 +202,12 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="79"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.btnOkay.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.btnOk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.btnOkay.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="ChangePassPhraseDialog.btnOk.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="btnOk" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOkayActionPerformed"/>

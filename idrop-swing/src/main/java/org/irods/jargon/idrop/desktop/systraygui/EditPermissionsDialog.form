@@ -60,8 +60,9 @@
             <Component class="javax.swing.JLabel" name="jLabel31">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.jLabel31.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.lblUserName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblUserName" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[120, 16]"/>
                 </Property>
@@ -74,13 +75,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblUserName">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.userName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
                 <Property name="name" type="java.lang.String" value="userName" noResource="true"/>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="null"/>
-                </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -91,8 +86,9 @@
             <Component class="javax.swing.JLabel" name="jLabel32">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.jLabel32.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.lblSharePermission.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblSharePermission" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[120, 16]"/>
                 </Property>
@@ -111,7 +107,7 @@
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="null"/>
                 </Property>
-                <Property name="name" type="java.lang.String" value="lblPermission" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="comboPermission" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="null"/>
                 </Property>
@@ -152,10 +148,13 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.btnCancel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="Cancel" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.btnCancel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
+                <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.btnPermissionsCancel.actionCommand" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="btnCancel" noResource="true"/>
               </Properties>
@@ -170,7 +169,7 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="111"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.btnOk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditGridInfoDialog.btnOk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="EditPermissionsDialog.btnOk.actionCommand" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>

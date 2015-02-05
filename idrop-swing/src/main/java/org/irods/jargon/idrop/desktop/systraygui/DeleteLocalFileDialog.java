@@ -117,6 +117,7 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(300, 200));
 
         lblTitle.setText("Please hit OK to delete the following file/folder from the local file system");
+        lblTitle.setName("lblMessage"); // NOI18N
         getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
         pnlFolderData.setLayout(new java.awt.BorderLayout());
@@ -135,6 +136,7 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
         pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(DeleteLocalFileDialog.class, "Cancel")); // NOI18N
         btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +147,7 @@ public class DeleteLocalFileDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('o');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(DeleteLocalFileDialog.class, "Delete")); // NOI18N
         btnOK.setToolTipText("Proceed with delete");
         btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {

@@ -138,20 +138,20 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        jPanel1.setName("lblAttribute"); // NOI18N
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.jLabel1.text")); // NOI18N
 
-        txtAttribute.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.attribute.text")); // NOI18N
         txtAttribute.setName("attribute"); // NOI18N
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.jLabel2.text")); // NOI18N
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.lblValue.text")); // NOI18N
+        jLabel2.setName("lblValue"); // NOI18N
 
-        txtValue.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.value.text")); // NOI18N
         txtValue.setName("value"); // NOI18N
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.jLabel3.text")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.lblUnit.text")); // NOI18N
+        jLabel3.setName("lblUnit"); // NOI18N
 
-        txtUnit.setText(org.openide.util.NbBundle.getMessage(EditMetaDataDialog.class, "EditMetaDataDialog.unit.text")); // NOI18N
         txtUnit.setName("unit"); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);

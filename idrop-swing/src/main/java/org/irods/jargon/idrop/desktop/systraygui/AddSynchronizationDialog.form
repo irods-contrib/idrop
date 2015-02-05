@@ -60,8 +60,9 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.jLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.lblelectLocalResource.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="lblelectLocalResource" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -72,8 +73,9 @@
         <Component class="javax.swing.JTextField" name="txtLocalPath">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.txtLocalPath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.localResource.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="localResource" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 30]"/>
             </Property>
@@ -87,8 +89,9 @@
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.jLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.lblSelectIrodsResourcePath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="lblSelectIrodsResourcePath" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -99,8 +102,9 @@
         <Component class="javax.swing.JTextField" name="txtIrodsPath">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.txtIrodsPath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.irodsResourcePath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="irodsResourcePath" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 30]"/>
             </Property>
@@ -118,10 +122,10 @@
             </Property>
             <Property name="mnemonic" type="int" value="108"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnLocalDirectory.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnBrowseLocal.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnLocalDirectory.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnBrowseLocal.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[143, 31]"/>
@@ -129,6 +133,7 @@
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[143, 31]"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="btnBrowseLocal" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[100, 34]"/>
             </Property>
@@ -149,11 +154,12 @@
             </Property>
             <Property name="mnemonic" type="int" value="105"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnIrodsDirectory.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnBrowseIrodsResourcePath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnIrodsDirectory.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnBrowseIrodsResourcePath.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="btnBrowseIrodsResourcePath" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[100, 34]"/>
             </Property>
@@ -175,6 +181,7 @@
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="null"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="comboSynchronizationFrequency" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboSynchFrequencyActionPerformed"/>
@@ -188,8 +195,9 @@
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.jLabel4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.lblChooseSynchronizationFrequency.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="lblChooseSynchronizationFrequency" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -200,8 +208,9 @@
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.jLabel5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.lblName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="lblName" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -212,8 +221,9 @@
         <Component class="javax.swing.JTextField" name="txtName">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.txtName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.name.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="name" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[100, 30]"/>
             </Property>
@@ -246,6 +256,7 @@
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnCancel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="btnCancel" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[82, 42]"/>
             </Property>
@@ -262,6 +273,7 @@
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="AddSynchronizationDialog.btnSave.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="btnSave" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[82, 42]"/>
             </Property>

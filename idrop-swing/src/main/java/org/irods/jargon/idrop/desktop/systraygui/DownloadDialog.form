@@ -76,8 +76,9 @@
             <Component class="javax.swing.JLabel" name="lblFilesHeader">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="DownloadDialog.lblFilesHeader.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="DownloadDialog.lblWelcome.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblWelcome" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -183,8 +184,9 @@
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="DownloadDialog.lblDownloadTargetLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="DownloadDialog.lblDownloadLocationTarget.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblDownloadLocationTarget" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

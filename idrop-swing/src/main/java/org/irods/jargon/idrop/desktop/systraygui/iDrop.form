@@ -31,7 +31,7 @@
       <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[622, 158]"/>
+      <Dimension value="[900, 700]"/>
     </Property>
     <Property name="name" type="java.lang.String" value="idropMainGui" noResource="true"/>
   </Properties>
@@ -52,7 +52,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,0,0,0,3,-29"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,68,0,0,4,95"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -773,13 +773,14 @@
                       <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                         <EmptyBorder bottom="0" left="0" right="0" top="0"/>
                       </Border>
-                      <ResourceString PropertyName="titleX" bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.pnlLocalTreeArea.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString PropertyName="titleX" bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblLocalDirectory.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </TitledBorder>
                   </Border>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[0, 0]"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblLocalDirectory" noResource="true"/>
                 <Property name="opaque" type="boolean" value="false"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[0, 0]"/>
@@ -1028,8 +1029,9 @@
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[10, 60]"/>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="fileProgress" noResource="true"/>
                     <Property name="string" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.progressIntraFile.string" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.fileProgress.string" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="stringPainted" type="boolean" value="true"/>
                   </Properties>
@@ -1042,8 +1044,9 @@
                 <Component class="javax.swing.JLabel" name="lblTransferFilesCounts">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblTransferFilesCounts.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.totalProgress.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="totalProgress" noResource="true"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1056,8 +1059,9 @@
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[10, 60]"/>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="transferStatusProgress" noResource="true"/>
                     <Property name="string" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.transferStatusProgressBar.string" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.transferStatusProgress.string" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="stringPainted" type="boolean" value="true"/>
                   </Properties>
@@ -1089,8 +1093,9 @@
                 <Component class="javax.swing.JLabel" name="lblTransferByteCounts">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblTransferByteCounts.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblCurrentFile.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="lblCurrentFile" noResource="true"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1171,8 +1176,9 @@
             <Component class="javax.swing.JLabel" name="lblHostLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblHostLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblHost.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblHost" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1201,8 +1207,9 @@
             <Component class="javax.swing.JLabel" name="lblZoneLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblZoneLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblZone.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblZone" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1226,8 +1233,9 @@
             <Component class="javax.swing.JLabel" name="lblUserNameLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblUserNameLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblUserName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblUserName" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1256,6 +1264,7 @@
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblResource.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="lblResource" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1314,8 +1323,9 @@
                 <Component class="javax.swing.JLabel" name="lblStatusIcon">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblStatusIcon.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="iDrop.lblStatusOfTransfers.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="lblStatusOfTransfers" noResource="true"/>
                   </Properties>
                 </Component>
               </SubComponents>

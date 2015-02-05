@@ -274,13 +274,16 @@ public class LoginDialog extends JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Login Dialog");
         setName("loginDialog"); // NOI18N
 
+        pnlLoginInfo.setName("lblResource"); // NOI18N
         pnlLoginInfo.setLayout(new java.awt.GridBagLayout());
 
         lblHost.setText("Host:");
         lblHost.setMaximumSize(new java.awt.Dimension(40, 14));
         lblHost.setMinimumSize(new java.awt.Dimension(30, 14));
+        lblHost.setName("lblHost"); // NOI18N
         lblHost.setPreferredSize(null);
         lblHost.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -300,6 +303,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(txtHost, gridBagConstraints);
 
         lblPort.setText("Port:");
+        lblPort.setName("lblPort"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -317,6 +321,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(txtPort, gridBagConstraints);
 
         lblZone.setText("Zone:");
+        lblZone.setName("lblZone"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -334,6 +339,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(txtZone, gridBagConstraints);
 
         lblResource.setText("Resource:");
+        lblResource.setName("lblResource"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -350,6 +356,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(txtResource, gridBagConstraints);
 
         lblUserName.setText("User Name:");
+        lblUserName.setName("lblUserName"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -367,6 +374,7 @@ public class LoginDialog extends JDialog {
         pnlLoginInfo.add(txtUserName, gridBagConstraints);
 
         lblPassword.setText("Password:");
+        lblPassword.setName("lblPassword"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -400,6 +408,7 @@ public class LoginDialog extends JDialog {
 
         lblLoginMode.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblLoginMode.setText("Login Mode:");
+        lblLoginMode.setName("lblLoginMode"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -420,6 +429,7 @@ public class LoginDialog extends JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(LoginDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the login attempt");
         btnCancel.setMaximumSize(new java.awt.Dimension(100, 100));
         btnCancel.setName("btnCancel"); // NOI18N
@@ -432,6 +442,7 @@ public class LoginDialog extends JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_204_unlock.png"))); // NOI18N
         btnOK.setMnemonic('L');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(LoginDialog.class, "Login")); // NOI18N
         btnOK.setToolTipText("Proceed to log on with given information");
         btnOK.setMaximumSize(new java.awt.Dimension(100, 100));
         btnOK.setName("btnOk"); // NOI18N

@@ -151,9 +151,11 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Delete iRODS Dialog");
         setName("deleteIrodsDialog"); // NOI18N
 
         lblTitle.setText("Please hit OK to delete the following file/folder from iRODS");
+        lblTitle.setName("lblMessage"); // NOI18N
         getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
         pnlFolderData.setPreferredSize(new java.awt.Dimension(300, 200));
@@ -175,6 +177,7 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(DeleteIRODSDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the delete action");
         btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -186,6 +189,7 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('o');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(DeleteIRODSDialog.class, "Delete")); // NOI18N
         btnOK.setToolTipText("Delete the files and collections");
         btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {

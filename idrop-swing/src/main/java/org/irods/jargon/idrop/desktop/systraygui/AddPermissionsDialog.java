@@ -144,7 +144,8 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         pnlPermissionEdit.setLayout(new java.awt.GridBagLayout());
 
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel31.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.jLabel31.text")); // NOI18N
+        jLabel31.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.lblUserName.text")); // NOI18N
+        jLabel31.setName("lblUserName"); // NOI18N
         jLabel31.setPreferredSize(new java.awt.Dimension(120, 16));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -159,7 +160,8 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         pnlPermissionEdit.add(cbPermissionsUserName, gridBagConstraints);
 
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel32.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.jLabel32.text")); // NOI18N
+        jLabel32.setText(org.openide.util.NbBundle.getMessage(AddPermissionsDialog.class, "AddPermissionsDialog.lblPermission.text")); // NOI18N
+        jLabel32.setName("lblPermission"); // NOI18N
         jLabel32.setPreferredSize(new java.awt.Dimension(120, 16));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

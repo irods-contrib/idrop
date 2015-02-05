@@ -352,11 +352,14 @@ public class CopyMoveDialog extends javax.swing.JDialog {
         pnlCurrentParent.setPreferredSize(new java.awt.Dimension(500, 190));
         pnlCurrentParent.setLayout(new java.awt.GridBagLayout());
 
-        lblCurrentParentLabel.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.lblCurrentParentLabel.text")); // NOI18N
+        lblCurrentParentLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblCurrentParentLabel.setName("lblCurrentLocation"); // NOI18N
+        lblCurrentParentLabel.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.lblCurrentLocation.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlCurrentParent.add(lblCurrentParentLabel, gridBagConstraints);
 
+        scrollCurrentParent.setName("currentLocation"); // NOI18N
         scrollCurrentParent.setPreferredSize(new java.awt.Dimension(360, 100));
 
         txtCurrentParent.setEditable(false);
@@ -373,7 +376,9 @@ public class CopyMoveDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCurrentParent.add(scrollCurrentParent, gridBagConstraints);
 
-        lblNewDiretoryName.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.lblNewDiretoryName.text")); // NOI18N
+        lblNewDiretoryName.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblNewDiretoryName.setName("lblNewLocation"); // NOI18N
+        lblNewDiretoryName.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.lblNewLocation.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;

@@ -50,6 +50,7 @@ public class SettingsDialog extends javax.swing.JDialog {
        
         setupUserSettingsPanel();
         CollapsiblePane cpUserSettings = new CollapsiblePane(pnlCollapsibles, "iDrop user settings", pnlUserSettings);
+        cpUserSettings.setName("cpUserSettings");
         GridBagConstraints userSettingsConstraints = new GridBagConstraints();
         userSettingsConstraints.gridx = 0;
         userSettingsConstraints.gridy = 0;
@@ -73,6 +74,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         dataTransferSettingsConstraints.weightx = 0.0;
         dataTransferSettingsConstraints.weighty = 0.0;
         CollapsiblePane cpDataTransferSettings = new CollapsiblePane(pnlCollapsibles, "Data Transfer Settings", pnlDataTransferSettings);
+        cpDataTransferSettings.setName("cpDataTransferSettings");
         sp = new JScrollPane();
         sp.setBorder(new EmptyBorder(0,0,0,0));
         sp.setViewportView(cpDataTransferSettings);
@@ -80,6 +82,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         
         setupConnectionTestPanel();
         CollapsiblePane cpTestConnection = new CollapsiblePane(pnlCollapsibles, "Test Connection", pnlTestConnection);
+        cpTestConnection.setName("cpTestConnection");
         GridBagConstraints testConnectionConstraints = new GridBagConstraints();
         testConnectionConstraints.gridx = 0;
         testConnectionConstraints.gridy = 2;
@@ -103,6 +106,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         pipelineConstraints.weightx = 1.0;
         pipelineConstraints.weighty = 1.0;
         CollapsiblePane cpPipelineConfig = new CollapsiblePane(pnlCollapsibles, "Pipeline Configuration", pnlPipelineConfig);
+        cpPipelineConfig.setName("cpPipelineConfig");
         sp = new JScrollPane();
         sp.setBorder(new EmptyBorder(0,0,0,0));
         sp.setViewportView(cpPipelineConfig);
@@ -116,6 +120,7 @@ public class SettingsDialog extends javax.swing.JDialog {
     
     private void setupUserSettingsPanel() {
         HyperLinkButton btnPerformDiff = new HyperLinkButton("Manage data resources");
+        btnPerformDiff.setName("btnPerformDiff");
         btnPerformDiff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnManageDataResourcesActionPerformed(evt);
@@ -123,12 +128,15 @@ public class SettingsDialog extends javax.swing.JDialog {
         });
         pnlUserSettings.add(btnPerformDiff);
         //pnlUserSettings.add(filler1);
+        chkShowGUI.setName("chkShowGUI");
         pnlUserSettings.add(chkShowGUI);
         pnlUserSettings.add(chkShowTransferProgress);
+        chkShowTransferProgress.setName("chkShowTransferProgress");
     }
     
     private void setupConnectionTestPanel() {
         HyperLinkButton btnConnectionTest = new HyperLinkButton("Select link to test iDrop functionality and connection");
+        btnConnectionTest.setName("btnConnectionTest");
         btnConnectionTest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConnectionTestActionPerformed(evt);
@@ -139,6 +147,7 @@ public class SettingsDialog extends javax.swing.JDialog {
     
     private void setupDataTransferSettingsPanel() {
         spinMaxTransferAttempts.setValue(3);
+        spinMaxTransferAttempts.setName("spinMaxTransferAttempts");
     }
     
     private void setupPipelineConfigPanel() {
@@ -180,44 +189,63 @@ public class SettingsDialog extends javax.swing.JDialog {
         chkShowGUI.setSelected(idropConfig.isShowGuiAtStartup());
         chkLogTransfers.setSelected(idropConfig
                 .isLogSuccessfulTransfers());
+        chkLogTransfers.setName("chkLogTransfers");
         chkShowTransferProgress.setSelected(idropConfig
                 .isIntraFileStatusCallbacks());
+        chkShowTransferProgress.setName("chkShowTransferProgress");
         chkAllowRerouting.setSelected(idropConfig
                 .isAllowConnectionRerouting());
+        chkAllowRerouting.setName("chkAllowRerouting");
         chkRestartFailedConn.setSelected(idropConfig.isConnectionRestart());
+        chkRestartFailedConn.setName("chkRestartFailedConn");
         spinMaxTransferAttempts.setValue(idropConfig.getMaxTransferErrors());
+        
         
 
         chkExecutorPool.setSelected(idropConfig.isParallelUsePool());
+        chkExecutorPool.setName("chkExecutorPool");
 //        checkVerifyChecksumOnTransfer.setSelected(idropConfig
 //                .isVerifyChecksum());
 
         spnTimeout.setValue(idropConfig
                 .getIrodsConnectionTimeout());
+        spnTimeout.setName("spinTimeout");
         spnParallelTimeout.setValue(idropConfig
                 .getIrodsParallelConnectionTimeout());
+        spnParallelTimeout.setName("spnParallelTimeout");
         spnMaxThreads.setValue(idropConfig
                 .getIrodsParallelTransferMaxThreads());
+        spnMaxThreads.setName("spnMaxThreads");
         chkAllowParallel.setSelected(idropConfig
                 .isUseParallelTransfers());
+        chkAllowParallel.setName("chkAllowParallel");
         chkNIO.setSelected(idropConfig
                 .isUseNIOForParallelTransfers());
+        chkNIO.setName("checkNIO");
         txtInternalInputBuffer.setText(String.valueOf(idropConfig
                 .getInternalInputStreamBufferSize()));
+        txtInternalInputBuffer.setName("txtInternalInputBuffer");
         txtInternalOutputBuffer.setText(String.valueOf(idropConfig
                 .getInternalOutputStreamBufferSize()));
+        txtInternalOutputBuffer.setName("txtInternalOutputBuffer");
         txtLocalFileInputBufferSize.setText(String.valueOf(idropConfig
                 .getLocalFileInputStreamBufferSize()));
+        txtLocalFileInputBufferSize.setName("txtLocalFileInputBufferSize");
         txtLocalFileOutputBufferSize.setText(String.valueOf(idropConfig
                 .getLocalFileOutputStreamBufferSize()));
+        txtLocalFileOutputBufferSize.setName("txtLocalFileOutputBufferSize");
         txtGetBufferSize
                 .setText(String.valueOf(idropConfig.getGetBufferSize()));
+        txtGetBufferSize.setName("txtGetBufferSize");
         txtPutBufferSize
                 .setText(String.valueOf(idropConfig.getPutBufferSize()));
+        txtPutBufferSize.setName("txtPutBufferSize");
         txtInputToOutputCopyBufferSize.setText(String.valueOf(idropConfig
                 .getInputToOutputCopyBufferByteSize()));
+        txtInputToOutputCopyBufferSize.setName("inputToOutputCopyBufferSize");
         txtInternalCacheBufferSize.setText(String.valueOf(idropConfig
                 .getInternalCacheBufferSize()));
+        txtInternalCacheBufferSize.setName("txtInternalCacheBufferSize");
     }
     
     private void updateConfigForGivenPropertyBasedOnCheckboxStateChange(
@@ -1042,6 +1070,7 @@ public class SettingsDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(SettingsDialog.class, "SettingsDialog.title")); // NOI18N
+        setName("Settings"); // NOI18N
         setPreferredSize(new java.awt.Dimension(724, 530));
 
         pnlMain.setLayout(new java.awt.BorderLayout());

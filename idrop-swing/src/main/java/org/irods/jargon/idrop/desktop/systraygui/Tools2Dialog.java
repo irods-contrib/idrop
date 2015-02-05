@@ -70,6 +70,7 @@ public class Tools2Dialog extends javax.swing.JDialog {
     
     private void setupToolsPanel() {
         HyperLinkButton btnPerformDiff = new HyperLinkButton("Perform diff between data objects");
+        btnPerformDiff.setName("btnPerformDiff");
         btnPerformDiff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPerformDiffActionPerformed(evt);
@@ -79,6 +80,7 @@ public class Tools2Dialog extends javax.swing.JDialog {
         pnlDataTools.add(jLabel4);
         pnlDataTools.add(filler1);
         HyperLinkButton btnSetupSync = new HyperLinkButton("Set up automatic synchronization between directories");
+        btnSetupSync.setName("btnSetupSynch");
         btnSetupSync.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSetupSyncActionPerformed(evt);

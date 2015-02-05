@@ -4,6 +4,7 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui;
 
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -145,18 +146,22 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         });
         jPanel5.add(btnForgotPassPhrase, java.awt.BorderLayout.CENTER);
 
-        btnOkay.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOK.text")); // NOI18N
+        btnOkay.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "OK")); // NOI18N
         btnOkay.setActionCommand(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOK.text")); // NOI18N
-        btnOkay.setLabel(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOK.text")); // NOI18N
         btnOkay.setName("btnOk"); // NOI18N
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOkayActionPerformed(evt);
             }
         });
+        btnOkay.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnOkayKeyPressed(evt);
+            }
+        });
         jPanel5.add(btnOkay, java.awt.BorderLayout.EAST);
 
-        btnCancel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.text")); // NOI18N
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "Cancel")); // NOI18N
         btnCancel.setActionCommand(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.actionCommand")); // NOI18N
         btnCancel.setLabel(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.text")); // NOI18N
         btnCancel.setName("btmCancel"); // NOI18N
@@ -177,6 +182,10 @@ public class PassPhraseDialog extends javax.swing.JDialog {
     private void txtPassPhraseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassPhraseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPassPhraseActionPerformed
+
+    private void btnOkayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnOkayKeyPressed
+       if (handleLogin()) return;
+    }//GEN-LAST:event_btnOkayKeyPressed
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		System.exit(0);
@@ -232,40 +241,41 @@ public class PassPhraseDialog extends javax.swing.JDialog {
 		dispose();
 	}// GEN-LAST:event_btnForgotPassPhraseActionPerformed
 
-	private void btnOkayActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOkayActionPerformed
-
-		String passPhrase = new String(txtPassPhrase.getPassword());
-
-		// make sure pass phrase is entered
-		if ((passPhrase == null) || (passPhrase.length() <= 0)) {
-			JOptionPane.showMessageDialog(this, "Please enter a pass phrase.",
-					"Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		try {
-			idropCore.getConveyorService().getGridAccountService()
-					.validatePassPhrase(passPhrase);
-		} catch (PassPhraseInvalidException ex) {
-			Logger.getLogger(PassPhraseDialog.class.getName()).log(
-					Level.SEVERE, null, ex);
-			JOptionPane.showMessageDialog(this,
-					"Pass phrase is invalid. Please try again.",
-					"Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
-			return;
-		} catch (ConveyorExecutionException ex) {
-			Logger.getLogger(PassPhraseDialog.class.getName()).log(
-					Level.SEVERE, null, ex);
-			JOptionPane.showMessageDialog(this,
-					"Validation of pass phrase failed.",
-					"Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		validated = true;
-
-		dispose();
+	private void btnOkayActionPerformed(final java.awt.event.ActionEvent evt) {		if (handleLogin()) return;
 	}// GEN-LAST:event_btnOkayActionPerformed
+
+    private boolean handleLogin() throws HeadlessException {
+        // GEN-FIRST:event_btnOkayActionPerformed
+        
+        String passPhrase = new String(txtPassPhrase.getPassword());
+        // make sure pass phrase is entered
+        if ((passPhrase == null) || (passPhrase.length() <= 0)) {
+            JOptionPane.showMessageDialog(this, "Please enter a pass phrase.",
+                    "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        try {
+            idropCore.getConveyorService().getGridAccountService()
+                    .validatePassPhrase(passPhrase);
+        } catch (PassPhraseInvalidException ex) {
+            Logger.getLogger(PassPhraseDialog.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                    "Pass phrase is invalid. Please try again.",
+                    "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
+            return true;
+        } catch (ConveyorExecutionException ex) {
+            Logger.getLogger(PassPhraseDialog.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                    "Validation of pass phrase failed.",
+                    "Validate Pass Phrase", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        validated = true;
+        dispose();
+        return false;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

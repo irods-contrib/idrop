@@ -249,13 +249,15 @@ public class DiffSelectDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.title")); // NOI18N
+        setName("dlgDiffSelect"); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 270));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 10, 20));
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 250));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.jLabel1.text")); // NOI18N
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblSelectLocalPath.text")); // NOI18N
+        jLabel1.setName("lblSelectLocalPath"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -263,7 +265,8 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel1.add(jLabel1, gridBagConstraints);
 
-        txtLocalPath.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.txtLocalPath.text")); // NOI18N
+        txtLocalPath.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.localResourcePath.text")); // NOI18N
+        txtLocalPath.setName("localResourcePath"); // NOI18N
         txtLocalPath.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -274,7 +277,8 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.5;
         jPanel1.add(txtLocalPath, gridBagConstraints);
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.jLabel3.text")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblIrodsResourcePath.text")); // NOI18N
+        jLabel3.setName("lblIrodsResourcePath"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -282,7 +286,8 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel1.add(jLabel3, gridBagConstraints);
 
-        txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.txtIrodsPath.text")); // NOI18N
+        txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.irodsResourcePath.text")); // NOI18N
+        txtIrodsPath.setName("irodsResourcePath"); // NOI18N
         txtIrodsPath.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -296,10 +301,11 @@ public class DiffSelectDialog extends javax.swing.JDialog {
 
         btnLocalDirectory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_144_folder_open.png"))); // NOI18N
         btnLocalDirectory.setMnemonic('l');
-        btnLocalDirectory.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnLocalDirectory.text")); // NOI18N
-        btnLocalDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnLocalDirectory.toolTipText")); // NOI18N
+        btnLocalDirectory.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnLocalResourcePath.text")); // NOI18N
+        btnLocalDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnLocalResourcePath.toolTipText")); // NOI18N
         btnLocalDirectory.setMaximumSize(new java.awt.Dimension(143, 31));
         btnLocalDirectory.setMinimumSize(new java.awt.Dimension(143, 31));
+        btnLocalDirectory.setName("btnLocalResourcePath"); // NOI18N
         btnLocalDirectory.setPreferredSize(new java.awt.Dimension(100, 34));
         btnLocalDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,6 +322,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         btnIrodsDirectory.setMnemonic('i');
         btnIrodsDirectory.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnIrodsDirectory.text")); // NOI18N
         btnIrodsDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnIrodsDirectory.toolTipText")); // NOI18N
+        btnIrodsDirectory.setName("btnIrodsDirectory"); // NOI18N
         btnIrodsDirectory.setPreferredSize(new java.awt.Dimension(100, 34));
         btnIrodsDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,8 +335,9 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel1.add(btnIrodsDirectory, gridBagConstraints);
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.jLabel2.text")); // NOI18N
-        jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.jLabel2.toolTipText")); // NOI18N
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblChecksum.text")); // NOI18N
+        jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblChecksum.toolTipText")); // NOI18N
+        jLabel2.setName("lblChecksum"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -340,6 +348,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         txtChecksum.setEditable(false);
         txtChecksum.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.txtChecksum.text")); // NOI18N
         txtChecksum.setBorder(null);
+        txtChecksum.setName("txtChecksum"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;

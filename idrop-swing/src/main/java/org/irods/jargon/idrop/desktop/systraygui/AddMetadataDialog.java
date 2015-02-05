@@ -127,17 +127,25 @@ public class AddMetadataDialog extends javax.swing.JDialog implements
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.jLabel1.text")); // NOI18N
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.lblAttribute.text")); // NOI18N
+        jLabel1.setName("lblAttribute"); // NOI18N
 
         txtAttribute.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.attribute.text")); // NOI18N
         txtAttribute.setName("attribute"); // NOI18N
+        txtAttribute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAttributeActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.jLabel2.text")); // NOI18N
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.lblValue.text")); // NOI18N
+        jLabel2.setName("lblValue"); // NOI18N
 
         txtValue.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.value.text")); // NOI18N
         txtValue.setName("value"); // NOI18N
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.jLabel3.text")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.lblUnit.text")); // NOI18N
+        jLabel3.setName("lblUnit"); // NOI18N
 
         txtUnit.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.unit.text")); // NOI18N
         txtUnit.setName("unit"); // NOI18N
@@ -212,6 +220,10 @@ public class AddMetadataDialog extends javax.swing.JDialog implements
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtAttributeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAttributeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAttributeActionPerformed
 
 	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
