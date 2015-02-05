@@ -414,7 +414,7 @@
       </installerScript>
     </unixInstaller>
   </mediaSets>
-  <buildIds buildAll="true">
+  <buildIds buildAll="false">
     <mediaSet refId="24" />
   </buildIds>
   <buildOptions verbose="true" faster="false" disableSigning="false" debug="false" />
