@@ -870,10 +870,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             aboutDialog.setLocation(x, y);
             aboutDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Preferences")) {
-            IDROPConfigurationPanel idropConfigurationPanel = new IDROPConfigurationPanel(
-                    this, true, iDropCore);
-            idropConfigurationPanel.setLocationRelativeTo(null);
-            idropConfigurationPanel.setVisible(true);
+            SettingsDialog dlgSettings = new SettingsDialog(
+                this, true, iDropCore, getIrodsAccount());
+                dlgSettings.setLocationRelativeTo(null);
+                dlgSettings.setVisible(true);
 
         } else if (e.getActionCommand().equals("Change Pass Phrase")) {
             ChangePassPhraseDialog changePassPhraseDialog = new ChangePassPhraseDialog(
