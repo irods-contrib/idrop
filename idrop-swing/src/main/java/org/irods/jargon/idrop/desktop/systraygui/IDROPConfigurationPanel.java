@@ -186,7 +186,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         checkLogSuccessfulTransfer = new javax.swing.JCheckBox();
         checkVerifyChecksumOnTransfer = new javax.swing.JCheckBox();
         checkAllowRerouting = new javax.swing.JCheckBox();
-        checkConnectionRestart = new javax.swing.JCheckBox();
         lblMaxTransferErrors = new javax.swing.JLabel();
         spinnerMaxTransferErrors = new javax.swing.JSpinner();
         pnlPipelineConfiguration = new javax.swing.JPanel();
@@ -476,7 +475,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlTop.setLayout(pnlTopLayout);
         pnlTopLayout.setHorizontalGroup(
             pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 1239, Short.MAX_VALUE)
+            .add(0, 1495, Short.MAX_VALUE)
         );
         pnlTopLayout.setVerticalGroup(
             pnlTopLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -534,6 +533,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlTransferManagement.add(checkLogSuccessfulTransfer, gridBagConstraints);
 
         checkVerifyChecksumOnTransfer.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.verifyChecksum.text")); // NOI18N
+        checkVerifyChecksumOnTransfer.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "VerifyChecksum")); // NOI18N
         checkVerifyChecksumOnTransfer.setName("verifyChecksum"); // NOI18N
         checkVerifyChecksumOnTransfer.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -565,26 +565,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlTransferManagement.add(checkAllowRerouting, gridBagConstraints);
 
-        checkConnectionRestart.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.connectionRestart.text")); // NOI18N
-        checkConnectionRestart.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.connectionRestart.toolTipText")); // NOI18N
-        checkConnectionRestart.setName("connectionRestart"); // NOI18N
-        checkConnectionRestart.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                checkConnectionRestartItemStateChanged(evt);
-            }
-        });
-        checkConnectionRestart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkConnectionRestartActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlTransferManagement.add(checkConnectionRestart, gridBagConstraints);
-
-        lblMaxTransferErrors.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaxTransferErrors.text")); // NOI18N
+        lblMaxTransferErrors.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaxTransfersBeforeFailure.text")); // NOI18N
+        lblMaxTransferErrors.setName("lblMaxTransfersBeforeFailure"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -615,7 +597,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         plnPipelineConfigurationDetails.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.plnPipelineConfigurationDetails.border.title"))); // NOI18N
         plnPipelineConfigurationDetails.setLayout(new java.awt.GridBagLayout());
 
-        lblIrodsSocketTimeout.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblIrodsSocketTimeout.text")); // NOI18N
+        lblIrodsSocketTimeout.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblIrodsAgentTimeout.text")); // NOI18N
+        lblIrodsSocketTimeout.setName("lblIrodsAgentTimeout"); // NOI18N
         lblIrodsSocketTimeout.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -654,6 +637,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlParallelTransferOptions.add(checkUseNIOForParallelTransfers, gridBagConstraints);
 
         checkUseExecutorPool.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.useExecutorPool.text")); // NOI18N
+        checkUseExecutorPool.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "ThreadPoolToolTip")); // NOI18N
         checkUseExecutorPool.setName("useExecutorPool"); // NOI18N
         checkUseExecutorPool.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -666,7 +650,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlParallelTransferOptions.add(checkUseExecutorPool, gridBagConstraints);
 
-        lblIrodsParallelSocketTimeout.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblIrodsParallelSocketTimeout.text")); // NOI18N
+        lblIrodsParallelSocketTimeout.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblParallelSocketTimeout.text")); // NOI18N
+        lblIrodsParallelSocketTimeout.setName("lblParallelSocketTimeout"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -675,7 +660,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlParallelTransferOptions.add(lblIrodsParallelSocketTimeout, gridBagConstraints);
 
         spinnerIrodsParallelSocketTimeout.setModel(new javax.swing.SpinnerNumberModel(0, 0, 600, 10));
-        spinnerIrodsParallelSocketTimeout.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.spinnerIrodsParallelSocketTimeout.toolTipText")); // NOI18N
+        spinnerIrodsParallelSocketTimeout.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.parallelSocketTimeout.toolTipText")); // NOI18N
+        spinnerIrodsParallelSocketTimeout.setName("parallelSocketTimeout"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -684,8 +670,9 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(22, 0, 0, 0);
         pnlParallelTransferOptions.add(spinnerIrodsParallelSocketTimeout, gridBagConstraints);
 
-        lblMaximumParallelTransferThreads.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaximumParallelTransferThreads.text")); // NOI18N
-        lblMaximumParallelTransferThreads.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaximumParallelTransferThreads.toolTipText")); // NOI18N
+        lblMaximumParallelTransferThreads.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaxThreads.text")); // NOI18N
+        lblMaximumParallelTransferThreads.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblMaxThreads.toolTipText")); // NOI18N
+        lblMaximumParallelTransferThreads.setName("lblMaxThreads"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -694,7 +681,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlParallelTransferOptions.add(lblMaximumParallelTransferThreads, gridBagConstraints);
 
         spinnerIrodsMaxParallelThreads.setModel(new javax.swing.SpinnerNumberModel(4, 0, 16, 1));
-        spinnerIrodsMaxParallelThreads.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.spinnerIrodsMaxParallelThreads.toolTipText")); // NOI18N
+        spinnerIrodsMaxParallelThreads.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.maxThreads.toolTipText")); // NOI18N
+        spinnerIrodsMaxParallelThreads.setName("maxThreads"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
@@ -714,7 +702,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.pnlBuffers.toolTipText")); // NOI18N
         pnlBuffers.setLayout(new java.awt.GridBagLayout());
 
-        lblInternalInputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblInternalInputBufferSize.text")); // NOI18N
+        lblInternalInputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblInternalInputBuffer.text")); // NOI18N
+        lblInternalInputBufferSize.setName("lblInternalInputBuffer"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -722,7 +711,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.add(lblInternalInputBufferSize, gridBagConstraints);
 
         txtInternalInputBufferSize.setColumns(20);
-        txtInternalInputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.internalInputBuffer.text")); // NOI18N
         txtInternalInputBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.internalInputBuffer.toolTipText")); // NOI18N
         txtInternalInputBufferSize.setName("internalInputBuffer"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -731,7 +719,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlBuffers.add(txtInternalInputBufferSize, gridBagConstraints);
 
-        lblInternalOutputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblInternalOutputBufferSize.text")); // NOI18N
+        lblInternalOutputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblInternalOutputBuffer.text")); // NOI18N
+        lblInternalOutputBufferSize.setName("lblInternalOutputBuffer"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -739,7 +728,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.add(lblInternalOutputBufferSize, gridBagConstraints);
 
         txtInternalOutputBufferSize.setColumns(20);
-        txtInternalOutputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.internalOutputBuffer.text")); // NOI18N
         txtInternalOutputBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.internalOutputBuffer.toolTipText")); // NOI18N
         txtInternalOutputBufferSize.setName("internalOutputBuffer"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -749,6 +737,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.add(txtInternalOutputBufferSize, gridBagConstraints);
 
         lblLocalFileInputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblLocalFileInputBufferSize.text")); // NOI18N
+        lblLocalFileInputBufferSize.setName("lblLocalFileInputBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -756,7 +745,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.add(lblLocalFileInputBufferSize, gridBagConstraints);
 
         txtLocalFileInputBufferSize.setColumns(20);
-        txtLocalFileInputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.localFileInputBufferSize.text")); // NOI18N
         txtLocalFileInputBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.localFileInputBufferSize.toolTipText")); // NOI18N
         txtLocalFileInputBufferSize.setName("localFileInputBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -765,7 +753,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBuffers.add(txtLocalFileInputBufferSize, gridBagConstraints);
 
-        lblLocalFileOutputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblLocalFileOutputBufferSize.text")); // NOI18N
+        lblLocalFileOutputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.localFileOutputBufferSize.text")); // NOI18N
+        lblLocalFileOutputBufferSize.setName("localFileOutputBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -773,7 +762,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.add(lblLocalFileOutputBufferSize, gridBagConstraints);
 
         txtLocalFileOutputBufferSize.setColumns(20);
-        txtLocalFileOutputBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.localFileOutputBufferSize.text")); // NOI18N
         txtLocalFileOutputBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.localFileOutputBufferSize.toolTipText")); // NOI18N
         txtLocalFileOutputBufferSize.setName("localFileOutputBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -782,7 +770,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBuffers.add(txtLocalFileOutputBufferSize, gridBagConstraints);
 
-        lblPutBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblPutBufferSize.text")); // NOI18N
+        lblPutBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.putBufferSize.text")); // NOI18N
+        lblPutBufferSize.setName("putBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -790,7 +779,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.add(lblPutBufferSize, gridBagConstraints);
 
         txtPutBufferSize.setColumns(20);
-        txtPutBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.putBufferSize.text")); // NOI18N
         txtPutBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.putBufferSize.toolTipText")); // NOI18N
         txtPutBufferSize.setName("putBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -799,7 +787,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBuffers.add(txtPutBufferSize, gridBagConstraints);
 
-        lblGetBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblGetBufferSize.text")); // NOI18N
+        lblGetBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.getBufferSize.text")); // NOI18N
+        lblGetBufferSize.setName("getBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -807,7 +796,7 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.add(lblGetBufferSize, gridBagConstraints);
 
         txtGetBufferSize.setColumns(20);
-        txtGetBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.getBufferSize.text")); // NOI18N
+        txtGetBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "GetBufferSizeTooltip")); // NOI18N
         txtGetBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.getBufferSize.toolTipText")); // NOI18N
         txtGetBufferSize.setName("getBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -816,7 +805,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBuffers.add(txtGetBufferSize, gridBagConstraints);
 
-        lblIputToOutputCopyBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblIputToOutputCopyBufferSize.text")); // NOI18N
+        lblIputToOutputCopyBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblInputToOutputCopyBufferSize.text")); // NOI18N
+        lblIputToOutputCopyBufferSize.setName("lblInputToOutputCopyBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -824,7 +814,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.add(lblIputToOutputCopyBufferSize, gridBagConstraints);
 
         txtInputToOutputCopyBufferSize.setColumns(20);
-        txtInputToOutputCopyBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.inputToOutputCopyBufferSize.text")); // NOI18N
         txtInputToOutputCopyBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.inputToOutputCopyBufferSize.toolTipText")); // NOI18N
         txtInputToOutputCopyBufferSize.setName("inputToOutputCopyBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -833,7 +822,8 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBuffers.add(txtInputToOutputCopyBufferSize, gridBagConstraints);
 
-        lblInternalCacheBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.lblInternalCacheBufferSize.text")); // NOI18N
+        lblInternalCacheBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.InternalCacheBufferSize.text")); // NOI18N
+        lblInternalCacheBufferSize.setName("InternalCacheBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -841,7 +831,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         pnlBuffers.add(lblInternalCacheBufferSize, gridBagConstraints);
 
         txtInternalCacheBufferSize.setColumns(20);
-        txtInternalCacheBufferSize.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.internalCacheBufferSize.text")); // NOI18N
         txtInternalCacheBufferSize.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.internalCacheBufferSize.toolTipText")); // NOI18N
         txtInternalCacheBufferSize.setName("internalCacheBufferSize"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -857,10 +846,14 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         plnPipelineConfigurationDetails.add(pnlBuffers, gridBagConstraints);
 
-        btnRestoreDefaults.setMnemonic('a');
+        btnRestoreDefaults.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_435_undo.png"))); // NOI18N
+        btnRestoreDefaults.setMnemonic('r');
         btnRestoreDefaults.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnRestoreDefaultSettings.text")); // NOI18N
         btnRestoreDefaults.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnRestoreDefaultSettings.toolTipText")); // NOI18N
+        btnRestoreDefaults.setMaximumSize(null);
+        btnRestoreDefaults.setMinimumSize(new java.awt.Dimension(200, 40));
         btnRestoreDefaults.setName("btnRestoreDefaultSettings"); // NOI18N
+        btnRestoreDefaults.setPreferredSize(null);
         btnRestoreDefaults.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRestoreDefaultsActionPerformed(evt);
@@ -871,10 +864,14 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
         gridBagConstraints.gridy = 3;
         plnPipelineConfigurationDetails.add(btnRestoreDefaults, gridBagConstraints);
 
-        btnApplyPipelineConfig.setMnemonic('a');
+        btnApplyPipelineConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_444_floppy_saved.png"))); // NOI18N
+        btnApplyPipelineConfig.setMnemonic('s');
         btnApplyPipelineConfig.setText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnSaveConfiguration.text")); // NOI18N
         btnApplyPipelineConfig.setToolTipText(org.openide.util.NbBundle.getMessage(IDROPConfigurationPanel.class, "IDROPConfigurationPanel.btnSaveConfiguration.toolTipText")); // NOI18N
+        btnApplyPipelineConfig.setMaximumSize(null);
+        btnApplyPipelineConfig.setMinimumSize(new java.awt.Dimension(80, 40));
         btnApplyPipelineConfig.setName("btnSaveConfiguration"); // NOI18N
+        btnApplyPipelineConfig.setPreferredSize(null);
         btnApplyPipelineConfig.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApplyPipelineConfigActionPerformed(evt);
@@ -1750,7 +1747,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroupSynchMode;
     private javax.swing.JCheckBox checkAllowParallelTransfers;
     private javax.swing.JCheckBox checkAllowRerouting;
-    private javax.swing.JCheckBox checkConnectionRestart;
     private javax.swing.JCheckBox checkLogSuccessfulTransfer;
     private javax.swing.JCheckBox checkShowFileProgress;
     private javax.swing.JCheckBox checkUseExecutorPool;
@@ -1840,7 +1836,6 @@ public class IDROPConfigurationPanel extends javax.swing.JDialog {
                 .getIrodsParallelTransferMaxThreads());
         checkAllowParallelTransfers.setSelected(idropConfig
                 .isUseParallelTransfers());
-        checkConnectionRestart.setSelected(idropConfig.isConnectionRestart());
         checkUseNIOForParallelTransfers.setSelected(idropConfig
                 .isUseNIOForParallelTransfers());
         txtInternalInputBufferSize.setText(String.valueOf(idropConfig

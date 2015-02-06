@@ -31,6 +31,7 @@
     <Component class="javax.swing.JLabel" name="lblTitle">
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirm the move of the iRODS File to a new collection"/>
+        <Property name="name" type="java.lang.String" value="lblMessage" noResource="true"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -49,6 +50,10 @@
       <SubComponents>
         <Component class="java.awt.Label" name="lblCurrentParent">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Lucida Grande" size="13" style="1"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lblCurrentLocation" noResource="true"/>
             <Property name="text" type="java.lang.String" value="Current location:"/>
           </Properties>
           <Constraints>
@@ -59,6 +64,10 @@
         </Component>
         <Component class="java.awt.Label" name="lblNewDiretoryName">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Lucida Grande" size="13" style="1"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lblNewLocation" noResource="true"/>
             <Property name="text" type="java.lang.String" value="New location:"/>
           </Properties>
           <AccessibilityProperties>
@@ -149,6 +158,9 @@
               <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="99"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="Cancel" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Cancel the move/copy operation"/>
             <Property name="name" type="java.lang.String" value="btnCancel" noResource="true"/>
           </Properties>
@@ -162,6 +174,9 @@
               <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="111"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="MoveOrCopy" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Do the move/copy operation"/>
             <Property name="name" type="java.lang.String" value="btnOk" noResource="true"/>
           </Properties>

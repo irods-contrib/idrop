@@ -95,30 +95,33 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("iDrop - Rename local file or directory");
+        setTitle("Rename Local File Dialog");
         setMinimumSize(new java.awt.Dimension(600, 300));
         setName("renameLocalDirectoryDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 300));
 
         lblTitle.setText("Please enter a new name for the file or collection");
+        lblTitle.setName("lblWelcome"); // NOI18N
         getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
         pnlFolderData.setLayout(new java.awt.GridBagLayout());
 
+        lblCurrentParent.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblCurrentParent.setName("lblCurrentName"); // NOI18N
         lblCurrentParent.setText("Current name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(59, 116, 0, 0);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         pnlFolderData.add(lblCurrentParent, gridBagConstraints);
 
+        lblNewDiretoryName.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblNewDiretoryName.setName("lblNewName"); // NOI18N
         lblNewDiretoryName.setText("New name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 132, 60, 0);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         pnlFolderData.add(lblNewDiretoryName, gridBagConstraints);
         lblNewDiretoryName.getAccessibleContext().setAccessibleName("New directory name:");
 
@@ -130,9 +133,8 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 415;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(59, 10, 0, 147);
+        gridBagConstraints.ipadx = 200;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlFolderData.add(txtCurrentFolder, gridBagConstraints);
 
         txtNewFolder.setColumns(50);
@@ -141,9 +143,8 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 415;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 60, 147);
+        gridBagConstraints.ipadx = 200;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlFolderData.add(txtNewFolder, gridBagConstraints);
 
         getContentPane().add(pnlFolderData, java.awt.BorderLayout.CENTER);
@@ -152,6 +153,7 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(RenameLocalDirectoryDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the operation");
         btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -163,6 +165,7 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('o');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(RenameLocalDirectoryDialog.class, "Rename")); // NOI18N
         btnOK.setToolTipText("Proceed with the rename");
         btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {

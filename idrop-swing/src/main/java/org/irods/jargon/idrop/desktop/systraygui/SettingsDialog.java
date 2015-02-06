@@ -669,7 +669,6 @@ public class SettingsDialog extends javax.swing.JDialog {
         btnResetCacheBufferSize = new javax.swing.JButton();
         pnlMain = new javax.swing.JPanel();
         pnlButtons = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         bntSave = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -1077,14 +1076,6 @@ public class SettingsDialog extends javax.swing.JDialog {
 
         pnlButtons.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlButtons.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.1;
-        pnlButtons.add(jPanel1, gridBagConstraints);
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setText(org.openide.util.NbBundle.getMessage(SettingsDialog.class, "SettingsDialog.btnCancel.text")); // NOI18N
@@ -1301,7 +1292,6 @@ public class SettingsDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblGetBufferSize;
     private javax.swing.JLabel lblInternalCacheBufferSize;

@@ -136,10 +136,13 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(600, 300));
 
         lblTitle.setText("Confirm the move of the iRODS File to a new collection");
+        lblTitle.setName("lblMessage"); // NOI18N
         getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
         pnlCurrentParent.setLayout(new java.awt.GridBagLayout());
 
+        lblCurrentParent.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblCurrentParent.setName("lblCurrentLocation"); // NOI18N
         lblCurrentParent.setText("Current location:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -147,6 +150,8 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         pnlCurrentParent.add(lblCurrentParent, gridBagConstraints);
 
+        lblNewDiretoryName.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lblNewDiretoryName.setName("lblNewLocation"); // NOI18N
         lblNewDiretoryName.setText("New location:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -204,6 +209,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(MoveOrCopyiRODSDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the move/copy operation");
         btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -215,6 +221,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('o');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(MoveOrCopyiRODSDialog.class, "MoveOrCopy")); // NOI18N
         btnOK.setToolTipText("Do the move/copy operation");
         btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {

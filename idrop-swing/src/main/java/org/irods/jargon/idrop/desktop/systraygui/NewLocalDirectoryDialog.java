@@ -78,11 +78,12 @@ public class NewLocalDirectoryDialog extends javax.swing.JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Create New Folder Dialog");
+        setTitle("Create New Local Folder Dialog");
         setName("newLocalDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(300, 200));
 
         lblTitle.setText("Please enter a name for the new folder");
+        lblTitle.setName("lblWelcome"); // NOI18N
         getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
         pnlFolderData.setLayout(new java.awt.GridBagLayout());
@@ -104,6 +105,7 @@ public class NewLocalDirectoryDialog extends javax.swing.JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(NewLocalDirectoryDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the create operation");
         btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -115,6 +117,7 @@ public class NewLocalDirectoryDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('o');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(NewLocalDirectoryDialog.class, "CreateNewFolder")); // NOI18N
         btnOK.setToolTipText("Rename the file");
         btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {

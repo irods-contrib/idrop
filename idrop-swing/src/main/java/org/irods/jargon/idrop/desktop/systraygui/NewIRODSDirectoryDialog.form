@@ -40,6 +40,7 @@
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="null"/>
         </Property>
+        <Property name="name" type="java.lang.String" value="lblWelcome" noResource="true"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -93,6 +94,9 @@
               <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="99"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="Cancel" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Cancel the folder creation"/>
             <Property name="name" type="java.lang.String" value="btnCancel" noResource="true"/>
           </Properties>
@@ -106,6 +110,9 @@
               <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="111"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/Bundle.properties" key="CreateNew" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Create the new folder"/>
             <Property name="name" type="java.lang.String" value="btnOk" noResource="true"/>
           </Properties>

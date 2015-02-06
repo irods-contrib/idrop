@@ -94,6 +94,7 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
         lblTitle.setText("Please enter a name for the new folder");
         lblTitle.setMaximumSize(null);
         lblTitle.setMinimumSize(null);
+        lblTitle.setName("lblWelcome"); // NOI18N
         getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
 
         pnlFolderData.setLayout(new java.awt.GridBagLayout());
@@ -115,6 +116,7 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('c');
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(NewIRODSDirectoryDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the folder creation");
         btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +128,7 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('o');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(NewIRODSDirectoryDialog.class, "CreateNew")); // NOI18N
         btnOK.setToolTipText("Create the new folder");
         btnOK.setName("btnOk"); // NOI18N
         btnOK.addActionListener(new java.awt.event.ActionListener() {

@@ -323,6 +323,7 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
 
         tableGridInfo.setMaximumSize(null);
         tableGridInfo.setMinimumSize(null);
+        tableGridInfo.setName("grids"); // NOI18N
         tableGridInfo.setPreferredSize(null);
         jScrollPane3.setViewportView(tableGridInfo);
 
@@ -338,9 +339,10 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
 
         btnAddGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
         btnAddGridInfo.setMnemonic('+');
-        btnAddGridInfo.setText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.btnAddGridInfo.text")); // NOI18N
-        btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.btnAddGridInfo.toolTipText")); // NOI18N
+        btnAddGridInfo.setText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.addGrid.text")); // NOI18N
+        btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.addGrid.toolTipText")); // NOI18N
         btnAddGridInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAddGridInfo.setName("addGrid"); // NOI18N
         btnAddGridInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnAddGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -353,10 +355,11 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_030_pencil.png"))); // NOI18N
         btnEdit.setMnemonic('E');
-        btnEdit.setText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.btnEdit.text")); // NOI18N
-        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.btnEdit.toolTipText")); // NOI18N
+        btnEdit.setText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.editGrid.text")); // NOI18N
+        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.editGrid.toolTipText")); // NOI18N
         btnEdit.setEnabled(false);
         btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEdit.setName("editGrid"); // NOI18N
         btnEdit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -369,10 +372,11 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
 
         btnDeleteGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_016_bin.png"))); // NOI18N
         btnDeleteGridInfo.setMnemonic('-');
-        btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.btnDeleteGridInfo.text")); // NOI18N
-        btnDeleteGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.btnDeleteGridInfo.toolTipText")); // NOI18N
+        btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.deleteGrid.text")); // NOI18N
+        btnDeleteGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.deleteGrid.toolTipText")); // NOI18N
         btnDeleteGridInfo.setEnabled(false);
         btnDeleteGridInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDeleteGridInfo.setName("deleteGrid"); // NOI18N
         btnDeleteGridInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnDeleteGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

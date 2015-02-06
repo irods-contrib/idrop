@@ -57,6 +57,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
         tblBreadcrumbs = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.title")); // NOI18N
         setPreferredSize(new java.awt.Dimension(300, 200));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
