@@ -13,6 +13,7 @@
         <spring.core.version>3.0.5.RELEASE</spring.core.version>
         <commons.io.version>2.0.1</commons.io.version>
         <netbeans.version>RELEASE711</netbeans.version>
+        <java.version>1.7</java.version>
     </properties>
     <issueManagement>
         <system>gForge</system>
@@ -364,9 +365,9 @@
                 <version>2.1</version>
                 <configuration>
                     <fork>true</fork>
-                    <compilerVersion>1.6</compilerVersion>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <compilerVersion>${java.version}</compilerVersion>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <compilerArgument>-Xlint:-unchecked</compilerArgument>
                 </configuration>
             </plugin>
