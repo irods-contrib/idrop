@@ -316,6 +316,7 @@ public class TestConnectionDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.title")); // NOI18N
+        setName("testConnectionDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(580, 360));
 
         pnlTop.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 6, 1));
@@ -324,36 +325,51 @@ public class TestConnectionDialog extends javax.swing.JDialog {
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 10, 10));
         pnlMain.setPreferredSize(new java.awt.Dimension(490, 284));
 
-        lblCheckNetworkPorts.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblCheckNetworkPorts.text_1")); // NOI18N
+        lblCheckNetworkPorts.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblCheckPorts.text_1")); // NOI18N
+        lblCheckNetworkPorts.setName("lblCheckPorts"); // NOI18N
 
         lblVerifyConnection.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblVerifyConnection.text_1")); // NOI18N
+        lblVerifyConnection.setName("lblVerifyConnection"); // NOI18N
 
         lblVerifyLogin.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblVerifyLogin.text_1")); // NOI18N
+        lblVerifyLogin.setName("lblVerifyLogin"); // NOI18N
 
         lblFileUpload.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblFileUpload.text")); // NOI18N
         lblFileUpload.setToolTipText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblFileUpload.toolTipText")); // NOI18N
+        lblFileUpload.setName("lblFileUpload"); // NOI18N
 
         lblFileDownload.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblFileDownload.text")); // NOI18N
+        lblFileDownload.setName("lblFileDownload"); // NOI18N
 
         lblNetworkSpeed.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblNetworkSpeed.text")); // NOI18N
+        lblNetworkSpeed.setName("lblNetworkSpeed"); // NOI18N
 
-        lblCheckNetworkPortsIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblCheckNetworkPortsIcon.text")); // NOI18N
+        lblCheckNetworkPortsIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblCheckNetworkPorts.text")); // NOI18N
+        lblCheckNetworkPortsIcon.setName("lblCheckNetworkPorts"); // NOI18N
 
         lblUploadSpeed.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblUploadSpeed.text")); // NOI18N
+        lblUploadSpeed.setName("lblUploadSpeed"); // NOI18N
 
         lblDownloadSpeed.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblDownloadSpeed.text")); // NOI18N
+        lblDownloadSpeed.setName("lblDownloadSpeed"); // NOI18N
 
         lblSummary.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblSummary.text")); // NOI18N
+        lblSummary.setName("lblSummary"); // NOI18N
 
-        lblVerifyConnectionIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblVerifyConnectionIcon.text")); // NOI18N
+        lblVerifyConnectionIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.verifyConnectionIcon.text")); // NOI18N
+        lblVerifyConnectionIcon.setName("verifyConnectionIcon"); // NOI18N
 
-        lblVerifyLoginIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblVerifyLoginIcon.text")); // NOI18N
+        lblVerifyLoginIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.verifyLoginIcon.text")); // NOI18N
+        lblVerifyLoginIcon.setName("verifyLoginIcon"); // NOI18N
 
-        lblFileUploadIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblFileUploadIcon.text")); // NOI18N
+        lblFileUploadIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.verifyFileUploadIcon.text")); // NOI18N
+        lblFileUploadIcon.setName("verifyFileUploadIcon"); // NOI18N
 
         lblFileDownloadIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblFileDownloadIcon.text")); // NOI18N
+        lblFileDownloadIcon.setName("lblFileDownloadIcon"); // NOI18N
 
         lblNetworkSpeedIcon.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.lblNetworkSpeedIcon.text")); // NOI18N
+        lblNetworkSpeedIcon.setName("lblNetworkSpeedIcon"); // NOI18N
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
@@ -427,11 +443,16 @@ public class TestConnectionDialog extends javax.swing.JDialog {
         pnlTop.add(pnlMain, java.awt.BorderLayout.CENTER);
 
         pnlButtons.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 4, 1));
-        pnlButtons.setPreferredSize(new java.awt.Dimension(500, 40));
+        pnlButtons.setMinimumSize(new java.awt.Dimension(237, 60));
+        pnlButtons.setPreferredSize(new java.awt.Dimension(237, 60));
         pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnClose.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.btnClose.text")); // NOI18N
-        btnClose.setPreferredSize(new java.awt.Dimension(79, 33));
+        btnClose.setMaximumSize(null);
+        btnClose.setMinimumSize(new java.awt.Dimension(100, 38));
+        btnClose.setName("btnClose"); // NOI18N
+        btnClose.setPreferredSize(new java.awt.Dimension(100, 38));
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
@@ -439,8 +460,12 @@ public class TestConnectionDialog extends javax.swing.JDialog {
         });
         pnlButtons.add(btnClose);
 
+        btnSendReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_010_envelope.png"))); // NOI18N
         btnSendReport.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.btnSendReport.text")); // NOI18N
-        btnSendReport.setPreferredSize(new java.awt.Dimension(119, 33));
+        btnSendReport.setMaximumSize(null);
+        btnSendReport.setMinimumSize(new java.awt.Dimension(120, 38));
+        btnSendReport.setName("btnSendReport"); // NOI18N
+        btnSendReport.setPreferredSize(new java.awt.Dimension(150, 38));
         btnSendReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSendReportActionPerformed(evt);
