@@ -7,7 +7,7 @@ package org.irods.jargon.idrop.desktop.systraygui;
 /**
  *
  * @author Mike
- */
+ */ 
 public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
 
     /**
@@ -43,14 +43,18 @@ public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
         setName("transferStackTraceDialog"); // NOI18N
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        lblErrorMessageLabel.setText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.lblErrorMessageLabel.text")); // NOI18N
+        lblErrorMessageLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblErrorMessageLabel.setText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.lblErrorMessage.text")); // NOI18N
+        lblErrorMessageLabel.setName("lblErrorMessage"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         getContentPane().add(lblErrorMessageLabel, gridBagConstraints);
 
-        lblErrorMessage.setText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.lblErrorMessage.text")); // NOI18N
+        lblErrorMessage.setText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.errorMessage.text")); // NOI18N
+        lblErrorMessage.setToolTipText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.lblErrorMessage.toolTipText")); // NOI18N
+        lblErrorMessage.setName("errorMessage"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -59,7 +63,9 @@ public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         getContentPane().add(lblErrorMessage, gridBagConstraints);
 
-        lblStackTraceLabel.setText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.lblStackTraceLabel.text")); // NOI18N
+        lblStackTraceLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblStackTraceLabel.setText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.lblStackTrace.text")); // NOI18N
+        lblStackTraceLabel.setName("lblStackTrace"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
