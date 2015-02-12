@@ -75,9 +75,9 @@ public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
 
         scrollStackTrace.setMinimumSize(null);
 
+        textAreaStackTrace.setEditable(false);
         textAreaStackTrace.setColumns(60);
         textAreaStackTrace.setRows(10);
-        textAreaStackTrace.setEnabled(false);
         textAreaStackTrace.setName("stackTrace"); // NOI18N
         scrollStackTrace.setViewportView(textAreaStackTrace);
 
