@@ -1,0 +1,367 @@
+RobotFramework install with libraries for iDrop testing
+=======================================================
+If you already have RobotFramework setup and working with Jython/Java, skip down to SwingLibrary notes
+
+Install Java
+------------
+Download dmg from:
+http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html#javasejdk
+
+in $HOME/.bash_profile add
+
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+
+
+
+Install Jython
+--------------
+Download jar and run
+http://search.maven.org/remotecontent?filepath=org/python/jython-installer/2.7-b3/jython-installer-2.7-b3.jar
+java -jar jython-installer-2.7-b3.jar
+Add path to jython binaries to execution path
+vi ~/.bash_profile
+export JYTHON_HOME=/Users/jerry/jython2.7b3
+export PATH=$JYTHON_HOME/bin:$PATH
+
+source the new additions to environment
+source ~/.bash_profile
+
+
+Verify jython is now operational
+jython --version
+
+should return:
+Jython 2.7b3
+
+Note:  both 2.7b3 and 2.5.3 will work.
+
+
+
+
+Install Git
+-----------
+Latest version of git should be installed from:
+http://git-scm.com/download/mac
+
+Then add it to your PATH
+edit .bash_profile
+
+export PATH=/usr/local/git/bin:$PATH
+
+
+
+
+Install XCode
+-------------
+From AppStore isntall the version of XCode for your Mac OS X
+
+
+
+
+Install RobotFramework
+----------------------
+https://github.com/robotframework/robotframework/blob/master/INSTALL.rst
+
+Download zip and unpack
+download zip from:
+https://github.com/robotframework/robotframework
+unzip file
+
+or
+checkout source distribution:
+git clone https://github.com/robotframework/robotframework.git
+
+Now install
+cd <checkedOutCode>
+jython setup.py install
+
+
+once completed without error you should be able to:
+jybot --version
+
+should return
+Robot Framework 2.8.7.dev20141007 (Jython 2.7b3 on java1.8.0_25)
+
+
+
+
+SwingLibrary
+------------
+https://github.com/robotframework/SwingLibrary
+
+download the swinglibrary-1.9.1.jar from:
+https://github.com/robotframework/SwingLibrary/releases/tag/1.9.1
+
+Place it in a location on your CLASSPATH with other jars.  I put mine in a directory called "$HOME/trunk/Jars"
+
+
+
+
+SwingExplorer
+-------------
+https://github.com/robotframework/SwingLibrary/wiki/Getting-Started
+
+Download the latest .jar and place in the same directory you put the swinglibrary.jar
+https://code.google.com/p/robotframework-swinglibrary/downloads/list
+
+
+
+
+Now add jars to your classpath
+------------------------------
+So I did not have to keep updating my CLASSPATH with new versions I did a softlink of versioned file to a generic name
+cd $HOME/trunk/Jars
+ln -sf $HOME/Downloads/RobotFramework_SwingLibrary/v1.9.1/SWExplorer_v1.6/swag.jar $HOME/trunk/Jars/swag.jar
+ln -sf $HOME/Downloads/RobotFramework_SwingLibrary/v1.9.1/SWExplorer_v1.6/swexpl.jar $HOME/trunk/Jars/swexpl.jar
+ln -sf $HOME/Downloads/RobotFramework_SwingLibrary/v1.9.1/swinglibrary-1.9.1.jar $HOME/trunk/Jars/swinglibrary.jar
+
+edit $HOME/.bash_profile
+export CLASSPATH='$HOME/trunk/Jars/swinglibrary.jar:/Applications/iDrop Transfer Manager.app/Contents/java/app/idrop-swing-2.0.1-RC1.jar:dependency/*'
+
+set | grep CLASSPATH
+CLASSPATH='$HOME/trunk/Jars/swinglibrary.jar:/Applications/iDrop Transfer Manager.app/Contents/java/app/idrop-swing-2.0.1-RC1.jar:dependency/*'
+
+
+
+
+To launch SwingExplorer and iDrop
+---------------------------------
+
+export CLASSPATH=$HOME/Downloads/RobotFramework_SwingLibrary/v1.9.1/swinglibrary-1.9.1.jar
+
+cd /Applications/iDrop Transfer Manager.app/Contents/java/app
+
+java -cp $HOME/Downloads/RobotFramework_SwingLibrary/v1.9.1/SWExplorer_v1.6/swexpl.jar:$HOME/Downloads/RobotFramework_SwingLibrary/v1.9.1/SWExplorer_v1.6/swag.jar:idrop-swing-2.0.1-RC1.jar:dependency/* org.swingexplorer.Launcher org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop
+
+I use a bash script:
+--------------------
+cat $HOME/bin/SwingExplorer_startup.sh
+#!/bin/bash
+
+
+#  Define variables
+SwingLibraryJar=$HOME/trunk/Jars/swinglibrary.jar
+SwingExplorerJar=$HOME/trunk/Jars/swexpl.jar
+SwagJar=$HOME/trunk/Jars/swag.jar
+iDropJar=idrop-swing-2.0.1-RC1.jar
+iDropJarDeps=dependency/*
+JarMissing=NO
+
+
+#  Verify that jar files are available
+if [ ! -r "$SwingLibraryJar" ]; then
+	echo "* * *   Missing SwingLibraryJar file [$SwingLibraryJar]"
+	JarMissing=YES
+fi
+if [ ! -r "$SwingExplorerJar" ]; then
+	echo "* * *   Missing SwingExplorerJar file [$SwingExplorerJar]"
+	JarMissing=YES
+fi
+if [ ! -r "$SwagJar" ]; then
+	echo "* * *   Missing SwagJar file [$SwagJar]"
+	JarMissing=YES
+fi
+if [ ! -r "/Applications/iDrop Transfer Manager.app/Contents/java/app/$iDropJar" ]; then
+	echo "* * *   Missing iDropJar file [/Applications/iDrop Transfer Manager.app/Contents/java/app/$iDropJar]"
+	JarMissing=YES
+fi
+if [ "$JarMissing" == "YES" ]; then
+	exit
+fi
+
+
+cd /Applications/iDrop\ Transfer\ Manager.app/Contents/java/app
+java -cp $SwingExplorerJar:$SwagJar:$iDropJar:$iDropJarDeps org.swingexplorer.Launcher org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop
+
+
+
+
+To Run iDrop testsuites
+-----------------------
+Currently stored in Local iPlant git repo with restricted access (DataStore)
+
+cd $HOME/trunk
+git clone ssh://stana.iplantc.org:1657/repos/DataStore.git
+
+export CLASSPATH=$HOME/Downloads/RobotFramework_SwingLibrary/v1.9.1/swinglibrary-1.9.1.jar:/Applications/iDrop\ Transfer\ Manager.app/Contents/java/app/idrop-swing-2.0.1-RC1.jar:dependency/*
+or
+export CLASSPATH="$HOME/Downloads/RobotFramework_SwingLibrary/v1.9.1/swinglibrary-1.9.1.jar:/Applications/iDrop Transfer Manager.app/Contents/java/app/idrop-swing-2.0.1-RC1.jar:dependency/*"
+
+cd $HOME/trunk/idrop/tests
+jybot -A ../JunkDataVars.txt GUI/iDrop/Initial_iDrop_Tests.robot
+
+or to run all suites for iDrop
+
+jybot -A ../JunkDataVars.txt -A iDrop_Tests.txt
+
+
+Here is the bash script I use:
+cat $HOME/bin/iDrop_regression.sh
+#!/bin/bash
+
+
+#  Define variables
+SwingLibraryJar=$HOME/trunk/Jars/swinglibrary.jar
+#iDropJar=/Applications/iDrop\ Transfer\ Manager.app/Contents/java/app/idrop-swing-2.0.1-RC1.jar
+iDropJar='/Applications/iDrop Transfer Manager.app/Contents/java/app/idrop-swing-2.0.1-RC1.jar'
+iDropJarDeps=dependency/*
+JarMissing=NO
+TxtFiles=NO
+OverRideVars=$HOME/trunk/iDropVars.txt
+RegTestList=$HOME/trunk/idrop/tests/iDrop_Tests.txt
+
+
+#echo "SwingLibraryJar is [$SwingLibraryJar]"
+#echo "iDropJar is [$iDropJar]"
+
+
+#  Verify that jar files are available
+if [ ! -r "$SwingLibraryJar" ]; then
+	echo "* * *   Missing SwingLibraryJar file [$SwingLibraryJar]"
+	JarMissing=YES
+fi
+if [ ! -r "$iDropJar" ]; then
+	echo "* * *   Missing iDropJar file [$iDropJar]"
+	JarMissing=YES
+fi
+if [ "$JarMissing" == "YES" ]; then
+	exit
+fi
+
+
+#  Define ClassPath
+export CLASSPATH="$SwingLibraryJar:$iDropJar:$iDropJarDeps"
+#echo "CLASSPATH is [$CLASSPATH]"
+
+
+# Verify that output and downloads directories exist, create if they don't
+if [ ! -d $HOME/junk/RegressionTests_iDrop ]; then
+	mkdir -p $HOME/junk/RegressionTests_iDrop
+else
+	rm -rf $HOME/junk/RegressionTests_iDrop/*
+fi
+
+
+##  Checkout the code for a specific branch based on environment running in
+cd $HOME/trunk/idrop/tests/RFTests
+git checkout master
+git pull
+
+
+#  Verify that regression list is available along with Vars file
+if [ ! -r "$OverRideVars" ]; then
+	echo "* * *   Missing Vars file [$OverRideVars]"
+	TxtFiles=YES
+fi
+if [ ! -r "$RegTestList" ]; then
+	echo "* * *   Missing Regression list file [$RegTestList]"
+	TxtFiles=YES
+fi
+if [ "$TxtFiles" == "YES" ]; then
+	exit
+fi
+
+
+#  Run Regression
+cd $HOME/trunk/idrop/tests
+jybot -A $HOME/trunk/iDropVars.txt -e RegSkip -A iDrop_Tests.txt
+
+
+
+
+Contents of iDropVars.txt
+-------------------------
+cat ~/trunk/iDropVars.txt 
+#  Arguments file for testing against iDrop Swing Application
+#  Output directory
+-d /home/localuser/junk/RegressionTests_iDrop/
+#  specify specific tags to NOT be run
+-e skipped
+#-e dice-*
+#-e qa-*
+#-e gui
+# Define non-critical test cases
+--noncritical dice-*
+#--noncritical qa*
+#--noncritical skipped
+# Dry run mode
+#--runmode DryRun
+#  Redefine default variables
+--variable UserName:<EnterNameHere>
+--variable Password:<EnterPasswordHere>
+--variable PassPhrasePassword:<EnterPassPhraseHere>
+--variable iRODSHost:<EnterHostNameHere>
+#  Change the title of the test results
+--name iDrop
+####
+
+
+
+
+To run Demo in SwingExplorer
+============================
+https://github.com/robotframework/SwingLibrary/wiki/Getting-Started
+Download:
+swinglibrary-1.9.1.jar
+swag.jar
+swexpl.jar
+all to same directory and then run the following command
+
+java -cp swexpl.jar:swag.jar:swinglibrary-1.9.1.jar org.swingexplorer.Launcher org.robotframework.swing.testapp.examplesut.TodoListApplication
+
+This will run SwingExplorer and the example ToDo List application
+
+You can then understand the example.txt testsuite a little better
+
+
+
+
+To Install RIDE (RobotFramework's IDE)
+======================================
+Note:
+RIDE is optional and not required to run RobotFramework tests.  It is a handy IDE for editing tests and maintaining file/syntax integrity.
+
+Install wxPython
+----------------
+You must install wxPython v2.8.12.1  No other version currently works with RobotFramework
+If you can't find a copy, let me know and I can send you one for Mac OS X.
+http://www.wxpython.org/download.php
+Download the Mac binary for Unicode
+Double Click the downloaded .dmg file
+Take a default install
+For specific versions of the OS, see instructions below
+
+
+On Mac OS X 10.8 and newer
+To install 2.8.8.12-1 on Mt Lion try:
+Note:  This seems to work if you are receiving ""wxPython2.8-osx-unicode-2.8.12.1-universal-py2.7.pkg” is damaged and can’t be opened. You should eject the disk image."
+ Workaround; go to Terminal and use the installer command line tool directly:
+
+sudo installer -pkg /Volumes/wxPython2.8-osx-unicode-2.8.12.1-universal-py2.7/wxPython2.8-osx-unicode-2.8.12.1-universal-py2.7.pkg -target /
+installer: Package name is wxPython2.9-osx-cocoa-py2.7
+installer: Upgrading at base path /
+2012-08-12 07:54:13.385 installer[68950:5b03] Package /Volumes/wxPython2.8-osx-unicode-2.8.12.1-universal-py2.7/wxPython2.8-osx-unicode-2.8.12.1-universal-py2.7.pkg uses a deprecated pre-10.2 format (or uses a newer format but is invalid).
+installer: The upgrade was successful.
+
+
+
+
+Installing RobotFramework IDE
+-----------------------------
+On Mac OS X you will have to for python to 32bit mode
+in your .bash_profile add:
+export VERSIONER_PYTHON_PREFER_32_BIT=yes
+
+
+sudo pip install -U robotframework-ride
+or
+sudo easy_install robotframework-ride
+
+
+
+
+Jenkins/RobotFramework integration
+==================================
+Can be found here:
+https://wiki.jenkins-ci.org/display/JENKINS/Robot+Framework+Plugin

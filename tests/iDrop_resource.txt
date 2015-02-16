@@ -1,0 +1,56 @@
+*** Settings ***
+Library           SwingLibrary
+
+*** Variables ***
+${iRODSHost}      irodshost.domain.name
+${Password}       ${EMPTY}
+${PassPhrasePassword}    ${EMPTY}
+${UserName}       iRODsUserName
+${Zone}           testzone
+
+*** Keywords ***
+Start iDrop Application
+    Comment    Set Environment Variable    CLASSPATH    "$CLASSPATH:/Applications/iDrop Transfer Manager.app/Contents/java/app/idrop-swing-2.0.1-RC1.jar:dependency/*"
+    Comment    Set Environment Variable    CLASSPATH    %{CLASSPATH}:/Applications/iDrop\ Transfer\ Manager.app/Contents/java/app/idrop-swing-2.0.1-RC1.jar:dependency/*
+    ${CurClassPath} =    Run    set \| grep CLASSPATH
+    Log    ${CurClassPath}
+    Launch Application    org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop
+
+Verify Tooltip Text
+    [Arguments]    ${ObjIdentifier}    ${VerifyToolTipText}
+    ${ToolTipText} =    Get Tooltip Text    ${ObjIdentifier}
+    Should Be Equal As Strings    ${ToolTipText}    ${VerifyToolTipText}
+
+Open iDrop Main Window
+    Start Application In Separate Thread    org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop
+    Sleep    5s
+    List Windows
+    Comment    The Pass Phrase dialog window should already be open
+    Select Dialog    passPhraseDialog
+    Insert Into Text Field    passPhrase    ${Password}
+    Push Button    btnOk
+    Select Dialog    gridMemoryDialog
+    Comment    The Grid window should already be open
+    ${TableRowCount} =    Get Table Row Count    gridTable
+    Log    ${TableRowCount}
+    ${HostRow} =    Find Row by Hostname    ${iRODSHost}    ${UserName}
+    Log    ${HostRow}
+    Select Table Cell    gridTable    ${HostRow}    Host
+    Push Button    btnLogIn
+    Comment    Sleep    10s
+    Select Window    idropMainGui
+
+Find Row by Hostname
+    [Arguments]    ${iRODSHost}    ${UserName}
+    [Documentation]    Find the first row containing the iRODS Host and UserName we want to select and return the row number.
+    : FOR    ${Count}    IN RANGE    ${TableRowCount}
+    \    ${HostValue} =    Get Table Cell Value    gridTable    ${Count}    Host
+    \    ${UserNameValue} =    Get Table Cell Value    gridTable    ${Count}    User Name
+    \    Log    ${HostValue}
+    \    Log    ${UserNameValue}
+    \    Log    ${TableRowCount}
+    \    Log    ${iRODSHost}
+    \    Run Keyword If    "${HostValue}" == "${iRODSHost}" and "${UserNameValue}" == "${Username}"    Set Test Variable    \${HostRow}    ${Count}
+    \    Run Keyword If    "${HostValue}" == "${iRODSHost}" and "${UserNameValue}" == "${Username}"    Log    ${HostRow}
+    \    Run Keyword If    "${HostValue}" == "${iRODSHost}" and "${UserNameValue}" == "${Username}"    Exit For Loop
+    [Return]    ${HostRow}
