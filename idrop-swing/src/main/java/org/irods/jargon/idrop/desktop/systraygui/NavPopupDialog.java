@@ -58,18 +58,20 @@ public class NavPopupDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.title")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(300, 200));
+        setPreferredSize(new java.awt.Dimension(400, 300));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         toolbarBreadcrumb.setRollover(true);
 
         btnGoHomeTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
+        btnGoHomeTargetTree.setMnemonic('H');
         btnGoHomeTargetTree.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnHome.text")); // NOI18N
         btnGoHomeTargetTree.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.btnHome.toolTipText")); // NOI18N
         btnGoHomeTargetTree.setBorder(null);
         btnGoHomeTargetTree.setFocusable(false);
         btnGoHomeTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGoHomeTargetTree.setName("btnHome"); // NOI18N
+        btnGoHomeTargetTree.setPreferredSize(new java.awt.Dimension(90, 37));
         btnGoHomeTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnGoHomeTargetTree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,6 +89,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
         btnGoRootTargetTree.setFocusable(false);
         btnGoRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGoRootTargetTree.setName("btnRoot"); // NOI18N
+        btnGoRootTargetTree.setPreferredSize(new java.awt.Dimension(90, 37));
         btnGoRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnGoRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,6 +126,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
         btnSetCustomRootTargetTree.setFocusable(false);
         btnSetCustomRootTargetTree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSetCustomRootTargetTree.setName("btnSetDirectPath"); // NOI18N
+        btnSetCustomRootTargetTree.setPreferredSize(new java.awt.Dimension(90, 37));
         btnSetCustomRootTargetTree.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnSetCustomRootTargetTree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

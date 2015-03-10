@@ -65,7 +65,6 @@ public class UploadDialog extends javax.swing.JDialog implements
         btnDeleteUploadFile.setEnabled(false);
         tblFilesToUpload.getSelectionModel().addListSelectionListener(this);
         initUploadTarget();
-        // initSourcesFiles();
         setUploadButtonState();
 
         DefaultTableModel model = (DefaultTableModel) tblFilesToUpload
@@ -90,8 +89,8 @@ public class UploadDialog extends javax.swing.JDialog implements
         this.localFileTree = localFileTree;
         btnDeleteUploadFile.setEnabled(false);
         tblFilesToUpload.getSelectionModel().addListSelectionListener(this);
+        tblFilesToUpload.setName("tblFilesToUpload");
         initUploadTarget();
-        // initSourcesFiles();
         setUploadButtonState();
     }
 
@@ -144,29 +143,6 @@ public class UploadDialog extends javax.swing.JDialog implements
         lblUploadTarget.setToolTipText(target);
     }
 
-    // seems to be impossible to preselect files in filechooser component
-    // don't do this for now
-    // private void initSourcesFiles() {
-    //
-    // //check for selected files and/or folders to upload
-    // TreeSelectionModel selectionModel = localFileTree.getSelectionModel();
-    // LocalFileSystemModel fileSystemModel = (LocalFileSystemModel)
-    // localFileTree.getModel();
-    //
-    // TreePath[] selectionPaths = selectionModel.getSelectionPaths();
-    //
-    // // now select these paths in the file chooser
-    // if ( selectionPaths != null) {
-    // LocalFileNode sourceNode;
-    // for (TreePath selectionPath : selectionPaths) {
-    // sourceNode = (LocalFileNode) selectionPath.getLastPathComponent();
-    // File file = (File) sourceNode.getUserObject();
-    // //txtareaUploadSourceList.append(file.getAbsolutePath() + "\n");
-    // localChooser.setSelectedFile(file);
-    // }
-    // }
-    //
-    // }
     private void setUploadButtonState() {
         btnUploadNow
                 .setEnabled(((uploadTarget.length() > 0) && (tblFilesToUpload
@@ -246,25 +222,6 @@ public class UploadDialog extends javax.swing.JDialog implements
         }
     }
 
-    // private void
-    // btnBrowseUploadSourceActionPerformed(java.awt.event.ActionEvent evt) {
-    //
-    // JFileChooser localFileChooser = new JFileChooser();
-    // localFileChooser.setMultiSelectionEnabled(true);
-    // localFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-    // localFileChooser.setDialogTitle("Select Files and Collections to Upload");
-    // localFileChooser.setLocation(
-    // (int)this.getLocation().getX(), (int)this.getLocation().getY());
-    // int returnVal = localFileChooser.showOpenDialog(this);
-    //
-    // if (returnVal == JFileChooser.APPROVE_OPTION) {
-    // File uploadFiles[] = localFileChooser.getSelectedFiles();
-    // for (File uploadFile: uploadFiles) {
-    // txtareaUploadSourceList.append(uploadFile.getAbsolutePath() + "\n");
-    // }
-    // setUploadButtonState();
-    // }
-    // }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -310,7 +267,8 @@ public class UploadDialog extends javax.swing.JDialog implements
         pnlTargetLocations.setLayout(new java.awt.GridBagLayout());
 
         lblUploadTargetLocation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblUploadTargetLocation.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.lblUploadTargetLocation.text")); // NOI18N
+        lblUploadTargetLocation.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.lblUploadTargetLabel.text")); // NOI18N
+        lblUploadTargetLocation.setName("lblUploadTargetLabel"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
@@ -528,25 +486,7 @@ public class UploadDialog extends javax.swing.JDialog implements
     private void btnUseLastUploadActionPerformed(
             final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUseLastUploadActionPerformed
         String target = "";
-        // see if can find some get history in the transfer queue
-		/*
-         * FIXME: conveyor try { List<LocalIRODSTransfer> transfers =
-         * idropGUI.getiDropCore() .getTransferManager().getRecentQueue();
-         * 
-         * // assuming most recent first for (LocalIRODSTransfer transfer :
-         * transfers) { // must check to match type, user, host, zone, & port if
-         * ((transfer.getTransferType() == TransferType.PUT) &&
-         * (transfer.getTransferUserName() .equals(idropGUI.getiDropCore()
-         * .irodsAccount().getUserName())) &&
-         * (transfer.getTransferZone().equals(idropGUI
-         * .getiDropCore().irodsAccount().getZone())) &&
-         * (transfer.getTransferPort() == idropGUI
-         * .getiDropCore().irodsAccount().getPort()) &&
-         * (transfer.getTransferHost().equals(idropGUI
-         * .getiDropCore().irodsAccount().getHost()))) { target =
-         * transfer.getIrodsAbsolutePath(); break; } } } catch (JargonException
-         * ex) { Exceptions.printStackTrace(ex); }
-         */
+       
         if (target != null) {
             lblUploadTarget.setText(target);
             uploadTarget = target;
