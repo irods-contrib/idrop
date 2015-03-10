@@ -18,93 +18,92 @@ import org.slf4j.LoggerFactory;
  */
 public class LookAndFeelManager {
 
-	private final IDROPCore idropCore;
-	private static final org.slf4j.Logger log = LoggerFactory
-			.getLogger(LookAndFeelManager.class);
+    private final IDROPCore idropCore;
+    private static final org.slf4j.Logger log = LoggerFactory
+            .getLogger(LookAndFeelManager.class);
 
-	public LookAndFeelManager(final IDROPCore idropCore) {
-		if (idropCore == null) {
-			throw new IllegalArgumentException("null idropCore");
-		}
-		if (idropCore.getIdropConfig() == null) {
-			throw new IllegalArgumentException(
-					"idropConfig is null in idropCore");
-		}
-		if (idropCore.getIdropConfigurationService() == null) {
-			throw new IllegalArgumentException(
-					"idropConfigurationService in idropCore is null");
-		}
-		this.idropCore = idropCore;
-	}
+    public LookAndFeelManager(final IDROPCore idropCore) {
+        if (idropCore == null) {
+            throw new IllegalArgumentException("null idropCore");
+        }
+        if (idropCore.getIdropConfig() == null) {
+            throw new IllegalArgumentException(
+                    "idropConfig is null in idropCore");
+        }
+        if (idropCore.getIdropConfigurationService() == null) {
+            throw new IllegalArgumentException(
+                    "idropConfigurationService in idropCore is null");
+        }
+        this.idropCore = idropCore;
+    }
 
-	public void setLookAndFeel(String lookAndFeelChoice) {
-		String lookAndFeel = "";
-		if (lookAndFeelChoice == null) {
-			lookAndFeelChoice = "System";
-		}
+    public void setLookAndFeel(String lookAndFeelChoice) {
+        String lookAndFeel = "";
+        if (lookAndFeelChoice == null) {
+            lookAndFeelChoice = "System";
+        }
 
-		log.info("setLookAndFeel to:{}", lookAndFeelChoice);
+        log.info("setLookAndFeel to:{}", lookAndFeelChoice);
 
-		if (lookAndFeelChoice != null) {
-			try {
-				idropCore.getIdropConfigurationService().updateConfig(
-						IdropConfigurationService.LOOK_AND_FEEL,
-						lookAndFeelChoice);
-			} catch (IdropException ex) {
-				log.error("unable to update configration for look and feel");
-				throw new IdropRuntimeException(
-						"unable to set prop for look and feel", ex);
-			}
-			if (lookAndFeelChoice.equals("Metal")) {
-				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+        if (lookAndFeelChoice != null) {
+            try {
+                idropCore.getIdropConfigurationService().updateConfig(
+                        IdropConfigurationService.LOOK_AND_FEEL,
+                        lookAndFeelChoice);
+            } catch (IdropException ex) {
+                log.error("unable to update configration for look and feel");
+                throw new IdropRuntimeException(
+                        "unable to set prop for look and feel", ex);
+            }
+            if (lookAndFeelChoice.equals("Metal")) {
+                lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
 
 				// an alternative way to set the Metal L&F is to replace the
-				// previous line with:
-				// lookAndFeel = "javax.swing.plaf.metal.MetalLookAndFeel";
+                // previous line with:
+                // lookAndFeel = "javax.swing.plaf.metal.MetalLookAndFeel";
+            } else if (lookAndFeelChoice.equals("System")) {
+                lookAndFeel = UIManager.getSystemLookAndFeelClassName();
 
-			} else if (lookAndFeelChoice.equals("System")) {
-				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+            } else if (lookAndFeelChoice.equals("Motif")) {
+                lookAndFeel = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
 
-			} else if (lookAndFeelChoice.equals("Motif")) {
-				lookAndFeel = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+            } else if (lookAndFeelChoice.equals("GTK")) {
+                lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
 
-			} else if (lookAndFeelChoice.equals("GTK")) {
-				lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+            } else if (lookAndFeelChoice.equals("Nimbus")) {
 
-			} else if (lookAndFeelChoice.equals("Nimbus")) {
+                for (LookAndFeelInfo info : UIManager
+                        .getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        lookAndFeel = info.getClassName();
+                        break;
+                    }
+                }
+            } else {
+                lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+            }
 
-				for (LookAndFeelInfo info : UIManager
-						.getInstalledLookAndFeels()) {
-					if ("Nimbus".equals(info.getName())) {
-						lookAndFeel = info.getClassName();
-						break;
-					}
-				}
-			} else {
-				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-			}
+            if (lookAndFeel.equals("")) {
+                lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
 
-			if (lookAndFeel.equals("")) {
-				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+            }
 
-			}
+            final String finalLookAndFeel = lookAndFeel;
 
-			final String finalLookAndFeel = lookAndFeel;
+            java.awt.EventQueue.invokeLater(new Runnable() {
 
-			java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
 
-				@Override
-				public void run() {
+                    try {
+                        UIManager.setLookAndFeel(finalLookAndFeel);
+                    } catch (Exception e) {
+                        log.warn("unable to set look and feel to :{}",
+                                finalLookAndFeel);
+                    }
+                }
+            });
 
-					try {
-						UIManager.setLookAndFeel(finalLookAndFeel);
-					} catch (Exception e) {
-						log.warn("unable to set look and feel to :{}",
-								finalLookAndFeel);
-					}
-				}
-			});
-
-		}
-	}
+        }
+    }
 }

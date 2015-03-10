@@ -41,7 +41,6 @@ public class ItemListPagingTableModel extends AbstractTableModel {
         this.showSuccess = showSuccess;
         pageOffset = 0;
 
-
         // get list of initial items
         items = qms.getNextTransferItems(transferId, 0, pageSize, showSuccess, showSkipped);
     }
@@ -74,7 +73,6 @@ public class ItemListPagingTableModel extends AbstractTableModel {
         TransferItem item = items.get(rowIndex);
 
         // translate indexes to object values
-
         // 0 = source path
         if (columnIndex == 0) {
             return item.getSourceFileAbsolutePath();
@@ -93,7 +91,6 @@ public class ItemListPagingTableModel extends AbstractTableModel {
         if (columnIndex == 3) {
             return item.isError();
         }
-
 
         if (columnIndex == 4) {
             return item.isSkipped();
@@ -182,11 +179,11 @@ public class ItemListPagingTableModel extends AbstractTableModel {
     }
 
     public TransferItem getTransferItem(int row) {
-        
+
         if (row == -1 || row >= this.items.size()) {
             return null;
         }
-        
+
         return this.items.get(row);
     }
 }

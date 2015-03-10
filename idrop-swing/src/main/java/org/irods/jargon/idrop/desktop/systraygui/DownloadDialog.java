@@ -161,7 +161,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
                     } catch (ConveyorExecutionException ex) {
                         java.util.logging.Logger.getLogger(
                                 LocalFileTree.class.getName()).log(
-                                java.util.logging.Level.SEVERE, null, ex);
+                                        java.util.logging.Level.SEVERE, null, ex);
                         idropGUI.showIdropException(ex);
                     }
 
@@ -174,7 +174,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
     private void setDownloadButtonState() {
         btnDownloadNow
                 .setEnabled(((lblDownloadTarget.getText().length() > 0) && (tblFilesToDownload
-                .getModel().getRowCount() > 0)));
+                        .getModel().getRowCount() > 0)));
     }
 
     private void setFilesToDownload(final List<IRODSFile> ifiles) {

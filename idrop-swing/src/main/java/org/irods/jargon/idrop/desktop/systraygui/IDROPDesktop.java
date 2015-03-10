@@ -77,7 +77,6 @@ public class IDROPDesktop {
          * additinal steps added later to do migrations of data after the
          * database has started. This will happen later....
          */
-
         doAnyPreDatabaseLoadMigrationProcessing(derivedConfigHomeDirectory);
 
         /*
@@ -85,7 +84,6 @@ public class IDROPDesktop {
          * configuration in the deployed package. Merge the pre-configured data
          * with any existing database info, preferring what is in the database
          */
-
         idropSplashWindow.setStatus("Looking for configuration information...",
                 ++count);
 
@@ -179,7 +177,6 @@ public class IDROPDesktop {
             throw new IdropRuntimeException(ex);
         }
 
-
         if (idropCore.irodsAccount() == null) {
             log.warn("no login account, exiting");
             System.exit(0);
@@ -198,7 +195,6 @@ public class IDROPDesktop {
 
         idropSplashWindow.toFront();
         sleepABit();
-
 
         log.info("logged in, now checking for first run...");
         sleepABit();
@@ -269,7 +265,7 @@ public class IDROPDesktop {
             validated = initialPassPhraseDialog.isValidated();
             log.info("pass phrase dialog processed...validated? {}", validated);
         }
-        
+
         if (!validated) {
             log.info("not validated...exit");
             System.exit(0);
@@ -283,7 +279,7 @@ public class IDROPDesktop {
         gridMemoryDialog.toFront();
         gridMemoryDialog.setVisible(true);
         return validated;
-        
+
     }
 
     private boolean processTearOffMode() throws IdropException {

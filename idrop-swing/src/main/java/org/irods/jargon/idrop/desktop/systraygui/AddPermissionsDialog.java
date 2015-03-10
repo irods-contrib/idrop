@@ -25,99 +25,97 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.PermissionsTableM
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author lisa
  */
 public class AddPermissionsDialog extends javax.swing.JDialog implements
-		ActionListener {
+        ActionListener {
 
-	/**
+    /**
      *
      */
-	private static final long serialVersionUID = 764249725877953976L;
-	private final IRODSFileSystem irodsFileSystem;
-	private final IRODSAccount irodsAccount;
-	private final boolean isCollection;
-	private final String selectedObjectFullPath;
-	private final PermissionsTableModel tableModel;
-	private UserFilePermission permissionToAdd = null;
-	public static org.slf4j.Logger log = LoggerFactory
-			.getLogger(EditMetaDataDialog.class);
+    private static final long serialVersionUID = 764249725877953976L;
+    private final IRODSFileSystem irodsFileSystem;
+    private final IRODSAccount irodsAccount;
+    private final boolean isCollection;
+    private final String selectedObjectFullPath;
+    private final PermissionsTableModel tableModel;
+    private UserFilePermission permissionToAdd = null;
+    public static org.slf4j.Logger log = LoggerFactory
+            .getLogger(EditMetaDataDialog.class);
 
-	/**
-	 * Creates new form AddPermissionsDialog
-	 */
-	public AddPermissionsDialog(final javax.swing.JDialog parent,
-			final boolean modal, final String selectedObjectFullPath,
-			final boolean isCollection, final IRODSFileSystem irodsFileSystem,
-			final IRODSAccount irodsAccount, final PermissionsTableModel model) {
+    /**
+     * Creates new form AddPermissionsDialog
+     */
+    public AddPermissionsDialog(final javax.swing.JDialog parent,
+            final boolean modal, final String selectedObjectFullPath,
+            final boolean isCollection, final IRODSFileSystem irodsFileSystem,
+            final IRODSAccount irodsAccount, final PermissionsTableModel model) {
 
-		super(parent, modal);
-		initComponents();
+        super(parent, modal);
+        initComponents();
 
-		this.irodsFileSystem = irodsFileSystem;
-		this.irodsAccount = irodsAccount;
-		this.isCollection = isCollection;
-		this.selectedObjectFullPath = selectedObjectFullPath;
-		tableModel = model;
+        this.irodsFileSystem = irodsFileSystem;
+        this.irodsAccount = irodsAccount;
+        this.isCollection = isCollection;
+        this.selectedObjectFullPath = selectedObjectFullPath;
+        tableModel = model;
 
-		cbPermissionsPermission.addItem("READ");
-		cbPermissionsPermission.addItem("WRITE");
-		cbPermissionsPermission.addItem("OWN");
+        cbPermissionsPermission.addItem("READ");
+        cbPermissionsPermission.addItem("WRITE");
+        cbPermissionsPermission.addItem("OWN");
 
-		List<User> users = null;
-		try {
-			UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
-					.getUserAO(irodsAccount);
-			users = userAO.findAll();
-			Collections.sort(users, new Comparator<User>() {
-				@Override
-				public int compare(final User object1, final User object2) {
-					return object1.getName().compareTo(object2.getName());
-				}
-			});
+        List<User> users = null;
+        try {
+            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
+                    .getUserAO(irodsAccount);
+            users = userAO.findAll();
+            Collections.sort(users, new Comparator<User>() {
+                @Override
+                public int compare(final User object1, final User object2) {
+                    return object1.getName().compareTo(object2.getName());
+                }
+            });
 
-			for (User user : users) {
-				cbPermissionsUserName.addItem(user.getNameWithZone());
-			}
-		} catch (JargonException ex) {
-			log.error("cannot retrieve irods users list", ex);
-			JOptionPane.showMessageDialog(this,
-					"Cannot retrieve list of iRODS users", "Add Permissions",
-					JOptionPane.PLAIN_MESSAGE);
-		} finally {
-			irodsFileSystem.closeAndEatExceptions();
-		}
+            for (User user : users) {
+                cbPermissionsUserName.addItem(user.getNameWithZone());
+            }
+        } catch (JargonException ex) {
+            log.error("cannot retrieve irods users list", ex);
+            JOptionPane.showMessageDialog(this,
+                    "Cannot retrieve list of iRODS users", "Add Permissions",
+                    JOptionPane.PLAIN_MESSAGE);
+        } finally {
+            irodsFileSystem.closeAndEatExceptions();
+        }
 
-		cbPermissionsPermission.addActionListener(this);
-		cbPermissionsUserName.addActionListener(this);
+        cbPermissionsPermission.addActionListener(this);
+        cbPermissionsUserName.addActionListener(this);
 
-		updateAddButtonStatus();
-	}
+        updateAddButtonStatus();
+    }
 
-	private void updateAddButtonStatus() {
-		btnPermissionsAdd
-				.setEnabled((cbPermissionsUserName.getSelectedIndex() >= 0)
-						&& (cbPermissionsPermission.getSelectedIndex() >= 0));
-	}
+    private void updateAddButtonStatus() {
+        btnPermissionsAdd
+                .setEnabled((cbPermissionsUserName.getSelectedIndex() >= 0)
+                        && (cbPermissionsPermission.getSelectedIndex() >= 0));
+    }
 
-	// public UserFilePermission getPermissionToAdd() {
-	// return permissionToAdd;
-	// }
+    // public UserFilePermission getPermissionToAdd() {
+    // return permissionToAdd;
+    // }
+    @Override
+    public void actionPerformed(final ActionEvent ae) {
+        updateAddButtonStatus();
+    }
 
-	@Override
-	public void actionPerformed(final ActionEvent ae) {
-		updateAddButtonStatus();
-	}
-
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-
-	// <editor-fold defaultstate="collapsed"
-	// <editor-fold defaultstate="collapsed"
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed"
+    // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -221,96 +219,96 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	private void btnPermissionsAddActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsAddActionPerformed
+    private void btnPermissionsAddActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsAddActionPerformed
 
-		String selectedPermission = (String) cbPermissionsPermission
-				.getSelectedItem();
-		String tmpSelectedUser = (String) cbPermissionsUserName
-				.getSelectedItem();
-		String selectedUser = null;
+        String selectedPermission = (String) cbPermissionsPermission
+                .getSelectedItem();
+        String tmpSelectedUser = (String) cbPermissionsUserName
+                .getSelectedItem();
+        String selectedUser = null;
 
-		// probably have to remove #zone from user name
-		int idx = tmpSelectedUser.indexOf("#");
-		if (idx >= 0) {
-			selectedUser = tmpSelectedUser.substring(0, idx);
-		} else {
-			selectedUser = tmpSelectedUser;
-		}
+        // probably have to remove #zone from user name
+        int idx = tmpSelectedUser.indexOf("#");
+        if (idx >= 0) {
+            selectedUser = tmpSelectedUser.substring(0, idx);
+        } else {
+            selectedUser = tmpSelectedUser;
+        }
 
-		try {
-			UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
-					.getUserAO(irodsAccount);
-			User user = userAO.findByName(tmpSelectedUser);
+        try {
+            UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
+                    .getUserAO(irodsAccount);
+            User user = userAO.findByName(tmpSelectedUser);
 
-			permissionToAdd = new UserFilePermission(selectedUser,
-					user.getId(),
-					FilePermissionEnum.valueOf(selectedPermission),
-					user.getUserType(), user.getZone());
-			CollectionAO collectionAO = irodsFileSystem
-					.getIRODSAccessObjectFactory()
-					.getCollectionAO(irodsAccount);
-			DataObjectAO dataObjectAO = irodsFileSystem
-					.getIRODSAccessObjectFactory()
-					.getDataObjectAO(irodsAccount);
+            permissionToAdd = new UserFilePermission(selectedUser,
+                    user.getId(),
+                    FilePermissionEnum.valueOf(selectedPermission),
+                    user.getUserType(), user.getZone());
+            CollectionAO collectionAO = irodsFileSystem
+                    .getIRODSAccessObjectFactory()
+                    .getCollectionAO(irodsAccount);
+            DataObjectAO dataObjectAO = irodsFileSystem
+                    .getIRODSAccessObjectFactory()
+                    .getDataObjectAO(irodsAccount);
 
-			if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.READ) {
-				if (isCollection) {
-					collectionAO.setAccessPermissionRead(
-							permissionToAdd.getUserZone(),
-							selectedObjectFullPath,
-							permissionToAdd.getUserName(), true);
-				} else {
-					dataObjectAO.setAccessPermissionRead(
-							permissionToAdd.getUserZone(),
-							selectedObjectFullPath,
-							permissionToAdd.getUserName());
-				}
-			} else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.WRITE) {
-				if (isCollection) {
-					collectionAO.setAccessPermissionWrite(
-							permissionToAdd.getUserZone(),
-							selectedObjectFullPath,
-							permissionToAdd.getUserName(), true);
-				} else {
-					dataObjectAO.setAccessPermissionWrite(
-							permissionToAdd.getUserZone(),
-							selectedObjectFullPath,
-							permissionToAdd.getUserName());
-				}
-			} else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.OWN) {
-				if (isCollection) {
-					collectionAO.setAccessPermissionOwn(
-							permissionToAdd.getUserZone(),
-							selectedObjectFullPath,
-							permissionToAdd.getUserName(), true);
-				} else {
-					dataObjectAO.setAccessPermissionOwn(
-							permissionToAdd.getUserZone(),
-							selectedObjectFullPath,
-							permissionToAdd.getUserName());
-				}
-			}
+            if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.READ) {
+                if (isCollection) {
+                    collectionAO.setAccessPermissionRead(
+                            permissionToAdd.getUserZone(),
+                            selectedObjectFullPath,
+                            permissionToAdd.getUserName(), true);
+                } else {
+                    dataObjectAO.setAccessPermissionRead(
+                            permissionToAdd.getUserZone(),
+                            selectedObjectFullPath,
+                            permissionToAdd.getUserName());
+                }
+            } else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.WRITE) {
+                if (isCollection) {
+                    collectionAO.setAccessPermissionWrite(
+                            permissionToAdd.getUserZone(),
+                            selectedObjectFullPath,
+                            permissionToAdd.getUserName(), true);
+                } else {
+                    dataObjectAO.setAccessPermissionWrite(
+                            permissionToAdd.getUserZone(),
+                            selectedObjectFullPath,
+                            permissionToAdd.getUserName());
+                }
+            } else if (permissionToAdd.getFilePermissionEnum() == FilePermissionEnum.OWN) {
+                if (isCollection) {
+                    collectionAO.setAccessPermissionOwn(
+                            permissionToAdd.getUserZone(),
+                            selectedObjectFullPath,
+                            permissionToAdd.getUserName(), true);
+                } else {
+                    dataObjectAO.setAccessPermissionOwn(
+                            permissionToAdd.getUserZone(),
+                            selectedObjectFullPath,
+                            permissionToAdd.getUserName());
+                }
+            }
 
-			tableModel.addRow(user, permissionToAdd.getFilePermissionEnum());
+            tableModel.addRow(user, permissionToAdd.getFilePermissionEnum());
 
-			JOptionPane.showMessageDialog(this,
-					"Permission Added Successfully", "Add Permissions",
-					JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Permission Added Successfully", "Add Permissions",
+                    JOptionPane.PLAIN_MESSAGE);
 
-		} catch (JargonException ex) {
-			log.error("cannot add permissions", ex);
-			JOptionPane.showMessageDialog(this, "Permission Add Failed",
-					"Add Permissions", JOptionPane.PLAIN_MESSAGE);
-		}
+        } catch (JargonException ex) {
+            log.error("cannot add permissions", ex);
+            JOptionPane.showMessageDialog(this, "Permission Add Failed",
+                    "Add Permissions", JOptionPane.PLAIN_MESSAGE);
+        }
 
-		dispose();
-	}// GEN-LAST:event_btnPermissionsAddActionPerformed
+        dispose();
+    }// GEN-LAST:event_btnPermissionsAddActionPerformed
 
-	private void btnPermissionsCancelActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsCancelActionPerformed
-		dispose();
-	}// GEN-LAST:event_btnPermissionsCancelActionPerformed
+    private void btnPermissionsCancelActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsCancelActionPerformed
+        dispose();
+    }// GEN-LAST:event_btnPermissionsCancelActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPermissionsAdd;
     private javax.swing.JButton btnPermissionsCancel;

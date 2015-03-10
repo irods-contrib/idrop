@@ -36,7 +36,8 @@ import org.irods.jargon.idrop.exceptions.IdropException;
 import org.slf4j.LoggerFactory;
 
 /**
- * JTree for viewing local file system, includes DnD support from StagingViewTree.
+ * JTree for viewing local file system, includes DnD support from
+ * StagingViewTree.
  *
  * @author Mike Conway - DICE (www.irods.org)
  */
@@ -97,12 +98,14 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     }
 
     /**
-     * Utility method takes an <code>Enumeration</code> of tree paths, such as would be returned by
-     * calling <code>getExpandedDescendants()</code> on the local file tree. This method will go
-     * through the tree paths and expand the nodes. Note that the nodes are lazily computed, so this
-     * method triggers that lazy access.
+     * Utility method takes an <code>Enumeration</code> of tree paths, such as
+     * would be returned by calling <code>getExpandedDescendants()</code> on the
+     * local file tree. This method will go through the tree paths and expand
+     * the nodes. Note that the nodes are lazily computed, so this method
+     * triggers that lazy access.
      *
-     * @param currentPaths <code>Enumeration<TreePath></code> with the previously expanded nodes
+     * @param currentPaths <code>Enumeration<TreePath></code> with the
+     * previously expanded nodes
      * @throws IdropException
      */
     public void expandTreeNodesBasedOnListOfPreviouslyExpandedNodes(
@@ -124,8 +127,8 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     }
 
     /**
-     * Handy method to return a <code>List<String></code> of the local file paths that are currently
-     * selected in this tree.
+     * Handy method to return a <code>List<String></code> of the local file
+     * paths that are currently selected in this tree.
      *
      * @return
      * @throws IdropException
@@ -135,12 +138,11 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         log.info("listSelectedPathsInTree()");
 
         TreePath[] selectedPaths = this.getSelectionPaths();
-        
-        
+
         if (selectedPaths == null) {
             return new ArrayList<String>();
         }
-        
+
         List<String> paths = new ArrayList<String>();
 
         for (TreePath treePath : selectedPaths) {
@@ -151,16 +153,18 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
             paths.add(file.getAbsolutePath());
             log.info("added path:{}", file);
         }
-        
+
         return paths;
 
     }
 
     /**
-     * Given a treePath, find that path in the tree model. In searching, the lazy loading behavior
-     * of the child nodes is triggered and the tree is expanded to the node.
+     * Given a treePath, find that path in the tree model. In searching, the
+     * lazy loading behavior of the child nodes is triggered and the tree is
+     * expanded to the node.
      *
-     * @param treePath <code>TreePath</code> that should be looked up in the tree.
+     * @param treePath <code>TreePath</code> that should be looked up in the
+     * tree.
      * @return {@link LocalFileNode} that is the treeNode at the given path.
      * @throws IdropException
      */
@@ -177,7 +181,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         TreePath intermediateTreePath = new TreePath(currentTreeNode);
         boolean rootNodeSkippedInPathElement = false;
 
-		// walk down the treeModel (which had been refreshed), and load and
+        // walk down the treeModel (which had been refreshed), and load and
         // expand each path
         for (Object pathElement : treePath.getPath()) {
             if (!rootNodeSkippedInPathElement) {
@@ -188,7 +192,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
             currentTreeNode = matchTreePathToANodeAndExpandLazyChildren(
                     currentTreeNode, pathElement);
 
-			// if null is returned, this means I did not find a matching node,
+            // if null is returned, this means I did not find a matching node,
             // this is ignored
             if (currentTreeNode == null) {
                 log.info(
@@ -223,14 +227,17 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     }
 
     /**
-     * Given a nodeThatWasDropTargetAsFile node in the tree, search the children for the given path
+     * Given a nodeThatWasDropTargetAsFile node in the tree, search the children
+     * for the given path
      *
-     * @param localFileNode {@link LocalFileNode} that is the nodeThatWasDropTargetAsFile node that
-     * should contain a child node with the given path
-     * @param pathElementIAmSearchingFor <code>Object</code> that is the <code>TreePath</code> of
-     * the child I am searching for within the given nodeThatWasDropTargetAsFile.
-     * @return {@link LocalFileNode} that is the matching child node, or null if no matching child
-     * node was discovered.
+     * @param localFileNode {@link LocalFileNode} that is the
+     * nodeThatWasDropTargetAsFile node that should contain a child node with
+     * the given path
+     * @param pathElementIAmSearchingFor <code>Object</code> that is the
+     * <code>TreePath</code> of the child I am searching for within the given
+     * nodeThatWasDropTargetAsFile.
+     * @return {@link LocalFileNode} that is the matching child node, or null if
+     * no matching child node was discovered.
      * @throws IdropException
      */
     private LocalFileNode matchTreePathToANodeAndExpandLazyChildren(
@@ -259,7 +266,7 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
             }
         }
 
-		// either I'm matched, or I didn't find the child (in which case null is
+        // either I'm matched, or I didn't find the child (in which case null is
         // returned).
         return matchedChildNode;
 
@@ -453,7 +460,8 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
     }
 
     /**
-     * Tree expansion is used to lazily load children of the selected nodeThatWasDropTargetAsFile
+     * Tree expansion is used to lazily load children of the selected
+     * nodeThatWasDropTargetAsFile
      *
      * @param event
      * @throws ExpandVetoException

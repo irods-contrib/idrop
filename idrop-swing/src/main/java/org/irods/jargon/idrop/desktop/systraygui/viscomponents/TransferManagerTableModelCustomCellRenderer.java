@@ -12,36 +12,36 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  * custom cell renderer for transfer manager table
- * 
+ *
  * @author Mike Conway
  */
 public class TransferManagerTableModelCustomCellRenderer extends
-		DefaultTableCellRenderer {
+        DefaultTableCellRenderer {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7551616281032851307L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -7551616281032851307L;
 
-	@Override
-	public Component getTableCellRendererComponent(final JTable jtable,
-			final Object o, final boolean bln, final boolean bln1, final int i,
-			final int i1) {
+    @Override
+    public Component getTableCellRendererComponent(final JTable jtable,
+            final Object o, final boolean bln, final boolean bln1, final int i,
+            final int i1) {
 
-		Component component = super.getTableCellRendererComponent(jtable, o,
-				bln, bln1, i, i1);
-		String val = ((String) o).trim();
+        Component component = super.getTableCellRendererComponent(jtable, o,
+                bln, bln1, i, i1);
+        String val = ((String) o).trim();
 
-		if (val.equals("ERROR")) {
-			component.setForeground(Color.RED);
-		} else if (val.equals("WARNING")) {
-			component.setForeground(Color.YELLOW);
-		} else {
-			component.setForeground(Color.GREEN);
-		}
+        if (val.equals("ERROR")) {
+            component.setForeground(Color.RED);
+        } else if (val.equals("WARNING")) {
+            component.setForeground(Color.YELLOW);
+        } else {
+            component.setForeground(Color.GREEN);
+        }
 
-		return component;
+        return component;
 
-	}
+    }
 
 }

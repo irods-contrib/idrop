@@ -67,7 +67,6 @@ public class TransferAttemptTableModel extends AbstractTableModel {
     public Object getValueAt(final int row, final int col) {
 
         // start end status total_skipped, total_transferred, total_error
-
         if (row > getRowCount() - 1) {
             throw new IllegalArgumentException("no row at given index");
         }

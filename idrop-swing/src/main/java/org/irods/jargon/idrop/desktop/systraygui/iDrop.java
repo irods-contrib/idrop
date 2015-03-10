@@ -164,7 +164,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             log.warn("no account, exiting");
             System.exit(0);
         }
-        
+
         // add Advanced hyperlink
 //        HyperLinkButton btnAdvanced = new HyperLinkButton("Advanced");
 //        btnAdvanced.addActionListener(new java.awt.event.ActionListener() {
@@ -174,7 +174,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //        });
 //        btnAdvanced.setVerticalTextPosition(SwingConstants.BOTTOM);
 //        jToolBar1.add(btnAdvanced);
-
     }
 
     public synchronized void setIrodsTree(IRODSTree irodsTree) {
@@ -208,8 +207,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Startup exit to set visibility of components in iDrop GUI at startup. Here is where the
-     * initial visible status of components can be specified.
+     * Startup exit to set visibility of components in iDrop GUI at startup.
+     * Here is where the initial visible status of components can be specified.
      */
     private void setVisibleComponentsAtStartup() {
     }
@@ -261,7 +260,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         reload = true;
                     }
 
-                    gui.setIrodsTree(myIrodsTree);                  
+                    gui.setIrodsTree(myIrodsTree);
                     return myIrodsTree;
 
                 } catch (Exception ex) {
@@ -285,8 +284,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
 
             /**
-             * A tree has not been previously loaded, establish the root (strict ACLs? Login
-             * preset?)
+             * A tree has not been previously loaded, establish the root (strict
+             * ACLs? Login preset?)
              */
             private IRODSTree loadNewTree(iDrop gui) throws JargonException, IdropException {
                 IRODSOutlineModel mdl;
@@ -319,11 +318,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     mdl = new IRODSOutlineModel(gui, irodsFileSystemModel,
                             new IRODSRowModel(), true, "File System");
                     myIrodsTree.setModel(mdl);
-                     SwingUtilities.invokeLater(new Runnable() {
+                    SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
-                            
-                            
-                            
+
                             scrollIrodsTree.setViewportView(myIrodsTree);
 
                         }
@@ -338,8 +335,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                             "Unable to set base path of tree", ie);
                 }
 
-                
-                   
                 return myIrodsTree;
             }
 
@@ -354,13 +349,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     getiDropCore().setBasePath(null);
                     return loadNewTree(gui);
                 }
-                
-                  SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                             scrollIrodsTree.getViewport().removeAll();
-                            
-                        }
-                  });
+
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        scrollIrodsTree.getViewport().removeAll();
+
+                    }
+                });
 
                 Object root = myIrodsTree.getOutlineModel().getRoot();
 
@@ -379,12 +374,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 log.info("expanded paths:{}", currentPaths);
                 myIrodsTree.getSelectionModel().getMinSelectionIndex();
                 myIrodsTree.getSelectionModel().getMaxSelectionIndex();
-               
+
                 myIrodsTree = loadNewTree(gui);
                 myIrodsTree.getSelectionModel().setSelectionInterval(0, 0);
-                
-                
-                
+
                 if (currentPaths != null) {
 
                     IRODSNode irodsNode = null;
@@ -404,11 +397,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                         TreePath pathInNew = TreeUtils.getPath(irodsNode);
                         myIrodsTree.collapsePath(pathInNew);
                         myIrodsTree.expandPath(pathInNew);
-                       
+
                     }
                 }
-                
-                
 
                 return myIrodsTree;
 
@@ -420,8 +411,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Method to clear any cached values when an account changes. Some data is cached and lazily
-     * loaded. Rebuilds gui state for new grid.
+     * Method to clear any cached values when an account changes. Some data is
+     * cached and lazily loaded. Rebuilds gui state for new grid.
      */
     public void reinitializeForChangedIRODSAccount() {
         log.info("clearing any cached data associated with the account");
@@ -439,8 +430,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Builds the system tray menu and installs the iDrop icon in the system tray. The iDrop GUI is
-     * displayed when the iDrop menu item is selected from the system tray
+     * Builds the system tray menu and installs the iDrop icon in the system
+     * tray. The iDrop GUI is displayed when the iDrop menu item is selected
+     * from the system tray
      */
     protected void createAndShowSystemTray() {
         if (!SystemTray.isSupported()) {
@@ -520,7 +512,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Returns an ImageIcon, or null if the path was invalid. FIXME: move to static util
+     * Returns an ImageIcon, or null if the path was invalid. FIXME: move to
+     * static util
      */
     protected static Image createImage(final String path,
             final String description) {
@@ -537,7 +530,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * Get the current iRODS login account.
      *
-     * @return <code>IRODSAccount</code> with the current iRODS connection information.
+     * @return <code>IRODSAccount</code> with the current iRODS connection
+     * information.
      */
     public IRODSAccount getIrodsAccount() {
         synchronized (this) {
@@ -548,7 +542,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * Set the current connection information.
      *
-     * @return <code>IRODSAccount</code> with the current iRODS connection information.
+     * @return <code>IRODSAccount</code> with the current iRODS connection
+     * information.
      */
     public void setIrodsAccount(final IRODSAccount irodsAccount) {
         synchronized (this) {
@@ -577,15 +572,16 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Set the account information in the gutter, including the available resources on the grid.
-     * Note that this method should be called in the context of a <code>Runnable</code>
+     * Set the account information in the gutter, including the available
+     * resources on the grid. Note that this method should be called in the
+     * context of a <code>Runnable</code>
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void setUpAccountGutter() {
         // userNameLabel.setText(this.irodsAccount().getUserName());
         // lblZone.setText(this.irodsAccount().getZone());
         // lblHost.setText(this.irodsAccount().getHost());
-        
+
         // add see details link in gutter. if not already created
         if (bntDetailsLink == null) {
             bntDetailsLink = new HyperLinkButton("See details");
@@ -710,9 +706,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Get the JTree component that represents the iRODS file system in the iDrop gui.
+     * Get the JTree component that represents the iRODS file system in the
+     * iDrop gui.
      *
-     * @return <code>IRODSTree</code> that is the JTree component for the iRODS file system view.
+     * @return <code>IRODSTree</code> that is the JTree component for the iRODS
+     * file system view.
      */
     public synchronized IRODSTree getIrodsTree() {
         return irodsTree;
@@ -871,9 +869,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             aboutDialog.setVisible(true);
         } else if (e.getActionCommand().equals("Preferences")) {
             SettingsDialog dlgSettings = new SettingsDialog(
-                this, true, iDropCore, getIrodsAccount());
-                dlgSettings.setLocationRelativeTo(null);
-                dlgSettings.setVisible(true);
+                    this, true, iDropCore, getIrodsAccount());
+            dlgSettings.setLocationRelativeTo(null);
+            dlgSettings.setVisible(true);
 
         } else if (e.getActionCommand().equals("Change Pass Phrase")) {
             ChangePassPhraseDialog changePassPhraseDialog = new ChangePassPhraseDialog(
@@ -1103,7 +1101,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarInfo.setEnabled(state);
         btnMainToolbarCopy.setEnabled(state);
         btnMainToolbarDelete.setEnabled(state);
-        
+
         // TODO: remove these after to finish iPlant redesign:
         //btnMainToolbarTools.setVisible(false);
         btnMainToolbarQueueMgr.setVisible(false);
@@ -1115,7 +1113,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     /**
      * A transfer confirm dialog
      *
-     * @param sourcePath <code>String</code> with the source path of the transfer
+     * @param sourcePath <code>String</code> with the source path of the
+     * transfer
      * @param targetPath <code>String</code> with the target of the transfer
      * @return <code>int</code> with the dialog user response.
      */
@@ -1234,8 +1233,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Implementation of transfer manager callback. The overall status callback represents the start
-     * and completion of a transfer operation
+     * Implementation of transfer manager callback. The overall status callback
+     * represents the start and completion of a transfer operation
      *
      * @param ts
      */
@@ -1391,7 +1390,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Callback from conveyor framework with current running and error status of the transfer queue
+     * Callback from conveyor framework with current running and error status of
+     * the transfer queue
      *
      * @param qs {@link QueueStatus}
      */
@@ -1407,8 +1407,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * Callback from conveyor framework indicating that the conveyor transfer manager cannot operate
-     * and manage the state of transfers, this is really a fatal condition.
+     * Callback from conveyor framework indicating that the conveyor transfer
+     * manager cannot operate and manage the state of transfers, this is really
+     * a fatal condition.
      *
      * @param excptn
      */
@@ -1420,8 +1421,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     }
 
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
-     * modify this code. The content of this method is always regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed"
@@ -2042,7 +2044,6 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
 //        SynchronizationDialog synchDialog = new SynchronizationDialog(this, true, this.getiDropCore());
 //        synchDialog.setVisible(true);
-
     }//GEN-LAST:event_btnSynchActionPerformed
 
     /**
@@ -2051,20 +2052,20 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
      * @param evt
      */
     private void btnMainToolbarToolsActionPerformed(
-               final java.awt.event.ActionEvent evt) {
+            final java.awt.event.ActionEvent evt) {
 //        final iDrop idropGui = this;
 //
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            @Override
 //            public void run() {
-//                Tools2Dialog advancedOptionsDialog = new Tools2Dialog(
+//                ToolsDialog advancedOptionsDialog = new ToolsDialog(
 //                    idropGui, true, iDropCore);
 //                advancedOptionsDialog.setLocationRelativeTo(null);
 //                advancedOptionsDialog.setVisible(true);
 //            }
 //        });
-        Tools2Dialog advancedOptionsDialog = new Tools2Dialog(
-                    this, true, iDropCore);
+        ToolsDialog advancedOptionsDialog = new ToolsDialog(
+                this, true, iDropCore);
         advancedOptionsDialog.setLocationRelativeTo(null);
         advancedOptionsDialog.setModalityType(Dialog.ModalityType.MODELESS);
         advancedOptionsDialog.setVisible(true);
@@ -2093,12 +2094,11 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void btnAdvancedActionPerformed(
             final java.awt.event.ActionEvent evt) {
-        Tools2Dialog advancedOptionsDialog = new Tools2Dialog(
+        ToolsDialog advancedOptionsDialog = new ToolsDialog(
                 this, true, iDropCore);
         advancedOptionsDialog.setLocationRelativeTo(null);
         advancedOptionsDialog.setVisible(true);
     }
-
 
     /**
      * TODO: update resource in grid account
@@ -2326,8 +2326,9 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 
     private void bntDetailsLinkActionPerformed(
             final java.awt.event.ActionEvent evt) {
-         showQueueManagerDialog();
+        showQueueManagerDialog();
     }
+
     /**
      * A tree already exists so use the current information to reload
      */
@@ -2440,6 +2441,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JProgressBar transferStatusProgressBar;
     // End of variables declaration//GEN-END:variables
     private HyperLinkButton bntDetailsLink;
+
     public void closeTransferManagerDialog() {
         transferManagerDialog = null;
     }

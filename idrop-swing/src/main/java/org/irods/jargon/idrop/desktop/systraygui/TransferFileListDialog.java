@@ -677,7 +677,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
             dialog.setVisible(true);
         }
 
-
     }//GEN-LAST:event_btnShowErrorDetailsActionPerformed
 
     private void btnErrorsOnlyItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_btnErrorsOnlyItemStateChanged
@@ -695,7 +694,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
             Exceptions.printStackTrace(ex);
         }
 
-
     }//GEN-LAST:event_btnErrorsOnlyItemStateChanged
 
     private void btnShowSkippedItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_btnShowSkippedItemStateChanged
@@ -710,7 +708,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         } catch (ConveyorExecutionException ex) {
             Exceptions.printStackTrace(ex);
         }
-
 
     }//GEN-LAST:event_btnShowSkippedItemStateChanged
 

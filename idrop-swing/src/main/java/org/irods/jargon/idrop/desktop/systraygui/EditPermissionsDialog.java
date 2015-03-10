@@ -17,90 +17,88 @@ import org.irods.jargon.idrop.desktop.systraygui.viscomponents.PermissionsTableM
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author lisa
  */
 public class EditPermissionsDialog extends javax.swing.JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8326176232950853930L;
-	private final IRODSFileSystem irodsFileSystem;
-	private final IRODSAccount irodsAccount;
-	private final boolean isCollection;
-	private final int selectedRow;
-	private final String selectedObjectFullPath;
-	private final PermissionsTableModel tableModel;
-	private final UserFilePermission permissionToUpdate;
-	public static org.slf4j.Logger log = LoggerFactory
-			.getLogger(EditMetaDataDialog.class);
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8326176232950853930L;
+    private final IRODSFileSystem irodsFileSystem;
+    private final IRODSAccount irodsAccount;
+    private final boolean isCollection;
+    private final int selectedRow;
+    private final String selectedObjectFullPath;
+    private final PermissionsTableModel tableModel;
+    private final UserFilePermission permissionToUpdate;
+    public static org.slf4j.Logger log = LoggerFactory
+            .getLogger(EditMetaDataDialog.class);
 
-	/**
-	 * Creates new form EditPermissionsDialog
-	 */
-	public EditPermissionsDialog(final javax.swing.JDialog parent,
-			final boolean modal, final int selectedRow,
-			final String selectedObjectFullPath,
-			final UserFilePermission permissionToUpdate,
-			final boolean isCollection, final IRODSFileSystem irodsFileSystem,
-			final IRODSAccount irodsAccount, final PermissionsTableModel model) {
+    /**
+     * Creates new form EditPermissionsDialog
+     */
+    public EditPermissionsDialog(final javax.swing.JDialog parent,
+            final boolean modal, final int selectedRow,
+            final String selectedObjectFullPath,
+            final UserFilePermission permissionToUpdate,
+            final boolean isCollection, final IRODSFileSystem irodsFileSystem,
+            final IRODSAccount irodsAccount, final PermissionsTableModel model) {
 
-		super(parent, modal);
-		initComponents();
+        super(parent, modal);
+        initComponents();
 
-		this.irodsFileSystem = irodsFileSystem;
-		this.irodsAccount = irodsAccount;
-		this.selectedRow = selectedRow;
-		this.isCollection = isCollection;
-		this.selectedObjectFullPath = selectedObjectFullPath;
-		tableModel = model;
-		this.permissionToUpdate = permissionToUpdate;
+        this.irodsFileSystem = irodsFileSystem;
+        this.irodsAccount = irodsAccount;
+        this.selectedRow = selectedRow;
+        this.isCollection = isCollection;
+        this.selectedObjectFullPath = selectedObjectFullPath;
+        tableModel = model;
+        this.permissionToUpdate = permissionToUpdate;
 
-		initData();
-	}
+        initData();
+    }
 
-	private void initData() {
+    private void initData() {
 
-		cbPermissionsPermission.addItem("READ");
-		cbPermissionsPermission.addItem("WRITE");
-		cbPermissionsPermission.addItem("OWN");
+        cbPermissionsPermission.addItem("READ");
+        cbPermissionsPermission.addItem("WRITE");
+        cbPermissionsPermission.addItem("OWN");
 
-		// List<User> users = null;
-		// try {
-		// UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
-		// .getUserAO(irodsAccount);
-		// users = userAO.findAll();
-		// Collections.sort(users, new Comparator<User>() {
-		// @Override
-		// public int compare(final User object1, final User object2) {
-		// return object1.getName().compareTo(object2.getName());
-		// }
-		// });
-		//
-		// for (User user : users) {
-		// cbPermissionsUserName.addItem(user.getNameWithZone());
-		// }
-		// } catch (JargonException ex) {
-		// log.error("cannot retrieve irods users list", ex);
-		// JOptionPane.showMessageDialog(this,
-		// "Cannot retrieve list of iRODS users",
-		// "Edit Permissions", JOptionPane.PLAIN_MESSAGE);
-		// }
+        // List<User> users = null;
+        // try {
+        // UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
+        // .getUserAO(irodsAccount);
+        // users = userAO.findAll();
+        // Collections.sort(users, new Comparator<User>() {
+        // @Override
+        // public int compare(final User object1, final User object2) {
+        // return object1.getName().compareTo(object2.getName());
+        // }
+        // });
+        //
+        // for (User user : users) {
+        // cbPermissionsUserName.addItem(user.getNameWithZone());
+        // }
+        // } catch (JargonException ex) {
+        // log.error("cannot retrieve irods users list", ex);
+        // JOptionPane.showMessageDialog(this,
+        // "Cannot retrieve list of iRODS users",
+        // "Edit Permissions", JOptionPane.PLAIN_MESSAGE);
+        // }
+        // cbPermissionsUserName.setSelectedItem(permissionToUpdate.getNameWithZone());
+        lblUserName.setText(permissionToUpdate.getNameWithZone());
+        cbPermissionsPermission.setSelectedItem(permissionToUpdate
+                .getFilePermissionEnum().toString());
+    }
 
-		// cbPermissionsUserName.setSelectedItem(permissionToUpdate.getNameWithZone());
-		lblUserName.setText(permissionToUpdate.getNameWithZone());
-		cbPermissionsPermission.setSelectedItem(permissionToUpdate
-				.getFilePermissionEnum().toString());
-	}
-
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-
-	// <editor-fold defaultstate="collapsed"
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -194,103 +192,103 @@ public class EditPermissionsDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	private void btnPermissionsCancelActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsCancelActionPerformed
-		dispose();
-	}// GEN-LAST:event_btnPermissionsCancelActionPerformed
+    private void btnPermissionsCancelActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsCancelActionPerformed
+        dispose();
+    }// GEN-LAST:event_btnPermissionsCancelActionPerformed
 
-	private void btnPermissionsUpdateActionPerformed(
-			final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsUpdateActionPerformed
-		String selectedPermission = (String) cbPermissionsPermission
-				.getSelectedItem();
-		String tmpSelectedUser = lblUserName.getText();
-		// probably have to remove #zone from user name
-		int idx = tmpSelectedUser.indexOf("#");
-		if (idx >= 0) {
-			tmpSelectedUser = tmpSelectedUser.substring(0, idx);
-		} else {
-		}
+    private void btnPermissionsUpdateActionPerformed(
+            final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPermissionsUpdateActionPerformed
+        String selectedPermission = (String) cbPermissionsPermission
+                .getSelectedItem();
+        String tmpSelectedUser = lblUserName.getText();
+        // probably have to remove #zone from user name
+        int idx = tmpSelectedUser.indexOf("#");
+        if (idx >= 0) {
+            tmpSelectedUser = tmpSelectedUser.substring(0, idx);
+        } else {
+        }
 
-		// set updated permission type
-		UserFilePermission newPermission = new UserFilePermission(
-				permissionToUpdate.getUserName(),
-				permissionToUpdate.getUserId(),
-				FilePermissionEnum.valueOf(selectedPermission),
-				permissionToUpdate.getUserType(),
-				permissionToUpdate.getUserZone());
+        // set updated permission type
+        UserFilePermission newPermission = new UserFilePermission(
+                permissionToUpdate.getUserName(),
+                permissionToUpdate.getUserId(),
+                FilePermissionEnum.valueOf(selectedPermission),
+                permissionToUpdate.getUserType(),
+                permissionToUpdate.getUserZone());
 
-		try {
-			// UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
-			// .getUserAO(irodsAccount);
-			// User user = userAO.findByName(tmpSelectedUser);
-			//
-			// UserFilePermission newPermission = new
-			// UserFilePermission(selectedUser,
-			// user.getId(),
-			// FilePermissionEnum.valueOf(selectedPermission),
-			// user.getUserType(), user.getZone());
-			CollectionAO collectionAO = irodsFileSystem
-					.getIRODSAccessObjectFactory()
-					.getCollectionAO(irodsAccount);
-			DataObjectAO dataObjectAO = irodsFileSystem
-					.getIRODSAccessObjectFactory()
-					.getDataObjectAO(irodsAccount);
+        try {
+            // UserAO userAO = irodsFileSystem.getIRODSAccessObjectFactory()
+            // .getUserAO(irodsAccount);
+            // User user = userAO.findByName(tmpSelectedUser);
+            //
+            // UserFilePermission newPermission = new
+            // UserFilePermission(selectedUser,
+            // user.getId(),
+            // FilePermissionEnum.valueOf(selectedPermission),
+            // user.getUserType(), user.getZone());
+            CollectionAO collectionAO = irodsFileSystem
+                    .getIRODSAccessObjectFactory()
+                    .getCollectionAO(irodsAccount);
+            DataObjectAO dataObjectAO = irodsFileSystem
+                    .getIRODSAccessObjectFactory()
+                    .getDataObjectAO(irodsAccount);
 
-			if (newPermission.getFilePermissionEnum() == FilePermissionEnum.READ) {
-				if (isCollection) {
-					collectionAO.setAccessPermissionRead(
-							newPermission.getUserZone(),
-							selectedObjectFullPath,
-							newPermission.getUserName(), true);
-				} else {
-					dataObjectAO
-							.setAccessPermissionRead(
-									newPermission.getUserZone(),
-									selectedObjectFullPath,
-									newPermission.getUserName());
-				}
-			} else if (newPermission.getFilePermissionEnum() == FilePermissionEnum.WRITE) {
-				if (isCollection) {
-					collectionAO.setAccessPermissionWrite(
-							newPermission.getUserZone(),
-							selectedObjectFullPath,
-							newPermission.getUserName(), true);
-				} else {
-					dataObjectAO
-							.setAccessPermissionWrite(
-									newPermission.getUserZone(),
-									selectedObjectFullPath,
-									newPermission.getUserName());
-				}
-			} else if (newPermission.getFilePermissionEnum() == FilePermissionEnum.OWN) {
-				if (isCollection) {
-					collectionAO.setAccessPermissionOwn(
-							newPermission.getUserZone(),
-							selectedObjectFullPath,
-							newPermission.getUserName(), true);
-				} else {
-					dataObjectAO
-							.setAccessPermissionOwn(
-									newPermission.getUserZone(),
-									selectedObjectFullPath,
-									newPermission.getUserName());
-				}
-			}
+            if (newPermission.getFilePermissionEnum() == FilePermissionEnum.READ) {
+                if (isCollection) {
+                    collectionAO.setAccessPermissionRead(
+                            newPermission.getUserZone(),
+                            selectedObjectFullPath,
+                            newPermission.getUserName(), true);
+                } else {
+                    dataObjectAO
+                            .setAccessPermissionRead(
+                                    newPermission.getUserZone(),
+                                    selectedObjectFullPath,
+                                    newPermission.getUserName());
+                }
+            } else if (newPermission.getFilePermissionEnum() == FilePermissionEnum.WRITE) {
+                if (isCollection) {
+                    collectionAO.setAccessPermissionWrite(
+                            newPermission.getUserZone(),
+                            selectedObjectFullPath,
+                            newPermission.getUserName(), true);
+                } else {
+                    dataObjectAO
+                            .setAccessPermissionWrite(
+                                    newPermission.getUserZone(),
+                                    selectedObjectFullPath,
+                                    newPermission.getUserName());
+                }
+            } else if (newPermission.getFilePermissionEnum() == FilePermissionEnum.OWN) {
+                if (isCollection) {
+                    collectionAO.setAccessPermissionOwn(
+                            newPermission.getUserZone(),
+                            selectedObjectFullPath,
+                            newPermission.getUserName(), true);
+                } else {
+                    dataObjectAO
+                            .setAccessPermissionOwn(
+                                    newPermission.getUserZone(),
+                                    selectedObjectFullPath,
+                                    newPermission.getUserName());
+                }
+            }
 
-			tableModel.updateRow(selectedRow, newPermission);
+            tableModel.updateRow(selectedRow, newPermission);
 
-			JOptionPane.showMessageDialog(this,
-					"Permission Updated Successfully", "Update Permissions",
-					JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Permission Updated Successfully", "Update Permissions",
+                    JOptionPane.PLAIN_MESSAGE);
 
-		} catch (JargonException ex) {
-			log.error("cannot update permissions", ex);
-			JOptionPane.showMessageDialog(this, "Permission Update Failed",
-					"Update Permissions", JOptionPane.PLAIN_MESSAGE);
-		}
+        } catch (JargonException ex) {
+            log.error("cannot update permissions", ex);
+            JOptionPane.showMessageDialog(this, "Permission Update Failed",
+                    "Update Permissions", JOptionPane.PLAIN_MESSAGE);
+        }
 
-		dispose();
-	}// GEN-LAST:event_btnPermissionsUpdateActionPerformed
+        dispose();
+    }// GEN-LAST:event_btnPermissionsUpdateActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPermissionsCancel;

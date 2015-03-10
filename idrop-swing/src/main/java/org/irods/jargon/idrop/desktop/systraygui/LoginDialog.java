@@ -38,7 +38,7 @@ public class LoginDialog extends JDialog {
 
     public LoginDialog(final JDialog parentDialog, final IDROPCore idropCore) {
         super(parentDialog, true);
-        
+
         if (idropCore == null) {
             throw new IllegalArgumentException("null idropCore");
         }
@@ -125,19 +125,19 @@ public class LoginDialog extends JDialog {
                 log.debug("creating account with presets");
                 String presetHost = idropCore.getIdropConfig()
                         .getPropertyForKey(
-                        IdropPropertiesHelper.LOGIN_PRESET_HOST);
+                                IdropPropertiesHelper.LOGIN_PRESET_HOST);
                 log.info("presetHost:{}", presetHost);
                 int presetPort = Integer.parseInt(idropCore.getIdropConfig()
                         .getPropertyForKey(
-                        IdropPropertiesHelper.LOGIN_PRESET_PORT));
+                                IdropPropertiesHelper.LOGIN_PRESET_PORT));
                 log.info("presetPort:{}", presetPort);
                 String presetZone = idropCore.getIdropConfig()
                         .getPropertyForKey(
-                        IdropPropertiesHelper.LOGIN_PRESET_ZONE);
+                                IdropPropertiesHelper.LOGIN_PRESET_ZONE);
                 log.info("presetZone:{}", presetZone);
                 String presetResource = idropCore.getIdropConfig()
                         .getPropertyForKey(
-                        IdropPropertiesHelper.LOGIN_PRESET_RESOURCE);
+                                IdropPropertiesHelper.LOGIN_PRESET_RESOURCE);
                 log.info("presetResource:{}", presetResource);
                 sb.append('/');
                 sb.append(presetZone);
@@ -151,7 +151,7 @@ public class LoginDialog extends JDialog {
                 } else {
                     irodsAccount = IRODSAccount.instance(presetHost,
                             presetPort, txtUserName.getText(), new String(
-                            password.getPassword()), sb.toString(),
+                                    password.getPassword()), sb.toString(),
                             presetZone, presetResource);
                 }
             } else {
@@ -163,7 +163,7 @@ public class LoginDialog extends JDialog {
                 if (chkGuestLogin.isSelected()) {
                     irodsAccount = IRODSAccount.instanceForAnonymous(txtHost
                             .getText().trim(), Integer.parseInt(txtPort
-                            .getText().trim()), "", txtZone.getText().trim(),
+                                    .getText().trim()), "", txtZone.getText().trim(),
                             txtResource.getText().trim());
                 } else {
                     irodsAccount = IRODSAccount.instance(txtHost.getText()
@@ -186,12 +186,11 @@ public class LoginDialog extends JDialog {
         if (idropCore.getIdropConfig().isLoginPreset()) {
             String authScheme = idropCore.getIdropConfig()
                     .getPropertyForKey(
-                    IdropPropertiesHelper.LOGIN_PRESET_AUTH_SCHEME);
+                            IdropPropertiesHelper.LOGIN_PRESET_AUTH_SCHEME);
 
             if (authScheme.equals("PAM")) {
                 irodsAccount.setAuthenticationScheme(AuthScheme.PAM);
             }
-
 
         } else if (comboLoginMode.getSelectedItem().toString()
                 .equals(AuthScheme.PAM.name())) {

@@ -21,35 +21,36 @@ import javax.swing.border.EmptyBorder;
  * @author lisa
  */
 public class HyperLinkButton extends JButton {
-    
+
     public HyperLinkButton() {
         setup();
     }
-    
+
     public HyperLinkButton(String text) {
         setText(text);
         setup();
     }
-    
+
     // set all of the attributes to make this button look like a hyperlink
-    private void setup(){
+    private void setup() {
         Font font = getFont();
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         setFont(font.deriveFont(attributes));
         setForeground(Color.blue);
-        Border b = new EmptyBorder(0,0,0,0);
+        Border b = new EmptyBorder(0, 0, 0, 0);
         setBorder(b);
-        
-        addMouseListener(new MouseAdapter() {  
-            public void mouseEntered(MouseEvent me) {  
-                setCursor(new Cursor(Cursor.HAND_CURSOR));  
-            }  
-            public void mouseExited(MouseEvent me) {  
-                setCursor(Cursor.getDefaultCursor());  
-            }    
+
+        addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent me) {
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            public void mouseExited(MouseEvent me) {
+                setCursor(Cursor.getDefaultCursor());
+            }
         });
     }
-    
+
 }

@@ -13,38 +13,38 @@ import org.slf4j.LoggerFactory;
 /**
  * This object will listen to tree selection events in the iDrop Finder Dialog
  * iRODS tree, and update the Select button on the iRODS Finder dialog
- * 
- * 
- * 
+ *
+ *
+ *
  * @author Mike Conway - DICE (www.irods.org)
  */
 public class IRODSFinderTreeSelectionListener implements ListSelectionListener {
 
-	public static org.slf4j.Logger log = LoggerFactory
-			.getLogger(IRODSFinderTreeSelectionListener.class);
-	private final IRODSFinderDialog irodsFinderDialog;
+    public static org.slf4j.Logger log = LoggerFactory
+            .getLogger(IRODSFinderTreeSelectionListener.class);
+    private final IRODSFinderDialog irodsFinderDialog;
 
-	public IRODSFinderTreeSelectionListener(
-			final IRODSFinderDialog irodsFinderDialog) throws IdropException {
-		if (irodsFinderDialog == null) {
-			throw new IdropException("null irods finder dialog");
-		}
+    public IRODSFinderTreeSelectionListener(
+            final IRODSFinderDialog irodsFinderDialog) throws IdropException {
+        if (irodsFinderDialog == null) {
+            throw new IdropException("null irods finder dialog");
+        }
 
-		this.irodsFinderDialog = irodsFinderDialog;
+        this.irodsFinderDialog = irodsFinderDialog;
 
-	}
+    }
 
-	public void treeExpanded(final TreeExpansionEvent event) {
-		// operation not needed, left for interface contract
-	}
+    public void treeExpanded(final TreeExpansionEvent event) {
+        // operation not needed, left for interface contract
+    }
 
-	public void treeCollapsed(final TreeExpansionEvent event) {
-		// operation not needed, left for interface contract
-	}
+    public void treeCollapsed(final TreeExpansionEvent event) {
+        // operation not needed, left for interface contract
+    }
 
-	@Override
-	public void valueChanged(final ListSelectionEvent lse) {
-		log.info("lse: {}", lse);
-		irodsFinderDialog.enableButtonSelectFolder(true);
-	}
+    @Override
+    public void valueChanged(final ListSelectionEvent lse) {
+        log.info("lse: {}", lse);
+        irodsFinderDialog.enableButtonSelectFolder(true);
+    }
 }

@@ -12,76 +12,74 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author jdr0887
  */
 public class IDROPSplashWindow extends JWindow {
 
-	/**
-     *  
+    /**
+     *
      */
-	private static final long serialVersionUID = 1L;
-	private final org.slf4j.Logger log = LoggerFactory
-			.getLogger(IDROPSplashWindow.class);
-	private final ImageIcon splashImage = new ImageIcon(IDROPSplashWindow.class
-			.getClassLoader().getResource(
-					"org/irods/jargon/idrop/desktop/images/iDrop.png"));
-	private final JLabel jlblImage = new JLabel();
-	private final JProgressBar jProgressBar1 = new JProgressBar();
+    private static final long serialVersionUID = 1L;
+    private final org.slf4j.Logger log = LoggerFactory
+            .getLogger(IDROPSplashWindow.class);
+    private final ImageIcon splashImage = new ImageIcon(IDROPSplashWindow.class
+            .getClassLoader().getResource(
+                    "org/irods/jargon/idrop/desktop/images/iDrop.png"));
+    private final JLabel jlblImage = new JLabel();
+    private final JProgressBar jProgressBar1 = new JProgressBar();
 
-	public IDROPSplashWindow(final iDrop iDrop) {
-		super(iDrop);
-		try {
-			init();
-		} catch (Exception e) {
-			log.error("error initializing iDrop splash window", e);
-			throw new IdropRuntimeException(e);
-		}
-	}
+    public IDROPSplashWindow(final iDrop iDrop) {
+        super(iDrop);
+        try {
+            init();
+        } catch (Exception e) {
+            log.error("error initializing iDrop splash window", e);
+            throw new IdropRuntimeException(e);
+        }
+    }
 
-	/**
-	 * This method stores all initialization commands for the window.
-	 */
-	private void init() throws Exception {
-		// jlblImage.setText("jLabel1");
-		jlblImage.setIcon(splashImage);
-		jProgressBar1.setMinimum(1);
-		jProgressBar1.setMaximum(7);
-		jProgressBar1.setStringPainted(true);
-		getContentPane().add(jlblImage, BorderLayout.CENTER);
-		getContentPane().add(jProgressBar1, BorderLayout.SOUTH);
+    /**
+     * This method stores all initialization commands for the window.
+     */
+    private void init() throws Exception {
+        // jlblImage.setText("jLabel1");
+        jlblImage.setIcon(splashImage);
+        jProgressBar1.setMinimum(1);
+        jProgressBar1.setMaximum(7);
+        jProgressBar1.setStringPainted(true);
+        getContentPane().add(jlblImage, BorderLayout.CENTER);
+        getContentPane().add(jProgressBar1, BorderLayout.SOUTH);
 
-		Toolkit tk = getToolkit();
-		int width = 420;
-		int height = 315;
-		int x = (tk.getScreenSize().width - width) / 2;
-		int y = (tk.getScreenSize().height - height) / 2;
-		this.setLocation(x, y);
-		this.setSize(width, height);
-		setAlwaysOnTop(false);
-		setVisible(true);
-		pack();
-	}
+        Toolkit tk = getToolkit();
+        int width = 420;
+        int height = 315;
+        int x = (tk.getScreenSize().width - width) / 2;
+        int y = (tk.getScreenSize().height - height) / 2;
+        this.setLocation(x, y);
+        this.setSize(width, height);
+        setAlwaysOnTop(false);
+        setVisible(true);
+        pack();
+    }
 
-	/**
-	 * Sets the text of the progress bar and its value
-	 * 
-	 * @param msg
-	 *            The message to be displayed in the progress bar
-	 * @param theVal
-	 *            An integer value from 0 to 100
-	 */
-	public void setStatus(final String msg, final int value) {
+    /**
+     * Sets the text of the progress bar and its value
+     *
+     * @param msg The message to be displayed in the progress bar
+     * @param theVal An integer value from 0 to 100
+     */
+    public void setStatus(final String msg, final int value) {
 
-		java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
 
-			@Override
-			public void run() {
-				jProgressBar1.setString(msg);
-				jProgressBar1.setValue(value);
+            @Override
+            public void run() {
+                jProgressBar1.setString(msg);
+                jProgressBar1.setValue(value);
 
-			}
-		});
+            }
+        });
 
-	}
+    }
 }

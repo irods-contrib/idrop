@@ -39,7 +39,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="486" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="484" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -60,7 +60,10 @@
             </Constraint>
           </Constraints>
 
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+            <Property name="horizontalGap" type="int" value="0"/>
+            <Property name="verticalGap" type="int" value="0"/>
+          </Layout>
           <SubComponents>
             <Component class="javax.swing.JButton" name="btnRefreshTargetTree">
               <Properties>
@@ -69,13 +72,16 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="114"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnRefreshTargetTree.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnRefresh.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnRefreshTargetTree.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnRefresh.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
-                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="name" type="java.lang.String" value="btnRefresh" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[100, 35]"/>
+                </Property>
                 <Property name="verticalTextPosition" type="int" value="3"/>
               </Properties>
               <Events>
@@ -88,24 +94,21 @@
                   <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnGoHomeTargetTree.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnHome.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnGoHomeTargetTree.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnHome.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
+                <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnHome.actionCommand" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
-                <Property name="horizontalTextPosition" type="int" value="0"/>
-                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="null"/>
-                </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="null"/>
-                </Property>
+                <Property name="name" type="java.lang.String" value="btnHome" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[57, 35]"/>
+                  <Dimension value="[100, 35]"/>
                 </Property>
                 <Property name="verticalTextPosition" type="int" value="3"/>
               </Properties>
@@ -120,24 +123,18 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="114"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnGoRootTargetTree.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnRoot.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnGoRootTargetTree.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnRoot.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
-                <Property name="horizontalTextPosition" type="int" value="0"/>
-                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="null"/>
-                </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="null"/>
-                </Property>
+                <Property name="name" type="java.lang.String" value="btnRoot" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[57, 35]"/>
+                  <Dimension value="[100, 35]"/>
                 </Property>
                 <Property name="rolloverEnabled" type="boolean" value="false"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -189,9 +186,25 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnCancel">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"/>
+            </Property>
             <Property name="mnemonic" type="int" value="99"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnCancel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnCancel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[77, 35]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[77, 35]"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="btnCancel" noResource="true"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[100, 35]"/>
             </Property>
           </Properties>
           <Events>
@@ -200,10 +213,17 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnSelectFolder">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"/>
+            </Property>
             <Property name="mnemonic" type="int" value="115"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnSelectFolder.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnSelect.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/irods/jargon/idrop/finder/Bundle.properties" key="IRODSFinderDialog.btnSelect.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="btnSelect" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelectFolderActionPerformed"/>

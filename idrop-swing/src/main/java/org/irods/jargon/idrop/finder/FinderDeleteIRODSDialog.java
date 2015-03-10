@@ -27,103 +27,107 @@ import org.irods.jargon.idrop.exceptions.IdropRuntimeException;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author mikeconway
  */
 public class FinderDeleteIRODSDialog extends javax.swing.JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2566706975162196188L;
-	private final IRODSFinderTree irodsTree;
-	private final IRODSNode deletedNode;
-	private final List<IRODSNode> deletedNodes;
-	private final IRODSFinderDialog irodsFinderDialog;
-	public static org.slf4j.Logger log = LoggerFactory
-			.getLogger(FinderDeleteIRODSDialog.class);
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2566706975162196188L;
+    private final IRODSFinderTree irodsTree;
+    private final IRODSNode deletedNode;
+    private final List<IRODSNode> deletedNodes;
+    private final IRODSFinderDialog irodsFinderDialog;
+    public static org.slf4j.Logger log = LoggerFactory
+            .getLogger(FinderDeleteIRODSDialog.class);
 
-	/** Creates new form NewIRODSDirectoryDialog */
-	public FinderDeleteIRODSDialog(final IRODSFinderDialog parent,
-			final boolean modal, final IRODSFinderTree irodsTree,
-			final IRODSNode deletedNode) {
-		super(parent, modal);
-		irodsFinderDialog = parent;
-		this.irodsTree = irodsTree;
-		this.deletedNode = deletedNode;
-		deletedNodes = null;
-		StringBuilder sb = new StringBuilder();
-		CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) deletedNode
-				.getUserObject();
-		if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
-			sb.append(entry.getPathOrName());
-		} else {
-			sb.append(entry.getParentPath());
-			sb.append('/');
-			sb.append(entry.getPathOrName());
-		}
+    /**
+     * Creates new form NewIRODSDirectoryDialog
+     */
+    public FinderDeleteIRODSDialog(final IRODSFinderDialog parent,
+            final boolean modal, final IRODSFinderTree irodsTree,
+            final IRODSNode deletedNode) {
+        super(parent, modal);
+        irodsFinderDialog = parent;
+        this.irodsTree = irodsTree;
+        this.deletedNode = deletedNode;
+        deletedNodes = null;
+        StringBuilder sb = new StringBuilder();
+        CollectionAndDataObjectListingEntry entry = (CollectionAndDataObjectListingEntry) deletedNode
+                .getUserObject();
+        if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
+            sb.append(entry.getPathOrName());
+        } else {
+            sb.append(entry.getParentPath());
+            sb.append('/');
+            sb.append(entry.getPathOrName());
+        }
 
-		initialize();
-		txtAreaFileToDelete.setText(sb.toString());
-	}
+        initialize();
+        txtAreaFileToDelete.setText(sb.toString());
+    }
 
-	/** Creates new form NewIRODSDirectoryDialog */
-	public FinderDeleteIRODSDialog(final IRODSFinderDialog parent,
-			final boolean modal, final IRODSFinderTree irodsTree,
-			final List<IRODSNode> deletedNodes) {
-		super(parent, modal);
-		irodsFinderDialog = parent;
-		this.irodsTree = irodsTree;
-		this.deletedNodes = deletedNodes;
-		deletedNode = null;
-		initialize();
-		txtAreaFileToDelete.setText("multiple selections");
-	}
+    /**
+     * Creates new form NewIRODSDirectoryDialog
+     */
+    public FinderDeleteIRODSDialog(final IRODSFinderDialog parent,
+            final boolean modal, final IRODSFinderTree irodsTree,
+            final List<IRODSNode> deletedNodes) {
+        super(parent, modal);
+        irodsFinderDialog = parent;
+        this.irodsTree = irodsTree;
+        this.deletedNodes = deletedNodes;
+        deletedNode = null;
+        initialize();
+        txtAreaFileToDelete.setText("multiple selections");
+    }
 
-	private void initialize() {
-		initComponents();
-		registerKeystrokeListener();
-	}
+    private void initialize() {
+        initComponents();
+        registerKeystrokeListener();
+    }
 
-	/**
-	 * Register a listener for the enter event, so login can occur.
-	 */
-	private void registerKeystrokeListener() {
+    /**
+     * Register a listener for the enter event, so login can occur.
+     */
+    private void registerKeystrokeListener() {
 
-		KeyStroke enter = KeyStroke.getKeyStroke(
-				java.awt.event.KeyEvent.VK_ENTER, 0);
-		Action enterAction = new AbstractAction() {
+        KeyStroke enter = KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_ENTER, 0);
+        Action enterAction = new AbstractAction() {
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6557447127044941916L;
+            /**
+             *
+             */
+            private static final long serialVersionUID = -6557447127044941916L;
 
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				try {
-					processDelete();
-				} catch (IdropException ex) {
-					Logger.getLogger(FinderDeleteIRODSDialog.class.getName())
-							.log(Level.SEVERE, null, ex);
-					throw new IdropRuntimeException(ex);
-				}
-			}
-		};
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                try {
+                    processDelete();
+                } catch (IdropException ex) {
+                    Logger.getLogger(FinderDeleteIRODSDialog.class.getName())
+                            .log(Level.SEVERE, null, ex);
+                    throw new IdropRuntimeException(ex);
+                }
+            }
+        };
 
-		btnOK.registerKeyboardAction(enterAction, enter,
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
+        btnOK.registerKeyboardAction(enterAction, enter,
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-	}
+    }
 
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-	@SuppressWarnings("unchecked")
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// <editor-fold defaultstate="collapsed"
+    // <editor-fold defaultstate="collapsed"
 	// desc="Generated Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
 
@@ -230,20 +234,20 @@ public class FinderDeleteIRODSDialog extends javax.swing.JDialog {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
-		dispose();
-	}// GEN-LAST:event_btnCancelActionPerformed
+    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
+        dispose();
+    }// GEN-LAST:event_btnCancelActionPerformed
 
-	private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
-		try {
-			processDelete();
-		} catch (IdropException ex) {
-			Logger.getLogger(FinderDeleteIRODSDialog.class.getName()).log(
-					Level.SEVERE, null, ex);
-			throw new IdropRuntimeException(ex);
-		}
+    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
+        try {
+            processDelete();
+        } catch (IdropException ex) {
+            Logger.getLogger(FinderDeleteIRODSDialog.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            throw new IdropRuntimeException(ex);
+        }
 
-	}// GEN-LAST:event_btnOKActionPerformed
+    }// GEN-LAST:event_btnOKActionPerformed
 		// Variables declaration - do not modify//GEN-BEGIN:variables
 
 	private javax.swing.JButton btnCancel;
@@ -258,119 +262,119 @@ public class FinderDeleteIRODSDialog extends javax.swing.JDialog {
 
 	// End of variables declaration//GEN-END:variables
 	private void processDelete() throws IdropException {
-		log.info("delete folder named:{}", txtAreaFileToDelete.getText());
-		final FinderDeleteIRODSDialog thisDialog = this;
+        log.info("delete folder named:{}", txtAreaFileToDelete.getText());
+        final FinderDeleteIRODSDialog thisDialog = this;
 
-		java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
 
-			@Override
-			public void run() {
-				thisDialog.setCursor(Cursor
-						.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				(new DeleteWorker(thisDialog)).execute();
-			}
-		});
-	}
+            @Override
+            public void run() {
+                thisDialog.setCursor(Cursor
+                        .getPredefinedCursor(Cursor.WAIT_CURSOR));
+                (new DeleteWorker(thisDialog)).execute();
+            }
+        });
+    }
 
-	private void deleteASingleFile(final IRODSFileFactory irodsFileFactory,
-			final IRODSNode deletedNode) throws IdropException {
+    private void deleteASingleFile(final IRODSFileFactory irodsFileFactory,
+            final IRODSNode deletedNode) throws IdropException {
 
-		log.info("node to delete  is: {}", deletedNode);
-		CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) deletedNode
-				.getUserObject();
+        log.info("node to delete  is: {}", deletedNode);
+        CollectionAndDataObjectListingEntry dataEntry = (CollectionAndDataObjectListingEntry) deletedNode
+                .getUserObject();
 
-		// dialog uses absolute path, so munge it for files
-		StringBuilder sb = new StringBuilder();
-		if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
-			sb.append(dataEntry.getPathOrName());
-		} else {
-			sb.append(dataEntry.getParentPath());
-			sb.append('/');
-			sb.append(dataEntry.getPathOrName());
-		}
+        // dialog uses absolute path, so munge it for files
+        StringBuilder sb = new StringBuilder();
+        if (dataEntry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
+            sb.append(dataEntry.getPathOrName());
+        } else {
+            sb.append(dataEntry.getParentPath());
+            sb.append('/');
+            sb.append(dataEntry.getPathOrName());
+        }
 
-		IRODSFile fileToDelete;
-		try {
-			fileToDelete = irodsFileFactory.instanceIRODSFile(sb.toString());
-			fileToDelete.delete();
+        IRODSFile fileToDelete;
+        try {
+            fileToDelete = irodsFileFactory.instanceIRODSFile(sb.toString());
+            fileToDelete.delete();
 
-		} catch (JargonException ex) {
-			Logger.getLogger(FinderDeleteIRODSDialog.class.getName()).log(
-					Level.SEVERE, null, ex);
-			throw new IdropException(ex);
-		} finally {
-			irodsFinderDialog.getIdropCore()
-					.closeIRODSConnectionForLoggedInAccount();
-		}
+        } catch (JargonException ex) {
+            Logger.getLogger(FinderDeleteIRODSDialog.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            throw new IdropException(ex);
+        } finally {
+            irodsFinderDialog.getIdropCore()
+                    .closeIRODSConnectionForLoggedInAccount();
+        }
 
-	}
+    }
 
-	class DeleteWorker extends SwingWorker<String, Object> {
+    class DeleteWorker extends SwingWorker<String, Object> {
 
-		public static final String DELETE_SUCCESSFUL = "Deletion complete";
-		public static final String DELETE_ERRORS = "The deletion was not successful";
-		private FinderDeleteIRODSDialog dialog;
-		private String message = "";
+        public static final String DELETE_SUCCESSFUL = "Deletion complete";
+        public static final String DELETE_ERRORS = "The deletion was not successful";
+        private FinderDeleteIRODSDialog dialog;
+        private String message = "";
 
-		DeleteWorker(final FinderDeleteIRODSDialog dialog) {
-			if (dialog == null) {
-				throw new IllegalArgumentException("null dialog");
-			}
+        DeleteWorker(final FinderDeleteIRODSDialog dialog) {
+            if (dialog == null) {
+                throw new IllegalArgumentException("null dialog");
+            }
 
-			this.dialog = dialog;
+            this.dialog = dialog;
 
-		}
+        }
 
-		@Override
-		public String doInBackground() {
+        @Override
+        public String doInBackground() {
 
-			try {
+            try {
 
-				IRODSFileFactory irodsFileFactory = irodsFinderDialog
-						.getIdropCore().getIRODSFileFactoryForLoggedInAccount();
-				if (deletedNode != null) {
-					log.info("deleting a single node");
-					deleteASingleFile(irodsFileFactory, deletedNode);
-				} else if (deletedNodes != null) {
-					log.info("deleting multiple nodes");
-					for (IRODSNode deletedNodeEntry : deletedNodes) {
-						deleteASingleFile(irodsFileFactory, deletedNodeEntry);
-					}
-				}
-				message = DELETE_SUCCESSFUL;
-			} catch (Exception ex) {
-				Logger.getLogger(FinderDeleteIRODSDialog.class.getName()).log(
-						Level.SEVERE, null, ex);
+                IRODSFileFactory irodsFileFactory = irodsFinderDialog
+                        .getIdropCore().getIRODSFileFactoryForLoggedInAccount();
+                if (deletedNode != null) {
+                    log.info("deleting a single node");
+                    deleteASingleFile(irodsFileFactory, deletedNode);
+                } else if (deletedNodes != null) {
+                    log.info("deleting multiple nodes");
+                    for (IRODSNode deletedNodeEntry : deletedNodes) {
+                        deleteASingleFile(irodsFileFactory, deletedNodeEntry);
+                    }
+                }
+                message = DELETE_SUCCESSFUL;
+            } catch (Exception ex) {
+                Logger.getLogger(FinderDeleteIRODSDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
 
-				throw new IdropRuntimeException(ex);
-			} finally {
-				irodsFinderDialog.getIdropCore().closeAllIRODSConnections();
-			}
+                throw new IdropRuntimeException(ex);
+            } finally {
+                irodsFinderDialog.getIdropCore().closeAllIRODSConnections();
+            }
 
-			return null;
-		}
+            return null;
+        }
 
-		@Override
-		protected void done() {
-			dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			final IRODSFinderOutlineModel irodsFileSystemModel = (IRODSFinderOutlineModel) irodsTree
-					.getModel();
-			try {
-				if (deletedNode != null) {
-					irodsFileSystemModel.notifyFileShouldBeRemoved(deletedNode);
-				} else if (deletedNodes != null) {
-					for (IRODSNode deletedNode : deletedNodes) {
-						irodsFileSystemModel
-								.notifyFileShouldBeRemoved(deletedNode);
-					}
-				}
-			} catch (IdropException ex) {
-				Logger.getLogger(FinderDeleteIRODSDialog.class.getName()).log(
-						Level.SEVERE, null, ex);
-				throw new IdropRuntimeException(ex);
-			}
-			dialog.dispose();
+        @Override
+        protected void done() {
+            dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            final IRODSFinderOutlineModel irodsFileSystemModel = (IRODSFinderOutlineModel) irodsTree
+                    .getModel();
+            try {
+                if (deletedNode != null) {
+                    irodsFileSystemModel.notifyFileShouldBeRemoved(deletedNode);
+                } else if (deletedNodes != null) {
+                    for (IRODSNode deletedNode : deletedNodes) {
+                        irodsFileSystemModel
+                                .notifyFileShouldBeRemoved(deletedNode);
+                    }
+                }
+            } catch (IdropException ex) {
+                Logger.getLogger(FinderDeleteIRODSDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+                throw new IdropRuntimeException(ex);
+            }
+            dialog.dispose();
 
-		}
-	}
+        }
+    }
 }

@@ -18,7 +18,6 @@ import javax.swing.border.EmptyBorder;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.CollapsiblePane;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.HyperLinkButton;
 import org.irods.jargon.core.connection.IRODSAccount;
-import static org.irods.jargon.idrop.desktop.systraygui.ToolsDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.services.IdropConfigurationService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropConfig;
 import org.irods.jargon.idrop.desktop.systraygui.utils.IdropPropertiesHelper;
@@ -37,6 +36,7 @@ public class SettingsDialog extends javax.swing.JDialog {
     private final IRODSAccount irodsAcct;
     private static final org.slf4j.Logger log = LoggerFactory
             .getLogger(SettingsDialog.class);
+
     /**
      * Creates new form SettingsDialog
      */
@@ -47,7 +47,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         this.idropGui = parent;
         this.irodsAcct = irodsAccount;
         initComponents();
-       
+
         setupUserSettingsPanel();
         CollapsiblePane cpUserSettings = new CollapsiblePane(pnlCollapsibles, "iDrop user settings", pnlUserSettings);
         cpUserSettings.setName("cpUserSettings");
@@ -60,10 +60,10 @@ public class SettingsDialog extends javax.swing.JDialog {
         userSettingsConstraints.weightx = 0.0;
         userSettingsConstraints.weighty = 0.0;
         JScrollPane sp = new JScrollPane();
-        sp.setBorder(new EmptyBorder(0,0,0,0));
+        sp.setBorder(new EmptyBorder(0, 0, 0, 0));
         sp.setViewportView(cpUserSettings);
         pnlCollapsibles.add(sp, userSettingsConstraints);
-        
+
         setupDataTransferSettingsPanel();
         GridBagConstraints dataTransferSettingsConstraints = new GridBagConstraints();
         dataTransferSettingsConstraints.gridx = 0;
@@ -76,10 +76,10 @@ public class SettingsDialog extends javax.swing.JDialog {
         CollapsiblePane cpDataTransferSettings = new CollapsiblePane(pnlCollapsibles, "Data Transfer Settings", pnlDataTransferSettings);
         cpDataTransferSettings.setName("cpDataTransferSettings");
         sp = new JScrollPane();
-        sp.setBorder(new EmptyBorder(0,0,0,0));
+        sp.setBorder(new EmptyBorder(0, 0, 0, 0));
         sp.setViewportView(cpDataTransferSettings);
         pnlCollapsibles.add(sp, dataTransferSettingsConstraints);
-        
+
         setupConnectionTestPanel();
         CollapsiblePane cpTestConnection = new CollapsiblePane(pnlCollapsibles, "Test Connection", pnlTestConnection);
         cpTestConnection.setName("cpTestConnection");
@@ -92,10 +92,10 @@ public class SettingsDialog extends javax.swing.JDialog {
         testConnectionConstraints.weightx = 0.0;
         testConnectionConstraints.weighty = 0.0;
         sp = new JScrollPane();
-        sp.setBorder(new EmptyBorder(0,0,0,0));
+        sp.setBorder(new EmptyBorder(0, 0, 0, 0));
         sp.setViewportView(cpTestConnection);
         pnlCollapsibles.add(sp, testConnectionConstraints);
-        
+
         setupPipelineConfigPanel();
         GridBagConstraints pipelineConstraints = new GridBagConstraints();
         pipelineConstraints.gridx = 0;
@@ -108,16 +108,14 @@ public class SettingsDialog extends javax.swing.JDialog {
         CollapsiblePane cpPipelineConfig = new CollapsiblePane(pnlCollapsibles, "Pipeline Configuration", pnlPipelineConfig);
         cpPipelineConfig.setName("cpPipelineConfig");
         sp = new JScrollPane();
-        sp.setBorder(new EmptyBorder(0,0,0,0));
+        sp.setBorder(new EmptyBorder(0, 0, 0, 0));
         sp.setViewportView(cpPipelineConfig);
         pnlCollapsibles.add(sp, pipelineConstraints);
-        
-        
-        
+
         initWithConfigData();
-        
+
     }
-    
+
     private void setupUserSettingsPanel() {
         HyperLinkButton btnPerformDiff = new HyperLinkButton("Manage data resources");
         btnPerformDiff.setName("btnPerformDiff");
@@ -133,7 +131,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         pnlUserSettings.add(chkShowTransferProgress);
         chkShowTransferProgress.setName("chkShowTransferProgress");
     }
-    
+
     private void setupConnectionTestPanel() {
         HyperLinkButton btnConnectionTest = new HyperLinkButton("Select link to test iDrop functionality and connection");
         btnConnectionTest.setName("btnConnectionTest");
@@ -142,14 +140,14 @@ public class SettingsDialog extends javax.swing.JDialog {
                 btnConnectionTestActionPerformed(evt);
             }
         });
-        pnlTestConnection.add(btnConnectionTest);  
+        pnlTestConnection.add(btnConnectionTest);
     }
-    
+
     private void setupDataTransferSettingsPanel() {
         spinMaxTransferAttempts.setValue(3);
         spinMaxTransferAttempts.setName("spinMaxTransferAttempts");
     }
-    
+
     private void setupPipelineConfigPanel() {
 //        setupParallelTransferPanel();
         CollapsiblePane cpParallelTransfer = new CollapsiblePane(pnlPipelineConfig, "Parallel Transfer Options", pnlParallelTransfer);
@@ -162,10 +160,10 @@ public class SettingsDialog extends javax.swing.JDialog {
         parallelTransferConstraints.weightx = 0.0;
         parallelTransferConstraints.weighty = 0.0;
         JScrollPane sp = new JScrollPane();
-        sp.setBorder(new EmptyBorder(0,0,0,0));
+        sp.setBorder(new EmptyBorder(0, 0, 0, 0));
         sp.setViewportView(cpParallelTransfer);
         pnlPipelineConfig.add(sp, parallelTransferConstraints);
-        
+
 //        setupBufferOptionsPanel();
         CollapsiblePane cpBufferOptions = new CollapsiblePane(pnlPipelineConfig, "Buffer Options", pnlBufferOptions);
         GridBagConstraints bufferOptionsConstraints = new GridBagConstraints();
@@ -177,12 +175,12 @@ public class SettingsDialog extends javax.swing.JDialog {
         bufferOptionsConstraints.weightx = 1.0;
         bufferOptionsConstraints.weighty = 1.0;
         sp = new JScrollPane();
-        sp.setBorder(new EmptyBorder(0,0,0,0));
+        sp.setBorder(new EmptyBorder(0, 0, 0, 0));
         sp.setViewportView(cpBufferOptions);
         pnlPipelineConfig.add(sp, bufferOptionsConstraints);
-        
+
     }
-    
+
     private void initWithConfigData() {
 
         IdropConfig idropConfig = idropCore.getIdropConfig();
@@ -199,8 +197,6 @@ public class SettingsDialog extends javax.swing.JDialog {
         chkRestartFailedConn.setSelected(idropConfig.isConnectionRestart());
         chkRestartFailedConn.setName("chkRestartFailedConn");
         spinMaxTransferAttempts.setValue(idropConfig.getMaxTransferErrors());
-        
-        
 
         chkExecutorPool.setSelected(idropConfig.isParallelUsePool());
         chkExecutorPool.setName("chkExecutorPool");
@@ -247,7 +243,7 @@ public class SettingsDialog extends javax.swing.JDialog {
                 .getInternalCacheBufferSize()));
         txtInternalCacheBufferSize.setName("txtInternalCacheBufferSize");
     }
-    
+
     private void updateConfigForGivenPropertyBasedOnCheckboxStateChange(
             final ItemEvent evt, final String propertyName)
             throws IdropRuntimeException {
@@ -266,10 +262,10 @@ public class SettingsDialog extends javax.swing.JDialog {
             throw new IdropRuntimeException(ex);
         }
     }
-    
+
     private List<String> saveUserSettings() {
         List<String> msg = new ArrayList<String>();
-        
+
         try {
             idropCore.getIdropConfigurationService().updateConfig(
                     IdropConfigurationService.SHOW_GUI,
@@ -281,7 +277,7 @@ public class SettingsDialog extends javax.swing.JDialog {
             msg.add(error);
             log.error(error, ex);
         }
-        
+
         try {
             idropCore.getIdropConfigurationService().updateConfig(
                     IdropConfigurationService.INTRA_FILE_STATUS_CALLBACKS,
@@ -293,13 +289,13 @@ public class SettingsDialog extends javax.swing.JDialog {
             msg.add(error);
             log.error(error, ex);
         }
-        
+
         return msg;
     }
-    
+
     private List<String> saveDataTransferSettings() {
         List<String> msg = new ArrayList<String>();
-        
+
         try {
             idropCore.getIdropConfigurationService().updateConfig(
                     IdropConfigurationService.TRANSFER_ENGINE_RECORD_SUCCESSFUL_FILES,
@@ -311,7 +307,7 @@ public class SettingsDialog extends javax.swing.JDialog {
             msg.add(error);
             log.error(error, ex);
         }
-        
+
         try {
             idropCore.getIdropConfigurationService().updateConfig(
                     IdropConfigurationService.ALLOW_CONNECTION_REROUTING,
@@ -323,7 +319,7 @@ public class SettingsDialog extends javax.swing.JDialog {
             msg.add(error);
             log.error(error, ex);
         }
-        
+
         try {
             idropCore.getIdropConfigurationService().updateConfig(
                     IdropConfigurationService.IRODS_CONNECTION_RESTART,
@@ -335,7 +331,7 @@ public class SettingsDialog extends javax.swing.JDialog {
             msg.add(error);
             log.error(error, ex);
         }
-        
+
         try {
             String val = (this.spinMaxTransferAttempts.getModel().getValue()
                     .toString());
@@ -349,13 +345,13 @@ public class SettingsDialog extends javax.swing.JDialog {
             msg.add(error);
             log.error(error, ex);
         }
-        
+
         return msg;
     }
-    
+
     private List<String> savePipelineConfigSettings() {
         List<String> msg = new ArrayList<String>();
-        
+
         try {
             // internal input buffer size
             String actual = txtInternalInputBuffer.getText();
@@ -372,8 +368,8 @@ public class SettingsDialog extends javax.swing.JDialog {
                 } catch (NumberFormatException nfe) {
                     //txtInternalInputBuffer.setBackground(Color.red);
                     //MessageManager.showWarning(this,
-                            //"Invalid internal input buffer size",
-                            //MessageManager.TITLE_MESSAGE);
+                    //"Invalid internal input buffer size",
+                    //MessageManager.TITLE_MESSAGE);
                     String error = "Invalid internal input buffer size";
                     msg.add(error);
                     log.error(error, nfe);
@@ -523,55 +519,55 @@ public class SettingsDialog extends javax.swing.JDialog {
                         IdropConfigurationService.IRODS_PARALLEL_USE_PARALLEL,
                         Boolean.toString(chkAllowParallel.isSelected()));
                 idropCore.getIdropConfigurationService()
-                    .updateJargonPropertiesBasedOnIDROPConfig();
+                        .updateJargonPropertiesBasedOnIDROPConfig();
             } catch (Exception ex) {
                 String error = "Error setting allow parallel transfer property";
                 msg.add(error);
                 log.error(error, ex);
             }
-        
+
             try {
                 idropCore.getIdropConfigurationService().updateConfig(
-                    IdropConfigurationService.IRODS_PARALLEL_USE_NIO,
-                    Boolean.toString(chkNIO.isSelected()));
+                        IdropConfigurationService.IRODS_PARALLEL_USE_NIO,
+                        Boolean.toString(chkNIO.isSelected()));
                 idropCore.getIdropConfigurationService()
-                    .updateJargonPropertiesBasedOnIDROPConfig();
+                        .updateJargonPropertiesBasedOnIDROPConfig();
             } catch (Exception ex) {
                 String error = "Error setting use NIO for parallel transfer property";
                 msg.add(error);
                 log.error(error, ex);
             }
-            
+
             try {
                 idropCore.getIdropConfigurationService().updateConfig(
-                    IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS,
-                    spnMaxThreads.getValue().toString());
+                        IdropConfigurationService.IRODS_PARALLEL_CONNECTION_MAX_THREADS,
+                        spnMaxThreads.getValue().toString());
                 idropCore.getIdropConfigurationService()
-                    .updateJargonPropertiesBasedOnIDROPConfig();
+                        .updateJargonPropertiesBasedOnIDROPConfig();
             } catch (Exception ex) {
                 String error = "Error setting max threads for parallel transfer property";
                 msg.add(error);
                 log.error(error, ex);
             }
-            
+
             try {
                 idropCore.getIdropConfigurationService().updateConfig(
-                    IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT,
+                        IdropConfigurationService.IRODS_PARALLEL_CONNECTION_TIMEOUT,
                         spnParallelTimeout.getValue().toString());
                 idropCore.getIdropConfigurationService()
-                    .updateJargonPropertiesBasedOnIDROPConfig();
+                        .updateJargonPropertiesBasedOnIDROPConfig();
             } catch (Exception ex) {
                 String error = "Error setting connection timeout for parallel transfer property";
                 msg.add(error);
                 log.error(error, ex);
             }
-            
+
             try {
                 idropCore.getIdropConfigurationService().updateConfig(
-                    IdropConfigurationService.IRODS_CONNECTION_TIMEOUT,
-                    spnTimeout.getValue().toString());
+                        IdropConfigurationService.IRODS_CONNECTION_TIMEOUT,
+                        spnTimeout.getValue().toString());
                 idropCore.getIdropConfigurationService()
-                    .updateJargonPropertiesBasedOnIDROPConfig();
+                        .updateJargonPropertiesBasedOnIDROPConfig();
             } catch (Exception ex) {
                 String error = "Error setting irods connection timeout property";
                 msg.add(error);
@@ -583,30 +579,30 @@ public class SettingsDialog extends javax.swing.JDialog {
             msg.add(error);
             log.error(error, ex);
         }
-        
+
         return msg;
     }
-    
-    private void btnManageDataResourcesActionPerformed(java.awt.event.ActionEvent evt) {                                                
+
+    private void btnManageDataResourcesActionPerformed(java.awt.event.ActionEvent evt) {
         // start up grid management dialog
         ManageDataResourcesDialog dlgManageDataResources = new ManageDataResourcesDialog(this, true, idropCore, irodsAcct);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         int x = (toolkit.getScreenSize().width - dlgManageDataResources
-                    .getWidth()) / 2;
+                .getWidth()) / 2;
         int y = (toolkit.getScreenSize().height - dlgManageDataResources
-                    .getHeight()) / 2;
+                .getHeight()) / 2;
         dlgManageDataResources.setLocation(x, y);
         dlgManageDataResources.setVisible(true);
     }
-    
-    private void btnConnectionTestActionPerformed(java.awt.event.ActionEvent evt) {                                                
+
+    private void btnConnectionTestActionPerformed(java.awt.event.ActionEvent evt) {
         // start up test connection dialog
         TestConnectionDialog dlgTestConnection = new TestConnectionDialog(this, true, idropCore);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         int x = (toolkit.getScreenSize().width - dlgTestConnection
-                    .getWidth()) / 2;
+                .getWidth()) / 2;
         int y = (toolkit.getScreenSize().height - dlgTestConnection
-                    .getHeight()) / 2;
+                .getHeight()) / 2;
         dlgTestConnection.setLocation(x, y);
         dlgTestConnection.setVisible(true);
     }
@@ -1126,7 +1122,7 @@ public class SettingsDialog extends javax.swing.JDialog {
 
     private void bntSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSaveActionPerformed
         List<String> msgs;
-        
+
         msgs = saveUserSettings();
         if (msgs.size() > 0) {
             StringBuilder errorMsgs = new StringBuilder();
@@ -1147,8 +1143,8 @@ public class SettingsDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, errorMsgs, "Data Transfer Settings Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-         msgs = savePipelineConfigSettings();
+
+        msgs = savePipelineConfigSettings();
         if (msgs.size() > 0) {
             StringBuilder errorMsgs = new StringBuilder();
             for (String msg : msgs) {
@@ -1158,7 +1154,7 @@ public class SettingsDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, errorMsgs, "Pipeline Configuration Settings Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         JOptionPane.showMessageDialog(null, "Successfully saved settings", "Success", JOptionPane.INFORMATION_MESSAGE);
         dispose();
     }//GEN-LAST:event_bntSaveActionPerformed
@@ -1168,11 +1164,11 @@ public class SettingsDialog extends javax.swing.JDialog {
             IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
             Properties properties = propertiesHelper.loadIdropProperties();
             this.txtInternalInputBuffer
-            .setText(String.valueOf(properties.get("jargon.io.internal.input.stream.buffer.size")));
+                    .setText(String.valueOf(properties.get("jargon.io.internal.input.stream.buffer.size")));
         } catch (IdropException ex) {
             log.error("unable to restore InternalInputStreamBufferSize idrop property", ex);
             throw new IdropRuntimeException(
-                "unable to restore InternalInputStreamBufferSize idrop property", ex);
+                    "unable to restore InternalInputStreamBufferSize idrop property", ex);
         }
     }//GEN-LAST:event_btnResetInputBufferActionPerformed
 
@@ -1182,11 +1178,11 @@ public class SettingsDialog extends javax.swing.JDialog {
             IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
             Properties properties = propertiesHelper.loadIdropProperties();
             this.txtInternalOutputBuffer
-            .setText(String.valueOf(properties.get("jargon.io.internal.output.stream.buffer.size")));
+                    .setText(String.valueOf(properties.get("jargon.io.internal.output.stream.buffer.size")));
         } catch (IdropException ex) {
             log.error("unable to restore InternalOutputStreamBufferSize idrop property", ex);
             throw new IdropRuntimeException(
-                "unable to restore InternalOutputStreamBufferSize idrop property", ex);
+                    "unable to restore InternalOutputStreamBufferSize idrop property", ex);
         }
     }//GEN-LAST:event_btnResetOutputBufferActionPerformed
 
@@ -1195,11 +1191,11 @@ public class SettingsDialog extends javax.swing.JDialog {
             IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
             Properties properties = propertiesHelper.loadIdropProperties();
             this.txtLocalFileInputBufferSize
-            .setText(String.valueOf(properties.get("jargon.io.local.output.stream.buffer.size")));
+                    .setText(String.valueOf(properties.get("jargon.io.local.output.stream.buffer.size")));
         } catch (IdropException ex) {
             log.error("unable to restore LocalFileInputStreamBufferSize idrop property", ex);
             throw new IdropRuntimeException(
-                "unable to restore LocalFileInputStreamBufferSize idrop property", ex);
+                    "unable to restore LocalFileInputStreamBufferSize idrop property", ex);
         }
     }//GEN-LAST:event_btnResetInputBufferSizeActionPerformed
 
@@ -1208,11 +1204,11 @@ public class SettingsDialog extends javax.swing.JDialog {
             IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
             Properties properties = propertiesHelper.loadIdropProperties();
             this.txtLocalFileOutputBufferSize
-            .setText(String.valueOf(properties.get("jargon.io.local.output.stream.buffer.size")));
+                    .setText(String.valueOf(properties.get("jargon.io.local.output.stream.buffer.size")));
         } catch (IdropException ex) {
             log.error("unable to restore LocalFileOutputStreamBufferSize idrop property", ex);
             throw new IdropRuntimeException(
-                "unable to restore LocalFileOutputStreamBufferSize idrop property", ex);
+                    "unable to restore LocalFileOutputStreamBufferSize idrop property", ex);
         }
     }//GEN-LAST:event_btnResetOutputBufferSizeActionPerformed
 
@@ -1221,11 +1217,11 @@ public class SettingsDialog extends javax.swing.JDialog {
             IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
             Properties properties = propertiesHelper.loadIdropProperties();
             this.txtGetBufferSize
-            .setText(String.valueOf(properties.get("jargon.get.buffer.size")));
+                    .setText(String.valueOf(properties.get("jargon.get.buffer.size")));
         } catch (IdropException ex) {
             log.error("unable to restore GetBufferSize idrop property", ex);
             throw new IdropRuntimeException(
-                "unable to restore GetBufferSize idrop property", ex);
+                    "unable to restore GetBufferSize idrop property", ex);
         }
     }//GEN-LAST:event_btnResetGetBufferSizeActionPerformed
 
@@ -1234,11 +1230,11 @@ public class SettingsDialog extends javax.swing.JDialog {
             IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
             Properties properties = propertiesHelper.loadIdropProperties();
             this.txtPutBufferSize
-            .setText(String.valueOf(properties.get("jargon.put.buffer.size")));
+                    .setText(String.valueOf(properties.get("jargon.put.buffer.size")));
         } catch (IdropException ex) {
             log.error("unable to restore PutBufferSize idrop property", ex);
             throw new IdropRuntimeException(
-                "unable to restore PutBufferSize idrop property", ex);
+                    "unable to restore PutBufferSize idrop property", ex);
         }
     }//GEN-LAST:event_btnResetPutBufferSizeActionPerformed
 
@@ -1247,11 +1243,11 @@ public class SettingsDialog extends javax.swing.JDialog {
             IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
             Properties properties = propertiesHelper.loadIdropProperties();
             this.txtInputToOutputCopyBufferSize
-            .setText(String.valueOf(properties.get("jargon.io.input.to.output.copy.byte.buffer.size")));
+                    .setText(String.valueOf(properties.get("jargon.io.input.to.output.copy.byte.buffer.size")));
         } catch (IdropException ex) {
             log.error("unable to restore InputToOutputCopyBufferByteSize idrop property", ex);
             throw new IdropRuntimeException(
-                "unable to restore InputToOutputCopyBufferByteSize idrop property", ex);
+                    "unable to restore InputToOutputCopyBufferByteSize idrop property", ex);
         }
     }//GEN-LAST:event_btnResetCopyBufferSizeActionPerformed
 
@@ -1260,14 +1256,13 @@ public class SettingsDialog extends javax.swing.JDialog {
             IdropPropertiesHelper propertiesHelper = new IdropPropertiesHelper();
             Properties properties = propertiesHelper.loadIdropProperties();
             this.txtInternalCacheBufferSize
-            .setText(String.valueOf(properties.get("jargon.io.internal.cache.buffer.size")));
+                    .setText(String.valueOf(properties.get("jargon.io.internal.cache.buffer.size")));
         } catch (IdropException ex) {
             log.error("unable to restore InternalCacheBufferSize idrop property", ex);
             throw new IdropRuntimeException(
-                "unable to restore InternalCacheBufferSize idrop property", ex);
+                    "unable to restore InternalCacheBufferSize idrop property", ex);
         }
     }//GEN-LAST:event_btnResetCacheBufferSizeActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntSave;

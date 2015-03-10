@@ -7,7 +7,7 @@ package org.irods.jargon.idrop.desktop.systraygui;
 /**
  *
  * @author Mike
- */ 
+ */
 public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
 
     /**
@@ -121,7 +121,6 @@ public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnOKActionPerformed
 
-   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOK;
     private javax.swing.JLabel lblErrorMessage;

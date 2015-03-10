@@ -41,59 +41,58 @@ public class DiffSelectDialog extends javax.swing.JDialog {
     private final IDROPCore idropCore;
     private final iDrop idropGui;
     private static final org.slf4j.Logger log = LoggerFactory
-            .getLogger(SynchronizationDialog.class);
+            .getLogger(DiffSelectDialog.class);
+
     /**
      * Creates new form AddSynchronizationDialog
      */
-    public DiffSelectDialog(Tools2Dialog parent, iDrop idropGui, boolean modal, IDROPCore idropCore) {
+    public DiffSelectDialog(ToolsDialog parent, iDrop idropGui, boolean modal, IDROPCore idropCore) {
         super(parent, modal);
-        
+
         this.idropCore = idropCore;
         this.idropGui = idropGui;
-        
+
         initComponents();
         setTextBoxListeners();
         populateDiffData();
     }
-    
-    
-    
+
     private void populateDiffData() {
-        
+
         // populate local path, if any is selected
         TreePath localPath = idropGui.getFileTree().getSelectionPath();
         if (localPath != null) {
             LocalFileNode selectedFileNode = (LocalFileNode) idropGui.getFileTree()
-                            .getSelectionPath().getLastPathComponent();
+                    .getSelectionPath().getLastPathComponent();
             File targetPath = (File) selectedFileNode.getUserObject();
             final String localAbsPath = targetPath.getAbsolutePath();
             txtLocalPath.setText(localAbsPath);
             final File localFile = new File(localAbsPath);
-            
+
             log.info("local path for diff:{}", localAbsPath);
         }
 
         // look for iRODS absolute path for the right hand side of the diff
         IRODSFileService irodsFS;
         try {
-                irodsFS = new IRODSFileService(idropGui.getiDropCore()
-                                .irodsAccount(), idropGui.getiDropCore()
-                                .getIrodsFileSystem());
+            irodsFS = new IRODSFileService(idropGui.getiDropCore()
+                    .irodsAccount(), idropGui.getiDropCore()
+                    .getIrodsFileSystem());
         } catch (Exception ex) {
 
-                log.error("cannot create irods file service", ex);
-                MessageUtil.showError(this,
-                                "Cannot create iRODS file Service, see exception log",
-                                MessageUtil.ERROR_MESSAGE);
-                dispose();
-                return;
+            log.error("cannot create irods file service", ex);
+            MessageUtil.showError(this,
+                    "Cannot create iRODS file Service, see exception log",
+                    MessageUtil.ERROR_MESSAGE);
+            dispose();
+            return;
         }
 
         final String irodsAbsPath;
         IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) idropGui
-                        .getIrodsTree().getModel();
+                .getIrodsTree().getModel();
         ListSelectionModel selectionModel = idropGui.getIrodsTree()
-                        .getSelectionModel();
+                .getSelectionModel();
         int idx = selectionModel.getLeadSelectionIndex();
         IRODSFile ifile;
         // make sure there is a selected node
@@ -102,23 +101,23 @@ public class DiffSelectDialog extends javax.swing.JDialog {
             try {
                 IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel.getValueAt(idx, 0);
                 if (selectedNode == null) {
-                        return;
+                    return;
                 }
                 ifile = irodsFS.getIRODSFileForPath(selectedNode.getFullPath());
 
                 // rule out "/" and choose parent if file is not a directory
                 String path = ifile.getAbsolutePath();
                 if (ifile.isFile()) {
-                        path = ifile.getParent();
+                    path = ifile.getParent();
                 }
                 if ((path != null) && (!path.equals("/"))) {
-                        irodsAbsPath = path;
+                    irodsAbsPath = path;
                 } else {
-                        irodsAbsPath = "/";
+                    irodsAbsPath = "/";
                 }
                 txtIrodsPath.setText(ifile.getAbsolutePath());
                 log.info("irods path for diff:{}", ifile.getAbsolutePath());
-                    
+
                 // if this is a dataObject (not collection) get checksum (if computed)
                 // or compute checksum dynamically
                 try {
@@ -135,37 +134,41 @@ public class DiffSelectDialog extends javax.swing.JDialog {
                 MessageUtil.showError(this, ex.getMessage(), MessageUtil.ERROR_MESSAGE);
                 dispose();
             }
-    
+
         }
     }
-    
+
     private void setTextBoxListeners() {
         txtLocalPath.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 setDiffButtonEnabledProp();
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 setDiffButtonEnabledProp();
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 setDiffButtonEnabledProp();
             }
         });
-        
+
         txtIrodsPath.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 updateChecksum();
                 setDiffButtonEnabledProp();
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 updateChecksum();
                 setDiffButtonEnabledProp();
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 updateChecksum();
@@ -173,20 +176,20 @@ public class DiffSelectDialog extends javax.swing.JDialog {
             }
         });
     }
-    
+
     private String getDataObjectChecksum(IRODSFile file) throws JargonException {
         String checksum = null;
         DataObjectAO dataObjectAO = null;
-        
+
         IRODSAccessObjectFactory aoFactory = idropCore.getIRODSAccessObjectFactory();
         dataObjectAO = aoFactory.getDataObjectAO(idropCore.irodsAccount());
         checksum = dataObjectAO.computeMD5ChecksumOnDataObject(file);
-        
+
         return checksum;
     }
-    
+
     private void updateChecksum() {
-        String irodsPath = txtIrodsPath.getText();   
+        String irodsPath = txtIrodsPath.getText();
         IRODSFileService irodsFS;
         IRODSFile ifile;
 
@@ -207,23 +210,22 @@ public class DiffSelectDialog extends javax.swing.JDialog {
                 // TODO: error message/log here
                 //dispose();
             }
-        }   
+        }
     }
-    
+
     private void setDiffButtonEnabledProp() {
         String irodsPath = txtIrodsPath.getText();
         String localPath = txtLocalPath.getText();
-        if ((irodsPath != null) && 
-            (irodsPath.length() > 0) &&
-            (localPath != null) &&
-            (localPath.length() > 0)) {
+        if ((irodsPath != null)
+                && (irodsPath.length() > 0)
+                && (localPath != null)
+                && (localPath.length() > 0)) {
             btnSave.setEnabled(true);
-        }
-        else {
+        } else {
             btnSave.setEnabled(false);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -256,6 +258,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 250));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblSelectLocalPath.text")); // NOI18N
         jLabel1.setName("lblSelectLocalPath"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -277,6 +280,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.5;
         jPanel1.add(txtLocalPath, gridBagConstraints);
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblIrodsResourcePath.text")); // NOI18N
         jLabel3.setName("lblIrodsResourcePath"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -303,10 +307,10 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         btnLocalDirectory.setMnemonic('l');
         btnLocalDirectory.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnLocalResourcePath.text")); // NOI18N
         btnLocalDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnLocalResourcePath.toolTipText")); // NOI18N
-        btnLocalDirectory.setMaximumSize(new java.awt.Dimension(143, 31));
-        btnLocalDirectory.setMinimumSize(new java.awt.Dimension(143, 31));
+        btnLocalDirectory.setMaximumSize(null);
+        btnLocalDirectory.setMinimumSize(null);
         btnLocalDirectory.setName("btnLocalResourcePath"); // NOI18N
-        btnLocalDirectory.setPreferredSize(new java.awt.Dimension(100, 34));
+        btnLocalDirectory.setPreferredSize(new java.awt.Dimension(120, 34));
         btnLocalDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLocalDirectoryActionPerformed(evt);
@@ -323,7 +327,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         btnIrodsDirectory.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnIrodsDirectory.text")); // NOI18N
         btnIrodsDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnIrodsDirectory.toolTipText")); // NOI18N
         btnIrodsDirectory.setName("btnIrodsDirectory"); // NOI18N
-        btnIrodsDirectory.setPreferredSize(new java.awt.Dimension(100, 34));
+        btnIrodsDirectory.setPreferredSize(new java.awt.Dimension(120, 35));
         btnIrodsDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIrodsDirectoryActionPerformed(evt);
@@ -335,6 +339,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel1.add(btnIrodsDirectory, gridBagConstraints);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblChecksum.text")); // NOI18N
         jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblChecksum.toolTipText")); // NOI18N
         jLabel2.setName("lblChecksum"); // NOI18N
@@ -364,8 +369,10 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 4, 5));
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnCancel.text")); // NOI18N
-        btnCancel.setPreferredSize(new java.awt.Dimension(82, 42));
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -374,9 +381,12 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         jPanel2.add(btnCancel);
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-        btnSave.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnSave.text")); // NOI18N
+        btnSave.setMnemonic('d');
+        btnSave.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnDiff.text")); // NOI18N
+        btnSave.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnSave.toolTipText")); // NOI18N
         btnSave.setEnabled(false);
-        btnSave.setPreferredSize(new java.awt.Dimension(82, 42));
+        btnSave.setName("btnDiff"); // NOI18N
+        btnSave.setPreferredSize(new java.awt.Dimension(82, 35));
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -398,9 +408,9 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         localFileChooser.setDialogTitle("Select local directory diff target");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         int x = (toolkit.getScreenSize().width - localFileChooser
-                    .getWidth()) / 2;
+                .getWidth()) / 2;
         int y = (toolkit.getScreenSize().height - localFileChooser
-                    .getHeight()) / 2;
+                .getHeight()) / 2;
         localFileChooser.setLocation(x, y);
         final int returnVal = localFileChooser.showOpenDialog(this);
 
@@ -411,7 +421,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     String localPath = localFileChooser.getSelectedFile()
-                    .getAbsolutePath();
+                            .getAbsolutePath();
                     txtLocalPath.setText(MiscIRODSUtils.abbreviateFileName(localPath));
                     txtLocalPath.setToolTipText(localPath);
                 }
@@ -433,12 +443,12 @@ public class DiffSelectDialog extends javax.swing.JDialog {
 
                 String homeDir = MiscIRODSUtils.buildIRODSUserHomeForAccountUsingDefaultScheme(thisIdropCore.irodsAccount());
                 IRODSFinderDialog irodsFinder = new IRODSFinderDialog(null, false,
-                    thisIdropCore, thisIdropCore.irodsAccount(), homeDir);
+                        thisIdropCore, thisIdropCore.irodsAccount(), homeDir);
                 irodsFinder.setTitle("Select iRODS collection diff target");
                 irodsFinder
-                .setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
+                        .setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
                 irodsFinder.setLocation((int) thisDialog.getLocation().getX(), (int) thisDialog
-                    .getLocation().getY());
+                        .getLocation().getY());
                 irodsFinder.setVisible(true);
 
                 String selectedPath = irodsFinder.getSelectedAbsolutePath();
@@ -463,18 +473,18 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         IRODSFile ifile;
         final String irodsAbsPath = txtIrodsPath.getText();
         try {
-                irodsFS = new IRODSFileService(idropGui.getiDropCore()
-                                .irodsAccount(), idropGui.getiDropCore()
-                                .getIrodsFileSystem());
-                ifile = irodsFS.getIRODSFileForPath(irodsAbsPath);
+            irodsFS = new IRODSFileService(idropGui.getiDropCore()
+                    .irodsAccount(), idropGui.getiDropCore()
+                    .getIrodsFileSystem());
+            ifile = irodsFS.getIRODSFileForPath(irodsAbsPath);
         } catch (Exception ex) {
 
-                log.error("cannot create irods file service", ex);
-                MessageUtil.showError(this,
-                                "Cannot create iRODS file Service, see exception log",
-                                MessageUtil.ERROR_MESSAGE);
-                dispose();
-                return;
+            log.error("cannot create irods file service", ex);
+            MessageUtil.showError(this,
+                    "Cannot create iRODS file Service, see exception log",
+                    MessageUtil.ERROR_MESSAGE);
+            dispose();
+            return;
         }
         log.info("irods path for diff:{}", ifile.getAbsolutePath());
 
@@ -484,39 +494,39 @@ public class DiffSelectDialog extends javax.swing.JDialog {
             @Override
             public void run() {
 
-                    thisDialog.dispose();
-                    idropGui.setCursor(Cursor
-                                    .getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    FileTreeDiffUtility fileTreeDiffUtility = new FileTreeDiffUtilityImpl(
-                                    idropGui.getiDropCore().irodsAccount(), idropGui
-                                                    .getiDropCore().getIRODSAccessObjectFactory());
-                    try {
-                            FileTreeModel diffModel = fileTreeDiffUtility
-                                            .generateDiffLocalToIRODS(localFile, irodsAbsPath,
-                                                            0L, 0L);
-                            DiffTreePostProcessor postProcessor = new DiffTreePostProcessor();
-                            postProcessor.postProcessFileTreeModel(diffModel);
+                thisDialog.dispose();
+                idropGui.setCursor(Cursor
+                        .getPredefinedCursor(Cursor.WAIT_CURSOR));
+                FileTreeDiffUtility fileTreeDiffUtility = new FileTreeDiffUtilityImpl(
+                        idropGui.getiDropCore().irodsAccount(), idropGui
+                        .getiDropCore().getIRODSAccessObjectFactory());
+                try {
+                    FileTreeModel diffModel = fileTreeDiffUtility
+                            .generateDiffLocalToIRODS(localFile, irodsAbsPath,
+                                    0L, 0L);
+                    DiffTreePostProcessor postProcessor = new DiffTreePostProcessor();
+                    postProcessor.postProcessFileTreeModel(diffModel);
 
-                            log.info("diffModel:{}", diffModel);
-                            DiffViewData diffViewData = new DiffViewData();
-                            diffViewData.setFileTreeModel(diffModel);
-                            diffViewData.setIrodsAbsolutePath(irodsAbsPath);
-                            diffViewData.setLocalAbsolutePath(localAbsPath);
-                            DiffViewDialog diffViewDialog = new DiffViewDialog(
-                                            thisDialog.idropGui, true, diffViewData);
-                            diffViewDialog.setVisible(true);
-                    } catch (JargonException ex) {
-                            log.error("Error generating diff", ex);
-                            MessageUtil.showError(
-                                            thisDialog,
-                                            "An error occurred generating the diff:\n"
-                                                            + ex.getMessage(),
-                                            MessageUtil.ERROR_MESSAGE);
-                            thisDialog.dispose();
-                    } finally {
-                            idropGui.setCursor(Cursor
-                                            .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    }
+                    log.info("diffModel:{}", diffModel);
+                    DiffViewData diffViewData = new DiffViewData();
+                    diffViewData.setFileTreeModel(diffModel);
+                    diffViewData.setIrodsAbsolutePath(irodsAbsPath);
+                    diffViewData.setLocalAbsolutePath(localAbsPath);
+                    DiffViewDialog diffViewDialog = new DiffViewDialog(
+                            thisDialog.idropGui, true, diffViewData);
+                    diffViewDialog.setVisible(true);
+                } catch (JargonException ex) {
+                    log.error("Error generating diff", ex);
+                    MessageUtil.showError(
+                            thisDialog,
+                            "An error occurred generating the diff:\n"
+                            + ex.getMessage(),
+                            MessageUtil.ERROR_MESSAGE);
+                    thisDialog.dispose();
+                } finally {
+                    idropGui.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
             }
         });
 
@@ -526,7 +536,6 @@ public class DiffSelectDialog extends javax.swing.JDialog {
 
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

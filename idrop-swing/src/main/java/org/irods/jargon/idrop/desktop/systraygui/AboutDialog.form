@@ -144,6 +144,7 @@
               <Image iconType="3" name="/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="79"/>
+            <Property name="text" type="java.lang.String" value="OK"/>
             <Property name="name" type="java.lang.String" value="btnOK" noResource="true"/>
           </Properties>
           <Events>

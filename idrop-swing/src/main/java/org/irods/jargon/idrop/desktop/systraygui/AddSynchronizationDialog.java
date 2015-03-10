@@ -27,17 +27,18 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
     private final IDROPCore idropCore;
     private Synchronization synchronization = new Synchronization();
     private static final org.slf4j.Logger log = LoggerFactory
-            .getLogger(SynchronizationDialog.class);
+            .getLogger(AddSynchronizationDialog.class);
+
     /**
      * Creates new form AddSynchronizationDialog
      */
-    public AddSynchronizationDialog(SynchronizationDialogTwo parent, boolean modal, IDROPCore idropCore) {
+    public AddSynchronizationDialog(SynchronizationDialog parent, boolean modal, IDROPCore idropCore) {
         super(parent, modal);
         initComponents();
         this.idropCore = idropCore;
     }
-    
-    public AddSynchronizationDialog(SynchronizationDialogTwo parent, boolean modal, IDROPCore idropCore, Synchronization sync) {
+
+    public AddSynchronizationDialog(SynchronizationDialog parent, boolean modal, IDROPCore idropCore, Synchronization sync) {
         super(parent, modal);
         initComponents();
         this.idropCore = idropCore;
@@ -45,11 +46,11 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         this.editMode = true;
         populateSyncData();
     }
-    
+
     public Synchronization getSynchronization() {
         return this.synchronization;
     }
-    
+
     private void populateSyncData() {
         final AddSynchronizationDialog dialog = this;
 
@@ -71,7 +72,7 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
 
         });
     }
-    
+
     class FrequencyTypeModelToo extends AbstractListModel<FrequencyType> implements ComboBoxModel<FrequencyType> {
 
         private FrequencyType selected = null;
@@ -182,10 +183,10 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         btnLocalDirectory.setMnemonic('l');
         btnLocalDirectory.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnBrowseLocal.text")); // NOI18N
         btnLocalDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnBrowseLocal.toolTipText")); // NOI18N
-        btnLocalDirectory.setMaximumSize(new java.awt.Dimension(143, 31));
-        btnLocalDirectory.setMinimumSize(new java.awt.Dimension(143, 31));
+        btnLocalDirectory.setMaximumSize(null);
+        btnLocalDirectory.setMinimumSize(new java.awt.Dimension(140, 31));
         btnLocalDirectory.setName("btnBrowseLocal"); // NOI18N
-        btnLocalDirectory.setPreferredSize(new java.awt.Dimension(100, 34));
+        btnLocalDirectory.setPreferredSize(new java.awt.Dimension(140, 31));
         btnLocalDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLocalDirectoryActionPerformed(evt);
@@ -201,8 +202,10 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         btnIrodsDirectory.setMnemonic('i');
         btnIrodsDirectory.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnBrowseIrodsResourcePath.text")); // NOI18N
         btnIrodsDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnBrowseIrodsResourcePath.toolTipText")); // NOI18N
+        btnIrodsDirectory.setMaximumSize(null);
+        btnIrodsDirectory.setMinimumSize(new java.awt.Dimension(140, 31));
         btnIrodsDirectory.setName("btnBrowseIrodsResourcePath"); // NOI18N
-        btnIrodsDirectory.setPreferredSize(new java.awt.Dimension(100, 34));
+        btnIrodsDirectory.setPreferredSize(new java.awt.Dimension(140, 31));
         btnIrodsDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIrodsDirectoryActionPerformed(evt);
@@ -272,7 +275,7 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnCancel.text")); // NOI18N
         btnCancel.setName("btnCancel"); // NOI18N
-        btnCancel.setPreferredSize(new java.awt.Dimension(82, 42));
+        btnCancel.setPreferredSize(new java.awt.Dimension(100, 31));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -282,8 +285,11 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnSave.setText(org.openide.util.NbBundle.getMessage(AddSynchronizationDialog.class, "AddSynchronizationDialog.btnSave.text")); // NOI18N
+        btnSave.setMaximumSize(null);
+        btnSave.setMinimumSize(null);
         btnSave.setName("btnSave"); // NOI18N
-        btnSave.setPreferredSize(new java.awt.Dimension(82, 42));
+        btnSave.setPreferredSize(new java.awt.Dimension(100, 31));
+        btnSave.setRolloverEnabled(false);
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -305,9 +311,9 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
         localFileChooser.setDialogTitle("Select synchronization target");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         int x = (toolkit.getScreenSize().width - localFileChooser
-                    .getWidth()) / 2;
+                .getWidth()) / 2;
         int y = (toolkit.getScreenSize().height - localFileChooser
-                    .getHeight()) / 2;
+                .getHeight()) / 2;
         localFileChooser.setLocation(x, y);
         final int returnVal = localFileChooser.showOpenDialog(this);
 
@@ -318,7 +324,7 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     String localPath = localFileChooser.getSelectedFile()
-                    .getAbsolutePath();
+                            .getAbsolutePath();
                     txtLocalPath.setText(MiscIRODSUtils.abbreviateFileName(localPath));
                     txtLocalPath.setToolTipText(localPath);
                     synchronization.setLocalSynchDirectory(localPath);
@@ -340,12 +346,12 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
             public void run() {
 
                 IRODSFinderDialog irodsFinder = new IRODSFinderDialog(null, false,
-                    thisIdropCore, thisIdropCore.irodsAccount());
+                        thisIdropCore, thisIdropCore.irodsAccount());
                 irodsFinder.setTitle("Select iRODS Collection Upload Target");
                 irodsFinder
-                .setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
+                        .setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
                 irodsFinder.setLocation((int) thisDialog.getLocation().getX(), (int) thisDialog
-                    .getLocation().getY());
+                        .getLocation().getY());
                 irodsFinder.setVisible(true);
 
                 String selectedPath = irodsFinder.getSelectedAbsolutePath();
@@ -369,7 +375,7 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
 
                 log.info("updating!");
                 if (synchronization != null) {
-  
+
                     synchronization.setSynchronizationMode(SynchronizationType.ONE_WAY_LOCAL_TO_IRODS);
                     synchronization.setFrequencyType((FrequencyType) comboSynchFrequency.getModel().getSelectedItem());
 
@@ -386,13 +392,14 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
                     // source and target should be set, and are altered by using the lookup buttons and stored in the synchronization object, so i don't need
                     // to update them here
                     synchronization.setName(txtName.getText());
+                    synchronization.setLocalSynchDirectory(txtLocalPath.getText());
+                    synchronization.setIrodsSynchDirectory(txtIrodsPath.getText());
                     try {
                         idropCore.getConveyorService().getSynchronizationManagerService().addOrUpdateSynchronization(synchronization);
                         if (editMode) {
-                            MessageManager.showMessage(dialog,"Synchronization updated");
-                        }
-                        else {
-                           MessageManager.showMessage(dialog,"Synchronization created"); 
+                            MessageManager.showMessage(dialog, "Synchronization updated");
+                        } else {
+                            MessageManager.showMessage(dialog, "Synchronization created");
                         }
                     } catch (ConveyorExecutionException ex) {
                         log.error("exception saving synchronization", ex);
@@ -412,7 +419,6 @@ public class AddSynchronizationDialog extends javax.swing.JDialog {
     private void comboSynchFrequencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSynchFrequencyActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboSynchFrequencyActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

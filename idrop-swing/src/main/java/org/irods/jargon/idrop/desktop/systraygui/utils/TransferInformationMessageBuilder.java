@@ -36,7 +36,6 @@ public class TransferInformationMessageBuilder {
 
         StringBuilder sb = new StringBuilder();
 
-
         if (transferAttempt.getTransfer().getTransferState() == TransferStateEnum.ENQUEUED && transferAttempt.getAttemptEnd() == null) {
             sb.append("<html>This transfer is enqueued for proceessing</html>");
         } else {
@@ -60,18 +59,17 @@ public class TransferInformationMessageBuilder {
             if (transferAttempt.getAttemptEnd() != null) {
                 sb.append(" <br/> The transfer ended at ");
                 sb.append(transferAttempt.getAttemptEnd());
-                 sb.append("</p><p> This attempt involved ");
+                sb.append("</p><p> This attempt involved ");
                 sb.append(transferAttempt.getTotalFilesCount());
                 sb.append(" files. ");
             } else {
-                  sb.append(" <br/> The transfer has not not completed ");
+                sb.append(" <br/> The transfer has not not completed ");
                 sb.append(transferAttempt.getAttemptEnd());
-                 sb.append("</p><p> This attempt will involve ");
+                sb.append("</p><p> This attempt will involve ");
                 sb.append(transferAttempt.getTotalFilesCount());
                 sb.append(" files. ");
             }
 
-           
             if (attemptType == AttemptType.ERROR) {
 
                 if (transferAttempt.getErrorMessage() == null
@@ -90,13 +88,13 @@ public class TransferInformationMessageBuilder {
                 sb.append(" and in this attempt there were ");
                 sb.append(transferAttempt.getTotalFilesTransferredSoFar()
                         - transferAttempt.getTotalFilesSkippedSoFar());
-                
+
                 if (transferAttempt.getAttemptEnd() == null) {
-                     sb.append(" files transferred so far");
+                    sb.append(" files transferred so far");
                 } else {
-                     sb.append(" files actually transferred");
+                    sb.append(" files actually transferred");
                 }
-                
+
             }
 
             sb.append(".</p></html>");

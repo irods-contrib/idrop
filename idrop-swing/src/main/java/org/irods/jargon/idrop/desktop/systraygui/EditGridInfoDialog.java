@@ -20,218 +20,213 @@ import org.irods.jargon.transfer.dao.domain.GridAccount;
 import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
 
 /**
- * 
+ *
  * @author lisa
  */
 public class EditGridInfoDialog extends javax.swing.JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2068814595906991664L;
-	private GridAccount gridAccount = null;
-	private final IDROPCore idropCore;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2068814595906991664L;
+    private GridAccount gridAccount = null;
+    private final IDROPCore idropCore;
 
-	// private final iDrop idrop;
+    private final iDrop idrop = null;
+    /**
+     * Creates new form EditGridInfoDialog
+     */
+    public EditGridInfoDialog(final java.awt.Frame parent, final boolean modal,
+            final IDROPCore idropCore, final GridAccount gridAccount) {
+        // final iDrop idrop) {
 
-	/**
-	 * Creates new form EditGridInfoDialog
-	 */
-	public EditGridInfoDialog(final java.awt.Frame parent, final boolean modal,
-			final IDROPCore idropCore, final GridAccount gridAccount) {
-		// final iDrop idrop) {
+        super(parent, modal);
+        initComponents();
+        this.gridAccount = gridAccount;
+        this.idropCore = idropCore;
+        // this.idrop = idrop;
+        populateGridAccountInfo();
+        initAuthSchemesCombo();
+        getRootPane().setDefaultButton(btnOK);
+    }
 
-		super(parent, modal);
-		initComponents();
-		this.gridAccount = gridAccount;
-		this.idropCore = idropCore;
-		// this.idrop = idrop;
-		populateGridAccountInfo();
-		initAuthSchemesCombo();
-		getRootPane().setDefaultButton(btnOK);
-	}
+    private void populateGridAccountInfo() {
+        String host = gridAccount.getHost();
+        if (host != null) {
+            lblHost.setText(host);
+        }
 
-	private void populateGridAccountInfo() {
-		String host = gridAccount.getHost();
-		if (host != null) {
-			lblHost.setText(host);
-		}
+        int port = gridAccount.getPort();
+        txtPort.setText(String.valueOf(port));
 
-		int port = gridAccount.getPort();
-		txtPort.setText(String.valueOf(port));
+        String zone = gridAccount.getZone();
+        if (zone != null) {
+            lblZone.setText(zone);
+        }
 
-		String zone = gridAccount.getZone();
-		if (zone != null) {
-			lblZone.setText(zone);
-		}
+        String user = gridAccount.getUserName();
+        if (user != null) {
+            lblUser.setText(user);
+        }
 
-		String user = gridAccount.getUserName();
-		if (user != null) {
-			lblUser.setText(user);
-		}
+        // need to get plain test password
+        GridAccountService gridAccountService = idropCore.getConveyorService()
+                .getGridAccountService();
+        IRODSAccount irodAccountForPswd = null;
+        String pswd = null;
+        try {
+            irodAccountForPswd = gridAccountService
+                    .irodsAccountForGridAccount(gridAccount);
+        } catch (ConveyorExecutionException ex) {
+            Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                    "Could not retrieve stored password for this account.",
+                    "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+        }
+        if (irodAccountForPswd != null) {
+            pswd = irodAccountForPswd.getPassword();
+        }
+        if (pswd != null) {
+            txtPassword.setText(pswd);
+            txtVerifyPassword.setText(pswd);
+        }
 
-		// need to get plain test password
-		GridAccountService gridAccountService = idropCore.getConveyorService()
-				.getGridAccountService();
-		IRODSAccount irodAccountForPswd = null;
-		String pswd = null;
-		try {
-			irodAccountForPswd = gridAccountService
-					.irodsAccountForGridAccount(gridAccount);
-		} catch (ConveyorExecutionException ex) {
-			Logger.getLogger(EditGridInfoDialog.class.getName()).log(
-					Level.SEVERE, null, ex);
-			JOptionPane.showMessageDialog(this,
-					"Could not retrieve stored password for this account.",
-					"Edit Grid Account", JOptionPane.ERROR_MESSAGE);
-		}
-		if (irodAccountForPswd != null) {
-			pswd = irodAccountForPswd.getPassword();
-		}
-		if (pswd != null) {
-			txtPassword.setText(pswd);
-			txtVerifyPassword.setText(pswd);
-		}
+        String defResc = gridAccount.getDefaultResource();
+        if (defResc != null) {
+            txtDefaultResource.setText(defResc);
+        }
 
-		String defResc = gridAccount.getDefaultResource();
-		if (defResc != null) {
-			txtDefaultResource.setText(defResc);
-		}
+        String initPath = gridAccount.getDefaultPath();
+        if (initPath != null) {
+            txtInitialPath.setText(initPath);
+        }
 
-		String initPath = gridAccount.getDefaultPath();
-		if (initPath != null) {
-			txtInitialPath.setText(initPath);
-		}
+        String comment = gridAccount.getComment();
+        if (comment != null) {
+            textareaComment.setText(comment);
+        }
+    }
 
-		String comment = gridAccount.getComment();
-		if (comment != null) {
-			textareaComment.setText(comment);
-		}
-	}
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private void initAuthSchemesCombo() {
+        cbAuthScheme.setModel(new DefaultComboBoxModel(AuthScheme.values()));
+        // also select correct auth scheme for this grid
+        cbAuthScheme.setSelectedItem(gridAccount.getAuthScheme());
+    }
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void initAuthSchemesCombo() {
-		cbAuthScheme.setModel(new DefaultComboBoxModel(AuthScheme.values()));
-		// also select correct auth scheme for this grid
-		cbAuthScheme.setSelectedItem(gridAccount.getAuthScheme());
-	}
+    private IRODSAccount createIRODSAccountFromForm() {
+        IRODSAccount acct = null;
 
-	private IRODSAccount createIRODSAccountFromForm() {
-		IRODSAccount acct = null;
+        String host = gridAccount.getHost();
+        String strPort = txtPort.getText().trim();
+        int port = 0;
+        if ((strPort != null) && (!strPort.isEmpty())) {
+            port = Integer.valueOf(strPort).intValue();
+        }
+        String zone = gridAccount.getZone();
+        String user = gridAccount.getUserName();
+        String password = new String(txtPassword.getPassword()).trim();
+        String verifyPassword = new String(txtVerifyPassword.getPassword())
+                .trim();
+        String defaultResc = txtDefaultResource.getText().trim();
+        String initialPath = txtInitialPath.getText().trim();
+        if ((txtInitialPath.getText() == null)
+                || (txtInitialPath.getText().isEmpty())) {
+            StringBuilder homeBuilder = new StringBuilder();
+            homeBuilder.append("/");
+            homeBuilder.append(zone);
+            homeBuilder.append("/home/");
+            homeBuilder.append(user);
+            initialPath = homeBuilder.toString();
+        }
 
-		String host = gridAccount.getHost();
-		String strPort = txtPort.getText().trim();
-		int port = 0;
-		if ((strPort != null) && (!strPort.isEmpty())) {
-			port = Integer.valueOf(strPort).intValue();
-		}
-		String zone = gridAccount.getZone();
-		String user = gridAccount.getUserName();
-		String password = new String(txtPassword.getPassword()).trim();
-		String verifyPassword = new String(txtVerifyPassword.getPassword())
-				.trim();
-		String defaultResc = txtDefaultResource.getText().trim();
-		String initialPath = txtInitialPath.getText().trim();
-		if ((txtInitialPath.getText() == null)
-				|| (txtInitialPath.getText().isEmpty())) {
-			StringBuilder homeBuilder = new StringBuilder();
-			homeBuilder.append("/");
-			homeBuilder.append(zone);
-			homeBuilder.append("/home/");
-			homeBuilder.append(user);
-			initialPath = homeBuilder.toString();
-		}
+        // check to make sure passwords match
+        if (!password.equals(verifyPassword)) {
+            JOptionPane.showMessageDialog(this,
+                    "Passwords do not match. Please try again.",
+                    "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+            return acct;
+        }
 
-		// check to make sure passwords match
-		if (!password.equals(verifyPassword)) {
-			JOptionPane.showMessageDialog(this,
-					"Passwords do not match. Please try again.",
-					"Edit Grid Account", JOptionPane.ERROR_MESSAGE);
-			return acct;
-		}
+        // GridAccountService gridAccountService =
+        // idropCore.getConveyorService().getGridAccountService();
+        // need to do this to retrieve plain text password
+        // IRODSAccount irodAccountForPswd = null;
+        // not needed if collecting password from form
+        // try {
+        // irodAccountForPswd =
+        // gridAccountService.irodsAccountForGridAccount(gridAccount);
+        // } catch (ConveyorExecutionException ex) {
+        // Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+        // Level.SEVERE, null, ex);
+        // JOptionPane.showMessageDialog(
+        // this,
+        // "Update of grid account failed. Could not store password.",
+        // "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+        // }
+        try {
+            acct = IRODSAccount.instance(host, port, user, password,
+                    initialPath, zone, defaultResc);
+        } catch (JargonException ex) {
+            JOptionPane
+                    .showMessageDialog(
+                            this,
+                            "Please enter grid account information. Host, port, zone, and user name are required.",
+                            "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+            return acct;
+        } catch (IllegalArgumentException ex) {
+            JOptionPane
+                    .showMessageDialog(
+                            this,
+                            "Please enter grid account information. Host, port, zone, and user name are required.",
+                            "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+            return acct;
+        }
 
-		// GridAccountService gridAccountService =
-		// idropCore.getConveyorService().getGridAccountService();
+        // now add authorization scheme to gridaccount
+        AuthScheme scheme = (AuthScheme) cbAuthScheme.getSelectedItem();
+        if (scheme != null) {
+            acct.setAuthenticationScheme(scheme);
+        }
 
-		// need to do this to retrieve plain text password
-		// IRODSAccount irodAccountForPswd = null;
+        return acct;
+    }
 
-		// not needed if collecting password from form
-		// try {
-		// irodAccountForPswd =
-		// gridAccountService.irodsAccountForGridAccount(gridAccount);
-		// } catch (ConveyorExecutionException ex) {
-		// Logger.getLogger(EditGridInfoDialog.class.getName()).log(
-		// Level.SEVERE, null, ex);
-		// JOptionPane.showMessageDialog(
-		// this,
-		// "Update of grid account failed. Could not store password.",
-		// "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
-		// }
-
-		try {
-			acct = IRODSAccount.instance(host, port, user, password,
-					initialPath, zone, defaultResc);
-		} catch (JargonException ex) {
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"Please enter grid account information. Host, port, zone, and user name are required.",
-							"Edit Grid Account", JOptionPane.ERROR_MESSAGE);
-			return acct;
-		} catch (IllegalArgumentException ex) {
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"Please enter grid account information. Host, port, zone, and user name are required.",
-							"Edit Grid Account", JOptionPane.ERROR_MESSAGE);
-			return acct;
-		}
-
-		// now add authorization scheme to gridaccount
-		AuthScheme scheme = (AuthScheme) cbAuthScheme.getSelectedItem();
-		if (scheme != null) {
-			acct.setAuthenticationScheme(scheme);
-		}
-
-		return acct;
-	}
-
-	// private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent
-	// evt) {
-	// IRODSAccount acct = createIRODSAccountFromForm();
-	// if (acct != null) {
-	// ChangePasswordDialog changePasswordDialog = new
-	// ChangePasswordDialog(this, true, idrop, acct);
-	// changePasswordDialog.setLocation(
-	// (int)this.getLocation().getX(), (int)this.getLocation().getY());
-	// changePasswordDialog.setVisible(true);
-	//
-	// // need to put new password in gridAccount in case OK button is now
-	// pressed in this dialog
-	// String newPasswd = changePasswordDialog.getNewPassword();
-	// if (newPasswd != null) {
-	// acct.setPassword(newPasswd);
-	// try {
-	// this.gridAccount =
-	// idropCore.getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(acct);
-	// } catch (ConveyorExecutionException ex) {
-	// Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
-	// null, ex);
-	// MessageManager.showError(this,
-	// "Cannot retrieve grid account information", "Change Password");
-	// }
-	// }
-	// }
-	//
-	// }
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-
-	// <editor-fold defaultstate="collapsed"
+    // private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent
+    // evt) {
+    // IRODSAccount acct = createIRODSAccountFromForm();
+    // if (acct != null) {
+    // ChangePasswordDialog changePasswordDialog = new
+    // ChangePasswordDialog(this, true, idrop, acct);
+    // changePasswordDialog.setLocation(
+    // (int)this.getLocation().getX(), (int)this.getLocation().getY());
+    // changePasswordDialog.setVisible(true);
+    //
+    // // need to put new password in gridAccount in case OK button is now
+    // pressed in this dialog
+    // String newPasswd = changePasswordDialog.getNewPassword();
+    // if (newPasswd != null) {
+    // acct.setPassword(newPasswd);
+    // try {
+    // this.gridAccount =
+    // idropCore.getConveyorService().getGridAccountService().findGridAccountByIRODSAccount(acct);
+    // } catch (ConveyorExecutionException ex) {
+    // Logger.getLogger(GridMemoryDialog.class.getName()).log(Level.SEVERE,
+    // null, ex);
+    // MessageManager.showError(this,
+    // "Cannot retrieve grid account information", "Change Password");
+    // }
+    // }
+    // }
+    //
+    // }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -505,64 +500,63 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPortActionPerformed
 
-	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
-		dispose();
-	}// GEN-LAST:event_btnCancelActionPerformed
+    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
+        dispose();
+    }// GEN-LAST:event_btnCancelActionPerformed
 
-	private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
+    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnOKActionPerformed
 
-		IRODSAccount gridInfo = createIRODSAccountFromForm();
+        IRODSAccount gridInfo = createIRODSAccountFromForm();
 
-		if (gridInfo != null) {
+        if (gridInfo != null) {
 
-			if (!validateGridAccount(gridInfo)) {
-				MessageManager
-						.showError(this,
-								"Unable to process login, the server or account appears to be invalid");
-				gridInfo = null;
+            if (!validateGridAccount(gridInfo)) {
+                MessageManager
+                        .showError(this,
+                                "Unable to process login, the server or account appears to be invalid");
+                gridInfo = null;
 
-				return;
-			}
+                return;
+            }
 
-			GridAccountService gridAccountService = idropCore
-					.getConveyorService().getGridAccountService();
+            GridAccountService gridAccountService = idropCore
+                    .getConveyorService().getGridAccountService();
 
-			// now add authorization scheme to gridaccount
-			AuthScheme scheme = (AuthScheme) cbAuthScheme.getSelectedItem();
-			if ((scheme != null) && (!(scheme.getTextValue().isEmpty()))) {
-				gridInfo.setAuthenticationScheme(scheme);
-			}
+            // now add authorization scheme to gridaccount
+            AuthScheme scheme = (AuthScheme) cbAuthScheme.getSelectedItem();
+            if ((scheme != null) && (!(scheme.getTextValue().isEmpty()))) {
+                gridInfo.setAuthenticationScheme(scheme);
+            }
 
-			try {
-				gridAccountService
-						.addOrUpdateGridAccountBasedOnIRODSAccount(gridInfo);
-				// use this when Mike adds comment to
-				// addOrUpdateGridAccountBasedOnIRODSAccount()
-				// gridAccountService.addOrUpdateGridAccountBasedOnIRODSAccount(gridInfo,
-				// comment);
-			} catch (PassPhraseInvalidException ex) {
-				gridInfo = null;
-				Logger.getLogger(EditGridInfoDialog.class.getName()).log(
-						Level.SEVERE, null, ex);
-				JOptionPane
-						.showMessageDialog(
-								this,
-								"Update of grid account failed. Pass phrase is invalid.",
-								"Edit Grid Account", JOptionPane.ERROR_MESSAGE);
-			} catch (ConveyorExecutionException ex) {
-				gridInfo = null;
-				Logger.getLogger(EditGridInfoDialog.class.getName()).log(
-						Level.SEVERE, null, ex);
-			}
+            try {
+                gridAccountService
+                        .addOrUpdateGridAccountBasedOnIRODSAccount(gridInfo);
+                // use this when Mike adds comment to
+                // addOrUpdateGridAccountBasedOnIRODSAccount()
+                // gridAccountService.addOrUpdateGridAccountBasedOnIRODSAccount(gridInfo,
+                // comment);
+            } catch (PassPhraseInvalidException ex) {
+                gridInfo = null;
+                Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+                JOptionPane
+                        .showMessageDialog(
+                                this,
+                                "Update of grid account failed. Pass phrase is invalid.",
+                                "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+            } catch (ConveyorExecutionException ex) {
+                gridInfo = null;
+                Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+            }
 
-			dispose();
-		}
-	}// GEN-LAST:event_btnOKActionPerformed
+            dispose();
+        }
+    }// GEN-LAST:event_btnOKActionPerformed
 
-	/**
-	 * @param args
-	 *            the command line arguments
-	 */
+    /**
+     * @param args the command line arguments
+     */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
@@ -594,15 +588,15 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
     private javax.swing.JPasswordField txtVerifyPassword;
     // End of variables declaration//GEN-END:variables
 
-	private boolean validateGridAccount(final IRODSAccount gridInfo) {
-		try {
-			idropCore.getIrodsFileSystem().getIRODSAccessObjectFactory()
-					.authenticateIRODSAccount(gridInfo);
-			return true;
-		} catch (AuthenticationException ex) {
-			return false;
-		} catch (JargonException je) {
-			return false;
-		}
-	}
+    private boolean validateGridAccount(final IRODSAccount gridInfo) {
+        try {
+            idropCore.getIrodsFileSystem().getIRODSAccessObjectFactory()
+                    .authenticateIRODSAccount(gridInfo);
+            return true;
+        } catch (AuthenticationException ex) {
+            return false;
+        } catch (JargonException je) {
+            return false;
+        }
+    }
 }

@@ -54,6 +54,7 @@ public class TestConnectionDialog extends javax.swing.JDialog {
     private final ImageIcon failIcon = new ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/red_X.png"));
     private static final org.slf4j.Logger log = LoggerFactory
             .getLogger(TestConnectionDialog.class);
+
     /**
      * Creates new form TestConnectionDialog
      */
@@ -64,22 +65,21 @@ public class TestConnectionDialog extends javax.swing.JDialog {
 
         new RunTests(this).execute();
     }
-    
+
     private void setLabelIcon(javax.swing.JLabel label, boolean testPassed) {
-        
+
         if (testPassed) {
             label.setIcon(okIcon);
-        }
-        else {
+        } else {
             label.setIcon(failIcon);
         }
         label.setVisible(true);
     }
-    
+
     private class RunTests extends SwingWorker<Void, Void> {
-        
+
         final JDialog dialog;
-        
+
         public RunTests(JDialog dialog) {
             this.dialog = dialog;
         }
@@ -89,7 +89,7 @@ public class TestConnectionDialog extends javax.swing.JDialog {
             Cursor cursor = dialog.getContentPane().getCursor();
             dialog.getContentPane().setCursor(new Cursor(Cursor.WAIT_CURSOR));
             enableButtons(false);
-            
+
             log.info("running tests");
             final IRODSFileSystem irodsFileSystem = idropCore.getIrodsFileSystem();
             final IRODSAccount irodsAccount = idropCore.irodsAccount();
@@ -108,27 +108,22 @@ public class TestConnectionDialog extends javax.swing.JDialog {
             log.info("trying connection");
             try {
                 idropCore.getIrodsFileSystem().getIRODSAccessObjectFactory()
-                         .authenticateIRODSAccount(irodsAccount);
+                        .authenticateIRODSAccount(irodsAccount);
             } catch (AuthenticationException ex) {
-                    acctPassed = false;
-                    connectionException = ex;
+                acctPassed = false;
+                connectionException = ex;
             } catch (JargonException je) {
-                    connectionException = je;
-                    Throwable cause = je.getCause();
-                    if (cause instanceof ConnectException) {
-                        portPassed = false;
-                    }
-                    else
-                    if (cause instanceof UnknownHostException) { // je.getCause() == UnknownHostException)
-                        hostPassed = false;
-                    }
-                    else
-                    if (cause instanceof InvalidUserException) {
-                        acctPassed = false;
-                    }
-                    else {
-                        acctPassed = false;
-                    }
+                connectionException = je;
+                Throwable cause = je.getCause();
+                if (cause instanceof ConnectException) {
+                    portPassed = false;
+                } else if (cause instanceof UnknownHostException) { // je.getCause() == UnknownHostException)
+                    hostPassed = false;
+                } else if (cause instanceof InvalidUserException) {
+                    acctPassed = false;
+                } else {
+                    acctPassed = false;
+                }
             }
 
             // set status icons for ports and host
@@ -142,145 +137,140 @@ public class TestConnectionDialog extends javax.swing.JDialog {
 
             // only do the rest if previous test have passed
             if (portPassed & hostPassed & acctPassed) {
-            try {
-                IRODSFile irodsFile = irodsFileSystem.getIRODSFileFactory(irodsAccount)
-                        .instanceIRODSFile(irodsHomeDir);
-            } catch (JargonException ex) {
-                log.error(ex.toString());
-            }
+                try {
+                    IRODSFile irodsFile = irodsFileSystem.getIRODSFileFactory(irodsAccount)
+                            .instanceIRODSFile(irodsHomeDir);
+                } catch (JargonException ex) {
+                    log.error(ex.toString());
+                }
 
-            try {
-                File localFile = new File(localTempDir);
+                try {
+                    File localFile = new File(localTempDir);
 
-                ConnectionTesterConfiguration connectionTesterConfiguration = new ConnectionTesterConfiguration();
-                connectionTesterConfiguration.setCleanupOnCompletion(true);
-                connectionTesterConfiguration.setIrodsParentDirectory(irodsHomeDir);
-                connectionTesterConfiguration.setLocalSourceParentDirectory(localTempDir);
+                    ConnectionTesterConfiguration connectionTesterConfiguration = new ConnectionTesterConfiguration();
+                    connectionTesterConfiguration.setCleanupOnCompletion(true);
+                    connectionTesterConfiguration.setIrodsParentDirectory(irodsHomeDir);
+                    connectionTesterConfiguration.setLocalSourceParentDirectory(localTempDir);
 
-                ConnectionTester connectionTester = new ConnectionTesterImpl(
-                        irodsFileSystem.getIRODSAccessObjectFactory(), irodsAccount,
-                        connectionTesterConfiguration);
-                List<TestType> testTypes = new ArrayList<TestType>();
-                testTypes.add(TestType.MEDIUM);
-                //testTypes.add(TestType.LARGE);
+                    ConnectionTester connectionTester = new ConnectionTesterImpl(
+                            irodsFileSystem.getIRODSAccessObjectFactory(), irodsAccount,
+                            connectionTesterConfiguration);
+                    List<TestType> testTypes = new ArrayList<TestType>();
+                    testTypes.add(TestType.MEDIUM);
+                    //testTypes.add(TestType.LARGE);
 
-                ConnectionTestResult actual = connectionTester.runTests(testTypes);
-                List<TestResultEntry> results = actual.getTestResults();
-                
-                lblNetworkSpeed.setText(networkSpeedMsg);
+                    ConnectionTestResult actual = connectionTester.runTests(testTypes);
+                    List<TestResultEntry> results = actual.getTestResults();
+
+                    lblNetworkSpeed.setText(networkSpeedMsg);
 //                TestResultEntry savedGetResult = null;
 //                TestResultEntry savedPutResult = null;
-                if (results != null) {
-                    for (TestResultEntry result : results) {
-                        switch(result.getTestType()){
-                            case MEDIUM:
-                                if (result.getOperationType() == OperationType.GET) {
-                                    setLabelIcon(lblFileDownloadIcon, result.isSuccess());
-                                    savedGetResult = result;
-                                }
-                                else
-                                if (result.getOperationType() == OperationType.PUT) {
-                                    setLabelIcon(lblFileUploadIcon, result.isSuccess());
-                                    savedPutResult = result;
-                                }
-                                break;
-                            default:
-                                // do nothing for now
-                                break;
+                    if (results != null) {
+                        for (TestResultEntry result : results) {
+                            switch (result.getTestType()) {
+                                case MEDIUM:
+                                    if (result.getOperationType() == OperationType.GET) {
+                                        setLabelIcon(lblFileDownloadIcon, result.isSuccess());
+                                        savedGetResult = result;
+                                    } else if (result.getOperationType() == OperationType.PUT) {
+                                        setLabelIcon(lblFileUploadIcon, result.isSuccess());
+                                        savedPutResult = result;
+                                    }
+                                    break;
+                                default:
+                                    // do nothing for now
+                                    break;
+                            }
                         }
-                    }
-                
-                    // populate transfer rates for get (Mbps)
-                    StringBuilder summaryText = new StringBuilder();
-                    if ((savedGetResult != null) && (savedGetResult.isSuccess())) {
-                        setLabelIcon(lblNetworkSpeedIcon, true);
-                        float transferRateBytes = (float) savedGetResult.getTransferRateBytesPerSecond();
-                        float transferRateMBytes = transferRateBytes/(1024*1024);
-                        lblDownloadSpeed.setText("Download speed = " + 
-                                                String.valueOf(transferRateMBytes) + 
-                                                " Mbps");
-                        float estimatedUpload1GbSecs = 0;
-                        float estimatedUpload1GbMins = 0;
-                        if (transferRateMBytes > 0) {
-                            estimatedUpload1GbSecs = 1024/transferRateMBytes;
-                            estimatedUpload1GbMins = estimatedUpload1GbSecs/60;
-                            summaryText.append("Based on checks, estimated upload time for 1Gb file is ");
-                            if (estimatedUpload1GbMins >= 1) {
-                                summaryText.append(String.valueOf((int) estimatedUpload1GbMins));
-                                summaryText.append(" minutes");
-                                int remainingSecs = (int) estimatedUpload1GbSecs % 60;
-                                if (remainingSecs >= 1) {
+
+                        // populate transfer rates for get (Mbps)
+                        StringBuilder summaryText = new StringBuilder();
+                        if ((savedGetResult != null) && (savedGetResult.isSuccess())) {
+                            setLabelIcon(lblNetworkSpeedIcon, true);
+                            float transferRateBytes = (float) savedGetResult.getTransferRateBytesPerSecond();
+                            float transferRateMBytes = transferRateBytes / (1024 * 1024);
+                            lblDownloadSpeed.setText("Download speed = "
+                                    + String.valueOf(transferRateMBytes)
+                                    + " Mbps");
+                            float estimatedUpload1GbSecs = 0;
+                            float estimatedUpload1GbMins = 0;
+                            if (transferRateMBytes > 0) {
+                                estimatedUpload1GbSecs = 1024 / transferRateMBytes;
+                                estimatedUpload1GbMins = estimatedUpload1GbSecs / 60;
+                                summaryText.append("Based on checks, estimated upload time for 1Gb file is ");
+                                if (estimatedUpload1GbMins >= 1) {
+                                    summaryText.append(String.valueOf((int) estimatedUpload1GbMins));
+                                    summaryText.append(" minutes");
+                                    int remainingSecs = (int) estimatedUpload1GbSecs % 60;
+                                    if (remainingSecs >= 1) {
+                                        summaryText.append(", ");
+                                        summaryText.append(String.valueOf(remainingSecs));
+                                        summaryText.append(" seconds");
+                                    }
+                                } else {
                                     summaryText.append(", ");
-                                    summaryText.append(String.valueOf(remainingSecs));
+                                    summaryText.append(String.valueOf(estimatedUpload1GbSecs));
                                     summaryText.append(" seconds");
                                 }
                             }
-                            else {
-                                summaryText.append(", ");
-                                    summaryText.append(String.valueOf(estimatedUpload1GbSecs));
-                                    summaryText.append(" seconds");    
-                            }
+                        } else {
+                            setLabelIcon(lblNetworkSpeedIcon, false);
                         }
-                    }
-                    else {
-                        setLabelIcon(lblNetworkSpeedIcon, false);
-                    }
-                    
-                    // populate transfer rates for put (Mbps)
-                    if ((savedPutResult != null) && (savedPutResult.isSuccess())) {
-                        setLabelIcon(lblNetworkSpeedIcon, true);
-                        float transferRateBytes = (float) savedPutResult.getTransferRateBytesPerSecond();
-                        float transferRateMBytes = transferRateBytes/(1024*1024);
-                        lblUploadSpeed.setText("Upload speed = " + 
-                                                String.valueOf(transferRateMBytes) +
-                                                " Mbps");
-                    }
-                    
-                    lblSummary.setText(summaryText.toString());
-                    
-                }
 
-            } catch (JargonException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-            }
-            else {
+                        // populate transfer rates for put (Mbps)
+                        if ((savedPutResult != null) && (savedPutResult.isSuccess())) {
+                            setLabelIcon(lblNetworkSpeedIcon, true);
+                            float transferRateBytes = (float) savedPutResult.getTransferRateBytesPerSecond();
+                            float transferRateMBytes = transferRateBytes / (1024 * 1024);
+                            lblUploadSpeed.setText("Upload speed = "
+                                    + String.valueOf(transferRateMBytes)
+                                    + " Mbps");
+                        }
+
+                        lblSummary.setText(summaryText.toString());
+
+                    }
+
+                } catch (JargonException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            } else {
                 setLabelIcon(lblFileDownloadIcon, false);
                 setLabelIcon(lblFileUploadIcon, false);
             }
 
             dialog.getContentPane().setCursor(cursor);
             enableButtons(true);
-            
+
             return null;
         }
-        
+
     }
-    
+
     private void enableButtons(boolean flag) {
         btnClose.setEnabled(flag);
         btnSendReport.setEnabled(flag);
     }
-    
+
     private String encodeTextForMailTo(String text) {
-        
+
         StringBuilder encodedText = new StringBuilder();
         String newC;
-        for (int i=0; i<text.length(); i++) {
+        for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             newC = String.valueOf(c);
             switch (c) {
                 case ' ':
-                    newC="%20";
+                    newC = "%20";
                     break;
                 case '\n':
-                    newC="%0D%0A";
+                    newC = "%0D%0A";
                     break;
             }
-            
+
             encodedText.append(newC);
         }
-        
+
         return encodedText.toString();
     }
 
@@ -486,13 +476,13 @@ public class TestConnectionDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnSendReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendReportActionPerformed
-        
+
         String newline = "%0D%0A";
-        
+
         StringBuilder bodyText = new StringBuilder("TEST%20CONNECTION%20REPORT");
         bodyText.append(newline);
         bodyText.append(newline);
-        
+
         if (connectionException != null) {
             bodyText.append("CONNECTION%20ERRORS:");
             bodyText.append(newline);
@@ -500,7 +490,7 @@ public class TestConnectionDialog extends javax.swing.JDialog {
             bodyText.append(newline);
             bodyText.append(newline);
         }
- 
+
         if (savedPutResult != null) {
             bodyText.append("DETAILS%20OF%20UPLOAD%20TEST:");
             bodyText.append(newline);
@@ -527,8 +517,8 @@ public class TestConnectionDialog extends javax.swing.JDialog {
                 bodyText.append(encodeTextForMailTo(savedPutResult.getException().toString()));
             }
         }
-              
-        try {        
+
+        try {
             Desktop desktop = Desktop.getDesktop();
             if (desktop.isSupported(Desktop.Action.MAIL)) {
                 String emailAddr = idropCore.getIdropConfig().getIdropProperties().getProperty("idrop.admin.email.addr");
@@ -547,7 +537,6 @@ public class TestConnectionDialog extends javax.swing.JDialog {
             Exceptions.printStackTrace(ex);
         }
     }//GEN-LAST:event_btnSendReportActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;

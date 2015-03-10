@@ -29,300 +29,299 @@ import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author lisa
  */
 public class CopyMoveDialog extends javax.swing.JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1773323142549578964L;
-	private iDrop idropGUI;
-	private IRODSTree irodsTree;
-	private IRODSOutlineModel irodsFileSystemModel;
-	public static org.slf4j.Logger log = LoggerFactory
-			.getLogger(IRODSTree.class);
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1773323142549578964L;
+    private iDrop idropGUI;
+    private IRODSTree irodsTree;
+    private IRODSOutlineModel irodsFileSystemModel;
+    public static org.slf4j.Logger log = LoggerFactory
+            .getLogger(IRODSTree.class);
 
-	/**
-	 * Creates new form CopyMoveDialog
-	 */
-	public CopyMoveDialog(final java.awt.Frame parent, final boolean modal) {
-		super(parent, modal);
-		initComponents();
-	}
+    /**
+     * Creates new form CopyMoveDialog
+     */
+    public CopyMoveDialog(final java.awt.Frame parent, final boolean modal) {
+        super(parent, modal);
+        initComponents();
+    }
 
-	public CopyMoveDialog(final iDrop parent, final boolean modal,
-			final IRODSTree irodsTree) {
-		super(parent, modal);
-		initComponents();
+    public CopyMoveDialog(final iDrop parent, final boolean modal,
+            final IRODSTree irodsTree) {
+        super(parent, modal);
+        initComponents();
 
-		idropGUI = parent;
-		this.irodsTree = irodsTree;
-		irodsFileSystemModel = (IRODSOutlineModel) irodsTree.getModel();
+        idropGUI = parent;
+        this.irodsTree = irodsTree;
+        irodsFileSystemModel = (IRODSOutlineModel) irodsTree.getModel();
 
-		initSourcesFiles();
-		setCopyMoveButtonsState();
-	}
+        initSourcesFiles();
+        setCopyMoveButtonsState();
+    }
 
-	private void initSourcesFiles() {
-		// check for selected objects and/or collections to download
-		// get iRODS File Service
-		IRODSFileService irodsFS = null;
-		try {
-			irodsFS = new IRODSFileService(idropGUI.getiDropCore()
-					.irodsAccount(), idropGUI.getiDropCore()
-					.getIrodsFileSystem());
-		} catch (Exception ex) {
-			// JOptionPane.showMessageDialog(this,
-			// "Cannot access iRODS file system for get.");
-			log.error("cannot create irods file service");
-			return;
-		}
+    private void initSourcesFiles() {
+        // check for selected objects and/or collections to download
+        // get iRODS File Service
+        IRODSFileService irodsFS = null;
+        try {
+            irodsFS = new IRODSFileService(idropGUI.getiDropCore()
+                    .irodsAccount(), idropGUI.getiDropCore()
+                    .getIrodsFileSystem());
+        } catch (Exception ex) {
+            // JOptionPane.showMessageDialog(this,
+            // "Cannot access iRODS file system for get.");
+            log.error("cannot create irods file service");
+            return;
+        }
 
-		IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
-				.getModel();
-		ListSelectionModel selectionModel = irodsTree.getSelectionModel();
-		int idxStart = selectionModel.getMinSelectionIndex();
-		int idxEnd = selectionModel.getMaxSelectionIndex();
+        IRODSOutlineModel irodsFileSystemModel = (IRODSOutlineModel) irodsTree
+                .getModel();
+        ListSelectionModel selectionModel = irodsTree.getSelectionModel();
+        int idxStart = selectionModel.getMinSelectionIndex();
+        int idxEnd = selectionModel.getMaxSelectionIndex();
 
-		// now collect all selected nodes
-		IRODSFile ifile = null;
-		// final List<File> sourceFiles = new ArrayList<File>();
-		for (int idx = idxStart; idx <= idxEnd; idx++) {
-			if (selectionModel.isSelectedIndex(idx)) {
-				try {
-					IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
-							.getValueAt(idx, 0);
-					ifile = irodsFS.getIRODSFileForPath(selectedNode
-							.getFullPath());
-					// rule out "/"
-					String path = ifile.getAbsolutePath();
-					if ((path != null) && (!path.equals("/"))) {
-						txtCurrentParent.append(path + "\n");
-					}
-				} catch (IdropException ex) {
-					Exceptions.printStackTrace(ex);
-				}
-			}
-		}
-	}
+        // now collect all selected nodes
+        IRODSFile ifile = null;
+        // final List<File> sourceFiles = new ArrayList<File>();
+        for (int idx = idxStart; idx <= idxEnd; idx++) {
+            if (selectionModel.isSelectedIndex(idx)) {
+                try {
+                    IRODSNode selectedNode = (IRODSNode) irodsFileSystemModel
+                            .getValueAt(idx, 0);
+                    ifile = irodsFS.getIRODSFileForPath(selectedNode
+                            .getFullPath());
+                    // rule out "/"
+                    String path = ifile.getAbsolutePath();
+                    if ((path != null) && (!path.equals("/"))) {
+                        txtCurrentParent.append(path + "\n");
+                    }
+                } catch (IdropException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        }
+    }
 
-	private void setCopyMoveButtonsState() {
-		boolean state = ((txtNewLocation.getText().length() > 0) && (txtCurrentParent
-				.getText().length() > 0));
-		btnCopy.setEnabled(state);
-		btnMove.setEnabled(state);
-	}
+    private void setCopyMoveButtonsState() {
+        boolean state = ((txtNewLocation.getText().length() > 0) && (txtCurrentParent
+                .getText().length() > 0));
+        btnCopy.setEnabled(state);
+        btnMove.setEnabled(state);
+    }
 
-	private void processMoveOrCopy(final boolean isCopy) {
-		// add the new folder to irods, add to the tree, and scroll the tree
-		// into view
-		final CopyMoveDialog thisDialog = this;
-		final String targetAbsolutePath = txtNewLocation.getText();
-		final String sourceFiles[] = txtCurrentParent.getText().split("\n");
+    private void processMoveOrCopy(final boolean isCopy) {
+        // add the new folder to irods, add to the tree, and scroll the tree
+        // into view
+        final CopyMoveDialog thisDialog = this;
+        final String targetAbsolutePath = txtNewLocation.getText();
+        final String sourceFiles[] = txtCurrentParent.getText().split("\n");
 
-		log.info("processing move or copy");
-		java.awt.EventQueue.invokeLater(new Runnable() {
+        log.info("processing move or copy");
+        java.awt.EventQueue.invokeLater(new Runnable() {
 
-			@Override
-			public void run() {
-				IRODSFile irodsFile = null;
-				try {
-					log.info("processing move of a file in iRODS tree");
-					thisDialog.setCursor(Cursor
-							.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            @Override
+            public void run() {
+                IRODSFile irodsFile = null;
+                try {
+                    log.info("processing move of a file in iRODS tree");
+                    thisDialog.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-					DataTransferOperations dataTransferOperations;
-					try {
-						dataTransferOperations = idropGUI
-								.getiDropCore()
-								.getIRODSAccessObjectFactory()
-								.getDataTransferOperations(
-										idropGUI.getIrodsAccount());
-					} catch (Exception e) {
-						idropGUI.getiDropCore().closeIRODSConnection(
-								idropGUI.getIrodsAccount());
-						thisDialog.setCursor(Cursor
-								.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-						throw new IdropRuntimeException(e);
-					}
+                    DataTransferOperations dataTransferOperations;
+                    try {
+                        dataTransferOperations = idropGUI
+                                .getiDropCore()
+                                .getIRODSAccessObjectFactory()
+                                .getDataTransferOperations(
+                                        idropGUI.getIrodsAccount());
+                    } catch (Exception e) {
+                        idropGUI.getiDropCore().closeIRODSConnection(
+                                idropGUI.getIrodsAccount());
+                        thisDialog.setCursor(Cursor
+                                .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        throw new IdropRuntimeException(e);
+                    }
 
-					List<IRODSFile> filesThatHadOverwriteError = new ArrayList<IRODSFile>();
+                    List<IRODSFile> filesThatHadOverwriteError = new ArrayList<IRODSFile>();
 
-					if (sourceFiles.length == 1) {
-						// IRODSFile irodsFile = null;
-						log.info("processing the move/copy for one file:{}",
-								sourceFiles[0]);
-						try {
-							irodsFile = idropGUI.getiDropCore()
-									.getIRODSFileFactoryForLoggedInAccount()
-									.instanceIRODSFile(sourceFiles[0]);
-							if (isCopy) {
-								processACopyOfAnIndividualFile(
-										dataTransferOperations, irodsFile,
-										targetAbsolutePath);
-							} else {
-								processAMoveOfAnIndividualFile(
-										dataTransferOperations, irodsFile,
-										targetAbsolutePath);
-							}
-						} catch (JargonFileOrCollAlreadyExistsException ex) {
-							log.error("Coll already exists", ex);
-							filesThatHadOverwriteError.add(irodsFile);
-						} catch (JargonException je) {
-							if (je.getMessage().indexOf("-834000") > -1
-									|| je.getMessage().indexOf("-833000") > -1) {
-								filesThatHadOverwriteError.add(irodsFile);
-							} else {
-								throw new IdropException(je);
-							}
-						}
-					} else if (sourceFiles.length > 1) {
-						log.info("processing move/copy of multiple files");
-						for (String sourceFileEntry : sourceFiles) {
+                    if (sourceFiles.length == 1) {
+                        // IRODSFile irodsFile = null;
+                        log.info("processing the move/copy for one file:{}",
+                                sourceFiles[0]);
+                        try {
+                            irodsFile = idropGUI.getiDropCore()
+                                    .getIRODSFileFactoryForLoggedInAccount()
+                                    .instanceIRODSFile(sourceFiles[0]);
+                            if (isCopy) {
+                                processACopyOfAnIndividualFile(
+                                        dataTransferOperations, irodsFile,
+                                        targetAbsolutePath);
+                            } else {
+                                processAMoveOfAnIndividualFile(
+                                        dataTransferOperations, irodsFile,
+                                        targetAbsolutePath);
+                            }
+                        } catch (JargonFileOrCollAlreadyExistsException ex) {
+                            log.error("Coll already exists", ex);
+                            filesThatHadOverwriteError.add(irodsFile);
+                        } catch (JargonException je) {
+                            if (je.getMessage().indexOf("-834000") > -1
+                                    || je.getMessage().indexOf("-833000") > -1) {
+                                filesThatHadOverwriteError.add(irodsFile);
+                            } else {
+                                throw new IdropException(je);
+                            }
+                        }
+                    } else if (sourceFiles.length > 1) {
+                        log.info("processing move/copy of multiple files");
+                        for (String sourceFileEntry : sourceFiles) {
 
-							try {
-								irodsFile = idropGUI
-										.getiDropCore()
-										.getIRODSFileFactoryForLoggedInAccount()
-										.instanceIRODSFile(sourceFileEntry);
-								if (isCopy) {
-									processACopyOfAnIndividualFile(
-											dataTransferOperations, irodsFile,
-											targetAbsolutePath);
-								} else {
-									processAMoveOfAnIndividualFile(
-											dataTransferOperations, irodsFile,
-											targetAbsolutePath);
-								}
-							} catch (JargonFileOrCollAlreadyExistsException ex) {
-								// FIXME: fix in jargon core to differentiate!
-								log.error("coll already exists", ex);
-								filesThatHadOverwriteError.add(irodsFile);
-							} catch (JargonException je) {
-								if (je.getMessage().indexOf("-834000") > -1
-										|| je.getMessage().indexOf("-833000") > -1) {
-									filesThatHadOverwriteError.add(irodsFile);
-								} else {
-									throw new IdropException(je);
-								}
-							}
-						}
-					}
+                            try {
+                                irodsFile = idropGUI
+                                        .getiDropCore()
+                                        .getIRODSFileFactoryForLoggedInAccount()
+                                        .instanceIRODSFile(sourceFileEntry);
+                                if (isCopy) {
+                                    processACopyOfAnIndividualFile(
+                                            dataTransferOperations, irodsFile,
+                                            targetAbsolutePath);
+                                } else {
+                                    processAMoveOfAnIndividualFile(
+                                            dataTransferOperations, irodsFile,
+                                            targetAbsolutePath);
+                                }
+                            } catch (JargonFileOrCollAlreadyExistsException ex) {
+                                // FIXME: fix in jargon core to differentiate!
+                                log.error("coll already exists", ex);
+                                filesThatHadOverwriteError.add(irodsFile);
+                            } catch (JargonException je) {
+                                if (je.getMessage().indexOf("-834000") > -1
+                                        || je.getMessage().indexOf("-833000") > -1) {
+                                    filesThatHadOverwriteError.add(irodsFile);
+                                } else {
+                                    throw new IdropException(je);
+                                }
+                            }
+                        }
+                    }
 
-					log.debug("move done");
-					if (!isCopy) {
-						if (filesThatHadOverwriteError.isEmpty()) {
-							idropGUI.showMessageFromOperation("irods move processed");
-						} else {
-							idropGUI.showMessageFromOperation("irods move processed, some files were not moved as files of the same name already existed");
-						}
-					} else {
-						idropGUI.showMessageFromOperation("The file copy operation has been placed on the work queue");
-					}
-					thisDialog.dispose();
+                    log.debug("move done");
+                    if (!isCopy) {
+                        if (filesThatHadOverwriteError.isEmpty()) {
+                            idropGUI.showMessageFromOperation("irods move processed");
+                        } else {
+                            idropGUI.showMessageFromOperation("irods move processed, some files were not moved as files of the same name already existed");
+                        }
+                    } else {
+                        idropGUI.showMessageFromOperation("The file copy operation has been placed on the work queue");
+                    }
+                    thisDialog.dispose();
 
-				} catch (IdropException ex) {
-					Logger.getLogger(IRODSTree.class.getName()).log(
-							Level.SEVERE, null, ex);
-					idropGUI.showIdropException(ex);
-					return;
-				} finally {
-					thisDialog.setCursor(Cursor
-							.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					idropGUI.getiDropCore().closeIRODSConnection(
-							idropGUI.getIrodsAccount());
-				}
-			}
-		});
-	}
+                } catch (IdropException ex) {
+                    Logger.getLogger(IRODSTree.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                    idropGUI.showIdropException(ex);
+                    return;
+                } finally {
+                    thisDialog.setCursor(Cursor
+                            .getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    idropGUI.getiDropCore().closeIRODSConnection(
+                            idropGUI.getIrodsAccount());
+                }
+            }
+        });
+    }
 
-	private void processAMoveOfAnIndividualFile(
-			final DataTransferOperations dataTransferOperations,
-			final IRODSFile sourceFile, final String targetAbsolutePath)
-			throws JargonFileOrCollAlreadyExistsException, IdropException {
+    private void processAMoveOfAnIndividualFile(
+            final DataTransferOperations dataTransferOperations,
+            final IRODSFile sourceFile, final String targetAbsolutePath)
+            throws JargonFileOrCollAlreadyExistsException, IdropException {
 
-		try {
+        try {
 
-			boolean isFile = sourceFile.isFile();
-			IRODSFile targetFile = idropGUI.getiDropCore()
-					.getIRODSFileFactoryForLoggedInAccount()
-					.instanceIRODSFile(targetAbsolutePath);
+            boolean isFile = sourceFile.isFile();
+            IRODSFile targetFile = idropGUI.getiDropCore()
+                    .getIRODSFileFactoryForLoggedInAccount()
+                    .instanceIRODSFile(targetAbsolutePath);
 
-			dataTransferOperations.move(sourceFile.getAbsolutePath(),
-					targetAbsolutePath);
+            dataTransferOperations.move(sourceFile.getAbsolutePath(),
+                    targetAbsolutePath);
 
-			String targetPathForNotify = null;
-			if (isFile) {
-				log.debug("source file is a file, do a move");
+            String targetPathForNotify = null;
+            if (isFile) {
+                log.debug("source file is a file, do a move");
 
-				if (targetFile.isDirectory()) {
-					targetPathForNotify = targetFile.getAbsolutePath() + "/"
-							+ sourceFile.getName();
-				} else {
-					targetPathForNotify = targetFile.getAbsolutePath();
-				}
+                if (targetFile.isDirectory()) {
+                    targetPathForNotify = targetFile.getAbsolutePath() + "/"
+                            + sourceFile.getName();
+                } else {
+                    targetPathForNotify = targetFile.getAbsolutePath();
+                }
 
-				irodsFileSystemModel.notifyFileShouldBeAdded(irodsTree,
-						targetPathForNotify);
+                irodsFileSystemModel.notifyFileShouldBeAdded(irodsTree,
+                        targetPathForNotify);
 
-			} else {
-				log.debug("source file is a collection, reparent it");
-				targetPathForNotify = targetFile.getAbsolutePath() + "/"
-						+ sourceFile.getName();
+            } else {
+                log.debug("source file is a collection, reparent it");
+                targetPathForNotify = targetFile.getAbsolutePath() + "/"
+                        + sourceFile.getName();
 
-				irodsFileSystemModel.notifyFileShouldBeAdded(irodsTree,
-						targetPathForNotify);
-			}
-		} catch (JargonFileOrCollAlreadyExistsException fcae) {
-			throw fcae;
-		} catch (JargonException je) {
-			throw new IdropException(je);
-		}
+                irodsFileSystemModel.notifyFileShouldBeAdded(irodsTree,
+                        targetPathForNotify);
+            }
+        } catch (JargonFileOrCollAlreadyExistsException fcae) {
+            throw fcae;
+        } catch (JargonException je) {
+            throw new IdropException(je);
+        }
 
-		TreePath sourceNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(
-				irodsTree, sourceFile.getAbsolutePath());
-		if (sourceNodePath == null) {
-			log.info("could not find tree path for source node, ignore");
-			return;
-		}
-		IRODSNode sourceNode = (IRODSNode) sourceNodePath
-				.getLastPathComponent();
-		irodsFileSystemModel.notifyFileShouldBeRemoved(sourceNode);
-	}
+        TreePath sourceNodePath = TreeUtils.buildTreePathForIrodsAbsolutePath(
+                irodsTree, sourceFile.getAbsolutePath());
+        if (sourceNodePath == null) {
+            log.info("could not find tree path for source node, ignore");
+            return;
+        }
+        IRODSNode sourceNode = (IRODSNode) sourceNodePath
+                .getLastPathComponent();
+        irodsFileSystemModel.notifyFileShouldBeRemoved(sourceNode);
+    }
 
-	private void processACopyOfAnIndividualFile(
-			final DataTransferOperations dataTransferOperations,
-			final IRODSFile sourceFile, final String targetAbsolutePath)
-			throws IdropException {
-		try {
-			dataTransferOperations.copy(sourceFile.getAbsolutePath(), idropGUI
-					.getiDropCore().irodsAccount()
-					.getDefaultStorageResource(), targetAbsolutePath, null,
-					null);
-			// idropGUI.getiDropCore().getTransferManager().enqueueACopy(sourceFile.getAbsolutePath(),
-			// sourceFile.getResource(), targetAbsolutePath,
-			// idropGUI.getiDropCore().irodsAccount());
+    private void processACopyOfAnIndividualFile(
+            final DataTransferOperations dataTransferOperations,
+            final IRODSFile sourceFile, final String targetAbsolutePath)
+            throws IdropException {
+        try {
+            dataTransferOperations.copy(sourceFile.getAbsolutePath(), idropGUI
+                    .getiDropCore().irodsAccount()
+                    .getDefaultStorageResource(), targetAbsolutePath, null,
+                    null);
+            // idropGUI.getiDropCore().getTransferManager().enqueueACopy(sourceFile.getAbsolutePath(),
+            // sourceFile.getResource(), targetAbsolutePath,
+            // idropGUI.getiDropCore().irodsAccount());
 
-		} catch (JargonException ex) {
-			log.error("jargon exception", ex);
-			throw new IdropException(
-					"unable to copy file due to JargonException", ex);
-		}
+        } catch (JargonException ex) {
+            log.error("jargon exception", ex);
+            throw new IdropException(
+                    "unable to copy file due to JargonException", ex);
+        }
 
-		// notifications are done at completion of transfer using status
-		// callbacks
-	}
+        // notifications are done at completion of transfer using status
+        // callbacks
+    }
 
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-
-	// <editor-fold defaultstate="collapsed"
-	// <editor-fold defaultstate="collapsed"
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed"
+    // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -456,34 +455,34 @@ public class CopyMoveDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
-		dispose();
-	}// GEN-LAST:event_btnCancelActionPerformed
+    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
+        dispose();
+    }// GEN-LAST:event_btnCancelActionPerformed
 
-	private void btnMoveActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMoveActionPerformed
-		processMoveOrCopy(false);
-	}// GEN-LAST:event_btnMoveActionPerformed
+    private void btnMoveActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMoveActionPerformed
+        processMoveOrCopy(false);
+    }// GEN-LAST:event_btnMoveActionPerformed
 
-	private void btnBrowseActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrowseActionPerformed
-		IRODSFinderDialog irodsFinder = new IRODSFinderDialog(idropGUI, false,
-				idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
-		irodsFinder.setTitle("Select iRODS Collection Upload Target");
-		irodsFinder
-				.setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
-		irodsFinder.setLocation((int) this.getLocation().getX(), (int) this
-				.getLocation().getY());
-		irodsFinder.setVisible(true);
+    private void btnBrowseActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBrowseActionPerformed
+        IRODSFinderDialog irodsFinder = new IRODSFinderDialog(idropGUI, false,
+                idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
+        irodsFinder.setTitle("Select iRODS Collection Upload Target");
+        irodsFinder
+                .setSelectionType(IRODSFinderDialog.SelectionType.COLLS_ONLY_SELECTION_MODE);
+        irodsFinder.setLocation((int) this.getLocation().getX(), (int) this
+                .getLocation().getY());
+        irodsFinder.setVisible(true);
 
-		String selectedPath = irodsFinder.getSelectedAbsolutePath();
-		if (selectedPath != null) {
-			txtNewLocation.setText(selectedPath);
-		}
-		setCopyMoveButtonsState();
-	}// GEN-LAST:event_btnBrowseActionPerformed
+        String selectedPath = irodsFinder.getSelectedAbsolutePath();
+        if (selectedPath != null) {
+            txtNewLocation.setText(selectedPath);
+        }
+        setCopyMoveButtonsState();
+    }// GEN-LAST:event_btnBrowseActionPerformed
 
-	private void btnCopyActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCopyActionPerformed
-		processMoveOrCopy(true);
-	}// GEN-LAST:event_btnCopyActionPerformed
+    private void btnCopyActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCopyActionPerformed
+        processMoveOrCopy(true);
+    }// GEN-LAST:event_btnCopyActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBrowse;

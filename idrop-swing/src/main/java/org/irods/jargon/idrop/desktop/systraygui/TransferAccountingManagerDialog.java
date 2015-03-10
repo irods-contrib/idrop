@@ -214,13 +214,13 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         // transfer status is not PROCESSING
         btnRemoveSelected
                 .setEnabled(isRowSelected
-                && (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
+                        && (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
         btnRestartSelected
                 .setEnabled(isRowSelected
-                && (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
+                        && (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
         btnResubmitSelected
                 .setEnabled(isRowSelected
-                && (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
+                        && (selectedTableObject.getTransferState() != TransferStateEnum.PROCESSING));
         btnCancel.setEnabled(isRowSelected);
     }
 
@@ -552,7 +552,6 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
     private void btnAutoRefreshItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_btnAutoRefreshItemStateChanged
 
         // turn on/off auto refresh
-
         if (btnAutoRefresh.isSelected()) {
 
             autoRefreshTimer = new Timer();
@@ -564,7 +563,6 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
                 }
             }, 0, 10 * 1000);
 
-
         } else {
 
             if (autoRefreshTimer != null) {
@@ -572,8 +570,6 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
                 autoRefreshTimer = null;
             }
         }
-
-
 
     }//GEN-LAST:event_btnAutoRefreshItemStateChanged
 
@@ -591,9 +587,9 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
             log.error("exception purging all from transfer table", ex);
             MessageManager
                     .showError(
-                    this,
-                    "Transfer Queue Manager is currently busy. Please try again later.",
-                    MessageManager.TITLE_MESSAGE);
+                            this,
+                            "Transfer Queue Manager is currently busy. Please try again later.",
+                            MessageManager.TITLE_MESSAGE);
         } catch (ConveyorExecutionException ex) {
             log.error("exception updating transfer table", ex);
             MessageManager.showError(this, ex.getMessage(),
@@ -630,14 +626,14 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
                         .getConveyorService()
                         .getQueueManagerService()
                         .enqueueRestartOfTransferOperation(
-                        selectedTableObject.getId());
+                                selectedTableObject.getId());
             } catch (ConveyorBusyException ex) {
                 log.error("Error restarting transfer: {}", ex.getMessage());
                 MessageManager
                         .showError(
-                        this,
-                        "Transfer Queue Manager is currently busy. Please try again later.",
-                        MessageManager.TITLE_MESSAGE);
+                                this,
+                                "Transfer Queue Manager is currently busy. Please try again later.",
+                                MessageManager.TITLE_MESSAGE);
             } catch (ConveyorExecutionException ex) {
                 String msg = "Error restarting transfer. Transfer may have already completed.";
                 log.error(msg + " {}", ex.getMessage());
@@ -657,9 +653,9 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
                 log.error("Error restarting transfer: {}", ex.getMessage());
                 MessageManager
                         .showError(
-                        this,
-                        "Transfer Queue Manager is currently busy. Please try again later.",
-                        MessageManager.TITLE_MESSAGE);
+                                this,
+                                "Transfer Queue Manager is currently busy. Please try again later.",
+                                MessageManager.TITLE_MESSAGE);
             } catch (ConveyorExecutionException ex) {
                 String msg = "Error cancelling transfer. ";
                 log.error(msg + " {}", ex.getMessage());
@@ -678,14 +674,14 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
                         .getConveyorService()
                         .getQueueManagerService()
                         .enqueueResubmitOfTransferOperation(
-                        selectedTableObject.getId());
+                                selectedTableObject.getId());
             } catch (ConveyorBusyException ex) {
                 log.error("Error resubmitting transfer: {}", ex.getMessage());
                 MessageManager
                         .showError(
-                        this,
-                        "Transfer Queue Manager is currently busy. Please try again later.",
-                        MessageManager.TITLE_MESSAGE);
+                                this,
+                                "Transfer Queue Manager is currently busy. Please try again later.",
+                                MessageManager.TITLE_MESSAGE);
             } catch (ConveyorExecutionException ex) {
                 String msg = "Error resubmitting transfer. Transfer may have already completed.";
                 log.error(msg + " {}", ex.getMessage());
@@ -706,9 +702,9 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
             log.error("exception purging all from transfer table", ex);
             MessageManager
                     .showError(
-                    this,
-                    "Transfer Queue Manager is currently busy. Please try again later.",
-                    MessageManager.TITLE_MESSAGE);
+                            this,
+                            "Transfer Queue Manager is currently busy. Please try again later.",
+                            MessageManager.TITLE_MESSAGE);
         } catch (ConveyorExecutionException ex) {
             log.error("exception updating transfer table", ex);
             MessageManager.showError(this, ex.getMessage(),
@@ -977,7 +973,7 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
             if (attemptRectangle.contains(me.getPoint())) {
                 transferAccountingManagerDialog
                         .showTransferAttemptDetailsDialog(attemptRectangle
-                        .getDashboardAttempt().getTransferAttempt());
+                                .getDashboardAttempt().getTransferAttempt());
                 break;
             }
         }
@@ -1026,8 +1022,8 @@ class MyPanel extends JPanel implements MouseListener, MouseMotionListener {
 
                 String msg = TransferInformationMessageBuilder
                         .buildTransferAttemptSummary(attemptRectangle
-                        .getDashboardAttempt().getTransferAttempt(),
-                        attemptType);
+                                .getDashboardAttempt().getTransferAttempt(),
+                                attemptType);
 
                 transferAccountingManagerDialog.setTransferAttemptDetails(msg);
 
