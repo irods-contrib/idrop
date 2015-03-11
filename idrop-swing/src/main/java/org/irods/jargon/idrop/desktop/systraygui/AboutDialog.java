@@ -79,6 +79,7 @@ public class AboutDialog extends javax.swing.JDialog {
         pnlInfo.add(lblTitle, gridBagConstraints);
 
         lblJargonVersionLabel.setText("Jargon Version:");
+        lblJargonVersionLabel.setName("lblJargonVersion"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -87,6 +88,7 @@ public class AboutDialog extends javax.swing.JDialog {
         pnlInfo.add(lblJargonVersionLabel, gridBagConstraints);
 
         lblJargonVersion.setText("jLabel2");
+        lblJargonVersion.setName("jargonVersion"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -95,6 +97,7 @@ public class AboutDialog extends javax.swing.JDialog {
         pnlInfo.add(lblJargonVersion, gridBagConstraints);
 
         lblIdropVersionLabel.setText("iDrop Version:");
+        lblIdropVersionLabel.setName("lblIdropVersion"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -103,6 +106,7 @@ public class AboutDialog extends javax.swing.JDialog {
         pnlInfo.add(lblIdropVersionLabel, gridBagConstraints);
 
         lblIdropVersion.setText("jLabel2");
+        lblIdropVersion.setName("idropVersion"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -137,6 +141,7 @@ public class AboutDialog extends javax.swing.JDialog {
         btnOK.setMnemonic('O');
         btnOK.setText("OK");
         btnOK.setName("btnOK"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(90, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKPressed(evt);

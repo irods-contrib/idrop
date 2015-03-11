@@ -138,6 +138,7 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         pnlMain.setLayout(new java.awt.BorderLayout());
 
         pnlPermissionEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 8, 20, 8));
+        pnlPermissionEdit.setName("lblUserName"); // NOI18N
         pnlPermissionEdit.setPreferredSize(new java.awt.Dimension(527, 200));
         pnlPermissionEdit.setLayout(new java.awt.GridBagLayout());
 
@@ -189,6 +190,7 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         btnPermissionsCancel.setMaximumSize(null);
         btnPermissionsCancel.setMinimumSize(null);
         btnPermissionsCancel.setName("btnCancel"); // NOI18N
+        btnPermissionsCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnPermissionsCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPermissionsCancelActionPerformed(evt);
@@ -205,6 +207,7 @@ public class AddPermissionsDialog extends javax.swing.JDialog implements
         btnPermissionsAdd.setMaximumSize(null);
         btnPermissionsAdd.setMinimumSize(null);
         btnPermissionsAdd.setName("btnOk"); // NOI18N
+        btnPermissionsAdd.setPreferredSize(new java.awt.Dimension(90, 37));
         btnPermissionsAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPermissionsAddActionPerformed(evt);

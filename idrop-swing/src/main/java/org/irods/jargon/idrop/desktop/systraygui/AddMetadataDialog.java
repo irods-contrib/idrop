@@ -193,7 +193,10 @@ public class AddMetadataDialog extends javax.swing.JDialog implements
         btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.cancelButton.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.cancelButton.toolTipText")); // NOI18N
+        btnCancel.setMaximumSize(null);
+        btnCancel.setMinimumSize(null);
         btnCancel.setName("cancelButton"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -206,7 +209,10 @@ public class AddMetadataDialog extends javax.swing.JDialog implements
         btnAdd.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.okButton.text")); // NOI18N
         btnAdd.setToolTipText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.okButton.toolTipText")); // NOI18N
         btnAdd.setEnabled(false);
+        btnAdd.setMaximumSize(null);
+        btnAdd.setMinimumSize(null);
         btnAdd.setName("okButton"); // NOI18N
+        btnAdd.setPreferredSize(new java.awt.Dimension(90, 37));
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);

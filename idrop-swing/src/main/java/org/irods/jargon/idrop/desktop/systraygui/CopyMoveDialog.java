@@ -341,8 +341,9 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.title")); // NOI18N
+        setMinimumSize(null);
         setName("copyMoveDialog"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(600, 300));
+        setPreferredSize(new java.awt.Dimension(800, 400));
 
         pnlFolderData.setPreferredSize(new java.awt.Dimension(540, 240));
         pnlFolderData.setLayout(new java.awt.BorderLayout());
@@ -385,8 +386,9 @@ public class CopyMoveDialog extends javax.swing.JDialog {
         pnlCurrentParent.add(lblNewDiretoryName, gridBagConstraints);
 
         txtNewLocation.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.newLocation.text")); // NOI18N
+        txtNewLocation.setMinimumSize(null);
         txtNewLocation.setName("newLocation"); // NOI18N
-        txtNewLocation.setPreferredSize(new java.awt.Dimension(360, 28));
+        txtNewLocation.setPreferredSize(new java.awt.Dimension(360, 37));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -397,6 +399,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
         btnBrowse.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnSelectNewLocation.text")); // NOI18N
         btnBrowse.setToolTipText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnSelectNewLocation.toolTipText")); // NOI18N
         btnBrowse.setName("btnSelectNewLocation"); // NOI18N
+        btnBrowse.setPreferredSize(new java.awt.Dimension(130, 37));
         btnBrowse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBrowseActionPerformed(evt);
@@ -409,14 +412,18 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 
         pnlFolderData.add(pnlCurrentParent, java.awt.BorderLayout.CENTER);
 
-        pnlBottom.setPreferredSize(new java.awt.Dimension(708, 40));
+        pnlBottom.setMinimumSize(null);
+        pnlBottom.setPreferredSize(new java.awt.Dimension(708, 50));
         pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('C');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setMaximumSize(null);
+        btnCancel.setMinimumSize(null);
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -429,6 +436,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
         btnMove.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnMove.text")); // NOI18N
         btnMove.setToolTipText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnMove.toolTipText")); // NOI18N
         btnMove.setName("btnMove"); // NOI18N
+        btnMove.setPreferredSize(new java.awt.Dimension(90, 37));
         btnMove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMoveActionPerformed(evt);
@@ -441,6 +449,7 @@ public class CopyMoveDialog extends javax.swing.JDialog {
         btnCopy.setText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnCopy.text")); // NOI18N
         btnCopy.setToolTipText(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.btnCopy.toolTipText")); // NOI18N
         btnCopy.setName("btnCopy"); // NOI18N
+        btnCopy.setPreferredSize(new java.awt.Dimension(90, 37));
         btnCopy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCopyActionPerformed(evt);

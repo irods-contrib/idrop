@@ -57,6 +57,7 @@
         <Component class="javax.swing.JLabel" name="lblJargonVersionLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Jargon Version:"/>
+            <Property name="name" type="java.lang.String" value="lblJargonVersion" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -67,6 +68,7 @@
         <Component class="javax.swing.JLabel" name="lblJargonVersion">
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel2"/>
+            <Property name="name" type="java.lang.String" value="jargonVersion" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -77,6 +79,7 @@
         <Component class="javax.swing.JLabel" name="lblIdropVersionLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="iDrop Version:"/>
+            <Property name="name" type="java.lang.String" value="lblIdropVersion" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -87,6 +90,7 @@
         <Component class="javax.swing.JLabel" name="lblIdropVersion">
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel2"/>
+            <Property name="name" type="java.lang.String" value="idropVersion" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -146,6 +150,9 @@
             <Property name="mnemonic" type="int" value="79"/>
             <Property name="text" type="java.lang.String" value="OK"/>
             <Property name="name" type="java.lang.String" value="btnOK" noResource="true"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[90, 37]"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOKPressed"/>
