@@ -154,7 +154,7 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Delete iRODS Dialog");
+        setTitle("iDrop - Delete iRODS Dialog");
         setName("deleteIrodsDialog"); // NOI18N
 
         lblTitle.setText("Please hit OK to delete the following file/folder from iRODS");

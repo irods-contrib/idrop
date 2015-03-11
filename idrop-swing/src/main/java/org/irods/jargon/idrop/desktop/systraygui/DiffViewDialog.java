@@ -187,6 +187,7 @@ public class DiffViewDialog extends javax.swing.JDialog {
         btnResolve.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolve.text")); // NOI18N
         btnResolve.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolve.toolTipText")); // NOI18N
         btnResolve.setName("btnResolve"); // NOI18N
+        btnResolve.setPreferredSize(new java.awt.Dimension(90, 37));
         btnResolve.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResolveActionPerformed(evt);
@@ -250,7 +251,10 @@ public class DiffViewDialog extends javax.swing.JDialog {
         btnResolveGet.setMnemonic('g');
         btnResolveGet.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveToLocal.text")); // NOI18N
         btnResolveGet.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveToLocal.toolTipText")); // NOI18N
+        btnResolveGet.setMaximumSize(null);
+        btnResolveGet.setMinimumSize(null);
         btnResolveGet.setName("btnResolveToLocal"); // NOI18N
+        btnResolveGet.setPreferredSize(new java.awt.Dimension(150, 37));
         btnResolveGet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResolveGetActionPerformed(evt);
@@ -266,6 +270,7 @@ public class DiffViewDialog extends javax.swing.JDialog {
         btnResolvePut.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveToIrods.text")); // NOI18N
         btnResolvePut.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnResolveToIrods.toolTipText")); // NOI18N
         btnResolvePut.setName("btnResolveToIrods"); // NOI18N
+        btnResolvePut.setPreferredSize(new java.awt.Dimension(190, 37));
         btnResolvePut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResolvePutActionPerformed(evt);
@@ -362,6 +367,7 @@ public class DiffViewDialog extends javax.swing.JDialog {
         btnOK.setText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnOk.text")); // NOI18N
         btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(DiffViewDialog.class, "DiffViewDialog.btnOk.toolTipText")); // NOI18N
         btnOK.setName("btnOk"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(90, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

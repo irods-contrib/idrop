@@ -252,6 +252,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
         pnlDownloadFileContainer.setPreferredSize(new java.awt.Dimension(303, 250));
         pnlDownloadFileContainer.setLayout(new java.awt.BorderLayout());
 
+        lblFilesHeader.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFilesHeader.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.lblWelcome.text")); // NOI18N
         lblFilesHeader.setName("lblWelcome"); // NOI18N
         pnlDownloadFileContainer.add(lblFilesHeader, java.awt.BorderLayout.NORTH);
@@ -290,7 +291,10 @@ public class DownloadDialog extends javax.swing.JDialog implements
         btnAddDownloadFile.setMnemonic('+');
         btnAddDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnAddFile.text")); // NOI18N
         btnAddDownloadFile.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnAddFile.toolTipText")); // NOI18N
+        btnAddDownloadFile.setMaximumSize(null);
+        btnAddDownloadFile.setMinimumSize(null);
         btnAddDownloadFile.setName("btnAddFile"); // NOI18N
+        btnAddDownloadFile.setPreferredSize(new java.awt.Dimension(110, 37));
         btnAddDownloadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddDownloadFileActionPerformed(evt);
@@ -303,6 +307,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
         btnDeleteDownloadFile.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDeleteFile.text")); // NOI18N
         btnDeleteDownloadFile.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnDeleteFile.toolTipText")); // NOI18N
         btnDeleteDownloadFile.setName("btnDeleteFile"); // NOI18N
+        btnDeleteDownloadFile.setPreferredSize(new java.awt.Dimension(110, 37));
         btnDeleteDownloadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteDownloadFileActionPerformed(evt);
@@ -368,7 +373,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
         pnlUploadDownloadButtons.setMinimumSize(new java.awt.Dimension(200, 80));
         pnlUploadDownloadButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(DownloadDialog.class, "DownloadDialog.btnCancel.toolTipText")); // NOI18N
@@ -376,7 +381,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
         btnCancel.setMaximumSize(null);
         btnCancel.setMinimumSize(null);
         btnCancel.setName("btnCancel"); // NOI18N
-        btnCancel.setPreferredSize(null);
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -393,7 +398,7 @@ public class DownloadDialog extends javax.swing.JDialog implements
         btnDownloadNow.setMaximumSize(null);
         btnDownloadNow.setMinimumSize(null);
         btnDownloadNow.setName("btnDownload"); // NOI18N
-        btnDownloadNow.setPreferredSize(null);
+        btnDownloadNow.setPreferredSize(new java.awt.Dimension(110, 37));
         btnDownloadNow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDownloadNowActionPerformed(evt);

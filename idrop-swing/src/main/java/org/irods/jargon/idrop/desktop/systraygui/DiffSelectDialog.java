@@ -237,13 +237,13 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblLocalPath = new javax.swing.JLabel();
         txtLocalPath = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        lblIrodsPath = new javax.swing.JLabel();
         txtIrodsPath = new javax.swing.JTextField();
         btnLocalDirectory = new javax.swing.JButton();
         btnIrodsDirectory = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblChecksum = new javax.swing.JLabel();
         txtChecksum = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
@@ -258,15 +258,15 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 250));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblSelectLocalPath.text")); // NOI18N
-        jLabel1.setName("lblSelectLocalPath"); // NOI18N
+        lblLocalPath.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblLocalPath.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblSelectLocalPath.text")); // NOI18N
+        lblLocalPath.setName("lblSelectLocalPath"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel1.add(jLabel1, gridBagConstraints);
+        jPanel1.add(lblLocalPath, gridBagConstraints);
 
         txtLocalPath.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.localResourcePath.text")); // NOI18N
         txtLocalPath.setName("localResourcePath"); // NOI18N
@@ -280,15 +280,15 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.5;
         jPanel1.add(txtLocalPath, gridBagConstraints);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblIrodsResourcePath.text")); // NOI18N
-        jLabel3.setName("lblIrodsResourcePath"); // NOI18N
+        lblIrodsPath.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblIrodsPath.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblIrodsResourcePath.text")); // NOI18N
+        lblIrodsPath.setName("lblIrodsResourcePath"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel1.add(jLabel3, gridBagConstraints);
+        jPanel1.add(lblIrodsPath, gridBagConstraints);
 
         txtIrodsPath.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.irodsResourcePath.text")); // NOI18N
         txtIrodsPath.setName("irodsResourcePath"); // NOI18N
@@ -310,7 +310,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         btnLocalDirectory.setMaximumSize(null);
         btnLocalDirectory.setMinimumSize(null);
         btnLocalDirectory.setName("btnLocalResourcePath"); // NOI18N
-        btnLocalDirectory.setPreferredSize(new java.awt.Dimension(120, 34));
+        btnLocalDirectory.setPreferredSize(new java.awt.Dimension(110, 37));
         btnLocalDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLocalDirectoryActionPerformed(evt);
@@ -327,7 +327,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         btnIrodsDirectory.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnIrodsDirectory.text")); // NOI18N
         btnIrodsDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnIrodsDirectory.toolTipText")); // NOI18N
         btnIrodsDirectory.setName("btnIrodsDirectory"); // NOI18N
-        btnIrodsDirectory.setPreferredSize(new java.awt.Dimension(120, 35));
+        btnIrodsDirectory.setPreferredSize(new java.awt.Dimension(110, 37));
         btnIrodsDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIrodsDirectoryActionPerformed(evt);
@@ -339,16 +339,16 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel1.add(btnIrodsDirectory, gridBagConstraints);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblChecksum.text")); // NOI18N
-        jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblChecksum.toolTipText")); // NOI18N
-        jLabel2.setName("lblChecksum"); // NOI18N
+        lblChecksum.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblChecksum.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblChecksum.text")); // NOI18N
+        lblChecksum.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.lblChecksum.toolTipText")); // NOI18N
+        lblChecksum.setName("lblChecksum"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 0.3;
-        jPanel1.add(jLabel2, gridBagConstraints);
+        jPanel1.add(lblChecksum, gridBagConstraints);
 
         txtChecksum.setEditable(false);
         txtChecksum.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.txtChecksum.text")); // NOI18N
@@ -373,6 +373,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         btnCancel.setText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -386,7 +387,7 @@ public class DiffSelectDialog extends javax.swing.JDialog {
         btnSave.setToolTipText(org.openide.util.NbBundle.getMessage(DiffSelectDialog.class, "DiffSelectDialog.btnSave.toolTipText")); // NOI18N
         btnSave.setEnabled(false);
         btnSave.setName("btnDiff"); // NOI18N
-        btnSave.setPreferredSize(new java.awt.Dimension(82, 35));
+        btnSave.setPreferredSize(new java.awt.Dimension(90, 37));
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -542,11 +543,11 @@ public class DiffSelectDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnIrodsDirectory;
     private javax.swing.JButton btnLocalDirectory;
     private javax.swing.JButton btnSave;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblChecksum;
+    private javax.swing.JLabel lblIrodsPath;
+    private javax.swing.JLabel lblLocalPath;
     private javax.swing.JTextField txtChecksum;
     private javax.swing.JTextField txtIrodsPath;
     private javax.swing.JTextField txtLocalPath;

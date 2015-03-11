@@ -233,26 +233,25 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
 
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblHostLabel = new javax.swing.JLabel();
         lblHost = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblPortLabel = new javax.swing.JLabel();
         txtPort = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        lblZoneLabel = new javax.swing.JLabel();
         lblZone = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblUserLabel = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblDefaultResource = new javax.swing.JLabel();
         txtDefaultResource = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        lblStartingCollection = new javax.swing.JLabel();
         txtInitialPath = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
+        lblAuthScheme = new javax.swing.JLabel();
         cbAuthScheme = new javax.swing.JComboBox();
-        jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textareaComment = new javax.swing.JTextArea();
         txtPassword = new javax.swing.JPasswordField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lblPassword = new javax.swing.JLabel();
+        lblConfirmPassword = new javax.swing.JLabel();
         txtVerifyPassword = new javax.swing.JPasswordField();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -274,13 +273,14 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         jPanel1.setPreferredSize(new java.awt.Dimension(382, 370));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblHost.text")); // NOI18N
-        jLabel1.setName("lblHost"); // NOI18N
+        lblHostLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblHostLabel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblHost.text")); // NOI18N
+        lblHostLabel.setName("lblHost"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel1, gridBagConstraints);
+        jPanel1.add(lblHostLabel, gridBagConstraints);
 
         lblHost.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.host.text")); // NOI18N
         lblHost.setName("host"); // NOI18N
@@ -292,14 +292,15 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(lblHost, gridBagConstraints);
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblPort.text")); // NOI18N
-        jLabel2.setName("lblPort"); // NOI18N
-        jLabel2.setPreferredSize(new java.awt.Dimension(29, 28));
+        lblPortLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblPortLabel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblPort.text")); // NOI18N
+        lblPortLabel.setName("lblPort"); // NOI18N
+        lblPortLabel.setPreferredSize(new java.awt.Dimension(29, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel2, gridBagConstraints);
+        jPanel1.add(lblPortLabel, gridBagConstraints);
 
         txtPort.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.port.text")); // NOI18N
         txtPort.setName("port"); // NOI18N
@@ -315,13 +316,14 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(txtPort, gridBagConstraints);
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblZone.text")); // NOI18N
-        jLabel3.setName("lblZone"); // NOI18N
+        lblZoneLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblZoneLabel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblZone.text")); // NOI18N
+        lblZoneLabel.setName("lblZone"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel3, gridBagConstraints);
+        jPanel1.add(lblZoneLabel, gridBagConstraints);
 
         lblZone.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.zone.text")); // NOI18N
         lblZone.setName("zone"); // NOI18N
@@ -333,13 +335,14 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(lblZone, gridBagConstraints);
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblUser.text")); // NOI18N
-        jLabel4.setName("lblUser"); // NOI18N
+        lblUserLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblUserLabel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblUser.text")); // NOI18N
+        lblUserLabel.setName("lblUser"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel4, gridBagConstraints);
+        jPanel1.add(lblUserLabel, gridBagConstraints);
 
         lblUser.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.user.text")); // NOI18N
         lblUser.setName("user"); // NOI18N
@@ -351,13 +354,14 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(lblUser, gridBagConstraints);
 
-        jLabel6.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblDefaultResource.text")); // NOI18N
-        jLabel6.setName("lblDefaultResource"); // NOI18N
+        lblDefaultResource.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDefaultResource.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblDefaultResource.text")); // NOI18N
+        lblDefaultResource.setName("lblDefaultResource"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel6, gridBagConstraints);
+        jPanel1.add(lblDefaultResource, gridBagConstraints);
 
         txtDefaultResource.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.defaultResource.text")); // NOI18N
         txtDefaultResource.setName("defaultResource"); // NOI18N
@@ -368,13 +372,14 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(txtDefaultResource, gridBagConstraints);
 
-        jLabel7.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblStartingCollection.text")); // NOI18N
-        jLabel7.setName("lblStartingCollection"); // NOI18N
+        lblStartingCollection.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblStartingCollection.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblStartingCollection.text")); // NOI18N
+        lblStartingCollection.setName("lblStartingCollection"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel7, gridBagConstraints);
+        jPanel1.add(lblStartingCollection, gridBagConstraints);
 
         txtInitialPath.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.startingCollection.text")); // NOI18N
         txtInitialPath.setName("startingCollection"); // NOI18N
@@ -384,13 +389,14 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(txtInitialPath, gridBagConstraints);
 
-        jLabel8.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblAuthScheme.text")); // NOI18N
-        jLabel8.setName("lblAuthScheme"); // NOI18N
+        lblAuthScheme.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblAuthScheme.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblAuthScheme.text")); // NOI18N
+        lblAuthScheme.setName("lblAuthScheme"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel8, gridBagConstraints);
+        jPanel1.add(lblAuthScheme, gridBagConstraints);
 
         cbAuthScheme.setName("authScheme"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -398,13 +404,6 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(cbAuthScheme, gridBagConstraints);
-
-        jLabel9.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.jLabel9.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel9, gridBagConstraints);
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(224, 84));
 
@@ -429,21 +428,23 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtPassword, gridBagConstraints);
 
-        jLabel5.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblPassword.text")); // NOI18N
-        jLabel5.setName("lblPassword"); // NOI18N
+        lblPassword.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblPassword.text")); // NOI18N
+        lblPassword.setName("lblPassword"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel5, gridBagConstraints);
+        jPanel1.add(lblPassword, gridBagConstraints);
 
-        jLabel10.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblConfirmPassword.text")); // NOI18N
-        jLabel10.setName("lblConfirmPassword"); // NOI18N
+        lblConfirmPassword.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblConfirmPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblConfirmPassword.text")); // NOI18N
+        lblConfirmPassword.setName("lblConfirmPassword"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(jLabel10, gridBagConstraints);
+        jPanel1.add(lblConfirmPassword, gridBagConstraints);
 
         txtVerifyPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.confirmPassword.text")); // NOI18N
         txtVerifyPassword.setName("confirmPassword"); // NOI18N
@@ -462,12 +463,16 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
 
         jPanel5.setPreferredSize(new java.awt.Dimension(190, 50));
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('C');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnCancel.toolTipText")); // NOI18N
+        btnCancel.setMaximumSize(null);
+        btnCancel.setMinimumSize(null);
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -480,6 +485,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         btnOK.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOk.text")); // NOI18N
         btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOk.toolTipText")); // NOI18N
         btnOK.setName("btnOk"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(90, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);
@@ -487,7 +493,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         });
         jPanel5.add(btnOK);
 
-        jPanel3.add(jPanel5, java.awt.BorderLayout.EAST);
+        jPanel3.add(jPanel5, java.awt.BorderLayout.SOUTH);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
@@ -561,25 +567,24 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
     private javax.swing.JComboBox cbAuthScheme;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAuthScheme;
+    private javax.swing.JLabel lblConfirmPassword;
+    private javax.swing.JLabel lblDefaultResource;
     private javax.swing.JLabel lblHost;
+    private javax.swing.JLabel lblHostLabel;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblPortLabel;
+    private javax.swing.JLabel lblStartingCollection;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JLabel lblUserLabel;
     private javax.swing.JLabel lblZone;
+    private javax.swing.JLabel lblZoneLabel;
     private javax.swing.JTextArea textareaComment;
     private javax.swing.JTextField txtDefaultResource;
     private javax.swing.JTextField txtInitialPath;

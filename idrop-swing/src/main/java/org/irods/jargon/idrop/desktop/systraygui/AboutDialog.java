@@ -61,7 +61,7 @@ public class AboutDialog extends javax.swing.JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("iDROP - About");
+        setTitle("iDrop - About");
         setName("dlgAbout"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 600));
 

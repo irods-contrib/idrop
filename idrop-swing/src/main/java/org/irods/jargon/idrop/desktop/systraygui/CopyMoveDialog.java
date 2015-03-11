@@ -341,7 +341,6 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(CopyMoveDialog.class, "CopyMoveDialog.title")); // NOI18N
-        setMinimumSize(null);
         setName("copyMoveDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 400));
 
@@ -412,7 +411,6 @@ public class CopyMoveDialog extends javax.swing.JDialog {
 
         pnlFolderData.add(pnlCurrentParent, java.awt.BorderLayout.CENTER);
 
-        pnlBottom.setMinimumSize(null);
         pnlBottom.setPreferredSize(new java.awt.Dimension(708, 50));
         pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 

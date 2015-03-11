@@ -125,6 +125,7 @@ public class AddMetadataDialog extends javax.swing.JDialog implements
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.lblAttribute.text")); // NOI18N
         jLabel1.setName("lblAttribute"); // NOI18N
 
@@ -136,12 +137,14 @@ public class AddMetadataDialog extends javax.swing.JDialog implements
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.lblValue.text")); // NOI18N
         jLabel2.setName("lblValue"); // NOI18N
 
         txtValue.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.value.text")); // NOI18N
         txtValue.setName("value"); // NOI18N
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText(org.openide.util.NbBundle.getMessage(AddMetadataDialog.class, "AddMetadataDialog.lblUnit.text")); // NOI18N
         jLabel3.setName("lblUnit"); // NOI18N
 
@@ -163,7 +166,7 @@ public class AddMetadataDialog extends javax.swing.JDialog implements
                     .add(txtUnit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(txtValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(txtAttribute, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 340, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
