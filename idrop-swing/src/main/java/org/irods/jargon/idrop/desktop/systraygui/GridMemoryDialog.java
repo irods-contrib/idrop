@@ -328,7 +328,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         pnlGridInfoTable.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
-        jPanel7.setPreferredSize(new java.awt.Dimension(568, 40));
+        jPanel7.setPreferredSize(new java.awt.Dimension(568, 50));
         java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT);
         flowLayout1.setAlignOnBaseline(true);
         jPanel7.setLayout(flowLayout1);
@@ -339,7 +339,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         btnAddGridInfo.setMnemonic('+');
         btnAddGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGrid.text")); // NOI18N
         btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnAddGrid.toolTipText")); // NOI18N
+        btnAddGridInfo.setMaximumSize(null);
+        btnAddGridInfo.setMinimumSize(null);
         btnAddGridInfo.setName("btnAddGrid"); // NOI18N
+        btnAddGridInfo.setPreferredSize(new java.awt.Dimension(110, 37));
         btnAddGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddGridInfoActionPerformed(evt);
@@ -352,7 +355,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         btnDeleteGridInfo.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGrid.text")); // NOI18N
         btnDeleteGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnDeleteGrid.toolTipText")); // NOI18N
         btnDeleteGridInfo.setEnabled(false);
+        btnDeleteGridInfo.setMaximumSize(null);
+        btnDeleteGridInfo.setMinimumSize(null);
         btnDeleteGridInfo.setName("btnDeleteGrid"); // NOI18N
+        btnDeleteGridInfo.setPreferredSize(new java.awt.Dimension(110, 37));
         btnDeleteGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteGridInfoActionPerformed(evt);
@@ -365,7 +371,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         btnEdit.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEditGrid.text")); // NOI18N
         btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnEditGrid.toolTipText")); // NOI18N
         btnEdit.setEnabled(false);
+        btnEdit.setMaximumSize(null);
+        btnEdit.setMinimumSize(null);
         btnEdit.setName("btnEditGrid"); // NOI18N
+        btnEdit.setPreferredSize(new java.awt.Dimension(110, 37));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -382,12 +391,13 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         pnlActions.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
         pnlActions.setLayout(new java.awt.GridBagLayout());
 
-        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_197_remove.png"))); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setMnemonic('C');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.setActionCommand(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "Cancel")); // NOI18N
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -400,7 +410,10 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         btnLogin.setText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "GridMemoryDialog.btnLogIn.text")); // NOI18N
         btnLogin.setToolTipText(org.openide.util.NbBundle.getMessage(GridMemoryDialog.class, "Login.tooltip")); // NOI18N
         btnLogin.setEnabled(false);
+        btnLogin.setMaximumSize(null);
+        btnLogin.setMinimumSize(null);
         btnLogin.setName("btnLogIn"); // NOI18N
+        btnLogin.setPreferredSize(new java.awt.Dimension(90, 37));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);

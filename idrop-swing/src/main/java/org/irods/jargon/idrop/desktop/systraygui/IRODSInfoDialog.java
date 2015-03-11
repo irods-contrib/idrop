@@ -646,15 +646,15 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlInfoTab = new javax.swing.JPanel();
         pnlInfoCards = new javax.swing.JPanel();
         pnlCollectionInfo = new javax.swing.JPanel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
+        lblCreatedLabel = new javax.swing.JLabel();
+        lblUpdatedLabel = new javax.swing.JLabel();
+        lblOwnerLabel = new javax.swing.JLabel();
+        lblOwnerZone = new javax.swing.JLabel();
+        lblType = new javax.swing.JLabel();
+        lblObjectPath = new javax.swing.JLabel();
+        lblDescriptionLabel = new javax.swing.JLabel();
+        lblInfo1Label = new javax.swing.JLabel();
+        lblInfo2Label = new javax.swing.JLabel();
         lblInfoCollectionCreatedDate = new javax.swing.JLabel();
         lblInfoCollectionModifiedDate = new javax.swing.JLabel();
         lblInfoCollectionOwner = new javax.swing.JLabel();
@@ -665,20 +665,20 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         lblInfoCollectionInfo1 = new javax.swing.JLabel();
         lblInfoCollectionInfo2 = new javax.swing.JLabel();
         pnlObjectInfo = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lblSizeLabel = new javax.swing.JLabel();
+        lblCreated = new javax.swing.JLabel();
+        lblModified = new javax.swing.JLabel();
+        lblOwner = new javax.swing.JLabel();
+        lblOwnerZoneLabel = new javax.swing.JLabel();
+        lblDataPathLabel = new javax.swing.JLabel();
+        lblResourceGroup = new javax.swing.JLabel();
+        lblChecksum = new javax.swing.JLabel();
+        lblResourceLabel = new javax.swing.JLabel();
+        lblReplicaNumber = new javax.swing.JLabel();
+        lblReplicationStatus = new javax.swing.JLabel();
+        lblStatusLabel = new javax.swing.JLabel();
+        lblTypeLabel = new javax.swing.JLabel();
+        lblVersionLabel = new javax.swing.JLabel();
         lblInfoObjectSize = new javax.swing.JLabel();
         lblInfoObjectCreatedDate = new javax.swing.JLabel();
         lblInfoObjectModifiedDate = new javax.swing.JLabel();
@@ -759,6 +759,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlReplication.add(pnlReplicaionTools, java.awt.BorderLayout.SOUTH);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.title")); // NOI18N
         setName("irodsInfoDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 750));
 
@@ -777,7 +778,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         pnlSelectedObject.add(lblIcon, gridBagConstraints);
 
-        lblObjectCollection.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        lblObjectCollection.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         lblObjectCollection.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblObjectCollection.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -785,7 +786,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         pnlSelectedObject.add(lblObjectCollection, gridBagConstraints);
 
-        lblParentCollection.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        lblParentCollection.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         lblParentCollection.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblParentCollection.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -824,311 +825,473 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         pnlInfoTab.setLayout(new java.awt.BorderLayout());
 
         pnlInfoCards.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlInfoCards.setPreferredSize(new java.awt.Dimension(555, 750));
         pnlInfoCards.setLayout(new java.awt.CardLayout());
 
         pnlCollectionInfo.setPreferredSize(new java.awt.Dimension(515, 500));
+        pnlCollectionInfo.setLayout(new java.awt.GridBagLayout());
 
-        jLabel19.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel19.text")); // NOI18N
+        lblCreatedLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblCreatedLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblCreatedLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 5);
+        pnlCollectionInfo.add(lblCreatedLabel, gridBagConstraints);
 
-        jLabel20.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel20.text")); // NOI18N
+        lblUpdatedLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblUpdatedLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblUpdatedLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 5);
+        pnlCollectionInfo.add(lblUpdatedLabel, gridBagConstraints);
 
-        jLabel21.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel21.text")); // NOI18N
+        lblOwnerLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblOwnerLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblOwnerLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlCollectionInfo.add(lblOwnerLabel, gridBagConstraints);
 
-        jLabel22.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel22.text")); // NOI18N
+        lblOwnerZone.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblOwnerZone.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblOwnerZone.text")); // NOI18N
+        lblOwnerZone.setName("lblOwnerZone"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlCollectionInfo.add(lblOwnerZone, gridBagConstraints);
 
-        jLabel23.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel23.text")); // NOI18N
+        lblType.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblType.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblType.text")); // NOI18N
+        lblType.setName("lblType"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlCollectionInfo.add(lblType, gridBagConstraints);
 
-        jLabel24.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel24.text")); // NOI18N
+        lblObjectPath.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblObjectPath.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblObjectPath.text")); // NOI18N
+        lblObjectPath.setName("lblObjectPath"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlCollectionInfo.add(lblObjectPath, gridBagConstraints);
 
-        jLabel25.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel25.text")); // NOI18N
+        lblDescriptionLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDescriptionLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblDescriptionLabel.text")); // NOI18N
+        lblDescriptionLabel.setName("lblDescriptionLabel"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlCollectionInfo.add(lblDescriptionLabel, gridBagConstraints);
 
-        jLabel26.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel26.text")); // NOI18N
+        lblInfo1Label.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblInfo1Label.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfo1Label.text")); // NOI18N
+        lblInfo1Label.setName("lblInfo1Label"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlCollectionInfo.add(lblInfo1Label, gridBagConstraints);
 
-        jLabel27.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel27.text")); // NOI18N
+        lblInfo2Label.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblInfo2Label.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfo2Label.text")); // NOI18N
+        lblInfo2Label.setName("lblInfo2Label"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlCollectionInfo.add(lblInfo2Label, gridBagConstraints);
 
         lblInfoCollectionCreatedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.created.text")); // NOI18N
         lblInfoCollectionCreatedDate.setName("created"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlCollectionInfo.add(lblInfoCollectionCreatedDate, gridBagConstraints);
 
         lblInfoCollectionModifiedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.updated.text")); // NOI18N
         lblInfoCollectionModifiedDate.setName("updated"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlCollectionInfo.add(lblInfoCollectionModifiedDate, gridBagConstraints);
 
         lblInfoCollectionOwner.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.owner.text")); // NOI18N
         lblInfoCollectionOwner.setName("owner"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlCollectionInfo.add(lblInfoCollectionOwner, gridBagConstraints);
 
         lblInfoCollectionOwnerZone.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.zone.text")); // NOI18N
         lblInfoCollectionOwnerZone.setName("zone"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlCollectionInfo.add(lblInfoCollectionOwnerZone, gridBagConstraints);
 
         lblInfoCollectionType.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.fileTYpe.text")); // NOI18N
         lblInfoCollectionType.setName("fileTYpe"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlCollectionInfo.add(lblInfoCollectionType, gridBagConstraints);
 
         lblInfoCollectionObjectPath.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.objectPath.text")); // NOI18N
         lblInfoCollectionObjectPath.setName("objectPath"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlCollectionInfo.add(lblInfoCollectionObjectPath, gridBagConstraints);
 
         lblInfoCollectionDescription.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.description.text")); // NOI18N
         lblInfoCollectionDescription.setName("description"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlCollectionInfo.add(lblInfoCollectionDescription, gridBagConstraints);
 
         lblInfoCollectionInfo1.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.info1.text")); // NOI18N
         lblInfoCollectionInfo1.setName("info1"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlCollectionInfo.add(lblInfoCollectionInfo1, gridBagConstraints);
 
         lblInfoCollectionInfo2.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.info2.text")); // NOI18N
         lblInfoCollectionInfo2.setName("info2"); // NOI18N
-
-        org.jdesktop.layout.GroupLayout pnlCollectionInfoLayout = new org.jdesktop.layout.GroupLayout(pnlCollectionInfo);
-        pnlCollectionInfo.setLayout(pnlCollectionInfoLayout);
-        pnlCollectionInfoLayout.setHorizontalGroup(
-            pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlCollectionInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, pnlCollectionInfoLayout.createSequentialGroup()
-                        .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel22)
-                            .add(jLabel23)
-                            .add(jLabel24)
-                            .add(jLabel25)
-                            .add(jLabel26)
-                            .add(jLabel27))
-                        .add(24, 24, 24)
-                        .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(lblInfoCollectionOwnerZone, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                            .add(lblInfoCollectionType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoCollectionObjectPath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoCollectionDescription, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoCollectionInfo1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoCollectionInfo2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, pnlCollectionInfoLayout.createSequentialGroup()
-                        .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel19)
-                            .add(jLabel20)
-                            .add(jLabel21))
-                        .add(47, 47, 47)
-                        .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(lblInfoCollectionCreatedDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                            .add(lblInfoCollectionModifiedDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoCollectionOwner, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        pnlCollectionInfoLayout.setVerticalGroup(
-            pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlCollectionInfoLayout.createSequentialGroup()
-                .add(24, 24, 24)
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel19)
-                    .add(lblInfoCollectionCreatedDate))
-                .add(18, 18, 18)
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel20)
-                    .add(lblInfoCollectionModifiedDate))
-                .add(18, 18, 18)
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel21)
-                    .add(lblInfoCollectionOwner))
-                .add(18, 18, 18)
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel22)
-                    .add(lblInfoCollectionOwnerZone))
-                .add(18, 18, 18)
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel23)
-                    .add(lblInfoCollectionType))
-                .add(18, 18, 18)
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel24)
-                    .add(lblInfoCollectionObjectPath))
-                .add(18, 18, 18)
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel25)
-                    .add(lblInfoCollectionDescription))
-                .add(18, 18, 18)
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel26)
-                    .add(lblInfoCollectionInfo1))
-                .add(18, 18, 18)
-                .add(pnlCollectionInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel27)
-                    .add(lblInfoCollectionInfo2))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlCollectionInfo.add(lblInfoCollectionInfo2, gridBagConstraints);
 
         pnlInfoCards.add(pnlCollectionInfo, "cardCollectionInfo");
 
-        pnlObjectInfo.setPreferredSize(new java.awt.Dimension(550, 530));
+        pnlObjectInfo.setPreferredSize(null);
+        pnlObjectInfo.setLayout(new java.awt.GridBagLayout());
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel3.text")); // NOI18N
+        lblSizeLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblSizeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSizeLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblSizeLabel.text")); // NOI18N
+        lblSizeLabel.setName("lblSizeLabel"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 42;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblSizeLabel, gridBagConstraints);
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel4.text")); // NOI18N
+        lblCreated.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblCreated.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCreated.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblCreated.text")); // NOI18N
+        lblCreated.setName("lblCreated"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblCreated, gridBagConstraints);
 
-        jLabel5.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel5.text")); // NOI18N
+        lblModified.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblModified.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblModified.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblModified.text")); // NOI18N
+        lblModified.setName("lblModified"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblModified, gridBagConstraints);
 
-        jLabel6.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel6.text")); // NOI18N
+        lblOwner.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblOwner.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblOwner.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblOwner.text")); // NOI18N
+        lblOwner.setName("lblOwner"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblOwner, gridBagConstraints);
 
-        jLabel7.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel7.text")); // NOI18N
+        lblOwnerZoneLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblOwnerZoneLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblOwnerZoneLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblOwnerZone.text")); // NOI18N
+        lblOwnerZoneLabel.setName("lblOwnerZone"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblOwnerZoneLabel, gridBagConstraints);
 
-        jLabel8.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel8.text")); // NOI18N
+        lblDataPathLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblDataPathLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDataPathLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblDataPath.text")); // NOI18N
+        lblDataPathLabel.setName("lblDataPath"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblDataPathLabel, gridBagConstraints);
 
-        jLabel9.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel9.text")); // NOI18N
+        lblResourceGroup.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblResourceGroup.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblResourceGroup.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblResourceGroup.text")); // NOI18N
+        lblResourceGroup.setName("lblResourceGroup"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblResourceGroup, gridBagConstraints);
 
-        jLabel10.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel10.text")); // NOI18N
+        lblChecksum.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblChecksum.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblChecksum.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblChecksum.text")); // NOI18N
+        lblChecksum.setName("lblChecksum"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblChecksum, gridBagConstraints);
 
-        jLabel11.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel11.text")); // NOI18N
+        lblResourceLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblResourceLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblResourceLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblResource.text")); // NOI18N
+        lblResourceLabel.setName("lblResource"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblResourceLabel, gridBagConstraints);
 
-        jLabel12.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel12.text")); // NOI18N
+        lblReplicaNumber.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblReplicaNumber.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblReplicaNumber.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblReplicaNumber.text")); // NOI18N
+        lblReplicaNumber.setName("lblReplicaNumber"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblReplicaNumber, gridBagConstraints);
 
-        jLabel13.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel13.text")); // NOI18N
+        lblReplicationStatus.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblReplicationStatus.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblReplicationStatus.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblReplicationStatus.text")); // NOI18N
+        lblReplicationStatus.setName("lblReplicationStatus"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblReplicationStatus, gridBagConstraints);
 
-        jLabel14.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel14.text")); // NOI18N
+        lblStatusLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblStatusLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblStatusLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblStatusLabel.text")); // NOI18N
+        lblStatusLabel.setName("lblStatusLabel"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblStatusLabel, gridBagConstraints);
 
-        jLabel15.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel15.text")); // NOI18N
+        lblTypeLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTypeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTypeLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblTypeLabel.text")); // NOI18N
+        lblTypeLabel.setName("lblTypeLabel"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblTypeLabel, gridBagConstraints);
 
-        jLabel16.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel16.text")); // NOI18N
+        lblVersionLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblVersionLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblVersionLabel.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblVersionLabel.text")); // NOI18N
+        lblVersionLabel.setName("lblVersionLabel"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        pnlObjectInfo.add(lblVersionLabel, gridBagConstraints);
 
-        lblInfoObjectSize.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectSize.text")); // NOI18N
+        lblInfoObjectSize.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.size.text")); // NOI18N
+        lblInfoObjectSize.setName("size"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectSize, gridBagConstraints);
 
-        lblInfoObjectCreatedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectCreatedDate.text")); // NOI18N
+        lblInfoObjectCreatedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.createdDate.text")); // NOI18N
+        lblInfoObjectCreatedDate.setName("createdDate"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectCreatedDate, gridBagConstraints);
 
-        lblInfoObjectModifiedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectModifiedDate.text")); // NOI18N
+        lblInfoObjectModifiedDate.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.modifiedDate.text")); // NOI18N
+        lblInfoObjectModifiedDate.setName("modifiedDate"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectModifiedDate, gridBagConstraints);
 
-        lblInfoObjectOwner.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectOwner.text")); // NOI18N
+        lblInfoObjectOwner.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.objectOwner.text")); // NOI18N
+        lblInfoObjectOwner.setName("objectOwner"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectOwner, gridBagConstraints);
 
-        lblInfoObjectOwnerZone.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectOwnerZone.text")); // NOI18N
+        lblInfoObjectOwnerZone.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.ownerZone.text")); // NOI18N
+        lblInfoObjectOwnerZone.setName("ownerZone"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectOwnerZone, gridBagConstraints);
 
-        lblInfoObjectDataPath.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectDataPath.text")); // NOI18N
+        lblInfoObjectDataPath.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.dataPath.text")); // NOI18N
+        lblInfoObjectDataPath.setName("dataPath"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectDataPath, gridBagConstraints);
 
-        lblInfoObjectResourceGroup.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectResourceGroup.text")); // NOI18N
+        lblInfoObjectResourceGroup.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.resourceGroup.text")); // NOI18N
+        lblInfoObjectResourceGroup.setName("resourceGroup"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectResourceGroup, gridBagConstraints);
 
-        lblInfoObjectChecksum.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectChecksum.text")); // NOI18N
+        lblInfoObjectChecksum.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.checksum.text")); // NOI18N
+        lblInfoObjectChecksum.setName("checksum"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectChecksum, gridBagConstraints);
 
-        lblInfoObjectResource.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectResource.text")); // NOI18N
+        lblInfoObjectResource.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.resource.text")); // NOI18N
+        lblInfoObjectResource.setName("resource"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectResource, gridBagConstraints);
 
-        lblInfoObjectReplicaNumber.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectReplicaNumber.text")); // NOI18N
+        lblInfoObjectReplicaNumber.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.replicaNumber.text")); // NOI18N
+        lblInfoObjectReplicaNumber.setName("replicaNumber"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectReplicaNumber, gridBagConstraints);
 
-        lblInfoObjectReplicationStatus.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectReplicationStatus.text")); // NOI18N
+        lblInfoObjectReplicationStatus.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.replicationStatus.text")); // NOI18N
+        lblInfoObjectReplicationStatus.setName("replicationStatus"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectReplicationStatus, gridBagConstraints);
 
-        lblInfoObjectStatus.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectStatus.text")); // NOI18N
+        lblInfoObjectStatus.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.objectStatus.text")); // NOI18N
+        lblInfoObjectStatus.setName("objectStatus"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectStatus, gridBagConstraints);
 
-        lblInfoObjectType.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectType.text")); // NOI18N
+        lblInfoObjectType.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.objectType.text")); // NOI18N
+        lblInfoObjectType.setName("objectType"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectType, gridBagConstraints);
 
-        lblInfoObjectVersion.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.lblInfoObjectVersion.text")); // NOI18N
-
-        org.jdesktop.layout.GroupLayout pnlObjectInfoLayout = new org.jdesktop.layout.GroupLayout(pnlObjectInfo);
-        pnlObjectInfo.setLayout(pnlObjectInfoLayout);
-        pnlObjectInfoLayout.setHorizontalGroup(
-            pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlObjectInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(pnlObjectInfoLayout.createSequentialGroup()
-                        .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel4)
-                            .add(jLabel5)
-                            .add(jLabel6)
-                            .add(jLabel7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 90, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 90, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel12))
-                        .add(22, 22, 22)
-                        .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(lblInfoObjectResource, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectReplicaNumber, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectSize, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                            .add(lblInfoObjectCreatedDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectModifiedDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectOwner, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectOwnerZone, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectDataPath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectResourceGroup, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectChecksum, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .add(pnlObjectInfoLayout.createSequentialGroup()
-                        .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel13, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel14)
-                            .add(jLabel15)
-                            .add(jLabel16))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(lblInfoObjectReplicationStatus, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectStatus, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(lblInfoObjectVersion, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(515, Short.MAX_VALUE))
-        );
-        pnlObjectInfoLayout.setVerticalGroup(
-            pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlObjectInfoLayout.createSequentialGroup()
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(pnlObjectInfoLayout.createSequentialGroup()
-                        .add(18, 18, 18)
-                        .add(lblInfoObjectSize))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlObjectInfoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jLabel3)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lblInfoObjectCreatedDate)
-                    .add(jLabel4))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel5)
-                    .add(lblInfoObjectModifiedDate))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lblInfoObjectOwner)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel6))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel7)
-                    .add(lblInfoObjectOwnerZone))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lblInfoObjectDataPath)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel8))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel9)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lblInfoObjectResourceGroup))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lblInfoObjectChecksum)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel10))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel11)
-                    .add(lblInfoObjectResource))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel12)
-                    .add(lblInfoObjectReplicaNumber))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel13)
-                    .add(lblInfoObjectReplicationStatus))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel14)
-                    .add(lblInfoObjectStatus))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel15)
-                    .add(lblInfoObjectType))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(pnlObjectInfoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel16)
-                    .add(lblInfoObjectVersion))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        lblInfoObjectVersion.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.objectVersion.text")); // NOI18N
+        lblInfoObjectVersion.setName("objectVersion"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlObjectInfo.add(lblInfoObjectVersion, gridBagConstraints);
 
         pnlInfoCards.add(pnlObjectInfo, "cardObjectInfo");
 
         pnlInfoTab.add(pnlInfoCards, java.awt.BorderLayout.CENTER);
 
         pnlTagsComments.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlTagsComments.setLayout(new java.awt.GridBagLayout());
 
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel17.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel17.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        pnlTagsComments.add(jLabel17, gridBagConstraints);
 
+        txtInfoTags.setColumns(70);
         txtInfoTags.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.tags.text")); // NOI18N
         txtInfoTags.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.txtInfoTags.toolTipText")); // NOI18N
         txtInfoTags.setName("tags"); // NOI18N
@@ -1137,58 +1300,56 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 txtInfoTagsActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlTagsComments.add(txtInfoTags, gridBagConstraints);
 
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel18.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.jLabel18.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        pnlTagsComments.add(jLabel18, gridBagConstraints);
 
         textareaInfoComments.setColumns(20);
         textareaInfoComments.setRows(5);
         textareaInfoComments.setName("comments"); // NOI18N
         jScrollPane1.setViewportView(textareaInfoComments);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        pnlTagsComments.add(jScrollPane1, gridBagConstraints);
+
         btnUpdateTagsComments.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnUpdateTagsAndComments.text")); // NOI18N
+        btnUpdateTagsComments.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnUpdateTagsComments.toolTipText")); // NOI18N
+        btnUpdateTagsComments.setMaximumSize(null);
+        btnUpdateTagsComments.setMinimumSize(null);
         btnUpdateTagsComments.setName("btnUpdateTagsAndComments"); // NOI18N
+        btnUpdateTagsComments.setPreferredSize(new java.awt.Dimension(180, 37));
         btnUpdateTagsComments.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateTagsCommentsActionPerformed(evt);
             }
         });
-
-        org.jdesktop.layout.GroupLayout pnlTagsCommentsLayout = new org.jdesktop.layout.GroupLayout(pnlTagsComments);
-        pnlTagsComments.setLayout(pnlTagsCommentsLayout);
-        pnlTagsCommentsLayout.setHorizontalGroup(
-            pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlTagsCommentsLayout.createSequentialGroup()
-                .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlTagsCommentsLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel17)
-                            .add(jLabel18))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 530, Short.MAX_VALUE)
-                        .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(txtInfoTags)
-                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE))
-                        .add(6, 6, 6))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, pnlTagsCommentsLayout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(btnUpdateTagsComments)))
-                .addContainerGap())
-        );
-        pnlTagsCommentsLayout.setVerticalGroup(
-            pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pnlTagsCommentsLayout.createSequentialGroup()
-                .add(6, 6, 6)
-                .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel17)
-                    .add(txtInfoTags, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 28, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(pnlTagsCommentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel18)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(btnUpdateTagsComments)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        pnlTagsComments.add(btnUpdateTagsComments, gridBagConstraints);
 
         pnlInfoTab.add(pnlTagsComments, java.awt.BorderLayout.SOUTH);
 
@@ -1224,6 +1385,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 return canEdit [columnIndex];
             }
         });
+        tableMetadata.setName("tblMetadata"); // NOI18N
         tableMetadata.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane2.setViewportView(tableMetadata);
 
@@ -1237,9 +1399,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         btnAddMetadata.setMnemonic('+');
         btnAddMetadata.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddMetadata.text")); // NOI18N
         btnAddMetadata.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddMetadata.toolTipText")); // NOI18N
-        btnAddMetadata.setMaximumSize(null);
-        btnAddMetadata.setMinimumSize(null);
-        btnAddMetadata.setPreferredSize(null);
+        btnAddMetadata.setPreferredSize(new java.awt.Dimension(90, 37));
         btnAddMetadata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddMetadataActionPerformed(evt);
@@ -1254,7 +1414,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         btnDeleteMetadata.setEnabled(false);
         btnDeleteMetadata.setMaximumSize(null);
         btnDeleteMetadata.setMinimumSize(null);
-        btnDeleteMetadata.setPreferredSize(null);
+        btnDeleteMetadata.setName("btnDeleteMetadata"); // NOI18N
+        btnDeleteMetadata.setPreferredSize(new java.awt.Dimension(110, 37));
         btnDeleteMetadata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteMetadataActionPerformed(evt);
@@ -1264,9 +1425,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_030_pencil.png"))); // NOI18N
         btnEdit.setMnemonic('E');
-        btnEdit.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnEdit.text")); // NOI18N
-        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnEdit.toolTipText")); // NOI18N
+        btnEdit.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnEditMetadata.text")); // NOI18N
+        btnEdit.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnEditMetadata.toolTipText")); // NOI18N
         btnEdit.setEnabled(false);
+        btnEdit.setName("btnEditMetadata"); // NOI18N
+        btnEdit.setPreferredSize(new java.awt.Dimension(90, 37));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -1310,6 +1473,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
                 return canEdit [columnIndex];
             }
         });
+        tablePermissions.setName("tblACL"); // NOI18N
         tablePermissions.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane3.setViewportView(tablePermissions);
 
@@ -1320,11 +1484,10 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         btnAddSharePermissions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_190_circle_plus.png"))); // NOI18N
         btnAddSharePermissions.setMnemonic('+');
-        btnAddSharePermissions.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddSharePermissions.text")); // NOI18N
-        btnAddSharePermissions.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddSharePermissions.toolTipText")); // NOI18N
-        btnAddSharePermissions.setMaximumSize(null);
-        btnAddSharePermissions.setMinimumSize(null);
-        btnAddSharePermissions.setPreferredSize(null);
+        btnAddSharePermissions.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddAcl.text")); // NOI18N
+        btnAddSharePermissions.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnAddAcl.toolTipText")); // NOI18N
+        btnAddSharePermissions.setName("btnAddAcl"); // NOI18N
+        btnAddSharePermissions.setPreferredSize(new java.awt.Dimension(90, 37));
         btnAddSharePermissions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddSharePermissionsActionPerformed(evt);
@@ -1334,12 +1497,11 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         btnDeleteSharePermissions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_191_circle_minus.png"))); // NOI18N
         btnDeleteSharePermissions.setMnemonic('-');
-        btnDeleteSharePermissions.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnDeleteSharePermissions.text")); // NOI18N
-        btnDeleteSharePermissions.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnDeleteSharePermissions.toolTipText")); // NOI18N
+        btnDeleteSharePermissions.setText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnDeleteAcl.text")); // NOI18N
+        btnDeleteSharePermissions.setToolTipText(org.openide.util.NbBundle.getMessage(IRODSInfoDialog.class, "IRODSInfoDialog.btnDeleteAcl.toolTipText")); // NOI18N
         btnDeleteSharePermissions.setEnabled(false);
-        btnDeleteSharePermissions.setMaximumSize(null);
-        btnDeleteSharePermissions.setMinimumSize(null);
-        btnDeleteSharePermissions.setPreferredSize(null);
+        btnDeleteSharePermissions.setName("btnDeleteAcl"); // NOI18N
+        btnDeleteSharePermissions.setPreferredSize(new java.awt.Dimension(110, 37));
         btnDeleteSharePermissions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteSharePermissionsActionPerformed(evt);
@@ -1364,7 +1526,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         btnRefresh.setMaximumSize(null);
         btnRefresh.setMinimumSize(null);
         btnRefresh.setName("btnRefresh"); // NOI18N
-        btnRefresh.setPreferredSize(null);
+        btnRefresh.setPreferredSize(new java.awt.Dimension(110, 37));
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshActionPerformed(evt);
@@ -1379,7 +1541,7 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
         btnClose.setMaximumSize(null);
         btnClose.setMinimumSize(null);
         btnClose.setName("btnOk"); // NOI18N
-        btnClose.setPreferredSize(null);
+        btnClose.setPreferredSize(new java.awt.Dimension(90, 37));
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
@@ -1895,31 +2057,8 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnReplicate;
     private javax.swing.JButton btnUpdateTagsComments;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
@@ -1927,7 +2066,14 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblChecksum;
+    private javax.swing.JLabel lblCreated;
+    private javax.swing.JLabel lblCreatedLabel;
+    private javax.swing.JLabel lblDataPathLabel;
+    private javax.swing.JLabel lblDescriptionLabel;
     private javax.swing.JLabel lblIcon;
+    private javax.swing.JLabel lblInfo1Label;
+    private javax.swing.JLabel lblInfo2Label;
     private javax.swing.JLabel lblInfoCollectionCreatedDate;
     private javax.swing.JLabel lblInfoCollectionDescription;
     private javax.swing.JLabel lblInfoCollectionInfo1;
@@ -1953,8 +2099,24 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
     private javax.swing.JLabel lblInfoObjectStatus;
     private javax.swing.JLabel lblInfoObjectType;
     private javax.swing.JLabel lblInfoObjectVersion;
+    private javax.swing.JLabel lblModified;
     private javax.swing.JLabel lblObjectCollection;
+    private javax.swing.JLabel lblObjectPath;
+    private javax.swing.JLabel lblOwner;
+    private javax.swing.JLabel lblOwnerLabel;
+    private javax.swing.JLabel lblOwnerZone;
+    private javax.swing.JLabel lblOwnerZoneLabel;
     private javax.swing.JLabel lblParentCollection;
+    private javax.swing.JLabel lblReplicaNumber;
+    private javax.swing.JLabel lblReplicationStatus;
+    private javax.swing.JLabel lblResourceGroup;
+    private javax.swing.JLabel lblResourceLabel;
+    private javax.swing.JLabel lblSizeLabel;
+    private javax.swing.JLabel lblStatusLabel;
+    private javax.swing.JLabel lblType;
+    private javax.swing.JLabel lblTypeLabel;
+    private javax.swing.JLabel lblUpdatedLabel;
+    private javax.swing.JLabel lblVersionLabel;
     private javax.swing.JPanel pnlCloseBtn;
     private javax.swing.JPanel pnlCollectionInfo;
     private javax.swing.JPanel pnlInfoCards;

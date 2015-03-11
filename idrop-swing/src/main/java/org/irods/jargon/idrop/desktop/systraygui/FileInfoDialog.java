@@ -62,6 +62,7 @@ public class FileInfoDialog extends javax.swing.JDialog {
         btnOK.setText(org.openide.util.NbBundle.getMessage(FileInfoDialog.class, "OK")); // NOI18N
         btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(FileInfoDialog.class, "FileInfoDialog.btnOk.toolTipText")); // NOI18N
         btnOK.setName("btnOk"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(90, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);
