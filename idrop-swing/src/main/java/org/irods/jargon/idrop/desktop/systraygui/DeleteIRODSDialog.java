@@ -182,7 +182,10 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
         btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(DeleteIRODSDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the delete action");
+        btnCancel.setMaximumSize(null);
+        btnCancel.setMinimumSize(null);
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -194,7 +197,10 @@ public class DeleteIRODSDialog extends javax.swing.JDialog {
         btnOK.setMnemonic('o');
         btnOK.setText(org.openide.util.NbBundle.getMessage(DeleteIRODSDialog.class, "Delete")); // NOI18N
         btnOK.setToolTipText("Delete the files and collections");
+        btnOK.setMaximumSize(null);
+        btnOK.setMinimumSize(null);
         btnOK.setName("btnOk"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(110, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

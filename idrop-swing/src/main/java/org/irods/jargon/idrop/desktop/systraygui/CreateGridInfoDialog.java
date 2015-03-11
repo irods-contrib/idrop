@@ -87,7 +87,6 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(CreateGridInfoDialog.class, "CreateGridInfoDialog.title")); // NOI18N
-        setMinimumSize(null);
         setName("gridInfoDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 500));
 
@@ -415,7 +414,7 @@ public class CreateGridInfoDialog extends javax.swing.JDialog {
         }
 
         dispose();
- lblHostGEN-LAST:event_btnOKActionPerformed
+    }// GEN-LAST:event_btnOKActionPerformed
 
     private boolean validateGridAccount(final IRODSAccount gridInfo) {
         try {
