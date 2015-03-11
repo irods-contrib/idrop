@@ -1066,7 +1066,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(SettingsDialog.class, "SettingsDialog.title")); // NOI18N
         setName("Settings"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(724, 530));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         pnlMain.setLayout(new java.awt.BorderLayout());
 
