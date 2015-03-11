@@ -102,9 +102,9 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Rename iRODS File or Folder");
+        setTitle("iDrop - Rename iRODS File or Folder");
         setName("renameIrodsDirectoryDialog"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(600, 300));
+        setPreferredSize(new java.awt.Dimension(600, 200));
 
         lblTitle.setText("Please enter a new name for the file or collection");
         lblTitle.setName("lblWelcome"); // NOI18N
@@ -165,7 +165,10 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
         btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(RenameIRODSDirectoryDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the rename operation");
+        btnCancel.setMaximumSize(null);
+        btnCancel.setMinimumSize(null);
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -177,7 +180,10 @@ public class RenameIRODSDirectoryDialog extends javax.swing.JDialog {
         btnOK.setMnemonic('o');
         btnOK.setText(org.openide.util.NbBundle.getMessage(RenameIRODSDirectoryDialog.class, "Rename")); // NOI18N
         btnOK.setToolTipText("Proceed with the rename operation");
+        btnOK.setMaximumSize(null);
+        btnOK.setMinimumSize(null);
         btnOK.setName("btnOk"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(110, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

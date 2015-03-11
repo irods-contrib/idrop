@@ -130,7 +130,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("iRODS Move File - Confirmation Dialog");
+        setTitle("iDrop - Move file confirmation");
         setName("moveCopyIrodsDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 300));
 
@@ -211,6 +211,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         btnCancel.setText(org.openide.util.NbBundle.getMessage(MoveOrCopyiRODSDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the move/copy operation");
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(100, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -223,6 +224,7 @@ public class MoveOrCopyiRODSDialog extends javax.swing.JDialog {
         btnOK.setText(org.openide.util.NbBundle.getMessage(MoveOrCopyiRODSDialog.class, "MoveOrCopy")); // NOI18N
         btnOK.setToolTipText("Do the move/copy operation");
         btnOK.setName("btnOk"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(150, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

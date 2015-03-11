@@ -284,6 +284,7 @@ public class UploadDialog extends javax.swing.JDialog implements
         btnUseIrodsHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_020_home.png"))); // NOI18N
         btnUseIrodsHome.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUseIrodsHomeDirectory.text")); // NOI18N
         btnUseIrodsHome.setName("btnUseIrodsHomeDirectory"); // NOI18N
+        btnUseIrodsHome.setPreferredSize(new java.awt.Dimension(180, 37));
         btnUseIrodsHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUseIrodsHomeActionPerformed(evt);
@@ -299,6 +300,7 @@ public class UploadDialog extends javax.swing.JDialog implements
         btnBrowseForDirectory.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnBrowseForDirectory.text")); // NOI18N
         btnBrowseForDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnBrowseForDirectory.toolTipText")); // NOI18N
         btnBrowseForDirectory.setName("btnBrowseForDirectory"); // NOI18N
+        btnBrowseForDirectory.setPreferredSize(new java.awt.Dimension(110, 37));
         btnBrowseForDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBrowseForDirectoryActionPerformed(evt);
@@ -357,7 +359,7 @@ public class UploadDialog extends javax.swing.JDialog implements
         btnAddUploadFile.setMaximumSize(null);
         btnAddUploadFile.setMinimumSize(null);
         btnAddUploadFile.setName("btnAddFile"); // NOI18N
-        btnAddUploadFile.setPreferredSize(null);
+        btnAddUploadFile.setPreferredSize(new java.awt.Dimension(110, 37));
         btnAddUploadFile.setRequestFocusEnabled(false);
         btnAddUploadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -371,10 +373,8 @@ public class UploadDialog extends javax.swing.JDialog implements
         btnDeleteUploadFile.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnRemoveFile.text")); // NOI18N
         btnDeleteUploadFile.setToolTipText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnRemoveFile.toolTipText")); // NOI18N
         btnDeleteUploadFile.setMargin(null);
-        btnDeleteUploadFile.setMaximumSize(null);
-        btnDeleteUploadFile.setMinimumSize(null);
         btnDeleteUploadFile.setName("btnRemoveFile"); // NOI18N
-        btnDeleteUploadFile.setPreferredSize(null);
+        btnDeleteUploadFile.setPreferredSize(new java.awt.Dimension(110, 37));
         btnDeleteUploadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteUploadFileActionPerformed(evt);
@@ -395,6 +395,7 @@ public class UploadDialog extends javax.swing.JDialog implements
         btnCancel.setText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -408,6 +409,7 @@ public class UploadDialog extends javax.swing.JDialog implements
         btnUploadNow.setToolTipText(org.openide.util.NbBundle.getMessage(UploadDialog.class, "UploadDialog.btnUpload.toolTipText")); // NOI18N
         btnUploadNow.setEnabled(false);
         btnUploadNow.setName("btnUpload"); // NOI18N
+        btnUploadNow.setPreferredSize(new java.awt.Dimension(110, 37));
         btnUploadNow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUploadNowActionPerformed(evt);

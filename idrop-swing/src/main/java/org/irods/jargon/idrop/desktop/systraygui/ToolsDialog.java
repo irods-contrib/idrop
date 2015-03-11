@@ -237,7 +237,6 @@ public class ToolsDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.title")); // NOI18N
-        setMinimumSize(null);
         setPreferredSize(new java.awt.Dimension(500, 400));
 
         pnlMain.setLayout(new java.awt.BorderLayout());
@@ -258,12 +257,14 @@ public class ToolsDialog extends javax.swing.JDialog {
         pnlButtons.add(jPanel1, gridBagConstraints);
 
         bntSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        bntSave.setMnemonic('O');
         bntSave.setText(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.btnExit.text")); // NOI18N
         bntSave.setToolTipText(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.bntSave.toolTipText")); // NOI18N
         bntSave.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         bntSave.setMaximumSize(null);
         bntSave.setMinimumSize(null);
         bntSave.setName("btnExit"); // NOI18N
+        bntSave.setPreferredSize(new java.awt.Dimension(90, 37));
         bntSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bntSaveActionPerformed(evt);

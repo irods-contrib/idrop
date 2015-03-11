@@ -313,7 +313,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnPurgeAll.setFocusable(false);
         btnPurgeAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnPurgeAll.setName("btnPurgeAll"); // NOI18N
-        btnPurgeAll.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnPurgeAll.setPreferredSize(new java.awt.Dimension(90, 50));
         btnPurgeAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPurgeAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -331,7 +331,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnPurgeSuccessful.setFocusable(false);
         btnPurgeSuccessful.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnPurgeSuccessful.setName("btnPurgeSuccessful"); // NOI18N
-        btnPurgeSuccessful.setPreferredSize(new java.awt.Dimension(120, 80));
+        btnPurgeSuccessful.setPreferredSize(new java.awt.Dimension(90, 50));
         btnPurgeSuccessful.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPurgeSuccessful.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,7 +352,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnRemoveSelected.setFocusable(false);
         btnRemoveSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRemoveSelected.setName("btnDelete"); // NOI18N
-        btnRemoveSelected.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnRemoveSelected.setPreferredSize(new java.awt.Dimension(90, 50));
         btnRemoveSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -371,7 +371,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnCancel.setFocusable(false);
         btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCancel.setName("btnCancel"); // NOI18N
-        btnCancel.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnCancel.setPreferredSize(new java.awt.Dimension(90, 50));
         btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -390,7 +390,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnRestartSelected.setFocusable(false);
         btnRestartSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRestartSelected.setName("btnRestart"); // NOI18N
-        btnRestartSelected.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnRestartSelected.setPreferredSize(new java.awt.Dimension(90, 50));
         btnRestartSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRestartSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -409,7 +409,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnResubmitSelected.setFocusable(false);
         btnResubmitSelected.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnResubmitSelected.setName("btnResubmit"); // NOI18N
-        btnResubmitSelected.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnResubmitSelected.setPreferredSize(new java.awt.Dimension(90, 50));
         btnResubmitSelected.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnResubmitSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -429,7 +429,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnRefresh.setFocusable(false);
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRefresh.setName("btnRefresh"); // NOI18N
-        btnRefresh.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnRefresh.setPreferredSize(new java.awt.Dimension(90, 50));
         btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -445,6 +445,7 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
         btnAutoRefresh.setFocusable(false);
         btnAutoRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAutoRefresh.setName("btnAutoRefresh"); // NOI18N
+        btnAutoRefresh.setPreferredSize(new java.awt.Dimension(90, 50));
         btnAutoRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnAutoRefresh.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -526,10 +527,11 @@ public class TransferAccountingManagerDialog extends javax.swing.JDialog
 
         bntClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         bntClose.setMnemonic('l');
-        bntClose.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.bntClose.text")); // NOI18N
-        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.bntClose.toolTipText")); // NOI18N
+        bntClose.setText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnClose.text")); // NOI18N
+        bntClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferAccountingManagerDialog.class, "TransferAccountingManagerDialog.btnClose.toolTipText")); // NOI18N
         bntClose.setFocusable(false);
-        bntClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bntClose.setName("btnClose"); // NOI18N
+        bntClose.setPreferredSize(new java.awt.Dimension(90, 37));
         bntClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         bntClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

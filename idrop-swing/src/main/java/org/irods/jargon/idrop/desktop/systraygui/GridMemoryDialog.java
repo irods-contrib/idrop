@@ -358,7 +358,7 @@ public class GridMemoryDialog extends javax.swing.JDialog implements
         btnDeleteGridInfo.setMaximumSize(null);
         btnDeleteGridInfo.setMinimumSize(null);
         btnDeleteGridInfo.setName("btnDeleteGrid"); // NOI18N
-        btnDeleteGridInfo.setPreferredSize(new java.awt.Dimension(110, 37));
+        btnDeleteGridInfo.setPreferredSize(new java.awt.Dimension(120, 37));
         btnDeleteGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteGridInfoActionPerformed(evt);

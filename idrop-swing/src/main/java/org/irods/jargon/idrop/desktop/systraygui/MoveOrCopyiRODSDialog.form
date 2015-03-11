@@ -3,7 +3,7 @@
 <Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="iRODS Move File - Confirmation Dialog"/>
+    <Property name="title" type="java.lang.String" value="iDrop - Move file confirmation"/>
     <Property name="name" type="java.lang.String" value="moveCopyIrodsDialog" noResource="true"/>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[600, 300]"/>
@@ -163,6 +163,9 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Cancel the move/copy operation"/>
             <Property name="name" type="java.lang.String" value="btnCancel" noResource="true"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[100, 37]"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
@@ -179,6 +182,9 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Do the move/copy operation"/>
             <Property name="name" type="java.lang.String" value="btnOk" noResource="true"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[150, 37]"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOKActionPerformed"/>

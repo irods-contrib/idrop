@@ -71,8 +71,8 @@ public class NewLocalDirectoryDialog extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        lblTitle = new javax.swing.JLabel();
         pnlFolderData = new javax.swing.JPanel();
+        lblTitle = new javax.swing.JLabel();
         txtNewFolder = new javax.swing.JTextField();
         pnlBottom = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
@@ -81,13 +81,14 @@ public class NewLocalDirectoryDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Create New Local Folder Dialog");
         setName("newLocalDialog"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(300, 200));
-
-        lblTitle.setText("Please enter a name for the new folder");
-        lblTitle.setName("lblWelcome"); // NOI18N
-        getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
+        setPreferredSize(new java.awt.Dimension(400, 200));
 
         pnlFolderData.setLayout(new java.awt.GridBagLayout());
+
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblTitle.setText("New Folder Name:");
+        lblTitle.setName("lblWelcome"); // NOI18N
+        pnlFolderData.add(lblTitle, new java.awt.GridBagConstraints());
 
         txtNewFolder.setColumns(200);
         txtNewFolder.setToolTipText("A name for the new folder underneath the displayed parent");

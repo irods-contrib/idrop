@@ -190,7 +190,7 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel3)
                     .add(txtUnit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -214,7 +214,7 @@ public class EditMetaDataDialog extends javax.swing.JDialog implements
 
         jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
 
-        jPanel5.setPreferredSize(new java.awt.Dimension(200, 40));
+        jPanel5.setPreferredSize(new java.awt.Dimension(200, 50));
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N

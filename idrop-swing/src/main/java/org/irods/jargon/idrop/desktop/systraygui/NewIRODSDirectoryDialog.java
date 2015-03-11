@@ -79,26 +79,25 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        lblTitle = new javax.swing.JLabel();
         pnlFolderData = new javax.swing.JPanel();
+        lblTitle = new javax.swing.JLabel();
         txtNewFolder = new javax.swing.JTextField();
         pnlBottom = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Create New Folder Dialog");
+        setTitle("iDrop - Create New Folder Dialog");
         setMinimumSize(new java.awt.Dimension(300, 200));
         setName("newDirectoryDialog"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(300, 200));
-
-        lblTitle.setText("Please enter a name for the new folder");
-        lblTitle.setMaximumSize(null);
-        lblTitle.setMinimumSize(null);
-        lblTitle.setName("lblWelcome"); // NOI18N
-        getContentPane().add(lblTitle, java.awt.BorderLayout.NORTH);
+        setPreferredSize(new java.awt.Dimension(400, 100));
 
         pnlFolderData.setLayout(new java.awt.GridBagLayout());
+
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblTitle.setText("New folder name:");
+        lblTitle.setName("lblNewFolderName"); // NOI18N
+        pnlFolderData.add(lblTitle, new java.awt.GridBagConstraints());
 
         txtNewFolder.setColumns(80);
         txtNewFolder.setToolTipText("A name for the new folder underneath the displayed parent");
@@ -120,6 +119,7 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
         btnCancel.setText(org.openide.util.NbBundle.getMessage(NewIRODSDirectoryDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the folder creation");
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -131,7 +131,10 @@ public class NewIRODSDirectoryDialog extends javax.swing.JDialog {
         btnOK.setMnemonic('o');
         btnOK.setText(org.openide.util.NbBundle.getMessage(NewIRODSDirectoryDialog.class, "CreateNew")); // NOI18N
         btnOK.setToolTipText("Create the new folder");
+        btnOK.setMaximumSize(null);
+        btnOK.setMinimumSize(null);
         btnOK.setName("btnOk"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(180, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

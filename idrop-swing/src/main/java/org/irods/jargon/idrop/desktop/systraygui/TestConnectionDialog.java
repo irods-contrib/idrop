@@ -438,11 +438,13 @@ public class TestConnectionDialog extends javax.swing.JDialog {
         pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
+        btnClose.setMnemonic('c');
         btnClose.setText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.btnClose.text")); // NOI18N
+        btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(TestConnectionDialog.class, "TestConnectionDialog.btnClose.toolTipText")); // NOI18N
         btnClose.setMaximumSize(null);
         btnClose.setMinimumSize(new java.awt.Dimension(100, 38));
         btnClose.setName("btnClose"); // NOI18N
-        btnClose.setPreferredSize(new java.awt.Dimension(100, 38));
+        btnClose.setPreferredSize(new java.awt.Dimension(90, 37));
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
@@ -455,7 +457,7 @@ public class TestConnectionDialog extends javax.swing.JDialog {
         btnSendReport.setMaximumSize(null);
         btnSendReport.setMinimumSize(new java.awt.Dimension(120, 38));
         btnSendReport.setName("btnSendReport"); // NOI18N
-        btnSendReport.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnSendReport.setPreferredSize(new java.awt.Dimension(120, 37));
         btnSendReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSendReportActionPerformed(evt);

@@ -310,6 +310,7 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.title")); // NOI18N
+        setName("manageDataResourcesDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 300));
 
         pnlGridInfoTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10));
@@ -340,15 +341,14 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
         btnAddGridInfo.setToolTipText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.addGrid.toolTipText")); // NOI18N
         btnAddGridInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAddGridInfo.setName("addGrid"); // NOI18N
+        btnAddGridInfo.setPreferredSize(new java.awt.Dimension(90, 50));
         btnAddGridInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnAddGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddGridInfoActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel9.add(btnAddGridInfo, gridBagConstraints);
+        jPanel9.add(btnAddGridInfo, new java.awt.GridBagConstraints());
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_030_pencil.png"))); // NOI18N
         btnEdit.setMnemonic('E');
@@ -357,6 +357,7 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
         btnEdit.setEnabled(false);
         btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEdit.setName("editGrid"); // NOI18N
+        btnEdit.setPreferredSize(new java.awt.Dimension(90, 50));
         btnEdit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -364,7 +365,7 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel9.add(btnEdit, gridBagConstraints);
 
         btnDeleteGridInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_016_bin.png"))); // NOI18N
@@ -374,13 +375,16 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
         btnDeleteGridInfo.setEnabled(false);
         btnDeleteGridInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDeleteGridInfo.setName("deleteGrid"); // NOI18N
+        btnDeleteGridInfo.setPreferredSize(new java.awt.Dimension(90, 50));
         btnDeleteGridInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnDeleteGridInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteGridInfoActionPerformed(evt);
             }
         });
-        jPanel9.add(btnDeleteGridInfo, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel9.add(btnDeleteGridInfo, gridBagConstraints);
 
         jPanel7.add(jPanel9);
 
@@ -393,8 +397,8 @@ public class ManageDataResourcesDialog extends javax.swing.JDialog implements
 
         pnlActionsButtons.setToolTipText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.pnlActionsButtons.toolTipText")); // NOI18N
 
-        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_388_exit.png"))); // NOI18N
-        btnExit.setMnemonic('E');
+        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnExit.setMnemonic('O');
         btnExit.setText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.btnExit.text")); // NOI18N
         btnExit.setToolTipText(org.openide.util.NbBundle.getMessage(ManageDataResourcesDialog.class, "ManageDataResourcesDialog.btnExit.toolTipText")); // NOI18N
         btnExit.addActionListener(new java.awt.event.ActionListener() {

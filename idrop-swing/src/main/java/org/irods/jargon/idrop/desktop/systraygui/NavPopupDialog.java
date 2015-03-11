@@ -50,6 +50,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
         filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
         btnGoRootTargetTree = new javax.swing.JButton();
         filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        pnlPath = new javax.swing.JPanel();
         txtCustomPath = new javax.swing.JTextField();
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
         btnSetCustomRootTargetTree = new javax.swing.JButton();
@@ -99,12 +100,14 @@ public class NavPopupDialog extends javax.swing.JDialog {
         toolbarBreadcrumb.add(btnGoRootTargetTree);
         toolbarBreadcrumb.add(filler18);
 
+        pnlPath.setLayout(new java.awt.BorderLayout());
+
         txtCustomPath.setColumns(60);
         txtCustomPath.setText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.directPathName.text")); // NOI18N
         txtCustomPath.setToolTipText(org.openide.util.NbBundle.getMessage(NavPopupDialog.class, "NavPopupDialog.directPathName.toolTipText")); // NOI18N
         txtCustomPath.setMinimumSize(null);
         txtCustomPath.setName("directPathName"); // NOI18N
-        txtCustomPath.setPreferredSize(null);
+        txtCustomPath.setPreferredSize(new java.awt.Dimension(80, 30));
         txtCustomPath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCustomPathActionPerformed(evt);
@@ -115,7 +118,9 @@ public class NavPopupDialog extends javax.swing.JDialog {
                 txtCustomPathKeyPressed(evt);
             }
         });
-        toolbarBreadcrumb.add(txtCustomPath);
+        pnlPath.add(txtCustomPath, java.awt.BorderLayout.NORTH);
+
+        toolbarBreadcrumb.add(pnlPath);
         toolbarBreadcrumb.add(filler19);
 
         btnSetCustomRootTargetTree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_380_message_forward.png"))); // NOI18N
@@ -258,6 +263,7 @@ public class NavPopupDialog extends javax.swing.JDialog {
     private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler18;
     private javax.swing.Box.Filler filler19;
+    private javax.swing.JPanel pnlPath;
     private javax.swing.JScrollPane scrollBreadcrumbs;
     private javax.swing.JTable tblBreadcrumbs;
     private javax.swing.JToolBar toolbarBreadcrumb;

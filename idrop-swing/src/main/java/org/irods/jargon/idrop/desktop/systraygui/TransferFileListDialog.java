@@ -180,6 +180,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.title")); // NOI18N
         setName("transferFileListDialog"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1000, 800));
 
@@ -563,7 +564,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnFirstPage.setFocusable(false);
         btnFirstPage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnFirstPage.setName("btnFirst"); // NOI18N
-        btnFirstPage.setPreferredSize(new java.awt.Dimension(40, 40));
+        btnFirstPage.setPreferredSize(new java.awt.Dimension(90, 50));
         btnFirstPage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnFirstPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -579,7 +580,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnPrevPage.setFocusable(false);
         btnPrevPage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnPrevPage.setName("btnPrevious"); // NOI18N
-        btnPrevPage.setPreferredSize(new java.awt.Dimension(40, 40));
+        btnPrevPage.setPreferredSize(new java.awt.Dimension(90, 50));
         btnPrevPage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPrevPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -595,7 +596,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnNextPage.setFocusable(false);
         btnNextPage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNextPage.setName("btnNext"); // NOI18N
-        btnNextPage.setPreferredSize(new java.awt.Dimension(40, 40));
+        btnNextPage.setPreferredSize(new java.awt.Dimension(90, 50));
         btnNextPage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnNextPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -610,11 +611,12 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         toolbarButtons.add(filler1);
 
         btnErrorsOnly.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnShowErrorsOnly.text")); // NOI18N
+        btnErrorsOnly.setActionCommand(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnErrorsOnly.actionCommand")); // NOI18N
         btnErrorsOnly.setFocusable(false);
         btnErrorsOnly.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnErrorsOnly.setMinimumSize(new java.awt.Dimension(61, 49));
         btnErrorsOnly.setName("btnShowErrorsOnly"); // NOI18N
-        btnErrorsOnly.setPreferredSize(new java.awt.Dimension(113, 40));
+        btnErrorsOnly.setPreferredSize(new java.awt.Dimension(120, 37));
         btnErrorsOnly.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnErrorsOnly.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -627,7 +629,7 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnShowSkipped.setFocusable(false);
         btnShowSkipped.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnShowSkipped.setName("btnShowSkipped"); // NOI18N
-        btnShowSkipped.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnShowSkipped.setPreferredSize(new java.awt.Dimension(120, 37));
         btnShowSkipped.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnShowSkipped.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -641,7 +643,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlButtons.add(toolbarButtons, gridBagConstraints);
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
@@ -649,16 +650,15 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         btnClose.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnOk.text")); // NOI18N
         btnClose.setToolTipText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.btnOk.toolTipText")); // NOI18N
         btnClose.setFocusable(false);
-        btnClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnClose.setName("btnOk"); // NOI18N
-        btnClose.setPreferredSize(new java.awt.Dimension(40, 40));
-        btnClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClose.setPreferredSize(new java.awt.Dimension(90, 37));
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlButtons.add(btnClose, gridBagConstraints);

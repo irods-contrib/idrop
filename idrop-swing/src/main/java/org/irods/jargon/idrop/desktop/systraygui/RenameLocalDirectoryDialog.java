@@ -96,10 +96,10 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Rename Local File Dialog");
+        setTitle("iDrop - Rename Local File Dialog");
         setMinimumSize(new java.awt.Dimension(600, 300));
         setName("renameLocalDirectoryDialog"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(600, 300));
+        setPreferredSize(new java.awt.Dimension(600, 200));
 
         lblTitle.setText("Please enter a new name for the file or collection");
         lblTitle.setName("lblWelcome"); // NOI18N
@@ -156,7 +156,10 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
         btnCancel.setMnemonic('c');
         btnCancel.setText(org.openide.util.NbBundle.getMessage(RenameLocalDirectoryDialog.class, "Cancel")); // NOI18N
         btnCancel.setToolTipText("Cancel the operation");
+        btnCancel.setMaximumSize(null);
+        btnCancel.setMinimumSize(null);
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -168,7 +171,10 @@ public class RenameLocalDirectoryDialog extends javax.swing.JDialog {
         btnOK.setMnemonic('o');
         btnOK.setText(org.openide.util.NbBundle.getMessage(RenameLocalDirectoryDialog.class, "Rename")); // NOI18N
         btnOK.setToolTipText("Proceed with the rename");
+        btnOK.setMaximumSize(null);
+        btnOK.setMinimumSize(null);
         btnOK.setName("btnOk"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(110, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

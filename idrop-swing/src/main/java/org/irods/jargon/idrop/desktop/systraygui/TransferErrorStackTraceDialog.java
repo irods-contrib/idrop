@@ -98,8 +98,10 @@ public class TransferErrorStackTraceDialog extends javax.swing.JDialog {
 
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOK.setMnemonic('o');
+        btnOK.setText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.btnOK.text")); // NOI18N
         btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(TransferErrorStackTraceDialog.class, "TransferErrorStackTraceDialog.btnOk.toolTipText")); // NOI18N
         btnOK.setName("btnOk"); // NOI18N
+        btnOK.setPreferredSize(new java.awt.Dimension(90, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOKActionPerformed(evt);

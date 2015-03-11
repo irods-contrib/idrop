@@ -1071,38 +1071,32 @@ public class SettingsDialog extends javax.swing.JDialog {
         pnlMain.setLayout(new java.awt.BorderLayout());
 
         pnlButtons.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        pnlButtons.setLayout(new java.awt.GridBagLayout());
+        pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setText(org.openide.util.NbBundle.getMessage(SettingsDialog.class, "SettingsDialog.btnCancel.text")); // NOI18N
+        btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlButtons.add(btnCancel, gridBagConstraints);
+        pnlButtons.add(btnCancel);
 
         bntSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
-        bntSave.setText(org.openide.util.NbBundle.getMessage(SettingsDialog.class, "SettingsDialog.bntSave.text")); // NOI18N
+        bntSave.setText(org.openide.util.NbBundle.getMessage(SettingsDialog.class, "SettingsDialog.btnSave.text")); // NOI18N
         bntSave.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        bntSave.setName("btnSave"); // NOI18N
+        bntSave.setPreferredSize(new java.awt.Dimension(90, 37));
         bntSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bntSaveActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnlButtons.add(bntSave, gridBagConstraints);
+        pnlButtons.add(bntSave);
 
         pnlMain.add(pnlButtons, java.awt.BorderLayout.SOUTH);
-
-        jScrollPane1.setViewportView(pnlCollapsibles);
 
         pnlCollapsibles.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         pnlCollapsibles.setPreferredSize(new java.awt.Dimension(0, 900));

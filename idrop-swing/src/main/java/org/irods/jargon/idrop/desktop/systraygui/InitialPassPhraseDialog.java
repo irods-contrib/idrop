@@ -108,6 +108,7 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         jPanel2.setName(""); // NOI18N
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.lblPassPhrase.text")); // NOI18N
         jLabel1.setName("lblPassPhrase"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -121,10 +122,13 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel2.add(txtPassPhrase, gridBagConstraints);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.lblConfirmPassPhrase.text")); // NOI18N
         jLabel2.setName("lblConfirmPassPhrase"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -138,8 +142,10 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel2.add(txtVerifyPassPhrase, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -158,6 +164,7 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         btnCancel.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnCancel.text")); // NOI18N
         btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -169,7 +176,10 @@ public class InitialPassPhraseDialog extends javax.swing.JDialog {
         btnOkay.setMnemonic('o');
         btnOkay.setText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnOk.text")); // NOI18N
         btnOkay.setToolTipText(org.openide.util.NbBundle.getMessage(InitialPassPhraseDialog.class, "InitialPassPhraseDialog.btnOk.toolTipText")); // NOI18N
+        btnOkay.setMaximumSize(null);
+        btnOkay.setMinimumSize(null);
         btnOkay.setName("btnOk"); // NOI18N
+        btnOkay.setPreferredSize(new java.awt.Dimension(90, 37));
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOkayActionPerformed(evt);

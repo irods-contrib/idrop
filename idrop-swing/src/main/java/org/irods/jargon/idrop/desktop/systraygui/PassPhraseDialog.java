@@ -103,6 +103,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 200));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -138,6 +139,7 @@ public class PassPhraseDialog extends javax.swing.JDialog {
 
         btnForgotPassPhrase.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnIForgot.text")); // NOI18N
         btnForgotPassPhrase.setName("btnIForgot"); // NOI18N
+        btnForgotPassPhrase.setPreferredSize(new java.awt.Dimension(90, 37));
         btnForgotPassPhrase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnForgotPassPhraseActionPerformed(evt);
@@ -145,9 +147,11 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         });
         jPanel5.add(btnForgotPassPhrase, java.awt.BorderLayout.CENTER);
 
+        btnOkay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
         btnOkay.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "OK")); // NOI18N
         btnOkay.setActionCommand(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOK.text")); // NOI18N
         btnOkay.setName("btnOk"); // NOI18N
+        btnOkay.setPreferredSize(new java.awt.Dimension(90, 37));
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOkayActionPerformed(evt);
@@ -160,10 +164,13 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         });
         jPanel5.add(btnOkay, java.awt.BorderLayout.EAST);
 
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_192_circle_remove.png"))); // NOI18N
         btnCancel.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "Cancel")); // NOI18N
+        btnCancel.setToolTipText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.toolTipText")); // NOI18N
         btnCancel.setActionCommand(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.actionCommand")); // NOI18N
         btnCancel.setLabel(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnCancel.text")); // NOI18N
         btnCancel.setName("btmCancel"); // NOI18N
+        btnCancel.setPreferredSize(new java.awt.Dimension(110, 37));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
