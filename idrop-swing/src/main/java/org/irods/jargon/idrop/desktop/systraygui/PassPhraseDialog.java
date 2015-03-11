@@ -8,19 +8,25 @@ import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.swing.InputMap;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
 import org.irods.jargon.conveyor.core.ConveyorBusyException;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author lisa
  */
 public class PassPhraseDialog extends javax.swing.JDialog {
+
+    public static org.slf4j.Logger log = LoggerFactory
+            .getLogger(PassPhraseDialog.class);
 
     /**
      *
@@ -38,10 +44,8 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         this.idropCore = idropCore;
         initComponents();
         makeTextAreaLikeLabel();
-
-        // make the okay button defulat so you can just enter
-        // pass phrase and hit return
-        getRootPane().setDefaultButton(btnOkay);
+        this.getRootPane().setDefaultButton(btnOkay);
+       
     }
 
     private void makeTextAreaLikeLabel() {
@@ -114,11 +118,6 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         txtPassPhrase.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.passPhrase.text")); // NOI18N
         txtPassPhrase.setName("passPhrase"); // NOI18N
         txtPassPhrase.setPreferredSize(new java.awt.Dimension(300, 28));
-        txtPassPhrase.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPassPhraseActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -148,18 +147,15 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         jPanel5.add(btnForgotPassPhrase, java.awt.BorderLayout.CENTER);
 
         btnOkay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_193_circle_ok.png"))); // NOI18N
+        btnOkay.setMnemonic('O');
         btnOkay.setText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "OK")); // NOI18N
+        btnOkay.setToolTipText(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOkay.toolTipText")); // NOI18N
         btnOkay.setActionCommand(org.openide.util.NbBundle.getMessage(PassPhraseDialog.class, "PassPhraseDialog.btnOK.text")); // NOI18N
         btnOkay.setName("btnOk"); // NOI18N
         btnOkay.setPreferredSize(new java.awt.Dimension(90, 37));
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOkayActionPerformed(evt);
-            }
-        });
-        btnOkay.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnOkayKeyPressed(evt);
+                btnOkActionPerformed(evt);
             }
         });
         jPanel5.add(btnOkay, java.awt.BorderLayout.EAST);
@@ -185,15 +181,11 @@ public class PassPhraseDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtPassPhraseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassPhraseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPassPhraseActionPerformed
-
-    private void btnOkayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnOkayKeyPressed
+    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         if (handleLogin()) {
             return;
         }
-    }//GEN-LAST:event_btnOkayKeyPressed
+    }//GEN-LAST:event_btnOkActionPerformed
 
     private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
         System.exit(0);
