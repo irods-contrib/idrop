@@ -335,7 +335,6 @@ public class TransferFileListDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         pnlTransferAttemptDetails.add(lblProcessingStateLabel, gridBagConstraints);
 
-        lblProcessingState.setText(org.openide.util.NbBundle.getMessage(TransferFileListDialog.class, "TransferFileListDialog.processingState.text")); // NOI18N
         lblProcessingState.setName("processingState"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
