@@ -7,7 +7,7 @@
  */
 describe("Tests of the home controller", function () {
 
-    var $http, $httpBackend, $log, $translate, ctrlScope, controller, $q, $routeProvider, breadcrumbsService, $location, messageCenterService, mockFileService;
+    var $http, $httpBackend, $log, $translate, ctrlScope, controller, $q, $routeProvider, breadcrumbsService, $location, messageCenterService, mockFileService, $upload;
     beforeEach(module('home'));
 
     var mockVcService = {
@@ -25,7 +25,7 @@ describe("Tests of the home controller", function () {
      */
 
 
-    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_, _$translate_, _$rootScope_, $controller, _$q_,_breadcrumbsService_, _$location_) {
+    beforeEach(inject(function (_$http_, _$httpBackend_, _$log_, _$translate_, _$rootScope_, $controller, _$q_,_breadcrumbsService_, _$location_, _$upload_) {
         $http = _$http_;
         $log = _$log_;
         $httpBackend = _$httpBackend_;
@@ -34,6 +34,7 @@ describe("Tests of the home controller", function () {
         $q = _$q_;
         breadcrumbsService = _breadcrumbsService_;
         $location = _$location_;
+        $upload = _$upload_;
 
         mockFileService = {
             createNewFolder: function (parent, child) {
@@ -57,7 +58,7 @@ describe("Tests of the home controller", function () {
         };
 
         messageCenterService = mockMessageCenterService;
-        controller = $controller('homeController', { $scope:ctrlScope, virtualCollectionsService: mockVcService, selectedVc:mockSelectedVc, pagingAwareCollectionListing:mockPagingAwareCollectionListing, messageCenterService:messageCenterService, fileService:mockFileService});
+        controller = $controller('homeController', { $scope:ctrlScope, virtualCollectionsService: mockVcService, selectedVc:mockSelectedVc, pagingAwareCollectionListing:mockPagingAwareCollectionListing, messageCenterService:messageCenterService, fileService:mockFileService, $upload:$upload});
 
     }));
 

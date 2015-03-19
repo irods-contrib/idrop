@@ -22,6 +22,8 @@ module.exports = function(config) {
         'js/vendor/message-center.js',
         'js/vendor/angular-route.js',
         'js/app/**/*.js',
+      'js/vendor/**/angular-file-upload-shim.min.js',
+        'js/vendor/**/angular-file-upload.min.js',
       'js/test/unit/**/*.js'
     ],
 
