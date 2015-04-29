@@ -29,15 +29,15 @@ grails.project.dependency.resolution = {
 	dependencies {
 		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		compile 'commons-io:commons-io:2.1'
-		provided 'junit:junit:4.8.1'
+		compile 'junit:junit:4.12'
 		test 'org.mockito:mockito-all:1.8.1'
-		compile ('org.irods.jargon:jargon-core:4.0.2.1-SNAPSHOT') { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-data-utils:4.0.2.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-ticket:4.0.2.1-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-profile:4.0.2.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-tagging:4.0.2.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-workflow:4.0.2.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-ruleservice:4.0.2.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-core:4.0.2.1-RELEASE') { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-data-utils:4.0.2.1-RELEASE')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ticket:4.0.2.1-RELEASE')   { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-profile:4.0.2.1-RELEASE')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-tagging:4.0.2.1-RELEASE')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-workflow:4.0.2.1-RELEASE')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ruleservice:4.0.2.1-RELEASE')  { excludes ([group:'org.jglobus'])}
 
 		provided 'javax.servlet:servlet-api:2.5'
 		compile 'org.jsoup:jsoup:0.2.2'
@@ -52,7 +52,7 @@ grails.project.dependency.resolution = {
 
 	plugins {
 		build ":tomcat:7.0.52.1"
-		runtime ":hibernate:3.6.10.10"
+		//runtime ":hibernate:3.6.10.10"
 		compile ":asset-pipeline:1.8.3"
 	}
 }
