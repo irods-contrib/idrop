@@ -9,11 +9,21 @@
     <url>https://code.renci.org/gf/project/irodsidrop/</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jargon.version>4.0.2.1-RELEASE</jargon.version>  
+        <jargon.version>4.0.2.2-SNAPSHOT</jargon.version>  
         <spring.core.version>3.0.5.RELEASE</spring.core.version>
         <commons.io.version>2.0.1</commons.io.version>
         <netbeans.version>RELEASE711</netbeans.version>
-        <java.version>1.7</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.webmvc.version>3.2.3.RELEASE</spring.webmvc.version>
+		<spring.core.version>3.0.5.RELEASE</spring.core.version>
+		<spring.security.version>3.0.5.RELEASE</spring.security.version>
+		<hibernate.version>3.3.2.GA</hibernate.version>
+		<globus.version>1.8.0</globus.version>
+		<findbugs.version>2.5.2</findbugs.version>
+		<sl4j.version>1.6.6</sl4j.version>
+		<log4j.version>1.2.16</log4j.version>
+		<java.version>1.7</java.version>
+		<commons.collections.version>3.2.1</commons.collections.version>
     </properties>
     <issueManagement>
         <system>gForge</system>
@@ -193,7 +203,7 @@
             <dependency>
                 <groupId>org.irods.jargon</groupId>
                 <artifactId>jargon-conveyor</artifactId>
-                <version>${jargon.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.irods.jargon</groupId>
@@ -254,10 +264,10 @@
                 <version>10.6.1.0</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.core.version}</version>
-            </dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>${commons.collections.version}</version>
+			</dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
@@ -305,6 +315,81 @@
                 <artifactId>swing-layout</artifactId>
                 <version>1.0.3</version>
             </dependency>
+            <dependency>
+				<groupId>javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>3.8.0.GA</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-annotations</artifactId>
+				<version>3.2.1.ga</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>persistence-api</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.transaction</groupId>
+				<artifactId>jta</artifactId>
+				<version>1.1</version>
+			</dependency>
         </dependencies>
     </dependencyManagement>    
     <dependencies>
@@ -409,6 +494,7 @@
         </profile>
     </profiles>
     <modules>
+  <module>jargon-conveyor</module>
         <module>idrop-lite</module>
         <module>idrop-swing</module>
     </modules>
