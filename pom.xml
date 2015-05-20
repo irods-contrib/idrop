@@ -9,7 +9,7 @@
     <url>https://code.renci.org/gf/project/irodsidrop/</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jargon.version>4.0.2.3-RELEASE</jargon.version>  
+        <jargon.version>4.0.2.3-SNAPSHOT</jargon.version>  
         <spring.core.version>3.0.5.RELEASE</spring.core.version>
         <commons.io.version>2.0.1</commons.io.version>
         <netbeans.version>RELEASE711</netbeans.version>
