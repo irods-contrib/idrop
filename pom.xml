@@ -3,14 +3,13 @@
     <groupId>org.irods</groupId>
     <artifactId>idrop</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.1-RC1</version>
+    <version>4.2.0.0-SNAPSHOT</version>
     <name>iRODS iDrop</name>
     <description>iRODS iDrop - personal web and desktop grid access clients</description>
     <url>https://code.renci.org/gf/project/irodsidrop/</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jargon.version>4.0.2.3-SNAPSHOT</jargon.version>  
-        <spring.core.version>3.0.5.RELEASE</spring.core.version>
+        <jargon.version>4.2.0.0-SNAPSHOT</jargon.version>  
         <commons.io.version>2.0.1</commons.io.version>
         <netbeans.version>RELEASE711</netbeans.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,7 +21,7 @@
 		<findbugs.version>2.5.2</findbugs.version>
 		<sl4j.version>1.6.6</sl4j.version>
 		<log4j.version>1.2.16</log4j.version>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 		<commons.collections.version>3.2.1</commons.collections.version>
     </properties>
     <issueManagement>
@@ -51,19 +50,6 @@
         </developer>
     </developers>
     <repositories>
-        <repository>
-            <id>ibiblio.repository</id>
-            <name>ibiblio.repository</name>
-            <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>fail</checksumPolicy>
-            </snapshots>
-        </repository>
         <repository>
             <id>dice.repository snaps</id>
             <name>dice.repository.snapshots</name>
@@ -495,7 +481,6 @@
     </profiles>
     <modules>
   <module>jargon-conveyor</module>
-        <module>idrop-lite</module>
         <module>idrop-swing</module>
     </modules>
 </project>

@@ -665,37 +665,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                     myBase = sb.toString();
                 } else {
 
-                    // look up the strict acl setting for the server, if strict
-                    // acl, home the person in their user directory
-                    EnvironmentalInfoAO environmentalInfoAO = getiDropCore()
-                            .getIRODSAccessObjectFactory()
-                            .getEnvironmentalInfoAO(
-                                    getiDropCore().irodsAccount());
-
-                    // overhead for [#1362] apparent start-up errors idrop
-                    // checking for strict acls
-                    boolean isStrict = false;
-
-                    try {
-                        isStrict = environmentalInfoAO.isStrictACLs();
-                    } catch (JargonException je) {
-                        log.error("error checking is strict, warn and set to false");
-                        MessageUtil
-                                .showWarning(
-                                        this,
-                                        "Error checking if strict ACLS, assuming not strict",
-                                        "");
-                    }
-
-                    log.info("is strict?:{}", isStrict);
-
-                    if (isStrict) {
+                   
+                   
+                   
                         myBase = MiscIRODSUtils
                                 .computeHomeDirectoryForIRODSAccount(iDropCore
                                         .irodsAccount());
-                    } else {
-                        myBase = "/";
-                    }
+                   
 
                 }
             }
