@@ -15,6 +15,7 @@ import org.irods.jargon.conveyor.core.ConfigurationService;
 import org.irods.jargon.conveyor.core.ConveyorBootstrapper;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.ConveyorService;
+import org.irods.jargon.core.connection.ClientServerNegotiationPolicy;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.JargonProperties;
 import org.irods.jargon.core.connection.SettableJargonProperties;
@@ -465,6 +466,7 @@ public class IdropConfigurationServiceImpl implements IdropConfigurationService 
                     .getSendInputStreamBufferSize());
             newProps.setUseParallelTransfer(idropCore.getIdropConfig()
                     .isUseParallelTransfers());
+            newProps.setNegotiationPolicy(ClientServerNegotiationPolicy.SslNegotiationPolicy.CS_NEG_REFUSE);  // FIXME: shim - mcc
            
 
             /*

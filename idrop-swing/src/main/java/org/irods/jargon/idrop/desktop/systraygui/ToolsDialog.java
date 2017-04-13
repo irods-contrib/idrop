@@ -239,6 +239,7 @@ public class ToolsDialog extends javax.swing.JDialog {
         setTitle(org.openide.util.NbBundle.getMessage(ToolsDialog.class, "ToolsDialog.title")); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 400));
 
+        pnlMain.setPreferredSize(null);
         pnlMain.setLayout(new java.awt.BorderLayout());
 
         pnlCollapsibles.setLayout(new java.awt.GridBagLayout());

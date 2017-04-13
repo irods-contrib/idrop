@@ -1440,6 +1440,8 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
         btnMainToolbarGrids = new javax.swing.JButton();
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
         btnSynch = new javax.swing.JButton();
+        filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(2, 32767));
+        btnMainToolbarExperiment = new javax.swing.JButton();
         pnlBreadCrumbNav = new javax.swing.JPanel();
         pnlMainIrodsTree = new javax.swing.JPanel();
         splitPanelTrees = new javax.swing.JSplitPane();
@@ -1736,6 +1738,24 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
             }
         });
         jToolBar1.add(btnSynch);
+        jToolBar1.add(filler17);
+
+        btnMainToolbarExperiment.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_280_settings.png"))); // NOI18N
+        btnMainToolbarExperiment.setMnemonic('x');
+        btnMainToolbarExperiment.setText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarExperiment.text")); // NOI18N
+        btnMainToolbarExperiment.setToolTipText(org.openide.util.NbBundle.getMessage(iDrop.class, "iDrop.btnMainToolbarExperiment.toolTipText")); // NOI18N
+        btnMainToolbarExperiment.setBorder(null);
+        btnMainToolbarExperiment.setFocusable(false);
+        btnMainToolbarExperiment.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMainToolbarExperiment.setMargin(null);
+        btnMainToolbarExperiment.setName("btnTools"); // NOI18N
+        btnMainToolbarExperiment.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMainToolbarExperiment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainToolbarExperimentActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMainToolbarExperiment);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -2022,6 +2042,14 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //        synchDialog.setVisible(true);
     }//GEN-LAST:event_btnSynchActionPerformed
 
+    private void btnMainToolbarExperimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarExperimentActionPerformed
+          ExperimentDialog experimentDialog = new ExperimentDialog(
+                this, true, iDropCore);
+        experimentDialog.setLocationRelativeTo(null);
+        experimentDialog.setModalityType(Dialog.ModalityType.MODELESS);
+        experimentDialog.setVisible(true);
+    }//GEN-LAST:event_btnMainToolbarExperimentActionPerformed
+
     /**
      * Show a modal dialog with extended tools
      *
@@ -2034,10 +2062,10 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            @Override
 //            public void run() {
-//                ToolsDialog advancedOptionsDialog = new ToolsDialog(
+//                ToolsDialog experimentDialog = new ToolsDialog(
 //                    idropGui, true, iDropCore);
-//                advancedOptionsDialog.setLocationRelativeTo(null);
-//                advancedOptionsDialog.setVisible(true);
+//                experimentDialog.setLocationRelativeTo(null);
+//                experimentDialog.setVisible(true);
 //            }
 //        });
         ToolsDialog advancedOptionsDialog = new ToolsDialog(
@@ -2346,6 +2374,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JButton btnMainToolbarCopy;
     private javax.swing.JButton btnMainToolbarDelete;
     private javax.swing.JButton btnMainToolbarDownload;
+    private javax.swing.JButton btnMainToolbarExperiment;
     private javax.swing.JButton btnMainToolbarGrids;
     private javax.swing.JButton btnMainToolbarInfo;
     private javax.swing.JButton btnMainToolbarQueueMgr;
@@ -2366,6 +2395,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler15;
     private javax.swing.Box.Filler filler16;
+    private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
