@@ -8,6 +8,7 @@ package org.irods.jargon.idrop.desktop.systraygui;
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -22,6 +23,7 @@ import org.irods.jargon.datautils.tree.FileTreeModel;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddExperimentDialog;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddImageDialog;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddSampleDialog;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.CollapsiblePane;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffViewData;
@@ -80,7 +82,7 @@ public class ExperimentDialog extends javax.swing.JDialog {
             }
         });
         pnlExperiment.add(btnAddExperiment);
-        
+
         HyperLinkButton btnAddPrep = new HyperLinkButton("Set up a preparation");
         btnAddPrep.setName("btnAddPrep");
         btnAddPrep.addActionListener(new java.awt.event.ActionListener() {
@@ -89,15 +91,16 @@ public class ExperimentDialog extends javax.swing.JDialog {
             }
         });
         pnlExperiment.add(btnAddPrep);
-        
-        HyperLinkButton btnAddChannels = new HyperLinkButton("Add image channels");
-        btnAddPrep.setName("btnAddChannels");
-        btnAddPrep.addActionListener(new java.awt.event.ActionListener() {
+
+        HyperLinkButton btnAddImage = new HyperLinkButton("Add image and channels");
+        btnAddImage.setName("btnAddChannels");
+        btnAddImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddChannelsActionPerformed(evt);
+                btnAddImageActionPerformed(evt);
             }
+
         });
-        pnlExperiment.add(btnAddPrep);
+        pnlExperiment.add(btnAddImage);
     }
 
     /**
@@ -178,13 +181,15 @@ public class ExperimentDialog extends javax.swing.JDialog {
     }
 
     private void btnAddPreparationActionPerformed(java.awt.event.ActionEvent evt) {
-            AddSampleDialog asd = new AddSampleDialog(this, true, this.idropGui);
-             asd.setVisible(true);
+        AddSampleDialog asd = new AddSampleDialog(this, true, this.idropGui);
+        asd.setVisible(true);
     }
-    
-     private void btnAddChannelsActionPerformed(java.awt.event.ActionEvent evt) {
-       
+
+    private void btnAddImageActionPerformed(ActionEvent evt) {
+        AddImageDialog asd = new AddImageDialog(this, true, this.idropGui);
+        asd.setVisible(true);
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntSave;
