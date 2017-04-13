@@ -64,8 +64,8 @@ public class AddSampleDialog extends javax.swing.JDialog {
         lblPrompt = new javax.swing.JLabel();
         scrollMetadata = new javax.swing.JScrollPane();
         pnlMetadata = new javax.swing.JPanel();
-        lblExperimentId = new javax.swing.JLabel();
-        txtExperimentId = new javax.swing.JTextField();
+        lblSampleId = new javax.swing.JLabel();
+        txtSampleId = new javax.swing.JTextField();
         lblClearingProtocol = new javax.swing.JLabel();
         txtClearingProtocol = new javax.swing.JTextField();
         lblSacrificeDate = new javax.swing.JLabel();
@@ -74,6 +74,36 @@ public class AddSampleDialog extends javax.swing.JDialog {
         txtClearingDate = new javax.swing.JFormattedTextField();
         lblSampleType = new javax.swing.JLabel();
         comboSampleType = new javax.swing.JComboBox<>();
+        lblPrimaryAntibodyDate = new javax.swing.JLabel();
+        txtPrimaryAntibodyDate = new javax.swing.JFormattedTextField();
+        lblSecondaryAntibodyDate = new javax.swing.JLabel();
+        txtSecondaryAntibodyDate = new javax.swing.JFormattedTextField();
+        lblDateInClearingSolution = new javax.swing.JLabel();
+        txtDateInClearingSolution = new javax.swing.JFormattedTextField();
+        lblPrimaryAntibodyUsed = new javax.swing.JLabel();
+        scrollPrimaryAntibody = new javax.swing.JScrollPane();
+        txtAreaPrimaryAntibodyUsed = new javax.swing.JTextArea();
+        lblSecondaryAntibodyUsed = new javax.swing.JLabel();
+        scrollSecondaryAntibody = new javax.swing.JScrollPane();
+        txtAreaSecondaryAntibodyUsed = new javax.swing.JTextArea();
+        lblGenotype = new javax.swing.JLabel();
+        txtGenotype = new javax.swing.JTextField();
+        lblBreed = new javax.swing.JLabel();
+        txtBreed = new javax.swing.JTextField();
+        lblCagingStatus = new javax.swing.JLabel();
+        txtCagingStatus = new javax.swing.JTextField();
+        lblSex = new javax.swing.JLabel();
+        comboSex = new javax.swing.JComboBox<>();
+        lblAge = new javax.swing.JLabel();
+        txtAge = new javax.swing.JFormattedTextField();
+        lblInVivoTreatment = new javax.swing.JLabel();
+        scrollInVivo = new javax.swing.JScrollPane();
+        txtAreaInVivo = new javax.swing.JTextArea();
+        lblTimePoint = new javax.swing.JLabel();
+        txtTimePoint = new javax.swing.JTextField();
+        lblNotes = new javax.swing.JLabel();
+        scrollNotes = new javax.swing.JScrollPane();
+        txtNotes = new javax.swing.JTextArea();
         pnlBottom = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         bntSave = new javax.swing.JButton();
@@ -115,37 +145,47 @@ public class AddSampleDialog extends javax.swing.JDialog {
 
         pnlMetadata.setLayout(new java.awt.GridBagLayout());
 
-        lblExperimentId.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentId.text")); // NOI18N
+        lblSampleId.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSampleId.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        pnlMetadata.add(lblExperimentId, gridBagConstraints);
-        lblExperimentId.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentId.AccessibleContext.accessibleName")); // NOI18N
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblSampleId, gridBagConstraints);
+        lblSampleId.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSampleId.AccessibleContext.accessibleName")); // NOI18N
 
-        txtExperimentId.setColumns(20);
-        txtExperimentId.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtExperimentId.text")); // NOI18N
+        txtSampleId.setColumns(20);
+        txtSampleId.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtSampleId.text")); // NOI18N
+        txtSampleId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSampleIdActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        pnlMetadata.add(txtExperimentId, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(txtSampleId, gridBagConstraints);
 
         lblClearingProtocol.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblClearingProtocol.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblClearingProtocol, gridBagConstraints);
 
         txtClearingProtocol.setColumns(20);
         txtClearingProtocol.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtClearingProtocol.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtClearingProtocol, gridBagConstraints);
 
         lblSacrificeDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSacrificeDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblSacrificeDate, gridBagConstraints);
 
         txtSacrificeDate.setColumns(12);
@@ -153,14 +193,15 @@ public class AddSampleDialog extends javax.swing.JDialog {
         txtSacrificeDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtSacrificeDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtSacrificeDate, gridBagConstraints);
 
         lblClearingDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblClearingDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblClearingDate, gridBagConstraints);
 
         txtClearingDate.setColumns(12);
@@ -168,17 +209,241 @@ public class AddSampleDialog extends javax.swing.JDialog {
         txtClearingDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtClearingDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtClearingDate, gridBagConstraints);
 
         lblSampleType.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSampleType.text")); // NOI18N
-        pnlMetadata.add(lblSampleType, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblSampleType, gridBagConstraints);
 
         comboSampleType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "WT", "KO" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(comboSampleType, gridBagConstraints);
+
+        lblPrimaryAntibodyDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblPrimaryAntibodyDate.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblPrimaryAntibodyDate, gridBagConstraints);
+
+        txtPrimaryAntibodyDate.setColumns(12);
+        txtPrimaryAntibodyDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        txtPrimaryAntibodyDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtPrimaryAntibodyDate.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(txtPrimaryAntibodyDate, gridBagConstraints);
+
+        lblSecondaryAntibodyDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSecondaryAntibodyDate.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblSecondaryAntibodyDate, gridBagConstraints);
+
+        txtSecondaryAntibodyDate.setColumns(12);
+        txtSecondaryAntibodyDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        txtSecondaryAntibodyDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtSecondaryAntibodyDate.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(txtSecondaryAntibodyDate, gridBagConstraints);
+
+        lblDateInClearingSolution.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblDateInClearingSolution.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblDateInClearingSolution, gridBagConstraints);
+
+        txtDateInClearingSolution.setColumns(12);
+        txtDateInClearingSolution.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        txtDateInClearingSolution.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtDateInClearingSolution.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(txtDateInClearingSolution, gridBagConstraints);
+
+        lblPrimaryAntibodyUsed.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblPrimaryAntibodyUsed.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblPrimaryAntibodyUsed, gridBagConstraints);
+
+        txtAreaPrimaryAntibodyUsed.setColumns(20);
+        txtAreaPrimaryAntibodyUsed.setRows(3);
+        scrollPrimaryAntibody.setViewportView(txtAreaPrimaryAntibodyUsed);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(scrollPrimaryAntibody, gridBagConstraints);
+
+        lblSecondaryAntibodyUsed.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSecondaryAntibodyUsed.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblSecondaryAntibodyUsed, gridBagConstraints);
+
+        txtAreaSecondaryAntibodyUsed.setColumns(20);
+        txtAreaSecondaryAntibodyUsed.setRows(3);
+        scrollSecondaryAntibody.setViewportView(txtAreaSecondaryAntibodyUsed);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(scrollSecondaryAntibody, gridBagConstraints);
+
+        lblGenotype.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblGenotype.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblGenotype, gridBagConstraints);
+
+        txtGenotype.setColumns(20);
+        txtGenotype.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtGenotype.text")); // NOI18N
+        txtGenotype.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtGenotypeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(txtGenotype, gridBagConstraints);
+
+        lblBreed.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblBreed.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblBreed, gridBagConstraints);
+
+        txtBreed.setColumns(20);
+        txtBreed.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtBreed.text")); // NOI18N
+        txtBreed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBreedActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(txtBreed, gridBagConstraints);
+
+        lblCagingStatus.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblCagingStatus.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 19;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblCagingStatus, gridBagConstraints);
+
+        txtCagingStatus.setColumns(20);
+        txtCagingStatus.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtCagingStatus.text")); // NOI18N
+        txtCagingStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCagingStatusActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 19;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(txtCagingStatus, gridBagConstraints);
+
+        lblSex.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSex.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblSex, gridBagConstraints);
+
+        comboSex.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", " " }));
+        comboSex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboSexActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(comboSex, gridBagConstraints);
+
+        lblAge.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblAge.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 21;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblAge, gridBagConstraints);
+
+        txtAge.setColumns(10);
+        txtAge.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtAge.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtAge.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 21;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(txtAge, gridBagConstraints);
+
+        lblInVivoTreatment.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblInVivoTreatment.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlMetadata.add(lblInVivoTreatment, gridBagConstraints);
+
+        txtAreaInVivo.setColumns(20);
+        txtAreaInVivo.setRows(5);
+        scrollInVivo.setViewportView(txtAreaInVivo);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(scrollInVivo, gridBagConstraints);
+
+        lblTimePoint.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblTimePoint.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 23;
+        pnlMetadata.add(lblTimePoint, gridBagConstraints);
+
+        txtTimePoint.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtTimePoint.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 23;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(txtTimePoint, gridBagConstraints);
+
+        lblNotes.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblNotes.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 24;
+        pnlMetadata.add(lblNotes, gridBagConstraints);
+
+        txtNotes.setColumns(30);
+        txtNotes.setRows(5);
+        scrollNotes.setViewportView(txtNotes);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 24;
+        pnlMetadata.add(scrollNotes, gridBagConstraints);
 
         scrollMetadata.setViewportView(pnlMetadata);
 
@@ -265,26 +530,76 @@ public class AddSampleDialog extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_bntSaveActionPerformed
 
+    private void txtGenotypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGenotypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtGenotypeActionPerformed
+
+    private void txtBreedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBreedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBreedActionPerformed
+
+    private void txtSampleIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSampleIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSampleIdActionPerformed
+
+    private void txtCagingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCagingStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCagingStatusActionPerformed
+
+    private void comboSexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSexActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboSexActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntSave;
     private javax.swing.JButton btnBrowseForDirectory;
     private javax.swing.JButton btnCancel;
     private javax.swing.JComboBox<String> comboSampleType;
+    private javax.swing.JComboBox<String> comboSex;
+    private javax.swing.JLabel lblAge;
+    private javax.swing.JLabel lblBreed;
+    private javax.swing.JLabel lblCagingStatus;
     private javax.swing.JLabel lblClearingDate;
     private javax.swing.JLabel lblClearingProtocol;
-    private javax.swing.JLabel lblExperimentId;
+    private javax.swing.JLabel lblDateInClearingSolution;
+    private javax.swing.JLabel lblGenotype;
+    private javax.swing.JLabel lblInVivoTreatment;
+    private javax.swing.JLabel lblNotes;
+    private javax.swing.JLabel lblPrimaryAntibodyDate;
+    private javax.swing.JLabel lblPrimaryAntibodyUsed;
     private javax.swing.JLabel lblPrompt;
     private javax.swing.JLabel lblSacrificeDate;
+    private javax.swing.JLabel lblSampleId;
     private javax.swing.JLabel lblSampleType;
+    private javax.swing.JLabel lblSecondaryAntibodyDate;
+    private javax.swing.JLabel lblSecondaryAntibodyUsed;
+    private javax.swing.JLabel lblSex;
+    private javax.swing.JLabel lblTimePoint;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlMetadata;
     private javax.swing.JPanel pnlSelectParentDir;
+    private javax.swing.JScrollPane scrollInVivo;
     private javax.swing.JScrollPane scrollMetadata;
+    private javax.swing.JScrollPane scrollNotes;
+    private javax.swing.JScrollPane scrollPrimaryAntibody;
+    private javax.swing.JScrollPane scrollSecondaryAntibody;
+    private javax.swing.JFormattedTextField txtAge;
+    private javax.swing.JTextArea txtAreaInVivo;
+    private javax.swing.JTextArea txtAreaPrimaryAntibodyUsed;
+    private javax.swing.JTextArea txtAreaSecondaryAntibodyUsed;
+    private javax.swing.JTextField txtBreed;
+    private javax.swing.JTextField txtCagingStatus;
     private javax.swing.JFormattedTextField txtClearingDate;
     private javax.swing.JTextField txtClearingProtocol;
-    private javax.swing.JTextField txtExperimentId;
+    private javax.swing.JFormattedTextField txtDateInClearingSolution;
+    private javax.swing.JTextField txtGenotype;
+    private javax.swing.JTextArea txtNotes;
     private javax.swing.JTextField txtParentDirectory;
+    private javax.swing.JFormattedTextField txtPrimaryAntibodyDate;
     private javax.swing.JFormattedTextField txtSacrificeDate;
+    private javax.swing.JTextField txtSampleId;
+    private javax.swing.JFormattedTextField txtSecondaryAntibodyDate;
+    private javax.swing.JTextField txtTimePoint;
     // End of variables declaration//GEN-END:variables
 }
