@@ -175,9 +175,6 @@ public class ExperimentDialog extends javax.swing.JDialog {
     private void btnCreateExperimentActionPerformed(java.awt.event.ActionEvent evt) {
         AddExperimentDialog aed = new AddExperimentDialog(this, true, this.idropGui);
         aed.setVisible(true);
-        
-        
-       
     }
 
     private void btnAddPreparationActionPerformed(java.awt.event.ActionEvent evt) {

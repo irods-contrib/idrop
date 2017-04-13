@@ -22,6 +22,7 @@ import org.irods.jargon.idrop.desktop.systraygui.ExperimentDialog;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.ToolsDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
+import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddExperimentDialog.log;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,12 @@ import org.slf4j.LoggerFactory;
  * @author mconway
  */
 public class AddSampleDialog extends javax.swing.JDialog {
-    
-      iDrop idropGUI;
-      String experimentTarget;
-      String experimentId;
-      
-        public static org.slf4j.Logger log = LoggerFactory
+
+    iDrop idropGUI;
+    String experimentTarget;
+    String experimentId;
+
+    public static org.slf4j.Logger log = LoggerFactory
             .getLogger(AddSampleDialog.class);
 
     /**
@@ -490,43 +491,159 @@ public class AddSampleDialog extends javax.swing.JDialog {
         IRODSFinderDialog irodsFinderDialog = new IRODSFinderDialog(idropGUI, true, idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
         irodsFinderDialog.setVisible(true);
         experimentTarget = irodsFinderDialog.getSelectedAbsolutePath();
-        
+
         if (experimentTarget != null) {
             try {
                 txtParentDirectory.setText(MiscIRODSUtils.abbreviateFileName(experimentTarget));
                 txtParentDirectory.setText(experimentTarget);
-                            
+
                 CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
                 List<AVUQueryElement> query = new ArrayList<AVUQueryElement>();
                 query.add(AVUQueryElement.instanceForValueQuery(AVUQueryPart.ATTRIBUTE, AVUQueryOperatorEnum.EQUAL, "ExptId"));
                 List<MetaDataAndDomainData> result = collectionAO.findMetadataValuesByMetadataQueryForCollection(query, experimentTarget);
-                if(result.isEmpty()) {
+                if (result.isEmpty()) {
                     log.warn("no experiment for:{}", txtParentDirectory);
                     MessageManager.showWarning(this, "selected collection is not an experiment");
                 }
-                
+
                 experimentId = result.get(0).getAvuValue();
                 lblPrompt.setText("Sample is associated with experiment:" + experimentId);
-                
+
             } catch (JargonException ex) {
-               log.error("exception finding experiment", ex);
-               MessageManager.showError(this, ex.getMessage());
+                log.error("exception finding experiment", ex);
+                MessageManager.showError(this, ex.getMessage());
             } catch (JargonQueryException ex) {
                 log.error("exception finding experiment", ex);
-               MessageManager.showError(this, ex.getMessage());
+                MessageManager.showError(this, ex.getMessage());
             }
-            
+
         }
     }//GEN-LAST:event_btnBrowseForDirectoryActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-             
+
         dispose();
-            
+
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void bntSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSaveActionPerformed
-                
+        try {
+            IRODSFileFactory irodsFileFactory = idropGUI.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
+            IRODSFile parentFile = irodsFileFactory.instanceIRODSFile(experimentTarget);
+            IRODSFile sampleFile = irodsFileFactory.instanceIRODSFile(parentFile.getAbsolutePath(), txtSampleId.getText());
+            sampleFile.mkdirs();
+            CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
+            AvuData data = new AvuData("ExptId", experimentId, "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+
+            if (txtSampleId.getText() == null) {
+                MessageManager.showError(this, "no sample id provided");
+                return;
+            }
+
+            data = new AvuData("SampleId", txtSampleId.getText(), "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+
+            data = new AvuData("Sample type", comboSampleType.getSelectedItem().toString(), "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+
+            if (!txtClearingProtocol.getText().isEmpty()) {
+                data = new AvuData("Clearing Protocol to Use", txtClearingProtocol.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtSacrificeDate.getText().isEmpty()) {
+
+                data = new AvuData("Date of Sacrifice", txtSacrificeDate.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtClearingDate.getText().isEmpty()) {
+
+                data = new AvuData("Date of Clearing", txtClearingDate.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtPrimaryAntibodyDate.getText().isEmpty()) {
+
+                data = new AvuData("Date of Primary Antibody", txtPrimaryAntibodyDate.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtSecondaryAntibodyDate.getText().isEmpty()) {
+
+                data = new AvuData("Date of Secondary Antibody", txtSecondaryAntibodyDate.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtDateInClearingSolution.getText().isEmpty()) {
+
+                data = new AvuData("Date in Clearing Solution", txtDateInClearingSolution.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtAreaPrimaryAntibodyUsed.getText().isEmpty()) {
+
+                data = new AvuData("Primary antibody used", txtAreaPrimaryAntibodyUsed.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtAreaSecondaryAntibodyUsed.getText().isEmpty()) {
+
+                data = new AvuData("Secondary antibody used", txtAreaSecondaryAntibodyUsed.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtGenotype.getText().isEmpty()) {
+
+                data = new AvuData("Genotype", txtGenotype.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtBreed.getText().isEmpty()) {
+
+                data = new AvuData("Breed/Strain", txtBreed.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtCagingStatus.getText().isEmpty()) {
+
+                data = new AvuData("Caging status", txtCagingStatus.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            data = new AvuData("Sex", comboSex.getSelectedItem().toString(), "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+
+            if (!txtAge.getText().isEmpty()) {
+
+                data = new AvuData("Age", txtAge.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtAreaInVivo.getText().isEmpty()) {
+               
+            data = new AvuData("In vivo treatment", txtAreaInVivo.getText(), "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtTimePoint.getText().isEmpty()) {
+
+                data = new AvuData("Time point", txtTimePoint.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+
+            if (!txtNotes.getText().isEmpty()) {
+
+                data = new AvuData("Notes", txtNotes.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
+            }
+        } catch (JargonException je) {
+            log.error("error creating experiment", je);
+            MessageManager.showError(this, je.getMessage());
+        } finally {
+            idropGUI.getiDropCore().closeAllIRODSConnections();
+        }
         dispose();
     }//GEN-LAST:event_bntSaveActionPerformed
 
