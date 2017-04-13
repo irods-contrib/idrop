@@ -22,6 +22,7 @@ import org.irods.jargon.datautils.tree.FileTreeModel;
 import org.irods.jargon.idrop.desktop.systraygui.services.IRODSFileService;
 import org.irods.jargon.idrop.desktop.systraygui.utils.MessageUtil;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddExperimentDialog;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddSampleDialog;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.CollapsiblePane;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.DiffViewData;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.HyperLinkButton;
@@ -180,7 +181,8 @@ public class ExperimentDialog extends javax.swing.JDialog {
     }
 
     private void btnAddPreparationActionPerformed(java.awt.event.ActionEvent evt) {
-       
+            AddSampleDialog asd = new AddSampleDialog(this, true, this.idropGui);
+             asd.setVisible(true);
     }
     
      private void btnAddChannelsActionPerformed(java.awt.event.ActionEvent evt) {

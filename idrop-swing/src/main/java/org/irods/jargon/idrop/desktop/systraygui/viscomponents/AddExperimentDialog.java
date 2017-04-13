@@ -78,6 +78,7 @@ public class AddExperimentDialog extends javax.swing.JDialog {
         });
         pnlSelectParentDir.add(btnBrowseForDirectory);
 
+        txtParentDirectory.setColumns(30);
         txtParentDirectory.setText(org.openide.util.NbBundle.getMessage(AddExperimentDialog.class, "AddExperimentDialog.txtParentDirectory.text")); // NOI18N
         pnlSelectParentDir.add(txtParentDirectory);
 

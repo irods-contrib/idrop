@@ -54,6 +54,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtParentDirectory">
           <Properties>
+            <Property name="columns" type="int" value="30"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/irods/jargon/idrop/desktop/systraygui/viscomponents/Bundle.properties" key="AddExperimentDialog.txtParentDirectory.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
