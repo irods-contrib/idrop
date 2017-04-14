@@ -7,6 +7,9 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFileChooser;
+import org.irods.jargon.conveyor.core.ConveyorExecutionException;
+import org.irods.jargon.conveyor.core.QueueManagerService;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.domain.AvuData;
@@ -21,9 +24,12 @@ import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.ExperimentDialog;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.ToolsDialog;
+import static org.irods.jargon.idrop.desktop.systraygui.UploadDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddExperimentDialog.log;
+import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddSampleDialog.log;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
+import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +42,10 @@ public class AddImageDialog extends javax.swing.JDialog {
     iDrop idropGUI;
     String samplePrepDir;
     String sampleId;
+    String channel1File = "";
+    String channel2File = "";
+    String channel3File = "";
+    String channel4File = "";
 
     public static org.slf4j.Logger log = LoggerFactory
             .getLogger(AddImageDialog.class);
@@ -78,6 +88,14 @@ public class AddImageDialog extends javax.swing.JDialog {
         txtAcquisitionDate = new javax.swing.JFormattedTextField();
         lblColor = new javax.swing.JLabel();
         txtColor = new javax.swing.JTextField();
+        btnChannel1 = new javax.swing.JButton();
+        txtChannel1 = new javax.swing.JTextField();
+        btnChannel2 = new javax.swing.JButton();
+        txtChannel2 = new javax.swing.JTextField();
+        btnChannel3 = new javax.swing.JButton();
+        txtChannel3 = new javax.swing.JTextField();
+        btnChannel4 = new javax.swing.JButton();
+        txtChannel4 = new javax.swing.JTextField();
         pnlBottom = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         bntSave = new javax.swing.JButton();
@@ -122,7 +140,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         lblImageId.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblImageId.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblImageId, gridBagConstraints);
         lblImageId.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblImageId.AccessibleContext.accessibleName")); // NOI18N
@@ -136,7 +154,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtImageId, gridBagConstraints);
 
@@ -233,6 +251,103 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtColor, gridBagConstraints);
 
+        btnChannel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
+        btnChannel1.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel1.text")); // NOI18N
+        btnChannel1.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel1.toolTipText")); // NOI18N
+        btnChannel1.setMaximumSize(null);
+        btnChannel1.setMinimumSize(null);
+        btnChannel1.setName("btnBrowseForDirectory"); // NOI18N
+        btnChannel1.setPreferredSize(null);
+        btnChannel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChannel1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        pnlMetadata.add(btnChannel1, gridBagConstraints);
+
+        txtChannel1.setColumns(30);
+        txtChannel1.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtChannel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        pnlMetadata.add(txtChannel1, gridBagConstraints);
+
+        btnChannel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
+        btnChannel2.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel2.text")); // NOI18N
+        btnChannel2.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel2.toolTipText")); // NOI18N
+        btnChannel2.setMaximumSize(null);
+        btnChannel2.setMinimumSize(null);
+        btnChannel2.setName("btnBrowseForDirectory"); // NOI18N
+        btnChannel2.setPreferredSize(null);
+        btnChannel2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChannel2ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        pnlMetadata.add(btnChannel2, gridBagConstraints);
+
+        txtChannel2.setColumns(30);
+        txtChannel2.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtChannel2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        pnlMetadata.add(txtChannel2, gridBagConstraints);
+
+        btnChannel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
+        btnChannel3.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel3.text")); // NOI18N
+        btnChannel3.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel3.toolTipText")); // NOI18N
+        btnChannel3.setMaximumSize(null);
+        btnChannel3.setMinimumSize(null);
+        btnChannel3.setName("btnBrowseForDirectory"); // NOI18N
+        btnChannel3.setPreferredSize(null);
+        btnChannel3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChannel3ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        pnlMetadata.add(btnChannel3, gridBagConstraints);
+
+        txtChannel3.setColumns(30);
+        txtChannel3.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtChannel3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        pnlMetadata.add(txtChannel3, gridBagConstraints);
+
+        btnChannel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
+        btnChannel4.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel4.text")); // NOI18N
+        btnChannel4.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel4.toolTipText")); // NOI18N
+        btnChannel4.setActionCommand(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel4.actionCommand")); // NOI18N
+        btnChannel4.setMaximumSize(null);
+        btnChannel4.setMinimumSize(null);
+        btnChannel4.setName("btnBrowseForDirectory"); // NOI18N
+        btnChannel4.setPreferredSize(null);
+        btnChannel4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChannel4ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        pnlMetadata.add(btnChannel4, gridBagConstraints);
+
+        txtChannel4.setColumns(30);
+        txtChannel4.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtChannel4.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        pnlMetadata.add(txtChannel4, gridBagConstraints);
+
         scrollMetadata.setViewportView(pnlMetadata);
 
         getContentPane().add(scrollMetadata, java.awt.BorderLayout.CENTER);
@@ -313,9 +428,111 @@ public class AddImageDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void bntSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSaveActionPerformed
-       
+        try {
+            IRODSFileFactory irodsFileFactory = idropGUI.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
+            IRODSFile parentFile = irodsFileFactory.instanceIRODSFile(samplePrepDir);
+            IRODSFile imageFile = irodsFileFactory.instanceIRODSFile(parentFile.getAbsolutePath(), txtImageId.getText());
+            imageFile.mkdirs();
+
+            if (txtImageId.getText() == null) {
+                MessageManager.showError(this, "no image id provided");
+                return;
+            }
+
+            CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
+            AvuData data = new AvuData("ImageId", txtImageId.getText(), "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+
+            data = new AvuData("SampleId", sampleId, "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+
+            if (!txtMicroscopeUsed.getText().isEmpty()) {
+                data = new AvuData("Microscope Used", txtMicroscopeUsed.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+            }
+
+            if (!txtAcquisitionDate.getText().isEmpty()) {
+                data = new AvuData("Aquisition Date", txtAcquisitionDate.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+            }
+
+            if (!txtResolution.getText().isEmpty()) {
+                data = new AvuData("Resolution", txtResolution.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+            }
+
+            if (!txtColor.getText().isEmpty()) {
+                data = new AvuData("Color", txtColor.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+            }
+
+            if (!txtNotes.getText().isEmpty()) {
+
+                data = new AvuData("Notes", txtNotes.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+            }
+
+            if (!txtChannel1.getText().isEmpty()) {
+                data = new AvuData("Channel1 File", txtChannel1.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+                IRODSFile channel1File = irodsFileFactory.instanceIRODSFile(imageFile.getAbsolutePath(), "Channel1");
+                channel1File.mkdirs();
+                initiateTransfer(channel1File.getAbsolutePath(), txtChannel1.getText());
+
+            }
+
+            if (!txtChannel2.getText().isEmpty()) {
+                data = new AvuData("Channel2 File", txtChannel2.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+                IRODSFile channel2File = irodsFileFactory.instanceIRODSFile(imageFile.getAbsolutePath(), "Channel2");
+                channel2File.mkdirs();
+                initiateTransfer(channel2File.getAbsolutePath(), txtChannel2.getText());
+            }
+
+            if (!txtChannel3.getText().isEmpty()) {
+                data = new AvuData("Channel3 File", txtChannel3.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+                IRODSFile channel3File = irodsFileFactory.instanceIRODSFile(imageFile.getAbsolutePath(), "Channel3");
+                channel3File.mkdirs();
+                initiateTransfer(channel3File.getAbsolutePath(), txtChannel3.getText());
+            }
+
+            if (!txtChannel4.getText().isEmpty()) {
+                data = new AvuData("Channel4 File", txtChannel4.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+                IRODSFile channel4File = irodsFileFactory.instanceIRODSFile(imageFile.getAbsolutePath(), "Channel4");
+                channel4File.mkdirs();
+                initiateTransfer(channel4File.getAbsolutePath(), txtChannel4.getText());
+            }
+
+        } catch (JargonException je) {
+            log.error("error creating experiment", je);
+            MessageManager.showError(this, je.getMessage());
+        } finally {
+            idropGUI.getiDropCore().closeAllIRODSConnections();
+        }
         dispose();
     }//GEN-LAST:event_bntSaveActionPerformed
+
+    private void initiateTransfer(String target, String sourceAbsolutePath) {
+        log.info("process a put from source: {}", sourceAbsolutePath);
+
+        idropGUI.getIrodsAccount().getDefaultStorageResource();
+        log.info("initiating put transfer");
+
+        try {
+            QueueManagerService qms = idropGUI.getiDropCore()
+                    .getConveyorService().getQueueManagerService();
+            qms.enqueueTransferOperation(target, sourceAbsolutePath,
+                    idropGUI.getiDropCore().irodsAccount(),
+                    TransferType.PUT);
+        } catch (ConveyorExecutionException ex) {
+            java.util.logging.Logger.getLogger(
+                    LocalFileTree.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
+            idropGUI.showIdropException(ex);
+        }
+    }
 
     private void txtResolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtResolutionActionPerformed
         // TODO add your handling code here:
@@ -333,11 +550,86 @@ public class AddImageDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtColorActionPerformed
 
+    private void btnChannel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChannel1ActionPerformed
+        JFileChooser localFileChooser = new JFileChooser();
+        localFileChooser.setMultiSelectionEnabled(false);
+        localFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        localFileChooser.setDialogTitle("Select Channel 1 file");
+        localFileChooser.setLocation((int) this.getLocation().getX(),
+                (int) this.getLocation().getY());
+        int returnVal = localFileChooser.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            String downloadPath = localFileChooser.getSelectedFile()
+                    .getAbsolutePath();
+            txtChannel1.setText(MiscIRODSUtils.abbreviateFileName(downloadPath));
+            txtChannel1.setToolTipText(downloadPath);
+            this.channel1File = downloadPath;
+        }
+    }//GEN-LAST:event_btnChannel1ActionPerformed
+
+    private void btnChannel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChannel2ActionPerformed
+        JFileChooser localFileChooser = new JFileChooser();
+        localFileChooser.setMultiSelectionEnabled(false);
+        localFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        localFileChooser.setDialogTitle("Select Channel 2 file");
+        localFileChooser.setLocation((int) this.getLocation().getX(),
+                (int) this.getLocation().getY());
+        int returnVal = localFileChooser.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            String downloadPath = localFileChooser.getSelectedFile()
+                    .getAbsolutePath();
+            txtChannel2.setText(MiscIRODSUtils.abbreviateFileName(downloadPath));
+            txtChannel2.setToolTipText(downloadPath);
+            this.channel2File = downloadPath;
+        }    }//GEN-LAST:event_btnChannel2ActionPerformed
+
+    private void btnChannel3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChannel3ActionPerformed
+        JFileChooser localFileChooser = new JFileChooser();
+        localFileChooser.setMultiSelectionEnabled(false);
+        localFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        localFileChooser.setDialogTitle("Select Channel 3 file");
+        localFileChooser.setLocation((int) this.getLocation().getX(),
+                (int) this.getLocation().getY());
+        int returnVal = localFileChooser.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            String downloadPath = localFileChooser.getSelectedFile()
+                    .getAbsolutePath();
+            txtChannel3.setText(MiscIRODSUtils.abbreviateFileName(downloadPath));
+            txtChannel3.setToolTipText(downloadPath);
+            this.channel3File = downloadPath;
+        }
+    }//GEN-LAST:event_btnChannel3ActionPerformed
+
+    private void btnChannel4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChannel4ActionPerformed
+        JFileChooser localFileChooser = new JFileChooser();
+        localFileChooser.setMultiSelectionEnabled(false);
+        localFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        localFileChooser.setDialogTitle("Select Channel 4 file");
+        localFileChooser.setLocation((int) this.getLocation().getX(),
+                (int) this.getLocation().getY());
+        int returnVal = localFileChooser.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            String downloadPath = localFileChooser.getSelectedFile()
+                    .getAbsolutePath();
+            txtChannel4.setText(MiscIRODSUtils.abbreviateFileName(downloadPath));
+            txtChannel4.setToolTipText(downloadPath);
+            this.channel4File = downloadPath;
+        }
+    }//GEN-LAST:event_btnChannel4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntSave;
     private javax.swing.JButton btnBrowseForDirectory;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnChannel1;
+    private javax.swing.JButton btnChannel2;
+    private javax.swing.JButton btnChannel3;
+    private javax.swing.JButton btnChannel4;
     private javax.swing.JLabel lblAcquisitionDate;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblImageId;
@@ -351,6 +643,10 @@ public class AddImageDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane scrollMetadata;
     private javax.swing.JScrollPane scrollNotes;
     private javax.swing.JFormattedTextField txtAcquisitionDate;
+    private javax.swing.JTextField txtChannel1;
+    private javax.swing.JTextField txtChannel2;
+    private javax.swing.JTextField txtChannel3;
+    private javax.swing.JTextField txtChannel4;
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtImageId;
     private javax.swing.JTextField txtMicroscopeUsed;
