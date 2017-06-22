@@ -200,6 +200,7 @@ public class AddExperimentDialog extends javax.swing.JDialog {
               } finally {
                   idropGUI.getiDropCore().closeAllIRODSConnections();
               }
+              idropGUI.callReloadTree();
               dispose();
     }//GEN-LAST:event_bntSaveActionPerformed
 

@@ -31,7 +31,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
@@ -43,7 +42,6 @@ import org.irods.jargon.conveyor.core.ConveyorExecutorService.RunningStatus;
 import org.irods.jargon.conveyor.core.QueueStatus;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.JargonException;
-import org.irods.jargon.core.pub.EnvironmentalInfoAO;
 import org.irods.jargon.core.pub.ResourceAO;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
@@ -2102,6 +2100,13 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
                 this, true, iDropCore);
         advancedOptionsDialog.setLocationRelativeTo(null);
         advancedOptionsDialog.setVisible(true);
+    }
+    
+    /**
+     * Reload the iRODS tree
+     */
+    public void callReloadTree() {
+         buildTargetTree(false);
     }
 
     /**

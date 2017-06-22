@@ -86,16 +86,50 @@ public class AddImageDialog extends javax.swing.JDialog {
         txtNotes = new javax.swing.JTextArea();
         lblAcquisitionDate = new javax.swing.JLabel();
         txtAcquisitionDate = new javax.swing.JFormattedTextField();
-        lblColor = new javax.swing.JLabel();
-        txtColor = new javax.swing.JTextField();
+        pnlCh1 = new javax.swing.JPanel();
         btnChannel1 = new javax.swing.JButton();
         txtChannel1 = new javax.swing.JTextField();
+        lblPrimaryAntibodyUsedC1 = new javax.swing.JLabel();
+        scrollPrimaryAntibodyC1 = new javax.swing.JScrollPane();
+        txtAreaPrimaryAntibodyUsedC1 = new javax.swing.JTextArea();
+        lblSecondaryAntibodyUsedC1 = new javax.swing.JLabel();
+        scrollSecondaryAntibodyC1 = new javax.swing.JScrollPane();
+        txtAreaSecondaryAntibodyUsedC1 = new javax.swing.JTextArea();
+        lblEmWave1 = new javax.swing.JLabel();
+        txtEmWave1 = new javax.swing.JTextField();
+        pnlCh2 = new javax.swing.JPanel();
         btnChannel2 = new javax.swing.JButton();
         txtChannel2 = new javax.swing.JTextField();
+        lblPrimaryAntibodyUsedC2 = new javax.swing.JLabel();
+        scrollPrimaryAntibodyC2 = new javax.swing.JScrollPane();
+        txtAreaPrimaryAntibodyUsedC2 = new javax.swing.JTextArea();
+        lblSecondaryAntibodyUsedC2 = new javax.swing.JLabel();
+        scrollSecondaryAntibodyC2 = new javax.swing.JScrollPane();
+        txtAreaSecondaryAntibodyUsedC2 = new javax.swing.JTextArea();
+        lblEmWave2 = new javax.swing.JLabel();
+        txtEmWave2 = new javax.swing.JTextField();
+        pnlCh3 = new javax.swing.JPanel();
         btnChannel3 = new javax.swing.JButton();
         txtChannel3 = new javax.swing.JTextField();
+        lblPrimaryAntibodyUsedC3 = new javax.swing.JLabel();
+        scrollPrimaryAntibodyC3 = new javax.swing.JScrollPane();
+        txtAreaPrimaryAntibodyUsedC3 = new javax.swing.JTextArea();
+        lblSecondaryAntibodyUsedC3 = new javax.swing.JLabel();
+        scrollSecondaryAntibodyC3 = new javax.swing.JScrollPane();
+        txtAreaSecondaryAntibodyUsedC3 = new javax.swing.JTextArea();
+        lblEmWave3 = new javax.swing.JLabel();
+        txtEmWave3 = new javax.swing.JTextField();
+        pnlCh4 = new javax.swing.JPanel();
         btnChannel4 = new javax.swing.JButton();
         txtChannel4 = new javax.swing.JTextField();
+        lblPrimaryAntibodyUsedC4 = new javax.swing.JLabel();
+        scrollPrimaryAntibodyC4 = new javax.swing.JScrollPane();
+        txtAreaPrimaryAntibodyUsedC4 = new javax.swing.JTextArea();
+        lblSecondaryAntibodyUsedC4 = new javax.swing.JLabel();
+        scrollSecondaryAntibodyC4 = new javax.swing.JScrollPane();
+        txtAreaSecondaryAntibodyUsedC4 = new javax.swing.JTextArea();
+        lblEmWave4 = new javax.swing.JLabel();
+        txtEmWave4 = new javax.swing.JTextField();
         pnlBottom = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         bntSave = new javax.swing.JButton();
@@ -231,25 +265,8 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtAcquisitionDate, gridBagConstraints);
 
-        lblColor.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblColor.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        pnlMetadata.add(lblColor, gridBagConstraints);
-
-        txtColor.setColumns(20);
-        txtColor.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtColor.text")); // NOI18N
-        txtColor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtColorActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMetadata.add(txtColor, gridBagConstraints);
+        pnlCh1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh1.border.title"))); // NOI18N
+        pnlCh1.setLayout(new java.awt.GridBagLayout());
 
         btnChannel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
         btnChannel1.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel1.text")); // NOI18N
@@ -266,18 +283,76 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 12;
-        pnlMetadata.add(btnChannel1, gridBagConstraints);
+        pnlCh1.add(btnChannel1, gridBagConstraints);
 
         txtChannel1.setColumns(30);
         txtChannel1.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtChannel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 12;
-        pnlMetadata.add(txtChannel1, gridBagConstraints);
+        pnlCh1.add(txtChannel1, gridBagConstraints);
+
+        lblPrimaryAntibodyUsedC1.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblPrimaryAntibodyUsedC1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCh1.add(lblPrimaryAntibodyUsedC1, gridBagConstraints);
+
+        txtAreaPrimaryAntibodyUsedC1.setColumns(20);
+        txtAreaPrimaryAntibodyUsedC1.setRows(3);
+        scrollPrimaryAntibodyC1.setViewportView(txtAreaPrimaryAntibodyUsedC1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh1.add(scrollPrimaryAntibodyC1, gridBagConstraints);
+
+        lblSecondaryAntibodyUsedC1.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblSecondaryAntibodyUsedC1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCh1.add(lblSecondaryAntibodyUsedC1, gridBagConstraints);
+
+        txtAreaSecondaryAntibodyUsedC1.setColumns(20);
+        txtAreaSecondaryAntibodyUsedC1.setRows(3);
+        scrollSecondaryAntibodyC1.setViewportView(txtAreaSecondaryAntibodyUsedC1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh1.add(scrollSecondaryAntibodyC1, gridBagConstraints);
+
+        lblEmWave1.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblEmWave1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        pnlCh1.add(lblEmWave1, gridBagConstraints);
+
+        txtEmWave1.setColumns(19);
+        txtEmWave1.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtEmWave1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh1.add(txtEmWave1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        pnlMetadata.add(pnlCh1, gridBagConstraints);
+
+        pnlCh2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh2.border.title"))); // NOI18N
+        pnlCh2.setLayout(new java.awt.GridBagLayout());
 
         btnChannel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
         btnChannel2.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel2.text")); // NOI18N
         btnChannel2.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel2.toolTipText")); // NOI18N
+        btnChannel2.setActionCommand(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel2.actionCommand")); // NOI18N
         btnChannel2.setMaximumSize(null);
         btnChannel2.setMinimumSize(null);
         btnChannel2.setName("btnBrowseForDirectory"); // NOI18N
@@ -289,15 +364,71 @@ public class AddImageDialog extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
-        pnlMetadata.add(btnChannel2, gridBagConstraints);
+        gridBagConstraints.gridy = 12;
+        pnlCh2.add(btnChannel2, gridBagConstraints);
 
         txtChannel2.setColumns(30);
         txtChannel2.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtChannel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        pnlCh2.add(txtChannel2, gridBagConstraints);
+
+        lblPrimaryAntibodyUsedC2.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblPrimaryAntibodyUsedC2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCh2.add(lblPrimaryAntibodyUsedC2, gridBagConstraints);
+
+        txtAreaPrimaryAntibodyUsedC2.setColumns(20);
+        txtAreaPrimaryAntibodyUsedC2.setRows(3);
+        scrollPrimaryAntibodyC2.setViewportView(txtAreaPrimaryAntibodyUsedC2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh2.add(scrollPrimaryAntibodyC2, gridBagConstraints);
+
+        lblSecondaryAntibodyUsedC2.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblSecondaryAntibodyUsedC2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCh2.add(lblSecondaryAntibodyUsedC2, gridBagConstraints);
+
+        txtAreaSecondaryAntibodyUsedC2.setColumns(20);
+        txtAreaSecondaryAntibodyUsedC2.setRows(3);
+        scrollSecondaryAntibodyC2.setViewportView(txtAreaSecondaryAntibodyUsedC2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh2.add(scrollSecondaryAntibodyC2, gridBagConstraints);
+
+        lblEmWave2.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblEmWave2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 13;
-        pnlMetadata.add(txtChannel2, gridBagConstraints);
+        pnlCh2.add(lblEmWave2, gridBagConstraints);
+
+        txtEmWave2.setColumns(19);
+        txtEmWave2.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtEmWave2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh2.add(txtEmWave2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        pnlMetadata.add(pnlCh2, gridBagConstraints);
+
+        pnlCh3.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh3.border.title"))); // NOI18N
+        pnlCh3.setLayout(new java.awt.GridBagLayout());
 
         btnChannel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
         btnChannel3.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel3.text")); // NOI18N
@@ -313,20 +444,77 @@ public class AddImageDialog extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
-        pnlMetadata.add(btnChannel3, gridBagConstraints);
+        gridBagConstraints.gridy = 12;
+        pnlCh3.add(btnChannel3, gridBagConstraints);
 
         txtChannel3.setColumns(30);
         txtChannel3.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtChannel3.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        pnlCh3.add(txtChannel3, gridBagConstraints);
+
+        lblPrimaryAntibodyUsedC3.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblPrimaryAntibodyUsedC3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 14;
-        pnlMetadata.add(txtChannel3, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCh3.add(lblPrimaryAntibodyUsedC3, gridBagConstraints);
+
+        txtAreaPrimaryAntibodyUsedC3.setColumns(20);
+        txtAreaPrimaryAntibodyUsedC3.setRows(3);
+        scrollPrimaryAntibodyC3.setViewportView(txtAreaPrimaryAntibodyUsedC3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh3.add(scrollPrimaryAntibodyC3, gridBagConstraints);
+
+        lblSecondaryAntibodyUsedC3.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblSecondaryAntibodyUsedC3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCh3.add(lblSecondaryAntibodyUsedC3, gridBagConstraints);
+
+        txtAreaSecondaryAntibodyUsedC3.setColumns(20);
+        txtAreaSecondaryAntibodyUsedC3.setRows(3);
+        scrollSecondaryAntibodyC3.setViewportView(txtAreaSecondaryAntibodyUsedC3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh3.add(scrollSecondaryAntibodyC3, gridBagConstraints);
+
+        lblEmWave3.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblEmWave3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        pnlCh3.add(lblEmWave3, gridBagConstraints);
+
+        txtEmWave3.setColumns(19);
+        txtEmWave3.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtEmWave3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh3.add(txtEmWave3, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        pnlMetadata.add(pnlCh3, gridBagConstraints);
+
+        pnlCh4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh4.border.title"))); // NOI18N
+        pnlCh4.setLayout(new java.awt.GridBagLayout());
 
         btnChannel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
         btnChannel4.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel4.text")); // NOI18N
         btnChannel4.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel4.toolTipText")); // NOI18N
-        btnChannel4.setActionCommand(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnChannel4.actionCommand")); // NOI18N
         btnChannel4.setMaximumSize(null);
         btnChannel4.setMinimumSize(null);
         btnChannel4.setName("btnBrowseForDirectory"); // NOI18N
@@ -338,15 +526,70 @@ public class AddImageDialog extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
-        pnlMetadata.add(btnChannel4, gridBagConstraints);
+        gridBagConstraints.gridy = 12;
+        pnlCh4.add(btnChannel4, gridBagConstraints);
 
         txtChannel4.setColumns(30);
         txtChannel4.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtChannel4.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        pnlCh4.add(txtChannel4, gridBagConstraints);
+
+        lblPrimaryAntibodyUsedC4.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblPrimaryAntibodyUsedC4.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCh4.add(lblPrimaryAntibodyUsedC4, gridBagConstraints);
+
+        txtAreaPrimaryAntibodyUsedC4.setColumns(20);
+        txtAreaPrimaryAntibodyUsedC4.setRows(3);
+        scrollPrimaryAntibodyC4.setViewportView(txtAreaPrimaryAntibodyUsedC4);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh4.add(scrollPrimaryAntibodyC4, gridBagConstraints);
+
+        lblSecondaryAntibodyUsedC4.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblSecondaryAntibodyUsedC4.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 15;
-        pnlMetadata.add(txtChannel4, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlCh4.add(lblSecondaryAntibodyUsedC4, gridBagConstraints);
+
+        txtAreaSecondaryAntibodyUsedC4.setColumns(20);
+        txtAreaSecondaryAntibodyUsedC4.setRows(3);
+        scrollSecondaryAntibodyC4.setViewportView(txtAreaSecondaryAntibodyUsedC4);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh4.add(scrollSecondaryAntibodyC4, gridBagConstraints);
+
+        lblEmWave4.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblEmWave4.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        pnlCh4.add(lblEmWave4, gridBagConstraints);
+
+        txtEmWave4.setColumns(19);
+        txtEmWave4.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtEmWave4.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlCh4.add(txtEmWave4, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        pnlMetadata.add(pnlCh4, gridBagConstraints);
 
         scrollMetadata.setViewportView(pnlMetadata);
 
@@ -461,11 +704,6 @@ public class AddImageDialog extends javax.swing.JDialog {
                 collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
             }
 
-            if (!txtColor.getText().isEmpty()) {
-                data = new AvuData("Color", txtColor.getText(), "ipc-reserved-unit");
-                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
-            }
-
             if (!txtNotes.getText().isEmpty()) {
 
                 data = new AvuData("Notes", txtNotes.getText(), "ipc-reserved-unit");
@@ -473,35 +711,86 @@ public class AddImageDialog extends javax.swing.JDialog {
             }
 
             if (!txtChannel1.getText().isEmpty()) {
-                data = new AvuData("Channel1 File", txtChannel1.getText(), "ipc-reserved-unit");
-                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
                 IRODSFile channel1File = irodsFileFactory.instanceIRODSFile(imageFile.getAbsolutePath(), "Channel1");
                 channel1File.mkdirs();
+                data = new AvuData("Channel1 File", txtChannel1.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(channel1File.getAbsolutePath(), data);
+                if (!txtEmWave1.getText().isEmpty()) {
+                    data = new AvuData("Channel1 Emission Wavelength", txtEmWave1.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel1File.getAbsolutePath(), data);
+                }
+                if (!txtAreaPrimaryAntibodyUsedC1.getText().isEmpty()) {
+                    data = new AvuData("Channel1 Primary Antibody", txtAreaPrimaryAntibodyUsedC1.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel1File.getAbsolutePath(), data);
+                }
+                if (!txtAreaSecondaryAntibodyUsedC1.getText().isEmpty()) {
+                    data = new AvuData("Channel1 Secondary Antibody", txtAreaSecondaryAntibodyUsedC1.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel1File.getAbsolutePath(), data);
+                }
+
                 initiateTransfer(channel1File.getAbsolutePath(), txtChannel1.getText());
 
             }
 
             if (!txtChannel2.getText().isEmpty()) {
-                data = new AvuData("Channel2 File", txtChannel2.getText(), "ipc-reserved-unit");
-                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
                 IRODSFile channel2File = irodsFileFactory.instanceIRODSFile(imageFile.getAbsolutePath(), "Channel2");
                 channel2File.mkdirs();
+                data = new AvuData("Channel2 File", txtChannel2.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(channel2File.getAbsolutePath(), data);
+                if (!txtEmWave2.getText().isEmpty()) {
+                    data = new AvuData("Channel2 Emission Wavelength", txtEmWave2.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel2File.getAbsolutePath(), data);
+                }
+                if (!txtAreaPrimaryAntibodyUsedC2.getText().isEmpty()) {
+                    data = new AvuData("Channel2 Primary Antibody", txtAreaPrimaryAntibodyUsedC2.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel2File.getAbsolutePath(), data);
+                }
+                if (!txtAreaSecondaryAntibodyUsedC2.getText().isEmpty()) {
+                    data = new AvuData("Channel2 Secondary Antibody", txtAreaSecondaryAntibodyUsedC2.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel2File.getAbsolutePath(), data);
+                }
+
                 initiateTransfer(channel2File.getAbsolutePath(), txtChannel2.getText());
             }
 
             if (!txtChannel3.getText().isEmpty()) {
-                data = new AvuData("Channel3 File", txtChannel3.getText(), "ipc-reserved-unit");
-                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
                 IRODSFile channel3File = irodsFileFactory.instanceIRODSFile(imageFile.getAbsolutePath(), "Channel3");
                 channel3File.mkdirs();
+                data = new AvuData("Channel3 File", txtChannel3.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(channel3File.getAbsolutePath(), data);
+                if (!txtEmWave3.getText().isEmpty()) {
+                    data = new AvuData("Channel3 Emission Wavelength", txtEmWave3.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel3File.getAbsolutePath(), data);
+                }
+                if (!txtAreaPrimaryAntibodyUsedC3.getText().isEmpty()) {
+                    data = new AvuData("Channel3 Primary Antibody", txtAreaPrimaryAntibodyUsedC3.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel3File.getAbsolutePath(), data);
+                }
+                if (!txtAreaSecondaryAntibodyUsedC3.getText().isEmpty()) {
+                    data = new AvuData("Channel3 Secondary Antibody", txtAreaSecondaryAntibodyUsedC3.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel3File.getAbsolutePath(), data);
+                }
+
                 initiateTransfer(channel3File.getAbsolutePath(), txtChannel3.getText());
             }
 
             if (!txtChannel4.getText().isEmpty()) {
-                data = new AvuData("Channel4 File", txtChannel4.getText(), "ipc-reserved-unit");
-                collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
                 IRODSFile channel4File = irodsFileFactory.instanceIRODSFile(imageFile.getAbsolutePath(), "Channel4");
                 channel4File.mkdirs();
+                data = new AvuData("Channel4 File", txtChannel4.getText(), "ipc-reserved-unit");
+                collectionAO.addAVUMetadata(channel4File.getAbsolutePath(), data);
+                if (!txtEmWave4.getText().isEmpty()) {
+                    data = new AvuData("Channel4 Emission Wavelength", txtEmWave4.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel4File.getAbsolutePath(), data);
+                }
+                if (!txtAreaPrimaryAntibodyUsedC4.getText().isEmpty()) {
+                    data = new AvuData("Channel4 Primary Antibody", txtAreaPrimaryAntibodyUsedC4.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel4File.getAbsolutePath(), data);
+                }
+                if (!txtAreaSecondaryAntibodyUsedC4.getText().isEmpty()) {
+                    data = new AvuData("Channel4 Secondary Antibody", txtAreaSecondaryAntibodyUsedC4.getText(), "ipc-reserved-unit");
+                    collectionAO.addAVUMetadata(channel4File.getAbsolutePath(), data);
+                }
                 initiateTransfer(channel4File.getAbsolutePath(), txtChannel4.getText());
             }
 
@@ -511,6 +800,8 @@ public class AddImageDialog extends javax.swing.JDialog {
         } finally {
             idropGUI.getiDropCore().closeAllIRODSConnections();
         }
+        idropGUI.callReloadTree();
+
         dispose();
     }//GEN-LAST:event_bntSaveActionPerformed
 
@@ -546,10 +837,6 @@ public class AddImageDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtImageIdActionPerformed
 
-    private void txtColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtColorActionPerformed
-
     private void btnChannel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChannel1ActionPerformed
         JFileChooser localFileChooser = new JFileChooser();
         localFileChooser.setMultiSelectionEnabled(false);
@@ -583,10 +870,11 @@ public class AddImageDialog extends javax.swing.JDialog {
             txtChannel2.setText(MiscIRODSUtils.abbreviateFileName(downloadPath));
             txtChannel2.setToolTipText(downloadPath);
             this.channel2File = downloadPath;
-        }    }//GEN-LAST:event_btnChannel2ActionPerformed
+        }
+    }//GEN-LAST:event_btnChannel2ActionPerformed
 
     private void btnChannel3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChannel3ActionPerformed
-        JFileChooser localFileChooser = new JFileChooser();
+         JFileChooser localFileChooser = new JFileChooser();
         localFileChooser.setMultiSelectionEnabled(false);
         localFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         localFileChooser.setDialogTitle("Select Channel 3 file");
@@ -631,23 +919,57 @@ public class AddImageDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnChannel3;
     private javax.swing.JButton btnChannel4;
     private javax.swing.JLabel lblAcquisitionDate;
-    private javax.swing.JLabel lblColor;
+    private javax.swing.JLabel lblEmWave1;
+    private javax.swing.JLabel lblEmWave2;
+    private javax.swing.JLabel lblEmWave3;
+    private javax.swing.JLabel lblEmWave4;
     private javax.swing.JLabel lblImageId;
     private javax.swing.JLabel lblMicroscopeUsed;
     private javax.swing.JLabel lblNotes;
+    private javax.swing.JLabel lblPrimaryAntibodyUsedC1;
+    private javax.swing.JLabel lblPrimaryAntibodyUsedC2;
+    private javax.swing.JLabel lblPrimaryAntibodyUsedC3;
+    private javax.swing.JLabel lblPrimaryAntibodyUsedC4;
     private javax.swing.JLabel lblPrompt;
     private javax.swing.JLabel lblResolution;
+    private javax.swing.JLabel lblSecondaryAntibodyUsedC1;
+    private javax.swing.JLabel lblSecondaryAntibodyUsedC2;
+    private javax.swing.JLabel lblSecondaryAntibodyUsedC3;
+    private javax.swing.JLabel lblSecondaryAntibodyUsedC4;
     private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlCh1;
+    private javax.swing.JPanel pnlCh2;
+    private javax.swing.JPanel pnlCh3;
+    private javax.swing.JPanel pnlCh4;
     private javax.swing.JPanel pnlMetadata;
     private javax.swing.JPanel pnlSelectParentDir;
     private javax.swing.JScrollPane scrollMetadata;
     private javax.swing.JScrollPane scrollNotes;
+    private javax.swing.JScrollPane scrollPrimaryAntibodyC1;
+    private javax.swing.JScrollPane scrollPrimaryAntibodyC2;
+    private javax.swing.JScrollPane scrollPrimaryAntibodyC3;
+    private javax.swing.JScrollPane scrollPrimaryAntibodyC4;
+    private javax.swing.JScrollPane scrollSecondaryAntibodyC1;
+    private javax.swing.JScrollPane scrollSecondaryAntibodyC2;
+    private javax.swing.JScrollPane scrollSecondaryAntibodyC3;
+    private javax.swing.JScrollPane scrollSecondaryAntibodyC4;
     private javax.swing.JFormattedTextField txtAcquisitionDate;
+    private javax.swing.JTextArea txtAreaPrimaryAntibodyUsedC1;
+    private javax.swing.JTextArea txtAreaPrimaryAntibodyUsedC2;
+    private javax.swing.JTextArea txtAreaPrimaryAntibodyUsedC3;
+    private javax.swing.JTextArea txtAreaPrimaryAntibodyUsedC4;
+    private javax.swing.JTextArea txtAreaSecondaryAntibodyUsedC1;
+    private javax.swing.JTextArea txtAreaSecondaryAntibodyUsedC2;
+    private javax.swing.JTextArea txtAreaSecondaryAntibodyUsedC3;
+    private javax.swing.JTextArea txtAreaSecondaryAntibodyUsedC4;
     private javax.swing.JTextField txtChannel1;
     private javax.swing.JTextField txtChannel2;
     private javax.swing.JTextField txtChannel3;
     private javax.swing.JTextField txtChannel4;
-    private javax.swing.JTextField txtColor;
+    private javax.swing.JTextField txtEmWave1;
+    private javax.swing.JTextField txtEmWave2;
+    private javax.swing.JTextField txtEmWave3;
+    private javax.swing.JTextField txtEmWave4;
     private javax.swing.JTextField txtImageId;
     private javax.swing.JTextField txtMicroscopeUsed;
     private javax.swing.JTextArea txtNotes;

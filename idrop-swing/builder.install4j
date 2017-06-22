@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="5.1.15" transformSequenceNumber="4">
-  <directoryPresets config="./target/idrop-swing-2.0.1-RC1.jar" />
-  <application name="iDrop Transfer Manager" distributionSourceDir="" applicationId="2146-4545-1213-3321" mediaDir="./target/installers" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="iDrop" publisher="DICE" publisherWeb="http://www.irods.org" version="2.0.1-RC1-008" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.7" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+<install4j version="6.1.5" transformSequenceNumber="5">
+  <directoryPresets config="./target" />
+  <application name="iDrop Transfer Manager" distributionSourceDir="" applicationId="2146-4545-1213-3321" mediaDir="./target/installers" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="iDrop" publisher="DICE" publisherWeb="http://www.irods.org" version="2.0.1-RC1-008" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" macVolumeId="1d201c2eb3e9521d" javaMinVersion="1.7" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="false" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages />
@@ -22,22 +22,22 @@
       <mountPoint id="77" root="" location="" mode="755" />
     </mountPoints>
     <entries>
-      <fileEntry mountPoint="77" file="./target/idrop-swing-2.0.1-RC1.jar" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" />
-      <dirEntry mountPoint="77" file="./target/dependency" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="dependency" excludeSuffixes="" dirMode="755" overrideDirMode="false">
+      <dirEntry mountPoint="77" file="./target/lib" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="lib" excludeSuffixes="" dirMode="755" overrideDirMode="false">
         <exclude />
       </dirEntry>
+      <fileEntry mountPoint="77" file="./target/idrop-swing-4.2.0.0-SNAPSHOT.jar" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" />
     </entries>
     <components />
   </files>
   <launchers>
-    <launcher name="iDrop" id="23" customizedId="" external="false" excludeFromMenu="false" unixMode="755" menuName="" icnsFile="" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="" macBundleBinary="JavaApplicationStub" addMacEntitlements="false" macEntitlementsFile="">
-      <executable name="iDrop" type="1" iconSet="false" iconFile="" executableDir=".i4j_fileset_" redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="true" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="true" globalSingleInstance="false" singleInstanceActivate="true">
+    <launcher name="iDrop" id="23" customizedId="" external="false" excludeFromMenu="false" unixMode="755" unixAutoStart="true" menuName="" icnsFile="" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="" macBundleBinary="JavaApplicationStub" addMacEntitlements="false" macEntitlementsFile="" useCustomMacosExecutableName="false" customMacosExecutableName="" useJavaMinVersionOverride="false" javaMinVersionOverride="" useJavaMaxVersionOverride="false" javaMaxVersionOverride="">
+      <executable name="iDrop" type="1" iconSet="false" iconFile="" executableDir=".i4j_fileset_" redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="true" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="true" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="false">
         <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
       </executable>
-      <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="../../../workspace-newtxfr/irodsidrop/idrop-swing/src/main/resources/org/irods/jargon/idrop/desktop/images/iDrop.png" java6SplashScreen="false">
+      <splashScreen show="false" width="0" height="0" bitmapFile="../../../workspace-newtxfr/irodsidrop/idrop-swing/src/main/resources/org/irods/jargon/idrop/desktop/images/iDrop.png" windowsNative="false" textOverlay="false">
         <text>
-          <statusLine x="20" y="20" text="" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
-          <versionLine x="20" y="40" text="version ${compiler:sys.version}" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
+          <statusLine x="20" y="20" text="" fontSize="8" fontColor="0,0,0" bold="false" />
+          <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
       <java mainClass="org.irods.jargon.idrop.desktop.systraygui.IDROPDesktop" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true">
@@ -46,6 +46,7 @@
           <scanDirectory location=".i4j_fileset_" failOnError="false" />
         </classPath>
         <nativeLibraryDirectories />
+        <vmOptions />
       </java>
       <includedFiles />
       <unextractableFiles />
@@ -62,6 +63,7 @@
     </launcher>
   </launchers>
   <installerGui installerType="1" addOnAppId="" suggestPreviousLocations="true" autoUpdateDescriptorUrl="" useAutoUpdateBaseUrl="false" autoUpdateBaseUrl="">
+    <staticMembers script="" />
     <customCode />
     <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
       <commentFiles />
@@ -255,7 +257,14 @@
       <application name="" id="uninstaller" customizedId="" beanClass="com.install4j.runtime.beans.applications.UninstallerApplication" enabled="true" commentSet="false" comment="" actionElevationType="none" fileset="" customIcnsFile="" customIcoFile="" macEntitlementsFile="" automaticLauncherIntegration="false" launchMode="startupFirstWindow" launchInNewProcess="false" launchSchedule="updateSchedule" allLaunchers="true">
         <serializedBean>
           <java class="java.beans.XMLDecoder">
-            <object class="com.install4j.runtime.beans.applications.UninstallerApplication" />
+            <object class="com.install4j.runtime.beans.applications.UninstallerApplication">
+              <void property="customMacosExecutableName">
+                <string>${i18n:UninstallerMenuEntry(${compiler:sys.fullName})}</string>
+              </void>
+              <void property="useCustomMacosExecutableName">
+                <boolean>true</boolean>
+              </void>
+            </object>
           </java>
         </serializedBean>
         <launcherIds />
@@ -359,7 +368,9 @@
     </applications>
   </installerGui>
   <mediaSets>
-    <macos name="Mac OS X Single Bundle" id="24" customizedId="" mediaFileName="" installDir="iDrop Transfer Manager" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="macosx-amd64-1.7.0_65" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" appleJre="false" requiredVmIdPrefix="" customInstallBaseDir="" contentFilesType="1" downloadURL="" launcherId="23">
+    <macos name="Mac OS X Single Bundle" id="24" customizedId="" mediaFileName="" installDir="iDrop Transfer Manager" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="macosx-amd64-1.8.0_131" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" appleJre="false" requiredVmIdPrefix="" customInstallBaseDir="" contentFilesType="1" installerName="${i18n:InstallerName(${compiler:sys.fullName})}" volumeName="${compiler:sys.shortName}" compressDmg="false" launcherId="23">
+      <excludedComponents />
+      <includedDownloadableComponents />
       <excludedBeans />
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude />
@@ -368,10 +379,11 @@
         <commentFiles />
         <customAttributes />
       </autoUpdate>
-      <excludedComponents />
-      <includedDownloadableComponents />
+      <topLevelFiles />
     </macos>
-    <windows name="Windows-64" id="70" customizedId="" mediaFileName="" installDir="iDrop" overridePrincipalLanguage="false" jreBitType="64" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="windows-amd64-1.8.0_20" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="true" customInstallBaseDir="" contentFilesType="1" downloadURL="" verifyIntegrity="true">
+    <windows name="Windows-64" id="70" customizedId="" mediaFileName="" installDir="iDrop" overridePrincipalLanguage="false" jreBitType="64" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="windows-amd64-1.8.0_131" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="true" customInstallBaseDir="" contentFilesType="1" verifyIntegrity="true">
+      <excludedComponents />
+      <includedDownloadableComponents />
       <excludedLaunchers />
       <excludedBeans />
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
@@ -381,10 +393,10 @@
         <commentFiles />
         <customAttributes />
       </autoUpdate>
-      <excludedComponents />
-      <includedDownloadableComponents />
     </windows>
-    <windows name="Windows-32" id="75" customizedId="" mediaFileName="" installDir="iDrop" overridePrincipalLanguage="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="windows-x86-1.8.0_20" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="true" customInstallBaseDir="" contentFilesType="1" downloadURL="" verifyIntegrity="true">
+    <unixInstaller name="Unix Installer" id="76" customizedId="" mediaFileName="" installDir="iDrop" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1">
+      <excludedComponents />
+      <includedDownloadableComponents />
       <excludedLaunchers />
       <excludedBeans />
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
@@ -394,21 +406,6 @@
         <commentFiles />
         <customAttributes />
       </autoUpdate>
-      <excludedComponents />
-      <includedDownloadableComponents />
-    </windows>
-    <unixInstaller name="Unix Installer" id="76" customizedId="" mediaFileName="" installDir="iDrop" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="">
-      <excludedLaunchers />
-      <excludedBeans />
-      <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
-      <exclude />
-      <variables />
-      <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
-        <commentFiles />
-        <customAttributes />
-      </autoUpdate>
-      <excludedComponents />
-      <includedDownloadableComponents />
       <installerScript mode="1" file="">
         <content />
       </installerScript>
@@ -417,6 +414,5 @@
   <buildIds buildAll="true">
     <mediaSet refId="24" />
   </buildIds>
-  <buildOptions verbose="true" faster="false" disableSigning="false" debug="false" />
+  <buildOptions verbose="true" faster="false" disableSigning="false" disableJreBundling="false" debug="false" />
 </install4j>
-

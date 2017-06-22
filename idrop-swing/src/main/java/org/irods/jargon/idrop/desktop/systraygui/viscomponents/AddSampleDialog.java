@@ -81,12 +81,6 @@ public class AddSampleDialog extends javax.swing.JDialog {
         txtSecondaryAntibodyDate = new javax.swing.JFormattedTextField();
         lblDateInClearingSolution = new javax.swing.JLabel();
         txtDateInClearingSolution = new javax.swing.JFormattedTextField();
-        lblPrimaryAntibodyUsed = new javax.swing.JLabel();
-        scrollPrimaryAntibody = new javax.swing.JScrollPane();
-        txtAreaPrimaryAntibodyUsed = new javax.swing.JTextArea();
-        lblSecondaryAntibodyUsed = new javax.swing.JLabel();
-        scrollSecondaryAntibody = new javax.swing.JScrollPane();
-        txtAreaSecondaryAntibodyUsed = new javax.swing.JTextArea();
         lblGenotype = new javax.swing.JLabel();
         txtGenotype = new javax.swing.JTextField();
         lblBreed = new javax.swing.JLabel();
@@ -272,40 +266,6 @@ public class AddSampleDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtDateInClearingSolution, gridBagConstraints);
 
-        lblPrimaryAntibodyUsed.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblPrimaryAntibodyUsed.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        pnlMetadata.add(lblPrimaryAntibodyUsed, gridBagConstraints);
-
-        txtAreaPrimaryAntibodyUsed.setColumns(20);
-        txtAreaPrimaryAntibodyUsed.setRows(3);
-        scrollPrimaryAntibody.setViewportView(txtAreaPrimaryAntibodyUsed);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMetadata.add(scrollPrimaryAntibody, gridBagConstraints);
-
-        lblSecondaryAntibodyUsed.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSecondaryAntibodyUsed.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        pnlMetadata.add(lblSecondaryAntibodyUsed, gridBagConstraints);
-
-        txtAreaSecondaryAntibodyUsed.setColumns(20);
-        txtAreaSecondaryAntibodyUsed.setRows(3);
-        scrollSecondaryAntibody.setViewportView(txtAreaSecondaryAntibodyUsed);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMetadata.add(scrollSecondaryAntibody, gridBagConstraints);
-
         lblGenotype.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblGenotype.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -424,6 +384,7 @@ public class AddSampleDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 23;
         pnlMetadata.add(lblTimePoint, gridBagConstraints);
 
+        txtTimePoint.setColumns(20);
         txtTimePoint.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtTimePoint.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -448,7 +409,7 @@ public class AddSampleDialog extends javax.swing.JDialog {
 
         scrollMetadata.setViewportView(pnlMetadata);
 
-        getContentPane().add(scrollMetadata, java.awt.BorderLayout.CENTER);
+        getContentPane().add(scrollMetadata, java.awt.BorderLayout.LINE_END);
 
         pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
@@ -582,18 +543,6 @@ public class AddSampleDialog extends javax.swing.JDialog {
                 collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
             }
 
-            if (!txtAreaPrimaryAntibodyUsed.getText().isEmpty()) {
-
-                data = new AvuData("Primary antibody used", txtAreaPrimaryAntibodyUsed.getText(), "ipc-reserved-unit");
-                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
-            }
-
-            if (!txtAreaSecondaryAntibodyUsed.getText().isEmpty()) {
-
-                data = new AvuData("Secondary antibody used", txtAreaSecondaryAntibodyUsed.getText(), "ipc-reserved-unit");
-                collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
-            }
-
             if (!txtGenotype.getText().isEmpty()) {
 
                 data = new AvuData("Genotype", txtGenotype.getText(), "ipc-reserved-unit");
@@ -644,6 +593,8 @@ public class AddSampleDialog extends javax.swing.JDialog {
         } finally {
             idropGUI.getiDropCore().closeAllIRODSConnections();
         }
+        idropGUI.callReloadTree();
+
         dispose();
     }//GEN-LAST:event_bntSaveActionPerformed
 
@@ -684,13 +635,11 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblInVivoTreatment;
     private javax.swing.JLabel lblNotes;
     private javax.swing.JLabel lblPrimaryAntibodyDate;
-    private javax.swing.JLabel lblPrimaryAntibodyUsed;
     private javax.swing.JLabel lblPrompt;
     private javax.swing.JLabel lblSacrificeDate;
     private javax.swing.JLabel lblSampleId;
     private javax.swing.JLabel lblSampleType;
     private javax.swing.JLabel lblSecondaryAntibodyDate;
-    private javax.swing.JLabel lblSecondaryAntibodyUsed;
     private javax.swing.JLabel lblSex;
     private javax.swing.JLabel lblTimePoint;
     private javax.swing.JPanel pnlBottom;
@@ -699,12 +648,8 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane scrollInVivo;
     private javax.swing.JScrollPane scrollMetadata;
     private javax.swing.JScrollPane scrollNotes;
-    private javax.swing.JScrollPane scrollPrimaryAntibody;
-    private javax.swing.JScrollPane scrollSecondaryAntibody;
     private javax.swing.JFormattedTextField txtAge;
     private javax.swing.JTextArea txtAreaInVivo;
-    private javax.swing.JTextArea txtAreaPrimaryAntibodyUsed;
-    private javax.swing.JTextArea txtAreaSecondaryAntibodyUsed;
     private javax.swing.JTextField txtBreed;
     private javax.swing.JTextField txtCagingStatus;
     private javax.swing.JFormattedTextField txtClearingDate;

@@ -10,7 +10,7 @@
 	<bean id="systemPropertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-		<property name="locations" value="classpath:transfer.properties" />
+		<property name="locations" value="classpath:event.properties" />
 	</bean>
 
 	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
@@ -18,7 +18,7 @@
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+		<property name="driverClassName" value="${jdbc.driver}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.user}" />
 		<property name="password" value="${jdbc.password}" />
@@ -34,8 +34,8 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
-				<prop key="hibernate.show_sql">false</prop>
-				<prop key="hibernate.auto_create_schema">true</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.auto_create_schema">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.generate_statistics">false</prop>
 				<prop key="hibernate.c3p0.minPoolSize">4</prop>
