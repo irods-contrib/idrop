@@ -15,7 +15,7 @@ import org.irods.jargon.core.pub.DataObjectAO;
 import org.irods.jargon.core.pub.IRODSFileSystem;
 import org.irods.jargon.core.pub.domain.AvuData;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.MetadataTableModel;
-import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;  
 
 /**
  *

@@ -10,8 +10,8 @@
 	<bean id="systemPropertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-		<property name="locations" value="classpath:event.properties" />
-	</bean>
+		<property name="locations" value="classpath:transfer.properties" />
+	</bean> 
 
 	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
 

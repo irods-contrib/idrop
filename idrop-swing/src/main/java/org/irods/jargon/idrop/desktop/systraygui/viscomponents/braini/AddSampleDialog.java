@@ -3,28 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
+package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.domain.AvuData;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
-import org.irods.jargon.core.query.AVUQueryElement;
-import org.irods.jargon.core.query.AVUQueryElement.AVUQueryPart;
-import org.irods.jargon.core.query.AVUQueryOperatorEnum;
-import org.irods.jargon.core.query.JargonQueryException;
-import org.irods.jargon.core.query.MetaDataAndDomainData;
-import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.ExperimentDialog;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
-import org.irods.jargon.idrop.desktop.systraygui.ToolsDialog;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
-import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddExperimentDialog.log;
-import org.irods.jargon.idrop.finder.IRODSFinderDialog;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -36,6 +24,7 @@ public class AddSampleDialog extends javax.swing.JDialog {
     iDrop idropGUI;
     String experimentTarget;
     String experimentId;
+    
 
     public static org.slf4j.Logger log = LoggerFactory
             .getLogger(AddSampleDialog.class);
@@ -449,6 +438,10 @@ public class AddSampleDialog extends javax.swing.JDialog {
 
     private void btnBrowseForDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForDirectoryActionPerformed
 
+        ChooseExperimentDialog chooseExperimentDialog = new ChooseExperimentDialog(idropGUI, true, idropGUI.getiDropCore());
+        chooseExperimentDialog.setVisible(true);
+
+        /**
         IRODSFinderDialog irodsFinderDialog = new IRODSFinderDialog(idropGUI, true, idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
         irodsFinderDialog.setVisible(true);
         experimentTarget = irodsFinderDialog.getSelectedAbsolutePath();
@@ -476,9 +469,9 @@ public class AddSampleDialog extends javax.swing.JDialog {
             } catch (JargonQueryException ex) {
                 log.error("exception finding experiment", ex);
                 MessageManager.showError(this, ex.getMessage());
-            }
+            } 
 
-        }
+        }*/
     }//GEN-LAST:event_btnBrowseForDirectoryActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

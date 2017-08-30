@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
+package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
 
+import java.awt.Color;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.domain.AvuData;
@@ -23,11 +24,11 @@ import org.slf4j.LoggerFactory;
  * @author mconway
  */
 public class AddExperimentDialog extends javax.swing.JDialog {
-    
-      iDrop idropGUI;
-      String experimentTarget;
-      
-        public static org.slf4j.Logger log = LoggerFactory
+
+    iDrop idropGUI;
+    String experimentTarget;
+
+    public static org.slf4j.Logger log = LoggerFactory
             .getLogger(AddExperimentDialog.class);
 
     /**
@@ -37,6 +38,44 @@ public class AddExperimentDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.idropGUI = idropGUI;
         initComponents();
+    }
+
+    /**
+     * reset the gui for validating
+     */
+    private void resetForValidation() {
+        lblLab.setForeground(Color.BLACK);
+        lblExperimentId.setForeground(Color.BLACK);
+        btnBrowseForDirectory.setForeground(Color.BLACK);
+
+    }
+
+    private boolean validateData() {
+        boolean valid = true;
+        StringBuilder msg = new StringBuilder();
+        resetForValidation();
+        if (txtParentDirectory.getText() == null || txtParentDirectory.getText().isEmpty()) {
+            valid = false;
+            msg.append("Select a parent directory for the experiment  ");
+            btnBrowseForDirectory.setForeground(Color.RED);
+        }
+        if (txtExperimentId.getText() == null || txtExperimentId.getText().isEmpty()) {
+            valid = false;
+            msg.append("ExperimentId is missing  ");
+            lblExperimentId.setForeground(Color.RED);
+        }
+        if (txtLab.getText() == null || txtLab.getText().isEmpty()) {
+            valid = false;
+            msg.append("Lab/PI is missing  ");
+            lblLab.setForeground(Color.RED);
+        }
+
+        if (!valid) {
+            MessageManager.showWarning(this, msg.toString());
+        }
+
+        return valid;
+
     }
 
     /**
@@ -172,36 +211,40 @@ public class AddExperimentDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBrowseForDirectoryActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-              
-        
+
         dispose();
-              
+
 
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void bntSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSaveActionPerformed
-       try {
-                IRODSFileFactory irodsFileFactory = idropGUI.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
-               IRODSFile parentFile = irodsFileFactory.instanceIRODSFile(experimentTarget);
-               parentFile.mkdirs();
-               idropGUI.getiDropCore().getIRODSAccessObjectFactory();
-               IRODSFile experimentFile = irodsFileFactory.instanceIRODSFile(parentFile.getAbsolutePath(), txtExperimentId.getText());
-               experimentFile.mkdirs();
-               CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
-               AvuData data = new AvuData("ExptId", txtExperimentId.getText(), "ipc-reserved-unit");
-               collectionAO.addAVUMetadata(experimentFile.getAbsolutePath(), data);
-               data = new AvuData("Lab/PI", txtLab.getText(), "ipc-reserved-unit");
-               collectionAO.addAVUMetadata(experimentFile.getAbsolutePath(), data);
-               data = new AvuData("ExperimentalPurpose", txtExperimentalPurpose.getText(), "ipc-reserved-unit");
-               collectionAO.addAVUMetadata(experimentFile.getAbsolutePath(), data);
-              } catch (JargonException je) {
-                  log.error("error creating experiment", je);
-                  MessageManager.showError(this, je.getMessage());
-              } finally {
-                  idropGUI.getiDropCore().closeAllIRODSConnections();
-              }
-              idropGUI.callReloadTree();
-              dispose();
+        try {
+
+            if (!validateData()) {
+                return;
+            }
+
+            IRODSFileFactory irodsFileFactory = idropGUI.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
+            IRODSFile parentFile = irodsFileFactory.instanceIRODSFile(experimentTarget);
+            parentFile.mkdirs();
+            idropGUI.getiDropCore().getIRODSAccessObjectFactory();
+            IRODSFile experimentFile = irodsFileFactory.instanceIRODSFile(parentFile.getAbsolutePath(), txtExperimentId.getText());
+            experimentFile.mkdirs();
+            CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
+            AvuData data = new AvuData("ExptId", txtExperimentId.getText(), "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(experimentFile.getAbsolutePath(), data);
+            data = new AvuData("Lab/PI", txtLab.getText(), "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(experimentFile.getAbsolutePath(), data);
+            data = new AvuData("ExperimentalPurpose", txtExperimentalPurpose.getText(), "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(experimentFile.getAbsolutePath(), data);
+        } catch (JargonException je) {
+            log.error("error creating experiment", je);
+            MessageManager.showError(this, je.getMessage());
+        } finally {
+            idropGUI.getiDropCore().closeAllIRODSConnections();
+        }
+        idropGUI.callReloadTree();
+        dispose();
     }//GEN-LAST:event_bntSaveActionPerformed
 
 

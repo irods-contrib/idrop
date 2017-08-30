@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.irods.jargon.idrop.desktop.systraygui.viscomponents;
+package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,9 @@ import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.ToolsDialog;
 import static org.irods.jargon.idrop.desktop.systraygui.UploadDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
-import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddExperimentDialog.log;
-import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.AddSampleDialog.log;
+import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
+import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini.AddExperimentDialog.log;
+import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini.AddSampleDialog.log;
 import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import org.irods.jargon.transfer.dao.domain.TransferType;
 import org.openide.util.Exceptions;

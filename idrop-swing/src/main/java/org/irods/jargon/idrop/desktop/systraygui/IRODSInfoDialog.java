@@ -991,7 +991,6 @@ public class IRODSInfoDialog extends javax.swing.JDialog implements
 
         pnlInfoCards.add(pnlCollectionInfo, "cardCollectionInfo");
 
-        pnlObjectInfo.setPreferredSize(null);
         pnlObjectInfo.setLayout(new java.awt.GridBagLayout());
 
         lblSizeLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
