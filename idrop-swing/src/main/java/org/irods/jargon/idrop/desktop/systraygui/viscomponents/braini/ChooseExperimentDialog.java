@@ -43,6 +43,7 @@ public class ChooseExperimentDialog extends javax.swing.JDialog implements
     public static org.slf4j.Logger log = LoggerFactory
             .getLogger(ChooseExperimentDialog.class);
     private MetaDataAndDomainData selectedData = null;
+    private ExperimentDescription selectedExperiment = null;
 
     /**
      * Creates new form ChooseExperimentDialog
@@ -66,21 +67,26 @@ public class ChooseExperimentDialog extends javax.swing.JDialog implements
                 MetaDataAndDomainData data = model.getRow(row);
                 dialog.selectedData = data;
                 log.info("getting details for:{}", data);
-
+                ExperimentDescription experimentDescription = new ExperimentDescription();
                 try {
                     CollectionAO collectionAO = idropCore.getIRODSAccessObjectFactory().getCollectionAO(idropCore.irodsAccount());
                     List<MetaDataAndDomainData> fullMetadata = collectionAO.findMetadataValuesForCollection(data.getDomainObjectUniqueName());
+                    experimentDescription.setExperimentPath(data.getDomainObjectUniqueName());
                     
                     for (MetaDataAndDomainData val : fullMetadata) {
                         if (val.getAvuAttribute().equals("ExptId")) {
                             lblExperimentIdValue.setText(val.getAvuValue());
+                            experimentDescription.setExperimentId(val.getAvuValue());
                         } else  if (val.getAvuAttribute().equals("Lab/PI")) {
                             lblExperimentPIValue.setText(val.getAvuValue());
+                            experimentDescription.setExperimentPi(val.getAvuValue());
                         } else  if (val.getAvuAttribute().equals("ExperimentalPurpose")) {
                             lblExperimentPurposeValue.setText(val.getAvuValue());
+                            experimentDescription.setExperimentPurpose(val.getAvuValue());
                         }
                     }
                     
+                    dialog.selectedExperiment = experimentDescription;
                     dialog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     
                 } catch (JargonException je) {
@@ -321,6 +327,10 @@ public class ChooseExperimentDialog extends javax.swing.JDialog implements
 
     public MetaDataAndDomainData getSelectedData() {
         return selectedData;
+    }
+
+    public ExperimentDescription getSelectedExperiment() {
+        return selectedExperiment;
     }
 
 }

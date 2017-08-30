@@ -5,11 +5,19 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.domain.AvuData;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
+import org.irods.jargon.core.query.AVUQueryElement;
+import org.irods.jargon.core.query.AVUQueryElement.AVUQueryPart;
+import org.irods.jargon.core.query.AVUQueryOperatorEnum;
+import org.irods.jargon.core.query.JargonQueryException;
+import org.irods.jargon.core.query.MetaDataAndDomainData;
+import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.ExperimentDialog;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
@@ -50,8 +58,16 @@ public class AddSampleDialog extends javax.swing.JDialog {
 
         pnlSelectParentDir = new javax.swing.JPanel();
         btnBrowseForDirectory = new javax.swing.JButton();
-        txtParentDirectory = new javax.swing.JTextField();
         lblPrompt = new javax.swing.JLabel();
+        pnlExperimentDets = new javax.swing.JPanel();
+        lblExperimentId = new javax.swing.JLabel();
+        lblExperimentIdValue = new javax.swing.JLabel();
+        lblExperimentPI = new javax.swing.JLabel();
+        lblExperimentPIValue = new javax.swing.JLabel();
+        lblExperimentPurpose = new javax.swing.JLabel();
+        lblExperimentPurposeValue = new javax.swing.JLabel();
+        lblExperimentPath = new javax.swing.JLabel();
+        lblExperimentPathValue = new javax.swing.JLabel();
         scrollMetadata = new javax.swing.JScrollPane();
         pnlMetadata = new javax.swing.JPanel();
         lblSampleId = new javax.swing.JLabel();
@@ -108,22 +124,90 @@ public class AddSampleDialog extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         pnlSelectParentDir.add(btnBrowseForDirectory, gridBagConstraints);
-
-        txtParentDirectory.setColumns(30);
-        txtParentDirectory.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtParentDirectory.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        pnlSelectParentDir.add(txtParentDirectory, gridBagConstraints);
 
         lblPrompt.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblPrompt.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         pnlSelectParentDir.add(lblPrompt, gridBagConstraints);
+
+        pnlExperimentDets.setLayout(new java.awt.GridBagLayout());
+
+        lblExperimentId.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblExperimentId.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblExperimentId.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentId.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentId, gridBagConstraints);
+
+        lblExperimentIdValue.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        lblExperimentIdValue.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentIdValue.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentIdValue, gridBagConstraints);
+
+        lblExperimentPI.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblExperimentPI.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblExperimentPI.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentPI.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentPI, gridBagConstraints);
+
+        lblExperimentPIValue.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentPIValue.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentPIValue, gridBagConstraints);
+
+        lblExperimentPurpose.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblExperimentPurpose.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblExperimentPurpose.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentPurpose.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentPurpose, gridBagConstraints);
+
+        lblExperimentPurposeValue.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentPurposeValue.text")); // NOI18N
+        lblExperimentPurposeValue.setToolTipText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentPurposeValue.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentPurposeValue, gridBagConstraints);
+
+        lblExperimentPath.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblExperimentPath.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentPath.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlExperimentDets.add(lblExperimentPath, gridBagConstraints);
+
+        lblExperimentPathValue.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblExperimentPathValue.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlExperimentDets.add(lblExperimentPathValue, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlSelectParentDir.add(pnlExperimentDets, gridBagConstraints);
 
         getContentPane().add(pnlSelectParentDir, java.awt.BorderLayout.NORTH);
 
@@ -398,7 +482,7 @@ public class AddSampleDialog extends javax.swing.JDialog {
 
         scrollMetadata.setViewportView(pnlMetadata);
 
-        getContentPane().add(scrollMetadata, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(scrollMetadata, java.awt.BorderLayout.CENTER);
 
         pnlBottom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
@@ -440,28 +524,37 @@ public class AddSampleDialog extends javax.swing.JDialog {
 
         ChooseExperimentDialog chooseExperimentDialog = new ChooseExperimentDialog(idropGUI, true, idropGUI.getiDropCore());
         chooseExperimentDialog.setVisible(true);
+        if (chooseExperimentDialog.getSelectedExperiment() == null) {
+            return;
+        }
+        
+        lblExperimentPathValue.setText(chooseExperimentDialog.getSelectedExperiment().getExperimentPath());
+        lblExperimentPIValue.setText(chooseExperimentDialog.getSelectedExperiment().getExperimentPi());
+        lblExperimentPurposeValue.setText(chooseExperimentDialog.getSelectedExperiment().getExperimentPurpose());
+        lblExperimentIdValue.setText(chooseExperimentDialog.getSelectedExperiment().getExperimentId());
+        experimentTarget = chooseExperimentDialog.getSelectedExperiment().getExperimentPath();
 
         /**
         IRODSFinderDialog irodsFinderDialog = new IRODSFinderDialog(idropGUI, true, idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
         irodsFinderDialog.setVisible(true);
-        experimentTarget = irodsFinderDialog.getSelectedAbsolutePath();
+        experimentTarget = irodsFinderDialog.getSelectedAbsolutePath();**/
 
         if (experimentTarget != null) {
             try {
-                txtParentDirectory.setText(MiscIRODSUtils.abbreviateFileName(experimentTarget));
-                txtParentDirectory.setText(experimentTarget);
+               
 
                 CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
                 List<AVUQueryElement> query = new ArrayList<AVUQueryElement>();
                 query.add(AVUQueryElement.instanceForValueQuery(AVUQueryPart.ATTRIBUTE, AVUQueryOperatorEnum.EQUAL, "ExptId"));
                 List<MetaDataAndDomainData> result = collectionAO.findMetadataValuesByMetadataQueryForCollection(query, experimentTarget);
                 if (result.isEmpty()) {
-                    log.warn("no experiment for:{}", txtParentDirectory);
+                    log.warn("no experiment for:{}", experimentTarget);
                     MessageManager.showWarning(this, "selected collection is not an experiment");
                 }
 
                 experimentId = result.get(0).getAvuValue();
                 lblPrompt.setText("Sample is associated with experiment:" + experimentId);
+                
 
             } catch (JargonException ex) {
                 log.error("exception finding experiment", ex);
@@ -471,7 +564,7 @@ public class AddSampleDialog extends javax.swing.JDialog {
                 MessageManager.showError(this, ex.getMessage());
             } 
 
-        }*/
+        }
     }//GEN-LAST:event_btnBrowseForDirectoryActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -624,6 +717,14 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblClearingDate;
     private javax.swing.JLabel lblClearingProtocol;
     private javax.swing.JLabel lblDateInClearingSolution;
+    private javax.swing.JLabel lblExperimentId;
+    private javax.swing.JLabel lblExperimentIdValue;
+    private javax.swing.JLabel lblExperimentPI;
+    private javax.swing.JLabel lblExperimentPIValue;
+    private javax.swing.JLabel lblExperimentPath;
+    private javax.swing.JLabel lblExperimentPathValue;
+    private javax.swing.JLabel lblExperimentPurpose;
+    private javax.swing.JLabel lblExperimentPurposeValue;
     private javax.swing.JLabel lblGenotype;
     private javax.swing.JLabel lblInVivoTreatment;
     private javax.swing.JLabel lblNotes;
@@ -636,6 +737,7 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblSex;
     private javax.swing.JLabel lblTimePoint;
     private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlExperimentDets;
     private javax.swing.JPanel pnlMetadata;
     private javax.swing.JPanel pnlSelectParentDir;
     private javax.swing.JScrollPane scrollInVivo;
@@ -650,7 +752,6 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField txtDateInClearingSolution;
     private javax.swing.JTextField txtGenotype;
     private javax.swing.JTextArea txtNotes;
-    private javax.swing.JTextField txtParentDirectory;
     private javax.swing.JFormattedTextField txtPrimaryAntibodyDate;
     private javax.swing.JFormattedTextField txtSacrificeDate;
     private javax.swing.JTextField txtSampleId;

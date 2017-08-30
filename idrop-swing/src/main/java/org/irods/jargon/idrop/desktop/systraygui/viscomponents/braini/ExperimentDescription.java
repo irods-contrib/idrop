@@ -10,10 +10,10 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
  * @author mcc
  */
 public class ExperimentDescription {
-    private String experimentId;
-    private String experimentPi;
-    private String experimentPurpose;
-    private String experimentPath;
+    private String experimentId = "";
+    private String experimentPi = "";
+    private String experimentPurpose = "";
+    private String experimentPath = "";
 
     @Override
     public String toString() {
