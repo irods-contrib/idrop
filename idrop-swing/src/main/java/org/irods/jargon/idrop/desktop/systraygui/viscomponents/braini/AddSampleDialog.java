@@ -580,7 +580,7 @@ public class AddSampleDialog extends javax.swing.JDialog {
             IRODSFile sampleFile = irodsFileFactory.instanceIRODSFile(parentFile.getAbsolutePath(), txtSampleId.getText());
             sampleFile.mkdirs();
             CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
-            AvuData data = new AvuData("ExptId", experimentId, "ipc-reserved-unit");
+            AvuData data = new AvuData("ParentExptId", experimentId, "ipc-reserved-unit");
             collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
 
             if (txtSampleId.getText() == null) {

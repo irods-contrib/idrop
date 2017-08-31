@@ -87,6 +87,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         txtNotes = new javax.swing.JTextArea();
         lblAcquisitionDate = new javax.swing.JLabel();
         txtAcquisitionDate = new javax.swing.JFormattedTextField();
+        tabChannels = new javax.swing.JTabbedPane();
         pnlCh1 = new javax.swing.JPanel();
         btnChannel1 = new javax.swing.JButton();
         txtChannel1 = new javax.swing.JTextField();
@@ -175,7 +176,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         lblImageId.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblImageId.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblImageId, gridBagConstraints);
         lblImageId.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblImageId.AccessibleContext.accessibleName")); // NOI18N
@@ -189,14 +190,14 @@ public class AddImageDialog extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtImageId, gridBagConstraints);
 
         lblMicroscopeUsed.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblMicroscopeUsed.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblMicroscopeUsed, gridBagConstraints);
 
@@ -209,14 +210,14 @@ public class AddImageDialog extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtMicroscopeUsed, gridBagConstraints);
 
         lblResolution.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblResolution.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblResolution, gridBagConstraints);
 
@@ -229,14 +230,14 @@ public class AddImageDialog extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtResolution, gridBagConstraints);
 
         lblNotes.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblNotes.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblNotes, gridBagConstraints);
 
@@ -246,14 +247,14 @@ public class AddImageDialog extends javax.swing.JDialog {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(scrollNotes, gridBagConstraints);
 
         lblAcquisitionDate.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblAcquisitionDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblAcquisitionDate, gridBagConstraints);
 
@@ -262,7 +263,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         txtAcquisitionDate.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtAcquisitionDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(txtAcquisitionDate, gridBagConstraints);
 
@@ -341,11 +342,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCh1.add(txtEmWave1, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        pnlMetadata.add(pnlCh1, gridBagConstraints);
+        tabChannels.addTab("tab1", pnlCh1);
 
         pnlCh2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh2.border.title"))); // NOI18N
         pnlCh2.setLayout(new java.awt.GridBagLayout());
@@ -423,10 +420,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCh2.add(txtEmWave2, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        pnlMetadata.add(pnlCh2, gridBagConstraints);
+        tabChannels.addTab("tab2", pnlCh2);
 
         pnlCh3.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh3.border.title"))); // NOI18N
         pnlCh3.setLayout(new java.awt.GridBagLayout());
@@ -503,12 +497,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCh3.add(txtEmWave3, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        pnlMetadata.add(pnlCh3, gridBagConstraints);
+        tabChannels.addTab("tab3", pnlCh3);
 
         pnlCh4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh4.border.title"))); // NOI18N
         pnlCh4.setLayout(new java.awt.GridBagLayout());
@@ -585,12 +574,15 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCh4.add(txtEmWave4, gridBagConstraints);
 
+        tabChannels.addTab("tab4", pnlCh4);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        pnlMetadata.add(pnlCh4, gridBagConstraints);
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(24, 0, 24, 0);
+        pnlMetadata.add(tabChannels, gridBagConstraints);
 
         scrollMetadata.setViewportView(pnlMetadata);
 
@@ -954,6 +946,7 @@ public class AddImageDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane scrollSecondaryAntibodyC2;
     private javax.swing.JScrollPane scrollSecondaryAntibodyC3;
     private javax.swing.JScrollPane scrollSecondaryAntibodyC4;
+    private javax.swing.JTabbedPane tabChannels;
     private javax.swing.JFormattedTextField txtAcquisitionDate;
     private javax.swing.JTextArea txtAreaPrimaryAntibodyUsedC1;
     private javax.swing.JTextArea txtAreaPrimaryAntibodyUsedC2;
