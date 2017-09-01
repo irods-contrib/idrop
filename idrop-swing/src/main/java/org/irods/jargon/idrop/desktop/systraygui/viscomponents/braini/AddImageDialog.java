@@ -41,12 +41,12 @@ import org.slf4j.LoggerFactory;
 public class AddImageDialog extends javax.swing.JDialog {
 
     iDrop idropGUI;
-    String samplePrepDir;
-    String sampleId;
     String channel1File = "";
     String channel2File = "";
     String channel3File = "";
     String channel4File = "";
+    private ExperimentDescription experimentDescription = null;
+    private SampleDescription sampleDescription = null;
 
     public static org.slf4j.Logger log = LoggerFactory
             .getLogger(AddImageDialog.class);
@@ -70,10 +70,22 @@ public class AddImageDialog extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        pnlSelectParentDir = new javax.swing.JPanel();
-        btnBrowseForDirectory = new javax.swing.JButton();
-        txtParentDirectory = new javax.swing.JTextField();
-        lblPrompt = new javax.swing.JLabel();
+        pnlLocalize = new javax.swing.JPanel();
+        pnlSelectExperiment = new javax.swing.JPanel();
+        btnBrowseForExperiment = new javax.swing.JButton();
+        pnlExperimentDets = new javax.swing.JPanel();
+        lblExperimentId = new javax.swing.JLabel();
+        lblExperimentIdValue = new javax.swing.JLabel();
+        lblExperimentPI = new javax.swing.JLabel();
+        lblExperimentPIValue = new javax.swing.JLabel();
+        lblExperimentPurpose = new javax.swing.JLabel();
+        lblExperimentPurposeValue = new javax.swing.JLabel();
+        lblExperimentPath = new javax.swing.JLabel();
+        lblExperimentPathValue = new javax.swing.JLabel();
+        pnlSelectSample = new javax.swing.JPanel();
+        btnBrowseForSample = new javax.swing.JButton();
+        lblSampleId = new javax.swing.JLabel();
+        lblSampleIdValue = new javax.swing.JLabel();
         scrollMetadata = new javax.swing.JScrollPane();
         pnlMetadata = new javax.swing.JPanel();
         lblImageId = new javax.swing.JLabel();
@@ -138,38 +150,146 @@ public class AddImageDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        pnlSelectParentDir.setLayout(new java.awt.GridBagLayout());
+        pnlLocalize.setLayout(new java.awt.GridBagLayout());
 
-        btnBrowseForDirectory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
-        btnBrowseForDirectory.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnBrowseForDirectory.text")); // NOI18N
-        btnBrowseForDirectory.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnBrowseForDirectory.toolTipText")); // NOI18N
-        btnBrowseForDirectory.setName("btnBrowseForDirectory"); // NOI18N
-        btnBrowseForDirectory.setPreferredSize(new java.awt.Dimension(110, 37));
-        btnBrowseForDirectory.addActionListener(new java.awt.event.ActionListener() {
+        pnlSelectExperiment.setLayout(new java.awt.GridBagLayout());
+
+        btnBrowseForExperiment.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
+        btnBrowseForExperiment.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnBrowseForExperiment.text")); // NOI18N
+        btnBrowseForExperiment.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnBrowseForExperiment.toolTipText")); // NOI18N
+        btnBrowseForExperiment.setMaximumSize(null);
+        btnBrowseForExperiment.setMinimumSize(null);
+        btnBrowseForExperiment.setName("btnBrowseForDirectory"); // NOI18N
+        btnBrowseForExperiment.setOpaque(true);
+        btnBrowseForExperiment.setPreferredSize(null);
+        btnBrowseForExperiment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBrowseForDirectoryActionPerformed(evt);
+                btnBrowseForExperimentActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        pnlSelectExperiment.add(btnBrowseForExperiment, gridBagConstraints);
+
+        pnlExperimentDets.setLayout(new java.awt.GridBagLayout());
+
+        lblExperimentId.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblExperimentId.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblExperimentId.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblExperimentId.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentId, gridBagConstraints);
+
+        lblExperimentIdValue.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        lblExperimentIdValue.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblExperimentIdValue.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentIdValue, gridBagConstraints);
+
+        lblExperimentPI.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblExperimentPI.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblExperimentPI.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblExperimentPI.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentPI, gridBagConstraints);
+
+        lblExperimentPIValue.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblExperimentPIValue.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentPIValue, gridBagConstraints);
+
+        lblExperimentPurpose.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblExperimentPurpose.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblExperimentPurpose.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblExperimentPurpose.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentPurpose, gridBagConstraints);
+
+        lblExperimentPurposeValue.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblExperimentPurposeValue.text")); // NOI18N
+        lblExperimentPurposeValue.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblExperimentPurposeValue.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        pnlExperimentDets.add(lblExperimentPurposeValue, gridBagConstraints);
+
+        lblExperimentPath.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblExperimentPath.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblExperimentPath.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlExperimentDets.add(lblExperimentPath, gridBagConstraints);
+
+        lblExperimentPathValue.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblExperimentPathValue.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlExperimentDets.add(lblExperimentPathValue, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlSelectExperiment.add(pnlExperimentDets, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        pnlLocalize.add(pnlSelectExperiment, gridBagConstraints);
+
+        pnlSelectSample.setLayout(new java.awt.GridBagLayout());
+
+        btnBrowseForSample.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/irods/jargon/idrop/desktop/systraygui/images/glyphicons_148_folder_flag.png"))); // NOI18N
+        btnBrowseForSample.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnBrowseForSample.text")); // NOI18N
+        btnBrowseForSample.setToolTipText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.btnBrowseForSample.toolTipText")); // NOI18N
+        btnBrowseForSample.setEnabled(false);
+        btnBrowseForSample.setName("btnBrowseForSample"); // NOI18N
+        btnBrowseForSample.setPreferredSize(null);
+        btnBrowseForSample.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBrowseForSampleActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        pnlSelectParentDir.add(btnBrowseForDirectory, gridBagConstraints);
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        pnlSelectSample.add(btnBrowseForSample, gridBagConstraints);
 
-        txtParentDirectory.setColumns(30);
-        txtParentDirectory.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtParentDirectory.text")); // NOI18N
+        lblSampleId.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblSampleId.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblSampleId.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        pnlSelectParentDir.add(txtParentDirectory, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlSelectSample.add(lblSampleId, gridBagConstraints);
 
-        lblPrompt.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblPrompt.text")); // NOI18N
+        lblSampleIdValue.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblSampleIdValue.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlSelectSample.add(lblSampleIdValue, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        pnlSelectParentDir.add(lblPrompt, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        pnlLocalize.add(pnlSelectSample, gridBagConstraints);
 
-        getContentPane().add(pnlSelectParentDir, java.awt.BorderLayout.NORTH);
+        getContentPane().add(pnlLocalize, java.awt.BorderLayout.NORTH);
 
         pnlMetadata.setLayout(new java.awt.GridBagLayout());
 
@@ -342,7 +462,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCh1.add(txtEmWave1, gridBagConstraints);
 
-        tabChannels.addTab("tab1", pnlCh1);
+        tabChannels.addTab(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh1.TabConstraints.tabTitle"), pnlCh1); // NOI18N
 
         pnlCh2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh2.border.title"))); // NOI18N
         pnlCh2.setLayout(new java.awt.GridBagLayout());
@@ -420,7 +540,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCh2.add(txtEmWave2, gridBagConstraints);
 
-        tabChannels.addTab("tab2", pnlCh2);
+        tabChannels.addTab(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh2.TabConstraints.tabTitle"), pnlCh2); // NOI18N
 
         pnlCh3.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh3.border.title"))); // NOI18N
         pnlCh3.setLayout(new java.awt.GridBagLayout());
@@ -497,7 +617,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCh3.add(txtEmWave3, gridBagConstraints);
 
-        tabChannels.addTab("tab3", pnlCh3);
+        tabChannels.addTab(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh3.TabConstraints.tabTitle"), pnlCh3); // NOI18N
 
         pnlCh4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh4.border.title"))); // NOI18N
         pnlCh4.setLayout(new java.awt.GridBagLayout());
@@ -574,7 +694,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlCh4.add(txtEmWave4, gridBagConstraints);
 
-        tabChannels.addTab("tab4", pnlCh4);
+        tabChannels.addTab(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh4.TabConstraints.tabTitle"), pnlCh4); // NOI18N
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -583,6 +703,8 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.insets = new java.awt.Insets(24, 0, 24, 0);
         pnlMetadata.add(tabChannels, gridBagConstraints);
+        tabChannels.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.tabChannels.AccessibleContext.accessibleName")); // NOI18N
+        tabChannels.getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.tabChannels.AccessibleContext.accessibleDescription")); // NOI18N
 
         scrollMetadata.setViewportView(pnlMetadata);
 
@@ -624,38 +746,10 @@ public class AddImageDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBrowseForDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForDirectoryActionPerformed
+    private void btnBrowseForSampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForSampleActionPerformed
 
-        IRODSFinderDialog irodsFinderDialog = new IRODSFinderDialog(idropGUI, true, idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
-        irodsFinderDialog.setVisible(true);
-        samplePrepDir = irodsFinderDialog.getSelectedAbsolutePath();
-
-        if (samplePrepDir != null) {
-            try {
-                //txtParentDirectory.setText(MiscIRODSUtils.abbreviateFileName(samplePrepDir));
-                txtParentDirectory.setText(samplePrepDir);
-                CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
-                List<AVUQueryElement> query = new ArrayList<AVUQueryElement>();
-                query.add(AVUQueryElement.instanceForValueQuery(AVUQueryPart.ATTRIBUTE, AVUQueryOperatorEnum.EQUAL, "SampleId"));
-                List<MetaDataAndDomainData> result = collectionAO.findMetadataValuesByMetadataQueryForCollection(query, samplePrepDir);
-                if (result.isEmpty()) {
-                    log.warn("no sample for:{}", txtParentDirectory);
-                    MessageManager.showWarning(this, "selected collection is not an sample preparation");
-                }
-
-                sampleId = result.get(0).getAvuValue();
-                lblPrompt.setText("image is associated with sample preperation:" + sampleId);
-
-            } catch (JargonException ex) {
-                log.error("exception finding sample ", ex);
-                MessageManager.showError(this, ex.getMessage());
-            } catch (JargonQueryException ex) {
-                log.error("exception finding sample", ex);
-                MessageManager.showError(this, ex.getMessage());
-            }
-
-        }
-    }//GEN-LAST:event_btnBrowseForDirectoryActionPerformed
+       
+    }//GEN-LAST:event_btnBrowseForSampleActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
 
@@ -666,7 +760,7 @@ public class AddImageDialog extends javax.swing.JDialog {
     private void bntSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSaveActionPerformed
         try {
             IRODSFileFactory irodsFileFactory = idropGUI.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
-            IRODSFile parentFile = irodsFileFactory.instanceIRODSFile(samplePrepDir);
+            IRODSFile parentFile = irodsFileFactory.instanceIRODSFile(this.getSampleDescription().getSamplePath());
             IRODSFile imageFile = irodsFileFactory.instanceIRODSFile(parentFile.getAbsolutePath(), txtImageId.getText());
             imageFile.mkdirs();
 
@@ -679,7 +773,7 @@ public class AddImageDialog extends javax.swing.JDialog {
             AvuData data = new AvuData("ImageId", txtImageId.getText(), "ipc-reserved-unit");
             collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
 
-            data = new AvuData("SampleId", sampleId, "ipc-reserved-unit");
+            data = new AvuData("ParentSampleId", this.getSampleDescription().getSampleId(), "ipc-reserved-unit");
             collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
 
             if (!txtMicroscopeUsed.getText().isEmpty()) {
@@ -818,6 +912,22 @@ public class AddImageDialog extends javax.swing.JDialog {
         }
     }
 
+    public ExperimentDescription getExperimentDescription() {
+        return experimentDescription;
+    }
+
+    public void setExperimentDescription(ExperimentDescription experimentDescription) {
+        this.experimentDescription = experimentDescription;
+    }
+
+    public SampleDescription getSampleDescription() {
+        return sampleDescription;
+    }
+
+    public void setSampleDescription(SampleDescription sampleDescription) {
+        this.sampleDescription = sampleDescription;
+    }
+
     private void txtResolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtResolutionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtResolutionActionPerformed
@@ -867,7 +977,7 @@ public class AddImageDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnChannel2ActionPerformed
 
     private void btnChannel3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChannel3ActionPerformed
-         JFileChooser localFileChooser = new JFileChooser();
+        JFileChooser localFileChooser = new JFileChooser();
         localFileChooser.setMultiSelectionEnabled(false);
         localFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         localFileChooser.setDialogTitle("Select Channel 3 file");
@@ -902,10 +1012,34 @@ public class AddImageDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnChannel4ActionPerformed
 
+    private void btnBrowseForExperimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForExperimentActionPerformed
+
+        ChooseExperimentDialog chooseExperimentDialog = new ChooseExperimentDialog(idropGUI, true, idropGUI.getiDropCore());
+        chooseExperimentDialog.setVisible(true);
+        if (chooseExperimentDialog.getSelectedExperiment() == null) {
+            return;
+        }
+
+        if (chooseExperimentDialog.getSelectedExperiment() != null) {
+
+            lblExperimentPathValue.setText(chooseExperimentDialog.getSelectedExperiment().getExperimentPath());
+            lblExperimentPIValue.setText(chooseExperimentDialog.getSelectedExperiment().getExperimentPi());
+            lblExperimentPurposeValue.setText(chooseExperimentDialog.getSelectedExperiment().getExperimentPurpose());
+            lblExperimentIdValue.setText(chooseExperimentDialog.getSelectedExperiment().getExperimentId());
+            this.setExperimentDescription(chooseExperimentDialog.getSelectedExperiment());
+            btnBrowseForSample.setEnabled(true);
+        } else {
+            btnBrowseForSample.setEnabled(false);
+
+        }
+
+    }//GEN-LAST:event_btnBrowseForExperimentActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntSave;
-    private javax.swing.JButton btnBrowseForDirectory;
+    private javax.swing.JButton btnBrowseForExperiment;
+    private javax.swing.JButton btnBrowseForSample;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnChannel1;
     private javax.swing.JButton btnChannel2;
@@ -916,6 +1050,14 @@ public class AddImageDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblEmWave2;
     private javax.swing.JLabel lblEmWave3;
     private javax.swing.JLabel lblEmWave4;
+    private javax.swing.JLabel lblExperimentId;
+    private javax.swing.JLabel lblExperimentIdValue;
+    private javax.swing.JLabel lblExperimentPI;
+    private javax.swing.JLabel lblExperimentPIValue;
+    private javax.swing.JLabel lblExperimentPath;
+    private javax.swing.JLabel lblExperimentPathValue;
+    private javax.swing.JLabel lblExperimentPurpose;
+    private javax.swing.JLabel lblExperimentPurposeValue;
     private javax.swing.JLabel lblImageId;
     private javax.swing.JLabel lblMicroscopeUsed;
     private javax.swing.JLabel lblNotes;
@@ -923,8 +1065,9 @@ public class AddImageDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblPrimaryAntibodyUsedC2;
     private javax.swing.JLabel lblPrimaryAntibodyUsedC3;
     private javax.swing.JLabel lblPrimaryAntibodyUsedC4;
-    private javax.swing.JLabel lblPrompt;
     private javax.swing.JLabel lblResolution;
+    private javax.swing.JLabel lblSampleId;
+    private javax.swing.JLabel lblSampleIdValue;
     private javax.swing.JLabel lblSecondaryAntibodyUsedC1;
     private javax.swing.JLabel lblSecondaryAntibodyUsedC2;
     private javax.swing.JLabel lblSecondaryAntibodyUsedC3;
@@ -934,8 +1077,11 @@ public class AddImageDialog extends javax.swing.JDialog {
     private javax.swing.JPanel pnlCh2;
     private javax.swing.JPanel pnlCh3;
     private javax.swing.JPanel pnlCh4;
+    private javax.swing.JPanel pnlExperimentDets;
+    private javax.swing.JPanel pnlLocalize;
     private javax.swing.JPanel pnlMetadata;
-    private javax.swing.JPanel pnlSelectParentDir;
+    private javax.swing.JPanel pnlSelectExperiment;
+    private javax.swing.JPanel pnlSelectSample;
     private javax.swing.JScrollPane scrollMetadata;
     private javax.swing.JScrollPane scrollNotes;
     private javax.swing.JScrollPane scrollPrimaryAntibodyC1;
@@ -967,7 +1113,6 @@ public class AddImageDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtImageId;
     private javax.swing.JTextField txtMicroscopeUsed;
     private javax.swing.JTextArea txtNotes;
-    private javax.swing.JTextField txtParentDirectory;
     private javax.swing.JTextField txtResolution;
     // End of variables declaration//GEN-END:variables
 }
