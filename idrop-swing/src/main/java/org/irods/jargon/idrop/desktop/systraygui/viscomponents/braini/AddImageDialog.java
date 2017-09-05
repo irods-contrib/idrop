@@ -882,10 +882,10 @@ public class AddImageDialog extends javax.swing.JDialog {
                     collectionAO.addAVUMetadata(channel4File.getAbsolutePath(), data);
                 }
                 initiateTransfer(channel4File.getAbsolutePath(), txtChannel4.getText());
-                MessageManager.showMessage(this, "Image added, files being uploaded");
             }
             
-            
+            MessageManager.showMessage(this, "Image added, files being uploaded");
+
 
         } catch (JargonException je) {
             log.error("error creating experiment", je);

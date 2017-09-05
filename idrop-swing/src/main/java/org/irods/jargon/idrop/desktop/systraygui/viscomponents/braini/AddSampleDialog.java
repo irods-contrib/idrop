@@ -5,6 +5,7 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
 
+import com.github.lgooddatepicker.components.DatePicker;
 import java.util.ArrayList;
 import java.util.List;
 import org.irods.jargon.core.exception.JargonException;
@@ -33,6 +34,9 @@ public class AddSampleDialog extends javax.swing.JDialog {
     String experimentTarget;
     String experimentId;
     
+    private  DatePicker datePickerSacrifice;
+    private  DatePicker txtClearingDate;
+    
 
     public static org.slf4j.Logger log = LoggerFactory
             .getLogger(AddSampleDialog.class);
@@ -44,6 +48,15 @@ public class AddSampleDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.idropGUI = idropGUI;
         initComponents();
+        initDatePickerComponents();
+    }
+
+    private void initDatePickerComponents() {
+        datePickerSacrifice = new DatePicker();
+        pnlSacrificeDate.add(datePickerSacrifice);
+        txtClearingDate = new DatePicker();
+        pnlClearingDate.add(txtClearingDate);
+        pack();
     }
 
     /**
@@ -75,9 +88,9 @@ public class AddSampleDialog extends javax.swing.JDialog {
         lblClearingProtocol = new javax.swing.JLabel();
         txtClearingProtocol = new javax.swing.JTextField();
         lblSacrificeDate = new javax.swing.JLabel();
-        txtSacrificeDate = new javax.swing.JFormattedTextField();
+        pnlSacrificeDate = new javax.swing.JPanel();
         lblClearingDate = new javax.swing.JLabel();
-        txtClearingDate = new javax.swing.JFormattedTextField();
+        pnlClearingDate = new javax.swing.JPanel();
         lblSampleType = new javax.swing.JLabel();
         comboSampleType = new javax.swing.JComboBox<>();
         lblPrimaryAntibodyDate = new javax.swing.JLabel();
@@ -256,14 +269,13 @@ public class AddSampleDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblSacrificeDate, gridBagConstraints);
 
-        txtSacrificeDate.setColumns(12);
-        txtSacrificeDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        txtSacrificeDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtSacrificeDate.text")); // NOI18N
+        pnlSacrificeDate.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMetadata.add(txtSacrificeDate, gridBagConstraints);
+        pnlMetadata.add(pnlSacrificeDate, gridBagConstraints);
 
         lblClearingDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblClearingDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -272,14 +284,12 @@ public class AddSampleDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblClearingDate, gridBagConstraints);
 
-        txtClearingDate.setColumns(12);
-        txtClearingDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        txtClearingDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtClearingDate.text")); // NOI18N
+        pnlClearingDate.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMetadata.add(txtClearingDate, gridBagConstraints);
+        pnlMetadata.add(pnlClearingDate, gridBagConstraints);
 
         lblSampleType.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSampleType.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -598,12 +608,12 @@ public class AddSampleDialog extends javax.swing.JDialog {
                 data = new AvuData("Clearing Protocol to Use", txtClearingProtocol.getText(), "ipc-reserved-unit");
                 collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
             }
+           
+            if (!datePickerSacrifice.getText().isEmpty()) {
 
-            if (!txtSacrificeDate.getText().isEmpty()) {
-
-                data = new AvuData("Date of Sacrifice", txtSacrificeDate.getText(), "ipc-reserved-unit");
+                data = new AvuData("Date of Sacrifice", datePickerSacrifice.getText(), "ipc-reserved-unit");
                 collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
-            }
+            } 
 
             if (!txtClearingDate.getText().isEmpty()) {
 
@@ -740,8 +750,10 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblSex;
     private javax.swing.JLabel lblTimePoint;
     private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlClearingDate;
     private javax.swing.JPanel pnlExperimentDets;
     private javax.swing.JPanel pnlMetadata;
+    private javax.swing.JPanel pnlSacrificeDate;
     private javax.swing.JPanel pnlSelectParentDir;
     private javax.swing.JScrollPane scrollInVivo;
     private javax.swing.JScrollPane scrollMetadata;
@@ -750,13 +762,11 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea txtAreaInVivo;
     private javax.swing.JTextField txtBreed;
     private javax.swing.JTextField txtCagingStatus;
-    private javax.swing.JFormattedTextField txtClearingDate;
     private javax.swing.JTextField txtClearingProtocol;
     private javax.swing.JFormattedTextField txtDateInClearingSolution;
     private javax.swing.JTextField txtGenotype;
     private javax.swing.JTextArea txtNotes;
     private javax.swing.JFormattedTextField txtPrimaryAntibodyDate;
-    private javax.swing.JFormattedTextField txtSacrificeDate;
     private javax.swing.JTextField txtSampleId;
     private javax.swing.JFormattedTextField txtSecondaryAntibodyDate;
     private javax.swing.JTextField txtTimePoint;
