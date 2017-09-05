@@ -13,11 +13,21 @@ class SampleDescription {
     
      private String sampleId = "";
     private String samplePath = "";
+    private String experimentId = "";
+
+    public String getExperimentId() {
+        return experimentId;
+    }
+
+    public void setExperimentId(String experimentId) {
+        this.experimentId = experimentId;
+    }
 
     @Override
     public String toString() {
-        return "SampleDescription{" + "sampleId=" + sampleId + ", samplePath=" + samplePath + '}';
+        return "SampleDescription{" + "sampleId=" + sampleId + ", samplePath=" + samplePath + ", experimentId=" + experimentId + '}';
     }
+
 
     public String getSampleId() {
         return sampleId;

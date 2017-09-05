@@ -5,8 +5,6 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JFileChooser;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.QueueManagerService;
@@ -15,23 +13,12 @@ import org.irods.jargon.core.pub.CollectionAO;
 import org.irods.jargon.core.pub.domain.AvuData;
 import org.irods.jargon.core.pub.io.IRODSFile;
 import org.irods.jargon.core.pub.io.IRODSFileFactory;
-import org.irods.jargon.core.query.AVUQueryElement;
-import org.irods.jargon.core.query.AVUQueryElement.AVUQueryPart;
-import org.irods.jargon.core.query.AVUQueryOperatorEnum;
-import org.irods.jargon.core.query.JargonQueryException;
-import org.irods.jargon.core.query.MetaDataAndDomainData;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
 import org.irods.jargon.idrop.desktop.systraygui.ExperimentDialog;
 import org.irods.jargon.idrop.desktop.systraygui.MessageManager;
-import org.irods.jargon.idrop.desktop.systraygui.ToolsDialog;
-import static org.irods.jargon.idrop.desktop.systraygui.UploadDialog.log;
 import org.irods.jargon.idrop.desktop.systraygui.iDrop;
 import org.irods.jargon.idrop.desktop.systraygui.viscomponents.LocalFileTree;
-import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini.AddExperimentDialog.log;
-import static org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini.AddSampleDialog.log;
-import org.irods.jargon.idrop.finder.IRODSFinderDialog;
 import org.irods.jargon.transfer.dao.domain.TransferType;
-import org.openide.util.Exceptions;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -747,8 +734,21 @@ public class AddImageDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBrowseForSampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForSampleActionPerformed
-
+        if (this.getExperimentDescription() == null) {
+            return;
+        }
+        
+        ChooseSampleDialog chooseSampleDialog = new ChooseSampleDialog(this.idropGUI, true, this.idropGUI.getiDropCore(), this.getExperimentDescription());
+        chooseSampleDialog.setVisible(true);
+         
+         if (chooseSampleDialog.getSelectedSample() == null) {
+            return;
+        }
+         
+        this.setSampleDescription(chooseSampleDialog.getSelectedSample());
        
+        lblSampleIdValue.setText(this.sampleDescription.getSampleId());
+               
     }//GEN-LAST:event_btnBrowseForSampleActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -775,6 +775,9 @@ public class AddImageDialog extends javax.swing.JDialog {
 
             data = new AvuData("ParentSampleId", this.getSampleDescription().getSampleId(), "ipc-reserved-unit");
             collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
+            
+            data = new AvuData("SampleExperimentId", this.getSampleDescription().getExperimentId(), "ipc-reserved-unit");
+            collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
 
             if (!txtMicroscopeUsed.getText().isEmpty()) {
                 data = new AvuData("Microscope Used", txtMicroscopeUsed.getText(), "ipc-reserved-unit");
@@ -792,7 +795,6 @@ public class AddImageDialog extends javax.swing.JDialog {
             }
 
             if (!txtNotes.getText().isEmpty()) {
-
                 data = new AvuData("Notes", txtNotes.getText(), "ipc-reserved-unit");
                 collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
             }

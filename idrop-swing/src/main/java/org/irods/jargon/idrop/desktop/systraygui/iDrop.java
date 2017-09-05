@@ -2043,7 +2043,7 @@ public class iDrop extends javax.swing.JFrame implements ActionListener,
     private void btnMainToolbarExperimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainToolbarExperimentActionPerformed
           ExperimentDialog experimentDialog = new ExperimentDialog(
                 this, true, iDropCore);
-        experimentDialog.setLocationRelativeTo(null);
+        experimentDialog.setLocationRelativeTo(this);
         experimentDialog.setModalityType(Dialog.ModalityType.MODELESS);
         experimentDialog.setVisible(true);
     }//GEN-LAST:event_btnMainToolbarExperimentActionPerformed
