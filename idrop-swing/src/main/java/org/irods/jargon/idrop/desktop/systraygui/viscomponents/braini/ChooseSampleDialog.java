@@ -73,6 +73,7 @@ public class ChooseSampleDialog extends javax.swing.JDialog implements
                     CollectionAO collectionAO = idropCore.getIRODSAccessObjectFactory().getCollectionAO(idropCore.irodsAccount());
                     List<MetaDataAndDomainData> fullMetadata = collectionAO.findMetadataValuesForCollection(data.getDomainObjectUniqueName());
                     sampleDescription.setSamplePath(data.getDomainObjectUniqueName());
+                    sampleDescription.setExperimentId(dialog.getSelectedExperiment().getExperimentId());
                     lblSamplePathValue.setText(sampleDescription.getSamplePath());
                     
                     for (MetaDataAndDomainData val : fullMetadata) {

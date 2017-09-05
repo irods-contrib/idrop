@@ -739,6 +739,7 @@ public class AddImageDialog extends javax.swing.JDialog {
         }
         
         ChooseSampleDialog chooseSampleDialog = new ChooseSampleDialog(this.idropGUI, true, this.idropGUI.getiDropCore(), this.getExperimentDescription());
+        chooseSampleDialog.setLocationRelativeTo(this);
         chooseSampleDialog.setVisible(true);
          
          if (chooseSampleDialog.getSelectedSample() == null) {
@@ -881,7 +882,10 @@ public class AddImageDialog extends javax.swing.JDialog {
                     collectionAO.addAVUMetadata(channel4File.getAbsolutePath(), data);
                 }
                 initiateTransfer(channel4File.getAbsolutePath(), txtChannel4.getText());
+                MessageManager.showMessage(this, "Image added, files being uploaded");
             }
+            
+            
 
         } catch (JargonException je) {
             log.error("error creating experiment", je);
@@ -1017,6 +1021,7 @@ public class AddImageDialog extends javax.swing.JDialog {
     private void btnBrowseForExperimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForExperimentActionPerformed
 
         ChooseExperimentDialog chooseExperimentDialog = new ChooseExperimentDialog(idropGUI, true, idropGUI.getiDropCore());
+        chooseExperimentDialog.setLocationRelativeTo(this);
         chooseExperimentDialog.setVisible(true);
         if (chooseExperimentDialog.getSelectedExperiment() == null) {
             return;

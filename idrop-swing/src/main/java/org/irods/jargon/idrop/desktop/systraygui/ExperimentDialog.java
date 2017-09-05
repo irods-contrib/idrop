@@ -100,6 +100,7 @@ public class ExperimentDialog extends javax.swing.JDialog {
             }
 
         });
+        
         pnlExperiment.add(btnAddImage);
     }
 
@@ -177,16 +178,19 @@ public class ExperimentDialog extends javax.swing.JDialog {
 
     private void btnCreateExperimentActionPerformed(java.awt.event.ActionEvent evt) {
         AddExperimentDialog aed = new AddExperimentDialog(this, true, this.idropGui);
+        aed.setLocationRelativeTo(this);
         aed.setVisible(true);
     }
 
     private void btnAddPreparationActionPerformed(java.awt.event.ActionEvent evt) {
         AddSampleDialog asd = new AddSampleDialog(this, true, this.idropGui);
+        asd.setLocationRelativeTo(this);
         asd.setVisible(true);
     }
 
     private void btnAddImageActionPerformed(ActionEvent evt) {
         AddImageDialog asd = new AddImageDialog(this, true, this.idropGui);
+        asd.setLocationRelativeTo(this);
         asd.setVisible(true);
     }
 

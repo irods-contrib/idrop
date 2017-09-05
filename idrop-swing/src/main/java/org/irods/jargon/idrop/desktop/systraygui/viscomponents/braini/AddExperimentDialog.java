@@ -201,7 +201,10 @@ public class AddExperimentDialog extends javax.swing.JDialog {
     private void btnBrowseForDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForDirectoryActionPerformed
 
         IRODSFinderDialog irodsFinderDialog = new IRODSFinderDialog(idropGUI, true, idropGUI.getiDropCore(), idropGUI.getIrodsAccount());
+        irodsFinderDialog.setLocationRelativeTo(this);
+
         irodsFinderDialog.setVisible(true);
+
         experimentTarget = irodsFinderDialog.getSelectedAbsolutePath();
 
         if (experimentTarget != null) {
@@ -237,6 +240,7 @@ public class AddExperimentDialog extends javax.swing.JDialog {
             collectionAO.addAVUMetadata(experimentFile.getAbsolutePath(), data);
             data = new AvuData("ExperimentalPurpose", txtExperimentalPurpose.getText(), "ipc-reserved-unit");
             collectionAO.addAVUMetadata(experimentFile.getAbsolutePath(), data);
+            MessageManager.showMessage(this, "Experiment added successfully");
         } catch (JargonException je) {
             log.error("error creating experiment", je);
             MessageManager.showError(this, je.getMessage());

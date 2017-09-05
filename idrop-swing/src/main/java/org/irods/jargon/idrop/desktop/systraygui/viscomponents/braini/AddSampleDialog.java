@@ -523,6 +523,8 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private void btnBrowseForDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseForDirectoryActionPerformed
 
         ChooseExperimentDialog chooseExperimentDialog = new ChooseExperimentDialog(idropGUI, true, idropGUI.getiDropCore());
+        chooseExperimentDialog.setLocationRelativeTo(this);
+
         chooseExperimentDialog.setVisible(true);
         if (chooseExperimentDialog.getSelectedExperiment() == null) {
             return;
@@ -541,8 +543,7 @@ public class AddSampleDialog extends javax.swing.JDialog {
 
         if (experimentTarget != null) {
             try {
-               
-
+              
                 CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
                 List<AVUQueryElement> query = new ArrayList<AVUQueryElement>();
                 query.add(AVUQueryElement.instanceForValueQuery(AVUQueryPart.ATTRIBUTE, AVUQueryOperatorEnum.EQUAL, "ExptId"));
@@ -554,8 +555,7 @@ public class AddSampleDialog extends javax.swing.JDialog {
 
                 experimentId = result.get(0).getAvuValue();
                 lblPrompt.setText("Sample is associated with experiment:" + experimentId);
-                
-
+             
             } catch (JargonException ex) {
                 log.error("exception finding experiment", ex);
                 MessageManager.showError(this, ex.getMessage());
@@ -673,6 +673,9 @@ public class AddSampleDialog extends javax.swing.JDialog {
                 data = new AvuData("Notes", txtNotes.getText(), "ipc-reserved-unit");
                 collectionAO.addAVUMetadata(sampleFile.getAbsolutePath(), data);
             }
+            
+            MessageManager.showMessage(this, "Sample added successfully");
+
         } catch (JargonException je) {
             log.error("error creating experiment", je);
             MessageManager.showError(this, je.getMessage());
