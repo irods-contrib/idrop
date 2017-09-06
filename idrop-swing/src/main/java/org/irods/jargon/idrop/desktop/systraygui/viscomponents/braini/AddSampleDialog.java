@@ -6,6 +6,7 @@
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
 
 import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import java.util.ArrayList;
 import java.util.List;
 import org.irods.jargon.core.exception.JargonException;
@@ -36,6 +37,9 @@ public class AddSampleDialog extends javax.swing.JDialog {
     
     private  DatePicker datePickerSacrifice;
     private  DatePicker txtClearingDate;
+    private DatePicker txtPrimaryAntibodyDate;
+    private DatePicker txtSecondaryAntibodyDate;
+    private DatePicker txtDateInClearingSolution;
     
 
     public static org.slf4j.Logger log = LoggerFactory
@@ -52,10 +56,31 @@ public class AddSampleDialog extends javax.swing.JDialog {
     }
 
     private void initDatePickerComponents() {
-        datePickerSacrifice = new DatePicker();
+        DatePickerSettings sacrificeSettings = new DatePickerSettings();
+        sacrificeSettings.setFormatForDatesCommonEra("yyyy/MM/dd");
+        datePickerSacrifice = new DatePicker(sacrificeSettings);
         pnlSacrificeDate.add(datePickerSacrifice);
-        txtClearingDate = new DatePicker();
+        
+        DatePickerSettings clearingSettings = new DatePickerSettings();
+        clearingSettings.setFormatForDatesCommonEra("yyyy/MM/dd");
+        txtClearingDate = new DatePicker(clearingSettings);
         pnlClearingDate.add(txtClearingDate);
+        
+        DatePickerSettings primaryAntibodySettings = new DatePickerSettings();
+        primaryAntibodySettings.setFormatForDatesCommonEra("yyyy/MM/dd");
+        txtPrimaryAntibodyDate = new DatePicker(primaryAntibodySettings);
+        pnlPrimaryAntibodyDate.add(txtPrimaryAntibodyDate);
+        
+        DatePickerSettings secondaryAntibodySettings = new DatePickerSettings();
+        secondaryAntibodySettings.setFormatForDatesCommonEra("yyyy/MM/dd");
+        txtSecondaryAntibodyDate = new DatePicker(secondaryAntibodySettings);
+        pnlSecondaryAntibodyDate.add(txtSecondaryAntibodyDate);
+        
+        DatePickerSettings dateInClearingSolutionSettings = new DatePickerSettings();
+        dateInClearingSolutionSettings.setFormatForDatesCommonEra("yyyy/MM/dd");
+        txtDateInClearingSolution = new DatePicker(dateInClearingSolutionSettings);
+        pnlDateInClearingSolution.add(txtDateInClearingSolution);
+        
         pack();
     }
 
@@ -94,11 +119,11 @@ public class AddSampleDialog extends javax.swing.JDialog {
         lblSampleType = new javax.swing.JLabel();
         comboSampleType = new javax.swing.JComboBox<>();
         lblPrimaryAntibodyDate = new javax.swing.JLabel();
-        txtPrimaryAntibodyDate = new javax.swing.JFormattedTextField();
+        pnlPrimaryAntibodyDate = new javax.swing.JPanel();
         lblSecondaryAntibodyDate = new javax.swing.JLabel();
-        txtSecondaryAntibodyDate = new javax.swing.JFormattedTextField();
+        pnlSecondaryAntibodyDate = new javax.swing.JPanel();
         lblDateInClearingSolution = new javax.swing.JLabel();
-        txtDateInClearingSolution = new javax.swing.JFormattedTextField();
+        pnlDateInClearingSolution = new javax.swing.JPanel();
         lblGenotype = new javax.swing.JLabel();
         txtGenotype = new javax.swing.JTextField();
         lblBreed = new javax.swing.JLabel();
@@ -308,14 +333,12 @@ public class AddSampleDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblPrimaryAntibodyDate, gridBagConstraints);
 
-        txtPrimaryAntibodyDate.setColumns(12);
-        txtPrimaryAntibodyDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        txtPrimaryAntibodyDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtPrimaryAntibodyDate.text")); // NOI18N
+        pnlPrimaryAntibodyDate.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMetadata.add(txtPrimaryAntibodyDate, gridBagConstraints);
+        pnlMetadata.add(pnlPrimaryAntibodyDate, gridBagConstraints);
 
         lblSecondaryAntibodyDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblSecondaryAntibodyDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -324,14 +347,12 @@ public class AddSampleDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblSecondaryAntibodyDate, gridBagConstraints);
 
-        txtSecondaryAntibodyDate.setColumns(12);
-        txtSecondaryAntibodyDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        txtSecondaryAntibodyDate.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtSecondaryAntibodyDate.text")); // NOI18N
+        pnlSecondaryAntibodyDate.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMetadata.add(txtSecondaryAntibodyDate, gridBagConstraints);
+        pnlMetadata.add(pnlSecondaryAntibodyDate, gridBagConstraints);
 
         lblDateInClearingSolution.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblDateInClearingSolution.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -339,15 +360,11 @@ public class AddSampleDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblDateInClearingSolution, gridBagConstraints);
-
-        txtDateInClearingSolution.setColumns(12);
-        txtDateInClearingSolution.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        txtDateInClearingSolution.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.txtDateInClearingSolution.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMetadata.add(txtDateInClearingSolution, gridBagConstraints);
+        pnlMetadata.add(pnlDateInClearingSolution, gridBagConstraints);
 
         lblGenotype.setText(org.openide.util.NbBundle.getMessage(AddSampleDialog.class, "AddSampleDialog.lblGenotype.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -751,9 +768,12 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblTimePoint;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlClearingDate;
+    private javax.swing.JPanel pnlDateInClearingSolution;
     private javax.swing.JPanel pnlExperimentDets;
     private javax.swing.JPanel pnlMetadata;
+    private javax.swing.JPanel pnlPrimaryAntibodyDate;
     private javax.swing.JPanel pnlSacrificeDate;
+    private javax.swing.JPanel pnlSecondaryAntibodyDate;
     private javax.swing.JPanel pnlSelectParentDir;
     private javax.swing.JScrollPane scrollInVivo;
     private javax.swing.JScrollPane scrollMetadata;
@@ -763,12 +783,9 @@ public class AddSampleDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtBreed;
     private javax.swing.JTextField txtCagingStatus;
     private javax.swing.JTextField txtClearingProtocol;
-    private javax.swing.JFormattedTextField txtDateInClearingSolution;
     private javax.swing.JTextField txtGenotype;
     private javax.swing.JTextArea txtNotes;
-    private javax.swing.JFormattedTextField txtPrimaryAntibodyDate;
     private javax.swing.JTextField txtSampleId;
-    private javax.swing.JFormattedTextField txtSecondaryAntibodyDate;
     private javax.swing.JTextField txtTimePoint;
     // End of variables declaration//GEN-END:variables
 }
