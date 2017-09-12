@@ -770,6 +770,7 @@ public class AddImageDialog extends javax.swing.JDialog {
                 return;
             }
 
+            // TODO: add validate image id
             CollectionAO collectionAO = idropGUI.getiDropCore().getIRODSAccessObjectFactory().getCollectionAO(idropGUI.getIrodsAccount());
             AvuData data = new AvuData("ImageId", txtImageId.getText(), "ipc-reserved-unit");
             collectionAO.addAVUMetadata(imageFile.getAbsolutePath(), data);
