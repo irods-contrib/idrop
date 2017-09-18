@@ -5,6 +5,8 @@
  */
 package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import javax.swing.JFileChooser;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.QueueManagerService;
@@ -45,7 +47,17 @@ public class AddImageDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.idropGUI = idropGUI;
         initComponents();
+        initDatePickerComponents();
     }
+    
+    private void initDatePickerComponents() {
+        DatePickerSettings acquisitionDateSettings = new DatePickerSettings();
+        acquisitionDateSettings.setFormatForDatesCommonEra("yyyy/MM/dd");
+        txtAcquisitionDate = new DatePicker(acquisitionDateSettings);
+        pnlAcquisitionDate.add(txtAcquisitionDate);
+        pack();
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,8 +96,8 @@ public class AddImageDialog extends javax.swing.JDialog {
         lblNotes = new javax.swing.JLabel();
         scrollNotes = new javax.swing.JScrollPane();
         txtNotes = new javax.swing.JTextArea();
+        pnlAcquisitionDate = new javax.swing.JPanel();
         lblAcquisitionDate = new javax.swing.JLabel();
-        txtAcquisitionDate = new javax.swing.JFormattedTextField();
         tabChannels = new javax.swing.JTabbedPane();
         pnlCh1 = new javax.swing.JPanel();
         btnChannel1 = new javax.swing.JButton();
@@ -358,21 +370,19 @@ public class AddImageDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlMetadata.add(scrollNotes, gridBagConstraints);
 
+        pnlAcquisitionDate.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlMetadata.add(pnlAcquisitionDate, gridBagConstraints);
+
         lblAcquisitionDate.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.lblAcquisitionDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         pnlMetadata.add(lblAcquisitionDate, gridBagConstraints);
-
-        txtAcquisitionDate.setColumns(12);
-        txtAcquisitionDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        txtAcquisitionDate.setText(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.txtAcquisitionDate.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlMetadata.add(txtAcquisitionDate, gridBagConstraints);
 
         pnlCh1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AddImageDialog.class, "AddImageDialog.pnlCh1.border.title"))); // NOI18N
         pnlCh1.setLayout(new java.awt.GridBagLayout());
@@ -1044,6 +1054,7 @@ public class AddImageDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBrowseForExperimentActionPerformed
 
 
+    private DatePicker txtAcquisitionDate;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntSave;
     private javax.swing.JButton btnBrowseForExperiment;
@@ -1080,6 +1091,7 @@ public class AddImageDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblSecondaryAntibodyUsedC2;
     private javax.swing.JLabel lblSecondaryAntibodyUsedC3;
     private javax.swing.JLabel lblSecondaryAntibodyUsedC4;
+    private javax.swing.JPanel pnlAcquisitionDate;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlCh1;
     private javax.swing.JPanel pnlCh2;
@@ -1101,7 +1113,6 @@ public class AddImageDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane scrollSecondaryAntibodyC3;
     private javax.swing.JScrollPane scrollSecondaryAntibodyC4;
     private javax.swing.JTabbedPane tabChannels;
-    private javax.swing.JFormattedTextField txtAcquisitionDate;
     private javax.swing.JTextArea txtAreaPrimaryAntibodyUsedC1;
     private javax.swing.JTextArea txtAreaPrimaryAntibodyUsedC2;
     private javax.swing.JTextArea txtAreaPrimaryAntibodyUsedC3;
