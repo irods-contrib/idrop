@@ -7,6 +7,7 @@ package org.irods.jargon.idrop.desktop.systraygui.viscomponents.braini;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import org.irods.jargon.core.exception.JargonException;
@@ -83,6 +84,40 @@ public class AddSampleDialog extends javax.swing.JDialog {
         
         pack();
     }
+    
+    /**
+     * reset the gui for validating
+     */
+    private void resetForValidation() {
+        lblExperimentId.setForeground(Color.BLACK);
+        lblSampleId.setForeground(Color.BLACK);
+
+    }
+
+    private boolean validateData() {
+        boolean valid = true;
+        StringBuilder msg = new StringBuilder();
+        resetForValidation();
+        if (txtSampleId.getText() == null || txtSampleId.getText().isEmpty()) {
+            valid = false;
+            msg.append("Add a sample id for the experiment ");
+            lblSampleId.setForeground(Color.RED);
+        }
+        
+        if (experimentId == null || experimentId.isEmpty()) {
+            valid = false;
+            msg.append("Select an experiment for this sample ");
+            btnBrowseForDirectory.setForeground(Color.RED);
+        }
+        
+        if (!valid) {
+            MessageManager.showWarning(this, msg.toString());
+        }
+
+        return valid;
+
+    }
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -601,6 +636,12 @@ public class AddSampleDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void bntSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSaveActionPerformed
+       
+        
+        if (!this.validateData()) {
+            return;
+        }
+        
         try {
             IRODSFileFactory irodsFileFactory = idropGUI.getiDropCore().getIRODSFileFactoryForLoggedInAccount();
             IRODSFile parentFile = irodsFileFactory.instanceIRODSFile(experimentTarget);
