@@ -1,66 +1,60 @@
-#### Project: iDrop Suite - iDrop Clients
-#### Date: 03/31/2014 
-#### Release Version: 2.0.1-beta2
-#### git tag: 2.0.1-beta2
 
-## News
-
-This is a beta of iDrop desktop installed via Install4j, removing the dependency on Java WebStart.  After this evaluation, we will purchase a license for Install4J for
-the production release.
-
-This version of iDrop desktop is completely refactored and includes the new 'conveyor' framework that was released in beta form with Jargon 3.3.3-beta1. iDrop has been tested and is compatible 
-with iRODS 3.3.1 as well as iRODS 4.0 RC1. It is expected that another beta will be released after iRODS 4.0 RC2, and then a final release will be made with 4.0 compatability.  
-
-Standard and PAM authentication are supported in the current version of iDrop desktop.  
-
-This release also has incremental bug fixes and improvements to iDrop web and iDrop lite.  Note that iDrop web will be replaced with a much-improved version that is being developed
-on the idrop3 git branch.
-
-See the release notes in the individual subprojects for details.  Please go to [[https://github.com/DICE-UNC/idrop]] for the latest news and info.
-
-iDrop consists of the following libraries
-
-* idrop-swing - Desktop transfer and synchronization manager
-* idrop-lite - Applet plug-in for bulk uploads and downloads
-* idrop-web - Web browser interface for file operations
-
-Other modules are planned in later releases for REST-ful API and mobile access.
-
-## Requirements
-
-* Jargon depends on Java 1.6+
-* Jargon is built using Apache Maven2, see POM for dependencies
-* Jargon supports iRODS 2.5 through iRODS 4.0RC1
-
-## Libraries
-
-Jargon-core uses Maven for dependency management.  See the pom.xml file for references to various dependencies.
-
-NOTE: bug fixes and features in individual sub-project release notes
+*'''Project''': iDrop-swing- Desktop iRODS transfer manager and supporting libraries
+*'''Date''': 
+*'''Release Version''': 4.2.0.1-SNAPSHOT
+*'''git tag''': 
 
 
-## Enhancements and Fixes
+==News==
 
-#### set directory custom path in iDrop appears to be not working on Win7 #7
+Release of new iDrop 2 web and desktop 
 
-#### Flow manager integration #4
+This is the iDrop desktop transfer manager client.  iDrop runs in the system tray of your favorite operating system, and can manage transfers between your computer and iRODS, and manage data once in iRODS.
 
-integration of flow manager framework from jargon/conveyor.  See: https://github.com/DICE-UNC/idrop/issues/4
+iDrop also automates synchronization between your desktop and iRODS.  There is an initial local -> iRODS backup capability, with automatic version of files within iRODS.  Other modes are in development
 
-#### Broken build/deploy script for idrop-web #16
+GitHub:  [[https://github.com/DICE-UNC/idrop]]
 
-see: https://github.com/DICE-UNC/idrop/issues/16
+==Requirements==
 
-#### unable to view under public via idrop web #56 
+-iDrop depends on Java 1.8+
+-iDrop is built using Maven
 
-Added new functional tests and cleanup for handling of listings under public, especially when anonymous
+iDrop-swing uses Maven for dependency management.  See the pom.xml file for references to various dependencies.
 
-#### idrop web public login does not hide uid/password #55
+Note that the following bug and feature requests are logged in GForge with related commit information [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
 
-Fixed login screen functionality to correctly hide or display login fields when doing guest logins
+==Features==
+*[#1092] add reconnect option to iDrop
+**Added preferences panel option and idrop.properties to set reconnect to 'true'.  Emulates -T option for put/get
+
+*[#983] iDrop swing '2.0' development
+**Phase I of iDrop swing GUI redesign effort.  This collaboration with iPlant is a GUI refactoring and redesign phase.
+
+*[#1441] add diff view to idrop
+**Added a tools menu and a diff view dialog to compare local and iRODS directories, viewing differences
+
+==Bug Fixes==
 
 
-#### file not found error in GENI portal access subcollection that should have permissions #57
+*[#1340] allow switching of resource by default
 
-Added better handling of special characters, especially the + character, in file names for download operations
- 
+*[#1268] XML Parse Exception in idrop.jnlp
+**added jnlp template and improved jnlp file consistency and structure
+
+*[#1250] jargon/idrop performance testing and optimization for 3.3.2
+**Fix pom.xml for missing reference to idrop-swing module
+
+*[#1362] apparent start-up errors idrop checking for strict acls
+**Added overhead for rule errors on some servers
+
+*[#1553] faulty sl4j bindings
+**Added sl4j/log4j bindings removed in jargon-core
+
+*[#1850] Direct login mode allows use of iDrop on a shared computer setting with a temporary set of accounts
+
+==Outstanding Issues==
+
+Please consult [[https://code.renci.org/gf/project/irodsidrop/tracker/]]
+
+for the latest open bugs and Jargon feature requests

@@ -354,6 +354,7 @@ public class IDROPDesktop {
      * for iDrop
      *
      * @param args the command line arguments
+     * @throws java.lang.InterruptedException
      */
     public static void main(final String args[]) throws InterruptedException {
         IDROPDesktop startupSequencer = new IDROPDesktop();
