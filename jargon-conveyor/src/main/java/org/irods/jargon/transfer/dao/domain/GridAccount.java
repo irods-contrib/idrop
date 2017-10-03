@@ -22,6 +22,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.irods.jargon.core.connection.AuthScheme;
+import org.irods.jargon.core.connection.ClientServerNegotiationPolicy;
 import org.irods.jargon.core.connection.IRODSAccount;
 
 /**
@@ -48,6 +49,20 @@ import org.irods.jargon.core.connection.IRODSAccount;
 @Entity
 @Table(name = "grid_account")
 public class GridAccount implements Serializable {
+
+    /**
+     * @return the sslNegotiationPolicy
+     */
+    public String getSslNegotiationPolicy() {
+        return sslNegotiationPolicy;
+    }
+
+    /**
+     * @param sslNegotiationPolicy the sslNegotiationPolicy to set
+     */
+    public void setSslNegotiationPolicy(String sslNegotiationPolicy) {
+        this.sslNegotiationPolicy = sslNegotiationPolicy;
+    }
 
 	private static final long serialVersionUID = 589659419129682571L;
 
@@ -99,6 +114,14 @@ public class GridAccount implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "auth_scheme", nullable = false)
 	private AuthScheme authScheme;
+        
+        /**
+	 * SSL negotiation policy to use
+         * See Jargon issue...this is a transitional change and needs to be updated to enumerated - mcc
+         * https://github.com/DICE-UNC/jargon/issues/261
+	 */
+	@Column(name = "ssl_negotiation_policy", nullable = false)
+	private String sslNegotiationPolicy = ClientServerNegotiationPolicy.SslNegotiationPolicy.CS_NEG_DONT_CARE.name();
 
 	@Column(name = "preset")
 	private boolean preset;
@@ -181,6 +204,8 @@ public class GridAccount implements Serializable {
 		sb.append("defaultResource:");
 		sb.append(defaultResource);
 		sb.append("\n\tdefaultPath:");
+                sb.append("\n\tsslNegotationPolicy:");
+                sb.append(sslNegotiationPolicy);
 		sb.append(defaultPath);
 		sb.append("\n\tcreatedAt:");
 		sb.append(createdAt);
