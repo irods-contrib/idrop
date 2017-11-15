@@ -17,3 +17,6 @@ idrop-web/web-app/WEB-INF/classes/
 nb-configuration.xml
 **/bin
 /idrop-web/target-eclipse/
+**/lib
+**/bin
+**/classes

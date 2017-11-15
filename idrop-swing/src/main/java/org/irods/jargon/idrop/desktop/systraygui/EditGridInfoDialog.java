@@ -13,11 +13,14 @@ import javax.swing.JOptionPane;
 import org.irods.jargon.conveyor.core.ConveyorExecutionException;
 import org.irods.jargon.conveyor.core.GridAccountService;
 import org.irods.jargon.core.connection.AuthScheme;
+import org.irods.jargon.core.connection.ClientServerNegotiationPolicy;
+import org.irods.jargon.core.connection.ClientServerNegotiationPolicy.SslNegotiationPolicy;
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.exception.AuthenticationException;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.transfer.dao.domain.GridAccount;
 import org.irods.jargon.transfer.exception.PassPhraseInvalidException;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -106,6 +109,14 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         if (comment != null) {
             textareaComment.setText(comment);
         }
+        
+        for (int i = 0; i < comboSslNegotiation.getItemCount(); i++) {
+            if (comboSslNegotiation.getItemAt(i).equals(gridAccount.getSslNegotiationPolicy())) {
+                comboSslNegotiation.setSelectedIndex(i);
+                break;
+            }
+        }
+  
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -122,7 +133,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         String strPort = txtPort.getText().trim();
         int port = 0;
         if ((strPort != null) && (!strPort.isEmpty())) {
-            port = Integer.valueOf(strPort).intValue();
+            port = Integer.parseInt(strPort);
         }
         String zone = gridAccount.getZone();
         String user = gridAccount.getUserName();
@@ -149,33 +160,10 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
             return acct;
         }
 
-        // GridAccountService gridAccountService =
-        // idropCore.getConveyorService().getGridAccountService();
-        // need to do this to retrieve plain text password
-        // IRODSAccount irodAccountForPswd = null;
-        // not needed if collecting password from form
-        // try {
-        // irodAccountForPswd =
-        // gridAccountService.irodsAccountForGridAccount(gridAccount);
-        // } catch (ConveyorExecutionException ex) {
-        // Logger.getLogger(EditGridInfoDialog.class.getName()).log(
-        // Level.SEVERE, null, ex);
-        // JOptionPane.showMessageDialog(
-        // this,
-        // "Update of grid account failed. Could not store password.",
-        // "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
-        // }
         try {
             acct = IRODSAccount.instance(host, port, user, password,
                     initialPath, zone, defaultResc);
-        } catch (JargonException ex) {
-            JOptionPane
-                    .showMessageDialog(
-                            this,
-                            "Please enter grid account information. Host, port, zone, and user name are required.",
-                            "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
-            return acct;
-        } catch (IllegalArgumentException ex) {
+        } catch (JargonException | IllegalArgumentException ex) {
             JOptionPane
                     .showMessageDialog(
                             this,
@@ -189,6 +177,21 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         if (scheme != null) {
             acct.setAuthenticationScheme(scheme);
         }
+        
+         ClientServerNegotiationPolicy negotiationPolicy = new ClientServerNegotiationPolicy();
+        try {
+            negotiationPolicy.setSslNegotiationPolicy(EditGridInfoDialog.translateSslNegotiationToEnum((String)this.comboSslNegotiation.getSelectedItem()));
+        } catch (JargonException ex) {
+             Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+                JOptionPane
+                        .showMessageDialog(
+                                this,
+                                "Update of grid account failed. Unrecognized SSL negotiation setting.",
+                                "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        acct.setClientServerNegotiationPolicy(negotiationPolicy);
 
         return acct;
     }
@@ -231,8 +234,9 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        pnlGridDetails = new javax.swing.JPanel();
         lblHostLabel = new javax.swing.JLabel();
         lblHost = new javax.swing.JLabel();
         lblPortLabel = new javax.swing.JLabel();
@@ -253,11 +257,15 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         lblPassword = new javax.swing.JLabel();
         lblConfirmPassword = new javax.swing.JLabel();
         txtVerifyPassword = new javax.swing.JPasswordField();
+        lblSslNegotiation = new javax.swing.JLabel();
+        comboSslNegotiation = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnOK = new javax.swing.JButton();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.title")); // NOI18N
@@ -268,10 +276,10 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         jPanel2.setPreferredSize(new java.awt.Dimension(394, 406));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 4, 10));
-        jPanel1.setName("host"); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(382, 370));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        pnlGridDetails.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 4, 10));
+        pnlGridDetails.setName("host"); // NOI18N
+        pnlGridDetails.setPreferredSize(new java.awt.Dimension(382, 370));
+        pnlGridDetails.setLayout(new java.awt.GridBagLayout());
 
         lblHostLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblHostLabel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblHost.text")); // NOI18N
@@ -280,7 +288,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblHostLabel, gridBagConstraints);
+        pnlGridDetails.add(lblHostLabel, gridBagConstraints);
 
         lblHost.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.host.text")); // NOI18N
         lblHost.setName("host"); // NOI18N
@@ -290,7 +298,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
-        jPanel1.add(lblHost, gridBagConstraints);
+        pnlGridDetails.add(lblHost, gridBagConstraints);
 
         lblPortLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblPortLabel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblPort.text")); // NOI18N
@@ -300,7 +308,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblPortLabel, gridBagConstraints);
+        pnlGridDetails.add(lblPortLabel, gridBagConstraints);
 
         txtPort.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.port.text")); // NOI18N
         txtPort.setName("port"); // NOI18N
@@ -314,7 +322,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(txtPort, gridBagConstraints);
+        pnlGridDetails.add(txtPort, gridBagConstraints);
 
         lblZoneLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblZoneLabel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblZone.text")); // NOI18N
@@ -323,7 +331,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblZoneLabel, gridBagConstraints);
+        pnlGridDetails.add(lblZoneLabel, gridBagConstraints);
 
         lblZone.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.zone.text")); // NOI18N
         lblZone.setName("zone"); // NOI18N
@@ -333,7 +341,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
-        jPanel1.add(lblZone, gridBagConstraints);
+        pnlGridDetails.add(lblZone, gridBagConstraints);
 
         lblUserLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblUserLabel.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblUser.text")); // NOI18N
@@ -342,7 +350,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblUserLabel, gridBagConstraints);
+        pnlGridDetails.add(lblUserLabel, gridBagConstraints);
 
         lblUser.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.user.text")); // NOI18N
         lblUser.setName("user"); // NOI18N
@@ -352,7 +360,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
-        jPanel1.add(lblUser, gridBagConstraints);
+        pnlGridDetails.add(lblUser, gridBagConstraints);
 
         lblDefaultResource.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDefaultResource.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblDefaultResource.text")); // NOI18N
@@ -361,7 +369,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblDefaultResource, gridBagConstraints);
+        pnlGridDetails.add(lblDefaultResource, gridBagConstraints);
 
         txtDefaultResource.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.defaultResource.text")); // NOI18N
         txtDefaultResource.setName("defaultResource"); // NOI18N
@@ -370,7 +378,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(txtDefaultResource, gridBagConstraints);
+        pnlGridDetails.add(txtDefaultResource, gridBagConstraints);
 
         lblStartingCollection.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblStartingCollection.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblStartingCollection.text")); // NOI18N
@@ -379,7 +387,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblStartingCollection, gridBagConstraints);
+        pnlGridDetails.add(lblStartingCollection, gridBagConstraints);
 
         txtInitialPath.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.startingCollection.text")); // NOI18N
         txtInitialPath.setName("startingCollection"); // NOI18N
@@ -387,7 +395,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(txtInitialPath, gridBagConstraints);
+        pnlGridDetails.add(txtInitialPath, gridBagConstraints);
 
         lblAuthScheme.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAuthScheme.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblAuthScheme.text")); // NOI18N
@@ -396,14 +404,15 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblAuthScheme, gridBagConstraints);
+        pnlGridDetails.add(lblAuthScheme, gridBagConstraints);
 
         cbAuthScheme.setName("authScheme"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(cbAuthScheme, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlGridDetails.add(cbAuthScheme, gridBagConstraints);
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(224, 84));
 
@@ -414,10 +423,10 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(jScrollPane1, gridBagConstraints);
+        pnlGridDetails.add(jScrollPane1, gridBagConstraints);
 
         txtPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.password.text")); // NOI18N
         txtPassword.setName("password"); // NOI18N
@@ -426,7 +435,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
-        jPanel1.add(txtPassword, gridBagConstraints);
+        pnlGridDetails.add(txtPassword, gridBagConstraints);
 
         lblPassword.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblPassword.text")); // NOI18N
@@ -435,7 +444,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblPassword, gridBagConstraints);
+        pnlGridDetails.add(lblPassword, gridBagConstraints);
 
         lblConfirmPassword.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblConfirmPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblConfirmPassword.text")); // NOI18N
@@ -444,7 +453,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblConfirmPassword, gridBagConstraints);
+        pnlGridDetails.add(lblConfirmPassword, gridBagConstraints);
 
         txtVerifyPassword.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.confirmPassword.text")); // NOI18N
         txtVerifyPassword.setName("confirmPassword"); // NOI18N
@@ -453,9 +462,25 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
-        jPanel1.add(txtVerifyPassword, gridBagConstraints);
+        pnlGridDetails.add(txtVerifyPassword, gridBagConstraints);
 
-        jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
+        lblSslNegotiation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblSslNegotiation.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.lblSslNegotiation.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlGridDetails.add(lblSslNegotiation, gridBagConstraints);
+
+        comboSslNegotiation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CS_NEG_DONT_CARE", "CS_NEG_REFUSE", "CS_NEG_REQUIRE", "NO_NEGOTIATION" }));
+        comboSslNegotiation.setToolTipText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.comboSslNegotiation.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlGridDetails.add(comboSslNegotiation, gridBagConstraints);
+
+        jPanel2.add(pnlGridDetails, java.awt.BorderLayout.CENTER);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 1, 4, 1));
         jPanel3.setPreferredSize(new java.awt.Dimension(100, 60));
@@ -484,6 +509,7 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
         btnOK.setMnemonic('S');
         btnOK.setText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOk.text")); // NOI18N
         btnOK.setToolTipText(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOk.toolTipText")); // NOI18N
+        btnOK.setLabel(org.openide.util.NbBundle.getMessage(EditGridInfoDialog.class, "EditGridInfoDialog.btnOK.label")); // NOI18N
         btnOK.setName("btnOk"); // NOI18N
         btnOK.setPreferredSize(new java.awt.Dimension(90, 37));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
@@ -527,12 +553,29 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
 
             GridAccountService gridAccountService = idropCore
                     .getConveyorService().getGridAccountService();
+            
+            
 
             // now add authorization scheme to gridaccount
             AuthScheme scheme = (AuthScheme) cbAuthScheme.getSelectedItem();
             if ((scheme != null) && (!(scheme.getTextValue().isEmpty()))) {
                 gridInfo.setAuthenticationScheme(scheme);
             }
+            
+            ClientServerNegotiationPolicy negotiationPolicy = new ClientServerNegotiationPolicy();
+            try {
+                negotiationPolicy.setSslNegotiationPolicy(translateSslNegotiationToEnum((String) this.comboSslNegotiation.getSelectedItem()));
+            } catch (JargonException ex) {
+               Logger.getLogger(EditGridInfoDialog.class.getName()).log(
+                        Level.SEVERE, null, ex);
+                JOptionPane
+                        .showMessageDialog(
+                                this,
+                                "Update of grid account failed. Unrecognized SSL negotiation setting.",
+                                "Edit Grid Account", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            gridInfo.setClientServerNegotiationPolicy(negotiationPolicy);
 
             try {
                 gridAccountService
@@ -567,7 +610,8 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
     private javax.swing.JComboBox cbAuthScheme;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox<String> comboSslNegotiation;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -580,11 +624,13 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblHostLabel;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPortLabel;
+    private javax.swing.JLabel lblSslNegotiation;
     private javax.swing.JLabel lblStartingCollection;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUserLabel;
     private javax.swing.JLabel lblZone;
     private javax.swing.JLabel lblZoneLabel;
+    private javax.swing.JPanel pnlGridDetails;
     private javax.swing.JTextArea textareaComment;
     private javax.swing.JTextField txtDefaultResource;
     private javax.swing.JTextField txtInitialPath;
@@ -604,4 +650,35 @@ public class EditGridInfoDialog extends javax.swing.JDialog {
             return false;
         }
     }
+    
+    /**
+     * Ripe for refactoring once a proper enum is in place for ssl negotiation.
+     * @param sslNegotiationPolicyString
+     * @return {@link SslNegotiationPolicy} enum value
+     * @throws JargonException 
+     */
+    public static SslNegotiationPolicy translateSslNegotiationToEnum(final String sslNegotiationPolicyString) throws JargonException {
+        if (sslNegotiationPolicyString == null) {
+            throw new IllegalArgumentException("null sslNegotiationPolicyString");
+        }
+        SslNegotiationPolicy returnPolicy = SslNegotiationPolicy.CS_NEG_DONT_CARE;
+        String trimPolicy = sslNegotiationPolicyString.trim();
+        if (sslNegotiationPolicyString.isEmpty()) {
+            // just use default
+        } else if (trimPolicy.equals(SslNegotiationPolicy.CS_NEG_DONT_CARE.toString())) {
+            returnPolicy=SslNegotiationPolicy.CS_NEG_DONT_CARE;
+        } else if (trimPolicy.equals(SslNegotiationPolicy.CS_NEG_REFUSE.toString())) {
+            returnPolicy = SslNegotiationPolicy.CS_NEG_REFUSE;
+        } else if (trimPolicy.equals(SslNegotiationPolicy.CS_NEG_REQUIRE.toString())) {
+            returnPolicy = SslNegotiationPolicy.CS_NEG_REQUIRE;
+        } else if (trimPolicy.equals(SslNegotiationPolicy.NO_NEGOTIATION.toString())) {
+            returnPolicy = SslNegotiationPolicy.NO_NEGOTIATION;
+        } else {
+            throw new JargonException("unknown negotiation policy");
+        }
+        
+        return returnPolicy;
+        
+    }
+    
 }
