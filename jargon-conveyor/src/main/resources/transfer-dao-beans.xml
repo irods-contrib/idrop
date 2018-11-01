@@ -25,9 +25,9 @@
 	</bean>
 
 	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />
+		<!--<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />-->
 		<property name="configLocation"
 			value="classpath:transfer-dao-hibernate-spring.cfg.xml" />
 
@@ -52,7 +52,7 @@
 	<!-- Transaction manager for a single Hibernate SessionFactory (alternative 
 		to JTA) -->
 	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 

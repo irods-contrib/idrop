@@ -126,7 +126,7 @@ public class IRODSSearchTableModel extends AbstractTableModel {
             case (2):
                 if (entry.getObjectType() == CollectionAndDataObjectListingEntry.ObjectType.COLLECTION) {
                     returnedVal = MiscIRODSUtils
-                            .getLastPathComponentForGiveAbsolutePath(entry
+                            .getLastPathComponentForGivenAbsolutePath(entry
                                     .getPathOrName());
                 } else {
                     returnedVal = entry.getPathOrName();

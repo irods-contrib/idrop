@@ -5,14 +5,15 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.irods.jargon.transfer.dao.ConfigurationPropertyDAO;
 import org.irods.jargon.transfer.dao.TransferDAOException;
 import org.irods.jargon.transfer.dao.domain.ConfigurationProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * DAO for persistence of configuration properties. This is where preferences
@@ -21,11 +22,29 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  * @author Mike Conway - DICE (www.irods.org)
  * 
  */
-public class ConfigurationPropertyDAOImpl extends HibernateDaoSupport implements
+@Component
+public class ConfigurationPropertyDAOImpl  implements
 		ConfigurationPropertyDAO {
+
+    /**
+     * @return the sessionFactory
+     */
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    /**
+     * @param sessionFactory the sessionFactory to set
+     */
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
 	private static final Logger log = LoggerFactory
 			.getLogger(ConfigurationPropertyDAOImpl.class);
+        
+        @Autowired
+        private SessionFactory sessionFactory;
 
 	/*
 	 * (non-Javadoc)
@@ -166,11 +185,8 @@ public class ConfigurationPropertyDAOImpl extends HibernateDaoSupport implements
 		sb.append("delete from ConfigurationProperty as prop");
 
 		log.debug("delete properties sql:{}", sb.toString());
-
-		HibernateTemplate hibernateTemplate = super.getHibernateTemplate();
-
-		int rows = hibernateTemplate.bulkUpdate(sb.toString());
-		log.debug("deleted properties count of: {}", rows);
+                this.getSessionFactory().getCurrentSession().createQuery(sb.toString()).executeUpdate();
+                log.info("done!");
 
 	}
 

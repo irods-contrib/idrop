@@ -1,13 +1,13 @@
 
 ### Project: iDrop-swing- Desktop iRODS transfer manager and supporting libraries
-#### Date: 
-#### Version: 4.2.0.1-SNAPSHOT
-#### Git Tag: MASTER 
+#### Date:
+#### Version: 4.3.0.2-SNAPSHOT
+#### Git Tag: 
 
 iDrop is a graphical multi-platform file transfer client suitable for moving large files, doing basic synchronization, and other
 tasks too 'heavy' for a standard web interface
 
-This interface is being revived and will become part of the regular Jargon release train starting with 4.2.0.1
+This interface is being revived and will become part of the regular Jargon release train starting with 4.3.0.1
 
 GitHub:  [[https://github.com/DICE-UNC/idrop]]
 
@@ -22,6 +22,10 @@ Note that the following bug and feature requests are logged in GForge with relat
 
 ## Changes
 
-#### Add negotiation drop down to grid config #130 
+#### Add negotiation drop down to grid config #130
 
 Now support SSL negotiation settings per grid account
+
+#### Update dependencies and upgrade Spring and Hibernate #136 and #137
+
+Update various dependencies, especially Hibernate. Update various bean configurations to reflect the shift to Hibernate5 semantics
