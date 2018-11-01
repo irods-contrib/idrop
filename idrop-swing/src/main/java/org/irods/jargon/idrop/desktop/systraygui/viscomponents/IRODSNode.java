@@ -150,7 +150,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
         if (entry.getPathOrName().equals("")) {
             returnedString = "/";
         } else {
-            returnedString = entry.toString();
+            returnedString = entry.getNodeLabelDisplayValue();
         }
         return returnedString;
     }
