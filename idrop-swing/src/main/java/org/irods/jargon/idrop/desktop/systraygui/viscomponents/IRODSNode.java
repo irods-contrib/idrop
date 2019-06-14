@@ -118,7 +118,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
             }
 
             if (children == null) {
-                children = new Vector<IRODSNode>();
+                children = new Vector();
             }
 
             cached = true;
@@ -176,7 +176,7 @@ public class IRODSNode extends DefaultMutableTreeNode {
     }
 
     @SuppressWarnings("unchecked")
-    List<IRODSNode> getChildren() throws IdropException {
+    List getChildren() throws IdropException {
         lazyLoadOfChildrenOfThisNode(!irodsTree.isRefreshingTree());
         return children;
     }

@@ -254,11 +254,11 @@ public class LocalFileTree extends JTree implements TreeWillExpandListener {
         localFileNode.lazyLoadOfChildrenOfThisNode();
 
         LocalFileNode childNode = null;
-        Enumeration<LocalFileNode> childNodeEnumeration = localFileNode
+        Enumeration childNodeEnumeration = localFileNode
                 .children();
 
         while (childNodeEnumeration.hasMoreElements()) {
-            childNode = childNodeEnumeration.nextElement();
+            childNode = (LocalFileNode) childNodeEnumeration.nextElement();
             if (childNode.equals(pathElementIAmSearchingFor)) {
                 log.debug("found a matching node:{}", childNode);
                 matchedChildNode = childNode;

@@ -282,8 +282,8 @@ public class NavPopupDialog extends javax.swing.JDialog {
             @Override
             public void run() {
                 String[] paths = path.split("/");
-                Vector<Object> strVector = new Vector<Object>();
-                Vector<Object> objVector = new Vector<Object>();
+                Vector strVector = new Vector();
+                Vector objVector = new Vector();
                 strVector.add("");
 
                 for (String pathElement : paths) {
