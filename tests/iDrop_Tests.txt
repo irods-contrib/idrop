@@ -1,0 +1,22 @@
+# iDrop Tests
+#RFTests/Add-Delete_Grids.robot
+RFTests/Verify_PassPhrase_Dialog.robot
+RFTests/Verify_GridSelect_Dialog.robot
+RFTests/Verify_MainScreen.robot
+RFTests/Verify_Navigate_Dialog.robot
+RFTests/Verify_Download_Dialog.robot
+RFTests/Verify_Upload_Dialog.robot
+RFTests/Verify_Tools_Dialog.robot
+RFTests/Verify_Settings_Dialog.robot
+
+##  Unused Suites
+#RFTests/NotReady/Initial_iDrop_Tests.robot
+#RFTests/NotReady/JunkTests.robot
+#RFTests/NotReady/Junk_ListContexts.robot
+#RFTests/NotReady/Verify_GridBuild_Dialog.robot
+#RFTests/NotReady/Verify_New_Dialog.robot
+#RFTests/NotReady/Verify_Queue_Dialog.robot
+#RFTests/NotReady/Verify_Synch_Dialog.robot
+
+###
+
