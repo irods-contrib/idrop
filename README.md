@@ -5,19 +5,30 @@ tasks too 'heavy' for a standard web interface.
 
 ## Requirements
 
- - Java 17+
- - Maven
+- Java 8+
+- Maven
 
 ## Build
 
-The following script will build the .jar file via Docker:
+As a convenience, this project provides two scripts to make building the JAR file simple. Use of these scripts also keeps your .m2 directory clean. The scripts use Docker to achieve this.
+
+> [!NOTE]
+> For those who wish to build the JAR file without Docker, execute the normal Maven build steps _(consider passing `-Dmaven.test.skip=true`)_.
+
+To build on Linux, run the following.
 
 ```
 bash build_jar.sh
 ```
 
+To build on Windows, open PowerShell or the Command Prompt and run this instead.
+
+```
+build_jar.cmd
+```
+
 ## Run
 
 ```
-java -jar idrop-swing/target/idrop-swing-<version>-jar-with-dependencies.jar
+java -jar idrop-swing/target/idrop-swing-<version>.jar
 ```
